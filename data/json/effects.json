@@ -8,68 +8,92 @@
         "type": "effect_type",
         "id": "hit_by_player",
         "name": ["Hit By Player"],
-        "desc": ["AI tag for when monsters are hit by player. This is a bug if you have it."]
+        "desc": ["AI tag for when monsters are hit by player.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "docile",
         "name": ["Docile Monster"],
-        "desc": ["AI tag for when monsters are tamed. This is a bug if you have it."]
+        "desc": ["AI tag for when monsters are tamed.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "controlled",
         "name": ["Controlled Monster"],
-        "desc": ["AI tag for when monsters are being controlled by another. This is a bug if you have it."]
+        "desc": ["AI tag for when monsters are being controlled by another.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "run",
         "name": ["Hit-and-run Running"],
-        "desc": ["AI tag for when hit-and-run monsters run away. This is a bug if you have it."]
+        "desc": ["AI tag for when hit-and-run monsters run away.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "countdown",
+        "name": ["Counting Down"],
+        "desc": ["AI tag for monster's counting down.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "no_ammo",
+        "name": ["No ammo"],
+        "desc": ["AI tag used to stop a monster reviving with ammo.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_to_lead",
         "name": ["Asked to Lead"],
-        "desc": ["AI tag for asking to lead NPCs. This is a bug if you have it."]
+        "desc": ["AI tag for asking to lead NPCs.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_to_follow",
         "name": ["Asked to Follow"],
-        "desc": ["AI tag for asking to NPCs to follow you. This is a bug if you have it."]
+        "desc": ["AI tag for asking to NPCs to follow you.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_to_train",
         "name": ["Asked to Train"],
-        "desc": ["AI tag for asking to NPCs to train you. This is a bug if you have it."]
+        "desc": ["AI tag for asking to NPCs to train you.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_personal_info",
         "name": ["Asked Info"],
-        "desc": ["AI tag for asking to NPCs for personal information. This is a bug if you have it."]
+        "desc": ["AI tag for asking to NPCs for personal information.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "asked_for_item",
         "name": ["Asked for Item"],
-        "desc": ["AI tag for asking NPCs for items. This is a bug if you have it."]
+        "desc": ["AI tag for asking NPCs for items.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "catch_up",
         "name": ["Catch Up"],
-        "desc": ["AI tag for telling NPCs to catch up. This is a bug if you have it."],
+        "desc": ["AI tag for telling NPCs to catch up.  This is a bug if you have it."],
         "max_intensity": 15
+    },
+    {
+        "type": "effect_type",
+        "id": "allow_sleep",
+        "name": ["Allow to Sleep"],
+        "desc": ["AI tag for telling NPCs to sleep.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
+        "id": "npc_said",
+        "name": ["Said Something Recently"],
+        "desc": ["AI tag to control NPC verbosity.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "infection",
         "name": ["Infection"],
-        "desc": ["AI tag used for the infected NPC quest. This is a bug if you have it."],
+        "desc": ["AI tag used for the infected NPC quest.  This is a bug if you have it."],
         "base_mods": {
             "speed_mod": [-80]
         }
@@ -78,37 +102,37 @@
         "type": "effect_type",
         "id": "pet",
         "name": ["Pet"],
-        "desc": ["AI tag used for pet critters. This is a bug if you have it."]
+        "desc": ["AI tag used for pet critters.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "pacified",
         "name": ["Pacified"],
-        "desc": ["AI tag used for pacified critters. This is a bug if you have it."]
+        "desc": ["AI tag used for pacified critters.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "has_bag",
         "name": ["Has Bag"],
-        "desc": ["AI tag used for critters holding your bags. This is a bug if you have it."]
+        "desc": ["AI tag used for critters holding your bags.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "tied",
         "name": ["Tied Up"],
-        "desc": ["AI tag used for tied up critters. This is a bug if you have it."]
+        "desc": ["AI tag used for tied up critters.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "targeted",
         "name": ["Turret is Targeted"],
-        "desc": ["AI tag used for turret targeting sounds. This is a bug if you have it."]
+        "desc": ["AI tag used for turret targeting sounds.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
         "id": "bounced",
         "name": ["Bounced"],
-        "desc": ["AI tag used for bouncing ammo targeting. This is a bug if you have it."]
+        "desc": ["AI tag used for bouncing ammo targeting.  This is a bug if you have it."]
     },
     {
         "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -118,6 +142,29 @@
         "desc": ["You're knocked to the ground.  You have to get up before you can move."],
         "apply_message": "You're knocked to the floor!",
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "winded",
+        "name": ["Winded"],
+        "desc": ["You're short of breath.  Running and fighting will be difficult until you recover."],
+        "apply_message": "Your breath gives out!",
+        "remove_message": "You catch your breath.",
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-1],
+            "dex_mod": [-1],
+            "str_mod": [-4, -1],
+            "speed_mod": [-20],
+            "pain_min": [1],
+            "pain_chance": [1, 30],
+            "fatigue_min": [1],
+            "fatigue_chance": [1, 4],
+            "hunger_min": [1],
+            "hunger_chance": [1, 6],
+            "thirst_min": [1],
+            "thirst_chance": [1, 4]
+        }
     },
     {
         "type": "effect_type",
@@ -157,6 +204,7 @@
         "id": "blind",
         "name": ["Blind"],
         "desc": ["Range of Sight: 0"],
+        "removes_effects": ["glare", "darkness"],
         "apply_message": "You're blinded!",
         "remove_message": "Your sight returns!",
         "rating": "bad"
@@ -164,11 +212,30 @@
     {
         "type": "effect_type",
         "id": "deaf",
-        "name": ["Deaf"],
-        "desc": ["Sounds will not be reported.  You cannot talk with NPCs."],
-        "apply_message": "You're deafened!",
+        "name": [
+            "Impaired hearing",
+            "Ringing ears",
+            "Deaf"
+        ],
+        "desc": [
+            "Your hearing is impaired.",
+            "You can barely hear anything and your ears hurt.",
+            "You can't hear anything and your head aches from all the noise. You can't converse with NPCs."
+        ],
+        "apply_message": "Your ears ring!",
         "remove_message": "You can hear again!",
-        "rating": "bad"
+        "rating": "bad",
+        "max_intensity": 3,
+        "int_dur_factor": 100,
+        "base_mods": {
+            "pain_min": [1],
+            "pain_chance": [-50],
+            "pain_chance_bot": [1000]
+        },
+        "scaling_mods": {
+            "pain_max_val": [5],
+            "pain_chance": [150]
+        }
     },
     {
         "type": "effect_type",
@@ -351,7 +418,18 @@
         "apply_message": "You're covered in bile!",
         "rating": "bad",
         "base_mods": {
-            "per_mod": [-5],
+            "per_mod": [-3],
+            "vomit_chance": [500]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "glowing",
+        "name": ["Glowing"],
+        "desc": ["You are covered in glowing goo!"],
+        "apply_message": "You're covered in a glowing goo!",
+        "rating": "bad",
+        "base_mods": {
             "vomit_chance": [500]
         }
     },
@@ -559,7 +637,7 @@
         "type": "effect_type",
         "id": "rat",
         "name": ["Ratting"],
-        "desc": ["You feel nauseated and rat-like."],
+        "desc": ["You feel nauseous and rat-like."],
         "max_intensity": 100,
         "base_mods": {
             "int_mod": [-0.5],
@@ -696,7 +774,7 @@
         ],
         "desc": [
             "Your %s is frostnipped and has gone numb.",
-            "Your %s is frostbitten! Its tissues are frozen from the cold!"
+            "Your %s is frostbitten!  Its tissues are frozen from the cold!"
         ],
         "part_descs": true,
         "speed_name": "Frostbite",
@@ -825,7 +903,19 @@
     },
     {
         "type": "effect_type",
-        "id": "flushot"
+        "id": "flushot",
+        "blocks_effects": ["flu"]
+    },
+    {
+        "type": "effect_type",
+        "id": "cureall",
+        "//": "This is the royal jelly effect, it should cure pretty much everything.",
+        "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworm", "tapeworm",
+                            "blind", "poison", "stung", "badpoison", "foodpoison", "paralyzepoison",
+                            "tetanus", "infected", "asthma", "common_cold", "flu"],
+        "base_mods": {
+            "pkill_min": [5]
+        }
     },
     {
         "type": "effect_type",
@@ -839,8 +929,8 @@
         "type": "effect_type",
         "id": "jetinjector",
         "name": [
-            "Chemical Comedown",
-            "Chemical Rush"
+            "RX12 Healing Comedown",
+            "RX12 Healing Rush"
         ],
         "desc": [
             "You feel completely drained.",
@@ -851,6 +941,7 @@
         "rating": "good",
         "max_intensity": 2,
         "int_dur_factor": 50,
+        "removes_effects": ["infected", "bite", "bleed", "fungus", "dermatik", "winded"],
         "base_mods": {
             "str_mod": [-1],
             "dex_mod": [-2],
@@ -862,6 +953,37 @@
             "dex_mod": [3],
             "per_mod": [3],
             "int_mod": [1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "stimpack",
+        "name": [
+            "RX11 Stimulant Comedown",
+            "RX11 Stimulant Rush"
+        ],
+        "desc": [
+            "You feel sluggish and slow.",
+            "An intense surge of stimulants pulses through your body."
+        ],
+        "apply_message": "You feel an intense surge of stimulants pulse through your body!",
+        "decay_messages": [["The stimulant combo is wearing off.  You feel sluggish.", "bad"]],
+        "rating": "good",
+        "max_intensity": 2,
+        "int_dur_factor": 50,
+        "removes_effects": ["winded"],
+        "base_mods": {
+            "speed_mod": [-5],
+            "dex_mod": [-2],
+            "per_mod": [-1],
+            "int_mod": [-2]
+        },
+        "scaling_mods": {
+            "speed_mod": [15],
+            "str_mod": [1],
+            "dex_mod": [4],
+            "per_mod": [4],
+            "int_mod": [-1]
         }
     },
     {
@@ -882,6 +1004,7 @@
         "max_intensity": 2,
         "int_dur_factor": 150,
         "dur_add_perc": 15,
+        "removes_effects": ["winded"],
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],
@@ -1101,7 +1224,7 @@
     {
         "type": "effect_type",
         "id": "valium",
-        "removes_effect": "shakes",
+        "removes_effects": ["shakes"],
         "base_mods": {
             "stim_tick": [25],
             "stim_chance": [2],
@@ -1227,7 +1350,8 @@
         "type": "effect_type",
         "id": "lying_down",
         "apply_message": "You lie down to go to sleep...",
-        "rating": "neutral"
+        "rating": "neutral",
+        "max_duration": 3000
     },
     {
         "type": "effect_type",
@@ -1239,5 +1363,25 @@
     {
         "type": "effect_type",
         "id": "alarm_clock"
+    },
+    {
+        "type": "effect_type",
+        "name": ["Playing an instrument"],
+        "desc": ["You're playing an instrument.\nFocusing on playing music distracts you, slowing you down."],
+        "id": "playing_instrument",
+        "rating": "neutral",
+        "max_duration": 2,
+        "max_intensity": 100,
+        "base_mods": {
+            "speed_mod": [-1]
+        },
+        "scaling_mods": {
+            "speed_mod": [-1]
+        }
+    },
+    {
+        "//": "On roof of a vehicle, aiming a turret",
+        "type": "effect_type",
+        "id": "on_roof"
     }
 ]

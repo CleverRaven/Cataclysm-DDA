@@ -10,6 +10,7 @@
 #include <numeric>
 
 struct itype;
+struct tripoint;
 class item;
 class monster;
 
@@ -42,8 +43,8 @@ struct damage_unit {
     float res_mult;
     float damage_multiplier;
 
-    damage_unit(damage_type dt, float a, int rp, float rm) :
-    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(1.0) { }
+    damage_unit(damage_type dt, float a, int rp, float rm, float mul) :
+    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(mul) { }
 };
 
 
@@ -54,8 +55,8 @@ struct damage_instance {
     std::set<std::string> effects;
     damage_instance();
     static damage_instance physical(float bash, float cut, float stab, int arpen = 0);
-    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f);
-    damage_instance(damage_type dt, float a, int rp = 0, float rm = 1.0f);
+    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f);
+    damage_instance(damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f);
     void add_effect( std::string effect );
     void mult_damage(double multiplier);
     float type_damage(damage_type dt) const;
@@ -68,7 +69,6 @@ struct dealt_damage_instance {
     body_part bp_hit;
 
     dealt_damage_instance();
-    //TODO: add check to ensure length
     dealt_damage_instance(std::vector<int> &dealt);
     void set_damage(damage_type dt, int amount);
     int type_damage(damage_type dt) const;
@@ -114,6 +114,9 @@ struct projectile {
     { }
 };
 
-void ammo_effects(int x, int y, const std::set<std::string> &effects);
+void ammo_effects( const tripoint &p, const std::set<std::string> &effects );
+int aoe_size( const std::set<std::string> &effects );
+
+damage_type dt_by_name( const std::string &name );
 
 #endif

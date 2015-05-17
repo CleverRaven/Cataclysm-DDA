@@ -1,36 +1,13 @@
 #ifndef MAPBUFFER_H
 #define MAPBUFFER_H
 
-#include "line.h"
 #include <map>
 #include <list>
 #include <memory>
-
-struct pointcomp {
-    bool operator() (const tripoint &lhs, const tripoint &rhs) const
-    {
-        if (lhs.x < rhs.x) {
-            return true;
-        }
-        if (lhs.x > rhs.x) {
-            return false;
-        }
-        if (lhs.y < rhs.y) {
-            return true;
-        }
-        if (lhs.y > rhs.y) {
-            return false;
-        }
-        if (lhs.z < rhs.z) {
-            return true;
-        }
-        if (lhs.z > rhs.z) {
-            return false;
-        }
-        return false;
-    };
-};
-
+#include <string>
+#include "enums.h" 
+struct point;
+struct tripoint;
 struct submap;
 
 /**
@@ -78,9 +55,10 @@ class mapbuffer
          * submap object, don't delete it on your own.
          */
         submap *lookup_submap(int x, int y, int z);
+        submap *lookup_submap( const tripoint &p );
 
     private:
-        typedef std::map<tripoint, submap *, pointcomp> submap_map_t;
+        typedef std::map<tripoint, submap *> submap_map_t;
 
     public:
         inline submap_map_t::iterator begin() { return submaps.begin(); }
@@ -91,8 +69,9 @@ class mapbuffer
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( tripoint addr );
         submap *unserialize_submaps( const tripoint &p );
-        void save_quad( const std::string &filename, const tripoint &om_addr,
-                        std::list<tripoint> &submaps_to_delete, bool delete_after_save );
+        void save_quad( const std::string &dirname, const std::string &filename, 
+                        const tripoint &om_addr, std::list<tripoint> &submaps_to_delete, 
+                        bool delete_after_save );
         submap_map_t submaps;
 };
 

@@ -718,6 +718,7 @@
         "item" : "wire",
         "difficulty" : 1,
         "location" : "structure",
+        "folded_volume": 1,
         "flags" : ["FOLDABLE", "AISLE", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "wire", "min": 0, "max": 1}
@@ -920,7 +921,7 @@
     {
         "type" : "vehicle_part",
         "id" : "cargo_space_external",
-        "name" : "cargo space",
+        "name" : "external cargo carrier",
         "symbol" : "=",
         "color" : "light_gray",
         "broken_symbol" : "#",

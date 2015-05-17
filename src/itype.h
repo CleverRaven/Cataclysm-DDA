@@ -1,50 +1,42 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
-#include "color.h"
-#include "enums.h"
-#include "iuse.h"
-#include "pldata.h"
-#include "bodypart.h"
-#include "skill.h"
-#include "bionics.h"
-#include "rng.h"
-#include "material.h"
-#include "mtype.h"
-#include "translations.h"
+#include "color.h" // nc_color
+#include "enums.h" // point
+#include "iuse.h" // use_function
+#include "pldata.h" // add_type
+#include "bodypart.h" // body_part::num_bp
+#include "string_id.h"
 
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include <bitset>
 #include <memory>
-
-typedef std::string itype_id;
 
 // see item.h
 class item_category;
 struct recipe;
 struct itype;
+class Skill;
+class player;
+class item;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
+typedef std::string itype_id;
 typedef std::string ammotype;
 
-enum software_type {
-    SW_USELESS,
-    SW_HACKING,
-    SW_MEDICAL,
-    SW_SCIENCE,
-    SW_DATA
-};
-
-enum bigness_property_aspect {
+enum bigness_property_aspect : int {
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
     BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(ammotype t);
+std::string const& ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-itype_id default_ammo(ammotype guntype);
+std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
@@ -152,10 +144,35 @@ struct islot_book {
     int chapters = 0;
     /**
      * What recipes can be learned from this book.
-     * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
-     * to learn the recipe.
      */
-    std::map<const recipe *, int> recipes;
+    struct recipe_with_description_t {
+        /**
+         * The recipe that can be learned (never null).
+         */
+        const struct recipe *recipe;
+        /**
+         * The skill level required to learn the recipe.
+         */
+        int skill_level;
+        /**
+         * The name for the recipe as it appears in the book.
+         */
+        std::string name;
+        /**
+         * Hidden means it does not show up in the description of the book.
+         */
+        bool hidden;
+        bool operator<( const recipe_with_description_t &rhs ) const
+        {
+            return recipe < rhs.recipe;
+        }
+        bool is_hidden() const
+        {
+            return hidden;
+        }
+    };
+    typedef std::set<recipe_with_description_t> recipe_list_t;
+    recipe_list_t recipes;
     /**
      * Special effects that can happen after the item has been read. May be empty.
      */
@@ -195,7 +212,7 @@ struct common_ranged_data {
  * The values of the gun itself and its mods are usually summed up in the item class
  * and the sum is used.
  */
-struct common_firing_data : public common_ranged_data {
+struct common_firing_data : common_ranged_data {
     /**
      * TODO: this needs documentation, who knows what it is?
      * A value of -1 in gunmods means it's ignored.
@@ -216,13 +233,13 @@ struct common_firing_data : public common_ranged_data {
      */
     int clip = 0;
     /**
-     * TODO: document me
+     * loudness for guns/gunmods
      */
     int loudness = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
-struct islot_gun : public common_firing_data {
+struct islot_gun : common_firing_data {
     /**
      * What type of ammo this gun uses.
      */
@@ -242,6 +259,10 @@ struct islot_gun : public common_firing_data {
      */
     int reload_time = 0;
     /**
+     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     */
+    int ups_charges = 0;
+    /**
      * Effects that are applied to the ammo when fired.
      */
     std::set<std::string> ammo_effects;
@@ -251,13 +272,9 @@ struct islot_gun : public common_firing_data {
      * that the location can have. The value should be > 0.
      */
     std::map<std::string, int> valid_mod_locations;
-    /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
-     */
-    int ups_charges = 0;
 };
 
-struct islot_gunmod : public common_firing_data {
+struct islot_gunmod : common_firing_data {
     /**
      * TODO: document me
      */
@@ -271,6 +288,10 @@ struct islot_gunmod : public common_firing_data {
      * TODO: document me
      */
     std::string newtype;
+    /**
+     * TODO: document me
+     */
+    std::string location;
     /**
      * TODO: document me
      */
@@ -303,13 +324,9 @@ struct islot_gunmod : public common_firing_data {
      * TODO: document me
      */
     bool used_on_launcher = false;
-    /**
-     * TODO: document me
-     */
-    std::string location;
 };
 
-struct islot_ammo : public common_ranged_data {
+struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      * This is an id, it can be looked up in the @ref ammunition_type class.
@@ -328,7 +345,7 @@ struct islot_ammo : public common_ranged_data {
      */
     std::set<std::string> ammo_effects;
 
-    islot_ammo() : casing {"NULL"} { }
+    islot_ammo() : casing ("NULL") { }
 };
 
 struct islot_variable_bigness {
@@ -359,9 +376,38 @@ struct islot_bionic {
 
 struct islot_software {
     /**
-     * Type of software, see enum.
+     * Type of software, not used by anything at all.
      */
-    software_type swtype = SW_USELESS;
+    std::string type = "USELESS";
+    /**
+     * No used, but it's there is the original data.
+     */
+    int power;
+};
+
+struct islot_seed {
+    /**
+     * Time it takes for a seed to grow (in days, based of off a season length of 91)
+     */
+    int grow = 0;
+    /**
+     * Name of the plant, already translated.
+     */
+    std::string plant_name;
+    /**
+     * Type id of the fruit item.
+     */
+    std::string fruit_id;
+    /**
+     * Whether to spawn seed items additionally to the fruit items.
+     */
+    bool spawn_seeds = true;
+    /**
+     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+     */
+    std::vector<std::string> byproducts;
+
+    islot_seed() { }
 };
 
 // Data used when spawning items, should be obsoleted by the spawn system, but
@@ -370,15 +416,16 @@ struct islot_spawn {
     std::string default_container; // The container it comes in
     std::vector<long> rand_charges;
 
-    islot_spawn() : default_container {"null"} { }
+    islot_spawn() : default_container ("null") { }
 };
 
 struct itype {
-    itype_id id; // unique string identifier for this item,
+    friend class Item_factory;
+
+    // unique string identifier for this item,
     // can be used as lookup key in master itype map
     // Used for save files; aligns to itype_id above.
-    unsigned int  price; // Its value
-
+    std::string id;
     /**
      * Slots for various item type properties. Each slot may contain a valid pointer or null, check
      * this before using it.
@@ -394,52 +441,53 @@ struct itype {
     std::unique_ptr<islot_software> software;
     std::unique_ptr<islot_spawn> spawn;
     std::unique_ptr<islot_ammo> ammo;
+    std::unique_ptr<islot_seed> seed;
     /*@}*/
-
 protected:
-    friend class Item_factory;
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
     std::string name;        // Proper name, singular form, in American English.
     std::string name_plural; // name, plural form, in American English.
 public:
+    std::string snippet_category;
     std::string description; // Flavor text
 
-    char sym;       // Symbol on the map
-    nc_color color; // Color on the map (color.h)
+    std::map<std::string, int> qualities; //Tool quality indicators
+    std::map<std::string, std::string> properties;
 
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
     std::vector<std::string> materials;
+    std::vector<use_function> use_methods; // Special effects of use
 
-    phase_id phase; //e.g. solid, liquid, gas
-
-    unsigned int volume; // Space taken up by this item
-    int stack_size;      // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
-    unsigned int weight; // Weight in grams. Assumes positive weight. No helium, guys!
-    std::map<std::string, int> qualities; //Tool quality indicators
-    std::map<std::string, std::string> properties;
+    std::set<std::string> item_tags;
+    std::set<matec_id> techniques;
 
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;
+
+    phase_id phase      = SOLID; // e.g. solid, liquid, gas
+    unsigned price      = 0; // Its value
+    unsigned volume     = 0; // Space taken up by this item
+    int      stack_size = 0; // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
+    unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!
+
+    int melee_dam = 0; // Bonus for melee damage; may be a penalty
+    int melee_cut = 0; // Cutting damage in melee
+    int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
+
+    unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
+
+    const item_category *category = nullptr; // category pointer or NULL for automatic selection
+
+    nc_color color = c_white; // Color on the map (color.h)
+    char sym = '#';       // Symbol on the ma
+
     bool explode_in_fire() const
     {
         return explosion_on_fire_data.power >= 0;
     }
-
-    signed int melee_dam; // Bonus for melee damage; may be a penalty
-    signed int melee_cut; // Cutting damage in melee
-    signed int m_to_hit;  // To-hit bonus for melee combat; -5 to 5 is reasonable
-
-    std::set<std::string> item_tags;
-    std::set<std::string> techniques;
-
-    unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
-
-    const item_category *category; // category pointer or NULL for automatic selection
-
-    std::string snippet_category;
 
     virtual std::string get_item_type_string() const
     {
@@ -463,23 +511,23 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity) const
-    {
-        return ngettext(name.c_str(), name_plural.c_str(), quantity);
-    }
+    virtual std::string nname(unsigned int quantity) const;
 
     virtual bool is_food() const
     {
         return false;
     }
+
     virtual bool is_tool() const
     {
         return false;
     }
+
     virtual bool is_artifact() const
     {
         return false;
     }
+
     virtual bool count_by_charges() const
     {
         if( ammo ) {
@@ -487,10 +535,12 @@ public:
         }
         return false;
     }
+
     virtual int charges_to_use() const
     {
         return 1;
     }
+
     virtual int maximum_charges() const
     {
         return 1;
@@ -499,62 +549,63 @@ public:
     bool has_use() const;
     bool can_use( const std::string &iuse_name ) const;
     const use_function *get_use( const std::string &iuse_name ) const;
-    int invoke( player *p, item *it, bool active, point pos );
+    // Here "invoke" means "actively use". "Tick" means "active item working"
+    long invoke( player *p, item *it, point pos ) const; // Picks first method or returns 0
+    long invoke( player *p, item *it, point pos, const std::string &iuse_name ) const;
+    long tick( player *p, item *it,  point pos ) const;
 
-    std::vector<use_function> use_methods;// Special effects of use
+    long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player *p, item *it, const tripoint &pos ) const;
 
-    itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
-        color(c_white), phase(SOLID), volume(0), stack_size(0),
-        weight(0), qualities(),
-        melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
-        category(NULL)
-    {}
+    itype() : id("null"), name("none"), name_plural("none") {}
 
-    itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
+    itype(std::string pid, unsigned pprice, std::string pname, std::string pname_plural,
           std::string pdes, char psym, nc_color pcolor, std::vector<std::string> pmaterials,
-          phase_id pphase, unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
-          signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
-        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), materials(pmaterials),
-        phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
-        qualities(), melee_dam(pmelee_dam),
-        melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
-        category(NULL) { }
+          phase_id pphase, unsigned pvolume, unsigned pweight, int pmelee_dam,
+          int pmelee_cut, int pm_to_hit) : id(std::move(pid)), name(std::move(pname)),
+          name_plural(std::move(pname_plural)), description(std::move(pdes)),
+          materials(std::move(pmaterials)), phase(pphase), price(pprice), volume(pvolume),
+          weight(pweight), melee_dam(pmelee_dam), melee_cut(pmelee_cut), m_to_hit(pm_to_hit),
+          color(pcolor), sym(psym) { }
 
-    virtual ~itype() {}
+    virtual ~itype() { };
 };
 
 // Includes food drink and drugs
-struct it_comest : public virtual itype {
-    signed int quench;     // Many things make you thirstier!
-    unsigned int nutr;     // Nutrition imparted
+struct it_comest : itype {
+    std::string tool;       // Tool needed to consume (e.g. lighter for cigarettes)
+    std::string comesttype; // FOOD, DRINK, MED
+    long        def_charges = 0;  // Defaults # of charges (drugs, loaf of bread? etc)
+    int         quench      = 0;  // Many things make you thirstier!
+    unsigned    nutr        = 0;  // Nutrition imparted
     /**
      * How long it takes to spoil (turns), rotten food is handled differently
      * (chance of bad thinks happen when eating etc).
      * If 0, the food never spoils.
      */
-    int spoils;
-    unsigned int addict;   // Addictiveness potential
-    long def_charges;  // Defaults # of charges (drugs, loaf of bread? etc)
-    signed int stim;
-    signed int healthy;
-    unsigned int brewtime; // How long it takes for a brew to ferment.
-    std::string comesttype; //FOOD, DRINK, MED
+    int      spoils   = 0;
+    unsigned addict   = 0; // Addictiveness potential
+    int      stim     = 0;
+    int      healthy  = 0;
+    unsigned brewtime = 0; // How long it takes for a brew to ferment.
+    int      fun      = 0; // How fun its use is
 
-    signed int fun;    // How fun its use is
+    add_type add = ADD_NULL; // Effects of addiction
 
-    unsigned int grow; //time it takes for a seed to grow (in days, based of off a season length of 91)
-    itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
+    it_comest() = default;
 
-    virtual bool is_food() const
+    bool is_food() const override
     {
         return true;
     }
-    virtual std::string get_item_type_string() const
+
+    std::string get_item_type_string() const override
     {
         return "FOOD";
     }
 
-    virtual bool count_by_charges() const
+    bool count_by_charges() const override
     {
         if (phase == LIQUID) {
             return true;
@@ -562,41 +613,41 @@ struct it_comest : public virtual itype {
             return def_charges > 1 ;
         }
     }
-
-    add_type add; // Effects of addiction
-
-    it_comest(): itype(), quench(0), nutr(0), def_charges(0), stim(0), healthy(0),
-        brewtime(0), comesttype(), fun(0), tool()
-    {
-    }
 };
 
-struct it_tool : public virtual itype {
-    std::string ammo;
+struct it_tool : itype {
+    std::string ammo_id;
+    std::string revert_to;
+    std::string subtype;
+
     long max_charges = 0;
     long def_charges = 0;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
-    std::string revert_to;
-    std::string subtype;
 
-    virtual bool is_tool() const
+    it_tool() = default;
+
+    bool is_tool() const override
     {
         return true;
     }
-    virtual bool is_artifact() const
+
+    bool is_artifact() const override
     {
         return false;
     }
-    virtual std::string get_item_type_string() const
+
+    std::string get_item_type_string() const override
     {
         return "TOOL";
     }
-    int charges_to_use() const
+
+    int charges_to_use() const override
     {
         return charges_per_use;
     }
-    int maximum_charges() const
+
+    int maximum_charges() const override
     {
         return max_charges;
     }

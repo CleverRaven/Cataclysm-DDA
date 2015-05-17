@@ -98,7 +98,6 @@ void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int turn, fl
 void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_shelter_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_lmoe(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_lmoe_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_basement_generic_layout(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -223,6 +222,7 @@ void mapgen_triffid_roots(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_triffid_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_cavern(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rock(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rock_partial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_open_air(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rift(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hellmouth(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -249,5 +249,11 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 
 //
 void init_mapgen_builtin_functions();
+
+// Temporary wrappers
+void madd_trap( map *m, int x, int y, trap_id t );
+void mremove_trap( map *m, int x, int y );
+void mtrap_set( map *m, int x, int y, trap_id t );
+void madd_field( map *m, int x, int y, field_id t, int density );
 
 #endif

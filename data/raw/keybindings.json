@@ -383,6 +383,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "EQUIP_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Equip armor from inventory",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Unequip selected armor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"u"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"HELP_KEYBINDINGS",
         "name":"Display Help",
         "bindings":[
@@ -977,7 +1001,7 @@
             }
         ]
     },
-	{
+    {
         "type" : "keybinding",
         "id": "REROLL_CHARACTER",
         "category": "NEW_CHAR_DESCRIPTION",
@@ -1277,13 +1301,25 @@
     },
     {
         "type" : "keybinding",
-        "id":"TOOGLE_EXAMINE",
+        "id":"TOGGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toggle activate/examine",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SWAP_BIONIC_TABS",
+        "category":"BIONICS",
+        "name":"Swap bionic tab view",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
             }
         ]
     },
@@ -1376,6 +1412,13 @@
     { "type":"keybinding", "name": "Burst-Fire Wielded Item", "category":"DEFAULTMODE", "id":"fire_burst" },
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
+    {
+      "type":"keybinding",
+      "name": "Toggle move mode (run/walk)",
+      "category":"DEFAULTMODE",
+      "id":"toggle_move",
+      "bindings": [ {"input_method": "keyboard", "key":"\""} ]
+    },
     {
         "type" : "keybinding",
         "id":"COMPARE",
@@ -1492,7 +1535,7 @@
         "type" : "keybinding",
         "id":"UP",
         "category":"BIONICS",
-        "name":"Pan up",
+        "name":"Move cursor up",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1512,7 +1555,7 @@
         "type" : "keybinding",
         "id":"DOWN",
         "category":"BIONICS",
-        "name":"Pan down",
+        "name":"Move cursor down",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1846,6 +1889,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_VEH",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle vehicle",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_AUTO_PICKUP",
         "category": "ADVANCED_INVENTORY",
         "name": "Toggle auto-pickup for item",
@@ -2118,6 +2177,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "ITEMS_WORN",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items currently worn",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"w"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"W"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SEW",
         "category": "ITEM_ACTIONS",
         "name": "Sew",
@@ -2161,6 +2236,38 @@
             {
                 "input_method":"keyboard",
                 "key":"w"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_CUSTOM",
+        "category": "COLORS",
+        "name": "Remove custom color",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "LOAD_TEMPLATE",
+        "category": "COLORS",
+        "name": "Load color template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"T"
             }
         ]
     }

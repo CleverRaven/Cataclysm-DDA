@@ -87,7 +87,9 @@
               "s_jewelry":2,
               "s_antique": 2,
               "s_gardening": 2,
-              "museum": 1
+              "museum": 1,
+              "s_music": 2,
+              "s_laundromat": 1
           }
       }
    }

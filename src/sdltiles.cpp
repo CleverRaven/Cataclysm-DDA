@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include <cstring>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -17,6 +18,8 @@
 #include "init.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "map.h"
+#include "lightmap.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -77,7 +80,7 @@ public:
      * Draw character t at (x,y) on the screen,
      * using (curses) color.
      */
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color) = 0;
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color) = 0;
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
@@ -100,13 +103,28 @@ public:
 
     void clear();
     void load_font(std::string typeface, int fontsize);
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
     SDL_Texture *create_glyph(const std::string &ch, int color);
 
     TTF_Font* font;
     // Maps (character code, color) to SDL_Texture*
-    typedef std::map<std::pair<std::string, unsigned char>, SDL_Texture *> t_glyph_map;
+
+    struct key_t {
+        std::string   codepoints;
+        unsigned char color;
+
+        bool operator<(key_t const &rhs) const noexcept {
+            return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
+        }
+    };
+    
+    struct cached_t {
+        SDL_Texture* texture;
+        int          width;
+    };
+
+    typedef std::map<key_t, cached_t> t_glyph_map;
     t_glyph_map glyph_cache_map;
 };
 
@@ -121,7 +139,7 @@ public:
 
     void clear();
     void load_font(const std::string &path);
-    virtual void OutputChar(const std::string &ch, int x, int y, unsigned char color);
+    virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
@@ -360,9 +378,15 @@ bool WinCreate()
     return true;
 }
 
+// forward declaration
+void load_soundset();
+void cleanup_sound();
+
 void WinDestroy()
 {
 #ifdef SDL_SOUND
+    // De-allocate all loaded sound.
+    cleanup_sound();
     Mix_CloseAudio();
 #endif
     if(joystick) {
@@ -486,32 +510,31 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
     return glyph;
 }
 
-void CachedTTFFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
-{
-    color &= 0xf;
-    const t_glyph_map::key_type key( ch, color );
-    auto it = glyph_cache_map.find( key );
-    SDL_Texture *glyph;
-    if( it == glyph_cache_map.end() ) {
-        glyph = glyph_cache_map[key] = create_glyph( ch, color );
+void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
+{   
+    key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
+    cached_t value;
+
+    auto const it = glyph_cache_map.lower_bound(key);
+    if (it != std::end(glyph_cache_map) && !glyph_cache_map.key_comp()(key, it->first)) {
+        value = it->second;
     } else {
-        glyph = it->second;
+        value.texture = create_glyph(key.codepoints, key.color);
+        value.width = fontwidth * utf8_wrapper(key.codepoints).display_width();
+        glyph_cache_map.insert(it, std::make_pair(std::move(key), value));
     }
-    if (glyph == NULL) {
+
+    if (!value.texture) {
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect;
-    rect.x = x;
-    rect.y = y;
-    rect.w = fontwidth * utf8_wrapper( ch ).display_width();
-    rect.h = fontheight;
-    if( SDL_RenderCopy( renderer, glyph, NULL, &rect ) != 0 ) {
+    SDL_Rect rect {x, y, value.width, fontheight};
+    if (SDL_RenderCopy( renderer, value.texture, nullptr, &rect)) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
 
-void BitmapFont::OutputChar(const std::string &ch, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(std::string ch, int x, int y, unsigned char color)
 {
     int len = ch.length();
     const char *s = ch.c_str();
@@ -643,8 +666,7 @@ void curses_drawwindow(WINDOW *win)
         tilecontext->draw(
             win->x * fontwidth,
             win->y * fontheight,
-            g->ter_view_x,
-            g->ter_view_y,
+            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
 
@@ -1316,9 +1338,6 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
-// forward declaration
-void load_soundset();
-
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
@@ -1659,6 +1678,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     if (use_tiles && capture_win == g->w_terrain) {
         fw = tilecontext->get_tile_width();
         fh = tilecontext->get_tile_height();
+        // add_msg( m_info, "tile map fw %d fh %d", fw, fh);
     } else
 #endif
     if (map_font != NULL && capture_win == g->w_terrain) {
@@ -1674,16 +1694,30 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     // But the size of the window is in the font dimensions of the window.
     const int win_right = win_left + (capture_win->width * fw);
     const int win_bottom = win_top + (capture_win->height * fh);
+    // add_msg( m_info, "win_ left %d top %d right %d bottom %d", win_left,win_top,win_right,win_bottom);
+    // add_msg( m_info, "coordinate_ x %d y %d", coordinate_x, coordinate_y);
     // Check if click is within bounds of the window we care about
     if( coordinate_x < win_left || coordinate_x > win_right ||
         coordinate_y < win_top || coordinate_y > win_bottom ) {
+        // add_msg( m_info, "out of bounds");
         return false;
     }
-    const int selected_column = (coordinate_x - win_left) / fw;
-    const int selected_row = (coordinate_y - win_top) / fh;
 
-    x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
-    y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
+    if (tilecontext->tile_iso) {
+        const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
+        const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
+        // add_msg( m_info, "c %d r %d", selected_column, selected_row );
+        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
+        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
+        // add_msg( m_info, "gtvx %d gtvy %d x %d y %d", g->ter_view_x, g->ter_view_y, x, y );
+
+    } else {
+        const int selected_column = (coordinate_x - win_left) / fw;
+        const int selected_row = (coordinate_y - win_top) / fh;
+
+        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
+        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
+    }
 
     return true;
 }
@@ -1825,8 +1859,8 @@ void CachedTTFFont::clear()
         font = NULL;
     }
     for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
-        if (a->second != NULL) {
-            SDL_DestroyTexture(a->second);
+        if (a->second.texture) {
+            SDL_DestroyTexture(a->second.texture);
         }
     }
     glyph_cache_map.clear();
@@ -1914,6 +1948,8 @@ bool is_draw_tiles_mode() {
     return use_tiles;
 }
 
+#ifdef SDL_SOUND
+
 struct music_playlist {
     // list of filenames relative to the soundpack location
     std::vector<std::string> files;
@@ -1924,9 +1960,28 @@ struct music_playlist {
     }
 };
 
-std::map<std::string, music_playlist> playlists;
+struct sound_effect_entry {
+    Mix_Chunk *chunk;
+    unsigned volume;
+};
 
-#ifdef SDL_SOUND
+std::map<std::string, music_playlist> playlists;
+std::map<std::string, std::map<std::string, sound_effect_entry> > sound_effects;
+
+sound_effect_entry *get_sound_effect(std::string name, std::string variant) {
+    if(!sound_effects.count(name)) {
+        return NULL;
+    }
+
+    std::map<std::string, sound_effect_entry>& variants = sound_effects[name];
+    if(!variants.count(variant)) {
+        variant = "default";
+    }
+    if(!variants.count(variant)) {
+        return NULL;
+    }
+    return &(variants[variant]);
+};
 
 void musicFinished();
 
@@ -1988,23 +2043,40 @@ void play_music(std::string playlist) {
 #endif
 }
 
+void play_sound_effect(std::string id, std::string variant, int volume) {
+#ifdef SDL_SOUND
+    sound_effect_entry *effect_to_play = get_sound_effect(id, variant);
+    if (!effect_to_play) {
+        return;
+    }
+    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
+    if (Mix_PlayChannel(-1, effect_to_play->chunk, 0) == -1) {
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+    }
+#else
+    (void)id;(void)variant;(void)volume;
+#endif
+}
+
 void load_soundset() {
-    std::string location = FILENAMES["datadir"] + "/sound/soundset.json";
+#ifdef SDL_SOUND
+    std::string location = FILENAMES["datadir"] + "/sound/musicset.json";
     std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
-        JsonArray playlists_ = config.get_array("playlists");
 
-        for(int i=0; i < (int)playlists_.size(); i++) {
-            JsonObject playlist = playlists_.get_object(i);
+        // Load music playlists.
+        JsonArray playlists_json = config.get_array("playlists");
+        for (unsigned i=0; i < playlists_json.size(); i++) {
+            JsonObject playlist = playlists_json.get_object(i);
 
             std::string playlist_id = playlist.get_string("id");
             music_playlist playlist_to_load;
             playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
 
             JsonArray playlist_files = playlist.get_array("files");
-            for(int j=0; j < (int)playlist_files.size(); j++) {
+            for(unsigned j=0; j < playlist_files.size(); j++) {
                 JsonObject entry = playlist_files.get_object(j);
                 playlist_to_load.files.push_back(entry.get_string("file"));
                 playlist_to_load.volumes.push_back(entry.get_int("volume"));
@@ -2013,6 +2085,46 @@ void load_soundset() {
             playlists[playlist_id] = playlist_to_load;
         }
     }
+
+    // Load sound effects. This loads the sound effect chunks directly
+    // into memory.
+    location = FILENAMES["datadir"] + "/sound/soundset.json";
+    std::ifstream jsonstream2(location.c_str(), std::ifstream::binary);
+    if (jsonstream2.good()) {
+        JsonIn json(jsonstream2);
+        JsonObject config = json.get_object();
+        JsonArray sound_effects_json = config.get_array("sound_effects");
+        for (unsigned i=0; i < sound_effects_json.size(); i++) {
+            JsonObject sound_effect = sound_effects_json.get_object(i);
+
+            std::string sound_effect_id = sound_effect.get_string("id");
+            std::string sound_effect_variant = sound_effect.get_string("variant", "default");
+            sound_effect_entry sfx_to_load;
+
+            const std::string filename = sound_effect.get_string("file");
+            const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
+            Mix_Chunk *loaded_chunk = Mix_LoadWAV(path.c_str());
+            if (!loaded_chunk) {
+                dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+            }
+            sfx_to_load.chunk = loaded_chunk;
+            sfx_to_load.volume = sound_effect.get_int("volume", 100);
+
+            sound_effects[sound_effect_id][sound_effect_variant] = sfx_to_load;
+        }
+    }
+#endif
+}
+
+void cleanup_sound() {
+#ifdef SDL_SOUND
+    for(auto id_variants_pair : sound_effects) {
+        for(auto variant_soundeffect_pair : id_variants_pair.second) {
+            Mix_FreeChunk(variant_soundeffect_pair.second.chunk);
+        }
+    }
+    sound_effects.clear();
+#endif
 }
 
 #endif // TILES

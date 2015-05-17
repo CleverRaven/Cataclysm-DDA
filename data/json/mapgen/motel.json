@@ -43,12 +43,12 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "_": "t_pavement",
                 "'": "t_pavement_y",
                 "2": "t_window_domestic",
                 "3": "t_door_locked",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -72,7 +72,7 @@
                 "^": "t_tree",
                 "M": "t_door_glass_c",
                 "#": "t_shrub",
-                "g": "t_wall_glass_h",
+                "g": "t_wall_glass",
                 "X": "t_gates_mech_control",
                 "[": "t_fence_v",
                 "W": "t_water_dp",
@@ -107,10 +107,14 @@
                 { "item": "touristmap", "x": 8, "y": 8, "chance": 2 },
                 { "item": "survivormap", "x": 8, "y": 7, "chance": 8 }
              ],
-            "place_groups": [
-                { "item": "traveler", "chance": 90, "x": [ 6,6 ], "y": [ 6,6 ] },
+            "place_items": [
+                { "item": "traveler", "chance": 90, "x": [ 6,6 ], "y": [ 6,6 ] }
+            ],
+            "place_vehicles": [
                 { "vehicle": "motorcycle", "x": 1, "y": 17, "rotation":180, "chance": 35  },
-                { "vehicle": "motorcycle", "x": 5, "y": 17, "rotation":180, "chance": 35  },
+                { "vehicle": "motorcycle", "x": 5, "y": 17, "rotation":180, "chance": 35  }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ]
         }
@@ -150,12 +154,12 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "_": "t_pavement",
                 "'": "t_pavement_y",
                 "2": "t_window_domestic",
                 "3": "t_door_locked",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -179,8 +183,8 @@
                 "^": "t_tree",
                 "M": "t_door_glass_c",
                 "#": "t_shrub",
-                "g": "t_wall_glass_h",
-                "v": "t_wall_glass_v",
+                "g": "t_wall_glass",
+                "v": "t_wall_glass",
                 "X": "t_gates_mech_control",
                 "[": "t_fence_v",
                 "W": "t_water_dp",
@@ -194,7 +198,6 @@
                 "8": "f_bathtub",
                 "9": "f_locker",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -208,12 +211,14 @@
                 "G": "f_oven",
                 "0": "f_dive_block"
             },
-            "place_specials": [
-                { "type": "vendingmachine", "x": 18, "y": 6 },
-                { "type": "vendingmachine", "x": 18, "y": 7 },
-                { "type": "vendingmachine", "x": 18, "y": 9 },
-                { "type": "toilet", "x": 2, "y": 18 }
+            "place_vendingmachines": [
+                { "x": 18, "y": 6 },
+                { "x": 18, "y": 7 },
+                { "x": 18, "y": 9 }
             ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 15, 16 ], "repeat": [ 5, 10 ] },
@@ -225,7 +230,7 @@
                 { "item": "phonebook", "x": 10, "y": 22, "chance": 2 },
                 { "item": "holybook_bible3", "x": 10, "y": 16, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
         { "item": "bed", "chance": 80, "x": [5,6], "y": [19,20 ]},
         { "item": "bed", "chance": 80, "x": [8,9], "y": [19,20 ]},
                 { "item": "cleaning", "chance": 80, "x": [ 7, 7 ], "y": [ 13, 13 ] },
@@ -237,7 +242,9 @@
                 { "item": "vending_drink", "chance": 50, "x": [ 18,23 ], "y": [ 5,10 ] },
                 { "item": "vending_food", "chance": 50, "x": [ 18,23 ], "y": [ 5,10 ] },
                 { "item": "trash_forest", "chance": 40, "x": [14,23], "y": [16,23] },
-                { "item": "trash", "chance": 50, "x": [14,23], "y": [16,23] },
+                { "item": "trash", "chance": 50, "x": [14,23], "y": [16,23] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] },
                 { "monster": "GROUP_ZOMBIE_POOL", "chance": 2, "x": [ 2, 10 ], "y": [ 3, 11 ] }
             ]
@@ -278,12 +285,12 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "_": "t_pavement",
                 "'": "t_pavement_y",
                 "2": "t_window_domestic",
                 "3": "t_door_locked",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -309,7 +316,7 @@
                 "^": "t_tree",
                 "M": "t_door_glass_c",
                 "#": "t_shrub",
-                "g": "t_wall_glass_h",
+                "g": "t_wall_glass",
                 "X": "t_gates_mech_control",
                 "[": "t_fence_v",
                 "W": "t_water_dp",
@@ -324,7 +331,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -339,13 +345,9 @@
                 "H": "f_sofa",
                 "{": "f_dumpster"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 0 },
-                { "type": "toilet", "x": 2, "y": 6 },
-                { "type": "toilet", "x": 2, "y": 12 },
-                { "type": "toilet", "x": 14, "y": 21 },
-                { "type": "toilet", "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
             ],
@@ -359,7 +361,7 @@
                 { "item": "phonebook", "x": 18, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 18, "y": 13, "chance": 2 }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80, "x": [5,6 ], "y": [1,2 ]},
                 { "item": "bed", "chance": 80, "x": [8,9 ], "y": [1,2 ]},
                 { "item": "bed", "chance": 80, "x": [8,9 ], "y": [7,8 ]},
@@ -373,7 +375,9 @@
                 { "item": "trash_forest", "chance": 40, "x": [ 13,23 ], "y": [ 0,11 ] },
                 { "item": "trash", "chance": 50, "x": [ 13,23 ], "y": [ 0,11 ] },
                 { "item": "trash_forest", "chance": 60, "x": [ 9,10 ], "y": [ 19,21 ] },
-                { "item": "trash", "chance": 70, "x": [ 9,10 ], "y": [ 19,21 ] },
+                { "item": "trash", "chance": 70, "x": [ 9,10 ], "y": [ 19,21 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 3, 23 ], "y": [ 0, 22 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 3, "x": [ 2,9 ], "y": [ 0,14 ] },
                 { "monster": "GROUP_ZOMBIE", "x": [ 12,22 ], "y": [ 13,21 ] }
@@ -415,12 +419,12 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "_": "t_pavement",
                 "'": "t_pavement_y",
                 "2": "t_window_domestic",
                 "3": "t_door_locked",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -444,7 +448,7 @@
                 "^": "t_tree",
                 "M": "t_door_glass_c",
                 "#": "t_shrub",
-                "g": "t_wall_glass_h",
+                "g": "t_wall_glass",
                 "X": "t_gates_mech_control",
                 "[": "t_fence_v",
                 "W": "t_water_dp",
@@ -457,7 +461,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -470,12 +473,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 21 },
-                { "type": "toilet", "x": 8, "y": 21 },
-                { "type": "toilet", "x": 14, "y": 21 },
-                { "type": "toilet", "x": 20, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0,23 ], "y": 23, "repeat": [ 5, 10 ] }
             ],
@@ -489,8 +489,27 @@
                 { "item": "phonebook", "x": 22, "y": 13, "chance": 2 },
                 { "item": "holybook_bible3", "x": 22, "y": 13, "chance": 2 }
             ],
-            "place_groups": [
-                { "vehicle": "car", "x": 8, "y": 8, "rotation": 90, "chance": 35  },
+            "place_vehicles": [
+                { "vehicle": "car", "x": 3, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x": 5, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x": 7, "y": 7, "rotation": 60, "chance": 2  },
+                { "vehicle": "car", "x": 9, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":11, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x":13, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":15, "y": 7, "rotation":110, "chance": 2  },
+                { "vehicle": "car", "x":17, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":19, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "pickup", "x": 3, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x": 5, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "flatbed_truck", "x": 7, "y": 7, "rotation": 60, "chance": 2  },
+                { "vehicle": "car", "x": 9, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "policecar", "x":11, "y": 7, "rotation": 90, "chance": 2  },
+                { "vehicle": "car", "x":13, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":15, "y": 7, "rotation":110, "chance": 2  },
+                { "vehicle": "motorcycle", "x":17, "y": 7, "rotation":270, "chance": 2  },
+                { "vehicle": "car", "x":19, "y": 7, "rotation": 90, "chance": 2  }
+            ],
+            "place_items": [
                 { "item": "bed", "chance": 80, "x": [0,1 ], "y": [14,15 ]},
                 { "item": "bed", "chance": 80, "x": [6,7 ], "y": [14,15 ]},
                 { "item": "bed", "chance": 80, "x": [11,12 ], "y": [14,15 ]},
@@ -504,7 +523,9 @@
                 { "item": "traveler", "chance": 30, "x": [ 16,16 ], "y": [ 17,18 ] },
                 { "item": "traveler", "chance": 30, "x": [ 22,22 ], "y": [ 17,18 ] },
                 { "item": "trash_forest", "chance": 40, "x": [ 0,22 ], "y": [ 0,13 ] },
-                { "item": "trash", "chance": 50, "x": [ 0,22 ], "y": [ 0,13 ] },
+                { "item": "trash", "chance": 50, "x": [ 0,22 ], "y": [ 0,13 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [ 0, 21 ], "y": [ 0, 22 ] },
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 0, 22 ], "y": [ 13, 21 ] }
             ]

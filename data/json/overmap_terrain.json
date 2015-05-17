@@ -498,7 +498,7 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
-    },{       
+    },{
         "type" : "overmap_terrain",
         "id" : "office_tower_2_a3",
         "name" : "office tower",
@@ -508,7 +508,7 @@
         "rotate" : true,
         "mondensity" : 2,
         "sidewalk" : true
-    },{ 
+    },{
         "type" : "overmap_terrain",
         "id" : "office_tower_2_b1",
         "name" : "office tower",
@@ -528,7 +528,7 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
-    },{ 
+    },{
         "type" : "overmap_terrain",
         "id" : "office_tower_2_b3",
         "name" : "office tower",
@@ -867,6 +867,17 @@
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
         "color" : "h_dkgray",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_music",
+        "name" : "music store",
+        "rotate" : true,
+        "sym" : 109,
+        "color" : "brown",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
@@ -1786,7 +1797,15 @@
         "allow_road" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "rock",
+        "id" : "rock", "//" : "This is old rock type, new one (below) will replace it in new overmaps",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "empty_rock",
         "name" : "solid rock",
         "sym" : 37,
         "color" : "dark_gray",
@@ -4222,6 +4241,1464 @@
         "mondensity" : 2
     },{
         "type" : "overmap_terrain",
+        "id" : "necropolis_c_1",
+        "name" : "Vault - Barracks",
+        "sym" : 66,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_2",
+        "name" : "Vault - Armory",
+        "sym" : 65,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_3",
+        "name" : "Vault - Barracks",
+        "sym" : 66,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_4",
+        "name" : "Vault - Barracks",
+        "sym" : 66,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_5",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_6",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_7",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_8",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_9",
+        "name" : "Vault - Jail",
+        "sym" : 74,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_10",
+        "name" : "Vault - Barracks",
+        "sym" : 66,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_11",
+        "name" : "Vault - Barracks",
+        "sym" : 66,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_12",
+        "name" : "Vault - Barracks",
+        "sym" : 66,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_13",
+        "name" : "Vault - Offices",
+        "sym" : 79,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_14",
+        "name" : "Vault - Offices",
+        "sym" : 79,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_15",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_16",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_17",
+        "name" : "Vault - Police Station",
+        "sym" : 80,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_18",
+        "name" : "Vault - Police Station",
+        "sym" : 80,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_19",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_20",
+        "name" : "Vault - Entrance",
+        "sym" : 69,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_21",
+        "name" : "Vault - Utilities",
+        "sym" : 85,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_22",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_23",
+        "name" : "Vault - Communications",
+        "sym" : 67,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_24",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_25",
+        "name" : "Vault - Courthouse",
+        "sym" : 67,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_26",
+        "name" : "Vault - Police Station",
+        "sym" : 80,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_27",
+        "name" : "Vault - Police Station",
+        "sym" : 80,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_28",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_29",
+        "name" : "Vault - Entrance",
+        "sym" : 69,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_30",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_31",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_32",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_33",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_34",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_35",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_36",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_37",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_38",
+        "name" : "Vault - Motor Pool",
+        "sym" : 77,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_39",
+        "name" : "Vault - Motor Pool",
+        "sym" : 77,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_40",
+        "name" : "Vault - Visitor Center",
+        "sym" : 86,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_41",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_42",
+        "name" : "Vault - Control",
+        "sym" : 88,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_43",
+        "name" : "Vault - Control",
+        "sym" : 88,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_44",
+        "name" : "Vault - Control",
+        "sym" : 88,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_45",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_46",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_47",
+        "name" : "Vault - Motor Pool",
+        "sym" : 77,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_48",
+        "name" : "Vault - Motor Pool",
+        "sym" : 77,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_49",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_50",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_51",
+        "name" : "Vault - Cafeteria",
+        "sym" : 67,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_52",
+        "name" : "Vault - Cafeteria",
+        "sym" : 67,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_53",
+        "name" : "Vault - Cafeteria",
+        "sym" : 67,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_54",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_55",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_56",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_57",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_58",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_59",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_60",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_61",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_62",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_63",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_64",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_65",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_66",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_67",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_68",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_69",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_70",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_71",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_72",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_73",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_74",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_75",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_76",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_77",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_78",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_79",
+        "name" : "Vault - School",
+        "sym" : 83,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_80",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_c_81",
+        "name" : "Vault - Labs",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_1",
+        "name" : "Vault - Robotics Bay",
+        "sym" : 82,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_2",
+        "name" : "Vault - Robotics Bay",
+        "sym" : 82,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_3",
+        "name" : "Vault - Slum Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_4",
+        "name" : "Vault - Slum Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_5",
+        "name" : "Vault - Slum Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_6",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_7",
+        "name" : "Vault - Hospital",
+        "sym" : 72,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_8",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_9",
+        "name" : "Vault - Suites",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_10",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_11",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_12",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_13",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_14",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_15",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_16",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_17",
+        "name" : "Vault - Suites",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_18",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_19",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_20",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_21",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_22",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_23",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_24",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_25",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_26",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_27",
+        "name" : "Vault - Transition Bay",
+        "sym" : 84,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_28",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_29",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_30",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_31",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_32",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_33",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_34",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_35",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_36",
+        "name" : "Vault - Transition Bay",
+        "sym" : 84,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_37",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_38",
+        "name" : "Vault - Maint. Bay",
+        "sym" : 77,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_39",
+        "name" : "Vault - Maint. Bay",
+        "sym" : 77,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_40",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_41",
+        "name" : "Vault - Quartermasters",
+        "sym" : 81,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_42",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_43",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_44",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_45",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_46",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_47",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_48",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_49",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_50",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_51",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_52",
+        "name" : "Vault - Kitchen",
+        "sym" : 75,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_53",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_54",
+        "name" : "Vault - Slum Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_55",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_56",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_57",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_58",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_59",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_60",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_61",
+        "name" : "Vault - Conference Room",
+        "sym" : 67,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_62",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_63",
+        "name" : "Vault - Slum Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_64",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_65",
+        "name" : "Vault - Living Bays",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_66",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_67",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_68",
+        "name" : "Vault - Housing",
+        "sym" : 104,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_69",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_70",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_71",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_72",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_73",
+        "name" : "solid rock",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_74",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_75",
+        "name" : "Vault - Library",
+        "sym" : 76,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_76",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_77",
+        "name" : "Vault - Light Industry",
+        "sym" : 73,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_78",
+        "name" : "Vault - Light Industry",
+        "sym" : 73,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_79",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_80",
+        "name" : "Vault - Gym",
+        "sym" : 71,
+        "color" : "yellow",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "necropolis_d_81",
+        "name" : "Vault - Passage",
+        "sym" : 4194414,
+        "color" : "white",
+        "see_cost" : 999,
+        "rotate" : true,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
         "id" : "evac_center_1",
         "name" : "road",
         "sym" : [4194412, 4194411, 4194410, 4194413],
@@ -4567,5 +6044,54 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },
+    {
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_entrance",
+        "name" : "home improvement superstore entrance",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_SW",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_NW",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_NE",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_backroom",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_loadingbay",
+        "name" : "home improvment superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
     }
 ]

@@ -7,6 +7,9 @@
 #include "translations.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "input.h"
+#include "worldfactory.h"
+#include "itype.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -229,6 +232,9 @@ void show_auto_pickup()
             vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
             if (iCurrentLine > (int)vAutoPickupRules[iCurrentPage].size() - 1) {
                 iCurrentLine--;
+            }
+            if(iCurrentLine < 0){
+                iCurrentLine = 0;
             }
         } else if (action == "COPY_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;

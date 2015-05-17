@@ -1,63 +1,121 @@
+#include "trap.h"
+#include "debug.h"
+
 #include <vector>
-#include "game.h"
+#include <memory>
 
-void load_trap(JsonObject &jo)
+std::vector< trap* > traplist;
+std::unordered_map< trap_str_id, trap_id > trapmap;
+
+template<>
+const trap &int_id<trap>::obj() const
 {
-    std::vector<std::string> drops;
-    if(jo.has_member("drops")) {
-        JsonArray drops_list = jo.get_array("drops");
-        while(drops_list.has_more()) {
-            drops.push_back(drops_list.next_string());
-        }
+    if( static_cast<size_t>( _id ) >= traplist.size() ) {
+        debugmsg( "invalid trap id %d", _id );
+        static const trap dummy{};
+        return dummy;
     }
-
-    std::string name = jo.get_string("name");
-    if (!name.empty()) {
-        name = _(name.c_str());
-    }
-    trap *new_trap = new trap(
-        jo.get_string("id"), // "tr_beartrap"
-        traplist.size(),     // tr_beartrap
-        name, // "bear trap"
-        color_from_string(jo.get_string("color")),
-        jo.get_string("symbol").at(0),
-        jo.get_int("visibility"),
-        jo.get_int("avoidance"),
-        jo.get_int("difficulty"),
-        trap_function_from_string(jo.get_string("action")),
-        drops
-    );
-
-    new_trap->benign = jo.get_bool("benign", false);
-    new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
-    new_trap->trigger_weight = jo.get_int("trigger_weight", -1);
-    trapmap[new_trap->id] = new_trap->loadid;
-    traplist.push_back(new_trap);
+    return *traplist[_id];
 }
 
-void release_traps()
+template<>
+const string_id<trap> &int_id<trap>::id() const
 {
-    std::vector<trap *>::iterator it;
-    for (it = traplist.begin(); it != traplist.end(); it++) {
-        delete *it;
+    return obj().id;
+}
+
+template<>
+int_id<trap> string_id<trap>::id() const
+{
+    const auto iter = trapmap.find( *this );
+    if( iter == trapmap.end() ) {
+        debugmsg( "invalid trap id %s", c_str() );
+        return trap_id();
+    }
+    return iter->second;
+}
+
+template<>
+const trap &string_id<trap>::obj() const
+{
+    return id().obj();
+}
+
+template<>
+bool string_id<trap>::is_valid() const
+{
+    return trapmap.count( *this ) > 0;
+}
+
+template<>
+int_id<trap>::int_id( const string_id<trap> &id )
+: _id( id.id() )
+{
+}
+
+#include "game.h"
+// Map must be included after the above template specializations
+#include "map.h"
+#include "debug.h"
+#include "translations.h"
+
+static std::vector<const trap*> funnel_traps;
+const std::vector<const trap*> trap::get_funnels()
+{
+    return funnel_traps;
+}
+
+size_t trap::count()
+{
+    return trapmap.size();
+}
+
+void trap::load( JsonObject &jo )
+{
+    std::unique_ptr<trap> trap_ptr( new trap() );
+    trap &t = *trap_ptr;
+
+    if( jo.has_member( "drops" ) ) {
+        JsonArray drops_list = jo.get_array( "drops" );
+        while( drops_list.has_more() ) {
+            t.components.push_back( drops_list.next_string() );
+        }
+    }
+    t.name = jo.get_string( "name" );
+    if( !t.name.empty() ) {
+        t.name = _( t.name.c_str() );
+    }
+    t.id = trap_str_id( jo.get_string( "id" ) );
+    t.loadid = trap_id( traplist.size() );
+    t.color = color_from_string( jo.get_string( "color" ) );
+    t.sym = jo.get_string( "symbol" ).at( 0 );
+    t.visibility = jo.get_int( "visibility" );
+    t.avoidance = jo.get_int( "avoidance" );
+    t.difficulty = jo.get_int( "difficulty" );
+    t.act = trap_function_from_string( jo.get_string( "action" ) );
+    t.benign = jo.get_bool( "benign", false );
+    t.funnel_radius_mm = jo.get_int( "funnel_radius", 0 );
+    t.trigger_weight = jo.get_int( "trigger_weight", -1 );
+
+    trapmap[t.id] = t.loadid;
+    traplist.push_back( &t );
+    trap_ptr.release();
+    if( t.is_funnel() ) {
+        funnel_traps.push_back( &t );
+    }
+}
+
+void trap::reset()
+{
+    for( auto & tptr : traplist ) {
+        delete tptr;
     }
     traplist.clear();
     trapmap.clear();
+    funnel_traps.clear();
 }
 
-std::vector <trap *> traplist;
-std::map<std::string, int> trapmap;
-
-trap_id trapfind(const std::string id)
-{
-    if( trapmap.find(id) == trapmap.end() ) {
-        popup("Can't find trap %s", id.c_str());
-        return 0;
-    }
-    return traplist[trapmap[id]]->loadid;
-}
-
-bool trap::detect_trap(const player &p, int x, int y) const
+bool trap::detect_trap( const tripoint &pos, const player &p ) const
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -66,17 +124,17 @@ bool trap::detect_trap(const player &p, int x, int y) const
     // * ...and an average character should at least have a minor chance of
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
-    return (p.per_cur - p.encumb(bp_eyes)) +
+    return (p.per_cur - (p.encumb(bp_eyes) / 10)) +
            // ...small bonus from stimulants...
            (p.stim > 10 ? rng(1, 2) : 0) +
            // ...bonus from trap skill...
-           (const_cast<player &>(p).skillLevel("traps") * 2) +
+           (p.get_skill_level("traps") * 2) +
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
            // ...malus if we are tired...
            (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
-           rl_dist(p.pos(), point(x, y)) +
+           rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
            (p.has_trait("PROF_POLICE") ? 1 : 0) +
            (p.has_trait("PROF_PD_DET") ? 2 : 0) >
@@ -85,16 +143,62 @@ bool trap::detect_trap(const player &p, int x, int y) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see(const player &p, int x, int y) const
+bool trap::can_see( const tripoint &pos, const player &p ) const
 {
-    return visibility < 0 || p.knows_trap(x, y);
+    if( is_null() ) {
+        // There is no trap at all, so logically one can not see it.
+        return false;
+    }
+    return visibility < 0 || p.knows_trap( pos );
 }
 
-void trap::trigger(Creature *creature, int x, int y) const
+void trap::trigger( const tripoint &pos, Creature *creature ) const
 {
-    if (act != NULL) {
+    if( act != nullptr ) {
         trapfunc f;
-        (f.*act)(creature, x, y);
+        (f.*act)( creature, pos );
+    }
+}
+
+bool trap::is_null() const
+{
+    return loadid == tr_null;
+}
+
+bool trap::triggered_by_item( const item &itm ) const
+{
+    return !is_null() && itm.weight() >= trigger_weight;
+}
+
+bool trap::is_funnel() const
+{
+    return !is_null() && funnel_radius_mm > 0;
+}
+
+bool trap::is_3x3_trap() const
+{
+    // TODO make this a json flag, implement more 3x3 traps.
+    return id == trap_str_id( "tr_engine" );
+}
+
+void trap::on_disarmed( const tripoint &p ) const
+{
+    map &m = g->m;
+    for( auto & i : components ) {
+        m.spawn_item( p.x, p.y, i, 1, 1 );
+    }
+    // TODO: make this a flag, or include it into the components.
+    if( id == trap_str_id( "tr_shotgun_1" ) || id == trap_str_id( "tr_shotgun_2" ) ) {
+        m.spawn_item( p.x, p.y, "shot_00", 1, 2 );
+    }
+    if( is_3x3_trap() ) {
+        for( int i = -1; i <= 1; i++ ) {
+            for( int j = -1; j <= 1; j++ ) {
+                m.remove_trap( tripoint( p.x + i, p.y + j, p.z ) );
+            }
+        }
+    } else {
+        m.remove_trap( p );
     }
 }
 
@@ -143,8 +247,22 @@ tr_drain,
 tr_snake,
 tr_glass_pit;
 
-void set_trap_ids()
+void trap::check_consistency()
 {
+    for( auto & tptr : traplist ) {
+        for( auto & i : tptr->components ) {
+            if( !item::type_is_defined( i ) ) {
+                debugmsg( "trap %s has unknown item as component %s", tptr->id.c_str(), i.c_str() );
+            }
+        }
+    }
+}
+
+void trap::finalize()
+{
+    const auto trapfind = []( const char *id ) {
+        return trap_str_id( id ).id();
+    };
     tr_null = trapfind("tr_null");
     tr_bubblewrap = trapfind("tr_bubblewrap");
     tr_cot = trapfind("tr_cot");
@@ -189,8 +307,10 @@ void set_trap_ids()
 
     // Set ter_t.trap using ter_t.trap_id_str.
     for( auto &elem : terlist ) {
-        if( elem.trap_id_str.length() != 0 ) {
-            elem.trap = trapfind( elem.trap_id_str );
+        if( elem.trap_id_str.empty() ) {
+            elem.trap = tr_null;
+        } else {
+            elem.trap = trap_str_id( elem.trap_id_str );
         }
     }
 }

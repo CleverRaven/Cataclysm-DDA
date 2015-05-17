@@ -29,10 +29,15 @@
 #include "skill.h"
 #include "vehicle.h"
 #include "filesystem.h"
-
+#include "mongroup.h"
 #include "mission.h"
 #include "faction.h"
 #include "savegame.h"
+#include "morale.h"
+#include "worldfactory.h"
+#include "crafting.h"
+#include "veh_type.h"
+#include "mutation.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>
@@ -79,7 +84,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             JsonIn jsin(parseline());
             JsonObject pdata = jsin.get_object();
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tmpinv;
+            int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tmpinv;
             pdata.read("turn", tmpturn);
             pdata.read("last_target", tmptar);
             pdata.read("run_mode", tmprun);
@@ -102,8 +107,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
             safe_mode = static_cast<safe_mode_type>( tmprun );
             if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -171,7 +175,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+            int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tempinv;
 
             // tempinv is a no-longer used field, so is discarded.
             parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
@@ -185,8 +189,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
             safe_mode = static_cast<safe_mode_type>( tmprun );
             if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -283,7 +286,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+            int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tempinv;
 
             // tempenv gets the value of the no-longer-used nextinv variable, so we discard it.
             parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
@@ -297,8 +300,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
-            cur_om = &overmap_buffer.get(comx, comy);
-            m.load(levx, levy, levz, true, cur_om);
+            load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
             safe_mode = static_cast<safe_mode_type>( tmprun );
             if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -396,7 +398,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 /*
 original 'structure', which globs game/weather/location & killcount/player data onto the same lines.
 */
-         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+         int tmpturn, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy, tempinv;
          // tempinv gets the legacy nextinv value and is discarded.
          fin >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
              next_faction_id >> next_mission_id >> tmpspawn;
@@ -408,8 +410,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
          calendar::turn = tmpturn;
          nextspawn = tmpspawn;
 
-         cur_om = &overmap_buffer.get(comx, comy);
-         m.load(levx, levy, levz, true, cur_om);
+         load_map( tripoint( levx + comx * OMAPX * 2, levy + comy * OMAPY * 2, levz ) );
 
          safe_mode = static_cast<safe_mode_type>( tmprun );
          if( OPTIONS["SAFEMODE"] && safe_mode == SAFE_MODE_OFF ) {
@@ -501,7 +502,6 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
 void game::load_legacy_future_weather(std::string data)
 {
-    weather_log.clear();
     std::istringstream fin;
     fin.str(data);
     load_legacy_future_weather(fin);
@@ -511,7 +511,6 @@ void game::load_legacy_future_weather(std::string data)
 void game::load_legacy_future_weather(std::istream &fin)
 {
     int tmpnextweather, tmpweather, tmptemp, num_segments;
-    weather_segment new_segment;
 
     fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
 
@@ -522,10 +521,7 @@ void game::load_legacy_future_weather(std::istream &fin)
     for( int i = 0; i < num_segments - 1; ++i)
     {
         fin >> tmpnextweather >> tmpweather >> tmptemp;
-        new_segment.weather = weather_type(tmpweather);
-        new_segment.temperature = tmptemp;
-        new_segment.deadline = tmpnextweather;
-        weather_log[ tmpnextweather ] = new_segment;
+        // Just drop it, it wouldn't be used anyway
     }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -991,7 +987,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                         }
                     } else if (datatype == 'N') { // Load notes
                         om_note tmp;
-                        sfin >> tmp.x >> tmp.y >> tmp.num;
+                        sfin >> tmp.x >> tmp.y;
                         getline(sfin, tmp.text); // Chomp endl
                         getline(sfin, tmp.text);
                         if (z >= 0 && z < OVERMAP_LAYERS) {
@@ -1050,7 +1046,6 @@ static bool unserialize_legacy(std::ifstream & fin ) {
         std::string tstr;
         for(int i=0; i < num_legacy_ter; i++) {
             tstr = legacy_ter_id[i];
-            if ( termap.find(tstr) == termap.end() ) {
                 if (tstr == "t_rubble") {
                     ter_key[i] = termap["t_dirt"].loadid;
                     furn_key[i] = furnmap["f_rubble"].loadid;
@@ -1061,25 +1056,14 @@ static bool unserialize_legacy(std::ifstream & fin ) {
                     ter_key[i] = termap["t_dirt"].loadid;
                     furn_key[i] = furnmap["f_ash"].loadid;
                 } else {
-                    debugmsg("Can't find terrain '%s' (%d)",tstr.c_str(), i );
-                    ter_key[i] = termap["t_null"].loadid;
+                    ter_key[i] = terfind( tstr );
                 }
-            } else {
-                ter_key[i] = termap[tstr].loadid;
-            }
         }
 
         // it's a...
         std::map<int, int> trap_key;
-        std::string trstr;
         for (int i = 0; i < num_legacy_trap; i++) {
-           trstr = legacy_trap_id[ i ];
-           if ( trapmap.find( trstr ) == trapmap.end() ) {
-              debugmsg("Can't find trap '%s' (%d)",trstr.c_str(), i );
-              trap_key[i] = trapmap["tr_null"];
-           } else {
-              trap_key[i] = trapmap[trstr];
-           }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
 
 
@@ -1251,17 +1235,13 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             jsin.start_array();
             while (!jsin.end_array()) {
                 std::string tstr = jsin.get_string();
-                if ( termap.find(tstr) == termap.end() ) {
                     if (tstr == "t_rubble" || tstr == "t_wreckage" || tstr == "t_ash" ||
                           tstr == "t_metal" || tstr == "t_skylight" || tstr == "t_emergency_light" ||
                           tstr == "t_emergency_light_flicker") {
                         ter_key[i] = termap["t_dirt"].loadid;
                     } else {
-                        debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
+                        ter_key[i] = terfind( tstr );
                     }
-                } else {
-                    ter_key[i] = termap[tstr].loadid;
-                }
                 ++i;
             }
         } else if (name == "furniture_key") {
@@ -1280,12 +1260,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
             int i = 0;
             jsin.start_array();
             while (!jsin.end_array()) {
-                std::string trstr = jsin.get_string();
-                if ( trapmap.find(trstr) == trapmap.end() ) {
-                    debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                } else {
-                    trap_key[i] = trapmap[trstr];
-                }
+                trap_key[i] = trap_str_id( jsin.get_string() ).id();
                 ++i;
             }
         } else {
@@ -1296,13 +1271,7 @@ static int unserialize_keys( std::ifstream &fin, std::map<int, int> &ter_key,
 
     if (trap_key.empty()) { // old, snip when this moves to legacy
         for (int i = 0; i < num_legacy_trap; i++) {
-            std::string trstr = legacy_trap_id[i];
-            if ( trapmap.find( trstr ) == trapmap.end() ) {
-                debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                trap_key[i] = trapmap["tr_null"];
-            } else {
-                trap_key[i] = trapmap[trstr];
-            }
+            trap_key[i] = trap_str_id( legacy_trap_id[ i ] ).id();
         }
     }
     return num_submaps;
@@ -1525,7 +1494,8 @@ void mapbuffer::load( std::string worldname )
 void player::load_legacy(std::stringstream & dump)
 {
  int inveh, vctrl;
- itype_id styletmp;
+ int tmpactive_mission;
+ std::string styletmp;
  std::string prof_ident;
 
  dump >> position.x >> position.y >> str_cur >> str_max >> dex_cur >> dex_max >>
@@ -1533,12 +1503,19 @@ void player::load_legacy(std::stringstream & dump)
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> vctrl >> grab_point.x >> grab_point.y >> scent >> moves >>
-         underwater >> dodges_left >> blocks_left >> oxygen >> active_mission >>
+         underwater >> dodges_left >> blocks_left >> oxygen >> tmpactive_mission >>
          focus_pool >> male >> prof_ident >> healthy >> styletmp;
 
-         // Bionic power scale has been changed.
-         max_power_level *= 25;
-         power_level *= 25;
+    position.z = g->get_levz();
+
+    // Bionic power scale has been changed.
+    max_power_level *= 25;
+    power_level *= 25;
+    if (power_level < 0) {
+        power_level = 0;
+    }
+
+    active_mission = tmpactive_mission == -1 ? nullptr : mission::find( tmpactive_mission );
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1554,24 +1531,29 @@ void player::load_legacy(std::stringstream & dump)
 
  in_vehicle = inveh != 0;
  controlling_vehicle = vctrl != 0;
- style_selected = styletmp;
+ style_selected = matype_id( styletmp );
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++ ) {
+    const auto mut_count = mutation_branch::get_all().size();
+ for( size_t i = 0; i < mut_count; i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_traits.insert(sTemp);
     }
  }
 
- for( size_t i = 0; i < traits.size(); i++ ) {
+ for( size_t i = 0; i < mut_count; i++ ) {
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
-        my_mutations.insert(sTemp);
+        my_mutations[sTemp]; // Creates a new entry with default values
     }
  }
 
@@ -1597,22 +1579,20 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numstyles;
- itype_id styletype;
+ std::string styletype;
  dump >> numstyles;
  for (int i = 0; i < numstyles; i++) {
   dump >> styletype;
-  ma_styles.push_back( styletype );
+  ma_styles.push_back( matype_id( styletype ) );
  }
 
  int numill;
- disease illtmp;
  int temp_bpart;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-     dump >> illtmp.type >> illtmp.duration >> illtmp.intensity
-          >> temp_bpart;
-     illtmp.bp = (body_part)temp_bpart;
-     illness.push_back(illtmp);
+     // Legacy support, just read it and forget it. Diseases are no more, they have ceased to be,
+     // they have expired and gone to meet their maker, ...
+     dump >> temp_bpart >> temp_bpart >> temp_bpart >> temp_bpart;
  }
 
  int numadd = 0;
@@ -1626,13 +1606,16 @@ void player::load_legacy(std::stringstream & dump)
  }
 
  int numbio = 0;
- bionic_id biotype;
+ std::string biotype;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {
   dump >> biotype >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
   biotmp.id = biotype;
   my_bionics.push_back(biotmp);
+ }
+ if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
+    add_bionic("bio_earplugs");
  }
 
  int nummor;
@@ -1660,17 +1643,26 @@ void player::load_legacy(std::stringstream & dump)
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  active_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            active_missions.push_back( miss );
+        }
  }
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  completed_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            completed_missions.push_back( miss );
+        }
  }
  dump >> nummis;
  for (int i = 0; i < nummis; i++) {
   dump >> mistmp;
-  failed_missions.push_back(mistmp);
+        const auto miss = mission::find( mistmp );
+        if( miss != nullptr ) {
+            failed_missions.push_back( miss );
+        }
  }
 
  stats & pstats = *lifetime_stats();
@@ -1701,6 +1693,171 @@ void player::load_legacy(std::stringstream & dump)
   }
  }
 
+namespace std {
+  template <>
+  struct hash<talk_topic_enum> {
+      std::size_t operator()(const talk_topic_enum& k) const {
+          return k; // the most trivial hash of them all
+      }
+  };
+}
+
+std::string convert_talk_topic( talk_topic_enum const old_value )
+{
+    static const std::unordered_map<talk_topic_enum, std::string> talk_topic_enum_mapping = { {
+// This macro creates the appropriate new names (as string) for each enum value, so one does not
+// have to repeat so much (e.g. 'WRAP(TALK_ARSONIST)' instead of '{ TALK_ARSONIST, "TALK_ARSONIST" }')
+// It also ensures that each name is exactly as the name of the enum value.
+#define WRAP(value) { value, #value }
+ WRAP(TALK_NONE),
+ WRAP(TALK_DONE),
+ WRAP(TALK_GUARD),
+ WRAP(TALK_MISSION_LIST),
+ WRAP(TALK_MISSION_LIST_ASSIGNED),
+ WRAP(TALK_MISSION_DESCRIBE),
+ WRAP(TALK_MISSION_OFFER),
+ WRAP(TALK_MISSION_ACCEPTED),
+ WRAP(TALK_MISSION_REJECTED),
+ WRAP(TALK_MISSION_ADVICE),
+ WRAP(TALK_MISSION_INQUIRE),
+ WRAP(TALK_MISSION_SUCCESS),
+ WRAP(TALK_MISSION_SUCCESS_LIE),
+ WRAP(TALK_MISSION_FAILURE),
+ WRAP(TALK_MISSION_REWARD),
+ WRAP(TALK_EVAC_MERCHANT),
+ WRAP(TALK_EVAC_MERCHANT_NEW),
+ WRAP(TALK_EVAC_MERCHANT_PLANS),
+ WRAP(TALK_EVAC_MERCHANT_PLANS2),
+ WRAP(TALK_EVAC_MERCHANT_PLANS3),
+ WRAP(TALK_EVAC_MERCHANT_WORLD),
+ WRAP(TALK_EVAC_MERCHANT_HORDES),
+ WRAP(TALK_EVAC_MERCHANT_PRIME_LOOT),
+ WRAP(TALK_EVAC_MERCHANT_ASK_JOIN),
+ WRAP(TALK_EVAC_MERCHANT_NO),
+ WRAP(TALK_EVAC_MERCHANT_HELL_NO),
+ WRAP(TALK_FREE_MERCHANT_STOCKS),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_NEW),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_WHY),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_ALL),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_JERKY),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_CORNMEAL),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_FLOUR),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_SUGAR),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_WINE),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_BEER),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_SMMEAT),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_SMFISH),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_OIL),
+ WRAP(TALK_FREE_MERCHANT_STOCKS_DELIVERED),
+ WRAP(TALK_EVAC_GUARD1),
+ WRAP(TALK_EVAC_GUARD1_PLACE),
+ WRAP(TALK_EVAC_GUARD1_GOVERNMENT),
+ WRAP(TALK_EVAC_GUARD1_TRADE),
+ WRAP(TALK_EVAC_GUARD1_JOIN),
+ WRAP(TALK_EVAC_GUARD1_JOIN2),
+ WRAP(TALK_EVAC_GUARD1_JOIN3),
+ WRAP(TALK_EVAC_GUARD1_ATTITUDE),
+ WRAP(TALK_EVAC_GUARD1_JOB),
+ WRAP(TALK_EVAC_GUARD1_OLDGUARD),
+ WRAP(TALK_EVAC_GUARD1_BYE),
+ WRAP(TALK_EVAC_GUARD2),
+ WRAP(TALK_EVAC_GUARD2_NEW),
+ WRAP(TALK_EVAC_GUARD2_RULES),
+ WRAP(TALK_EVAC_GUARD2_RULES_BASEMENT),
+ WRAP(TALK_EVAC_GUARD2_WHO),
+ WRAP(TALK_EVAC_GUARD2_TRADE),
+ WRAP(TALK_EVAC_GUARD3),
+ WRAP(TALK_EVAC_GUARD3_NEW),
+ WRAP(TALK_EVAC_GUARD3_RULES),
+ WRAP(TALK_EVAC_GUARD3_HIDE1),
+ WRAP(TALK_EVAC_GUARD3_HIDE2),
+ WRAP(TALK_EVAC_GUARD3_WASTE),
+ WRAP(TALK_EVAC_GUARD3_DEAD),
+ WRAP(TALK_EVAC_GUARD3_HOSTILE),
+ WRAP(TALK_EVAC_GUARD3_INSULT),
+ WRAP(TALK_EVAC_HUNTER),
+ WRAP(TALK_EVAC_HUNTER_SMELL),
+ WRAP(TALK_EVAC_HUNTER_DO),
+ WRAP(TALK_EVAC_HUNTER_LIFE),
+ WRAP(TALK_EVAC_HUNTER_HUNT),
+ WRAP(TALK_EVAC_HUNTER_SALE),
+ WRAP(TALK_EVAC_HUNTER_ADVICE),
+ WRAP(TALK_EVAC_HUNTER_BYE),
+ WRAP(TALK_OLD_GUARD_REP),
+ WRAP(TALK_OLD_GUARD_REP_NEW),
+ WRAP(TALK_OLD_GUARD_REP_NEW_DOING),
+ WRAP(TALK_OLD_GUARD_REP_NEW_DOWNSIDE),
+ WRAP(TALK_OLD_GUARD_REP_WORLD),
+ WRAP(TALK_OLD_GUARD_REP_WORLD_2NDFLEET),
+ WRAP(TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS),
+ WRAP(TALK_OLD_GUARD_REP_ASK_JOIN),
+ WRAP(TALK_ARSONIST),
+ WRAP(TALK_ARSONIST_NEW),
+ WRAP(TALK_ARSONIST_DOING),
+ WRAP(TALK_ARSONIST_DOING_REBAR),
+ WRAP(TALK_ARSONIST_WORLD),
+ WRAP(TALK_ARSONIST_WORLD_OPTIMISTIC),
+ WRAP(TALK_ARSONIST_JOIN),
+ WRAP(TALK_ARSONIST_MUTATION),
+ WRAP(TALK_ARSONIST_MUTATION_INSULT),
+ WRAP(TALK_SCAVENGER_MERC),
+ WRAP(TALK_SCAVENGER_MERC_NEW),
+ WRAP(TALK_SCAVENGER_MERC_TIPS),
+ WRAP(TALK_SCAVENGER_MERC_HIRE),
+ WRAP(TALK_SCAVENGER_MERC_HIRE_SUCCESS),
+ WRAP(TALK_OLD_GUARD_SOLDIER),
+ WRAP(TALK_OLD_GUARD_NEC_CPT),
+ WRAP(TALK_OLD_GUARD_NEC_CPT_GOAL),
+ WRAP(TALK_OLD_GUARD_NEC_CPT_VAULT),
+ WRAP(TALK_OLD_GUARD_NEC_COMMO),
+ WRAP(TALK_OLD_GUARD_NEC_COMMO_GOAL),
+ WRAP(TALK_OLD_GUARD_NEC_COMMO_FREQ),
+ WRAP(TALK_SHELTER),
+ WRAP(TALK_SHELTER_PLANS),
+ WRAP(TALK_SHARE_EQUIPMENT),
+ WRAP(TALK_GIVE_EQUIPMENT),
+ WRAP(TALK_DENY_EQUIPMENT),
+ WRAP(TALK_TRAIN),
+ WRAP(TALK_TRAIN_START),
+ WRAP(TALK_TRAIN_FORCE),
+ WRAP(TALK_SUGGEST_FOLLOW),
+ WRAP(TALK_AGREE_FOLLOW),
+ WRAP(TALK_DENY_FOLLOW),
+ WRAP(TALK_SHOPKEEP),
+ WRAP(TALK_LEADER),
+ WRAP(TALK_LEAVE),
+ WRAP(TALK_PLAYER_LEADS),
+ WRAP(TALK_LEADER_STAYS),
+ WRAP(TALK_HOW_MUCH_FURTHER),
+ WRAP(TALK_FRIEND),
+ WRAP(TALK_FRIEND_GUARD),
+ WRAP(TALK_DENY_GUARD),
+ WRAP(TALK_DENY_TRAIN),
+ WRAP(TALK_DENY_PERSONAL),
+ WRAP(TALK_FRIEND_UNCOMFORTABLE),
+ WRAP(TALK_COMBAT_COMMANDS),
+ WRAP(TALK_COMBAT_ENGAGEMENT),
+ WRAP(TALK_STRANGER_NEUTRAL),
+ WRAP(TALK_STRANGER_WARY),
+ WRAP(TALK_STRANGER_SCARED),
+ WRAP(TALK_STRANGER_FRIENDLY),
+ WRAP(TALK_STRANGER_AGGRESSIVE),
+ WRAP(TALK_MUG),
+ WRAP(TALK_DESCRIBE_MISSION),
+ WRAP(TALK_WEAPON_DROPPED),
+ WRAP(TALK_DEMAND_LEAVE),
+ WRAP(TALK_SIZE_UP),
+ WRAP(TALK_LOOK_AT),
+ WRAP(TALK_OPINION)
+} };
+#undef WRAP
+    auto const iter = talk_topic_enum_mapping.find( old_value );
+    if( iter == talk_topic_enum_mapping.end() ) {
+        debugmsg( "could not convert %d to new talk topic string", static_cast<int>( old_value ) );
+        return "TALK_NONE";
+    }
+    return iter->second;
+}
 
 ///// npc.h
 void npc::load_legacy(std::stringstream & dump) {
@@ -1734,10 +1891,13 @@ void npc::load_legacy(std::stringstream & dump) {
  myclass = npc_class(classtmp);
 
  std::string sTemp = "";
- for( size_t i = 0; i < traits.size(); i++ ) {
+    const auto mut_count = mutation_branch::get_all().size();
+ for( size_t i = 0; i < mut_count; i++ ) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
+    } else if( !mutation_branch::has( sTemp ) ) {
+        debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), sTemp.c_str() );
     } else {
         my_traits.insert(sTemp);
     }
@@ -1749,23 +1909,20 @@ void npc::load_legacy(std::stringstream & dump) {
      dump >> skillLevel( skill );
  }
 
- itype_id tmpstyle;
+ std::string tmpstyle;
  int numstyle;
  dump >> numstyle;
  for (int i = 0; i < numstyle; i++) {
   dump >> tmpstyle;
-  ma_styles.push_back(tmpstyle);
+  ma_styles.push_back( matype_id( tmpstyle ) );
  }
 
  int typetmp;
  std::string disease_type_tmp;
  int numill;
  dump >> numill;
- disease illtmp;
  for (int i = 0; i < numill; i++) {
-  dump >> disease_type_tmp >> illtmp.duration;
-  illtmp.type = disease_type_tmp;
-  illness.push_back(illtmp);
+  dump >> disease_type_tmp >> typetmp;
  }
  int numadd;
  addiction addtmp;
@@ -1775,23 +1932,29 @@ void npc::load_legacy(std::stringstream & dump) {
   addtmp.type = add_type(typetmp);
   addictions.push_back(addtmp);
  }
- bionic_id tmpbionic;
+ std::string tmpbionic;
  int numbio;
  bionic biotmp;
  dump >> numbio;
  for (int i = 0; i < numbio; i++) {
   dump >> tmpbionic >> biotmp.invlet >> biotmp.powered >> biotmp.charge;
-  biotmp.id = bionic_id(tmpbionic);
+  biotmp.id = std::string(tmpbionic);
   my_bionics.push_back(biotmp);
  }
 // Special NPC stuff
  int misstmp, flagstmp, tmpatt, agg, bra, col, alt;
  int omx, omy;
- dump >> agg >> bra >> col >> alt >> wandx >> wandy >> wandf >> omx >> omy >>
-         mapz >> mapx >> mapy >> plx >> ply >> goal.x >> goal.y >> goal.z >> misstmp >>
-         flagstmp >> fac_id >> tmpatt;
+ dump >> agg >> bra >> col >> alt >> 
+         wander_pos.x >> wander_pos.y >> wander_time >> 
+         omx >> omy >>
+         position.z >> mapx >> mapy >>
+         last_player_seen_pos.x >> last_player_seen_pos.y >> 
+         goal.x >> goal.y >> goal.z >> 
+         misstmp >> flagstmp >> fac_id >> tmpatt;
  mapx += omx * OMAPX * 2;
  mapy += omy * OMAPY * 2;
+ wander_pos.z = posz();
+ last_player_seen_pos.z = posz();
  personality.aggression = agg;
  personality.bravery = bra;
  personality.collector = col;
@@ -1830,21 +1993,28 @@ void npc::load_legacy(std::stringstream & dump) {
 
  void npc_chatbin::load_legacy(std::stringstream &info)
  {
-  int tmpsize_miss, tmpsize_assigned, tmptopic;
+  int tmpsize_miss, tmpsize_assigned, tmptopic, tmpmission_selected, tempvalue;
   std::string skill_ident;
-  info >> tmptopic >> mission_selected >> tempvalue >> skill_ident >>
+  info >> tmptopic >> tmpmission_selected >> tempvalue >> skill_ident >>
           tmpsize_miss >> tmpsize_assigned;
-  first_topic = talk_topic(tmptopic);
+    mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
+  first_topic = convert_talk_topic( talk_topic_enum(tmptopic) );
   skill = skill_ident == "none" ? NULL : Skill::skill(skill_ident);
   for (int i = 0; i < tmpsize_miss; i++) {
    int tmpmiss;
    info >> tmpmiss;
-   missions.push_back(tmpmiss);
+        const auto miss = mission::find( tmpmiss );
+        if( miss != nullptr ) {
+            missions.push_back( miss );
+        }
   }
   for (int i = 0; i < tmpsize_assigned; i++) {
    int tmpmiss;
    info >> tmpmiss;
-   missions_assigned.push_back(tmpmiss);
+        const auto miss = mission::find( tmpmiss );
+        if( miss != nullptr ) {
+            missions_assigned.push_back( miss );
+        }
   }
  }
 
@@ -1878,16 +2048,19 @@ std::istream& operator>>(std::istream& is, SkillLevel& obj) {
 
 void monster::load_legacy(std::stringstream & dump) {
     int idtmp, plansize, speed, faction_dummy;
-    dump >> idtmp >> position.x >> position.y >> wandx >> wandy >> wandf >> moves >> speed >>
-         hp >> sp_timeout[0] >> plansize >> friendly >> faction_dummy >> mission_id >>
-         no_extra_death_drops >> dead >> anger >> morale;
+    dump >> idtmp >> position.x >> position.y >> wander_pos.x >> wander_pos.y >> wandf
+         >> moves >> speed >> hp >> sp_timeout[0] >> plansize >> friendly
+         >> faction_dummy >> mission_id >> no_extra_death_drops >> dead >> anger >> morale;
 
+    wander_pos.z = g->get_levz();
+    position.z = g->get_levz();
     // load->int->str->int (possibly shifted)
     type = GetMType( legacy_mon_id[idtmp] );
 
     Creature::set_speed_base( speed );
 
-    point ptmp;
+    tripoint ptmp;
+    ptmp.z = g->get_levz();
     plans.clear();
     for (int i = 0; i < plansize; i++) {
         dump >> ptmp.x >> ptmp.y;
@@ -1902,7 +2075,7 @@ void item::load_legacy(std::stringstream & dump) {
     clear();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
-	int owned; // Ignoring an obsolete member. 
+    int owned; // Ignoring an obsolete member. 
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {
@@ -1951,17 +2124,19 @@ void item::load_legacy(std::stringstream & dump) {
 // Matches vpart_id integers from old saves (ranging from 72260f0 2013-08-22 onward, including 0.8)
 // This never changes, unless things get renamed / removed.
 //
-const std::string legacy_vpart_id[74] = {"null", "seat", "saddle", "bed", "frame_horizontal", "frame_vertical",
-    "frame_cross", "frame_nw", "frame_ne", "frame_se", "frame_sw", "frame_horizontal_2", "frame_vertical_2",
-    "frame_cover", "frame_handle", "board_horizontal", "board_vertical", "board_nw", "board_ne", "board_se",
-    "board_sw", "aisle_horizontal", "aisle_vertical", "trunk_floor", "roof", "door", "door_opaque",
-    "door_internal", "windshield", "blade_horizontal", "blade_vertical", "spike", "wheel", "wheel_wide",
-    "wheel_underbody", "wheel_bicycle", "wheel_motorbike", "wheel_small", "wheel_caster", "engine_1cyl",
-    "engine_vtwin", "engine_inline4", "engine_v6", "engine_v8", "engine_electric", "engine_electric_large",
-    "engine_plasma", "foot_pedals", "gas_tank", "storage_battery", "minireactor", "hydrogen_tank", "water_tank",
-    "trunk", "box", "controls", "muffler", "seatbelt", "solar_panel", "kitchen_unit", "welding_rig", "m249",
-    "flamethrower", "plasma_gun", "fusion_gun", "plating_steel", "plating_superalloy", "plating_spiked",
-    "plating_hard", "headlight", "reinforced_windshield", "horn_bicycle", "horn_car", "horn_big"};
+const vpart_str_id legacy_vpart_id[74] = {
+    vpart_str_id{"null"}, vpart_str_id{"seat"}, vpart_str_id{"saddle"}, vpart_str_id{"bed"}, vpart_str_id{"frame_horizontal"}, vpart_str_id{"frame_vertical"},
+    vpart_str_id{"frame_cross"}, vpart_str_id{"frame_nw"}, vpart_str_id{"frame_ne"}, vpart_str_id{"frame_se"}, vpart_str_id{"frame_sw"}, vpart_str_id{"frame_horizontal_2"}, vpart_str_id{"frame_vertical_2"},
+    vpart_str_id{"frame_cover"}, vpart_str_id{"frame_handle"}, vpart_str_id{"board_horizontal"}, vpart_str_id{"board_vertical"}, vpart_str_id{"board_nw"}, vpart_str_id{"board_ne"}, vpart_str_id{"board_se"},
+    vpart_str_id{"board_sw"}, vpart_str_id{"aisle_horizontal"}, vpart_str_id{"aisle_vertical"}, vpart_str_id{"trunk_floor"}, vpart_str_id{"roof"}, vpart_str_id{"door"}, vpart_str_id{"door_opaque"},
+    vpart_str_id{"door_internal"}, vpart_str_id{"windshield"}, vpart_str_id{"blade_horizontal"}, vpart_str_id{"blade_vertical"}, vpart_str_id{"spike"}, vpart_str_id{"wheel"}, vpart_str_id{"wheel_wide"},
+    vpart_str_id{"wheel_underbody"}, vpart_str_id{"wheel_bicycle"}, vpart_str_id{"wheel_motorbike"}, vpart_str_id{"wheel_small"}, vpart_str_id{"wheel_caster"}, vpart_str_id{"engine_1cyl"},
+    vpart_str_id{"engine_vtwin"}, vpart_str_id{"engine_inline4"}, vpart_str_id{"engine_v6"}, vpart_str_id{"engine_v8"}, vpart_str_id{"engine_electric"}, vpart_str_id{"engine_electric_large"},
+    vpart_str_id{"engine_plasma"}, vpart_str_id{"foot_pedals"}, vpart_str_id{"gas_tank"}, vpart_str_id{"storage_battery"}, vpart_str_id{"minireactor"}, vpart_str_id{"hydrogen_tank"}, vpart_str_id{"water_tank"},
+    vpart_str_id{"trunk"}, vpart_str_id{"box"}, vpart_str_id{"controls"}, vpart_str_id{"muffler"}, vpart_str_id{"seatbelt"}, vpart_str_id{"solar_panel"}, vpart_str_id{"kitchen_unit"}, vpart_str_id{"welding_rig"}, vpart_str_id{"m249"},
+    vpart_str_id{"flamethrower"}, vpart_str_id{"plasma_gun"}, vpart_str_id{"fusion_gun"}, vpart_str_id{"plating_steel"}, vpart_str_id{"plating_superalloy"}, vpart_str_id{"plating_spiked"},
+    vpart_str_id{"plating_hard"}, vpart_str_id{"headlight"}, vpart_str_id{"reinforced_windshield"}, vpart_str_id{"horn_bicycle"}, vpart_str_id{"horn_car"}, vpart_str_id{"horn_big"}
+};
 
 void vehicle::load_legacy(std::ifstream &stin) {
     int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
@@ -1995,7 +2170,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
         stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
-        new_part.setid(legacy_vpart_id[ pid ]);
+        new_part.set_id(legacy_vpart_id[ pid ]);
         new_part.mount.x = pdx;
         new_part.mount.y = pdy;
         new_part.hp = php;
@@ -2038,22 +2213,29 @@ void vehicle::load_legacy(std::ifstream &stin) {
     getline(stin, databuff); // Clear EoL
 }
 
+void mission::unserialize_legacy( std::istream &fin )
+{
+    int num_missions;
+    fin >> num_missions;
+    if( fin.peek() == '\n' ) {
+        char junk;
+        fin.get( junk );    // Chomp that pesky endline
+    }
+    for( int i = 0; i < num_missions; i++ ) {
+        mission tmpmiss;
+        tmpmiss.load_info( fin );
+        active_missions[tmpmiss.uid] = tmpmiss;
+    }
+}
 
 bool game::unserialize_master_legacy(std::ifstream & fin) {
 // First, get the next ID numbers for each of these
  std::string data;
  char junk;
  fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_factions;
+ int num_factions;
 
- fin >> num_missions;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_missions; i++) {
-  mission tmpmiss;
-  tmpmiss.load_info(fin);
-  active_missions.push_back(tmpmiss);
- }
+    mission::unserialize_legacy( fin );
 
  fin >> num_factions;
  if (fin.peek() == '\n')

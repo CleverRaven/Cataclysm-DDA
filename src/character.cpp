@@ -1,5 +1,10 @@
 #include "character.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
+#include "mission.h"
+#include "translations.h"
+#include "options.h"
 
 Character::Character()
 {
@@ -9,6 +14,14 @@ Character::Character()
 
 field_id Character::bloodType() const
 {
+    if (has_trait("ACIDBLOOD"))
+        return fd_acid;
+    if (has_trait("THRESH_PLANT"))
+        return fd_blood_veggy;
+    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
+        return fd_blood_insect;
+    if (has_trait("THRESH_CEPHALOPOD"))
+        return fd_blood_invertebrate;
     return fd_blood;
 }
 field_id Character::gibType() const
@@ -105,27 +118,6 @@ bool Character::move_effects()
         }
         return false;
     }
-    if (has_effect("amigara")) {
-        int curdist = 999, newdist = 999;
-        for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
-            for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (g->m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < curdist) {
-                        curdist = dist;
-                    }
-                    dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < newdist) {
-                        newdist = dist;
-                    }
-                }
-            }
-        }
-        if (newdist > curdist) {
-            add_msg_if_player(m_info, _("You cannot pull yourself away from the faultline..."));
-            return false;
-        }
-    }
     // Below this point are things that allow for movement if they succeed
 
     // Currently we only have one thing that forces movement if you succeed, should we get more
@@ -142,9 +134,10 @@ bool Character::move_effects()
     }
     return Creature::move_effects();
 }
-void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Character::add_effect( efftype_id eff_id, int dur, body_part bp, 
+                            bool permanent, int intensity, bool force )
 {
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
 void Character::recalc_hp()
@@ -217,7 +210,7 @@ void Character::recalc_sight_limits()
     sight_boost_cap = 0;
 
     // Set sight_max.
-    if (has_effect("blind")) {
+    if (has_effect("blind") || worn_with_flag("BLIND")) {
         sight_max = 0;
     } else if (has_effect("in_pit") ||
             (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
@@ -269,7 +262,7 @@ void Character::recalc_sight_limits()
     }
 }
 
-bool Character::has_bionic(const bionic_id & b) const
+bool Character::has_bionic(const std::string & b) const
 {
     for (auto &i : my_bionics) {
         if (i.id == b) {
@@ -279,7 +272,7 @@ bool Character::has_bionic(const bionic_id & b) const
     return false;
 }
 
-bool Character::has_active_bionic(const bionic_id & b) const
+bool Character::has_active_bionic(const std::string & b) const
 {
     for (auto &i : my_bionics) {
         if (i.id == b) {
@@ -474,11 +467,15 @@ int Character::volume_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume(int volume) const
+bool Character::can_pickVolume( int volume, bool safe ) const
 {
-    return (volume_carried() + volume <= volume_capacity());
+    if( !safe ) {
+        return volume_carried() + volume <= volume_capacity();
+    } else {
+        return volume_carried() + volume <= volume_capacity() - 2;
+    }
 }
-bool Character::can_pickWeight(int weight, bool safe) const
+bool Character::can_pickWeight( int weight, bool safe ) const
 {
     if (!safe)
     {
@@ -546,17 +543,29 @@ SkillLevel& Character::skillLevel(const Skill* _skill)
     return _skills[_skill];
 }
 
-SkillLevel Character::get_skill_level(const Skill* _skill) const
+SkillLevel& Character::skillLevel(Skill const &_skill)
+{
+    return skillLevel(&_skill);
+}
+
+SkillLevel const& Character::get_skill_level(const Skill* _skill) const
 {
     for( const auto &elem : _skills ) {
         if( elem.first == _skill ) {
             return elem.second;
         }
     }
-    return SkillLevel();
+
+    static SkillLevel const dummy_result;
+    return dummy_result;
 }
 
-SkillLevel Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const Skill &_skill) const
+{
+    return get_skill_level(&_skill);
+}
+
+SkillLevel const& Character::get_skill_level(const std::string &ident) const
 {
     const Skill* sk = Skill::skill(ident);
     return get_skill_level(sk);
@@ -577,6 +586,18 @@ void Character::die(Creature* nkiller)
 {
     set_killer( nkiller );
     set_turn_died(int(calendar::turn));
+    if( has_effect( "lightsnare" ) ) {
+        inv.add_item( item( "string_36", 0 ) );
+        inv.add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "heavysnare" ) ) {
+        inv.add_item( item( "rope_6", 0 ) );
+        inv.add_item( item( "snare_trigger", 0 ) );
+    }
+    if( has_effect( "beartrap" ) ) {
+        inv.add_item( item( "beartrap", 0 ) );
+    }
+    mission::on_creature_death( *this );
 }
 
 void Character::reset_stats()

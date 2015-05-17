@@ -1,5 +1,7 @@
 #include "gamemode.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
@@ -7,6 +9,12 @@
 #include "monstergenerator.h"
 #include "construction.h"
 #include "messages.h"
+#include "rng.h"
+#include "mongroup.h"
+#include "translations.h"
+#include "input.h"
+#include "overmap.h"
+
 #include <string>
 #include <vector>
 #include <ostream>
@@ -86,7 +94,6 @@ bool defense_game::init()
     g->u.cash = initial_cash;
     popup_nowait(_("Please wait as the map generates [ 0%%]"));
     // TODO: support multiple defence games? clean up old defence game
-    g->cur_om = &overmap_buffer.get(0, 0);
     init_map();
     caravan();
     return true;
@@ -126,29 +133,29 @@ void defense_game::pre_action(action_id &act)
 
     // Big ugly block for movement
     if ((act == ACTION_MOVE_N && g->u.posy() == SEEX * int(MAPSIZE / 2) &&
-         g->levy <= 93) ||
+         g->get_levy() <= 93) ||
         (act == ACTION_MOVE_NE && ((g->u.posy() == SEEY * int(MAPSIZE / 2) &&
-                                    g->levy <=  93) ||
+                                    g->get_levy() <=  93) ||
                                    (g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->levx >= 98))) ||
+                                    g->get_levx() >= 98))) ||
         (act == ACTION_MOVE_E && g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
-         g->levx >= 98) ||
+         g->get_levx() >= 98) ||
         (act == ACTION_MOVE_SE && ((g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->levy >= 98) ||
+                                    g->get_levy() >= 98) ||
                                    (g->u.posx() == SEEX * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->levx >= 98))) ||
+                                    g->get_levx() >= 98))) ||
         (act == ACTION_MOVE_S && g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
-         g->levy >= 98) ||
+         g->get_levy() >= 98) ||
         (act == ACTION_MOVE_SW && ((g->u.posy() == SEEY * (1 + int(MAPSIZE / 2)) - 1 &&
-                                    g->levy >= 98) ||
+                                    g->get_levy() >= 98) ||
                                    (g->u.posx() == SEEX * int(MAPSIZE / 2) &&
-                                    g->levx <=  93))) ||
+                                    g->get_levx() <=  93))) ||
         (act == ACTION_MOVE_W && g->u.posx() == SEEX * int(MAPSIZE / 2) &&
-         g->levx <= 93) ||
+         g->get_levx() <= 93) ||
         (act == ACTION_MOVE_NW && ((g->u.posy() == SEEY * int(MAPSIZE / 2) &&
-                                    g->levy <=  93) ||
+                                    g->get_levy() <=  93) ||
                                    (g->u.posx() == SEEX * int(MAPSIZE / 2) &&
-                                    g->levx <=  93)))) {
+                                    g->get_levx() <=  93)))) {
         add_msg(m_info, _("You cannot leave the %s behind!"),
                 defense_location_name(location).c_str());
         act = ACTION_NULL;
@@ -189,9 +196,7 @@ void defense_game::init_mtypes()
 
 void defense_game::init_constructions()
 {
-    for( auto &c : constructions ) {
-        c->time = 1; // Everything takes 1 minute
-    }
+    standardize_construction_times(1); // Everything takes 1 minute
 }
 
 void defense_game::init_recipes()
@@ -205,19 +210,13 @@ void defense_game::init_recipes()
 
 void defense_game::init_map()
 {
+    auto &starting_om = overmap_buffer.get( 0, 0 );
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
-            g->cur_om->ter(x, y, 0) = "field";
-            g->cur_om->seen(x, y, 0) = true;
+            starting_om.ter(x, y, 0) = "field";
+            starting_om.seen(x, y, 0) = true;
         }
     }
-
-    g->cur_om->save();
-    g->levx = 100;
-    g->levy = 100;
-    g->levz = 0;
-    g->u.setx( SEEX );
-    g->u.sety( SEEY );
 
     switch (location) {
     case DEFLOC_NULL:
@@ -228,49 +227,50 @@ void defense_game::init_map()
     case DEFLOC_HOSPITAL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                g->cur_om->ter(x, y, 0) = "hospital";
+                starting_om.ter(x, y, 0) = "hospital";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "hospital_entrance";
+        starting_om.ter(50, 49, 0) = "hospital_entrance";
         break;
 
     case DEFLOC_WORKS:
         for (int x = 49; x <= 50; x++) {
             for (int y = 49; y <= 50; y++) {
-                g->cur_om->ter(x, y, 0) = "public_works";
+                starting_om.ter(x, y, 0) = "public_works";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "public_works_entrance";
+        starting_om.ter(50, 49, 0) = "public_works_entrance";
         break;
 
     case DEFLOC_MALL:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                g->cur_om->ter(x, y, 0) = "megastore";
+                starting_om.ter(x, y, 0) = "megastore";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "megastore_entrance";
+        starting_om.ter(50, 49, 0) = "megastore_entrance";
         break;
 
     case DEFLOC_BAR:
-        g->cur_om->ter(50, 50, 0) = "bar_north";
+        starting_om.ter(50, 50, 0) = "bar_north";
         break;
 
     case DEFLOC_MANSION:
         for (int x = 49; x <= 51; x++) {
             for (int y = 49; y <= 51; y++) {
-                g->cur_om->ter(x, y, 0) = "mansion";
+                starting_om.ter(x, y, 0) = "mansion";
             }
         }
-        g->cur_om->ter(50, 49, 0) = "mansion_entrance";
+        starting_om.ter(50, 49, 0) = "mansion_entrance";
         break;
     }
+    starting_om.save();
 
     // Init the map
     int old_percent = 0;
     for (int i = 0; i <= MAPSIZE * 2; i += 2) {
         for (int j = 0; j <= MAPSIZE * 2; j += 2) {
-            int mx = g->levx - MAPSIZE + i, my = g->levy - MAPSIZE + j;
+            int mx = 100 - MAPSIZE + i, my = 100 - MAPSIZE + j;
             int percent = 100 * ((j / 2 + MAPSIZE * (i / 2))) /
                           ((MAPSIZE) * (MAPSIZE + 1));
             if (percent >= old_percent + 1) {
@@ -288,26 +288,30 @@ void defense_game::init_map()
         }
     }
 
-    g->m.load(g->levx, g->levy, g->levz, true, g->cur_om);
+    g->load_map( tripoint( 100, 100, 0 ) );
+    g->u.setx( SEEX );
+    g->u.sety( SEEY );
 
     int x = g->u.posx();
     int y = g->u.posy();
     g->update_map(x, y);
     g->u.setx(x);
     g->u.sety(y);
-    monster generator(GetMType("mon_generator"), g->u.posx() + 1, g->u.posy() + 1);
+    monster generator( GetMType("mon_generator"), 
+                       tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
-    std::vector<point> valid;
+    std::vector<tripoint> valid;
     for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
         for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-            if (generator.can_move_to(x, y) && g->is_empty(x, y)) {
-                valid.push_back( point(x, y) );
+            tripoint dest( x, y, g->u.posz() );
+            if (generator.can_move_to( dest ) && g->is_empty( dest )) {
+                valid.push_back( dest );
             }
         }
     }
     if (!valid.empty()) {
-        point p = valid[rng(0, valid.size() - 1)];
-        generator.spawn(p.x, p.y);
+        tripoint p = valid[rng(0, valid.size() - 1)];
+        generator.spawn( p );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1412,7 +1416,7 @@ void defense_game::spawn_wave_monster(mtype *type)
                 pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
             }
         }
-        if( g->is_empty( pnt.x, pnt.y ) ) {
+        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {
@@ -1420,9 +1424,8 @@ void defense_game::spawn_wave_monster(mtype *type)
             return;
         }
     }
-    monster tmp( type, pnt.x, pnt.y );
-    tmp.wandx = g->u.posx();
-    tmp.wandy = g->u.posy();
+    monster tmp( type, tripoint( pnt, g->get_levz() ) );
+    tmp.wander_pos = g->u.pos3();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

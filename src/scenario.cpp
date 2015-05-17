@@ -10,6 +10,13 @@
 #include "bionics.h"
 #include "start_location.h"
 #include "game.h"
+#include "map.h"
+#include "translations.h"
+#include "pldata.h"
+#include "addiction.h"
+#include "skill.h"
+#include "profession.h"
+#include "mutation.h"
 
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
@@ -186,7 +193,7 @@ void scenario::check_definitions()
 void check_traits( const std::set<std::string> &traits, const std::string &ident )
 {
     for( auto &t : traits ) {
-        if( ::traits.count( t ) == 0 ) {
+        if( !mutation_branch::has( t ) ) {
             debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
         }
     }

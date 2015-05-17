@@ -2,15 +2,22 @@
 
 #include "auto_pickup.h"
 #include "game.h"
+#include "map.h"
 #include "messages.h"
+#include "translations.h"
+#include "input.h"
+#include "options.h"
+#include "ui.h"
+#include "itype.h"
 
 #include <map>
 #include <vector>
+#include <cstring>
 
 // Handles interactions with a vehicle in the examine menu.
 // Returns the part number that will accept items if any, or -1 to indicate no cargo part.
 // Returns -2 if a special interaction was performed and the menu should exit.
-int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_root_part )
+int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
 {
     bool from_vehicle = false;
 
@@ -23,8 +30,9 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
     int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
+    const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
+    const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    auto here_ground = g->m.i_at(posx, posy);
     if( veh ) {
         k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
         wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
@@ -34,9 +42,13 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
         cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
         ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
         from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
+        const bool can_be_folded = veh->is_foldable();
+        const bool is_convertible = (veh->tags.count("convertible") > 0);
+        const bool remotely_controlled = g->remoteveh() == veh;
 
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
+
         if (ctrl_part >= 0) {
             menu_items.push_back(_("Control vehicle"));
             options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
@@ -47,15 +59,21 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
 
-        if(!here_ground.empty()) {
+        if( has_items_on_ground && !items_are_sealed ) {
             menu_items.push_back(_("Get items on the ground"));
             options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
+        }
+
+        if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
+            menu_items.push_back(_("Fold vehicle"));
+            options_message.push_back(uimenu_entry(_("Fold vehicle"), 'f'));
         }
 
         if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
             menu_items.push_back(_("Use the hotplate"));
             options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
         }
+
         if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water") > 0) {
             menu_items.push_back(_("Fill a container with water"));
             options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
@@ -63,10 +81,12 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             menu_items.push_back(_("Have a drink"));
             options_message.push_back(uimenu_entry(_("Have a drink"), 'd'));
         }
+
         if(w_part >= 0 && veh->fuel_left("battery") > 0) {
             menu_items.push_back(_("Use the welding rig?"));
             options_message.push_back(uimenu_entry(_("Use the welding rig?"), 'w'));
         }
+
         if(craft_part >= 0 && veh->fuel_left("battery") > 0) {
             menu_items.push_back(_("Use the water purifier?"));
             options_message.push_back(uimenu_entry(_("Use the water purifier?"), 'p'));
@@ -96,7 +116,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             if( tmp_hotplate.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
                 if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                    tmptool->invoke(&g->u, &tmp_hotplate, false, point(posx, posy));
+                    g->u.invoke_item( &tmp_hotplate );
                     tmp_hotplate.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_hotplate.charges );
                 }
@@ -133,7 +153,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             if( tmp_welder.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
                 if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                    tmptool->invoke( &g->u, &tmp_welder, false, point(posx, posy)  );
+                    g->u.invoke_item( &tmp_welder );
                     tmp_welder.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_welder.charges );
                 }
@@ -149,11 +169,16 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
             if( tmp_purifier.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                    tmptool->invoke( &g->u, &tmp_purifier, false, point(posx, posy) );
+                    g->u.invoke_item( &tmp_purifier );
                     tmp_purifier.charges -= tmptool->charges_per_use;
                     veh->refill( "battery", tmp_purifier.charges );
                 }
             }
+            return -2;
+        }
+
+        if(menu_items[choice] == _("Fold vehicle")) {
+            veh->fold_up();
             return -2;
         }
 
@@ -163,7 +188,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, int posx, int posy, int veh_roo
         }
 
         if(menu_items[choice] == _("Examine vehicle")) {
-            g->exam_vehicle(*veh, posx, posy);
+            g->exam_vehicle(*veh, pos );
             return -2;
         }
 
@@ -220,7 +245,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
     return bFoundSomething;
 }
 
-void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
+void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
                           bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
@@ -235,13 +260,14 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
         newit.invlet = '\0';
     }
 
-    if( quantity != 0 ) {
+    if( quantity != 0 && newit.count_by_charges() ) {
         // Reinserting leftovers happens after item removal to avoid stacking issues.
-        int leftover_charges = newit.charges - quantity;
-        if (leftover_charges > 0) {
-            leftovers.charges = leftover_charges;
+        leftovers.charges = newit.charges - quantity;
+        if( leftovers.charges > 0 ) {
             newit.charges = quantity;
         }
+    } else {
+        leftovers.charges = 0;
     }
 
     if( newit.made_of(LIQUID) ) {
@@ -294,7 +320,7 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
                                       newit.display_name().c_str(),
                                       g->u.weapon.display_name().c_str()) ) {
                             picked_up = true;
-                            g->m.add_item_or_charges( pickup_target.x, pickup_target.y,
+                            g->m.add_item_or_charges( pickup_target,
                                                       g->u.remove_weapon(), 1 );
                             g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
                             g->u.wield( &( g->u.i_add(newit) ) );
@@ -340,21 +366,21 @@ void Pickup::pick_one_up( const point &pickup_target, item &newit, vehicle *veh,
     }
 
     if(picked_up) {
-        Pickup::remove_from_map_or_vehicle(pickup_target.x, pickup_target.y,
+        Pickup::remove_from_map_or_vehicle(pickup_target,
                                            veh, cargo_part, moves_taken, index);
     }
-    if( quantity != 0 ) {
+    if( leftovers.charges > 0 ) {
         bool to_map = veh == nullptr;
         if( !to_map ) {
             to_map = !veh->add_item( cargo_part, leftovers );
         }
         if( to_map ) {
-            g->m.add_item_or_charges( pickup_target.x, pickup_target.y, leftovers );
+            g->m.add_item_or_charges( pickup_target, leftovers );
         }
     }
 }
 
-void Pickup::do_pickup( point pickup_target, bool from_vehicle,
+void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
                         std::list<int> &indices, std::list<int> &quantities, bool autopickup )
 {
     bool got_water = false;
@@ -364,15 +390,14 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
     bool offered_swap = false;
     // Convert from player-relative to map-relative.
-    pickup_target.x += g->u.posx();
-    pickup_target.y += g->u.posy();
+    tripoint pickup_target = pickup_target_arg + g->u.pos();
     // Map of items picked up so we can output them all at the end and
     // merge dropping items with the same name.
     PickupMap mapPickup;
 
     if( from_vehicle ) {
         int veh_root_part = -1;
-        veh = g->m.veh_at( pickup_target.x, pickup_target.y, veh_root_part );
+        veh = g->m.veh_at( pickup_target, veh_root_part );
         cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
     }
 
@@ -408,7 +433,7 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     if (got_water) {
         add_msg(m_info, _("You can't pick up a liquid!"));
     }
-    if (weight_is_okay && g->u.weight_carried() >= g->u.weight_capacity()) {
+    if (weight_is_okay && g->u.weight_carried() > g->u.weight_capacity()) {
         add_msg(m_bad, _("You're overburdened!"));
     }
     if (volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() - 2) {
@@ -416,17 +441,17 @@ void Pickup::do_pickup( point pickup_target, bool from_vehicle,
     }
 }
 
-// Pick up items at (posx, posy).
-void Pickup::pick_up(int posx, int posy, int min)
+// Pick up items at (pos).
+void Pickup::pick_up( const tripoint &pos, int min )
 {
     int veh_root_part = 0;
     int cargo_part = -1;
 
-    vehicle *veh = g->m.veh_at (posx, posy, veh_root_part);
+    vehicle *veh = g->m.veh_at (pos, veh_root_part);
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        cargo_part = interact_with_vehicle( veh, posx, posy, veh_root_part );
+        cargo_part = interact_with_vehicle( veh, pos, veh_root_part );
         from_vehicle = cargo_part >= 0;
         if( cargo_part == -2 ) {
             // -2 indicates that we already interacted with the vehicle.
@@ -434,7 +459,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
     }
 
-    if (g->m.has_flag("SEALED", posx, posy)) {
+    if (g->m.has_flag("SEALED", pos)) {
         return;
     }
 
@@ -444,13 +469,13 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = (g->m.i_at(posx, posy).empty());
+        bool isEmpty = (g->m.i_at(pos).empty());
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but water.
-        if ((!isEmpty) && g->m.furn(posx, posy) == f_toilet) {
+        if ((!isEmpty) && g->m.furn(pos) == f_toilet) {
             isEmpty = true;
-            for( auto maybe_water : g->m.i_at(posx, posy) ) {
+            for( auto maybe_water : g->m.i_at(pos) ) {
                 if( maybe_water.typeId() != "water") {
                     isEmpty = false;
                     break;
@@ -470,33 +495,32 @@ void Pickup::pick_up(int posx, int posy, int min)
         here.resize( vehitems.size() );
         std::copy( vehitems.begin(), vehitems.end(), here.begin() );
     } else {
-        auto mapitems = g->m.i_at(posx, posy);
+        auto mapitems = g->m.i_at(pos);
         here.resize( mapitems.size() );
         std::copy( mapitems.begin(), mapitems.end(), here.begin() );
     }
 
     if (min == -1) {
-        if (g->checkZone("NO_AUTO_PICKUP", posx, posy)) {
+        if (g->checkZone("NO_AUTO_PICKUP", pos.x, pos.y)) {
             here.clear();
         }
 
         // Recursively pick up adjacent items if that option is on.
-        if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.posx() == posx && g->u.posy() == posy ) {
+        if( OPTIONS["AUTO_PICKUP_ADJACENT"] && g->u.pos() == pos ) {
             //Autopickup adjacent
             direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
             for( auto &elem : adjacentDir ) {
 
-                point apos = direction_XY( elem );
-                apos.x += posx;
-                apos.y += posy;
+                tripoint apos = tripoint( direction_XY( elem ), 0 );
+                apos += pos;
 
-                if( g->m.has_flag( "SEALED", apos.x, apos.y ) ) {
+                if( g->m.has_flag( "SEALED", apos ) ) {
                     continue;
                 }
                 if( g->checkZone( "NO_AUTO_PICKUP", apos.x, apos.y ) ) {
                     continue;
                 }
-                pick_up( apos.x, apos.y, min );
+                pick_up( apos, min );
             }
         }
     }
@@ -504,7 +528,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     // Not many items, just grab them
     if ((int)here.size() <= min && min != -1) {
         g->u.assign_activity( ACT_PICKUP, 0 );
-        g->u.activity.placement = point( posx - g->u.posx(), posy - g->u.posy() );
+        g->u.activity.placement = pos - g->u.pos();
         g->u.activity.values.push_back( from_vehicle );
         // Only one item means index is 0.
         g->u.activity.values.push_back( 0 );
@@ -755,8 +779,12 @@ void Pickup::pick_up(int posx, int posy, int min)
                     } else {
                         wprintw(w_pickup, " - ");
                     }
+                    std::string item_name = here[cur_it].display_name();
+                    if (OPTIONS["ITEM_SYMBOLS"]) {
+                        item_name = string_format("%c %s", here[cur_it].symbol(), item_name.c_str());
+                    }
                     trim_and_print(w_pickup, 1 + (cur_it % maxitems), 6, pickupW - 4, icolor,
-                                   "%s", here[cur_it].display_name().c_str());
+                                   "%s", item_name.c_str());
                 }
             }
 
@@ -765,14 +793,14 @@ void Pickup::pick_up(int posx, int posy, int min)
             const char *scroll = _("[up/dn] Scroll");
             const char *mark   = _("[right] Mark");
             mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
-            mvwprintw(w_pickup, maxitems + 1, (pw - strlen(scroll)) / 2, scroll);
-            mvwprintw(w_pickup, maxitems + 1,  pw - strlen(mark),        mark);
+            mvwprintw(w_pickup, maxitems + 1, (pw - std::strlen(scroll)) / 2, scroll);
+            mvwprintw(w_pickup, maxitems + 1,  pw - std::strlen(mark),        mark);
             const char *prev = _("[pgup] Prev");
             const char *all = _("[,] All");
             const char *next   = _("[pgdn] Next");
             mvwprintw(w_pickup, maxitems + 2, 0, prev);
-            mvwprintw(w_pickup, maxitems + 2, (pw - strlen(all)) / 2, all);
-            mvwprintw(w_pickup, maxitems + 2, pw - strlen(next), next);
+            mvwprintw(w_pickup, maxitems + 2, (pw - std::strlen(all)) / 2, all);
+            mvwprintw(w_pickup, maxitems + 2, pw - std::strlen(next), next);
 
             if (update) { // Update weight & volume information
                 update = false;
@@ -780,8 +808,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                     mvwaddch(w_pickup, 0, i, ' ');
                 }
                 mvwprintz(w_pickup, 0,  9,
-                          (new_weight >= g->u.weight_capacity() ? c_red : c_white),
-                          _("Wgt %.1f"), g->u.convert_weight(new_weight));
+                          (new_weight > g->u.weight_capacity() ? c_red : c_white),
+                          _("Wgt %.1f"), g->u.convert_weight(new_weight) + 0.05); // +0.05 to round up
                 wprintz(w_pickup, c_white, "/%.1f", g->u.convert_weight(g->u.weight_capacity()));
                 mvwprintz(w_pickup, 0, 24,
                           (new_volume > g->u.volume_capacity() - 2 ? c_red : c_white),
@@ -813,7 +841,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( ACT_PICKUP, 0 );
-    g->u.activity.placement = point( posx - g->u.posx(), posy - g->u.posy() );
+    g->u.activity.placement = pos - g->u.pos();
     g->u.activity.values.push_back( from_vehicle );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
@@ -834,9 +862,9 @@ void Pickup::pick_up(int posx, int posy, int min)
 int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
 {
     //add ammo to quiver
-    int quivered = here.add_ammo_to_quiver(&g->u, true);
-    if(quivered > 0) {
-        moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
+    int quivered = g->u.add_ammo_to_worn_quiver( here );
+    if( quivered > 0 ) {
+        moves_to_decrement = 0; //moves already decremented in player::add_ammo_to_worn_quiver()
         picked_up = true;
         return quivered;
     }
@@ -845,13 +873,13 @@ int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &p
 }
 
 //helper function for Pickup::pick_up (singular item)
-void Pickup::remove_from_map_or_vehicle(int posx, int posy, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit)
+void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
+                                        int &moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );
     } else {
-        g->m.i_rem( posx, posy, curmit );
+        g->m.i_rem( pos, curmit );
     }
     g->u.moves -= moves_taken;
 }

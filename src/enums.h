@@ -1,6 +1,8 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <climits>
+#include <cassert>
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
@@ -148,18 +150,6 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-// for use in category specific inventory lists
-enum item_cat {
-    IC_NULL = 0,
-    IC_COMESTIBLE,
-    IC_AMMO,
-    IC_ARMOR,
-    IC_GUN,
-    IC_BOOK,
-    IC_TOOL,
-    IC_CONTAINER
-};
-
 enum phase_id {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
@@ -192,7 +182,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
     point &operator=(const point &) = default;
     ~point() {}
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const
+    void serialize(JsonOut &jsout) const override
     {
         jsout.start_array();
         jsout.write(x);
@@ -200,7 +190,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
         jsout.end_array();
     }
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin)
+    void deserialize(JsonIn &jsin) override
     {
         JsonArray ja = jsin.get_array();
         x = ja.get_int(0);
@@ -253,11 +243,75 @@ inline bool operator!=(const point &a, const point &b)
     return !(a == b);
 }
 
-struct tripoint {
+struct tripoint : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
     int z;
-    tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
+    tripoint() : x(0), y(0), z(0) {}
+    tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
+    tripoint(tripoint &&) = default;
+    tripoint(const tripoint &) = default;
+    tripoint &operator=(tripoint &&) = default;
+    tripoint &operator=(const tripoint &) = default;
+    explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
+    ~tripoint() {}
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const override
+    {
+        jsout.start_array();
+        jsout.write(x);
+        jsout.write(y);
+        jsout.write(z);
+        jsout.end_array();
+    }
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) override
+    {
+        JsonArray ja = jsin.get_array();
+        x = ja.get_int(0);
+        y = ja.get_int(1);
+        z = ja.get_int(2);
+    }
+    tripoint operator+(const tripoint &rhs) const
+    {
+        return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
+    }
+    tripoint operator-(const tripoint &rhs) const
+    {
+        return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
+    }
+    tripoint &operator+=(const tripoint &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        z += rhs.z;
+        return *this;
+    }
+    tripoint operator-() const
+    {
+        return tripoint( -x, -y, -z );
+    }
+    /*** some point operators and functions ***/
+    tripoint operator+(const point &rhs) const
+    {
+        return tripoint(x + rhs.x, y + rhs.y, z);
+    }
+    tripoint operator-(const point &rhs) const
+    {
+        return tripoint(x - rhs.x, y - rhs.y, z);
+    }
+    tripoint &operator+=(const point &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+    tripoint &operator-=(const point &rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        return *this;
+    }
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
@@ -294,6 +348,19 @@ inline bool operator<(const tripoint &a, const tripoint &b)
         return a.z < b.z;
     }
     return false;
+}
+
+static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+
+// turns a vector, into an array, via MAGIC(tm)
+template <typename T, std::size_t N>
+std::array<T, N> vec_to_array(const std::vector<T> &vec)
+{
+    std::array<T, N> array;
+    for(size_t i = 0; i < N; ++i) {
+        array[i] = vec[i];
+    }
+    return array;
 }
 
 #endif

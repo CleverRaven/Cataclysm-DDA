@@ -1,6 +1,8 @@
 #ifndef SOFTWARE_SOKOBAN_H
 #define SOFTWARE_SOKOBAN_H
 
+#include "cursesdef.h"
+
 #include <string>
 #include <vector>
 #include <map>

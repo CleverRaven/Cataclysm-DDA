@@ -1,9 +1,6 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include "enums.h"
-#include "json.h"
-
 #include <string>
 #include <map>
 #include <set>
@@ -11,6 +8,8 @@
 class overmap;
 class tinymap;
 class player;
+class JsonObject;
+struct tripoint;
 
 typedef std::map<std::string, class start_location> location_map;
 
@@ -32,10 +31,10 @@ class start_location
 
         /**
          * Setup the player start location on the overmaps.
-         * This sets cur_om, levc, levy, levz (members of the game class, see there).
          * It also initializes the map at that points using @ref prepare_map.
+         * @return The player start location in global, absolute overmap terrain coordinates.
          */
-        tripoint setup( overmap *&cur_om, int &levx, int &levy, int &levz ) const;
+        tripoint setup() const;
         /**
          * Place the player somewher ein th reality bubble (g->m).
          */
@@ -46,7 +45,7 @@ class start_location
          * @param rad safe radius area to prevent player spawn next to burning wall.
          * @param count number of fire on the map.
          */
-        void burn( overmap *&cur_om, tripoint &omtstart,
+        void burn( const tripoint &omtstart,
                    const size_t count, const int rad ) const;
 
     private:

@@ -46,14 +46,14 @@
                 "[": "t_fence_v",
                 ">": "t_floor",
                 "k": "t_floor",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 ":": "t_floor",
                 ".": "t_grass",
                 "E": "t_floor",
                 "n": "t_door_locked_peep",
                 "+": "t_door_c",
                 "D": "t_floor",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "B": "t_floor",
                 "7": "t_floor",
                 "S": "t_sidewalk",
@@ -80,12 +80,11 @@
                 "D": "f_trashcan",
                 "B": "f_chair",
                 "7": "f_bookcase",
-                ";": "f_toilet",
                 "@": "f_bed"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 17, "y": 18 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 1 ], "y": [ 0, 23 ], "repeat": [ 8, 14 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 2, 5 ], "y": [ 0, 7 ], "repeat": [ 8, 11 ] },
@@ -100,7 +99,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 20, 23 ], "y": [ 14, 19 ], "repeat": [ 5, 8 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 21, 23 ], "y": [ 5, 13 ], "repeat": [ 6, 9 ] }
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "dresser", "chance": 70, "x": 19,  "y": 6 },
                 { "item": "dresser", "chance": 70, "x": 13,  "y": 9 },
                 { "item": "homebooks", "chance": 100, "x": 13,  "y": 6 },
@@ -121,7 +120,9 @@
                 { "item": "livingroom", "chance": 70, "x": [ 3, 7 ],  "y": [ 13, 19 ] },
                 { "item": "cleaning", "chance": 75, "x": [ 15, 16 ],  "y": [ 17, 18 ] },
                 { "item": "dresser", "chance": 70, "x": 14,  "y": [ 14, 15 ] },
-                { "item": "kitchen", "chance": 55, "x": [ 8, 10 ],  "y": [ 13, 19 ] },
+                { "item": "kitchen", "chance": 55, "x": [ 8, 10 ],  "y": [ 13, 19 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 10, "x": [ 2, 21 ],  "y": [ 2, 21 ] }
             ]
         }

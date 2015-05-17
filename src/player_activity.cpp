@@ -1,13 +1,17 @@
 #include "player_activity.h"
 
 #include "game.h"
+#include "map.h"
+#include "construction.h"
 #include "player.h"
 #include "translations.h"
 #include "activity_handlers.h"
+#include "messages.h"
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
+void activity_on_turn_move_all_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 
@@ -22,7 +26,7 @@ player_activity::player_activity(activity_type t, int turns, int Index, int pos,
                                  std::string name_in) :
     JsonSerializer(), JsonDeserializer(), type(t), moves_left(turns), index(Index),
     position(pos), name(name_in), ignore_trivial(false), values(), str_values(),
-    placement(-1, -1), warned_of_proximity(false), auto_resume(false)
+    placement( tripoint_min ), warned_of_proximity(false), auto_resume(false)
 {
 }
 
@@ -43,9 +47,11 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop stashing?"), _(" Stop picking up?"),
         _(" Stop moving items?"),
         _(" Stop interacting with inventory?"),
+        _(" Stop fiddling with your clothes?"),
         _(" Stop lighting the fire?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"),
-        _(" Stop aiming?"), _(" Stop using the ATM?")
+        _(" Stop aiming?"), _(" Stop using the ATM?"),
+        _(" Stop trying to start the vehicle?"), _(" Stop welding?")
     };
     return stop_phrase[type];
 }
@@ -71,8 +77,11 @@ bool player_activity::is_abortable() const
         case ACT_HOTWIRE_CAR:
         case ACT_MOVE_ITEMS:
         case ACT_ADV_INVENTORY:
+        case ACT_ARMOR_LAYERS:
         case ACT_START_FIRE:
         case ACT_FILL_LIQUID:
+        case ACT_START_ENGINES:
+        case ACT_OXYTORCH:
             return true;
         default:
             return false;
@@ -98,8 +107,10 @@ bool player_activity::is_suspendable() const
         case ACT_PICKUP:
         case ACT_MOVE_ITEMS:
         case ACT_ADV_INVENTORY:
+        case ACT_ARMOR_LAYERS:
         case ACT_AIM:
         case ACT_ATM:
+        case ACT_START_ENGINES:
             return false;
         default:
             return true;
@@ -141,6 +152,13 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_AIM:
             if( index == 0 ) {
+                if( !p->weapon.is_gun() ) {
+                    // We lost our gun somehow, bail out.
+                    type = ACT_NULL;
+                    break;
+                }
+
+                g->m.build_map_cache( g->get_levz() );
                 g->plfire(false);
             }
             break;
@@ -179,9 +197,16 @@ void player_activity::do_turn( player *p )
         case ACT_MOVE_ITEMS:
             activity_on_turn_move_items();
             break;
+        case ACT_MOVE_ALL_ITEMS:
+            activity_on_turn_move_all_items();
+            break;
         case ACT_ADV_INVENTORY:
             p->cancel_activity();
             advanced_inv();
+            break;
+        case ACT_ARMOR_LAYERS:
+            p->cancel_activity();
+            p->sort_armor();
             break;
         case ACT_START_FIRE:
             moves_left -= 100; // based on time
@@ -203,7 +228,24 @@ void player_activity::do_turn( player *p )
                 p->moves -= moves_left;
                 moves_left = 0;
             }
-            iexamine::atm(p, nullptr, 0, 0);
+            iexamine::atm(p, nullptr, p->pos());
+            break;
+        case ACT_START_ENGINES:
+            moves_left -= 100;
+            p->rooted();
+            p->pause();
+            break;
+        case ACT_OXYTORCH:
+            if( p->moves <= moves_left ) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            if( values[0] > 0 ) {
+                activity_handlers::oxytorch_do_turn( this, p );
+            }
             break;
         default:
             // Based on speed, not time
@@ -247,7 +289,7 @@ void player_activity::finish( player *p )
             {
                 int batch_size = values.front();
                 p->complete_craft();
-		type = ACT_NULL;
+                type = ACT_NULL;
                 // Workaround for a bug where longcraft can be unset in complete_craft().
                 if( p->making_would_work( p->lastrecipe, batch_size ) ) {
                     p->make_all_craft( p->lastrecipe, batch_size );
@@ -303,8 +345,10 @@ void player_activity::finish( player *p )
             break;
         case ACT_PICKUP:
         case ACT_MOVE_ITEMS:
-            // Do nothing, the only way this happens is if we set this activity after
-            // entering the advanced inventory menu as an activity, and we want it to play out.
+            // Only do nothing if the item being picked up doesn't need to be equipped.
+            // If it needs to be equipped, our activity_handler::pickup_finish() does so.
+            // This is primarily used by AIM to advance moves while moving items around.
+            activity_handlers::pickup_finish(this, p);
             break;
         case ACT_START_FIRE:
             activity_handlers::start_fire_finish( this, p );
@@ -321,6 +365,14 @@ void player_activity::finish( player *p )
             if (!index) {
                 type = ACT_NULL;
             }
+            break;
+        case ACT_START_ENGINES:
+            activity_handlers::start_engines_finish( this, p );
+            type = ACT_NULL;
+            break;
+        case ACT_OXYTORCH:
+            activity_handlers::oxytorch_finish( this, p );
+            type = ACT_NULL;
             break;
         default:
             type = ACT_NULL;

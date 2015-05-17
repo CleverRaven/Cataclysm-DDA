@@ -1,6 +1,10 @@
-#include "game.h"
 #include <fstream>
 #include <vector>
+
+#include "mongroup.h"
+#include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "options.h"
 #include "monstergenerator.h"
 #include "json.h"
@@ -20,11 +24,16 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    std::string group_name, int *quantity, int turn )
-{
+    std::string group_name, int *quantity, int turn ){
     int spawn_chance = rng(1, 1000);
-    MonsterGroup group = GetMonsterGroup( group_name );
-
+    auto *groupptr = &GetMonsterGroup( group_name );
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
+        while (groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time){
+            groupptr = &GetMonsterGroup(groupptr->new_monster_group);
+        }
+    }
+    auto &group = *groupptr;
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"
@@ -180,7 +189,7 @@ bool MonsterGroupManager::isValidMonsterGroup(std::string group)
     return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
 }
 
-MonsterGroup MonsterGroupManager::GetMonsterGroup(std::string group)
+MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
 {
     std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
@@ -292,10 +301,20 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int starts = 0;
             int ends = 0;
             if(mon.has_member("starts")) {
-                starts = mon.get_int("starts");
+                if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+                    starts = mon.get_int("starts") / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+                } else {
+                    // Catch divide by zero here
+                    starts = mon.get_int("starts") / .01;
+                }
             }
             if(mon.has_member("ends")) {
-                ends = mon.get_int("ends");
+                if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+                    ends = mon.get_int("ends") / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+                } else {
+                    // Catch divide by zero here
+                    ends = mon.get_int("ends") / .01;
+                }
             }
             MonsterGroupEntry new_mon_group = MonsterGroupEntry(name, freq, cost, pack_min, pack_max, starts,
                                               ends);
@@ -305,9 +324,15 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
                     new_mon_group.conditions.push_back(conditions_arr.next_string());
                 }
             }
+
+
+
             g.monsters.push_back(new_mon_group);
         }
     }
+    g.replace_monster_group = jo.get_bool("replace_monster_group", false);
+    g.new_monster_group = jo.get_string("new_monster_group_id", "NULL");
+    g.monster_group_time = jo.get_int("replacement_time", 0);
 
     monsterGroupMap[g.name] = g;
 }

@@ -4,25 +4,26 @@
 #include "creature.h"
 #include "action.h"
 #include "inventory.h"
+#include "bionics.h"
 
 #include <map>
 
 class Character : public Creature
 {
     public:
-        virtual ~Character() override = default;
+        virtual ~Character() override { };
 
-        field_id bloodType() const;
-        field_id gibType() const;
+        field_id bloodType() const override;
+        field_id gibType() const override;
         virtual bool is_warm() const override;
         virtual const std::string &symbol() const override;
         
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects();
+        virtual bool move_effects() override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0);
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false ) override;
         
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
@@ -46,22 +47,23 @@ class Character : public Creature
         
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        virtual bool has_trait(const std::string &flag) const;
+        virtual bool has_trait(const std::string &flag) const override;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
+        /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
+        std::string trait_by_invlet( char ch ) const;
         
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
-        /** Toggles a mutation on the player */
+        /** Toggles a mutation on the player, but does not trigger mutation loss/gain effects. */
         void toggle_mutation(const std::string &flag);
-        void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str );
         
  private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
  protected:
-	/** Applies stat mods to character. */
-	void apply_mods(const std::string &mut, bool add_remove);
+        /** Applies stat mods to character. */
+        void apply_mods(const std::string &mut, bool add_remove);
  public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
@@ -72,9 +74,9 @@ class Character : public Creature
         
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
-        bool has_bionic(const bionic_id &b) const;
+        bool has_bionic(const std::string &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
-        bool has_active_bionic(const bionic_id &b) const;
+        bool has_active_bionic(const std::string &b) const;
         
         // --------------- Generic Item Stuff ---------------
 
@@ -89,6 +91,17 @@ class Character : public Creature
         static int worn_position_to_index(int position)
         {
             return -2 - position;
+        }
+
+        // checks to see if an item is worn
+        bool is_worn(const item &thing) const
+        {
+            for(const auto &elem : worn) {
+                if(&thing == &elem) {
+                    return true;
+                }
+            }
+            return false;
         }
         
         /**
@@ -135,6 +148,19 @@ class Character : public Creature
          */
         template<typename T>
         std::vector<const item *> items_with(T filter) const
+        {
+            auto result = inv.items_with( filter );
+            if( !weapon.is_null() ) {
+                inventory::items_with_recursive( result, weapon, filter );
+            }
+            for( auto &w : worn ) {
+                inventory::items_with_recursive( result, w, filter );
+            }
+            return result;
+        }
+
+        template<typename T>
+        std::vector<item *> items_with(T filter)
         {
             auto result = inv.items_with( filter );
             if( !weapon.is_null() ) {
@@ -208,9 +234,9 @@ class Character : public Creature
         
         int weight_carried() const;
         int volume_carried() const;
-        int weight_capacity() const;
+        int weight_capacity() const override;
         int volume_capacity() const;
-        bool can_pickVolume(int volume) const;
+        bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
         
         bool has_artifact_with(const art_effect_passive effect) const;
@@ -225,11 +251,13 @@ class Character : public Creature
         
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
+        SkillLevel &skillLevel(Skill const &_skill);
         SkillLevel &skillLevel(std::string ident);
 
         /** for serialization */
-        SkillLevel get_skill_level(const Skill* _skill) const;
-        SkillLevel get_skill_level(const std::string &ident) const;
+        SkillLevel const& get_skill_level(const Skill* _skill) const;
+        SkillLevel const& get_skill_level(const Skill &_skill) const;
+        SkillLevel const& get_skill_level(const std::string &ident) const;
         
         // --------------- Other Stuff ---------------
         
@@ -249,11 +277,11 @@ class Character : public Creature
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
          */
-        virtual void normalize();
-        virtual void die(Creature *nkiller);
+        virtual void normalize() override;
+        virtual void die(Creature *nkiller) override;
         
         /** Resets stats, and applies effects in an idempotent manner */
-        virtual void reset_stats();
+        virtual void reset_stats() override;
         
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -262,9 +290,9 @@ class Character : public Creature
         void empty_skills();
         /** Returns a random name from NAMES_* */
         void pick_name();
-        /** Returns the set "my_traits" */
-        std::vector<std::string> get_traits() const;
-        /** Returns the set "my_mutations" */
+        /** Get the idents of all base traits. */
+        std::vector<std::string> get_base_traits() const;
+        /** Get the idents of all traits/mutations. */
         std::vector<std::string> get_mutations() const;
         /** Empties the trait list */
         void empty_traits();
@@ -290,9 +318,34 @@ class Character : public Creature
         Character(Character &&) = default;
         Character &operator=(const Character &) = default;
         Character &operator=(Character &&) = default;
-        
+        struct trait_data : public JsonSerializer, public JsonDeserializer {
+            /** Key to select the mutation in the UI. */
+            char key = ' ';
+            /**
+             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+             * to its cost (@ref mutation_data::cost). When those costs have been paid, this
+             * is reset to @ref mutation_data::cooldown.
+             */
+            int charge = 0;
+            /** Whether the mutation is activated. */
+            bool powered = false;
+            // -- serialization stuff, see savegame_json.cpp
+            using JsonSerializer::serialize;
+            void serialize( JsonOut &json ) const override;
+            using JsonDeserializer::deserialize;
+            void deserialize( JsonIn &jsin ) override;
+        };
+        /**
+         * Traits / mutations of the character. Key is the mutation id (it's also a valid
+         * key into @ref mutation_data), the value describes the status of the mutation.
+         * If there is not entry for a mutation, the character does not have it. If the map
+         * contains the entry, the character has the mutation.
+         */
+        std::unordered_map<std::string, trait_data> my_mutations;
+        /**
+         * Contains mutation ids of the base traits.
+         */
         std::unordered_set<std::string> my_traits;
-        std::unordered_set<std::string> my_mutations;
         std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;
@@ -301,8 +354,6 @@ class Character : public Creature
         // --------------- Values ---------------
         std::map<const Skill*, SkillLevel> _skills;
 
-        std::map<std::string, char> trait_keys;
-               
         int sight_max;
         int sight_boost;
         int sight_boost_cap;

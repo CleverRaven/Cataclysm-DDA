@@ -31,9 +31,11 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Change mapsize (reality bubble size)
+#  make MAPSIZE=<size>
 # Install to system directories.
 #  make install
-# Enable lua debug support
+# Enable lua support. Required only for full-fledged mods.
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
@@ -75,7 +77,7 @@ endif
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.B
+VERSION = 0.C
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
@@ -185,6 +187,7 @@ ifeq ($(NATIVE), osx)
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
+      CXXFLAGS += -I$(shell ncursesw5-config --includedir)
       LDFLAGS += -L$(shell ncursesw5-config --libdir)
     endif
   endif
@@ -239,6 +242,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(NATIVE), win64)
     RFLAGS += -F pe-x86-64
   endif
+endif
+
+ifdef MAPSIZE
+    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
 ifdef SOUND

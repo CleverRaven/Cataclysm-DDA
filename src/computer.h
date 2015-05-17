@@ -32,6 +32,8 @@ enum computer_action {
     COMPACT_ELEVATOR_ON,
     COMPACT_AMIGARA_LOG,
     COMPACT_AMIGARA_START,
+    COMPACT_COMPLETE_MISSION,   //Completes the mission that has the same name as the computer action
+    COMPACT_REPEATER_MOD,       //Converts a terminal in a radio station into a 'repeater', locks terminal and completes mission
     COMPACT_DOWNLOAD_SOFTWARE,
     COMPACT_BLOOD_ANAL,
     COMPACT_DATA_ANAL,
@@ -39,7 +41,7 @@ enum computer_action {
     COMPACT_STEMCELL_TREATMENT,
     COMPACT_EMERG_MESS,
     COMPACT_TOWER_UNRESPONSIVE,
-    COMPACT_SR1_MESS, //Security Reminders for Hazardous Waste Sarcophagus (SRCF)
+    COMPACT_SR1_MESS,           //Security Reminders for Hazardous Waste Sarcophagus (SRCF)
     COMPACT_SR2_MESS,
     COMPACT_SR3_MESS,
     COMPACT_SR4_MESS,
@@ -125,11 +127,13 @@ class computer
         static std::vector<std::string> lab_notes;
 
         // Called by use()
-        void activate_function      (computer_action action);
+        void activate_function      (computer_action action, char ch);
         // Generally called when we fail a hack attempt
         void activate_random_failure();
         // ...but we can also choose a specific failure.
         void activate_failure       (computer_failure fail);
+
+        void remove_option( computer_action action );
 
         // OUTPUT/INPUT:
 

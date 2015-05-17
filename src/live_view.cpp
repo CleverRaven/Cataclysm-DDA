@@ -80,15 +80,18 @@ void live_view::show(const int x, const int y)
     wprintz(*this, c_green, _("Mouse View"));
     wprintz(*this, c_white, " >");
     int line = START_LINE;
+    
+    // TODO: Z
+    tripoint p( x, y, g->get_levz() );
 
-    g->print_all_tile_info(x, y, *this, START_COLUMN, line, true);
+    g->print_all_tile_info( p, *this, START_COLUMN, line, true);
 
-    if (m.can_put_items(x, y) && m.sees_some_items(x, y, g->u)) {
-        if(g->u.has_effect("blind")) {
+    if (m.can_put_items( p ) && m.sees_some_items( p, g->u)) {
+        if(g->u.has_effect("blind") || g->u.worn_with_flag("BLIND")) {
             mvwprintz(*this, line++, START_COLUMN, c_yellow,
                       _("There's something here, but you can't see what it is."));
         } else {
-            print_items(*this, m.i_at(x, y), line);
+            print_items(*this, m.i_at(p), line);
         }
     }
 

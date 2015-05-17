@@ -1,11 +1,15 @@
 #include "action.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "debug.h"
 #include "json.h"
 #include "output.h"
 #include "game.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "translations.h"
+#include "catacharset.h"
+#include "options.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>

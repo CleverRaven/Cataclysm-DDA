@@ -193,6 +193,10 @@
         "text": "This is an illustrated poster for a brand of solar car.  The vehicle is driving through a lush country side as small animals look on.  The slogan \"Improving the world, one tank at a time.\" is written across the top.  Someone used a blue pen to write \"who gives a shit\" across the slogan and put X's over the eyes of all the animals."
     },{
         "type" : "snippet",
+        "category" : "flier",
+        "text" : "This is a poster advertising a underground bunker.  The poster shows a nuclear bomb wiping out a city while a family huddles safely underground.  There a slogan \"Concerned about enemy attack?  Want to protect your family?  Join the VAULT program today.\" which is written in the middle.  However, there seems to be no information about *how* one might do so."
+	},{
+        "type" : "snippet",
         "category" : "note",
         "text" : "The Green Fever shall purge the land for His Chosen children.  I have seen His black fire shining in the eyes of the afflicted and eagerly await the day He shall consume us all.  Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn."
     },{
@@ -587,8 +591,11 @@
         "type" : "snippet",
         "category" : "note",
         "text" : "\"This thing isn't a car any more.  It's just a fucking mountain of metal on wheels, which I live in.\""
-    },
-    {
+    },{
+        "type" : "snippet",
+        "category" : "note",
+        "text" : "\"I've heard there is a underground shelter somewhere\""
+    },{
 "type": "snippet",
 "category":"newest_news", 
 "text":
@@ -603,7 +610,8 @@
  "LEAVE TO THE EXPERTS -- GENERAL: \"Do not attempt to deal with invaders yourself, our troops have the technology and the training for military action.  Loud gunfire may attract more enemy attention than you have ammo!\"", 
  "TOWNS OCCUPIED TERRITORY: FEMA officials said today \"Do not try to defend your property in towns: invaders use advanced tracking, perhaps scent.  Please retreat to your nearest evacuation center outside town and await extraction.\"",
  "PUBLIC SERVICE ANNOUNCEMENT: \"Beware Acid Rain\".  Several caustic chemicals in the air react with rain clouds to cause deadly acid rain.  No word yet on if this is a deliberate tactic or a side effect of the earlier bombings.", 
- "EDITOR SAYS \"DESTROY THE DEAD\".  Recognisable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!"]
+ "EDITOR SAYS \"DESTROY THE DEAD\".  Recognisable enemy dead left lying in the street may give away militia positions!  If you kill an enemy combatant, smash or butcher with a knife until unrecognizable!  Screw Geneva!  Protect our troops!",
+ "SOLDIERS SEEN HEADED UNDERGROUND.  Rumors abound as eyewitness see troops headed underground near a local salon.  Expert sources suggest that the soldiers may be headed to a possible underground bunker."]
 },
 
 
@@ -625,8 +633,9 @@
  "The Future...  powered by COFFEE!  Rivtech brings you the greatest revolution since espresso.  Why wait for milk to boil?  Have your coffee ready instantly with \"THE POWER OF THE ATOM\"!",
  "GLAMOPOLITAN!  We've got ALL the latest tips!  Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine!  So pick up a copy today and \"Sizzle Like A Star!\"", 
  "POPULAR MECHANICS: People say mechanics is boring.  We say, \"Prove them Wrong!\" We've got all the articles that make it interesting to talk about, so you can \"Make Mechanics Popular!\"", 
- "CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore!  Learn how to make jewelery and art from it as well!  We also discuss the correct way to use superglue without gluing your hands together!"]
-}, 
+ "CRAFTY CRAFTERS QUARTERLY: Macaroni isn't just for eating anymore!  Learn how to make jewelery and art from it as well!  We also discuss the correct way to use superglue without gluing your hands together!",
+ "UNDERGROUND BUNKER?  Sources in the government suggest that a underground bunker is being built in a secret location in case of enemy attack.  We were unable to get the exact location as our sources mysteriously disappeared shortly after revealing this information."]
+ }, 
 
 
 
@@ -696,5 +705,15 @@
 "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them Wrong!  We've got all the articles that make it interesting to talk about, so you can.  \"Make Mechanics Popular\"!", 
 "BIRDHOUSE MONTHLY...  Which wood would a woodpecker prefer?  This month we discuss hardwood versus soft woods, whether to lacquer, oil or paint, and which type of nails you should use!",
 "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine...  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those Blues away at GREENS Supermarket"]
+},
+
+{
+"type": "snippet",
+"category":"necropolis_intro",
+"text":
+ ["WELCOME HOME!  Your decision to join our family will lead you to become part of the next generation of job creators.  With us you will already have a foot in the door when it is time to rebuild the nation!",
+ "NEED A NEW JOB?  Now that you have secured a comfortable home, try looking into one of the many promising career opportunities that have positions open.  Openings such as GEOLOGICAL ENGINEERING ASSISTANT or FACILITY TECHNICIAN offer limitless growth potential!  Please contact your employment adviser if you have any questions.",
+ "GOOD WITH YOUR HANDS?  Engineering always needs another hand keeping our home in good working order!  As an incentive, everyone working on level 3 will receive additional hazardous pay and time off.  Please go to the engineering office on level 3 if you are interested.",
+ "WANT TO CONTINUE YOUR EDUCATION?  Our educational facilities are top notch and offer courses for individuals at all age groups.  Many new careers are opening up to those who are willing to learn a new craft.  Our library and research labs will keep even the hungriest minds fed!"]
 }
 ]

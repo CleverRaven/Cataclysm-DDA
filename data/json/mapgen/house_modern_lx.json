@@ -35,12 +35,12 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "#": "t_rock",
-                "2": "t_wall_glass_h",
-                "1": "t_wall_glass_v",
+                "2": "t_wall_glass",
+                "1": "t_wall_glass",
                 "3": "t_door_metal_c",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -79,7 +79,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -94,16 +93,16 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 18, "y": 21 }
-            ],
+            "toilets": {
+                ";": { }
+            },
                                         "comment": "specific things ---v",
             "add": [
                 { "item": "katana", "x": 12, "y": 10, "chance": 50 },
                 { "item": "spiral_stone", "x": 12, "y": 10, "chance": 4 }
             ],
             "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [5,6 ], "y": [19,20 ] },
                 { "item": "bedroom", "chance": 75, "x": [ 6,7 ], "y": [ 19,20 ] },
                 { "item": "livingroom", "chance": 75, "x": [ 11,15 ], "y": [ 5,8 ] },
@@ -123,7 +122,9 @@
                 { "item": "office", "chance": 30, "x": [ 11,15 ] , "y": [ 19,21 ] },
                 { "item": "oven", "chance": 50, "x": [ 17, 17 ], "y": 19 },
                 { "item": "cleaning", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] },
-                { "item": "softdrugs", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] },
+                { "item": "softdrugs", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 90, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"
