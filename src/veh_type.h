@@ -169,6 +169,8 @@ extern const vpart_str_id legacy_vpart_id[74];
  */
 class vehicle_group {
 public:
+    vehicle_group() : vehicles() {}
+
     void add_vehicle(const vproto_id &type, const int &probability) {
         vehicles.add(type, probability);
     }
