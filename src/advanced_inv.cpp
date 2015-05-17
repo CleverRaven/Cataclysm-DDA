@@ -103,12 +103,7 @@ void advanced_inventory::save_settings(bool only_panes)
 void advanced_inventory::load_settings()
 {
     bool moved = uistate.adv_inv_last_coords != g->u.pos();
-//    static const std::array<aim_location, NUM_PANES> default_areas = {
-//        {AIM_ALL, AIM_INVENTORY}
-//    };
     for(int i = 0; i < NUM_PANES; ++i) {
-//        auto location = (moved == true) ? default_areas[i] : 
-//            static_cast<aim_location>(uistate.adv_inv_area[i]);
         auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         bool is_in_vehicle = (moved == false && uistate.adv_inv_in_vehicle[i]);
@@ -393,10 +388,6 @@ struct advanced_inv_sorter {
                 } else if( d2.is_category_header() ) {
                     return false;
                 }
-                // FIXME: TESTME!!!
-                if(d1.idx != d2.idx) {
-                    return d1.idx < d2.idx;
-                }
                 break;
             case SORTBY_DAMAGE:
                 if( d1.it->damage != d2.it->damage ) {
@@ -432,7 +423,6 @@ void advanced_inventory::menu_square( uimenu *menu )
         bool in_vehicle = squares[i].can_store_in_vehicle();
         const char *bracket = (in_vehicle == true) ? "<>" : "[]";
         // always show storage option for vehicle storage, if applicable
-//        bool canputitems = (menu->entries[i - 1].enabled && (squares[i].canputitems() || in_vehicle));
         bool canputitems = (menu->entries[i - 1].enabled && squares[i].canputitems());
         nc_color bcolor = ( canputitems ? ( sel == i ? h_white : c_ltgray ) : c_dkgray );
         nc_color kcolor = ( canputitems ? ( sel == i ? h_white : c_ltgray ) : c_dkgray );
@@ -840,8 +830,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
                 item *it = &( square.get_container( in_vehicle() )->contents[0] );
-                // FIXME: TESTME for FALSE ???
-                advanced_inv_listitem ait( it, 0, 1, square.id, false );
+                advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;
                 items.push_back( ait );
@@ -1039,34 +1028,34 @@ bool advanced_inventory::move_all_items()
 
     // AIM_ALL source area routine
     if(spane.get_area() == AIM_ALL) {
-        // make a copy of the current pane for below loop
-//        auto shadow = panes[src];
-        // here we recursively call this function with each area in order to 
-        // put all items in the proper destination area, with minimal fuss
-//        auto &loc = uistate.adv_inv_aim_all_location;
-            // vehicle items for said square
-//            if(squares[loc].can_store_in_vehicle()) {
-                // either do the inverse of the pane (if it is the one we are transferring to),
-                // or just transfer the contents (if it is not the one we are transferring to)
-//                spane.set_area(squares[loc], (dpane.get_area() == loc) ? !dpane.in_vehicle() : true);
-                // add items, calculate weights and volumes... the fun stuff
-//                recalc_pane(src);
-                // then move the items to the destination area
-//                move_all_items();
-//            }
-            // same as above, but for map items
-//            spane.set_area(squares[loc++], false);
-//            recalc_pane(src);
-//            move_all_items();
-//            if(loc > AIM_NORTHEAST) {
-//                loc = 0;
-//            }
-//        }
-        // restore the pane to its former glory
-//        panes[src] = shadow;
-        // done! that was easy!
+        // future feature :-)
         popup(_("You can't do that (yet!)"));
         return false;
+        // make a copy of the current pane for below loop
+        auto shadow = panes[src];
+        // here we recursively call this function with each area in order to 
+        // put all items in the proper destination area, with minimal fuss
+        auto &loc = uistate.adv_inv_aim_all_location;
+        // vehicle items for said square
+        if(squares[loc].can_store_in_vehicle()) {
+            // either do the inverse of the pane (if it is the one we are transferring to),
+            // or just transfer the contents (if it is not the one we are transferring to)
+            spane.set_area(squares[loc], (dpane.get_area() == loc) ? !dpane.in_vehicle() : true);
+            // add items, calculate weights and volumes... the fun stuff
+            recalc_pane(src);
+            // then move the items to the destination area
+            move_all_items();
+        }
+        // same as above, but for map items
+        spane.set_area(squares[loc++], false);
+        recalc_pane(src);
+        move_all_items();
+        if(loc > AIM_NORTHEAST) {
+            loc = 0;
+        }
+        // restore the pane to its former glory
+        panes[src] = shadow;
+        // done! that was easy!
     }
 
     // Check some preconditions to quickly leave the function.
@@ -1396,10 +1385,6 @@ void advanced_inventory::display()
                             g->u.i_add( moving_item );
                         } else if( srcarea == AIM_WORN ) {
                             g->u.wear_item(&moving_item);
-//                            if( g->u.wear_item( &moving_item ) == false ) {
-//                                popup( _( "You can't wear that!" ) );
-//                                redraw = true;
-//                            }
                         }
                         continue;
                     }
@@ -1724,7 +1709,6 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-// make sure you use this responsibly! not guaranteed to remove said item!
 void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
 {
     assert( sitem.area != AIM_ALL );        // should be a specific location instead
@@ -1763,10 +1747,6 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item )
         return rc;
     } else if( destarea == AIM_WORN ) {
         g->u.wear_item(&new_item);
-//        if( ( rc = g->u.wear_item( &new_item ) ) == false ) {
-//            popup( _( "You can't wear that!" ) );
-//            redraw = true;
-//        }
         return rc;
     } else {
         advanced_inv_area &p = squares[destarea];
