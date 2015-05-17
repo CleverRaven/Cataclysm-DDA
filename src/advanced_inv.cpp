@@ -107,7 +107,7 @@ void advanced_inventory::load_settings()
         auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         bool is_in_vehicle = (moved == false && uistate.adv_inv_in_vehicle[i]);
-        panes[i].set_area(squares[location], is_in_vehicle);
+        panes[i].set_area(squares[location], is_in_vehicle || location == AIM_DRAGGED);
         panes[i].index = uistate.adv_inv_index[i];
         panes[i].filter = uistate.adv_inv_filter[i];
     }
