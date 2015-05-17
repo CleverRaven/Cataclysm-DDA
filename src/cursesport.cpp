@@ -327,9 +327,9 @@ int getnstr(char *str, int size)
 
 // Get a sequence of Unicode code points, store them in target
 // return the display width of the extracted string.
-inline int fill(char *&fmt, int &len, std::string &target)
+inline int fill(const char *&fmt, int &len, std::string &target)
 {
-    char *const start = fmt;
+    const char *const start = fmt;
     int dlen = 0; // display width
     const char *tmpptr = fmt; // pointer for UTF8_getch, which increments it
     int tmplen = len;
@@ -346,7 +346,7 @@ inline int fill(char *&fmt, int &len, std::string &target)
             // Newlines at the begin of a sequence are handled in printstring
             target.assign( " ", 1 );
             len = tmplen;
-            fmt = const_cast<char *>(tmpptr);
+            fmt = tmpptr;
             return 1; // the space
         } else if( cw == -1 ) {
             // Control character but behind some other characters, finish the sequence.
@@ -354,7 +354,7 @@ inline int fill(char *&fmt, int &len, std::string &target)
             // or by the next call to this function (replaced with a space).
             break;
         }
-        fmt = const_cast<char *>(tmpptr);
+        fmt = tmpptr;
         dlen += cw;
     }
     target.assign(start, fmt - start);
@@ -374,13 +374,14 @@ inline cursecell *cur_cell(WINDOW *win)
 }
 
 //The core printing function, prints characters to the array, and sets colors
-inline int printstring(WINDOW *win, char *fmt)
+inline int printstring(WINDOW *win, const std::string &text)
 {
     win->draw = true;
-    int len = strlen(fmt);
+    int len = text.length();
     if( len == 0 ) {
         return 1;
     }
+    const char *fmt = text.c_str();
     // avoid having an invalid cursorx, so that cur_cell will only return nullptr
     // when the bottom of the window has been reached.
     if( win->cursorx >= win->width ) {
@@ -464,7 +465,7 @@ int wprintw(WINDOW *win, const char *fmt, ...)
     va_start(args, fmt);
     const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
-    return printstring(win, printbuf.c_str());
+    return printstring(win, printbuf);
 }
 
 //Prints a formatted string to a window, moves the cursor
@@ -477,7 +478,7 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
     if (wmove(win, y, x) == 0) {
         return 0;
     }
-    return printstring(win, printbuf.c_str());
+    return printstring(win, printbuf);
 }
 
 //Prints a formatted string to the main window, moves the cursor
@@ -490,7 +491,7 @@ int mvprintw(int y, int x, const char *fmt, ...)
     if (move(y, x) == 0) {
         return 0;
     }
-    return printstring(mainwin, printbuf.c_str());
+    return printstring(mainwin, printbuf);
 }
 
 //Prints a formatted string to the main window at the current cursor
@@ -500,7 +501,7 @@ int printw(const char *fmt, ...)
     va_start(args, fmt);
     const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
-    return printstring(mainwin, printbuf.c_str());
+    return printstring(mainwin, printbuf);
 }
 
 //erases a window of all text and attributes
