@@ -12162,45 +12162,29 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if ((has_effect("blind") || worn_with_flag("BLIND")) || ((has_effect("boomered")) &&
-    !(has_trait("PER_SLIME_OK"))))
-    {
+    if( has_effect("blind") || worn_with_flag("BLIND") ||
+        (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
         return 5;
     }
-    if ( has_nv() )
-    {
-        return 1.5;
-    }
-    // flashlight is handled by the light level check below
-    if (has_active_item("lightstrip"))
-    {
+    // If we're actually a source of light, assume we can direct it where we need it.
+    if( active_light() > LIGHT_AMBIENT_LOW ) {
         return 1;
     }
-    if (LL_LIT <= g->m.light_at(posx(), posy()))
-    {
+    // Otherwise base it on the level of ambient light.
+    visibility_variables cache;
+    g->m.update_visibility_cache( cache, posz() );
+    lit_level apparent_light = g->m.apparent_light_at( pos(), cache );
+    switch( apparent_light ) {
+    case LL_LIT:
+    case LL_BRIGHT:
         return 1;
+    case LL_LOW:
+        return 3;
+    case LL_BLANK:
+    case LL_DARK:
+    case LL_BRIGHT_ONLY:
+        return 5;
     }
-
-    float vision_ii = 0;
-    if (g->m.light_at(posx(), posy()) == LL_LOW) { vision_ii = 4; }
-    else if (g->m.light_at(posx(), posy()) == LL_DARK) { vision_ii = 5; }
-
-    if (has_item_with_flag("LIGHT_2")){
-        vision_ii -= 2;
-    } else if (has_item_with_flag("LIGHT_1")){
-        vision_ii -= 1;
-    }
-
-    if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
-    else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) { vision_ii -= 2; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
-      has_trait("CEPH_VISION")) {
-        vision_ii -= 3;
-    }
-
-    if (vision_ii < 1) { vision_ii = 1; }
-    return vision_ii;
 }
 
 int player::get_wind_resistance(body_part bp) const
