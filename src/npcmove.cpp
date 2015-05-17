@@ -1155,13 +1155,13 @@ void npc::move_to( const tripoint &pt )
             bool u_see_me = g->u.sees( *this );
             int climb = dex_cur;
                 if (one_in( climb )) {
-                    if (u_see_me == true) {
-                    add_msg( m_neutral, _( "%s falls tries to climb the %1$s but slips." ), name.c_str(),
-                             ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
+                    if( u_see_me ) {
+                        add_msg( m_neutral, _( "%s falls tries to climb the %1$s but slips." ), name.c_str(),
+                                 ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                     }
                     moves -= 400;
                 } else {
-                    if (u_see_me == true) {
+                    if( u_see_me ) {
                         add_msg( m_neutral, _( "%s climbs over the %s." ), name.c_str(),
                              ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                     }
