@@ -1166,10 +1166,10 @@ void npc::move_to( const tripoint &pt )
                              ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                     }
                     moves -= (500 - (rng(0,climb) * 20));
-                    setx( x );
-                    sety( y );
+                    setx( posx());
+                    sety( posy());
                 }
-            } else if (g->m.is_bashable(x, y) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
+            } else if (g->m.is_bashable(p) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
                 moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
                 int smashskill = str_cur + weapon.type->melee_dam;
                 g->m.bash( p, smashskill );
@@ -1425,7 +1425,7 @@ void npc::pick_up_item()
     update_path( wanted_item_pos );
 
     if( path.size() > 1 ) {
-        add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]", 
+        add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
         move_to_next();
         return;
@@ -2192,7 +2192,7 @@ void npc::look_for_player(player &sought)
 
 bool npc::saw_player_recently() const
 {
-    return ( last_player_seen_pos.x >= 0 && last_player_seen_pos.x < SEEX * MAPSIZE && 
+    return ( last_player_seen_pos.x >= 0 && last_player_seen_pos.x < SEEX * MAPSIZE &&
              last_player_seen_pos.y >= 0 && last_player_seen_pos.y < SEEY * MAPSIZE &&
              last_seen_player_turn > 0 );
 }
@@ -2212,7 +2212,7 @@ void npc::reach_destination()
             if (path.size() > 1) {
                 move_to_next();    //No point recalculating the path to get home
             } else {
-                const tripoint dest( guard_pos.x - mapx * SEEX, 
+                const tripoint dest( guard_pos.x - mapx * SEEX,
                                      guard_pos.y - mapy * SEEY,
                                      guard_pos.z );
                 update_path( dest );

@@ -7031,17 +7031,17 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    bool ter_or_furn = m.has_flag_ter_or_furn( "ELECTRIFIED", smashx, smashy );
+    bool ter_or_furn = m.has_flag_ter_or_furn( "ELECTRIFIED", smashp );
     if (ter_or_furn) {
             body_part bp = random_body_part();
             if(u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, rng( 5, 20 ) ) ).total_damage() > 0) {
                 add_msg(m_bad, _("You are shocked by the %1$s!"),
-                    ter_or_furn ? m.tername(smashx, smashy).c_str() : m.furnname(smashx, smashy).c_str());
+                    ter_or_furn ? m.tername(smashp).c_str() : m.furnname(smashp).c_str());
                 u.add_effect("stunned",1,num_bp,false);
             }
     }
 
-    didit = m.bash(smashx, smashy, smashskill).first;
+    didit = m.bash(smashp, smashskill).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -10178,7 +10178,7 @@ int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                 int freed_volume_capacity, int dirx, int diry, bool to_vehicle)
 {
-    drop(dropped, dropped_worn, freed_volume_capacity, 
+    drop(dropped, dropped_worn, freed_volume_capacity,
             tripoint(dirx, diry, g->get_levz()), to_vehicle);
 }
 
@@ -12082,7 +12082,7 @@ bool game::plmove(int dx, int dy)
             }
             if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your right foot on the %s!"),
-                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
+                        m.has_flag_ter_or_furn( "ROUGH", x, y) ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
         }
@@ -12097,13 +12097,12 @@ bool game::plmove(int dx, int dy)
         }
         if( m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&
             (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
-            bool ter_or_furn = m.has_flag_ter_or_furn( "SHARP", x, y );
             body_part bp = random_body_part();
             if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                         body_part_name_accusative(bp).c_str(),
-                        m.has_flag_ter( "SHARP", x, y ); ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
+                        m.has_flag_ter( "SHARP", x, y ) ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                 u.add_effect("tetanus", 1, num_bp, true);
                 } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {

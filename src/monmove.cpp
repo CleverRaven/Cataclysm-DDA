@@ -31,10 +31,12 @@ bool monster::wander()
 bool monster::can_move_to( const tripoint &p ) const
 {
 
-    if (has_flag(MF_CLIMBS) || has_flag(MF_FLIES)) && g->m.has_flag("CLIMBABLE", x, y)) {
+    if ((has_flag(MF_CLIMBS) || has_flag(MF_FLIES)) && g->m.has_flag("CLIMBABLE", p)) {
         return true;
     }
-    if( g->m.move_cost( p ) == 0 ) {        return false;
+    if( g->m.move_cost( p ) == 0 )
+    {
+        return false;
     }
     if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
@@ -53,8 +55,7 @@ bool monster::can_move_to( const tripoint &p ) const
     // various animal behaviours
     if( has_flag( MF_ANIMAL ) ) {
         // don't enter sharp terrain unless tiny, or attacking
-        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK ||
-                                              type->size == MS_TINY ) ) {
+        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK || type->size == MS_TINY || has_flag( MF_FLIES )) ) {
             return false;
         }
 
@@ -388,7 +389,7 @@ void monster::move()
     // the plans that are not valid for travel/melee.
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     const bool can_fly = has_flag( MF_FLIES );
-    if( !plans.empty() && 
+    if( !plans.empty() &&
         ( rl_dist( pos(), plans[0] ) > 1 ||
           !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) ) {
         plans.clear();
@@ -660,10 +661,21 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
             movecost += 50 * g->m.move_cost( t );
         }
         movecost *= diag_mult / 2;
+        } else if (has_flag(MF_CLIMBS) ) {
+        if (g->m.has_flag("CLIMBABLE", f)) {
+            movecost += 150;
+        } else {
+            movecost += 50 * g->m.move_cost( f );
+        }
+        if (g->m.has_flag("CLIMBABLE", t)) {
+            movecost += 150;
+        } else {
+            movecost += 50 * g->m.move_cost( t );
+        }
+        movecost *= diag_mult / 2;
         // All others use the same calculation as the player
-    } else if (has_flag(MF_CLIMBS) && g->m.has_flag("CLIMBABLE", x1, y1)) {
-        movecost += 150;
-    }   else {
+    } else {
+
         movecost = ( g->m.combined_movecost( f, t ) );
     }
 
@@ -719,13 +731,13 @@ bool monster::bash_at( const tripoint &p )
 
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( p );
-        bool ter_or_furn = g->m.has_flag_ter_or_furn("ELECTRIFIED", x, y);
+        bool ter_or_furn = g->m.has_flag_ter_or_furn("ELECTRIFIED", p);
         if (ter_or_furn && not has_flag(MF_ELECTRIC)) {
             if(deal_damage( nullptr, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 15 ) ) ).total_damage() > 0) {
-                sounds::sound(x, y, 30, _("You hear a crackle of electricity."));
+                sounds::sound(p, 30, _("You hear a crackle of electricity."));
                 if (g->u.sees( *this )){
                     add_msg(_("The %s is shocked by the %1$s."), name().c_str(),
-                            ter_or_furn ? g->m.tername(x, y).c_str() : g->m.furnname(x, y).c_str());
+                            ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                 }
             }
         }
@@ -864,21 +876,21 @@ bool monster::attack_at( const tripoint &p )
 bool monster::move_to( const tripoint &p, bool force )
 {
     //Allows climbing monsters to move on terrain with movecost <= 0
-    if (g->m.has_flag("CLIMBABLE", x, y) {
-        if if(!g->is_empty(x, y) {
-            if has_flag (MF_FLIES) {
+    if (g->m.has_flag("CLIMBABLE", p)) {
+        if (!g->is_empty(p)) {
+            if (has_flag (MF_FLIES)) {
                 moves -= 100;
                 force = true;
                 if (g->u.sees( *this )){
                     add_msg(_("The %s flies over the %s."), name().c_str(),
-                    g->m.has_flag_furn("CLIMBABLE", x, y) ? g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str());
+                    g->m.has_flag_furn("CLIMBABLE", p) ? g->m.furnname(p).c_str() : g->m.tername(p).c_str());
                 }
-            } else if has_flag(MF_CLIMBS) {
+            } else if (has_flag(MF_CLIMBS)) {
                 moves -= 150;
                 force = true;
                 if (g->u.sees( *this )){
                     add_msg(_("The %s climbs over the %s."), name().c_str(),
-                    g->m.has_flag_furn("CLIMBABLE", x, y) ? g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str());
+                    g->m.has_flag_furn("CLIMBABLE", p) ? g->m.furnname(p).c_str() : g->m.tername(p).c_str());
                 }
             }
         }
