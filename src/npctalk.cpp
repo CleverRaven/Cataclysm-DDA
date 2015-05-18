@@ -2013,7 +2013,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
             if (g->u.has_trait("PROF_FED")){
                 for( auto miss : g->u.get_active_missions() ) {
-                    if( miss->name() == "Locate Commo Team"){
+                    if( miss->name() == "Locate Commo Team" && !p->has_effect(_("gave_quest_item"))){
                         add_response( _("[MISSION] The captain sent me to get a frequency list from you."),
                                           "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                     }
@@ -2034,6 +2034,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO_FREQ" ) {
             popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
             g->u.i_add( item("necropolis_freq", 0) );
+            p->add_effect("gave_quest_item", 9999);
             add_response( _("Thanks."), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_SCAVENGER_MERC" ) {
@@ -2137,7 +2138,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
             for( auto miss : g->u.get_active_missions() ) {
-                if( miss->name() == "Retrieve Prospectus"){
+                if( miss->name() == "Retrieve Prospectus" && !p->has_effect(_("gave_quest_item"))){
                     add_response( _("[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you."), "TALK_RANCH_FOREMAN_PROSPECTUS" );
                 }
             }
@@ -2153,6 +2154,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
             popup(_("%s gives you a %s"), p->name.c_str(), item("commune_prospectus", 0).tname().c_str());
             g->u.i_add( item("commune_prospectus", 0) );
+            p->add_effect("gave_quest_item", 9999);
             add_response( _("Thanks."), "TALK_RANCH_FOREMAN" );
     } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
             add_response( _("How many refugees are you expecting?"), "TALK_RANCH_FOREMAN_REFUGEES" );
