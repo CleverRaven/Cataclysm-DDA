@@ -5511,28 +5511,27 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
     int charge_mult = 1;
-    bool success = false;
+    const itype *am_type = turret_data.gun.get_curammo();
+    long charges_left = charges;
+    // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
+    const bool success = manual ?
+        manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
+        automatic_fire_turret( p, *gun.type, *am_type, charges_left );
     if( turret_data.source == turret_ammo_data::TANK ) {
-        const itype *am_type = turret_data.gun.get_curammo();
-        long charges_left = charges;
-        // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
-        success = manual ?
-            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
-            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
         if( success ) {
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
             drain( turret_data.ammo->id, charges_consumed );
         }
-    } else {
-        auto items = get_items( p );
-        const itype *am_type = turret_data.gun.get_curammo();
-        long charges_left = charges;
-        success = manual ?
-            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
-            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+    } else if( turret_data.source == turret_ammo_data::NONE ) {
         if( success ) {
+            // no conventional ammo is consumed, UPS-power may have been consumed in
+            // automatic_fire_turret or manual_fire_turret
+        }
+    } else {
+        if( success ) {
+            auto items = get_items( p );
             // consume ammo
             long charges_consumed = charges - charges_left;
             charges_consumed *= charge_mult;
