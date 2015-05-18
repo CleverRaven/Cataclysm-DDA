@@ -2321,7 +2321,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("..."), "TALK_RANCH_BARKEEP" );
     } else if( topic == "TALK_RANCH_BARBER" ) {
             add_response( _("What is your job here?"), "TALK_RANCH_BARBER_JOB" );
-            add_response( _("I'm looking for information..."), "TALK_RANCH_BARBER_HIRE" );
+            add_response( _("Do you need any help?"), "TALK_RANCH_BARBER_HIRE" );
             if (g->u.cash >= 500){
                 add_response( _("[$5] I'll have a shave"), "TALK_RANCH_BARBER_CUT" );
                 SUCCESS_ACTION(&talk_function::buy_shave);
