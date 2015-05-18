@@ -167,10 +167,10 @@ void mission_start::place_caravan_ambush( mission *miss )
     tripoint site = target_om_ter_random( "field", 1, miss, false );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_vehicle( "cube_van", SEEX, SEEY, 0 );
-    bay.add_vehicle( "quad_bike", SEEX + 6, SEEY - 5, 270, 500, -1, true );
-    bay.add_vehicle( "motorcycle", SEEX - 2, SEEY - 9, 315, 500, -1, true );
-    bay.add_vehicle( "motorcycle", SEEX - 5, SEEY - 5, 90, 500, -1, true );
+    bay.add_vehicle( vproto_id("cube_van"), SEEX, SEEY, 0 );
+    bay.add_vehicle( vproto_id("quad_bike"), SEEX + 6, SEEY - 5, 270, 500, -1, true );
+    bay.add_vehicle( vproto_id("motorcycle"), SEEX - 2, SEEY - 9, 315, 500, -1, true );
+    bay.add_vehicle( vproto_id("motorcycle"), SEEX - 5, SEEY - 5, 90, 500, -1, true );
     bay.draw_square_ter( t_grass, SEEX - 6, SEEY - 9, SEEX + 6, SEEY + 3 );
     bay.draw_square_ter( t_dirt, SEEX - 4, SEEY - 7, SEEX + 3, SEEY + 1 );
     bay.furn_set( SEEX, SEEY - 4, f_ash );
@@ -754,7 +754,7 @@ void mission_start::ranch_construct_3(mission *miss)
  site = target_om_ter_random("ranch_camp_56", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
- bay.add_vehicle("hippie_van", 13, 20, 270);
+ bay.add_vehicle(vproto_id("hippie_van"), 13, 20, 270);
  bay.save();
  site = target_om_ter_random("ranch_camp_67", 1, miss, false);
 }
@@ -791,7 +791,7 @@ void mission_start::ranch_construct_4(mission *miss)
  bay.save();
  site = target_om_ter_random("ranch_camp_56", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.add_vehicle("flatbed_truck", 20, 8, 135);
+ bay.add_vehicle(vproto_id("flatbed_truck"), 20, 8, 135);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_67", 1, miss, false);
@@ -813,7 +813,7 @@ void mission_start::ranch_construct_5(mission *miss)
  bay.save();
  site = target_om_ter_random("ranch_camp_56", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.add_vehicle("car_chassis", 17, 11, 90);
+ bay.add_vehicle(vproto_id("car_chassis"), 17, 11, 90);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_58", 1, miss, false);
@@ -1047,20 +1047,20 @@ void mission_start::ranch_construct_11(mission *miss)
  site = target_om_ter_random("ranch_camp_61", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
- bay.add_vehicle("car", 1, 20, 270);
- bay.add_vehicle("flatbed_truck", 10, 23, 270);
+ bay.add_vehicle(vproto_id("car"), 1, 20, 270);
+ bay.add_vehicle(vproto_id("flatbed_truck"), 10, 23, 270);
 
- bay.add_vehicle("car_sports", 3, 9, 90);
- bay.add_vehicle("cube_van_cheap", 10, 10, 90);
+ bay.add_vehicle(vproto_id("car_sports"), 3, 9, 90);
+ bay.add_vehicle(vproto_id("cube_van_cheap"), 10, 10, 90);
  bay.save();
 
  //Start expanding vehicle wall
  site = target_om_ter_random("ranch_camp_69", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
- bay.add_vehicle("car_chassis", 3, 14, 0);
- bay.add_vehicle("pickup", 8, 15, 0);
- bay.add_vehicle("schoolbus", 22, 13, 135);
+ bay.add_vehicle(vproto_id("car_chassis"), 3, 14, 0);
+ bay.add_vehicle(vproto_id("pickup"), 8, 15, 0);
+ bay.add_vehicle(vproto_id("schoolbus"), 22, 13, 135);
  bay.save();
 
 
@@ -1077,7 +1077,7 @@ void mission_start::ranch_construct_12(mission *miss)
  bay.draw_square_ter(t_dirtfloor, 0, 11, 16, 16);
  bay.draw_square_ter(t_dirtfloor, 6, 19, 8, 20);
  bay.draw_square_ter(t_dirtfloor, 10, 19, 12, 20);
- bay.add_vehicle("armored_car", 7, 15, 180);
+ bay.add_vehicle(vproto_id("armored_car"), 7, 15, 180);
  bay.draw_square_furn(f_rack, 3,10,5,10);
  bay.draw_square_furn(f_counter, 9,10,12,10);
  bay.draw_square_furn(f_rack, 10,19,10,20);
@@ -1104,7 +1104,7 @@ void mission_start::ranch_construct_12(mission *miss)
  //Continue expanding vehicle wall
  site = target_om_ter_random("ranch_camp_69", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.add_vehicle("cube_van", 13, 15, 180);
+ bay.add_vehicle(vproto_id("cube_van"), 13, 15, 180);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_67", 1, miss, false);
@@ -1130,7 +1130,7 @@ void mission_start::ranch_construct_13(mission *miss)
  site = target_om_ter_random("ranch_camp_70", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.translate(t_underbrush, t_dirt);
- bay.add_vehicle("car_mini", 8, 3, 45);
+ bay.add_vehicle(vproto_id("car_mini"), 8, 3, 45);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_66", 1, miss, false);
@@ -1189,7 +1189,7 @@ void mission_start::ranch_construct_14(mission *miss)
  //Continue expanding vehicle wall
  site = target_om_ter_random("ranch_camp_61", 1, miss, false);
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.add_vehicle("ambulance", 14, 4, 90);
+ bay.add_vehicle(vproto_id("ambulance"), 14, 4, 90);
  bay.save();
 
  site = target_om_ter_random("ranch_camp_67", 1, miss, false);
@@ -1467,7 +1467,7 @@ void mission_start::ranch_scavenger_2(mission *miss)
  tripoint site = target_om_ter_random("ranch_camp_48", 1, miss, false);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
- bay.add_vehicle("car_chassis", 20, 15, 0);
+ bay.add_vehicle(vproto_id("car_chassis"), 20, 15, 0);
  bay.draw_square_ter(t_wall_half, 18, 19, 21, 22);
  bay.draw_square_ter(t_dirt, 19, 20, 20, 21);
  bay.ter_set( 19, 19, t_door_frame);
