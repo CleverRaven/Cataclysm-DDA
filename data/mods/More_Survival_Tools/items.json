@@ -131,7 +131,7 @@
     "contains": 3,
     "rigid": true,
     "watertight": true,
-    "seals": true
+    "seals": true,
     "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
     {
