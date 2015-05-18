@@ -187,7 +187,7 @@
         "encumbrance" : 12,
         "bashing" : -5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "OUTER", "VARSIZE"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
         "material_thickness" : 2
     },
     {
