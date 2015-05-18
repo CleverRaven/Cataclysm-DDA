@@ -39,8 +39,9 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
-    auto &transparency_cache = get_cache( zlev ).transparency_cache;
-    if( !transparency_cache_dirty ) {
+    auto &ch = get_cache( zlev );
+    auto &transparency_cache = ch.transparency_cache;
+    if( !ch.transparency_cache_dirty ) {
         return;
     }
 
@@ -110,7 +111,7 @@ void map::build_transparency_cache( const int zlev )
             }
         }
     }
-    transparency_cache_dirty = false;
+    ch.transparency_cache_dirty = false;
 }
 
 void map::apply_character_light( const player &p )
@@ -435,8 +436,7 @@ float map::ambient_light_at(int dx, int dy)
         return 0.0f;
     }
 
-    auto &lm = get_cache( abs_sub.z ).lm;
-    return lm[dx][dy];
+    return get_cache( abs_sub.z ).lm[dx][dy];
 }
 
 bool map::trans(const int x, const int y) const
@@ -446,8 +446,7 @@ bool map::trans(const int x, const int y) const
 
 float map::light_transparency(const int x, const int y) const
 {
-    auto &transparency_cache = get_cache( abs_sub.z ).transparency_cache;
-  return transparency_cache[x][y];
+    return get_cache( abs_sub.z ).transparency_cache[x][y];
 }
 
 // Tile light/transparency: 3D

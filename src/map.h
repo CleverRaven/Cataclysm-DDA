@@ -1101,10 +1101,6 @@ protected:
 private:
     field& get_field( const tripoint &p );
 
- int cached_zlev; // Z-level for which all the caches were calculated
- bool transparency_cache_dirty;
- bool outside_cache_dirty;
-
         /**
          * Get the submap pointer with given index in @ref grid, the index must be valid!
          */

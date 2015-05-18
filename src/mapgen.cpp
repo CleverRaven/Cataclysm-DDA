@@ -11567,7 +11567,6 @@ vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, cons
         debugmsg("Out of bounds add_vehicle t=%s d=%d x=%d y=%d", type.c_str(), dir, x, y);
         return NULL;
     }
-    // debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
 
     const int smx = x / SEEX;
     const int smy = y / SEEY;
@@ -11584,14 +11583,14 @@ vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, cons
     veh->precalc_mounts( 0, dir );
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
-
+//debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
     if(placed_vehicle != NULL) {
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
         place_on_submap->vehicles.push_back(placed_vehicle);
 
-        auto &ch = get_cache( abs_sub.z );
+        auto &ch = get_cache( placed_vehicle->smz );
         ch.vehicle_list.insert(placed_vehicle);
         update_vehicle_cache(placed_vehicle, true);
 

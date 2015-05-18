@@ -189,8 +189,17 @@ void map::reset_vehicle_cache( const int zlev )
 
 void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
 {
-    auto ch = get_cache( veh->smz );
+    if( veh == nullptr ) {
+        debugmsg( "Tried to add null vehicle to cache" );
+        return;
+    }
+
+    auto &ch = get_cache( veh->smz );
     ch.veh_in_active_range = true;
+
+    // Assert the vehicle has been added to the list before caching it
+    assert( ch.vehicle_list.find( veh ) != ch.vehicle_list.end() );
+    
     if( !brand_new ) {
         // Existing must be cleared
         auto it = ch.veh_cached_parts.begin();
@@ -227,7 +236,7 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
 
 void map::clear_vehicle_cache( const int zlev )
 {
-    auto ch = get_cache( zlev );
+    auto &ch = get_cache( zlev );
     while( !ch.veh_cached_parts.empty() ) {
         const auto part = ch.veh_cached_parts.begin();
         const auto &p = part->first;
@@ -240,7 +249,7 @@ void map::clear_vehicle_cache( const int zlev )
 
 void map::clear_vehicle_list( const int zlev )
 {
-    auto ch = get_cache( zlev );
+    auto &ch = get_cache( zlev );
     ch.vehicle_list.clear();
 }
 
@@ -886,7 +895,7 @@ const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
 const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
-    const auto ch = get_cache( p.z );
+    const auto &ch = get_cache( p.z );
     if( !ch.veh_in_active_range || !ch.veh_exists_at[p.x][p.y] ) {
         part_num = 0;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
@@ -6567,7 +6576,8 @@ long map::determine_wall_corner( const tripoint &p ) const
 
 void map::build_outside_cache( const int zlev )
 {
-    if( !outside_cache_dirty ) {
+    auto &ch = get_cache( zlev );
+    if( !ch.outside_cache_dirty ) {
         return;
     }
 
@@ -6577,7 +6587,7 @@ void map::build_outside_cache( const int zlev )
     const size_t padded_h = ( my_MAPSIZE * SEEY ) + 2;
     bool padded_cache[padded_w][padded_h];
 
-    auto &outside_cache = get_cache( zlev ).outside_cache;
+    auto &outside_cache = ch.outside_cache;
     if( zlev < 0 )
     {
         std::uninitialized_fill_n(
@@ -6617,7 +6627,7 @@ void map::build_outside_cache( const int zlev )
         std::copy_n( &padded_cache[x + 1][1], my_MAPSIZE * SEEX, &outside_cache[x][0] );
     }
 
-    outside_cache_dirty = false;
+    ch.outside_cache_dirty = false;
 }
 
 void map::build_map_cache( const int zlev )
