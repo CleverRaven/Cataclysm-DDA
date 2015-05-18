@@ -484,8 +484,7 @@ float map::ambient_light_at( const tripoint &p )
         return 0.0f;
     }
 
-    auto &lm = get_cache( p.z ).lm;
-    return lm[p.x][p.y];
+    return get_cache( p.z ).lm[p.x][p.y];
 }
 
 bool map::trans( const tripoint &p ) const
@@ -495,8 +494,7 @@ bool map::trans( const tripoint &p ) const
 
 float map::light_transparency( const tripoint &p ) const
 {
-    auto &transparency_cache = get_cache( p.z ).transparency_cache;
-    return transparency_cache[p.x][p.y];
+    return get_cache( p.z ).transparency_cache[p.x][p.y];
 }
 
 // End of tile light/transparency
@@ -511,8 +509,7 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
-    auto &seen_cache = get_cache( abs_sub.z ).seen_cache;
-    return seen_cache[tx][ty];
+    return get_cache( abs_sub.z ).seen_cache[tx][ty];
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -525,8 +522,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    auto &seen_cache = get_cache( t.z ).seen_cache;
-    return seen_cache[t.x][t.y];
+    return get_cache( t.z ).seen_cache[t.x][t.y];
 }
 
 /**
@@ -544,8 +540,9 @@ bool map::pl_sees( const tripoint &t, const int max_range )
  */
 void map::build_seen_cache(const tripoint &origin)
 {
-    auto &transparency_cache = get_cache( origin.z ).transparency_cache;
-    auto &seen_cache = get_cache( origin.z ).seen_cache;
+    auto &ch = get_cache( origin.z );
+    float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.transparency_cache;
+    bool (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.seen_cache;
 
     std::memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[origin.x][origin.y] = true;
@@ -563,7 +560,7 @@ void map::build_seen_cache(const tripoint &origin)
     castLight<-1, 0, 0, -1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
     int part;
-    if ( vehicle *veh = veh_at( origin.x, origin.y, part ) ) {
+    if ( vehicle *veh = veh_at( origin, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
         std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection

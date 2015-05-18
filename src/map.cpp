@@ -5844,6 +5844,8 @@ void map::shift( const int sx, const int sy )
 
     shift_traps( tripoint( sx, sy, 0 ) );
 
+    vehicle *remoteveh = g->remoteveh();
+
     const int zmin = zlevels ? -OVERMAP_DEPTH : wz;
     const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
     for( int gridz = zmin; gridz < zmax; gridz++ ) {
@@ -5853,13 +5855,11 @@ void map::shift( const int sx, const int sy )
         }
     }
 
-// Clear vehicle list and rebuild after shift
-    vehicle *remoteveh = g->remoteveh();
-
 // Shift the map sx submaps to the right and sy submaps down.
 // sx and sy should never be bigger than +/-1.
 // absx and absy are our position in the world, for saving/loading purposes.
-    for( int gridz = zmin; gridz < zmax; gridz++ ) {
+    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+        // Clear vehicle list and rebuild after shift
         clear_vehicle_cache( gridz );
         get_cache( gridz ).vehicle_list.clear();
         if (sx >= 0) {

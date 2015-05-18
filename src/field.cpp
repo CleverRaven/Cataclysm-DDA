@@ -572,11 +572,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 field_entry * cur = &it->second;
                 // The field might have been killed by processing a neighbour field
                 if( !cur->isAlive() ) {
-                    current_submap->field_count--;
-                    curfield.removeField( it++ );
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         dirty_transparency_cache = true;
                     }
+                    current_submap->field_count--;
+                    curfield.removeField( it++ );
                     continue;
                 }
 
