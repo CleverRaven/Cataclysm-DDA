@@ -99,6 +99,10 @@ class vehicle::turret_ammo_data {
 public:
     /** Usable charges, may be 0 if there are none. */
     long charges = 0L;
+    /**
+     * Cached instance of the turret gun. It is always valid and set to the actual turret gun.
+     */
+    item gun;
     /** Init the struct based on a turret at the given vehicle part of the given vehicle. */
     turret_ammo_data( const vehicle &veh, int part );
 };
@@ -5346,9 +5350,12 @@ vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
 }
 
 vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part )
+: gun( veh.part_info( part ).item, 0 )
 {
     long ammo_for = LONG_MAX;
-    const item gun( veh.part_info( part ).item, 0 );
+    if( !gun.is_gun() ) {
+        return;
+    }
     // UPS power
     const auto &gun_data = *gun.type->gun;
     const long power = veh.fuel_left( fuel_type_battery );
@@ -5392,11 +5399,6 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    const item gun( part_info( p ).item, 0 );
-    if( !gun.is_gun() ) {
-        return false;
-    }
-
     auto &target = parts[p].target;
     // Don't let manual-only turrets aim
     if( !manual && part_flag( p, "MANUAL" ) ) {
@@ -5427,6 +5429,12 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
+    const auto turret_data = turret_has_ammo( p );
+    const item &gun = turret_data.gun;
+    if( !gun.is_gun() ) {
+        return false;
+    }
+
     // Check for available power for turrets that use it.
     const auto &gun_data = *gun.type->gun;
     const int power = fuel_left( fuel_type_battery );
@@ -5452,7 +5460,6 @@ bool vehicle::fire_turret( int p, bool manual )
             charges = abs( parts[p].mode ); // Currently only limiting, not increasing
         }
     }
-    const auto turret_data = turret_has_ammo( p );
     charges = std::min( charges, turret_data.charges );
     if( charges <= 0 ) {
         if( manual ) {
