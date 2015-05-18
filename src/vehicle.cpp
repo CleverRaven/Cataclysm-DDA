@@ -116,6 +116,8 @@ private:
         CARGO,
         NONE,
     } source = NONE;
+    /** TODO: document me */
+    int charge_mult = 1;
 public:
     /**
      * We can not fire because the gun needs UPS charges, but there is not enough battery power
@@ -5381,7 +5383,6 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     }
 
     const itype_id &amt = veh.part_info( part ).fuel_type;
-    int charge_mult = 1;
 
     // NO_AMMO guns don't have specific ammo type that could be consumed after firing, (therefor
     // source NONE). They should (theoretically) require UPS charges, but that is checked above
@@ -5514,7 +5515,6 @@ bool vehicle::fire_turret( int p, bool manual )
 
         return false;
     }
-    int charge_mult = 1;
     const itype *am_type = turret_data.gun.get_curammo();
     long charges_left = charges;
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
@@ -5522,7 +5522,7 @@ bool vehicle::fire_turret( int p, bool manual )
         manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
         automatic_fire_turret( p, *gun.type, *am_type, charges_left );
     if( success ) {
-        turret_data.consume( *this, p, ( charges - charges_left ) * charge_mult );
+        turret_data.consume( *this, p, charges - charges_left );
     }
 
     // If manual, we need to know if the shot was actually executed
@@ -5533,13 +5533,13 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
 {
     switch( source ) {
         case TANK:
-            veh.drain( ammo->id, charges_consumed );
+            veh.drain( ammo->id, charges_consumed * charge_mult );
             break;
         case CARGO:
             {
                 auto items = veh.get_items( part );
                 item &ammo_item = items.front();
-                ammo_item.charges -= charges_consumed;
+                ammo_item.charges -= charges_consumed * charge_mult;
                 if( ammo_item.charges <= 0 ) {
                     items.erase( items.begin() );
                 }
