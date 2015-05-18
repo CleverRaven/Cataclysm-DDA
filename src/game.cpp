@@ -6810,8 +6810,9 @@ bool game::revive_corpse( const tripoint &p, const item &it )
     if( !ret ) {
         debugmsg( "Couldn't add a revived monster" );
     }
-
-    m.i_rem(p, const_cast<item*>(&it));
+    if( ret && mon_at( p ) == -1 ) {
+        debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
+    }
     return ret;
 }
 

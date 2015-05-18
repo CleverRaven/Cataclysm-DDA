@@ -212,8 +212,18 @@ class game
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
-        /** Revives the corpse at p by item pointer. Caller handles item deletion. */
-        bool revive_corpse( const tripoint &p, const item &it );
+        /**
+         * Revives a corpse at given location. The monster type and some of its properties are
+         * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
+         * new monster there (see @ref mon_at).
+         * @param location The place where to put the revived monster.
+         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @return Whether the corpse has actually been redivided. Reviving may fail for many
+         * reasons, including no space to put the monster, corpse being to much damaged etc.
+         * If the monster was revived, the caller should remove the corpse item.
+         * If reviving failed, the item is unchanged, as is the environment (no new monsters).
+         */
+        bool revive_corpse( const tripoint &location, const item &corpse );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
