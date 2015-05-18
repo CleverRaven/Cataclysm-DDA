@@ -1696,7 +1696,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "back end of the ranch has led to an outbreak of dysentery.  As quickly as possible we need to "
                      "improve the sanitary conditions in the camp.  To do so the first step is to dig a well and "
                      "construct stone fireplaces in the barn for the migrants to boil water.  We are going to need "
-                     "at least 75 large stones from you if we hope to accomplish the task before we all get sick.  "
+                     "at least 75 large rocks from you if we hope to accomplish the task before we all get sick.  "
                      "After we have them installed you will have free access to them, guaranteed. ");
         } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("If you take a shovel to a pile of rubble you should be able to pull out structural grade stone.");
@@ -1729,7 +1729,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         } else if( state == "TALK_MISSION_ADVICE" ) {
             return _("Pipes are used in numerous metal constructions.  Smashing abandoned furniture may provide the material we need.");
         } else if( state == "TALK_MISSION_INQUIRE" ) {
-            return _("Do you have the motors?");
+            return _("Do you have the pipes?");
         } else if( state == "TALK_MISSION_SUCCESS" ) {
             return _("I appreciate the work you do.");
         } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
@@ -2323,7 +2323,7 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         if( state == "TALK_MISSION_DESCRIBE" ) {
             return _("We need help...");
         } else if( state == "TALK_MISSION_OFFER" ) {
-            return _("Clothing that can withstand the wear and tare of climbing through windows and fighting back "
+            return _("Clothing that can withstand the wear and tear of climbing through windows and fighting back "
                      "wild animals is in high demand.  The best that we have been able to field is leather body "
                      "armor but it is difficult to make with our limited resources.  Could you craft us three "
                      "pairs of leather body armor?  The life-expectancy of my scavengers would drastically increase "
