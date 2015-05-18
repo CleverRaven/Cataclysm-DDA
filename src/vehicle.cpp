@@ -103,6 +103,11 @@ public:
      * Cached instance of the turret gun. It is always valid and set to the actual turret gun.
      */
     item gun;
+    /**
+     * We can not fire because the gun needs UPS charges, but there is not enough battery power
+     * left in the vehicle. Will be false for all guns that don't need UPS charges.
+     */
+    bool is_missing_ups_charges = false;
     /** Init the struct based on a turret at the given vehicle part of the given vehicle. */
     turret_ammo_data( const vehicle &veh, int part );
 };
@@ -5356,11 +5361,15 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     if( !gun.is_gun() ) {
         return;
     }
-    // UPS power
     const auto &gun_data = *gun.type->gun;
     const long power = veh.fuel_left( fuel_type_battery );
     if( gun_data.ups_charges > 0 ) {
         ammo_for = std::min( ammo_for, power / gun_data.ups_charges );
+        if( ammo_for <= 0L ) {
+            is_missing_ups_charges = true;
+            // No point in going any further, the gun can not fire at all.
+            return;
+        }
     }
 
     const itype_id &amt = veh.part_info( part ).fuel_type;
@@ -5435,10 +5444,7 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    // Check for available power for turrets that use it.
-    const auto &gun_data = *gun.type->gun;
-    const int power = fuel_left( fuel_type_battery );
-    if( gun_data.ups_charges > 0 && gun_data.ups_charges < power ) {
+    if( turret_data.is_missing_ups_charges ) {
         if( manual ) {
             add_msg( m_bad, _("This turret is not powered") );
         }
