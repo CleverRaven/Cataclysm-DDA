@@ -2987,7 +2987,7 @@
         "size" : 10000,
         "power" : 100, "//" : "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
         "epower" : 149200,
-        "fuel_type" : "plutonium",
+        "fuel_type" : "plut_cell",
         "item" : "minireactor",
         "difficulty" : 8,
         "location" : "fuel_source",

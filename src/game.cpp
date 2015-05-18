@@ -7168,7 +7168,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The tank is full."));
         }
-    } else if (ftype == "plutonium") {
+    } else if (ftype == "plut_cell") {
         add_msg(_("You refill %s's reactor."), veh.name.c_str());
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The reactor is full."));
