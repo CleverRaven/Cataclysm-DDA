@@ -101,8 +101,20 @@ public:
     long charges = 0L;
     /**
      * Cached instance of the turret gun. It is always valid and set to the actual turret gun.
+     * If @ref charges is > 0, it is guaranteed to have a proper curammo.
      */
     item gun;
+    /** The ammo type that should be consumed when the gun has fired. Note that this may be
+     * different from the curammo of the @ref gun item (e.g. for charger guns that fire pseudo
+     * ammo, but consume battery power). It must not be used when @ref source is @ref NONE. */
+    const itype *ammo = nullptr;
+    /** Whether the @ref ammo is to be taken from a tank (using @ref vehicle::drain) or from
+     * an item in the vehicle part of the turret, or not at all (special UPS guns only). */
+    enum {
+        TANK,
+        CARGO,
+        NONE,
+    } source = NONE;
     /**
      * We can not fire because the gun needs UPS charges, but there is not enough battery power
      * left in the vehicle. Will be false for all guns that don't need UPS charges.
@@ -5073,22 +5085,14 @@ int vehicle::get_turret_range( int p, bool manual )
         return part_info( p ).range;
     }
 
-    const item gun( part_info( p ).item, 0 );
-    itype *am_itype = nullptr;
-    auto items = get_items( p );
-    if( !items.empty() && items.front().charges > 0 ) {
-        am_itype = items.front().type;
-    } else if( gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
-        am_itype = item::find_type( "charge_shot" );
-    } else if( fuel_left( part_info( p ).fuel_type ) > 0 ) {
-        am_itype = item::find_type( part_info( p ).fuel_type );
-    } else if( gun.has_flag( "NO_AMMO" ) ) {
-        am_itype = item::find_type( "generic_no_ammo" );
-    } else {
+    const auto turret_data = turret_has_ammo( p );
+    if( turret_data.charges <= 0L ) {
         // Couldn't find ammo
         return -1;
     }
 
+    const item &gun = turret_data.gun;
+    const itype *am_itype = gun.get_curammo();
     const auto ammo = am_itype->ammo.get();
     const auto &gun_data = *gun.type->gun;
     return gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
@@ -5374,17 +5378,46 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 
     const itype_id &amt = veh.part_info( part ).fuel_type;
     int charge_mult = 1;
+
+    // NO_AMMO guns don't have specific ammo type that could be consumed after firing, (therefor
+    // source NONE). They should (theoretically) require UPS charges, but that is checked above
+    // and already included in the value of ammo_for.
+    // UPS charges will be consumed directly in manual_fire_turret/automatic_fire_turret,
+    // gun needs to have a valid curamm, this is a required precondition.
+    if( gun.has_flag( "NO_AMMO" ) ) {
+        source = NONE;
+        ammo = nullptr;
+        gun.set_curammo( "generic_no_ammo" );
+        charges = ammo_for;
+        return;
+    }
+
+    // In case of charger guns, we return max charge rather than max burst.
+    // Note that charger guns have special ammo type, but they consume regular "battery" ammo from
+    // the vehicle tank, therefor ammo != gun.curammo, but both have to be valid.
+    if ( gun.is_charger_gun() ) {
+        charge_mult *= 5;
+        source = TANK;
+        ammo = item::find_type( fuel_type_battery );
+        gun.set_curammo( "charge_shot" );
+        charges = std::min( ammo_for, power / charge_mult );
+        return;
+    }
+
     long liquid_fuel = veh.fuel_left( amt ); // Items for which a fuel tank exists
     if( liquid_fuel > 0 ) {
-        // In case of charger guns, we return max charge rather than max burst
-        if ( gun.is_charger_gun() ) {
-            charge_mult *= 5;
-        }
-
         if( amt == fuel_type_plasma ) {
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
 
+        gun.set_curammo( amt );
+        if( !gun.has_curammo() ) {
+            debugmsg( "turret %s tried to use %s (which isn't an ammo type) as ammo for %s",
+                      veh.part_info( part ).id.c_str(), amt.c_str(), gun.typeId().c_str() );
+            return; // charges is still 0, so the caller won't use gun.curammo
+        }
+        ammo = gun.get_curammo();
+        source = TANK;
         charges = std::min( ammo_for, liquid_fuel / charge_mult );
         return;
     }
@@ -5400,6 +5433,9 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     }
 
     charges = std::min( ammo_for, items.front().charges );
+    gun.set_curammo( items.front() );
+    ammo = gun.get_curammo();
+    source = CARGO;
 }
 
 bool vehicle::fire_turret( int p, bool manual )
@@ -5474,17 +5510,10 @@ bool vehicle::fire_turret( int p, bool manual )
 
         return false;
     }
-    const itype_id &amt = part_info( p ).fuel_type;
     int charge_mult = 1;
-    int liquid_fuel = fuel_left( amt ); // Items for which a fuel tank exists
     bool success = false;
-    if( liquid_fuel > 1 ) {
-        itype *am_type = item::find_type( amt );
-        if( !am_type->ammo ) {
-            debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
-                      am_type->nname(1).c_str(), gun.type->nname(1).c_str() );
-            return false;
-        }
+    if( turret_data.source == turret_ammo_data::TANK ) {
+        const itype *am_type = turret_data.gun.get_curammo();
         long charges_left = charges;
         // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
         success = manual ?
@@ -5494,11 +5523,11 @@ bool vehicle::fire_turret( int p, bool manual )
             long charges_consumed = charges - charges_left;
             // consume fuel
             charges_consumed *= charge_mult;
-            drain( amt, (int)charges_consumed );
+            drain( turret_data.ammo->id, charges_consumed );
         }
     } else {
         auto items = get_items( p );
-        itype *am_type = items.front().type;
+        const itype *am_type = turret_data.gun.get_curammo();
         long charges_left = charges;
         success = manual ?
             manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
