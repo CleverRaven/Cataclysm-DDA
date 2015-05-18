@@ -1149,7 +1149,7 @@ void npc::move_to( const tripoint &pt )
             g->m.creature_in_field( *this );
         } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
             moves -= 100;
-        } else if (not g->m.has_flag_ter_or_furn( "ELECTRIFIED", p )) {
+        } else {
         bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
             if (ter_or_furn) {
             bool u_see_me = g->u.sees( *this );
@@ -1166,17 +1166,17 @@ void npc::move_to( const tripoint &pt )
                              ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                     }
                     moves -= (500 - (rng(0,climb) * 20));
-                    setx( posx());
-                    sety( posy());
+                    setx( p.x);
+                    sety( p.y);
                 }
             } else if (g->m.is_bashable(p) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
                 moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
                 int smashskill = str_cur + weapon.type->melee_dam;
                 g->m.bash( p, smashskill );
-            }
-        } else {
+            } else {
             attitude = NPCATT_FLEE;
             moves -= 100;
+            }
         }
     }
 }

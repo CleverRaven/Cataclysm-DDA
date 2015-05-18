@@ -7031,15 +7031,6 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    bool ter_or_furn = m.has_flag_ter_or_furn( "ELECTRIFIED", smashp );
-    if (ter_or_furn) {
-            body_part bp = random_body_part();
-            if(u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, rng( 5, 20 ) ) ).total_damage() > 0) {
-                add_msg(m_bad, _("You are shocked by the %1$s!"),
-                    ter_or_furn ? m.tername(smashp).c_str() : m.furnname(smashp).c_str());
-                u.add_effect("stunned",1,num_bp,false);
-            }
-    }
 
     didit = m.bash(smashp, smashskill).first;
     if (didit) {
@@ -12084,15 +12075,6 @@ bool game::plmove(int dx, int dy)
                 add_msg(m_bad, _("You hurt your right foot on the %s!"),
                         m.has_flag_ter_or_furn( "ROUGH", x, y) ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
-            }
-        }
-        if( m.has_flag("ELECTRIFIED", x, y)) {
-            bool ter_or_furn = m.has_flag_ter_or_furn( "ELECTRIFIED", x, y );
-            body_part bp = random_body_part();
-            if(u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, rng( 5, 20 ) ) ).total_damage() > 0) {
-                add_msg(m_bad, _("You are shocked by the %1$s!"),
-                    ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str());
-                u.add_effect("stunned",1,num_bp,false);
             }
         }
         if( m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&

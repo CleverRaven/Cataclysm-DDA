@@ -72,7 +72,6 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
-- ```ELECTRIFIED``` Shocks anyone moving across or trying to bash.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
 Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).

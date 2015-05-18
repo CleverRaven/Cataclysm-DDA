@@ -731,16 +731,6 @@ bool monster::bash_at( const tripoint &p )
 
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( p );
-        bool ter_or_furn = g->m.has_flag_ter_or_furn("ELECTRIFIED", p);
-        if (ter_or_furn && not has_flag(MF_ELECTRIC)) {
-            if(deal_damage( nullptr, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 15 ) ) ).total_damage() > 0) {
-                sounds::sound(p, 30, _("You hear a crackle of electricity."));
-                if (g->u.sees( *this )){
-                    add_msg(_("The %s is shocked by the %1$s."), name().c_str(),
-                            ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
-                }
-            }
-        }
         g->m.bash( p, bashskill );
         moves -= 100;
         return true;
@@ -930,13 +920,17 @@ bool monster::move_to( const tripoint &p, bool force )
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    if( type->size != MS_TINY && g->m.has_flag( "SHARP", pos3() ) && !one_in( 4 ) ) {
-        apply_damage( nullptr, bp_torso, rng( 2, 3 ) );
+    if( type->size != MS_TINY && !has_flag( MF_FLIES)) {
+        if( g->m.has_flag( "SHARP", pos3() ) && !one_in( 4 ) ) {
+            apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
+        }
+        if( g->m.has_flag( "ROUGH", pos3() ) && one_in( 6 ) ) {
+            apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
+        }
+
     }
-    if( type->size != MS_TINY && g->m.has_flag( "ROUGH", pos3() ) && one_in( 6 ) ) {
-        apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
-    }
-    if( g->m.has_flag( "UNSTABLE", p ) ) {
+
+    if( g->m.has_flag( "UNSTABLE", p ) && !has_flag( MF_FLIES) ) {
         add_effect( "bouldering", 1, num_bp, true );
     } else if( has_effect( "bouldering" ) ) {
         remove_effect( "bouldering" );
