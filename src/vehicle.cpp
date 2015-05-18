@@ -95,6 +95,12 @@ enum vehicle_controls {
  release_remote_control
 };
 
+class vehicle::turret_ammo_data {
+public:
+    /** Usable charges, may be 0 if there are none. */
+    long charges = 0L;
+};
+
 // Map stack methods.
 size_t vehicle_stack::size() const
 {
@@ -5087,7 +5093,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos 
         return turret_is_off;
     }
 
-    if( turret_has_ammo( p ) < 1 ) {
+    if( turret_has_ammo( p ).charges < 1 ) {
         return turret_no_ammo;
     }
 
@@ -5332,8 +5338,9 @@ void vehicle::cycle_global_turret_mode()
     add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
-long vehicle::turret_has_ammo( int p )
+vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
 {
+    turret_ammo_data result;
     long ammo_for = LONG_MAX;
     const item gun( part_info( p ).item, 0 );
     // UPS power
@@ -5356,20 +5363,22 @@ long vehicle::turret_has_ammo( int p )
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
 
-        return std::min( ammo_for, liquid_fuel / charge_mult );
+        result.charges = std::min( ammo_for, liquid_fuel / charge_mult );
+        return result;
     }
 
     auto items = get_items( p );
     if( items.empty() ) {
-        return 0L;
+        return result;
     }
 
     itype *am_type = items.front().type;
     if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
-        return 0L;
+        return result;
     }
 
-    return std::min( ammo_for, items.front().charges );
+    result.charges = std::min( ammo_for, items.front().charges );
+    return result;
 }
 
 bool vehicle::fire_turret( int p, bool manual )
@@ -5438,7 +5447,8 @@ bool vehicle::fire_turret( int p, bool manual )
             charges = abs( parts[p].mode ); // Currently only limiting, not increasing
         }
     }
-    charges = std::min( charges, turret_has_ammo( p ) );
+    const auto turret_data = turret_has_ammo( p );
+    charges = std::min( charges, turret_data.charges );
     if( charges <= 0 ) {
         if( manual ) {
             add_msg( m_bad, _("This turret doesn't have enough ammo") );

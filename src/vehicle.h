@@ -695,7 +695,8 @@ public:
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
-    long turret_has_ammo( int p );
+    class turret_ammo_data;
+    turret_ammo_data turret_has_ammo( int p ) const;
 
     // Manual turret aiming menu (select turrets etc.) when shooting from controls
     // Returns whether a valid target was picked
