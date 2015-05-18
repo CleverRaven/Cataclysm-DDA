@@ -131,7 +131,7 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_RANCH_FOREMAN",
-    "mission_offered" : 41,
+    "mission_offered" : 40,
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -223,7 +223,7 @@
     "attitude" : 0,
     "mission" : 7,
     "chat" : "TALK_RANCH_NURSE",
-    "mission_offered" : 58,
+    "mission_offered" : 57,
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -254,7 +254,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_RANCH_SCAVENGER_1",
-    "mission_offered" : 69,
+    "mission_offered" : 68,
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
@@ -265,7 +265,7 @@
     "attitude" : 0,
     "mission" : 3,
     "chat" : "TALK_RANCH_BARKEEP",
-    "mission_offered" : 73,
+    "mission_offered" : 72,
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
