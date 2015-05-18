@@ -38,7 +38,8 @@
       ["flint_steel", 10],
       ["tinderbox", 5],
       ["bottle_metal", 5],
-      ["tarp", 10]
+      ["tarp", 10],
+      ["cloak_wool", 5]
     ]
   },{
     "type" : "item_group",
@@ -145,7 +146,8 @@
     "id" : "allclothes",
     "items":[
       ["boxer_briefs", 20],
-      ["gloves_work", 5]
+      ["gloves_work", 5],
+      ["cloak_wool", 5]
     ]
   },{
     "type" : "item_group",
@@ -183,6 +185,18 @@
     "id" : "stash_food",
     "items":[
       ["cheese_hard", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survival_armor",
+    "items":[
+      ["cloak_wool", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "loincloth",
+    "items":[
+      ["loincloth_wool", 1]
     ]
   },{
 "type" : "item_group",
