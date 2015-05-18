@@ -5097,9 +5097,9 @@ int vehicle::get_turret_range( int p, bool manual )
 
     const item &gun = turret_data.gun;
     const itype *am_itype = gun.get_curammo();
-    const auto ammo = am_itype->ammo.get();
+    const auto &ammo_data = *am_itype->ammo;
     const auto &gun_data = *gun.type->gun;
-    return gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
+    return gun_data.range + ammo_data.range;
 }
 
 turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos )
@@ -5365,7 +5365,8 @@ vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
 vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part )
 : gun( veh.part_info( part ).item, 0 )
 {
-    long ammo_for = LONG_MAX;
+    // Start out with an infinite amount and lower it based on the available amount
+    long ammo_for = std::numeric_limits<long>::max();
     if( !gun.is_gun() ) {
         return;
     }
@@ -5507,13 +5508,9 @@ bool vehicle::fire_turret( int p, bool manual )
         if( manual ) {
             add_msg( m_bad, _("This turret is not powered") );
         }
-
         return false;
     }
-    long charges = gun.burst_size();
-    if( charges <= 0 ) {
-        charges = 1;
-    }
+    long charges = std::max( 1, turret_data.gun.burst_size() );
     if( gun.is_charger_gun() ) {
         if( one_in(100) ) {
             charges = rng( 5, 8 ); // kaboom
@@ -5537,6 +5534,7 @@ bool vehicle::fire_turret( int p, bool manual )
     long charges_left = charges;
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
     const bool success = manual ?
+    // TODO: unify those two functions.
         manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
         automatic_fire_turret( p, *gun.type, *am_type, charges_left );
     if( success ) {
