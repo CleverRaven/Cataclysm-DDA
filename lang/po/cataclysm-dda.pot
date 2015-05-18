@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-12 09:24+0300\n"
+"POT-Creation-Date: 2015-05-18 09:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11223,7 +11223,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Computer World"
-msgid_plural "Computer Worlds"
+msgid_plural "Computer World"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11234,7 +11234,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Ham Radio Illustrated"
-msgid_plural "Ham Radio Illustrateds"
+msgid_plural "Ham Radio Illustrated"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11283,7 +11283,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Trapper's Life"
-msgid_plural "Trapper's Lifes"
+msgid_plural "Trapper's Life"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11295,7 +11295,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Survival Under Atomic Attack"
-msgid_plural "Survival Under Atomic Attacks"
+msgid_plural "copies of Survival Under Atomic Attack"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11309,7 +11309,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "The Trapper's Companion"
-msgid_plural "The Trapper's Companions"
+msgid_plural "copies of The Trapper's Companion"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11433,7 +11433,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Jane's Mortars and Rocket Launchers"
-msgid_plural "Jane's Mortars and Rocket Launchers"
+msgid_plural "copies of Jane's Mortars and Rocket Launchers"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11458,7 +11458,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "The Tao of the Handgun"
-msgid_plural "The Tao of the Handguns"
+msgid_plural "copies of The Tao of the Handgun"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -11470,7 +11470,7 @@ msgstr ""
 
 #: lang/json/BOOK_from_json.py
 msgid "Modern Rifleman"
-msgid_plural "Modern Riflemans"
+msgid_plural "Modern Rifleman"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -13821,6 +13821,16 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tasty and nutritious broth made from bones."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "human broth"
+msgid_plural "human broths"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A nutritious broth made from human bones."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -17437,6 +17447,17 @@ msgid "This bone meal is useful for fertilizing plants."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "tainted bone meal"
+msgid_plural "tainted bone meals"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This bone meal made from rotten bones could be useful for fertilizing plants."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "chitin powder"
 msgid_plural "chitin powder"
 msgstr[0] ""
@@ -20787,6 +20808,18 @@ msgstr[1] ""
 msgid ""
 "Hard, dry cheese made to last, unlike modern processed cheese. Will make you "
 "thirsty though."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "campfire hot dogs"
+msgid_plural "campfire hot dogs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"The simple hot dog, cooked over an open fire. Would be better on a bun, but "
+"it's quite an improvement over eating it uncooked"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24987,6 +25020,18 @@ msgstr[1] ""
 msgid ""
 "This is a sealed glass jar containing bone broth.  Use to open and eat to "
 "enjoy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "sealed jar of human broth"
+msgid_plural "sealed jars of bone broth"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a sealed glass jar containing human bone broth.  Use to open and eat "
+"to enjoy - if you really want to."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -31647,7 +31692,7 @@ msgstr[1] ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A sickly-looking dead one. Its skin looks especially thin, with a sticky, "
-"yellow fluid flowing through the clearly visable veins."
+"yellow fluid flowing through the clearly visible veins."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31803,6 +31848,18 @@ msgstr[1] ""
 msgid ""
 "A rotund human body, bloated beyond belief and layered in rolls of fat.  It "
 "emits a horrible odor, and a putrid pink sludge dribbles from its mouth."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "huge boomer"
+msgid_plural "huge boomers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"This boomer, normally swollen and ready to burst, has strengthened and "
+"solidified. The bile dribbling from its mouth also appears to have changed..."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -42980,6 +43037,18 @@ msgid "You're covered in bile!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Glowing"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "You are covered in glowing goo!"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "You're covered in a glowing goo!"
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Stuck in Pit"
 msgstr ""
 
@@ -43761,13 +43830,14 @@ msgid "road barricade"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/map.cpp
-#: src/mapdata.cpp
+#: src/map.cpp src/mapdata.cpp
 msgid "smash!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "whump."
 msgstr ""
@@ -43831,13 +43901,11 @@ msgid "oven"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "metal screeching!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "clang!"
 msgstr ""
@@ -43959,6 +44027,23 @@ msgid "dryer"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "standing mirror"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "glass breaking"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py
+msgid "whack!"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "broken standing mirror"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "vending machine"
 msgstr ""
 
@@ -43969,12 +44054,6 @@ msgstr ""
 #: src/map.cpp
 #: src/map.cpp src/ranged.cpp
 msgid "glass breaking!"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py
-msgid "whack!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -44120,6 +44199,10 @@ msgid "thump."
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+msgid "mannequin"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
 msgid "marloss flower"
 msgstr ""
 
@@ -44170,10 +44253,6 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "display case"
-msgstr ""
-
-#: lang/json/furniture_from_json.py
-msgid "glass breaking"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -45333,7 +45412,7 @@ msgid "Toggle activate/examine"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
-msgid "Swap current bionic tab view"
+msgid "Swap bionic tab view"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/npcmove.cpp
@@ -52032,7 +52111,6 @@ msgid "LMOE shelter"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-#: lang/json/start_location_from_json.py
 msgid "science lab"
 msgstr ""
 
@@ -52416,6 +52494,10 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "jewelry store"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "laundromat"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -55883,8 +55965,8 @@ msgstr ""
 
 #: lang/json/scenario_from_json.py
 msgid ""
-"You've been locked in a lab with no way out!  Survive as long as you can!  "
-"Brag about it on the forums!  (Pics or it didn't happen)"
+"You've been locked in a lab with no (obvious) way out!  Find a way to escape "
+"or starve to death."
 msgstr ""
 
 #: lang/json/scenario_from_json.py
@@ -59019,6 +59101,22 @@ msgstr ""
 
 #: lang/json/start_location_from_json.py
 msgid "Middle of Nowhere"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "Science lab"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "Bottom of a science lab"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "Frozen science lab"
+msgstr ""
+
+#: lang/json/start_location_from_json.py
+msgid "Deep-frozen science lab"
 msgstr ""
 
 #: lang/json/start_location_from_json.py
@@ -62976,6 +63074,41 @@ msgstr ""
 msgid "mounted rm451"
 msgstr ""
 
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Clear section of road"
+msgstr ""
+
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Randomly-distributed wrecks"
+msgstr ""
+
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Parked vehicles"
+msgstr ""
+
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Jack-knifed semi"
+msgstr ""
+
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Random car pileup"
+msgstr ""
+
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Police car pileup"
+msgstr ""
+
+#. ~ Vehicle Spawn Description
+#: lang/json/vehicle_spawn_from_json.py
+msgid "Out of fuel vehicle"
+msgstr ""
+
 #: src/action.cpp src/input.cpp
 msgid "Press "
 msgstr ""
@@ -63786,11 +63919,7 @@ msgid "[R]eset"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "You have to choose a destination area."
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "You have to choose a source area."
+msgid "You can't do that (yet!)"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -63820,10 +63949,6 @@ msgstr ""
 #: src/advanced_inv.cpp
 #, c-format
 msgid "Source area is the same as destination (%s)."
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "You can't wear that!"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -64865,19 +64990,22 @@ msgstr ""
 #: src/bionics.cpp
 msgid ""
 "<color_green>Activating</color>  <color_yellow>!</color> to examine, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign."
+"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
+"<color_yellow>TAB</color> to switch tabs."
 msgstr ""
 
 #: src/bionics.cpp
 msgid ""
 "<color_red>Removing</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign."
+"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
+"<color_yellow>TAB</color> to switch tabs."
 msgstr ""
 
 #: src/bionics.cpp
 msgid ""
 "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
-"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign."
+"<color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, "
+"<color_yellow>TAB</color> to switch tabs."
 msgstr ""
 
 #: src/bionics.cpp
@@ -66750,7 +66878,7 @@ msgstr ""
 msgid "There's nowhere to pull yourself to, and you fall!"
 msgstr ""
 
-#: src/construction.cpp
+#: src/construction.cpp src/trapfunc.cpp
 msgid "You pull yourself to safety!"
 msgstr ""
 
@@ -66812,13 +66940,11 @@ msgstr ""
 msgid "You desperately throw your grappling hook!"
 msgstr ""
 
-#: src/construction.cpp src/trapfunc.cpp
+#: src/construction.cpp
 msgid "The grappling hook catches something!"
 msgstr ""
 
 #: src/construction.cpp
-#: src/construction.cpp src/trapfunc.cpp
-#: src/trapfunc.cpp
 msgid "You're not strong enough to pull yourself out..."
 msgstr ""
 
@@ -72914,6 +73040,10 @@ msgstr ""
 
 #: src/game.cpp
 msgid "You rattle the bars but the door is locked!"
+msgstr ""
+
+#: src/game.cpp
+msgid "The water washes off the glowing goo!"
 msgstr ""
 
 #: src/game.cpp
@@ -82835,14 +82965,6 @@ msgstr ""
 msgid "You fail to disarm the trap, and you set it off!"
 msgstr ""
 
-#: src/map.cpp
-msgid "policecar pile-up"
-msgstr ""
-
-#: src/map.cpp
-msgid "pile-up"
-msgstr ""
-
 #: src/mapbuffer.cpp
 #, c-format
 msgid "Please wait as the map saves [%d/%d]"
@@ -85599,23 +85721,16 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s throws its arms wide..."
+msgid "The %s throws its arms wide."
 msgstr ""
 
 #: src/monattack.cpp
-msgid "A nearby corpse rises from the dead!"
+#, c-format
+msgid "A nearby %s rises from the dead!"
 msgstr ""
 
 #: src/monattack.cpp
-msgid "A few corpses rise from the dead!"
-msgstr ""
-
-#: src/monattack.cpp
-msgid "Several corpses rise from the dead!"
-msgstr ""
-
-#: src/monattack.cpp
-msgid "...but nothing seems to happen."
+msgid "But nothing seems to happen."
 msgstr ""
 
 #: src/monattack.cpp
@@ -86107,7 +86222,7 @@ msgid "The %s stares at you, and you shudder."
 msgstr ""
 
 #: src/monattack.cpp
-msgid "A piercing beam of light bursts forth!"
+msgid "You feel like you're being watched, it makes you sick."
 msgstr ""
 
 #: src/monattack.cpp
@@ -86338,23 +86453,31 @@ msgstr ""
 msgid "\"FOUL INTERLOPER...\""
 msgstr ""
 
+#. ~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
 #: src/monattack.cpp
 #, c-format
-msgid "The black mist around the %s grows..."
+msgid "A black mist floats from the %1$s around the %2$s."
 msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "...a zombie becomes a %s!"
+msgid "A black mist floats from the %s."
 msgstr ""
 
+#. ~ %1$s is the pre-upgrade monster, %2$s is the post-upgrade monster.
 #: src/monattack.cpp
-msgid "...a zombie vanishes!"
+#, c-format
+msgid "The %1$s becomes a %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "...a %s appears!"
+msgid "The %s vanishes!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "A %s appears!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -92420,8 +92543,9 @@ msgstr ""
 
 #: src/options.cpp
 msgid ""
-"A scaling factor that determines the rate of monster advancement. 0 spawns "
-"advanced groups immediately!"
+"A scaling factor that determines the rate of monster advancement. A value of "
+"100 makes monsters upgrade 100x faster, while zero stops upgrading "
+"completely."
 msgstr ""
 
 #: src/options.cpp
@@ -97246,7 +97370,16 @@ msgid "Stepped into lava."
 msgstr ""
 
 #: src/trapfunc.cpp
-msgid "You step into a sinkhole, and start to sink down!"
+msgid "You fail to attach it..."
+msgstr ""
+
+#: src/trapfunc.cpp
+msgid "There's nowhere to pull yourself to, and you sink!"
+msgstr ""
+
+#: src/trapfunc.cpp
+msgid ""
+"<npcname> steps on a sinkhole, but manages to pull themselves to safety."
 msgstr ""
 
 #: src/trapfunc.cpp
@@ -97261,50 +97394,34 @@ msgstr ""
 
 #: src/trapfunc.cpp
 msgid ""
-"You step into a sinkhole! Throw your grappling hook out to try to catch "
+"You step into a sinkhole!  Throw your grappling hook out to try to catch "
 "something?"
 msgstr ""
 
 #: src/trapfunc.cpp
-msgid "There's nowhere to pull yourself to, and you sink!"
-msgstr ""
-
-#: src/trapfunc.cpp
-msgid "You pull yourself to safety!  The sinkhole collapses."
-msgstr ""
-
-#: src/trapfunc.cpp
-msgid "Your throw misses completely, and you sink!"
+msgid ""
+"You step into a sinkhole!  Throw your whip out to try and snag something?"
 msgstr ""
 
 #: src/trapfunc.cpp
 msgid ""
-"You step into a sinkhole! Throw your whip out to try and snag something?"
+"You step into a sinkhole!  Throw your rope out to try to catch something?"
 msgstr ""
 
 #: src/trapfunc.cpp
-msgid "Your whip flails uselessly through the air!"
+msgid "The sinkhole collapses!"
 msgstr ""
 
 #: src/trapfunc.cpp
-msgid "Your whip wraps around something!"
+msgid "A sinkhole under <npcname> collapses!"
 msgstr ""
 
 #: src/trapfunc.cpp
-msgid "But you're too weak to pull yourself out..."
+msgid "You fall into the sinkhole!"
 msgstr ""
 
 #: src/trapfunc.cpp
-msgid ""
-"You step into a sinkhole! Throw your rope out to try to catch something?"
-msgstr ""
-
-#: src/trapfunc.cpp
-msgid "The rope catches something!"
-msgstr ""
-
-#: src/trapfunc.cpp
-msgid "You sink into the sinkhole!"
+msgid "<npcname> falls into a sinkhole!"
 msgstr ""
 
 #: src/trapfunc.cpp
@@ -98739,6 +98856,14 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s recovers from its skid."
+msgstr ""
+
+#: src/vehicle_factory.cpp
+msgid "pile-up"
+msgstr ""
+
+#: src/vehicle_factory.cpp
+msgid "policecar pile-up"
 msgstr ""
 
 #: src/weather.cpp
