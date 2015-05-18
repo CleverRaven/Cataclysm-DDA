@@ -5345,7 +5345,7 @@ long vehicle::turret_has_ammo( int p )
 
     const itype_id &amt = part_info( p ).fuel_type;
     int charge_mult = 1;
-    long liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
+    long liquid_fuel = fuel_left( amt ); // Items for which a fuel tank exists
     if( liquid_fuel > 0 ) {
         // In case of charger guns, we return max charge rather than max burst
         if ( gun.is_charger_gun() ) {
@@ -5429,7 +5429,7 @@ bool vehicle::fire_turret( int p, bool manual )
     }
     const itype_id &amt = part_info( p ).fuel_type;
     int charge_mult = 1;
-    int liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
+    int liquid_fuel = fuel_left( amt ); // Items for which a fuel tank exists
     bool success = false;
     if( liquid_fuel > 1 ) {
         if ( gun.is_charger_gun() ) {
