@@ -1001,7 +1001,7 @@
         "required_str": 5,
         "flags": ["NOITEM","BLOCKSDOOR"],
         "bash": {
-            "str_min": 5, "str_max": 40,
+            "str_min": 5, "str_max": 16,
             "sound": "glass breaking",
             "sound_fail": "whack!",
             "sound_vol": 16,
@@ -1020,7 +1020,7 @@
         "required_str": 5,
         "flags": ["NOITEM","BLOCKSDOOR"],
         "bash": {
-            "str_min": 8, "str_max": 40,
+            "str_min": 8, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
             "items": [

@@ -37,6 +37,8 @@
 #  make install
 # Enable lua support. Required only for full-fledged mods.
 #  make LUA=1
+# Use user's XDG base directories for save files and configs.
+#  make USE_XDG_DIR=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
 # Use dynamic linking (requires system libraries).
@@ -407,7 +409,17 @@ ifeq ($(TARGETSYSTEM), CYGWIN)
 endif
 
 ifeq ($(USE_HOME_DIR),1)
+  ifeq ($(USE_XDG_DIR),1)
+    $(error "USE_HOME_DIR=1 does not work with USE_XDG_DIR=1")
+  endif
   DEFINES += -DUSE_HOME_DIR
+endif
+
+ifeq ($(USE_XDG_DIR),1)
+  ifeq ($(USE_HOME_DIR),1)
+    $(error "USE_HOME_DIR=1 does not work with USE_XDG_DIR=1")
+  endif
+  DEFINES += -DUSE_XDG_DIR
 endif
 
 all: version $(TARGET) $(L10N)

@@ -1350,15 +1350,15 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 
     if( ammo_used == "40mm") {
-        sounds::sound(p.pos(), 8, _("Thunk!"));
+        sounds::sound(p.pos(), 8, _("Thunk!"), false, "fire_gun", ammo_used);
     } else if( weapon_id == "hk_g80") {
-        sounds::sound(p.pos(), 24, _("tz-CRACKck!"));
+        sounds::sound(p.pos(), 24, _("tz-CRACKck!"), false, "fire_gun", ammo_used);
     } else if( ammo_used == "gasoline" || ammo_used == "66mm" ||
                ammo_used == "84x246mm" || ammo_used == "m235" ) {
-        sounds::sound(p.pos(), 4, _("Fwoosh!"));
+        sounds::sound(p.pos(), 4, _("Fwoosh!"), false, "fire_gun", ammo_used);
     } else if( ammo_used != "bolt" && ammo_used != "arrow" && ammo_used != "pebble" &&
                ammo_used != "fishspear" && ammo_used != "dart" ) {
-        sounds::sound(p.pos(), noise, gunsound);
+        sounds::sound(p.pos(), noise, gunsound, false, "fire_gun", ammo_used);
     }
 }
 
