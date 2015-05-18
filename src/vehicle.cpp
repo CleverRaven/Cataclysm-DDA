@@ -104,6 +104,7 @@ public:
      * If @ref charges is > 0, it is guaranteed to have a proper curammo.
      */
     item gun;
+private:
     /** The ammo type that should be consumed when the gun has fired. Note that this may be
      * different from the curammo of the @ref gun item (e.g. for charger guns that fire pseudo
      * ammo, but consume battery power). It must not be used when @ref source is @ref NONE. */
@@ -115,6 +116,7 @@ public:
         CARGO,
         NONE,
     } source = NONE;
+public:
     /**
      * We can not fire because the gun needs UPS charges, but there is not enough battery power
      * left in the vehicle. Will be false for all guns that don't need UPS charges.
@@ -122,6 +124,8 @@ public:
     bool is_missing_ups_charges = false;
     /** Init the struct based on a turret at the given vehicle part of the given vehicle. */
     turret_ammo_data( const vehicle &veh, int part );
+    /** Consume charges according to @ref source and @ref ammo from the vehicle. */
+    void consume( vehicle &veh, int part, long charges_consumed ) const;
 };
 
 // Map stack methods.
@@ -5517,34 +5521,35 @@ bool vehicle::fire_turret( int p, bool manual )
     const bool success = manual ?
         manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
         automatic_fire_turret( p, *gun.type, *am_type, charges_left );
-    if( turret_data.source == turret_ammo_data::TANK ) {
-        if( success ) {
-            long charges_consumed = charges - charges_left;
-            // consume fuel
-            charges_consumed *= charge_mult;
-            drain( turret_data.ammo->id, charges_consumed );
-        }
-    } else if( turret_data.source == turret_ammo_data::NONE ) {
-        if( success ) {
-            // no conventional ammo is consumed, UPS-power may have been consumed in
-            // automatic_fire_turret or manual_fire_turret
-        }
-    } else {
-        if( success ) {
-            auto items = get_items( p );
-            // consume ammo
-            long charges_consumed = charges - charges_left;
-            charges_consumed *= charge_mult;
-            if( charges_consumed >= items.front().charges ) {
-                items.erase( items.begin() );
-            } else {
-                items.front().charges -= charges_consumed;
-            }
-        }
+    if( success ) {
+        turret_data.consume( *this, p, ( charges - charges_left ) * charge_mult );
     }
 
     // If manual, we need to know if the shot was actually executed
     return !manual || success;
+}
+
+void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long const charges_consumed ) const
+{
+    switch( source ) {
+        case TANK:
+            veh.drain( ammo->id, charges_consumed );
+            break;
+        case CARGO:
+            {
+                auto items = veh.get_items( part );
+                item &ammo_item = items.front();
+                ammo_item.charges -= charges_consumed;
+                if( ammo_item.charges <= 0 ) {
+                    items.erase( items.begin() );
+                }
+            }
+            break;
+        case NONE:
+            // no conventional ammo is consumed, UPS-power may have been consumed in
+            // automatic_fire_turret or manual_fire_turret
+            break;
+    }
 }
 
 bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges )
