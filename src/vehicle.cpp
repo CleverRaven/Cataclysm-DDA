@@ -99,6 +99,8 @@ class vehicle::turret_ammo_data {
 public:
     /** Usable charges, may be 0 if there are none. */
     long charges = 0L;
+    /** Init the struct based on a turret at the given vehicle part of the given vehicle. */
+    turret_ammo_data( const vehicle &veh, int part );
 };
 
 // Map stack methods.
@@ -5340,19 +5342,23 @@ void vehicle::cycle_global_turret_mode()
 
 vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
 {
-    turret_ammo_data result;
+    return turret_ammo_data( *this, p );
+}
+
+vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part )
+{
     long ammo_for = LONG_MAX;
-    const item gun( part_info( p ).item, 0 );
+    const item gun( veh.part_info( part ).item, 0 );
     // UPS power
     const auto &gun_data = *gun.type->gun;
-    const long power = fuel_left( fuel_type_battery );
+    const long power = veh.fuel_left( fuel_type_battery );
     if( gun_data.ups_charges > 0 ) {
         ammo_for = std::min( ammo_for, power / gun_data.ups_charges );
     }
 
-    const itype_id &amt = part_info( p ).fuel_type;
+    const itype_id &amt = veh.part_info( part ).fuel_type;
     int charge_mult = 1;
-    long liquid_fuel = fuel_left( amt ); // Items for which a fuel tank exists
+    long liquid_fuel = veh.fuel_left( amt ); // Items for which a fuel tank exists
     if( liquid_fuel > 0 ) {
         // In case of charger guns, we return max charge rather than max burst
         if ( gun.is_charger_gun() ) {
@@ -5363,22 +5369,21 @@ vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
 
-        result.charges = std::min( ammo_for, liquid_fuel / charge_mult );
-        return result;
+        charges = std::min( ammo_for, liquid_fuel / charge_mult );
+        return;
     }
 
-    auto items = get_items( p );
+    auto items = veh.get_items( part );
     if( items.empty() ) {
-        return result;
+        return;
     }
 
     itype *am_type = items.front().type;
     if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
-        return result;
+        return;
     }
 
-    result.charges = std::min( ammo_for, items.front().charges );
-    return result;
+    charges = std::min( ammo_for, items.front().charges );
 }
 
 bool vehicle::fire_turret( int p, bool manual )
