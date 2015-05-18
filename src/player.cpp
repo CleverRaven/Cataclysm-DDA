@@ -127,10 +127,10 @@ void game::init_morale()
     _("Bad Tempered"),
     //~ You really don't like wearing the Uncomfy Gear
     _("Uncomfy Gear"),
-    _("Found kitten <3")
+    _("Found kitten <3"),
     
     _("Got a Haircut"),
-    _("Freshly Shaven"),
+    _("Freshly Shaven")
     };
     for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
         morale_data[i]=tmp_morale_data[i];
