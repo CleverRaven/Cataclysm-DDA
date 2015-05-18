@@ -12185,6 +12185,7 @@ float player::fine_detail_vision_mod()
     case LL_BRIGHT_ONLY:
         return 5;
     }
+    return 5;
 }
 
 int player::get_wind_resistance(body_part bp) const
