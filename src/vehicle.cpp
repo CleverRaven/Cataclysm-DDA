@@ -4409,11 +4409,9 @@ bool vehicle::add_item (int part, item itm)
         return false;
     }
     if (part_flag(part, "TURRET")) {
-        const auto atype = itm.ammo_type();
-        if( !itm.is_ammo() || atype != part_info(part).fuel_type ) {
-            return false;
-        }
-        if( atype == fuel_type_gasoline || atype == fuel_type_plasma ) {
+        const itype *gun_type = item::find_type( part_info( part ).item ); // TODO: maybe cache this?
+        const ammotype atype = itm.ammo_type();
+        if( !itm.is_ammo() || !gun_type->gun || atype != gun_type->gun->ammo ) {
             return false;
         }
     }
@@ -5382,8 +5380,6 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         }
     }
 
-    const itype_id &amt = veh.part_info( part ).fuel_type;
-
     // NO_AMMO guns don't have specific ammo type that could be consumed after firing, (therefor
     // source NONE). They should (theoretically) require UPS charges, but that is checked above
     // and already included in the value of ammo_for.
@@ -5409,16 +5405,38 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         return;
     }
 
-    long liquid_fuel = veh.fuel_left( amt ); // Items for which a fuel tank exists
-    if( liquid_fuel > 0 ) {
-        if( amt == fuel_type_plasma ) {
+    // Find fuel (inside a tank) that is valid ammo for the turret, several fuel types might match:
+    // consider a flamethrower on a car with a gasoline tank *and* a napalm tank.
+    const ammotype &amt = gun_data.ammo;
+    // This map uses itype pointers because they are faster to compare and we need to get them
+    // anyway to compare their ammo type with the guns ammo type.
+    std::map<const itype*, long> fuels;
+    for( const auto &part : veh.parts ) {
+        const vpart_info &vpinfo = part.info();
+        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
+            continue;
+        }
+        const itype *type = item::find_type( vpinfo.fuel_type );
+        if( !type->ammo || type->ammo->type != amt ) {
+            continue;
+        }
+        fuels[type] += part.amount;
+    }
+    if( !fuels.empty() ) {
+        // TODO (or not?): select which ammo to use. For now, we use the first one (usually there is only one anyway).
+        // However, note that the ordering of the map may change on each game as it compares *pointers*
+        const std::pair<const itype*, long> &fuel_and_amount = *fuels.begin();
+        const itype_id &ammo_id = fuel_and_amount.first->id;
+        const long liquid_fuel = fuel_and_amount.second;
+
+        if( ammo_id == fuel_type_plasma ) {
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
 
-        gun.set_curammo( amt );
+        gun.set_curammo( ammo_id );
         if( !gun.has_curammo() ) {
             debugmsg( "turret %s tried to use %s (which isn't an ammo type) as ammo for %s",
-                      veh.part_info( part ).id.c_str(), amt.c_str(), gun.typeId().c_str() );
+                      veh.part_info( part ).id.c_str(), ammo_id.c_str(), gun.typeId().c_str() );
             return; // charges is still 0, so the caller won't use gun.curammo
         }
         ammo = gun.get_curammo();
