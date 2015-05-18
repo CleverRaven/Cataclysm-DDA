@@ -2762,6 +2762,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "napalm_tank",
+        "name" : "napalm tank",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 30000,
+        "fuel_type" : "napalm",
+        "item" : "metal_tank",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "gas_tank_little",
         "name" : "gasoline tank (little)",
         "symbol" : "O",
@@ -3030,6 +3051,27 @@
         "durability" : 150,
         "size" : 450,
         "fuel_type" : "water_clean",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "water_dirty_tank",
+        "name" : "water (dirty) tank",
+        "symbol" : "O",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 450,
+        "fuel_type" : "water",
         "item" : "30gal_drum",
         "difficulty" : 1,
         "location" : "fuel_source",
@@ -3664,6 +3706,24 @@
         "flags" : ["TURRET"],
         "breaks_into" : [
             {"item": "nx17", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "laser_rifle",
+        "name" : "mounted A7 laser rifle",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "laser_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "laser_rifle", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
