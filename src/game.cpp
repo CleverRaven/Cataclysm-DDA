@@ -65,6 +65,7 @@
 #include "martialarts.h"
 #include "event.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 
 #include <map>
 #include <set>
@@ -113,6 +114,7 @@ game::game() :
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
+    critter_tracker( new Creature_tracker() ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
@@ -2236,7 +2238,7 @@ bool game::handle_action()
                     mouse_action_y = my;
                     int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
                     if (mouse_selected_mondex != -1) {
-                        monster &critter = critter_tracker.find(mouse_selected_mondex);
+                        monster &critter = critter_tracker->find(mouse_selected_mondex);
                         if (!u.sees(critter)) {
                             add_msg(_("Nothing relevant here."));
                             return false;
@@ -2872,7 +2874,7 @@ bool game::handle_action()
             if (safe_mode == SAFE_MODE_STOP) {
                 add_msg(m_info, _("Ignoring enemy!"));
                 for( auto &elem : new_seen_mon ) {
-                    monster &critter = critter_tracker.find( elem );
+                    monster &critter = critter_tracker->find( elem );
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
@@ -4880,7 +4882,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Draw monsters
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        draw_critter( critter_tracker.find( i ), center );
+        draw_critter( critter_tracker->find( i ), center );
     }
 
     // Draw NPCs
@@ -5423,7 +5425,7 @@ std::vector<monster*> game::get_fishable(int distance)
 {
     std::vector<monster*> unique_fish;
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
 
         if (critter.has_flag(MF_FISHABLE)) {
             int mondist = rl_dist( u.pos(), critter.pos() );
@@ -5573,7 +5575,7 @@ int game::mon_info(WINDOW *w)
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
-                monster &critter = critter_tracker.find(new_seen_mon.back());
+                monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
                 if (u.has_trait("M_DEFENDER")) {
                     if (critter.type->in_species("PLANT")) {
@@ -5741,7 +5743,7 @@ int game::mon_info(WINDOW *w)
 void game::cleanup_dead()
 {
     for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
@@ -5796,7 +5798,7 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         while (!critter.is_dead() && !critter.can_move_to(critter.pos3())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
@@ -5861,7 +5863,7 @@ void game::monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = critter_tracker.find( i );
+        monster &critter = critter_tracker->find( i );
         if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
             critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
             critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
@@ -5922,7 +5924,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
         int mon_hit = mon_at(t);
         int npc_hit = npc_at(t);
         if (mon_hit != -1) {
-            monster &mon = critter_tracker.find(mon_hit);
+            monster &mon = critter_tracker->find(mon_hit);
             mon.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
             mon.check_dead_state();
         }
@@ -6006,7 +6008,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
             const int zid = mon_at( tp );
             const int npcdex = npc_at( tp );
             if (zid != -1) {
-                monster &critter = critter_tracker.find(zid);
+                monster &critter = critter_tracker->find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
             } else if( npcdex != -1 ) {
@@ -6056,7 +6058,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
     }
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         dist = rl_dist( critter.pos3(), p );
         if( dist <= 4 ) {
             critter.add_effect("stunned", 10 - dist);
@@ -6081,7 +6083,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 
     sounds::sound( p, force * force * dam_mult / 2, _("Crack!") );
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         if( rl_dist( critter.pos3(), p ) <= radius ) {
             add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
             knockback( p, critter.pos3(), force, stun, dam_mult);
@@ -6137,7 +6139,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     }
     int force_remaining = 0;
     if (zid != -1) {
-        monster *targ = &critter_tracker.find(zid);
+        monster *targ = &critter_tracker->find(zid);
         if (stun > 0) {
             targ->add_effect("stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
@@ -6529,7 +6531,7 @@ void game::scrambler_blast( const tripoint &p )
 {
     int mondex = mon_at( p );
     if (mondex != -1) {
-        monster &critter = critter_tracker.find(mondex);
+        monster &critter = critter_tracker->find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
             critter.make_friendly();
         }
@@ -6571,7 +6573,7 @@ void game::emp_blast( const tripoint &p )
     }
     int mondex = mon_at(p);
     if (mondex != -1) {
-        monster &critter = critter_tracker.find(mondex);
+        monster &critter = critter_tracker->find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
@@ -6691,22 +6693,22 @@ bool game::add_zombie(monster &critter)
                        << " - " << critter.disp_name();
     }
     critter.update_check();
-    return critter_tracker.add(critter);
+    return critter_tracker->add(critter);
 }
 
 size_t game::num_zombies() const
 {
-    return critter_tracker.size();
+    return critter_tracker->size();
 }
 
 monster &game::zombie(const int idx)
 {
-    return critter_tracker.find(idx);
+    return critter_tracker->find(idx);
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
 {
-    return critter_tracker.update_pos( critter, pos );
+    return critter_tracker->update_pos( critter, pos );
 }
 
 void game::remove_zombie(const int idx)
@@ -6716,12 +6718,12 @@ void game::remove_zombie(const int idx)
     } else if( last_target > idx && !last_target_was_npc ) {
         last_target--;
     }
-    critter_tracker.remove(idx);
+    critter_tracker->remove(idx);
 }
 
 void game::clear_zombies()
 {
-    critter_tracker.clear();
+    critter_tracker->clear();
 }
 
 /**
@@ -6738,7 +6740,7 @@ bool game::spawn_hallucination()
 
     //Don't attempt to place phantasms inside of other monsters
     if (mon_at(phantasm.pos()) == -1) {
-        return critter_tracker.add(phantasm);
+        return critter_tracker->add(phantasm);
     } else {
         return false;
     }
@@ -6746,17 +6748,17 @@ bool game::spawn_hallucination()
 
 int game::mon_at( const tripoint &p ) const
 {
-    return critter_tracker.mon_at( p );
+    return critter_tracker->mon_at( p );
 }
 
 monster *game::monster_at(const tripoint &p)
 {
-    return &zombie(critter_tracker.mon_at(p));
+    return &zombie(critter_tracker->mon_at(p));
 }
 
 void game::rebuild_mon_at_cache()
 {
-    critter_tracker.rebuild_cache();
+    critter_tracker->rebuild_cache();
 }
 
 bool game::is_empty( const tripoint &p )
@@ -6899,7 +6901,7 @@ void game::close(int closex, int closey)
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closep);
     if (zid != -1) {
-        monster &critter = critter_tracker.find(zid);
+        monster &critter = critter_tracker->find(zid);
         add_msg(m_info, _("There's a %s in the way!"), critter.name().c_str());
     } else if (veh) {
         int openable = veh->next_part_to_close(vpart);
@@ -13192,7 +13194,7 @@ void game::update_stair_monsters()
             return;
         } else if( mon_at( {mposx, mposy, get_levz()} ) != -1) {
             // Monster attempts to displace a monster from the stairs
-            monster &other = critter_tracker.find( mon_at({mposx, mposy, get_levz()}) );
+            monster &other = critter_tracker->find( mon_at({mposx, mposy, get_levz()}) );
             critter.setpos( {mposx, mposy, get_levz()}, true );
 
             // the critter is now right on top of another and will push it
