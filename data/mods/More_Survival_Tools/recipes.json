@@ -1500,7 +1500,8 @@
     "tools": [
     [
       [ "press", -1 ],
-      [ "material_sand", -1 ]
+      [ "material_sand", -1 ],
+      [ "clay_lump", -1 ]
     ],
     [
       [ "toolset", 10 ],
