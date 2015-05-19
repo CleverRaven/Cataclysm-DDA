@@ -766,7 +766,7 @@ const vehicle *map::vehproceed()
         // accept new position
         // if submap changed, we need to process grid from the beginning.
         // TODO: Allow vehicles to get displaced vertically
-        tripoint dp( dx, dy, pt.z );
+        tripoint dp( dx, dy, 0 );
         displace_vehicle( pt, dp );
     } else { // can_move
         veh->stop();
