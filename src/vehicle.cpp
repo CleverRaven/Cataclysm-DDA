@@ -33,13 +33,13 @@
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
  *   assemble "structure" once here instead of repeatedly later.
  */
-static const std::string fuel_type_gasoline("gasoline");
-static const std::string fuel_type_diesel("diesel");
-static const std::string fuel_type_battery("battery");
-static const std::string fuel_type_plutonium("plutonium");
-static const std::string fuel_type_plasma("plasma");
-static const std::string fuel_type_water("water");
-static const std::string fuel_type_muscle("muscle");
+static const itype_id fuel_type_gasoline("gasoline");
+static const itype_id fuel_type_diesel("diesel");
+static const itype_id fuel_type_battery("battery");
+static const itype_id fuel_type_plutonium("plut_cell");
+static const itype_id fuel_type_plasma("plasma");
+static const itype_id fuel_type_water("water_clean");
+static const itype_id fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
 const std::array<fuel_type, 7> &get_fuel_types()
@@ -58,7 +58,7 @@ const std::array<fuel_type, 7> &get_fuel_types()
     return fuel_types;
 }
 
-int fuel_charges_to_amount_factor( const ammotype &ftype )
+int fuel_charges_to_amount_factor( const itype_id &ftype )
 {
     for( auto & ft : get_fuel_types() ) {
         if( ft.id == ftype ) {
@@ -93,6 +93,41 @@ enum vehicle_controls {
  manual_fire,
  toggle_camera,
  release_remote_control
+};
+
+class vehicle::turret_ammo_data {
+public:
+    /** Usable charges, may be 0 if there are none. */
+    long charges = 0L;
+    /**
+     * Cached instance of the turret gun. It is always valid and set to the actual turret gun.
+     * If @ref charges is > 0, it is guaranteed to have a proper curammo.
+     */
+    item gun;
+private:
+    /** The ammo type that should be consumed when the gun has fired. Note that this may be
+     * different from the curammo of the @ref gun item (e.g. for charger guns that fire pseudo
+     * ammo, but consume battery power). It must not be used when @ref source is @ref NONE. */
+    const itype *ammo = nullptr;
+    /** Whether the @ref ammo is to be taken from a tank (using @ref vehicle::drain) or from
+     * an item in the vehicle part of the turret, or not at all (special UPS guns only). */
+    enum {
+        TANK,
+        CARGO,
+        NONE,
+    } source = NONE;
+    /** TODO: document me */
+    int charge_mult = 1;
+public:
+    /**
+     * We can not fire because the gun needs UPS charges, but there is not enough battery power
+     * left in the vehicle. Will be false for all guns that don't need UPS charges.
+     */
+    bool is_missing_ups_charges = false;
+    /** Init the struct based on a turret at the given vehicle part of the given vehicle. */
+    turret_ammo_data( const vehicle &veh, int part );
+    /** Consume charges according to @ref source and @ref ammo from the vehicle. */
+    void consume( vehicle &veh, int part, long charges_consumed ) const;
 };
 
 // Map stack methods.
@@ -654,12 +689,12 @@ void vehicle::toggle_specific_engine(int e,bool on) {
 void vehicle::toggle_specific_part(int p,bool on) {
     parts[p].enabled = on;
 }
-bool vehicle::is_engine_type_on(int e, const ammotype &ft) const
+bool vehicle::is_engine_type_on(int e, const itype_id &ft) const
 {
     return is_engine_on(e) && is_engine_type(e, ft);
 }
 
-bool vehicle::has_engine_type(const ammotype &ft, bool const enabled) const
+bool vehicle::has_engine_type(const itype_id &ft, bool const enabled) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type(e, ft) && (!enabled || is_engine_on(e)) ) {
@@ -668,7 +703,7 @@ bool vehicle::has_engine_type(const ammotype &ft, bool const enabled) const
     }
     return false;
 }
-bool vehicle::has_engine_type_not(const ammotype &ft, bool const enabled) const
+bool vehicle::has_engine_type_not(const itype_id &ft, bool const enabled) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( !is_engine_type(e, ft) && (!enabled || is_engine_on(e)) ) {
@@ -678,7 +713,7 @@ bool vehicle::has_engine_type_not(const ammotype &ft, bool const enabled) const
     return false;
 }
 
-bool vehicle::is_engine_type(const int e, const ammotype  &ft) const {
+bool vehicle::is_engine_type(const int e, const itype_id  &ft) const {
     return part_info(engines[e]).fuel_type == ft;
 }
 
@@ -1287,7 +1322,7 @@ bool vehicle::start_engine( const int e )
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
             add_msg( _("Looks like the %s is out of %s."), einfo.name.c_str(),
-                ammo_name( einfo.fuel_type ).c_str() );
+                item::nname( einfo.fuel_type ).c_str() );
         }
         return false;
     }
@@ -2509,20 +2544,20 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
     int yofs = 0;
     int max_gauge = (isHorizontal) ? 12 : 5;
     int cur_gauge = 0;
-    std::vector< ammotype > fuels;
+    std::vector< itype_id > fuels;
     for( auto &ft : get_fuel_types() ) {
         fuels.push_back( ft.id );
     }
     // Find non-hardcoded fuel types, add them after the hardcoded
     for( int p : fuel ) {
-        const ammotype ft = part_info( p ).fuel_type;
+        const itype_id ft = part_info( p ).fuel_type;
         if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() ) {
             fuels.push_back( ft );
         }
     }
 
     for( int i = 0; i < (int)fuels.size(); i++ ) {
-        const ammotype &f = fuels[i];
+        const itype_id &f = fuels[i];
         int cap = fuel_capacity( f );
         int f_left = fuel_left( f );
         nc_color f_color;
@@ -2530,12 +2565,12 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
             f_color = get_fuel_types()[i].color;
         } else {
             // Get color of the default item of this type
-            f_color = item::find_type( default_ammo( f ) )->color;
+            f_color = item::find_type( f )->color;
         }
 
         if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
             if( cur_gauge++ >= max_gauge ) {
-                wprintz(win, c_ltgray, "...", ammo_name( f ).c_str() );
+                wprintz(win, c_ltgray, "..." );
                 break;
             }
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
@@ -2551,7 +2586,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
                 }
             }
             if (desc) {
-                wprintz(win, c_ltgray, " - %s", ammo_name( f ).c_str() );
+                wprintz(win, c_ltgray, " - %s", item::nname( f ).c_str() );
             }
             if (fullsize) {
                 yofs++;
@@ -2730,7 +2765,7 @@ void vehicle::center_of_mass(int &x, int &y) const
     y = std::round(yf);
 }
 
-int vehicle::fuel_left (const ammotype & ftype, bool recurse) const
+int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
 {
     int fl = 0;
     for(auto &p : fuel) {
@@ -2768,7 +2803,7 @@ int vehicle::fuel_left (const ammotype & ftype, bool recurse) const
     return fl;
 }
 
-int vehicle::fuel_capacity (const ammotype &ftype) const
+int vehicle::fuel_capacity (const itype_id &ftype) const
 {
     int cap = 0;
     for(auto &p : fuel) {
@@ -2779,7 +2814,7 @@ int vehicle::fuel_capacity (const ammotype &ftype) const
     return cap;
 }
 
-int vehicle::refill (const ammotype & ftype, int amount)
+int vehicle::refill (const itype_id & ftype, int amount)
 {
     for (size_t p = 0; p < parts.size(); p++)
     {
@@ -2804,7 +2839,7 @@ int vehicle::refill (const ammotype & ftype, int amount)
     return amount;
 }
 
-int vehicle::drain (const ammotype & ftype, int amount) {
+int vehicle::drain (const itype_id & ftype, int amount) {
     if(ftype == "battery") {
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
@@ -2836,7 +2871,7 @@ int vehicle::drain (const ammotype & ftype, int amount) {
     return drained;
 }
 
-int vehicle::basic_consumption(const ammotype &ftype) const
+int vehicle::basic_consumption(const itype_id &ftype) const
 {
     int fcon = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
@@ -4374,11 +4409,9 @@ bool vehicle::add_item (int part, item itm)
         return false;
     }
     if (part_flag(part, "TURRET")) {
-        const auto atype = itm.ammo_type();
-        if( !itm.is_ammo() || atype != part_info(part).fuel_type ) {
-            return false;
-        }
-        if( atype == fuel_type_gasoline || atype == fuel_type_plasma ) {
+        const itype *gun_type = item::find_type( part_info( part ).item ); // TODO: maybe cache this?
+        const ammotype atype = itm.ammo_type();
+        if( !itm.is_ammo() || !gun_type->gun || atype != gun_type->gun->ammo ) {
             return false;
         }
     }
@@ -4959,7 +4992,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
             insides_dirty = true;
         if (part_flag(p, "FUEL_TANK"))
         {
-            ammotype ft = part_info(p).fuel_type;
+            const itype_id &ft = part_info(p).fuel_type;
             if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
             {
                 int pow = parts[p].amount / 40;
@@ -4998,7 +5031,7 @@ void vehicle::leak_fuel (int p)
 {
     if (!part_flag(p, "FUEL_TANK"))
         return;
-    ammotype ft = part_info(p).fuel_type;
+    const itype_id &ft = part_info(p).fuel_type;
     if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
     {
         int x = global_x();
@@ -5056,25 +5089,17 @@ int vehicle::get_turret_range( int p, bool manual )
         return part_info( p ).range;
     }
 
-    const item gun( part_info( p ).item, 0 );
-    itype *am_itype = nullptr;
-    auto items = get_items( p );
-    if( !items.empty() && items.front().charges > 0 ) {
-        am_itype = items.front().type;
-    } else if( gun.is_charger_gun() ) { // Charger guns "use" different ammo than they fire
-        am_itype = item::find_type( "charge_shot" );
-    } else if( fuel_left( part_info( p ).fuel_type ) > 0 ) {
-        am_itype = item::find_type( part_info( p ).fuel_type );
-    } else if( gun.has_flag( "NO_AMMO" ) ) {
-        am_itype = item::find_type( "generic_no_ammo" );
-    } else {
+    const auto turret_data = turret_has_ammo( p );
+    if( turret_data.charges <= 0L ) {
         // Couldn't find ammo
         return -1;
     }
 
-    const auto ammo = am_itype->ammo.get();
+    const item &gun = turret_data.gun;
+    const itype *am_itype = gun.get_curammo();
+    const auto &ammo_data = *am_itype->ammo;
     const auto &gun_data = *gun.type->gun;
-    return gun_data.range + ( ammo != nullptr ? ammo->range : 0 );
+    return gun_data.range + ammo_data.range;
 }
 
 turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos )
@@ -5087,7 +5112,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos 
         return turret_is_off;
     }
 
-    if( turret_has_ammo( p ) < 1 ) {
+    if( turret_has_ammo( p ).charges < 1 ) {
         return turret_no_ammo;
     }
 
@@ -5332,54 +5357,114 @@ void vehicle::cycle_global_turret_mode()
     add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
-long vehicle::turret_has_ammo( int p )
+vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
 {
-    long ammo_for = LONG_MAX;
-    const item gun( part_info( p ).item, 0 );
-    // UPS power
+    return turret_ammo_data( *this, p );
+}
+
+vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part )
+: gun( veh.part_info( part ).item, 0 )
+{
+    // Start out with an infinite amount and lower it based on the available amount
+    long ammo_for = std::numeric_limits<long>::max();
+    if( !gun.is_gun() ) {
+        return;
+    }
     const auto &gun_data = *gun.type->gun;
-    const long power = fuel_left( fuel_type_battery );
+    const long power = veh.fuel_left( fuel_type_battery );
     if( gun_data.ups_charges > 0 ) {
         ammo_for = std::min( ammo_for, power / gun_data.ups_charges );
+        if( ammo_for <= 0L ) {
+            is_missing_ups_charges = true;
+            // No point in going any further, the gun can not fire at all.
+            return;
+        }
     }
 
-    ammotype amt = part_info( p ).fuel_type;
-    int charge_mult = 1;
-    long liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
-    if( liquid_fuel > 0 ) {
-        // In case of charger guns, we return max charge rather than max burst
-        if ( gun.is_charger_gun() ) {
-            charge_mult *= 5;
-        }
+    // NO_AMMO guns don't have specific ammo type that could be consumed after firing, (therefor
+    // source NONE). They should (theoretically) require UPS charges, but that is checked above
+    // and already included in the value of ammo_for.
+    // UPS charges will be consumed directly in manual_fire_turret/automatic_fire_turret,
+    // gun needs to have a valid curamm, this is a required precondition.
+    if( gun.has_flag( "NO_AMMO" ) ) {
+        source = NONE;
+        ammo = nullptr;
+        gun.set_curammo( "generic_no_ammo" );
+        charges = ammo_for;
+        return;
+    }
 
-        if( amt == fuel_type_plasma ) {
+    // In case of charger guns, we return max charge rather than max burst.
+    // Note that charger guns have special ammo type, but they consume regular "battery" ammo from
+    // the vehicle tank, therefor ammo != gun.curammo, but both have to be valid.
+    if ( gun.is_charger_gun() ) {
+        charge_mult *= 5;
+        source = TANK;
+        ammo = item::find_type( fuel_type_battery );
+        gun.set_curammo( "charge_shot" );
+        charges = std::min( ammo_for, power / charge_mult );
+        return;
+    }
+
+    // Find fuel (inside a tank) that is valid ammo for the turret, several fuel types might match:
+    // consider a flamethrower on a car with a gasoline tank *and* a napalm tank.
+    const ammotype &amt = gun_data.ammo;
+    // This map uses itype pointers because they are faster to compare and we need to get them
+    // anyway to compare their ammo type with the guns ammo type.
+    std::map<const itype*, long> fuels;
+    for( const auto &part : veh.parts ) {
+        const vpart_info &vpinfo = part.info();
+        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
+            continue;
+        }
+        const itype *type = item::find_type( vpinfo.fuel_type );
+        if( !type->ammo || type->ammo->type != amt ) {
+            continue;
+        }
+        fuels[type] += part.amount;
+    }
+    if( !fuels.empty() ) {
+        // TODO (or not?): select which ammo to use. For now, we use the first one (usually there is only one anyway).
+        // However, note that the ordering of the map may change on each game as it compares *pointers*
+        const std::pair<const itype*, long> &fuel_and_amount = *fuels.begin();
+        const itype_id &ammo_id = fuel_and_amount.first->id;
+        const long liquid_fuel = fuel_and_amount.second;
+
+        if( ammo_id == fuel_type_plasma ) {
             charge_mult *= 10; // 1 unit of hydrogen adds 10 units to hydro tank
         }
 
-        return std::min( ammo_for, liquid_fuel / charge_mult );
+        gun.set_curammo( ammo_id );
+        if( !gun.has_curammo() ) {
+            debugmsg( "turret %s tried to use %s (which isn't an ammo type) as ammo for %s",
+                      veh.part_info( part ).id.c_str(), ammo_id.c_str(), gun.typeId().c_str() );
+            return; // charges is still 0, so the caller won't use gun.curammo
+        }
+        ammo = gun.get_curammo();
+        source = TANK;
+        charges = std::min( ammo_for, liquid_fuel / charge_mult );
+        return;
     }
 
-    auto items = get_items( p );
+    auto items = veh.get_items( part );
     if( items.empty() ) {
-        return 0L;
+        return;
     }
 
     itype *am_type = items.front().type;
     if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
-        return 0L;
+        return;
     }
 
-    return std::min( ammo_for, items.front().charges );
+    charges = std::min( ammo_for, items.front().charges );
+    gun.set_curammo( items.front() );
+    ammo = gun.get_curammo();
+    source = CARGO;
 }
 
 bool vehicle::fire_turret( int p, bool manual )
 {
     if( !part_flag ( p, "TURRET" ) ) {
-        return false;
-    }
-
-    const item gun( part_info( p ).item, 0 );
-    if( !gun.is_gun() ) {
         return false;
     }
 
@@ -5413,86 +5498,74 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    // Check for available power for turrets that use it.
-    const auto &gun_data = *gun.type->gun;
-    const int power = fuel_left( fuel_type_battery );
-    if( gun_data.ups_charges > 0 && gun_data.ups_charges < power ) {
+    const auto turret_data = turret_has_ammo( p );
+    const item &gun = turret_data.gun;
+    if( !gun.is_gun() ) {
+        return false;
+    }
+
+    if( turret_data.is_missing_ups_charges ) {
         if( manual ) {
             add_msg( m_bad, _("This turret is not powered") );
+        }
+        return false;
+    }
+    long charges = std::max( 1, turret_data.gun.burst_size() );
+    if( gun.is_charger_gun() ) {
+        if( one_in(100) ) {
+            charges = rng( 5, 8 ); // kaboom
+        } else {
+            charges = rng( 1, 4 );
+        }
+
+        if( charges > abs( parts[p].mode ) ) {
+            charges = abs( parts[p].mode ); // Currently only limiting, not increasing
+        }
+    }
+    charges = std::min( charges, turret_data.charges );
+    if( charges <= 0 ) {
+        if( manual ) {
+            add_msg( m_bad, _("This turret doesn't have enough ammo") );
         }
 
         return false;
     }
-    long charges = gun.burst_size();
-    if( charges <= 0 ) {
-        charges = 1;
-    }
-    ammotype amt = part_info( p ).fuel_type;
-    int charge_mult = 1;
-    int liquid_fuel = fuel_left( part_info( p ).fuel_type ); // Items for which a fuel tank exists
-    bool success = false;
-    if( liquid_fuel > 1 ) {
-        if ( gun.is_charger_gun() ) {
-            if( one_in(100) ) {
-                charges = rng(5,8); // kaboom
-            } else {
-                charges = rng(1,4);
-            }
-
-            if( charges > abs( parts[p].mode ) ) {
-                charges = abs( parts[p].mode ); // Currently only limiting, not increasing
-            }
-        }
-
-        charges = std::min( charges, turret_has_ammo( p ) );
-
-        itype *am_type = item::find_type( default_ammo( amt ) );
-        if( !am_type->ammo ) {
-            debugmsg( "vehicle::fire_turret tried to use %s (which isn't an ammo type) as ammo for %s",
-                      am_type->nname(1).c_str(), gun.type->nname(1).c_str() );
-            return false;
-        }
-        long charges_left = charges;
-        // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
-        success = manual ?
-            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
-            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
-        if( success ) {
-            long charges_consumed = charges - charges_left;
-            // consume fuel
-            charges_consumed *= charge_mult;
-            drain( amt, (int)charges_consumed );
-        }
-    } else {
-        charges = std::min( charges, turret_has_ammo( p ) );
-        if( charges <= 0 ) {
-            if( manual ) {
-                add_msg( m_bad, _("This turret doesn't have enough ammo") );
-            }
-
-            return false;
-        }
-
-        auto items = get_items( p );
-        itype *am_type = items.front().type;
-        long charges_left = charges;
-        success = manual ?
-            manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
-            automatic_fire_turret( p, *gun.type, *am_type, charges_left );
-        if( success ) {
-            // consume ammo
-            long charges_consumed = charges - charges_left;
-            charges_consumed *= charge_mult;
-            if( charges_consumed >= items.front().charges ) {
-                items.erase( items.begin() );
-            } else {
-                items.front().charges -= charges_consumed;
-            }
-        }
+    const itype *am_type = turret_data.gun.get_curammo();
+    long charges_left = charges;
+    // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
+    const bool success = manual ?
+    // TODO: unify those two functions.
+        manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
+        automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+    if( success ) {
+        turret_data.consume( *this, p, charges - charges_left );
     }
 
     // If manual, we need to know if the shot was actually executed
     return !manual || success;
+}
+
+void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long const charges_consumed ) const
+{
+    switch( source ) {
+        case TANK:
+            veh.drain( ammo->id, charges_consumed * charge_mult );
+            break;
+        case CARGO:
+            {
+                auto items = veh.get_items( part );
+                item &ammo_item = items.front();
+                ammo_item.charges -= charges_consumed * charge_mult;
+                if( ammo_item.charges <= 0 ) {
+                    items.erase( items.begin() );
+                }
+            }
+            break;
+        case NONE:
+            // no conventional ammo is consumed, UPS-power may have been consumed in
+            // automatic_fire_turret or manual_fire_turret
+            break;
+    }
 }
 
 bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges )
@@ -5911,13 +5984,13 @@ void vehicle_part::properties_from_item( const item &used_item )
     health /= 5;
     hp = std::max( 1, health );
     // Transfer fuel from item to tank
-    const ammotype &desired_liquid = vpinfo.fuel_type;
+    const itype_id &desired_liquid = vpinfo.fuel_type;
     const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
     if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
         amount = std::min<int>( used_item.charges * fuel_per_charge, vpinfo.size );
     } else if( !used_item.contents.empty() ) {
         const item &liquid = used_item.contents[0];
-        if( liquid.type->id == default_ammo( desired_liquid ) ) {
+        if( liquid.type->id == desired_liquid ) {
             amount = std::min<int>( liquid.charges * fuel_per_charge, vpinfo.size );
         }
     }
@@ -5955,13 +6028,13 @@ item vehicle_part::properties_to_item() const
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
     // Transfer fuel back to tank, but not to gun or it'll crash
-    if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
-        const ammotype &desired_liquid = vpinfo.fuel_type;
+    if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "null" && amount > 0 ) {
+        const itype_id &desired_liquid = vpinfo.fuel_type;
         const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
         if( desired_liquid == fuel_type_battery ) {
             tmp.charges = amount / fuel_per_charge;
         } else {
-            item liquid( default_ammo( desired_liquid ), calendar::turn );
+            item liquid( desired_liquid, calendar::turn );
             liquid.charges = amount / fuel_per_charge;
             if( liquid.charges > 0 ) {
                 tmp.put_in( liquid );

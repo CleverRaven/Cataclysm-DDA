@@ -5619,10 +5619,10 @@ int player::addiction_level(add_type type)
     return 0;
 }
 
-bool player::siphon(vehicle *veh, ammotype desired_liquid)
+bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( default_ammo(desired_liquid), calendar::turn );
+    item used_item( desired_liquid, calendar::turn );
     const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
     used_item.charges = liquid_amount / fuel_per_charge;
     if( used_item.charges <= 0 ) {

@@ -6790,22 +6790,9 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::revive_corpse( const tripoint &p, int n )
+bool game::revive_corpse( const tripoint &p, const item &it )
 {
-    if ((int)m.i_at( p ).size() <= n) {
-        debugmsg( "Tried to revive a non-existent corpse! (%d, %d, %d), #%d of %d",
-                  p.x, p.y, p.z, n, m.i_at( p ).size());
-        return false;
-    }
-    if( !revive_corpse( p, &m.i_at( p )[n] ) ) {
-        return false;
-    }
-    return true;
-}
-
-bool game::revive_corpse( const tripoint &p, item *it )
-{
-    if (it == nullptr || !it->is_corpse()) {
+    if (!it.is_corpse()) {
         debugmsg("Tried to revive a non-corpse.");
         return false;
     }
@@ -6813,16 +6800,16 @@ bool game::revive_corpse( const tripoint &p, item *it )
         // Someone is in the way, try again later
         return false;
     }
-    monster critter( it->get_mtype(), p );
-    critter.init_from_item( *it );
+    monster critter( it.get_mtype(), p );
+    critter.init_from_item( it );
     critter.no_extra_death_drops = true;
 
-    if (it->get_var( "zlave" ) == "zlave"){
+    if (it.get_var( "zlave" ) == "zlave"){
         critter.add_effect("pacified", 1, num_bp, true);
         critter.add_effect("pet", 1, num_bp, true);
     }
 
-    if (it->get_var("no_ammo") == "no_ammo") {
+    if (it.get_var("no_ammo") == "no_ammo") {
         for (auto &ammo : critter.ammo) {
             ammo.second = 0;
         }
@@ -6832,8 +6819,9 @@ bool game::revive_corpse( const tripoint &p, item *it )
     if( !ret ) {
         debugmsg( "Couldn't add a revived monster" );
     }
-
-    m.i_rem(p, it);
+    if( ret && mon_at( p ) == -1 ) {
+        debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
+    }
     return ret;
 }
 
@@ -7122,22 +7110,21 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
     long min_charges = -1;
     bool in_container = false;
 
-    std::string ftype = part_info.fuel_type;
-    itype_id itid = default_ammo(ftype);
+    const itype_id &ftype = part_info.fuel_type;
     if (u.weapon.is_container() && !u.weapon.contents.empty() &&
-        u.weapon.contents[0].type->id == itid) {
+        u.weapon.contents[0].type->id == ftype) {
         it = &u.weapon;
         p_itm = &u.weapon.contents[0];
         min_charges = u.weapon.contents[0].charges;
         in_container = true;
-    } else if (u.weapon.type->id == itid) {
+    } else if (u.weapon.type->id == ftype) {
         it = &u.weapon;
         p_itm = it;
         min_charges = u.weapon.charges;
     } else {
-        it = &u.inv.item_or_container(itid);
+        it = &u.inv.item_or_container(ftype);
         if (!it->is_null()) {
-            if (it->type->id == itid) {
+            if (it->type->id == ftype) {
                 p_itm = it;
             } else {
                 //ah, must be a container of the thing
@@ -7147,7 +7134,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
             min_charges = p_itm->charges;
         }
     }
-    // Check for p_itm->type->id == itid is already done above
+    // Check for p_itm->type->id == ftype is already done above
     if( p_itm == nullptr || it->is_null()) {
         return false;
     } else if (test) {
@@ -7177,7 +7164,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The tank is full."));
         }
-    } else if (ftype == "plutonium") {
+    } else if (ftype == "plut_cell") {
         add_msg(_("You refill %s's reactor."), veh.name.c_str());
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The reactor is full."));
@@ -9883,12 +9870,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(m_info, _("There isn't any vehicle there."));
             return false;
         }
-        const ammotype ftype = liquid.type->id;
+        const itype_id &ftype = liquid.type->id;
         int fuel_cap = veh->fuel_capacity(ftype);
         int fuel_amnt = veh->fuel_left(ftype);
         if (fuel_cap <= 0) {
             add_msg(m_info, _("The %s doesn't use %s."),
-                    veh->name.c_str(), ammo_name(ftype).c_str());
+                    veh->name.c_str(), liquid.type_name().c_str());
             return false;
         } else if (fuel_amnt >= fuel_cap) {
             add_msg(m_info, _("The %s is already full."),
@@ -9904,10 +9891,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         liquid.charges = veh->refill(ftype, amt);
         if (veh->fuel_left(ftype) < fuel_cap) {
             add_msg(_("You refill the %s with %s."),
-                    veh->name.c_str(), ammo_name(ftype).c_str());
+                    veh->name.c_str(), liquid.type_name().c_str());
         } else {
             add_msg(_("You refill the %s with %s to its maximum."),
-                    veh->name.c_str(), ammo_name(ftype).c_str());
+                    veh->name.c_str(), liquid.type_name().c_str());
         }
         // infinite: always handled all, to prevent loops
         return infinite || liquid.charges == 0;
