@@ -5957,25 +5957,11 @@ void map::vertical_shift( const int newz )
         return;
     }
 
-    // TODO: Remove the function when it's safe
-    return;
-
-    //clear_vehicle_cache();
-    //vehicle_list.clear();
-    set_transparency_cache_dirty( newz );
-    set_outside_cache_dirty( newz );
-
-    // Forgetting done, now get the new z-level
     tripoint trp = get_abs_sub();
     set_abs_sub( trp.x, trp.y, newz );
 
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            update_vehicle_list( get_submap_at_grid( gridx, gridy, newz ), newz );
-        }
-    }
-
-    //reset_vehicle_cache();
+    // TODO: Remove the function when it's safe
+    return;
 }
 
 // saven saves a single nonant.  worldx and worldy are used for the file
