@@ -172,8 +172,13 @@ maptile map::maptile_at( const tripoint &p )
 
 // Vehicle functions
 
-VehicleList map::get_vehicles(){
-   return get_vehicles(0,0,SEEX*my_MAPSIZE, SEEY*my_MAPSIZE);
+VehicleList map::get_vehicles() {
+    if( !zlevels ) {
+        return get_vehicles( 0, 0, SEEX * my_MAPSIZE, SEEY * my_MAPSIZE );
+    }
+
+    return get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
+                         tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
 }
 
 void map::reset_vehicle_cache( const int zlev )
@@ -756,13 +761,15 @@ const vehicle *map::vehproceed()
         }
         // accept new position
         // if submap changed, we need to process grid from the beginning.
-        displace_vehicle( pt.x, pt.y, dx, dy );
+        // TODO: Allow vehicles to get displaced vertically
+        tripoint dp( dx, dy, pt.z );
+        displace_vehicle( pt, dp );
     } else { // can_move
         veh->stop();
     }
     // If the PC is in the currently moved vehicle, adjust the
     // view offset.
-    if (g->u.controlling_vehicle && veh_at(g->u.posx(), g->u.posy()) == veh) {
+    if (g->u.controlling_vehicle && veh_at( g->u.pos() ) == veh) {
         g->calc_driving_offset(veh);
     }
     // redraw scene
@@ -858,6 +865,8 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
             for( int cz = chunk_sz; cz <= chunk_ez; ++cz ) {
                 submap *current_submap = get_submap_at_grid( cx, cy, cz );
                 for( auto &elem : current_submap->vehicles ) {
+                    // Ensure the veh's z-position is correct
+                    elem->smz = cz;
                     wrapped_vehicle w;
                     w.v = elem;
                     w.x = w.v->posx + cx * SEEX;
@@ -6011,9 +6020,7 @@ void map::saven( const int gridx, const int gridy, const int gridz )
 void map::loadn( const int gridx, const int gridy, const bool update_vehicles ) {
     if( zlevels ) {
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            bool need_veh_update = update_vehicles && gridz == abs_sub.z;
-            // TODO: Update vehicles on all z-levels, but only after the veh cache becomes 3D
-            loadn( gridx, gridy, gridz, need_veh_update );
+            loadn( gridx, gridy, gridz, update_vehicles );
         }
     } else {
         loadn( gridx, gridy, abs_sub.z, update_vehicles );
@@ -6639,10 +6646,10 @@ void map::build_map_cache( const int zlev )
     tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, zlev );
 
     VehicleList vehs = get_vehicles( start, end );
+    auto &outside_cache = get_cache( zlev ).outside_cache;
+    auto &transparency_cache = get_cache( zlev ).transparency_cache;
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
-        auto &outside_cache = get_cache( v.z ).outside_cache;
-        auto &transparency_cache = get_cache( v.z ).transparency_cache;
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;

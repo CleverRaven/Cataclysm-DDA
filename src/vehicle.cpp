@@ -237,7 +237,7 @@ bool vehicle::player_in_control(player const& p) const
 {
     int veh_part;
 
-    if( g->m.veh_at(p.posx(), p.posy(), veh_part) == this &&
+    if( g->m.veh_at( p.pos(), veh_part ) == this &&
         part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p.controlling_vehicle ) {
         return true;
     }
@@ -3651,7 +3651,7 @@ void vehicle::idle(bool on_map) {
             noise_and_smoke( idle_rate, 6.0 );
         }
     } else {
-        if( engine_on && g->u.sees( global_pos() ) &&
+        if( engine_on && g->u.sees( global_pos3() ) &&
             has_engine_type_not(fuel_type_muscle, true) ) {
             add_msg(_("The %s's engine dies!"), name.c_str());
         }
@@ -3940,32 +3940,32 @@ bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
     return false;
 }
 
-veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
+veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect )
 {
     const tripoint p{ x, y, smz };
     bool pl_ctrl = player_in_control (g->u);
     int mondex = g->mon_at( p );
     int npcind = g->npc_at( p );
-    bool u_here = x == g->u.posx() && y == g->u.posy() && !g->u.in_vehicle;
-    monster *z = mondex >= 0? &g->zombie(mondex) : NULL;
+    bool u_here = p == g->u.pos() && !g->u.in_vehicle;
+    monster *z = mondex >= 0? &g->zombie(mondex) : nullptr;
     player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
     // if in a vehicle assume it's this one
-    if (ph && ph->in_vehicle) {
-        ph = 0;
+    if( ph != nullptr && ph->in_vehicle ) {
+        ph = nullptr;
     }
 
     int target_part = -1;
-    vehicle *oveh = g->m.veh_at (x, y, target_part);
-    bool is_veh_collision = oveh && (oveh->posx != posx || oveh->posy != posy);
-    bool is_body_collision = ph || mondex >= 0;
+    vehicle *oveh = g->m.veh_at( p, target_part );
+    bool is_veh_collision = oveh != nullptr && (oveh->posx != posx || oveh->posy != posy);
+    bool is_body_collision = ph != nullptr || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.name(x, y).c_str();
+    std::string obs_name = g->m.name( p ).c_str();
 
     // vehicle collisions are a special case. just return the collision.
     // the map takes care of the dynamic stuff.
-    if (is_veh_collision) {
+    if( is_veh_collision ) {
        veh_collision ret;
        ret.type = veh_coll_veh;
        //"imp" is too simplistic for veh-veh collisions
@@ -4016,23 +4016,23 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else {
             mass2 = 82;// player or NPC
         }
-    } else if ( g->m.is_bashable_ter_furn(x, y) && g->m.move_cost_ter_furn( x, y ) != 2 &&
+    } else if ( g->m.is_bashable_ter_furn( p ) && g->m.move_cost_ter_furn( p ) != 2 &&
                 // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                 (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
-                 !g->m.has_flag_ter_or_furn("TINY", x, y)) &&
+                 !g->m.has_flag_ter_or_furn("TINY", p)) &&
                 // Protrusions don't collide with short terrain.
                 // Tiny also doesn't, but it's already excluded unless there's a wheel present.
                 !(part_with_feature(part, "PROTRUSION") >= 0 &&
-                  g->m.has_flag_ter_or_furn("SHORT", x, y)) &&
+                  g->m.has_flag_ter_or_furn("SHORT", p)) &&
                 // These are bashable, but don't interact with vehicles.
-                !g->m.has_flag_ter_or_furn("NOCOLLIDE", x, y) ) {
+                !g->m.has_flag_ter_or_furn("NOCOLLIDE", p) ) {
         // movecost 2 indicates flat terrain like a floor, no collision there.
         collision_type = veh_coll_bashable;
         e = 0.30;
         //Just a rough rescale for now to obtain approximately equal numbers
-        mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);
-        part_dens = 10 + int(float(g->m.bash_strength(x, y)) / 300 * 70);
-    } else if (g->m.move_cost_ter_furn(x, y) == 0) {
+        mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
+        part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
+    } else if (g->m.move_cost_ter_furn(p) == 0) {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
         e=0.10;
@@ -4111,16 +4111,16 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
             // TODO: Z
-            smashed = g->m.bash( tripoint( x, y, g->get_levz() ), obj_dmg, false, false, this).second;
+            smashed = g->m.bash( p, obj_dmg, false, false, this).second;
             if (smashed) {
-                if (g->m.is_bashable_ter_furn(x, y)) {
+                if (g->m.is_bashable_ter_furn(p)) {
                     // There's new terrain there to smash
                     smashed = false;
                     e = 0.30;
                     //Just a rough rescale for now to obtain approximately equal numbers
-                    mass2 = 10 + std::max(0, g->m.bash_strength(x, y) - 30);
-                    part_dens = 10 + int(float(g->m.bash_strength(x, y)) / 300 * 70);
-                } else if (g->m.move_cost_ter_furn(x, y) == 0) {
+                    mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
+                    part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
+                } else if (g->m.move_cost_ter_furn(p) == 0) {
                     // There's new terrain there, but we can't smash it!
                     smashed = false;
                     collision_type = veh_coll_other;
