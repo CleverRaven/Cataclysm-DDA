@@ -12401,12 +12401,11 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 }
 
 void player::armor_absorb(damage_unit& du, item& armor) {
-    if (rng(0,100) > armor.get_coverage()) {
+    if( rng( 0, 99 ) >= armor.get_coverage() ) {
         return;
     }
 
-    if (armor.is_power_armor()) { // TODO: add some check for power armor
-    }
+    // TODO: add some check for power armor
 
     const auto res = resistances(armor);
     const float effective_resist = res.get_effective_resist(du);
