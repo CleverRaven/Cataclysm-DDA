@@ -4697,14 +4697,11 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
         return false;
     }
 
-    // Reviving a corpse can remove it, so we have to deactivate it before revival, not after
     active = false;
-    // Copy the corpse pointer
-    const mtype *cor = corpse;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, this ) ) {
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( cor->in_species( "ROBOT" ) ) {
+                if( corpse->in_species( "ROBOT" ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
@@ -4715,7 +4712,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
             carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
                                        pgettext( "memorial_female", "Had a %s revive while carrying it." ),
                                        tname().c_str() );
-            if( cor->in_species( "ROBOT" ) ) {
+            if( corpse->in_species( "ROBOT" ) ) {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a corpse you're carrying has started moving!" ) );
