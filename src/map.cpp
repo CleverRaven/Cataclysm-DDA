@@ -136,6 +136,10 @@ map::map( int mapsize, bool zlev )
         grid.resize( my_MAPSIZE * my_MAPSIZE, nullptr );
     }
 
+    for( auto &ptr : caches ) {
+        ptr = std::unique_ptr<level_cache>( new level_cache() );
+    }
+
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
     traplocs.resize( trap::count() );
 }
@@ -7199,7 +7203,7 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
 level_cache &map::access_cache( int zlev )
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        return caches[zlev + OVERMAP_DEPTH];
+        return *caches[zlev + OVERMAP_DEPTH];
     }
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );
@@ -7209,7 +7213,7 @@ level_cache &map::access_cache( int zlev )
 const level_cache &map::access_cache( int zlev ) const
 {
     if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
-        return caches[zlev + OVERMAP_DEPTH];
+        return *caches[zlev + OVERMAP_DEPTH];
     }
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );

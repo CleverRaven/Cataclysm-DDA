@@ -1234,15 +1234,15 @@ private:
     /**
      * Holds caches for visibility, light, transparency and vehicles
      */
-    std::array< level_cache, OVERMAP_LAYERS > caches;
+    std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
     // Note: no bounds check
     level_cache &get_cache( const int zlev ) {
-        return caches[zlev + OVERMAP_DEPTH];
+        return *caches[zlev + OVERMAP_DEPTH];
     }
 
     const level_cache &get_cache( const int zlev ) const {
-        return caches[zlev + OVERMAP_DEPTH];
+        return *caches[zlev + OVERMAP_DEPTH];
     }
 
   public:
