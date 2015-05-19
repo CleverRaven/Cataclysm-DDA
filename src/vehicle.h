@@ -36,8 +36,9 @@ constexpr int SCATTER_DISTANCE = 3;
 constexpr int k_mvel = 200; //adjust this to balance collision damage
 
 struct fuel_type {
-    /** Id of the fuel type, which is also a valid ammo type id */
-    std::string id;
+    /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
+     * fuel types like muscle. */
+    itype_id id;
     /** Color when displaying information about. */
     nc_color color;
     /** See @ref vehicle::consume_fuel */
@@ -47,7 +48,7 @@ struct fuel_type {
 };
 
 const std::array<fuel_type, 7> &get_fuel_types();
-int fuel_charges_to_amount_factor( const std::string &ftype );
+int fuel_charges_to_amount_factor( const itype_id &ftype );
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -516,19 +517,19 @@ public:
     tripoint real_global_pos3() const;
 
     // Checks how much certain fuel left in tanks.
-    int fuel_left (const std::string &ftype, bool recurse = false) const;
-    int fuel_capacity (const std::string &ftype) const;
+    int fuel_left (const itype_id &ftype, bool recurse = false) const;
+    int fuel_capacity (const itype_id &ftype) const;
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (const std::string &ftype, int amount);
+    int refill (const itype_id &ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (const std::string &ftype, int amount);
+    int drain (const itype_id &ftype, int amount);
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (const std::string &ftype) const;
+    int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
 
@@ -694,7 +695,8 @@ public:
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
-    long turret_has_ammo( int p );
+    class turret_ammo_data;
+    turret_ammo_data turret_has_ammo( int p ) const;
 
     // Manual turret aiming menu (select turrets etc.) when shooting from controls
     // Returns whether a valid target was picked
@@ -755,13 +757,13 @@ public:
     // shows ui menu to select an engine
     int select_engine();
     //returns whether the engine is enabled or not, and has fueltype
-    bool is_engine_type_on(int e, const std::string &ft) const;
+    bool is_engine_type_on(int e, const itype_id &ft) const;
     //returns whether the engine is enabled or not
     bool is_engine_on(int e) const;
     //returns whether the part is enabled or not
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
-    bool is_engine_type(int e, const std::string &ft) const;
+    bool is_engine_type(int e, const itype_id &ft) const;
     //returns whether there is an active engine at vehicle coordinates
     bool is_active_engine_at(int x, int y) const;
     //returns whether the alternator is operational
@@ -771,10 +773,10 @@ public:
     void toggle_specific_part(int p, bool on);
     //true if an engine exists with specified type
     //If enabled true, this engine must be enabled to return true
-    bool has_engine_type(const std::string &ft, bool enabled) const;
+    bool has_engine_type(const itype_id &ft, bool enabled) const;
     //true if an engine exists without the specified type
     //If enabled true, this engine must be enabled to return true
-    bool has_engine_type_not(const std::string &ft, bool enabled) const;
+    bool has_engine_type_not(const itype_id &ft, bool enabled) const;
     //prints message relating to vehicle start failure
     void msg_start_engine_fail();
     //if necessary, damage this engine

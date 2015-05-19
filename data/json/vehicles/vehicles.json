@@ -3353,6 +3353,53 @@
         ]
     },{
         "type" : "vehicle",
+        "id" : "electric_car_flame",
+        "name" : "Flaming Electric Car",
+        "blueprint" : [
+            ["##++-o"],
+            ["+=##'|"],
+            ["+=##'|"],
+            ["##++-o"]
+        ],
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "seat"},
+            {"x": 0, "y": 0, "part": "seatbelt"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "roof"},
+            {"x": 0, "y": 0, "part": "napalm_tank"},
+            {"x": 0, "y": 1, "part": "frame_vertical_2"},
+            {"x": 0, "y": 1, "part": "gas_tank"},
+            {"x": 0, "y": -1, "part": "frame_vertical"},
+            {"x": 0, "y": -1, "part": "water_tank"},
+            {"x": 0, "y": -1, "part": "laser_rifle"},
+            {"x": 0, "y": 2, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "frame_vertical_2"},
+            {"x": -1, "y": 1, "part": "frame_vertical_2"},
+            {"x": -1, "y": -1, "part": "frame_vertical"},
+            {"x": -1, "y": -1, "part": "wheel"},
+            {"x": -1, "y": -1, "part": "storage_battery"},
+            {"x": -1, "y": 2, "part": "frame_vertical"},
+            {"x": -1, "y": 2, "part": "wheel"},
+            {"x": -1, "y": 2, "part": "storage_battery"},
+            {"x": 1, "y": 0, "part": "frame_horizontal"},
+            {"x": 1, "y": 0, "part": "engine_electric_large"},
+            {"x": 1, "y": 0, "part": "flamethrower"},
+            {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "laser_gun"},
+            {"x": 1, "y": -1, "part": "frame_nw"},
+            {"x": 1, "y": -1, "part": "wheel"},
+            {"x": 1, "y": -1, "part": "watercannon"},
+            {"x": 1, "y": 2, "part": "frame_ne"},
+            {"x": 1, "y": 2, "part": "wheel"},
+            {"x": 1, "y": 2, "part": "water_dirty_tank"},
+            {"x": 1, "y": 2, "part": "m249"}
+        ],
+        "items" : [
+            {"x": 1, "y": 2, "chance": 90, "items": ["223","223","223","223","223","223","223","223","223","223","223"]}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "rara_x",
         "name" : "Solar Car",
         "blueprint" : [
