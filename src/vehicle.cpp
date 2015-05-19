@@ -2535,7 +2535,7 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool v
 
         if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
             if( cur_gauge++ >= max_gauge ) {
-                wprintz(win, c_ltgray, "...", ammo_name( f ).c_str() );
+                wprintz(win, c_ltgray, "..." );
                 break;
             }
             mvwprintz(win, y + yofs, x, col_indf1, "E...F");
