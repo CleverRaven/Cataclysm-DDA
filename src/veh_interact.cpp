@@ -2130,10 +2130,10 @@ void act_vehicle_siphon(vehicle* veh) {
 
     if(got < want) {
         add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, draining the tank."),
-                got, _(fuel.c_str()), veh->name.c_str(), fillv->name.c_str() );
+                got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
     } else {
         add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
-                got, _(fuel.c_str()), veh->name.c_str(), fillv->name.c_str() );
+                got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
     }
 }
 
