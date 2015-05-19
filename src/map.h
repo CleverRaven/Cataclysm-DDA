@@ -20,6 +20,7 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include "string_id.h"
+#include "veh_type.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -51,8 +52,6 @@ typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-class vehicle_group;
-using vgroup_id = string_id<vehicle_group>;
 
 class map_stack : public item_stack {
 private:

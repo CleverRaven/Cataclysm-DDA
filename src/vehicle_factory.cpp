@@ -3,8 +3,6 @@
 #include "debug.h"
 #include "translations.h"
 
-using vgroup_id = string_id<vehicle_group>;
-
 std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 
 VehicleFacings::VehicleFacings(JsonObject &jo, const std::string &key)
