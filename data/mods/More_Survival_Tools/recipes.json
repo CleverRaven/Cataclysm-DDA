@@ -1477,7 +1477,7 @@
     ],
     "components": [
       [
-      [ "copper", 50 ]
+      [ "copper", 50 ],
       [ "tin", 50 ],
       [ "bismuth", 50 ],
       [ "solder_wire", 50 ],
