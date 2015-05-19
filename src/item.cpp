@@ -1830,6 +1830,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
+    } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
+        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
+        ret.str("");
+        ret << type_name(quantity);
+        ret << "+";
+        maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -1897,30 +1903,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _("Bug");
         }
     }
-    // Wrap all armor mods together
-    const bool has_armor_mod = item_tags.count("wooled") + item_tags.count("furred") +
-        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0;
-    if( has_armor_mod ) {
-        ret << " (";
-    }
-    // It's probably hard to translate a single letter
-    // Any good way of doing _("W")[0] that aren't as hacky as _("W")[0]?
-    if (item_tags.count("wooled") > 0 ){
-        ret << _("W");
-    }
-    if (item_tags.count("furred") > 0 ){
-        ret << _("F");
-    }
-    if (item_tags.count("leather_padded") > 0 ){
-        ret << _("L");
-    }
-    if (item_tags.count("kevlar_padded") > 0 ){
-        ret << _("K");
-    }
-    if( has_armor_mod ) {
-        ret << ")";
-    }
-    
+
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
