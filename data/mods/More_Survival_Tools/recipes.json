@@ -1423,5 +1423,98 @@
       [ "felt_patch", 4 ]
     ]
   ]
-}
+},{
+  "type" : "recipe",
+  "result": "pebble_clay",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+  [
+    [ "press", -1 ]
+  ],
+  [
+    [ "brick_kiln", 10 ]
+  ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 1 ]
+    ]
+  ]
+},
+  {
+    "type" : "recipe",
+    "override": true,
+    "result": "bearing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
+      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+    ]
+    ],
+    "components": [
+      [
+      [ "copper", 50 ]
+      [ "tin", 50 ],
+      [ "bismuth", 50 ],
+      [ "solder_wire", 50 ],
+      [ "silver_small", 50 ],
+      [ "scrap", 1 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bearing_lead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
+      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+    ]
+    ],
+    "components": [
+      [
+      [ "lead", 60 ],
+      [ "gold_small", 60 ]
+      ]
+    ]
+  }
 ]
