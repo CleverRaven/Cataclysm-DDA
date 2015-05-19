@@ -1435,10 +1435,9 @@
   "autolearn": true,
   "tools": [
   [
-    [ "press", -1 ]
-  ],
-  [
-    [ "brick_kiln", 10 ]
+    [ "brick_kiln", 10 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
   ]
   ],
   "components": [
@@ -1500,14 +1499,12 @@
     "book_learn": [[ "textbook_fabrication", 1 ]],
     "tools": [
     [
-      [ "press", -1 ]
+      [ "press", -1 ],
+      [ "material_sand", -1 ]
     ],
     [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-    ],
-    [
-      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
     ]
     ],
     "components": [
