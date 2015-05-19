@@ -190,15 +190,15 @@ void mattack::shriek_loud(monster *z, int index)
         return;
     }
     Creature *target = z->attack_target();
-    int dist = rl_dist( z->pos(), target->pos() );
-    if( target == nullptr || dist > 6 ||
+    int dist;
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 6 ||
         !z->sees( *target ) ) {
         return;
     }
 
     z->moves -= 250;   // It takes a while
     z->reset_special(index); // Reset timer
-    sounds::sound(z->pos(), 150, _("a piercing wail!"));
+    sounds::sound(z->pos(), 160, _("a piercing wail!"));
     if (dist <= 3 && one_in(3) && !(target->is_immune_effect("deaf"))){
         target->add_effect("stunned", rng(3,5) / dist);
         auto msg_type = target == &g->u ? m_warning : m_info;
