@@ -166,7 +166,9 @@ class map
      * doesn't need to be updated.
      */
     void set_transparency_cache_dirty( const int zlev ) {
-        get_cache( zlev ).transparency_cache_dirty = true;
+        if( inbounds_z( zlev ) ) {
+            get_cache( zlev ).transparency_cache_dirty = true;
+        }
     }
 
     /**
@@ -177,7 +179,9 @@ class map
      * doesn't need to be updated.
      */
     void set_outside_cache_dirty( const int zlev ) {
-        get_cache( zlev ).outside_cache_dirty = true;
+        if( inbounds_z( zlev ) ) {
+            get_cache( zlev ).outside_cache_dirty = true;
+        }
     }
 
     /**
@@ -989,6 +993,10 @@ void add_corpse( const tripoint &p );
  bool inbounds(const int x, const int y) const;
  bool inbounds(const int x, const int y, const int z) const;
  bool inbounds( const tripoint &p ) const;
+
+    bool inbounds_z( const int z ) const {
+        return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
+    }
 
  int getmapsize() const { return my_MAPSIZE; };
  bool has_zlevels() const { return zlevels; }
