@@ -1503,11 +1503,8 @@
       [ "press", -1 ]
     ],
     [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-    ],
-    [
-      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
     ]
     ],
     "components": [
