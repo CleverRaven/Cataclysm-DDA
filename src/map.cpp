@@ -5066,10 +5066,19 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_DARK;
     }
     const float apparent_light = get_cache(p.z).seen_cache[p.x][p.y] * get_cache(p.z).lm[p.x][p.y];
-    // This represents too hazy to see detail, but enough light getting through to illuminate.
-    if( apparent_light > cache.g_light_level && apparent_light > LIGHT_AMBIENT_LIT &&
-        get_cache(p.z).seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
-        return LL_BRIGHT_ONLY;
+    if( get_cache(p.z).seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+        if( apparent_light > LIGHT_AMBIENT_LIT ) {
+            if( apparent_light > cache.g_light_level ) {
+                // This represents too hazy to see detail,
+                // but enough light getting through to illuminate.
+                return LL_BRIGHT_ONLY;
+            } else {
+                // If it's not brighter than the surroundings, it just ends up shadowy.
+                return LL_LOW;
+            }
+        } else {
+            return LL_BLANK;
+        }
     }
     // Then we just search for the light level in descending order.
     if( apparent_light > LIGHT_SOURCE_BRIGHT ) {

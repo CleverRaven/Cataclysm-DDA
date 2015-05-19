@@ -13690,7 +13690,7 @@
         "material" : "null",
         "phase" : "solid",
         "category": "drugs",
-        "flags" : ["LITCIG", "TOBACCO", "LIGHT_1"]
+        "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
     {
         "type" : "COMESTIBLE",
@@ -13982,7 +13982,7 @@
         "material" : "null",
         "phase" : "solid",
         "category": "drugs",
-        "flags" : ["LITCIG", "TOBACCO", "LIGHT_1"]
+        "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
     {
         "type" : "GENERIC",
@@ -14047,7 +14047,7 @@
         "material" : "null",
         "phase" : "solid",
         "category": "drugs",
-        "flags" : ["LITCIG", "LIGHT_1"]
+        "flags" : ["LITCIG", "LIGHT_4"]
     },
     {
         "type" : "COMESTIBLE",

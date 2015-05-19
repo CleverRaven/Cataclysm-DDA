@@ -21,9 +21,9 @@
 #define TWILIGHT_MINUTES 60
 
 // How much light moon provides--double for full moon
-#define MOONLIGHT_LEVEL 4
+#define MOONLIGHT_LEVEL 4.5
 // How much light is provided in full daylight
-#define DAYLIGHT_LEVEL 60
+#define DAYLIGHT_LEVEL 100
 
 // How long real-life seasons last, in days, for reference
 #define REAL_WORLD_SEASON_LENGTH 91

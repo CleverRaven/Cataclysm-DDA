@@ -6,11 +6,13 @@
 
 #define LIGHT_AMBIENT_MINIMAL 3.7f
 #define LIGHT_AMBIENT_LOW   3.5
-#define LIGHT_AMBIENT_LIT   5.0
+#define LIGHT_AMBIENT_LIT   10.0
 
 #define LIGHT_TRANSPARENCY_SOLID 0
 // Calculated to run out at 60 squares.
-#define LIGHT_TRANSPARENCY_OPEN_AIR 0.047359693228
+// Cumulative transparency should drop to 0.1 or lower over 60 squares,
+// Bright sunlinght should drop to LIGHT_AMBIENT_LOW over 60 squares.
+#define LIGHT_TRANSPARENCY_OPEN_AIR 0.038376418216
 #define LIGHT_TRANSPARENCY_CLEAR 1
 
 #define LIGHT_RANGE(b) static_cast<int>( -log(LIGHT_AMBIENT_LOW / (float)b) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
@@ -19,8 +21,8 @@
 enum lit_level {
     LL_DARK = 0,
     LL_LOW, // Hard to see
-    LL_LIT,
     LL_BRIGHT_ONLY, // bright but indistinct
+    LL_LIT,
     LL_BRIGHT, // Probably only for light sources
     LL_BLANK // blank space, not an actual light level
 };
