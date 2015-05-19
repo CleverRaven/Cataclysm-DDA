@@ -952,7 +952,7 @@ void veh_interact::do_refill()
         for( entry_num = 0; entry_num < ptanks.size(); entry_num++) {
             const vpart_info &vpinfo = ptanks[entry_num]->info();
             fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
-                                 ammo_name(vpinfo.fuel_type).c_str(),
+                                 item::nname(vpinfo.fuel_type).c_str(),
                                  vpinfo.name.c_str());
         }
         fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
@@ -1604,7 +1604,7 @@ void veh_interact::display_stats()
     for( auto & ft : get_fuel_types() ) {
         int fuel_usage = veh->basic_consumption( ft.id );
         if (fuel_usage > 0) {
-            fuel_name_length = std::max(fuel_name_length, utf8_width(ammo_name( ft.id ).c_str()));
+            fuel_name_length = std::max(fuel_name_length, utf8_width(item::nname( ft.id ).c_str()));
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1845,7 +1845,7 @@ void veh_interact::display_details( const vpart_info *part )
     if ( part->fuel_type != "NULL" ) {
         fold_and_print( w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ),
                         c_white, _("Charge: <color_ltgray>%s</color>"),
-                        ammo_name( part->fuel_type ).c_str() );
+                        item::nname( part->fuel_type ).c_str() );
     }
     if ( part->power != 0 ) {
         fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
