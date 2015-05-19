@@ -153,6 +153,8 @@ class map
  map( bool zlev ) : map( MAPSIZE, zlev ) { }
  ~map();
 
+ map &operator=( map&& ) = default;
+
 // Visual Output
  void debug();
 
