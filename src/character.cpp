@@ -136,7 +136,7 @@ bool Character::move_effects(bool attacking)
         if (attacking == true){
             return true;
         }
-        if ( (get_dex() > get_str() ? dice(get_dex(), 3) : dice(get_str(), 3) < get_effect_int("grabbed")) ){
+        if (get_dex() > get_str() ? dice(get_dex(), 2) : dice(get_str(), 2) < dice( get_effect_int("grabbed"), 3) ){
             add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
                                             _("<npcname> tries to break out of the grab, but fails!"));
             return false;

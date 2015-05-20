@@ -1312,11 +1312,15 @@
         "type": "effect_type",
         "id": "grabbed",
         "name": ["Grabbed"],
-        "desc": ["You have been grabbed by an attack.\nYou cannot dodge and blocking is very difficult."],
+        "desc": ["You have been grabbed by an attack.\nYou are being held in place and cannot dodge, and blocking is very difficult."],
         "apply_message": "You have been grabbed.",
         "rating": "bad",
+        "max_duration": 2,
         "base_mods": {
-            "speed_mod": [-25]
+            "speed_mod": [-15]
+        },
+        "scaling_mods": {
+            "speed_mod": [-5]
         }
     },
     {

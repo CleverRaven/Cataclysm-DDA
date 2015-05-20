@@ -2387,31 +2387,32 @@ void mattack::grab_pull(monster *z, int index)
 
     grab(z, index);
 
-    if (target->has_effect("grabbed")){
-        tripoint target_square = z->pos() - (target->pos() - z->pos());
-        if (z->can_move_to(target_square) && target->stability_roll() < dice(z->type->melee_sides, z->type->melee_dice) - rng( 0, 6 )) {
-            tripoint zpt = z->pos();
-            z->move_to(target_square);
-            if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
-                zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-                g->update_map( zpt.x, zpt.y );
-            }
-            if (foe != nullptr){
-                if (foe->in_vehicle) {
-                g->m.unboard_vehicle(foe->pos());
-                }
-                foe->setpos(zpt);
-            } else {
-                zz->setpos(zpt);
-            }
-            target->add_msg_player_or_npc(m_good, _("You are dragged behind the %s!"),
-                                    _("<npcname> gets dragged behind the %s!"), z->name().c_str() );
-        } else{
-            target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
-                                    _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
-        }
-    target->add_effect("grabbed", 2, bp_torso, false, 6);
+    if (!target->has_effect("grabbed")){ //Can't drag if isn't grabbed
+        return;
     }
+    tripoint target_square = z->pos() - (target->pos() - z->pos());
+    if (z->can_move_to(target_square) && target->stability_roll() < dice(z->type->melee_sides, z->type->melee_dice) ) {
+        tripoint zpt = z->pos();
+        z->move_to(target_square);
+        if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
+            zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+            g->update_map( zpt.x, zpt.y );
+        }
+        if (foe != nullptr){
+            if (foe->in_vehicle) {
+            g->m.unboard_vehicle(foe->pos());
+            }
+            foe->setpos(zpt);
+        } else {
+            zz->setpos(zpt);
+        }
+        target->add_msg_player_or_npc(m_good, _("You are dragged behind the %s!"),
+                                _("<npcname> gets dragged behind the %s!"), z->name().c_str() );
+    } else{
+        target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
+                                _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
+    }
+    target->add_effect("grabbed", 2, bp_torso, false, 6);
 }
 
 void mattack::gene_sting(monster *z, int index)
