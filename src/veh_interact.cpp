@@ -1662,27 +1662,29 @@ void veh_interact::display_mode(char mode)
     }
 
     if (mode == ' ') {
-        std::vector<std::string> actions;
-        actions.push_back(_("<i>nstall"));
-        actions.push_back(_("<r>epair"));
-        actions.push_back(_("re<f>ill"));
-        actions.push_back(_("rem<o>ve"));
-        actions.push_back(_("<s>iphon"));
-        actions.push_back(_("<d>rain"));
-        actions.push_back(_("<c>hange tire"));
-        actions.push_back(_("r<e>name"));
-        actions.push_back(_("l<a>bel"));
+        const std::array<std::string, 9> actions = { {
+            { _("<i>nstall") },
+            { _("<r>epair") },
+            { _("re<f>ill") },
+            { _("rem<o>ve") },
+            { _("<s>iphon") },
+            { _("<d>rain") },
+            { _("<c>hange tire") },
+            { _("r<e>name") },
+            { _("l<a>bel") },
+        } };
 
-        bool enabled[9];
-        enabled[0] = !cant_do('i');
-        enabled[1] = !cant_do('r');
-        enabled[2] = !cant_do('f');
-        enabled[3] = !cant_do('o');
-        enabled[4] = !cant_do('s');
-        enabled[5] = !cant_do('d');
-        enabled[6] = !cant_do('c');
-        enabled[7] = true;          // 'rename' is always available
-        enabled[8] = !cant_do('a');
+        const std::array<bool, std::tuple_size<decltype(actions)>::value> enabled = { {
+            !cant_do('i'),
+            !cant_do('r'),
+            !cant_do('f'),
+            !cant_do('o'),
+            !cant_do('s'),
+            !cant_do('d'),
+            !cant_do('c'),
+            true,          // 'rename' is always available
+            !cant_do('a'),
+        } };
 
         int pos[10];
         pos[0] = 1;
