@@ -2307,7 +2307,7 @@
     "hp":110,
     "death_function":["BOOMER_GLOW"],
     "special_attacks":[["BOOMER_GLOW", 20]],
-    "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified. The bile dribbling from its mouth also appears to have changed...",
+    "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
     "flags":["SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
