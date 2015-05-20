@@ -2045,20 +2045,13 @@ const std::list<vehicle*> find_vehicles_around(const tripoint &location, std::fu
 
 void act_vehicle_siphon(vehicle* veh) {
     std::vector<itype_id> fuels;
-    for( auto & part : veh->parts ) {
-        const vpart_info &vpinfo = part.info();
-        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
-            continue;
-        }
-        const itype_id &fuel = vpinfo.fuel_type;
-        if( !item( fuel, 0 ).made_of( LIQUID ) ) {
+    for( auto & e : veh->fuels_left() ) {
+        const itype *type = item::find( e.first );
+        if( type->phase != LIQUID ) {
             // This skips battery and plutonium cells
             continue;
         }
-        if( std::find( fuels.begin(), fuels.end(), fuel ) != fuels.end() )  {
-            continue;
-        }
-        fuels.push_back( fuel );
+        fuels.push_back( e.first );
     }
     if( fuels.empty() ) {
         add_msg(m_info, _("The vehicle has no fuel left to siphon."));
