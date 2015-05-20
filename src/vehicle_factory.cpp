@@ -1,4 +1,5 @@
 #include "vehicle_factory.h"
+#include "veh_type.h"
 #include "debug.h"
 #include "translations.h"
 
@@ -56,10 +57,10 @@ void VehicleFunction_json::apply(map& m, const std::string &terrain_name) const
                 debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
                 return;
             }
-            vehicle_controller->add_vehicle(m, vehicle, loc->pick_point(), loc->pick_facing(), fuel, status);
+            m.add_vehicle(vehicle, loc->pick_point(), loc->pick_facing(), fuel, status);
         }
         else {
-            vehicle_controller->add_vehicle(m, vehicle, location->pick_point(), location->pick_facing(), fuel, status);
+            m.add_vehicle(vehicle, location->pick_point(), location->pick_facing(), fuel, status);
         }
     }
 }
@@ -67,12 +68,6 @@ void VehicleFunction_json::apply(map& m, const std::string &terrain_name) const
 void VehicleFactory::vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name)
 {
     spawns[spawn_id].pick()->apply(m, terrain_name);
-}
-
-vehicle* VehicleFactory::add_vehicle(map& m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks)
-{
-    return m.add_vehicle(groups.count(vehicle_id) > 0 ? vproto_id(groups[vehicle_id].pick()) : vproto_id(vehicle_id),
-        p.x, p.y, facing, fuel, status, mergewrecks);
 }
 
 const VehicleLocation* VehicleFactory::pick_location(const std::string &placement_id) const
@@ -83,17 +78,6 @@ const VehicleLocation* VehicleFactory::pick_location(const std::string &placemen
     }
 
     return placements.find(placement_id)->second.pick();
-}
-
-void VehicleFactory::load_vehicle_group(JsonObject &jo)
-{
-    const Vehicle_tag group_id = jo.get_string("id");
-    JsonArray vehicles = jo.get_array("vehicles");
-
-    while (vehicles.has_more()) {
-        JsonArray pair = vehicles.next_array();
-        groups[group_id].add_vehicle(pair.get_string(0), pair.get_int(1));
-    }
 }
 
 void VehicleFactory::load_vehicle_placement(JsonObject &jo)
@@ -168,8 +152,8 @@ void VehicleFactory::builtin_jackknifed_semi(map& m, const std::string &terraini
         trailer_p.y = semi_p.y - 1;
     }
 
-    vehicle_controller->add_vehicle(m, "semi_truck", semi_p, (facing + 135) % 360, -1, 1);
-    vehicle_controller->add_vehicle(m, "truck_trailer", trailer_p, (facing + 90) % 360, -1, 1);
+    m.add_vehicle(vgroup_id("semi_truck"), semi_p, (facing + 135) % 360, -1, 1);
+    m.add_vehicle(vgroup_id("truck_trailer"), trailer_p, (facing + 90) % 360, -1, 1);
 }
 
 void VehicleFactory::builtin_pileup(map& m, const std::string&)
@@ -184,7 +168,7 @@ void VehicleFactory::builtin_pileup(map& m, const std::string&)
             return;
         }
 
-        last_added_car = vehicle_controller->add_vehicle(m, "city_pileup", loc->pick_point(),
+        last_added_car = m.add_vehicle(vgroup_id("city_pileup"), loc->pick_point(),
             loc->pick_facing(), -1, 1);
     }
 
@@ -205,7 +189,7 @@ void VehicleFactory::builtin_policepileup(map& m, const std::string&)
             return;
         }
 
-        last_added_car = vehicle_controller->add_vehicle(m, "policecar", loc->pick_point(),
+        last_added_car = m.add_vehicle(vgroup_id("policecar"), loc->pick_point(),
             loc->pick_facing(), -1, 1);
     }
 

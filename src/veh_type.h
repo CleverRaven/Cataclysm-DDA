@@ -4,6 +4,7 @@
 #include "string_id.h"
 #include "int_id.h"
 #include "enums.h"
+#include "weighted_list.h"
 
 #include <vector>
 #include <bitset>
@@ -15,6 +16,8 @@ using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+class vehicle_group;
+using vgroup_id = string_id<vehicle_group>;
 class vehicle;
 class JsonObject;
 struct vehicle_item_spawn;
@@ -159,5 +162,27 @@ struct vehicle_prototype
 };
 
 extern const vpart_str_id legacy_vpart_id[74];
+
+/**
+ * This class is used to group vehicles together into groups in much the same way as
+ *  item groups work.
+ */
+class vehicle_group {
+public:
+    vehicle_group() : vehicles() {}
+
+    void add_vehicle(const vproto_id &type, const int &probability) {
+        vehicles.add(type, probability);
+    }
+
+    const vproto_id &pick() const {
+        return *(vehicles.pick());
+    }
+
+    static void load( JsonObject &jo );
+
+private:
+    weighted_int_list<vproto_id> vehicles;
+};
 
 #endif

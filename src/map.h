@@ -20,6 +20,7 @@
 #include "item_stack.h"
 #include "active_item_cache.h"
 #include "string_id.h"
+#include "veh_type.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -903,6 +904,9 @@ void add_corpse( const tripoint &p );
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
+ vehicle *add_vehicle(const vgroup_id & type, const point &p, const int dir,
+                      const int init_veh_fuel = -1, const int init_veh_status = -1,
+                      const bool merge_wrecks = true);
  vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
