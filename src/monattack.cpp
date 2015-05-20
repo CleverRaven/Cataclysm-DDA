@@ -2313,6 +2313,9 @@ void mattack::pull_enemy(monster *z, int index)
         tdir.advance();
         pt.x = z->posx() + tdir.dx();
         pt.y = z->posy() + tdir.dy();
+        if (!g->is_empty(pt)){ //Cancel the grab if the space is occupied by something
+            break;
+        }
         if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
             pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
             g->update_map( pt.x, pt.y );
@@ -2333,7 +2336,7 @@ void mattack::pull_enemy(monster *z, int index)
     if( seen ) {
         add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
-    target->add_effect("grabbed", 2, bp_torso, false, 6);
+    target->add_effect("grabbed", 2, bp_torso, false, 6); //Duration needs to be at least 2, or grab will imediately be removed
 }
 
 void mattack::grab(monster *z, int index)
@@ -2385,9 +2388,9 @@ void mattack::grab_pull(monster *z, int index)
 
     player *foe = dynamic_cast< player* >( target );
 
-    grab(z, index);
+    grab(z, index); //First, grab the target
 
-    if (!target->has_effect("grabbed")){ //Can't drag if isn't grabbed
+    if (!target->has_effect("grabbed")){ //Can't drag if isn't grabbed, otherwise try and move
         return;
     }
     tripoint target_square = z->pos() - (target->pos() - z->pos());
