@@ -206,9 +206,6 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
     auto &ch = get_cache( veh->smz );
     ch.veh_in_active_range = true;
 
-    // Assert the vehicle has been added to the list before caching it
-    assert( ch.vehicle_list.find( veh ) != ch.vehicle_list.end() );
-    
     if( !brand_new ) {
         // Existing must be cleared
         auto it = ch.veh_cached_parts.begin();
