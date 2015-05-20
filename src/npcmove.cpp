@@ -1066,7 +1066,7 @@ void npc::update_path( const tripoint &p )
     }
 
     path = g->m.route( pos(), p, str_cur + weapon.type->melee_dam, 1000 );
-    if( !path.empty() && path[0] == pos()  ) {
+    if( !path.empty() && path[0] == pos() ) {
         path.erase( path.begin() );
     }
 }
