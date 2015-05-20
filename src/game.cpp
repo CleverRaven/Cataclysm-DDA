@@ -7079,17 +7079,6 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-bool game::vehicle_near()
-{
-    auto pts = closest_tripoints_first( 1, u.pos() );
-    for( const auto &p : pts ) {
-        if( m.veh_at( p ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
     const vpart_info &part_info = part->info();
@@ -9801,6 +9790,19 @@ void game::grab()
     }
 }
 
+bool vehicle_near( const itype_id &ft )
+{
+    for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        vehicle *veh = g->m.veh_at( p );
+        // TODO: constify fuel_left and fuel_capacity
+        // TODO: add a fuel_capacity_left function
+        if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
@@ -9811,8 +9813,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return false;
     }
 
-    if( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") &&
-         vehicle_near() && query_yn(_("Refill vehicle?")) ) {
+    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
         tripoint vp;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
