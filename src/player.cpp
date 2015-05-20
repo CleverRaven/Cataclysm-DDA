@@ -1824,14 +1824,10 @@ bool player::is_immune_effect( const efftype_id &effect ) const
     return false;
 }
 
-bool player::has_stable_footing(int strength) const
+int player::stability_roll() const
 {
-    if ((get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4) > (strength) || is_throw_immune()){
-        return true;
-    }
-    else {
-        return false;
-    }
+    int stability = (get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4);
+        return stability;
 }
 
 bool player::is_immune_damage( const damage_type dt ) const
@@ -7363,7 +7359,7 @@ void player::hardcoded_effects(effect &it)
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 tripoint dest( posx() + i, posy() + j, posz() );
-                if (g->mon_at(dest)){
+                if (g->mon_at(dest) != -1){
                     intensity ++;
                 }
             }

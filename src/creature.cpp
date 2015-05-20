@@ -774,7 +774,7 @@ void Creature::set_fake(const bool fake_value)
 /*
  * Effect-related methods
  */
-bool Creature::move_effects()
+bool Creature::move_effects(bool attacking)
 {
     return true;
 }

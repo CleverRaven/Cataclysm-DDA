@@ -334,7 +334,8 @@ void monster::move()
     if( moves < 0 ) {
         return;
     }
-    if( !move_effects() ) {
+    bool attacking = false;
+    if( !move_effects(attacking) ) {
         moves = 0;
         return;
     }
@@ -385,7 +386,7 @@ void monster::move()
     // the plans that are not valid for travel/melee.
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     const bool can_fly = has_flag( MF_FLIES );
-    if( !plans.empty() && 
+    if( !plans.empty() &&
         ( rl_dist( pos(), plans[0] ) > 1 ||
           !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) ) {
         plans.clear();

@@ -1091,7 +1091,7 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
-bool monster::move_effects()
+bool monster::move_effects(bool attacking)
 {
     bool u_see_me = g->u.sees(*this);
     if (has_effect("tied")) {
@@ -1182,7 +1182,7 @@ bool monster::move_effects()
             remove_effect("grabbed");
         }
     }
-    return Creature::move_effects();
+    return Creature::move_effects(attacking);
 }
 
 void monster::add_eff_effects(effect e, bool reduced)
@@ -1231,13 +1231,10 @@ bool monster::has_grab_break_tec() const
     return false;
 }
 
-bool monster::has_stable_footing(int strength) const
+int monster::stability_roll() const
 {
-    if ( strength > dice(type->melee_sides, type->melee_dice)){
-        return true;
-    } else {
-    return false;
-    }
+    int stability = dice(type->melee_sides, type->melee_dice) + rng( 0 ,5 );
+        return stability;
 }
 
 int monster::get_dodge() const

@@ -384,8 +384,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
-        /** Returns true if the player can't be dragged */
-        bool has_stable_footing(int strength) const override;
+        /** Returns value of player's stable footing */
+        int stability_roll() const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */

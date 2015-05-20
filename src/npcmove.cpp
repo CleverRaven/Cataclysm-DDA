@@ -1066,10 +1066,6 @@ bool npc::can_move_to( const tripoint &p ) const
 
 void npc::move_to( const tripoint &pt )
 {
-    if( !move_effects() ) {
-        mod_moves(-100);
-        return;
-    }
     if( g->m.has_flag("UNSTABLE", pt ) ) {
         add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
@@ -1111,6 +1107,14 @@ void npc::move_to( const tripoint &pt )
         newpath = line_to( pos3(), p, linet1, linet2 );
 
         p = newpath[0];
+    }
+    bool attacking = false;
+    if (g->mon_at(p)){
+        attacking = true;
+    }
+    if( !move_effects(attacking) ) {
+        mod_moves(-100);
+        return;
     }
 
     if( p == pos3() ) { // We're just pausing!
@@ -1403,7 +1407,7 @@ void npc::pick_up_item()
     update_path( wanted_item_pos );
 
     if( path.size() > 1 ) {
-        add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]", 
+        add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
         move_to_next();
         return;
@@ -2170,7 +2174,7 @@ void npc::look_for_player(player &sought)
 
 bool npc::saw_player_recently() const
 {
-    return ( last_player_seen_pos.x >= 0 && last_player_seen_pos.x < SEEX * MAPSIZE && 
+    return ( last_player_seen_pos.x >= 0 && last_player_seen_pos.x < SEEX * MAPSIZE &&
              last_player_seen_pos.y >= 0 && last_player_seen_pos.y < SEEY * MAPSIZE &&
              last_seen_player_turn > 0 );
 }
@@ -2190,7 +2194,7 @@ void npc::reach_destination()
             if (path.size() > 1) {
                 move_to_next();    //No point recalculating the path to get home
             } else {
-                const tripoint dest( guard_pos.x - mapx * SEEX, 
+                const tripoint dest( guard_pos.x - mapx * SEEX,
                                      guard_pos.y - mapy * SEEY,
                                      guard_pos.z );
                 update_path( dest );

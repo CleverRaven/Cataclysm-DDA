@@ -249,7 +249,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual void process_effects() override;
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects() override;
+        virtual bool move_effects(bool attacking) override;
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
@@ -268,7 +268,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool has_grab_break_tec() const override;
 
-        bool has_stable_footing(int strength) const override;
+        int stability_roll() const override;
         // We just dodged an attack from something
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         // Something hit us (possibly null source)

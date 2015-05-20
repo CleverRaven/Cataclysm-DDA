@@ -269,7 +269,7 @@ class Creature
         };
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
-        virtual bool move_effects();
+        virtual bool move_effects(bool attacking);
 
         /** Handles effect application effects. */
         virtual void add_eff_effects(effect e, bool reduced);
@@ -318,7 +318,7 @@ class Creature
 
         virtual bool in_sleep_state() const;
 
-        virtual bool has_stable_footing(int intensity) const = 0;
+        virtual int stability_roll() const = 0;
         //Returns true if the target will be moved
 
         /*

@@ -8675,7 +8675,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
                     auto zlev_sound = sounds::sound_at( tmp );
                     if( !zlev_sound.empty() ) {
-                        mvwprintw( w_info, ++off, 1, 
+                        mvwprintw( w_info, ++off, 1,
                                    tmp.z > lp.z ?  _("You heard %s from above.") : _("You heard %s from below."),
                                    zlev_sound.c_str() );
                     }
@@ -11467,10 +11467,6 @@ bool game::plmove(int dx, int dy)
         }
         return false;
     }
-    if (!u.move_effects()) {
-        u.moves -= 100;
-        return false;
-    }
 
     int x = 0;
     int y = 0;
@@ -11517,9 +11513,21 @@ bool game::plmove(int dx, int dy)
         return false;
     }
 
-    // Check if our movement is actually an attack on a monster
+    // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at(dest_loc);
+    int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?  If it's vermin, always.
+
+    bool attacking = false;
+    if (mondex != -1 || npcdex != -1){
+        attacking = true;
+    }
+
+    if (!u.move_effects(attacking)) {
+        u.moves -= 100;
+        return false;
+    }
+
     bool displace = false;
     if (mondex != -1) {
         monster &critter = zombie(mondex);
@@ -11554,7 +11562,6 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    int npcdex = npc_at( dest_loc );
     if (npcdex != -1) {
         npc &np = *active_npc[npcdex];
         bool force_attack = false;
@@ -12244,7 +12251,7 @@ bool game::plmove(int dx, int dy)
         tripoint dest( x, y, u.posz() );
         // tile is impassable
         int tunneldist = 0;
-        while( m.move_cost(dest) == 0 || 
+        while( m.move_cost(dest) == 0 ||
                ( ( mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 ) ) {
             //add 1 to tunnel distance for each impassable tile in the line
             tunneldist += 1;
