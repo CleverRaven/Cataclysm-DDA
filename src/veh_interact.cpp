@@ -2042,32 +2042,42 @@ const std::list<vehicle*> find_vehicles_around(const tripoint &location, std::fu
 }
 
 void act_vehicle_siphon(vehicle* veh) {
-    std::string fuel = "none";
-
-    if( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
-        uimenu smenu;
-        smenu.text = _("Siphon what?");
-        smenu.addentry(_("Gasoline"));
-        smenu.addentry(_("Diesel"));
-        smenu.addentry(_("Never mind"));
-        smenu.query();
-        auto menu_choice = smenu.ret;
-
-        if(menu_choice == 0) {
-            fuel = "gasoline";
-        } else if(menu_choice == 1) {
-            fuel = "diesel";
-        } else {
-            add_msg(m_info, _("Never mind."));
-            return; // Siphon nothing? Okay!!
+    std::vector<itype_id> fuels;
+    for( auto & part : veh->parts ) {
+        const vpart_info &vpinfo = part.info();
+        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
+            continue;
         }
-    } else if(veh->fuel_left("gasoline") > 0) {
-        fuel = "gasoline";
-    } else if(veh->fuel_left("diesel") > 0) {
-        fuel = "diesel";
-    } else { // No fuel here, GTFO.
+        const itype_id &fuel = vpinfo.fuel_type;
+        if( !item( fuel, 0 ).made_of( LIQUID ) ) {
+            // This skips battery and plutonium cells
+            continue;
+        }
+        if( std::find( fuels.begin(), fuels.end(), fuel ) != fuels.end() )  {
+            continue;
+        }
+        fuels.push_back( fuel );
+    }
+    if( fuels.empty() ) {
         add_msg(m_info, _("The vehicle has no fuel left to siphon."));
         return;
+    }
+    itype_id fuel;
+    if( fuels.size() > 1 ) {
+        uimenu smenu;
+        smenu.text = _("Siphon what?");
+        for( auto & fuel : fuels ) {
+            smenu.addentry( item::nname( fuel ) );
+        }
+        smenu.addentry(_("Never mind"));
+        smenu.query();
+        if( static_cast<size_t>( smenu.ret ) >= fuels.size() ) {
+            add_msg(m_info, _("Never mind."));
+            return;
+        }
+        fuel = fuels[smenu.ret];
+    } else {
+        fuel = fuels.front();
     }
 
     const auto foundv = find_vehicles_around(g->u.pos(),
