@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
-#include <queue>
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -39,12 +38,6 @@ extern bool is_valid_in_w_terrain(int,int);
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
-
-enum astar_list {
- ASL_NONE,
- ASL_OPEN,
- ASL_CLOSED
-};
 
 // Map stack methods.
 size_t map_stack::size() const
@@ -156,10 +149,7 @@ const maptile map::maptile_at( const tripoint &p ) const
         return maptile( &null_submap, 0, 0 );
     }
 
-    int lx, ly;
-    submap *const sm = get_submap_at( p, lx, ly );
-
-    return maptile( sm, lx, ly );
+    return maptile_at_internal( p );
 }
 
 maptile map::maptile_at( const tripoint &p )
@@ -168,6 +158,19 @@ maptile map::maptile_at( const tripoint &p )
         return maptile( &null_submap, 0, 0 );
     }
 
+    return maptile_at_internal( p );
+}
+
+const maptile map::maptile_at_internal( const tripoint &p ) const
+{
+    int lx, ly;
+    submap *const sm = get_submap_at( p, lx, ly );
+
+    return maptile( sm, lx, ly );
+}
+
+maptile map::maptile_at_internal( const tripoint &p )
+{
     int lx, ly;
     submap *const sm = get_submap_at( p, lx, ly );
 
@@ -5510,6 +5513,7 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     std::vector<tripoint> circle;
     circle.resize(8);
 
+    // The line below can be crazy expensive - we only take the FIRST point of it
     const std::vector<tripoint> line = line_to( f, t, 0, 0 );
     const std::vector<tripoint> spiral = closest_tripoints_first( 1, f );
     const std::vector<int> pos_index {1,2,4,6,8,7,5,3};
@@ -5536,245 +5540,6 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     }
 
     return circle;
-}
-
-std::vector<point> map::getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const
-{
-    std::vector<point> vCircle;
-    vCircle.resize(8);
-
-    const std::vector<point> vLine = line_to(Fx, Fy, Tx, Ty, 0);
-    const std::vector<point> vSpiral = closest_points_first(1, Fx, Fy);
-    const std::vector<int> vPos {1,2,4,6,8,7,5,3};
-
-    //  All possible constelations (closest_points_first goes clockwise)
-    //  753  531  312  124  246  468  687  875
-    //  8 1  7 2  5 4  3 6  1 8  2 7  4 5  6 3
-    //  642  864  786  578  357  135  213  421
-
-    int iPosOffset = 0;
-    for (unsigned int i = 1; i < vSpiral.size(); i++) {
-        if (vSpiral[i].x == vLine[0].x && vSpiral[i].y == vLine[0].y) {
-            iPosOffset = i-1;
-            break;
-        }
-    }
-
-    for (unsigned int i = 1; i < vSpiral.size(); i++) {
-        if (iPosOffset >= (int)vPos.size()) {
-            iPosOffset = 0;
-        }
-
-        vCircle[vPos[iPosOffset++]-1] = point(vSpiral[i].x, vSpiral[i].y);
-    }
-
-    return vCircle;
-}
-
-std::vector<tripoint> map::route( const tripoint &f, const tripoint &t, const int bash ) const
-{
-    // Just wrap the 2D overload into 3points
-    // Does NOT allow finding 3D paths
-    std::vector<tripoint> ret;
-    if( f.z != t.z ) {
-        return ret;
-    }
-
-    const auto two_dimensional_route = route( f.x, f.y, t.x, t.y, bash );
-    ret.reserve( two_dimensional_route.size() );
-    for( const auto &pt : two_dimensional_route ) {
-        ret.push_back( tripoint( pt, f.z ) );
-    }
-
-    return ret;
-}
-
-struct pair_greater_cmp
-{
-    bool operator()( const std::pair<int, point> &a, const std::pair<int, point> &b)
-    {
-        return a.first > b.first;
-    }
-};
-
-std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const
-{
-    /* TODO: If the origin or destination is out of bound, figure out the closest
-     * in-bounds point and go to that, then to the real origin/destination.
-     */
-
-    if( !INBOUNDS(Fx, Fy) || !INBOUNDS(Tx, Ty) ) {
-        int linet;
-        if (sees(Fx, Fy, Tx, Ty, -1, linet)) {
-            return line_to(Fx, Fy, Tx, Ty, linet);
-        } else {
-            std::vector<point> empty;
-            return empty;
-        }
-    }
-    // First, check for a simple straight line on flat ground
-    int linet = 0;
-    if( clear_path( Fx, Fy, Tx, Ty, -1, 2, 2, linet ) ) {
-        return line_to(Fx, Fy, Tx, Ty, linet);
-    }
-    /*
-    if (move_cost(Tx, Ty) == 0) {
-        debugmsg("%d:%d wanted to move to %d:%d, a %s!", Fx, Fy, Tx, Ty,
-                    tername(Tx, Ty).c_str());
-    }
-    if (move_cost(Fx, Fy) == 0) {
-        debugmsg("%d:%d, a %s, wanted to move to %d:%d!", Fx, Fy,
-                    tername(Fx, Fy).c_str(), Tx, Ty);
-    }
-    */
-    std::priority_queue< std::pair<int, point>, std::vector< std::pair<int, point> >, pair_greater_cmp > open;
-    std::set<point> closed;
-    astar_list list[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    int score[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    int gscore[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    point parent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    const int pad = 8; // Should be much bigger - low value makes pathfinders dumb!
-    int startx = Fx - pad, endx = Tx + pad, starty = Fy - pad, endy = Ty + pad;
-    if (Tx < Fx) {
-        startx = Tx - pad;
-        endx = Fx + pad;
-    }
-    if (Ty < Fy) {
-        starty = Ty - pad;
-        endy = Fy + pad;
-    }
-    if( startx < 0 ) {
-        startx = 0;
-    }
-    if( starty < 0 ) {
-        starty = 0;
-    }
-    if( endx > SEEX * my_MAPSIZE - 1 ) {
-        endx = SEEX * my_MAPSIZE - 1;
-    }
-    if( endy > SEEY * my_MAPSIZE - 1 ) {
-        endy = SEEY * my_MAPSIZE - 1;
-    }
-
-    for (int x = startx; x <= endx; x++) {
-        for (int y = starty; y <= endy; y++) {
-            list  [x][y] = ASL_NONE; // Mark as unvisited
-            score [x][y] = INT_MAX;  // Unreachable
-            gscore[x][y] = INT_MAX;  // Unreachable
-            parent[x][y] = point(-1, -1);
-        }
-    }
-
-    open.push( std::make_pair( 0, point(Fx, Fy) ) );
-    score[Fx][Fy] = 0;
-    gscore[Fx][Fy] = 0;
-
-    bool done = false;
-
-    do {
-        auto pr = open.top();
-        open.pop();
-        if( pr.first > 9999 ) {
-            // Shortest path would be too long, return empty vector
-            return std::vector<point>();
-        }
-
-        const point &cur = pr.second;
-        if( list[cur.x][cur.y] == ASL_CLOSED ) {
-            continue;
-        }
-
-        list[cur.x][cur.y] = ASL_CLOSED;
-        std::vector<point> vDirCircle = getDirCircle( cur.x, cur.y, Tx, Ty );
-
-        for( auto &elem : vDirCircle ) {
-            const int x = elem.x;
-            const int y = elem.y;
-
-            if( x == Tx && y == Ty ) {
-                done = true;
-                parent[x][y] = cur;
-            } else if( x >= startx && x <= endx && y >= starty && y <= endy ) {
-                if( list[x][y] == ASL_CLOSED ) {
-                    continue;
-                }
-
-                int part = -1;
-                const furn_t &furniture = furn_at( x, y );
-                const ter_t &terrain = ter_at( x, y );
-                const vehicle *veh = veh_at_internal( x, y, part );
-
-                const int cost = move_cost_internal( furniture, terrain, veh, part );
-                // Don't calculate bash rating unless we intend to actually use it
-                const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                                     bash_rating_internal( bash, furniture, terrain, veh, part );
-
-                if( cost == 0 && rating <= 0 && terrain.open.empty() ) {
-                    list[x][y] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
-                    continue;
-                }
-
-                int newg = gscore[cur.x][cur.y] + cost + ((cur.x - x != 0 && cur.y - y != 0) ? 1 : 0);
-                if( cost == 0 ) {
-                    // Handle all kinds of doors
-                    // Only try to open INSIDE doors from the inside
-
-                    if ( !terrain.open.empty() &&
-                           ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur.x, cur.y ) ) ) {
-                        newg += 4; // To open and then move onto the tile
-                    } else if( veh != nullptr ) {
-                        part = veh->obstacle_at_part( part );
-                        int dummy = -1;
-                        if( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) || veh_at_internal( cur.x, cur.y, dummy ) == veh ) {
-                            // Handle car doors, but don't try to path through curtains
-                            newg += 10; // One turn to open, 4 to move there
-                        } else {
-                            // Car obstacle that isn't a door
-                            newg += veh->parts[part].hp / bash + 8 + 4;
-                        }
-                    } else if( rating > 1 ) {
-                        // Expected number of turns to bash it down, 1 turn to move there
-                        // and 2 turns of penalty not to trash everything just because we can
-                        newg += ( 20 / rating ) + 2 + 4;
-                    } else if( rating == 1 ) {
-                        // Desperate measures, avoid whenever possible
-                        newg += 1000;
-                    } else {
-                        newg = 10000; // Unbashable and unopenable from here
-                    }
-                }
-
-                // If not in list, add it
-                // If in list, add it only if we can do so with better score
-                if( list[x][y] == ASL_NONE || newg < gscore[x][y] ) {
-                    list  [x][y] = ASL_OPEN;
-                    gscore[x][y] = newg;
-                    parent[x][y] = cur;
-                    score [x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
-                    open.push( std::make_pair( score[x][y], point(x, y) ) );
-                }
-            }
-        }
-    } while( !done && !open.empty() );
-
-    std::vector<point> ret;
-    if( done ) {
-        point cur( Tx, Ty );
-        while (cur.x != Fx || cur.y != Fy) {
-            //debugmsg("Retracing... (%d:%d) => [%d:%d] => (%d:%d)", Tx, Ty, cur.x, cur.y, Fx, Fy);
-            ret.push_back(cur);
-            if( rl_dist( cur, parent[cur.x][cur.y] ) > 1 ){
-                debugmsg("Jump in our route! %d:%d->%d:%d", cur.x, cur.y,
-                            parent[cur.x][cur.y].x, parent[cur.x][cur.y].y);
-                return ret;
-            }
-            cur = parent[cur.x][cur.y];
-        }
-
-        std::reverse( ret.begin(), ret.end() );
-    }
-
-    return ret;
 }
 
 int map::coord_to_angle ( const int x, const int y, const int tgtx, const int tgty ) const
@@ -7187,4 +6952,34 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     const int maxy = std::min<int>( SEEX * my_MAPSIZE, center.y + radius );
     const int maxz = std::min<int>( OVERMAP_HEIGHT, center.z + radiusz );
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
+}
+
+void map::clip_to_bounds( tripoint &p ) const
+{
+    clip_to_bounds( p.x, p.y, p.z );
+}
+
+void map::clip_to_bounds( int &x, int &y ) const
+{
+    if( x < 0 ) {
+        x = 0;
+    } else if( x >= my_MAPSIZE * SEEX ) {
+        x = my_MAPSIZE * SEEX - 1;
+    }
+
+    if( y < 0 ) {
+        y = 0;
+    } else if( y >= my_MAPSIZE * SEEY ) {
+        y = my_MAPSIZE * SEEY - 1;
+    }
+}
+
+void map::clip_to_bounds( int &x, int &y, int &z ) const
+{
+    clip_to_bounds( x, y );
+    if( z < -OVERMAP_DEPTH ) {
+        z = OVERMAP_DEPTH;
+    } else if( z > OVERMAP_HEIGHT ) {
+        z = OVERMAP_HEIGHT;
+    }
 }

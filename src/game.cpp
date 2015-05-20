@@ -2218,7 +2218,7 @@ bool game::handle_action()
                     }
 
                     if (new_destination) {
-                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0 );
+                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
                         return false;
                     }
                 } else if (action == "SEC_SELECT") {
@@ -4197,7 +4197,7 @@ void game::debug()
             break;
         }
 
-        auto rt = m.route( u.pos3(), dest, 0 );
+        auto rt = m.route( u.pos3(), dest, 0, 1000 );
         u.set_destination( rt );
         if( !u.has_destination() ) {
             popup( "Couldn't find path" );

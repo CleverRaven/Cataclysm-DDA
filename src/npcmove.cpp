@@ -1038,7 +1038,7 @@ bool npc::enough_time_to_reload(int target, item &gun)
 void npc::update_path( const tripoint &p )
 {
     if( path.empty() ) {
-        path = g->m.route( pos3(), p, str_cur + weapon.type->melee_dam );
+        path = g->m.route( pos3(), p, str_cur + weapon.type->melee_dam, 1000 );
         return;
     }
     const tripoint &last = path[path.size() - 1];
@@ -1046,7 +1046,7 @@ void npc::update_path( const tripoint &p )
         return;    // Our path already leads to that point, no need to recalculate
     }
 
-    path = g->m.route( pos3(), p, str_cur + weapon.type->melee_dam );
+    path = g->m.route( pos3(), p, str_cur + weapon.type->melee_dam, 1000 );
     if( !path.empty() && path[0] == pos3()  ) {
         path.erase( path.begin() );
     }
@@ -2326,7 +2326,7 @@ void npc::go_to_destination()
                          g->m.bash_rating( str_cur + weapon.type->melee_dam, dest ) >= 2 ||
                          g->m.open_door( dest, true, true ) ) &&
                         sees( dest ) ) {
-                        path = g->m.route( pos3(), dest, str_cur + weapon.type->melee_dam );
+                        path = g->m.route( pos3(), dest, str_cur + weapon.type->melee_dam, 1000 );
                         if( !path.empty() && can_move_to( path[0] ) ) {
                             move_to_next();
                             return;
