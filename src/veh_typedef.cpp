@@ -277,9 +277,7 @@ void vpart_info::check()
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
             debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());
         }
-        // muscle is a special speudo fuel type used for things that are powered by the character.
-        if( part.has_flag( VPFLAG_FUEL_TANK ) && part.fuel_type != "muscle" &&
-            !item::type_is_defined( part.fuel_type ) ) {
+        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
         }
     }
