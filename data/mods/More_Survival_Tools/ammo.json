@@ -89,7 +89,7 @@
         "damage" : 2,
         "pierce" : 0,
         "range" : 20,
-        "dispersion" : 195,
+        "dispersion" : 13,
         "recoil" : 0,
         "count" : 40,
         "effects" : ["NEVER_MISFIRES"]
@@ -112,7 +112,7 @@
         "damage" : 7,
         "pierce" : 1,
         "range" : 13,
-        "dispersion" : 240,
+        "dispersion" : 16,
         "recoil" : 0,
         "count" : 30,
         "effects" : ["NEVER_MISFIRES"]
