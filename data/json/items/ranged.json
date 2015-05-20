@@ -3091,7 +3091,7 @@
     "flags": ["NO_UNLOAD", "BACKBLAST", "NEVER_JAMS"],
     "skill": "launcher",
     "ammo": "66mm",
-    "weight": 2500,
+    "weight": 700,
     "volume": 10,
     "bashing": 6,
     "cutting": 0,
