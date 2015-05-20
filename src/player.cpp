@@ -3621,7 +3621,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)
         wprintz(w, c_blue,  _("Freezing!%s"), temp_message);
 
-    int x = sideStyle ? 37 : 32;
+    int x = 32;
     int y = sideStyle ?  0 :  1;
     if(is_deaf()) {
         mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
