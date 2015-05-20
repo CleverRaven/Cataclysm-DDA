@@ -325,11 +325,17 @@ bool string_id<vehicle_prototype>::is_valid() const
 void vehicle_prototype::load(JsonObject &jo)
 {
     vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
-    // Overwrite with an empty entry to clear all the contained data, e.g. if this prototype is
-    // re-defined by a mod. This will also delete any existing vehicle blueprint.
-    vproto = std::move( vehicle_prototype() );
-
-    vproto.name = jo.get_string("name");
+    // If there are already parts defined, this vehicle prototype overrides an existing one.
+    // If the json contains a name, it means a completely new prototype (replacing the
+    // original one), therefor the old data has to be cleared.
+    // If the json does not contain a name (the prototype would have no name), it means appending
+    // to the existing prototype (the parts are not cleared).
+    if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
+        vproto = std::move( vehicle_prototype() );
+    }
+    if( vproto.parts.empty() ) {
+        vproto.name = jo.get_string( "name" );
+    }
 
     JsonArray parts = jo.get_array("parts");
     while (parts.has_more()) {
