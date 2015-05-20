@@ -110,7 +110,6 @@ class veh_interact
         void do_rename();
         void do_siphon();
         void do_tirechange();
-        void do_drain();
         void do_relabel();
 
         void display_grid();

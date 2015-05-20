@@ -5357,6 +5357,19 @@ void vehicle::cycle_global_turret_mode()
     add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
+std::map<itype_id, long> vehicle::fuels_left() const
+{
+    std::map<itype_id, long> result;
+    for( const auto &part : parts ) {
+        const vpart_info &vpinfo = part.info();
+        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
+            continue;
+        }
+        result[vpinfo.fuel_type] += part.amount;
+    }
+    return result;
+}
+
 vehicle::turret_ammo_data vehicle::turret_has_ammo( int const p ) const
 {
     return turret_ammo_data( *this, p );
@@ -5409,25 +5422,14 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     // Find fuel (inside a tank) that is valid ammo for the turret, several fuel types might match:
     // consider a flamethrower on a car with a gasoline tank *and* a napalm tank.
     const ammotype &amt = gun_data.ammo;
-    // This map uses itype pointers because they are faster to compare and we need to get them
-    // anyway to compare their ammo type with the guns ammo type.
-    std::map<const itype*, long> fuels;
-    for( const auto &part : veh.parts ) {
-        const vpart_info &vpinfo = part.info();
-        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
-            continue;
-        }
-        const itype *type = item::find_type( vpinfo.fuel_type );
+    for( auto &fuel_and_amount : veh.fuels_left() ) {
+        const itype *type = item::find_type( fuel_and_amount.first );
         if( !type->ammo || type->ammo->type != amt ) {
             continue;
         }
-        fuels[type] += part.amount;
-    }
-    if( !fuels.empty() ) {
         // TODO (or not?): select which ammo to use. For now, we use the first one (usually there is only one anyway).
         // However, note that the ordering of the map may change on each game as it compares *pointers*
-        const std::pair<const itype*, long> &fuel_and_amount = *fuels.begin();
-        const itype_id &ammo_id = fuel_and_amount.first->id;
+        const itype_id &ammo_id = fuel_and_amount.first;
         const long liquid_fuel = fuel_and_amount.second;
 
         if( ammo_id == fuel_type_plasma ) {

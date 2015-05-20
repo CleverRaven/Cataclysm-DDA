@@ -7087,67 +7087,27 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-bool game::vehicle_near()
-{
-    auto pts = closest_tripoints_first( 1, u.pos() );
-    for( const auto &p : pts ) {
-        if( m.veh_at( p ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
     const vpart_info &part_info = part->info();
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }
-    item *it = nullptr; // the container or the fuel item,
-    item *p_itm = nullptr; // always the actual fuel item
-    long min_charges = -1;
-    bool in_container = false;
-
     const itype_id &ftype = part_info.fuel_type;
-    if (u.weapon.is_container() && !u.weapon.contents.empty() &&
-        u.weapon.contents[0].type->id == ftype) {
-        it = &u.weapon;
-        p_itm = &u.weapon.contents[0];
-        min_charges = u.weapon.contents[0].charges;
-        in_container = true;
-    } else if (u.weapon.type->id == ftype) {
-        it = &u.weapon;
-        p_itm = it;
-        min_charges = u.weapon.charges;
-    } else {
-        it = &u.inv.item_or_container(ftype);
-        if (!it->is_null()) {
-            if (it->type->id == ftype) {
-                p_itm = it;
-            } else {
-                //ah, must be a container of the thing
-                p_itm = &(it->contents[0]);
-                in_container = true;
-            }
-            min_charges = p_itm->charges;
-        }
-    }
-    // Check for p_itm->type->id == ftype is already done above
-    if( p_itm == nullptr || it->is_null()) {
+    const long min_charges = u.charges_of( ftype );
+    if( min_charges <= 0 ) {
         return false;
     } else if (test) {
         return true;
     }
 
-    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    int max_fuel = part_info.size;
-    int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
+    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
+    const long max_fuel = part_info.size;
+    long charge_difference = (max_fuel - part->amount) / fuel_per_charge;
     if (charge_difference < 1) {
         charge_difference = 1;
     }
-    bool rem_itm = min_charges <= charge_difference;
-    long used_charges = rem_itm ? min_charges : charge_difference;
+    const long used_charges = std::min( min_charges, charge_difference );
     part->amount += used_charges * fuel_per_charge;
     if (part->amount > max_fuel) {
         part->amount = max_fuel;
@@ -7170,16 +7130,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         }
     }
 
-    p_itm->charges -= used_charges;
-    if (rem_itm) {
-        if (in_container) {
-            it->contents.erase(it->contents.begin());
-        } else if (&u.weapon == it) {
-            u.remove_weapon();
-        } else {
-            u.inv.remove_item(u.get_item_position(it));
-        }
-    }
+    u.use_charges( ftype, used_charges );
     return true;
 }
 
@@ -9847,6 +9798,19 @@ void game::grab()
     }
 }
 
+bool vehicle_near( const itype_id &ft )
+{
+    for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        vehicle *veh = g->m.veh_at( p );
+        // TODO: constify fuel_left and fuel_capacity
+        // TODO: add a fuel_capacity_left function
+        if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
@@ -9857,8 +9821,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return false;
     }
 
-    if( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") &&
-         vehicle_near() && query_yn(_("Refill vehicle?")) ) {
+    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
         tripoint vp;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
