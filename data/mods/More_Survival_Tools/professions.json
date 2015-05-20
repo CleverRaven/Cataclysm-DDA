@@ -1,8 +1,8 @@
 [
     {
         "type": "profession",
-        "ident": "nomad",
-        "name": "Nomad",
+        "ident": "wanderer",
+        "name": "Wanderer",
         "description": "You always prefered the comfort of the open sky, far from the complexities of modern life. Though from the looks of it, things have changed since last time you've been anywhere near civilization.",
         "points": 5,
         "skills": [
@@ -33,25 +33,20 @@
         ],
         "items": {
             "both": [
-                "armor_nomad",
-                "socks",
-                "boots_hiking",
-                "gloves_work",
-                "helmet_nomad",
+                "loincloth_fur",
+                "cloak_fur",
+                "backpack_leather",
+                "boots_fur",
+                "gloves_fur",
+                "scarf_fur",
                 "quiver",
                 "shortbow",
                 "arrow_wood",
                 "copper_knife",
-                "bottle_metal",
+                "rock_pot",
+                "waterskin",
                 "flint_steel",
                 "tinderbox"
-            ],
-            "male": [
-                "boxer_briefs"
-            ],
-            "female": [
-                "boy_shorts",
-                "sports_bra"
             ]
         }
     },
