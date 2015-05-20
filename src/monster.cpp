@@ -1233,7 +1233,25 @@ bool monster::has_grab_break_tec() const
 
 int monster::stability_roll() const
 {
-    int stability = dice(type->melee_sides, type->melee_dice) + rng( 0 ,5 );
+    int size_bonus = 0;
+    switch (type->size) {
+        case MS_TINY:
+            size_bonus -= 7;
+            break;
+        case MS_SMALL:
+            size_bonus -= 3;
+            break;
+        case MS_LARGE:
+            size_bonus += 5;
+            break;
+        case MS_HUGE:
+            size_bonus += 10;
+            break;
+        case MS_MEDIUM:
+            break; // keep default
+    }
+
+    int stability = dice(type->melee_sides, type->melee_dice) + size_bonus;
         return stability;
 }
 

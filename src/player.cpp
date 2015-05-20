@@ -7360,16 +7360,16 @@ void player::hardcoded_effects(effect &it)
             for (int j = -1; j <= 1; j++) {
                 tripoint dest( posx() + i, posy() + j, posz() );
                 if (g->mon_at(dest) != -1){
-                    intensity ++;
+                    intensity ++; //Intensity of grab can increase for each surrounding zed
                 }
             }
         }
         if (intensity > 0){
-            if (get_effect_int("grabbed") > intensity * 2){
+            if (get_effect_int("grabbed") > intensity * 2){ //Cap intensity at twice the number of zeds
                 add_effect("grabbed", 2, bp_torso, false, intensity * 2);
             }
         } else {
-            remove_effect("grabbed");
+            remove_effect("grabbed"); //If no zeds are around the player, remove the effect
         }
     }
 
