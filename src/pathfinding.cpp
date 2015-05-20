@@ -1,6 +1,8 @@
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "map.h"
+#include "map_iterator.h"
 #include <algorithm>
 #include <queue>
 
@@ -93,6 +95,34 @@ struct pathfinder
     }
 };
 
+// Returns a tile with `flag` in the overmap tile that `t` is on
+template<ter_bitflags flag>
+tripoint vertical_move_destination( const map &m, const tripoint &t )
+{
+    if( !m.has_zlevels() ) {
+        return tripoint_min;
+    }
+
+    constexpr int omtileszx = SEEX * 2;
+    constexpr int omtileszy = SEEY * 2;
+    real_coords rc( m.getabs( t.x, t.y ) );
+    point omtile_align_start(
+        m.getlocal( rc.begin_om_pos() )
+    );
+
+    tripoint from( omtile_align_start.x, omtile_align_start.y, t.z );
+    tripoint to( omtile_align_start.x + omtileszx, omtile_align_start.y + omtileszy, t.z );
+
+    // TODO: Avoid up to 576 bounds checks by using methods that don't check bounds
+    for( const tripoint &p : m.points_in_rectangle( from, to ) ) {
+        if( m.has_flag( flag, p ) ) {
+            return p;
+        }
+    }
+
+    return tripoint_min;
+}
+
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                   const int bash, const int maxdist ) const
 {
@@ -119,10 +149,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     const int pad = 8;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = f.x - pad;
     int miny = f.y - pad;
-    int minz = f.z - 1; // TODO: Make this way bigger
+    int minz = f.z;     // TODO: Make this way bigger
     int maxx = t.x + pad;
     int maxy = t.y + pad;
-    int maxz = t.z + 1; // Same TODO as above
+    int maxz = t.z;     // Same TODO as above
     if( t.x < f.x ) {
         minx = t.x - pad;
         maxx = f.x + pad;
@@ -132,8 +162,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         maxy = f.y + pad;
     }
     if( t.z < f.z ) {
-        minz = t.z - pad;
-        maxz = f.z + pad;
+        minz = t.z;
+        maxz = f.z;
     }
     clip_to_bounds( minx, miny, minz );
     clip_to_bounds( maxx, maxy, maxz );
@@ -171,7 +201,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
 
             // TODO: Remove this and instead have sentinels at the edges
-            if( p.x < minx && p.x > maxx && p.y < miny && p.y > maxy ) {
+            if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
                 continue;
             }
 
@@ -232,11 +262,17 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
 
+        if( !has_zlevels() ) {
+            // The part below is only for z-level pathing
+            continue;
+        }
+
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = terlist[parent_tile.get_ter()];
         if( cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
             tripoint dest( cur.x, cur.y, cur.z - 1 );
-            if( valid_move( cur, dest, false, false ) ) {
+            dest = vertical_move_destination<TFLAG_GOES_UP>( *this, dest );
+            if( inbounds( dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
@@ -245,7 +281,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
         if( cur.z < maxz && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
             tripoint dest( cur.x, cur.y, cur.z + 1 );
-            if( valid_move( cur, dest, false, false ) ) {
+            dest = vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest );
+            if( inbounds( dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),

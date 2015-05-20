@@ -718,14 +718,17 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     for( auto temp : npcs ) {
-
-        if (temp->is_active()) {
+        if( temp->is_active() ) {
             continue;
         }
-            const tripoint p = temp->global_sm_location();
-            add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                     get_levx(), get_levy(), p.x, p.y);
+
+        const tripoint p = temp->global_sm_location();
+        add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
+                 get_levx(), get_levy(), get_levz(), p.x, p.y, p.z );
         temp->place_on_map();
+        if( !m.inbounds( temp->pos() ) ) {
+            continue;
+        }
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
         if (temp->marked_for_death) {
