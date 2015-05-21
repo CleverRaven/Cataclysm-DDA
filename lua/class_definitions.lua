@@ -1401,3 +1401,38 @@ global_functions = {
         rval = "it_tool"
     }
 }
+
+--[[
+Currently, for each function in each class, the bindings generator creates a matching function in
+each of the parent classes. For example is_player, which is defined in Creature and player.
+Because it's in Creature and monster inherits it from there, the generator adds a wrapper to the
+metatable of the monster class that calls is_player on a monster object.
+However, it creates the same "wrapper" for the player class (same scenario: it inherits it from
+Creature).
+Now player::is_player is wrapped twice: once through the heritage from Creature and once on its own.
+
+The following snippet tries to correct this. It simply removes all the redundantly declared
+functions in the subclasses.
+--]]
+
+for name, value in pairs(classes) do
+    -- Collect all defined functions of the *parent* classes in this table
+    local existing = { };
+    value = classes[value.parent]
+    while value do
+        for fname, func in pairs(value.functions) do
+            local n = fname .. "_" .. table.concat(func.args, "|")
+            existing[n] = true
+        end
+        value = classes[value.parent]
+    end
+    -- Now back to the actual class, remove all the functions that are in the table
+    -- and therefor exist in at least on of the parent classes.
+    value = classes[name]
+    for fname, func in pairs(value.functions) do
+        local n = fname .. "_" .. table.concat(func.args, "|")
+        if existing[n] then
+            value.functions[fname] = nil
+        end
+    end
+end
