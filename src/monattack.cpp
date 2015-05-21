@@ -198,8 +198,8 @@ void mattack::shriek_loud(monster *z, int index)
 
     z->moves -= 250;   // It takes a while
     z->reset_special(index); // Reset timer
-    sounds::sound(z->pos(), 160, _("a piercing wail!"));
-    if (dist <= 3 && one_in(3) && !(target->is_immune_effect("deaf"))){
+    sounds::sound(z->pos(), 120, _("a piercing wail!"));
+    if (dist <= 3 && one_in(2) && !(target->is_immune_effect("deaf"))){
         target->add_effect("stunned", rng(3,5) / dist);
         auto msg_type = target == &g->u ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
