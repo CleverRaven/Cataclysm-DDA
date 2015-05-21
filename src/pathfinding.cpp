@@ -1,6 +1,7 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
+#include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include <algorithm>
@@ -8,7 +9,7 @@
 
 #include "messages.h"
 
-enum astar_list {
+enum astar_state {
  ASL_NONE,
  ASL_OPEN,
  ASL_CLOSED
@@ -31,7 +32,7 @@ struct pair_greater_cmp
 struct path_data_layer
 {
     // State is accessed way more often than all other values here
-    std::array< astar_list, SEEX * MAPSIZE * SEEY * MAPSIZE > state;
+    std::array< astar_state, SEEX * MAPSIZE * SEEY * MAPSIZE > state;
     std::array< int, SEEX * MAPSIZE * SEEY * MAPSIZE > score;
     std::array< int, SEEX * MAPSIZE * SEEY * MAPSIZE > gscore;
     std::array< tripoint, SEEX * MAPSIZE * SEEY * MAPSIZE > parent;
@@ -83,7 +84,8 @@ struct pathfinder
     void add_point( const int gscore, const int score, const tripoint &from, const tripoint &to ) {
         auto &layer = get_layer( to.z );
         const int index = flat_index( to.x, to.y );
-        if( layer.state[index] != ASL_NONE && gscore >= layer.gscore[index] ) {
+        if( ( layer.state[index] == ASL_OPEN && gscore >= layer.gscore[index] ) ||
+            layer.state[index] == ASL_CLOSED ) {
             return;
         }
 
@@ -92,6 +94,12 @@ struct pathfinder
         layer.parent[index] = from;
         layer.score [index] = score;
         open.push( std::make_pair( score, to ) );
+    }
+
+    void close_point( const tripoint &p ) {
+        auto &layer = get_layer( p.z );
+        const int index = flat_index( p.x, p.y );
+        layer.state[index] = ASL_CLOSED;
     }
 };
 
@@ -142,8 +150,25 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
     }
     // First, check for a simple straight line on flat ground
-    if( clear_path( f, t, -1, 2, 2, linet1, linet2 ) ) {
-        return line_to( f, t, linet1, linet2 );
+    // Except when the player is on the line - we need to do regular pathing then
+    const tripoint &pl_pos = g->u.pos();
+    if( f.z == t.z && clear_path( f, t, -1, 2, 2, linet1, linet2 ) ) {
+        const auto line_path = line_to( f, t, linet1, linet2 );
+        if( pl_pos.z != f.z ) {
+            // Player on different z-level, certainly not on the line
+            return line_path;
+        }
+
+        bool is_ok = true;
+        for( auto &line_pt : line_path ) {
+            if( line_pt == pl_pos ) {
+                is_ok = false;
+                break;
+            }
+        }
+        if( is_ok ) {
+            return line_path;
+        }
     }
 
     const int pad = 8;  // Should be much bigger - low value makes pathfinders dumb!
@@ -169,7 +194,12 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     clip_to_bounds( maxx, maxy, maxz );
 
     pathfinder pf( minx, miny, maxx, maxy );
-    pf.add_point( 0, 0, tripoint_min, f );
+    pf.add_point( 0, 0, f, f );
+    // Make NPCs not want to path through player
+    // But don't make player pathing stop working
+    if( f != pl_pos && t != pl_pos ) {
+        pf.close_point( pl_pos );
+    }
 
     bool done = false;
 
@@ -188,17 +218,16 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             return std::vector<tripoint>();
         }
 
+        if( cur == t ) {
+            done = true;
+            break;
+        }
+
         cur_state = ASL_CLOSED;
         std::vector<tripoint> neighbors = closest_tripoints_first( 1, cur );
 
         for( const auto &p : neighbors ) {
             const int index = flat_index( p.x, p.y );
-
-            if( p == t ) {
-                done = true;
-                layer.parent[index] = cur;
-                break;
-            }
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
@@ -292,20 +321,28 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     } while( !done && !pf.empty() );
 
     std::vector<tripoint> ret;
+    ret.reserve( rl_dist( f, t ) * 2 );
     if( done ) {
         tripoint cur = t;
-        while( cur != f ) {
-            ret.push_back( cur );
+        // Just to limit max distance, in case something weird happens
+        for( int fdist = maxdist; fdist != 0; fdist-- ) {
             const int cur_index = flat_index( cur.x, cur.y );
             const auto &layer = pf.get_layer( cur.z );
             const tripoint &par = layer.parent[cur_index];
-            if( rl_dist( cur, par ) > 1 ){
+            if( cur == f ) {
+                break;
+            }
+
+            ret.push_back( cur );
+            // Jumps are acceptable on 1 z-level changes
+            // This is because stairs teleport the player too
+            if( rl_dist( cur, par ) > 1 && abs( cur.z - par.z ) != 1 ) {
                 debugmsg( "Jump in our route! %d:%d:%d->%d:%d:%d",
                           cur.x, cur.y, cur.z, par.x, par.y, par.z );
                 return ret;
             }
 
-            cur = layer.parent[cur_index];
+            cur = par;
         }
 
         std::reverse( ret.begin(), ret.end() );

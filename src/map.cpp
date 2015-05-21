@@ -6931,8 +6931,8 @@ tripoint_range map::points_in_rectangle( const tripoint &from, const tripoint &t
     const int minx = std::max( 0, std::min( from.x, to.x ) );
     const int miny = std::max( 0, std::min( from.y, to.y ) );
     const int minz = std::max( -OVERMAP_DEPTH, std::min( from.z, to.z ) );
-    const int maxx = std::min( SEEX * my_MAPSIZE, std::max( from.x, to.x ) );
-    const int maxy = std::min( SEEX * my_MAPSIZE, std::max( from.y, to.y ) );
+    const int maxx = std::min( SEEX * my_MAPSIZE - 1, std::max( from.x, to.x ) );
+    const int maxy = std::min( SEEX * my_MAPSIZE - 1, std::max( from.y, to.y ) );
     const int maxz = std::min( OVERMAP_HEIGHT, std::max( from.z, to.z ) );
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
@@ -6942,8 +6942,8 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     const int minx = std::max<int>( 0, center.x - radius );
     const int miny = std::max<int>( 0, center.y - radius );
     const int minz = std::max<int>( -OVERMAP_DEPTH, center.z - radiusz );
-    const int maxx = std::min<int>( SEEX * my_MAPSIZE, center.x + radius );
-    const int maxy = std::min<int>( SEEX * my_MAPSIZE, center.y + radius );
+    const int maxx = std::min<int>( SEEX * my_MAPSIZE - 1, center.x + radius );
+    const int maxy = std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius );
     const int maxz = std::min<int>( OVERMAP_HEIGHT, center.z + radiusz );
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }

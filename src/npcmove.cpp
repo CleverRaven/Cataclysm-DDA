@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"
@@ -415,10 +416,10 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_follow_player:
-        update_path( g->u.pos3() );
-        if ((int)path.size() <= follow_distance()) { // We're close enough to u.
+        update_path( g->u.pos() );
+        if( (int)path.size() <= follow_distance() && g->u.posz() == posz() ) { // We're close enough to u.
             move_pause();
-        } else if (!path.empty()) {
+        } else if( !path.empty() ) {
             move_to_next();
         } else {
             move_pause();
@@ -1123,12 +1124,9 @@ void npc::move_to( const tripoint &pt )
         p.z = posz();
     }
 
-    if( rl_dist( pos(), p ) > 1 ) {
-        if( rl_dist( pos(), p ) > 1000 ) {
-            debugmsg( "NPC %s tried to step from %d,%d,%d to %d,%d,%d",
-                      posx(), posy(), posz(), p.x, p.y, p.z );
-            return;
-        }
+    // "Long steps" are allowed when crossing z-levels
+    // Stairs teleport the player too
+    if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
         int linet1, linet2;
         std::vector<tripoint> newpath;
         g->m.sees( pos3(), p, -1, linet1, linet2 );
@@ -1218,11 +1216,11 @@ void npc::move_to_next()
         move_pause();
         return;
     }
-    while( pos3() == path[0] ) {
+    while( pos() == path[0] ) {
         path.erase( path.begin() );
     }
     move_to( path[0] );
-    if( pos3() == path[0] ) { // Move was successful
+    if( pos() == path[0] ) { // Move was successful
         path.erase( path.begin() );
     }
 }
@@ -1394,55 +1392,54 @@ void npc::move_pause()
 
 void npc::find_item()
 {
+fetching_item = false;
+return;
+
     fetching_item = false;
     int best_value = minimum_item_value();
     int range = sight_range( g->light_level() );
     if (range > 12) {
         range = 12;
     }
-    int minx = posx() - range, maxx = posx() + range,
-        miny = posy() - range, maxy = posy() + range;
-    const item *wanted = NULL;
-    if (minx < 0) {
-        minx = 0;
-    }
-    if (miny < 0) {
-        miny = 0;
-    }
-    if (maxx >= SEEX * MAPSIZE) {
-        maxx = SEEX * MAPSIZE - 1;
-    }
-    if (maxy >= SEEY * MAPSIZE) {
-        maxy = SEEY * MAPSIZE - 1;
-    }
 
-    tripoint p;
-    p.z = posz();
-    int &x = p.x;
-    int &y = p.y;
-    for( x = minx; x <= maxx; x++ ) {
-        for( y = miny; y <= maxy; y++ ) {
-            if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
-                for( auto &elem : g->m.i_at( p ) ) {
-                    if( elem.made_of( LIQUID ) ) {
-                        // Don't even consider liquids.
-                        continue;
-                    }
-                    int itval = value( elem );
-                    int wgt = elem.weight(), vol = elem.volume();
-                    if( itval > best_value &&
-                        ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
-                        wanted_item_pos = p;
-                        wanted = &( elem );
-                        best_value = itval;
-                        fetching_item = true;
-                    }
+    const item *wanted = nullptr;
+    // TODO: Use internal map class functions to quickly skip
+    // tiles with no items
+    for( const tripoint &p : g->m.points_in_radius( pos(), range ) ) {
+        // TODO: Make this sight check not overdraw nearby tiles
+        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
+            for( auto &elem : g->m.i_at( p ) ) {
+                if( elem.made_of( LIQUID ) ) {
+                    // Don't even consider liquids.
+                    continue;
+                }
+                int itval = value( elem );
+                int wgt = elem.weight(), vol = elem.volume();
+                if( itval > best_value &&
+                    ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
+                    wanted_item_pos = p;
+                    wanted = &( elem );
+                    best_value = itval;
+                    fetching_item = true;
                 }
             }
         }
     }
 
-    if( fetching_item && is_following() ) {
+    if( !fetching_item ) {
+        return;
+    }
+
+    // TODO: Move that check above, make it multi-target pathing and use it
+    // to limit tiles available for choice of items
+    const int dist_to_item = rl_dist( wanted_item_pos, pos() );
+    update_path( wanted_item_pos );
+    if( path.size() == 0 && dist_to_item > 1 ) {
+        // Item not reachable, let's just totally give up for now
+        fetching_item = false;
+    }
+
+    if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_following() ) {
         say( _("Hold on, I want to pick up that %s."),
              wanted->tname().c_str() );
     }
@@ -1454,21 +1451,31 @@ void npc::pick_up_item()
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     update_path( wanted_item_pos );
 
+    auto items = g->m.i_at( wanted_item_pos );
+
     if( path.size() > 1 ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
+        if( items.size() == 0 && sees( wanted_item_pos ) ) {
+            // Items we wanted no longer exist and we can see it
+            fetching_item = false;
+            // Just to prevent debugmsgs
+            moves -= 1;
+            return;
+        }
+
         move_to_next();
         return;
     } else if( path.empty() && pos() != wanted_item_pos ) {
-        // This shouldn't happen
-        debugmsg( "NPC %s tried to pick up unreachable item", name.c_str() );
+        // This can happen, always do something
+        fetching_item = false;
+        move_pause();
         return;
     }
 
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    auto items = g->m.i_at( wanted_item_pos );
     int total_volume = 0;
     int total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want
@@ -1490,15 +1497,15 @@ void npc::pick_up_item()
     // Describe the pickup to the player
     bool u_see_me = g->u.sees( *this );
     bool u_see_items = g->u.sees( wanted_item_pos );
-    if (u_see_me) {
-        if (pickup.size() == 1) {
+    if( u_see_me ) {
+        if( pickup.size() == 1 ) {
             if (u_see_items) {
                 add_msg(_("%s picks up a %s."), name.c_str(),
                         items[pickup[0]].tname().c_str());
             } else {
                 add_msg(_("%s picks something up."), name.c_str());
             }
-        } else if (pickup.size() == 2) {
+        } else if( pickup.size() == 2 ) {
             if (u_see_items) {
                 add_msg(_("%s picks up a %s and a %s."), name.c_str(),
                         items[pickup[0]].tname().c_str(),
@@ -1506,18 +1513,20 @@ void npc::pick_up_item()
             } else {
                 add_msg(_("%s picks up a couple of items."), name.c_str());
             }
-        } else {
+        } else if( pickup.size() > 2 ) {
             add_msg(_("%s picks up several items."), name.c_str());
+        } else {
+            add_msg(_("%s looks around nervously, as if searching for something."), name.c_str());
         }
     } else if (u_see_items) {
-        if (pickup.size() == 1) {
+        if( pickup.size() == 1 ) {
             add_msg(_("Someone picks up a %s."),
                     items[pickup[0]].tname().c_str());
-        } else if (pickup.size() == 2) {
+        } else if( pickup.size() == 2 ) {
             add_msg(_("Someone picks up a %s and a %s"),
                     items[pickup[0]].tname().c_str(),
                     items[pickup[1]].tname().c_str());
-        } else {
+        } else if( pickup.size() > 2 ) {
             add_msg(_("Someone picks up several items."));
         }
     }
