@@ -278,7 +278,7 @@ void mattack::acid_barf(monster *z, int index)
 
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+    if( target == nullptr || !is_adjacent( z, target, false ) ) {
         return;
     }
 

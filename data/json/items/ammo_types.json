@@ -247,12 +247,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "muscle",
-        "name" : "muscle",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "fusion",
         "name" : "fusion cell",
         "default" : "laser_pack"

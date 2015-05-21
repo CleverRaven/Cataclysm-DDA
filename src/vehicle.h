@@ -515,6 +515,12 @@ public:
      */
     point real_global_pos() const;
     tripoint real_global_pos3() const;
+    /**
+     * All the fuels that are in all the tanks in the vehicle, nicely summed up.
+     * Note that empty tanks don't count at all. The value is the amout as it would be
+     * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
+     */
+    std::map<itype_id, long> fuels_left() const;
 
     // Checks how much certain fuel left in tanks.
     int fuel_left (const itype_id &ftype, bool recurse = false) const;

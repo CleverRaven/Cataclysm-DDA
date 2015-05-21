@@ -3386,6 +3386,7 @@
             {"x": 1, "y": 0, "part": "engine_electric_large"},
             {"x": 1, "y": 0, "part": "flamethrower"},
             {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "storage_battery_mount", "//": "to make the blazemod happy"},
             {"x": 1, "y": 1, "part": "laser_gun"},
             {"x": 1, "y": -1, "part": "frame_nw"},
             {"x": 1, "y": -1, "part": "wheel"},

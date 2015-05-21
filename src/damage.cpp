@@ -110,6 +110,7 @@ resistances::resistances( monster &monster ) : resist_vals( NUM_DT, 0 )
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT, monster.type->armor_cut );
     set_resist( DT_STAB, 0.8 * monster.type->armor_cut ); // stab dam cares less bout armor
+    set_resist( DT_ACID, monster.type->armor_cut / 2 ); // No acid resist stat yet
 }
 void resistances::set_resist( damage_type dt, int amount )
 {
@@ -119,7 +120,7 @@ int resistances::type_resist( damage_type dt ) const
 {
     return resist_vals[dt];
 }
-float resistances::get_effective_resist( const damage_unit &du )
+float resistances::get_effective_resist( const damage_unit &du ) const
 {
     float effective_resist = 0.f;
     switch( du.type ) {
