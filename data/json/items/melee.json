@@ -50,6 +50,23 @@
         "flags": ["PSEUDO"]
     },
     {
+        "type" : "GENERIC",
+        "//": "pseudo item, used as fuel type for engines that are human-powered",
+        "id" : "muscle",
+        "symbol" : "?",
+        "color" : "white",
+        "name" : "muscle",
+        "name_plural" : "none",
+        "description" : "seeing this is a bug",
+        "price" : 0,
+        "weight" : 0,
+        "volume" : 0,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "flags": ["PSEUDO"]
+    },
+    {
         "type":"GENERIC",
         "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
         "id": "apparatus",

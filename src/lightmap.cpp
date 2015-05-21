@@ -39,7 +39,9 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
-    if( !transparency_cache_dirty ) {
+    auto &ch = get_cache( zlev );
+    auto &transparency_cache = ch.transparency_cache;
+    if( !ch.transparency_cache_dirty ) {
         return;
     }
 
@@ -109,7 +111,7 @@ void map::build_transparency_cache( const int zlev )
             }
         }
     }
-    transparency_cache_dirty = false;
+    ch.transparency_cache_dirty = false;
 }
 
 void map::apply_character_light( const player &p )
@@ -120,8 +122,10 @@ void map::apply_character_light( const player &p )
     }
 }
 
-void map::generate_lightmap()
+void map::generate_lightmap( const int zlev )
 {
+    auto &lm = get_cache( zlev ).lm;
+    auto &sm = get_cache( zlev ).sm;
     std::memset(lm, 0, sizeof(lm));
     std::memset(sm, 0, sizeof(sm));
 
@@ -133,13 +137,14 @@ void map::generate_lightmap()
          directions
      * Step 3: Profit!
      */
+    auto &light_source_buffer = get_cache( zlev ).light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
     constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
     constexpr int dir_y[] = { -1,  0 , 0, 1 };   // [1][X][2]
     constexpr int dir_d[] = { 180, 270, 0, 90 }; //    [3]
 
-    const bool  u_is_inside    = !is_outside(g->u.posx(), g->u.posy());
+    const bool  u_is_inside    = !is_outside(g->u.pos());
     const float natural_light  = g->natural_light_level();
     const float hl             = natural_light / 2;
 
@@ -396,6 +401,7 @@ void map::generate_lightmap()
 
 void map::add_light_source(int x, int y, float luminance )
 {
+    auto &light_source_buffer = get_cache( abs_sub.z ).light_source_buffer;
     light_source_buffer[x][y] = std::max(luminance, light_source_buffer[x][y]);
 }
 
@@ -407,6 +413,8 @@ lit_level map::light_at(int dx, int dy)
         return LL_DARK;    // Out of bounds
     }
 
+    auto &lm = get_cache( abs_sub.z ).lm;
+    auto &sm = get_cache( abs_sub.z ).sm;
     if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT) {
         return LL_BRIGHT;
     }
@@ -428,7 +436,7 @@ float map::ambient_light_at(int dx, int dy)
         return 0.0f;
     }
 
-    return lm[dx][dy];
+    return get_cache( abs_sub.z ).lm[dx][dy];
 }
 
 bool map::trans(const int x, const int y) const
@@ -438,7 +446,7 @@ bool map::trans(const int x, const int y) const
 
 float map::light_transparency(const int x, const int y) const
 {
-  return transparency_cache[x][y];
+    return get_cache( abs_sub.z ).transparency_cache[x][y];
 }
 
 // Tile light/transparency: 3D
@@ -449,6 +457,8 @@ lit_level map::light_at( const tripoint &p )
         return LL_DARK;    // Out of bounds
     }
 
+    auto &lm = get_cache( p.z ).lm;
+    auto &sm = get_cache( p.z ).sm;
     // TODO: Fix in FoV update
     const int dx = p.x;
     const int dy = p.y;
@@ -473,8 +483,7 @@ float map::ambient_light_at( const tripoint &p )
         return 0.0f;
     }
 
-    // TODO: Fix in FoV update
-    return lm[p.x][p.y];
+    return get_cache( p.z ).lm[p.x][p.y];
 }
 
 bool map::trans( const tripoint &p ) const
@@ -484,8 +493,7 @@ bool map::trans( const tripoint &p ) const
 
 float map::light_transparency( const tripoint &p ) const
 {
-    // TODO: Fix in FoV update
-    return transparency_cache[p.x][p.y];
+    return get_cache( p.z ).transparency_cache[p.x][p.y];
 }
 
 // End of tile light/transparency
@@ -500,7 +508,7 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
         return false;    // Out of range!
     }
 
-    return seen_cache[tx][ty];
+    return get_cache( abs_sub.z ).seen_cache[tx][ty];
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -513,8 +521,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
         return false;    // Out of range!
     }
 
-    // TODO: FoV update
-    return seen_cache[t.x][t.y];
+    return get_cache( t.z ).seen_cache[t.x][t.y];
 }
 
 /**
@@ -532,6 +539,10 @@ bool map::pl_sees( const tripoint &t, const int max_range )
  */
 void map::build_seen_cache(const tripoint &origin)
 {
+    auto &ch = get_cache( origin.z );
+    float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.transparency_cache;
+    bool (&seen_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = ch.seen_cache;
+
     std::memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[origin.x][origin.y] = true;
 
@@ -548,7 +559,7 @@ void map::build_seen_cache(const tripoint &origin)
     castLight<-1, 0, 0, -1>( seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
     int part;
-    if ( vehicle *veh = veh_at( origin.x, origin.y, part ) ) {
+    if ( vehicle *veh = veh_at( origin, part ) ) {
         // We're inside a vehicle. Do mirror calcs.
         std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
         // Do all the sight checks first to prevent fake multiple reflection
@@ -692,6 +703,8 @@ void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
 
 void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
+    auto &lm = get_cache( abs_sub.z ).lm;
+    auto &sm = get_cache( abs_sub.z ).sm;
     if (INBOUNDS(x, y)) {
         lm[x][y] = std::max(lm[x][y], static_cast<float>(LL_LOW));
         lm[x][y] = std::max(lm[x][y], luminance);
@@ -726,6 +739,7 @@ void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc
         sssSsss
            sy
     */
+    auto &light_source_buffer = get_cache( abs_sub.z ).light_source_buffer;
     const int peer_inbounds = LIGHTMAP_CACHE_X - 1;
     bool north = (y != 0 && light_source_buffer[x][y - 1] < luminance );
     bool south = (y != peer_inbounds && light_source_buffer[x][y + 1] < luminance );
@@ -853,6 +867,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
         return;
     }
 
+    auto &lm = get_cache( abs_sub.z ).lm;
 
     float transparency = LIGHT_TRANSPARENCY_CLEAR;
     float light = 0.0;

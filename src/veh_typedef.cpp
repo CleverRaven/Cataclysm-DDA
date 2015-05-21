@@ -6,6 +6,7 @@
 #include "json.h"
 #include "translations.h"
 #include "color.h"
+#include "itype.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -277,10 +278,14 @@ void vpart_info::check()
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
             debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());
         }
-        // muscle is a special speudo fuel type used for things that are powered by the character.
-        if( part.has_flag( VPFLAG_FUEL_TANK ) && part.fuel_type != "muscle" &&
-            !item::type_is_defined( part.fuel_type ) ) {
+        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
+        }
+        // For now, ignore invalid item ids, later add a check and assume here they are valid.
+        if( part.has_flag( "TURRET" ) && item::type_is_defined( part.item ) ) {
+            if( !item::find_type( part.item )->gun ) {
+                debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
+            }
         }
     }
 }
@@ -325,11 +330,17 @@ bool string_id<vehicle_prototype>::is_valid() const
 void vehicle_prototype::load(JsonObject &jo)
 {
     vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
-    // Overwrite with an empty entry to clear all the contained data, e.g. if this prototype is
-    // re-defined by a mod. This will also delete any existing vehicle blueprint.
-    vproto = std::move( vehicle_prototype() );
-
-    vproto.name = jo.get_string("name");
+    // If there are already parts defined, this vehicle prototype overrides an existing one.
+    // If the json contains a name, it means a completely new prototype (replacing the
+    // original one), therefor the old data has to be cleared.
+    // If the json does not contain a name (the prototype would have no name), it means appending
+    // to the existing prototype (the parts are not cleared).
+    if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
+        vproto = std::move( vehicle_prototype() );
+    }
+    if( vproto.parts.empty() ) {
+        vproto.name = jo.get_string( "name" );
+    }
 
     JsonArray parts = jo.get_array("parts");
     while (parts.has_more()) {

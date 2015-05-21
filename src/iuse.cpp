@@ -2617,21 +2617,16 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
 
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 {
-    if (it->charges < 5){
-        p->add_msg_if_player(m_info, _("You don't have enough thread."));
-        return 0;
-    }
-    if (p->is_underwater()) {
+    if( p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
 
-    //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
-    if (p->fine_detail_vision_mod() > 4) {
+    // Minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
+    if( p->fine_detail_vision_mod() > 4 ) {
         add_msg(m_info, _("You can't see to sew!"));
         return 0;
     }
-    int thread_used = 5;
 
     int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
             return itm.made_of( "cotton" ) ||
@@ -2661,39 +2656,28 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    itype_id repair_item = "none";
     std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
     std::string plural = "";
     //translation note: add <plural> tag to keep them unique
-    if (mod->made_of("cotton")) {
-        repair_items.push_back("rag");
-        plurals.push_back(rm_prefix(_("<plural>rags")));
-    }
-    if (mod->made_of("leather")) {
-        repair_items.push_back("leather");
-        plurals.push_back(rm_prefix(_("<plural>leather")));
-    }
-    if (mod->made_of("fur")) {
-        repair_items.push_back("fur");
-        plurals.push_back(rm_prefix(_("<plural>fur")));
-    }
-    if (mod->made_of("nomex")) {
-        repair_items.push_back("nomex");
-        plurals.push_back(rm_prefix(_("<plural>Nomex")));
-    }
-    if (mod->made_of("plastic")) {
-        repair_items.push_back("plastic_chunk");
-        plurals.push_back(rm_prefix(_("<plural>plastic")));
-    }
-    if (mod->made_of("kevlar")) {
-        repair_items.push_back("kevlar_plate");
-        plurals.push_back(rm_prefix(_("<plural>Kevlar")));
-    }
-    if (mod->made_of("wool")) {
-        repair_items.push_back("felt_patch");
-        plurals.push_back(rm_prefix(_("<plural>wool")));
-    }
+
+    // Little helper to cut down some surplus redundancy and repetition
+    const auto add_material = [&]( const itype_id &material,
+                                   const itype_id &mat_item,
+                                   const std::string &plural ) {
+        if( mod->made_of( material ) ) {
+            repair_items.push_back( mat_item );
+            plurals.push_back( rm_prefix( plural.c_str() ) );
+        }
+    };
+
+    add_material( "cotton", "rag", _( "<plural>rags" ) );
+    add_material( "leather", "leather", _( "<plural>leather" ) );
+    add_material( "fur", "fur", _( "<plural>fur" ) );
+    add_material( "nomex", "nomex", _( "<plural>Nomex" ) );
+    add_material( "plastic", "plastic_chunk", _( "<plural>plastic" ) );
+    add_material( "kevlar", "kevlar_plate", _( "<plural>Kevlar" ) );
+    add_material( "wool", "felt_patch", _( "<plural>wool" ) );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
@@ -2704,322 +2688,157 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("This can be used to repair or modify other items, not itself."));
         return 0;
     }
-    int choice = menu(true, _("How do you want to modify it?"), _("Line it with wool"),_("Line it with fur"),
-                      _("Pad with leather"), _("Line with Kevlar"), _("Repair clothing"),
-                      _("Cancel"), NULL);
 
-    if( (choice == 1 || choice == 2 || choice == 3 || choice == 4) && mod->item_tags.count("wooled") +
-       mod->item_tags.count("furred") + mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded") >= 2 ){
-        p->add_msg_if_player(m_info,_("You can't modify this more than twice."));
-        return 0;
-    }
-
-    switch (choice) {
-    case 1: {
-        if(mod->item_tags.count("wooled")) {
-            p->add_msg_if_player(m_info,_("There's already a wool lining sewn in."));
-            return 0;
-        }
-        itype_id repair_item = "none";
-        std::vector<std::string> plurals;
-        std::vector<itype_id> repair_items;
-        std::string plural = "";
-
-        repair_items.push_back("felt_patch");
-        plurals.push_back(rm_prefix(_("<plural>wool")));
-
-
-        int items_needed = (((mod->volume()) / 3) + 1 );
-
-        // this will cause issues if/when NPCs start being able to sew.
-        // but, then again, it'll cause issues when they start crafting, too.
-        const inventory &crafting_inv = p->crafting_inventory();
-        bool bFound = false;
-        //go through all discovered repair items and see if we have any of them available
-        for( auto &repair_items_i : repair_items ) {
-            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                //we've found enough of a material, use this one
-                repair_item = repair_items_i;
-                bFound = true;
-            }
-        }
-        if (!bFound) {
-            for (unsigned int i = 0; i < repair_items.size(); i++) {
-                p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-            }
-            return 0;
-        }
-        std::vector<item_comp> comps;
-        comps.push_back(item_comp(repair_item, items_needed));
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice("tailor", 9);
-        int rn = dice(4, 2 + p->skillLevel("tailor"));
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-
-        if (rn <= 8) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a wool lining!"),
-                                 mod->tname().c_str());
-            mod->damage++;
-            if (mod->damage >= 5) {
-                p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem_keep_contents( pos );
-            }
-        } else if (rn <= 10) {
-            p->add_msg_if_player(m_bad,
-                                 _("You fail to sew in a wool lining, and you waste a lot of thread and wool."));
-            thread_used = rng(5, 14);
-            p->consume_items(comps);
-        } else if (rn <= 14) {
-            p->add_msg_if_player(m_mixed, _("You sew in a wool lining on your %s, but waste a lot of thread."),
-                                 mod->tname().c_str());
-            p->consume_items(comps);
-            mod->item_tags.insert("wooled");
-            thread_used = rng(5, 14);
+    // Gives us an item with the mod added or removed (toggled)
+    const auto modded_copy = []( const item *proto, const std::string &mod_type ) {
+        item mcopy = *proto;
+        if( mcopy.item_tags.count( mod_type ) == 0 ) {
+            mcopy.item_tags.insert( mod_type );
         } else {
-            p->add_msg_if_player(m_good, _("You sew in a wool lining on your %s!"), mod->tname().c_str());
-            mod->item_tags.insert("wooled");
-            p->consume_items(comps);
+            mcopy.item_tags.erase( mod_type );
         }
-        return thread_used;
+
+        return mcopy;
+    };
+
+    // TODO: Wrap all the mods into structs, maybe even json-able
+    // All possible mods here
+    std::array<std::string, 4> clothing_mods{
+        { "wooled", "furred", "leather_padded", "kevlar_padded" }
+    };
+
+    // Materials those mods use
+    std::array<std::string, 4> mod_materials{
+        { "felt_patch", "fur", "leather", "kevlar_plate" }
+    };
+
+    // Cache available materials
+    std::map< itype_id, bool > has_enough;
+    const int items_needed = ( ( ( mod->volume() ) / 3 ) + 1 );
+    const inventory &crafting_inv = p->crafting_inventory();
+    // Go through all discovered repair items and see if we have any of them available
+    for( auto &material : mod_materials ) {
+        has_enough[material] = crafting_inv.has_amount( material, items_needed );
     }
-    case 2: {
-        if(mod->item_tags.count("furred")) {
-            p->add_msg_if_player(m_info,_("There's already a fur lining sewn in."));
-            return 0;
-        }
-        itype_id repair_item = "none";
-        std::vector<std::string> plurals;
-        std::vector<itype_id> repair_items;
-        std::string plural = "";
 
-        repair_items.push_back("fur");
-        plurals.push_back(rm_prefix(_("<plural>furs")));
+    const int mod_count = mod->item_tags.count("wooled") + mod->item_tags.count("furred") +
+                          mod->item_tags.count("leather_padded") + mod->item_tags.count("kevlar_padded");
 
+    // We need extra thread to lose it on bad rolls
+    const int thread_needed = mod->volume() * 2 + 10;
+    // Returns true if the item already has the mod or if we have enough materials and thread to add it
+    const auto can_add_mod = [&]( const std::string &new_mod, const itype_id &mat_item ) {
+        return mod->item_tags.count( new_mod ) > 0 ||
+            ( it->charges >= thread_needed && has_enough[mat_item] );
+    };
 
-        int items_needed = (((mod->volume()) / 3) + 1 );
-
-        // this will cause issues if/when NPCs start being able to sew.
-        // but, then again, it'll cause issues when they start crafting, too.
-        const inventory &crafting_inv = p->crafting_inventory();
-        bool bFound = false;
-        //go through all discovered repair items and see if we have any of them available
-        for( auto &repair_items_i : repair_items ) {
-            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                //we've found enough of a material, use this one
-                repair_item = repair_items_i;
-                bFound = true;
-            }
-        }
-        if (!bFound) {
-            for (unsigned int i = 0; i < repair_items.size(); i++) {
-                p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-            }
-            return 0;
-        }
-        std::vector<item_comp> comps;
-        comps.push_back(item_comp(repair_item, items_needed));
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice("tailor", 9);
-        int rn = dice(4, 2 + p->skillLevel("tailor"));
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-
-        if (rn <= 8) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further trying to sew in a fur lining!"),
-                                 mod->tname().c_str());
-            mod->damage++;
-            if (mod->damage >= 5) {
-                p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem_keep_contents( pos );
-            }
-        } else if (rn <= 10) {
-            p->add_msg_if_player(m_bad,
-                                 _("You fail to sew in a fur lining, and you waste a lot of thread and fur."));
-            thread_used = rng(5, 14);
-            p->consume_items(comps);
-        } else if (rn <= 14) {
-            p->add_msg_if_player(m_mixed, _("You sew in a fur lining on your %s, but waste a lot of thread."),
-                                 mod->tname().c_str());
-            p->consume_items(comps);
-            mod->item_tags.insert("furred");
-            thread_used = rng(5, 14);
-        } else {
-            p->add_msg_if_player(m_good, _("You sew in a fur lining on your %s!"), mod->tname().c_str());
-            mod->item_tags.insert("furred");
-            p->consume_items(comps);
-        }
-        return thread_used;
+    uimenu tmenu;
+    // TODO: Tell how much thread will we use
+    if( it->charges >= thread_needed ) {
+        tmenu.text = _("How do you want to modify it?");
+    } else {
+        tmenu.text = _("Not enough thread to modify. Which modification do you want to remove?");
     }
-    case 3: {
-        if(mod->item_tags.count("leather_padded")) {
-            p->add_msg_if_player(m_info,_("This is already padded with leather."));
-            return 0;
-        }
-        itype_id repair_item = "none";
-        std::vector<std::string> plurals;
-        std::vector<itype_id> repair_items;
-        std::string plural = "";
 
-        repair_items.push_back("leather");
-        plurals.push_back(rm_prefix(_("<plural>leather")));
+    // TODO: The supremely ugly block of code below looks better than 200 line boilerplate
+    // that was there before, but it can probably be moved into a helper somehow
 
+    // TODO 2: List how much material we have and how much we need
+    item temp_item = modded_copy( mod, "wooled" );
+    // Can we perform this addition or removal
+    bool enab = can_add_mod( "wooled", "felt_patch" );
+    tmenu.addentry( 0, enab, MENU_AUTOASSIGN, _("%s (Warmth: %d->%d, Encumbrance: %d->%d)"),
+        mod->item_tags.count("wooled") == 0 ? _("Line it with wool") :
+                                              _("Destroy wool lining"),
+        mod->get_warmth(), temp_item.get_warmth(), mod->get_encumber(), temp_item.get_encumber() );
 
-        int items_needed = (((mod->volume()) / 3) +1 );
-        // this will cause issues if/when NPCs start being able to sew.
-        // but, then again, it'll cause issues when they start crafting, too.
-        const inventory &crafting_inv = p->crafting_inventory();
-        bool bFound = false;
-        //go through all discovered repair items and see if we have any of them available
-        for( auto &repair_items_i : repair_items ) {
-            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                //we've found enough of a material, use this one
-                repair_item = repair_items_i;
-                bFound = true;
-            }
-        }
-        if (!bFound) {
-            for (unsigned int i = 0; i < repair_items.size(); i++) {
-                p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-            }
-            return 0;
-        }
-        std::vector<item_comp> comps;
-        comps.push_back(item_comp(repair_item, items_needed));
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice("tailor", 9);
-        int rn = dice(4, 2 + p->skillLevel("tailor"));
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
+    temp_item = modded_copy( mod, "furred" );
+    enab = can_add_mod( "furred", "fur" );
+    tmenu.addentry( 1, enab, MENU_AUTOASSIGN, _("%s (Warmth: %d->%d, Encumbrance: %d->%d)"),
+        mod->item_tags.count("furred") == 0 ? _("Line it with fur") :
+                                              _("Destroy fur lining"),
+        mod->get_warmth(), temp_item.get_warmth(), mod->get_encumber(), temp_item.get_encumber() );
 
-        if (rn <= 8) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further trying to pad it with leather!"),
-                                 mod->tname().c_str());
-            mod->damage++;
-            if (mod->damage >= 5) {
-                p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem_keep_contents( pos );
-            }
-        } else if (rn <= 10) {
-            p->add_msg_if_player(m_bad, _("You fail to pad your %s with leather, and you waste a lot of thread and leather."),
-                                 mod->tname().c_str());
-            thread_used = rng(5, 14);
-            p->consume_items(comps);
-        } else if (rn <= 14) {
-            p->add_msg_if_player(m_mixed, _("You pad your %s with leather, but waste a lot of thread."),
-                                 mod->tname().c_str());
-            p->consume_items(comps);
-            mod->item_tags.insert("leather_padded");
-            thread_used = rng(5, 14 + (rng(1, 3)));
-        } else {
-            p->add_msg_if_player(m_good, _("You pad your %s with leather!"), mod->tname().c_str());
-            mod->item_tags.insert("leather_padded");
-            p->consume_items(comps);
+    temp_item = modded_copy( mod, "leather_padded" );
+    enab = can_add_mod( "leather_padded", "leather" );
+    tmenu.addentry( 2, enab, MENU_AUTOASSIGN, _("%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)"),
+        mod->item_tags.count("leather_padded") == 0 ? _("Pad with leather") :
+                                                      _("Destroy leather padding"),
+        mod->bash_resist(), mod->cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
+        mod->get_encumber(), temp_item.get_encumber() );
 
-        }
-        return thread_used;
-    }
-    case 4: {
-        if(mod->item_tags.count("kevlar_padded")) {
-            p->add_msg_if_player(m_info,_("This is already lined with Kevlar."));
-            return 0;
-        }
-        itype_id repair_item = "none";
-        std::vector<std::string> plurals;
-        std::vector<itype_id> repair_items;
-        std::string plural = "";
+    temp_item = modded_copy( mod, "kevlar_padded" );
+    enab = can_add_mod( "kevlar_padded", "kevlar_plate" );
+    tmenu.addentry( 3, enab, MENU_AUTOASSIGN, _("%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)"),
+        mod->item_tags.count("kevlar_padded") == 0 ? _("Pad with Kevlar") :
+                                                     _("Destroy Kevlar padding"),
+        mod->bash_resist(), mod->cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
+        mod->get_encumber(), temp_item.get_encumber() );
 
-        repair_items.push_back("kevlar_plate");
-        plurals.push_back(rm_prefix(_("<plural>Kevlar plates")));
+    tmenu.addentry( 4, true, MENU_AUTOASSIGN, _("Repair/fit in") );
+    tmenu.addentry( 5, true, 'q', _("Cancel") );
 
+    tmenu.query();
+    const int choice = tmenu.ret;
 
-        int items_needed = (((mod->volume()) / 3) +1 );
-        // this will cause issues if/when NPCs start being able to sew.
-        // but, then again, it'll cause issues when they start crafting, too.
-        const inventory &crafting_inv = p->crafting_inventory();
-        bool bFound = false;
-        //go through all discovered repair items and see if we have any of them available
-        for( auto &repair_items_i : repair_items ) {
-            if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                //we've found enough of a material, use this one
-                repair_item = repair_items_i;
-                bFound = true;
-            }
-        }
-        if (!bFound) {
-            for (unsigned int i = 0; i < repair_items.size(); i++) {
-                p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-            }
-            return 0;
-        }
-        std::vector<item_comp> comps;
-        comps.push_back(item_comp(repair_item, items_needed));
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice("tailor", 9);
-        int rn = dice(4, 2 + p->skillLevel("tailor"));
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-
-        if (rn <= 8) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further trying to line it with Kevlar!"),
-                                 mod->tname().c_str());
-            mod->damage++;
-            if (mod->damage >= 5) {
-                p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem_keep_contents( pos );
-            }
-        } else if (rn <= 10) {
-            p->add_msg_if_player(m_bad, _("You fail to line your %s with Kevlar, and you waste a lot of thread and Kevlar."),
-                                 mod->tname().c_str());
-            thread_used = rng(5, 14);
-            p->consume_items(comps);
-        } else if (rn <= 14) {
-            p->add_msg_if_player(m_mixed, _("You line your %s with Kevlar, but waste a lot of thread."),
-                                 mod->tname().c_str());
-            p->consume_items(comps);
-            mod->item_tags.insert("kevlar_padded");
-            thread_used = rng(5, 14 + (rng(1, 3)));
-        } else {
-            p->add_msg_if_player(m_good, _("You line your %s with Kevlar!"), mod->tname().c_str());
-            mod->item_tags.insert("kevlar_padded");
-            p->consume_items(comps);
-
-        }
-        return thread_used;
-    }
-    case 5:
+    if( choice == 4 ) {
         return repair_clothing( p, it, mod, pos );
-    default:
+    }
+
+    if( choice < 0 || choice > 4 ) {
         return 0;
     }
+
+    // The mod player picked
+    const std::string &the_mod = clothing_mods[choice];
+
+    // If the picked mod already exists, player wants to destroy it
+    if( mod->item_tags.count( the_mod ) ) {
+        if( query_yn( _("Are you sure? You will not gain any materials back") ) ) {
+            mod->item_tags.erase( the_mod );
+        }
+
+        return 0;
+    }
+
+    // Get the id of the material used
+    const auto &repair_item = mod_materials[choice];
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( repair_item, items_needed ) );
+    p->moves -= 500 * p->fine_detail_vision_mod();
+    p->practice( "tailor", items_needed * 3 + 3 );
+    int rn = dice( 3, 2 + p->skillLevel( "tailor" ) ); // Skill
+    rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
+    rn += rng( 0, p->per_cur / 2 );                    // Perception
+    rn -= mod_count * 10;                              // Other mods
+
+    if( rn <= 8 ) {
+        p->add_msg_if_player(m_bad, _("You damage your %s trying to modify it!"),
+                             mod->tname().c_str());
+        mod->damage++;
+        if( mod->damage >= 5 ) {
+            p->add_msg_if_player(m_bad, _("You destroy it!"));
+            p->i_rem_keep_contents( pos );
+        }
+        return thread_needed / 2;
+    } else if( rn <= 10 ) {
+        p->add_msg_if_player( m_bad,
+                              _("You fail to modify the clothing, and you waste thread and materials.") );
+        p->consume_items( comps );
+        return thread_needed;
+    } else if( rn <= 14 ) {
+        p->add_msg_if_player( m_mixed, _("You modify your %s, but waste a lot of thread."),
+                              mod->tname().c_str() );
+        p->consume_items( comps );
+        mod->item_tags.insert( the_mod );
+        return thread_needed;
+    }
+
+    p->add_msg_if_player( m_good, _("You modify your %s!"), mod->tname().c_str() );
+    mod->item_tags.insert( the_mod );
+    p->consume_items( comps );
+    return thread_needed / 2;
 }
 
 void remove_battery_mods( item &modded, player &p )
@@ -4298,6 +4117,8 @@ int iuse::dig(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+void act_vehicle_siphon(vehicle *); // veh_interact.cpp
+
 int iuse::siphon(player *p, item *it, bool, const tripoint& )
 {
     int posx = 0;
@@ -4311,60 +4132,7 @@ int iuse::siphon(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("There's no vehicle there."));
         return 0;
     }
-    if (veh->fuel_left("gasoline") == 0) {
-        p->add_msg_if_player(m_info, _("That vehicle has no fuel to siphon."));
-        return 0;
-    }
-    std::map<point, vehicle *> foundv;
-    vehicle *fillv = NULL;
-    for (int x = p->posx() - 1; x < p->posx() + 2; x++) {
-        for (int y = p->posy() - 1; y < p->posy() + 2; y++) {
-            fillv = g->m.veh_at(x, y);
-            if (fillv != NULL &&
-                fillv != veh &&
-                foundv.find(point(fillv->posx, fillv->posy)) == foundv.end() &&
-                fillv->fuel_capacity("gasoline") > 0) {
-                foundv[point(fillv->posx, fillv->posy)] = fillv;
-            }
-        }
-    }
-    fillv = NULL;
-    if (!foundv.empty()) {
-        uimenu fmenu;
-        fmenu.text = _("Fill what?");
-        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
-        fmenu.addentry(_("Container"));
-        fmenu.addentry(_("Never mind"));
-        fmenu.query();
-        if (fmenu.ret == 0) {
-            if (foundv.size() > 1) {
-                if (choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
-                    fillv = g->m.veh_at(posx, posy);
-                } else {
-                    return 0;
-                }
-            } else {
-                fillv = foundv.begin()->second;
-
-            }
-        } else if (fmenu.ret != 1) {
-            return 0;
-        }
-    }
-    if (fillv != NULL) {
-        int want = fillv->fuel_capacity("gasoline") - fillv->fuel_left("gasoline");
-        int got = veh->drain("gasoline", want);
-        fillv->refill("gasoline", got);
-        add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s",
-                         "Siphoned %d units of %s from the %s into the %s%s", got), got,
-                "gasoline", veh->name.c_str(), fillv->name.c_str(),
-                (got < want ? _(", draining the tank completely.") : _(", receiving tank is full.")));
-        p->moves -= 200;
-    } else {
-        if (p->siphon(veh, "gasoline")) {
-            p->moves -= 200;
-        }
-    }
+    act_vehicle_siphon( veh );
     return it->type->charges_to_use();
 }
 

@@ -576,7 +576,6 @@ class game
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
-        bool vehicle_near ();
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'

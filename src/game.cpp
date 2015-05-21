@@ -413,7 +413,7 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        messH = TERMY - (statH + locH + stat2H);
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H);
         messW = sidebarWidth;
 
         // Now position the elements relative to each other.
@@ -431,7 +431,7 @@ void game::init_ui()
         messY = stat2Y + stat2H;
 
         mouseview_y = messY + 7;
-        mouseview_h = TERMY - mouseview_y - 5;
+        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
         mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
@@ -440,7 +440,7 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
@@ -463,7 +463,7 @@ void game::init_ui()
         stat2W = sidebarWidth;
 
         mouseview_y = stat2Y + stat2H;
-        mouseview_h = TERMY - mouseview_y;
+        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y;
         mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
@@ -550,7 +550,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m = map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) );
+    m = std::move( map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -1247,11 +1247,10 @@ bool game::do_turn()
 
         submap *sm = elem.second;
 
-        for( auto &_i : sm->vehicles ) {
-            auto veh = _i;
-
+        const bool in_bubble_z = m.has_zlevels() || sm_loc.z == get_levz();
+        for( auto &veh : sm->vehicles ) {
             veh->power_parts( sm_loc );
-            veh->idle( sm_loc.z == get_levz() && m.inbounds(in_reality.x, in_reality.y) );
+            veh->idle( in_bubble_z && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
     m.process_fields();
@@ -3718,8 +3717,12 @@ void game::debug()
             while( num_zombies() > 0 ) {
                 despawn_monster( 0 );
             }
-            m.clear_vehicle_cache();
-            m.vehicle_list.clear();
+            const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+            const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+            for( int z = minz; z < maxz; z++ ) {
+                m.clear_vehicle_cache( z );
+                m.clear_vehicle_list( z );
+            }
             // offset because load_map expects the coordinates of the top left corner, but the
             // player will be centered in the middle of the map.
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
@@ -4958,7 +4961,12 @@ void game::draw_veh_dir_indicator(void)
 
 void game::refresh_all()
 {
-    m.reset_vehicle_cache();
+    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+    for( int z = minz; z < maxz; z++ ) {
+        m.reset_vehicle_cache( z );
+    }
+
     draw();
     refresh();
 }
@@ -7081,67 +7089,27 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-bool game::vehicle_near()
-{
-    auto pts = closest_tripoints_first( 1, u.pos() );
-    for( const auto &p : pts ) {
-        if( m.veh_at( p ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
     const vpart_info &part_info = part->info();
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }
-    item *it = nullptr; // the container or the fuel item,
-    item *p_itm = nullptr; // always the actual fuel item
-    long min_charges = -1;
-    bool in_container = false;
-
     const itype_id &ftype = part_info.fuel_type;
-    if (u.weapon.is_container() && !u.weapon.contents.empty() &&
-        u.weapon.contents[0].type->id == ftype) {
-        it = &u.weapon;
-        p_itm = &u.weapon.contents[0];
-        min_charges = u.weapon.contents[0].charges;
-        in_container = true;
-    } else if (u.weapon.type->id == ftype) {
-        it = &u.weapon;
-        p_itm = it;
-        min_charges = u.weapon.charges;
-    } else {
-        it = &u.inv.item_or_container(ftype);
-        if (!it->is_null()) {
-            if (it->type->id == ftype) {
-                p_itm = it;
-            } else {
-                //ah, must be a container of the thing
-                p_itm = &(it->contents[0]);
-                in_container = true;
-            }
-            min_charges = p_itm->charges;
-        }
-    }
-    // Check for p_itm->type->id == ftype is already done above
-    if( p_itm == nullptr || it->is_null()) {
+    const long min_charges = u.charges_of( ftype );
+    if( min_charges <= 0 ) {
         return false;
     } else if (test) {
         return true;
     }
 
-    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    int max_fuel = part_info.size;
-    int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
+    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
+    const long max_fuel = part_info.size;
+    long charge_difference = (max_fuel - part->amount) / fuel_per_charge;
     if (charge_difference < 1) {
         charge_difference = 1;
     }
-    bool rem_itm = min_charges <= charge_difference;
-    long used_charges = rem_itm ? min_charges : charge_difference;
+    const long used_charges = std::min( min_charges, charge_difference );
     part->amount += used_charges * fuel_per_charge;
     if (part->amount > max_fuel) {
         part->amount = max_fuel;
@@ -7164,16 +7132,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         }
     }
 
-    p_itm->charges -= used_charges;
-    if (rem_itm) {
-        if (in_container) {
-            it->contents.erase(it->contents.begin());
-        } else if (&u.weapon == it) {
-            u.remove_weapon();
-        } else {
-            u.inv.remove_item(u.get_item_position(it));
-        }
-    }
+    u.use_charges( ftype, used_charges );
     return true;
 }
 
@@ -9841,6 +9800,19 @@ void game::grab()
     }
 }
 
+bool vehicle_near( const itype_id &ft )
+{
+    for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        vehicle *veh = g->m.veh_at( p );
+        // TODO: constify fuel_left and fuel_capacity
+        // TODO: add a fuel_capacity_left function
+        if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
@@ -9851,8 +9823,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return false;
     }
 
-    if( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") &&
-         vehicle_near() && query_yn(_("Refill vehicle?")) ) {
+    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
         tripoint vp;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
@@ -11701,13 +11672,11 @@ bool game::plmove(int dx, int dy)
             case fd_electricity:
                 dangerous = !u.is_elec_immune();
                 break;
-            case fd_acid:
-                break;
             default:
                 dangerous = cur.is_dangerous();
                 break;
             }
-            if ((dangerous) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
+            if( dangerous && !u.has_trait( "DEBUG_NODMG" ) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
                 return false;
             }
         }
@@ -12851,11 +12820,11 @@ void game::vertical_move(int movez, bool force)
     }
 
     u.moves -= 100;
-    m.clear_vehicle_cache();
-    m.vehicle_list.clear();
-    m.set_transparency_cache_dirty();
-    m.set_outside_cache_dirty();
     if( !m.has_zlevels() ) {
+        m.clear_vehicle_cache( z_before );
+        m.access_cache( z_before ).vehicle_list.clear();
+        m.set_transparency_cache_dirty( z_before );
+        m.set_outside_cache_dirty( z_before );
         m.load( get_levx(), get_levy(), z_after, true );
     }
 
