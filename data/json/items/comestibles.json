@@ -11385,7 +11385,7 @@
         "weight" : 210,
         "color" : "brown",
         "addiction_type" : "none",
-        "spoils_in" : 240,
+        "spoils_in" : 0,
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
