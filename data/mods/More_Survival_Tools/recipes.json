@@ -1514,5 +1514,31 @@
       [ "gold_small", 60 ]
       ]
     ]
-  }
+},{
+  "type" : "recipe",
+  "result": "mess_tin",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [ ["tongs", -1] ],
+      [ ["chisel", -1]],
+      [ ["anvil", -1] ],
+      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+}
 ]
