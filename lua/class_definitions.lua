@@ -494,84 +494,42 @@ classes = {
     },
     mtype = {
         attributes = {
-            speed = {
-                type = "int",
-                writable = true
-            },
-            hp = {
-                type = "int",
-                writable = true
-            },
-            melee_skill = {
-                type = "int",
-                writable = true
-            },
-            melee_dice = {
-                type = "int",
-                writable = true
-            },
-            melee_sides = {
-                type = "int",
-                writable = true
-            },
-            melee_cut = {
-                type = "int",
-                writable = true
-            },
-            sk_dodge = {
-                type = "int",
-                writable = true
-            },
-            armor_bash = {
-                type = "int",
-                writable = true
-            },
-            armor_cut = {
-                type = "int",
-                writable = true
-            },
-            sk_dodge = {
-                type = "int",
-                writable = true
-            },
-            difficulty = {
-                type = "int",
-                writable = true
-            },
-            agro = {
-                type = "int",
-                writable = true
-            },
-            morale = {
-                type = "int",
-                writable = true
-            },
-            vision_day = {
-                type = "int",
-                writable = true
-            },
-            vision_night = {
-                type = "int",
-                writable = true
-            },
+            id = { type = "string", writable = true },
+            description = { type = "string", writable = true },
+            sym = { type = "string", writable = true },
+            color = { type = "int", writable = true },
+            mat = { type = "string", writable = true },
+            difficulty = { type = "int", writable = true },
+            agro = { type = "int", writable = true },
+            morale = { type = "int", writable = true },
+            vision_day = { type = "int", writable = true },
+            vision_night = { type = "int", writable = true },
+            speed = { type = "int", writable = true },
+            melee_skill = { type = "int", writable = true },
+            melee_dice = { type = "int", writable = true },
+            melee_sides = { type = "int", writable = true },
+            melee_cut = { type = "int", writable = true },
+            sk_dodge = { type = "int", writable = true },
+            armor_bash = { type = "int", writable = true },
+            armor_cut = { type = "int", writable = true },
+            death_drops = { type = "string", writable = true },
+            luminance = { type = "float", writable = true },
+            hp = { type = "int", writable = true },
+            def_chance = { type = "int", writable = true },
+            upgrade_min = { type = "int", writable = true },
+            half_life = { type = "int", writable = true },
+            base_upgrade_chance = { type = "float", writable = true },
+            upgrade_group = { type = "string", writable = true },
+            upgrades_into = { type = "string", writable = true }
         },
         functions = {
-            in_category = {
-                args = {"string"},
-                rval = "bool"
-            },
-            in_species = {
-                args = {"string"},
-                rval = "bool"
-            },
-            has_flag = {
-                args = {"string"},
-                rval = "bool"
-            },
-            set_flag = {
-                args = {"string", "bool"},
-                rval = nil
-            }
+            same_species = { rval = "bool", args = { "mtype" } },
+            nname = { rval = "string", args = { "int" } },
+            has_flag = { rval = "bool", args = { "string" } },
+            set_flag = { rval = nil, args = { "string", "bool" } },
+            in_category = { rval = "bool", args = { "string" } },
+            in_species = { rval = "bool", args = { "string" } },
+            in_species = { rval = "bool", args = { "int" } }
         }
     },
     mongroup = {
