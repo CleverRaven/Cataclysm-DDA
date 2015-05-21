@@ -12401,48 +12401,53 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 }
 
 void player::armor_absorb(damage_unit& du, item& armor) {
-    if (rng(0,100) <= armor.get_coverage()) {
-        if (armor.is_power_armor()) { // TODO: add some check for power armor
-        }
+    if( rng( 1, 100 ) <= armor.get_coverage() ) {
+        return;
+    }
 
-        const float effective_resist = resistances(armor).get_effective_resist(du);
-        // Amount of damage mitigated
-        const float mitigation = std::min(effective_resist, du.amount);
-        du.amount -= mitigation; // mitigate the damage first
+    // TODO: add some check for power armor
 
-        // Scale chance of article taking damage based on the number of parts it covers.
-        // This represents large articles being able to take more punishment
-        // before becoming inneffective or being destroyed.
-        const int num_parts_covered = armor.get_covered_body_parts().count();
-        if( !one_in( num_parts_covered ) ) {
-            return;
-        }
+    const auto res = resistances(armor);
+    const float effective_resist = res.get_effective_resist(du);
+    // Amount of damage mitigated
+    const float mitigation = std::min(effective_resist, du.amount);
+    du.amount -= mitigation; // mitigate the damage first
 
-        // if the post-mitigation amount is greater than the amount
-        if( (du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
-            // or if it isn't, but 1/50 chance
-            (du.amount <= effective_resist && !armor.has_flag("STURDY") &&
-             !armor.is_power_armor() && one_in(200)) ) {
+    // Scale chance of article taking damage based on the number of parts it covers.
+    // This represents large articles being able to take more punishment
+    // before becoming inneffective or being destroyed.
+    const int num_parts_covered = armor.get_covered_body_parts().count();
+    if( !one_in( num_parts_covered ) ) {
+        return;
+    }
 
-            armor.damage++;
-            auto &material = armor.get_random_material();
-            std::string damage_verb = ( du.type == DT_BASH ) ?
-                material.bash_dmg_verb() : material.cut_dmg_verb();
+    // Don't damage armor as much when bypassed by armor piercing
+    // Most armor piercing damage comes from bypassing armor, not forcing through
+    const int raw_dmg = du.amount;
+    const int raw_armor = res.type_resist( du.type );
+    if( (raw_dmg > raw_armor && !one_in(du.amount) && one_in(2)) ||
+        // or if it isn't, but 1/50 chance
+        (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
+         !armor.is_power_armor() && one_in(200)) ) {
 
-            const std::string pre_damage_name = armor.tname();
-            const std::string pre_damage_adj = armor.get_base_material().
-                dmg_adj(armor.damage);
+        armor.damage++;
+        auto &material = armor.get_random_material();
+        std::string damage_verb = ( du.type == DT_BASH ) ?
+            material.bash_dmg_verb() : material.cut_dmg_verb();
 
-            // add "further" if the damage adjective and verb are the same
-            std::string format_string = ( pre_damage_adj == damage_verb ) ?
-                _("Your %s is %s further!") : _("Your %s is %s!");
-            add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
-                               damage_verb.c_str());
-            //item is damaged
-            if( is_player() ) {
-                SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
-                        m_neutral, damage_verb, m_info);
-            }
+        const std::string pre_damage_name = armor.tname();
+        const std::string pre_damage_adj = armor.get_base_material().
+            dmg_adj(armor.damage);
+
+        // add "further" if the damage adjective and verb are the same
+        std::string format_string = ( pre_damage_adj == damage_verb ) ?
+            _("Your %s is %s further!") : _("Your %s is %s!");
+        add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
+                           damage_verb.c_str());
+        //item is damaged
+        if( is_player() ) {
+            SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                    m_neutral, damage_verb, m_info);
         }
     }
 }
