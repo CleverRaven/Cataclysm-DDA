@@ -2591,7 +2591,7 @@
     "luminance":0,
     "hp":110,
     "death_function":["NORMAL"],
-    "special_attacks":[["PULL_ENEMY", 20], ["GRAB_PULL", 3], ["BITE", 5]],
+    "special_attacks":[["RANGED_PULL", 20], ["GRAB_DRAG", 3], ["BITE", 5]],
     "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"]
     },{

@@ -2256,7 +2256,7 @@ void mattack::tentacle(monster *z, int index)
 }
 
 
-void mattack::pull_enemy(monster *z, int index)
+void mattack::ranged_pull(monster *z, int index)
 {
     int t;
     int t2 = 0;
@@ -2329,14 +2329,15 @@ void mattack::pull_enemy(monster *z, int index)
         zz->setpos( pt );
     }
         range--;
-        if( seen ) {
+        if( target->is_player() && seen ) {
             g->draw();
         }
     }
     if( seen ) {
         add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
-    target->add_effect("grabbed", 2, bp_torso, false, 6); //Duration needs to be at least 2, or grab will imediately be removed
+    int prev_effect = target->get_effect_int("grabbed");
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 6); //Duration needs to be at least 2, or grab will imediately be removed
 }
 
 void mattack::grab(monster *z, int index)
@@ -2372,10 +2373,11 @@ void mattack::grab(monster *z, int index)
                                     _("<npcname> breaks the grab!"));
         return;
         }
-    target->add_effect("grabbed", 2, bp_torso, false, 3);
+    int prev_effect = target->get_effect_int("grabbed");
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 3);
 }
 
-void mattack::grab_pull(monster *z, int index)
+void mattack::grab_drag(monster *z, int index)
 {
     if( !z->can_act() ) {
         return;
@@ -2396,6 +2398,9 @@ void mattack::grab_pull(monster *z, int index)
     tripoint target_square = z->pos() - (target->pos() - z->pos());
     if (z->can_move_to(target_square) && target->stability_roll() < dice(z->type->melee_sides, z->type->melee_dice) ) {
         tripoint zpt = z->pos();
+        if (!g->is_empty(zpt)){ //Cancel the grab if the space is occupied by something
+            return;
+        }
         z->move_to(target_square);
         if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
             zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
@@ -2415,7 +2420,8 @@ void mattack::grab_pull(monster *z, int index)
         target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
                                 _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
     }
-    target->add_effect("grabbed", 2, bp_torso, false, 6);
+    int prev_effect = target->get_effect_int("grabbed");
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 6);
 }
 
 void mattack::gene_sting(monster *z, int index)

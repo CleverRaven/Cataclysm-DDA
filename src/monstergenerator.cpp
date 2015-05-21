@@ -240,9 +240,9 @@ void MonsterGenerator::init_attack()
     attack_map["RIOTBOT"] = &mattack::riotbot;
     attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
     attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
-    attack_map["PULL_ENEMY"] = &mattack::pull_enemy;
+    attack_map["RANGED_PULL"] = &mattack::ranged_pull;
     attack_map["GRAB"] = &mattack::grab;
-    attack_map["GRAB_PULL"] = &mattack::grab_pull;
+    attack_map["GRAB_DRAG"] = &mattack::grab_drag;
 }
 
 void MonsterGenerator::init_defense()

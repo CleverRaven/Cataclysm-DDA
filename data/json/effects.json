@@ -1316,6 +1316,7 @@
         "apply_message": "You have been grabbed.",
         "rating": "bad",
         "max_duration": 2,
+        "max_intensity": 15,
         "base_mods": {
             "speed_mod": [-15]
         },
