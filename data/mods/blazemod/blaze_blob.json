@@ -76,7 +76,7 @@
     "to_hit": -5,
     "ranged_damage": 1,
     "range": 15,
-    "dispersion": 0,
+    "dispersion": 3000,
     "sight_dispersion": 150,
     "aim_speed" : 0,
     "recoil": 0,
@@ -131,9 +131,9 @@
     "bashing": 10,
     "cutting": 0,
     "to_hit": -5,
-    "ranged_damage": 20,
-	"pierce": 20,
-    "range": 12,
+    "ranged_damage": 30,
+	"pierce": 30,
+    "range": 6,
     "dispersion": 0,
     "sight_dispersion": 150,
     "aim_speed" : 0,
@@ -154,11 +154,12 @@
         "damage_modifier" : 80,
         "durability" : 100,
         "folded_volume": 10,
+        "fuel_type" : "components",
         "item" : "shooter",
 		"size" : 10,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
 			{"item": "blobshootergrow", "min": 1, "max": 1}
 		]
@@ -174,11 +175,12 @@
         "damage_modifier" : 80,
         "durability" : 100,
         "folded_volume": 10,
+        "fuel_type" : "dart",
         "item" : "darter",
 		"size" : 10,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
 			{"item": "blobdartergrow", "min": 1, "max": 1}
 		]
@@ -194,10 +196,11 @@
         "damage_modifier" : 80,
         "durability" : 100,
         "folded_volume": 12,
+        "fuel_type" : "bfeed",
         "item" : "spitter",
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TURRET", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "TOOL_NONE"],
         "breaks_into" : [
 			{"item": "blobspittergrow", "min": 1, "max": 1}
 		]
@@ -213,11 +216,12 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "folded_volume": 12,
+        "fuel_type" : "h_projectile",
         "item" : "slinger",
 		"size" : 50,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
 			{"item": "blobslingergrow", "min": 1, "max": 1}
 		]
@@ -233,10 +237,12 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "folded_volume": 12,
+		"range": 6,
+        "fuel_type" : "bfeed",
         "item" : "lancer",
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TURRET", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "TOOL_NONE"],
         "breaks_into" : [
 			{"item": "bloblancergrow", "min": 1, "max": 1}
 		]
@@ -252,10 +258,11 @@
         "damage_modifier" : 80,
         "durability" : 100,
         "size" : 10000,
+        "fuel_type" : "bfeed",
         "item" : "blob_tank",
         "difficulty" : 1,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FUEL_TANK", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "slime_scrap", "min": 6, "max": 12},
             {"item": "scrap", "min": 5, "max": 8}
@@ -274,7 +281,7 @@
         "item" : "bplate",
         "difficulty" : 1,
         "location" : "armor",
-        "flags" : ["ARMOR", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["ARMOR", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "bplategrow", "min": 1, "max": 1}
         ]
@@ -293,7 +300,7 @@
         "bonus" : 100,
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["SEAT", "BED", "BOARDABLE", "TOOL_NONE", "BELTABLE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["SEAT", "BED", "BOARDABLE", "TOOL_NONE", "BELTABLE"],
         "breaks_into" : [
             {"item": "bseatgrow", "min": 1, "max": 1}
         ]
@@ -312,7 +319,7 @@
         "item" : "bharness",
         "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["SEATBELT", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "bharnessgrow", "min": 1, "max": 1}
         ]
@@ -331,7 +338,7 @@
         "folded_volume": 22,
         "item" : "bframe",
         "location" : "structure",
-        "flags" : ["MOUNTABLE", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["MOUNTABLE", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "bframegrow", "min": 1, "max": 1}
         ]
@@ -349,7 +356,7 @@
         "item" : "bwheel",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["WHEEL", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "bwheelgrow", "min": 1, "max": 1}
         ]
@@ -366,10 +373,11 @@
         "power" : 150,
         "durability" : 2500,
         "wheel_width" : 40,
+        "fuel_type" : "bfeed",
         "item" : "bengine",
         "difficulty" : 4,
         "location" : "structure",
-        "flags" : ["ENGINE", "WHEEL", "TOOL_NONE", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "STABLE"],
+        "flags" : ["ENGINE", "WHEEL", "TOOL_NONE", "PROTRUSION", "STABLE"],
         "breaks_into" : [
             {"item": "benginegrow", "min": 1, "max": 1}
         ]
@@ -386,10 +394,11 @@
         "power" : 150,
         "durability" : 2500,
         "wheel_width" : 40,
+        "fuel_type" : "bfeed",
         "item" : "bengine",
         "difficulty" : 4,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "WHEEL", "TOOL_NONE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["ENGINE", "WHEEL", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "benginegrow", "min": 1, "max": 1}
         ]
@@ -1321,7 +1330,7 @@
 		"casing" : "NULL",
 		"damage" : 0,
 		"pierce" : 0,
-		"range" : 10,
+		"range" : 0,
 		"dispersion" : 0,
 		"recoil" : 0,
 		"count" : 100
