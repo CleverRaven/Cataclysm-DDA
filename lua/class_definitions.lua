@@ -1191,54 +1191,38 @@ classes = {
     },
     itype = {
         attributes = {
-            id = {
-                type = "string",
-                writable = false,
-                desc = "The unique string identifier of the item type, as defined in the JSON."
-            },
-            description = {
-                type = "string",
-                writable = true
-            },
-            volume = {
-                type = "int",
-                writable = true
-            },
-            stack_size = {
-                type = "int",
-                writable = true
-            },
-            weight = {
-                type = "int",
-                writable = true
-            },
-            bashing = {
-                type = "int",
-                cpp_name = "melee_dam",
-                writable = true
-            },
-            cutting = {
-                type = "int",
-                cpp_name = "melee_cut",
-                writable = true
-            },
-            to_hit = {
-                type = "int",
-                cpp_name = "m_to_hit",
-                writable = true
-            },
-            price = {
-                type = "int",
-                writable = true
-            }
+            id = { type = "string" },
+            snippet_category = { type = "string", writable = true },
+            description = { type = "string", writable = true },
+            price = { type = "int", writable = true },
+            volume = { type = "int", writable = true },
+            stack_size = { type = "int", writable = true },
+            weight = { type = "int", writable = true },
+            melee_dam = { type = "int", writable = true },
+            melee_cut = { type = "int", writable = true },
+            m_to_hit = { type = "int", writable = true },
+            light_emission = { type = "int", writable = true },
+            color = { type = "int", writable = true },
+            sym = { type = "int", writable = true }
         },
         functions = {
-            nname = {
-                args = { "int" },
-                argnames = { "quantity" },
-                rval = "string",
-                desc = "Get a translated name for the item with the given quantity."
-            }
+            explode_in_fire = { rval = "bool", args = { } },
+            get_item_type_string = { rval = "string", args = { } },
+            nname = { rval = "string", args = { "int" } },
+            is_food = { rval = "bool", args = { } },
+            is_tool = { rval = "bool", args = { } },
+            is_artifact = { rval = "bool", args = { } },
+            count_by_charges = { rval = "bool", args = { } },
+            charges_to_use = { rval = "int", args = { } },
+            maximum_charges = { rval = "int", args = { } },
+            has_use = { rval = "bool", args = { } },
+            can_use = { rval = "bool", args = { "string" } },
+            invoke = { rval = "int", args = { "player", "item", "point" } },
+            invoke = { rval = "int", args = { "player", "item", "point", "string" } },
+            tick = { rval = "int", args = { "player", "item", "point" } },
+            invoke = { rval = "int", args = { "player", "item", "tripoint" } },
+            invoke = { rval = "int", args = { "player", "item", "tripoint", "string" } },
+            tick = { rval = "int", args = { "player", "item", "tripoint" } }
         }
     },
     it_comest = {
