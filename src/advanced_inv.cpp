@@ -972,8 +972,8 @@ void advanced_inventory::redraw_pane( side p )
 
     auto itm = pane.get_cur_item_ptr();
     int width = print_header(pane, (itm != nullptr) ? itm->area : pane.get_area());
-    bool same_as_dragged = ((square.id >= AIM_SOUTHWEST && square.id <= AIM_NORTHEAST) &&
-            square.off == squares[AIM_DRAGGED].off);
+    bool same_as_dragged = (is_between(AIM_SOUTHWEST, square.id, AIM_NORTHEAST) && 
+            square.id != AIM_CENTER && square.off == squares[AIM_DRAGGED].off);
     auto name = utf8_truncate((same_as_dragged) ? squares[AIM_DRAGGED].name : square.name, width);
     auto desc = utf8_truncate((same_as_dragged) ? squares[AIM_DRAGGED].desc : square.desc, width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
