@@ -1437,12 +1437,7 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
             cur_flags.set( bp_foot_l );
             cur_flags.set( bp_foot_r );
         } else {
-            std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
-            if (found_flag_iter != body_parts.end()) {
-                cur_flags.set(found_flag_iter->second);
-            } else {
-                debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-            }
+            cur_flags.set( get_body_part_token( new_flag ) );
         }
     } else if (flag_type == "sided") {
         // global defined in bodypart.h
