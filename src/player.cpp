@@ -12401,7 +12401,7 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 }
 
 void player::armor_absorb(damage_unit& du, item& armor) {
-    if( rng( 1, 100 ) <= armor.get_coverage() ) {
+    if( rng( 1, 100 ) > armor.get_coverage() ) {
         return;
     }
 
