@@ -3851,11 +3851,7 @@
   ],
   "components": [
     [
-      [ "rag", 40 ],
-      [ "fur", 32 ],
-      [ "tanned_pelt", 6 ],
-      [ "leather", 24 ],
-      [ "tanned_hide", 6 ]
+      [ "rag", 40 ]
     ]
   ]
 },{
