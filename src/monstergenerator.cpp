@@ -427,7 +427,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             while (jsarr.has_more()) {
                 JsonObject e = jsarr.next_object();
                 mon_effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
-                                    body_parts[e.get_string("bp", "NUM_BP")], e.get_bool("permanent", false),
+                                    get_body_part_token( e.get_string("bp", "NUM_BP") ), e.get_bool("permanent", false),
                                     e.get_int("chance", 100));
                 newmon->atk_effs.push_back(new_eff);
             }

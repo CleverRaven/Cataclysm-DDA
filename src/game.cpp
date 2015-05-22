@@ -159,7 +159,6 @@ void game::load_static_data()
     // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
-    init_body_parts();
     init_mapgen_builtin_functions();
     init_fields();
     init_morale();
