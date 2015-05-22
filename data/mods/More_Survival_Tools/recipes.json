@@ -5,6 +5,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
+  "skills_required": ["fabrication", 3],
   "difficulty": 4,
   "time": 1000,
   "reversible": false,
@@ -29,12 +30,12 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
-  "skills_required": ["fabrication", 1],
-  "difficulty": 4,
+  "skills_required": ["fabrication", 2],
+  "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["mag_survival", 3] , ["textbook_survival", 3]],
+  "book_learn": [["mag_survival", 1] , ["textbook_survival", 1]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
