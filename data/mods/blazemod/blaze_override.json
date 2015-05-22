@@ -32,7 +32,7 @@
         "item" : "flamethrower",
         "difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "MANUAL"],
         "folded_volume": 16,
         "breaks_into" : [
             {"item": "flamethrower", "min": 1, "max": 1}

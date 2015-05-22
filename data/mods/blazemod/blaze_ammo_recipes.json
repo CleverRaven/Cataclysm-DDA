@@ -29,7 +29,7 @@
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 0,
-  "time": 15000,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
