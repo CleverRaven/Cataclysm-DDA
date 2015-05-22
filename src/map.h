@@ -15,7 +15,6 @@
 #include "mapdata.h"
 #include "item.h"
 #include "json.h"
-#include "vehicle.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
@@ -30,6 +29,7 @@ class monster;
 class item;
 class Creature;
 class tripoint_range;
+class vehicle;
 struct itype;
 struct mapgendata;
 struct trap;
@@ -1096,13 +1096,6 @@ protected:
 
  int my_MAPSIZE;
  bool zlevels;
-
- mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
- mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
- mutable field nulfield; // Returned when &field_at() is asked for an OOB value
- mutable vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- mutable int null_temperature;  // Because radiation does it too
- mutable level_cache nullcache; // Dummy cache for z-levels outside bounds
 
     /**
      * Absolute coordinates of first submap (get_submap_at(0,0))

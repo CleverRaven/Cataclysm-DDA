@@ -19,6 +19,7 @@
 #include "npc.h"
 #include "event.h"
 #include "monster.h"
+#include "vehicle.h"
 #include "veh_type.h"
 #include "artifact.h"
 #include "omdata.h"
@@ -38,6 +39,11 @@ extern bool is_valid_in_w_terrain(int,int);
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+
+static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
+static field            nulfield;          // Returned when &field_at() is asked for an OOB value
+static int              null_temperature;  // Because radiation does it too
+static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
 // Map stack methods.
 size_t map_stack::size() const
@@ -120,7 +126,6 @@ item &map_stack::operator[]( size_t index )
 
 map::map( int mapsize, bool zlev )
 {
-    nulter = t_null;
     my_MAPSIZE = mapsize;
     zlevels = zlev;
     if( zlevels ) {
