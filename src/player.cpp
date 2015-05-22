@@ -387,7 +387,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ((encumb(bp_leg_l) / 10) + encumb(bp_leg_r))/20 - (encumb(bp_torso) / 10) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb(bp_leg_l) + encumb(bp_leg_r) )/20 - (encumb(bp_torso) / 10) );
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -4785,30 +4785,28 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-
-
-        //Acid blood effects.
-        bool u_see = g->u.sees(*this);
-        int cut_dam = dealt_dams.type_damage(DT_CUT);
-        if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
-            if (is_player()) {
-                add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
-                                source->disp_name().c_str());
-            } else if (u_see) {
-                add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
-                            disp_name().c_str(),
+    //Acid blood effects.
+    bool u_see = g->u.sees(*this);
+    int cut_dam = dealt_dams.type_damage(DT_CUT);
+    if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
+        if (is_player()) {
+            add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
                             source->disp_name().c_str());
-            }
-            damage_instance acidblood_damage;
-            acidblood_damage.add_damage(DT_ACID, rng(4,16));
-            if (!one_in(4)) {
+        } else if (u_see) {
+            add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
+                        disp_name().c_str(),
+                        source->disp_name().c_str());
+        }
+        damage_instance acidblood_damage;
+        acidblood_damage.add_damage(DT_ACID, rng(4,16));
+        if (!one_in(4)) {
             source->deal_damage(this, bp_arm_l, acidblood_damage);
             source->deal_damage(this, bp_arm_r, acidblood_damage);
-            } else {
+        } else {
             source->deal_damage(this, bp_torso, acidblood_damage);
             source->deal_damage(this, bp_head, acidblood_damage);
-            }
         }
+    }
 
     if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
@@ -5077,9 +5075,38 @@ void player::healall(int dam)
 
 void player::hurtall(int dam, Creature *source)
 {
-    for (int i = 0; i < num_hp_parts; i++) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        apply_damage( source, bp, dam );
+    if( is_dead_state() || has_trait( "DEBUG_NODMG" ) || dam <= 0 ) {
+        return;
+    }
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const hp_part bp = static_cast<hp_part>( i );
+        // Don't use apply_damage here or it will annoy the player with 6 queries
+        hp_cur[bp] -= dam;
+        lifetime_stats()->damage_taken += dam;
+        if( hp_cur[bp] < 0 ) {
+            lifetime_stats()->damage_taken += hp_cur[bp];
+            hp_cur[bp] = 0;
+        }
+    }
+    
+    if( in_sleep_state() ) {
+        wake_up();
+    }
+
+    if( !is_npc() ) {
+        if( source != nullptr ) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            g->cancel_activity_query(_("You were hurt!"));
+        }
+    }
+
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    mod_pain( dam );
+
+    if( is_dead_state() ) {
+        set_killer( source );
     }
 }
 
@@ -5094,6 +5121,68 @@ int player::hitall(int dam, int vary, Creature *source)
         damage_taken += deal_damage( source, bp, damage ).total_damage();
     }
     return damage_taken;
+}
+
+float player::fall_damage_mod() const
+{
+    float ret = 1.0f;
+
+    // Ability to land properly is 2x as important as dexterity itself
+    float dex_dodge = dex_cur / 2 + get_skill_level( "dodge" );
+    // Penalize for wearing heavy stuff
+    dex_dodge -= ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 20 ) + ( encumb(bp_torso) / 10 );
+    // But prevent it from increasing damage
+    dex_dodge = std::min( 0.0f, dex_dodge );
+    // 100% damage at 0, 75% at 10, 50% at 20 and so on
+    ret *= (100.0f - (dex_dodge * 4.0f)) / 100.0f;
+
+    if( has_trait("PARKOUR") ) {
+        ret *= 2.0f / 3.0f;
+    }
+
+    // TODO: Bonus for Judo, mutations. Penalty for heavy weight (including mutations)
+    return std::max( 0.0f, ret );
+}
+
+int player::impact( const int force, const tripoint &p )
+{
+    // TODO: Get target's spikiness
+    const float mod = fall_damage_mod();
+    // Get impaled on stuff
+    const int cut = g->m.has_flag( "SHARP", p ) ? force / 4 : 0;
+    // Soft ground.
+    // TODO: Make it check for good stuff to land on, like water, hay or creatures
+    const int hard_ground = g->m.has_flag( "DIGGABLE", p ) ? 0 : 3;
+    // Percentage arpen - armor won't help much here
+    // TODO: Make cushioned items like bike helmets help more
+    const float armor_eff = 0.25f; // Not much
+
+    int total_dealt = 0;
+    for (int i = 0; i < num_hp_parts; i++) {
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        int bash = ( force * rng (60, 100) / 100 ) + hard_ground;
+        damage_instance di;
+        di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+        di.add_damage( DT_CUT, cut, 0, armor_eff );
+        total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+    }
+
+    if( is_player() ) {
+        const bool slam = p != pos();
+        if( total_dealt > 0 ) {
+            add_msg( m_bad, _("You slam against the %s for %d damage."), g->m.name( p ), total_dealt );
+        } else if( slam ) {
+            add_msg( _("You slam against the %s."), g->m.name( p ) );
+        } else {
+            add_msg( _("You land on the %s."), g->m.name( p ) );
+        }
+    }
+
+    if( !is_throw_immune() && x_in_y( mod, 1.0f ) ) {
+        add_effect( "downed", 3 );
+    }
+
+    return total_dealt;
 }
 
 void player::knock_back_from( const tripoint &p )
