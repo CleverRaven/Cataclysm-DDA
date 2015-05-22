@@ -718,14 +718,17 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     for( auto temp : npcs ) {
-
-        if (temp->is_active()) {
+        if( temp->is_active() ) {
             continue;
         }
-            const tripoint p = temp->global_sm_location();
-            add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                     get_levx(), get_levy(), p.x, p.y);
+
+        const tripoint p = temp->global_sm_location();
+        add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
+                 get_levx(), get_levy(), get_levz(), p.x, p.y, p.z );
         temp->place_on_map();
+        if( !m.inbounds( temp->pos() ) ) {
+            continue;
+        }
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
         if (temp->marked_for_death) {
@@ -2217,7 +2220,7 @@ bool game::handle_action()
                     }
 
                     if (new_destination) {
-                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0 );
+                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
                         return false;
                     }
                 } else if (action == "SEC_SELECT") {
@@ -4200,7 +4203,7 @@ void game::debug()
             break;
         }
 
-        auto rt = m.route( u.pos3(), dest, 0 );
+        auto rt = m.route( u.pos3(), dest, 0, 1000 );
         u.set_destination( rt );
         if( !u.has_destination() ) {
             popup( "Couldn't find path" );

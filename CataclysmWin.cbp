@@ -378,6 +378,7 @@
 		<Unit filename="src/overmapbuffer.h" />
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
+        <Unit filename="src/pathfinding.cpp" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
 		<Unit filename="src/platform_win.h" />
