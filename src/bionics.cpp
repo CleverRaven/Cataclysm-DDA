@@ -17,6 +17,7 @@
 #include "monster.h"
 #include "overmap.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

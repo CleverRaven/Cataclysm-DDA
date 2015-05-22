@@ -38,7 +38,12 @@
       ["flint_steel", 10],
       ["tinderbox", 5],
       ["bottle_metal", 5],
-      ["tarp", 10]
+      ["tarp", 10],
+      ["cloak_wool", 5],
+      ["chem_hexamine", 5],
+      ["esbit_stove", 10],
+      ["bottle_folding", 10],
+      ["mess_tin", 10]
     ]
   },{
     "type" : "item_group",
@@ -47,7 +52,11 @@
       ["flint_steel", 10],
       ["tinderbox", 5],
       ["bottle_metal", 5],
-      ["tarp", 10]
+      ["tarp", 10],
+      ["chem_hexamine", 5],
+      ["esbit_stove", 10],
+      ["bottle_folding", 5],
+      ["mess_tin", 10]
     ]
   },{
     "type" : "item_group",
@@ -76,7 +85,11 @@
       ["tinderbox", 2],
       ["bottle_metal", 2],
       ["cheese_hard", 5],
-      ["tarp", 15]
+      ["tarp", 15],
+      ["chem_hexamine", 4],
+      ["esbit_stove", 8],
+      ["bottle_folding", 6],
+      ["mess_tin", 8]
     ]
   },{
     "type" : "item_group",
@@ -86,7 +99,10 @@
       ["hobo_stove", 3],
       ["tinder", 3],
       ["tinderbox", 2],
-      ["bottle_metal", 2]
+      ["bottle_metal", 2],
+      ["chem_hexamine", 3],
+      ["esbit_stove", 6],
+      ["mess_tin", 8]
     ]
   },{
     "type" : "item_group",
@@ -145,7 +161,8 @@
     "id" : "allclothes",
     "items":[
       ["boxer_briefs", 20],
-      ["gloves_work", 5]
+      ["gloves_work", 5],
+      ["cloak_wool", 5]
     ]
   },{
     "type" : "item_group",
@@ -183,6 +200,42 @@
     "id" : "stash_food",
     "items":[
       ["cheese_hard", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survival_armor",
+    "items":[
+      ["cloak_wool", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "loincloth",
+    "items":[
+      ["loincloth_wool", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_surplus",
+    "items":[
+      ["chem_hexamine", 5],
+      ["esbit_stove", 10],
+      ["mess_tin", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_accessories",
+    "items":[
+      ["chem_hexamine", 3],
+      ["esbit_stove", 6],
+      ["mess_tin", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military",
+    "items":[
+      ["chem_hexamine", 5],
+      ["esbit_stove", 8],
+      ["mess_tin", 4]
     ]
   },{
 "type" : "item_group",

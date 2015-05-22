@@ -18,6 +18,7 @@
 #include "translations.h"
 #include "morale.h"
 #include "npc.h"
+#include "vehicle.h"
 
 #include <queue>
 #include <math.h>    //sqrt

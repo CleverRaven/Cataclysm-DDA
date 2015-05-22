@@ -1154,11 +1154,12 @@ static bool unserialize_legacy(std::ifstream & fin ) {
                             spawnname);
             sm->spawns.push_back(tmp);
            } else if (string_identifier == "V") {
-            vehicle *veh = new vehicle();
+            vehicle *veh = new vehicle(); // Memory leak?
             veh->load (fin);
             //veh.smx = gridx;
             //veh.smy = gridy;
-            g->m.vehicle_list.insert(veh);
+            veh->smz = g->get_levz();
+            g->m.access_cache( veh->smz ).vehicle_list.insert(veh);
             sm->vehicles.push_back(veh);
            } else if (string_identifier == "c") {
             getline(fin, databuff);

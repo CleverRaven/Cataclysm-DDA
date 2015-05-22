@@ -20,6 +20,7 @@
 #include "sounds.h"
 #include "morale.h"
 #include "overmap.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <string>
@@ -1226,6 +1227,9 @@ void npc::form_opinion(player *u)
     attitude = NPCATT_KILL;
  else
   attitude = NPCATT_FLEE;
+
+    add_msg( m_debug, "%s formed an opinion of u: %s",
+             name.c_str(), npc_attitude_name( attitude ).c_str() );
 }
 
 std::string npc::pick_talk_topic(player *u)
@@ -1294,8 +1298,9 @@ int npc::player_danger(player *u) const
 
 int npc::vehicle_danger(int radius) const
 {
-    VehicleList vehicles = g->m.get_vehicles(posx() - radius, posy() - radius,
-                                             posx() + radius, posy() + radius);
+    const tripoint from( posx() - radius, posy() - radius, posz() );
+    const tripoint to( posx() + radius, posy() + radius, posz() );
+    VehicleList vehicles = g->m.get_vehicles( from, to );
 
  int danger = 0;
 
@@ -1339,6 +1344,7 @@ int npc::hostile_anger_level() const
 
 void npc::make_angry()
 {
+    add_msg( m_debug, "%s gets angry", name.c_str() );
     // Make associated faction, if any, angry at the player too.
     if( my_fac != NULL ) {
         my_fac->likes_u -= 50;

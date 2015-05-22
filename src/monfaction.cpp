@@ -185,6 +185,22 @@ void monfactions::finalize()
 
         debugmsg( "Cycle encountered when processing monster factions. Bad factions:\n %s", names.c_str() );
     }
+
+    faction_list.shrink_to_fit(); // Save a couple of bytes
+}
+
+// Non-const monfaction reference
+monfaction &get_faction( const mfaction_str_id &id ) 
+{
+    return faction_list[id.id()];
+}
+
+// Ensures all those factions exist
+void prealloc( const std::set< std::string > &facs )
+{
+    for( const auto &f : facs ) {
+        monfactions::get_or_add_faction( mfaction_str_id( f ) );
+    }
 }
 
 // Get pointers to factions from 'keys' and add them to 'map' with value == 'value'
@@ -192,7 +208,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
                                             mf_attitude value )
 {
     for( const auto &k : keys ) {
-        const auto &faction = monfactions::get_or_add_faction( mfaction_str_id( k ) );
+        const auto &faction = mfaction_str_id( k ).id();
         map[faction] = value;
     }
 }
@@ -200,14 +216,25 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
 void monfactions::load_monster_faction(JsonObject &jo)
 {
     // Factions inherit values from their parent factions - this is set during finalization
-    std::string name = jo.get_string( "name" );
-    monfaction &faction = faction_list[get_or_add_faction( mfaction_str_id( name ) )];
-    std::string base_faction = jo.get_string( "base_faction", "" );
-    faction.base_faction = get_or_add_faction( mfaction_str_id( base_faction ) );
     std::set< std::string > by_mood, neutral, friendly;
     by_mood = jo.get_tags( "by_mood" );
     neutral = jo.get_tags( "neutral" );
     friendly = jo.get_tags( "friendly" );
+    // Need to make sure adding new factions won't invalidate our current faction's reference
+    // That +1 is for base faction
+    faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() + 1 );
+    prealloc( by_mood );
+    prealloc( neutral );
+    prealloc( friendly );
+
+    std::string name = jo.get_string( "name" );
+    mfaction_id cur_id = get_or_add_faction( mfaction_str_id( name ) );
+    std::string base_faction = jo.get_string( "base_faction", "" );
+    mfaction_id base_id = get_or_add_faction( mfaction_str_id( base_faction ) );
+    // Don't get the reference until here (to avoid vector reallocation messing it up)
+    monfaction &faction = faction_list[cur_id];
+    faction.base_faction = base_id;
+
     add_to_attitude_map( by_mood, faction.attitude_map, MFA_BY_MOOD );
     add_to_attitude_map( neutral, faction.attitude_map, MFA_NEUTRAL );
     add_to_attitude_map( friendly, faction.attitude_map, MFA_FRIENDLY );

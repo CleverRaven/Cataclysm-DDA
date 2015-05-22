@@ -23,6 +23,7 @@
 #include "event.h"
 #include "ui.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <algorithm>
 
@@ -679,7 +680,8 @@ void mattack::resurrect(monster *z, int index)
 
     std::pair<tripoint, item*> raised = corpses[rng(0, corpses.size() - 1)];
     // Did we successfully raise something?
-    if (g->revive_corpse(raised.first, raised.second)) {
+    if (g->revive_corpse(raised.first, *raised.second)) {
+        g->m.i_rem( raised.first, raised.second );
         bool sees_necromancer = g->u.sees(*z);
         if( sees_necromancer ) {
             add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
@@ -688,7 +690,13 @@ void mattack::resurrect(monster *z, int index)
         z->moves -= z->type->speed; // Takes one turn
         // Lose 20% of our maximum speed
         z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
-        monster *zed = &g->zombie(g->mon_at(raised.first));
+        const int mondex = g->mon_at(raised.first);
+        if( mondex == -1 ) {
+            debugmsg( "Misplaced or failed to revive a zombie corpse" );
+            return;
+        }
+
+        monster *zed = &g->zombie( mondex );
         zed->make_ally(z);
         if (g->u.sees(*zed)) {
             add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
@@ -1348,7 +1356,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
         return;
     }
     if (rl_dist( z->pos(), g->u.pos() ) > 5 &&
-        !g->m.route( g->u.pos(), z->pos(), 10 ).empty()) {
+        !g->m.route( g->u.pos(), z->pos(), 10, 20 ).empty()) {
         add_msg(m_warning, _("The root walls creak around you."));
         for (int x = g->u.posx(); x <= z->posx() - 3; x++) {
             for (int y = g->u.posy(); y <= z->posy() - 3; y++) {
@@ -1362,7 +1370,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while (g->m.route( g->u.posx(), g->u.posy(), z->posx(), z->posy(), 10 ).empty() &&
+        while (g->m.route( g->u.pos(), z->pos(), 10, 20 ).empty() &&
                tries < 20) {
             int x = rng(g->u.posx(), z->posx() - 3), y = rng(g->u.posy(), z->posy() - 3);
             tripoint dest( x, y, z->posz() );

@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "overmap.h"
 #include "trap.h"
+#include "line.h"
 // TODO: Remove this include once 2D wrappers are no longer needed
 #include "mapgen_functions.h"
 /* These functions are responsible for making changes to the game at the moment

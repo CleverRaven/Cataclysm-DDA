@@ -6,7 +6,6 @@
 #include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "creature_tracker.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "live_view.h"
@@ -72,6 +71,7 @@ class map;
 class player;
 class npc;
 class monster;
+class Creature_tracker;
 class calendar;
 class scenario;
 class DynamicDataLoader;
@@ -147,6 +147,8 @@ class game
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+
+        std::unique_ptr<Creature_tracker> critter_tracker;
         /**
          * Add an entry to @ref events. For further information see event.h
          * @param type Type of event.
@@ -212,10 +214,18 @@ class game
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
-        /** Revives the corpse with position n in the items at p. Returns true if successful. */
-        bool revive_corpse( const tripoint &p, int n );
-        /** Revives the corpse at p by item pointer. Caller handles item deletion. */
-        bool revive_corpse( const tripoint &p, item *it );
+        /**
+         * Revives a corpse at given location. The monster type and some of its properties are
+         * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
+         * new monster there (see @ref mon_at).
+         * @param location The place where to put the revived monster.
+         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @return Whether the corpse has actually been redivided. Reviving may fail for many
+         * reasons, including no space to put the monster, corpse being to much damaged etc.
+         * If the monster was revived, the caller should remove the corpse item.
+         * If reviving failed, the item is unchanged, as is the environment (no new monsters).
+         */
+        bool revive_corpse( const tripoint &location, const item &corpse );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
@@ -487,8 +497,12 @@ class game
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, int dirx, int diry);
-        bool make_drop_activity( enum activity_type act, const tripoint &target );
+                  int freed_volume_capacity, tripoint dir, 
+                  bool to_vehicle = true); // emulate old behaviour normally
+        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
+                  int freed_volume_capacity, int dirx, int diry,
+                  bool to_vehicle = true); // emulate old behaviour normally
+        bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -562,7 +576,6 @@ class game
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
-        bool vehicle_near ();
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'
@@ -688,8 +701,6 @@ class game
         void groupdebug();      // Get into on monster groups
 
         // ########################## DATA ################################
-
-        Creature_tracker critter_tracker;
 
         int last_target; // The last monster targeted
         bool last_target_was_npc;

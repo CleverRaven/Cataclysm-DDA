@@ -22,6 +22,7 @@
 #include "monfaction.h"
 #include "options.h"
 #include "trap.h"
+#include "line.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -1796,6 +1797,7 @@ void monster::init_from_item( const item &itm )
             set_speed_base( speed_base / ( itm.damage + 1 ) );
             hp /= itm.damage + 1;
         }
+        hp = std::max( 1, hp ); // Otherwise burned monsters will rez with <= 0 hp
     } else {
         // must be a robot
         const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)

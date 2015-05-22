@@ -95,7 +95,7 @@ struct vpart_info {
         int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
         int bonus;      // seatbelt (str), muffler (%), horn (vol)
     };
-    std::string fuel_type;  // engine, fuel tank
+    itype_id fuel_type;  // engine, fuel tank
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes

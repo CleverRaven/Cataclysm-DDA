@@ -12,6 +12,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
+#include "line.h"
 
 #include <sstream>
 #include <stdlib.h>
@@ -343,7 +344,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) { // check martial arts silence
-            sounds::sound( pos3(), 8, "" );
+            sounds::sound( pos3(), 8, "", false, "melee_hit", weapon.typeId() );
         }
 
         int dam = dealt_dam.total_damage();

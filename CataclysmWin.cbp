@@ -378,6 +378,7 @@
 		<Unit filename="src/overmapbuffer.h" />
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
+        <Unit filename="src/pathfinding.cpp" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
 		<Unit filename="src/platform_win.h" />
@@ -436,6 +437,8 @@
 		<Unit filename="src/veh_typedef.cpp" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
+		<Unit filename="src/vehicle_factory.cpp" />
+		<Unit filename="src/vehicle_factory.h" />
 		<Unit filename="src/version.cpp" />
 		<Unit filename="src/wcwidth.h" />
 		<Unit filename="src/wdirent.h" />

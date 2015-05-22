@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <sstream>
 

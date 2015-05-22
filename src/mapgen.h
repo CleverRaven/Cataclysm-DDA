@@ -148,6 +148,35 @@ public:
     jmapgen_int repeat;
 };
 
+struct jmapgen_objects {
+
+    void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
+
+    /**
+     * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
+     * JsonObject as parameter. The function loads all objects from the json array and stores
+     * them in @ref objects.
+     */
+    template<typename PieceType>
+    void load_objects(JsonArray parray);
+
+    /**
+     * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
+     * nothing is loaded and the function just returns.
+     */
+    template<typename PieceType>
+    void load_objects(JsonObject &jsi, const std::string &member_name);
+
+    void apply(map* m, float density) const;
+
+private:
+    /**
+     * Combination of where to place something and what to place.
+     */
+    using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
+    std::vector<jmapgen_obj> objects;
+};
+
 class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( const jmapgen_int & var ) const;
@@ -172,24 +201,7 @@ class mapgen_function_json : public virtual mapgen_function {
     int fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
-    /**
-     * Combination of where to place something and what to place.
-     */
-    using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
-    std::vector<jmapgen_obj> objects;
-    /**
-     * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
-     * JsonObject as parameter. The function loads all objects from the json array and stores
-     * them in @ref objects.
-     */
-    template<typename PieceType>
-    void load_objects( JsonArray parray );
-    /**
-     * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
-     * nothing is loaded and the function just returns.
-     */
-    template<typename PieceType>
-    void load_objects( JsonObject &jsi, const std::string &member_name );
+
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
      * similar to @ref objects, but it uses key to get the actual position where to place things
@@ -206,6 +218,9 @@ class mapgen_function_json : public virtual mapgen_function {
 
     bool do_format;
     bool is_ready;
+
+private:
+    jmapgen_objects objects;
 };
 
 /////////////////////////////////////////////////////////////////////////////////

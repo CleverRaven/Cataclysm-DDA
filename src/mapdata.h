@@ -7,7 +7,6 @@
 //#include "monster.h"
 #include "enums.h"
 #include "computer.h"
-#include "vehicle.h"
 #include "basecamp.h"
 #include "iexamine.h"
 #include "field.h"
@@ -15,6 +14,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "rng.h"
+#include "active_item_cache.h"
 
 #include <iosfwd>
 #include <bitset>
@@ -26,6 +26,7 @@
 struct maptile;
 class game;
 class monster;
+class vehicle;
 struct trap;
 
 using trap_id = int_id<trap>;
@@ -163,6 +164,9 @@ enum ter_bitflags {
     TFLAG_PERMEABLE,
     TFLAG_AUTO_WALL_SYMBOL,
     TFLAG_CONNECT_TO_WALL,
+    TFLAG_CLIMBABLE,
+    TFLAG_GOES_DOWN,
+    TFLAG_GOES_UP,
 
     NUM_TERFLAGS
 };

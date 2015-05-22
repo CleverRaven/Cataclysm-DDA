@@ -10,6 +10,7 @@
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "npc.h"
+#include "vehicle.h"
 
 #include <fstream>
 #include <sstream>
@@ -561,7 +562,9 @@ std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
     tripoint plpos = g->u.global_omt_location();
     // get_npcs_near needs submap coordinates
     omt_to_sm(plpos.x, plpos.y);
-    return get_npcs_near(plpos.x, plpos.y, plpos.z, radius);
+    // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
+    const int zpos = g->m.has_zlevels() ? INT_MIN : plpos.z;
+    return get_npcs_near( plpos.x, plpos.y, zpos, radius );
 }
 
 std::vector<overmap*> overmapbuffer::get_overmaps_near( tripoint const &location, int const radius )
@@ -591,19 +594,19 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
 }
 
+// If z == INT_MIN, allow all z-levels
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
-        for( auto &elem : it->npcs ) {
-            npc *np = elem;
+        for( auto &np : it->npcs ) {
             // Global position of NPC, in submap coordiantes
             const tripoint pos = np->global_sm_location();
-            if (pos.z != z) {
+            if( z != INT_MIN && pos.z != z ) {
                 continue;
             }
-            const int npc_offset = square_dist( p, pos );
+            const int npc_offset = square_dist( x, y, pos.x, pos.y );
             if (npc_offset <= radius) {
                 result.push_back( np );
             }
@@ -612,20 +615,20 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
     return result;
 }
 
+// If z == INT_MIN, allow all z-levels
 std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        for( auto &elem : it->npcs ) {
-            npc *p = elem;
+        for( auto &np : it->npcs ) {
             // Global position of NPC, in submap coordiantes
-            tripoint pos = p->global_omt_location();
-            if (pos.z != z) {
+            tripoint pos = np->global_omt_location();
+            if( z != INT_MIN && pos.z != z) {
                 continue;
             }
-            const int npc_offset = square_dist(x, y, pos.x, pos.y);
+            const int npc_offset = square_dist( x, y, pos.x, pos.y );
             if (npc_offset <= radius) {
-                result.push_back(p);
+                result.push_back(np);
             }
         }
     }

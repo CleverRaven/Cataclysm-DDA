@@ -65,6 +65,8 @@
 #include "martialarts.h"
 #include "event.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
+#include "vehicle.h"
 
 #include <map>
 #include <set>
@@ -113,6 +115,7 @@ game::game() :
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
+    critter_tracker( new Creature_tracker() ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
@@ -411,7 +414,7 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        messH = TERMY - (statH + locH + stat2H);
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H);
         messW = sidebarWidth;
 
         // Now position the elements relative to each other.
@@ -429,7 +432,7 @@ void game::init_ui()
         messY = stat2Y + stat2H;
 
         mouseview_y = messY + 7;
-        mouseview_h = TERMY - mouseview_y - 5;
+        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
         mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
@@ -438,7 +441,7 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERMY - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
@@ -461,7 +464,7 @@ void game::init_ui()
         stat2W = sidebarWidth;
 
         mouseview_y = stat2Y + stat2H;
-        mouseview_h = TERMY - mouseview_y;
+        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y;
         mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
@@ -548,7 +551,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m = map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) );
+    m = std::move( map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -718,14 +721,17 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     for( auto temp : npcs ) {
-
-        if (temp->is_active()) {
+        if( temp->is_active() ) {
             continue;
         }
-            const tripoint p = temp->global_sm_location();
-            add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d (%d:%d)",
-                     get_levx(), get_levy(), p.x, p.y);
+
+        const tripoint p = temp->global_sm_location();
+        add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
+                 get_levx(), get_levy(), get_levz(), p.x, p.y, p.z );
         temp->place_on_map();
+        if( !m.inbounds( temp->pos() ) ) {
+            continue;
+        }
         // In the rare case the npc was marked for death while
         // it was on the overmap. Kill it.
         if (temp->marked_for_death) {
@@ -1245,11 +1251,10 @@ bool game::do_turn()
 
         submap *sm = elem.second;
 
-        for( auto &_i : sm->vehicles ) {
-            auto veh = _i;
-
+        const bool in_bubble_z = m.has_zlevels() || sm_loc.z == get_levz();
+        for( auto &veh : sm->vehicles ) {
             veh->power_parts( sm_loc );
-            veh->idle( sm_loc.z == get_levz() && m.inbounds(in_reality.x, in_reality.y) );
+            veh->idle( in_bubble_z && m.inbounds(in_reality.x, in_reality.y) );
         }
     }
     m.process_fields();
@@ -2218,7 +2223,7 @@ bool game::handle_action()
                     }
 
                     if (new_destination) {
-                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0 );
+                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
                         return false;
                     }
                 } else if (action == "SEC_SELECT") {
@@ -2236,7 +2241,7 @@ bool game::handle_action()
                     mouse_action_y = my;
                     int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
                     if (mouse_selected_mondex != -1) {
-                        monster &critter = critter_tracker.find(mouse_selected_mondex);
+                        monster &critter = critter_tracker->find(mouse_selected_mondex);
                         if (!u.sees(critter)) {
                             add_msg(_("Nothing relevant here."));
                             return false;
@@ -2872,7 +2877,7 @@ bool game::handle_action()
             if (safe_mode == SAFE_MODE_STOP) {
                 add_msg(m_info, _("Ignoring enemy!"));
                 for( auto &elem : new_seen_mon ) {
-                    monster &critter = critter_tracker.find( elem );
+                    monster &critter = critter_tracker->find( elem );
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 safe_mode = SAFE_MODE_ON;
@@ -3716,8 +3721,12 @@ void game::debug()
             while( num_zombies() > 0 ) {
                 despawn_monster( 0 );
             }
-            m.clear_vehicle_cache();
-            m.vehicle_list.clear();
+            const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+            const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+            for( int z = minz; z < maxz; z++ ) {
+                m.clear_vehicle_cache( z );
+                m.clear_vehicle_list( z );
+            }
             // offset because load_map expects the coordinates of the top left corner, but the
             // player will be centered in the middle of the map.
             const int nlevx = tmp.x * 2 - int(MAPSIZE / 2);
@@ -4197,7 +4206,7 @@ void game::debug()
             break;
         }
 
-        auto rt = m.route( u.pos3(), dest, 0 );
+        auto rt = m.route( u.pos3(), dest, 0, 1000 );
         u.set_destination( rt );
         if( !u.has_destination() ) {
             popup( "Couldn't find path" );
@@ -4880,7 +4889,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Draw monsters
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        draw_critter( critter_tracker.find( i ), center );
+        draw_critter( critter_tracker->find( i ), center );
     }
 
     // Draw NPCs
@@ -4956,7 +4965,12 @@ void game::draw_veh_dir_indicator(void)
 
 void game::refresh_all()
 {
-    m.reset_vehicle_cache();
+    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+    for( int z = minz; z < maxz; z++ ) {
+        m.reset_vehicle_cache( z );
+    }
+
     draw();
     refresh();
 }
@@ -5423,7 +5437,7 @@ std::vector<monster*> game::get_fishable(int distance)
 {
     std::vector<monster*> unique_fish;
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
 
         if (critter.has_flag(MF_FISHABLE)) {
             int mondist = rl_dist( u.pos(), critter.pos() );
@@ -5573,7 +5587,7 @@ int game::mon_info(WINDOW *w)
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
-                monster &critter = critter_tracker.find(new_seen_mon.back());
+                monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
                 if (u.has_trait("M_DEFENDER")) {
                     if (critter.type->in_species("PLANT")) {
@@ -5741,7 +5755,7 @@ int game::mon_info(WINDOW *w)
 void game::cleanup_dead()
 {
     for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
@@ -5796,7 +5810,7 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         while (!critter.is_dead() && !critter.can_move_to(critter.pos3())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
@@ -5861,7 +5875,7 @@ void game::monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = critter_tracker.find( i );
+        monster &critter = critter_tracker->find( i );
         if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
             critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
             critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
@@ -5922,7 +5936,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
         int mon_hit = mon_at(t);
         int npc_hit = npc_at(t);
         if (mon_hit != -1) {
-            monster &mon = critter_tracker.find(mon_hit);
+            monster &mon = critter_tracker->find(mon_hit);
             mon.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
             mon.check_dead_state();
         }
@@ -5961,11 +5975,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     int dam;
 
     if (power >= 30) {
-        sounds::sound( p, noise, _("a huge explosion!") );
+        sounds::sound( p, noise, _("a huge explosion!"), false, "explosion", "huge" );
     } else if (power >= 4) {
-        sounds::sound( p, noise, _("an explosion!") );
+        sounds::sound( p, noise, _("an explosion!"), false, "explosion" );
     } else {
-        sounds::sound( p, 3, _("a loud pop!") );
+        sounds::sound( p, 3, _("a loud pop!"), false, "explosion", "small" );
     }
     if (blast) {
         do_blast( p, power, radius, fire );
@@ -6006,7 +6020,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
             const int zid = mon_at( tp );
             const int npcdex = npc_at( tp );
             if (zid != -1) {
-                monster &critter = critter_tracker.find(zid);
+                monster &critter = critter_tracker->find(zid);
                 dam -= critter.get_armor_cut(bp_torso);
                 critter.apply_damage( nullptr, bp_torso, dam );
             } else if( npcdex != -1 ) {
@@ -6056,7 +6070,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
     }
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         dist = rl_dist( critter.pos3(), p );
         if( dist <= 4 ) {
             critter.add_effect("stunned", 10 - dist);
@@ -6081,7 +6095,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 
     sounds::sound( p, force * force * dam_mult / 2, _("Crack!") );
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
+        monster &critter = critter_tracker->find(i);
         if( rl_dist( critter.pos3(), p ) <= radius ) {
             add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
             knockback( p, critter.pos3(), force, stun, dam_mult);
@@ -6137,7 +6151,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     }
     int force_remaining = 0;
     if (zid != -1) {
-        monster *targ = &critter_tracker.find(zid);
+        monster *targ = &critter_tracker->find(zid);
         if (stun > 0) {
             targ->add_effect("stunned", stun);
             add_msg(ngettext("%s was stunned for %d turn!",
@@ -6529,7 +6543,7 @@ void game::scrambler_blast( const tripoint &p )
 {
     int mondex = mon_at( p );
     if (mondex != -1) {
-        monster &critter = critter_tracker.find(mondex);
+        monster &critter = critter_tracker->find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
             critter.make_friendly();
         }
@@ -6571,7 +6585,7 @@ void game::emp_blast( const tripoint &p )
     }
     int mondex = mon_at(p);
     if (mondex != -1) {
-        monster &critter = critter_tracker.find(mondex);
+        monster &critter = critter_tracker->find(mondex);
         if (critter.has_flag(MF_ELECTRONIC)) {
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
@@ -6691,22 +6705,22 @@ bool game::add_zombie(monster &critter)
                        << " - " << critter.disp_name();
     }
     critter.update_check();
-    return critter_tracker.add(critter);
+    return critter_tracker->add(critter);
 }
 
 size_t game::num_zombies() const
 {
-    return critter_tracker.size();
+    return critter_tracker->size();
 }
 
 monster &game::zombie(const int idx)
 {
-    return critter_tracker.find(idx);
+    return critter_tracker->find(idx);
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
 {
-    return critter_tracker.update_pos( critter, pos );
+    return critter_tracker->update_pos( critter, pos );
 }
 
 void game::remove_zombie(const int idx)
@@ -6716,12 +6730,12 @@ void game::remove_zombie(const int idx)
     } else if( last_target > idx && !last_target_was_npc ) {
         last_target--;
     }
-    critter_tracker.remove(idx);
+    critter_tracker->remove(idx);
 }
 
 void game::clear_zombies()
 {
-    critter_tracker.clear();
+    critter_tracker->clear();
 }
 
 /**
@@ -6738,7 +6752,7 @@ bool game::spawn_hallucination()
 
     //Don't attempt to place phantasms inside of other monsters
     if (mon_at(phantasm.pos()) == -1) {
-        return critter_tracker.add(phantasm);
+        return critter_tracker->add(phantasm);
     } else {
         return false;
     }
@@ -6746,17 +6760,17 @@ bool game::spawn_hallucination()
 
 int game::mon_at( const tripoint &p ) const
 {
-    return critter_tracker.mon_at( p );
+    return critter_tracker->mon_at( p );
 }
 
 monster *game::monster_at(const tripoint &p)
 {
-    return &zombie(critter_tracker.mon_at(p));
+    return &zombie(critter_tracker->mon_at(p));
 }
 
 void game::rebuild_mon_at_cache()
 {
-    critter_tracker.rebuild_cache();
+    critter_tracker->rebuild_cache();
 }
 
 bool game::is_empty( const tripoint &p )
@@ -6781,22 +6795,9 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::revive_corpse( const tripoint &p, int n )
+bool game::revive_corpse( const tripoint &p, const item &it )
 {
-    if ((int)m.i_at( p ).size() <= n) {
-        debugmsg( "Tried to revive a non-existent corpse! (%d, %d, %d), #%d of %d",
-                  p.x, p.y, p.z, n, m.i_at( p ).size());
-        return false;
-    }
-    if( !revive_corpse( p, &m.i_at( p )[n] ) ) {
-        return false;
-    }
-    return true;
-}
-
-bool game::revive_corpse( const tripoint &p, item *it )
-{
-    if (it == nullptr || !it->is_corpse()) {
+    if (!it.is_corpse()) {
         debugmsg("Tried to revive a non-corpse.");
         return false;
     }
@@ -6804,24 +6805,29 @@ bool game::revive_corpse( const tripoint &p, item *it )
         // Someone is in the way, try again later
         return false;
     }
-    monster critter( it->get_mtype(), p );
-    critter.init_from_item( *it );
+    monster critter( it.get_mtype(), p );
+    critter.init_from_item( it );
     critter.no_extra_death_drops = true;
 
-    if (it->get_var( "zlave" ) == "zlave"){
+    if (it.get_var( "zlave" ) == "zlave"){
         critter.add_effect("pacified", 1, num_bp, true);
         critter.add_effect("pet", 1, num_bp, true);
     }
 
-    if (it->get_var("no_ammo") == "no_ammo") {
+    if (it.get_var("no_ammo") == "no_ammo") {
         for (auto &ammo : critter.ammo) {
             ammo.second = 0;
         }
     }
 
-    add_zombie(critter);
-    m.i_rem(p, it);
-    return true;
+    const bool ret = add_zombie(critter);
+    if( !ret ) {
+        debugmsg( "Couldn't add a revived monster" );
+    }
+    if( ret && mon_at( p ) == -1 ) {
+        debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
+    }
+    return ret;
 }
 
 void game::open()
@@ -6907,7 +6913,7 @@ void game::close(int closex, int closey)
     vehicle *veh = m.veh_at(closex, closey, vpart);
     int zid = mon_at(closep);
     if (zid != -1) {
-        monster &critter = critter_tracker.find(zid);
+        monster &critter = critter_tracker->find(zid);
         add_msg(m_info, _("There's a %s in the way!"), critter.name().c_str());
     } else if (veh) {
         int openable = veh->next_part_to_close(vpart);
@@ -7027,7 +7033,8 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash( smashp, smashskill).first;
+
+    didit = m.bash(smashp, smashskill).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -7086,68 +7093,27 @@ void game::use_wielded_item()
     u.use_wielded();
 }
 
-bool game::vehicle_near()
-{
-    auto pts = closest_tripoints_first( 1, u.pos() );
-    for( const auto &p : pts ) {
-        if( m.veh_at( p ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
 {
     const vpart_info &part_info = part->info();
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }
-    item *it = nullptr; // the container or the fuel item,
-    item *p_itm = nullptr; // always the actual fuel item
-    long min_charges = -1;
-    bool in_container = false;
-
-    std::string ftype = part_info.fuel_type;
-    itype_id itid = default_ammo(ftype);
-    if (u.weapon.is_container() && !u.weapon.contents.empty() &&
-        u.weapon.contents[0].type->id == itid) {
-        it = &u.weapon;
-        p_itm = &u.weapon.contents[0];
-        min_charges = u.weapon.contents[0].charges;
-        in_container = true;
-    } else if (u.weapon.type->id == itid) {
-        it = &u.weapon;
-        p_itm = it;
-        min_charges = u.weapon.charges;
-    } else {
-        it = &u.inv.item_or_container(itid);
-        if (!it->is_null()) {
-            if (it->type->id == itid) {
-                p_itm = it;
-            } else {
-                //ah, must be a container of the thing
-                p_itm = &(it->contents[0]);
-                in_container = true;
-            }
-            min_charges = p_itm->charges;
-        }
-    }
-    // Check for p_itm->type->id == itid is already done above
-    if( p_itm == nullptr || it->is_null()) {
+    const itype_id &ftype = part_info.fuel_type;
+    const long min_charges = u.charges_of( ftype );
+    if( min_charges <= 0 ) {
         return false;
     } else if (test) {
         return true;
     }
 
-    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    int max_fuel = part_info.size;
-    int charge_difference = (max_fuel - part->amount) / fuel_per_charge;
+    const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
+    const long max_fuel = part_info.size;
+    long charge_difference = (max_fuel - part->amount) / fuel_per_charge;
     if (charge_difference < 1) {
         charge_difference = 1;
     }
-    bool rem_itm = min_charges <= charge_difference;
-    long used_charges = rem_itm ? min_charges : charge_difference;
+    const long used_charges = std::min( min_charges, charge_difference );
     part->amount += used_charges * fuel_per_charge;
     if (part->amount > max_fuel) {
         part->amount = max_fuel;
@@ -7163,23 +7129,14 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The tank is full."));
         }
-    } else if (ftype == "plutonium") {
+    } else if (ftype == "plut_cell") {
         add_msg(_("You refill %s's reactor."), veh.name.c_str());
         if (part->amount == max_fuel) {
             add_msg(m_good, _("The reactor is full."));
         }
     }
 
-    p_itm->charges -= used_charges;
-    if (rem_itm) {
-        if (in_container) {
-            it->contents.erase(it->contents.begin());
-        } else if (&u.weapon == it) {
-            u.remove_weapon();
-        } else {
-            u.inv.remove_item(u.get_item_position(it));
-        }
-    }
+    u.use_charges( ftype, used_charges );
     return true;
 }
 
@@ -9847,6 +9804,19 @@ void game::grab()
     }
 }
 
+bool vehicle_near( const itype_id &ft )
+{
+    for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+        vehicle *veh = g->m.veh_at( p );
+        // TODO: constify fuel_left and fuel_capacity
+        // TODO: add a fuel_capacity_left function
+        if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
@@ -9857,8 +9827,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         return false;
     }
 
-    if( (liquid.type->id == "gasoline" || liquid.type->id == "diesel") &&
-         vehicle_near() && query_yn(_("Refill vehicle?")) ) {
+    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
         tripoint vp;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
@@ -9869,12 +9838,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(m_info, _("There isn't any vehicle there."));
             return false;
         }
-        const ammotype ftype = liquid.type->id;
+        const itype_id &ftype = liquid.type->id;
         int fuel_cap = veh->fuel_capacity(ftype);
         int fuel_amnt = veh->fuel_left(ftype);
         if (fuel_cap <= 0) {
             add_msg(m_info, _("The %s doesn't use %s."),
-                    veh->name.c_str(), ammo_name(ftype).c_str());
+                    veh->name.c_str(), liquid.type_name().c_str());
             return false;
         } else if (fuel_amnt >= fuel_cap) {
             add_msg(m_info, _("The %s is already full."),
@@ -9890,10 +9859,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         liquid.charges = veh->refill(ftype, amt);
         if (veh->fuel_left(ftype) < fuel_cap) {
             add_msg(_("You refill the %s with %s."),
-                    veh->name.c_str(), ammo_name(ftype).c_str());
+                    veh->name.c_str(), liquid.type_name().c_str());
         } else {
             add_msg(_("You refill the %s with %s to its maximum."),
-                    veh->name.c_str(), ammo_name(ftype).c_str());
+                    veh->name.c_str(), liquid.type_name().c_str());
         }
         // infinite: always handled all, to prevent loops
         return infinite || liquid.charges == 0;
@@ -10162,7 +10131,14 @@ int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item
 }
 
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                int freed_volume_capacity, int dirx, int diry)
+                int freed_volume_capacity, int dirx, int diry, bool to_vehicle)
+{
+    drop(dropped, dropped_worn, freed_volume_capacity,
+            tripoint(dirx, diry, g->get_levz()), to_vehicle);
+}
+
+void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
+                int freed_volume_capacity, tripoint dir, bool to_vehicle)
 {
     if (dropped.empty() && dropped_worn.empty()) {
         add_msg(_("Never mind."));
@@ -10176,13 +10152,16 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     int veh_part = 0;
     bool to_veh = false;
-    vehicle *veh = m.veh_at(dirx, diry, veh_part);
-    if (veh) {
-        veh_part = veh->part_with_feature(veh_part, "CARGO");
-        to_veh = veh_part >= 0;
+    vehicle *veh = nullptr;
+    if(to_vehicle) {
+        veh = m.veh_at(dir, veh_part);
+        if (veh != nullptr) {
+            veh_part = veh->part_with_feature(veh_part, "CARGO");
+            to_veh = veh_part >= 0;
+        }
     }
 
-    bool can_move_there = m.move_cost(dirx, diry) != 0;
+    bool can_move_there = m.move_cost(dir) != 0;
 
     itype_id first = itype_id(dropped[0].type->id);
     bool same = true;
@@ -10207,12 +10186,12 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
             add_msg(ngettext("You drop your %s on the %s.",
                              "You drop your %s on the %s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
                              "You put your %s in the %s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         }
     } else {
         if (to_veh) {
@@ -10220,10 +10199,10 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                     veh->name.c_str(), veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(_("You drop several items on the %s."),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         } else {
             add_msg(_("You put several items in the %s."),
-                    m.name(dirx, diry).c_str());
+                    m.name(dir).c_str());
         }
     }
 
@@ -10232,7 +10211,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         for( auto &elem : dropped ) {
             vh_overflow = vh_overflow || !veh->add_item( veh_part, elem );
             if (vh_overflow) {
-                m.add_item_or_charges( dirx, diry, elem, 1 );
+                m.add_item_or_charges( dir, elem, 1 );
             }
         }
         if (vh_overflow) {
@@ -10240,7 +10219,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         }
     } else {
         for( auto &elem : dropped ) {
-            m.add_item_or_charges( dirx, diry, elem, 2 );
+            m.add_item_or_charges( dir, elem, 2 );
         }
     }
     u.moves -= drop_move_cost;
@@ -12049,27 +12028,25 @@ bool game::plmove(int dx, int dy)
             add_msg(_("Written here: %s"), utf8_truncate(m.graffiti_at( dest_loc ), 40).c_str());
         }
         if (m.has_flag("ROUGH", x, y) && (!u.in_vehicle)) {
-            bool ter_or_furn = m.has_flag_ter( "ROUGH", x, y );
             if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your left foot on the %s!"),
-                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
+                        m.has_flag_ter_or_furn( "ROUGH", x, y) ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
             if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
                 add_msg(m_bad, _("You hurt your right foot on the %s!"),
-                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
+                        m.has_flag_ter_or_furn( "ROUGH", x, y) ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
             }
         }
         if( m.has_flag("SHARP", x, y) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&
             (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
-            bool ter_or_furn = m.has_flag_ter( "SHARP", x, y );
             body_part bp = random_body_part();
-            if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 4 ) ) ).total_damage() > 0) {
+            if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                         body_part_name_accusative(bp).c_str(),
-                        ter_or_furn ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
+                        m.has_flag_ter( "SHARP", x, y ) ? m.tername(x, y).c_str() : m.furnname(x, y).c_str() );
                 if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
                 u.add_effect("tetanus", 1, num_bp, true);
                 } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
@@ -12096,13 +12073,13 @@ bool game::plmove(int dx, int dy)
         if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
             !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
-                sounds::sound(dest_loc, 2, "");    // Sound of footsteps may awaken nearby monsters
+                sounds::sound(dest_loc, 2, "", true, "footstep", "light");    // Sound of footsteps may awaken nearby monsters
             } else if (u.has_trait("CLUMSY")) {
-                sounds::sound(dest_loc, 10, "");
+                sounds::sound(dest_loc, 10, "", true, "footstep", "clumsy");
             } else if (u.has_bionic("bio_ankles")) {
-                sounds::sound(dest_loc, 12, "");
+                sounds::sound(dest_loc, 12, "", true, "footstep", "bionics");
             } else {
-                sounds::sound(dest_loc, 6, "");
+                sounds::sound(dest_loc, 6, "", true, "footstep");
             }
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
@@ -12847,11 +12824,11 @@ void game::vertical_move(int movez, bool force)
     }
 
     u.moves -= 100;
-    m.clear_vehicle_cache();
-    m.vehicle_list.clear();
-    m.set_transparency_cache_dirty();
-    m.set_outside_cache_dirty();
     if( !m.has_zlevels() ) {
+        m.clear_vehicle_cache( z_before );
+        m.access_cache( z_before ).vehicle_list.clear();
+        m.set_transparency_cache_dirty( z_before );
+        m.set_outside_cache_dirty( z_before );
         m.load( get_levx(), get_levy(), z_after, true );
     }
 
@@ -13190,7 +13167,7 @@ void game::update_stair_monsters()
             return;
         } else if( mon_at( {mposx, mposy, get_levz()} ) != -1) {
             // Monster attempts to displace a monster from the stairs
-            monster &other = critter_tracker.find( mon_at({mposx, mposy, get_levz()}) );
+            monster &other = critter_tracker->find( mon_at({mposx, mposy, get_levz()}) );
             critter.setpos( {mposx, mposy, get_levz()}, true );
 
             // the critter is now right on top of another and will push it

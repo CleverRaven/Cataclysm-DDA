@@ -15,6 +15,8 @@
 #include "crafting.h"
 #include "ui.h"
 #include "itype.h"
+#include "vehicle.h"
+
 #include <sstream>
 #include <algorithm>
 
