@@ -24,6 +24,7 @@
 #include "json.h"
 #include "coordinates.h"
 #include "npc.h"
+#include "vehicle.h"
 #ifdef LUA
 #include "catalua.h"
 #endif

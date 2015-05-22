@@ -15,6 +15,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <fstream>

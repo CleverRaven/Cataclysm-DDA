@@ -1,6 +1,7 @@
 #include "vehicle_factory.h"
 #include "debug.h"
 #include "translations.h"
+#include "vehicle.h"
 
 std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 

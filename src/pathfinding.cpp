@@ -4,6 +4,8 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "vehicle.h"
+
 #include <algorithm>
 #include <queue>
 

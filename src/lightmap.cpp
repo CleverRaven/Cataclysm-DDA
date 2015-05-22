@@ -6,6 +6,7 @@
 #include "npc.h"
 #include "monster.h"
 #include "veh_type.h"
+#include "vehicle.h"
 
 #include <cmath>
 #include <cstring>

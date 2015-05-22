@@ -16,6 +16,7 @@
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <map>
 #include <set>

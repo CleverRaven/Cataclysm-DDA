@@ -1,5 +1,6 @@
 #include "trap.h"
 #include "debug.h"
+#include "line.h"
 
 #include <vector>
 #include <memory>
