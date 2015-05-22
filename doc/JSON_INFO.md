@@ -10,9 +10,11 @@
 * names.json         - names used for NPC/player name generation
 * professions.json   - profession definitions
 * recipes.json       - crafting/disassembly recipes
+* road_vehicles.json - vehicle spawn information for roads
 * skills.json        - skill descriptions and ID's
 * snippets.json      - flier/poster descriptions
 * mutations.json     - traits/mutations
+* vehicle_groups.json - vehicle spawn groups
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
 * vehicles.json      - vehicle definitions
 
@@ -264,6 +266,16 @@ The syntax listed here is still valid.
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
 ```
+###VEHICLE GROUPS
+```C++
+"id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
+"vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
+  ["suv", 600],           //    X is the value linked to the specific vehicle and T is the total of all
+  ["pickup", 400],          //    vehicle values in a group
+  ["car", 4700],
+  ["road_roller", 300]
+]
+```
 ###VEHICLE PARTS
 ```C++
 "id": "wheel",                // Unique identifier
@@ -290,6 +302,33 @@ The syntax listed here is still valid.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ]
+```
+###VEHICLE PLACEMENT
+```C++
+"id":"road_straight_wrecks",            // Unique ID. Must be one continuous word, use underscores if necessary
+"locations":[ {                 // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
+  "x" : [0,19],           //    The x placement. Can be a single value or a range of possibilities.
+  "y" : 8,          //    The y placement. Can be a single value or a range of possibilities.
+  "facing" : [90,270] // The facing of the vehicle. Can be a single value or an array of possible values.
+} ]
+```
+###VEHICLE SPAWN
+```C++
+"id":"default_city",            // Unique ID. Must be one continuous word, use underscores if necessary
+"spawn_types":[ {       // List of spawntypes. When this vehicle_spawn is applied, it will choose from one of the spawntypes randomly, based on the weight.
+  "description" : "Clear section of road",           //    A description of this spawntype
+  "weight" : 33,          //    The chance of this spawn type being used.
+  "vehicle_function" : ""jack-knifed_semi" // This is only needed if the spawntype uses a built-in c++ function.
+  "vehicle_json" : {      // This is only needed for a json-specified spawntype.
+  "vehicle" : "car",      // The vehicle or vehicle_group to spawn.
+  "placement" : "%t_parked",  // The vehicle_placement to use when spawning the vehicle. This is not needed if the x, y, and facing are specified.
+  "x" : [0,19],     // The x placement. Can be a single value or a range of possibilities. Not needed if placement is specified.
+  "y" : 8,   // The y placement. Can be a single value or a range of possibilities. Not needed if placement is specified.
+  "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
+  "number" : 1, // The number of vehicles to spawn.
+  "fuel" : -1, // The fuel of the new vehicles.
+  "status" : 1,  // The status of the new vehicles.
+} } ]
 ```
 ###VEHICLES
 ```C++

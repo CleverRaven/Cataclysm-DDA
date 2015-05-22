@@ -156,7 +156,7 @@ void trap::trigger( const tripoint &pos, Creature *creature ) const
 {
     if( act != nullptr ) {
         trapfunc f;
-        (f.*act)( creature, pos.x, pos.y );
+        (f.*act)( creature, pos );
     }
 }
 

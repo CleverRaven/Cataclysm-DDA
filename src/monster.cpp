@@ -142,6 +142,25 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
+bool monster::can_upgrade() const
+{
+    // If we don't upgrade
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        return false;
+    }
+    // Or we aren't allowed to yet
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
+        return false;
+    } else {
+        if ((calendar::turn.get_turn() / DAYS(1)) <
+             (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void monster::update_check() {
     // Hallucinations don't upgrade!
     if (is_hallucination()) {
@@ -154,7 +173,13 @@ void monster::update_check() {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
-    int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    int upgrade_time = 0;
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    } else {
+        // Should ensure that the monsters never upgrade
+        upgrade_time = current_day + 1;
+    }
     add_msg(m_debug, "Current:day: %d", current_day);
     add_msg(m_debug, "Upgrade time : %d", upgrade_time);
     add_msg(m_debug, "Last loaded: %d", last_loaded);
@@ -723,7 +748,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                     }
                 }
                 if (check_fire) {
-                    ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
+                    ret += ( 5 * g->m.get_field_strength( tripoint(x, y, posz()), fd_fire) );
                 }
             }
         }
@@ -1405,34 +1430,32 @@ void monster::explode()
         }
 
         for( int i = 0; i < num_chunks; i++ ) {
-            int tarx = posx() + rng( -3, 3 ), tary = posy() + rng( -3, 3 );
-            std::vector<point> traj = line_to( posx(), posy(), tarx, tary, 0 );
+            tripoint tarp( posx() + rng( -3, 3 ), posy() + rng( -3, 3 ), posz() );
+            std::vector<tripoint> traj = line_to( pos(), tarp, 0, 0 );
 
             for( size_t j = 0; j < traj.size(); j++ ) {
-                tarx = traj[j].x;
-                tary = traj[j].y;
+                tarp = traj[j];
                 if( one_in( 2 ) && type_blood != fd_null ) {
-                    g->m.add_field( tarx, tary, type_blood, 1 );
+                    g->m.add_field( tarp, type_blood, 1, 0 );
                 } else if( type_gib != fd_null ) {
-                    g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
+                    g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
                 }
-                if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tripoint( tarx, tary, posz() ), 3 ).second ) {
+                if( g->m.move_cost( tarp ) == 0 ) {
+                    if( !g->m.bash( tarp, 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
                         if( j > 0 ) {
-                            tarx = traj[j - 1].x;
-                            tary = traj[j - 1].y;
+                            tarp = traj[j - 1];
                         } else {
-                            tarx = -1;
+                            tarp = tripoint_min;
                         }
                         break;
                     }
                 }
             }
-            if( meat != "null" && tarx != -1 ) {
-                g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+            if( meat != "null" && tarp != tripoint_min ) {
+                g->m.spawn_item( tarp, meat, 1, 0, calendar::turn );
             }
         }
     }
@@ -1716,6 +1739,16 @@ void monster::make_ally(monster *z) {
     faction = z->faction;
 }
 
+int monster::get_last_load() const
+{
+    return last_loaded;
+}
+
+void monster::set_last_load(int day)
+{
+    last_loaded = day;
+}
+
 void monster::reset_last_load()
 {
     last_loaded = calendar::turn.get_turn() / DAYS(1);
@@ -1802,6 +1835,7 @@ void monster::init_from_item( const item &itm )
             set_speed_base( speed_base / ( itm.damage + 1 ) );
             hp /= itm.damage + 1;
         }
+        hp = std::max( 1, hp ); // Otherwise burned monsters will rez with <= 0 hp
     } else {
         // must be a robot
         const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)

@@ -30,7 +30,12 @@ bool monster::wander()
 
 bool monster::can_move_to( const tripoint &p ) const
 {
-    if( g->m.move_cost( p ) == 0 ) {
+
+    if ((has_flag(MF_CLIMBS) || has_flag(MF_FLIES)) && g->m.has_flag("CLIMBABLE", p)) {
+        return true;
+    }
+    if( g->m.move_cost( p ) == 0 )
+    {
         return false;
     }
     if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
@@ -50,8 +55,7 @@ bool monster::can_move_to( const tripoint &p ) const
     // various animal behaviours
     if( has_flag( MF_ANIMAL ) ) {
         // don't enter sharp terrain unless tiny, or attacking
-        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK ||
-                                              type->size == MS_TINY ) ) {
+        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK || type->size == MS_TINY || has_flag( MF_FLIES )) ) {
             return false;
         }
 
@@ -658,8 +662,21 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
             movecost += 50 * g->m.move_cost( t );
         }
         movecost *= diag_mult / 2;
+        } else if (has_flag(MF_CLIMBS) ) {
+        if (g->m.has_flag("CLIMBABLE", f)) {
+            movecost += 150;
+        } else {
+            movecost += 50 * g->m.move_cost( f );
+        }
+        if (g->m.has_flag("CLIMBABLE", t)) {
+            movecost += 150;
+        } else {
+            movecost += 50 * g->m.move_cost( t );
+        }
+        movecost *= diag_mult / 2;
         // All others use the same calculation as the player
     } else {
+
         movecost = ( g->m.combined_movecost( f, t ) );
     }
 
@@ -712,9 +729,9 @@ bool monster::bash_at( const tripoint &p )
     }
     bool try_bash = !can_move_to( p ) || one_in( 3 );
     bool can_bash = g->m.is_bashable( p ) && ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) );
+
     if( try_bash && can_bash ) {
         int bashskill = group_bash_skill( p );
-
         g->m.bash( p, bashskill );
         moves -= 100;
         return true;
@@ -849,6 +866,26 @@ bool monster::attack_at( const tripoint &p )
 
 bool monster::move_to( const tripoint &p, bool force )
 {
+    //Allows climbing monsters to move on terrain with movecost <= 0
+    if (g->m.has_flag("CLIMBABLE", p)) {
+        if (!g->is_empty(p)) {
+            if (has_flag (MF_FLIES)) {
+                moves -= 100;
+                force = true;
+                if (g->u.sees( *this )){
+                    add_msg(_("The %s flies over the %s."), name().c_str(),
+                    g->m.has_flag_furn("CLIMBABLE", p) ? g->m.furnname(p).c_str() : g->m.tername(p).c_str());
+                }
+            } else if (has_flag(MF_CLIMBS)) {
+                moves -= 150;
+                force = true;
+                if (g->u.sees( *this )){
+                    add_msg(_("The %s climbs over the %s."), name().c_str(),
+                    g->m.has_flag_furn("CLIMBABLE", p) ? g->m.furnname(p).c_str() : g->m.tername(p).c_str());
+                }
+            }
+        }
+    }
     // Make sure that we can move there, unless force is true.
     if( !force && ( !g->is_empty( p ) || !can_move_to( p ) ) ) {
         return false;
@@ -884,13 +921,17 @@ bool monster::move_to( const tripoint &p, bool force )
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    if( type->size != MS_TINY && g->m.has_flag( "SHARP", pos3() ) && !one_in( 4 ) ) {
-        apply_damage( nullptr, bp_torso, rng( 2, 3 ) );
+    if( type->size != MS_TINY && !has_flag( MF_FLIES)) {
+        if( g->m.has_flag( "SHARP", pos3() ) && !one_in( 4 ) ) {
+            apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
+        }
+        if( g->m.has_flag( "ROUGH", pos3() ) && one_in( 6 ) ) {
+            apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
+        }
+
     }
-    if( type->size != MS_TINY && g->m.has_flag( "ROUGH", pos3() ) && one_in( 6 ) ) {
-        apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
-    }
-    if( g->m.has_flag( "UNSTABLE", p ) ) {
+
+    if( g->m.has_flag( "UNSTABLE", p ) && !has_flag( MF_FLIES) ) {
         add_effect( "bouldering", 1, num_bp, true );
     } else if( has_effect( "bouldering" ) ) {
         remove_effect( "bouldering" );

@@ -7,6 +7,7 @@ namespace mdeath {
 void normal         (monster *z); // Drop a body
 void acid           (monster *z); // Acid instead of a body
 void boomer         (monster *z); // Explodes in vomit :3
+void boomer_glow    (monster *z); // Explodes in vomit :3
 void kill_vines     (monster *z); // Kill all nearby vines
 void vine_cut       (monster *z); // Kill adjacent vine if it's cut
 void triffid_heart  (monster *z); // Destroy all roots

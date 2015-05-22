@@ -12,7 +12,6 @@
 #include "live_view.h"
 #include <vector>
 #include <map>
-#include <queue>
 #include <list>
 #include <stdarg.h>
 
@@ -84,7 +83,6 @@ class overmap;
 struct event;
 enum event_type : int;
 struct vehicle_part;
-struct vehicle_prototype;
 
 class game
 {
@@ -214,10 +212,18 @@ class game
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
-        /** Revives the corpse with position n in the items at p. Returns true if successful. */
-        bool revive_corpse( const tripoint &p, int n );
-        /** Revives the corpse at p by item pointer. Caller handles item deletion. */
-        bool revive_corpse( const tripoint &p, item *it );
+        /**
+         * Revives a corpse at given location. The monster type and some of its properties are
+         * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
+         * new monster there (see @ref mon_at).
+         * @param location The place where to put the revived monster.
+         * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
+         * @return Whether the corpse has actually been redivided. Reviving may fail for many
+         * reasons, including no space to put the monster, corpse being to much damaged etc.
+         * If the monster was revived, the caller should remove the corpse item.
+         * If reviving failed, the item is unchanged, as is the environment (no new monsters).
+         */
+        bool revive_corpse( const tripoint &location, const item &corpse );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
@@ -358,7 +364,6 @@ class game
         bool has_gametype() const;
         special_game_id gametype() const;
 
-        std::map<std::string, vehicle *> vtypes;
         void toggle_sidebar_style(void);
         void toggle_fullscreen(void);
         void temp_exit_fullscreen(void);
@@ -464,13 +469,6 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
-        // Vehicle related JSON loaders and variables
-        void load_vehicle(JsonObject &jo);
-        void reset_vehicles();
-        void finalize_vehicles();
-
-        std::queue<vehicle_prototype *> vehprototypes;
-
         nc_color limb_color(player *p, body_part bp, bool bleed = true,
                             bool bite = true, bool infect = true);
 
@@ -497,8 +495,12 @@ class game
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, int dirx, int diry);
-        bool make_drop_activity( enum activity_type act, const tripoint &target );
+                  int freed_volume_capacity, tripoint dir, 
+                  bool to_vehicle = true); // emulate old behaviour normally
+        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
+                  int freed_volume_capacity, int dirx, int diry,
+                  bool to_vehicle = true); // emulate old behaviour normally
+        bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -572,7 +574,6 @@ class game
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
-        bool vehicle_near ();
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p );// Examine nearby terrain  'e'

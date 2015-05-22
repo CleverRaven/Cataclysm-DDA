@@ -1153,12 +1153,34 @@ void npc::move_to( const tripoint &pt )
             g->m.creature_in_field( *this );
         } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
             moves -= 100;
-        } else if( g->m.is_bashable( p ) && g->m.bash_rating( str_cur + weapon.type->melee_dam, p ) > 0) {
-            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
-            int smashskill = str_cur + weapon.type->melee_dam;
-            g->m.bash( p, smashskill );
         } else {
+        bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
+            if (ter_or_furn) {
+            bool u_see_me = g->u.sees( *this );
+            int climb = dex_cur;
+                if (one_in( climb )) {
+                    if( u_see_me ) {
+                        add_msg( m_neutral, _( "%s falls tries to climb the %1$s but slips." ), name.c_str(),
+                                 ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
+                    }
+                    moves -= 400;
+                } else {
+                    if( u_see_me ) {
+                        add_msg( m_neutral, _( "%s climbs over the %s." ), name.c_str(),
+                             ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
+                    }
+                    moves -= (500 - (rng(0,climb) * 20));
+                    setx( p.x);
+                    sety( p.y);
+                }
+            } else if (g->m.is_bashable(p) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
+                moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
+                int smashskill = str_cur + weapon.type->melee_dam;
+                g->m.bash( p, smashskill );
+            } else {
+            attitude = NPCATT_FLEE;
             moves -= 100;
+            }
         }
     }
 }

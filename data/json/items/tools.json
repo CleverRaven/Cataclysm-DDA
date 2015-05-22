@@ -2108,7 +2108,7 @@
     "revert_to": "null",
     "use_action": "JACKHAMMER"
   },{
-    "id": "jacqueshammer",
+    "id": "jacqueshammer", "//": "All of this is SUPPOSED to be in French.",
     "type": "TOOL",
     "symbol": ";",
     "color": "light_gray",
@@ -4906,7 +4906,7 @@
   },
 
   {
-    "id": "zweifire_off",
+    "id": "zweifire_off", "//": "All of this is SUPPOSED to be in German.",
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
@@ -4946,7 +4946,7 @@
   },
 
   {
-    "id": "zweifire_on",
+    "id": "zweifire_on", "//": "All of this is SUPPOSED to be in German.",
     "type": "TOOL",
     "symbol": "/",
     "color": "red",
@@ -7012,6 +7012,30 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_bone",
+        "target_charges": 1,
+        "container": "jar_glass"
+    }
+  },
+  {
+    "id": "jar_broth_human",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "yellow",
+    "name": "sealed jar of human broth",
+    "name_plural": "sealed jars of bone broth",
+    "description": "This is a sealed glass jar containing human bone broth.  Use to open and eat to enjoy - if you really want to.",
+    "price": 350,
+    "material": ["glass", "bone"],
+    "weight": 518,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "broth_human",
         "target_charges": 1,
         "container": "jar_glass"
     }

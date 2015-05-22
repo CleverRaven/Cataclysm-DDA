@@ -1020,6 +1020,7 @@
       { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
+      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
@@ -1127,6 +1128,7 @@
       { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 7 },
+      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 },
@@ -1162,6 +1164,7 @@
       { "monster" : "mon_zombie_necro", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_survivor", "freq" : 1, "cost_multiplier" : 25 },
       { "monster" : "mon_boomer", "freq" : 180, "cost_multiplier" : 7 },
+      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 25 }
@@ -1215,6 +1218,14 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_ZOMBIE_FAT",
+    "default" : "mon_zombie_gasbag",
+    "monsters" : [
+      { "monster" : "mon_zombie_gasbag", "freq" : 20, "cost_multiplier": 0},
+      { "monster" : "mon_boomer", "freq" : 40, "cost_multiplier": 2}
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_UPGRADE",
     "default" : "mon_zombie_spitter",
     "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
@@ -1230,6 +1241,7 @@
       { "monster" : "mon_zombie_spitter", "freq" : 40, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_necro", "freq" : 5, "cost_multiplier" : 25 },
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
+      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 15, "cost_multiplier" : 15 },
       { "monster" : "mon_zombie_hulk", "freq" : 1, "cost_multiplier" : 50 },
       { "monster" : "mon_zombie_master", "freq" : 1, "cost_multiplier" : 30 },
@@ -1379,6 +1391,7 @@
       { "monster" : "mon_zombie_necro", "freq" : 10, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_survivor", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_boomer", "freq" : 30, "cost_multiplier" : 5 },
+      { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_hulk", "freq" : 10, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_armored", "freq" : 10, "cost_multiplier" : 25 },

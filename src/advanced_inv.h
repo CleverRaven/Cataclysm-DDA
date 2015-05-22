@@ -1,11 +1,15 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
+
 #include "output.h"
+#include "enums.h"
+
 #include <string>
 #include <array>
 
 class uimenu;
 class vehicle;
+class item;
 
 typedef std::vector< std::pair<item *, int> > itemslice;
 
@@ -91,9 +95,12 @@ struct advanced_inv_area {
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
-//    bool set_vehicle(advanced_inv_area &square);
     bool can_store_in_vehicle() const
     {
+        // disallow for non-valid vehicle locations
+        if(id > AIM_DRAGGED || id < AIM_SOUTHWEST) {
+            return false;
+        }
         return (veh != nullptr && vstor >= 0);
     }
 };
@@ -150,6 +157,10 @@ struct advanced_inv_listitem {
      */
     const item_category *cat;
     /**
+     * Is the item stored in a vehicle?
+     */
+    bool from_vehicle;
+    /**
      * Whether this is a category header entry, which does *not* have a reference
      * to an item, only @ref cat is valid.
      */
@@ -173,8 +184,10 @@ struct advanced_inv_listitem {
      * @param index The index, stored in @ref idx.
      * @param count The stack size, stored in @ref stacks.
      * @param area The source area, stored in @ref area. Must not be AIM_ALL.
+     * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem(item *an_item, int index, int count, aim_location area);
+    advanced_inv_listitem(item *an_item, int index, int count, 
+            aim_location area, bool from_vehicle);
 };
 
 /**
@@ -184,26 +197,23 @@ class advanced_inventory_pane
 {
     private:
         aim_location area = NUM_AIM_LOCATIONS;
-        aim_location veh_area = NUM_AIM_LOCATIONS;
-        bool in_veh = false;
+        // pointer to the square this pane is pointing to
+        bool viewing_cargo = false;
     public:
+        // set the pane's area via its square, and whether it is viewing a vehicle's cargo
+        void set_area(advanced_inv_area &square, bool in_vehicle_cargo = false)
+        {
+            area = square.id;
+            viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
+        }
         aim_location get_area() const
         {
             return area;
         }
-        aim_location get_veh_area() const
-        {
-            return veh_area;
-        }
-        void set_area(aim_location loc)
-        {
-            area = loc;
-        }
         bool in_vehicle() const
         {
-            return in_veh;
+            return viewing_cargo;
         }
-        bool set_vehicle(aim_location loc);
         /**
          * Index of the selected item (index of @ref items),
          */
@@ -279,12 +289,19 @@ class advanced_inventory
 
         void display();
     private:
+        // current location of AIM_ALL move_all_items() transfer
+//        int aim_all_location = 0;
+        // stores items from both map and vehicle for AIM_ALL transfers
+//        std::map<int, std::list<item>> veh_items, map_items;
+        // swap the panes and WINDOW pointers via std::swap()
+        void swap_panes();
         /**
          * Refers to the two panels, used as index into @ref panels.
          */
         enum side {
             left  = 0,
-            right = 1
+            right = 1,
+            NUM_PANES = 2
         };
         const int head_height;
         const int min_w_height;
@@ -326,7 +343,7 @@ class advanced_inventory
          * Two panels (left and right) showing the items, use a value of @ref side
          * as index.
          */
-        std::array<advanced_inventory_pane, 2> panes;
+        std::array<advanced_inventory_pane, NUM_PANES> panes;
         static const advanced_inventory_pane null_pane;
         std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
 
@@ -335,6 +352,11 @@ class advanced_inventory
         WINDOW *right_window;
 
         bool exit;
+
+        // store/load settings (such as index, filter, etc)
+        void save_settings(bool only_panes);
+        void load_settings();
+        void do_return_entry();
 
         static std::string get_sortname(advanced_inv_sortby sortby);
         bool move_all_items();
@@ -400,10 +422,6 @@ class advanced_inventory
          */
         void remove_item( advanced_inv_listitem &sitem );
         void menu_square(uimenu *menu);
-
-        // set AIM_VEHICLE to the location given.
-//        bool set_vehicle(advanced_inventory_pane &pane, aim_location sel);
-//        void load_veh_data();
 
         static char get_location_key( aim_location area );
 };

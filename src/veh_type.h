@@ -1,17 +1,24 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "color.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "enums.h"
 
 #include <vector>
+#include <bitset>
+#include <string>
+#include <memory>
 
 struct vpart_info;
 using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
-
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
+class vehicle;
 class JsonObject;
+struct vehicle_item_spawn;
+typedef int nc_color;
 
 /**
  * Represents an entry in the breaks_into list.
@@ -88,7 +95,7 @@ struct vpart_info {
         int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
         int bonus;      // seatbelt (str), muffler (%), horn (vol)
     };
-    std::string fuel_type;  // engine, fuel tank
+    itype_id fuel_type;  // engine, fuel tank
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes
@@ -122,6 +129,33 @@ public:
      * vpart_info object of this id will not issue a debug message.
      */
     static const vpart_str_id null;
+};
+
+struct vehicle_item_spawn
+{
+    point pos;
+    int chance;
+    std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
+};
+
+/**
+ * Prototype of a vehicle. The blueprint member is filled in during the finalizing, before that it
+ * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
+ */
+struct vehicle_prototype
+{
+    std::string name;
+    std::vector<std::pair<point, vpart_str_id> > parts;
+    std::vector<vehicle_item_spawn> item_spawns;
+
+    std::unique_ptr<vehicle> blueprint;
+
+    static void load( JsonObject &jo );
+    static void reset();
+    static void finalize();
+
+    static std::vector<vproto_id> get_all();
 };
 
 extern const vpart_str_id legacy_vpart_id[74];

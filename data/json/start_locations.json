@@ -85,8 +85,23 @@
   },{
     "type" : "start_location",
     "ident" : "lab_stairs",
-    "name" : "science lab",
+    "name" : "Science lab",
     "target" : "lab_stairs"
+  },{
+    "type" : "start_location",
+    "ident" : "lab_finale",
+    "name" : "Bottom of a science lab",
+    "target" : "lab_finale"
+  },{
+    "type" : "start_location",
+    "ident" : "ice_lab_stairs",
+    "name" : "Frozen science lab",
+    "target" : "ice_lab_stairs"
+  },{
+    "type" : "start_location",
+    "ident" : "ice_lab_finale",
+    "name" : "Deep-frozen science lab",
+    "target" : "ice_lab_finale"
   },{
     "type" : "start_location",
     "ident" : "mall_a_12",
