@@ -1424,30 +1424,18 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
         // global defined in bodypart.h
         if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
             return;
-        } else if (new_flag == "ARMS" || new_flag == "HANDS" || new_flag == "LEGS" || new_flag == "FEET") {
-            std::vector<std::string> parts;
-            if (new_flag == "ARMS") {
-                parts.push_back("ARM_L");
-                parts.push_back("ARM_R");
-            } else if (new_flag == "HANDS") {
-                parts.push_back("HAND_L");
-                parts.push_back("HAND_R");
-            } else if (new_flag == "LEGS") {
-                parts.push_back("LEG_L");
-                parts.push_back("LEG_R");
-            } else if (new_flag == "FEET") {
-                parts.push_back("FOOT_L");
-                parts.push_back("FOOT_R");
-            }
-            for( auto &part : parts ) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter =
-                    body_parts.find( part );
-                if (found_flag_iter != body_parts.end()) {
-                    cur_flags.set(found_flag_iter->second);
-                } else {
-                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-                }
-            }
+        } else if( new_flag == "ARMS" ) {
+            cur_flags.set( bp_arm_l );
+            cur_flags.set( bp_arm_r );
+        } else if( new_flag == "HANDS" ) {
+            cur_flags.set( bp_hand_l );
+            cur_flags.set( bp_hand_r );
+        } else if( new_flag == "LEGS" ) {
+            cur_flags.set( bp_leg_l );
+            cur_flags.set( bp_leg_r );
+        } else if( new_flag == "FEET" ) {
+            cur_flags.set( bp_foot_l );
+            cur_flags.set( bp_foot_r );
         } else {
             std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
             if (found_flag_iter != body_parts.end()) {
@@ -1458,30 +1446,18 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
         }
     } else if (flag_type == "sided") {
         // global defined in bodypart.h
-        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
-            std::vector<std::string> parts;
-            if (new_flag == "ARM") {
-                parts.push_back("ARM_L");
-                parts.push_back("ARM_R");
-            } else if (new_flag == "HAND") {
-                parts.push_back("HAND_L");
-                parts.push_back("HAND_R");
-            } else if (new_flag == "LEG") {
-                parts.push_back("LEG_L");
-                parts.push_back("LEG_R");
-            } else if (new_flag == "FOOT") {
-                parts.push_back("FOOT_L");
-                parts.push_back("FOOT_R");
-            }
-            for( auto &part : parts ) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter =
-                    body_parts.find( part );
-                if (found_flag_iter != body_parts.end()) {
-                    cur_flags.set(found_flag_iter->second);
-                } else {
-                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-                }
-            }
+        if( new_flag == "ARM" ) {
+            cur_flags.set( bp_arm_l );
+            cur_flags.set( bp_arm_r );
+        } else if( new_flag == "HAND" ) {
+            cur_flags.set( bp_hand_l );
+            cur_flags.set( bp_hand_r );
+        } else if( new_flag == "LEG" ) {
+            cur_flags.set( bp_leg_l );
+            cur_flags.set( bp_leg_r );
+        } else if( new_flag == "FOOT" ) {
+            cur_flags.set( bp_foot_l );
+            cur_flags.set( bp_foot_r );
         }
     }
 
