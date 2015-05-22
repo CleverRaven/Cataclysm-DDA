@@ -2759,7 +2759,7 @@
     "luminance":0,
     "hp":90,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 10], ["BITE", 5], ["IMPALE", 25]],
+    "special_attacks":[["LEAP", 5], ["BITE", 5], ["IMPALE", 25]],
     "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with suprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
