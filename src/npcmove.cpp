@@ -1392,9 +1392,6 @@ void npc::move_pause()
 
 void npc::find_item()
 {
-fetching_item = false;
-return;
-
     fetching_item = false;
     int best_value = minimum_item_value();
     int range = sight_range( g->light_level() );
