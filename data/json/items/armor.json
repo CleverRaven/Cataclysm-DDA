@@ -7009,7 +7009,7 @@
         "symbol" : "[",
         "description" : "A huge duffel bag, provides plenty of storage but severely encumbering.",
         "price" : 12000,
-        "material" : ["cotton", "plastic"],
+        "material" : ["cotton"],
         "volume" : 24,
         "cutting" : 0,
         "warmth" : 10,
