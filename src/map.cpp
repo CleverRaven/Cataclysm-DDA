@@ -43,7 +43,6 @@ extern bool is_valid_in_w_terrain(int,int);
 std::list<item>  map::nulitems;          // Returned when &i_at() is asked for an OOB value
 ter_id           map::nulter;            // Returned when &ter() is asked for an OOB value
 field            map::nulfield;          // Returned when &field_at() is asked for an OOB value
-vehicle          map::nulveh;            // Returned when &veh_at() is asked for an OOB value
 int              map::null_temperature;  // Because radiation does it too
 level_cache      map::nullcache;         // Dummy cache for z-levels outside bounds
 

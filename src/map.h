@@ -1090,7 +1090,6 @@ protected:
     static std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
     static ter_id nulter;  // Returned when &ter() is asked for an OOB value
     static field nulfield; // Returned when &field_at() is asked for an OOB value
-    static vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
     static int null_temperature;  // Because radiation does it too
     static level_cache nullcache; // Dummy cache for z-levels outside bounds
 
