@@ -1087,12 +1087,12 @@ protected:
  int my_MAPSIZE;
  bool zlevels;
 
- mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
- mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
- mutable field nulfield; // Returned when &field_at() is asked for an OOB value
- mutable vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- mutable int null_temperature;  // Because radiation does it too
- mutable level_cache nullcache; // Dummy cache for z-levels outside bounds
+    static std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
+    static ter_id nulter;  // Returned when &ter() is asked for an OOB value
+    static field nulfield; // Returned when &field_at() is asked for an OOB value
+    static vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
+    static int null_temperature;  // Because radiation does it too
+    static level_cache nullcache; // Dummy cache for z-levels outside bounds
 
     /**
      * Absolute coordinates of first submap (get_submap_at(0,0))

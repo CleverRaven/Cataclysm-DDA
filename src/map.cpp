@@ -40,6 +40,13 @@ extern bool is_valid_in_w_terrain(int,int);
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
+std::list<item>  map::nulitems;          // Returned when &i_at() is asked for an OOB value
+ter_id           map::nulter;            // Returned when &ter() is asked for an OOB value
+field            map::nulfield;          // Returned when &field_at() is asked for an OOB value
+vehicle          map::nulveh;            // Returned when &veh_at() is asked for an OOB value
+int              map::null_temperature;  // Because radiation does it too
+level_cache      map::nullcache;         // Dummy cache for z-levels outside bounds
+
 enum astar_list {
  ASL_NONE,
  ASL_OPEN,
