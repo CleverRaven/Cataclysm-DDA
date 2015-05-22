@@ -197,9 +197,6 @@ void player_activity::do_turn( player *p )
         case ACT_MOVE_ITEMS:
             activity_on_turn_move_items();
             break;
-        case ACT_MOVE_ALL_ITEMS:
-            activity_on_turn_move_all_items();
-            break;
         case ACT_ADV_INVENTORY:
             p->cancel_activity();
             advanced_inv();
