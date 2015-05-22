@@ -202,9 +202,9 @@ void map::generate_lightmap( const int zlev )
                     if (terrain == t_lava) {
                         add_light_source(x, y, 50 );
                     } else if (terrain == t_console) {
-                        add_light_source(x, y, 3 );
+                        add_light_source(x, y, 10 );
                     } else if (terrain == t_utility_light) {
-                        add_light_source(x, y, 35 );
+                        add_light_source(x, y, 240 );
                     }
 
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
@@ -217,19 +217,19 @@ void map::generate_lightmap( const int zlev )
                             } else if (2 == cur->getFieldDensity()) {
                                 add_light_source(x, y, 60);
                             } else {
-                                add_light_source(x, y, 16);
+                                add_light_source(x, y, 20);
                             }
                             break;
                         case fd_fire_vent:
                         case fd_flame_burst:
-                            add_light_source(x, y, 8);
+                            add_light_source(x, y, 20);
                             break;
                         case fd_electricity:
                         case fd_plasma:
                             if (3 == cur->getFieldDensity()) {
-                                add_light_source(x, y, 8);
+                                add_light_source(x, y, 20);
                             } else if (2 == cur->getFieldDensity()) {
-                                add_light_source(x, y, 1);
+                                add_light_source(x, y, 4);
                             } else {
                                 // Kinda a hack as the square will still get marked.
                                 apply_light_source( x, y, LIGHT_SOURCE_LOCAL );
@@ -237,21 +237,21 @@ void map::generate_lightmap( const int zlev )
                             break;
                         case fd_incendiary:
                             if (3 == cur->getFieldDensity()) {
-                                add_light_source(x, y, 30);
+                                add_light_source(x, y, 160);
                             } else if (2 == cur->getFieldDensity()) {
-                                add_light_source(x, y, 16);
+                                add_light_source(x, y, 60);
                             } else {
-                                add_light_source(x, y, 8);
+                                add_light_source(x, y, 20);
                             }
                             break;
                         case fd_laser:
-                            apply_light_source(x, y, 1);
+                            apply_light_source(x, y, 4);
                             break;
                         case fd_spotlight:
-                            add_light_source(x, y, 20);
+                            add_light_source(x, y, 80);
                             break;
                         case fd_dazzling:
-                            add_light_source(x, y, 2);
+                            add_light_source(x, y, 5);
                             break;
                         default:
                             //Suppress warnings
@@ -272,7 +272,7 @@ void map::generate_lightmap( const int zlev )
         int my = critter.posy();
         if( INBOUNDS(mx, my) && critter.posz() == zlev ) {
             if (critter.has_effect("onfire")) {
-                apply_light_source(mx, my, 3);
+                apply_light_source(mx, my, 8);
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
@@ -387,7 +387,7 @@ void map::generate_lightmap( const int zlev )
         for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
             for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
                 if (rl_dist(sx, sy, g->u.posx(), g->u.posy()) < 15) {
-                    lm[sx][sy] = 0;
+                    lm[sx][sy] = LIGHT_AMBIENT_MINIMAL;
                 }
             }
         }
