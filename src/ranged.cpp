@@ -1358,6 +1358,9 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
         sounds::sound(p.pos(), 4, _("Fwoosh!"));
     } else if( ammo_used != "bolt" && ammo_used != "arrow" && ammo_used != "pebble" &&
                ammo_used != "fishspear" && ammo_used != "dart" ) {
+               if (noise < 0) {
+                   noise = 0;
+               }
         sounds::sound(p.pos(), noise, gunsound);
     }
 }
