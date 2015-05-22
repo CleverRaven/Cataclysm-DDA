@@ -947,7 +947,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Drench cache
         std::map<int, std::map<std::string, int> > mMutDrench;
-        std::map<int, int> mDrenchEffect;
+        std::map<body_part, int> mDrenchEffect;
         std::array<int, num_bp> body_wetness;
 
         std::vector<morale_point> morale;
