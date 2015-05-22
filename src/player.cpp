@@ -8367,7 +8367,7 @@ void player::drench_mut_calc()
         for( const auto &_iter : my_mutations ) {
             const auto &mdata = mutation_branch::get( _iter.first );
             for( auto &_wp_iter : mdata.protection ) {
-                if( get_body_part_token( _wp_iter.first ) == elem.first ) {
+                if( _wp_iter.first == elem.first ) {
                     ignored += _wp_iter.second.second.x;
                     neutral += _wp_iter.second.second.y;
                     good += _wp_iter.second.second.z;

@@ -56,7 +56,7 @@ struct mutation_branch {
     std::vector<std::string> replacements; // Mutations that replace this one
     std::vector<std::string> additions; // Mutations that add to this one
     std::vector<std::string> category; // Mutation Categories
-    std::map<std::string, mutation_wet> protection; // Mutation wet effects
+    std::map<body_part, mutation_wet> protection; // Mutation wet effects
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
     std::vector<matype_id> initial_ma_styles; // Martial art styles that can be chosen upon character generation
