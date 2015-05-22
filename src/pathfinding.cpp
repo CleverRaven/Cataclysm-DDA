@@ -159,37 +159,18 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             return line_path;
         }
 
-        bool is_ok = true;
-        for( auto &line_pt : line_path ) {
-            if( line_pt == pl_pos ) {
-                is_ok = false;
-                break;
-            }
-        }
-        if( is_ok ) {
+        if( std::find( line_path.begin(), line_path.end(), pl_pos ) == line_path.end() ) {
             return line_path;
         }
     }
 
     const int pad = 8;  // Should be much bigger - low value makes pathfinders dumb!
-    int minx = f.x - pad;
-    int miny = f.y - pad;
-    int minz = f.z;     // TODO: Make this way bigger
-    int maxx = t.x + pad;
-    int maxy = t.y + pad;
-    int maxz = t.z;     // Same TODO as above
-    if( t.x < f.x ) {
-        minx = t.x - pad;
-        maxx = f.x + pad;
-    }
-    if( t.y < f.y ) {
-        miny = t.y - pad;
-        maxy = f.y + pad;
-    }
-    if( t.z < f.z ) {
-        minz = t.z;
-        maxz = f.z;
-    }
+    int minx = std::min( f.x, t.x ) - pad;
+    int miny = std::min( f.y, t.y ) - pad;
+    int minz = std::min( f.z, t.z ); // TODO: Make this way bigger
+    int maxx = std::max( f.x, t.x ) + pad;
+    int maxy = std::max( f.y, t.y ) + pad;
+    int maxz = std::max( f.z, t.z ); // Same TODO as above
     clip_to_bounds( minx, miny, minz );
     clip_to_bounds( maxx, maxy, maxz );
 
