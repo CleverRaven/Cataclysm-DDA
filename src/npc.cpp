@@ -20,6 +20,7 @@
 #include "sounds.h"
 #include "morale.h"
 #include "overmap.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <string>

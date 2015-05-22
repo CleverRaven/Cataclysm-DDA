@@ -12,6 +12,7 @@
 #include "veh_type.h"
 #include "monster.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN

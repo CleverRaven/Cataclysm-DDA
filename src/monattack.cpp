@@ -23,6 +23,7 @@
 #include "event.h"
 #include "ui.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <algorithm>
 

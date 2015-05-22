@@ -66,6 +66,7 @@
 #include "event.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
+#include "vehicle.h"
 
 #include <map>
 #include <set>

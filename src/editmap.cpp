@@ -20,6 +20,7 @@
 #include "morale.h"
 #include "coordinates.h"
 #include "npc.h"
+#include "vehicle.h"
 
 #include <fstream>
 #include <sstream>

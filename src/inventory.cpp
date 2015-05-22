@@ -8,6 +8,7 @@
 #include "options.h"
 #include "npc.h"
 #include "itype.h"
+#include "vehicle.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
