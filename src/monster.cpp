@@ -1312,15 +1312,13 @@ float monster::fall_damage_mod() const
         default:
             return 0.0f;
     }
-
-    return 0.0f;
 }
 
-int monster::fall_hit( const int force )
+int monster::impact( const int force, const tripoint &p )
 {
     const float mod = fall_damage_mod();
     int total_dealt = 0;
-    if( g->m.has_flag( "SHARP", pos() ) ) {
+    if( g->m.has_flag( TFLAG_SHARP, pos() ) ) {
         apply_damage( nullptr, bp_torso, 10 * mod );
         total_dealt += 10 * mod;
     }

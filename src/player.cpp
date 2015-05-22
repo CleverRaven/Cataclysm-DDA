@@ -5089,7 +5089,7 @@ void player::hurtall(int dam, Creature *source)
             hp_cur[bp] = 0;
         }
     }
-    
+
     if( in_sleep_state() ) {
         wake_up();
     }
@@ -5146,21 +5146,38 @@ float player::fall_damage_mod() const
 
 int player::impact( const int force, const tripoint &p )
 {
-    // TODO: Get target's spikiness
-    const float mod = fall_damage_mod();
+    float mod = 1.0f;
+    int effective_force = force;
+    float armor_eff = 0.25f;
+
+    std::string target_name = "a swarm of bugs";
+    Creature *critter = g->critter_at( p );
+    if( critter == nullptr || critter == this ) {
+        // Slamming into terrain/furniture/vehicle
+        
+    }
+    
+    mod = fall_damage_mod();
     // Get impaled on stuff
-    const int cut = g->m.has_flag( "SHARP", p ) ? force / 4 : 0;
+    // TODO: Get target's spikiness when it's not a terrain
+    int cut = g->m.has_flag( TFLAG_SHARP, p ) ? force / 4 : 0;
     // Soft ground.
     // TODO: Make it check for good stuff to land on, like water, hay or creatures
-    const int hard_ground = g->m.has_flag( "DIGGABLE", p ) ? 0 : 3;
+    int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
     // Percentage arpen - armor won't help much here
     // TODO: Make cushioned items like bike helmets help more
-    const float armor_eff = 0.25f; // Not much
+    float armor_eff = 0.25f; // Not much
+
+    int effective_force = force + hard_ground;
+    if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
+        // TODO: Some formula of swimming
+        effective_force /= 4;
+    }
 
     int total_dealt = 0;
     for (int i = 0; i < num_hp_parts; i++) {
         const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        int bash = ( force * rng (60, 100) / 100 ) + hard_ground;
+        int bash = ( effective_force * rng (60, 100) / 100 );
         damage_instance di;
         di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
         di.add_damage( DT_CUT, cut, 0, armor_eff );
@@ -5169,16 +5186,21 @@ int player::impact( const int force, const tripoint &p )
 
     if( is_player() ) {
         const bool slam = p != pos();
-        if( total_dealt > 0 ) {
-            add_msg( m_bad, _("You slam against the %s for %d damage."), g->m.name( p ), total_dealt );
+        // "You slam against the dirt" is fine
+        if( total_dealt > 0 && is_player() ) {
+            add_msg_if_player( m_bad, _("You slam against the %s for %d damage.")
+                               target_name.c_str(), total_dealt );
         } else if( slam ) {
-            add_msg( _("You slam against the %s."), g->m.name( p ) );
+            // NPCs always get this line when slammed (we don't know for how much)
+            add_msg_player_or_npc( m_bad, _("You slam against the %s."),
+                                          _("<npcname> slams against the %s."), target_name.c_str() );
         } else {
-            add_msg( _("You land on the %s."), g->m.name( p ) );
+            // No landing message for NPCs
+            add_msg_if_player( _("You land on the %s."), target_name.c_str() );
         }
     }
 
-    if( !is_throw_immune() && x_in_y( mod, 1.0f ) ) {
+    if( x_in_y( mod, 1.0f ) ) {
         add_effect( "downed", 3 );
     }
 
