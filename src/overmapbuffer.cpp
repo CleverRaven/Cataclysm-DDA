@@ -599,8 +599,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
     std::vector<npc*> result;
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
-        for( auto &elem : it->npcs ) {
-            npc *np = elem;
+        for( auto &np : it->npcs ) {
             // Global position of NPC, in submap coordiantes
             const tripoint pos = np->global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
@@ -620,8 +619,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        for( auto &elem : it->npcs ) {
-            npc *np = elem;
+        for( auto &np : it->npcs ) {
             // Global position of NPC, in submap coordiantes
             tripoint pos = np->global_omt_location();
             if( z != INT_MIN && pos.z != z) {
