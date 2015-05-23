@@ -45,9 +45,7 @@ end
 
 -- Test the tripoint metatable: accessing functions, reading and writing members.
 function tripoint_mt_test()
-    -- TODO: make tripoint.new()... or even tripoint(...) work properly
-    -- For now, this is the way to create a new tripoint.
-    trp = player:pos()
+    local trp = tripoint(4, 77, 2)
     -- Function call hard coded in catabindings.cpp
     local a = trp:serialize()
     -- You may try this (it should fail, Lua should complain, but it should *not* crash):

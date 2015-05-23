@@ -543,6 +543,7 @@ classes = {
                 writable = true
             }
         },
+        new = { "int", "int" },
         functions = {
         }
     },
@@ -562,6 +563,7 @@ classes = {
                 writable = true
             }
         },
+        new = { "int", "int", "int" },
         functions = {
             serialize = {
                 args = {},
