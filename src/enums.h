@@ -3,6 +3,8 @@
 
 #include <climits>
 #include <cassert>
+#include <algorithm>
+
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
@@ -363,26 +365,10 @@ std::array<T, N> vec_to_array(const std::vector<T> &vec)
     return array;
 }
 
-template <typename T>
-bool is_any_of(T val, const std::vector<T> &vec)
+template <typename T, typename C>
+bool is_any_of(const T &t, const C &c)
 {
-    for(const auto &v : vec) {
-        if(v == val) {
-            return true;
-        }
-    }
-    return false;
-}
-
-template <typename T, size_t N>
-bool is_any_of(T val, const std::array<T, N> &arr)
-{
-    for(const auto &v : arr) {
-        if(v == val) {
-            return true;
-        }
-    }
-    return false;
+    return std::find(c.begin(), c.end(), t) != c.end();
 }
 
 #endif
