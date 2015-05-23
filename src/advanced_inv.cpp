@@ -892,7 +892,7 @@ void advanced_inventory::recalc_pane( side p )
         alls.weight = 0;
         for( auto &s : squares ) {
             // All the surrounding squares, nothing else
-            if(!is_between(AIM_SOUTHWEST, s.id, AIM_NORTHEAST)) {
+            if(s.id < AIM_SOUTHWEST || s.id > AIM_NORTHEAST) {
                 continue;
             }
 
@@ -971,7 +971,7 @@ void advanced_inventory::redraw_pane( side p )
 
     auto itm = pane.get_cur_item_ptr();
     int width = print_header(pane, (itm != nullptr) ? itm->area : pane.get_area());
-    bool same_as_dragged = is_between(AIM_SOUTHWEST, square.id, AIM_NORTHEAST) && // only cardinal directions
+    bool same_as_dragged = (square.id >= AIM_SOUTHWEST && square.id <= AIM_NORTHEAST) && // only cardinals
             square.id != AIM_CENTER && panes[p].in_vehicle() && // not where you stand, and pane is in vehicle
             square.off == squares[AIM_DRAGGED].off; // make sure the offsets are the same as the grab point
     auto sq = (same_as_dragged) ? squares[AIM_DRAGGED] : square;
@@ -2153,14 +2153,13 @@ void advanced_inventory::draw_minimap()
     g->m.draw( minimap, g->u.pos() );
     for(auto s : sides) {
         char sym = get_minimap_sym(s);
+        if(sym == '\0') { continue; }
         auto sq = squares[panes[s].get_area()];
         auto pt = pc + sq.off;
         // invert the color if pointing to the player's position
         auto cl = (sq.id == AIM_INVENTORY || sq.id == AIM_WORN) ? 
             invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
-        if(sym != '\0') {
-            mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
-        }
+        mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
     }
     // draw the player iff neither pane's area isn't in `places'
     bool lip = is_any_of(panes[src].get_area(), places);

@@ -363,13 +363,6 @@ std::array<T, N> vec_to_array(const std::vector<T> &vec)
     return array;
 }
 
-// low >= value <= high
-template <typename T>
-bool is_between(T low, T val, T high)
-{
-    return (val >= low && val <= high);
-}
-
 template <typename T>
 bool is_any_of(T val, std::vector<T> vec)
 {
