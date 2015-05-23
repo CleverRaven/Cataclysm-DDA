@@ -58,8 +58,6 @@
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
-extern std::map<std::string, martialart> ma_styles;
-
 stats player_stats;
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
