@@ -364,7 +364,7 @@ std::array<T, N> vec_to_array(const std::vector<T> &vec)
 }
 
 template <typename T>
-bool is_any_of(T val, const std::vector<T> vec)
+bool is_any_of(T val, const std::vector<T> &vec)
 {
     for(const auto &v : vec) {
         if(v == val) {
@@ -375,7 +375,7 @@ bool is_any_of(T val, const std::vector<T> vec)
 }
 
 template <typename T, size_t N>
-bool is_any_of(T val, const std::array<T, N> arr)
+bool is_any_of(T val, const std::array<T, N> &arr)
 {
     for(const auto &v : arr) {
         if(v == val) {
