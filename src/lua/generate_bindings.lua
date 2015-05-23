@@ -54,7 +54,7 @@ function retrieve_lua_value(value_type, stack_position)
         return "lua_toboolean(L, "..stack_position..");"
     elseif value_type == "string" or value_type == "cstring" then
         return "lua_tostring(L, "..stack_position..");"
-    elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
+    else
         -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
         return "*("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
     end
@@ -72,7 +72,7 @@ function push_lua_value(in_variable, value_type)
         text = text .. "lua_pushstring(L, "..in_variable..".c_str());"
     elseif value_type == "bool" then
         text = text .. "lua_pushboolean(L, "..in_variable..");"
-    elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
+    else
         text = text .. "if(" .. in_variable .. " == NULL) { lua_pushnil(L); } else {"
         text = text .. value_type .. "** userdata_" .. in_variable .. " = ("..value_type.."**) lua_newuserdata(L, sizeof("..value_type.."*));"
         text = text .. "*userdata_" .. in_variable .. " = ("..value_type.."*)"..in_variable..";"
