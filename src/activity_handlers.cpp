@@ -913,6 +913,12 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
             p->recoil = MIN_RECOIL;
         }
+
+        // Create noise.
+        if(reloadable->is_gun()) {
+            islot_gun* gun = reloadable->type->gun.get();
+            sounds::sound(p->pos(), gun->reload_noise_volume, gun->reload_noise, true, "reload", reloadable->typeId());
+        }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
     }
