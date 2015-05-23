@@ -102,6 +102,7 @@ function generate_getter(class, member_name, member_type, cpp_name)
     local function_name = class.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
+    text = text .. tab .. "luaL_checktype(L, 1, "..member_type_to_lua_type(class)..");"..br
     text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
 
     text = text .. tab .. "if(!"..class.."_instance) {"..br
@@ -122,6 +123,7 @@ function generate_setter(class, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
+    text = text .. tab .. "luaL_checktype(L, 1, "..member_type_to_lua_type(class)..");"..br
     text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
 
     text = text .. tab .. "if(!"..class.."_instance) {"..br
@@ -129,7 +131,6 @@ function generate_setter(class, member_name, member_type, cpp_name)
     text = text .. tab .. "}" .. br
 
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
-
     text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
 
     text = text .. tab .. "(*"..class.."_instance)->"..cpp_name.." = value;"..br
@@ -146,6 +147,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     for i, arg in ipairs(args) do
+        text = text .. tab .. "luaL_checktype(L, "..i..", "..member_type_to_lua_type(arg)..");"..br
         text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..br
     end
 
@@ -182,6 +184,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     local text = "static int "..class.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
+    text = text .. tab .. "luaL_checktype(L, 1, "..member_type_to_lua_type(class)..");"..br
     text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
 
     text = text .. tab .. "if(!"..class.."_instance) {"..br
@@ -192,6 +195,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     for i, arg in ipairs(args) do
         -- fixme; non hardcoded userdata to class thingy
         if arg ~= "game" then
+            text = text .. tab .. "luaL_checktype(L, "..(stack_index+1)..", "..member_type_to_lua_type(arg)..");"..br
             text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
             stack_index = stack_index + 1
         end
