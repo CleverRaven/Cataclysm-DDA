@@ -186,6 +186,11 @@ public:
         }
         return *user_data;
     }
+    /** Compatibility with the function in @ref LuaReference. But this *always* returns a reference. */
+    static T &get_proxy( lua_State * const L, int const stack_position )
+    {
+        return get( L, stack_position );
+    }
 };
 
 /**
@@ -202,7 +207,27 @@ public:
         }
         LuaValue<T*>::push( L, value, metatable_name );
     }
-    using LuaValue<T*>::get;
+    static void push( lua_State* const L, T& value, const char* metatable_name )
+    {
+        LuaValue<T*>::push( L, &value, metatable_name );
+    }
+    static T &get( lua_State* const L, int const stack_position )
+    {
+        return *LuaValue<T*>::get( L, stack_position );
+    }
+    /** A proxy object that allows to convert the reference to a pointer on-demand. The proxy object can
+     * be used as argument to functions that expect either a pointer and to functions expecting a
+     * reference. */
+    struct proxy {
+        T *ref;
+        operator T*() { return ref; }
+        operator T&() { return *ref; }
+    };
+    /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
+    static proxy get_proxy( lua_State* const L, int const stack_position )
+    {
+        return proxy{ LuaValue<T*>::get( L, stack_position ) };
+    }
 };
 
 // iuse abstraction to make iuse's both in lua and C++ possible
