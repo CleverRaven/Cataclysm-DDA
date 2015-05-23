@@ -27,6 +27,8 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+#include <type_traits>
+
 #if LUA_VERSION_NUM < 502
 #define LUA_OK 0
 #endif
@@ -137,18 +139,34 @@ void update_globals(lua_State *L)
 template<typename T>
 class LuaValue {
 private:
+
+    static int gc( lua_State* const L )
+    {
+        T *object = static_cast<T*>( lua_touserdata( L, 1 ) );
+        object->T::~T();
+        lua_pop( L, 1 );
+        return 0;
+    }
+    /**
+     * This loads the metatable and adds the __gc entry so the C++ data is properly destroyed
+     * (invoking the destructor) when Lua de-allocates its memory.
+     * The function leaves the metatable on the stack!
+     */
     static void get_metatable( lua_State* const L, const char* const metatable_name )
     {
         lua_getglobal( L, metatable_name );
+        // Calling the destructor is really only needed when it's not trivial (e.g. pointers)
+        if( !std::is_trivially_destructible<T>::value ) {
+            // Push function pointer
+            lua_pushcfunction( L, &gc );
+            // -1 would be the function pointer, -2 is the metatable, the function pointer is popped
+            lua_setfield( L, -2, "__gc" );
+        }
     }
 
 public:
     static void push( lua_State* const L, const T& value, const char* const metatable_name )
     {
-        if( value == nullptr ) {
-            lua_pushnil( L );
-            return;
-        }
         // Push user data,
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
         // Push metatable,
@@ -156,7 +174,7 @@ public:
         // -1 would the the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
-        *value_in_lua = value;
+        new (value_in_lua) T( value );
     }
     static T& get( lua_State* const L, int const stack_index )
     {
@@ -176,7 +194,14 @@ public:
 template<typename T>
 class LuaReference : private LuaValue<T*> {
 public:
-    using LuaValue<T*>::push;
+    static void push( lua_State* const L, T* const value, const char* const metatable_name )
+    {
+        if( value == nullptr ) {
+            lua_pushnil( L );
+            return;
+        }
+        LuaValue<T*>::push( L, value, metatable_name );
+    }
     using LuaValue<T*>::get;
 };
 

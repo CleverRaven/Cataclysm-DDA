@@ -74,6 +74,10 @@ classes = {
                 args = {},
                 rval = "int"
             },
+            pos = {
+                args = {},
+                rval = "tripoint"
+            },
             morale_level = {
                 args = { },
                 rval = "int"
@@ -119,6 +123,7 @@ classes = {
         }
     },
     point = {
+        by_value = true,
         attributes = {
             x = {
                 type = "int",
@@ -133,6 +138,7 @@ classes = {
         }
     },
     tripoint = {
+        by_value = true,
         attributes = {
             x = {
                 type = "int",
@@ -299,6 +305,14 @@ classes = {
             get_hp = {
                 args = {},
                 rval = "int"
+            },
+            pos = {
+                args = {},
+                rval = "tripoint"
+            },
+            setpos = {
+                args = { "tripoint" },
+                rval = nil
             },
             posx = {
                 args = {},

@@ -25,6 +25,15 @@ function testmon()
     end
 end
 
+function testvalues()
+    local p = player:pos()
+    game.add_msg("The player is at " .. p.x .. "," .. p.y .. "," .. p.z)
+    p.x = 10
+    p.y = 11
+    p.z = 3333
+    game.add_msg("The point is now " .. p.x .. "," .. p.y .. "," .. p.z .. " - the player should not have moved!")
+end
+
 function makehungry(player, item, active)
     game.add_msg("You suddenly feel hungry.. Your hunger is now "..player.hunger)
     player.hunger = player.hunger + 10
