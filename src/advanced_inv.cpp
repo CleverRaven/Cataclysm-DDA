@@ -493,7 +493,7 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const int x = squares[i].hscreenx;
         const int y = squares[i].hscreeny + ofs;
         mvwprintz( window, x, y, bcolor, "%c", bracket[0] );
-        wprintz( window, kcolor, "%c", ( in_vehicle ) ? 'V' : key );
+        wprintz( window, kcolor, "%c", ( in_vehicle && sel != AIM_DRAGGED ) ? 'V' : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
     return squares[AIM_INVENTORY].hscreeny + ofs;
@@ -529,7 +529,7 @@ void advanced_inv_area::init()
         case AIM_DRAGGED:
             if( g->u.grab_type != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
-                desc = _( "Not dragging any vehicle" );
+                desc[0] = _( "Not dragging any vehicle" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
@@ -541,14 +541,14 @@ void advanced_inv_area::init()
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
             }
             if( vstor >= 0 ) {
-                desc = veh->name;
+                desc[0] = veh->name;
                 canputitemsloc = true;
                 max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
                 max_volume = veh->max_volume( vstor );
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
-                desc = _( "No dragged vehicle" );
+                desc[0] = _( "No dragged vehicle" );
             }
             break;
         case AIM_CONTAINER:
@@ -558,11 +558,11 @@ void advanced_inv_area::init()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
             if( get_container() == nullptr ) {
-                desc = _( "Invalid container" );
+                desc[0] = _( "Invalid container" );
             }
             break;
         case AIM_ALL:
-            desc = _( "All 9 squares" );
+            desc[0] = _( "All 9 squares" );
             canputitemsloc = true;
             break;
         case AIM_SOUTHWEST:
@@ -583,11 +583,11 @@ void advanced_inv_area::init()
             max_volume = g->m.max_volume( pos );
             if( can_store_in_vehicle() ) {
                 // get storage label
-                desc = veh->get_label( pos.x, pos.y );
-            } else {
-                // get graffiti or terrain name
-                desc = ( g->m.has_graffiti_at( pos ) == true ) ? g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
+                const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];
+                desc[1] = veh->get_label(part.precalc[0].x, part.precalc[0].y);
             }
+            // get graffiti or terrain name
+            desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ? g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
         default:
             break;
     }
@@ -836,7 +836,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.weight += ait.weight;
                 items.push_back( ait );
             }
-            square.desc = cont->tname( 1, false );
+            square.desc[0] = cont->tname( 1, false );
         }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && (in_vehicle() || vehicle_override);
@@ -972,10 +972,17 @@ void advanced_inventory::redraw_pane( side p )
 
     auto itm = pane.get_cur_item_ptr();
     int width = print_header(pane, (itm != nullptr) ? itm->area : pane.get_area());
-    bool same_as_dragged = (is_between(AIM_SOUTHWEST, square.id, AIM_NORTHEAST) && 
-            square.id != AIM_CENTER && square.off == squares[AIM_DRAGGED].off);
-    auto name = utf8_truncate((same_as_dragged) ? squares[AIM_DRAGGED].name : square.name, width);
-    auto desc = utf8_truncate((same_as_dragged) ? squares[AIM_DRAGGED].desc : square.desc, width);
+    bool same_as_dragged = is_between(AIM_SOUTHWEST, square.id, AIM_NORTHEAST) && // only cardinal directions
+            square.id != AIM_CENTER && panes[p].in_vehicle() && // not where you stand, and pane is in vehicle
+            square.off == squares[AIM_DRAGGED].off; // make sure the offsets are the same as the grab point
+    auto sq = (same_as_dragged) ? squares[AIM_DRAGGED] : square;
+    bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
+    auto name = utf8_truncate((car == true) ? sq.veh->name : sq.name, width);
+    auto desc = utf8_truncate(sq.desc[car], width);
+//    auto name = utf8_truncate(((same_as_dragged) ? squares[AIM_DRAGGED].name :
+//        (square.can_store_in_vehicle() && panes[p].in_vehicle()) ? square.veh->name : square.name), width);
+//    auto desc = utf8_truncate((same_as_dragged) ? 
+//            squares[AIM_DRAGGED].desc[0] : square.desc[panes[p].in_vehicle()], width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_green  : c_ltgray, "%s", name.c_str() );
     mvwprintz( w, 2, 2, active ? c_ltblue : c_dkgray, "%s", desc.c_str() );
@@ -1288,12 +1295,9 @@ void advanced_inventory::display()
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-                if(squares[changeSquare].can_store_in_vehicle()) {
-                    // as long as both panes aren't in the same vehicle mode
-                    if(spane.get_area() == changeSquare && dpane.get_area() == changeSquare) {
-                        dpane.set_area(squares[changeSquare], !spane.in_vehicle());
-                        dpane.recalc = true;
-                    } else if(dpane.get_area() == changeSquare && spane.get_area() == changeSquare) {
+                if(squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED) {
+                    // only deal with spane, as you can't _directly_ change dpane
+                    if(squares[changeSquare].can_store_in_vehicle() && dpane.get_area() == changeSquare) {
                         spane.set_area(squares[changeSquare], !dpane.in_vehicle());
                         spane.recalc = true;
                     } else if(spane.get_area() == dpane.get_area()) { 
@@ -1315,13 +1319,17 @@ void advanced_inventory::display()
                     squares[changeSquare].set_container( nullptr );
                     // auto select vehicle if items exist at said square, or both are empty
                 } else if( squares[changeSquare].can_store_in_vehicle() && spane.get_area() != changeSquare ) {
-                    // check item stacks in vehicle and map at said square
-                    auto sq = squares[changeSquare];
-                    auto map_stack = g->m.i_at( sq.pos );
-                    auto veh_stack = sq.veh->get_items( sq.vstor );
-                    // auto switch to vehicle storage if vehicle items are there, or neither are there
-                    if( !veh_stack.empty() || ( map_stack.empty() && veh_stack.empty() ) ) {
+                    if(changeSquare == AIM_DRAGGED) {
                         in_vehicle_cargo = true;
+                    } else {
+                        // check item stacks in vehicle and map at said square
+                        auto sq = squares[changeSquare];
+                        auto map_stack = g->m.i_at( sq.pos );
+                        auto veh_stack = sq.veh->get_items( sq.vstor );
+                        // auto switch to vehicle storage if vehicle items are there, or neither are there
+                        if( !veh_stack.empty() || ( map_stack.empty() && veh_stack.empty() ) ) {
+                            in_vehicle_cargo = true;
+                        }
                     }
                 }
                 spane.set_area(squares[changeSquare], in_vehicle_cargo);
@@ -1442,6 +1450,11 @@ void advanced_inventory::display()
                     new_item.charges = amount_to_move;
                 }
                 if( !add_item( destarea, new_item ) ) {
+                    // make sure to redraw the info window, so 
+                    // the user can see why it wasn't equipped
+                    if(destarea == AIM_WORN) {
+                        redraw = 1;
+                    }
                     continue;
                 }
 
@@ -1564,7 +1577,8 @@ void advanced_inventory::display()
                 // swap the panes if going vehicle will show the same tile
                 if(spane.get_area() == dpane.get_area() && spane.in_vehicle() != dpane.in_vehicle()) {
                     swap_panes();
-                } else {
+                // disallow for dragged vehicles
+                } else if(spane.get_area() != AIM_DRAGGED) {
                     // Toggle between vehicle and ground
                     spane.set_area(squares[spane.get_area()], !spane.in_vehicle());
                     spane.index = 0;
@@ -1572,6 +1586,8 @@ void advanced_inventory::display()
                     if( dpane.get_area() == AIM_ALL ) {
                         dpane.recalc = true;
                     }
+                    // make sure to update the minimap as well!
+                    redraw = true;
                 }
             } else {
                 popup( _("No vehicle there!") );
@@ -1747,8 +1763,7 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item )
         g->u.moves -= 100;
         return rc;
     } else if( destarea == AIM_WORN ) {
-        g->u.wear_item(&new_item);
-        return rc;
+        return g->u.wear_item(&new_item);
     } else {
         advanced_inv_area &p = squares[destarea];
         if( panes[dest].in_vehicle() ) {
@@ -2016,7 +2031,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
         // no valid container in the area, resetting container
         if( container == nullptr ) {
             set_container( nullptr );
-            desc = _( "Invalid container" );
+            desc[0] = _( "Invalid container" );
         }
     }
 
@@ -2133,50 +2148,56 @@ void advanced_inventory::refresh_minimap()
 
 void advanced_inventory::draw_minimap()
 {
+    static const std::array<aim_location, 3> places = {
+        {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
+    };
+    static const std::array<side, NUM_PANES> sides = {{left, right}};
     // get the center of the window
-    int cx = getmaxx( minimap ) / 2;
-    int cy = getmaxy( minimap ) / 2;
-    // should the player be inverse?
-    bool player_invert = false;
+    tripoint pc = {getmaxx(minimap) / 2, getmaxy(minimap) / 2, 0};
     // draw the 3x3 tiles centered around player
     g->m.draw( minimap, g->u.pos() );
-    // get the positions of each pane, and show them
-    for( auto &pane : panes ) {
-        // get reference to current pane's area struct
-        auto &area = squares[pane.get_area()];
-        // which pane is which?
-        bool is_left  = pane.window == left_window;
-        bool is_right = pane.window == right_window;
-        // print which side it is on, and blinking!
-        mvwputch( minimap, ( cy + area.off.y ), ( cx + area.off.x ),
-                  static_cast<nc_color>( c_ltcyan | A_BLINK ),
-                  ( is_left ) ? _( "L" ) : ( is_right ) ? _( "R" ) : _( "?" ) );
+    for(auto s : sides) {
+        char sym = get_minimap_sym(s);
+        auto sq = squares[panes[s].get_area()];
+        auto pt = pc + sq.off;
+        // invert the color if pointing to the player's position
+        auto cl = (sq.id == AIM_INVENTORY || sq.id == AIM_WORN) ? 
+            invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
+        if(sym != '\0') {
+            mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
+        }
     }
-    auto s_area = panes[src].get_area();
-    auto d_area = panes[dest].get_area();
-    // if it's in our inventory, reverse video on player symbol
-    if( s_area == AIM_INVENTORY || d_area == AIM_INVENTORY ||
-        s_area == AIM_WORN || d_area == AIM_WORN ) {
-        player_invert = true;
+    // draw the player iff neither pane's area isn't in `places'
+    bool lip = is_any_of(panes[src].get_area(), places);
+    bool rip = is_any_of(panes[dest].get_area(), places);
+    if(!(lip && rip)) {
+        // draw the player in the center of the map
+        g->u.draw(minimap, g->u.pos(), (lip || rip));
     }
-    // are we dropping on the ground below?
-    if( d_area == AIM_CENTER ) {
-        // is it from inventory?
-        nc_color c = static_cast<nc_color>( ( s_area == AIM_INVENTORY || s_area == AIM_WORN ) ?
-                                            invert_color( c_ltcyan ) : c_ltcyan | A_BLINK );
-        // show 'v' for [area]->ground
-        mvwputch( minimap, cy, cx, c, "v" );
-        // are we picking up from the ground below?
-    } else if( s_area == AIM_CENTER ) {
-        // is it to inventory?
-        nc_color c = static_cast<nc_color>( ( d_area == AIM_INVENTORY || d_area == AIM_WORN ) ?
-                                            invert_color( c_ltcyan ) : c_ltcyan | A_BLINK );
-        // show '^' for ground->[area]
-        mvwputch( minimap, cy, cx, c, "^" );
-    } else {
-        // draw the player at the center tile
-        g->u.draw( minimap, g->u.posx(), g->u.posy(), player_invert );
+}
+
+const char advanced_inventory::get_minimap_sym(side p) const
+{
+    static const std::array<char, NUM_PANES> c_side = {{'L', 'R'}};
+    static const std::array<char, NUM_PANES> d_side = {{'^', 'v'}};
+    static const std::array<char, NUM_AIM_LOCATIONS> g_nome = {{
+        '@', '#', '#', '#', '#', '@', '#', 
+        '#', '#', '#', 'D', '^', 'C', '@'
+    }};
+    char ch = g_nome[panes[p].get_area()];
+    switch(ch) {
+        case '@': // '^' or 'v'
+            ch = d_side[panes[-p+1].get_area() == AIM_CENTER];
+            break;
+        case '#': // 'L' or 'R'
+            // FIXME: doesn't toggle vehicle stuff right
+            ch = (panes[p].in_vehicle()) ? 'V' : c_side[p];
+            break;
+        case '^': // do not show anything
+            ch ^= ch;
+            break;
     }
+    return ch;
 }
 
 aim_location advanced_inv_area::offset_to_location() const

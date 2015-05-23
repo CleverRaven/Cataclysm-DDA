@@ -66,7 +66,7 @@ struct advanced_inv_area {
     vehicle *veh;
     int vstor;
     // description, e.g. vehicle name, label, or terrain
-    std::string desc;
+    std::array<std::string, 2> desc;
     // flags, e.g. FIRE, TRAP, WATER
     std::string flags;
     // total volume and weight of items currently there
@@ -77,7 +77,7 @@ struct advanced_inv_area {
     advanced_inv_area( aim_location id ) : id( id ) {}
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name, std::string shortname ) :
         id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
-        pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( "" ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
+        pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( {{"", ""}} ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
     {
     }
 
@@ -289,12 +289,6 @@ class advanced_inventory
 
         void display();
     private:
-        // current location of AIM_ALL move_all_items() transfer
-//        int aim_all_location = 0;
-        // stores items from both map and vehicle for AIM_ALL transfers
-//        std::map<int, std::list<item>> veh_items, map_items;
-        // swap the panes and WINDOW pointers via std::swap()
-        void swap_panes();
         /**
          * Refers to the two panels, used as index into @ref panels.
          */
@@ -308,12 +302,16 @@ class advanced_inventory
         const int min_w_width;
         const int max_w_width;
 
+        // swap the panes and WINDOW pointers via std::swap()
+        void swap_panes();
+
         // minimap that displays things around character
         WINDOW *minimap, *mm_border;
         const int minimap_width  = 3;
         const int minimap_height = 3;
         void draw_minimap();
         void refresh_minimap();
+        const char get_minimap_sym(side p) const;
 
         bool inCategoryMode;
 
