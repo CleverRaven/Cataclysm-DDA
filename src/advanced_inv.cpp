@@ -587,7 +587,8 @@ void advanced_inv_area::init()
                 desc[1] = veh->get_label(part.precalc[0].x, part.precalc[0].y);
             }
             // get graffiti or terrain name
-            desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ? g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
+            desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ? 
+                g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
         default:
             break;
     }
@@ -621,8 +622,10 @@ void advanced_inv_area::init()
     }
 
     // water?
-    const ter_id ter = g->m.ter( pos );
-    if(is_any_of(ter, {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage})) {
+    static const std::array<ter_id, 6> ter_water = {
+        {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage}
+    };
+    if(is_any_of(g->m.ter(pos), ter_water)) {
         flags.append( _( " WATER" ) );
     }
 
