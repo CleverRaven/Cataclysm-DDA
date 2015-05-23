@@ -53,7 +53,7 @@ function retrieve_lua_value(value_type, stack_position)
     elseif value_type == "bool" then
         return "lua_toboolean(L, "..stack_position..");"
     elseif value_type == "string" or value_type == "cstring" then
-        return "lua_tostring(L, "..stack_position..");"
+        return "lua_tostring_wrapper(L, "..stack_position..");"
     else
         -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
         return "*("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "

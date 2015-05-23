@@ -70,6 +70,17 @@ void luah_setglobal(lua_State *L, const char *name, int index)
     lua_setglobal(L, name);
 }
 
+/** Safe wrapper to get a Lua string as std::string. Handles nullptr and binary data. */
+std::string lua_tostring_wrapper( lua_State* const L, int const stack_position )
+{
+    size_t length = 0;
+    const char* const result = lua_tolstring( L, stack_position, &length );
+    if( result == nullptr || length == 0 ) {
+        return std::string{};
+    }
+    return std::string( result, length );
+}
+
 // Given a Lua return code and a file that it happened in, print a debugmsg with the error and path.
 // Returns true if there was an error, false if there was no error at all.
 bool lua_report_error(lua_State *L, int err, const char *path) {
@@ -77,19 +88,19 @@ bool lua_report_error(lua_State *L, int err, const char *path) {
         // No error or error message already shown via traceback function.
         return err != LUA_OK;
     }
-    const char *error = lua_tostring(L, -1);
+    const std::string error = lua_tostring_wrapper( L, -1 );
     switch(err) {
         case LUA_ERRSYNTAX:
-            debugmsg( "Lua returned syntax error for %s\n%s", path, error );
+            debugmsg( "Lua returned syntax error for %s\n%s", path, error.c_str() );
             break;
         case LUA_ERRMEM:
             debugmsg( "Lua is out of memory" );
             break;
         case LUA_ERRFILE:
-            debugmsg( "Lua returned file io error for %s\n%s", path, error );
+            debugmsg( "Lua returned file io error for %s\n%s", path, error.c_str() );
             break;
         default:
-            debugmsg( "Lua returned unknown error %d for %s\n%s", err, path, error );
+            debugmsg( "Lua returned unknown error %d for %s\n%s", err, path, error.c_str() );
             break;
     }
     return true;
@@ -257,7 +268,7 @@ static int game_get_monsters(lua_State *L) {
 // mtype = game.monster_type(name)
 static int game_monster_type(lua_State *L)
 {
-    const char *parameter1 = (const char *) lua_tostring(L, 1);
+    const std::string parameter1 = lua_tostring_wrapper( L, 1 );
 
     mtype **monster_type = (mtype **) lua_newuserdata(L, sizeof(mtype *));
     *monster_type = GetMType(parameter1);
@@ -400,7 +411,7 @@ void game_remove_item(int x, int y, item *it)
 // x, y = choose_adjacent(query_string, x, y)
 static int game_choose_adjacent(lua_State *L)
 {
-    const char *parameter1 = (const char *) lua_tostring(L, 1);
+    const std::string parameter1 = lua_tostring_wrapper( L, 1 );
     int parameter2 = (int) lua_tonumber(L, 2);
     int parameter3 = (int) lua_tonumber(L, 3);
     bool success = (bool) choose_adjacent(parameter1, parameter2, parameter3);
@@ -458,7 +469,7 @@ void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name
 static int traceback(lua_State *L)
 {
     // Get the error message
-    const char *error = lua_tostring(L, -1);
+    const std::string error = lua_tostring_wrapper( L, -1 );
 
     // Get the lua stack trace
 #if LUA_VERSION_NUM < 502
@@ -473,10 +484,10 @@ static int traceback(lua_State *L)
     lua_pushinteger(L, 2);
     lua_call(L, 2, 1);
 
-    const char *stacktrace = lua_tostring(L, -1);
+    const std::string stacktrace = lua_tostring_wrapper( L, -1 );
 
     // Print a debug message.
-    debugmsg("Error in lua module: %s", error);
+    debugmsg("Error in lua module: %s", error.c_str());
 
     // Print the stack trace to our debug log.
     DebugLog( D_ERROR, DC_ALL ) << stacktrace;
