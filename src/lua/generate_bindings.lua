@@ -54,8 +54,7 @@ function retrieve_lua_value(value_type, stack_position)
     elseif value_type == "string" or value_type == "cstring" then
         return "lua_tostring_wrapper(L, "..stack_position..");"
     else
-        -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
-        return "*("..member_type_to_cpp_type(value_type).."**) lua_touserdata(L, "..stack_position.."); "
+        return "*LuaValue<"..value_type.."*>::get(L, "..stack_position..");"
     end
 end
 
@@ -72,10 +71,7 @@ function push_lua_value(in_variable, value_type)
     elseif value_type == "bool" then
         text = text .. "lua_pushboolean(L, "..in_variable..");"
     else
-        text = text .. "if(" .. in_variable .. " == NULL) { lua_pushnil(L); } else {"
-        text = text .. value_type .. "** userdata_" .. in_variable .. " = ("..value_type.."**) lua_newuserdata(L, sizeof("..value_type.."*));"
-        text = text .. "*userdata_" .. in_variable .. " = ("..value_type.."*)"..in_variable..";"
-        text = text .. 'luah_setmetatable(L, "'..value_type..'_metatable");}'
+        text = text .. "LuaValue<"..value_type.."*>::push(L, " .. in_variable .. ", \""..value_type.."_metatable\");"
     end
     
     return text
@@ -101,12 +97,7 @@ function generate_getter(class, member_name, member_type, cpp_name)
     local function_name = class.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. "luaL_checktype(L, 1, "..member_type_to_lua_type(class)..");"..br
-    text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
-
-    text = text .. tab .. "if(!"..class.."_instance) {"..br
-    text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
-    text = text .. tab .. "}" .. br
+    text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class.."*>::get(L, 1);"..br
 
     text = text .. tab .. push_lua_value("(*"..class.."_instance"..")->"..cpp_name, member_type)..br
 
@@ -122,12 +113,7 @@ function generate_setter(class, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. "luaL_checktype(L, 1, "..member_type_to_lua_type(class)..");"..br
-    text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
-
-    text = text .. tab .. "if(!"..class.."_instance) {"..br
-    text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
-    text = text .. tab .. "}" .. br
+    text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class.."*>::get(L, 1);"..br
 
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
     text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
@@ -183,12 +169,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     local text = "static int "..class.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. "luaL_checktype(L, 1, "..member_type_to_lua_type(class)..");"..br
-    text = text .. tab .. "auto && "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
-
-    text = text .. tab .. "if(!"..class.."_instance) {"..br
-    text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'. Did you use foo.bar() instead of foo:bar()?");'..br
-    text = text .. tab .. "}" .. br
+    text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class.."*>::get(L, 1);"..br
 
     local stack_index = 1
     for i, arg in ipairs(args) do

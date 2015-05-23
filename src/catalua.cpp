@@ -131,6 +131,45 @@ void update_globals(lua_State *L)
     }
 }
 
+/**
+ * A value, copied into Luas own memory.
+ */
+template<typename T>
+class LuaValue {
+private:
+    static void get_metatable( lua_State* const L, const char* const metatable_name )
+    {
+        lua_getglobal( L, metatable_name );
+    }
+
+public:
+    static void push( lua_State* const L, const T& value, const char* const metatable_name )
+    {
+        if( value == nullptr ) {
+            lua_pushnil( L );
+            return;
+        }
+        // Push user data,
+        T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
+        // Push metatable,
+        get_metatable( L, metatable_name );
+        // -1 would the the metatable, -2 is the uservalue, the table is popped
+        lua_setmetatable( L, -2 );
+        // This is where the copy happens:
+        *value_in_lua = value;
+    }
+    static T* get( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TUSERDATA );
+        T* user_data = static_cast<T*>( lua_touserdata( L, stack_index ) );
+        if( user_data == nullptr ) {
+            // luaL_error does not return at all.
+            return (T*) luaL_error( L, "First argument to function is not a class" );
+        }
+        return user_data;
+    }
+};
+
 // iuse abstraction to make iuse's both in lua and C++ possible
 // ------------------------------------------------------------
 void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
