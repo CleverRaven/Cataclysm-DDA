@@ -370,4 +370,26 @@ bool is_between(T low, T val, T high)
     return (val >= low && val <= high);
 }
 
+template <typename T>
+bool is_any_of(T val, std::vector<T> vec)
+{
+    for(const auto &v : vec) {
+        if(v == val) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <typename T, size_t N>
+bool is_any_of(T val, std::array<T, N> arr)
+{
+    for(const auto &v : arr) {
+        if(v == val) {
+            return true;
+        }
+    }
+    return false;
+}
+
 #endif
