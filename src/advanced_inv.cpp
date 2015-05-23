@@ -2171,7 +2171,7 @@ void advanced_inventory::draw_minimap()
     }
 }
 
-const char advanced_inventory::get_minimap_sym(side p) const
+char advanced_inventory::get_minimap_sym(side p) const
 {
     static const std::array<char, NUM_PANES> c_side = {{'L', 'R'}};
     static const std::array<char, NUM_PANES> d_side = {{'^', 'v'}};

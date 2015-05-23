@@ -311,7 +311,7 @@ class advanced_inventory
         const int minimap_height = 3;
         void draw_minimap();
         void refresh_minimap();
-        const char get_minimap_sym(side p) const;
+        char get_minimap_sym(side p) const;
 
         bool inCategoryMode;
 
