@@ -979,10 +979,6 @@ void advanced_inventory::redraw_pane( side p )
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
     auto name = utf8_truncate((car == true) ? sq.veh->name : sq.name, width);
     auto desc = utf8_truncate(sq.desc[car], width);
-//    auto name = utf8_truncate(((same_as_dragged) ? squares[AIM_DRAGGED].name :
-//        (square.can_store_in_vehicle() && panes[p].in_vehicle()) ? square.veh->name : square.name), width);
-//    auto desc = utf8_truncate((same_as_dragged) ? 
-//            squares[AIM_DRAGGED].desc[0] : square.desc[panes[p].in_vehicle()], width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_green  : c_ltgray, "%s", name.c_str() );
     mvwprintz( w, 2, 2, active ? c_ltblue : c_dkgray, "%s", desc.c_str() );
