@@ -2417,7 +2417,7 @@ void mattack::ranged_pull(monster *z, int index)
         add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
     int prev_effect = target->get_effect_int("grabbed");
-    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 6); //Duration needs to be at least 2, or grab will imediately be removed
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
 }
 
 void mattack::grab(monster *z, int index)
@@ -2448,13 +2448,13 @@ void mattack::grab(monster *z, int index)
                                 z->disp_name().c_str());
 
     if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
-        dice(target->get_dex(), 10) : dice(target->get_str(), 10) > dice(z->type->melee_sides + z->type->melee_dice , 10)) {
+        rng(0, target->get_dex()) : rng( 0, target->get_str()) > rng( 0 , z->type->melee_sides + z->type->melee_dice)) {
         target->add_msg_player_or_npc(m_good, _("You break the grab!"),
                                     _("<npcname> breaks the grab!"));
         return;
         }
     int prev_effect = target->get_effect_int("grabbed");
-    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 3);
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 1);
 }
 
 void mattack::grab_drag(monster *z, int index)
@@ -2501,7 +2501,7 @@ void mattack::grab_drag(monster *z, int index)
                                 _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
     }
     int prev_effect = target->get_effect_int("grabbed");
-    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 6);
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 3);
 }
 
 void mattack::gene_sting(monster *z, int index)

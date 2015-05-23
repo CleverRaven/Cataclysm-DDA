@@ -5,6 +5,8 @@
 #include "mission.h"
 #include "translations.h"
 #include "options.h"
+#include "map_iterator.h"
+#include <map>
 
 Character::Character()
 {
@@ -133,10 +135,16 @@ bool Character::move_effects(bool attacking)
         }
     }
     if (has_effect("grabbed")){
-        if (attacking == true){
+        int zed_number = 0;
+        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
+            if (g->mon_at(dest) != -1){
+                zed_number ++;
+            }
+        }
+        if (attacking == true || zed_number == 0){
             return true;
         }
-        if (get_dex() > get_str() ? dice(get_dex(), 2) : dice(get_str(), 2) < dice( get_effect_int("grabbed"), 3) ){
+        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
             add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
                                             _("<npcname> tries to break out of the grab, but fails!"));
             return false;

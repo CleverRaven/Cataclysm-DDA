@@ -35,6 +35,8 @@
 #include "mutation.h"
 #include "ui.h"
 #include "trap.h"
+#include "map_iterator.h"
+#include <map>
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"
@@ -4910,7 +4912,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                   source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
-                dice(get_dex(), 10) : dice(get_str(), 10) > dice(8, 10)) {
+                rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 add_msg_player_or_npc(m_good, _("You break the grab!"),
                                       _("<npcname> breaks the grab!"));
             } else {
@@ -6976,16 +6978,13 @@ void player::hardcoded_effects(effect &it)
         blocks_left -= 1;
         dodges_left = 0;
         int zed_number = 0;
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                tripoint dest( posx() + i, posy() + j, posz() );
-                if (g->mon_at(dest) != -1){
-                    zed_number ++;
-                }
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ){
+            if (g->mon_at(dest) != -1){
+                zed_number ++;
             }
         }
         if (zed_number > 0){
-            add_effect("grabbed", 2, bp_torso, false, (intense + zed_number) / 1.5); //If intensity isn't pass the cap, increase it based on number of zeds
+            add_effect("grabbed", 2, bp_torso, false, (intense + zed_number) / 2); //If intensity isn't pass the cap, average it with # of zeds
         } else {
             remove_effect("grabbed"); //If there are no surrounding enemies, remove the grab
         }
