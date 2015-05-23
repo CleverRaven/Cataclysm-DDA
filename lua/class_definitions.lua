@@ -563,6 +563,10 @@ classes = {
             }
         },
         functions = {
+            serialize = {
+                args = {},
+                rval = "string"
+            }
         }
     },
     uimenu = {
@@ -595,7 +599,6 @@ classes = {
         attributes = {
         },
         functions = {
-            i_at = { rval = "map_stack", args = { "tripoint" } },
             save = { rval = nil, args = { } },
             load = { rval = nil, args = { "int", "int", "int", "bool" } },
             shift = { rval = nil, args = { "int", "int" } },

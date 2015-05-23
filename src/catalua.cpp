@@ -108,31 +108,6 @@ bool lua_report_error(lua_State *L, int err, const char *path) {
     return true;
 }
 
-void update_globals(lua_State *L)
-{
-    // Make sure the player reference is up to date.
-    {
-        player **player_userdata = (player **) lua_newuserdata(L, sizeof(player *));
-        *player_userdata = &g->u;
-
-        // Set the metatable for the player.
-        luah_setmetatable(L, "player_metatable");
-
-        luah_setglobal(L, "player", -1);
-    }
-
-    // Make sure the map reference is up to date.
-    {
-        map **map_userdata = (map **) lua_newuserdata(L, sizeof(map *));
-        *map_userdata = &g->m;
-
-        // Set the metatable for the player.
-        luah_setmetatable(L, "map_metatable");
-
-        luah_setglobal(L, "map", -1);
-    }
-}
-
 /**
  * A value, copied into Luas own memory.
  */
@@ -141,6 +116,14 @@ class LuaValue {
 private:
     /** Defined by generate_bindings.lua in catabindings.cpp */
     static const char * const METATABLE_NAME;
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    static const luaL_Reg FUNCTIONS[];
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    using MRMap = std::map<std::string, int(*)(lua_State*)>;
+    static const MRMap READ_MEMBERS;
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    using MWMap = std::map<std::string, int(*)(lua_State*)>;
+    static const MWMap WRITE_MEMBERS;
 
     static int gc( lua_State* const L )
     {
@@ -150,13 +133,75 @@ private:
         return 0;
     }
     /**
-     * This loads the metatable and adds the __gc entry so the C++ data is properly destroyed
-     * (invoking the destructor) when Lua de-allocates its memory.
-     * The function leaves the metatable on the stack!
+     * Wrapper for the Lua __index entry in the metatable of the userdata.
+     * It queries the actual metatable in case the call goes to a function (and does not request
+     * and actual class member) and returns that function (if found).
+     * If there is no function of the requested name, it looks up the name in @ref READ_MEMBERS,
+     * if it's there, it calls the function that the entry refers to (which acts as a getter).
+     * Finally it returns nil, which is what Lua would have used anyway.
+     */
+    static int index( lua_State * const L )
+    {
+        // -2 is the userdata, -1 is the key (funtion to call)
+        const char * const key = lua_tostring( L, -1 );
+        if( key == nullptr ) {
+            luaL_error( L, "Invalid input to __index: key is not a string." );
+        }
+        if( luaL_getmetafield( L, -2, key ) != 0 ) {
+            // There is an entry of that name, return it.
+            lua_remove( L, -3 ); // remove userdata
+            lua_remove( L, -2 ); // remove key
+            // -1 is now the things we have gotten from luaL_getmetafield, return it.
+            return 1;
+        }
+        const auto iter = READ_MEMBERS.find( key );
+        if( iter == READ_MEMBERS.end() ) {
+            // No such member or function
+            lua_pushnil( L );
+            return 1;
+        }
+        lua_remove( L, -1 ); // remove key
+        // userdata is still there (now on -1, where it is expected by the getter)
+        return iter->second( L );
+    }
+    /**
+     * Wrapper for the Lua __newindex entry in the metatable of the userdata.
+     * It looks up the name of the requested member in @ref WRITE_MEMBERS and (if found),
+     * calls the function that the entry refers to (which acts as a setter).
+     */
+    static int newindex( lua_State * const L )
+    {
+        // -3 is the userdata, -2 is the key (name of the member), -1 is the value
+        const char * const key = lua_tostring( L, -2 );
+        if( key == nullptr ) {
+            luaL_error( L, "Invalid input to __newindex: key is not a string." );
+        }
+        const auto iter = WRITE_MEMBERS.find( key );
+        if( iter == WRITE_MEMBERS.end() ) {
+            luaL_error( L, "Unknown attribute" );
+        }
+        lua_remove( L, -2 ); // key, userdata is still there, but now on -2, and the value is on -1
+        return iter->second( L );
+    }
+    /**
+     * This loads the metatable (and adds the available functions) and pushes it on the stack.
      */
     static void get_metatable( lua_State* const L )
     {
-        lua_getglobal( L, METATABLE_NAME );
+        // Create table (if it does not already exist), pushes it on the stack.
+        // If the table already exists, we have already filled it, so we can return
+        // without doing it again.
+        if( luaL_newmetatable( L, METATABLE_NAME ) == 0 ) {
+            return;
+        }
+        // Push the metatable itself, the stack now contains two pointers to the same metatable
+        lua_pushvalue( L, -1 );
+        // Set __index in the new metatable (-2 on the stack) to be the metatable itself.
+        // It also pops one value from the stack.
+        lua_setfield( L, -2, "__index" );
+        // Now set the actual functions of the metatable.
+        luaL_setfuncs( L, &FUNCTIONS[0], 0 );
+
         // Calling the destructor is really only needed when it's not trivial (e.g. pointers)
         if( !std::is_trivially_destructible<T>::value ) {
             // Push function pointer
@@ -164,6 +209,10 @@ private:
             // -1 would be the function pointer, -2 is the metatable, the function pointer is popped
             lua_setfield( L, -2, "__gc" );
         }
+        lua_pushcfunction( L, &index );
+        lua_setfield( L, -2, "__index" );
+        lua_pushcfunction( L, &newindex );
+        lua_setfield( L, -2, "__newindex" );
     }
 
 public:
@@ -232,6 +281,15 @@ public:
     }
 };
 
+void update_globals(lua_State *L)
+{
+    LuaReference<player>::push( L, g->u );
+    luah_setglobal( L, "player", -1 );
+
+    LuaReference<map>::push( L, g->m );
+    luah_setglobal( L, "map", -1 );
+}
+
 // iuse abstraction to make iuse's both in lua and C++ possible
 // ------------------------------------------------------------
 void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
@@ -266,12 +324,8 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
         return 0;
     }
     lua_State *L = lua_state;
-    {
-        map **map_userdata = (map **) lua_newuserdata(L, sizeof(map *));
-        *map_userdata = m;
-        luah_setmetatable(L, "map_metatable");
-        luah_setglobal(L, "map", -1);
-    }
+    LuaReference<map>::push( L, m );
+    luah_setglobal(L, "map", -1);
 
     int err = luaL_loadstring(L, scr.c_str() );
     if( lua_report_error( L, err, scr.c_str() ) ) {
@@ -371,9 +425,7 @@ static int game_monster_type(lua_State *L)
 {
     const std::string parameter1 = lua_tostring_wrapper( L, 1 );
 
-    mtype **monster_type = (mtype **) lua_newuserdata(L, sizeof(mtype *));
-    *monster_type = GetMType(parameter1);
-    luah_setmetatable(L, "mtype_metatable");
+    LuaReference<mtype>::push( L, GetMType( parameter1 ) );
 
     return 1; // 1 return values
 
@@ -409,6 +461,7 @@ static int game_items_at(lua_State *L)
         lua_pushnumber(L, i++ + 1);
         item **item_userdata = (item **) lua_newuserdata(L, sizeof(item *));
         *item_userdata = &an_item;
+        // TODO: update using LuaReference<item>
         luah_setmetatable(L, "item_metatable");
         lua_rawset(L, -3);
     }
@@ -472,10 +525,11 @@ static int game_monster_at(lua_State *L)
     int parameter3 = (int) lua_tonumber(L, 3);
     int monster_idx = g->mon_at( {parameter1, parameter2, parameter3} );
 
-    monster &mon_ref = g->zombie(monster_idx);
-    monster **monster_userdata = (monster **) lua_newuserdata(L, sizeof(monster *));
-    *monster_userdata = &mon_ref;
-    luah_setmetatable(L, "monster_metatable");
+    if( monster_idx < 0 ) {
+        LuaReference<monster>::push( L, nullptr );
+    } else {
+        LuaReference<monster>::push( L, g->zombie( monster_idx ) );
+    }
 
     return 1; // 1 return values
 }

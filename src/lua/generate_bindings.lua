@@ -262,6 +262,55 @@ for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. generate_global_function_wrapper(name, func.cpp_name, func.args, func.rval)
 end
 
+-- luaL_Reg is the name of the struct in C which this creates and returns.
+function luaL_Reg(name, suffix)
+    local cpp_name = name .. "_" .. suffix
+    local lua_name = suffix
+    return tab .. '{"' .. lua_name .. '", ' .. cpp_name .. '},' .. br
+end
+-- Creates the LuaValue<T>::FUNCTIONS array, containing all the public functions of the class.
+function generate_functions_static(cpp_type, class, name)
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const luaL_Reg " .. cpp_type .. "::FUNCTIONS[] = {" .. br
+    while class do
+        for key, _ in pairs(class.functions) do
+            cpp_output = cpp_output .. luaL_Reg(name, key)
+        end
+        class = classes[class.parent]
+    end
+    cpp_output = cpp_output .. tab .. "{NULL, NULL}" .. br -- sentinel to indicate end of array
+    cpp_output = cpp_output .. "};" .. br
+end
+-- Creates the LuaValue<T>::READ_MEMBERS map, containing the getters. Example:
+-- const LuaValue<foo>::MRMap LuaValue<foo>::READ_MEMBERS = { { "id", foo_get_id }, ... };
+function generate_read_members_static(cpp_type, class, name)
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS = {" .. br
+    while class do
+        for key, attribute in pairs(class.attributes) do
+            cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. name .. "_get_" .. key .. "}," .. br
+        end
+        class = classes[class.parent]
+    end
+    cpp_output = cpp_output .. "};" .. br
+end
+-- Creates the LuaValue<T>::READ_MEMBERS map, containing the setters. Example:
+-- const LuaValue<foo>::MWMap LuaValue<foo>::WRITE_MEMBERS = { { "id", foo_set_id }, ... };
+function generate_write_members_static(cpp_type, class, name)
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const " .. cpp_type .. "::MWMap " .. cpp_type .. "::WRITE_MEMBERS = {" .. br
+    while class do
+        for key, attribute in pairs(class.attributes) do
+            if attribute.writable then
+                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. name .. "_set_" .. key .. "}," .. br
+            end
+        end
+        class = classes[class.parent]
+    end
+    cpp_output = cpp_output .. "};" .. br
+end
+
+-- Create the static constant members of LuaValue
 for name, value in pairs(classes) do
     cpp_output = cpp_output .. "template<>" .. br
     local cpp_name = ""
@@ -273,35 +322,13 @@ for name, value in pairs(classes) do
         cpp_name = "LuaValue<" .. name .. "*>"
     end
     cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. name .. "_metatable\";" .. br
+    generate_functions_static(cpp_name, value, name)
+    generate_read_members_static(cpp_name, value, name)
+    generate_write_members_static(cpp_name, value, name)
 end
 
--- Create a lua registry with our getters and setters.
+-- Create a lua registry with the global functions
 cpp_output = cpp_output .. "static const struct luaL_Reg gamelib [] = {"..br
-
--- Now that the wrapper functions are implemented, we need to make them accessible to lua.
--- For this, the lua "registry" is used, which maps strings to C functions.
-function generate_registry(class, name)
-    for key, attribute in pairs(class.attributes) do
-        local getter_name = name.."_get_"..key
-        local setter_name = name.."_set_"..key
-        cpp_output = cpp_output .. tab .. '{"'..getter_name..'", '..getter_name..'},'..br
-        if attribute.writable then
-            cpp_output = cpp_output .. tab .. '{"'..setter_name..'", '..setter_name..'},'..br
-        end
-    end
-
-    for key, func in pairs(class.functions) do
-        local func_name = name.."_"..key
-        cpp_output = cpp_output .. tab .. '{"'..func_name..'", '..func_name..'},'..br
-    end
-end
-
-for name, value in pairs(classes) do
-    while value do
-        generate_registry(value, name)
-        value = classes[value.parent]
-    end
-end
 
 for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. tab .. '{"'..name..'", '..name..'},'..br

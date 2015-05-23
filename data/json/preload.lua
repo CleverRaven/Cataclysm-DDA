@@ -43,6 +43,25 @@ function custom_flumed(item, active)
     end
 end
 
+-- Test the tripoint metatable: accessing functions, reading and writing members.
+function tripoint_mt_test()
+    -- TODO: make tripoint.new()... or even tripoint(...) work properly
+    -- For now, this is the way to create a new tripoint.
+    trp = player:pos()
+    -- Function call hard coded in catabindings.cpp
+    local a = trp:serialize()
+    -- You may try this (it should fail, Lua should complain, but it should *not* crash):
+    -- trp:non_existing_function()
+    -- trp.non_existing_member = 10
+    game.popup("a: " .. a) -- Should be a json string [9, 3, 1]
+    -- Read a member, this is dispatched via the READ_MEMBERS in C++
+    local b = trp.x
+    game.popup("a: " .. a .. ", b: " .. b)
+    -- Write a member, this is dispatched via the WRITE_MEMBERS in C++
+    trp.x = 1000;
+    game.popup("b: " .. b .. ", trp.x: " .. trp.x) -- b should be the same as before
+end
+
 game.register_iuse("HICCUP", hiccup)
 game.register_iuse("TELLSTUFF", tellstuff)
 game.register_iuse("CUSTOM_PROZAC", custom_prozac)
