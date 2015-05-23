@@ -73,9 +73,9 @@ function push_lua_value(in_variable, value_type)
     elseif value_type == "bool" then
         text = text .. "lua_pushboolean(L, "..in_variable..");"
     elseif classes[value_type].by_value then
-        text = text .. "LuaValue<"..value_type..">::push(L, " .. in_variable .. ", \""..value_type.."_metatable\");"
+        text = text .. "LuaValue<"..value_type..">::push(L, " .. in_variable .. ");"
     else
-        text = text .. "LuaReference<"..value_type..">::push(L, " .. in_variable .. ", \""..value_type.."_metatable\");"
+        text = text .. "LuaReference<"..value_type..">::push(L, " .. in_variable .. ");"
     end
     
     return text
@@ -272,6 +272,19 @@ end
 
 for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. generate_global_function_wrapper(name, func.cpp_name, func.args, func.rval)
+end
+
+for name, value in pairs(classes) do
+    cpp_output = cpp_output .. "template<>" .. br
+    local cpp_name = ""
+    -- The static constant is always define in LuaValue (LuaReference gets it via inheritance)
+    -- But LuaReference inherits from LuaValue<T*>!
+    if value.by_value then
+        cpp_name = "LuaValue<" .. name .. ">"
+    else
+        cpp_name = "LuaValue<" .. name .. "*>"
+    end
+    cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. name .. "_metatable\";" .. br
 end
 
 -- Create a lua registry with our getters and setters.
