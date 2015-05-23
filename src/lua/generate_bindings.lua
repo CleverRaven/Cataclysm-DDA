@@ -46,19 +46,17 @@ end
 
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
-function retrieve_lua_value(out_variable, value_type, stack_position)
+function retrieve_lua_value(value_type, stack_position)
     local cpp_value_type = member_type_to_cpp_type(value_type)
     if value_type == "int" or value_type == "float" then
-        return cpp_value_type .. " "..out_variable.." = lua_tonumber(L, "..stack_position..");"
+        return "lua_tonumber(L, "..stack_position..");"
     elseif value_type == "bool" then
-        return cpp_value_type .. " "..out_variable.." = lua_toboolean(L, "..stack_position..");"
+        return "lua_toboolean(L, "..stack_position..");"
     elseif value_type == "string" or value_type == "cstring" then
-        return cpp_value_type .. " "..out_variable.." = lua_tostring(L, "..stack_position..");"
+        return "lua_tostring(L, "..stack_position..");"
     elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
         -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
-        local rval = cpp_value_type .. "* "..out_variable.."_pointer = ("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
-        rval = rval .. cpp_value_type .. " "..out_variable.." = *" .. out_variable.."_pointer;"
-        return rval
+        return "*("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
     end
 end
 
@@ -132,7 +130,7 @@ function generate_setter(class, member_name, member_type, cpp_name)
 
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
 
-    text = text .. tab .. retrieve_lua_value("value", member_type, 2) ..br
+    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
 
     text = text .. tab .. "(*"..class.."_instance)->"..cpp_name.." = value;"..br
 
@@ -148,7 +146,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     for i, arg in ipairs(args) do
-        text = text .. tab .. retrieve_lua_value("parameter"..i, arg, i)..br
+        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..br
     end
 
     text = text .. tab
@@ -194,7 +192,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     for i, arg in ipairs(args) do
         -- fixme; non hardcoded userdata to class thingy
         if arg ~= "game" then
-            text = text .. tab .. retrieve_lua_value("parameter"..i, arg, stack_index+1)..br
+            text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
             stack_index = stack_index + 1
         end
     end
