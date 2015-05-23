@@ -1390,7 +1390,7 @@ global_functions = {
     },
     remove_item = {
         cpp_name = "game_remove_item",
-        args = {"int", "int", "item"},
+        args = {"tripoint", "item"},
         rval = nil
     },
     get_current_overmap = {
@@ -1407,6 +1407,11 @@ global_functions = {
         cpp_name = "get_comestible_type",
         args = { "string" },
         rval = "it_comest"
+    },
+    revive_corpse = {
+        cpp_name = "g->revive_corpse",
+        args = { "tripoint", "item" },
+        rval = "bool"
     },
     zombie = {
         cpp_name = "g->zombie",

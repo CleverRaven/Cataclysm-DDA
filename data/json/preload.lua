@@ -82,9 +82,32 @@ function item_test()
     end
 end
 
+-- Goes through all the items on the map at the players location and tries to revive a corpse.
+function necro()
+    local pos = player:pos()
+    -- Choose a random neighbor square, because the monster can not revive at pos as the player is in the way.
+    local neighbor = tripoint(pos.x + game.rng(-1, 1), pos.y + game.rng(-1, 1), pos.z)
+    game.add_msg("trying at " .. neighbor.x .. ", " .. neighbor.y .. ", " .. neighbor.z)
+    for itm in item_stack_iterator(pos) do
+        if itm:is_corpse() then
+            game.add_msg("Found a corpe: " .. itm:tname())
+            if game.revive_corpse(neighbor, itm) then
+                game.remove_item(pos, itm)
+                break
+            end
+        end
+    end
+end
+
+function custom_iuse_test(item, active, pos)
+    game.popup("use function called on an item " .. item:tname() .. ", active: " .. tostring(active) .. ", location is " .. pos.x .. ", " .. pos.y .. ", " .. pos.y)
+    return 0
+end
+
 game.register_iuse("HICCUP", hiccup)
 game.register_iuse("TELLSTUFF", tellstuff)
 game.register_iuse("CUSTOM_PROZAC", custom_prozac)
 game.register_iuse("CUSTOM_SLEEP", custom_sleep)
 game.register_iuse("CUSTOM_FLUMED", custom_flumed)
 game.register_iuse("CUSTOM_IODINE", custom_iodine)
+game.register_iuse("CUSTOM_IUSE_TEST", custom_iuse_test)

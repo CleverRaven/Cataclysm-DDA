@@ -240,6 +240,11 @@ public:
         // This is where the copy happens:
         new (value_in_lua) T( value );
     }
+    static int push_reg( lua_State* const L, const T& value )
+    {
+        push( L, value );
+        return luah_store_in_registry( L, -1 );
+    }
     static T& get( lua_State* const L, int const stack_index )
     {
         luaL_checktype( L, stack_index, LUA_TUSERDATA );
@@ -274,6 +279,15 @@ public:
     static void push( lua_State* const L, T& value )
     {
         LuaValue<T*>::push( L, &value );
+    }
+    static int push_reg( lua_State* const L, T* const value )
+    {
+        push( L, value );
+        return luah_store_in_registry( L, -1 );
+    }
+    static int push_reg( lua_State* const L, T& value )
+    {
+        return LuaValue<T*>::push_reg( L, &value );
     }
     static T &get( lua_State* const L, int const stack_position )
     {
@@ -570,10 +584,9 @@ static int game_item_type(lua_State *L)
     return 1; // 1 return values
 }
 
-// game.remove_item(x, y, item)
-void game_remove_item(int x, int y, item *it)
+void game_remove_item(const tripoint &p, item *it)
 {
-    g->m.i_rem( x, y, it );
+    g->m.i_rem( p, it );
 }
 
 // x, y = choose_adjacent(query_string, x, y)
@@ -811,30 +824,22 @@ long use_function::call( player *player_instance, item *item_instance, bool acti
         //       I guess
 
         // Push the item on top of the stack.
-        int item_in_registry;
-        {
-            item **item_userdata = (item **) lua_newuserdata(L, sizeof(item *));
-            *item_userdata = item_instance;
-
-            // Save a reference to the item in the registry so that we can deallocate it
-            // when we're done.
-            item_in_registry = luah_store_in_registry(L, -1);
-
-            // Set the metatable for the item.
-            luah_setmetatable(L, "item_metatable");
-        }
-
+        const int item_in_registry = LuaReference<item>::push_reg( L, item_instance );
         // Push the "active" parameter on top of the stack.
         lua_pushboolean(L, active);
+        // Push the location of the item.
+        const int tripoint_in_registry = LuaValue<tripoint>::push_reg( L, pos );
 
         // Call the iuse function
-        int err = lua_pcall(L, 2, 1, 0);
+        int err = lua_pcall(L, 3, 1, 0);
         lua_report_error( L, err, "iuse function" );
 
         // Make sure the now outdated parameters we passed to lua aren't
         // being used anymore by setting a metatable that will error on
         // access.
         luah_remove_from_registry(L, item_in_registry);
+        luah_setmetatable(L, "outdated_metatable");
+        luah_remove_from_registry(L, tripoint_in_registry);
         luah_setmetatable(L, "outdated_metatable");
 
         return lua_tointeger(L, -1);
