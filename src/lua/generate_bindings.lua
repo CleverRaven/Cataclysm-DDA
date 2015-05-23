@@ -36,7 +36,7 @@ function member_type_to_cpp_type(member_type)
     else
         for name, value in pairs(classes) do
             if name == member_type then
-                return member_type.."*"
+                return member_type
             end
         end
     end
@@ -47,7 +47,6 @@ end
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
-    local cpp_value_type = member_type_to_cpp_type(value_type)
     if value_type == "int" or value_type == "float" then
         return "lua_tonumber(L, "..stack_position..");"
     elseif value_type == "bool" then
@@ -56,7 +55,7 @@ function retrieve_lua_value(value_type, stack_position)
         return "lua_tostring_wrapper(L, "..stack_position..");"
     else
         -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
-        return "*("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
+        return "*("..member_type_to_cpp_type(value_type).."**) lua_touserdata(L, "..stack_position.."); "
     end
 end
 
