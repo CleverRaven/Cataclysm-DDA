@@ -365,7 +365,7 @@ bool WinCreate()
 
     // Set up audio mixer.
 #ifdef SDL_SOUND
-    int audio_rate = 22050;
+    int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
     int audio_channels = 2;
     int audio_buffers = 4096;
