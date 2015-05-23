@@ -399,8 +399,6 @@ public:
                               const int bash, const int maxdist ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
-    // First angle is horizontal, second is vertical
-    point coords_to_angles( const tripoint &a, const tripoint &b ) const;
 // Vehicles: Common to 2D and 3D
     VehicleList get_vehicles();
     void update_vehicle_cache(vehicle *, const bool brand_new = false);
@@ -695,8 +693,6 @@ void add_corpse( const tripoint &p );
     void adjust_radiation( const tripoint &p, const int delta );
     // Overload for mapgen
     void adjust_radiation( const int x, const int y, const int delta );
-    /** Sums radiation from `start` to `end` */
-    int radiation_over( const tripoint &start, const tripoint &end ) const;
 
 // Temperature
     int& temperature( const tripoint &p );    // Temperature for submap
@@ -996,7 +992,6 @@ void add_corpse( const tripoint &p );
     point getlocal(const int x, const int y ) const;
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
     tripoint getlocal( const tripoint &p ) const;
- bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y) const;
  bool inbounds(const int x, const int y, const int z) const;
  bool inbounds( const tripoint &p ) const;
