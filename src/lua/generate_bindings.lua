@@ -30,7 +30,7 @@ end
 -- Convert a given type such as "string" to the corresponding C++
 -- type string, e.g. "std::string"
 function member_type_to_cpp_type(member_type)
-    if member_type == "bool" then return "int"
+    if member_type == "bool" then return "bool"
     elseif member_type == "cstring" then return "const char*"
     elseif member_type == "string" then return "std::string"
     else
