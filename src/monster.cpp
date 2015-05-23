@@ -22,6 +22,7 @@
 #include "monfaction.h"
 #include "options.h"
 #include "trap.h"
+#include "line.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))

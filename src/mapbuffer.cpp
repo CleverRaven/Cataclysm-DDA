@@ -11,6 +11,8 @@
 #include "game.h"
 #include "map.h"
 #include "trap.h"
+#include "vehicle.h"
+
 #include <fstream>
 #include <sstream>
 

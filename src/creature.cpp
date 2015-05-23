@@ -9,6 +9,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <numeric>

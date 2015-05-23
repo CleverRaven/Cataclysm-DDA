@@ -6,7 +6,6 @@
 #include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "creature_tracker.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "live_view.h"
@@ -72,6 +71,7 @@ class map;
 class player;
 class npc;
 class monster;
+class Creature_tracker;
 class calendar;
 class scenario;
 class DynamicDataLoader;
@@ -147,6 +147,8 @@ class game
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+
+        std::unique_ptr<Creature_tracker> critter_tracker;
         /**
          * Add an entry to @ref events. For further information see event.h
          * @param type Type of event.
@@ -699,8 +701,6 @@ class game
         void groupdebug();      // Get into on monster groups
 
         // ########################## DATA ################################
-
-        Creature_tracker critter_tracker;
 
         int last_target; // The last monster targeted
         bool last_target_was_npc;

@@ -1170,7 +1170,7 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    std::vector<point> path = g->m.route( posx(), posy(), x, y, 0 );
+    std::vector<tripoint> path = g->m.route( pos(), tripoint(x, y, posz()), 0, 100 );
     if( path.empty() ) {
         return false;
     }
@@ -1196,14 +1196,14 @@ bool monster::will_reach( int x, int y )
 int monster::turns_to_reach( int x, int y )
 {
     // This function is a(n old) temporary hack that should soon be removed
-    std::vector<point> path = g->m.route( posx(), posy(), x, y, 0 );
+    std::vector<tripoint> path = g->m.route( pos(), tripoint(x, y, posz()), 0, 100 );
     if( path.empty() ) {
         return 999;
     }
 
     double turns = 0.;
     for( size_t i = 0; i < path.size(); i++ ) {
-        tripoint next( path[i], posz() );
+        const tripoint &next = path[i];
         if( g->m.move_cost( next ) == 0 ) {
             // No bashing through, it looks stupid when you go back and find
             // the doors intact.
@@ -1211,7 +1211,7 @@ int monster::turns_to_reach( int x, int y )
         } else if( i == 0 ) {
             turns += double( calc_movecost( pos3(), next ) ) / get_speed();
         } else {
-            turns += double( calc_movecost( tripoint( path[i - 1], posz() ), next ) ) / get_speed();
+            turns += double( calc_movecost( path[i - 1], next ) ) / get_speed();
         }
     }
 

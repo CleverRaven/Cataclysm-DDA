@@ -1368,7 +1368,7 @@ void player::update_bodytemp()
         if( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at(i); // 0 - 100
+            int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at( static_cast<body_part>( i ) ); // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() +
@@ -8276,7 +8276,7 @@ void player::drench(int saturation, int flags)
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
         if (mfb(i) & flags){
-            bp_wetness_max = mDrenchEffect[i];
+            bp_wetness_max = mDrenchEffect[static_cast<body_part>( i )];
         }
         if (bp_wetness_max == 0){
             continue;
@@ -8300,7 +8300,7 @@ void player::drench(int saturation, int flags)
     int tot_neut = 0; //Ignored for good wet bonus
     int tot_good = 0; //Increase good wet bonus
 
-    for (std::map<int, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
+    for (std::map<body_part, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
         if (mfb(iter->first) & flags) {
             effected += iter->second;
             tot_ignored += mMutDrench[iter->first]["ignored"];
@@ -8384,12 +8384,11 @@ void player::drench_mut_calc()
 
         for( const auto &_iter : my_mutations ) {
             const auto &mdata = mutation_branch::get( _iter.first );
-            for( auto &_wp_iter : mdata.protection ) {
-                if( body_parts[_wp_iter.first] == elem.first ) {
-                    ignored += _wp_iter.second.second.x;
-                    neutral += _wp_iter.second.second.y;
-                    good += _wp_iter.second.second.z;
-                }
+            const auto _wp_iter = mdata.protection.find( elem.first );
+            if( _wp_iter != mdata.protection.end() ) {
+                ignored += _wp_iter->second.x;
+                neutral += _wp_iter->second.y;
+                good += _wp_iter->second.z;
             }
         }
 
@@ -12419,7 +12418,7 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 }
 
 void player::armor_absorb(damage_unit& du, item& armor) {
-    if( rng( 1, 100 ) <= armor.get_coverage() ) {
+    if( rng( 1, 100 ) > armor.get_coverage() ) {
         return;
     }
 

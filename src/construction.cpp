@@ -20,6 +20,7 @@
 #include "npc.h"
 #include "iuse.h"
 #include "veh_type.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <map>

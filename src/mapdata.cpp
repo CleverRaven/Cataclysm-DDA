@@ -5,6 +5,8 @@
 #include "debug.h"
 #include "translations.h"
 #include "trap.h"
+#include "vehicle.h"
+
 #include <ostream>
 #include <unordered_map>
 #include <memory>
@@ -86,7 +88,9 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
     { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
     { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // works with TFLAG_AUTO_WALL_SYMBOL
-    { "CLIMBABLE",                TFLAG_CLIMBABLE } // Can be climbed over
+    { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
+    { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
+    { "GOES_UP",                  TFLAG_GOES_UP }         // Allows non-flying creatures to move upwards
 } };
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {

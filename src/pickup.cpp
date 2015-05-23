@@ -9,6 +9,7 @@
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <map>
 #include <vector>

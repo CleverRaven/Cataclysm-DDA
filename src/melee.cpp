@@ -12,6 +12,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
+#include "line.h"
 
 #include <sstream>
 #include <stdlib.h>

@@ -15,7 +15,6 @@
 #include "mapdata.h"
 #include "item.h"
 #include "json.h"
-#include "vehicle.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
@@ -30,6 +29,7 @@ class monster;
 class item;
 class Creature;
 class tripoint_range;
+class vehicle;
 struct itype;
 struct mapgendata;
 struct trap;
@@ -270,6 +270,11 @@ class map
 
     const maptile maptile_at( const tripoint &p ) const;
     maptile maptile_at( const tripoint &p );
+private:
+    // Versions of the above that don't do bounds checks
+    const maptile maptile_at_internal( const tripoint &p ) const;
+    maptile maptile_at_internal( const tripoint &p );
+public:
 
 // Movement and LOS
 
@@ -385,13 +390,13 @@ class map
  /**
   * Calculate a best path using A*
   *
-  * @param Fx, Fy The source location from which to path.
-  * @param Tx, Ty The destination to which to path.
-  *
-  * @param bash Bashing strength of pathing creature (0 means no bashing through terrain)
+  * @param f The source location from which to path.
+  * @param t The destination to which to path.
+  * @param bash Bashing strength of pathing creature (0 means no bashing through terrain).
+  * @param maxdist Consider only paths up to this length (move cost multiplies "length" of a tile).
   */
- std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty, const int bash) const;
- std::vector<tripoint> route( const tripoint &f, const tripoint &t, const int bash ) const;
+ std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+                              const int bash, const int maxdist ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
     // First angle is horizontal, second is vertical
@@ -1000,6 +1005,11 @@ void add_corpse( const tripoint &p );
         return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
     }
 
+    /** Clips the coords of p to fit the map bounds */
+    void clip_to_bounds( tripoint &p ) const;
+    void clip_to_bounds( int &x, int &y ) const;
+    void clip_to_bounds( int &x, int &y, int &z ) const;
+
  int getmapsize() const { return my_MAPSIZE; };
  bool has_zlevels() const { return zlevels; }
 
@@ -1086,13 +1096,6 @@ protected:
 
  int my_MAPSIZE;
  bool zlevels;
-
- mutable std::list<item> nulitems; // Returned when &i_at() is asked for an OOB value
- mutable ter_id nulter;  // Returned when &ter() is asked for an OOB value
- mutable field nulfield; // Returned when &field_at() is asked for an OOB value
- mutable vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- mutable int null_temperature;  // Because radiation does it too
- mutable level_cache nullcache; // Dummy cache for z-levels outside bounds
 
     /**
      * Absolute coordinates of first submap (get_submap_at(0,0))
