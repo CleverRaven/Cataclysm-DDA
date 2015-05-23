@@ -111,7 +111,25 @@ bool lua_report_error(lua_State *L, int err, const char *path) {
 }
 
 /**
- * A value, copied into Luas own memory.
+ * Base interface for values, that are copied into Luas own memory (and thereby managed by Lua).
+ * The class creates a metatable for the wrapped objects, this is all set up via
+ * generate_bindings.lua.
+ * Usage: there are two main functions you might need: @ref push and @ref get.
+ * - @ref push copies the object into Luas memory and pushes a reference to it on the stack.
+ *   It is like @ref lua_pushnumber, only it pushes a whole object.
+ * - @ref get reads a value from the stack and returns a reference to it (the memory of the object
+ *   is managed by Lua and is kept until the garbage collector frees it).
+ *
+ * You can expect the following behavior:
+ * \code
+ * const Foo &myfoo = get_my_foo( ... );
+ * LuaValue<Foo>::push( L, myfoo ); // copies myfoo
+ * ... // give control back to Lua, wait for a callback from it,
+ * Foo &thefoo = LuaValue<Foo>::get( L, 1 ); // get the first argument of the callback
+ * thefoo.something(); // do something with it, not that myfoo and thefoo are different objects
+ * \endcode
+ *
+ * @param T is the type of object that should be managed. It must be copy-constructable.
  */
 template<typename T>
 class LuaValue {
@@ -263,7 +281,39 @@ public:
 };
 
 /**
- * This stores pointers that point into memory allocated and managed by C++.
+ * This is special wrapper (an extension) for references to objects which are not stored in Lua,
+ * but are kept in the memory managed by C++. This class only stored are retrieves the pointers,
+ * you have to make sure those pointers stay valid.
+ *
+ * Example (an @ref itype is loaded when a world is loaded and stays valid until the game ends):
+ * \code
+ * itype *it = type::find_type( "water" );
+ * LuaReference<itype>::push( L, it ); // copies the pointer it
+ * ... // give control back to Lua, wait for a callback from it,
+ * itype &it = LuaReference<itype>::get( L, 1 ); // get the first argument of the callback
+ * assert(it.id == "water");
+ * \endcode
+ *
+ * This class extends LuaValue by some pointer specific behavior:
+ * - @ref @push is overloaded to accept a reference to T (which will be converted to a pointer
+ *   and stored). Additionally, if the pointer passed to @ref push is nullptr, nil will be pushed
+ *   (this obviously does not work for references).
+ *   \code
+ *   Foo *x = ...;
+ *   LuaReference<Foo>::push( L, x );
+ *   LuaReference<Foo>::push( L, *x ); // both push calls do exactly the same.
+ *   \endcode
+ * - @ref get returns a reference to T, not a pointer! This is often more convenient, but see next:
+ * - @ref get_proxy is the same as @ref get, but returns a proxy object. The proxy contains the
+ *   reference returned by @ref get and it has two operators that allow implicit conversion to
+ *   T& and to T* - this allows it to be used for function that accept either.
+ *   \code
+ *   void f1(Foo *foo);
+ *   void f2(Foo &foo)
+ *   auto && ref = LuaReference<Foo>::get_proxy( L, 1 );
+ *   f1(ref); // works: ref is implicit converted to Foo*
+ *   f2(ref); // works, too: ref is converted to Foo&
+ *   \endcode
  */
 template<typename T>
 class LuaReference : private LuaValue<T*> {
