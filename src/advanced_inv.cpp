@@ -622,8 +622,7 @@ void advanced_inv_area::init()
 
     // water?
     const ter_id ter = g->m.ter( pos );
-    if( ( ter == t_water_dp || ter == t_water_pool || ter == t_swater_dp ) ||
-        ( ter == t_water_sh || ter == t_swater_sh || ter == t_sewage ) ) {
+    if(is_any_of(ter, {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage})) {
         flags.append( _( " WATER" ) );
     }
 
@@ -893,7 +892,7 @@ void advanced_inventory::recalc_pane( side p )
         alls.weight = 0;
         for( auto &s : squares ) {
             // All the surrounding squares, nothing else
-            if( s.id < AIM_SOUTHWEST || s.id > AIM_NORTHEAST ) {
+            if(!is_between(AIM_SOUTHWEST, s.id, AIM_NORTHEAST)) {
                 continue;
             }
 
@@ -2186,7 +2185,6 @@ const char advanced_inventory::get_minimap_sym(side p) const
             ch = d_side[panes[-p+1].get_area() == AIM_CENTER];
             break;
         case '#': // 'L' or 'R'
-            // FIXME: doesn't toggle vehicle stuff right
             ch = (panes[p].in_vehicle()) ? 'V' : c_side[p];
             break;
         case '^': // do not show anything
