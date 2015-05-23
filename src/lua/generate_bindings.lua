@@ -54,7 +54,7 @@ function retrieve_lua_value(value_type, stack_position)
     elseif value_type == "string" or value_type == "cstring" then
         return "lua_tostring_wrapper(L, "..stack_position..");"
     else
-        return "*LuaValue<"..value_type.."*>::get(L, "..stack_position..");"
+        return "LuaValue<"..value_type.."*>::get(L, "..stack_position..");"
     end
 end
 
@@ -99,7 +99,7 @@ function generate_getter(class, member_name, member_type, cpp_name)
 
     text = text .. tab .. "auto && "..class.."_instance = LuaValue<"..class.."*>::get(L, 1);"..br
 
-    text = text .. tab .. push_lua_value("(*"..class.."_instance"..")->"..cpp_name, member_type)..br
+    text = text .. tab .. push_lua_value(class.."_instance->"..cpp_name, member_type)..br
 
     text = text .. tab .. "return 1;  // 1 return value"..br
     text = text .. "}" .. br
@@ -118,7 +118,7 @@ function generate_setter(class, member_name, member_type, cpp_name)
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
     text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
 
-    text = text .. tab .. "(*"..class.."_instance)->"..cpp_name.." = value;"..br
+    text = text .. tab .. class.."_instance->"..cpp_name.." = value;"..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
     text = text .. "}" .. br
@@ -187,7 +187,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
         text = text .. "auto && rval = "
     end
 
-    text = text .. "(*" .. class.. "_instance)->"..function_to_call .. "("
+    text = text .. class.. "_instance->"..function_to_call .. "("
 
     for i, arg in ipairs(args) do
         if arg == "game" then

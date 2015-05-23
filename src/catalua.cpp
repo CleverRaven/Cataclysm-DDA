@@ -158,15 +158,15 @@ public:
         // This is where the copy happens:
         *value_in_lua = value;
     }
-    static T* get( lua_State* const L, int const stack_index )
+    static T& get( lua_State* const L, int const stack_index )
     {
         luaL_checktype( L, stack_index, LUA_TUSERDATA );
         T* user_data = static_cast<T*>( lua_touserdata( L, stack_index ) );
         if( user_data == nullptr ) {
             // luaL_error does not return at all.
-            return (T*) luaL_error( L, "First argument to function is not a class" );
+            return *(T*) luaL_error( L, "First argument to function is not a class" );
         }
-        return user_data;
+        return *user_data;
     }
 };
 
