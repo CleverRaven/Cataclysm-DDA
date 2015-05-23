@@ -6889,7 +6889,7 @@
         "symbol" : "[",
         "description" : "A small backpack, good storage for a little encumbrance.",
         "price" : 3900,
-        "material" : ["cotton", "plastic"],
+        "material" : ["cotton"],
         "volume" : 8,
         "cutting" : 0,
         "warmth" : 5,
