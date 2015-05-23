@@ -196,9 +196,9 @@ private:
         }
         // Push the metatable itself, the stack now contains two pointers to the same metatable
         lua_pushvalue( L, -1 );
-        // Set __index in the new metatable (-2 on the stack) to be the metatable itself.
+        // Set the metatable of the new metatable (-2 on the stack) to be itself. Pretty meta, hu?
         // It also pops one value from the stack.
-        lua_setfield( L, -2, "__index" );
+        lua_setmetatable( L, -2 );
         // Now set the actual functions of the metatable.
         luaL_setfuncs( L, &FUNCTIONS[0], 0 );
 
@@ -216,6 +216,17 @@ private:
     }
 
 public:
+    static void load_metatable( lua_State* const L )
+    {
+        get_metatable( L );
+        std::string mt(METATABLE_NAME);
+        if( mt.length() > 10 ) {
+            // 10 == strlen("_metatable"), the prefix that all metatables have, but we want them to
+            // be available without this in the global namespace (e.g. to write `p = tripoint( 1, 5, 100 )`
+            mt.erase( mt.length() - 10, 10 );
+        }
+        lua_setglobal( L, mt.c_str() );
+    }
     static void push( lua_State* const L, const T& value )
     {
         // Push user data,
@@ -719,6 +730,8 @@ void game::init_lua()
     luaL_setfuncs(lua_state, &lib_funcs.front(), 0);
     lua_setglobal(lua_state, "game");
 #endif
+
+    load_metatables( lua_state );
 
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());

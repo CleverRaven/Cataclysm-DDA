@@ -327,6 +327,17 @@ for name, value in pairs(classes) do
     generate_write_members_static(cpp_name, value, name)
 end
 
+-- Create a function that calls load_metatable on all the registered LuaValue's
+cpp_output = cpp_output .. "static void load_metatables(lua_State* const L) {" .. br
+for name, value in pairs(classes) do
+    if value.by_value then
+        cpp_output = cpp_output .. tab .. "LuaValue<" .. name .. ">::load_metatable( L );" .. br
+    else
+        cpp_output = cpp_output .. tab .. "LuaValue<" .. name .. "*>::load_metatable( L );" .. br
+    end
+end
+cpp_output = cpp_output .. "}" .. br
+
 -- Create a lua registry with the global functions
 cpp_output = cpp_output .. "static const struct luaL_Reg gamelib [] = {"..br
 
