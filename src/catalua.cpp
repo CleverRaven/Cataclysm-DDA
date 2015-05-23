@@ -170,6 +170,16 @@ public:
     }
 };
 
+/**
+ * This stores pointers that point into memory allocated and managed by C++.
+ */
+template<typename T>
+class LuaReference : private LuaValue<T*> {
+public:
+    using LuaValue<T*>::push;
+    using LuaValue<T*>::get;
+};
+
 // iuse abstraction to make iuse's both in lua and C++ possible
 // ------------------------------------------------------------
 void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
