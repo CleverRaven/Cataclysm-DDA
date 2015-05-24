@@ -3,20 +3,24 @@
 
 function hiccup(item, active, pos)
     item_store = item
-    game.add_msg("You hiccup because of "..item.id)
+    game.add_msg("You hiccup because of "..item:tname())
 end
 
 function tellstuff(item, active, pos)
     game.add_msg("Your foo tells you: str "..player.str_cur.."/"..player.str_max)
-    game.add_msg("Are you hot around the legs? "..tostring(player:has_disease("hot_legs")))
-    player:add_disease("hot_feet", 10, 1, 3)
+    -- Can't currently check specific bodyparts, sorry.
+    -- Should be player:has_effect("hot", bp_leg_l) or so
+    game.add_msg("Are you hot around the legs? "..tostring(player:has_effect("hot")))
+    -- Can't currently add effects to specific bodyparts, sorry.
+    -- Should be player:add_effect("hot", 10, bp_leg_l)
+    player:add_effect("hot", 10)
     player.fatigue = 0
     game.add_msg("Fatigue: "..player.fatigue)
 end
 
 function custom_prozac(item, active, pos)
-    if not player:has_disease("took_prozac") and player:morale_level() < 0 then
-        player:add_disease("took_prozac", 7200, 0, -1)
+    if not player:has_effect("took_prozac") and player:morale_level() < 0 then
+        player:add_effect("took_prozac", 7200)
     else
         player.stim = player.stim + 3
     end
@@ -30,16 +34,16 @@ function custom_sleep(item, active, pos)
 end
 
 function custom_iodine(item, active, pos)
-    player:add_disease("iodine", 1200, 0, -1)
+    player:add_effect("iodine", 1200)
     if not player:is_npc() then
         game.add_msg("You take an iodine tablet.")
     end
 end
 
 function custom_flumed(item, active, pos)
-    player:add_disease("took_flumed", 6000, 0, -1)
+    player:add_effect("took_flumed", 6000)
     if not player:is_npc() then
-        game.add_msg("You take some "..item.name..".")
+        game.add_msg("You take some "..item:tname()..".")
     end
 end
 

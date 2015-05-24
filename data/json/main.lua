@@ -7,7 +7,7 @@ function testui()
     for _, value in ipairs(selections) do
         ui:addentry(value)
     end
-    ui:query()
+    ui:query(true)
     game.add_msg("You selected: "..selections[ui.selected+1])
 end
 
