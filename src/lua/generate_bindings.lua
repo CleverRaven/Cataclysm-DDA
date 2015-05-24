@@ -4,6 +4,8 @@
 
 -- Conventions:
 -- The variable holding the name of a class is named "class_name"
+-- The variable holding the data (declarations etc.) of a class is "class"
+-- Example code: for class_name, class in pairs(classes) do ...
 
 local br = "\n"
 local tab = "    "
@@ -21,7 +23,7 @@ function member_type_to_lua_type(member_type)
     elseif member_type == "bool" then
         return "LUA_TBOOLEAN"
     else
-        for class_name, value in pairs(classes) do
+        for class_name, _ in pairs(classes) do
             if class_name == member_type then
                 return "LUA_TUSERDATA"
             end
@@ -36,9 +38,9 @@ function member_type_to_cpp_type(member_type)
     elseif member_type == "cstring" then return "const char*"
     elseif member_type == "string" then return "std::string"
     else
-        for class_name, value in pairs(classes) do
+        for class_name, class in pairs(classes) do
             if class_name == member_type then
-                if value.by_value then
+                if class.by_value then
                     return "LuaValue<" .. member_type .. ">"
                 else
                     return "LuaReference<" .. member_type .. ">"
@@ -294,23 +296,23 @@ function generate_class_function_wrappers(functions, class_name)
     end
 end
 
-for class_name, value in pairs(classes) do
-    while value do
-        generate_accessors(value.attributes, class_name)
-        value = classes[value.parent]
+for class_name, class in pairs(classes) do
+    while class do
+        generate_accessors(class.attributes, class_name)
+        class = classes[class.parent]
     end
 end
 
-for class_name, value in pairs(classes) do
-    while value do
-        generate_class_function_wrappers(value.functions, class_name)
-        if value.new then
-            cpp_output = cpp_output .. generate_constructor(class_name, value.new)
+for class_name, class in pairs(classes) do
+    while class do
+        generate_class_function_wrappers(class.functions, class_name)
+        if class.new then
+            cpp_output = cpp_output .. generate_constructor(class_name, class.new)
         end
-        if value.has_equal then
+        if class.has_equal then
             cpp_output = cpp_output .. generate_operator(class_name, "__eq", "==")
         end
-        value = classes[value.parent]
+        class = classes[class.parent]
     end
 end
 
@@ -397,10 +399,10 @@ end
 -- Create a function that calls load_metatable on all the registered LuaValue's
 cpp_output = cpp_output .. "static void load_metatables(lua_State* const L) {" .. br
 
-for class_name, value in pairs(classes) do
+for class_name, class in pairs(classes) do
     local cpp_name = wrapper_base_class(class_name)
     -- If the class has a constructor, it should be exposed via a global name (which is the class name)
-    if value.new then
+    if class.new then
         cpp_output = cpp_output .. tab .. cpp_name .. "::load_metatable( L, \"" .. class_name .. "\" );" .. br
     else
         cpp_output = cpp_output .. tab .. cpp_name .. "::load_metatable( L, nullptr );" .. br
