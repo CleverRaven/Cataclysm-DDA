@@ -3,19 +3,58 @@
 
 #include "enums.h"
 #include "output.h"
-#include <stdlib.h>
 #include "cursesdef.h"
-////////////////////////////////////////////////////////////////////////////////////
-/*
- * uimenu constants
- */
-const int UIMENU_INVALID = -1024;
-const int MENU_ALIGN_LEFT = -1;
-const int MENU_ALIGN_CENTER = 0;
-const int MENU_ALIGN_RIGHT = 1;
-const int MENU_WIDTH_ENTRIES = -2;
-const int MENU_AUTOASSIGN = -1;
 
+#include <stdlib.h>
+#include <unordered_map>
+#include <memory>
+////////////////////////////////////////////////////////////////////////////////////
+class ui_element;
+
+enum ui_element_type {
+    UI_ELEMENT_TEXT = 0,
+    UI_ELEMENT_INPUT,
+    UI_ELEMENT_PROMPT,
+    NUM_UI_ELEMENTS
+};
+
+// contains information about the newly created element, such as id and type
+struct ui_element_info {
+    ui_element_type type;   // type of element
+    std::string name;       // name of the element (used to refer to the element)
+    point size;             // size of the element
+    point pos;              // position of element
+    WINDOW *win;            // curses window handle
+
+    ui_element_info(ui_element_type T, std::string N, point S, point C) : 
+        type(T), name(N), size(S), pos(C) {};
+};
+
+// Virtual base class for windowed ui stuff (like uimenu)
+class ui_container
+{
+    protected:
+        WINDOW *window;
+        point pos, size;
+        // children["given_name"] = element;
+        std::unordered_map<std::string, std::unique_ptr<ui_element>> children;
+    public:
+        virtual void refresh(bool refresh_children = true);
+        // add an element to this container
+        virtual void add_element(const ui_element_info &element);
+        // remove an element from this container
+        virtual void rem_element(const ui_element_info &element);
+};
+
+class ui_element : public ui_container {
+    private:
+        ui_element_info info;
+    public:
+        void set();
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////
 /*
  * mvwzstr: line of text with horizontal offset and color
  */
@@ -26,6 +65,16 @@ struct mvwzstr {
     std::string txt;
     long sym = 0;
 };
+
+/*
+ * uimenu constants
+ */
+const int UIMENU_INVALID = -1024;
+const int MENU_ALIGN_LEFT = -1;
+const int MENU_ALIGN_CENTER = 0;
+const int MENU_ALIGN_RIGHT = 1;
+const int MENU_WIDTH_ENTRIES = -2;
+const int MENU_AUTOASSIGN = -1;
 
 /*
  * uimenu_entry: entry line for uimenu
@@ -63,20 +112,6 @@ struct uimenu_entry {
     };
     uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E), hotkey(K), txt(T),
         hotkey_color(H), text_color(C) {};
-};
-
-/*
- * Virtual base class for windowed ui stuff (like uimenu)
- */
-class ui_container
-{
-    public:
-        int w_x;
-        int w_y;
-        int w_width;
-        int w_height;
-        WINDOW *window;
-        virtual void refresh( bool refresh_children = true ) = 0;
 };
 
 /*
@@ -125,8 +160,6 @@ class uimenu_callback
 /*
  * uimenu: scrolling vertical list menu
  */
-class ui_element;
-class ui_element_input;
 class uimenu: public ui_container
 {
     public:
