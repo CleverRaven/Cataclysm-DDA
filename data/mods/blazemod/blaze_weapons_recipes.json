@@ -436,9 +436,9 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "mechanics",
-  "skills_required": [ "fabrication", 5 ],
-  "difficulty": 5,
-  "time": 120000,
+  "skills_required": [ "fabrication", 4 ],
+  "difficulty": 4,
+  "time": 80000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -469,6 +469,52 @@
 	[
       ["element", 1],
 	  ["pilot_light", 1]
+    ],
+	[
+	  ["chain", 2]
+	]
+ ]
+},{
+        "type" : "recipe",
+  "result": "blundergun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 5,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+      [ "welder", 200 ],
+      [ "welder_crude", 200 ],
+      [ "toolset", 200 ],
+	  [ "oxy_torch", 20]
+	]
+  ],
+  "components": [
+    [
+		[ "pipe", 6 ]
+    ],
+    [
+      ["duct_tape", 500],
+      ["superglue", 5]
+    ],
+	[
+      [ "scrap", 54],
+	  [ "steel_chunk", 27],
+	  [ "steel_lump", 9]
+    ],
+	[
+      ["element", 1],
+	  ["pilot_light", 1]
+    ],
+	[
+      ["spring", 6]
     ],
 	[
 	  ["chain", 2]

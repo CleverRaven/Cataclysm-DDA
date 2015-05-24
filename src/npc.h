@@ -640,7 +640,10 @@ public:
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
  std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
- std::vector<itype_id> styles_offered_to(const player &p); // Martial Arts
+    /**
+     * Martial art styles that we known, but the player p doesn't.
+     */
+    std::vector<matype_id> styles_offered_to( const player &p ) const;
 // State checks
  bool is_enemy() const; // We want to kill/mug/etc the player
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)

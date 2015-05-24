@@ -15,6 +15,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <fstream>
@@ -613,9 +614,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     temp.z = center.z;
     int &x = temp.x;
     int &y = temp.y;
+    auto &ch = g->m.access_cache( temp.z );
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
-            draw_single_tile( temp, g->m.visibility_cache[x][y], cache );
+            draw_single_tile( temp, ch.visibility_cache[x][y], cache );
         }
     }
 
@@ -732,8 +734,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = m->color;
             }
         } else if (category == C_VEHICLE_PART) {
-            if (vehicle_part_types.count(id.substr(3)) > 0) {
-                const vpart_info &v = vehicle_part_types[id.substr(3)];
+            const vpart_str_id vpid( id.substr( 3 ) );
+            if( vpid.is_valid() ) {
+                const vpart_info &v = vpid.obj();
                 sym = v.sym;
                 if (!subcategory.empty()) {
                     sym = special_symbol(subcategory[0]);
@@ -1140,12 +1143,12 @@ bool cata_tiles::draw_vpart( const tripoint &p )
     // Gets the visible part, should work fine once tileset vp_ids are updated to work with the vehicle part json ids
     // get the vpart_id
     char part_mod = 0;
-    std::string vpid = veh->part_id_string(veh_part, part_mod);
+    const vpart_str_id &vp_id = veh->part_id_string(veh_part, part_mod);
     const char sym = veh->face.dir_symbol(veh->part_sym(veh_part));
     std::string subcategory(1, sym);
 
     // prefix with vp_ ident
-    vpid = "vp_" + vpid;
+    const std::string vpid = "vp_" + vp_id.str();
     int subtile = 0;
     if (part_mod > 0) {
         switch (part_mod) {
@@ -1655,7 +1658,7 @@ void cata_tiles::do_tile_loading_report() {
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
-    tile_loading_report(vehicle_part_types, "Vehicle Parts", "vp_");
+    tile_loading_report<vpart_info>(vpart_info::get_all().size(), "Vehicle Parts", "vp_");
     tile_loading_report<trap>(trap::count(), "Traps", "");
     tile_loading_report(fieldlist, num_fields, "Fields", "");
 
@@ -1685,7 +1688,7 @@ void cata_tiles::tile_loading_report(size_t const count, std::string const & lab
     std::string missing_list;
     for( size_t i = 0; i < count; ++i ) {
         const int_id<base_type> iid( i );
-        const string_id<base_type> sid = iid.id();
+        const string_id<base_type> &sid = iid.id();
         const std::string &s = sid.str();
         if (tile_ids.count(prefix+s) == 0) {
             missing++;

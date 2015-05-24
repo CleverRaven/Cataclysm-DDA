@@ -19,8 +19,10 @@
 #include "mondefense.h"
 #include "mission.h"
 #include "mongroup.h"
+#include "monfaction.h"
 #include "options.h"
 #include "trap.h"
+#include "line.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -38,7 +40,7 @@ monster::monster()
  anger = 0;
  morale = 2;
  last_loaded = 0;
- faction = MonsterGenerator::generator().faction_by_name( "" );
+ faction = mfaction_id( 0 );
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -141,6 +143,25 @@ void monster::poly(mtype *t)
     faction = t->default_faction;
 }
 
+bool monster::can_upgrade() const
+{
+    // If we don't upgrade
+    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
+        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        return false;
+    }
+    // Or we aren't allowed to yet
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
+        return false;
+    } else {
+        if ((calendar::turn.get_turn() / DAYS(1)) <
+             (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void monster::update_check() {
     // Hallucinations don't upgrade!
     if (is_hallucination()) {
@@ -153,7 +174,13 @@ void monster::update_check() {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
-    int upgrade_time = type->upgrade_min * ACTIVE_WORLD_OPTIONS["MONSTER_GROUP_DIFFICULTY"];
+    int upgrade_time = 0;
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    } else {
+        // Should ensure that the monsters never upgrade
+        upgrade_time = current_day + 1;
+    }
     add_msg(m_debug, "Current:day: %d", current_day);
     add_msg(m_debug, "Upgrade time : %d", upgrade_time);
     add_msg(m_debug, "Last loaded: %d", last_loaded);
@@ -540,7 +567,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
-        auto faction_att = faction->attitude( m->faction );
+        auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
@@ -722,7 +749,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
                     }
                 }
                 if (check_fire) {
-                    ret += ( 5 * g->m.get_field_strength( point(x, y), fd_fire) );
+                    ret += ( 5 * g->m.get_field_strength( tripoint(x, y, posz()), fd_fire) );
                 }
             }
         }
@@ -812,7 +839,7 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack(Creature &target, bool, matec_id) {
+void monster::melee_attack(Creature &target, bool, const matec_id&) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
@@ -937,44 +964,55 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
 void monster::hit_monster(monster &other)
 {
- monster* target = &other;
- moves -= 100;
+    // TODO: Unify this with the function above
+    moves -= 100;
 
- if (this == target) {
-  return;
- }
+    if( this == &other ) {
+        return;
+    }
 
- int numdice = type->melee_skill;
- int dodgedice = target->get_dodge() * 2;
- switch (target->type->size) {
-  case MS_TINY:  dodgedice += 6; break;
-  case MS_SMALL: dodgedice += 3; break;
-  case MS_MEDIUM: break;
-  case MS_LARGE: dodgedice -= 2; break;
-  case MS_HUGE:  dodgedice -= 4; break;
- }
+    damage_instance damage;
+    if( !is_hallucination() ) {
+        if( type->melee_dice > 0 ) {
+            damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+        }
 
- if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u.sees(*this))
-   add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
-  return;
- }
- if (g->u.sees(*this))
-  add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
- if (!is_hallucination()) {
-  int damage = dice(type->melee_dice, type->melee_sides);
-  target->apply_damage( this, bp_torso, damage );
-  target->type->sp_defense(target, this, nullptr);
-  target->check_dead_state();
- }
+        if( type->melee_cut > 0 ) {
+            damage.add_damage( DT_CUT, type->melee_cut );
+        }
+    }
+
+    dealt_damage_instance dealt_dam;
+    int hitspread = other.deal_melee_attack( this, hit_roll() );
+    if( hitspread >= 0 ) {
+        other.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
+        if( g->u.sees(*this) ) {
+            add_msg(_("The %s hits the %s!"), name().c_str(), other.name().c_str());
+        }
+    } else {
+        if( g->u.sees( *this ) ) {
+            add_msg(_("The %s misses the %s!"), name().c_str(), other.name().c_str());
+        }
+
+        if( !is_hallucination() ) {
+            other.on_dodge( this );
+        }
+    }
 }
 
 int monster::deal_melee_attack(Creature *source, int hitroll)
 {
-    if(!is_hallucination() && source != NULL) {
-        type->sp_defense(this, source, nullptr);
+    int roll = Creature::deal_melee_attack(source, hitroll);
+    if( is_hallucination() ) {
+        return roll;
     }
-    return Creature::deal_melee_attack(source, hitroll);
+
+    if( roll < 0 ) {
+        // on_hit is in deal_melee_hit
+        on_dodge( source );
+    }
+
+    return roll;
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -993,16 +1031,18 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
         missed_by = 0.2;
     }
 
-    if(!is_hallucination() && source != NULL) {
-        type->sp_defense(this, source, &proj);
-    }
-
     // whip has a chance to scare wildlife
     if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
         add_effect("run", rng(3, 5));
     }
 
-    return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    int went_past = Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
+    if( !is_hallucination() && !went_past ) {
+        // Maybe TODO: Get difficulty from projectile speed/size/missed_by
+        on_hit( source, bp_torso, INT_MIN, &proj );
+    }
+
+    return went_past;
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
@@ -1352,34 +1392,32 @@ void monster::explode()
         }
 
         for( int i = 0; i < num_chunks; i++ ) {
-            int tarx = posx() + rng( -3, 3 ), tary = posy() + rng( -3, 3 );
-            std::vector<point> traj = line_to( posx(), posy(), tarx, tary, 0 );
+            tripoint tarp( posx() + rng( -3, 3 ), posy() + rng( -3, 3 ), posz() );
+            std::vector<tripoint> traj = line_to( pos(), tarp, 0, 0 );
 
             for( size_t j = 0; j < traj.size(); j++ ) {
-                tarx = traj[j].x;
-                tary = traj[j].y;
+                tarp = traj[j];
                 if( one_in( 2 ) && type_blood != fd_null ) {
-                    g->m.add_field( tarx, tary, type_blood, 1 );
+                    g->m.add_field( tarp, type_blood, 1, 0 );
                 } else if( type_gib != fd_null ) {
-                    g->m.add_field( tarx, tary, type_gib, rng( 1, j + 1 ) );
+                    g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
                 }
-                if( g->m.move_cost( tarx, tary ) == 0 ) {
-                    if( !g->m.bash( tripoint( tarx, tary, posz() ), 3 ).second ) {
+                if( g->m.move_cost( tarp ) == 0 ) {
+                    if( !g->m.bash( tarp, 3 ).second ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
                         if( j > 0 ) {
-                            tarx = traj[j - 1].x;
-                            tary = traj[j - 1].y;
+                            tarp = traj[j - 1];
                         } else {
-                            tarx = -1;
+                            tarp = tripoint_min;
                         }
                         break;
                     }
                 }
             }
-            if( meat != "null" && tarx != -1 ) {
-                g->m.spawn_item( tarx, tary, meat, 1, 0, calendar::turn );
+            if( meat != "null" && tarp != tripoint_min ) {
+                g->m.spawn_item( tarp, meat, 1, 0, calendar::turn );
             }
         }
     }
@@ -1663,6 +1701,16 @@ void monster::make_ally(monster *z) {
     faction = z->faction;
 }
 
+int monster::get_last_load() const
+{
+    return last_loaded;
+}
+
+void monster::set_last_load(int day)
+{
+    last_loaded = day;
+}
+
 void monster::reset_last_load()
 {
     last_loaded = calendar::turn.get_turn() / DAYS(1);
@@ -1749,6 +1797,7 @@ void monster::init_from_item( const item &itm )
             set_speed_base( speed_base / ( itm.damage + 1 ) );
             hp /= itm.damage + 1;
         }
+        hp = std::max( 1, hp ); // Otherwise burned monsters will rez with <= 0 hp
     } else {
         // must be a robot
         const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
@@ -1776,4 +1825,22 @@ float monster::power_rating() const
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;
+}
+
+void monster::on_dodge( Creature*, int )
+{
+    // Currently does nothing, later should handle faction relations
+}
+
+void monster::on_hit( Creature *source, body_part,
+                      int, projectile const* const proj )
+{
+    type->sp_defense( this, source, proj );
+    check_dead_state();
+    // TODO: Faction relations
+}
+
+body_part monster::get_random_body_part( bool ) const
+{
+    return bp_torso;
 }

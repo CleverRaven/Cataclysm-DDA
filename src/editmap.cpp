@@ -20,6 +20,7 @@
 #include "morale.h"
 #include "coordinates.h"
 #include "npc.h"
+#include "vehicle.h"
 
 #include <fstream>
 #include <sstream>
@@ -1660,7 +1661,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         if( showpreview ) {
             hilights["mapgentgt"].draw( this, true );
             wrefresh( g->w_terrain );
-            tmpmap.reset_vehicle_cache();
+            tmpmap.reset_vehicle_cache( target.z );
             for( int x = 0; x < 24; x++ ) {
                 for( int y = 0; y < 24; y++ ) {
                     tmpmap.drawsq( w_preview, g->u, tripoint( x, y, target.z ), false, true, 12, 12, false, true );
@@ -1688,7 +1689,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 } else if( gpmenu.ret == 2 ) {
 
                     point target_sub( target.x / 12, target.y / 12 );
-                    g->m.clear_vehicle_cache();
+                    g->m.clear_vehicle_cache( target.z );
 
                     std::string s = "";
                     for( int x = 0; x < 2; x++ ) {
@@ -1701,7 +1702,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             srcsm->is_uniform = false;
 
                             for( auto &v : destsm->vehicles ) {
-                                g->m.vehicle_list.erase( v );
+                                auto &ch = g->m.access_cache( v->smz );
+                                ch.vehicle_list.erase( v );
                             }
                             destsm->delete_vehicles();
                             for( size_t i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
@@ -1712,10 +1714,10 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                                 veh1->smy = target_sub.y + y;
                                 veh1->smz = target.z;
                                 destsm->vehicles.push_back( veh1 );
-                                g->m.update_vehicle_cache( veh1 );
+                                g->m.update_vehicle_cache( veh1, target.z );
                             }
                             srcsm->vehicles.clear();
-                            g->m.update_vehicle_list( destsm ); // update real map's vcaches
+                            g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
                             int spawns_todo = 0;
                             for( size_t i = 0; i < srcsm->spawns.size(); i++ ) { // copy spawns
@@ -1757,7 +1759,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                             }
                         }
                     }
-                    g->m.reset_vehicle_cache();
+                    g->m.reset_vehicle_cache( target.z );
 
                     //~ message when applying the map generator
                     popup( _( "Changed 4 submaps\n%s" ), s.c_str() );
@@ -1933,7 +1935,8 @@ void editmap::cleartmpmap( tinymap &tmpmap )
         delete smap;
     }
 
-    std::memset( tmpmap.veh_exists_at, 0, sizeof( tmpmap.veh_exists_at ) );
-    tmpmap.veh_cached_parts.clear();
-    tmpmap.vehicle_list.clear();
+    auto &ch = tmpmap.get_cache( target.z );
+    std::memset( ch.veh_exists_at, 0, sizeof( ch.veh_exists_at ) );
+    ch.veh_cached_parts.clear();
+    ch.vehicle_list.clear();
 }

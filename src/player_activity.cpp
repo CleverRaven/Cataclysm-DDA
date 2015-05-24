@@ -11,6 +11,7 @@
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
+void activity_on_turn_move_all_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 
@@ -225,7 +226,7 @@ void player_activity::do_turn( player *p )
                 p->moves -= moves_left;
                 moves_left = 0;
             }
-            iexamine::atm(p, nullptr, 0, 0);
+            iexamine::atm(p, nullptr, p->pos());
             break;
         case ACT_START_ENGINES:
             moves_left -= 100;

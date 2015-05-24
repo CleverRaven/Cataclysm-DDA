@@ -23,6 +23,7 @@
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"
+#include "vehicle.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1172,7 +1173,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1182,7 +1183,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             tec_buffer << tec.name;
         }
         for( const auto &elem : techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1308,12 +1309,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has certain parts padded with leather to increase protection with minimal increase to encumbrance.")));
+                _("This gear has certain parts padded with leather to increase protection with moderate increase to encumbrance.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has Kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
+                _("This gear has Kevlar inserted into strategic locations to increase protection with some increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1673,7 +1674,8 @@ nc_color item::color(player *u) const
                        u->skillLevel( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
-                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart("style_" + type->id.substr(7))) ) {
+                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart(matype_id( "style_" + type->id.substr(7)))) ) {
                 ret = c_ltblue;
             }
         } else {
@@ -1829,6 +1831,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
+    } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
+        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
+        ret.str("");
+        ret << type_name(quantity);
+        ret << "+";
+        maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -1896,18 +1904,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _("Bug");
         }
     }
-    if (item_tags.count("wooled") > 0 ){
-        ret << _(" (W)");
-    }
-    if (item_tags.count("furred") > 0 ){
-        ret << _(" (F)");
-    }
-    if (item_tags.count("leather_padded") > 0 ){
-        ret << _(" (L)");
-    }
-    if (item_tags.count("kevlar_padded") > 0 ){
-        ret << _(" (K)");
-    }
+
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
@@ -2306,9 +2303,21 @@ bool item::has_quality(std::string quality_id, int quality_value) const
     return false;
 }
 
-bool item::has_technique(matec_id tech)
+bool item::has_technique( const matec_id & tech ) const
 {
-    return type->techniques.count(tech);
+    return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
+}
+
+void item::add_technique( const matec_id & tech )
+{
+    techniques.insert( tech );
+}
+
+std::set<matec_id> item::get_techniques() const
+{
+    std::set<matec_id> result = type->techniques;
+    result.insert( techniques.begin(), techniques.end() );
+    return result;
 }
 
 int item::has_gunmod(itype_id mod_type) const
@@ -2443,21 +2452,26 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
-    /* So I made some fixes here, although overall they are buffed up.
-     * I am more than open to any fixes, however I thought I'd pitch
-     * in having worn these types of clothing in different forms. -Davek */
-    if (item::item_tags.count("wooled")){
+    // Good items to test this stuff on:
+    // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
+    // Nomes socks (2 thickness, 0 encumbrance)
+    // When a common item has 90%+ coverage, 15/15 protection and <=5 encumbrance,
+    // it's a sure sign something has to be nerfed.
+    if( item::item_tags.count("wooled") ) {
         encumber += 3;
-        }
-    if (item::item_tags.count("furred")){
+    }
+    if( item::item_tags.count("furred") ){
         encumber += 5;
-        }
-    if (item::item_tags.count("leather_padded")){
-        encumber += 7;
-        }
-    if (item::item_tags.count("kevlar_padded")){
-        encumber += 5;
-        }
+    }
+    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
+    // Also prevent 0 encumbrance armored underwear
+    if( item::item_tags.count("leather_padded") ) {
+        encumber = std::max( 15, encumber + 7 );
+    }
+    if( item::item_tags.count("kevlar_padded") ) {
+        encumber = std::max( 13, encumber + 5 );
+    }
+
     return encumber;
 }
 
@@ -4683,7 +4697,9 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, this ) ) {
+
+    active = false;
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( "ROBOT" ) ) {
@@ -4706,8 +4722,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
         // Destroy this corpse item
         return true;
     }
-    // Reviving failed, the corpse is now *really* dead, stop further processing.
-    active = false;
+
     return false;
 }
 

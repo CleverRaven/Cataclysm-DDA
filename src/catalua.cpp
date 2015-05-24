@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "debug.h"
 #include "translations.h"
+#include "line.h"
 
 #ifdef LUA
 #include "ui.h"

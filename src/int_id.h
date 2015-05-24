@@ -3,6 +3,7 @@
 
 #include <string>
 #include <type_traits>
+#include <functional>
 
 template<typename T>
 class string_id;
@@ -76,7 +77,7 @@ class int_id {
 
         // Those are optional, you need to implement them on your own if you want to use them.
         // If you don't implement them, but use them, you'll get a linker error.
-        string_id<T> id() const;
+        const string_id<T> &id() const;
         const T &obj() const;
     private:
         int _id;

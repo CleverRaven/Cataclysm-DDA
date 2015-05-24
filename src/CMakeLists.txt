@@ -43,6 +43,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/monmove.cpp
     ${CMAKE_SOURCE_DIR}/src/debug.cpp
     ${CMAKE_SOURCE_DIR}/src/monstergenerator.cpp
+    ${CMAKE_SOURCE_DIR}/src/monfaction.cpp
     ${CMAKE_SOURCE_DIR}/src/catalua.cpp
     ${CMAKE_SOURCE_DIR}/src/map.cpp
     ${CMAKE_SOURCE_DIR}/src/action.cpp
@@ -86,6 +87,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/martialarts.cpp
     ${CMAKE_SOURCE_DIR}/src/mod_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/vehicle.cpp
+    ${CMAKE_SOURCE_DIR}/src/vehicle_factory.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
     ${CMAKE_SOURCE_DIR}/src/material.cpp
     ${CMAKE_SOURCE_DIR}/src/veh_typedef.cpp
@@ -142,6 +144,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/player.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse.cpp
     ${CMAKE_SOURCE_DIR}/src/crafting.cpp
+    ${CMAKE_SOURCE_DIR}/src/pathfinding.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -191,6 +194,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/effect.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
+    ${CMAKE_SOURCE_DIR}/src/vehicle_factory.h
     ${CMAKE_SOURCE_DIR}/src/clzones.h
     ${CMAKE_SOURCE_DIR}/src/translations.h
     ${CMAKE_SOURCE_DIR}/src/skill.h
@@ -207,6 +211,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/coordinates.h
     ${CMAKE_SOURCE_DIR}/src/field.h
     ${CMAKE_SOURCE_DIR}/src/monstergenerator.h
+    ${CMAKE_SOURCE_DIR}/src/monfaction.h
     ${CMAKE_SOURCE_DIR}/src/event.h
     ${CMAKE_SOURCE_DIR}/src/ammo.h
     ${CMAKE_SOURCE_DIR}/src/mapgen.h

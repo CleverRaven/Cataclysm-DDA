@@ -6,6 +6,7 @@
 #include "iuse.h" // use_function
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
+#include "string_id.h"
 
 #include <string>
 #include <vector>
@@ -21,6 +22,8 @@ struct itype;
 class Skill;
 class player;
 class item;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 typedef std::string itype_id;
 typedef std::string ammotype;
@@ -256,6 +259,14 @@ struct islot_gun : common_firing_data {
      */
     int reload_time = 0;
     /**
+     * Noise displayed when reloading the weapon.
+     */
+    std::string reload_noise;
+    /**
+     * Volume of the noise made when reloading this weapon.
+     */
+    int reload_noise_volume = 0;
+    /**
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
     int ups_charges = 0;
@@ -459,7 +470,7 @@ public:
     std::vector<use_function> use_methods; // Special effects of use
 
     std::set<std::string> item_tags;
-    std::set<std::string> techniques;
+    std::set<matec_id> techniques;
 
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;

@@ -5,6 +5,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
+  "skills_required": ["fabrication", 3],
   "difficulty": 4,
   "time": 1000,
   "reversible": false,
@@ -29,12 +30,12 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
-  "skills_required": ["fabrication", 1],
-  "difficulty": 4,
+  "skills_required": ["fabrication", 2],
+  "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["mag_survival", 3] , ["textbook_survival", 3]],
+  "book_learn": [["mag_survival", 1] , ["textbook_survival", 1]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -91,7 +92,8 @@
       [ "rag", 1 ],
       [ "paper", 5 ],
       [ "rolling_paper", 30 ],
-      [ "withered", 2 ]
+      [ "withered", 2 ],
+      [ "cattail_stalk", 1 ]
     ]
   ]
 },
@@ -102,9 +104,22 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
-  "time": 2000,
+  "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[50, 5],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
   "components": [
     [
       [ "stick", 1 ],
@@ -157,6 +172,7 @@
   "time": 56000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -186,6 +202,7 @@
   "time": 56000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -213,6 +230,7 @@
   "time": 24000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[50, 5],
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
@@ -797,32 +815,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "plant_fibre",
-  "override": true,
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "skills_required": [ "fabrication", 1 ],
-  "result_mult": 3,
-  "time": 9000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "distaff_spindle", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "withered", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "milk_curdling",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -916,6 +908,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[50, 5],
   "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
   ["manual_survival", 3]],
   "qualities":[
@@ -1335,5 +1328,218 @@
         [ "fishing_hook_bone", 1 ]
       ]
     ]
-  }
+},{
+  "type" : "recipe",
+   "result": "hotdogs_campfire",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1000,
+   "reversible": false,
+   "autolearn": true,
+   "batch_time_factors":[67, 5],
+   "qualities" : [
+     {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+   [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hotdogs_frozen", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "override": true,
+  "result": "plant_fibre",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "result_mult": 2,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "distaff_spindle", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dogbane", 1 ],
+      [ "cattail_stalk", 1 ],
+      [ "weed", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cloak_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "loincloth_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pebble_clay",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+  [
+    [ "brick_kiln", 10 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
+  ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "clay_lump", 1 ]
+    ]
+  ]
+},
+  {
+    "type" : "recipe",
+    "override": true,
+    "result": "bearing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
+      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+    ]
+    ],
+    "components": [
+      [
+      [ "copper", 50 ],
+      [ "tin", 50 ],
+      [ "bismuth", 50 ],
+      [ "solder_wire", 50 ],
+      [ "silver_small", 50 ],
+      [ "scrap", 1 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bearing_lead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 4 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ],
+      [ "material_sand", -1 ],
+      [ "clay_lump", -1 ]
+    ],
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+    ],
+    "components": [
+      [
+      [ "lead", 60 ],
+      [ "gold_small", 60 ]
+      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "mess_tin",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [ ["tongs", -1] ],
+      [ ["chisel", -1]],
+      [ ["anvil", -1] ],
+      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+}
 ]
