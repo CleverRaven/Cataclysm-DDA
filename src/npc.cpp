@@ -20,6 +20,7 @@
 #include "sounds.h"
 #include "morale.h"
 #include "overmap.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <string>
@@ -1226,6 +1227,9 @@ void npc::form_opinion(player *u)
     attitude = NPCATT_KILL;
  else
   attitude = NPCATT_FLEE;
+
+    add_msg( m_debug, "%s formed an opinion of u: %s",
+             name.c_str(), npc_attitude_name( attitude ).c_str() );
 }
 
 std::string npc::pick_talk_topic(player *u)
@@ -1294,8 +1298,9 @@ int npc::player_danger(player *u) const
 
 int npc::vehicle_danger(int radius) const
 {
-    VehicleList vehicles = g->m.get_vehicles(posx() - radius, posy() - radius,
-                                             posx() + radius, posy() + radius);
+    const tripoint from( posx() - radius, posy() - radius, posz() );
+    const tripoint to( posx() + radius, posy() + radius, posz() );
+    VehicleList vehicles = g->m.get_vehicles( from, to );
 
  int danger = 0;
 
@@ -1339,6 +1344,7 @@ int npc::hostile_anger_level() const
 
 void npc::make_angry()
 {
+    add_msg( m_debug, "%s gets angry", name.c_str() );
     // Make associated faction, if any, angry at the player too.
     if( my_fac != NULL ) {
         my_fac->likes_u -= 50;
@@ -1381,24 +1387,16 @@ std::vector<const Skill*> npc::skills_offered_to(const player &p)
     return ret;
 }
 
-std::vector<itype_id> npc::styles_offered_to(const player &p)
+std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    std::vector<itype_id> ret;
-    for (auto &i : ma_styles) {
-        bool found = false;
-        for (auto &j : p.ma_styles) {
-            if (j == i) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
+    std::vector<matype_id> ret;
+    for( auto & i : ma_styles ) {
+        if( !p.has_martialart( i ) ) {
             ret.push_back( i );
         }
     }
     return ret;
 }
-
 
 int npc::minutes_to_u() const
 {
@@ -1497,10 +1495,10 @@ void npc::say(std::string line, ...) const
     parse_tags(line, &(g->u), this);
     if (g->u.sees( *this )) {
         add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
-        sounds::sound(posx(), posy(), 16, "");
+        sounds::sound(pos(), 16, "");
     } else {
         std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
-        sounds::sound(posx(), posy(), 16, sound);
+        sounds::sound(pos(), 16, sound);
     }
 }
 

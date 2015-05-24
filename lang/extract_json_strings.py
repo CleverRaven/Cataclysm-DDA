@@ -20,7 +20,6 @@ not_json = {
     "main.lua",
     "preload.lua",
     "LOADING_ORDER.md"
-
 }
 
 # don't parse this files. Full related path.
@@ -31,23 +30,25 @@ ignore_files = {
 
 # these objects have no translatable strings
 ignorable = {
-    "colordef",
+    "BULLET_PULLING",
     "ITEM_BLACKLIST",
-    "item_group",
-    "monstergroup",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "MONSTER_WHITELIST",
-    "monitems",
-    "npc",      # FIXME right now this object is unextractable
+    "SPECIES",
+    "colordef",
     "epilogue", # FIXME right now this object can't be translated correctly
+    "item_group",
+    "monitems",
+    "monstergroup",
+    "npc",      # FIXME right now this object is unextractable
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
-    "region_settings",
     "region_overlay",
-    "BULLET_PULLING",
-    "SPECIES"
+    "region_settings",
+    "vehicle_group",
+    "vehicle_placement"
 }
 
 # these objects can have their strings automatically extracted.
@@ -272,6 +273,16 @@ def extract_mutation(item):
              comment="Mutation class: {0} Female memorial messsage".format(item_name))
 
 
+def extract_vehspawn(item):
+    outfile = get_outfile("vehicle_spawn")
+
+    found = item.get("spawn_types")
+    if not found:
+        return
+
+    for st in found:
+        writestr(outfile, st.get("description"), comment="Vehicle Spawn Description")
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
@@ -282,7 +293,8 @@ extract_specials = {
     "scenario": extract_scenarios,
     "mapgen": extract_mapgen,
     "talk_topic": extract_talk_topic,
-    "mutation_category":extract_mutation
+    "mutation_category": extract_mutation,
+    "vehicle_spawn": extract_vehspawn
 }
 
 ##

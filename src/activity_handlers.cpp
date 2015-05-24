@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <sstream>
 
@@ -913,6 +914,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
             p->recoil = MIN_RECOIL;
         }
+
+        // Create noise.
+        if(reloadable->is_gun()) {
+            islot_gun* gun = reloadable->type->gun.get();
+            if( gun->reload_noise_volume > 0 ) {
+              sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
+                             true, "reload", reloadable->typeId() );
+            }
+        }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
     }
@@ -959,13 +969,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const Skill *skill = Skill::skill(act->name);
     if( skill == NULL ) {
+        auto &mastyle = matype_id( act->name ).obj();
         // Trained martial arts,
-        add_msg(m_good, _("You learn %s."), martialarts[act->name].name.c_str());
+        add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
         //~ %s is martial art
         p->add_memorial_log(pgettext("memorial_male", "Learned %s."),
                             pgettext("memorial_female", "Learned %s."),
-                            martialarts[act->name].name.c_str());
-        p->add_martialart(act->name);
+                            mastyle.name.c_str());
+        p->add_martialart( mastyle.id );
     } else {
         int new_skill_level = p->skillLevel(skill) + 1;
         p->skillLevel(skill).level(new_skill_level);

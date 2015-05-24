@@ -1,4 +1,5 @@
 #include "game.h"
+#include "creature_tracker.h"
 #include "output.h"
 #include "skill.h"
 #include "line.h"
@@ -115,7 +116,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "grscent", rle_out.str() );
 
         // Then each monster
-        json.member( "active_monsters", critter_tracker.list() );
+        json.member( "active_monsters", critter_tracker->list() );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.

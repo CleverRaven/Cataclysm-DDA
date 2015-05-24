@@ -19,6 +19,8 @@
 #include "options.h"
 #include "npc.h"
 #include "iuse.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <map>
@@ -789,6 +791,26 @@ void construct::done_trunk_plank(point p)
     }
 }
 
+const vpart_str_id &vpart_from_item( const std::string &item_id )
+{
+    for( auto vp : vpart_info::get_all() ) {
+        if( vp->item == item_id && vp->has_flag( "INITIAL_PART" ) ) {
+            return vp->id;
+        }
+    }
+    // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
+    // first part that is based in the given item (this is fine for example if there is only one
+    // such type anyway).
+    for( auto vp : vpart_info::get_all() ) {
+        if( vp->item == item_id ) {
+            return vp->id;
+        }
+    }
+    debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
+    static const vpart_str_id frame_id( "frame_vertical_2" );
+    return frame_id;
+}
+
 void construct::done_vehicle(point p)
 {
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
@@ -796,27 +818,14 @@ void construct::done_vehicle(point p)
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle ("none", p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p.x, p.y, 270, 0, 0);
 
     if (!veh) {
         debugmsg ("error constructing vehicle");
         return;
     }
     veh->name = name;
-
-    if (g->u.lastconsumed == "hdframe") {
-        veh->install_part (0, 0, "hdframe_vertical_2");
-    } else if (g->u.lastconsumed == "frame_wood") {
-        veh->install_part (0, 0, "frame_wood_vertical_2");
-    } else if (g->u.lastconsumed == "xlframe") {
-        veh->install_part (0, 0, "xlframe_vertical_2");
-    } else if (g->u.lastconsumed == "frame_wood_light") {
-        veh->install_part (0, 0, "frame_wood_light_vertical_2");
-    } else if (g->u.lastconsumed == "foldframe") {
-        veh->install_part (0, 0, "folding_frame");
-    } else {
-        veh->install_part (0, 0, "frame_vertical_2");
-    }
+    veh->install_part( 0, 0, vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.

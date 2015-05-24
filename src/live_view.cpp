@@ -4,6 +4,7 @@
 #include "map.h"
 #include "options.h"
 #include "translations.h"
+#include "vehicle.h"
 
 #include <map>
 #include <string>

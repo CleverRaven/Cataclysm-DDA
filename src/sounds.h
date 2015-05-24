@@ -22,15 +22,11 @@ namespace sounds {
      * If true, activities continue.
      * @returns true if the player could hear the sound.
      */
-    void sound( const tripoint &p, int vol, std::string description, bool ambient = false );
+    void sound( const tripoint &p, int vol, std::string description, bool ambient = false, const std::string& id = "", const std::string& variant = "default" );
     /** Functions identical to sound(..., true). */
     void ambient_sound( const tripoint &p, int vol, std::string description );
     /** Creates a list of coordinates at which to draw footsteps. */
     void add_footstep( const tripoint &p, int volume, int distance, monster *source );
-    // Overloads for 2D
-    void sound(int x, int y, int vol, std::string description, bool ambient = false);
-    void ambient_sound(int x, int y, int vol, std::string description);
-    void add_footstep(int x, int y, int volume, int distance, monster *source);
 
     /* Make sure the sounds are all reset when we start a new game. */
     void reset_sounds();

@@ -315,7 +315,7 @@ void computer::activate_function(computer_action action, char ch)
     //Toll is required for the church computer/mechanism to function
     case COMPACT_TOLL:
         //~ the sound of a church bell ringing
-        sounds::sound(g->u.posx(), g->u.posy(), 120, _("Bohm... Bohm... Bohm..."));
+        sounds::sound(g->u.pos(), 120, _("Bohm... Bohm... Bohm..."));
         break;
 
     case COMPACT_SAMPLE:
@@ -360,13 +360,13 @@ void computer::activate_function(computer_action action, char ch)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        sounds::sound(g->u.posx(), g->u.posy(), 40, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
         g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
@@ -390,28 +390,35 @@ void computer::activate_function(computer_action action, char ch)
         query_any(_("Subjects terminated.  Press any key..."));
         break;
 
-    case COMPACT_PORTAL:
+    case COMPACT_PORTAL: {
         g->u.add_memorial_log(pgettext("memorial_male", "Opened a portal."),
                               pgettext("memorial_female", "Opened a portal."));
-        for (int i = 0; i < SEEX * MAPSIZE; i++) {
-            for (int j = 0; j < SEEY * MAPSIZE; j++) {
+        tripoint tmp = g->u.pos();
+        int &i = tmp.x;
+        int &j = tmp.y;
+        for( i = 0; i < SEEX * MAPSIZE; i++ ) {
+            for( j = 0; j < SEEY * MAPSIZE; j++ ) {
                 int numtowers = 0;
-                for (int xt = i - 2; xt <= i + 2; xt++) {
-                    for (int yt = j - 2; yt <= j + 2; yt++) {
-                        if (g->m.ter(xt, yt) == t_radio_tower) {
+                tripoint tmp2 = tmp;
+                int &xt = tmp2.x;
+                int &yt = tmp2.y;
+                for( xt = i - 2; xt <= i + 2; xt++ ) {
+                    for( yt = j - 2; yt <= j + 2; yt++ ) {
+                        if (g->m.ter( tmp2 ) == t_radio_tower) {
                             numtowers++;
                         }
                     }
                 }
-                if (numtowers == 4) {
-                    if (g->m.tr_at(i, j).id == trap_str_id( "tr_portal" )) {
-                        g->m.remove_trap(i, j);
+                if( numtowers >= 4 ) {
+                    if (g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" )) {
+                        g->m.remove_trap( tmp );
                     } else {
-                        g->m.add_trap(i, j, tr_portal);
+                        g->m.add_trap( tmp, tr_portal );
                     }
                 }
             }
         }
+    }
         break;
 
     case COMPACT_CASCADE: {
@@ -506,7 +513,8 @@ void computer::activate_function(computer_action action, char ch)
         for(int i = g->u.posx() + 8; i < g->u.posx() + 15; i++) {
             for(int j = g->u.posy() + 3; j < g->u.posy() + 12; j++)
                 if(!one_in(4)) {
-                    g->m.add_field(i + rng(-2, 2), j + rng(-2, 2), fd_smoke, rng(1, 9));
+                    tripoint dest( i + rng(-2, 2), j + rng(-2, 2), g->u.posz() );
+                    g->m.add_field( dest, fd_smoke, rng(1, 9), 0 );
                 }
         }
 
@@ -1181,7 +1189,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        sounds::sound(g->u.posx(), g->u.posy(), 60, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 60, _("An alarm sounds!"));
         if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }

@@ -8,6 +8,8 @@
 #include "line.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "string_id.h"
+#include "int_id.h"
 
 #include <vector>
 #include <array>
@@ -21,6 +23,10 @@ class player;
 class vehicle;
 struct vpart_info;
 enum vpart_bitflags : int;
+using vpart_id = int_id<vpart_info>;
+using vpart_str_id = string_id<vpart_info>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor(float delta_v);
@@ -30,8 +36,9 @@ constexpr int SCATTER_DISTANCE = 3;
 constexpr int k_mvel = 200; //adjust this to balance collision damage
 
 struct fuel_type {
-    /** Id of the fuel type, which is also a valid ammo type id */
-    std::string id;
+    /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
+     * fuel types like muscle. */
+    itype_id id;
     /** Color when displaying information about. */
     nc_color color;
     /** See @ref vehicle::consume_fuel */
@@ -41,7 +48,7 @@ struct fuel_type {
 };
 
 const std::array<fuel_type, 7> &get_fuel_types();
-int fuel_charges_to_amount_factor( const std::string &ftype );
+int fuel_charges_to_amount_factor( const itype_id &ftype );
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -80,21 +87,6 @@ struct veh_collision {
     veh_collision() = default;
 };
 
-struct vehicle_item_spawn
-{
-    int x, y;
-    int chance;
-    std::vector<std::string> item_ids;
-    std::vector<std::string> item_groups;
-};
-
-struct vehicle_prototype
-{
-    std::string id, name;
-    std::vector<std::pair<point, std::string> > parts;
-    std::vector<vehicle_item_spawn> item_spawns;
-};
-
 class vehicle_stack : public item_stack {
 private:
     std::list<item> *mystack;
@@ -129,27 +121,16 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     friend vehicle;
     enum : int { passenger_flag = 1 };
 
-    vehicle_part(int dx = 0, int dy = 0)
-      : id("null"), mount(dx, dy), precalc({{point(-1, -1), point(-1, -1)}}), amount(0) {}
-
-    vehicle_part(const std::string &sid, int dx = 0, int dy = 0, const item *it = nullptr)
-      : vehicle_part(dx, dy)
-    {
-        if (!sid.empty()) {
-            setid(sid);
-        }
-
-        if (it) {
-            properties_from_item(*it);
-        }
-    }
+    vehicle_part( int dx = 0, int dy = 0 );
+    vehicle_part( const vpart_str_id &sid, int dx = 0, int dy = 0, const item *it = nullptr );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
 
-    std::string id;               // id in map of parts (vehicle_part_types key)
-    int iid          = 0;         // same as above, for lookup via int
+private:
+    vpart_id id;         // id in map of parts (vehicle_part_types key)
+public:
     point mount;                  // mount point: x is on the forward/backward axis, y is on the left/right axis
     std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]
     int hp           = 0;         // current durability, if 0, then broken
@@ -176,7 +157,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 private:
     std::list<item> items; // inventory
 public:
-    bool setid( const std::string & str );
+    void set_id( const vpart_str_id & str );
+    const vpart_str_id &get_id() const;
+    const vpart_info &info() const;
 
     // json saving/loading
     using JsonSerializer::serialize;
@@ -354,7 +337,8 @@ private:
     template <typename Func, typename Vehicle>
     static int traverse_vehicle_graph(Vehicle *start_veh, int amount, Func visitor);
 public:
-    vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
+    vehicle();
     ~vehicle ();
 
     // check if given player controls this vehicle
@@ -401,20 +385,20 @@ public:
     void play_music();
 
     // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false) const;
+    const vpart_info& part_info (int index, bool include_removed = false) const;
 
     // check if certain part can be mounted at certain position (not accounting frame direction)
-    bool can_mount (int dx, int dy, std::string const &id) const;
+    bool can_mount (int dx, int dy, const vpart_str_id &id) const;
 
     // check if certain part can be unmounted
     bool can_unmount (int p) const;
 
     // install a new part to vehicle (force to skip possibility check)
-    int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
+    int install_part (int dx, int dy, const vpart_str_id &id, int hp = -1, bool force = false);
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
     // install an item to vehicle as a vehicle part.
-    int install_part (int dx, int dy, const std::string &id, const item &item_used);
+    int install_part (int dx, int dy, const vpart_str_id &id, const item &item_used);
 
     bool remove_part (int p);
     void part_removal_cleanup ();
@@ -488,11 +472,11 @@ public:
     int part_displayed_at( int local_x, int local_y ) const;
 
     // Given a part, finds its index in the vehicle
-    int index_of_part(vehicle_part *part, bool check_removed = false) const;
+    int index_of_part(const vehicle_part *part, bool check_removed = false) const;
 
     // get symbol for map
     char part_sym (int p) const;
-    std::string part_id_string(int p, char &part_mod) const;
+    const vpart_str_id &part_id_string(int p, char &part_mod) const;
 
     // get color for map
     nc_color part_color (int p) const;
@@ -531,21 +515,27 @@ public:
      */
     point real_global_pos() const;
     tripoint real_global_pos3() const;
+    /**
+     * All the fuels that are in all the tanks in the vehicle, nicely summed up.
+     * Note that empty tanks don't count at all. The value is the amout as it would be
+     * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
+     */
+    std::map<itype_id, long> fuels_left() const;
 
     // Checks how much certain fuel left in tanks.
-    int fuel_left (const std::string &ftype, bool recurse = false) const;
-    int fuel_capacity (const std::string &ftype) const;
+    int fuel_left (const itype_id &ftype, bool recurse = false) const;
+    int fuel_capacity (const itype_id &ftype) const;
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (const std::string &ftype, int amount);
+    int refill (const itype_id &ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (const std::string &ftype, int amount);
+    int drain (const itype_id &ftype, int amount);
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (const std::string &ftype) const;
+    int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
 
@@ -711,7 +701,8 @@ public:
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
-    long turret_has_ammo( int p );
+    class turret_ammo_data;
+    turret_ammo_data turret_has_ammo( int p ) const;
 
     // Manual turret aiming menu (select turrets etc.) when shooting from controls
     // Returns whether a valid target was picked
@@ -772,13 +763,13 @@ public:
     // shows ui menu to select an engine
     int select_engine();
     //returns whether the engine is enabled or not, and has fueltype
-    bool is_engine_type_on(int e, const std::string &ft) const;
+    bool is_engine_type_on(int e, const itype_id &ft) const;
     //returns whether the engine is enabled or not
     bool is_engine_on(int e) const;
     //returns whether the part is enabled or not
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
-    bool is_engine_type(int e, const std::string &ft) const;
+    bool is_engine_type(int e, const itype_id &ft) const;
     //returns whether there is an active engine at vehicle coordinates
     bool is_active_engine_at(int x, int y) const;
     //returns whether the alternator is operational
@@ -788,10 +779,10 @@ public:
     void toggle_specific_part(int p, bool on);
     //true if an engine exists with specified type
     //If enabled true, this engine must be enabled to return true
-    bool has_engine_type(const std::string &ft, bool enabled) const;
+    bool has_engine_type(const itype_id &ft, bool enabled) const;
     //true if an engine exists without the specified type
     //If enabled true, this engine must be enabled to return true
-    bool has_engine_type_not(const std::string &ft, bool enabled) const;
+    bool has_engine_type_not(const itype_id &ft, bool enabled) const;
     //prints message relating to vehicle start failure
     void msg_start_engine_fail();
     //if necessary, damage this engine
@@ -815,7 +806,12 @@ public:
 
     // config values
     std::string name;   // vehicle name
-    std::string type;           // vehicle type
+    /**
+     * Type of the vehicle as it was spawned. This will never change, but it can be an invalid
+     * type (e.g. if the definition of the prototype has been removed from json or if it has been
+     * spawned with the default constructor).
+     */
+    vproto_id type;
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
@@ -829,7 +825,6 @@ public:
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
-    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
     active_item_cache active_items;

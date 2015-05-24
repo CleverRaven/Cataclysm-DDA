@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
     PATH_INFO::init_base_path("");
 #endif
 
-#ifdef USE_HOME_DIR
+#if (defined USE_HOME_DIR || defined USE_XDG_DIR)
     PATH_INFO::init_user_dir();
 #else
     PATH_INFO::init_user_dir("./");

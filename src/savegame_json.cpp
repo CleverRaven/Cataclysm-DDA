@@ -24,6 +24,7 @@
 #include "monstergenerator.h"
 #include "scenario.h"
 #include "monster.h"
+#include "monfaction.h"
 #include "morale.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -1065,9 +1066,9 @@ void monster::load(JsonObject &data)
     } else {
         data.read("ammo", ammo);
     }
-    std::string fac = data.get_string( "faction", "" );
-    const monfaction *monfac = GetMFact( fac );
-    if( monfac->id == 0 ) {
+
+    mfaction_str_id monfac = mfaction_str_id( data.get_string( "faction", "" ) );
+    if( !monfac.is_valid() || monfac.id() == mfaction_id( 0 ) ) {
         // Legacy saves
         faction = type->default_faction;
     } else {
@@ -1102,7 +1103,7 @@ void monster::store(JsonOut &json) const
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
-    json.member("faction", faction->name);
+    json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
     json.member("last_loaded", last_loaded);
@@ -1369,21 +1370,21 @@ void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int intpid;
-    std::string pid;
+    vpart_str_id pid;
     if ( data.read("id_enum", intpid) && intpid < 74 ) {
         pid = legacy_vpart_id[intpid];
     } else {
         data.read("id", pid);
     }
     // if we don't know what type of part it is, it'll cause problems later.
-    if (vehicle_part_types.find(pid) == vehicle_part_types.end()) {
-        if (pid == "wheel_underbody") {
-            pid = "wheel_wide";
+    if( !pid.is_valid() ) {
+        if( pid.str() == "wheel_underbody" ) {
+            pid = vpart_str_id( "wheel_wide" );
         } else {
-            throw (std::string)"bad vehicle part, id: %s" + pid;
+            throw (std::string)"bad vehicle part, id: %s" + pid.str();
         }
     }
-    setid(pid);
+    set_id(pid);
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
@@ -1405,7 +1406,8 @@ void vehicle_part::deserialize(JsonIn &jsin)
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("id", id);
+    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
+    json.member("id", id.id().str());
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);
