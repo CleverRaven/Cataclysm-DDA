@@ -1747,7 +1747,7 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item )
         g->u.moves -= 100;
         return rc;
     } else if( destarea == AIM_WORN ) {
-        g->u.wear_item(&new_item);
+        rc = g->u.wear_item(&new_item);
         return rc;
     } else {
         advanced_inv_area &p = squares[destarea];
