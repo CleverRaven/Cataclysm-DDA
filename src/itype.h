@@ -557,11 +557,8 @@ public:
     bool has_use() const;
     bool can_use( const std::string &iuse_name ) const;
     const use_function *get_use( const std::string &iuse_name ) const;
-    // Here "invoke" means "actively use". "Tick" means "active item working"
-    long invoke( player *p, item *it, point pos ) const; // Picks first method or returns 0
-    long invoke( player *p, item *it, point pos, const std::string &iuse_name ) const;
-    long tick( player *p, item *it,  point pos ) const;
 
+    // Here "invoke" means "actively use". "Tick" means "active item working"
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;

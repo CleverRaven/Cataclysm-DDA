@@ -1233,8 +1233,6 @@ classes = {
             explode_in_fire = { rval = "bool", args = { } },
             get_item_type_string = { rval = "string", args = { } },
             has_use = { rval = "bool", args = { } },
-            invoke = { rval = "int", args = { "player", "item", "point" } },
-            invoke = { rval = "int", args = { "player", "item", "point", "string" } },
             invoke = { rval = "int", args = { "player", "item", "tripoint" } },
             invoke = { rval = "int", args = { "player", "item", "tripoint", "string" } },
             is_artifact = { rval = "bool", args = { } },
@@ -1242,7 +1240,6 @@ classes = {
             is_tool = { rval = "bool", args = { } },
             maximum_charges = { rval = "int", args = { } },
             nname = { rval = "string", args = { "int" } },
-            tick = { rval = "int", args = { "player", "item", "point" } },
             tick = { rval = "int", args = { "player", "item", "tripoint" } },
         }
     },
