@@ -298,7 +298,7 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -352,7 +352,7 @@
         "difficulty" : 2,
         "item" : "foldframe",
         "location" : "structure",
-        "flags" : ["MOUNTABLE", "FOLDABLE"],
+        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 0, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
@@ -489,7 +489,7 @@
         "item" : "xlframe",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
@@ -648,7 +648,7 @@
         "item" : "hdframe",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["MOUNTABLE"],
+        "flags" : ["MOUNTABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 4, "max": 6},
             {"item": "steel_chunk", "min": 4, "max": 6},
@@ -839,7 +839,7 @@
         "item" : "frame_wood",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
+        "flags" : ["NAILABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "splinter", "min": 7, "max": 9},
             {"item": "nail", "min": 5, "max": 10}
@@ -1009,7 +1009,7 @@
         "item" : "frame_wood_light",
         "difficulty" : 0,
         "location" : "structure",
-        "flags" : ["NAILABLE"],
+        "flags" : ["NAILABLE", "INITIAL_PART"],
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
@@ -2762,6 +2762,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "napalm_tank",
+        "name" : "napalm tank",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 30000,
+        "fuel_type" : "napalm",
+        "item" : "metal_tank",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "gas_tank_little",
         "name" : "gasoline tank (little)",
         "symbol" : "O",
@@ -2985,12 +3006,13 @@
         "damage_modifier" : 80,
         "durability" : 580,
         "size" : 10000,
+        "power" : 100, "//" : "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
         "epower" : 149200,
-        "fuel_type" : "plutonium",
+        "fuel_type" : "plut_cell",
         "item" : "minireactor",
         "difficulty" : 8,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
+        "flags" : ["FUEL_TANK", "REACTOR"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 6, "max": 11},
             {"item": "steel_chunk", "min": 6, "max": 11},
@@ -3028,6 +3050,27 @@
         "damage_modifier" : 80,
         "durability" : 150,
         "size" : 450,
+        "fuel_type" : "water_clean",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "water_dirty_tank",
+        "name" : "water (dirty) tank",
+        "symbol" : "O",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 450,
         "fuel_type" : "water",
         "item" : "30gal_drum",
         "difficulty" : 1,
@@ -3049,7 +3092,7 @@
         "damage_modifier" : 80,
         "durability" : 120,
         "size" : 400,
-        "fuel_type" : "water",
+        "fuel_type" : "water_clean",
         "item" : "wooden_barrel",
         "difficulty" : 0,
         "location" : "fuel_source",
@@ -3583,7 +3626,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "223",
         "item" : "m249",
         "size" : 40,
         "difficulty" : 4,
@@ -3603,7 +3645,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 5,
-        "fuel_type" : "gasoline",
         "item" : "flamethrower",
         "difficulty" : 5,
         "location" : "on_roof",
@@ -3622,7 +3663,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "plasma",
         "item" : "plasma_rifle",
         "difficulty" : 8,
         "location" : "on_roof",
@@ -3641,7 +3681,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "fusion",
         "item" : "ftk93",
         "difficulty" : 8,
         "size" : 10,
@@ -3661,13 +3700,30 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "battery",
         "item" : "nx17",
         "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["TURRET"],
         "breaks_into" : [
             {"item": "nx17", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "laser_rifle",
+        "name" : "mounted A7 laser rifle",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "laser_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET"],
+        "breaks_into" : [
+            {"item": "laser_rifle", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -3680,7 +3736,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "50",
         "item" : "m2browning",
         "difficulty" : 5,
         "size" : 1600,
@@ -3700,7 +3755,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "40mm",
         "item" : "mark19",
         "difficulty" : 5,
         "size" : 480,
@@ -4506,7 +4560,6 @@
         "damage_modifier" : 80,
         "durability" : 450,
         "range" : 12,
-        "fuel_type" : "8x40mm",
         "item" : "rm614_lmg",
         "difficulty" : 6,
         "size" : 600,
@@ -4527,7 +4580,6 @@
         "damage_modifier" : 80,
         "durability" : 500,
         "range" : 12,
-        "fuel_type" : "8x40mm",
         "item" : "rm298",
         "difficulty" : 6,
         "size" : 1800,
@@ -4626,7 +4678,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 7,
-        "fuel_type" : "water",
         "item" : "watercannon",
         "difficulty" : 5,
         "location" : "on_roof",

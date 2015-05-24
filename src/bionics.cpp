@@ -11,6 +11,13 @@
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "translations.h"
+#include "catacharset.h"
+#include "input.h"
+#include "monster.h"
+#include "overmap.h"
+#include "itype.h"
+#include "vehicle.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -69,11 +76,11 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     if(menu_mode == "reassigning") {
         desc = _("Reassigning.\nSelect a bionic to reassign or press SPACE to cancel.");
     } else if(menu_mode == "activating") {
-        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs.");
     } else if(menu_mode == "removing") {
-        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs.");
     } else if(menu_mode == "examining") {
-        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs.");
     }
     fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
 
@@ -421,7 +428,7 @@ void player::power_bionics()
                 tmp->invlet = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
-        } else if (action == "SWAP_BIONIC_TABS" || action == "LEFT" || action == "RIGHT"){
+        } else if (action == "SWAP_BIONIC_TABS"){
             redraw = true;
             scroll_position = 0;
             cursor = 0;
@@ -601,7 +608,9 @@ bool player::activate_bionic(int b, bool eff_only)
     std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
-    int dirx, diry;
+    tripoint dirp = pos();
+    int &dirx = dirp.x;
+    int &diry = dirp.y;
     item tmp_item;
     w_point const weatherPoint = g->weatherGen.get_weather( global_square_location(), calendar::turn );
 
@@ -635,7 +644,7 @@ bool player::activate_bionic(int b, bool eff_only)
         healall(4);
     } else if (bio.id == "bio_resonator") {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound(posx(), posy(), 30, _("VRRRRMP!"));
+        sounds::sound( pos(), 30, _("VRRRRMP!"));
         for (int i = posx() - 1; i <= posx() + 1; i++) {
             for (int j = posy() - 1; j <= posy() + 1; j++) {
                 tripoint bashpoint( i, j, posz() );
@@ -806,8 +815,8 @@ bool player::activate_bionic(int b, bool eff_only)
             }
         }
     } else if(bio.id == "bio_lighter") {
-        if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
-           (!g->m.add_field(dirx, diry, fd_fire, 1))) {
+        if(!choose_adjacent(_("Start a fire where?"), dirp) ||
+           (!g->m.add_field(dirp, fd_fire, 1, 0))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
             charge_power(bionics["bio_lighter"].power_activate);
         }
@@ -864,7 +873,7 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
         for( auto it = g->m.i_at(posx(), posy()).begin();
@@ -912,7 +921,7 @@ bool player::activate_bionic(int b, bool eff_only)
                         g->m.i_rem(i, j, k);
                         std::vector<point>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
-                            int index = g->mon_at(it->x, it->y);
+                            int index = g->mon_at({it->x, it->y, posz()});
                             if (index != -1) {
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->zombie(index).check_dead_state();
@@ -944,7 +953,10 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
         if( invoke_item( &tmp_item ) == 0 ) {
-            charge_power(bionics["bio_lockpick"].power_activate);
+            if (tmp_item.charges > 0) {
+                // restore the energy since CBM wasn't used
+                charge_power(bionics[bio.id].power_activate);
+            }
             return true;
         }
         if( tmp_item.damage > 0 ) {
@@ -965,10 +977,10 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.posx(), g->u.posy()));
+        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
 
         add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.posx(), g->u.posy()))).c_str());
+        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
@@ -1034,7 +1046,7 @@ bool player::activate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }
@@ -1068,7 +1080,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     // Deactivation effects go here
     if (bio.id == "bio_cqb") {
         // check if player knows current style naturally, otherwise drop them back to style_none
-        if (style_selected != "style_none") {
+        if( style_selected != matype_id( "style_none" ) ) {
             bool has_style = false;
             for( auto &elem : ma_styles ) {
                 if( elem == style_selected ) {
@@ -1076,7 +1088,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
                 }
             }
             if (!has_style) {
-                style_selected = "style_none";
+                style_selected = matype_id( "style_none" );
             }
         }
     } else if(bio.id == "bio_claws") {
@@ -1100,7 +1112,7 @@ bool player::deactivate_bionic(int b, bool eff_only)
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_stats();
+    reset();
 
     return true;
 }
@@ -1157,7 +1169,7 @@ void player::process_bionic(int b)
         }
     } else if (bio.id == "bio_hydraulics") {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound(posx(), posy(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _("HISISSS!"));
     }
 }
 
@@ -1495,7 +1507,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
         std::vector<std::string> valid;
         std::copy_if(begin(faulty_bionics), end(faulty_bionics), std::back_inserter(valid),
             [&](std::string const &id) { return !u->has_bionic(id); });
-        
+
         if (valid.empty()) { // We've got all the bad bionics!
             if (u->max_power_level > 0) {
                 int old_power = u->max_power_level;

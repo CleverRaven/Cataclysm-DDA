@@ -3,10 +3,10 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"
+#include "int_id.h"
 
 #include <bitset>
 #include <string>
@@ -15,10 +15,16 @@
 #include <math.h>
 
 class Creature;
+class monster;
+class monfaction;
+struct projectile;
+enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+
+using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
 
@@ -133,29 +139,8 @@ enum m_flag {
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
+    MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
-};
-
-enum mf_attitude {
-    MFA_BY_MOOD = 0,    // Hostile if angry
-    MFA_NEUTRAL,        // Neutral even when angry
-    MFA_FRIENDLY        // Friendly
-};
-
-class monfaction;
-
-typedef std::map< const monfaction*, mf_attitude > mfaction_att_map;
-
-class monfaction {
-    public:
-        int id;
-        std::string name;
-        const monfaction *base_faction;
-
-        mf_attitude attitude( const monfaction *other ) const;
-        friend class MonsterGenerator;
-    private:
-        mfaction_att_map attitude_map;
 };
 
 /** Used to store monster effects placed on attack */
@@ -176,13 +161,12 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
-        std::string faction_name;
     public:
         std::string id;
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
-        const monfaction *default_faction;
+        mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;

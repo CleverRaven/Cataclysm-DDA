@@ -87,8 +87,7 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5500
-    },
-    {
+    },{
         "type":"GENERIC",
         "id" : "frame_wood",
         "name" : "wooden frame",

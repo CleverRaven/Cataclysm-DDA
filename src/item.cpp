@@ -18,6 +18,12 @@
 #include "iuse_actor.h"
 #include "compatibility.h"
 #include "monstergenerator.h"
+#include "translations.h"
+#include "crafting.h"
+#include "martialarts.h"
+#include "npc.h"
+#include "ui.h"
+#include "vehicle.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1167,7 +1173,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1177,7 +1183,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
             tec_buffer << tec.name;
         }
         for( const auto &elem : techniques ) {
-            const ma_technique &tec = ma_techniques[elem];
+            const ma_technique &tec = elem.obj();
             if (tec.name.empty()) {
                 continue;
             }
@@ -1303,12 +1309,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has certain parts padded with leather to increase protection with minimal increase to encumbrance.")));
+                _("This gear has certain parts padded with leather to increase protection with moderate increase to encumbrance.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
+                _("This gear has Kevlar inserted into strategic locations to increase protection with some increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1668,7 +1674,8 @@ nc_color item::color(player *u) const
                        u->skillLevel( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
-                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart("style_" + type->id.substr(7))) ) {
+                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart(matype_id( "style_" + type->id.substr(7)))) ) {
                 ret = c_ltblue;
             }
         } else {
@@ -1701,6 +1708,23 @@ void item::on_wield( player &p  )
     if( &p == &g->u && art != nullptr ) {
         g->add_artifact_messages( art->effects_wielded );
     }
+
+     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+         int d = 32; // arbitrary linear scaling factor
+         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
+         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+
+         int const penalty = get_var("volume", (int) type->volume) * d;
+         if (penalty > 50) {
+             std::string msg;
+             if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
+             else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
+             else                    msg = _("It takes you slightly longer than usual to wield your %s.");
+
+             p.add_msg_if_player(msg.c_str(), tname().c_str());
+             p.moves -= penalty;
+         }
+     }
 }
 
 void item::on_pickup( Character &p  )
@@ -1807,6 +1831,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
+    } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
+        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
+        ret.str("");
+        ret << type_name(quantity);
+        ret << "+";
+        maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -1874,18 +1904,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _("Bug");
         }
     }
-    if (item_tags.count("wooled") > 0 ){
-        ret << _(" (W)");
-    }
-    if (item_tags.count("furred") > 0 ){
-        ret << _(" (F)");
-    }
-    if (item_tags.count("leather_padded") > 0 ){
-        ret << _(" (L)");
-    }
-    if (item_tags.count("kevlar_padded") > 0 ){
-        ret << _(" (K)");
-    }
+
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
@@ -2142,6 +2161,18 @@ int item::volume(bool unit_value, bool precise_value ) const
         for( auto &elem : contents ) {
             ret += elem.volume( false, precise_value );
         }
+
+        if (has_flag("COLLAPSIBLE_STOCK")) {
+            // consider only the base size of the gun (without mods)
+            int tmpvol = get_var( "volume", (int) type->volume);
+            if      (tmpvol <=  3) ; // intentional NOP
+            else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
+            else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
+            else if (tmpvol <=  8) ret -= precise_value ? 4000 : 4;
+            else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
+            else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
+            else                   ret -= precise_value ? 7000 : 7;
+        }
     }
 
 // tool mods also add volume
@@ -2272,9 +2303,21 @@ bool item::has_quality(std::string quality_id, int quality_value) const
     return false;
 }
 
-bool item::has_technique(matec_id tech)
+bool item::has_technique( const matec_id & tech ) const
 {
-    return type->techniques.count(tech);
+    return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
+}
+
+void item::add_technique( const matec_id & tech )
+{
+    techniques.insert( tech );
+}
+
+std::set<matec_id> item::get_techniques() const
+{
+    std::set<matec_id> result = type->techniques;
+    result.insert( techniques.begin(), techniques.end() );
+    return result;
 }
 
 int item::has_gunmod(itype_id mod_type) const
@@ -2409,21 +2452,26 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
-    /* So I made some fixes here, although overall they are buffed up.
-     * I am more than open to any fixes, however I thought I'd pitch
-     * in having worn these types of clothing in different forms. -Davek */
-    if (item::item_tags.count("wooled")){
+    // Good items to test this stuff on:
+    // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
+    // Nomes socks (2 thickness, 0 encumbrance)
+    // When a common item has 90%+ coverage, 15/15 protection and <=5 encumbrance,
+    // it's a sure sign something has to be nerfed.
+    if( item::item_tags.count("wooled") ) {
         encumber += 3;
-        }
-    if (item::item_tags.count("furred")){
+    }
+    if( item::item_tags.count("furred") ){
         encumber += 5;
-        }
-    if (item::item_tags.count("leather_padded")){
-        encumber += 7;
-        }
-    if (item::item_tags.count("kevlar_padded")){
-        encumber += 5;
-        }
+    }
+    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
+    // Also prevent 0 encumbrance armored underwear
+    if( item::item_tags.count("leather_padded") ) {
+        encumber = std::max( 15, encumber + 7 );
+    }
+    if( item::item_tags.count("kevlar_padded") ) {
+        encumber = std::max( 13, encumber + 5 );
+    }
+
     return encumber;
 }
 
@@ -3281,12 +3329,33 @@ void item::next_mode()
     }
 }
 
+int item::spare_mag_size() const
+{
+    if( !type->gun ) {
+        return 0;
+    }
+    if( clip_size() < type->gun->clip ) {
+        return clip_size();
+    } else {
+        return type->gun->clip;
+    }
+}
+
 std::string item::gun_skill() const
 {
     if( !is_gun() ) {
         return "null";
     }
     return type->gun->skill_used->ident();
+}
+
+std::string item::weap_skill() const
+{
+    if (! is_weap()) return "null";
+
+    if (type->melee_dam >= type->melee_cut) return "bashing";
+    if (has_flag("STAB")) return "stabbing";
+    return "cutting";
 }
 
 std::string item::skill() const
@@ -4628,7 +4697,9 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( !ready_to_revive( pos ) ) {
         return false;
     }
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, this ) ) {
+
+    active = false;
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( "ROBOT" ) ) {
@@ -4651,8 +4722,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
         // Destroy this corpse item
         return true;
     }
-    // Reviving failed, the corpse is now *really* dead, stop further processing.
-    active = false;
+
     return false;
 }
 
@@ -4936,8 +5006,8 @@ bool item::process_charger_gun( player *carrier, const tripoint &pos )
                                        pgettext( "memorial_female", "Accidental discharge of %s." ),
                                        tname().c_str() );
             carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
-            point target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ) );
-            carrier->fire_gun( target.x, target.y, false );
+            tripoint target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ), pos.z );
+            carrier->fire_gun( target, false );
         } else {
             carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
         }

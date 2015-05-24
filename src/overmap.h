@@ -1,29 +1,23 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "enums.h"
-#include "string.h"
 #include "omdata.h"
 #include "mapdata.h"
-#include "mongroup.h"
-#include "output.h"
-#include "cursesdef.h"
-#include "name.h"
-#include "input.h"
-#include "json.h"
 #include "weighted_list.h"
+#include "game_constants.h"
+#include "monster.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
-#include <stdlib.h>
 #include <array>
+#include <map>
+#include <unordered_map>
 
 class overmapbuffer;
 class npc;
-
-#define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 10
-#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+struct mongroup;
+class JsonObject;
+class input_context;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
@@ -139,10 +133,7 @@ struct city {
  int y;
  int s;
  std::string name;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
- {
-     name = Name::get(nameIsTownName);
- }
+ city(int X = -1, int Y = -1, int S = -1);
 };
 
 struct om_note {
@@ -304,7 +295,7 @@ class overmap
 
      return settings;
   }
-    void clear_mon_groups() { zg.clear(); }
+    void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
@@ -345,8 +336,8 @@ public:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    int dist_from_city(point p);
-    void signal_hordes( int x, int y, int sig_power );
+    int dist_from_city( const tripoint &p );
+    void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
 

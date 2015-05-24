@@ -1,5 +1,5 @@
-#include "player.h"
 #include "mutation.h"
+#include "player.h"
 #include "game.h"
 #include "map.h"
 #include "translations.h"
@@ -8,6 +8,9 @@
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
+#include "options.h"
+#include "catacharset.h"
+#include "input.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -332,7 +335,7 @@ void player::activate_mutation( const std::string &mut )
     }
 
     if( mut == "WEB_WEAVER" ) {
-        g->m.add_field(posx(), posy(), fd_web, 1);
+        g->m.add_field(pos(), fd_web, 1, 0);
         add_msg(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
         if (g->u.is_underwater()) {
@@ -367,7 +370,7 @@ void player::activate_mutation( const std::string &mut )
             return;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-        g->u.activity.placement = point(dirx, diry);
+        g->u.activity.placement = tripoint(dirx, diry,0);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
         tdata.powered = false;
@@ -376,8 +379,9 @@ void player::activate_mutation( const std::string &mut )
         std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
-                if (g->is_empty(x, y)) {
-                    valid.push_back( tripoint(x, y, posz()) );
+                tripoint dest(x, y, posz());
+                if (g->is_empty(dest)) {
+                    valid.push_back( dest );
                 }
             }
         }
@@ -409,15 +413,15 @@ void player::activate_mutation( const std::string &mut )
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT1") {
-        sounds::sound(posx(), posy(), 10 + 2 * str_cur, _("You shout loudly!"));
+        sounds::sound(pos(), 10 + 2 * str_cur, _("You shout loudly!"));
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT2"){
-        sounds::sound(posx(), posy(), 15 + 3 * str_cur, _("You scream loudly!"));
+        sounds::sound(pos(), 15 + 3 * str_cur, _("You scream loudly!"));
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT3"){
-        sounds::sound(posx(), posy(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+        sounds::sound(pos(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
         tdata.powered = false;
         return;
     } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){

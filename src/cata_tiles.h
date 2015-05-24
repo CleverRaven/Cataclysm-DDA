@@ -11,7 +11,6 @@
 
 #include "game.h"
 #include "map.h"
-#include "options.h"
 #include "mapdata.h"
 #include "tile_id_data.h"
 #include "enums.h"
@@ -26,14 +25,13 @@ struct visibility_variables;
 /** Structures */
 struct tile_type
 {
-    int fg, bg;
+    std::vector<int> fg, bg;
     bool multitile, rotates;
 
     std::vector<std::string> available_subtiles;
 
     tile_type()
     {
-        fg = bg = 0;
         multitile = rotates = false;
         available_subtiles.clear();
     }
@@ -199,6 +197,7 @@ class cata_tiles
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota);
+        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
@@ -278,12 +277,15 @@ class cata_tiles
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
         void do_tile_loading_report();
+        bool tile_iso;
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         template <typename maptype>
         void tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix = "");
         template <typename arraytype>
         void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
+        template <typename basetype>
+        void tile_loading_report(size_t count, std::string const & label, std::string const & prefix);
         /** Lighting */
         void init_light();
 

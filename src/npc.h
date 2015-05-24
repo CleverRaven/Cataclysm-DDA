@@ -1,7 +1,6 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "messages.h"
 #include "player.h"
 #include "faction.h"
 #include "json.h"
@@ -20,6 +19,7 @@ class item;
 class overmap;
 class player;
 class field_entry;
+enum game_message_type : int;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 
@@ -575,7 +575,10 @@ public:
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
  std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
- std::vector<itype_id> styles_offered_to(const player &p); // Martial Arts
+    /**
+     * Martial art styles that we known, but the player p doesn't.
+     */
+    std::vector<matype_id> styles_offered_to( const player &p ) const;
 // State checks
  bool is_enemy() const; // We want to kill/mug/etc the player
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)

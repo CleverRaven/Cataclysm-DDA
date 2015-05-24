@@ -10,6 +10,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
+#include "morale.h"
 #include <climits>
 
 event::event( event_type e_t, int t, int f_id, tripoint p )
@@ -92,22 +93,22 @@ void event::actualize()
         int num_wyrms = rng(1, 4);
         for (int i = 0; i < num_wyrms; i++) {
             int tries = 0;
-            int monx = -1, mony = -1;
+            tripoint monp = g->u.pos();
             do {
-                monx = rng(0, SEEX * MAPSIZE);
-                mony = rng(0, SEEY * MAPSIZE);
+                monp.x = rng(0, SEEX * MAPSIZE);
+                monp.y = rng(0, SEEY * MAPSIZE);
                 tries++;
-            } while (tries < 10 && !g->is_empty(monx, mony) &&
-                    rl_dist(g->u.posx(), g->u.posy(), monx, mony) <= 2);
+            } while (tries < 10 && !g->is_empty(monp) &&
+                    rl_dist(g->u.pos(), monp) <= 2);
             if (tries < 10) {
-                g->m.ter_set(monx, mony, t_rock_floor);
-                g->summon_mon("mon_dark_wyrm", tripoint(monx, mony, g->u.posz()));
+                g->m.ter_set(monp, t_rock_floor);
+                g->summon_mon("mon_dark_wyrm", monp);
             }
         }
         // You could drop the flag, you know.
         if (g->u.has_amount("petrified_eye", 1)) {
             add_msg(_("The eye you're carrying lets out a tortured scream!"));
-            sounds::sound(g->u.posx(), g->u.posy(), 60, "");
+            sounds::sound(g->u.pos(), 60, "");
             g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
         }
         if (!one_in(25)) { // They just keep coming!
@@ -154,7 +155,7 @@ void event::actualize()
                     }
                 }
                 tries++;
-            } while ((monx == -1 || mony == -1 || !g->is_empty(monx, mony)) &&
+            } while ((monx == -1 || mony == -1 || !g->is_empty({monx, mony, g->u.posz()})) &&
                         tries < 10);
             if (tries < 10) {
                 g->summon_mon("mon_amigara_horror", tripoint(monx, mony, g->u.posz()));
@@ -263,7 +264,7 @@ void event::actualize()
             x = rng(g->u.posx() - 5, g->u.posx() + 5);
             y = rng(g->u.posy() - 5, g->u.posy() + 5);
             tries++;
-        } while (tries < 20 && !g->is_empty(x, y) &&
+        } while (tries < 20 && !g->is_empty({x, y, g->u.posz()}) &&
                     rl_dist(x, y, g->u.posx(), g->u.posy()) <= 2);
         if (tries < 20) {
             g->summon_mon(montype, tripoint(x, y, g->u.posz()));

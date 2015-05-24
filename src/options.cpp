@@ -7,6 +7,9 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "input.h"
+#include "worldfactory.h"
+#include "catacharset.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -827,6 +830,10 @@ void initOptions()
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_CURSES_HIDE
                                   );
+    OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("graphics", _("Sound Effect Volume"),
+                                   _("Adjust the volume of sound effects being played by the game."),
+                                   0, 200, 0, COPT_CURSES_HIDE
+                                  );
 
     ////////////////////////////DEBUG////////////////////////////
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
@@ -892,8 +899,8 @@ void initOptions()
                                     _("A scaling factor that determines density of dynamic NPC spawns."),
                                     0.0, 100.0, 1.0, 0.01
                                    );
-    OPTIONS["MONSTER_GROUP_DIFFICULTY"] = cOpt("world_default", _("Monster difficulty"),
-                                    _("A scaling factor that determines the rate of monster advancement. 0 spawns advanced groups immediately!"),
+    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster difficulty"),
+                                    _("A scaling factor that determines the rate of monster advancement. A value of 100 makes monsters upgrade 100x faster, while zero stops upgrading completely."),
                                     0.0, 100, 1.0, 0.01
                                    );
 

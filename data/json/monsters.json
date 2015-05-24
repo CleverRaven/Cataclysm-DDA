@@ -1,6 +1,34 @@
 [
     {
     "type" : "MONSTER",
+    "id" : "debug_mon",
+    "name": "debug monster",
+    "species":"INSECT",
+    "default_faction":"",
+    "symbol":"X",
+    "color":"white",
+    "size":"medium",
+    "material":"flesh",
+    "diff":1,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":1,
+    "vision_night":1,
+    "luminance":0,
+    "hp":10000,
+    "death_function":"MELT",
+    "description":"This monster exists only for testing purposes.",
+    "flags":["REGENERATES_50", "IMMOBILE"]
+    },{
+    "type" : "MONSTER",
     "id" : "mon_bat",
     "name": "bat",
     "species":"MAMMAL",
@@ -1204,7 +1232,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"An enormous red ant covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
-    "flags":["SEES", "HEARS", "SMELLS", "CHITIN"],
+    "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
@@ -1233,7 +1261,7 @@
     "hp":80,
     "death_function":"NORMAL",
     "description":"A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.",
-    "flags":["SEES", "HEARS", "SMELLS", "CHITIN"],
+    "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -1261,7 +1289,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["ANTQUEEN", 1]],
     "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.",
-    "flags":["SMELLS", "QUEEN", "CHITIN", "FAT"],
+    "flags":["SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
     },{
     "type" : "MONSTER",
@@ -1291,7 +1319,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["FUNGUS", 200]],
     "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
-    "flags":["SEES", "SMELLS", "POISON"]
+    "flags":["SEES", "SMELLS", "POISON", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_fly",
@@ -1320,7 +1348,7 @@
     "hp":25,
     "death_function":"NORMAL",
     "description":"A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
-    "flags":["SEED", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT"],
+    "flags":["SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CHITIN", "FAT"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -1526,8 +1554,8 @@
     "death_drops": "default_zombie_death_drops",
     "upgrade_group" : "GROUP_ZOMBIE_UPGRADE",
     "upgrade_min" : 14,
-	"half_life" : 14,
-	"base_upgrade_chance" : 10,
+    "half_life" : 14,
+    "base_upgrade_chance" : 10,
     "luminance":0,
     "hp":80,
     "death_function":"NORMAL",
@@ -1559,6 +1587,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "upgrade_group" : "GROUP_ZOMBIE_FAT",
+    "upgrade_min" : 3,
+    "half_life" : 5,
+    "base_upgrade_chance" : 15,
     "luminance":0,
     "hp":95,
     "death_function":["NORMAL"],
@@ -1625,7 +1657,7 @@
     "hp":60,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
-    "description":"This human corpse drags itself along slowly with its arms.  Its legs are damaged beyond repair",
+    "description":"This human corpse drags itself along slowly with its arms.  Its legs are damaged beyond repair.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
     },{
@@ -1812,6 +1844,40 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
+    "id" : "mon_zombie_acidic",
+    "name": "acidic zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"ltgray_yellow",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":5,
+    "aggression":100,
+    "morale":100,
+    "speed":80,
+    "melee_skill":3,
+    "melee_dice":2,
+    "melee_dice_sides":3,
+    "melee_cut":0,
+    "dodge":1,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":40,
+    "vision_night":3,
+    "death_drops": "default_zombie_death_drops",
+    "upgrades_into" : "mon_zombie_spitter",
+    "upgrade_min" : 1,
+    "half_life" : 4,
+    "base_upgrade_chance" : 15,
+    "luminance":0,
+    "hp":65,
+    "special_attacks":[["ACID_BARF", 10]],
+    "death_function":["ACID", "NORMAL"],
+    "description":"A sickly-looking dead one. Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
     "id" : "mon_zombie_spitter",
     "name": "spitter zombie",
     "species":"ZOMBIE",
@@ -1834,11 +1900,46 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "upgrades_into" : "mon_zombie_corrosive",
+    "upgrade_min" : 14,
+    "half_life" : 14,
+    "base_upgrade_chance" : 10,
     "luminance":0,
     "hp":70,
     "death_function":["ACID", "NORMAL"],
     "special_attacks":[["ACID", 20]],
     "description":"A hunched human body with its eyes pushed up into its forehead and drooping cheeks, most of its face is occupied by a puckered mouth.  Its stomach is swollen and nearly translucent, with a sickly yellow tint.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_corrosive",
+    "name": "corrosive zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"yellow_white",
+    "size":"LARGE",
+    "material":"flesh",
+    "diff":25,
+    "aggression":100,
+    "morale":100,
+    "speed":75,
+    "melee_skill":1,
+    "melee_dice":5,
+    "melee_dice_sides":8,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":10,
+    "armor_cut":10,
+    "vision_day":40,
+    "vision_night":3,
+    "death_drops": "default_zombie_death_drops",
+    "luminance":1,
+    "hp":140,
+    "death_function":["ACID", "NORMAL"],
+    "special_attacks":[["ACID_ACCURATE", 3]],
+    "special_when_hit":["ACIDSPLASH", 100],
+    "description":"This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
@@ -2168,12 +2269,46 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_items",
+    "upgrades_into" : "mon_boomer_huge",
+    "upgrade_min" : 6,
+    "half_life" : 10,
+    "base_upgrade_chance" : 20,
     "luminance":0,
     "hp":40,
     "death_function":["BOOMER"],
     "special_attacks":[["BOOMER", 20]],
     "description":"A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_boomer_huge",
+    "name": "huge boomer",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"pink_white",
+    "size":"LARGE",
+    "material":"flesh",
+    "diff":15,
+    "aggression":100,
+    "morale":100,
+    "speed":85,
+    "melee_skill":1,
+    "melee_dice":3,
+    "melee_dice_sides":3,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":5,
+    "armor_cut":5,
+    "vision_day":40,
+    "vision_night":3,
+    "death_drops": "default_zombie_items",
+    "luminance":0,
+    "hp":110,
+    "death_function":["BOOMER_GLOW"],
+    "special_attacks":[["BOOMER_GLOW", 20]],
+    "description":"This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed...",
+    "flags":["SEES", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BILE_BLOOD", "BONES", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer_fungus",
@@ -2275,7 +2410,7 @@
     "size":"MEDIUM",
     "material":"flesh",
     "diff":16,
-    "aggression":0,
+    "aggression":5,
     "morale":100,
     "speed":100,
     "melee_skill":4,
@@ -2291,7 +2426,7 @@
     "luminance":0,
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["RESURRECT", 4]],
+    "special_attacks":[["RESURRECT", 0]],
     "description":"A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
@@ -2472,7 +2607,7 @@
     "size":"MEDIUM",
     "material":"flesh",
     "diff":16,
-    "aggression":100,
+    "aggression":5,
     "morale":100,
     "speed":90,
     "melee_skill":5,
@@ -2488,7 +2623,7 @@
     "luminance":0,
     "hp":180,
     "death_function":["NORMAL"],
-    "special_attacks":[["UPGRADE", 3]],
+    "special_attacks":[["UPGRADE", 10]],
     "description":"Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes.  It stands tall and its movements are fluid and tightly controlled.  A feeling of danger permeates the air around it, and the light that falls on it seems somehow harsher and more glaring.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
@@ -2560,7 +2695,7 @@
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[ ["BITE", 5]],
-    "description":"This recently-risen body moves quickly, darting its head back and forth and knawing at its hands.",
+    "description":"This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
@@ -2595,7 +2730,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["LEAP", 5], ["BITE", 5]],
     "description":"This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_predator",
@@ -4094,7 +4229,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A fairly large spider which tracks and catches prey through agility and stealth.  Its bite can be irritating even to large animals.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_wolf_giant",
@@ -4122,7 +4257,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT", "CLIMBS"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4151,7 +4286,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"]
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS"]
 },{
     "type" : "MONSTER",
     "id" : "mon_spider_web_s",
@@ -4179,7 +4314,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"A still immature giant grass spider.  Too young to be venomous, or to walk proficiently for that matter",
-    "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN"]
+    "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_jumping",
@@ -4205,7 +4340,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A little spider with elongated forelegs.  It does not build extensive webs, but leaps very quickly, appearing to move instantaneously from one spot to another.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITER"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITER", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_jumping_giant",
@@ -4234,7 +4369,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["LEAP", 2]],
     "description":"A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4261,7 +4396,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A midsized spider with a bulbous thorax.  It creates a subterranean nest and lies in wait for prey to draw close enough for capture.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "WEBWALK"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "WEBWALK", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_trapdoor_giant",
@@ -4289,7 +4424,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow",
@@ -4315,7 +4450,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"An infamous spider with a characteristic red hourglass marking on its black carapace, known for its highly toxic bite.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITES", "BADVENOM"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITES", "BADVENOM", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow_giant",
@@ -4343,7 +4478,7 @@
     "hp":60,
     "death_function":"NORMAL",
     "description":"A giant mutated black widow spider.  A highly venomous nightmare come to life.",
-    "flags":["SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4372,7 +4507,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description":"The horrid spawn of a giant black widow spider.  Even as a newborn, this foul creature knows only how to kill.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4507,7 +4642,7 @@
     "death_function":"MELT",
     "special_attacks":[["TENTACLE", 5]],
     "description":"An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
-    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB"]
+    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_human_snail",
@@ -4563,7 +4698,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_vortex",
@@ -4575,7 +4710,7 @@
     "color":"white",
     "size":"SMALL",
     "material":"powder",
-    "diff":30,
+    "diff":1,
     "aggression":100,
     "morale":100,
     "speed":120,
@@ -4589,7 +4724,6 @@
     "luminance":0,
     "hp":20,
     "death_function":"MELT",
-    "special_attacks":[["VORTEX", 6]],
     "description":"A twisting spot in the air, with some kind of morphing mass at its center.",
     "flags":["HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB"]
     },{
@@ -4752,6 +4886,8 @@
     "armor_cut":0,
     "luminance":10,
     "hp":300,
+    "vision_night":40,
+    "vision_day":50,
     "death_function":"NORMAL",
     "special_attacks":[["STARE", 12]],
     "description":"An eyeball the size of an easy chair, covered in rolling blue flames.  It floats through the air, spinning slowly to draw its gaze in every direction.",
@@ -5083,7 +5219,7 @@
     "hp":120,
     "death_function":["NORMAL"],
     "description":"A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blood_sacrifice",
@@ -5623,7 +5759,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["FLAMETHROWER", 10]],
     "description":"The Honda Regnal, a tall robot walking on three spidery legs.  For weapons, it has a trio of spiked retractable cables and a flamethrower mounted on its head.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_chickenbot",
@@ -6493,7 +6629,7 @@
     },
     "luminance":0,
     "hp":80,
-    "special_when_hit":["ZAPBACK", 300],
+    "special_when_hit":["ZAPBACK", 100],
     "death_function":"BROKEN",
     "special_attacks":[["RIOTBOT", 1]],
     "description":"Nonviolent riot-control bot.  Designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding flash and a low-powered stungun for self-defense--in addition to its supply of electronic handcuffs.",

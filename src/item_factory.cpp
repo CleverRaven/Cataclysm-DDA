@@ -11,6 +11,11 @@
 #include "debug.h"
 #include "construction.h"
 #include "text_snippets.h"
+#include "ui.h"
+#include "skill.h"
+#include "bionics.h"
+#include "material.h"
+#include "artifact.h"
 #include <algorithm>
 #include <sstream>
 
@@ -266,7 +271,6 @@ void Item_factory::init()
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
-    iuse_function_list["TINDERBOX_LIT"] = &iuse::tinderbox_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
@@ -285,6 +289,7 @@ void Item_factory::init()
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
+    iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
@@ -416,7 +421,7 @@ void Item_factory::check_definitions() const
             }
         }
         for( const auto &_a : type->techniques ) {
-            if( ma_techniques.count( _a ) == 0 ) {
+            if( !_a.is_valid() ) {
                 msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
             }
         }
@@ -615,6 +620,8 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size" );
     slot.reload_time = jo.get_int( "reload" );
+    slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
+    slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
@@ -972,7 +979,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         set_properties_from_json(jo, "properties", new_item_template);
     }
 
-    new_item_template->techniques = jo.get_tags("techniques");
+    for( auto & s : jo.get_tags( "techniques" ) ) {
+        new_item_template->techniques.insert( matec_id( s ) );
+    }
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
@@ -1417,64 +1426,35 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
         // global defined in bodypart.h
         if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
             return;
-        } else if (new_flag == "ARMS" || new_flag == "HANDS" || new_flag == "LEGS" || new_flag == "FEET") {
-            std::vector<std::string> parts;
-            if (new_flag == "ARMS") {
-                parts.push_back("ARM_L");
-                parts.push_back("ARM_R");
-            } else if (new_flag == "HANDS") {
-                parts.push_back("HAND_L");
-                parts.push_back("HAND_R");
-            } else if (new_flag == "LEGS") {
-                parts.push_back("LEG_L");
-                parts.push_back("LEG_R");
-            } else if (new_flag == "FEET") {
-                parts.push_back("FOOT_L");
-                parts.push_back("FOOT_R");
-            }
-            for( auto &part : parts ) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter =
-                    body_parts.find( part );
-                if (found_flag_iter != body_parts.end()) {
-                    cur_flags.set(found_flag_iter->second);
-                } else {
-                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-                }
-            }
+        } else if( new_flag == "ARMS" ) {
+            cur_flags.set( bp_arm_l );
+            cur_flags.set( bp_arm_r );
+        } else if( new_flag == "HANDS" ) {
+            cur_flags.set( bp_hand_l );
+            cur_flags.set( bp_hand_r );
+        } else if( new_flag == "LEGS" ) {
+            cur_flags.set( bp_leg_l );
+            cur_flags.set( bp_leg_r );
+        } else if( new_flag == "FEET" ) {
+            cur_flags.set( bp_foot_l );
+            cur_flags.set( bp_foot_r );
         } else {
-            std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
-            if (found_flag_iter != body_parts.end()) {
-                cur_flags.set(found_flag_iter->second);
-            } else {
-                debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-            }
+            cur_flags.set( get_body_part_token( new_flag ) );
         }
     } else if (flag_type == "sided") {
         // global defined in bodypart.h
-        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
-            std::vector<std::string> parts;
-            if (new_flag == "ARM") {
-                parts.push_back("ARM_L");
-                parts.push_back("ARM_R");
-            } else if (new_flag == "HAND") {
-                parts.push_back("HAND_L");
-                parts.push_back("HAND_R");
-            } else if (new_flag == "LEG") {
-                parts.push_back("LEG_L");
-                parts.push_back("LEG_R");
-            } else if (new_flag == "FOOT") {
-                parts.push_back("FOOT_L");
-                parts.push_back("FOOT_R");
-            }
-            for( auto &part : parts ) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter =
-                    body_parts.find( part );
-                if (found_flag_iter != body_parts.end()) {
-                    cur_flags.set(found_flag_iter->second);
-                } else {
-                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-                }
-            }
+        if( new_flag == "ARM" ) {
+            cur_flags.set( bp_arm_l );
+            cur_flags.set( bp_arm_r );
+        } else if( new_flag == "HAND" ) {
+            cur_flags.set( bp_hand_l );
+            cur_flags.set( bp_hand_r );
+        } else if( new_flag == "LEG" ) {
+            cur_flags.set( bp_leg_l );
+            cur_flags.set( bp_leg_r );
+        } else if( new_flag == "FOOT" ) {
+            cur_flags.set( bp_foot_l );
+            cur_flags.set( bp_foot_r );
         }
     }
 

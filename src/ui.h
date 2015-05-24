@@ -219,12 +219,11 @@ class uimenu: public ui_container
 // When an entry is selected, view will be centered on the paired point
 class pointmenu_cb : public uimenu_callback {
     private:
-        const std::vector< point > &points;
+        const std::vector< tripoint > &points;
         int last; // to suppress redrawing
-        int view_x; // to reposition the view after selecting
-        int view_y;
+        tripoint last_view; // to reposition the view after selecting
     public:
-        pointmenu_cb( std::vector< point > &pts );
+        pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() { };
         void select( int num, uimenu *menu ) override;
         void refresh( uimenu *menu ) override;

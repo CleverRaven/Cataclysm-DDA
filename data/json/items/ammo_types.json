@@ -247,12 +247,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "muscle",
-        "name" : "muscle",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "fusion",
         "name" : "fusion cell",
         "default" : "laser_pack"
@@ -334,6 +328,12 @@
         "id" : "ampoule",
         "name" : "chemical ampoule",
         "default" : "ampoule"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "stimpack_ammo",
+        "name" : "stimulant module",
+        "default" : "stimpack_ammo"
     },
     {
         "type" : "ammunition_type",

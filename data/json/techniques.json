@@ -1,6 +1,11 @@
 [
     {
         "type" : "technique",
+        "id" : "tec_none",
+        "name" : "Not at technique at all",
+        "dummy" : true
+    },{
+        "type" : "technique",
         "id" : "WBLOCK_1",
         "name" : "Parry",
         "dummy" : true,

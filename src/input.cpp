@@ -7,6 +7,9 @@
 #include "game.h"
 #include "path_info.h"
 #include "filesystem.h"
+#include "translations.h"
+#include "catacharset.h"
+#include "options.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -836,9 +839,9 @@ void input_context::display_help()
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
-    const size_t display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
+    const size_t display_height = FULL_SCREEN_HEIGHT - 9 - 2; // -2 for the border
     // width of the legend
-    const size_t legwidth = FULL_SCREEN_WIDTH - 51 - 2;
+    const size_t legwidth = FULL_SCREEN_WIDTH - 4 - 2;
     // keybindings help
     std::ostringstream legend;
     legend << "<color_" << string_from_color(unbound_key) << ">" << _("Unbound keys") << "</color>\n";
@@ -869,11 +872,11 @@ void input_context::display_help()
     while(true) {
         werase(w_help);
         draw_border(w_help);
-        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 1);
+        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 8);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                   c_ltred, " %s ", _("Keybindings"));
 
-        fold_and_print(w_help, 1, 51, legwidth, c_white, legend.str());
+        fold_and_print(w_help, 1, 2, legwidth, c_white, legend.str());
 
         for (size_t i = 0; i + scroll_offset < org_registered_actions.size() && i < display_height; i++) {
             const std::string &action_id = org_registered_actions[i + scroll_offset];
@@ -892,13 +895,13 @@ void input_context::display_help()
             if (status == s_add_global && overwrite_default) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz(w_help, i + 1, 2, c_dkgray, "%c ", invlet);
+                mvwprintz(w_help, i + 8, 2, c_dkgray, "%c ", invlet);
             } else if (status == s_add || status == s_add_global) {
-                mvwprintz(w_help, i + 1, 2, c_blue, "%c ", invlet);
+                mvwprintz(w_help, i + 8, 2, c_blue, "%c ", invlet);
             } else if (status == s_remove) {
-                mvwprintz(w_help, i + 1, 2, c_blue, "%c ", invlet);
+                mvwprintz(w_help, i + 8, 2, c_blue, "%c ", invlet);
             } else {
-                mvwprintz(w_help, i + 1, 2, c_blue, "  ");
+                mvwprintz(w_help, i + 8, 2, c_blue, "  ");
             }
             nc_color col;
             if (attributes.input_events.empty()) {
@@ -908,8 +911,8 @@ void input_context::display_help()
             } else {
                 col = global_key;
             }
-            mvwprintz(w_help, i + 1, 4, col, "%s: ", get_action_name(action_id).c_str());
-            mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
+            mvwprintz(w_help, i + 8, 4, col, "%s: ", get_action_name(action_id).c_str());
+            mvwprintz(w_help, i + 8, 52, col, "%s", get_desc(action_id).c_str());
         }
         wrefresh(w_help);
         refresh();

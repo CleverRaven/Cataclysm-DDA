@@ -6,7 +6,6 @@
 #include "game.h"
 #include "rng.h"
 #include "addiction.h"
-#include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
 #include "options.h"
@@ -24,6 +23,12 @@
 #include "get_version.h"
 #include "monstergenerator.h"
 #include "scenario.h"
+#include "monster.h"
+#include "monfaction.h"
+#include "morale.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "mutation.h"
 
 #include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
@@ -1061,9 +1066,9 @@ void monster::load(JsonObject &data)
     } else {
         data.read("ammo", ammo);
     }
-    std::string fac = data.get_string( "faction", "" );
-    const monfaction *monfac = GetMFact( fac );
-    if( monfac->id == 0 ) {
+
+    mfaction_str_id monfac = mfaction_str_id( data.get_string( "faction", "" ) );
+    if( !monfac.is_valid() || monfac.id() == mfaction_id( 0 ) ) {
         // Legacy saves
         faction = type->default_faction;
     } else {
@@ -1098,7 +1103,7 @@ void monster::store(JsonOut &json) const
     json.member("hp", hp);
     json.member("sp_timeout", sp_timeout);
     json.member("friendly", friendly);
-    json.member("faction", faction->name);
+    json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
     json.member("last_loaded", last_loaded);
@@ -1365,21 +1370,21 @@ void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int intpid;
-    std::string pid;
+    vpart_str_id pid;
     if ( data.read("id_enum", intpid) && intpid < 74 ) {
         pid = legacy_vpart_id[intpid];
     } else {
         data.read("id", pid);
     }
     // if we don't know what type of part it is, it'll cause problems later.
-    if (vehicle_part_types.find(pid) == vehicle_part_types.end()) {
-        if (pid == "wheel_underbody") {
-            pid = "wheel_wide";
+    if( !pid.is_valid() ) {
+        if( pid.str() == "wheel_underbody" ) {
+            pid = vpart_str_id( "wheel_wide" );
         } else {
-            throw (std::string)"bad vehicle part, id: %s" + pid;
+            throw (std::string)"bad vehicle part, id: %s" + pid.str();
         }
     }
-    setid(pid);
+    set_id(pid);
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
@@ -1392,14 +1397,17 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("items", items);
     data.read("target_first_x", target.first.x);
     data.read("target_first_y", target.first.y);
+    data.read("target_first_z", target.first.z);
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
+    data.read("target_second_z", target.second.z);
 }
 
 void vehicle_part::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("id", id);
+    // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
+    json.member("id", id.id().str());
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);
@@ -1412,8 +1420,10 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("items", items);
     json.member("target_first_x", target.first.x);
     json.member("target_first_y", target.first.y);
+    json.member("target_first_z", target.first.z);
     json.member("target_second_x", target.second.x);
     json.member("target_second_y", target.second.y);
+    json.member("target_second_z", target.second.z);
     json.end_object();
 }
 
@@ -1455,7 +1465,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("turn_dir", turn_dir);
     data.read("velocity", velocity);
     data.read("cruise_velocity", cruise_velocity);
-    data.read("music_id", music_id);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
@@ -1528,7 +1537,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
-    json.member( "music_id", music_id);
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
@@ -1568,7 +1576,11 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("reward", reward);
     jo.read("uid", uid );
     JsonArray ja = jo.get_array("target");
-    if (ja.size() == 2) {
+    if( ja.size() == 3 ) {
+        target.x = ja.get_int(0);
+        target.y = ja.get_int(1);
+        target.z = ja.get_int(2);
+    } else if( ja.size() == 2 ) {
         target.x = ja.get_int(0);
         target.y = ja.get_int(1);
     }
@@ -1608,6 +1620,7 @@ void mission::serialize(JsonOut &json) const
     json.start_array();
     json.write(target.x);
     json.write(target.y);
+    json.write(target.z);
     json.end_array();
 
     json.member("item_id", item_id);

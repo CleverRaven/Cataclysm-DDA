@@ -993,6 +993,42 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_bigmirror",
+        "name": "standing mirror",
+        "symbol": "{",
+        "color": "white",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["NOITEM","BLOCKSDOOR"],
+        "bash": {
+            "str_min": 5, "str_max": 16,
+            "sound": "glass breaking",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "furn_set": "f_bigmirror_b",
+            "items": [
+                { "item": "glass_shard", "amount": 6, "minamount": 3 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_bigmirror_b",
+        "name": "broken standing mirror",
+        "symbol": "{",
+        "color": "ltgray",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["NOITEM","BLOCKSDOOR"],
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_vending_c",
         "name": "vending machine",
         "symbol": "{",
@@ -1608,6 +1644,23 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_mannequin",
+        "name": "mannequin",
+        "symbol": "@",
+        "color": "brown",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["PLACE_ITEM","TRANSPARENT", "FLAMMABLE"],
+        "bash": {
+            "str_min": 6, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "splinter", "amount": 12, "minamount": 9 }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_bluebell",
         "name": "bluebell",
         "symbol": "f",
@@ -2218,7 +2271,43 @@
                 { "item": "motor", "amount": 1, "chance": 30}
             ]
         }
-  },{
+    },{
+        "type" : "furniture",
+        "id" : "f_aut_gas_console",
+        "name": "automated gas console",
+        "symbol": "9",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": 25,
+        "flags": ["SEALED", "ALARMED", "BLOCKSDOOR"],
+        "examine_action": "pay_gas",
+        "bash": {
+            "str_min": 7, "str_max": 30,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "furn_set": "f_aut_gas_console_o"
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_aut_gas_console_o",
+        "name": "broken automated gas console",
+        "symbol": "9",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 20,
+        "flags": ["BLOCKSDOOR"],
+        "bash": {
+            "str_min": 5, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "hose", "amount": 1},
+                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+            ]
+        }
+    },{
     "type" : "furniture",
     "id" : "f_smoking_rack",
     "name": "smoking rack",

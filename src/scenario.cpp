@@ -11,6 +11,12 @@
 #include "start_location.h"
 #include "game.h"
 #include "map.h"
+#include "translations.h"
+#include "pldata.h"
+#include "addiction.h"
+#include "skill.h"
+#include "profession.h"
+#include "mutation.h"
 
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),

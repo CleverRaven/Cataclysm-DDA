@@ -1,6 +1,10 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <climits>
+#include <cassert>
+#include <algorithm>
+
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
@@ -289,6 +293,27 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( -x, -y, -z );
     }
+    /*** some point operators and functions ***/
+    tripoint operator+(const point &rhs) const
+    {
+        return tripoint(x + rhs.x, y + rhs.y, z);
+    }
+    tripoint operator-(const point &rhs) const
+    {
+        return tripoint(x - rhs.x, y - rhs.y, z);
+    }
+    tripoint &operator+=(const point &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+    tripoint &operator-=(const point &rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        return *this;
+    }
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
@@ -325,6 +350,25 @@ inline bool operator<(const tripoint &a, const tripoint &b)
         return a.z < b.z;
     }
     return false;
+}
+
+static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+
+// turns a vector, into an array, via MAGIC(tm)
+template <typename T, std::size_t N>
+std::array<T, N> vec_to_array(const std::vector<T> &vec)
+{
+    std::array<T, N> array;
+    for(size_t i = 0; i < N; ++i) {
+        array[i] = vec[i];
+    }
+    return array;
+}
+
+template <typename T, typename C>
+inline bool is_any_of(const T &t, const C &c)
+{
+    return std::find(c.begin(), c.end(), t) != c.end();
 }
 
 #endif

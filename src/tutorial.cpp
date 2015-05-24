@@ -8,6 +8,8 @@
 #include "translations.h"
 #include "monstergenerator.h"
 #include "profession.h"
+#include "overmap.h"
+#include "trap.h"
 
 std::vector<std::string> tut_text;
 
@@ -21,7 +23,7 @@ bool tutorial_game::init()
 // Set the scent map to 0
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEX * MAPSIZE; j++)
-   g->scent(i, j) = 0;
+   g->scent( { i, j, g->get_levz() } ) = 0;
  }
  g->temperature = 65;
 // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
@@ -165,7 +167,7 @@ void tutorial_game::post_action(action_id act)
    add_message(LESSON_ACT_GRENADE);
   for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
    for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-    if (g->m.tr_at(x, y).id == "tr_bubblewrap")
+    if (g->m.tr_at({x, y, g->u.posz()}).id == trap_str_id( "tr_bubblewrap" ))
      add_message(LESSON_ACT_BUBBLEWRAP);
    }
   }

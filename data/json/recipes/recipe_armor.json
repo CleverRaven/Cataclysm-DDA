@@ -7528,7 +7528,7 @@
   "type" : "recipe",
   "result": "kilt",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HANDS",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 90000,
@@ -8911,6 +8911,22 @@
   "components": [
     [
       [ "felt_patch", 42 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "sockmitts",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "socks", 1 ]
     ]
   ]
 },{

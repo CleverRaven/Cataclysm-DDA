@@ -13,6 +13,11 @@
 #include "char_validity_check.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "translations.h"
+#include "martialarts.h"
+#include "addiction.h"
+#include "ui.h"
+#include "mutation.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -79,7 +84,7 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     menu.text = _( "Pick your style:" );
     menu.desc_enabled = true;
     for( auto & s : styles ) {
-        auto &style = martialarts[s];
+        auto &style = s.obj();
         menu.addentry_desc( style.name, style.description );
     }
     menu.selected = 0;
@@ -455,7 +460,7 @@ int player::create(character_type type, std::string tempname)
          g->u.toggle_trait(*iter);
     }
     for( auto &t : get_base_traits() ) {
-        std::vector<std::string> styles;
+        std::vector<matype_id> styles;
         for( auto &s : mutation_branch::get( t ).initial_ma_styles ) {
             if( !has_martialart( s ) ) {
                 styles.push_back( s );

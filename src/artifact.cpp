@@ -6,10 +6,16 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "rng.h"
+#include "translations.h"
 
 #include <sstream>
 #include <fstream>
 #include <bitset>
+
+// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();

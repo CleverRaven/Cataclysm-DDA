@@ -1,10 +1,17 @@
+#include "veh_type.h"
 #include "vehicle.h"
 #include "game.h"
 #include "debug.h"
 #include "item_group.h"
 #include "json.h"
+#include "translations.h"
+#include "color.h"
+#include "itype.h"
 
 #include <unordered_map>
+#include <unordered_set>
+
+std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:
@@ -26,9 +33,6 @@
 // To determine, what parts can be external, and what can not, check
 // vehicle_parts.json
 // If you use wrong config, installation of part will fail
-
-std::map<std::string, vpart_info> vehicle_part_types;
-std::vector<vpart_info> vehicle_part_int_types; // rapid lookup, for part_info etc
 
 static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map = {
     { "ARMOR", VPFLAG_ARMOR },
@@ -64,6 +68,58 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "VISION", VPFLAG_EXTENDS_VISION }
 };
 
+std::map<vpart_str_id, vpart_info> vehicle_part_types;
+// Contains pointer into the vehicle_part_types map. It is an implicit mapping of int ids
+// to the matching vpart_info object. To store the object only once, it is in the map and only
+// linked to. Pointers here are always valid.
+std::vector<const vpart_info*> vehicle_part_int_types;
+
+template<>
+const vpart_info &int_id<vpart_info>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= vehicle_part_int_types.size() ) {
+        debugmsg( "invalid vehicle part id %d", _id );
+        static const vpart_info dummy{};
+        return dummy;
+    }
+    return *vehicle_part_int_types[_id];
+}
+
+template<>
+const string_id<vpart_info> &int_id<vpart_info>::id() const
+{
+    return obj().id;
+}
+
+template<>
+int_id<vpart_info> string_id<vpart_info>::id() const
+{
+    const auto iter = vehicle_part_types.find( *this );
+    if( iter == vehicle_part_types.end() ) {
+        debugmsg( "invalid vehicle part id %s", c_str() );
+        return vpart_id();
+    }
+    return iter->second.loadid;
+}
+
+template<>
+const vpart_info &string_id<vpart_info>::obj() const
+{
+    return id().obj();
+}
+
+template<>
+bool string_id<vpart_info>::is_valid() const
+{
+    return vehicle_part_types.count( *this ) > 0;
+}
+
+template<>
+int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
+: _id( id.id() )
+{
+}
+
 // Note on the 'symbol' flag in vehicle parts -
 // the following symbols will be translated:
 // y, u, n, b to NW, NE, SE, SW lines correspondingly
@@ -71,11 +127,11 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
 /**
  * Reads in a vehicle part from a JsonObject.
  */
-void game::load_vehiclepart(JsonObject &jo)
+void vpart_info::load( JsonObject &jo )
 {
     vpart_info next_part;
 
-    next_part.id = jo.get_string("id");
+    next_part.id = vpart_str_id( jo.get_string( "id" ) );
     next_part.name = _(jo.get_string("name").c_str());
     next_part.sym = jo.get_string("symbol")[0];
     next_part.color = color_from_string(jo.get_string("color"));
@@ -115,7 +171,7 @@ void game::load_vehiclepart(JsonObject &jo)
         //Keep going to produce more messages if other parts are wrong
         next_part.par1 = 0;
     }
-    next_part.fuel_type = jo.has_member("fuel_type") ? jo.get_string("fuel_type") : "NULL";
+    next_part.fuel_type = jo.get_string( "fuel_type", "null" );
     next_part.item = jo.get_string("item");
     next_part.difficulty = jo.get_int("difficulty");
     next_part.location = jo.has_member("location") ? jo.get_string("location") : "";
@@ -185,14 +241,19 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.list_order = 5;
     }
 
-    if (vehicle_part_types.count(next_part.id) > 0) {
-        next_part.loadid = vehicle_part_types[next_part.id].loadid;
-        vehicle_part_int_types[next_part.loadid] = next_part;
+    auto const iter = vehicle_part_types.find( next_part.id );
+    if( iter != vehicle_part_types.end() ) {
+        // Entry in the map already exists, so the pointer in the vector is already correct
+        // and does not need to be changed, only the int-id needs to be taken from the old entry.
+        next_part.loadid = iter->second.loadid;
+        iter->second = next_part;
     } else {
-        next_part.loadid = vehicle_part_int_types.size();
-        vehicle_part_int_types.push_back(next_part);
+        // The entry is new, "generate" a new int-id and link the new entry from the vector.
+        next_part.loadid = vpart_id( vehicle_part_int_types.size() );
+        vpart_info &new_entry = vehicle_part_types[next_part.id];
+        new_entry = next_part;
+        vehicle_part_int_types.push_back( &new_entry );
     }
-    vehicle_part_types[next_part.id] = next_part;
 }
 
 void vpart_info::set_flag( const std::string &flag )
@@ -204,9 +265,10 @@ void vpart_info::set_flag( const std::string &flag )
     }
 }
 
-void game::check_vehicleparts()
+void vpart_info::check()
 {
-    for( auto &part : vehicle_part_int_types ) {
+    for( auto &part_ptr : vehicle_part_int_types ) {
+        auto &part = *part_ptr;
         for( auto &component : part.breaks_into ) {
             if( !item::type_is_defined( component.item_id ) ) {
                 debugmsg( "Vehicle part %s breaks into non-existent part %s.",
@@ -216,46 +278,88 @@ void game::check_vehicleparts()
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
             debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());
         }
+        if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
+            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
+        }
+        // For now, ignore invalid item ids, later add a check and assume here they are valid.
+        if( part.has_flag( "TURRET" ) && item::type_is_defined( part.item ) ) {
+            if( !item::find_type( part.item )->gun ) {
+                debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
+            }
+        }
     }
 }
 
-void game::reset_vehicleparts()
+void vpart_info::reset()
 {
     vehicle_part_types.clear();
     vehicle_part_int_types.clear();
 }
 
+const std::vector<const vpart_info*> &vpart_info::get_all()
+{
+    return vehicle_part_int_types;
+}
+
+template<>
+const vehicle_prototype &string_id<vehicle_prototype>::obj() const
+{
+    const auto iter = vtypes.find( *this );
+    if( iter == vtypes.end() ) {
+        debugmsg( "invalid vehicle prototype id %s", c_str() );
+        static const vehicle_prototype dummy = {
+            "",
+            std::vector<std::pair<point, vpart_str_id>>{},
+            std::vector<vehicle_item_spawn>{},
+            nullptr
+        };
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<vehicle_prototype>::is_valid() const
+{
+    return vtypes.count( *this ) > 0;
+}
+
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
  */
-// loads JsonObject vehicle definition into a cached state so that it can be held until after itypes have been initialized
-void game::load_vehicle(JsonObject &jo)
+void vehicle_prototype::load(JsonObject &jo)
 {
-    vehicle_prototype *vproto = new vehicle_prototype;
-
-    vproto->id = jo.get_string("id");
-    vproto->name = jo.get_string("name");
+    vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
+    // If there are already parts defined, this vehicle prototype overrides an existing one.
+    // If the json contains a name, it means a completely new prototype (replacing the
+    // original one), therefor the old data has to be cleared.
+    // If the json does not contain a name (the prototype would have no name), it means appending
+    // to the existing prototype (the parts are not cleared).
+    if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
+        vproto = std::move( vehicle_prototype() );
+    }
+    if( vproto.parts.empty() ) {
+        vproto.name = jo.get_string( "name" );
+    }
 
     JsonArray parts = jo.get_array("parts");
-    point pxy;
-    std::string pid;
     while (parts.has_more()) {
         JsonObject part = parts.next_object();
-        pxy = point(part.get_int("x"), part.get_int("y"));
-        pid = part.get_string("part");
-        vproto->parts.push_back(std::pair<point, std::string>(pxy, pid));
+        const point pxy( part.get_int("x"), part.get_int("y") );
+        const vpart_str_id pid( part.get_string( "part" ) );
+        vproto.parts.emplace_back( pxy, pid );
     }
 
     JsonArray items = jo.get_array("items");
     while(items.has_more()) {
         JsonObject spawn_info = items.next_object();
         vehicle_item_spawn next_spawn;
-        next_spawn.x = spawn_info.get_int("x");
-        next_spawn.y = spawn_info.get_int("y");
+        next_spawn.pos.x = spawn_info.get_int("x");
+        next_spawn.pos.y = spawn_info.get_int("y");
         next_spawn.chance = spawn_info.get_int("chance");
         if(next_spawn.chance <= 0 || next_spawn.chance > 100) {
             debugmsg("Invalid spawn chance in %s (%d, %d): %d%%",
-                     vproto->name.c_str(), next_spawn.x, next_spawn.y, next_spawn.chance);
+                     vproto.name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance);
         }
         if(spawn_info.has_array("items")) {
             //Array of items that all spawn together (ie jack+tire)
@@ -276,83 +380,80 @@ void game::load_vehicle(JsonObject &jo)
         } else if(spawn_info.has_string("item_groups")) {
             next_spawn.item_groups.push_back(spawn_info.get_string("item_groups"));
         }
-        vproto->item_spawns.push_back(next_spawn);
+        vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
-
-    vehprototypes.push(vproto);
 }
 
-void game::reset_vehicles()
+void vehicle_prototype::reset()
 {
-    for( auto &elem : vtypes ) {
-        delete elem.second;
-    }
     vtypes.clear();
 }
 
+const vpart_str_id vpart_info::null( "null" );
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.
  */
-void game::finalize_vehicles()
+void vehicle_prototype::finalize()
 {
-    int part_x = 0, part_y = 0;
-    std::string part_id = "";
-    vehicle *next_vehicle;
+    for( auto &vp : vtypes ) {
+        std::unordered_set<point> cargo_spots;
+        vehicle_prototype &proto = vp.second;
+        const vproto_id &id = vp.first;
 
-    std::map<point, bool> cargo_spots;
+        // Calls the default constructor to create an empty vehicle. Calling the constructor with
+        // the type as parameter would make it look up the type in the map and copy the
+        // (non-existing) blueprint.
+        proto.blueprint.reset( new vehicle() );
+        vehicle &blueprint = *proto.blueprint;
+        blueprint.type = id;
+        blueprint.name = _(proto.name.c_str());
 
-    while (!vehprototypes.empty()) {
-        cargo_spots.clear();
-        vehicle_prototype *proto = vehprototypes.front();
-        vehprototypes.pop();
-
-        next_vehicle = new vehicle(proto->id.c_str());
-        next_vehicle->name = _(proto->name.c_str());
-
-        for (size_t i = 0; i < proto->parts.size(); ++i) {
-            point p = proto->parts[i].first;
-            part_x = p.x;
-            part_y = p.y;
-
-            part_id = proto->parts[i].second;
-            if (vehicle_part_types.count(part_id) == 0) {
-                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), proto->id.c_str());
+        for( auto &part : proto.parts ) {
+            const point &p = part.first;
+            const vpart_str_id &part_id = part.second;
+            if( !part_id.is_valid() ) {
+                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), id.c_str());
                 continue;
             }
 
-            if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
+            if(blueprint.install_part(p.x, p.y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                         next_vehicle->name.c_str(), part_id.c_str(),
-                         next_vehicle->parts.size(), part_x, part_y);
+                         blueprint.name.c_str(), part_id.c_str(),
+                         blueprint.parts.size(), p.x, p.y);
             }
-            if ( vehicle_part_types[part_id].has_flag("CARGO") ) {
-                cargo_spots[p] = true;
+            if( part_id.obj().has_flag("CARGO") ) {
+                cargo_spots.insert( p );
             }
         }
 
-        for (auto &i : proto->item_spawns) {
-            if (cargo_spots.find(point(i.x, i.y)) == cargo_spots.end()) {
+        for (auto &i : proto.item_spawns) {
+            if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                         proto->name.c_str(), i.x, i.y, i.chance);
+                         proto.name.c_str(), i.pos.x, i.pos.y, i.chance);
             }
             for (auto &j : i.item_ids) {
                 if( !item::type_is_defined( j ) ) {
-                    debugmsg("unknown item %s in spawn list of %s", j.c_str(), proto->id.c_str());
+                    debugmsg("unknown item %s in spawn list of %s", j.c_str(), id.c_str());
                 }
             }
             for (auto &j : i.item_groups) {
                 if (!item_group::group_is_defined(j)) {
-                    debugmsg("unknown item group %s in spawn list of %s", j.c_str(), proto->id.c_str());
+                    debugmsg("unknown item group %s in spawn list of %s", j.c_str(), id.c_str());
                 }
             }
         }
-        next_vehicle->item_spawns = proto->item_spawns;
-
-        if (vtypes.count(next_vehicle->type) > 0) {
-            delete vtypes[next_vehicle->type];
-        }
-        vtypes[next_vehicle->type] = next_vehicle;
-        delete proto;
+        // Clear the parts vector as it is not needed anymore. Usage of swap guaranties that the
+        // memory of the vector is really freed (instead of simply marking the vector as empty).
+        std::remove_reference<decltype(proto.parts)>::type().swap( proto.parts );
     }
+}
+
+std::vector<vproto_id> vehicle_prototype::get_all()
+{
+    std::vector<vproto_id> result;
+    for( auto & vp : vtypes ) {
+        result.push_back( vp.first );
+    }
+    return result;
 }

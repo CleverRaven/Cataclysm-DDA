@@ -1,7 +1,6 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "input.h"
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
@@ -12,7 +11,9 @@ class game;
 class item;
 class monfaction;
 
-typedef std::map< const monfaction*, std::set< int > > mfactions;
+using mfaction_id = int_id<monfaction>;
+
+typedef std::map< mfaction_id, std::set< int > > mfactions;
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -45,10 +46,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
 
         void poly(mtype *t);
+        bool can_upgrade() const;
         void update_check();
-        void spawn( const int x, const int y ); // All this does is moves the monster to x,y,g->levz
-        void spawn( const int x, const int y, const int z ); // As above, except with any z
-        void spawn( const tripoint &p); // As above, but takes a tripoint argument
+        void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
         int get_hp( hp_part ) const override
         {
@@ -217,13 +217,16 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_on_ground() const override;
         bool is_warm() const override;
         bool has_weapon() const override;
-        bool is_elec_immune() const override;
         bool is_dead_state() const override; // check if we should be dead or not
+        bool is_elec_immune() const override;
+        bool is_immune_effect( const efftype_id& ) const override;
+        bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
         void dodge_hit(Creature *source, int hit_spread) override;
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d) override;
-        void melee_attack(Creature &p, bool allow_special = true, matec_id force_technique = "") override;
+        using Creature::melee_attack;
+        void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
         virtual int deal_melee_attack(Creature *source, int hitroll) override;
         virtual int deal_projectile_attack(Creature *source, double missed_by,
                                            const projectile &proj, dealt_damage_instance &dealt_dam) override;
@@ -251,8 +254,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0) override;
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false ) override;
 
         virtual float power_rating() const override;
 
@@ -263,6 +266,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
         int  fall_damage() const; // How much a fall hurts us
+
+        // We just dodged an attack from something
+        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        // Something hit us (possibly null source)
+        void on_hit( Creature *source, body_part bp_hit = num_bp,
+                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        // Get torso - monsters don't have body parts (yet?)
+        body_part get_random_body_part( bool main ) const override;
 
         /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
         void reset_special(int index);
@@ -302,7 +313,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int def_chance;
         int friendly;
         int anger, morale;
-        const monfaction *faction; // Our faction (species, for most monsters)
+        mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
         mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
@@ -313,11 +324,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool hallucination;
 
         // level_change == true means "monster isn't spawned yet, don't update position in tracker"
-        bool setpos( const int x, const int y );
-        bool setpos( const int x, const int y, const int z, const bool level_change = false );
-        bool setpos( const point &p, const bool level_change = false );
         bool setpos( const tripoint &p, const bool level_change = false );
-        const tripoint &pos3() const override;
+        const tripoint &pos() const override;
         inline int posx() const override
         {
             return position.x;
@@ -351,8 +359,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( const item &itm );
+        /** Gets the last time the monster was loaded. */
+        int get_last_load() const;
+        /** Sets the last time the monster was loaded to the given day. */
+        void set_last_load(int day);
 
-        /** Sets the last time the monster was loaded to the current turn */
+        /** Sets the last time the monster was loaded to the current day */
         void reset_last_load();
 
     private:

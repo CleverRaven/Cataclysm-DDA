@@ -12,6 +12,7 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "item_factory.h"
+#include "vehicle_factory.h"
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
@@ -40,6 +41,10 @@
 #include "npc.h"
 #include "item_action.h"
 #include "dialogue.h"
+#include "mongroup.h"
+#include "monfaction.h"
+#include "martialarts.h"
+#include "veh_type.h"
 
 #include <string>
 #include <vector>
@@ -126,8 +131,15 @@ void DynamicDataLoader::initialize()
     type_function_map["item_action"] = new ClassFunctionAccessor<item_action_generator>
     ( &item_action_generator::generator(), &item_action_generator::load_item_action );
 
-    type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
-    type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
+    type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
+    type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
+    type_function_map["vehicle_group"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
+            &VehicleFactory::load_vehicle_group);
+    type_function_map["vehicle_placement"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
+            &VehicleFactory::load_vehicle_placement);
+    type_function_map["vehicle_spawn"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
+            &VehicleFactory::load_vehicle_spawn);
+
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_ammo);
@@ -160,8 +172,6 @@ void DynamicDataLoader::initialize()
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
     type_function_map["SPECIES"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_species);
-    type_function_map["MONSTER_FACTION"] = new ClassFunctionAccessor<MonsterGenerator>
-    (&MonsterGenerator::generator(), &MonsterGenerator::load_monster_faction);
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
@@ -203,6 +213,9 @@ void DynamicDataLoader::initialize()
         &load_talk_topic);
     type_function_map["epilogue"] = new StaticFunctionAccessor(
         &epilogue::load_epilogue);
+
+    type_function_map["MONSTER_FACTION"] =
+        new StaticFunctionAccessor(&monfactions::load_monster_faction);
 
 }
 
@@ -332,8 +345,8 @@ void DynamicDataLoader::unload_data()
     termap.clear();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
-    g->reset_vehicles();
-    g->reset_vehicleparts();
+    vehicle_prototype::reset();
+    vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
@@ -363,11 +376,11 @@ void DynamicDataLoader::finalize_loaded_data()
     set_oter_ids();
     trap::finalize();
     finalize_overmap_terrain();
-    g->finalize_vehicles();
+    vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
-    MonsterGenerator::generator().finalize_monfactions();
     MonsterGroupManager::FinalizeMonsterGroups();
+    monfactions::finalize();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
     finialize_martial_arts();
@@ -377,7 +390,7 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::check_consistency()
 {
     item_controller->check_definitions();
-    g->check_vehicleparts();
+    vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();

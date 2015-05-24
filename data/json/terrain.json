@@ -2749,7 +2749,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -2769,7 +2769,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE"
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
         ],
         "examine_action": "chainfence",
         "bash": {
@@ -3261,6 +3261,32 @@
                 { "item": "scrap", "amount": 1}
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_gas_tank",
+        "name": "tank with gasoline",
+        "symbol": "Q",
+        "color": "brown_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_little_column",
+        "name": "little column",
+        "symbol": "1",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["WALL", "TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_gas_pump_a",
+        "name": "gasoline pump",
+        "comment": "clone of t_gas_pump, but other color, must be clone every time",
+        "symbol": "&",
+        "color": "yellow_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT"],
+        "examine_action": "gaspump"
     },{
         "type" : "terrain",
         "id" : "t_gas_pump_smashed",

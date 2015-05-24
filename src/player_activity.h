@@ -67,7 +67,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
-        point placement;
+        std::vector<tripoint> coords;
+        tripoint placement;
         /** If true, the player has been warned of dangerously close monsters with
          * respect to this activity.
          */

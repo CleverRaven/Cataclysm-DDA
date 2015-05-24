@@ -24,6 +24,9 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
+#include "mongroup.h"
+#include "name.h"
+#include "translations.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -74,6 +77,14 @@ std::unordered_map<std::string, oter_t> obasetermap;
 t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
+
+city::city( int const X, int const Y, int const S)
+: x (X)
+, y (Y)
+, s (S)
+, name( Name::get( nameIsTownName ) )
+{
+}
 
 void load_overmap_specials(JsonObject &jo)
 {
@@ -1361,11 +1372,11 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-int overmap::dist_from_city(point p)
+int overmap::dist_from_city( const tripoint &p )
 {
     int distance = 999;
     for (auto &i : cities) {
-        int dist = rl_dist(p.x, p.y, i.x, i.y);
+        int dist = rl_dist( p, { i.x, i.y, 0 } );
         dist -= i.s;
         if (dist < distance) {
             distance = dist;
@@ -1479,8 +1490,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const int om_half_height = om_map_height / 2;
 
     // Target of current mission
-    const point target = g->u.get_active_mission_target();
-    const bool has_target = target != overmap::invalid_point;
+    const tripoint target = g->u.get_active_mission_target();
+    const bool has_target = target != overmap::invalid_tripoint;
     // seen status & terrain of center position
     bool csee = false;
     oter_id ccur_ter = "";
@@ -1533,10 +1544,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 cur_ter = overmap_buffer.ter(omx, omy, z);
             }
 
-            // Check if location is within player line-of-sight
-            const bool los = see && g->u.overmap_los(omx, omy, sight_points);
-
             tripoint const cur_pos {omx, omy, z};
+            // Check if location is within player line-of-sight
+            const bool los = see && g->u.overmap_los( cur_pos, sight_points );
 
             if (blink && cur_pos == orig) {
                 // Display player pos, should always be visible
@@ -1544,11 +1554,15 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_sym   = '@';
             } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
-            } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
-                // TODO: mission targets currently have no z-component, are assumed to be on z=0
+            } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
                 ter_sym   = '*';
+                if( target.z > z ) {
+                    ter_sym = '^';
+                } else if( target.z < z ) {
+                    ter_sym = 'v';
+                }
             } else if (blink && overmap_buffer.has_note(cur_pos)) {
                 // Display notes in all situations, even when not seen
                 std::tie(ter_sym, ter_color, std::ignore) =
@@ -1649,35 +1663,34 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
     if (has_target && blink &&
-        (target.x < cursx - om_half_height ||
-         target.x > cursx + om_half_height  ||
-         target.y < cursy - om_half_width ||
-         target.y > cursy + om_half_width)) {
-        // TODO: mission targets currently have no z-component, are assumed to be on z=0
+        (target.x < cursx - om_half_width ||
+         target.x >= cursx + om_half_width  ||
+         target.y < cursy - om_half_height ||
+         target.y >= cursy + om_half_height)) {
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0, om_half_width, c_red, '^');
+            mvwputch(w, 0,                  om_half_width - 1,  c_red, '^');
             break;
         case NORTHEAST:
-            mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX);
+            mvwputch(w, 0,                  om_map_width - 1,   c_red, LINE_OOXX);
             break;
         case EAST:
-            mvwputch(w, om_half_height, om_map_width - 1, c_red, '>');
+            mvwputch(w, om_half_height - 1, om_map_width - 1,   c_red, '>');
             break;
         case SOUTHEAST:
-            mvwputch(w, om_map_height, om_map_width - 1, c_red, LINE_XOOX);
+            mvwputch(w, om_map_height - 1,  om_map_width - 1,   c_red, LINE_XOOX);
             break;
         case SOUTH:
-            mvwputch(w, om_map_height, om_half_height, c_red, 'v');
+            mvwputch(w, om_map_height - 1,  om_half_width - 1,  c_red, 'v');
             break;
         case SOUTHWEST:
-            mvwputch(w, om_map_height, 0, c_red, LINE_XXOO);
+            mvwputch(w, om_map_height - 1,  0,                  c_red, LINE_XXOO);
             break;
         case WEST:
-            mvwputch(w, om_half_height,  0, c_red, '<');
+            mvwputch(w, om_half_height - 1, 0,                  c_red, '<');
             break;
         case NORTHWEST:
-            mvwputch(w,  0,  0, c_red, LINE_OXXO);
+            mvwputch(w, 0,                  0,                  c_red, LINE_OXXO);
             break;
         default:
             break; //Do nothing
@@ -1780,8 +1793,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     if (has_target) {
-        // TODO: mission targets currently have no z-component, are assumed to be on z=0
-        int distance = rl_dist(orig.x, orig.y, target.x, target.y);
+        // TODO: Add a note that the target is above/below us
+        int distance = rl_dist( orig, target );
         mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
     }
     mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
@@ -2076,6 +2089,11 @@ void overmap::process_mongroups()
     }
 }
 
+void overmap::clear_mon_groups()
+{
+    zg.clear();
+}
+
 void mongroup::wander()
 {
     // TODO: More interesting stuff possible, like looking for nearby shelter.
@@ -2129,14 +2147,14 @@ void overmap::move_hordes()
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
-void overmap::signal_hordes( const int x, const int y, const int sig_power)
+void overmap::signal_hordes( const tripoint &p, const int sig_power)
 {
     for( auto &elem : zg ) {
         mongroup &mg = elem.second;
         if( !mg.horde ) {
             continue;
         }
-            const int dist = rl_dist( x, y, mg.posx, mg.posy );
+            const int dist = rl_dist( p, { mg.posx, mg.posy, mg.posz } );
             if( sig_power <= dist ) {
                 continue;
             }
@@ -2144,13 +2162,14 @@ void overmap::signal_hordes( const int x, const int y, const int sig_power)
             const int d_inter = (sig_power - dist) * 5;
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
-                const int targ_dist = rl_dist( x, y, mg.tx, mg.ty );
+                // TODO: Z coord for mongroup targets
+                const int targ_dist = rl_dist( p, { mg.tx, mg.ty, mg.posz } );
                 // TODO: Base this on targ_dist:dist ratio.
                 if (targ_dist < 5) {
-                    mg.set_target( (mg.tx + x) / 2, (mg.ty + y) / 2 );
+                    mg.set_target( (mg.tx + p.x) / 2, (mg.ty + p.y) / 2 );
                     mg.inc_interest( d_inter );
                 } else {
-                    mg.set_target( x, y );
+                    mg.set_target( p.x, p.y );
                     mg.set_interest( d_inter );
                 }
             }
@@ -3399,9 +3418,8 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
     }
 
     // then do city range checking
-    point citypt = point(p.x, p.y);
-    if(!(special.min_city_distance == -1 || dist_from_city(citypt) >= special.min_city_distance) ||
-       !(special.max_city_distance == -1 || dist_from_city(citypt) <= special.max_city_distance)) {
+    if(!(special.min_city_distance == -1 || dist_from_city( p ) >= special.min_city_distance) ||
+       !(special.max_city_distance == -1 || dist_from_city( p ) <= special.max_city_distance)) {
         return false;
     }
     // then check location flags
