@@ -1,12 +1,12 @@
 -- This is executed before any json data is loaded.
 -- Place all iuse actions that shall be available for item here.
 
-function hiccup(item, active)
+function hiccup(item, active, pos)
     item_store = item
     game.add_msg("You hiccup because of "..item.id)
 end
 
-function tellstuff(item, active)
+function tellstuff(item, active, pos)
     game.add_msg("Your foo tells you: str "..player.str_cur.."/"..player.str_max)
     game.add_msg("Are you hot around the legs? "..tostring(player:has_disease("hot_legs")))
     player:add_disease("hot_feet", 10, 1, 3)
@@ -14,7 +14,7 @@ function tellstuff(item, active)
     game.add_msg("Fatigue: "..player.fatigue)
 end
 
-function custom_prozac(item, active)
+function custom_prozac(item, active, pos)
     if not player:has_disease("took_prozac") and player:morale_level() < 0 then
         player:add_disease("took_prozac", 7200, 0, -1)
     else
@@ -22,21 +22,21 @@ function custom_prozac(item, active)
     end
 end
 
-function custom_sleep(item, active)
+function custom_sleep(item, active, pos)
     player.fatigue = player.fatigue + 40
     if not player:is_npc() then
         game.add_msg("You feel very sleepy...")
     end
 end
 
-function custom_iodine(item, active)
+function custom_iodine(item, active, pos)
     player:add_disease("iodine", 1200, 0, -1)
     if not player:is_npc() then
         game.add_msg("You take an iodine tablet.")
     end
 end
 
-function custom_flumed(item, active)
+function custom_flumed(item, active, pos)
     player:add_disease("took_flumed", 6000, 0, -1)
     if not player:is_npc() then
         game.add_msg("You take some "..item.name..".")
