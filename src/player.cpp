@@ -11474,7 +11474,7 @@ void player::read(int inventory_position)
 
     // Check if reading is okay
     // check for light level
-    if (fine_detail_vision_mod() > 4) { //minimum LL_LOW or LL_DARK + (ELFA_NV or atomic_light)
+    if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
         return;
     }
@@ -12156,7 +12156,7 @@ std::string player::is_snuggling()
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// 2.5 is enough light for detail work.
+// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
 float player::fine_detail_vision_mod()
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
@@ -12164,28 +12164,17 @@ float player::fine_detail_vision_mod()
     // it's annoying rather than limiting.
     if( has_effect("blind") || worn_with_flag("BLIND") ||
         (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
-        return 5;
+        return 5.0;
     }
     // If we're actually a source of light, assume we can direct it where we need it.
-    if( active_light() > LIGHT_AMBIENT_LOW ) {
-        return 1;
-    }
-    // Otherwise base it on the level of ambient light.
-    visibility_variables cache;
-    g->m.update_visibility_cache( cache, posz() );
-    lit_level apparent_light = g->m.apparent_light_at( pos(), cache );
-    switch( apparent_light ) {
-    case LL_LIT:
-    case LL_BRIGHT:
-        return 1;
-    case LL_LOW:
-        return 3;
-    case LL_BLANK:
-    case LL_DARK:
-    case LL_BRIGHT_ONLY:
-        return 5;
-    }
-    return 5;
+    // Scale linearly own_light approaches LIGHT_AMBIENT_LIT.
+    // but also enforce a monimum of 1.0, and drop by one as a bonus.
+    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() );
+
+    // Same calculation as above, but with a result 1 lower.
+    float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( pos() ) + 1.0 );
+
+    return std::min( own_light, ambient_light );
 }
 
 int player::get_wind_resistance(body_part bp) const
@@ -12195,24 +12184,16 @@ int player::get_wind_resistance(body_part bp) const
     int totalCoverage = 0;
     int penalty = 100;
 
-    for (auto &i : worn)
-    {
-        if (i.covers(bp))
-        {
-            if (i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") || i.made_of("chitin") || i.made_of("nomex"))
-            {
+    for( auto &i : worn ) {
+        if( i.covers(bp) ) {
+            if( i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") ||
+                i.made_of("chitin") || i.made_of("nomex") ) {
                 penalty = 10; // 90% effective
-            }
-            else if (i.made_of("cotton"))
-            {
+            } else if( i.made_of("cotton") ) {
                 penalty = 30;
-            }
-            else if (i.made_of("wool"))
-            {
+            } else if( i.made_of("wool") ) {
                 penalty = 40;
-            }
-            else
-            {
+            } else {
                 penalty = 1; // 99% effective
             }
 

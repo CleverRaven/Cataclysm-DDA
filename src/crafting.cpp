@@ -308,7 +308,6 @@ bool player::crafting_allowed()
 bool player::crafting_can_see()
 {
     if (fine_detail_vision_mod() > 4) {
-        //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }

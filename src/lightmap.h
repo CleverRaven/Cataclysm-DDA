@@ -4,9 +4,14 @@
 #define LIGHT_SOURCE_LOCAL  0.1f
 #define LIGHT_SOURCE_BRIGHT 10
 
+// Just enough light that you can see the current and adjacent squares with normal vision.
 #define LIGHT_AMBIENT_MINIMAL 3.7f
-#define LIGHT_AMBIENT_LOW   3.5
-#define LIGHT_AMBIENT_LIT   10.0
+// The threshold between not being able to see anything and things appearing shadowy.
+#define LIGHT_AMBIENT_LOW 3.5
+// The lower threshold for seeing well enough to do detail work such as reading or crafting.
+#define LIGHT_AMBIENT_DIM 5.0
+// The threshold between things being shadowed and being brightly lit.
+#define LIGHT_AMBIENT_LIT 10.0
 
 #define LIGHT_TRANSPARENCY_SOLID 0
 // Calculated to run out at 60 squares.

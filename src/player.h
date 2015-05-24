@@ -669,12 +669,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling();
-        /** Returns a value used for things like reading and sewing based on light level */
+        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
+         * for the time taken to perform tasks that require detail vision,
+         * above 4.0 means these activities cannot be performed. */
         float fine_detail_vision_mod();
 
-        /** Used to determine player feedback on item use for the inventory code */
-        hint_rating rate_action_use(const item *it)
-        const; //rates usability lower for non-tools (books, etc.)
+        /** Used to determine player feedback on item use for the inventory code.
+         *  rates usability lower for non-tools (books, etc.) */
+        hint_rating rate_action_use(const item *it) const;
         hint_rating rate_action_wear(item *it);
         hint_rating rate_action_eat(item *it);
         hint_rating rate_action_read(item *it);
