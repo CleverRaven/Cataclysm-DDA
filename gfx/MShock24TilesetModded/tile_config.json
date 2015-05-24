@@ -19978,6 +19978,97 @@
           "fg": 614,
           "bg": 505,
           "rotates": false
+        },
+        {
+          "id": "vp_frame_wood_light_cross",
+          "fg": 1087,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_cover",
+          "fg": 2398,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_horizontal_2",
+          "fg": 2400,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_ne",
+          "fg": 2401,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_nw",
+          "fg": 2402,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_se",
+          "fg": 2403,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_sw",
+          "fg": 2404,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_vertical",
+          "fg": 2405,
+          "rotates": true
+        },
+        {
+          "id": "vp_frame_wood_light_vertical_2",
+          "fg": 2406,
+          "rotates": true
+        },
+        {
+          "id": "vp_folding_frame",
+          "fg": 2390,
+          "rotates": true
+        },
+        {
+          "id": "vp_basketlg_folding",
+          "fg": 2353,
+          "rotates": false
+        },
+        {
+          "id": "vp_wing_mirror",
+          "fg": 2609,
+          "rotates": false
+        },
+        {
+          "id": "mirror",
+          "fg": 2610,
+          "rotates": false
+        },
+        {
+          "id": "vp_lit_aisle_horizontal",
+          "fg": 2611,
+          "rotates": false
+        },
+        {
+          "id": "vp_lit_aisle_vertical",
+          "fg": 2611,
+          "rotates": false
+        },
+        {
+          "id": "vp_folding_seat",
+          "fg": 1187,
+          "bg": 551,
+          "rotates": true
+        },
+        {
+          "id": "hd_steel_drum",
+          "fg": 2612,
+          "rotates": false
+        },
+        {
+          "id": "vp_roller_drum",
+          "fg": 2612,
+          "rotates": false
         }
       ]
     },
