@@ -2,7 +2,7 @@
 #include "catch/catch.hpp"
 
 #include "map.h"
-#include "line.h"
+#include "line.h" // For rl_dist.
 
 #include <chrono>
 #include <random>
@@ -141,18 +141,18 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     clock_gettime( CLOCK_REALTIME, &start1 );
 #define PERFORMANCE_TEST_ITERATIONS 10000000
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
-    // First the control algorithm.
-    oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
+        // First the control algorithm.
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
     }
     clock_gettime( CLOCK_REALTIME, &end1 );
 
@@ -203,7 +203,8 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     bool passed = true;
     for( int x = 0; passed && x < MAPSIZE*SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE*SEEX; ++y ) {
-            if( seen_squares_control[x][y] != seen_squares_experiment[x][y] ) {
+            if( (seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID) !=
+                (seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID) ) {
                 passed = false;
                 break;
             }
