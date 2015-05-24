@@ -233,16 +233,17 @@ private:
     }
 
 public:
-    static void load_metatable( lua_State* const L )
+    static void load_metatable( lua_State* const L, const char * const global_name )
     {
+        // Create the metatable for the first time (or just retrieve it)
         get_metatable( L );
-        std::string mt(METATABLE_NAME);
-        if( mt.length() > 10 ) {
-            // 10 == strlen("_metatable"), the prefix that all metatables have, but we want them to
-            // be available without this in the global namespace (e.g. to write `p = tripoint( 1, 5, 100 )`
-            mt.erase( mt.length() - 10, 10 );
+        if( global_name == nullptr ) {
+            // remove the table from stack, setglobal does this in the other branch,
+            // make it here manually to leave the stack in the same state.
+            lua_remove( L, -1 );
+        } else {
+            lua_setglobal( L, global_name );
         }
-        lua_setglobal( L, mt.c_str() );
     }
     static void push( lua_State* const L, const T& value )
     {

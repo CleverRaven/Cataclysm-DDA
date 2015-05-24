@@ -382,17 +382,22 @@ function generate_write_members_static(cpp_type, class, name)
     cpp_output = cpp_output .. "};" .. br
 end
 
+-- The static constant is always define in LuaValue (LuaReference gets it via inheritance)
+-- But LuaReference inherits from LuaValue<T*>!
+function wrapper_base_class(class)
+    -- This must not be LuaReference because it is used for declaring/defining the static members
+    -- and those should onloy exist for LuaValue.
+    if classes[class].by_value then
+        return "LuaValue<" .. class .. ">"
+    else
+        return "LuaValue<" .. class .. "*>"
+    end
+end
+
 -- Create the static constant members of LuaValue
 for name, value in pairs(classes) do
+    local cpp_name = wrapper_base_class(name)
     cpp_output = cpp_output .. "template<>" .. br
-    local cpp_name = ""
-    -- The static constant is always define in LuaValue (LuaReference gets it via inheritance)
-    -- But LuaReference inherits from LuaValue<T*>!
-    if value.by_value then
-        cpp_name = "LuaValue<" .. name .. ">"
-    else
-        cpp_name = "LuaValue<" .. name .. "*>"
-    end
     cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. name .. "_metatable\";" .. br
     generate_functions_static(cpp_name, value, name)
     generate_read_members_static(cpp_name, value, name)
@@ -403,10 +408,12 @@ end
 cpp_output = cpp_output .. "static void load_metatables(lua_State* const L) {" .. br
 
 for name, value in pairs(classes) do
-    if value.by_value then
-        cpp_output = cpp_output .. tab .. "LuaValue<" .. name .. ">::load_metatable( L );" .. br
+    local cpp_name = wrapper_base_class(name)
+    -- If the class has a constructor, it should be exposed via a global name (which is the class name)
+    if value.new then
+        cpp_output = cpp_output .. tab .. cpp_name .. "::load_metatable( L, \"" .. name .. "\" );" .. br
     else
-        cpp_output = cpp_output .. tab .. "LuaValue<" .. name .. "*>::load_metatable( L );" .. br
+        cpp_output = cpp_output .. tab .. cpp_name .. "::load_metatable( L, nullptr );" .. br
     end
 end
 cpp_output = cpp_output .. "}" .. br
