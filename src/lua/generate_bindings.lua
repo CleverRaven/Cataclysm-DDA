@@ -177,12 +177,9 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
 
     local stack_index = 1
     for i, arg in ipairs(args) do
-        -- fixme; non hardcoded userdata to class thingy
-        if arg ~= "game" then
-            text = text .. tab .. "luaL_checktype(L, "..(stack_index+1)..", "..member_type_to_lua_type(arg)..");"..br
-            text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
-            stack_index = stack_index + 1
-        end
+        text = text .. tab .. "luaL_checktype(L, "..(stack_index+1)..", "..member_type_to_lua_type(arg)..");"..br
+        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
+        stack_index = stack_index + 1
     end
 
     text = text .. tab
@@ -194,11 +191,7 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     text = text .. class.. "_instance."..function_to_call .. "("
 
     for i, arg in ipairs(args) do
-        if arg == "game" then
-            text = text .. "g"
-        else
-            text = text .. "parameter"..i
-        end
+        text = text .. "parameter"..i
         if next(args, i) then text = text .. ", " end
     end
 
@@ -220,21 +213,14 @@ function generate_constructor(class, args)
 
     local stack_index = 1
     for i, arg in ipairs(args) do
-        -- fixme; non hardcoded userdata to class thingy
-        if arg ~= "game" then
-            text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
-            stack_index = stack_index + 1
-        end
+        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
+        stack_index = stack_index + 1
     end
 
     text = text .. tab .. "auto && rval = " .. class .. "("
 
     for i, arg in ipairs(args) do
-        if arg == "game" then
-            text = text .. "g"
-        else
-            text = text .. "parameter"..i
-        end
+        text = text .. "parameter"..i
         if next(args, i) then text = text .. ", " end
     end
 
