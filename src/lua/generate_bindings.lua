@@ -281,12 +281,14 @@ end
 
 
 function generate_class_function_wrappers(functions, class)
-    for name, func in pairs(functions) do
+    for index, func in pairs(functions) do
         if func.cpp_name == nil then
-            cpp_output = cpp_output .. generate_class_function_wrapper(class, name, name, func.args, func.rval)
-        else
-            cpp_output = cpp_output .. generate_class_function_wrapper(class, name, func.cpp_name, func.args, func.rval)
+            func.cpp_name = func.name
         end
+        if not func.name then
+            print("Every function of " .. class .. " needs a name, don't they?")
+        end
+        cpp_output = cpp_output .. generate_class_function_wrapper(class, func.name..index, func.cpp_name, func.args, func.rval)
     end
 end
 
@@ -315,8 +317,8 @@ for name, func in pairs(global_functions) do
 end
 
 -- luaL_Reg is the name of the struct in C which this creates and returns.
-function luaL_Reg(name, suffix)
-    local cpp_name = name .. "_" .. suffix
+function luaL_Reg(name, suffix, index)
+    local cpp_name = name .. "_" .. suffix .. index
     local lua_name = suffix
     return tab .. '{"' .. lua_name .. '", ' .. cpp_name .. '},' .. br
 end
@@ -325,14 +327,14 @@ function generate_functions_static(cpp_type, class, name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const luaL_Reg " .. cpp_type .. "::FUNCTIONS[] = {" .. br
     while class do
-        for key, _ in pairs(class.functions) do
-            cpp_output = cpp_output .. luaL_Reg(name, key)
+        for index, value in pairs(class.functions) do
+            cpp_output = cpp_output .. luaL_Reg(name, value.name, index)
         end
         if class.new then
-            cpp_output = cpp_output .. luaL_Reg(name, "__call")
+            cpp_output = cpp_output .. luaL_Reg(name, "__call", "")
         end
         if class.has_equal then
-            cpp_output = cpp_output .. luaL_Reg(name, "__eq")
+            cpp_output = cpp_output .. luaL_Reg(name, "__eq", "")
         end
         class = classes[class.parent]
     end
