@@ -295,6 +295,15 @@ public:
         lua_remove( L, -1 );
         return is_correct_metatable;
     }
+    /** Raises a Lua error if the type of the value at stack_index is not compatible with T. */
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TUSERDATA );
+        if( !has( L, stack_index ) ) {
+            // METATABLE_NAME is used here as the name of the type we expect.
+            luaL_argerror( L, stack_index, METATABLE_NAME );
+        }
+    }
 };
 
 /**
@@ -374,6 +383,7 @@ public:
         return proxy{ LuaValue<T*>::get( L, stack_position ) };
     }
     using LuaValue<T*>::has;
+    using LuaValue<T*>::check;
 };
 
 /**
@@ -391,12 +401,20 @@ struct LuaType<int> {
     {
         return lua_isnumber( L, stack_index );
     }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TNUMBER );
+    }
 };
 template<>
 struct LuaType<bool> {
     static bool has( lua_State* const L, int const stack_index )
     {
         return lua_isboolean( L, stack_index );
+    }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TBOOLEAN );
     }
 };
 template<>
@@ -405,6 +423,13 @@ struct LuaType<std::string> {
     {
         return lua_isstring( L, stack_index );
     }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TSTRING );
+    }
+};
+template<>
+struct LuaType<float> : public LuaType<int> { // inherit checking because it's all the same to Lua
 };
 template<typename T>
 struct LuaType<LuaValue<T>> : public LuaValue<T> {

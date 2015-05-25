@@ -123,7 +123,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
 
     text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
 
-    text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
+    text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
     text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
 
     text = text .. tab .. class_name.."_instance."..cpp_name.." = value;"..br
@@ -140,7 +140,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     for i, arg in ipairs(args) do
-        text = text .. tab .. "luaL_checktype(L, "..i..", "..member_type_to_lua_type(arg)..");"..br
+        text = text .. tab .. "LuaType<"..member_type_to_cpp_type(arg)..">::check(L, "..i..");"..br
         text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..br
     end
 
@@ -262,7 +262,7 @@ function insert_overload_resolution(function_name, args, cbc, indentation, stack
                 text = text..ind.."if(LuaType<"..member_type_to_cpp_type(arg_type)..">::has(L, "..(nsi)..")) {"..br
             else
                 -- or check it here and let Lua bail out.
-                text = text..ind.."luaL_checktype(L, "..(nsi)..", "..member_type_to_lua_type(arg_type)..");"..br
+                text = text..ind.."LuaType<"..member_type_to_cpp_type(arg_type)..">::check(L, "..nsi..");"..br
             end
             text = text..mind.."auto && parameter"..stack_index.." = "..retrieve_lua_value(arg_type, nsi)..br
             text = text..insert_overload_resolution(function_name, more_args, cbc, ni, nsi)
