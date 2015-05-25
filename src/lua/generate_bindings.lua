@@ -170,23 +170,143 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     return text
 end
 
+--[[
+To allow function overloading, we need to create a function that somehow detects the input
+types and calls the matching C++ overload.
+First step is to restructure the input: instead of
+functions = {
+    { name = "f", ... },
+    { name = "f", ... },
+    { name = "f", ... },
+}
+we want a decision tree. The leafs of the tree are the rval entries (they can be different for
+each overload, but they do not affect the overload resolution).
+Example: functions = {
+    r = { rval = "int", cpp_name = "f" }
+    "string" = {
+        r = { rval = "int", cpp_name = "f" }
+    },
+    "int" = {
+        r = { rval = "bool", cpp_name = "f" }
+        "int" = {
+            r = { rval = "void", cpp_name = "f" }
+        },
+        "string" = {
+            r = { rval = "int", cpp_name = "f" }
+        }
+    }
+}
+Means: `int f()` `int f(string)` `bool f(int)` void f(int, int)` `int f(int, string)`
+Leafs are marked by the presence of rval entries.
+--]]
+function generate_overload_tree(classes)
+    for class_name, value in pairs(classes) do
+        local functions_by_name = {}
+        for _, func in ipairs(value.functions) do
+            if not func.name then
+                print("Every function of " .. class_name .. " needs a name, doesn't it?")
+            end
+            -- Create the table now. In the next loop below, we can simply assume it already exists
+            functions_by_name[func.name] = {}
+        end
+        -- This creates the mentioned tree: each entry has the key matching the parameter type,
+        -- and the final table (the leaf) has a `r` entry.
+        for _, func in ipairs(value.functions) do
+            local root = functions_by_name[func.name]
+            for _, arg in pairs(func.args) do
+                if not root[arg] then
+                    root[arg] = {}
+                end
+                root = root[arg]
+            end
+            root.r = { rval = func.rval, cpp_name = func.cpp_name or func.name }
+        end
+        value.functions = functions_by_name
+    end
+end
+
+--[[
+This (recursive) function handles function overloading:
+- function_name: actual function name (only for showing an error message)
+- args: tree of argument (see generate_overload_tree)
+- indentation: level of indentation of the source code (only used for nice formatting)
+- stack_index: index (1-based, because this is Lua) of the currently handled argument.
+- cbc: callback that returns the C++ code that actually calls the C++ function.
+  Its parameters:
+  - indentation: level of indentation it should use
+  - stack_index: number of parameters it can use (C++ variables parameter1, parameter2 and so on)
+  - rval: type of the object the C++ function returns (can be nil)
+  - cpp_name: name of the C++ function to call.
+--]]
+function insert_overload_resolution(function_name, args, cbc, indentation, stack_index)
+    local ind = string.rep("    ", indentation)
+    local text = ""
+    -- Number of choices that can be made for function overloading
+    local count = 0
+    for _ in pairs(args) do count = count + 1 end
+    local more = (count ~= 1)
+    -- If we can chose several overloads at this point (more=true), we have to add if statements
+    -- and have to increase the indentation inside of them.
+    -- Otherwise (no choices), we keep everything at the same indentation level.
+    -- (e.g. no overload at all, or this parameter is the same for all overloads).
+    local nsi = stack_index + 1 -- next stack_index
+    local ni = more and (indentation + 1) or indentation -- next indentation
+    local mind = more and (ind .. tab) or ind -- more indentation
+    local valid_types = "" -- list of acceptable types, for the error message
+    for arg_type, more_args in pairs(args) do
+        if arg_type == "r" then
+            -- handled outside this loop
+        else
+            if more then
+                -- Either check the type here (and continue when it's fine)
+                text = text..ind.."if(LuaType<"..member_type_to_cpp_type(arg_type)..">::has(L, "..(nsi)..")) {"..br
+            else
+                -- or check it here and let Lua bail out.
+                text = text..ind.."luaL_checktype(L, "..(nsi)..", "..member_type_to_lua_type(arg_type)..");"..br
+            end
+            text = text..mind.."auto && parameter"..stack_index.." = "..retrieve_lua_value(arg_type, nsi)..br
+            text = text..insert_overload_resolution(function_name, more_args, cbc, ni, nsi)
+            if more then
+                text = text..ind.."}"..br
+            end
+            valid_types = valid_types.." or "..arg_type
+        end
+    end
+    -- An overload can be called at this level, all required parameters are already extracted.
+    if args.r then
+        if more then
+            text = text .. ind .. "if(lua_gettop(L) == "..stack_index..") {"..br
+        end
+        -- If we're here, any further arguments will ignored, so raise an error if there are any left over
+        text = text..mind.."if(lua_gettop(L) > "..stack_index..") {"..br
+        text = text..mind..tab.."return luaL_error(L, \"Too many arguments to "..function_name..", expected only "..stack_index..", got %d\", lua_gettop(L));"..br
+        text = text..mind.."}"..br
+        text = text .. cbc(ni, stack_index - 1, args.r.rval, args.r.cpp_name)
+        if more then
+            text = text .. ind .. "}"..br
+        end
+        valid_types = valid_types .. " or nothing at all"
+    end
+    -- If more is false, there was no branching (no `if` statement) generated, but a return
+    -- statement had already been made, so this error would be unreachable code.
+    if more then
+        text = text .. ind .. "return luaL_argerror(L, "..stack_index..", \"Unexpected type, expected are "..valid_types:sub(5).."\");"..br
+    end
+    return text
+end
+
 -- Generate a wrapper around a class function(method) that allows us to call a method of a specific
 -- C++ instance by calling the method on the corresponding lua wrapper, e.g.
 -- monster:name() in lua translates to monster.name() in C++
-function generate_class_function_wrapper(class_name, function_name, function_to_call, args, rval)
+function generate_class_function_wrapper(class_name, function_name, func)
     local text = "static int "..class_name.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
     text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
 
-    local stack_index = 1
-    for i, arg in ipairs(args) do
-        text = text .. tab .. "luaL_checktype(L, "..(stack_index+1)..", "..member_type_to_lua_type(arg)..");"..br
-        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
-        stack_index = stack_index + 1
-    end
-
-    text = text .. tab
+    local cbc = function(indentation, stack_index, rval, function_to_call)
+    local tab = string.rep("    ", indentation)
+    text = tab
 
     if rval then
         text = text .. "auto && rval = "
@@ -194,9 +314,9 @@ function generate_class_function_wrapper(class_name, function_name, function_to_
 
     text = text .. class_name .. "_instance."..function_to_call .. "("
 
-    for i, arg in ipairs(args) do
+    for i = 1,stack_index do
         text = text .. "parameter"..i
-        if next(args, i) then text = text .. ", " end
+        if i < stack_index then text = text .. ", " end
     end
 
     text = text .. ");"..br
@@ -207,6 +327,11 @@ function generate_class_function_wrapper(class_name, function_name, function_to_
     else
         text = text .. tab .. "return 0; // 0 return values"..br
     end
+    return text
+    end
+
+    text = text .. insert_overload_resolution(function_name, func, cbc, 1, 1)
+
     text = text .. "}"..br
 
     return text
@@ -273,6 +398,8 @@ local lua_output = ""
 
 dofile "../../lua/class_definitions.lua"
 
+generate_overload_tree(classes)
+
 function generate_accessors(class, class_name)
     -- Generate getters and setters for our player attributes.
     for key, attribute in pairs(class) do
@@ -286,13 +413,7 @@ end
 
 function generate_class_function_wrappers(functions, class_name)
     for index, func in pairs(functions) do
-        if func.cpp_name == nil then
-            func.cpp_name = func.name
-        end
-        if not func.name then
-            print("Every function of " .. class_name .. " needs a name, don't they?")
-        end
-        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, func.name..index, func.cpp_name, func.args, func.rval)
+        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func)
     end
 end
 
@@ -321,8 +442,8 @@ for name, func in pairs(global_functions) do
 end
 
 -- luaL_Reg is the name of the struct in C which this creates and returns.
-function luaL_Reg(name, suffix, index)
-    local cpp_name = name .. "_" .. suffix .. index
+function luaL_Reg(name, suffix)
+    local cpp_name = name .. "_" .. suffix
     local lua_name = suffix
     return tab .. '{"' .. lua_name .. '", ' .. cpp_name .. '},' .. br
 end
@@ -331,14 +452,14 @@ function generate_functions_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const luaL_Reg " .. cpp_type .. "::FUNCTIONS[] = {" .. br
     while class do
-        for index, value in pairs(class.functions) do
-            cpp_output = cpp_output .. luaL_Reg(class_name, value.name, index)
+        for name, _ in pairs(class.functions) do
+            cpp_output = cpp_output .. luaL_Reg(class_name, name)
         end
         if class.new then
-            cpp_output = cpp_output .. luaL_Reg(class_name, "__call", "")
+            cpp_output = cpp_output .. luaL_Reg(class_name, "__call")
         end
         if class.has_equal then
-            cpp_output = cpp_output .. luaL_Reg(class_name, "__eq", "")
+            cpp_output = cpp_output .. luaL_Reg(class_name, "__eq")
         end
         class = classes[class.parent]
     end

@@ -276,6 +276,25 @@ public:
     {
         return get( L, stack_position );
     }
+    /** Checks whether the value at stack_index is of the type T. If so, @ref get can be used to get it. */
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        if( !lua_isuserdata( L, stack_index ) ) {
+            return false;
+        }
+        if( lua_getmetatable( L, stack_index ) == 0 ) {
+            // value does not have a metatable, can not be valid at all.
+            return false;
+        }
+        // TODO: C++ inheritance does not work. The input might be `monster`, but the caller wants
+        // a Creature, which should work.
+        get_metatable( L );
+        const bool is_correct_metatable = lua_rawequal( L, -1, -2 );
+        // and cleanup the stack
+        lua_remove( L, -1 );
+        lua_remove( L, -1 );
+        return is_correct_metatable;
+    }
 };
 
 /**
@@ -354,6 +373,44 @@ public:
     {
         return proxy{ LuaValue<T*>::get( L, stack_position ) };
     }
+    using LuaValue<T*>::has;
+};
+
+/**
+ * This is the basic type-checking interface for the Lua bindings generator.
+ * Instead of "if type is string, call lua_isstring, if it's int, call lua_isnumber, ...", the
+ * generator can just call "LuaType<"..type..">::has".
+ * The C++ classes do the actual separation based on the type through the template parameter.
+ */
+template<typename T>
+struct LuaType;
+
+template<>
+struct LuaType<int> {
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return lua_isnumber( L, stack_index );
+    }
+};
+template<>
+struct LuaType<bool> {
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return lua_isboolean( L, stack_index );
+    }
+};
+template<>
+struct LuaType<std::string> {
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return lua_isstring( L, stack_index );
+    }
+};
+template<typename T>
+struct LuaType<LuaValue<T>> : public LuaValue<T> {
+};
+template<typename T>
+struct LuaType<LuaReference<T>> : public LuaReference<T> {
 };
 
 void update_globals(lua_State *L)
