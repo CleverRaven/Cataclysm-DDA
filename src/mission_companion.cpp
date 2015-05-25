@@ -900,6 +900,10 @@ bool talk_function::scavenging_raid_return(npc *p)
             }
         }
     }
+    //The loot value needs to be added to the faction - what the player is payed
+    loot_building(overmap_buffer.find_closest( g->u.global_omt_location(), "house", 0, false ));
+    loot_building(overmap_buffer.find_closest( g->u.global_omt_location(), "house", 0, false ));
+    loot_building(overmap_buffer.find_closest( g->u.global_omt_location(), "house", 0, false ));
 
     int money = rng(200,900);
     g->u.cash += money*100;
@@ -1301,4 +1305,81 @@ npc *talk_function::companion_choose_return(std::string id, int deadline){
     }
     popup("No one returns to your party...");
     return NULL;
+}
+
+//Smash stuff, steal valuables, and change map maker
+std::vector<item*> talk_function::loot_building(const tripoint site)
+{
+    tinymap bay;
+    std::vector<item *> items_found;
+    tripoint p;
+    bay.load(site.x * 2, site.y * 2, site.z, false);
+    for (int x = 0; x < 23; x++){
+        for (int y = 0; y < 23; y++){
+            p.x = x;
+            p.y = y;
+            p.z = site.z;
+            //Open all the doors, doesn't need to be exhaustive
+            if (bay.get_ter(x,y) == "t_door_c" || bay.get_ter(x,y) == "t_door_c_peep" || bay.get_ter(x,y) == "t_door_b"
+                || bay.get_ter(x,y) == "t_door_boarded" || bay.get_ter(x,y) == "t_door_boarded_damaged"
+                || bay.get_ter(x,y) == "t_rdoor_boarded" || bay.get_ter(x,y) == "t_rdoor_boarded_damaged"
+                || bay.get_ter(x,y) == "t_door_boarded_peep" || bay.get_ter(x,y) == "t_door_boarded_damaged_peep"){
+                    bay.ter_set( x, y, "t_door_o");
+            } else if (bay.get_ter(x,y) == "t_door_locked" || bay.get_ter(x,y) == "t_door_locked_peep"
+                || bay.get_ter(x,y) == "t_door_locked_alarm"){
+                    map_bash_info *bash = &(bay.ter_at(x,y).bash);
+                    bay.ter_set( x, y, bash->ter_set);
+                    bay.spawn_item_list( bash->items, p );
+            } else if (bay.get_ter(x,y) == "t_door_metal_c" || bay.get_ter(x,y) == "t_door_metal_locked"
+                || bay.get_ter(x,y) == "t_door_metal_pickable"){
+                    bay.ter_set( x, y, "t_door_metal_o");
+            } else if (bay.get_ter(x,y) == "t_door_glass_c"){
+                    bay.ter_set( x, y, "t_door_glass_o");
+            } else if (bay.get_ter(x,y) == "t_wall" && one_in(25)){
+                    map_bash_info *bash = &(bay.ter_at(x,y).bash);
+                    bay.ter_set( x, y, bash->ter_set);
+                    bay.spawn_item_list( bash->items, p );
+                    bay.collapse_at( p );
+            }
+            //Smash easily breakable stuff
+            else if ((bay.get_ter(x,y) == "t_window" || bay.get_ter(x,y) == "t_window_taped" ||
+                    bay.get_ter(x,y) == "t_window_domestic" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
+                    bay.get_ter(x,y) == "t_window_boarded_noglass" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
+                    bay.get_ter(x,y) == "t_window_alarm_taped" || bay.get_ter(x,y) == "t_window_boarded" ||
+                    bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm")
+                    && one_in(4) ){
+                map_bash_info *bash = &(bay.ter_at(x,y).bash);
+                bay.ter_set( x, y, bash->ter_set);
+                bay.spawn_item_list( bash->items, p );
+            } else if ((bay.get_ter(x,y) == "t_wall_glass" || bay.get_ter(x,y) == "t_wall_glass_alarm") && one_in(3) ){
+                map_bash_info *bash = &(bay.ter_at(x,y).bash);
+                bay.ter_set( x, y, bash->ter_set);
+                bay.spawn_item_list( bash->items, p );
+            } else if ( bay.has_furn(x,y) && bay.furn_at(x,y).bash.str_max != -1 && one_in(10)) {
+                map_bash_info *bash = &(bay.furn_at(x,y).bash);
+                bay.furn_set(x,y, bash->furn_set);
+                bay.delete_signage( p );
+                bay.spawn_item_list( bash->items, p );
+            }
+            //Kill zombies!  Only works agains pre-spawned enemies at the moment...
+            Creature *critter = g->critter_at( p);
+            if ( critter != nullptr ) {
+                critter->die(nullptr);
+            }
+            //Hoover up tasty items!
+            for (int i = 0; i < bay.i_at(p).size(); i++){
+                if (((bay.i_at(p)[i].is_food() || bay.i_at(p)[i].is_food_container()) && !one_in(8)) ||
+                    (bay.i_at(p)[i].is_drink() && !one_in(8)) ||
+                    (bay.i_at(p)[i].price() > 1000 && !one_in(4)) ||
+                    one_in(5)){
+                    item *it = &bay.i_at(p)[i];
+                    items_found.push_back(it);
+                    bay.i_rem(p,i);
+                }
+            }
+        }
+    }
+    bay.save();
+    overmap_buffer.ter(site.x, site.y, site.z) = "looted_building";
+    return items_found;
 }
