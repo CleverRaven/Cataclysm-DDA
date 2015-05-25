@@ -61,20 +61,7 @@ end
 -- Returns code to take a C++ variable of the given type and push a lua version
 -- of it onto the stack.
 function push_lua_value(in_variable, value_type)
-    local text = ""
-    if value_type == "int" or value_type == "float" then
-        text = text .. "lua_pushnumber(L, "..in_variable..");"
-    elseif value_type == "cstring" then
-        text = text .. "lua_pushstring(L, "..in_variable..");"
-    elseif value_type == "string" then
-        text = text .. "lua_pushstring(L, "..in_variable..".c_str());"
-    elseif value_type == "bool" then
-        text = text .. "lua_pushboolean(L, "..in_variable..");"
-    else
-        text = text .. member_type_to_cpp_type(value_type) .. "::push(L, " .. in_variable .. ");"
-    end
-    
-    return text
+    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::push(L, " .. in_variable .. ");"
 end
 
 --[[
