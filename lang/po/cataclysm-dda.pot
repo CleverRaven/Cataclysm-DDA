@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-18 09:48+0300\n"
+"POT-Creation-Date: 2015-05-25 09:38+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2683,6 +2683,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+#: lang/json/ammunition_type_from_json.py
 msgid "hexamine"
 msgid_plural "hexamine"
 msgstr[0] ""
@@ -3827,6 +3828,28 @@ msgid "Flammable material, finely divided for easy combustion."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "clay pellet"
+msgid_plural "clay pellets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A handful of round projectiles made of clay, useful for slings or slingshots."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "lead pellet"
+msgid_plural "lead pellets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Hefty round projectiles cast from lead, useful as ammunition for slings."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "throwing stick"
 msgid_plural "throwing sticks"
 msgstr[0] ""
@@ -4131,6 +4154,18 @@ msgstr[1] ""
 msgid ""
 "This thick syrupy mixture of... let's not look too close, contains "
 "everything the blob needs to be healthy. You think..."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "vortex core"
+msgid_plural "vortex cores"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"An unknown, but powerful force contained within spiral and vortex stones. "
+"Can be harnessed by those with the knowledge to do so."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -10066,6 +10101,28 @@ msgid ""
 "Useful for improvised rain protection."
 msgstr ""
 
+#: lang/json/ARMOR_from_json.py
+msgid "wool cloak"
+msgid_plural "wool cloaks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A heavy woolen cloak that is thrown over your body."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "wool loincloth"
+msgid_plural "wool loincloths"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Bits of wool stitched together and tied into a makeshift loincloth.  Covers "
+"your modesty, but not much else."
+msgstr ""
+
 #: lang/json/BIONIC_ITEM_from_json.py
 msgid "Active Defense System CBM"
 msgid_plural "Active Defense System CBMs"
@@ -12851,6 +12908,18 @@ msgstr[1] ""
 
 #: lang/json/BOOK_from_json.py
 msgid "A notepad with a number of frequencies scribbled on it."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "Ranch Prospectus"
+msgid_plural "Ranch Prospectus"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A short paper of the economic viability of constructing an agricultural "
+"outpost."
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
@@ -21287,6 +21356,16 @@ msgstr[1] ""
 msgid "A half crumpled sheet of aluminum foil, used for cooking and baking."
 msgstr ""
 
+#: lang/json/CONTAINER_from_json.py
+msgid "foldable plastic bottle"
+msgid_plural "foldable plastic bottles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "A non-rigid plastic bottle for easy storage, holds 500 ml of liquid."
+msgstr ""
+
 #: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
 msgid "blob core"
 msgid_plural "blob cores"
@@ -21299,6 +21378,40 @@ msgid ""
 "and now infested with an equally horrendously smelling unknown substance "
 "that seems to have permeated into the it. Occasionally the container gives a "
 "shake, as if alive."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
+msgid "vortex engine"
+msgid_plural "vortex engines"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A tornado in a box, so to speak. Inside this innocuous tank contains either "
+"the culmination of human innovation in clean energy, or a weapon of mass "
+"destruction capable of wiping civilization - or what's left of it - off the "
+"map. An external mechanism allows it to be attached to a vehicle to render "
+"it mobile. To activate, install it on a vehicle, insert the vortex core, and "
+"activate. The core must be removed from the machinery before installation, "
+"due to its sensitivity."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
+msgid "vortex generator"
+msgid_plural "vortex generators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid ""
+"A tornado in a box, so to speak. Inside this innocuous tank contains either "
+"the culmination of human innovation in clean energy, or a weapon of mass "
+"destruction capable of wiping civilization - or what's left of it - off the "
+"map. An external mechanism allow it to be hooked up to a battery to store "
+"the power generated. To activate, install it on a vehicle, insert the vortex "
+"core, and activate. The core must be removed from the machinery before "
+"installation, due to its sensitivity."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -21635,9 +21748,16 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/TOOL_from_json.py
 msgid "seeing this is a bug"
 msgid_plural "seeing this is a bugs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "muscle"
+msgid_plural "none"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -26227,6 +26347,19 @@ msgid "An improvised fishing hook carved from bone."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "mess tin"
+msgid_plural "mess tins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A compact military-style pan and tray, designed for heating food over a fire "
+"or portable stove. It is shallower than a proper pot or pan, and lacks the "
+"integrated heating elements modern mess kits have."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid ""
 "A replica of Mjölnir, the hammer of Thor.  It is rumored to be able to level "
 "mountains with a single blow.  It is decorated with gold and silver "
@@ -26316,6 +26449,22 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+#: lang/json/vehicle_part_from_json.py
+msgid "vehicle anomaly"
+msgid_plural "vehicle anomalys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This... thing was once mounted on your vehicle as a... You can't exactly "
+"remember. It's as if all traces of whatever it was had been removed from "
+"existence entirely. There seems to be something inside it, perhaps if you "
+"deconstruct it..."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "fire control system"
 msgid_plural "fire control systems"
 msgstr[0] ""
@@ -26381,7 +26530,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-#: lang/json/vehicle_part_from_json.py
 msgid "shock absorber"
 msgid_plural "shock absorbers"
 msgstr[0] ""
@@ -26420,36 +26568,6 @@ msgid ""
 "As you gaze into the seemingly infinite depths of this portable hole in "
 "reality, a phrase from a time forever gone echoes in your mind. \"There are "
 "two things that are infinite: the universe and human kleptomania.\""
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-msgid "vortex engine"
-msgid_plural "vortex engines"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A tornado in a box, so to speak. Inside this innocuous tank contains either "
-"the culmination of human innovation in clean energy, or a weapon of mass "
-"destruction capable of wiping civilization - or what's left of it - off the "
-"map. An external mechanism allows it to be attached to a vehicle to render "
-"it mobile. It requires a tiny bit of battery power to get it started however."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
-msgid "vortex generator"
-msgid_plural "vortex generators"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A tornado in a box, so to speak. Inside this innocuous tank contains either "
-"the culmination of human innovation in clean energy, or a weapon of mass "
-"destruction capable of wiping civilization - or what's left of it - off the "
-"map. An external mechanism allow it to be hooked up to a battery to store "
-"the power generated."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -29914,19 +30032,46 @@ msgid ""
 "a motor and fire control system for autonomous operation."
 msgstr ""
 
-#: lang/json/GUN_from_json.py
-msgid "SMG turret"
-msgid_plural "SMG turrets"
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid "9mm SMG turret"
+msgid_plural "9mm SMG turrets"
 msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
 "A mounted submachine gun with an automated feeding, targeting, and firing "
-"system. It's accompanied with several sets of tools and equipment to allow "
-"multiple types of ammunition to be loaded; though a refit takes quite a bit "
-"of time. However, these additions render it incredibly unwieldly, requiring "
-"the services of a specialized turret chassis in order to be used."
+"system; fitted specifically for the standard 9mm caliber. However, these "
+"additions render it incredibly unwieldly, requiring the services of a "
+"specialized turret chassis in order to be used."
+msgstr ""
+
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid ".45 SMG turret"
+msgid_plural ".45 SMG turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A mounted submachine gun with an automated feeding, targeting, and firing "
+"system; fitted specifically for the more powerful .45 caliber. However, "
+"these additions render it incredibly unwieldly, requiring the services of a "
+"specialized turret chassis in order to be used."
+msgstr ""
+
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid ".22 SMG turret"
+msgid_plural ".22 SMG turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A mounted submachine gun with an automated feeding, targeting, and firing "
+"system; fitted specifically for the smaller .22 caliber. However, these "
+"additions render it incredibly unwieldly, requiring the services of a "
+"specialized turret chassis in order to be used."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -30024,6 +30169,35 @@ msgid ""
 "be fired in quick succession. However, these features render it incredibly "
 "unwieldly, and it must be mounted on a turret chassis in order to be fired. "
 "Comes with a motor and fire control system for autonomous operation."
+msgstr ""
+
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid "thundergun turret"
+msgid_plural "thundergun turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Essentially an upsized shotgun, this explosive hazard will practically "
+"vaporize anything it's set against. However, the limited range will also put "
+"its user at extreme risk if not managed correctly; but that's why you added "
+"a targeting system isn't it?. You'll need some form of platform to mount "
+"this behemoth on."
+msgstr ""
+
+#: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
+msgid "shotgun turret"
+msgid_plural "shotgun turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A mounted shotgun with an automated feeding, targeting, and firing system. "
+"The targeting system has been programmed for quick acquisition of close "
+"targets in order to minimize spread and maximize damage. It requires a "
+"turret mount in order to function."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
@@ -30435,6 +30609,20 @@ msgid ""
 "specialized system loads the otherwise troublesome rounds; allowing it to be "
 "fired in quick succession. However, these features render it incredibly "
 "unwieldly, and it must be mounted on a turret chassis in order to be fired."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "thundergun"
+msgid_plural "thunderguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Essentially an upsized shotgun, this explosive hazard will practically "
+"vaporize anything it's set against. However, the limited range will also put "
+"its user at extreme risk if not managed correctly.  You'll need some form of "
+"platform to mount this behemoth on."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31609,7 +31797,7 @@ msgstr[1] ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "This human corpse drags itself along slowly with its arms.  Its legs are "
-"damaged beyond repair"
+"damaged beyond repair."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31859,7 +32047,8 @@ msgstr[1] ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "This boomer, normally swollen and ready to burst, has strengthened and "
-"solidified. The bile dribbling from its mouth also appears to have changed..."
+"solidified.  The bile dribbling from its mouth also appears to have "
+"changed..."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -33503,8 +33692,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "decayed paladin"
-msgid_plural "decayed paladins"
+msgid "armored zombie"
+msgid_plural "armored zombies"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -39983,6 +40172,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "hexamine stove"
+msgid_plural "hexamine stoves"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Known as an Esbit stove, this is a lightweight, folding stove designed to "
+"use small heaxmine tablets for cooking."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "Laevateinn"
 msgid_plural "Laevateinns"
 msgstr[0] ""
@@ -40661,10 +40862,6 @@ msgid "plutonium"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
-msgid "muscle"
-msgstr ""
-
-#: lang/json/ammunition_type_from_json.py
 msgid "fusion cell"
 msgstr ""
 
@@ -40770,6 +40967,10 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "heavy projectiles"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid "vortex energy"
 msgstr ""
 
 #: lang/json/bionic_from_json.py
@@ -42657,6 +42858,24 @@ msgid "AI tag for asking NPCs for items.  This is a bug if you have it."
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Currently Busy"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "AI cooldown tag for items or services.  This is a bug if you have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Already Gave Quest Item"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag to prevent you from getting multiple quest items.  This is a bug if "
+"you have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Catch Up"
 msgstr ""
 
@@ -43769,6 +43988,16 @@ msgstr ""
 msgid ""
 "A conglomeration of entrepreneurs and businessmen that stand together to "
 "hammer-out an existence through trade and industry."
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid "The Tacoma Commune"
+msgstr ""
+
+#: lang/json/faction_from_json.py
+msgid ""
+"An outpost started by the Free Merchants to provide a source of food and raw "
+"materials."
 msgstr ""
 
 #: lang/json/faction_from_json.py
@@ -51763,6 +51992,30 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Carries Brandy"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "This Bartender now carries brandy!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Carries Rum"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "This Bartender now carries rum!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Carries Whiskey"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "This Bartender now carries whiskey!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Debug Vision"
 msgstr ""
 
@@ -52450,6 +52703,18 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "home improvment superstore"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "pond"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "silo"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ranch"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -55630,10 +55895,10 @@ msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
-msgid "Nomad"
+msgid "Wanderer"
 msgstr ""
 
-#. ~ Profession (male Nomad) description
+#. ~ Profession (male Wanderer) description
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
@@ -55644,10 +55909,10 @@ msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
-msgid "Nomad"
+msgid "Wanderer"
 msgstr ""
 
-#. ~ Profession (female Nomad) description
+#. ~ Profession (female Wanderer) description
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
@@ -59259,11 +59524,13 @@ msgstr ""
 msgid "Screw You!"
 msgstr ""
 
-#: lang/json/talk_topic_from_json.py
+#: lang/json/talk_topic_from_json.py src/npctalk.cpp
+#: src/npctalk.cpp
 msgid "About that job..."
 msgstr ""
 
-#: lang/json/talk_topic_from_json.py
+#: lang/json/talk_topic_from_json.py src/npctalk.cpp
+#: src/npctalk.cpp
 msgid "About one of those jobs..."
 msgstr ""
 
@@ -62251,6 +62518,10 @@ msgid "Electric Car"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
+msgid "Flaming Electric Car"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Solar Car"
 msgstr ""
 
@@ -62499,6 +62770,10 @@ msgid "gasoline tank"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "napalm tank"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "gasoline tank (little)"
 msgstr ""
 
@@ -62536,6 +62811,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "water tank"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "water (dirty) tank"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -62620,6 +62899,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted NX17"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted A7 laser rifle"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -62731,18 +63014,6 @@ msgid "tesla turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "9mm SMG turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid ".22 SMG turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid ".45 SMG turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
 msgid "assault rifle turret"
 msgstr ""
 
@@ -62752,14 +63023,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "turbolaser turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "flak cannon turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "burst cannon turret"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -62847,134 +63110,6 @@ msgid "mounted Mark 19 GL"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted pulse turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted Tesla turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted energy turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dual nail turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "quad nail turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted 9mm dual turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted 9mm quad cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted .45 dual turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted .45 quad cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted .22 dual turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted .22 quad cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted scorpion"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted spear launcher"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "slingshot cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted avalanche turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted grenade launcher"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted MG"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted MG turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted rotary speargun"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted storm bolter"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted laser cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted laser"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted pulse laser"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted turbolaser cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "Gatling cannon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted splintergun"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted flamecaster"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted dragon turret"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "external cargo carrier"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "body ram"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted ripper"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "mounted shredder"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
 msgid "cargo dimension"
 msgstr ""
 
@@ -63031,6 +63166,10 @@ msgid "mounted RM802"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted scorpion"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted speargun"
 msgstr ""
 
@@ -63043,6 +63182,18 @@ msgid "mounted avalanche"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted storm bolter"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted laser cannon"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted pulse laser"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted turbolaser"
 msgstr ""
 
@@ -63051,11 +63202,11 @@ msgid "mounted rotary cannon"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted flak cannon"
+msgid "mounted thundergun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted burst cannon"
+msgid "mounted splintergun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -63067,11 +63218,15 @@ msgid "mounted hypervelocity driver"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted flamethrower(s)"
+msgid "mounted flamethrower (S)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted rm451"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted ripper"
 msgstr ""
 
 #. ~ Vehicle Spawn Description
@@ -63818,7 +63973,7 @@ msgstr ""
 msgid "CN"
 msgstr ""
 
-#: src/advanced_inv.cpp src/iuse.cpp src/veh_interact.cpp
+#: src/advanced_inv.cpp src/veh_interact.cpp
 msgid "Container"
 msgstr ""
 
@@ -64007,18 +64162,6 @@ msgstr ""
 #: src/advanced_inv.cpp src/armor_layers.cpp src/construction.cpp
 #: src/newcharacter.cpp src/options.cpp
 msgid "All"
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "?"
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "L"
-msgstr ""
-
-#: src/advanced_inv.cpp
-msgid "R"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -69873,6 +70016,94 @@ msgstr ""
 msgid "Laughingstock"
 msgstr ""
 
+#: src/faction.cpp
+msgid "Filthy rich"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Affluent"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Prosperous"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Well-Off"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Comfortable"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Wanting"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Failing"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Impoverished"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Destitue"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Overflowing"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Well-Stocked"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Scrapping By"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Malnourished"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Starving"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Expert"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Veteran"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Skilled"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Competent"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Untrained"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Crippled"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Feeble"
+msgstr ""
+
+#: src/faction.cpp
+msgid "Worthless"
+msgstr ""
+
 #: src/field.cpp
 msgid "blood splatter"
 msgstr ""
@@ -70283,6 +70514,10 @@ msgstr ""
 
 #: src/field.cpp
 msgid "The acid burns your legs and feet!"
+msgstr ""
+
+#: src/field.cpp
+msgid "You're standing in a pool of acid"
 msgstr ""
 
 #: src/field.cpp
@@ -71294,12 +71529,27 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Ranking: %s"
+msgid "Ranking:           %s"
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Respect: %s"
+msgid "Respect:           %s"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Wealth:            %s"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Food Supply:       %s"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Combat Ability:    %s"
 msgstr ""
 
 #: src/game.cpp
@@ -71733,7 +71983,7 @@ msgstr ""
 #: src/iuse.cpp
 #: src/iuse.cpp src/npctalk.cpp
 #: src/npctalk.cpp
-#: src/pickup.cpp src/player.cpp src/veh_interact.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
@@ -76656,13 +76906,13 @@ msgstr ""
 #: src/item.cpp
 msgid ""
 "This gear has certain parts padded with leather to increase protection with "
-"minimal increase to encumbrance."
+"moderate increase to encumbrance."
 msgstr ""
 
 #: src/item.cpp
 msgid ""
 "This gear has Kevlar inserted into strategic locations to increase "
-"protection with minimal increase to encumbrance."
+"protection with some increase to encumbrance."
 msgstr ""
 
 #: src/item.cpp
@@ -77015,22 +77265,6 @@ msgid "Bug"
 msgstr ""
 
 #: src/item.cpp
-msgid " (W)"
-msgstr ""
-
-#: src/item.cpp
-msgid " (F)"
-msgstr ""
-
-#: src/item.cpp
-msgid " (L)"
-msgstr ""
-
-#: src/item.cpp
-msgid " (K)"
-msgstr ""
-
-#: src/item.cpp
 msgid "atomic "
 msgstr ""
 
@@ -77248,6 +77482,10 @@ msgstr ""
 
 #: src/item_factory.cpp
 msgid "BIONICS"
+msgstr ""
+
+#: src/item_factory.cpp
+msgid "click."
 msgstr ""
 
 #: src/item_factory.cpp
@@ -78261,10 +78499,6 @@ msgid "Repair what?"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You don't have enough thread."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "Enhance what?"
 msgstr ""
 
@@ -78302,7 +78536,12 @@ msgid "How do you want to modify it?"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Line it with fur"
+msgid "Not enough thread to modify. Which modification do you want to remove?"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s (Warmth: %d->%d, Encumbrance: %d->%d)"
 msgstr ""
 
 #: src/iuse.cpp
@@ -78310,7 +78549,20 @@ msgid "Line it with wool"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Line with Kevlar"
+msgid "Destroy wool lining"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Line it with fur"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Destroy fur lining"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)"
 msgstr ""
 
 #: src/iuse.cpp
@@ -78318,118 +78570,42 @@ msgid "Pad with leather"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Repair clothing"
+msgid "Destroy leather padding"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You can't modify this more than twice."
+msgid "Pad with Kevlar"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "There's already a wool lining sewn in."
+msgid "Destroy Kevlar padding"
 msgstr ""
 
 #: src/iuse.cpp
-#, c-format
-msgid "You damage your %s further trying to sew in a wool lining!"
+msgid "Repair/fit in"
 msgstr ""
 
 #: src/iuse.cpp
-msgid ""
-"You fail to sew in a wool lining, and you waste a lot of thread and wool."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You sew in a wool lining on your %s, but waste a lot of thread."
+msgid "Are you sure? You will not gain any materials back"
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You sew in a wool lining on your %s!"
+msgid "You damage your %s trying to modify it!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "There's already a fur lining sewn in."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "<plural>furs"
+msgid "You fail to modify the clothing, and you waste thread and materials."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You damage your %s further trying to sew in a fur lining!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You fail to sew in a fur lining, and you waste a lot of thread and fur."
+msgid "You modify your %s, but waste a lot of thread."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You sew in a fur lining on your %s, but waste a lot of thread."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You sew in a fur lining on your %s!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "This is already padded with leather."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You damage your %s further trying to pad it with leather!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid ""
-"You fail to pad your %s with leather, and you waste a lot of thread and "
-"leather."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You pad your %s with leather, but waste a lot of thread."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You pad your %s with leather!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "This is already lined with Kevlar."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "<plural>Kevlar plates"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You damage your %s further trying to line it with Kevlar!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid ""
-"You fail to line your %s with Kevlar, and you waste a lot of thread and "
-"Kevlar."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You line your %s with Kevlar, but waste a lot of thread."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You line your %s with Kevlar!"
+msgid "You modify your %s!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -78973,43 +79149,6 @@ msgstr ""
 #: src/iuse.cpp
 #: src/veh_interact.cpp
 msgid "There's no vehicle there."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "That vehicle has no fuel to siphon."
-msgstr ""
-
-#: src/iuse.cpp src/veh_interact.cpp
-msgid "Fill what?"
-msgstr ""
-
-#: src/iuse.cpp src/veh_interact.cpp
-#, c-format
-msgid "Nearby vehicle (%d)"
-msgstr ""
-
-#: src/iuse.cpp src/veh_interact.cpp
-#: src/veh_interact.cpp
-msgid "Never mind"
-msgstr ""
-
-#: src/iuse.cpp src/veh_interact.cpp
-msgid "Fill which vehicle?"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "Siphoned %d unit of %s from the %s into the %s%s"
-msgid_plural "Siphoned %d units of %s from the %s into the %s%s"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/iuse.cpp
-msgid ", draining the tank completely."
-msgstr ""
-
-#: src/iuse.cpp
-msgid ", receiving tank is full."
 msgstr ""
 
 #: src/iuse.cpp
@@ -80558,6 +80697,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "No enemy robots in range."
+msgstr ""
+
+#: src/iuse.cpp src/veh_interact.cpp
+msgid "Never mind"
 msgstr ""
 
 #: src/iuse.cpp
@@ -85022,7 +85165,38 @@ msgid "Have you dealt with them?"
 msgstr ""
 
 #: src/mission.cpp
-msgid "Thank you, the world is a better place without them."
+msgid ""
+"Thank you, the world is a better place without them.  Two of our more "
+"skilled individuals accepted the assistance of the Old Guard in setting up "
+"an outpost while you were out.  We didn't have many other options, refugees "
+"are still streaming in and we don't know what else to do with our limited "
+"food supply.  If you get a chance, you should see if they need your "
+"assistance in the future..."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The new outpost that we've started could use your assistance.  I need you to "
+"get the foreman's prospectus before we begin to send additional refugees to "
+"the farming commune.  Consult with the foreman to get more detailed tasks."
+msgstr ""
+
+#: src/mission.cpp
+msgid "I'm sure the outpost will expand quickly with your assistance."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Just follow your map."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the prospectus?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"With this we'll be able to convince others to invest in the commune.  Thank "
+"you."
 msgstr ""
 
 #: src/mission.cpp
@@ -85326,6 +85500,785 @@ msgid ""
 "I'll try and update the captain with any signals that I need investigated."
 msgstr ""
 
+#: src/mission.cpp
+msgid ""
+"Our first project is to enclose the barn so that new refugees have a safe "
+"place to sleep.  Before we can begin serious improvements we need lumber to "
+"work with.  Enclosing the four barn entrances will take nearly 400 2x4's... "
+"if you could provide half of that we should be able to take care of the "
+"other half and construction.  If you don't have a truck, I'd make finding "
+"one your first priority.  "
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The more men we can bring to the camp the quicker improvements can be made."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Come back when you get a chance, we need skilled survivors."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Avoid destroying the furniture, we'll be needing it."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have them?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Great, I'll send word that we could use another set of hands or two to help "
+"out here."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"With the barn entrances enclosed the refugees moving into there should feel "
+"safer but the weather can be bitter here.  We're going to need to build "
+"makeshift beds in the stalls to ward off disease and frostbite.  We can take "
+"care of the frames but will need your help looting blankets.  We'd need 25 "
+"blankets to provide the most basic sleeping accommodations."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I'd start with looting hotels or you could sew them together... but that "
+"would be a last resort."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Avoid destroying the furniture here, we'll be needing it."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Your assistance is always appreciated."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Our supply of nails has been depleted.  I'm going to have to ask you to get "
+"us a few more boxes.  Hardware stores should have a few if they haven't been "
+"looted.  I suppose you may be able to find handfuls of them in building "
+"rubble.  We'd need 2500 to have enough that we won't be sending you back out "
+"too soon."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Deconstructing furniture isn't going to be efficient, try looking for boxes "
+"or grabbing any sitting on top of rubble piles."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I'm sure you've noticed the new workers that have started trickling in.  The "
+"Free Merchant counsel is demanding that we immediately begin projects to "
+"become self-sufficient due to limited supplies.  We are going to need to "
+"rapidly setup an agricultural industry before winter and starvation catches "
+"us unprepared and unsupported.  In order to get a half dozen shovels and a "
+"couple of bags of seeds, we are going to have to trade for it.  I've already "
+"got the deal lined up but the only thing they are willing to trade it for is "
+"salt.  I negotiated them down from 500 units to 300... we were hoping you "
+"might have access to a source."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Salt is key to preserving meat and other perishables... without any excess "
+"food it wouldn't do us much good now but I imagine we'll need to send you "
+"out to get more in the future.  "
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"If you can find a source of salt water you should be able to boil it down."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the salt?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "We are going to begin preparing our fields immediately."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Well, our first crop will be planted shortly but I'm starting to suspect "
+"that our profit margin is going to be much smaller than we expect.  With "
+"limited seed for our original crop our next course of action is to increase "
+"the soil's fertility.  Is there any way you could find or produce a basic "
+"liquid fertilizer for us?  We'd need at least 30 units to make a significant "
+"improvement in our output. "
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I don't know the exact recipie but I'm sure you could make it from a "
+"comercial fertilizer or produce it from bonemeal."
+msgstr ""
+
+#: src/mission.cpp
+msgid "I'd look through a few basic chemistry books to find a simple recipe."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the liquid fertilizer?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "This really should make the first winter easier to survive."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Our current assessment for survivability has increased significantly thanks "
+"to your efforts.  The next priority issue is securing a cleaner water "
+"source.  Drinking from the pond on the back end of the ranch has led to an "
+"outbreak of dysentery.  As quickly as possible we need to improve the "
+"sanitary conditions in the camp.  To do so the first step is to dig a well "
+"and construct stone fireplaces in the barn for the migrants to boil water.  "
+"We are going to need at least 75 large rocks from you if we hope to "
+"accomplish the task before we all get sick.  After we have them installed "
+"you will have free access to them, guaranteed. "
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"If you take a shovel to a pile of rubble you should be able to pull out "
+"structural grade stone."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Mining would always be an option if you had the resources."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the stone?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "I appreciate the work you do."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"To fabricate the well's hand pump and construct components for several other "
+"projects we are going to need to find or fabricate a number of steel pipes.  "
+"Plumbing is a distant possibility for now but some form of irrigation will "
+"eventually become desirable.  You could assist us with procuring 50 steel "
+"pipes, if you so have the chance."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Hopefully we will be able to assign new migrants to help fulfill our needs "
+"in the future."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Pipes are used in numerous metal constructions.  Smashing abandoned "
+"furniture may provide the material we need."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the pipes?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"With the well's completion we are rapidly closing the sustainability gap.  "
+"In order to expand from here we will need massive quantities of lumber to "
+"construct fortifications and new buildings.  We have already begun work on a "
+"manually operated sawmill but we will need two motors to control the actual "
+"blades.  We were hoping you might be able to secure the motors for us."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Power for the motors will be provided by a salvaged truck battery, you need "
+"not bring additional mechanical components.  "
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the motors?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Disease and infection remains a persistent problem among the refugees.  "
+"Without dedicated medical personnel and facilities I doubt everyone will be "
+"willing to stick around when the next outbreak happens.  Until we can get a "
+"former medic or nurse I'm just going to have to improvise.  Sterilization "
+"would be the first step I imagine.  Bring me five gallons of bleach so we "
+"can get started."
+msgstr ""
+
+#: src/mission.cpp
+msgid "I'm sure you can find bleach in most homes..."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"If you can't find a large supply I'd recommend checking hospitals or "
+"research labs."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the bleach?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "I appreciate it."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"We've started planning a medical clinic but we are going to need a lot more "
+"supplies if we hope to warrant sending one of the few people with medical "
+"experience from the refugee center to our outpost.  I know first aid kits "
+"are rare but they have all the basic supplies that I'm uncertain of.  If you "
+"could bring in 3 full kits I'm sure we could supplement them to make them "
+"last a bit longer."
+msgstr ""
+
+#: src/mission.cpp
+msgid "We'll do our best to make them last..."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Homes, hospitals, labs, and doctor offices would be where I'd check."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the first aid kits?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The work you have done has swayed the leaders at the refugee center to send "
+"someone out to assist with our medical needs.  The next step is for us to "
+"get a sort of chop-shop setup so that we can begin using scrap metal to "
+"build fortifications and equipment.  We are going to need a pair of electric "
+"welders for our mechanics to use."
+msgstr ""
+
+#: src/mission.cpp
+msgid "With two, we should be able to repair one if it breaks."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The only place I've seen them is garages but I imagine you could find them "
+"in some stores."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the welders?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"We have the basic equipment that we need but without a functioning power "
+"grid we are forced to rely on the readily available vehicle batteries.  This "
+"is going to be a chore but I'll need twelve car batteries to swap between "
+"charging and powering our equipment.  The good news is that they don't need "
+"to be charged, we can take care of that."
+msgstr ""
+
+#: src/mission.cpp
+msgid "I'm counting on you."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Cars can be found in traffic jams along roads or in parking lots... I'm sure "
+"you can find a few."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the car batteries?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "I'm impressed with your abilities."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Check with the nurse when you get a chance, I know she will need help "
+"setting up our clinic.  On the construction front, we are going to need to "
+"get dedicated scavenger teams setup to bring in the miscellaneous supplies "
+"that we use in small quantities.  We are going to start setting up a junk "
+"shop for them in the North end of the outpost so we could use your help with "
+"that.  Communication is the biggest obstacle for the teams... could you "
+"bring in a pair two two-way radios?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Organizing the scavenging missions is difficult enough without communication."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"You should be able to find them in electronics stores or at a police station."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the two-way radios?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "I'm sure the scavengers will find these useful."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The volunteers for the scavenging teams will need to be issued some basic "
+"equipment.  When the boss sets up shop in the junk shed you should ask him "
+"what else he needs for his teams.  In the meantime we can provide a few "
+"backpacks to get them started.  Could you find five backpacks to give to the "
+"initial team?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "It may be easier to make them if you can't find a school or something."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the backpacks?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Having at least basic equipment greatly increases survivability.  Thanks."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Growth has lately begun to stall, we have individuals passing through the "
+"outpost but the prospect of hard labor just to eek out an existence is "
+"driving them away.  We've asked around and decided that, despite our "
+"pressing needs, building a bar ought to draw some of the less committed "
+"individuals to the outpost.  Unlike other settlements, the more hands we "
+"have to more food we can produce... at least in the long term.  "
+"Unfortunately, no one here has brewed alcoholic drinks before so we are "
+"going to need you to find a book called the 'Homebrewer's Bible' or "
+"something along those lines."
+msgstr ""
+
+#: src/mission.cpp
+msgid "I guess you should search homes or libraries?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the book?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "I guarantee we will toast to your name when the bar is finished."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Just flipping through the book I can tell that one ingredient in most of the "
+"alcoholic drinks that we don't have a large supply of is sugar.  What "
+"alcohol we have been able to loot isn't going to last us long so starting "
+"our first large batch is a priority.  Could you bring in 80 units of sugar?  "
+"That should last us until we can start producing our own supply."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"You might get lucky finding it but you could always boil it out of fruit if "
+"you are familiar with the process."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the sugar?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"There is a large group of thirsty individuals in our outpost that are truly "
+"thankful for your work."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Although we are an agricultural outpost, we are restricted to growing plants "
+"that are compatible with the New England climate during the warmer months.  "
+"The easiest way to work around that is to build green houses to supplement "
+"our external fields.  There isn't going to be an easy way to build these, we "
+"are going to need a massive number of glass sheets to enclose the frames.  "
+"The first house will need 20 sheets of glass if you are still interested."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Deconstructing existing windows is the only way I know of to keep the sheets "
+"intact."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the glass sheets?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"We'll begin planting our first seeds as soon as we can get these installed."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I've got a handful of bandages and a few first aid kits to work with at the "
+"moment... in other words I'm completely unable to treat most serious medical "
+"emergencies.  I'm supposed to have priority on any medical supplies that the "
+"scavengers bring in but I imagine the black market for the stuff will "
+"prevent me from ever seeing it.  I could use your help getting a few bottles "
+"of aspirin to start with."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Aspirin is pretty common in homes and convenience stores."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the aspirin?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "We'll go through this pretty quickly but it does help."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I was given a few bottles of bleach when I arrived but I need a number of "
+"hotplates to actually sterilize equipment.  I'm sure you can find them in "
+"any old house or appliance store.  Three should be enough for now."
+msgstr ""
+
+#: src/mission.cpp
+msgid "It should be a fairly common item, don't know what else to say."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the hotplates?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "Thank you for your assistance."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Disease is spreading rapidly due to poor nutrition and there is little that "
+"I can do about it.  With food being scarce, people are willing to survive on "
+"whatever they can.  I need to start supplementing the outpost's diet with "
+"vitamins to prevent potential deaths indirectly attributable to nutrition.  "
+"I know it is a lot but if you could bring me 200 vitamins I'd be able to "
+"treat the most vulnerable before they spread anything to the rest of us."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the vitamins?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Despite my recommendations, we continue to have travelers come in with "
+"illnesses I've been able to trace back to contaminated drinking water.  When "
+"boiling water isn't an option they need some form of charcoal water filter "
+"that they can use.  If you could build me four charcoal water filters I'll "
+"distribute them to groups as they pass through."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"With some basic survival and crafting skills you should be able to make them "
+"with little effort."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the charcoal water filters?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I've been working on producing some of our own medical supplies but I'm "
+"going to need a chemistry set to get everything that I need in order.  Is "
+"there any way you could go through one of the school chemistry labs and "
+"steal me a chemistry set?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "You might be able to find one in a pharmacy if you can't find a school."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the chemistry set?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The number of airway infections that I've encountered in the past week has "
+"depleted my supply of masks.  Could you find me 10 filter masks?  I tend to "
+"only distribute them in severe cases so I'll be sure to make them last."
+msgstr ""
+
+#: src/mission.cpp
+msgid "You may be able to make one if you had the right guide."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the filter masks?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The bodily fluids that I often have to clean up and the caustic chemicals I "
+"deal with have done a number on my current pair of gloves.  Could you find "
+"me four pairs of heavy rubber gloves?  That should be enough that I can task "
+"a few laborers with cleanup details in the event of an outbreak."
+msgstr ""
+
+#: src/mission.cpp
+msgid "You should be able to find them in cleaning closets."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the rubber gloves?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I heard that we may have a physician on his way here.  The workers have "
+"already begun expanding the clinic but I need you to locate a pair of "
+"scalpels to use in surgery when he arrives.  I'm sure you should be able to "
+"find them in a hospital or craft shop."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Hospitals and crafting stores should have a few."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the scalpels?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Have you heard of a book called the 'Guide to Advanced Emergency Care?'  I "
+"really need a copy.  The doctor is requesting a lot of supplies that I'm not "
+"familiar with but I believe I could make if I could get a copy of the book."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Libraries are the only place I'd think to look."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the Guide to Advanced Emergency Care?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The doctor has some ideas on how to recreate a vaccination program for the "
+"common flu.  If you come across an unused flu shot please bring it to me.  "
+"We haven't had any fatalities from the flu yet but it is only a matter of "
+"time until one of the older or younger members of the outpost gets a bad "
+"case."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Hospitals or clinics might have a few that haven't been used."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the flu shot?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"We are starting to isolate a few natural antibiotic serums but we don't have "
+"the supplies to administer the cocktails.  I need you to bring me 10 empty "
+"syringes to use.  I'll take care of cleaning them to prevent transferring "
+"infections."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Hospitals or clinics might have a few sitting around."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the empty syringes?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I can usually use additional survival gear to kit-out the new recruits.  The "
+"most basic weapon that everyone gets is the knife spear... it provides a "
+"good mix of range, power, and ease of use when engaging the more common "
+"monsters.  Could you make me a dozen of them?  I may need more later but "
+"that should help the first few teams."
+msgstr ""
+
+#: src/mission.cpp
+msgid "You should be able to make them with the most basic of skills."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the knife spears?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "Thank you for the delivery."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Night is the ideal time for my team to go on raids but they are going to "
+"need better light sources to speed up their missions.  Could you craft a set "
+"of five wearable flashlights for them?  Keeping both hands free greatly "
+"helps during combat."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the wearable flashlights?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Clothing that can withstand the wear and tear of climbing through windows "
+"and fighting back wild animals is in high demand.  The best that we have "
+"been able to field is leather body armor but it is difficult to make with "
+"our limited resources.  Could you craft us three pairs of leather body "
+"armor?  The life-expectancy of my scavengers would drastically increase if "
+"you did."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Finding the leather might be easier in town rather than making it yourself."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the leather armor?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"When outnumbered or forced to pull back my scavengers have been taught to "
+"throw Molotov cocktails to keep monsters from chasing them.  We go through "
+"one or two on every mission so we can always use a few more.  Would you be "
+"willing to make us a dozen?  I'm willing to pay you what I can for your "
+"assistance. "
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Alcohol or lamp oil is probably easier to refine rather than find in large "
+"quantities."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the Molotov cocktails?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The wine and beer we can brew are sufficient to attract most patrons but we "
+"need something a bit stronger to get them to forget their misery.  Could you "
+"build me a pair of stills?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"This should let us start producing whiskey, rum, and brandy when we get "
+"access to the ingredients."
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"I'm sure you could find the design for the stills in home brewing books."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the stills?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The last batch that I brewed was terrible, I'm fairly sure something "
+"contaminated the yeast we have been using.  Could you locate a source of "
+"fresh yeast for us to use?  I'd need about 20 teaspoons of dry yeast to get "
+"started."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Yeast should be common in homes or bakeries."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the yeast?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"Sugar and molasses remains in short supply.  I've put in a request for more "
+"but it is unlikely that I'm going to see a reliable source for some time.  "
+"If you are interested, we are going to need sugar beet seeds to meet future "
+"demand regardless of what the scavengers can find.  Could you bring me at "
+"least enough seeds to plant a small 10 meter long patch?"
+msgstr ""
+
+#: src/mission.cpp
+msgid "Farms or supply stories might have a few seeds..."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the sugar beet seeds?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The drinks we brew here have become a major draw for visitors and the "
+"occasional trader.  Our batches have become larger but we are still running "
+"out of storage space between trading runs.  I've been able to get a few "
+"volunteers to help me build a set of standing tanks but I still need 12 "
+"metal tanks to build them.  I've talked with the scrappers but we are a low "
+"priority at the moment."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Scrapping vehicles might be your best bet."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the metal tanks?"
+msgstr ""
+
+#: src/mission.cpp
+msgid ""
+"The other survivor outposts that we have contact with have been more than "
+"eager to trade for beer or other drinks.  Transporting the drinks to them "
+"has presented a number of challenges though.  If you could locate a pair of "
+"55-gallon drums we should be able to keep them supplied while turning a "
+"significant profit."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Factories or junk yards are the only places I know where to look."
+msgstr ""
+
+#: src/mission.cpp
+msgid "Do you have the 55-gallon drums?"
+msgstr ""
+
 #: src/mission_end.cpp
 #, c-format
 msgid "%s gave you an item from the deposit box."
@@ -85512,6 +86465,158 @@ msgstr ""
 
 #: src/missiondef.cpp
 msgid "Fabricate Repeater Mod"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Cut 200 2x4's"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 25 Blankets"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 2500 Nails"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 300 Salt"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "30 Liquid Fertilizer"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 75 Stones"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 50 Pipes"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 2 Motors"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 150 Bleach"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 6 First Aid Kits"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 2 Electric Welders"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 12 Car Batteries"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 2 Two-Way Radios"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 5 Backpacks"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find Homebrewer's Bible"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Gather 80 Sugar"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Collect 30 Glass Sheets"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Collect 100 Aspirin"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Collect 3 Hotplates"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Collect 200 Vitamins"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Make 4 Charcoal Purifiers"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find a Chemistry Sets"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 10 Filter Masks"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 4 Pairs of Rubber Gloves"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 2 Scalpels"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find Advanced Emergency Care"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find a Flu Shot"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 10 Syringes"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Make 10 Knife Spears"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Make 5 Wearable Flashlights"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Make 3 Leather Body Armor"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Make 12 Molotov Cocktails"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Make 2 Stills"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 20 Yeast"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 10 Sugar Beet Seeds"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 12 Metal Tanks"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Find 2 55-Gallon Drums"
+msgstr ""
+
+#: src/missiondef.cpp
+msgid "Retrieve Prospectus"
 msgstr ""
 
 #: src/missiondef.cpp
@@ -87063,6 +88168,16 @@ msgstr ""
 
 #: src/monmove.cpp
 #, c-format
+msgid "The %s flies over the %s."
+msgstr ""
+
+#: src/monmove.cpp
+#, c-format
+msgid "The %s climbs over the %s."
+msgstr ""
+
+#: src/monmove.cpp
+#, c-format
 msgid "A %s %s from the %s!"
 msgstr ""
 
@@ -88442,6 +89557,10 @@ msgid "Soldier"
 msgstr ""
 
 #: src/npc.cpp
+msgid "Bartender"
+msgstr ""
+
+#: src/npc.cpp
 msgid "Unknown class"
 msgstr ""
 
@@ -88457,6 +89576,15 @@ msgstr ""
 
 #: src/npcmove.cpp
 msgid "Don't move a <swear> muscle..."
+msgstr ""
+
+#: src/npcmove.cpp
+msgid "%s falls tries to climb the %1$s but slips."
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
+msgid "%s climbs over the %s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -88492,6 +89620,11 @@ msgstr ""
 #: src/npcmove.cpp
 #, c-format
 msgid "%s picks up several items."
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
+msgid "%s looks around nervously, as if searching for something."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -90340,6 +91473,291 @@ msgid "Thank you for your business!"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Can I help you marshal?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Morning sir, how can I help you?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Morning ma'am, how can I help you?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I was starting to wonder if they were really interested in the project or "
+"were just trying to get rid of me."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"Ya, that representative from the Old Guard asked the two of us to come out "
+"here and begin fortifying this place as a refugee camp.  I'm not sure how "
+"fast he expects the two of us to get setup but we were assured additional "
+"men were coming out here to assist us. "
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"Could easily be hundreds as far as I know.  They chose this ranch because of "
+"its rather remote location, decent fence, and huge cleared field.  With as "
+"much land as we have fenced off we could build a village if we had the "
+"materials.  We would have tried to secure a small town or something but the "
+"lack of good farmland and number of undead makes it more practical for us to "
+"build from scratch.  The refugee center I came from is constantly facing "
+"starvation and undead assaults."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I'm the engineer in charge of turning this place into a working camp.  This "
+"is going to be an uphill battle, we used most of our initial supplies "
+"getting here and boarding up the windows.  I've got a huge list of tasks "
+"that need to get done so if you could help us keep supplied I'd appreciate "
+"it.  If you have material to drop off you can just back your vehicle into "
+"here and dump it on the ground, we'll sort it."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"My partner is in charge of fortifying this place, you should ask him about "
+"what needs to be done."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Howdy."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I was among one of the first groups of immigrants sent here to fortify the "
+"outpost.  I might have exaggerated my construction skills to get the hell "
+"out of the refugee center.  Unless you are a trader there isn't much work "
+"there and food was really becoming scarce when I left."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "currently_busy"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Come back later, I need to take care of a few things first."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I'm tasked out to the construction party but I might be able to show you a "
+"few pointers that I've picked up."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "You need something?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I'm one of the migrants that got diverted to this outpost when I arrived at "
+"the refugee center.  They said I was big enough to swing an ax so my "
+"profession became lumberjack... didn't have any say in it.  If I want to eat "
+"then I'll be cutting wood from now till kingdom come."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"The rate is a bit steep but I still have my quotas that I need to fulfill.  "
+"The logs will be dropped off in the garage at the entrance to the camp.  "
+"I'll need a bit of time before I can deliver another load."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Don't have much time to talk."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I turn the logs that laborers bring in into lumber to expand the outpost.  "
+"Maintaining the saw is a chore but breaks the monotony."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"Bringing in logs is one of the few tasks we can give to the unskilled so I'd "
+"be hurting them if I outsourced it.  Ask around though, I'm sure most people "
+"could use a hand."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I was sent here to assist in setting-up the farm.  Most of us have no real "
+"skills that transfer from before the cataclysm so things are a bit of trial "
+"and error."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I'm sorry, I don't have anything to trade.  The work program here splits "
+"what we produce between the refugee center, the farm, and ourselves.  If you "
+"are a skilled laborer then you can trade your time for a bit of extra income "
+"on the side.  Not much I can do to assist you as a farmer though."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "You mind?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I'm just a lucky guy that went from being chased by the undead to the noble "
+"life of a dirt farmer.  We get room and board but won't see a share of our "
+"labor unless the crop is a success."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I've got no time for you.  If you want to make a trade or need a job look "
+"for the foreman or crop overseer."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I hope you are here to do business."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"My job is to manage our outpost's agricultural production.  I'm constantly "
+"searching for trade partners and investors to increase our capacity.  If you "
+"are interested I typically have tasks that I need assistance with."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Please leave me alone..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I was just a laborer till they could find me something a bit more permanent "
+"but being constantly sick has prevented me from doing much of anything."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I don't know what you could do.  I've tried everything.  Just give me time..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I keep getting sick!  At first I thought it was something I ate but now it "
+"seems like I can't keep anything down..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "How can I help you?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I was a practicing nurse so I've taken over the medical responsibilities of "
+"the outpost till we can locate a physician."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I'm willing to pay a premium for medical supplies that you might be able to "
+"scavenge up.  I also have a few miscellaneous jobs from time to time."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I can take a look at you or your companions if you are injured."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "That's the best I can do on short notice..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm sorry, I don't have time to see you at the moment."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Don't mind me."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I chop up useless vehicles for spare parts and raw materials.  If we can't "
+"use a vehicle immediately we haul it into the ring we are building to "
+"surround the outpost... it provides a measure of defense in the event that "
+"we get attacked."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I don't personally, the teams we send out to recover the vehicles usually "
+"need a hand but can be hard to catch since they spend most of their time "
+"outside the outpost."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Welcome to the junk shop..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"I organize scavenging runs to bring in supplies that we can't produce "
+"ourselves.  I try and provide incentives to get migrants to join one of the "
+"teams... its dangerous work but keeps our outpost alive.  Selling anything "
+"we can't use helps keep us afloat with the traders.  If you wanted to drop "
+"off a companion or two to assist in one of the runs, I'd appreciate it."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"Are you interested in the scavenging runs or one of the other tasks that I "
+"might have for you?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Want a drink?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"If it isn't obvious, I oversee the bar here.  The scavengers bring in old "
+"world alcohol that we sell for special occasions.  For most that come "
+"through here though, the drinks we brew ourselves are the only thing they "
+"can afford."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"We have a policy of keeping information to ourselves.  Ask the patrons if "
+"you want to hear rumors or news."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Our selection is a bit limited at the moment."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Can I interest you in a trim?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"What?  I'm a barber... I cut hair.  There's demand for cheap cuts and a "
+"shave out here."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I can't imagine what I'd need your assistance with."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Stand still while I get my clippers..."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Well, I guess it's just us."
 msgstr ""
 
@@ -91130,6 +92548,10 @@ msgid "Whatever they did it must have worked since we are still alive..."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "gave_quest_item"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "[MISSION] The captain sent me to get a frequency list from you."
 msgstr ""
 
@@ -91236,6 +92658,160 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "You might be seeing more of me..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid ""
+"[MISSION] The merchant at the Refugee Center sent me to get a prospectus "
+"from you."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I heard you were setting up an outpost out here..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "What's your job here?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "How many refugees are you expecting?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Hopefully moving out here was worth it..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'll keep that in mind."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'll talk to him then..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'd like to hire your services."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$20,1h] Sure, I could use a bit of help..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Sorry, I don't have the time."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$2000,1d] 10 logs"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$12000,7d] 100 logs"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Maybe later..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'll be back later..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "What is your job here?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "It could be worse..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'll talk with them then..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "What's wrong?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I could use your medical assistance..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "What kind of jobs do you have for me?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Delivering bandages."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$200, 30m] I need you to patch me up..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$500, 1h] Could you look at me and my companions?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I should be fine..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Let's see what you've managed to find..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "What kind of tasks do you have for me?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm looking for information..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Let me see what you keep behind the counter..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "What do you have on tap?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'll be going..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$10] I'll take a beer"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$10] I'll take a shot of brandy"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$10] I'll take a shot of rum"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$12] I'll take a shot of whiskey"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$5] I'll have a shave"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "[$10] I'll get a haircut"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Maybe another time..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Thanks..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -91617,10 +93193,10 @@ msgstr ""
 #: src/npctalk.cpp
 #, c-format
 msgid ""
-"I'm willing to pay $%.2f per serving. You have %d serving for a total of $"
+"I'm willing to pay $%.2f per batch. You have %d serving for a total of $"
 "%.2f. No questions asked, here is your cash."
 msgid_plural ""
-"I'm willing to pay $%.2f per serving. You have %d servings for a total of $"
+"I'm willing to pay $%.2f per batch. You have %d servings for a total of $"
 "%.2f. No questions asked, here is your cash."
 msgstr[0] ""
 msgstr[1] ""
@@ -91657,6 +93233,41 @@ msgstr ""
 #: src/npctalk.cpp
 #, c-format
 msgid "%s has nothing to give!"
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s gave you a beer..."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s gave you a shot of brandy..."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s gave you a shot of rum..."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s gave you a shot of whiskey..."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s gives you a decent haircut..."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s gives you a decent shave..."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "%s drops the logs off in the garage..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -93299,6 +94910,14 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Found kitten <3"
+msgstr ""
+
+#: src/player.cpp
+msgid "Got a Haircut"
+msgstr ""
+
+#: src/player.cpp
+msgid "Freshly Shaven"
 msgstr ""
 
 #: src/player.cpp
@@ -96526,6 +98145,11 @@ msgid "You finish waiting."
 msgstr ""
 
 #: src/player_activity.cpp
+#, c-format
+msgid "%s finishes with you..."
+msgstr ""
+
+#: src/player_activity.cpp
 msgid "You feel much better."
 msgstr ""
 
@@ -97786,11 +99410,11 @@ msgid "Choose a part here to remove:"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "The vehicle has no fuel left to siphon."
+msgid "The vehicle has no liquid fuel left to siphon."
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "You need a <color_red>hose</color> to siphon fuel."
+msgid "You need a <color_red>hose</color> to siphon liquid fuel."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -97814,14 +99438,6 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Choose wheel to use as replacement:"
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "The vehicle has no water to siphon."
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "You need a <color_red>hose</color> to siphon water."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -97929,10 +99545,6 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "<s>iphon"
-msgstr ""
-
-#: src/veh_interact.cpp
-msgid "<d>rain"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -98078,11 +99690,16 @@ msgid "Siphon what?"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Gasoline"
+msgid "Fill what?"
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Diesel"
+#, c-format
+msgid "Nearby vehicle (%d)"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Fill which vehicle?"
 msgstr ""
 
 #: src/veh_interact.cpp
