@@ -557,6 +557,20 @@ void overmapbuffer::remove_npc(int id)
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
 }
 
+void overmapbuffer::hide_npc(int id)
+{
+    for( auto &it : overmaps ) {
+        for (size_t i = 0; i < it.second->npcs.size(); i++) {
+            npc *p = it.second->npcs[i];
+            if (p->getID() == id) {
+                it.second->npcs.erase(it.second->npcs.begin() + i);
+                return;
+            }
+        }
+    }
+    debugmsg("overmapbuffer::hide_npc: NPC (%d) not found.", id);
+}
+
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)
 {
     tripoint plpos = g->u.global_omt_location();
