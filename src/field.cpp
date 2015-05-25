@@ -433,20 +433,36 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     const int submap_x, const int submap_y, const int submap_z )
 {
     const auto get_neighbors = [this]( const tripoint &pt ) {
+        // Wrapper to allow skipping bound checks except at the edges of the map
+        const auto maptile_has_bounds = [this]( const tripoint &pt, const bool bounds_checked ) {
+            if( bounds_checked ) {
+                // We know that the point is in bounds
+                return maptile_at_internal( pt );
+            }
+
+            return maptile_at( pt );
+        };
+
+        // Find out which edges are in the bubble
+        // Where possible, do just one bounds check for all the neighbors
+        const bool west = pt.x > 0;
+        const bool north = pt.y > 0;
+        const bool east = pt.x < SEEX * my_MAPSIZE - 1;
+        const bool south = pt.y < SEEY * my_MAPSIZE - 1;
         return std::array< maptile, 8 > { {
-            maptile_at( {pt.x - 1, pt.y - 1, pt.z} ),
-            maptile_at( {pt.x, pt.y - 1, pt.z} ),
-            maptile_at( {pt.x + 1, pt.y - 1, pt.z} ),
-            maptile_at( {pt.x - 1, pt.y, pt.z} ),
-            maptile_at( {pt.x + 1, pt.y, pt.z} ),
-            maptile_at( {pt.x - 1, pt.y + 1, pt.z} ),
-            maptile_at( {pt.x, pt.y + 1, pt.z} ),
-            maptile_at( {pt.x + 1, pt.y + 1, pt.z} ),
+            maptile_has_bounds( {pt.x - 1, pt.y - 1, pt.z}  , west && north ),
+            maptile_has_bounds( {pt.x, pt.y - 1, pt.z}      , north ),
+            maptile_has_bounds( {pt.x + 1, pt.y - 1, pt.z}  , east && north ),
+            maptile_has_bounds( {pt.x - 1, pt.y, pt.z}      , west ),
+            maptile_has_bounds( {pt.x + 1, pt.y, pt.z}      , east ),
+            maptile_has_bounds( {pt.x - 1, pt.y + 1, pt.z}  , east && north ),
+            maptile_has_bounds( {pt.x, pt.y + 1, pt.z}      , south ),
+            maptile_has_bounds( {pt.x + 1, pt.y + 1, pt.z}  , east && south ),
         } };
     };
 
     const auto spread_gas = [this, &get_neighbors] (
-        field_entry *cur, const tripoint &p,field_id curtype,
+        field_entry *cur, const tripoint &p, field_id curtype,
         int percent_spread, int outdoor_age_speedup ) {
         // Reset nearby scents to zero
         tripoint tmp;
@@ -469,29 +485,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
             return;
         }
 
-        auto neighs = get_neighbors( p );
-        const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
-        std::vector<size_t> spread;
-        spread.reserve( 8 );
-        // Start at end_it + 1, then wrap around until i == end_it
-        for( size_t i = ( end_it + 1 ) % neighs.size() ;
-             i != end_it;
-             i = ( i + 1 ) % neighs.size() ) {
-            const auto &neigh = neighs[i];
-            const field_entry* tmpfld = neigh.get_field().findField( curtype );
-            const auto &ter = terlist[neigh.get_ter()];
-            const auto &frn = furnlist[neigh.get_furn()];
+        const auto can_spread_to = [&]( const maptile &dst, field_id curtype ) {
+            const field_entry* tmpfld = dst.get_field().findField( curtype );
+            const auto &ter = terlist[dst.get_ter()];
+            const auto &frn = furnlist[dst.get_furn()];
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            if( ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
-                ( tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity() ) ) {
-                spread.push_back( i );
-            }
-        }
-        // Then, spread to a nearby point.
-        if( !spread.empty() ) {
-            // Construct the destination from offset and p
-            const int n_index = spread[ rng( 0, spread.size() - 1 ) ];
-            auto &dst = neighs[ n_index ];
+            return ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
+                ( tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity() );
+        };
+
+        const auto spread_to = [&]( maptile &dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
             // Nearby gas grows thicker, and ages are shared.
             int age_fraction = 0.5 + current_age / current_density;
@@ -505,6 +508,45 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 dst.find_field( curtype )->setFieldAge(age_fraction);
                 cur->setFieldDensity( current_density - 1 );
                 cur->setFieldAge(current_age - age_fraction);
+            }
+        };
+
+        // First check if we can fall
+        // TODO: Make fall and rise chances parameters to enable heavy/light gas
+        if( zlevels && p.z > -OVERMAP_DEPTH ) {
+            tripoint down{p.x, p.y, p.z - 1};
+            maptile down_tile = maptile_at_internal( down );
+            if( can_spread_to( down_tile, curtype ) && valid_move( p, down, true, true ) ) {
+                spread_to( down_tile );
+                return;
+            }
+        }
+
+        auto neighs = get_neighbors( p );
+        const size_t end_it = (size_t)rng( 0, neighs.size() - 1 );
+        std::vector<size_t> spread;
+        spread.reserve( 8 );
+        // Start at end_it + 1, then wrap around until i == end_it
+        for( size_t i = ( end_it + 1 ) % neighs.size() ;
+             i != end_it;
+             i = ( i + 1 ) % neighs.size() ) {
+            const auto &neigh = neighs[i];
+            if( can_spread_to( neigh, curtype ) ) {
+                spread.push_back( i );
+            }
+        }
+
+        // Then, spread to a nearby point.
+        // If not possible (or randomly), try to spread up
+        if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
+            // Construct the destination from offset and p
+            const int n_index = spread[ rng( 0, spread.size() - 1 ) ];
+            spread_to( neighs[ n_index ] );
+        } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
+            tripoint up{p.x, p.y, p.z + 1};
+            maptile up_tile = maptile_at_internal( up );
+            if( can_spread_to( up_tile, curtype ) && valid_move( p, up, true, true ) ) {
+                spread_to( up_tile );
             }
         }
     };
@@ -650,6 +692,36 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         for( auto &c : contents ) {
                             add_item_or_charges( p, c );
                         }
+
+                        // Try to fall by a z-level
+                        if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
+                            break;
+                        }
+
+                        tripoint dst{p.x, p.y, p.z - 1};
+                        if( valid_move( p, dst, true, true ) ) {
+                            maptile dst_tile = maptile_at_internal( dst );
+                            field_entry *acid_there = dst_tile.find_field( fd_acid );
+                            if( acid_there == nullptr ) {
+                                dst_tile.add_field( fd_acid, cur->getFieldDensity(), cur->getFieldAge() );
+                            } else {
+                                // Math can be a bit off,
+                                // but "boiling" falling acid can be allowed to be stronger
+                                // than acid that just lies there
+                                const int sum_density = cur->getFieldDensity() + acid_there->getFieldDensity();
+                                const int new_density = std::min( 3, sum_density );
+                                // No way to get precise elapsed time, let's always reset
+                                // Allow falling acid to last longer than regular acid to show it off
+                                const int new_age = -MINUTES( sum_density - new_density );
+                                acid_there->setFieldDensity( new_density );
+                                acid_there->setFieldAge( new_age );
+                            }
+
+                            // Set ourselves up for removal
+                            cur->setFieldDensity( 0 );
+                        }
+
+                        // TODO: Allow spreading to the sides if age < 0 && density == 3
                     }
                         break;
 
@@ -946,6 +1018,35 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     ter_set( p, t_dirt );
                                     furn_set( p, f_ash );
                                 }
+                            } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
+                                // We're hanging in the air - let's fall down
+                                tripoint dst{p.x, p.y, p.z - 1};
+                                if( valid_move( p, dst, true, true ) ) {
+                                    maptile dst_tile = maptile_at_internal( dst );
+                                    field_entry *fire_there = dst_tile.find_field( fd_fire );
+                                    if( fire_there == nullptr ) {
+                                        dst_tile.add_field( fd_fire, 1, 0 );
+                                        cur->setFieldDensity( cur->getFieldDensity() - 1 );
+                                    } else {
+                                        // Don't fuel raging fires or they'll burn forever
+                                        // as they can produce small fires above themselves
+                                        int new_density = std::max( cur->getFieldDensity(), 
+                                                                    fire_there->getFieldDensity() );
+                                        // Allow smaller fires to combine
+                                        if( new_density < 3 &&
+                                            cur->getFieldDensity() == fire_there->getFieldDensity() ) {
+                                            new_density++;
+                                        }
+                                        fire_there->setFieldDensity( new_density );
+                                        // A raging fire below us can support us for a while
+                                        // Otherwise decay and decay fast
+                                        if( new_density < 3 || one_in( 10 ) ) {
+                                            cur->setFieldDensity( cur->getFieldDensity() - 1 );
+                                        }
+                                    }
+
+                                    break;
+                                }
                             }
                         }
 
@@ -1038,6 +1139,25 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
 
                         // Consume adjacent fuel / terrain / webs to spread.
+                        // Allow raging fires (and only raging fires) to spread up
+                        // Spreading down is achieved by wrecking the walls/floor and then falling
+                        if( zlevels && cur->getFieldDensity() == 3 && p.z < OVERMAP_HEIGHT ) {
+                            // Let it burn through the floor
+                            maptile dst = maptile_at_internal( {p.x, p.y, p.z + 1} );
+                            const auto &dst_ter = dst.get_ter_t();
+                            if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
+                                dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
+                                dst_ter.has_flag( TFLAG_FLAMMABLE_ASH ) ||
+                                dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
+                                field_entry *nearfire = dst.find_field( fd_fire );
+                                if( nearfire != nullptr ) {
+                                    nearfire->setFieldAge( nearfire->getFieldAge() - MINUTES(2) );
+                                } else {
+                                    dst.add_field( fd_fire, 1, 0 );
+                                }
+                                // Fueling fires above doesn't cost fuel
+                            }
+                        }
 
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
@@ -1093,24 +1213,34 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( nearwebfld ) {
                                     nearwebfld->setFieldDensity( 0 );
                                 }
-                            } else {
-                                // If we're not spreading, maybe we'll stick out some smoke, huh?
-                                if( !is_outside( p ) ) {
-                                    // Lets make more smoke indoors since it doesn't dissipate
-                                    // But not too much if we have lots of fires making smoke already
-                                    // or it will choke the CPU
-                                    smoke += 10 - adjacent_fires;
-                                }
-
-                                if( ter_furn_movecost( dster, dsfrn ) != 0 &&
-                                    (rng(0, 100) <= smoke ) &&
-                                    rng(3, 35) < cur->getFieldDensity() * 5 &&
-                                    !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) ) {
-                                    dst.add_field( fd_smoke, rng( 1, cur->getFieldDensity() ), 0 ); //Add smoke!
-                                    dirty_transparency_cache = true; // Smoke affects transparency
-                                }
                             }
                         }
+
+                        // Create smoke once - above us if possible, at us otherwise
+                        if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
+                            rng(0, 100) <= smoke &&
+                            rng(3, 35) < cur->getFieldDensity() * 10 ) {
+                                bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
+                                if( smoke_up ) {
+                                    tripoint up{p.x, p.y, p.z + 1};
+                                    maptile dst = maptile_at_internal( up );
+                                    const auto &dst_ter = dst.get_ter_t();
+                                    if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+                                        dst.add_field( fd_smoke, rng( 1, cur->getFieldDensity() ), 0 );
+                                    } else {
+                                        // Can't create smoke above
+                                        smoke_up = false;
+                                    }
+                                }
+
+                                if( !smoke_up ) {
+                                    maptile dst = maptile_at_internal( p );
+                                    // Create thicker smoke
+                                    dst.add_field( fd_smoke, cur->getFieldDensity(), 0 );
+                                }
+
+                                dirty_transparency_cache = true; // Smoke affects transparency
+                            }
 
                         // Hot air is a heavy load on the CPU and it doesn't do much
                         // Don't produce too much of it if we have a lot fires nearby, they produce

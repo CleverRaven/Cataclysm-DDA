@@ -167,6 +167,7 @@ enum ter_bitflags {
     TFLAG_CLIMBABLE,
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
+    TFLAG_NO_FLOOR,
 
     NUM_TERFLAGS
 };
