@@ -491,6 +491,26 @@ for class_name, value in pairs(classes) do
     local cpp_name = wrapper_base_class(class_name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. class_name .. "_metatable\";" .. br
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. cpp_name.."::Type *"..cpp_name.."::get_subclass( lua_State* const S, int const i) {"..br
+    for child, value in pairs(classes) do
+        -- Note: while the function get_subclass resides in LuaValue<T>, this calls into LuaValue or
+        -- LuaReference, that way we get a simple pointer. Unconditionally calling LuaValue<T>::get,
+        -- would result in returning monster** (LuaValue<T>::get returns a T&, applying `&` gives T*).
+        -- Now consider that T is already a pointer for LuaValue<monster*>, so T* would be monster**
+        -- And that can not be converted to Creature**!
+        -- In the end, this function does not return T*. but std::remove_pointer<T>::type* and that
+        -- is basically T* (if T is not a pointer) or T (if T is already a pointer).
+        local cpp_child_name = member_type_to_cpp_type(child);
+        if value.parent == class_name then
+            cpp_output = cpp_output .. tab .. "if("..cpp_child_name.."::has(S, i)) {" .. br
+            cpp_output = cpp_output .. tab .. tab .. "return &"..cpp_child_name.."::get( S, i );" .. br
+            cpp_output = cpp_output .. tab .. "}" .. br
+        end
+    end
+    cpp_output = cpp_output .. tab .. "(void)S; (void)i;" .. br -- just in case to prevent warnings
+    cpp_output = cpp_output .. tab .. "return nullptr;" .. br
+    cpp_output = cpp_output .. "}" .. br
     generate_functions_static(cpp_name, value, class_name)
     generate_read_members_static(cpp_name, value, class_name)
     generate_write_members_static(cpp_name, value, class_name)
