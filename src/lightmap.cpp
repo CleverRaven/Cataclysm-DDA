@@ -642,7 +642,8 @@ template<int xx, int xy, int yx, int yy>
 void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const std::function<void(float &, const float, const int)> &assign,
-                const int offsetX, const int offsetY, const int offsetDistance, const float numerator,
+                const int offsetX, const int offsetY, const int offsetDistance, const float threshold,
+                const float numerator,
                 const int row, float start, const float end, double cumulative_transparency )
 {
     float newStart = 0.0f;
@@ -650,8 +651,10 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     if( start < end ) {
         return;
     }
-    // Making these static prevents them from being needlessly constructed/destructed all the time.
+    float last_intensity = 0.0;
+    // Making this static prevents it from being needlessly constructed/destructed all the time.
     static const tripoint origin(0, 0, 0);
+    // But each instance of the method needs one of these.
     tripoint delta(0, 0, 0);
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
@@ -679,16 +682,17 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             // 1 / (e^al) where a = coefficient of absorption and l = length.
             // Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
             // We merge all of the absorption values by taking their cumulative average.
-            assign( output_cache[ currentX ][ currentY ],
-                    numerator / (float)exp( cumulative_transparency * dist ), dist );
+            last_intensity = numerator / (float)exp( cumulative_transparency * dist );
+            assign( output_cache[ currentX ][ currentY ], last_intensity, dist );
 
             float new_transparency = input_array[ currentX ][ currentY ];
 
             if( new_transparency != current_transparency ) {
                 // Only cast recursively if previous span was not opaque.
-                if( current_transparency != LIGHT_TRANSPARENCY_SOLID ) {
+                if( current_transparency != LIGHT_TRANSPARENCY_SOLID &&
+                    last_intensity > threshold) {
                     castLight<xx, xy, yx, yy>( output_cache, input_array, assign, offsetX, offsetY,
-                                               offsetDistance, numerator, distance + 1,
+                                               offsetDistance, threshold, numerator, distance + 1,
                                                start, leadingEdge,
                                                ((distance - 1) * cumulative_transparency +
                                                 current_transparency) / distance );
@@ -702,7 +706,7 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             }
             newStart = trailingEdge;
         }
-        if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+        if( current_transparency == LIGHT_TRANSPARENCY_SOLID || last_intensity < threshold ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
             break;
         }
@@ -762,23 +766,23 @@ void map::apply_light_source(int x, int y, float luminance)
     };
 
     if( north ) {
-        castLight<1, 0, 0, -1>( lm, transparency_cache, assign, x, y, 0, luminance );
-        castLight<-1, 0, 0, -1>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<1, 0, 0, -1>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<-1, 0, 0, -1>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
     }
 
     if( east ) {
-        castLight<0, 1, 1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
-        castLight<0, -1, 1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<0, 1, 1, 0>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<0, -1, 1, 0>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
     }
 
     if( south ) {
-        castLight<1, 0, 0, 1>( lm, transparency_cache, assign, x, y, 0, luminance );
-        castLight<-1, 0, 0, 1>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<1, 0, 0, 1>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<-1, 0, 0, 1>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
     }
 
     if( west ) {
-        castLight<0, 1, -1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
-        castLight<0, -1, -1, 0>( lm, transparency_cache, assign, x, y, 0, luminance );
+        castLight<0, 1, -1, 0>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<0, -1, -1, 0>( lm, transparency_cache, assign, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
     }
 }
 
