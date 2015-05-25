@@ -2478,10 +2478,10 @@ void mattack::grab_drag(monster *z, int index)
     tripoint target_square = z->pos() - (target->pos() - z->pos());
     if (z->can_move_to(target_square) && target->stability_roll() < dice(z->type->melee_sides, z->type->melee_dice) ) {
         tripoint zpt = z->pos();
+        z->move_to(target_square);
         if (!g->is_empty(zpt)){ //Cancel the grab if the space is occupied by something
             return;
         }
-        z->move_to(target_square);
         if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
             zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
             g->update_map( zpt.x, zpt.y );

@@ -4916,7 +4916,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
                 add_msg_player_or_npc(m_good, _("You break the grab!"),
                                       _("<npcname> breaks the grab!"));
             } else {
-                add_effect("grabbed", 4);
+                int prev_effect = get_effect_int("grabbed");
+                add_effect("grabbed", 2, bp_torso, false, prev_effect + 2);
             }
         }
     }
