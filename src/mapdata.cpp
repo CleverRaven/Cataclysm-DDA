@@ -311,13 +311,13 @@ void load_terrain(JsonObject &jsobj)
   // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
     new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
-  }  
-  
-  if (jsobj.has_member("transforms_into")) {   
+  }
+
+  if (jsobj.has_member("transforms_into")) {
     new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
   }
-  
-  if (jsobj.has_member("harvest_season")) {  
+
+  if (jsobj.has_member("harvest_season")) {
     //get the harvest season
     if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
     else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
@@ -773,6 +773,7 @@ furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
+    f_standing_tank,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_floor_canvas,
@@ -862,6 +863,7 @@ void set_furn_ids() {
     f_fvat_empty=furnfind("f_fvat_empty");
     f_fvat_full=furnfind("f_fvat_full");
     f_wood_keg=furnfind("f_wood_keg");
+    f_standing_tank=furnfind("f_standing_tank");
     f_statue=furnfind("f_statue");
     f_egg_sackbw=furnfind("f_egg_sackbw");
     f_egg_sackws=furnfind("f_egg_sackws");

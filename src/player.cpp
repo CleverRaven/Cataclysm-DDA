@@ -125,6 +125,9 @@ namespace {
             //~ You really don't like wearing the Uncomfy Gear
             { _( "Uncomfy Gear" ) },
             { _( "Found kitten <3" ) },
+
+            { _( "Got a Haircut" ) },
+            { _( "Freshly Shaven" ) },
         } };
         if( static_cast<size_t>( id ) >= morale_data.size() ) {
             debugmsg( "invalid morale type: %d", id );

@@ -1677,6 +1677,15 @@ void faction::deserialize(JsonIn &jsin)
     }
     jo.read("size", size);
     jo.read("power", power);
+    if ( !jo.read( "combat_ability", combat_ability )){
+        combat_ability = 100;
+    }
+    if ( !jo.read( "food_supply", food_supply )){
+        food_supply = 100;
+    }
+    if ( !jo.read( "wealth", wealth )){
+        wealth = 100;
+    }
     if (jo.has_array("opinion_of")) {
         opinion_of = jo.get_int_array("opinion_of");
     }
@@ -1705,6 +1714,9 @@ void faction::serialize(JsonOut &json) const
     json.member("mapy", mapy);
     json.member("size", size);
     json.member("power", power);
+    json.member("combat_ability", combat_ability);
+    json.member("food_supply", food_supply);
+    json.member("wealth", wealth);
     json.member("opinion_of", opinion_of);
 
     json.end_object();
