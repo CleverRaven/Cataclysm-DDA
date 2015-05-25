@@ -405,6 +405,10 @@ struct LuaType<int> {
     {
         luaL_checktype( L, stack_index, LUA_TNUMBER );
     }
+    static int get_proxy( lua_State* const L, int const stack_index )
+    {
+        return lua_tonumber( L, stack_index );
+    }
 };
 template<>
 struct LuaType<bool> {
@@ -415,6 +419,10 @@ struct LuaType<bool> {
     static void check( lua_State* const L, int const stack_index )
     {
         luaL_checktype( L, stack_index, LUA_TBOOLEAN );
+    }
+    static bool get_proxy( lua_State* const L, int const stack_index )
+    {
+        return lua_toboolean( L, stack_index );
     }
 };
 template<>
@@ -427,9 +435,17 @@ struct LuaType<std::string> {
     {
         luaL_checktype( L, stack_index, LUA_TSTRING );
     }
+    static std::string get_proxy( lua_State* const L, int const stack_index )
+    {
+        return lua_tostring_wrapper( L, stack_index );
+    }
 };
 template<>
 struct LuaType<float> : public LuaType<int> { // inherit checking because it's all the same to Lua
+    static float get_proxy( lua_State* const L, int const stack_index )
+    {
+        return lua_tonumber( L, stack_index );
+    }
 };
 template<typename T>
 struct LuaType<LuaValue<T>> : public LuaValue<T> {

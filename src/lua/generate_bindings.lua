@@ -55,15 +55,7 @@ end
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
-    if value_type == "int" or value_type == "float" then
-        return "lua_tonumber(L, "..stack_position..");"
-    elseif value_type == "bool" then
-        return "lua_toboolean(L, "..stack_position..");"
-    elseif value_type == "string" or value_type == "cstring" then
-        return "lua_tostring_wrapper(L, "..stack_position..");"
-    else
-        return member_type_to_cpp_type(value_type) .. "::get_proxy(L, " .. stack_position .. ");"
-    end
+    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get_proxy(L, " .. stack_position .. ");"
 end
 
 -- Returns code to take a C++ variable of the given type and push a lua version
