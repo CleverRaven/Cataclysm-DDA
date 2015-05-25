@@ -173,7 +173,7 @@ namespace talk_function {
     //Send a companion on an individual mission or attaches them to a group to depart later
     void individual_mission         (npc *p, std::string desc, std::string id, bool group = false);
 
-    void caravan_return             (npc *p, std::string dest, std::string id);
+    void caravan_return             (npc *p, std::string dest, std::string id);//
     void caravan_depart             (npc *p, std::string dest, std::string id);
     int caravan_dist                (std::string dest);
     void field_build_1              (npc *p);
@@ -189,17 +189,18 @@ namespace talk_function {
     //Combat functions
     void force_on_force(std::vector<npc *> defender, std::string def_desc,
         std::vector<npc *> attacker, std::string att_desc, int advantage);
-    int combat_score(std::vector<npc *> group);//Used to determine retreat
-    void attack_random(std::vector<npc *> attacker, std::vector<npc *> defender);
-    npc *temp_npc(std::string type);
+    int combat_score    (std::vector<npc *> group);//Used to determine retreat
+    void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
+    npc *temp_npc       (std::string type);
 
     //Utility functions
-    std::vector<npc *> companion_list(std::string id);//List of NPCs found in game->mission_npc
-    npc *companion_choose           ();
-    npc *companion_choose_return    (std::string id, int deadline);
-    void companion_leave            (npc *comp);//Pulls the NPC from
-    void companion_return           (npc *comp);//Return NPC to your party
-    void companion_lost             (npc *comp);//Kills the NPC off-screen
+    std::vector<npc *> companion_list   (std::string id);//List of NPCs found in game->mission_npc
+    npc *companion_choose               ();
+    npc *companion_choose_return        (std::string id, int deadline);
+    void companion_leave                (npc *comp);//Pulls the NPC from
+    void companion_return               (npc *comp);//Return NPC to your party
+    void companion_lost                 (npc *comp);//Kills the NPC off-screen
+    std::vector<item*> loot_building    (const tripoint site);//Smash stuff, steal valuables, and change map maker
 };
 
 enum talk_trial_type {
