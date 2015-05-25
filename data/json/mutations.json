@@ -4565,6 +4565,30 @@
         "purifiable": false
     },{
         "type" : "mutation",
+        "id" : "NPC_MISSION_LEV_1",
+        "name" : "Has Level 1 Companion Missions",
+        "points" : 0,
+        "description" : "New mission options have become available!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "NPC_CONSTRUCTION_LEV_1",
+        "name" : "Has Level 1 Construction Built",
+        "points" : 0,
+        "description" : "New options may have become available!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "NPC_CONSTRUCTION_LEV_2",
+        "name" : "Has Level 2 Construction Built",
+        "points" : 0,
+        "description" : "New options may have become available!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,
