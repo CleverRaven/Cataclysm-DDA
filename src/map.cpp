@@ -5128,10 +5128,6 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     nc_color color = c_black;
 
     switch( get_visibility(ll, cache) ) {
-        case VIS_DARK: // can't see this square at all
-            symbol = '#';
-            color = c_dkgray;
-            break;
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -5147,6 +5143,7 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
             symbol = '#';
             color = c_magenta;
             break;
+        case VIS_DARK: // can't see this square at all
         case VIS_HIDDEN:
             symbol = ' ';
             color = c_black;
@@ -5180,14 +5177,14 @@ void map::draw( WINDOW* w, const tripoint &center )
         wmove( w, y - center.y + getmaxy(w) / 2, 0 );
         if( y < 0 || y >= MAPSIZE * SEEY ) {
             for( int x = 0; x < getmaxx(w); x++ ) {
-                wputch( w, c_dkgray, '#' );
+                wputch( w, c_black, ' ' );
             }
             continue;
         }
 
         x = center.x - getmaxx(w) / 2;
         while( x < 0 ) {
-            wputch( w, c_dkgray, '#' );
+            wputch( w, c_black, ' ' );
             x++;
         }
 
@@ -5211,7 +5208,7 @@ void map::draw( WINDOW* w, const tripoint &center )
         }
 
         while( x <= center.x + getmaxx(w) / 2 ) {
-            wputch( w, c_dkgray, '#' );
+            wputch( w, c_black, ' ' );
             x++;
         }
     }
