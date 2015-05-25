@@ -4112,7 +4112,7 @@ float player::active_light() const
 
     int maxlum = 0;
     has_item_with( [&maxlum]( const item &it ) {
-        const int lumit = it.active && it.charges > 0 ? it.getlight_emit() : 0;
+        const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }

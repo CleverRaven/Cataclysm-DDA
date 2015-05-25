@@ -792,7 +792,7 @@ public:
          * @param width If greater 0, the light is emitted in an arc, this is the angle of it.
          * @param direction The direction of the light arc. In degrees.
          */
-        bool getlight( float& luminance, int& width, int& direction ) const;
+        bool getlight( float &luminance, int &width, int &direction ) const;
         /**
          * How much light (see lightmap.cpp) the item emits (it's assumed to be circular).
          */
