@@ -125,8 +125,9 @@ void map::apply_character_light( const player &p )
 
 void map::generate_lightmap( const int zlev )
 {
-    auto &lm = get_cache( zlev ).lm;
-    auto &sm = get_cache( zlev ).sm;
+    auto &map_cache = get_cache( zlev );
+    auto &lm = map_cache.lm;
+    auto &sm = map_cache.sm;
     std::memset(lm, 0, sizeof(lm));
     std::memset(sm, 0, sizeof(sm));
 
@@ -138,7 +139,7 @@ void map::generate_lightmap( const int zlev )
          directions
      * Step 3: Profit!
      */
-    auto &light_source_buffer = get_cache( zlev ).light_source_buffer;
+    auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
     constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
@@ -408,8 +409,9 @@ lit_level map::light_at(int dx, int dy)
         return LL_DARK;    // Out of bounds
     }
 
-    auto &lm = get_cache( abs_sub.z ).lm;
-    auto &sm = get_cache( abs_sub.z ).sm;
+    const auto &map_cache = get_cache( abs_sub.z );
+    const auto &lm = map_cache.lm;
+    const auto &sm = map_cache.sm;
     if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT) {
         return LL_BRIGHT;
     }
@@ -452,8 +454,9 @@ lit_level map::light_at( const tripoint &p )
         return LL_DARK;    // Out of bounds
     }
 
-    auto &lm = get_cache( p.z ).lm;
-    auto &sm = get_cache( p.z ).sm;
+    const auto &map_cache = get_cache( p.z );
+    const auto &lm = map_cache.lm;
+    const auto &sm = map_cache.sm;
     // TODO: Fix in FoV update
     const int dx = p.x;
     const int dy = p.y;
@@ -502,10 +505,10 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
     if( max_range >= 0 && square_dist( tx, ty, g->u.posx(), g->u.posy() ) > max_range ) {
         return false;    // Out of range!
     }
-
-    return get_cache( abs_sub.z ).seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        get_cache( abs_sub.z ).seen_cache[tx][ty] * get_cache( abs_sub.z ).lm[tx][ty] >
-        g->u.get_vision_threshold( get_cache( abs_sub.z ).lm[g->u.posx()][g->u.posy()] );
+    const auto &map_cache = get_cache( abs_sub.z );
+    return map_cache.seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        map_cache.seen_cache[tx][ty] * map_cache.lm[tx][ty] >
+        g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] );
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -517,10 +520,10 @@ bool map::pl_sees( const tripoint &t, const int max_range )
     if( max_range >= 0 && square_dist( t, g->u.pos3() ) > max_range ) {
         return false;    // Out of range!
     }
-
-    return get_cache( t.z ).seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        get_cache( t.z ).seen_cache[t.x][t.y] * get_cache( t.z ).lm[t.x][t.y] >
-        g->u.get_vision_threshold( get_cache( t.z ).lm[g->u.posx()][g->u.posy()] );
+    const auto &map_cache = get_cache( t.z );
+    return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
+        g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] );
 }
 
 /**

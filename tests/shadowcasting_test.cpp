@@ -203,6 +203,7 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     bool passed = true;
     for( int x = 0; passed && x < MAPSIZE*SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE*SEEX; ++y ) {
+            // Check that both agree on the outcome, but not necessarally the same values.
             if( (seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID) !=
                 (seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID) ) {
                 passed = false;

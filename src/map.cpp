@@ -2155,11 +2155,12 @@ bool map::is_divable( const tripoint &p ) const
 
 bool map::is_outside(const int x, const int y) const
 {
- if(!INBOUNDS(x, y))
-  return true;
+    if(!INBOUNDS(x, y)) {
+        return true;
+    }
 
-  auto &outside_cache = get_cache( abs_sub.z ).outside_cache;
- return outside_cache[x][y];
+    const auto &outside_cache = get_cache( abs_sub.z ).outside_cache;
+    return outside_cache[x][y];
 }
 
 bool map::is_outside( const tripoint &p ) const
@@ -2168,7 +2169,7 @@ bool map::is_outside( const tripoint &p ) const
         return true;
     }
 
-    auto &outside_cache = get_cache( p.z ).outside_cache;
+    const auto &outside_cache = get_cache( p.z ).outside_cache;
     return outside_cache[p.x][p.y];
 }
 
@@ -2280,7 +2281,7 @@ void map::decay_fields_and_scent( const int amount )
     // Coord code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
-    auto &outside_cache = get_cache( smz ).outside_cache;
+    const auto &outside_cache = get_cache( smz ).outside_cache;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, smz );
@@ -5019,7 +5020,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.variables_set = true; // Not used yet
     cache.g_light_level = (int)g->light_level();
     cache.vision_threshold = g->u.get_vision_threshold(
-        get_cache( g->u.posz() ).lm[g->u.posx()][g->u.posy()]);
+        get_cache(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
 
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
@@ -5065,8 +5066,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( cache.u_sight_impaired ) {
         return LL_DARK;
     }
-    const float apparent_light = get_cache(p.z).seen_cache[p.x][p.y] * get_cache(p.z).lm[p.x][p.y];
-    if( get_cache(p.z).seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+    const auto &map_cache = get_cache(p.z);
+    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
+    if( map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
         if( apparent_light > LIGHT_AMBIENT_LIT ) {
             if( apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
@@ -5166,7 +5168,7 @@ void map::draw( WINDOW* w, const tripoint &center )
     visibility_variables cache;
     update_visibility_cache( cache, center.z );
 
-    auto &visibility_cache = get_cache( center.z ).visibility_cache;
+    const auto &visibility_cache = get_cache( center.z ).visibility_cache;
 
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
@@ -5940,11 +5942,11 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
     // Update vehicle data
     if( update_vehicles ) {
-        auto &ch = get_cache( gridz );
+        auto &map_cache = get_cache( gridz );
         for( auto it : tmpsub->vehicles ) {
             // Only add if not tracking already.
-            if( ch.vehicle_list.find( it ) == ch.vehicle_list.end() ) {
-                ch.vehicle_list.insert( it );
+            if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
+                map_cache.vehicle_list.insert( it );
                 update_vehicle_cache( it, gridz );
             }
         }
