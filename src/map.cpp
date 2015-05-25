@@ -1699,7 +1699,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
 
     if( from.z == to.z ) {
-        bash || move_cost( to ) <= 0;
+        return bash || move_cost( to ) <= 0;
     }
 
     const bool going_up = from.z < to.z;
