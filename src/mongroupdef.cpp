@@ -32,18 +32,24 @@ bool string_id<MonsterGroup>::is_valid() const
     return MonsterGroupManager::isValidMonsterGroup( *this );
 }
 
+template<>
+const MonsterGroup& string_id<MonsterGroup>::obj() const
+{
+    return MonsterGroupManager::GetMonsterGroup( *this );
+}
+
 bool mongroup::is_safe() const
 {
-    return MonsterGroupManager::GetMonsterGroup( type ).is_safe;
+    return type.obj().is_safe;
 }
 
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
 {
-    const MonsterGroup *groupptr = &GetMonsterGroup( group );
+    const MonsterGroup *groupptr = &group.obj();
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
         const int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
         while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
-            groupptr = &GetMonsterGroup( groupptr->new_monster_group );
+            groupptr = &groupptr->new_monster_group.obj();
         }
     }
     return *groupptr;
@@ -176,7 +182,7 @@ bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
 
 bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const std::string& monster)
 {
-    return GetMonsterGroup( group ).IsMonsterInGroup( monster );
+    return group.obj().IsMonsterInGroup( monster );
 }
 
 const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
@@ -192,7 +198,7 @@ const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
 
 std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
 {
-    const MonsterGroup &g = GetMonsterGroup(group);
+    const MonsterGroup &g = group.obj();
 
     std::vector<std::string> monsters;
 
