@@ -579,6 +579,23 @@ private:
     {
         return BINDINGS.count( value ) > 0;
     }
+    static int index( lua_State * const L )
+    {
+        // -1 is the key (funtion to call)
+        const char * const key = lua_tostring( L, -1 );
+        if( key == nullptr ) {
+            luaL_error( L, "Invalid input to __index: key is not a string." );
+        }
+        const auto iter = BINDINGS.find( key );
+        if( iter == BINDINGS.end() ) {
+            return luaL_error( L, "Invalid enum value." );
+        }
+        lua_remove( L, -1 ); // remove key
+        // Push the enum as string, it will be converted back to the enum later. This way, it can
+        // be specified both ways in Lua code: either as string or via an entry here.
+        lua_pushlstring( L, iter->first.c_str(), iter->first.length() );
+        return 1;
+    }
 public:
     static bool has( lua_State* const L, int const stack_index )
     {
@@ -598,6 +615,19 @@ public:
     static void push( lua_State* const L, E const value )
     {
         Parent::push( L, to_string( value ) );
+    }
+    /** Export the enum values as entries of a global metatable */
+    static void export_global( lua_State* const L, const char *global_name )
+    {
+        lua_createtable( L, 0, 1 ); // +1
+        lua_pushvalue( L, -1 ); // + 1
+        // Set the new table to have itself as metatable
+        lua_setmetatable( L, -2 ); // -1
+        // Setup the __index entry, which will translate the entry to a enum value
+        lua_pushcfunction( L, &index ); // +1
+        lua_setfield( L, -2, "__index" ); // -1
+        // And register as a global value
+        lua_setglobal( L, global_name ); // -1
     }
 };
 template<typename E>
@@ -1043,6 +1073,7 @@ void game::init_lua()
 #endif
 
     load_metatables( lua_state );
+    LuaEnum<body_part>::export_global( lua_state, "body_part" );
 
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());

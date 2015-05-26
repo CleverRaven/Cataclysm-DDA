@@ -8,7 +8,8 @@ end
 
 function tellstuff(item, active, pos)
     game.add_msg("Your foo tells you: str "..player.str_cur.."/"..player.str_max)
-    game.add_msg("Are you hot around the leg? "..tostring(player:has_effect("hot", "bp_leg_l")))
+    game.add_msg("Are you hot around the leg? "..tostring(player:has_effect("hot", body_part.bp_leg_l)))
+    -- instead of the globale table, one can also use a string
     player:add_effect("hot", 10, "bp_leg_l")
     player.fatigue = 0
     game.add_msg("Fatigue: "..player.fatigue)
