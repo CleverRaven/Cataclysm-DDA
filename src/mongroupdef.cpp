@@ -37,18 +37,23 @@ bool mongroup::is_safe() const
     return MonsterGroupManager::GetMonsterGroup( type ).is_safe;
 }
 
+const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
+{
+    const MonsterGroup *groupptr = &GetMonsterGroup( group );
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        const int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
+        while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
+            groupptr = &GetMonsterGroup( groupptr->new_monster_group );
+        }
+    }
+    return *groupptr;
+}
+
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const mongroup_id& group_name, int *quantity, int turn ){
     int spawn_chance = rng(1, 1000);
-    auto *groupptr = &GetMonsterGroup( group_name );
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
-        while (groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time){
-            groupptr = &GetMonsterGroup(groupptr->new_monster_group);
-        }
-    }
-    auto &group = *groupptr;
+    auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"

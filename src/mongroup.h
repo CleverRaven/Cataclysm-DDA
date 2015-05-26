@@ -147,6 +147,7 @@ class MonsterGroupManager
         static const mongroup_id& Monster2Group(std::string);
         static std::vector<std::string> GetMonstersFromGroup(const mongroup_id& group);
         static const MonsterGroup &GetMonsterGroup(const mongroup_id& group);
+        static const MonsterGroup &GetUpgradedMonsterGroup(const mongroup_id& group);
 
         static void check_group_definitions();
 
