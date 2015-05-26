@@ -25,7 +25,7 @@ struct MonsterGroupEntry {
     std::vector<std::string> conditions;
     int starts;
     int ends;
-    bool lasts_forever()
+    bool lasts_forever() const
     {
         return (ends <= 0);
     }
@@ -146,7 +146,7 @@ class MonsterGroupManager
         static bool isValidMonsterGroup(const mongroup_id& group);
         static const mongroup_id& Monster2Group(std::string);
         static std::vector<std::string> GetMonstersFromGroup(const mongroup_id& group);
-        static MonsterGroup &GetMonsterGroup(const mongroup_id& group);
+        static const MonsterGroup &GetMonsterGroup(const mongroup_id& group);
 
         static void check_group_definitions();
 

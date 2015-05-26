@@ -59,7 +59,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
-    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
+    for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
@@ -187,7 +187,7 @@ const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
 
 std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
 {
-    MonsterGroup g = GetMonsterGroup(group);
+    const MonsterGroup &g = GetMonsterGroup(group);
 
     std::vector<std::string> monsters;
 
@@ -204,7 +204,7 @@ bool MonsterGroupManager::isValidMonsterGroup(const mongroup_id& group)
     return monsterGroupMap.count( group ) > 0;
 }
 
-MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& group)
+const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& group)
 {
     const auto it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
