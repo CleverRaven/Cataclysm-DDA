@@ -126,6 +126,11 @@ int calendar::minutes_past_midnight() const
     return ret;
 }
 
+int calendar::seconds_past_midnight() const
+{
+    return second + (minute * 60) + (hour * 60 * 60);
+}
+
 moon_phase calendar::moon() const
 {
     int phase = int(day / (season_length() / 4));
@@ -201,11 +206,11 @@ calendar calendar::sunset() const
 
 bool calendar::is_night() const
 {
-    int mins         = minutes_past_midnight(),
-        sunrise_mins = sunrise().minutes_past_midnight(),
-        sunset_mins  = sunset().minutes_past_midnight();
+    int seconds         = seconds_past_midnight();
+    int sunrise_seconds = sunrise().seconds_past_midnight();
+    int sunset_seconds  = sunset().seconds_past_midnight();
 
-    return (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins);
+    return (seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds);
 }
 
 int calendar::sunlight() const
@@ -215,28 +220,22 @@ int calendar::sunlight() const
         return DAYLIGHT_LEVEL;
     }
 
-    int mins = minutes_past_midnight(),
-        sunrise_mins = sunrise().minutes_past_midnight(),
-        sunset_mins = sunset().minutes_past_midnight();
+    int seconds = seconds_past_midnight();
+    int sunrise_seconds = sunrise().seconds_past_midnight();
+    int sunset_seconds = sunset().seconds_past_midnight();
 
     int moonlight = 1 + int(moon()) * MOONLIGHT_LEVEL;
 
-    if (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins) { // Night
+    if( seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds ) { // Night
         return moonlight;
-    }
-
-    else if (mins >= sunrise_mins && mins <= sunrise_mins + TWILIGHT_MINUTES) {
-
-        double percent = double(mins - sunrise_mins) / TWILIGHT_MINUTES;
+    } else if( seconds >= sunrise_seconds && seconds <= sunrise_seconds + TWILIGHT_SECONDS ) {
+        double percent = double(seconds - sunrise_seconds) / TWILIGHT_SECONDS;
         return int( double(moonlight)      * (1. - percent) +
                     double(DAYLIGHT_LEVEL) * percent         );
-
-    } else if (mins >= sunset_mins && mins <= sunset_mins + TWILIGHT_MINUTES) {
-
-        double percent = double(mins - sunset_mins) / TWILIGHT_MINUTES;
+    } else if( seconds >= sunset_seconds && seconds <= sunset_seconds + TWILIGHT_SECONDS ) {
+        double percent = double(seconds - sunset_seconds) / TWILIGHT_SECONDS;
         return int( double(DAYLIGHT_LEVEL) * (1. - percent) +
                     double(moonlight)      * percent         );
-
     } else {
         return DAYLIGHT_LEVEL;
     }
