@@ -890,11 +890,6 @@ static int game_monster_at(lua_State *L)
     return 1; // 1 return values
 }
 
-void game_remove_item(const tripoint &p, item *it)
-{
-    g->m.i_rem( p, it );
-}
-
 // x, y = choose_adjacent(query_string, x, y)
 static int game_choose_adjacent(lua_State *L)
 {

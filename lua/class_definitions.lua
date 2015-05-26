@@ -1603,7 +1603,7 @@ global_functions = {
         rval = "int"
     },
     remove_item = {
-        cpp_name = "game_remove_item",
+        cpp_name = "g->m.i_rem",
         args = {"tripoint", "item"},
         rval = nil
     },
