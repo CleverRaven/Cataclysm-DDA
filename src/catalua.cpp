@@ -222,13 +222,10 @@ private:
         // Now set the actual functions of the metatable.
         luaL_setfuncs( L, &FUNCTIONS[0], 0 );
 
-        // Calling the destructor is really only needed when it's not trivial (e.g. pointers)
-        if( !std::is_trivially_destructible<T>::value ) {
-            // Push function pointer
-            lua_pushcfunction( L, &gc );
-            // -1 would be the function pointer, -2 is the metatable, the function pointer is popped
-            lua_setfield( L, -2, "__gc" );
-        }
+        // Push function pointer
+        lua_pushcfunction( L, &gc );
+        // -1 would be the function pointer, -2 is the metatable, the function pointer is popped
+        lua_setfield( L, -2, "__gc" );
         lua_pushcfunction( L, &index );
         lua_setfield( L, -2, "__index" );
         lua_pushcfunction( L, &newindex );
