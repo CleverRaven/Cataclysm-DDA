@@ -269,7 +269,7 @@ public:
         T* user_data = static_cast<T*>( lua_touserdata( L, stack_index ) );
         if( user_data == nullptr ) {
             // luaL_error does not return at all.
-            return *(T*) luaL_error( L, "First argument to function is not a class" );
+            luaL_error( L, "First argument to function is not a class" );
         }
         return *user_data;
     }
