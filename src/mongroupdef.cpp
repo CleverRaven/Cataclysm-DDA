@@ -161,10 +161,9 @@ bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monste
 
 std::string MonsterGroupManager::Monster2Group(std::string monster)
 {
-    for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin();
-         it != monsterGroupMap.end(); ++it) {
-        if( it->second.IsMonsterInGroup( monster ) ) {
-            return it->first;
+    for( auto &g : monsterGroupMap ) {
+        if( g.second.IsMonsterInGroup( monster ) ) {
+            return g.second.name;
         }
     }
     return "GROUP_NULL";
@@ -186,12 +185,12 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
 
 bool MonsterGroupManager::isValidMonsterGroup(std::string group)
 {
-    return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
+    return monsterGroupMap.count( group ) > 0;
 }
 
 MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
 {
-    std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
+    const auto it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
         debugmsg("Unable to get the group '%s'", group.c_str());
         // Initialize the group with a null-monster, it's ignored while spawning,
@@ -252,14 +251,14 @@ bool MonsterGroupManager::monster_is_blacklisted(const mtype *m)
 void MonsterGroupManager::FinalizeMonsterGroups()
 {
     const MonsterGenerator &gen = MonsterGenerator::generator();
-    for(t_string_set::const_iterator a = monster_whitelist.begin(); a != monster_whitelist.end(); a++) {
-        if (!gen.has_mtype(*a)) {
-            debugmsg("monster on whitelist %s does not exist", a->c_str());
+    for( auto &mtid : monster_whitelist ) {
+        if( !gen.has_mtype( mtid ) ) {
+            debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
-    for(t_string_set::const_iterator a = monster_blacklist.begin(); a != monster_blacklist.end(); a++) {
-        if (!gen.has_mtype(*a)) {
-            debugmsg("monster on blacklist %s does not exist", a->c_str());
+    for( auto &mtid : monster_blacklist ) {
+        if( !gen.has_mtype( mtid ) ) {
+            debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &elem : monsterGroupMap ) {
@@ -349,18 +348,17 @@ void MonsterGroupManager::ClearMonsterGroups()
 void MonsterGroupManager::check_group_definitions()
 {
     const MonsterGenerator &gen = MonsterGenerator::generator();
-    for(std::map<std::string, MonsterGroup>::const_iterator a = monsterGroupMap.begin();
-        a != monsterGroupMap.end(); ++a) {
-        const MonsterGroup &mg = a->second;
+    for( auto &e : monsterGroupMap ) {
+        const MonsterGroup &mg = e.second;
         if(mg.defaultMonster != "mon_null" && !gen.has_mtype(mg.defaultMonster)) {
-            debugmsg("monster group %s has unknown default monster %s", a->first.c_str(),
+            debugmsg("monster group %s has unknown default monster %s", mg.name.c_str(),
                      mg.defaultMonster.c_str());
         }
         for( const auto &mge : mg.monsters ) {
 
             if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
                 // mon_null should not be valid here
-                debugmsg("monster group %s contains unknown monster %s", a->first.c_str(), mge.name.c_str());
+                debugmsg("monster group %s contains unknown monster %s", mg.name.c_str(), mge.name.c_str());
             }
         }
     }
