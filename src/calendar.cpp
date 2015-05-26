@@ -8,6 +8,20 @@
 calendar calendar::start;
 calendar calendar::turn;
 
+// Internal constants, not part of the calendar interface.
+// Times for sunrise, sunset at equinoxes
+#define SUNRISE_WINTER   7
+#define SUNRISE_SOLSTICE 6
+#define SUNRISE_SUMMER   5
+
+#define SUNSET_WINTER   17
+#define SUNSET_SOLSTICE 19
+#define SUNSET_SUMMER   21
+
+// How long, in seconds, does sunrise/sunset last?
+#define TWILIGHT_SECONDS (60 * 60)
+
+
 calendar::calendar()
 {
     turn_number = 0;

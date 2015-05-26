@@ -8,18 +8,6 @@
 #define HOURS(x)   ((x) * 600)
 #define DAYS(x)    ((x) * 14400)
 
-// Times for sunrise, sunset at equinoxes
-#define SUNRISE_WINTER   7
-#define SUNRISE_SOLSTICE 6
-#define SUNRISE_SUMMER   5
-
-#define SUNSET_WINTER   17
-#define SUNSET_SOLSTICE 19
-#define SUNSET_SUMMER   21
-
-// How long, in seconds, does sunrise/sunset last?
-#define TWILIGHT_SECONDS (60 * 60)
-
 // How much light moon provides--double for full moon
 #define MOONLIGHT_LEVEL 4.5
 // How much light is provided in full daylight
