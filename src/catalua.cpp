@@ -890,29 +890,6 @@ static int game_monster_at(lua_State *L)
     return 1; // 1 return values
 }
 
-// type = game.item_type(item)
-static int game_item_type(lua_State *L)
-{
-    // Create a table of the form
-    // t["id"] = item.type.id
-    // t["name"] = item.type.name
-    // then return t
-
-    item **item_instance = (item **) lua_touserdata(L, 1);
-
-    lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
-
-    lua_pushstring(L, "name");
-    lua_pushstring(L, (*item_instance)->type_name( 1 ).c_str());
-    lua_rawset(L, -3);
-
-    lua_pushstring(L, "id");
-    lua_pushstring(L, (*item_instance)->type->id.c_str());
-    lua_rawset(L, -3);
-
-    return 1; // 1 return values
-}
-
 void game_remove_item(const tripoint &p, item *it)
 {
     g->m.i_rem( p, it );
@@ -1035,7 +1012,6 @@ static const struct luaL_Reg global_funcs [] = {
     {"register_iuse", game_register_iuse},
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
-    {"item_type", game_item_type},
     {"monster_at", game_monster_at},
     {"choose_adjacent", game_choose_adjacent},
     {"monster_type", game_monster_type},
