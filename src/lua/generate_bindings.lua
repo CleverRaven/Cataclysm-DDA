@@ -277,7 +277,7 @@ end
 -- Generate a wrapper around a class function(method) that allows us to call a method of a specific
 -- C++ instance by calling the method on the corresponding lua wrapper, e.g.
 -- monster:name() in lua translates to monster.name() in C++
-function generate_class_function_wrapper(class_name, function_name, func)
+function generate_class_function_wrapper(class_name, function_name, func, cur_class_name)
     local text = "static int "..class_name.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
@@ -291,7 +291,21 @@ function generate_class_function_wrapper(class_name, function_name, func)
         text = text .. "auto && rval = "
     end
 
-    text = text .. class_name .. "_instance."..function_to_call .. "("
+    if cur_class_name == class_name then
+        text = text .. class_name .. "_instance"
+    else
+        --[[
+        If we call a function of the parent class is called, we need to call it through
+        a reference to the parent class, otherwise we get into trouble with default parameters:
+        Example:
+        class A {     void f(int = 0); }
+        class B : A { void f(int); }
+        This won't work: B b; b.f();
+        But this will:   B b; static_cast<A&>(b).f()
+        --]]
+        text = text .. "static_cast<"..cur_class_name.."&>(" .. class_name .. "_instance)"
+    end
+    text = text .. "."..function_to_call .. "("
 
     for i = 1,stack_index do
         text = text .. "parameter"..i
@@ -390,9 +404,9 @@ function generate_accessors(class, class_name)
 end
 
 
-function generate_class_function_wrappers(functions, class_name)
+function generate_class_function_wrappers(functions, class_name, cur_class_name)
     for index, func in pairs(functions) do
-        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func)
+        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func, cur_class_name)
     end
 end
 
@@ -404,14 +418,16 @@ for class_name, class in pairs(classes) do
 end
 
 for class_name, class in pairs(classes) do
+    local cur_class_name = class_name
     while class do
-        generate_class_function_wrappers(class.functions, class_name)
+        generate_class_function_wrappers(class.functions, class_name, cur_class_name)
         if class.new then
             cpp_output = cpp_output .. generate_constructor(class_name, class.new)
         end
         if class.has_equal then
             cpp_output = cpp_output .. generate_operator(class_name, "__eq", "==")
         end
+        cur_class_name = class.parent
         class = classes[class.parent]
     end
 end
