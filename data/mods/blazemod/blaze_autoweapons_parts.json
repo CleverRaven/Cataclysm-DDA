@@ -9,11 +9,12 @@
         "broken_color" : "blue",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 18,
         "item" : "anx17p",
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT", "FOLDABLE", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
             {"item": "cable", "min": 6, "max": 20},
@@ -31,11 +32,12 @@
         "broken_color" : "blue",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 18,
         "item" : "ateslagun",
         "difficulty" : 6,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 3, "max": 8},
             {"item": "cable", "min": 10, "max": 20},
@@ -53,12 +55,13 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 14,
         "item" : "anailer",
 		"size" : 40,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 12},
             {"item": "pipe", "min": 0, "max": 1},
@@ -77,14 +80,20 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 8,
         "item" : "SMGturret",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12}
+            {"item": "scrap", "min": 8, "max": 12},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -97,14 +106,20 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 8,
-        "item" : "SMGturret",
+        "item" : "SMGturret22",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12}
+            {"item": "scrap", "min": 8, "max": 12},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -117,14 +132,73 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 8,
-        "item" : "SMGturret",
+        "item" : "SMGturret45",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12}
+            {"item": "scrap", "min": 8, "max": 12},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
+        ]
+    },
+	{
+        "type" : "vehicle_part",
+        "id" : "shottyman",
+        "name" : "shotgun turret",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "range" : 6,
+        "folded_volume": 8,
+        "item" : "shottyman",
+		"size" : 40,
+		"difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 12, "max": 20},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
+			
+        ]
+    },
+	{
+        "type" : "vehicle_part",
+        "id" : "ablundergun",
+        "name" : "thundergun turret",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 4,
+        "folded_volume": 30,
+        "item" : "ablundergun",
+		"size" : 40,
+		"difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 12, "max": 20},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -137,14 +211,20 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 13,
         "item" : "rifleturret",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16}
+            {"item": "scrap", "min": 12, "max": 16},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -157,17 +237,23 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 16,
         "folded_volume": 20,
         "item" : "50turret",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 16, "max": 20},
             {"item": "pipe", "min": 1, "max": 4},
             {"item": "plastic_chunk", "min": 3, "max": 6},
-            {"item": "spring", "min": 0, "max": 4}
+            {"item": "spring", "min": 0, "max": 4},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -180,12 +266,13 @@
         "broken_color" : "brown",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 20,
         "folded_volume": 28,
         "item" : "ascorpion",
 		"size" : 40,
 		"difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 6},
             {"item": "spring", "min": 0, "max": 6},
@@ -207,16 +294,22 @@
         "broken_color" : "brown",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 16,
         "folded_volume": 24,
         "item" : "acangun",
 		"size" : 40,
 		"difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 6},
             {"item": "hose", "min": 0, "max": 4},
-            {"item": "splinter", "min": 6, "max": 24}
+            {"item": "splinter", "min": 6, "max": 24},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -229,15 +322,21 @@
         "broken_color" : "ltgray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 19,
         "item" : "atiharturret",
 		"size": 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 16},
-            {"item": "pipe", "min": 1, "max": 4}
+            {"item": "pipe", "min": 1, "max": 4},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -250,15 +349,21 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 25,
         "folded_volume": 8,
         "item" : "40mmturret",
 		"size" : 40,
 		"difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 6, "max": 26},
-            {"item": "steel_chunk", "min": 0, "max": 6}
+            {"item": "steel_chunk", "min": 0, "max": 6},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -271,14 +376,20 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 18,
         "item" : "am249",
 		"size" : 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16}
+            {"item": "scrap", "min": 12, "max": 16},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -291,14 +402,20 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 20,
         "item" : "am2browning",
 		"size" : 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16}
+            {"item": "scrap", "min": 12, "max": 16},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -311,14 +428,20 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 26,
         "item" : "arm298",
 		"size" : 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16}
+            {"item": "scrap", "min": 12, "max": 16},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -331,15 +454,21 @@
         "broken_color" : "ltgray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 8,
         "folded_volume": 22,
         "item" : "rslauncher",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 16, "max": 22},
-            {"item": "pipe", "min": 2, "max": 6}
+            {"item": "pipe", "min": 2, "max": 6},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -352,16 +481,21 @@
         "broken_color" : "ltgray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 18,
         "item" : "abolter",
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 16},
             {"item": "pipe", "min": 1, "max": 4},
-            {"item": "spring", "min": 0, "max": 2}
+            {"item": "spring", "min": 0, "max": 2},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },	{
         "type" : "vehicle_part",
@@ -373,16 +507,20 @@
         "broken_color" : "blue",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 14,
         "item" : "alasgun",
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 14},
             {"item": "cable", "min": 20, "max": 40},
             {"item": "e_scrap", "min": 8, "max": 16},
-            {"item": "plastic_chunk", "min": 6, "max": 8}
+            {"item": "plastic_chunk", "min": 6, "max": 8},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6}
         ]
     },	{
         "type" : "vehicle_part",
@@ -394,16 +532,20 @@
         "broken_color" : "blue",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 12,
         "folded_volume": 16,
         "item" : "alasgunp",
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 14},
             {"item": "cable", "min": 20, "max": 40},
             {"item": "e_scrap", "min": 8, "max": 16},
-            {"item": "plastic_chunk", "min": 6, "max": 8}
+            {"item": "plastic_chunk", "min": 6, "max": 8},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6}
         ]
     },
 	{
@@ -416,16 +558,20 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 20,
         "folded_volume": 22,
         "item" : "alasgunx",
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 14},
             {"item": "cable", "min": 30, "max": 60},
             {"item": "e_scrap", "min": 12, "max": 22},
-            {"item": "plastic_chunk", "min": 8, "max": 16}
+            {"item": "plastic_chunk", "min": 8, "max": 16},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6}
         ]
     },
 	{
@@ -438,60 +584,21 @@
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 19,
         "item" : "agattler",
 		"size" : 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 30},
             {"item": "pipe", "min": 0, "max": 3},
-            {"item": "chain", "min": 0, "max": 1}
-        ]
-    },
-	{
-        "type" : "vehicle_part",
-        "id" : "agattler2",
-        "name" : "flak cannon turret",
-        "symbol" : "t",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "folded_volume": 19,
-        "item" : "agattler",
-		"size" : 40,
-		"difficulty" : 3,
-        "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
-        "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 30},
-            {"item": "pipe", "min": 0, "max": 3},
-            {"item": "chain", "min": 0, "max": 1}
-        ]
-    },
-	{
-        "type" : "vehicle_part",
-        "id" : "agattler3",
-        "name" : "burst cannon turret",
-        "symbol" : "t",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "folded_volume": 19,
-        "item" : "agattler",
-		"size" : 40,
-		"difficulty" : 3,
-        "location" : "on_roof",
-        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
-        "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 30},
-            {"item": "pipe", "min": 0, "max": 3},
-            {"item": "chain", "min": 0, "max": 1}
+            {"item": "chain", "min": 0, "max": 1},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -504,17 +611,20 @@
         "broken_color" : "blue",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 8,
         "folded_volume": 14,
         "item" : "ashardgun",
 		"size" : 40,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 12},
             {"item": "cable", "min": 12, "max": 40},
             {"item": "e_scrap", "min": 6, "max": 20},
-            {"item": "plastic_chunk", "min": 0, "max": 4}
+            {"item": "plastic_chunk", "min": 0, "max": 4},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2}
         ]
     },
 	{
@@ -527,18 +637,21 @@
         "broken_color" : "blue",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 10,
         "folded_volume": 19,
         "item" : "aneedler",
 		"size" : 40,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
 
             {"item": "scrap", "min": 8, "max": 12},
             {"item": "cable", "min": 12, "max": 40},
             {"item": "e_scrap", "min": 6, "max": 20},
-            {"item": "plastic_chunk", "min": 0, "max": 4}
+            {"item": "plastic_chunk", "min": 0, "max": 4},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2}
         ]
     },
 	{
@@ -551,12 +664,13 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 200,
+        "range" : 25,
         "folded_volume": 20,
         "item" : "arailturret",
 		"size" : 40,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 22},
             {"item": "steel_chunk", "min": 2, "max": 6},
@@ -576,17 +690,22 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 6,
         "folded_volume": 24,
         "item" : "flamethrower1",
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 12},
             {"item": "plastic_chunk", "min": 0, "max": 4},
             {"item": "metal_tank_little", "min": 0, "max": 1},
             {"item": "hose", "min": 0, "max": 2},
-            {"item": "flamethrower_simple", "min": 0, "max": 1}
+            {"item": "flamethrower_simple", "min": 0, "max": 1},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -599,17 +718,22 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 8,
         "folded_volume": 19,
         "item" : "flamethrower2",
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 12},
             {"item": "plastic_chunk", "min": 0, "max": 4},
             {"item": "metal_tank_little", "min": 0, "max": 1},
             {"item": "hose", "min": 0, "max": 2},
-            {"item": "flamethrower", "min": 0, "max": 1}
+            {"item": "flamethrower", "min": 0, "max": 1},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -622,17 +746,22 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 400,
+        "range" : 10,
         "folded_volume": 19,
         "item" : "flamethrower3",
         "difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 12},
             {"item": "plastic_chunk", "min": 0, "max": 4},
             {"item": "metal_tank_little", "min": 0, "max": 1},
             {"item": "hose", "min": 0, "max": 2},
-            {"item": "rm451_flamethrower", "min": 0, "max": 1}
+            {"item": "rm451_flamethrower", "min": 0, "max": 1},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
 	{
@@ -644,18 +773,22 @@
         "broken_symbol" : "x",
         "broken_color" : "dark_gray",
         "durability" : 800,
+        "range" : 8,
         "power" : -50,
         "item" : "aripper",
 		"size" : 90,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "folded_volume": 19,
         "breaks_into" : [
             {"item": "steel_chunk", "min": 4, "max": 6},
             {"item": "scrap", "min": 4, "max": 12},
             {"item": "chain", "min": 1, "max": 2},
-            {"item": "pipe", "min": 3, "max": 6}
+            {"item": "pipe", "min": 3, "max": 6},
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "cable", "min": 3, "max": 6},
+            {"item": "e_scrap", "min": 3, "max": 6}
         ]
     }
 ]

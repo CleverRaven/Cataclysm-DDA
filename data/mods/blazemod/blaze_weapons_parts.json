@@ -12,7 +12,7 @@
         "item" : "nx17p",
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["TURRET", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
@@ -34,7 +34,7 @@
         "item" : "teslagun",
         "difficulty" : 6,
         "location" : "on_roof",
-        "flags" : ["TURRET", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
@@ -56,7 +56,7 @@
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
@@ -79,7 +79,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 18,
         "breaks_into" : [
             {"item": "m107a1", "min": 0, "max": 1}
@@ -99,7 +99,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 18,
         "breaks_into" : [
             {"item": "l_lmg_223", "min": 0, "max": 1}
@@ -119,7 +119,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 10,
         "breaks_into" : [
             {"item": "rm614_lmg", "min": 0, "max": 1}
@@ -138,7 +138,7 @@
         "difficulty" : 5,
         "size" : 40,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "NEEDS_BATTERY_MOUNT", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "folded_volume": 26,
         "breaks_into" : [
             {"item": "rm298", "min": 0, "max": 1}
@@ -158,7 +158,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 14,
         "breaks_into" : [
             {"item": "m2browning_sawn", "min": 0, "max": 1}
@@ -178,7 +178,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 5,
         "breaks_into" : [
             {"item": "launcher_simple", "min": 0, "max": 1}
@@ -198,7 +198,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 4,
         "breaks_into" : [
             {"item": "m79", "min": 0, "max": 1}
@@ -218,7 +218,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 3,
         "breaks_into" : [
             {"item": "m320", "min": 0, "max": 1}
@@ -238,7 +238,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 9,
         "breaks_into" : [
             {"item": "mgl", "min": 0, "max": 1}
@@ -258,7 +258,7 @@
 		"size" : 40,
 		"difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "UNMOUNT_ON_DAMAGE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 7,
         "breaks_into" : [
             {"item": "rm802", "min": 0, "max": 1}
@@ -278,7 +278,7 @@
 		"size" : 10,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "CARGO", "FOLDABLE", "MANUAL", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 24,
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
@@ -300,7 +300,7 @@
 		"size" : 30,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "FOLDABLE", "TURRET", "CARGO", "MANUAL", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 20,
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 5},
@@ -321,7 +321,7 @@
 		"size" : 10,
 		"difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "CARGO", "FOLDABLE", "MANUAL", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 25,
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
@@ -343,7 +343,7 @@
 		"size": 40,
 		"difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "tiharturret", "min": 0, "max": 1}
@@ -363,7 +363,7 @@
 		"size" : 40,
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "bolter", "min": 0, "max": 1}
@@ -381,7 +381,7 @@
         "item" : "lasgun",
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 10,
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 14},
@@ -402,7 +402,7 @@
         "item" : "lasgunp",
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 12,
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 14},
@@ -424,7 +424,7 @@
         "item" : "lasgunx",
 		"difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 18,
         "breaks_into" : [
             {"item": "scrap", "min": 12, "max": 14},
@@ -447,7 +447,7 @@
 		"size" : 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 30},
@@ -458,48 +458,25 @@
     },
 	{
         "type" : "vehicle_part",
-        "id" : "gattler2",
-        "name" : "mounted flak cannon",
+        "id" : "blundergun",
+        "name" : "mounted thundergun",
         "symbol" : "t",
         "color" : "dark_gray",
         "broken_symbol" : "#",
         "broken_color" : "dark_gray",
         "damage_modifier" : 80,
-        "durability" : 200,
-        "item" : "gattler",
+        "durability" : 800,
+        "item" : "blundergun",
 		"size" : 40,
 		"difficulty" : 3,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
-        "folded_volume": 15,
+        "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL"],
+        "folded_volume": 30,
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 30},
+            {"item": "steel_chunk", "min": 2, "max": 10},
             {"item": "pipe", "min": 0, "max": 3},
-            {"item": "spring", "min": 0, "max": 6},
-            {"item": "chain", "min": 0, "max": 1}
-        ]
-    },
-	{
-        "type" : "vehicle_part",
-        "id" : "gattler3",
-        "name" : "mounted burst cannon",
-        "symbol" : "t",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "damage_modifier" : 80,
-        "durability" : 200,
-        "item" : "gattler",
-		"size" : 40,
-		"difficulty" : 3,
-        "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
-        "folded_volume": 15,
-        "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 30},
-            {"item": "pipe", "min": 0, "max": 3},
-            {"item": "spring", "min": 0, "max": 6},
-            {"item": "chain", "min": 0, "max": 1}
+            {"item": "spring", "min": 0, "max": 6}
         ]
     },
 	{
@@ -516,7 +493,7 @@
 		"size" : 40,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 14,
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 8},
@@ -539,7 +516,7 @@
 		"size" : 40,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 12,
         "breaks_into" : [
 
@@ -563,7 +540,7 @@
 		"size" : 10,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "CARGO", "FOLDABLE", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 16,
         "breaks_into" : [
             {"item": "scrap", "min": 8, "max": 16},
@@ -575,7 +552,7 @@
 	{
         "type" : "vehicle_part",
         "id" : "mflamethrower1",
-        "name" : "mounted flamethrower(s)",
+        "name" : "mounted flamethrower (S)",
         "symbol" : "t",
         "color" : "red",
         "broken_symbol" : "#",
@@ -585,7 +562,7 @@
         "item" : "flamethrower_simple",
         "difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 20,
         "breaks_into" : [
             {"item": "flamethrower_simple", "min": 0, "max": 1}
@@ -604,7 +581,7 @@
         "item" : "rm451_flamethrower",
         "difficulty" : 2,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TOOL_NONE", "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "rm451_flamethrower", "min": 0, "max": 1}
@@ -624,7 +601,7 @@
 		"size" : 60,
 		"difficulty" : 5,
         "location" : "on_roof",
-        "flags" : ["UNMOUNT_ON_DAMAGE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "scrap", "min": 4, "max": 12},

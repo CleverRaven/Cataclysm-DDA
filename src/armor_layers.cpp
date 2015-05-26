@@ -466,6 +466,7 @@ void player::sort_armor()
             if(query_yn(_("Remove selected armor?"))) {
                 // remove the item, asking to drop it if necessary
                 takeoff(tmp_worn[leftListIndex]);
+                wrefresh(w_sort_armor);
             }
         } else if (action == "ASSIGN_INVLETS") {
             // prompt first before doing this (yes yes, more popups...)

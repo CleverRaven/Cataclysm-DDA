@@ -532,7 +532,6 @@ class game
         // Data Initialization
         void init_npctalk();
         void init_fields();
-        void init_morale();
         void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
         void init_savedata_translation_tables();

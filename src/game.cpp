@@ -161,7 +161,6 @@ void game::load_static_data()
     // be moved to game::load_mod or game::load_core_data
     init_mapgen_builtin_functions();
     init_fields();
-    init_morale();
     init_savedata_translation_tables();
     init_npctalk();
     init_artifacts();
@@ -4179,7 +4178,7 @@ void game::debug()
 
     case 24: {
 #ifdef LUA
-        std::string luacode = string_input_popup(_("Lua:"), 60, "");
+        std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
 #else
         popup( "This binary was not compiled with Lua support." );
@@ -4369,6 +4368,34 @@ void game::disp_faction_ends()
                     data.push_back( "the sun...");
                 }
                 display_table(w, "The Free Merchants", 1, data);
+            } else if (elem.name == "The Tacoma Commune" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The fledgling outpost was abandoned a few months later.  The external");
+                    data.push_back( "threats combined with low crop yields caused the Free Merchants to withdraw");
+                    data.push_back( "their support.  When the exhausted migrants returned to the refugee center");
+                    data.push_back( "they were turned away to face the world on their own.");
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The commune continued to grow rapidly through the years despite constant");
+                    data.push_back( "external threat.  While maintaining a reputation as a haven for all law");
+                    data.push_back( "abiding citizens, the commune's leadership remained loyal to the interests of");
+                    data.push_back( "the Free Merchants.  Hard labor for little reward remained the price to be");
+                    data.push_back( "paid for those who sought the safety of the community.");
+                }
+                display_table(w, "The Tacoma Commune", 1, data);
             } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
                 if (elem.power < 150){
                     data.push_back( "" );
@@ -4522,10 +4549,16 @@ faction *game::list_factions(std::string title)
             // fac_*_text() is in faction.cpp
             werase(w_info);
             mvwprintz(w_info, 0, 0, c_white,
-                      _("Ranking: %s"), fac_ranking_text(cur_frac->likes_u).c_str());
+                      _("Ranking:           %s"), fac_ranking_text(cur_frac->likes_u).c_str());
             mvwprintz(w_info, 1, 0, c_white,
-                      _("Respect: %s"), fac_respect_text(cur_frac->respects_u).c_str());
-            fold_and_print(w_info, 3, 0, maxlength, c_white, cur_frac->describe());
+                      _("Respect:           %s"), fac_respect_text(cur_frac->respects_u).c_str());
+            mvwprintz(w_info, 2, 0, c_white,
+                      _("Wealth:            %s"), fac_wealth_text(cur_frac->wealth, cur_frac->size).c_str());
+            mvwprintz(w_info, 3, 0, c_white,
+                      _("Food Supply:       %s"), fac_food_supply_text(cur_frac->food_supply, cur_frac->size).c_str());
+            mvwprintz(w_info, 4, 0, c_white,
+                      _("Combat Ability:    %s"), fac_combat_ability_text(cur_frac->combat_ability).c_str());
+            fold_and_print(w_info, 6, 0, maxlength, c_white, cur_frac->describe());
             wrefresh(w_info);
             redraw = false;
         }

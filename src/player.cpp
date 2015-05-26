@@ -60,87 +60,89 @@
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
-extern std::map<std::string, martialart> ma_styles;
-
-std::string morale_data[NUM_MORALE_TYPES];
-
 stats player_stats;
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
-void game::init_morale()
-{
-    std::string tmp_morale_data[NUM_MORALE_TYPES] = {
-    "This is a bug (player.cpp:moraledata)",
-    _("Enjoyed %i"),
-    _("Enjoyed a hot meal"),
-    _("Music"),
-    _("Enjoyed honey"),
-    _("Played Video Game"),
-    _("Marloss Bliss"),
-    _("Mutagenic Anticipation"),
-    _("Good Feeling"),
-    _("Supported"),
-    _("Looked at photos"),
+namespace {
+    const std::string &get_morale_data( const morale_type id )
+    {
+        static const std::array<std::string, NUM_MORALE_TYPES> morale_data = { {
+            { "This is a bug (player.cpp:moraledata)" },
+            { _( "Enjoyed %i" ) },
+            { _( "Enjoyed a hot meal" ) },
+            { _( "Music" ) },
+            { _( "Enjoyed honey" ) },
+            { _( "Played Video Game" ) },
+            { _( "Marloss Bliss" ) },
+            { _( "Mutagenic Anticipation" ) },
+            { _( "Good Feeling" ) },
+            { _( "Supported" ) },
+            { _( "Looked at photos" ) },
 
-    _("Nicotine Craving"),
-    _("Caffeine Craving"),
-    _("Alcohol Craving"),
-    _("Opiate Craving"),
-    _("Speed Craving"),
-    _("Cocaine Craving"),
-    _("Crack Cocaine Craving"),
-    _("Mutagen Craving"),
-    _("Diazepam Craving"),
-    _("Marloss Craving"),
+            { _( "Nicotine Craving" ) },
+            { _( "Caffeine Craving" ) },
+            { _( "Alcohol Craving" ) },
+            { _( "Opiate Craving" ) },
+            { _( "Speed Craving" ) },
+            { _( "Cocaine Craving" ) },
+            { _( "Crack Cocaine Craving" ) },
+            { _( "Mutagen Craving" ) },
+            { _( "Diazepam Craving" ) },
+            { _( "Marloss Craving" ) },
 
-    _("Disliked %i"),
-    _("Ate Human Flesh"),
-    _("Ate Meat"),
-    _("Ate Vegetables"),
-    _("Ate Fruit"),
-    _("Lactose Intolerance"),
-    _("Ate Junk Food"),
-    _("Wheat Allergy"),
-    _("Ate Indigestible Food"),
-    _("Wet"),
-    _("Dried Off"),
-    _("Cold"),
-    _("Hot"),
-    _("Bad Feeling"),
-    _("Killed Innocent"),
-    _("Killed Friend"),
-    _("Guilty about Killing"),
-    _("Guilty about Mutilating Corpse"),
-    _("Fey Mutation"),
-    _("Chimerical Mutation"),
-    _("Mutation"),
+            { _( "Disliked %i" ) },
+            { _( "Ate Human Flesh" ) },
+            { _( "Ate Meat" ) },
+            { _( "Ate Vegetables" ) },
+            { _( "Ate Fruit" ) },
+            { _( "Lactose Intolerance" ) },
+            { _( "Ate Junk Food" ) },
+            { _( "Wheat Allergy" ) },
+            { _( "Ate Indigestible Food" ) },
+            { _( "Wet" ) },
+            { _( "Dried Off" ) },
+            { _( "Cold" ) },
+            { _( "Hot" ) },
+            { _( "Bad Feeling" ) },
+            { _( "Killed Innocent" ) },
+            { _( "Killed Friend" ) },
+            { _( "Guilty about Killing" ) },
+            { _( "Guilty about Mutilating Corpse" ) },
+            { _( "Fey Mutation" ) },
+            { _( "Chimerical Mutation" ) },
+            { _( "Mutation" ) },
 
-    _("Moodswing"),
-    _("Read %i"),
-    _("Got comfy"),
+            { _( "Moodswing" ) },
+            { _( "Read %i" ) },
+            { _( "Got comfy" ) },
 
-    _("Heard Disturbing Scream"),
+            { _( "Heard Disturbing Scream" ) },
 
-    _("Masochism"),
-    _("Hoarder"),
-    _("Stylish"),
-    _("Optimist"),
-    _("Bad Tempered"),
-    //~ You really don't like wearing the Uncomfy Gear
-    _("Uncomfy Gear"),
-    _("Found kitten <3")
-    };
-    for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
-        morale_data[i]=tmp_morale_data[i];
+            { _( "Masochism" ) },
+            { _( "Hoarder" ) },
+            { _( "Stylish" ) },
+            { _( "Optimist" ) },
+            { _( "Bad Tempered" ) },
+            //~ You really don't like wearing the Uncomfy Gear
+            { _( "Uncomfy Gear" ) },
+            { _( "Found kitten <3" ) },
+
+            { _( "Got a Haircut" ) },
+            { _( "Freshly Shaven" ) },
+        } };
+        if( static_cast<size_t>( id ) >= morale_data.size() ) {
+            debugmsg( "invalid morale type: %d", id );
+            return morale_data[0];
+        }
+        return morale_data[id];
     }
-}
-
+} // namespace
 
 std::string morale_point::name() const
 {
     // Start with the morale type's description.
-    std::string ret = morale_data[type];
+    std::string ret = get_morale_data( type );
 
     // Get the name of the referenced item (if any).
     std::string item_name = "";
