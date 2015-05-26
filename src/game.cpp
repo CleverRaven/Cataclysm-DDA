@@ -4178,7 +4178,7 @@ void game::debug()
 
     case 24: {
 #ifdef LUA
-        std::string luacode = string_input_popup(_("Lua:"), 60, "");
+        std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
 #else
         popup( "This binary was not compiled with Lua support." );
