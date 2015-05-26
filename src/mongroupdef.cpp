@@ -226,7 +226,7 @@ void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
     add_to_set(monster_categories_whitelist, jo, "categories");
 }
 
-bool monster_is_blacklisted(const mtype *m)
+bool MonsterGroupManager::monster_is_blacklisted(const mtype *m)
 {
     if(m == NULL || monster_whitelist.count(m->id) > 0) {
         return false;
@@ -265,13 +265,13 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-            if(monster_is_blacklisted(gen.GetMType(c->name))) {
+            if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(c->name))) {
                 c = mg.monsters.erase(c);
             } else {
                 ++c;
             }
         }
-        if(monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
+        if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
             mg.defaultMonster = "mon_null";
         }
     }

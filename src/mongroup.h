@@ -6,8 +6,6 @@
 #include <map>
 #include "json.h"
 
-bool monster_is_blacklisted(const mtype *m);
-
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
@@ -151,6 +149,9 @@ class MonsterGroupManager
         static void check_group_definitions();
 
         static void ClearMonsterGroups();
+
+        static bool monster_is_blacklisted( const mtype *m );
+
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;
 };
