@@ -71,7 +71,7 @@ struct MonsterGroup {
     bool replace_monster_group;
     mongroup_id new_monster_group;
     int monster_group_time;  //time in days
-
+    bool is_safe; /// Used for @ref mongroup::is_safe()
 };
 
 struct mongroup {
@@ -100,11 +100,7 @@ struct mongroup {
         diffuse = false;
         horde = false;
     }
-    bool is_safe()
-    {
-        return (type == mongroup_id( "GROUP_NULL" ) ||
-                type == mongroup_id( "GROUP_SAFE" ) );
-    };
+    bool is_safe() const;
     void set_target(int x, int y)
     {
         tx = x;

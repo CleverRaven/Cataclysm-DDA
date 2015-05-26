@@ -2,6 +2,7 @@
   {
     "type":"monstergroup",
     "name" : "GROUP_NULL",
+    "is_safe" : true,
     "default" : "mon_null"
   },
   {
@@ -1253,7 +1254,8 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_SAFE", "_comment" : "used by mongroup::is_safe()",
+    "name" : "GROUP_SAFE",
+    "is_safe" : true,
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_bat", "freq" : 1, "cost_multiplier" : 1 },

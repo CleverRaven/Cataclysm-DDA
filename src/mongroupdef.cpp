@@ -32,6 +32,11 @@ bool string_id<MonsterGroup>::is_valid() const
     return MonsterGroupManager::isValidMonsterGroup( *this );
 }
 
+bool mongroup::is_safe() const
+{
+    return MonsterGroupManager::GetMonsterGroup( type ).is_safe;
+}
+
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const mongroup_id& group_name, int *quantity, int turn ){
@@ -337,6 +342,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
     g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", "GROUP_NULL") );
     g.monster_group_time = jo.get_int("replacement_time", 0);
+    g.is_safe = jo.get_bool( "is_safe", false );
 
     monsterGroupMap[g.name] = g;
 }
