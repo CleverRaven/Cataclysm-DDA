@@ -22,6 +22,7 @@
 #include "monfaction.h"
 #include "options.h"
 #include "trap.h"
+#include "sounds.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -336,6 +337,8 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("Trapped"));
     } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
+    } else if (has_effect("shrieking")) {
+        wprintz(w, h_white, _("Shrieking"));
     }
     std::string damage_info;
     nc_color col;
@@ -1634,6 +1637,10 @@ void monster::process_effects()
         if( hp < 0 ) {
             hp = 0;
         }
+    }
+
+    if( has_effect("shrieking")){
+        sounds::sound(pos(), 120, _("a piercing wail!"), true);
     }
 
     Creature::process_effects();

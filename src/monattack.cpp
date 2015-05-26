@@ -184,24 +184,37 @@ void mattack::shriek(monster *z, int index)
     sounds::sound(z->pos(), 50, _("a terrible shriek!"));
 }
 
-void mattack::shriek_loud(monster *z, int index)
+void mattack::shriek_alert(monster *z, int index)
 {
     if( !z->can_act() ) {
         return;
     }
     Creature *target = z->attack_target();
     int dist;
-    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 6 ||
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 15 ||
         !z->sees( *target ) ) {
         return;
     }
 
-    z->moves -= 250;   // It takes a while
+    z->moves -= 150;   // It takes a while
     z->reset_special(index); // Reset timer
     sounds::sound(z->pos(), 120, _("a piercing wail!"));
-    if (dist <= 3 && one_in(2) && !(target->is_immune_effect("deaf"))){
-        target->add_effect("stunned", rng(3,5) / dist);
-        auto msg_type = target == &g->u ? m_warning : m_info;
+    z->add_effect("shrieking", 10);
+
+}
+
+void mattack::shriek_stun(monster *z, int index)
+{
+    if( !z->can_act() || !z->has_effect("shrieking")) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    z->reset_special(index); // Reset timer
+    int dist = rl_dist( z->pos(), target->pos());
+
+    if ( one_in((dist + 2 )) && !(target->is_immune_effect("deaf")) && !target->has_effect("stunned")){
+        target->add_effect("stunned", rng(2,3));
+        auto msg_type = target == &g->u ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
                                       _("The screams seems to daze <npcname>!"));
     }
