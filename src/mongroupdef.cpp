@@ -335,8 +335,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    // TODO: default to GROUP_NULL, as that's the NULL group
-    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", "NULL") );
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", "GROUP_NULL") );
     g.monster_group_time = jo.get_int("replacement_time", 0);
 
     monsterGroupMap[g.name] = g;
