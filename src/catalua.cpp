@@ -873,23 +873,6 @@ static int game_get_monster_types(lua_State *L)
     return 1; // 1 return values
 }
 
-// monster = game.monster_at(p)
-static int game_monster_at(lua_State *L)
-{
-    int parameter1 = (int) lua_tonumber(L, 1);
-    int parameter2 = (int) lua_tonumber(L, 2);
-    int parameter3 = (int) lua_tonumber(L, 3);
-    int monster_idx = g->mon_at( {parameter1, parameter2, parameter3} );
-
-    if( monster_idx < 0 ) {
-        LuaReference<monster>::push( L, nullptr );
-    } else {
-        LuaReference<monster>::push( L, g->zombie( monster_idx ) );
-    }
-
-    return 1; // 1 return values
-}
-
 // x, y = choose_adjacent(query_string, x, y)
 static int game_choose_adjacent(lua_State *L)
 {
@@ -1007,7 +990,6 @@ static const struct luaL_Reg global_funcs [] = {
     {"register_iuse", game_register_iuse},
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
-    {"monster_at", game_monster_at},
     {"choose_adjacent", game_choose_adjacent},
     {"monster_type", game_monster_type},
     {"dofile", game_dofile},
