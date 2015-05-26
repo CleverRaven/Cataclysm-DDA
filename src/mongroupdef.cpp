@@ -21,6 +21,10 @@
 //     monster that makes the point count go over 1000
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
@@ -204,14 +208,8 @@ MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
     }
 }
 
-//json loading
-typedef std::set<std::string> t_string_set;
 // see item_factory.cpp
-extern void add_to_set(t_string_set &s, JsonObject &json, const std::string &name);
-t_string_set monster_blacklist;
-t_string_set monster_whitelist;
-t_string_set monster_categories_blacklist;
-t_string_set monster_categories_whitelist;
+extern void add_to_set(std::set<std::string> &s, JsonObject &json, const std::string &name);
 
 void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo)
 {

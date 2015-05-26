@@ -4,6 +4,8 @@
 #include "mtype.h"
 #include <vector>
 #include <map>
+#include <set>
+#include <string>
 #include "json.h"
 
 struct MonsterGroupEntry;
@@ -154,6 +156,11 @@ class MonsterGroupManager
 
     private:
         static std::map<std::string, MonsterGroup> monsterGroupMap;
+        typedef std::set<std::string> t_string_set;
+        static t_string_set monster_blacklist;
+        static t_string_set monster_whitelist;
+        static t_string_set monster_categories_blacklist;
+        static t_string_set monster_categories_whitelist;
 };
 
 #endif
