@@ -2689,7 +2689,7 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
@@ -2731,7 +2731,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const
@@ -2755,7 +2755,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround(resist);
+    return lround(resist);
 }
 
 bool item::is_two_handed(player *u)
