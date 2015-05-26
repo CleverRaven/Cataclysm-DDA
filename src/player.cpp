@@ -6986,8 +6986,6 @@ void player::hardcoded_effects(effect &it)
         }
         if (zed_number > 0){
             add_effect("grabbed", 2, bp_torso, false, (intense + zed_number) / 2); //If intensity isn't pass the cap, average it with # of zeds
-        } else {
-            remove_effect("grabbed"); //If there are no surrounding enemies, remove the grab
         }
     } else if (id == "impaled") {
         blocks_left -= 2;
