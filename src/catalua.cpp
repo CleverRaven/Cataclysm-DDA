@@ -641,6 +641,9 @@ void update_globals(lua_State *L)
 
     LuaReference<map>::push( L, g->m );
     luah_setglobal( L, "map", -1 );
+
+    LuaReference<game>::push( L, g );
+    luah_setglobal( L, "g", -1 );
 }
 
 // iuse abstraction to make iuse's both in lua and C++ possible
