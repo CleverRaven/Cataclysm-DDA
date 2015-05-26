@@ -455,7 +455,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
             maptile_has_bounds( {pt.x + 1, pt.y - 1, pt.z}  , east && north ),
             maptile_has_bounds( {pt.x - 1, pt.y, pt.z}      , west ),
             maptile_has_bounds( {pt.x + 1, pt.y, pt.z}      , east ),
-            maptile_has_bounds( {pt.x - 1, pt.y + 1, pt.z}  , east && north ),
+            maptile_has_bounds( {pt.x - 1, pt.y + 1, pt.z}  , west && south ),
             maptile_has_bounds( {pt.x, pt.y + 1, pt.z}      , south ),
             maptile_has_bounds( {pt.x + 1, pt.y + 1, pt.z}  , east && south ),
         } };
