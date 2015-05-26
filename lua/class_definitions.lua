@@ -774,7 +774,6 @@ classes = {
             pl_sees = { rval = "bool", args = { "tripoint", "int" } },
             place_gas_pump = { rval = nil, args = { "int", "int", "int" } },
             place_npc = { rval = "int", args = { "int", "int", "string" } },
-            place_spawns = { rval = nil, args = { "string", "int", "int", "int", "int", "int", "float" } },
             place_toilet = { rval = nil, args = { "int", "int", "int" } },
             place_vending = { rval = nil, args = { "int", "int", "string" } },
             post_process = { rval = nil, args = { "int" } },
@@ -1120,7 +1119,6 @@ classes = {
             sk_dodge = { type = "int", writable = true },
             speed = { type = "int", writable = true },
             sym = { type = "string", writable = true },
-            upgrade_group = { type = "string", writable = true },
             upgrade_min = { type = "int", writable = true },
             upgrades_into = { type = "string", writable = true },
             vision_day = { type = "int", writable = true },
@@ -1138,10 +1136,6 @@ classes = {
     },
     mongroup = {
         attributes = {
-            type = {
-                type = "string",
-                writable = true
-            },
             posx = {
                 type = "int",
                 writable = true

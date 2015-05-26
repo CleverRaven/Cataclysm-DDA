@@ -6117,7 +6117,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( locations.empty() ) {
         // TODO: what now? there is now possible place to spawn monsters, most
         // likely because the player can see all the places.
-        dbg( D_ERROR ) << "Empty locations for group " << group.type << " at " << gx << "," << gy;
+        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() << " at " << gx << "," << gy;
         return;
     }
     for( int m = 0; m < pop; m++ ) {

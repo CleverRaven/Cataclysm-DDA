@@ -51,6 +51,8 @@ typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 class map_stack : public item_stack {
 private:
@@ -926,7 +928,7 @@ void add_corpse( const tripoint &p );
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
- void place_spawns(std::string group, const int chance,
+ void place_spawns(const mongroup_id& group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge

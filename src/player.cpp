@@ -6695,7 +6695,7 @@ void player::hardcoded_effects(effect &it)
                 if (g->m.move_cost( dest ) == 0) {
                     g->m.make_rubble( dest, f_rubble_rock, true);
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                 g->summon_mon(spawn_details.name, dest);
                 if (g->u.sees( dest )) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
@@ -6778,7 +6778,7 @@ void player::hardcoded_effects(effect &it)
                     if (g->m.move_cost(x, y) == 0) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                     g->summon_mon( spawn_details.name, dest );
                     if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));

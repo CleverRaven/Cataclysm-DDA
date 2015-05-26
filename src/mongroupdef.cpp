@@ -20,15 +20,21 @@
 //     default monster will never get picked, and nor will the others past the
 //     monster that makes the point count go over 1000
 
-std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
+std::map<mongroup_id, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
 
+template<>
+bool string_id<MonsterGroup>::is_valid() const
+{
+    return MonsterGroupManager::isValidMonsterGroup( *this );
+}
+
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    std::string group_name, int *quantity, int turn ){
+    const mongroup_id& group_name, int *quantity, int turn ){
     int spawn_chance = rng(1, 1000);
     auto *groupptr = &GetMonsterGroup( group_name );
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
@@ -158,22 +164,23 @@ bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
     return false;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
+bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const std::string& monster)
 {
     return GetMonsterGroup( group ).IsMonsterInGroup( monster );
 }
 
-std::string MonsterGroupManager::Monster2Group(std::string monster)
+const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
 {
     for( auto &g : monsterGroupMap ) {
         if( g.second.IsMonsterInGroup( monster ) ) {
             return g.second.name;
         }
     }
-    return "GROUP_NULL";
+    static const mongroup_id null( "GROUP_NULL" );
+    return null;
 }
 
-std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string group)
+std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
 {
     MonsterGroup g = GetMonsterGroup(group);
 
@@ -187,12 +194,12 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
     return monsters;
 }
 
-bool MonsterGroupManager::isValidMonsterGroup(std::string group)
+bool MonsterGroupManager::isValidMonsterGroup(const mongroup_id& group)
 {
     return monsterGroupMap.count( group ) > 0;
 }
 
-MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
+MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& group)
 {
     const auto it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
@@ -278,7 +285,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 {
     MonsterGroup g;
 
-    g.name = jo.get_string("name");
+    g.name = mongroup_id( jo.get_string("name") );
     g.defaultMonster = jo.get_string("default");
     if (jo.has_array("monsters")) {
         JsonArray monarr = jo.get_array("monsters");
@@ -328,7 +335,8 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    g.new_monster_group = jo.get_string("new_monster_group_id", "NULL");
+    // TODO: default to GROUP_NULL, as that's the NULL group
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", "NULL") );
     g.monster_group_time = jo.get_int("replacement_time", 0);
 
     monsterGroupMap[g.name] = g;

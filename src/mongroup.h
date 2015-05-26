@@ -7,6 +7,10 @@
 #include <set>
 #include <string>
 #include "json.h"
+#include "string_id.h"
+
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
@@ -58,20 +62,20 @@ struct MonsterGroupResult {
 };
 
 struct MonsterGroup {
-    std::string name;
+    mongroup_id name;
     std::string defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup(const std::string &mtypeid) const;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
-    std::string new_monster_group;
+    mongroup_id new_monster_group;
     int monster_group_time;  //time in days
 
 };
 
 struct mongroup {
-    std::string type;
+    mongroup_id type;
     int posx, posy, posz;
     unsigned int radius;
     unsigned int population;
@@ -80,7 +84,7 @@ struct mongroup {
     bool dying;
     bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
-    mongroup( std::string ptype, int pposx, int pposy, int pposz,
+    mongroup( const mongroup_id& ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )
     {
         type = ptype;
@@ -98,8 +102,8 @@ struct mongroup {
     }
     bool is_safe()
     {
-        return (type == "GROUP_NULL" ||
-                type == "GROUP_SAFE" );
+        return (type == mongroup_id( "GROUP_NULL" ) ||
+                type == mongroup_id( "GROUP_SAFE" ) );
     };
     void set_target(int x, int y)
     {
@@ -140,13 +144,13 @@ class MonsterGroupManager
         static void LoadMonsterBlacklist(JsonObject &jo);
         static void LoadMonsterWhitelist(JsonObject &jo);
         static void FinalizeMonsterGroups();
-        static MonsterGroupResult GetResultFromGroup(std::string,
+        static MonsterGroupResult GetResultFromGroup(const mongroup_id& group,
                 int *quantity = 0, int turn = -1);
-        static bool IsMonsterInGroup(std::string, std::string);
-        static std::string Monster2Group(std::string);
-        static std::vector<std::string> GetMonstersFromGroup(std::string);
-        static MonsterGroup &GetMonsterGroup(std::string group);
-        static bool isValidMonsterGroup(std::string group);
+        static bool IsMonsterInGroup(const mongroup_id& group, const std::string& mtype_id);
+        static bool isValidMonsterGroup(const mongroup_id& group);
+        static const mongroup_id& Monster2Group(std::string);
+        static std::vector<std::string> GetMonstersFromGroup(const mongroup_id& group);
+        static MonsterGroup &GetMonsterGroup(const mongroup_id& group);
 
         static void check_group_definitions();
 
@@ -155,7 +159,7 @@ class MonsterGroupManager
         static bool monster_is_blacklisted( const mtype *m );
 
     private:
-        static std::map<std::string, MonsterGroup> monsterGroupMap;
+        static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
         typedef std::set<std::string> t_string_set;
         static t_string_set monster_blacklist;
         static t_string_set monster_whitelist;

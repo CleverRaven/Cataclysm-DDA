@@ -6554,7 +6554,7 @@ void game::resonance_cascade( const tripoint &p )
             case 13:
             case 14:
             case 15:
-                spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                 invader = monster( GetMType(spawn_details.name), dest );
                 add_zombie(invader);
                 break;

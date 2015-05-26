@@ -147,7 +147,7 @@ bool monster::can_upgrade() const
 {
     // If we don't upgrade
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        (type->upgrade_group == mongroup_id( "NULL" ) && type->upgrades_into == "NULL")) {
         return false;
     }
     // Or we aren't allowed to yet
@@ -170,7 +170,7 @@ void monster::update_check() {
 
     // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        (type->upgrade_group == mongroup_id( "NULL" ) && type->upgrades_into == "NULL")) {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
