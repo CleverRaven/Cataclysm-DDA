@@ -93,7 +93,7 @@ function necro()
         if itm:is_corpse() then
             game.add_msg("Found a corpe: " .. itm:tname())
             if game.revive_corpse(neighbor, itm) then
-                game.remove_item(pos, itm)
+                map:i_rem(pos, itm)
                 break
             end
         end

@@ -1602,11 +1602,6 @@ global_functions = {
         args = {"int", "int", "int", "int"},
         rval = "int"
     },
-    remove_item = {
-        cpp_name = "g->m.i_rem",
-        args = {"tripoint", "item"},
-        rval = nil
-    },
     get_current_overmap = {
         cpp_name = "get_current_overmap",
         args = { },
