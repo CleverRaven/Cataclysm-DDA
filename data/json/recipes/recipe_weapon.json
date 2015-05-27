@@ -6624,7 +6624,7 @@
 },
 {
    "type": "recipe",
-  "result": "m2browning_shot",
+  "result": "Abzats",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics"
