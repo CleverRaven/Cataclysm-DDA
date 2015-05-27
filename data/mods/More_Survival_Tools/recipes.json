@@ -6,7 +6,7 @@
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
   "difficulty": 4,
-  "time": 1000,
+  "time": 10000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 2], ["mag_survival", 3]],
@@ -15,11 +15,10 @@
   ],
   "components": [
     [
-      [ "rock", 1 ],
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "scrap", 1 ]
+      [ "steel_chunk", 1 ]
     ]
   ]
 },
@@ -73,8 +72,9 @@
         "type" : "recipe",
   "result": "tinder",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "difficulty": 0,
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
   "time": 1000,
   "reversible": false,
   "autolearn": true,
@@ -1457,7 +1457,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
+    "skills_required": [ "gun", 2 ],
     "difficulty": 2,
     "time": 45000,
     "reversible": false,
@@ -1491,7 +1491,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
-    "skills_required": [ "gun", 4 ],
+    "skills_required": [ "gun", 2 ],
     "difficulty": 2,
     "time": 45000,
     "reversible": false,
@@ -1540,5 +1540,22 @@
      [ "scrap", 12 ]
      ]
     ]
+},{
+  "type" : "recipe",
+  "result": "sling",
+  "id_suffix": "cord",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_36", 3 ],
+      [ "string_6", 18 ]
+    ]
+  ]
 }
 ]

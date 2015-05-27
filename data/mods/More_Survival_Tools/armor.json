@@ -87,7 +87,7 @@
         "phase" : "solid",
         "environmental_protection" : 2,
         "encumbrance" : 10,
-        "flags" : ["VARSIZE", "SUN_GLASSES", "RAINPROOF"],
+        "flags" : ["VARSIZE", "SUN_GLASSES", "WATERPROOF"],
         "bashing" : -5,
         "coverage" : 95,
         "material_thickness" : 1
