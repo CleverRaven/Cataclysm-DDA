@@ -6627,7 +6627,7 @@
   "result": "m2browning_shot",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics" item_group, skill,
+  "skill_used": "mechanics"
   "skills_required": [ "gun", 4 ],
   "difficulty": 6,
   "time": 180000,
