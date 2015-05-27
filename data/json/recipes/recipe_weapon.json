@@ -1418,6 +1418,43 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sten",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [[ "fabrication", 3 ], [ "smg", 1 ]],
+  "difficulty": 5,
+  "time": 14000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_fabrication", 5 ] , [ "manual_smg", 6] , [ "textbook_anarch", 4]],
+  "qualities":[
+    {"id":"HAMMER_FINE","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
+    ]
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "spring", 1 ]
+    ],
+    [
+      [ "steel_chunk", 2 ]
+    ],
+    [
+      [ "sheet_metal", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "surv_carbine_223",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
