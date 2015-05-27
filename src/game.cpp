@@ -3644,9 +3644,9 @@ struct terrain {
     };
 };
 
-bool game::event_queued(event_type type)
+bool game::event_queued(event_type type) const
 {
-    for( auto &e : events ) {
+    for( const auto &e : events ) {
         if( e.type == type ) {
             return true;
         }
@@ -5355,39 +5355,15 @@ void game::hallucinate( const tripoint &center )
 
 float game::ground_natural_light_level() const
 {
-    float ret = (float)calendar::turn.sunlight();
-    ret += weather_data(weather).light_modifier;
-
-    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
-}
-
-float game::natural_light_level() const
-{
-    float ret = 0;
-
-    if (get_levz() >= 0) {
-        ret = (float)calendar::turn.sunlight();
-        ret += weather_data(weather).light_modifier;
-    }
-
-    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
-}
-
-unsigned char game::light_level()
-{
-    //already found the light level for now?
-    if (calendar::turn == latest_lightlevel_turn) {
+    // Already found the light level for now?
+    if( calendar::turn == latest_lightlevel_turn ) {
         return latest_lightlevel;
     }
 
-    int ret;
-    if (get_levz() < 0) { // Underground!
-        ret = 1;
-    } else {
-        ret = calendar::turn.sunlight();
-        ret -= weather_data(weather).sight_penalty;
-    }
-    for( auto &e : events ) {
+    float ret = (float)calendar::turn.sunlight();
+    ret += weather_data(weather).light_modifier;
+
+    for( const auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
         // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it
         if( e.type == EVENT_DIM ) {
@@ -5400,16 +5376,31 @@ unsigned char game::light_level()
             break;
         }
     }
-    if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT)) {
-        ret = 8;
+    // Check whether the light level is under the threshld first because
+    // event_queued() is relatively expensive.
+    if( ret < 5.15 && event_queued(EVENT_ARTIFACT_LIGHT) ) {
+        ret = 5.15;
     }
-    if (ret < 1) {
-        ret = 1;
-    }
+
+    ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
 
     latest_lightlevel = ret;
     latest_lightlevel_turn = calendar::turn;
     return ret;
+}
+
+float game::natural_light_level() const
+{
+    if( get_levz() >= 0 ) {
+        return ground_natural_light_level();
+    }
+    return LIGHT_AMBIENT_MINIMAL;
+}
+
+unsigned char game::light_level() const
+{
+    const float light = natural_light_level();
+    return LIGHT_RANGE(light);
 }
 
 void game::reset_light_level()

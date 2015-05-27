@@ -245,7 +245,7 @@ bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
         return false;
     }
 
-    const int range_cur = sight_range( g->light_level() );
+    const int range_cur = sight_range( g->m.ambient_light_at(t) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );
     const int wanted_range = rl_dist( pos3(), t );
