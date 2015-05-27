@@ -11078,8 +11078,9 @@ void game::unload(int pos)
     item &itm = u.i_at( pos );
     if( !itm.is_null() ) {
         unload( itm );
-    } else if( pos == -1 ) {
+    } else if( pos == -1 || pos == INT_MIN ) {
         // Empty hands and unloading the weapon
+        // or explicitly requested unload item menu
         auto filter = [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
         };
