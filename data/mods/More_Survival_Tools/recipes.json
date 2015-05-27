@@ -1557,5 +1557,35 @@
       [ "string_6", 18 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "felt_patch", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "felt_patch", 6 ]
+    ]
+  ]
 }
 ]
