@@ -2641,7 +2641,7 @@ bool game::handle_action()
             break;
 
         case ACTION_UNLOAD:
-            unload(u.weapon);
+            unload( -1 );
             break;
 
         case ACTION_THROW:
@@ -11075,24 +11075,31 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
-    // this is necessary to prevent re-selection of the same item later
-    item it = (u.inv.remove_item(pos));
-    if (!it.is_null()) {
-        unload(it);
-        u.i_add(it);
-    } else {
-        item ite;
-        if (pos == -1) { // item is wielded as weapon.
-            ite = u.weapon;
-            u.weapon = item("null", 0); //ret_null;
-            unload(ite);
-            u.weapon = ite;
+    item &itm = u.i_at( pos );
+    if( !itm.is_null() ) {
+        unload( itm );
+    } else if( pos == -1 ) {
+        // Empty hands and unloading the weapon
+        auto filter = [&]( const item &it ) {
+            return u.rate_action_unload( it ) == HINT_GOOD;
+        };
+
+        auto pr = inv_map_splice( filter, _("Unload item:") );
+        if( pr.second == nullptr ) {
+            add_msg( _("Never mind.") );
             return;
-        } else { //this is that opportunity for reselection where the original container is worn, see issue #808
-            item &itm = u.i_at(pos);
-            if (!itm.is_null()) {
-                unload(itm);
-            }
+        }
+
+        // TODO: Wrap it nicely into a player function
+        if( pr.first == -1 ) {
+            // Shouldn't happen
+            return;
+        } else if( pr.first != INT_MIN ) {
+            // In the inventory
+            unload( pr.first );
+        } else {
+            // Off the ground
+            unload( *pr.second );
         }
     }
 }
