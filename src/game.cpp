@@ -9223,6 +9223,16 @@ int game::list_items(const int iLastState)
     const int iRadius = 12 + (u.per_cur * 2);
 
     bool sort_radius = true;
+    bool addcategory = false;
+
+    // restore last state
+    if (uistate.list_item_sort == 1) {
+        sort_radius = true;
+        addcategory = false;
+    } else if (uistate.list_item_sort == 2 ){
+        sort_radius = false;
+        addcategory = true;
+    }
 
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
@@ -9250,7 +9260,6 @@ int game::list_items(const int iLastState)
     tripoint iLastActive = tripoint_min;
     bool reset = true;
     bool refilter = true;
-    bool addcategory = false;
     int page_num = 0;
     int iCatSortNum = 0;
     map_item_stack *activeItem = NULL;
@@ -9321,11 +9330,11 @@ int game::list_items(const int iLastState)
                     sort_radius = false;
                     addcategory = true;
                     std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-
+                    uistate.list_item_sort = 2;
                 } else {
                     sort_radius = true;
-
                     ground_items = ground_items_radius;
+                    uistate.list_item_sort = 1;
                 }
 
                 highPEnd = -1;
