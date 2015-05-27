@@ -1616,6 +1616,13 @@ enums = {
         "LEFT",
         "RIGHT",
     },
+    phase_id = {
+        "PNULL",
+        "SOLID",
+        "LIQUID",
+        "GAS",
+        "PLASMA",
+    },
 }
 
 global_functions = {
