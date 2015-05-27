@@ -1643,6 +1643,8 @@ void monster::process_effects()
 
     if( has_effect("shrieking")){
         sounds::sound(pos(), 120, _("a piercing wail!"), true);
+        // Lose 40% of our maximum speed while shrieking
+        set_speed_base( .6 * type->speed);
     }
 
     Creature::process_effects();
