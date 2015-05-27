@@ -6621,6 +6621,53 @@
         [ "UPS_off", 2]
       ]
     ]
+},
+{
+   "type": "recipe",
+  "result": "m2browning_shot",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics" item_group, skill,
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id": "SAW_M_FINE" tool_quality, "level": 1, "amount": 1},
+    {"id": "SCREW_FINE" tool_quality, "level": 1, "amount": 1}
+  ], "tools": [
+    [
+      [ "goggles_welding”, -1 ]
+    ],
+    [
+      [ "oxy_torch", 6 ],
+      [ "welder”, 30 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ]
+    ],
+    [
+      [ "small_repairkit", 150 ],
+      [ "large_repairkit", 30 ]
+    ]
+  ],
+  "components": 
+  [
+    [
+      [ "m2browning”, 1 ]
+   ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ],
+   [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "steel_chunk", 3 ],
+      [ "scrap", 9 ]
+    ]
+  ]
 }
 
 
