@@ -227,7 +227,7 @@ bool calendar::is_night() const
     return (seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds);
 }
 
-int calendar::sunlight() const
+float calendar::sunlight() const
 {
     //Recent lightning strike has lit the area
     if( g->lightning_active ) {
@@ -244,12 +244,10 @@ int calendar::sunlight() const
         return moonlight;
     } else if( seconds >= sunrise_seconds && seconds <= sunrise_seconds + TWILIGHT_SECONDS ) {
         double percent = double(seconds - sunrise_seconds) / TWILIGHT_SECONDS;
-        return int( double(moonlight)      * (1. - percent) +
-                    double(DAYLIGHT_LEVEL) * percent         );
+        return double(moonlight) * (1. - percent) + double(DAYLIGHT_LEVEL) * percent;
     } else if( seconds >= sunset_seconds && seconds <= sunset_seconds + TWILIGHT_SECONDS ) {
         double percent = double(seconds - sunset_seconds) / TWILIGHT_SECONDS;
-        return int( double(DAYLIGHT_LEVEL) * (1. - percent) +
-                    double(moonlight)      * percent         );
+        return double(DAYLIGHT_LEVEL) * (1. - percent) + double(moonlight) * percent;
     } else {
         return DAYLIGHT_LEVEL;
     }
