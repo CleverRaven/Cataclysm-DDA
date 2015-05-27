@@ -47,6 +47,11 @@ function member_type_to_cpp_type(member_type)
                 end
             end
         end
+        for enum_name, _ in pairs(enums) do
+            if enum_name == member_type then
+                return "LuaEnum<" .. member_type .. ">"
+            end
+        end
     end
     
     return member_type
@@ -545,6 +550,17 @@ for class_name, class in pairs(classes) do
     end
 end
 cpp_output = cpp_output .. "}" .. br
+
+-- Create bindings lists for enums
+for enum_name, values in pairs(enums) do
+    local cpp_name = "LuaEnum<"..enum_name..">"
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const "..cpp_name.."::EMap "..cpp_name.."::BINDINGS = {"..br
+    for _, name in ipairs(values) do
+        cpp_output = cpp_output .. tab.."{\""..name.."\", "..name.."},"..br
+    end
+    cpp_output = cpp_output .. "};" .. br
+end
 
 -- Create a lua registry with the global functions
 cpp_output = cpp_output .. "static const struct luaL_Reg gamelib [] = {"..br

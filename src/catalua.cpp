@@ -547,6 +547,63 @@ template<typename T>
 struct LuaType<LuaReference<T>> : public LuaReference<T> {
 };
 
+/** This basically transforms a string (therefor inheriting from LuaType<string>) into a C++
+ * enumeration value. It simply contains a table of string-to-enum-values. */
+template<typename E>
+class LuaEnum : private LuaType<std::string> {
+private:
+    using Parent = LuaType<std::string>;
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    using EMap = std::map<std::string, E>;
+    static const EMap BINDINGS;
+    static E from_string( const std::string &value )
+    {
+        const auto iter = BINDINGS.find( value );
+        if( iter == BINDINGS.end() ) {
+            // This point shall not be reached. Always call this with valid input.
+            return BINDINGS.begin()->second;
+        }
+        return iter->second;
+    }
+    static const std::string &to_string( E const value )
+    {
+        for( auto & e : BINDINGS ) {
+            if( e.second == value ) {
+                return e.first;
+            }
+        }
+        // This point shall not be reached. Always call this with valid input.
+        return BINDINGS.begin()->first;
+    }
+    static bool has( const std::string &value )
+    {
+        return BINDINGS.count( value ) > 0;
+    }
+public:
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return Parent::has( L, stack_index ) && has( Parent::get_proxy( L, stack_index ) );
+    }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        Parent::check( L, stack_index );
+        if( !has( Parent::get_proxy( L, stack_index ) ) ) {
+            luaL_argerror( L, stack_index, "invalid value for enum" );
+        }
+    }
+    static E get_proxy( lua_State* const L, int const stack_index )
+    {
+        return from_string( Parent::get_proxy( L, stack_index ) );
+    }
+    static void push( lua_State* const L, E const value )
+    {
+        Parent::push( L, to_string( value ) );
+    }
+};
+template<typename E>
+struct LuaType<LuaEnum<E>> : public LuaEnum<E> {
+};
+
 void update_globals(lua_State *L)
 {
     LuaReference<player>::push( L, g->u );
