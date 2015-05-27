@@ -15,6 +15,7 @@
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <sstream>
 
@@ -912,6 +913,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         } else {
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
             p->recoil = MIN_RECOIL;
+        }
+
+        // Create noise.
+        if(reloadable->is_gun()) {
+            islot_gun* gun = reloadable->type->gun.get();
+            if( gun->reload_noise_volume > 0 ) {
+              sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
+                             true, "reload", reloadable->typeId() );
+            }
         }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());

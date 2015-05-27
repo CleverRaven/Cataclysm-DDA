@@ -132,6 +132,7 @@ void player_activity::do_turn( player *p )
 {
     switch (type) {
         case ACT_WAIT:
+        case ACT_WAIT_NPC:
         case ACT_WAIT_WEATHER:
             // Based on time, not speed
             moves_left -= 100;
@@ -196,9 +197,6 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_MOVE_ITEMS:
             activity_on_turn_move_items();
-            break;
-        case ACT_MOVE_ALL_ITEMS:
-            activity_on_turn_move_all_items();
             break;
         case ACT_ADV_INVENTORY:
             p->cancel_activity();
@@ -279,6 +277,10 @@ void player_activity::finish( player *p )
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
             add_msg(_("You finish waiting."));
+            type = ACT_NULL;
+            break;
+        case ACT_WAIT_NPC:
+            add_msg(_("%s finishes with you..."),str_values[0].c_str());
             type = ACT_NULL;
             break;
         case ACT_CRAFT:

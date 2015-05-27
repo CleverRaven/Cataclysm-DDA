@@ -15,6 +15,8 @@
 #include "crafting.h"
 #include "ui.h"
 #include "itype.h"
+#include "vehicle.h"
+
 #include <sstream>
 #include <algorithm>
 
@@ -336,7 +338,7 @@ void consume_drug_iuse::load( JsonObject &obj )
         while( jsarr.has_more() ) {
             JsonObject e = jsarr.next_object();
             effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
-                                 body_parts[e.get_string( "bp", "NUM_BP" )], e.get_bool( "permanent", false ) );
+                                 get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
             effects.push_back( new_eff );
         }
     }

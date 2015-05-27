@@ -132,7 +132,7 @@ void mutation_branch::load( JsonObject &jsobj )
         int neutral = jo.get_int("neutral", 0);
         int good = jo.get_int("good", 0);
         tripoint protect = tripoint(ignored, neutral, good);
-        new_mut.protection[part_id] = mutation_wet(body_parts[part_id], protect);
+        new_mut.protection[get_body_part_token( part_id )] = protect;
     }
 }
 

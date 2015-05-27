@@ -575,7 +575,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  addiction_level(add_type type);
 
         /** Siphons fuel from the specified vehicle into the player's inventory */
-        bool siphon(vehicle *veh, ammotype desired_liquid);
+        bool siphon(vehicle *veh, const itype_id &desired_liquid);
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
@@ -947,7 +947,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Drench cache
         std::map<int, std::map<std::string, int> > mMutDrench;
-        std::map<int, int> mDrenchEffect;
+        std::map<body_part, int> mDrenchEffect;
         std::array<int, num_bp> body_wetness;
 
         std::vector<morale_point> morale;

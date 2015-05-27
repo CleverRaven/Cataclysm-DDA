@@ -9,6 +9,7 @@
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <map>
 #include <vector>
@@ -74,7 +75,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
         }
 
-        if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water") > 0) {
+        if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water_clean") > 0) {
             menu_items.push_back(_("Fill a container with water"));
             options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
 
@@ -125,20 +126,20 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         }
 
         if(menu_items[choice] == _("Fill a container with water")) {
-            int amt = veh->drain("water", veh->fuel_left("water"));
-            item fill_water( default_ammo("water"), calendar::turn );
+            int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
+            item fill_water( "water_clean", calendar::turn );
             fill_water.charges = amt;
             int back = g->move_liquid(fill_water);
             if (back >= 0) {
-                veh->refill("water", back);
+                veh->refill("water_clean", back);
             } else {
-                veh->refill("water", amt);
+                veh->refill("water_clean", amt);
             }
             return -2;
         }
 
         if(menu_items[choice] == _("Have a drink")) {
-            veh->drain("water", 1);
+            veh->drain("water_clean", 1);
             item water( "water_clean", 0 );
             g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
             g->u.moves -= 250;

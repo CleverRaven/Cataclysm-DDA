@@ -29,7 +29,7 @@
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "fabrication",
   "difficulty": 0,
-  "time": 15000,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -568,7 +568,7 @@
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
   "difficulty": 3,
-  "time": 15000,
+  "time": 30000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -589,7 +589,7 @@
     [
       [ "scrap", 9],
 	  [ "steel_chunk", 3],
-	  [ "steel_chunk", 1]
+	  [ "steel_lump", 1]
     ]
     ]
 }

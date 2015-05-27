@@ -58,87 +58,89 @@
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
-extern std::map<std::string, martialart> ma_styles;
-
-std::string morale_data[NUM_MORALE_TYPES];
-
 stats player_stats;
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
-void game::init_morale()
-{
-    std::string tmp_morale_data[NUM_MORALE_TYPES] = {
-    "This is a bug (player.cpp:moraledata)",
-    _("Enjoyed %i"),
-    _("Enjoyed a hot meal"),
-    _("Music"),
-    _("Enjoyed honey"),
-    _("Played Video Game"),
-    _("Marloss Bliss"),
-    _("Mutagenic Anticipation"),
-    _("Good Feeling"),
-    _("Supported"),
-    _("Looked at photos"),
+namespace {
+    const std::string &get_morale_data( const morale_type id )
+    {
+        static const std::array<std::string, NUM_MORALE_TYPES> morale_data = { {
+            { "This is a bug (player.cpp:moraledata)" },
+            { _( "Enjoyed %i" ) },
+            { _( "Enjoyed a hot meal" ) },
+            { _( "Music" ) },
+            { _( "Enjoyed honey" ) },
+            { _( "Played Video Game" ) },
+            { _( "Marloss Bliss" ) },
+            { _( "Mutagenic Anticipation" ) },
+            { _( "Good Feeling" ) },
+            { _( "Supported" ) },
+            { _( "Looked at photos" ) },
 
-    _("Nicotine Craving"),
-    _("Caffeine Craving"),
-    _("Alcohol Craving"),
-    _("Opiate Craving"),
-    _("Speed Craving"),
-    _("Cocaine Craving"),
-    _("Crack Cocaine Craving"),
-    _("Mutagen Craving"),
-    _("Diazepam Craving"),
-    _("Marloss Craving"),
+            { _( "Nicotine Craving" ) },
+            { _( "Caffeine Craving" ) },
+            { _( "Alcohol Craving" ) },
+            { _( "Opiate Craving" ) },
+            { _( "Speed Craving" ) },
+            { _( "Cocaine Craving" ) },
+            { _( "Crack Cocaine Craving" ) },
+            { _( "Mutagen Craving" ) },
+            { _( "Diazepam Craving" ) },
+            { _( "Marloss Craving" ) },
 
-    _("Disliked %i"),
-    _("Ate Human Flesh"),
-    _("Ate Meat"),
-    _("Ate Vegetables"),
-    _("Ate Fruit"),
-    _("Lactose Intolerance"),
-    _("Ate Junk Food"),
-    _("Wheat Allergy"),
-    _("Ate Indigestible Food"),
-    _("Wet"),
-    _("Dried Off"),
-    _("Cold"),
-    _("Hot"),
-    _("Bad Feeling"),
-    _("Killed Innocent"),
-    _("Killed Friend"),
-    _("Guilty about Killing"),
-    _("Guilty about Mutilating Corpse"),
-    _("Fey Mutation"),
-    _("Chimerical Mutation"),
-    _("Mutation"),
+            { _( "Disliked %i" ) },
+            { _( "Ate Human Flesh" ) },
+            { _( "Ate Meat" ) },
+            { _( "Ate Vegetables" ) },
+            { _( "Ate Fruit" ) },
+            { _( "Lactose Intolerance" ) },
+            { _( "Ate Junk Food" ) },
+            { _( "Wheat Allergy" ) },
+            { _( "Ate Indigestible Food" ) },
+            { _( "Wet" ) },
+            { _( "Dried Off" ) },
+            { _( "Cold" ) },
+            { _( "Hot" ) },
+            { _( "Bad Feeling" ) },
+            { _( "Killed Innocent" ) },
+            { _( "Killed Friend" ) },
+            { _( "Guilty about Killing" ) },
+            { _( "Guilty about Mutilating Corpse" ) },
+            { _( "Fey Mutation" ) },
+            { _( "Chimerical Mutation" ) },
+            { _( "Mutation" ) },
 
-    _("Moodswing"),
-    _("Read %i"),
-    _("Got comfy"),
+            { _( "Moodswing" ) },
+            { _( "Read %i" ) },
+            { _( "Got comfy" ) },
 
-    _("Heard Disturbing Scream"),
+            { _( "Heard Disturbing Scream" ) },
 
-    _("Masochism"),
-    _("Hoarder"),
-    _("Stylish"),
-    _("Optimist"),
-    _("Bad Tempered"),
-    //~ You really don't like wearing the Uncomfy Gear
-    _("Uncomfy Gear"),
-    _("Found kitten <3")
-    };
-    for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
-        morale_data[i]=tmp_morale_data[i];
+            { _( "Masochism" ) },
+            { _( "Hoarder" ) },
+            { _( "Stylish" ) },
+            { _( "Optimist" ) },
+            { _( "Bad Tempered" ) },
+            //~ You really don't like wearing the Uncomfy Gear
+            { _( "Uncomfy Gear" ) },
+            { _( "Found kitten <3" ) },
+
+            { _( "Got a Haircut" ) },
+            { _( "Freshly Shaven" ) },
+        } };
+        if( static_cast<size_t>( id ) >= morale_data.size() ) {
+            debugmsg( "invalid morale type: %d", id );
+            return morale_data[0];
+        }
+        return morale_data[id];
     }
-}
-
+} // namespace
 
 std::string morale_point::name() const
 {
     // Start with the morale type's description.
-    std::string ret = morale_data[type];
+    std::string ret = get_morale_data( type );
 
     // Get the name of the referenced item (if any).
     std::string item_name = "";
@@ -1368,7 +1370,7 @@ void player::update_bodytemp()
         if( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at(i); // 0 - 100
+            int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at( static_cast<body_part>( i ) ); // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() +
@@ -3621,7 +3623,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)
         wprintz(w, c_blue,  _("Freezing!%s"), temp_message);
 
-    int x = sideStyle ? 37 : 32;
+    int x = 32;
     int y = sideStyle ?  0 :  1;
     if(is_deaf()) {
         mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
@@ -5619,10 +5621,10 @@ int player::addiction_level(add_type type)
     return 0;
 }
 
-bool player::siphon(vehicle *veh, ammotype desired_liquid)
+bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( default_ammo(desired_liquid), calendar::turn );
+    item used_item( desired_liquid, calendar::turn );
     const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
     used_item.charges = liquid_amount / fuel_per_charge;
     if( used_item.charges <= 0 ) {
@@ -8258,7 +8260,7 @@ void player::drench(int saturation, int flags)
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
         if (mfb(i) & flags){
-            bp_wetness_max = mDrenchEffect[i];
+            bp_wetness_max = mDrenchEffect[static_cast<body_part>( i )];
         }
         if (bp_wetness_max == 0){
             continue;
@@ -8282,7 +8284,7 @@ void player::drench(int saturation, int flags)
     int tot_neut = 0; //Ignored for good wet bonus
     int tot_good = 0; //Increase good wet bonus
 
-    for (std::map<int, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
+    for (std::map<body_part, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
         if (mfb(iter->first) & flags) {
             effected += iter->second;
             tot_ignored += mMutDrench[iter->first]["ignored"];
@@ -8366,12 +8368,11 @@ void player::drench_mut_calc()
 
         for( const auto &_iter : my_mutations ) {
             const auto &mdata = mutation_branch::get( _iter.first );
-            for( auto &_wp_iter : mdata.protection ) {
-                if( body_parts[_wp_iter.first] == elem.first ) {
-                    ignored += _wp_iter.second.second.x;
-                    neutral += _wp_iter.second.second.y;
-                    good += _wp_iter.second.second.z;
-                }
+            const auto _wp_iter = mdata.protection.find( elem.first );
+            if( _wp_iter != mdata.protection.end() ) {
+                ignored += _wp_iter->second.x;
+                neutral += _wp_iter->second.y;
+                good += _wp_iter->second.z;
             }
         }
 
@@ -12401,48 +12402,53 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
 }
 
 void player::armor_absorb(damage_unit& du, item& armor) {
-    if (rng(0,100) <= armor.get_coverage()) {
-        if (armor.is_power_armor()) { // TODO: add some check for power armor
-        }
+    if( rng( 1, 100 ) > armor.get_coverage() ) {
+        return;
+    }
 
-        const float effective_resist = resistances(armor).get_effective_resist(du);
-        // Amount of damage mitigated
-        const float mitigation = std::min(effective_resist, du.amount);
-        du.amount -= mitigation; // mitigate the damage first
+    // TODO: add some check for power armor
 
-        // Scale chance of article taking damage based on the number of parts it covers.
-        // This represents large articles being able to take more punishment
-        // before becoming inneffective or being destroyed.
-        const int num_parts_covered = armor.get_covered_body_parts().count();
-        if( !one_in( num_parts_covered ) ) {
-            return;
-        }
+    const auto res = resistances(armor);
+    const float effective_resist = res.get_effective_resist(du);
+    // Amount of damage mitigated
+    const float mitigation = std::min(effective_resist, du.amount);
+    du.amount -= mitigation; // mitigate the damage first
 
-        // if the post-mitigation amount is greater than the amount
-        if( (du.amount > effective_resist && !one_in(du.amount) && one_in(2)) ||
-            // or if it isn't, but 1/50 chance
-            (du.amount <= effective_resist && !armor.has_flag("STURDY") &&
-             !armor.is_power_armor() && one_in(200)) ) {
+    // Scale chance of article taking damage based on the number of parts it covers.
+    // This represents large articles being able to take more punishment
+    // before becoming inneffective or being destroyed.
+    const int num_parts_covered = armor.get_covered_body_parts().count();
+    if( !one_in( num_parts_covered ) ) {
+        return;
+    }
 
-            armor.damage++;
-            auto &material = armor.get_random_material();
-            std::string damage_verb = ( du.type == DT_BASH ) ?
-                material.bash_dmg_verb() : material.cut_dmg_verb();
+    // Don't damage armor as much when bypassed by armor piercing
+    // Most armor piercing damage comes from bypassing armor, not forcing through
+    const int raw_dmg = du.amount;
+    const int raw_armor = res.type_resist( du.type );
+    if( (raw_dmg > raw_armor && !one_in(du.amount) && one_in(2)) ||
+        // or if it isn't, but 1/50 chance
+        (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
+         !armor.is_power_armor() && one_in(200)) ) {
 
-            const std::string pre_damage_name = armor.tname();
-            const std::string pre_damage_adj = armor.get_base_material().
-                dmg_adj(armor.damage);
+        armor.damage++;
+        auto &material = armor.get_random_material();
+        std::string damage_verb = ( du.type == DT_BASH ) ?
+            material.bash_dmg_verb() : material.cut_dmg_verb();
 
-            // add "further" if the damage adjective and verb are the same
-            std::string format_string = ( pre_damage_adj == damage_verb ) ?
-                _("Your %s is %s further!") : _("Your %s is %s!");
-            add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
-                               damage_verb.c_str());
-            //item is damaged
-            if( is_player() ) {
-                SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
-                        m_neutral, damage_verb, m_info);
-            }
+        const std::string pre_damage_name = armor.tname();
+        const std::string pre_damage_adj = armor.get_base_material().
+            dmg_adj(armor.damage);
+
+        // add "further" if the damage adjective and verb are the same
+        std::string format_string = ( pre_damage_adj == damage_verb ) ?
+            _("Your %s is %s further!") : _("Your %s is %s!");
+        add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
+                           damage_verb.c_str());
+        //item is damaged
+        if( is_player() ) {
+            SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                    m_neutral, damage_verb, m_info);
         }
     }
 }

@@ -15,6 +15,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <fstream>
@@ -613,9 +614,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     temp.z = center.z;
     int &x = temp.x;
     int &y = temp.y;
+    auto &ch = g->m.access_cache( temp.z );
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
-            draw_single_tile( temp, g->m.visibility_cache[x][y], cache );
+            draw_single_tile( temp, ch.visibility_cache[x][y], cache );
         }
     }
 

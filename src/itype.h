@@ -259,6 +259,14 @@ struct islot_gun : common_firing_data {
      */
     int reload_time = 0;
     /**
+     * Noise displayed when reloading the weapon.
+     */
+    std::string reload_noise;
+    /**
+     * Volume of the noise made when reloading this weapon.
+     */
+    int reload_noise_volume = 0;
+    /**
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
     int ups_charges = 0;

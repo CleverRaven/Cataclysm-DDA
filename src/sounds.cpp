@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
+#include "line.h"
 
 struct sound_event {
     int volume;

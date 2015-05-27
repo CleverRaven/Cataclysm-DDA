@@ -3559,7 +3559,7 @@
         "difficulty": 5,
         "skill1": "electronics",
         "skill2": "computer",
-        "hostile_msg": "You misprogram the mininuke hack; Pray.",
+        "hostile_msg": "You misprogram the mininuke hack.  Pray.",
         "friendly_msg": "The mininuke hack floats from your hand and surveys the area!",
         "place_randomly": true,
         "moves": 60

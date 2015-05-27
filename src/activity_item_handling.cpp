@@ -7,6 +7,7 @@
 #include "pickup.h"
 #include "translations.h"
 #include "monster.h"
+#include "vehicle.h"
 #include <list>
 #include <vector>
 #include <cassert>

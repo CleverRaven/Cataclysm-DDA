@@ -11,6 +11,7 @@
 #include "npc.h"
 #include "trap.h"
 #include "itype.h"
+#include "vehicle.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -344,26 +345,29 @@ bool map::process_fields()
     bool dirty_transparency_cache = false;
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    bool zlev_dirty;
     for( int z = minz; z <= maxz; z++ ) {
+        zlev_dirty = false;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 submap * const current_submap = get_submap_at_grid( x, y, z );
                 if( current_submap->field_count > 0 ) {
-                    bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
-                    dirty_transparency_cache |= cur_dirty;
+                    const bool cur_dirty = process_fields_in_submap( current_submap, x, y, z );
+                    zlev_dirty |= cur_dirty;
                 }
             }
         }
-    }
 
-    if( dirty_transparency_cache ) {
-        // For now, just always dirty the transparency cache
-        // when a field might possibly be changed.
-        // TODO: check if there are any fields(mostly fire)
-        //       that frequently change, if so set the dirty
-        //       flag, otherwise only set the dirty flag if
-        //       something actually changed
-        set_transparency_cache_dirty();
+        if( zlev_dirty ) {
+            // For now, just always dirty the transparency cache
+            // when a field might possibly be changed.
+            // TODO: check if there are any fields(mostly fire)
+            //       that frequently change, if so set the dirty
+            //       flag, otherwise only set the dirty flag if
+            //       something actually changed
+            set_transparency_cache_dirty( z );
+            dirty_transparency_cache = true;
+        }
     }
 
     return dirty_transparency_cache;
@@ -569,11 +573,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 field_entry * cur = &it->second;
                 // The field might have been killed by processing a neighbour field
                 if( !cur->isAlive() ) {
-                    current_submap->field_count--;
-                    curfield.removeField( it++ );
                     if( !fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1] ) {
                         dirty_transparency_cache = true;
                     }
+                    current_submap->field_count--;
+                    curfield.removeField( it++ );
                     continue;
                 }
 
@@ -1635,32 +1639,38 @@ void map::player_in_field( player &u )
         } break;
 
         case fd_acid:
-            //TODO: Add resistance to this with rubber shoes or something?
+        {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if (veh) {
+            if( veh != nullptr ) {
                 break;
             }
-            if (cur->getFieldDensity() > 0 && !u.has_trait("ACIDPROOF")) {
+
+            int total_damage = 0;
+            // Use a helper for a bit less boilerplate
+            const auto burn_part = [&]( body_part bp, int damage ) {
+                // Acid resistance itself protects the items,
+                // environmental protection is needed to prevent it from getting inside.
+                const float environmental_resistance = u.get_env_resist( bp ) + 1;
+                const float effective_resistance = 1.0 - (1.0 / environmental_resistance);
+                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, 0, effective_resistance ) );
+                total_damage += ddi.total_damage();
+            };
+
+            const int density = cur->getFieldDensity();
+            burn_part( bp_foot_l, rng( density + 1, density * 3 ) );
+            burn_part( bp_foot_r, rng( density + 1, density * 3 ) );
+            burn_part( bp_leg_l, rng( density, density * 2 ) );
+            burn_part( bp_leg_r, rng( density, density * 2 ) );
+
+            if( total_damage > 0 ) {
                 u.add_msg_player_or_npc(m_bad, _("The acid burns your legs and feet!"), _("The acid burns <npcname>s legs and feet!"));
-            }
-            if (cur->getFieldDensity() == 3) {
-                u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 4, 10 ) ) );
-                u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 4, 10 ) ) );
-                u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 2, 8 ) ) );
-                u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 2, 8 ) ) );
-            } else if (cur->getFieldDensity() == 2) {
-                u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 2, 5 ) ) );
-                u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 2, 5 ) ) );
-                u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 1, 4 ) ) );
-                u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 1, 4 ) ) );
             } else {
-                u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, rng( 1, 3 ) ) );
-                u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, rng( 1, 3 ) ) );
-                u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_ACID, rng( 0, 2 ) ) );
-                u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_ACID, rng( 0, 2 ) ) );
+                u.add_msg_if_player( m_warning, _("You're standing in a pool of acid") );
             }
+
             u.check_dead_state();
+        }
             break;
 
         case fd_sap:
@@ -1710,7 +1720,7 @@ void map::player_in_field( player &u )
                     parts_burned.push_back( bp_hand_r );
                     parts_burned.push_back( bp_arm_l );
                     parts_burned.push_back( bp_arm_r );
-                    // Only blasing fires set you ablaze.
+                    // Only blazing fires set you ablaze.
                     u.add_effect("onfire", 5);
                     // Fallthrough intentional.
                 case 2:

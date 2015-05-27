@@ -35,7 +35,6 @@ enum activity_type {    // expanded this enum for readability
     ACT_STASH,
     ACT_PICKUP,
     ACT_MOVE_ITEMS,
-    ACT_MOVE_ALL_ITEMS,
     ACT_ADV_INVENTORY,
     ACT_ARMOR_LAYERS,
     ACT_START_FIRE,
@@ -45,6 +44,7 @@ enum activity_type {    // expanded this enum for readability
     ACT_ATM,
     ACT_START_ENGINES,
     ACT_OXYTORCH,
+    ACT_WAIT_NPC,
     NUM_ACTIVITIES
 };
 

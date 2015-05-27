@@ -23,6 +23,7 @@
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"
+#include "vehicle.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1308,12 +1309,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if (is_armor() && item_tags.count("leather_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has certain parts padded with leather to increase protection with minimal increase to encumbrance.")));
+                _("This gear has certain parts padded with leather to increase protection with moderate increase to encumbrance.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This gear has Kevlar inserted into strategic locations to increase protection with minimal increase to encumbrance.")));
+                _("This gear has Kevlar inserted into strategic locations to increase protection with some increase to encumbrance.")));
         }
         if (is_armor() && has_flag("FLOATATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1830,6 +1831,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << "+";
         }
         maintext = ret.str();
+    } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
+        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
+        ret.str("");
+        ret << type_name(quantity);
+        ret << "+";
+        maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -1897,18 +1904,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
             ret << _("Bug");
         }
     }
-    if (item_tags.count("wooled") > 0 ){
-        ret << _(" (W)");
-    }
-    if (item_tags.count("furred") > 0 ){
-        ret << _(" (F)");
-    }
-    if (item_tags.count("leather_padded") > 0 ){
-        ret << _(" (L)");
-    }
-    if (item_tags.count("kevlar_padded") > 0 ){
-        ret << _(" (K)");
-    }
+
     if (has_flag("ATOMIC_AMMO")) {
         toolmodtext = _("atomic ");
     }
@@ -2456,21 +2452,26 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
-    /* So I made some fixes here, although overall they are buffed up.
-     * I am more than open to any fixes, however I thought I'd pitch
-     * in having worn these types of clothing in different forms. -Davek */
-    if (item::item_tags.count("wooled")){
+    // Good items to test this stuff on:
+    // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
+    // Nomes socks (2 thickness, 0 encumbrance)
+    // When a common item has 90%+ coverage, 15/15 protection and <=5 encumbrance,
+    // it's a sure sign something has to be nerfed.
+    if( item::item_tags.count("wooled") ) {
         encumber += 3;
-        }
-    if (item::item_tags.count("furred")){
+    }
+    if( item::item_tags.count("furred") ){
         encumber += 5;
-        }
-    if (item::item_tags.count("leather_padded")){
-        encumber += 7;
-        }
-    if (item::item_tags.count("kevlar_padded")){
-        encumber += 5;
-        }
+    }
+    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
+    // Also prevent 0 encumbrance armored underwear
+    if( item::item_tags.count("leather_padded") ) {
+        encumber = std::max( 15, encumber + 7 );
+    }
+    if( item::item_tags.count("kevlar_padded") ) {
+        encumber = std::max( 13, encumber + 5 );
+    }
+
     return encumber;
 }
 
@@ -2688,7 +2689,7 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
@@ -2730,7 +2731,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const
@@ -2754,7 +2755,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround(resist);
+    return lround(resist);
 }
 
 bool item::is_two_handed(player *u)
@@ -4697,14 +4698,11 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
         return false;
     }
 
-    // Reviving a corpse can remove it, so we have to deactivate it before revival, not after
     active = false;
-    // Copy the corpse pointer
-    const mtype *cor = corpse;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, this ) ) {
+    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( cor->in_species( "ROBOT" ) ) {
+                if( corpse->in_species( "ROBOT" ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
@@ -4715,7 +4713,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
             carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
                                        pgettext( "memorial_female", "Had a %s revive while carrying it." ),
                                        tname().c_str() );
-            if( cor->in_species( "ROBOT" ) ) {
+            if( corpse->in_species( "ROBOT" ) ) {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a corpse you're carrying has started moving!" ) );
