@@ -21,6 +21,7 @@
 #include "ui.h"
 #include "mongroup.h"
 #include "itype.h"
+#include "morale.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
