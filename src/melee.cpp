@@ -593,23 +593,37 @@ int player::dodge_roll()
 
 int player::base_damage(bool real_life, int stat)
 {
- if (stat == -999)
-  stat = (real_life ? str_cur : str_max);
- int dam = (real_life ? rng(0, stat / 2) : stat / 2);
-// Bonus for statong characters
- if (stat > 10)
-  dam += int((stat - 9) / 2);
-// Big bonus for super-human characters
- if (stat > 20)
-  dam += int((stat - 20) * 1.5);
+    int dam = 0;
+    if( real_life ) {
+        if (stat == -999) {
+            stat = get_str();
+        }
 
- return dam;
+        dam += rng(0, stat / 2);
+    } else {
+        if (stat == -999) {
+            stat = str_max;
+        }
+
+        dam += stat / 2;
+    }
+
+    // Bonus for strong characters
+    if( stat > 10 ) {
+        dam += int( (stat - 9) / 2 );
+    }
+    // Big bonus for super-human characters
+    if (stat > 20) {
+        dam += int( (stat - 20) * 1.5 );
+    }
+
+    return dam;
 }
 
 void player::roll_bash_damage( bool crit, damage_instance &di )
 {
     int bash_dam = 0;
-    int stat = str_cur; // Which stat determines damage?
+    int stat = get_str();
 
     int bashing_skill = get_skill_level("bashing");
     int unarmed_skill = get_skill_level("unarmed");
@@ -619,14 +633,14 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
         unarmed_skill = 5;
     }
 
-    int skill = bashing_skill; // Which skill determines damage?
-
     stat += mabuff_bash_bonus();
 
-    if (unarmed_attack())
+    int skill = bashing_skill; // Which skill determines damage?
+    if( unarmed_attack() ) {
         skill = unarmed_skill;
+    }
 
-    bash_dam = base_damage(true, stat);
+    bash_dam = base_damage( true, stat );
 
     // Drunken Master damage bonuses
     if (has_trait("DRUNKEN") && has_effect("drunk")) {
@@ -648,11 +662,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     float bash_mul = 1.0f;
 
     if (unarmed_attack()) {
-        if (weapon.has_flag("UNARMED_WEAPON")) {
-            weap_dam = rng(0, int(stat / 2) + unarmed_skill + weapon.damage_bash());
-        } else {
-            weap_dam = rng(0, int(stat / 2) + unarmed_skill);
-        }
+        weap_dam = rng( 0, int(stat / 2) + unarmed_skill + weapon.damage_bash() );
     } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
         if( bashing_skill < 5 ) {
@@ -663,12 +673,12 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     }
 
     if( crit ) {
-        weap_dam *= 1.5;
         bash_cap *= 2;
     }
 
-    if( weap_dam > bash_cap )// Cap for weak characters
-        weap_dam = (bash_cap * 3 + weap_dam) / 4;
+    if( weap_dam > bash_cap ) { // Cap for weak characters
+        weap_dam = (bash_cap + weap_dam) / 2;
+    }
 
     int bash_min = weap_dam / 4;
 
@@ -681,17 +691,16 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     bash_dam += weap_dam;
     bash_mul *= mabuff_bash_mult();
 
-    float percentage_arpen = 0.0f;
+    float armor_mult = 1.0f;
     // Finally, extra crit effects
     if( crit ) {
         bash_dam += int(stat / 2);
         bash_dam += skill;
-        bash_mul *= 1.5;
         // 50% arpen
-        percentage_arpen = 0.5f;
+        armor_mult = 0.5f;
     }
     
-    di.add_damage( DT_BASH, bash_dam, 0, percentage_arpen, bash_mul );
+    di.add_damage( DT_BASH, bash_dam, 0, armor_mult, bash_mul );
 }
 
 void player::roll_cut_damage( bool crit, damage_instance &di )
@@ -823,15 +832,15 @@ void player::roll_stab_damage( bool crit, damage_instance &di )
     }
 
     stab_mul *= mabuff_cut_mult();
-    float percentage_arpen = 0.0f;
+    float armor_mult = 1.0f;
 
     if( crit ) {
         stab_mul *= 1.0 + (stabbing_skill / 10.0);
         // Stab criticals have extra extra %arpen
-        percentage_arpen = 0.33f;
+        armor_mult = 0.66f;
     }
 
-    di.add_damage( DT_STAB, cut_dam, 0, percentage_arpen, stab_mul );
+    di.add_damage( DT_STAB, cut_dam, 0, armor_mult, stab_mul );
 }
 
 // Chance of a weapon sticking is based on weapon attack type.
