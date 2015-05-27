@@ -1611,6 +1611,11 @@ enums = {
         "MORALE_SHAVE",
         "NUM_MORALE_TYPES",
     },
+    handedness = {
+        "NONE",
+        "LEFT",
+        "RIGHT",
+    },
 }
 
 global_functions = {
