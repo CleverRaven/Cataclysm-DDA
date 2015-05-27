@@ -9229,7 +9229,7 @@ int game::list_items(const int iLastState)
     if (uistate.list_item_sort == 1) {
         sort_radius = true;
         addcategory = false;
-    } else if (uistate.list_item_sort == 2 ){
+    } else if (uistate.list_item_sort == 2) {
         sort_radius = false;
         addcategory = true;
     }
