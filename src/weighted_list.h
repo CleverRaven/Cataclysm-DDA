@@ -158,7 +158,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 protected:
 
     size_t pick_ent() const override {
-        double picked = rng_float(std::nextafter(0.0, 1.0), this->total_weight);
+        double picked = rng_float(nextafter(0.0, 1.0), this->total_weight);
         double accumulated_weight = 0;
         size_t i;
         for(i=0; i < this->objects.size(); i++) {
