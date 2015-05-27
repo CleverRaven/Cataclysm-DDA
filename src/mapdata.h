@@ -555,7 +555,7 @@ public:
     {
         return sm->has_signage( x, y );
     }
-    
+
     inline const std::string get_signage() const
     {
         return sm->get_signage( x, y );
@@ -748,7 +748,9 @@ extern furn_id f_null,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
-    f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_wood_keg,
+    f_standing_tank,
+    f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,

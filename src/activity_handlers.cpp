@@ -448,7 +448,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
         if( fishables.size() < 1 ) {
             if( one_in(20) ) {
                 item fish;
-                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                 std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
                 fish.make_corpse( fish_mon, calendar::turn );
                 g->m.add_item_or_charges(p->pos(), fish);

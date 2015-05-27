@@ -4541,6 +4541,30 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "NPC_BRANDY",
+        "name" : "Carries Brandy",
+        "points" : 0,
+        "description" : "This Bartender now carries brandy!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "NPC_RUM",
+        "name" : "Carries Rum",
+        "points" : 0,
+        "description" : "This Bartender now carries rum!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "NPC_WHISKEY",
+        "name" : "Carries Whiskey",
+        "points" : 0,
+        "description" : "This Bartender now carries whiskey!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,

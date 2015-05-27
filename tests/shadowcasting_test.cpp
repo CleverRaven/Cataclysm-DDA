@@ -2,6 +2,7 @@
 #include "catch/catch.hpp"
 
 #include "map.h"
+#include "line.h"
 
 #include <chrono>
 #include <random>

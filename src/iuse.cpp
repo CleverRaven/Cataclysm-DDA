@@ -1266,8 +1266,11 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         duration += 600;
     }
     if (duration > 0) {
-        int hungerpen = (p->str_cur < 10 ? 20 : 40 - p->str_cur);
-        p->hunger -= hungerpen;
+        // meth actually inhibits hunger, weaker characters benefit more
+        int hungerpen = (p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ));
+        if (hungerpen>0) {
+            p->hunger -= hungerpen;
+        }
         p->add_effect("meth", duration);
     }
     return it->type->charges_to_use();
@@ -3228,7 +3231,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                     //lets say it is a 5% chance per fish to catch
                     if (one_in(20)) {
                         item fish;
-                        std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                        std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                         std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
                         fish.make_corpse( fish_mon, it->bday + rng(0, 1800)); //we don't know when it was caught. its random
                         //Yes, we can put fishes in the trap like knives in the boot,

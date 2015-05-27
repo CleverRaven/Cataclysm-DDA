@@ -29,6 +29,9 @@ faction::faction()
     job1 = FACJOB_NULL;
     job2 = FACJOB_NULL;
     strength = 0;
+    combat_ability = 0;
+    food_supply = 0;
+    wealth = 0;
     sneak = 0;
     crime = 0;
     cult = 0;
@@ -60,6 +63,9 @@ faction::faction(std::string uid)
     mapy = 0;
     size = 0;
     power = 0;
+    combat_ability = 0;
+    food_supply = 0;
+    wealth = 0;
     id = uid;
     desc = "";
 }
@@ -76,6 +82,9 @@ void faction::load_faction(JsonObject &jsobj)
     fac.known_by_u = jsobj.get_bool("known_by_u");
     fac.size = jsobj.get_int("size");
     fac.power = jsobj.get_int("power");
+    fac.combat_ability = jsobj.get_int("combat_ability");
+    fac.food_supply = jsobj.get_int("food_supply");
+    fac.wealth = jsobj.get_int("wealth");
     fac.good = jsobj.get_int("good");
     fac.strength = jsobj.get_int("strength");
     fac.sneak = jsobj.get_int("sneak");
@@ -108,6 +117,9 @@ void faction::load_faction_template(std::string ident)
         known_by_u = found->second.known_by_u;
         size = found->second.size;
         power = found->second.power;
+        combat_ability = found->second.combat_ability;
+        food_supply = found->second.food_supply;
+        wealth = found->second.wealth;
         good = found->second.good;
         strength = found->second.strength;
         sneak = found->second.sneak;
@@ -305,7 +317,8 @@ void faction::load_info(std::string data)
     dump << data;
     dump >> id >> valuetmp >> goaltmp >> jobtmp1 >> jobtmp2 >> likes_u >>
          respects_u >> known_by_u >> strength >> sneak >> crime >> cult >>
-         good >> omx >> omy >> mapx >> mapy >> size >> power;
+         good >> omx >> omy >> mapx >> mapy >> size >> power >> combat_ability >>
+         food_supply >> wealth;
     // Make mapx/mapy global coordinate
     mapx += omx * OMAPX * 2;
     mapy += omy * OMAPY * 2;
@@ -1027,4 +1040,83 @@ std::string fac_respect_text(int val)
     }
 
     return _("Neutral");
+}
+
+std::string fac_wealth_text(int val, int size)
+{
+    //Wealth per person
+    val = val/size;
+    if (val >= 1000000) {
+        return _("Filthy rich");
+    }
+    if (val >= 750000) {
+        return _("Affluent");
+    }
+    if (val >= 500000) {
+        return _("Prosperous");
+    }
+    if (val >= 250000) {
+        return _("Well-Off");
+    }
+    if (val >= 100000) {
+        return _("Comfortable");
+    }
+    if (val >= 85000) {
+        return _("Wanting");
+    }
+    if (val >= 70000) {
+        return _("Failing");
+    }
+    if (val >= 50000) {
+        return _("Impoverished");
+    }
+    return _("Destitue");
+}
+
+std::string fac_food_supply_text(int val, int size)
+{
+    //Convert to how many days you can support the population
+    val = val/(size*288);
+    if (val >= 30) {
+        return _("Overflowing");
+    }
+    if (val >= 14) {
+        return _("Well-Stocked");
+    }
+    if (val >= 6) {
+        return _("Scrapping By");
+    }
+    if (val >= 3) {
+        return _("Malnourished");
+    }
+    return _("Starving");
+}
+
+std::string fac_combat_ability_text(int val)
+{
+    if (val >= 150) {
+        return _("Legendary");
+    }
+    if (val >= 130) {
+        return _("Expert");
+    }
+    if (val >= 115) {
+        return _("Veteran");
+    }
+    if (val >= 105) {
+        return _("Skilled");
+    }
+    if (val >= 95) {
+        return _("Competent");
+    }
+    if (val >= 85) {
+        return _("Untrained");
+    }
+    if (val >= 75) {
+        return _("Crippled");
+    }
+    if (val >= 50) {
+        return _("Feeble");
+    }
+    return _("Worthless");
 }
