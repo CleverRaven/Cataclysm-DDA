@@ -1681,6 +1681,10 @@ nc_color item::color(player *u) const
         } else {
             ret = c_red; // Book hasn't been identified yet: red
         }
+    } else if (is_bionic()) {
+        if (!u->has_bionic(type->id)) {
+            ret = c_green; // installable bionics show as green
+        }
     }
     return ret;
 }
