@@ -20,20 +20,46 @@
 //     default monster will never get picked, and nor will the others past the
 //     monster that makes the point count go over 1000
 
-std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
+std::map<mongroup_id, MonsterGroup> MonsterGroupManager::monsterGroupMap;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
+
+template<>
+bool string_id<MonsterGroup>::is_valid() const
+{
+    return MonsterGroupManager::isValidMonsterGroup( *this );
+}
+
+template<>
+const MonsterGroup& string_id<MonsterGroup>::obj() const
+{
+    return MonsterGroupManager::GetMonsterGroup( *this );
+}
+
+bool mongroup::is_safe() const
+{
+    return type.obj().is_safe;
+}
+
+const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
+{
+    const MonsterGroup *groupptr = &group.obj();
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
+        const int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
+        while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
+            groupptr = &groupptr->new_monster_group.obj();
+        }
+    }
+    return *groupptr;
+}
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    std::string group_name, int *quantity, int turn ){
+    const mongroup_id& group_name, int *quantity, int turn ){
     int spawn_chance = rng(1, 1000);
-    auto *groupptr = &GetMonsterGroup( group_name );
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
-        while (groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time){
-            groupptr = &GetMonsterGroup(groupptr->new_monster_group);
-        }
-    }
-    auto &group = *groupptr;
+    auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"
@@ -44,7 +70,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
-    for (FreqDef_iter it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
+    for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
@@ -154,25 +180,25 @@ bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
     return false;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(std::string group, std::string monster)
+bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const std::string& monster)
 {
-    return GetMonsterGroup( group ).IsMonsterInGroup( monster );
+    return group.obj().IsMonsterInGroup( monster );
 }
 
-std::string MonsterGroupManager::Monster2Group(std::string monster)
+const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
 {
-    for (std::map<std::string, MonsterGroup>::const_iterator it = monsterGroupMap.begin();
-         it != monsterGroupMap.end(); ++it) {
-        if( it->second.IsMonsterInGroup( monster ) ) {
-            return it->first;
+    for( auto &g : monsterGroupMap ) {
+        if( g.second.IsMonsterInGroup( monster ) ) {
+            return g.second.name;
         }
     }
-    return "GROUP_NULL";
+    static const mongroup_id null( "GROUP_NULL" );
+    return null;
 }
 
-std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string group)
+std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
 {
-    MonsterGroup g = GetMonsterGroup(group);
+    const MonsterGroup &g = group.obj();
 
     std::vector<std::string> monsters;
 
@@ -184,14 +210,14 @@ std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(std::string g
     return monsters;
 }
 
-bool MonsterGroupManager::isValidMonsterGroup(std::string group)
+bool MonsterGroupManager::isValidMonsterGroup(const mongroup_id& group)
 {
-    return ( monsterGroupMap.find(group) != monsterGroupMap.end() );
+    return monsterGroupMap.count( group ) > 0;
 }
 
-MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
+const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& group)
 {
-    std::map<std::string, MonsterGroup>::iterator it = monsterGroupMap.find(group);
+    const auto it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
         debugmsg("Unable to get the group '%s'", group.c_str());
         // Initialize the group with a null-monster, it's ignored while spawning,
@@ -205,14 +231,8 @@ MonsterGroup& MonsterGroupManager::GetMonsterGroup(std::string group)
     }
 }
 
-//json loading
-typedef std::set<std::string> t_string_set;
 // see item_factory.cpp
-extern void add_to_set(t_string_set &s, JsonObject &json, const std::string &name);
-t_string_set monster_blacklist;
-t_string_set monster_whitelist;
-t_string_set monster_categories_blacklist;
-t_string_set monster_categories_whitelist;
+extern void add_to_set(std::set<std::string> &s, JsonObject &json, const std::string &name);
 
 void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo)
 {
@@ -226,7 +246,7 @@ void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
     add_to_set(monster_categories_whitelist, jo, "categories");
 }
 
-bool monster_is_blacklisted(const mtype *m)
+bool MonsterGroupManager::monster_is_blacklisted(const mtype *m)
 {
     if(m == NULL || monster_whitelist.count(m->id) > 0) {
         return false;
@@ -252,26 +272,26 @@ bool monster_is_blacklisted(const mtype *m)
 void MonsterGroupManager::FinalizeMonsterGroups()
 {
     const MonsterGenerator &gen = MonsterGenerator::generator();
-    for(t_string_set::const_iterator a = monster_whitelist.begin(); a != monster_whitelist.end(); a++) {
-        if (!gen.has_mtype(*a)) {
-            debugmsg("monster on whitelist %s does not exist", a->c_str());
+    for( auto &mtid : monster_whitelist ) {
+        if( !gen.has_mtype( mtid ) ) {
+            debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
-    for(t_string_set::const_iterator a = monster_blacklist.begin(); a != monster_blacklist.end(); a++) {
-        if (!gen.has_mtype(*a)) {
-            debugmsg("monster on blacklist %s does not exist", a->c_str());
+    for( auto &mtid : monster_blacklist ) {
+        if( !gen.has_mtype( mtid ) ) {
+            debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-            if(monster_is_blacklisted(gen.GetMType(c->name))) {
+            if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(c->name))) {
                 c = mg.monsters.erase(c);
             } else {
                 ++c;
             }
         }
-        if(monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
+        if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
             mg.defaultMonster = "mon_null";
         }
     }
@@ -281,7 +301,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
 {
     MonsterGroup g;
 
-    g.name = jo.get_string("name");
+    g.name = mongroup_id( jo.get_string("name") );
     g.defaultMonster = jo.get_string("default");
     if (jo.has_array("monsters")) {
         JsonArray monarr = jo.get_array("monsters");
@@ -331,8 +351,9 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    g.new_monster_group = jo.get_string("new_monster_group_id", "NULL");
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", "GROUP_NULL") );
     g.monster_group_time = jo.get_int("replacement_time", 0);
+    g.is_safe = jo.get_bool( "is_safe", false );
 
     monsterGroupMap[g.name] = g;
 }
@@ -349,18 +370,17 @@ void MonsterGroupManager::ClearMonsterGroups()
 void MonsterGroupManager::check_group_definitions()
 {
     const MonsterGenerator &gen = MonsterGenerator::generator();
-    for(std::map<std::string, MonsterGroup>::const_iterator a = monsterGroupMap.begin();
-        a != monsterGroupMap.end(); ++a) {
-        const MonsterGroup &mg = a->second;
+    for( auto &e : monsterGroupMap ) {
+        const MonsterGroup &mg = e.second;
         if(mg.defaultMonster != "mon_null" && !gen.has_mtype(mg.defaultMonster)) {
-            debugmsg("monster group %s has unknown default monster %s", a->first.c_str(),
+            debugmsg("monster group %s has unknown default monster %s", mg.name.c_str(),
                      mg.defaultMonster.c_str());
         }
         for( const auto &mge : mg.monsters ) {
 
             if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
                 // mon_null should not be valid here
-                debugmsg("monster group %s contains unknown monster %s", a->first.c_str(), mge.name.c_str());
+                debugmsg("monster group %s contains unknown monster %s", mg.name.c_str(), mge.name.c_str());
             }
         }
     }

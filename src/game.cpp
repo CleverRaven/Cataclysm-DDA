@@ -6554,7 +6554,7 @@ void game::resonance_cascade( const tripoint &p )
             case 13:
             case 14:
             case 15:
-                spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                 invader = monster( GetMType(spawn_details.name), dest );
                 add_zombie(invader);
                 break;
@@ -9222,7 +9222,20 @@ int game::list_items(const int iLastState)
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
 
-    bool sort_radius = true;
+    bool sort_radius;
+    bool addcategory;
+
+    // use previously selected sorting method
+    if (uistate.list_item_sort == 1) {
+        sort_radius = true;
+        addcategory = false;
+    } else if (uistate.list_item_sort == 2) {
+        sort_radius = false;
+        addcategory = true;
+    } else { // default state after start
+	sort_radius = true;
+	addcategory = false;
+    }
 
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
@@ -9250,7 +9263,6 @@ int game::list_items(const int iLastState)
     tripoint iLastActive = tripoint_min;
     bool reset = true;
     bool refilter = true;
-    bool addcategory = false;
     int page_num = 0;
     int iCatSortNum = 0;
     map_item_stack *activeItem = NULL;
@@ -9321,11 +9333,11 @@ int game::list_items(const int iLastState)
                     sort_radius = false;
                     addcategory = true;
                     std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-
+                    uistate.list_item_sort = 2; // list is sorted by category
                 } else {
                     sort_radius = true;
-
                     ground_items = ground_items_radius;
+                    uistate.list_item_sort = 1; // list is sorted by distance
                 }
 
                 highPEnd = -1;
@@ -9335,8 +9347,15 @@ int game::list_items(const int iLastState)
                 mSortCategory.clear();
                 refilter = true;
                 reset = true;
+                    
             }
 
+            if ( uistate.list_item_sort == 1 ) {
+                ground_items = ground_items_radius;
+            } else if ( uistate.list_item_sort == 2 ) {
+                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
+            }
+                    
             if (refilter) {
                 refilter = false;
 
@@ -11495,10 +11514,6 @@ bool game::plmove(int dx, int dy)
         }
         return false;
     }
-    if (!u.move_effects()) {
-        u.moves -= 100;
-        return false;
-    }
 
     int x = 0;
     int y = 0;
@@ -11545,9 +11560,21 @@ bool game::plmove(int dx, int dy)
         return false;
     }
 
-    // Check if our movement is actually an attack on a monster
+    // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at(dest_loc);
+    int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?  If it's vermin, always.
+
+    bool attacking = false;
+    if (mondex != -1 || npcdex != -1){
+        attacking = true;
+    }
+
+    if (!u.move_effects(attacking)) {
+        u.moves -= 100;
+        return false;
+    }
+
     bool displace = false;
     if (mondex != -1) {
         monster &critter = zombie(mondex);
@@ -11582,7 +11609,6 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    int npcdex = npc_at( dest_loc );
     if (npcdex != -1) {
         npc &np = *active_npc[npcdex];
         bool force_attack = false;

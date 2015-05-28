@@ -35,6 +35,8 @@
 #include "mutation.h"
 #include "ui.h"
 #include "trap.h"
+#include "map_iterator.h"
+#include <map>
 
 #ifdef SDLTILES
 #include "SDL2/SDL.h"
@@ -1541,7 +1543,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus(-int((hunger - 100) / 10));
     }
 
-    mod_speed_bonus(stim > 40 ? 40 : stim);
+    mod_speed_bonus( stim > 10 ? 10 : stim / 4);
 
     for (auto maps : effects) {
         for (auto i : maps.second) {
@@ -1825,6 +1827,12 @@ bool player::is_immune_effect( const efftype_id &effect ) const
     }
 
     return false;
+}
+
+int player::stability_roll() const
+{
+    int stability = (get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4);
+        return stability;
 }
 
 bool player::is_immune_damage( const damage_type dt ) const
@@ -2412,7 +2420,7 @@ void player::disp_info()
         int perpen = int(stim /  7);
         int intpen = int(stim /  6);
         // Since dexpen etc. are always less than 0, no need for + signs
-        stim_text << _("Speed") << " " << stim << "   " << _("Intelligence") << " " << intpen <<
+        stim_text << _("Speed") << " " << stim / 4 << "   " << _("Intelligence") << " " << intpen <<
             "   " << _("Perception") << " " << perpen << "   " << _("Dexterity") << " " << dexpen;
         effect_text.push_back(stim_text.str());
     }
@@ -2793,7 +2801,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         line++;
     }
     if (stim != 0) {
-        pen = stim;
+        pen = std::min( 10, stim / 4 );
         if (pen > 0)
             mvwprintz(w_speed, line, 1, c_green, _("Stimulants          +%s%d%%"),
                       (pen < 10 ? " " : ""), pen);
@@ -4906,11 +4914,12 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
                                   source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
-                dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
+                rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 add_msg_player_or_npc(m_good, _("You break the grab!"),
                                       _("<npcname> breaks the grab!"));
             } else {
-                add_effect("grabbed", 1);
+                int prev_effect = get_effect_int("grabbed");
+                add_effect("grabbed", 2, bp_torso, false, prev_effect + 2);
             }
         }
     }
@@ -5524,17 +5533,28 @@ void player::regen()
 void player::update_stamina()
 {
     // Recover some stamina every turn.
-    if( stamina < get_stamina_max() && !has_effect("winded") ) {
+    if( !has_effect("winded") ) {
         // But mouth encumberance interferes.
         stamina += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
+        // TODO: Tiredness slowing recovery
     }
 
-    // 2d4 bonus stamina from active stimpack stamina-boost.
-    if( stamina < get_stamina_max() && has_effect("stimpack") &&
-        get_effect_dur("stimpack") > 50 ) {
-        stamina += rng( 2, 8 );
+    // stim recovers stamina (or impairs recovery)
+    if( stim > 0 ) {
+        // TODO: Make stamina recovery with stims cost health
+        stamina += std::min( 5, stim / 20 );
+    } else if( stim < 0 ) {
+        // Affect it less near 0 and more near full
+        // Stamina maxes out around 1000, stims kill at -200
+        // At -100 stim fully counters regular regeneration at 500 stamina,
+        // halves at 250 stamina, cuts by 25% at 125 stamina
+        // At -50 stim fully counters at 1000, halves at 500
+        stamina += stim * stamina / 1000 / 5 ;
     }
+
+    // Cap at max
+    stamina = std::min( stamina,  get_stamina_max() );
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -5653,17 +5673,22 @@ bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
 }
 
 void player::cough(bool harmful, int loudness) {
-    if (!is_npc()) {
+    if( !is_npc() ) {
         add_msg(m_bad, _("You cough heavily."));
         sounds::sound(pos(), loudness, "");
     } else {
         sounds::sound(pos(), loudness, _("a hacking cough."));
     }
+
     moves -= 80;
-    if (harmful && !one_in(4)) {
-        apply_damage( nullptr, bp_torso, 1 );
+    if( harmful ) {
+        const int stam = stamina;
+        mod_stat( "stamina", -100 );
+        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
+            apply_damage( nullptr, bp_torso, 1 );
+        }
     }
-    if (has_effect("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
+    if( has_effect("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
         wake_up();
     }
 }
@@ -6013,6 +6038,23 @@ void player::process_effects() {
             val = 0;
             if (it.activated(calendar::turn, "VOMIT", val, reduced, mod)) {
                 vomit();
+            }
+
+            // Handle stamina
+            val = it.get_mod("STAMINA", reduced);
+            if (val != 0) {
+                mod = 1;
+                if(it.activated(calendar::turn, "STAMINA", val, reduced, mod)) {
+                    stamina += bound_mod_to_vals( stamina, val,
+                                                  it.get_max_val("STAMINA", reduced),
+                                                  it.get_min_val("STAMINA", reduced) );
+                    if( stamina < 0 ) {
+                        // TODO: Make it drain fatigue and/or oxygen?
+                        stamina = 0;
+                    } else if( stamina > get_stamina_max() ) {
+                        stamina = get_stamina_max();
+                    }
+                }
             }
         }
     }
@@ -6695,7 +6737,7 @@ void player::hardcoded_effects(effect &it)
                 if (g->m.move_cost( dest ) == 0) {
                     g->m.make_rubble( dest, f_rubble_rock, true);
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                 g->summon_mon(spawn_details.name, dest);
                 if (g->u.sees( dest )) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
@@ -6778,7 +6820,7 @@ void player::hardcoded_effects(effect &it)
                     if (g->m.move_cost(x, y) == 0) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
-                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                    MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                     g->summon_mon( spawn_details.name, dest );
                     if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
@@ -6971,8 +7013,15 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "grabbed") {
         blocks_left -= 1;
         dodges_left = 0;
-        // Set ourselves up for removal
-        it.set_duration(0);
+        int zed_number = 0;
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ){
+            if (g->mon_at(dest) != -1){
+                zed_number ++;
+            }
+        }
+        if (zed_number > 0){
+            add_effect("grabbed", 2, bp_torso, false, (intense + zed_number) / 2); //If intensity isn't pass the cap, average it with # of zeds
+        }
     } else if (id == "impaled") {
         blocks_left -= 2;
         dodges_left = 0;
@@ -11402,10 +11451,10 @@ void player::read(int inventory_position)
         add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
     }
 
-    if (tmp->intel > int_cur && !continuous) {
+    if (tmp->intel > get_int() && !continuous) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
-        time += (tmp->time * (tmp->intel - int_cur) * 100);
+        time += (tmp->time * (tmp->intel - get_int()) * 100);
     }
 
     activity = player_activity(ACT_READ, time, -1, inventory_position, "");

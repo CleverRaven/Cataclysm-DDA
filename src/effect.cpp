@@ -269,6 +269,15 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "fatigue_chance_bot",member, "FATIGUE",  "chance_bot");
         extract_effect(j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick");
 
+        // Then stamina
+        extract_effect(j, mod_data, "stamina_amount",    member, "STAMINA",  "amount");
+        extract_effect(j, mod_data, "stamina_min",       member, "STAMINA",  "min");
+        extract_effect(j, mod_data, "stamina_max",       member, "STAMINA",  "max");
+        extract_effect(j, mod_data, "stamina_max_val",   member, "STAMINA",  "max_val");
+        extract_effect(j, mod_data, "stamina_chance",    member, "STAMINA",  "chance_top");
+        extract_effect(j, mod_data, "stamina_chance_bot",member, "STAMINA",  "chance_bot");
+        extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
+
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
         extract_effect(j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot");
@@ -482,12 +491,14 @@ std::string effect::disp_desc(bool reduced) const
     values.push_back(desc_freq(get_percentage("PAIN", val, reduced), val, _("pain"), _("pain")));
     val = get_avg_mod("HURT", reduced);
     values.push_back(desc_freq(get_percentage("HURT", val, reduced), val, _("damage"), _("damage")));
+    val = get_avg_mod("STAMINA", reduced);
+    values.push_back(desc_freq(get_percentage("STAMINA", val, reduced), val, _("stamina recovery"), _("fatigue")));
     val = get_avg_mod("THIRST", reduced);
     values.push_back(desc_freq(get_percentage("THIRST", val, reduced), val, _("thirst"), _("quench")));
     val = get_avg_mod("HUNGER", reduced);
     values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
     val = get_avg_mod("FATIGUE", reduced);
-    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("fatigue"), _("rest")));
+    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("sleepiness"), _("rest")));
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);

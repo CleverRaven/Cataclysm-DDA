@@ -2335,6 +2335,175 @@ void mattack::tentacle(monster *z, int index)
     g->u.check_dead_state();
 }
 
+
+void mattack::ranged_pull(monster *z, int index)
+{
+    int t;
+    int t2 = 0;
+    Creature *target = z->attack_target();
+    monster *zz = dynamic_cast<monster*>(target);
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
+            || rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees(*target, t)) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, t2 );
+    bool seen = g->u.sees( *z );
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 150;
+
+    for (auto &i : line){
+        const ter_t &terrain = g->m.ter_at(i);
+        //Player can't be pulled though bars
+        if (terrain.movecost == 0 ){
+            add_msg( _("The %s flings its arms at you, but they bounce off the %s"), z->name().c_str(), terrain.name.c_str() );
+            return;
+        }
+    }
+    bool uncanny = target->uncanny_dodge();
+
+    if( uncanny || dodge_check(z, target) ) {
+        z->moves -=200;
+        auto msg_type = foe == &g->u ? m_warning : m_info;
+        if( foe != nullptr ) {
+            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
+                                                    _("The %s's arms fly out at <npcname>, but they dodge!"),
+                                        z->name().c_str() );
+
+        }
+        else if( !uncanny ) {
+            target->on_dodge( z, z->type->melee_skill * 2 );
+        }
+        else {
+            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but them miss you!"),
+                                        _("The %s's arms fly out at <npcname>, but they miss!"),
+                                z->name().c_str() );
+        }
+        return;
+    }
+
+    const int dir = g->m.coord_to_angle( z->posx(), z->posy(), target->posx(), target->posy() ); //Orientation of where you'll end up
+    tileray tdir(dir);
+    int range = (z->type->melee_sides * z->type->melee_dice) / 10;
+    tripoint pt = target->pos();
+    while (range > 0) {
+        if( foe != nullptr ) {
+        tdir.advance();
+        pt.x = z->posx() + tdir.dx();
+        pt.y = z->posy() + tdir.dy();
+        if (!g->is_empty(pt)){ //Cancel the grab if the space is occupied by something
+            break;
+        }
+        if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
+            pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+            g->update_map( pt.x, pt.y );
+        }
+        if (foe->in_vehicle) {
+            g->m.unboard_vehicle(foe->pos());
+        }
+        foe->setpos( pt );
+    }
+    else {
+        zz->setpos( pt );
+    }
+        range--;
+        if( target->is_player() && seen ) {
+            g->draw();
+        }
+    }
+    if( seen ) {
+        add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
+    }
+    int prev_effect = target->get_effect_int("grabbed");
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
+}
+
+void mattack::grab(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    if( target == nullptr || !is_adjacent(z, target, false)) {
+        return;
+    }
+
+    z->reset_special(index); // Reset timer
+    z->moves -= 80;
+    bool uncanny = target->uncanny_dodge();
+    auto msg_type = target == &g->u ? m_warning : m_info;
+    if( uncanny || dodge_check(z, target) ){
+        target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
+                                            _("The %s gropes at <npcname>, but they dodge!"),
+                                        z->name().c_str() );
+
+        if( !uncanny ) {
+            target->on_dodge( z, z->type->melee_skill * 2 );
+        }
+    return;
+    }
+    target->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
+                                z->disp_name().c_str());
+
+    if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
+        rng(0, target->get_dex()) : rng( 0, target->get_str()) > rng( 0 , z->type->melee_sides + z->type->melee_dice)) {
+        target->add_msg_player_or_npc(m_good, _("You break the grab!"),
+                                    _("<npcname> breaks the grab!"));
+        return;
+        }
+    int prev_effect = target->get_effect_int("grabbed");
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 1);
+}
+
+void mattack::grab_drag(monster *z, int index)
+{
+    if( !z->can_act() ) {
+        return;
+    }
+    Creature *target = z->attack_target();
+    monster *zz = dynamic_cast<monster*>(target);
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 1 ) {
+        return;
+    }
+
+    player *foe = dynamic_cast< player* >( target );
+
+    grab(z, index); //First, grab the target
+
+    if (!target->has_effect("grabbed")){ //Can't drag if isn't grabbed, otherwise try and move
+        return;
+    }
+    tripoint target_square = z->pos() - (target->pos() - z->pos());
+    if (z->can_move_to(target_square) && target->stability_roll() < dice(z->type->melee_sides, z->type->melee_dice) ) {
+        tripoint zpt = z->pos();
+        z->move_to(target_square);
+        if (!g->is_empty(zpt)){ //Cancel the grab if the space is occupied by something
+            return;
+        }
+        if( target->is_player() && ( zpt.x < SEEX * int(MAPSIZE / 2) || zpt.y < SEEY * int(MAPSIZE / 2) ||
+            zpt.x >= SEEX * (1 + int(MAPSIZE / 2)) || zpt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+            g->update_map( zpt.x, zpt.y );
+        }
+        if (foe != nullptr){
+            if (foe->in_vehicle) {
+            g->m.unboard_vehicle(foe->pos());
+            }
+            foe->setpos(zpt);
+        } else {
+            zz->setpos(zpt);
+        }
+        target->add_msg_player_or_npc(m_good, _("You are dragged behind the %s!"),
+                                _("<npcname> gets dragged behind the %s!"), z->name().c_str() );
+    } else{
+        target->add_msg_player_or_npc(m_good, _("You resist the %s as it tries to drag you!"),
+                                _("<npcname> resist the %s as it tries to drag them!"), z->name().c_str() );
+    }
+    int prev_effect = target->get_effect_int("grabbed");
+    target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 3);
+}
+
 void mattack::gene_sting(monster *z, int index)
 {
     if( z->friendly ) {

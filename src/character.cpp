@@ -5,6 +5,8 @@
 #include "mission.h"
 #include "translations.h"
 #include "options.h"
+#include "map_iterator.h"
+#include <map>
 
 Character::Character()
 {
@@ -40,7 +42,7 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-bool Character::move_effects()
+bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
         if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
@@ -132,9 +134,29 @@ bool Character::move_effects()
             remove_effect("in_pit");
         }
     }
-    return Creature::move_effects();
+    if (has_effect("grabbed")){
+        int zed_number = 0;
+        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
+            if (g->mon_at(dest) != -1){
+                zed_number ++;
+            }
+        }
+        if (attacking == true || zed_number == 0){
+            return true;
+        }
+        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
+            add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
+                                            _("<npcname> tries to break out of the grab, but fails!"));
+            return false;
+        } else {
+            add_msg_player_or_npc(m_good, _("You break out of the grab!"),
+                                            _("<npcname> breaks out of the grab!"));
+            remove_effect("grabbed");
+        }
+    }
+    return Creature::move_effects(attacking);
 }
-void Character::add_effect( efftype_id eff_id, int dur, body_part bp, 
+void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
@@ -603,7 +625,7 @@ void Character::die(Creature* nkiller)
 void Character::reset_stats()
 {
     Creature::reset_stats();
-    
+
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
