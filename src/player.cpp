@@ -11418,10 +11418,10 @@ void player::read(int inventory_position)
         add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
     }
 
-    if (tmp->intel > int_cur && !continuous) {
+    if (tmp->intel > get_int() && !continuous) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
-        time += (tmp->time * (tmp->intel - int_cur) * 100);
+        time += (tmp->time * (tmp->intel - get_int()) * 100);
     }
 
     activity = player_activity(ACT_READ, time, -1, inventory_position, "");
