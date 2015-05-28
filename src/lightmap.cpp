@@ -68,6 +68,10 @@ void map::build_transparency_cache( const int zlev )
                         continue;
                     }
 
+                    if( is_outside(x, y) ) {
+                        value *= weather_data(g->weather).sight_penalty;
+                    }
+
                     for( auto const &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
                         const field_id type = cur.getFieldType();

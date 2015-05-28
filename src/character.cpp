@@ -297,6 +297,8 @@ float Character::get_vision_threshold(int light_level) const {
      * The values are based on expected sight distance in "total darkness", which is set to 3.7.
      * The range is given by the formula distance = -log(threshold / light_level) / attenuation
      * This is an upper limit, any smoke or similar should shorten the effective distance.
+     * The numbers here are hand-tuned to provide the desired ranges,
+     * would be nice to derive them with a constexpr function or similar instead.
      */
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
