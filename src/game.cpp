@@ -11514,10 +11514,6 @@ bool game::plmove(int dx, int dy)
         }
         return false;
     }
-    if (!u.move_effects()) {
-        u.moves -= 100;
-        return false;
-    }
 
     int x = 0;
     int y = 0;
@@ -11564,9 +11560,21 @@ bool game::plmove(int dx, int dy)
         return false;
     }
 
-    // Check if our movement is actually an attack on a monster
+    // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at(dest_loc);
+    int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?  If it's vermin, always.
+
+    bool attacking = false;
+    if (mondex != -1 || npcdex != -1){
+        attacking = true;
+    }
+
+    if (!u.move_effects(attacking)) {
+        u.moves -= 100;
+        return false;
+    }
+
     bool displace = false;
     if (mondex != -1) {
         monster &critter = zombie(mondex);
@@ -11601,7 +11609,6 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    int npcdex = npc_at( dest_loc );
     if (npcdex != -1) {
         npc &np = *active_npc[npcdex];
         bool force_attack = false;
