@@ -1402,7 +1402,7 @@ The following snippet tries to correct this. It simply removes all the redundant
 functions in the subclasses.
 --]]
 
-for name, value in pairs(classes) do
+for class_name, value in pairs(classes) do
     -- Collect all defined functions of the *parent* classes in this table
     local existing = { };
     value = classes[value.parent]
@@ -1415,7 +1415,7 @@ for name, value in pairs(classes) do
     end
     -- Now back to the actual class, remove all the functions that are in the table
     -- and therefor exist in at least on of the parent classes.
-    value = classes[name]
+    value = classes[class_name]
     local i = 1
     while i <= #value.functions do
         local func = value.functions[i]
