@@ -6657,22 +6657,13 @@
       ["large_repairkit", 30]
     ]
   ], "components": 
-    [
-    [
-      ["m2browning", 1]
-   ],
-    [
-      ["2x4", 1]
-    ]
-  ],
-   [
-      ["pipe", 1]
-    ],
-    [
-      ["steel_lump", 1],
-      ["steel_chunk", 4],
-      ["scrap", 12]
-    ]
+  [
+    [["m2browning", 1]],
+    [["2x4", 1]],
+    [["pipe", 1]],
+    [["steel_lump", 1],
+    ["steel_chunk", 4],
+    ["scrap", 12]]
   ]
 }
 ]
