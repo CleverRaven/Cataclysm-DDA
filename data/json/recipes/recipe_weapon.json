@@ -6627,7 +6627,7 @@
   "result": "Abzats",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics"
+  "skill_used": "mechanics",
   "skills_required": ["gun", 4],
   "difficulty": 6,
   "time": 180000,
@@ -6654,7 +6654,7 @@
   "components": 
   [
     [
-      ["m2browning”, 1]
+      ["m2browning", 1]
    ],
     [
       ["2x4", 1]
