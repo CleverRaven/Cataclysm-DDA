@@ -379,8 +379,12 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             healall( rng(dam / 10, dam / 5) );
         }
 
-        message = melee_message( technique, *this, dealt_dam );
-        player_hit_message(this, message, t, dam, critical_hit);
+        if( g->u.sees( t ) ) {
+            message = melee_message( technique, *this, dealt_dam );
+            player_hit_message( this, message, t, dam, critical_hit );
+        } else {
+            add_msg_player_or_npc( m_good, _("You hit something."), _("<npcname> hits something.") );
+        }
 
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
@@ -402,6 +406,56 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
     return;
+}
+
+void player::reach_attack( const tripoint &p )
+{
+    matec_id force_technique = tec_none;
+    if( weapon.has_flag( "WHIP" ) && ( skillLevel( "melee" ) > 5) && one_in( 3 ) ) {
+        force_technique = matec_id( "WHIP_DISARM" );
+    }
+
+    Creature *critter = g->critter_at( p );
+    // Original target size, used when there are monsters in front of our target
+    int target_size = critter != nullptr ? critter->get_size() : 2;
+
+    int move_cost = attack_speed( *this );
+    int skill = std::min( 10, (int)get_skill_level("stabbing") );
+    int t = 0;
+    std::vector<tripoint> path = line_to( pos3(), p, t, 0 );
+    path.pop_back(); // Last point is our critter
+    for( const tripoint &p : path ) {
+        // Possibly hit some unintended target instead
+        Creature *inter = g->critter_at( p );
+        if( inter != nullptr && 
+              !x_in_y( ( target_size * target_size + 1 ) * skill, 
+                       ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
+            // Even if we miss here, low roll means weapon is pushed away or something like that
+            critter = inter;
+            break;
+        } else if( g->m.move_cost( p ) == 0 &&
+                   // Fences etc. Spears can stab through those
+                     !( weapon.has_flag( "SPEAR" ) && 
+                        g->m.has_flag( "THIN_OBSTACLE", p ) && 
+                        x_in_y( skill, 10 ) ) ) {
+            g->m.bash( p, str_cur + weapon.type->melee_dam );
+            handle_melee_wear();
+            mod_moves( -move_cost );
+            return;
+        }
+    }
+
+    if( critter == nullptr ) {
+        add_msg_if_player( _("You swing at the air.") );
+        if( has_miss_recovery_tec() ) {
+            move_cost /= 3; // "Probing" is faster than a regular miss
+        }
+
+        mod_moves( -move_cost );
+        return;
+    }
+
+    melee_attack( *critter, !force_technique.str().empty(), force_technique );
 }
 
 int stumble(player &u)

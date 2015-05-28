@@ -429,6 +429,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles gun firing effects and functions */
         void fire_gun( const tripoint &target, bool burst );
         void fire_gun( const tripoint &target, long burst_size );
+        /** Handles reach melee attacks */
+        void reach_attack( const tripoint &target );
 
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;

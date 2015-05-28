@@ -10552,129 +10552,143 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    if (!u.weapon.is_gun()) {
+    if( !u.weapon.is_gun() && !u.weapon.has_flag( "REACH_ATTACK" ) ) {
         return;
     }
     if( u.weapon.is_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
-    //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-    //should be fine to place this here, plfire(true,*) only once in code
-    if (burst && !u.weapon.has_flag("MODE_BURST")) {
-        return;
-    }
+    // Execute reach attack (instead of shooting) if our weapon can reach and
+    // either we're not using a gun or using a gun set to use a non-gun gunmod
+    bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) &&
+                        ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos3());
     if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
-        if( u.weapon.activate_charger_gun( u ) ) {
+
+    if( !reach_attack ) {
+        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
+        //should be fine to place this here, plfire(true,*) only once in code
+        if (burst && !u.weapon.has_flag("MODE_BURST")) {
             return;
         }
-    }
 
-    if (u.weapon.has_flag("NO_AMMO")) {
-        u.weapon.charges = 1;
-        u.weapon.set_curammo( "generic_no_ammo" );
-    }
+        if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
+            if( u.weapon.activate_charger_gun( u ) ) {
+                return;
+            }
+        }
 
-    if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
-        (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
-        (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
-        add_msg(m_info, _("You're not strong enough to draw the bow!"));
-        return;
-    }
+        if( u.weapon.has_flag("NO_AMMO") ) {
+            u.weapon.charges = 1;
+            u.weapon.set_curammo( "generic_no_ammo" );
+        }
 
-    if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-        const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-        if (reload_pos == INT_MIN) {
-            add_msg(m_info, _("Out of ammo!"));
+        if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
+            (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
+            (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
+            add_msg(m_info, _("You're not strong enough to draw the bow!"));
             return;
-        }else if (reload_pos == INT_MIN + 2) {
-            add_msg(m_info, _("Never mind."));
+        }
+
+        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
+            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
+            if( reload_pos == INT_MIN ) {
+                add_msg(m_info, _("Out of ammo!"));
+                return;
+            } else if( reload_pos == INT_MIN + 2 ) {
+                add_msg(m_info, _("Never mind."));
+                refresh_all();
+                return;
+            }
+
+            if( !u.weapon.reload( u, reload_pos ) ) {
+                return;
+            }
+
+            // Burn 2x the strength required to fire in stamina.
+            int strength_needed = 6;
+            if (u.weapon.has_flag("STR8_DRAW")) {
+                strength_needed = 8;
+            }
+            if (u.weapon.has_flag("STR10_DRAW")) {
+                strength_needed = 10;
+            }
+            if (u.weapon.has_flag("STR12_DRAW")) {
+                strength_needed = 12;
+            }
+            u.mod_stat("stamina", strength_needed * -2);
+
+            // At low stamina levels, firing starts getting slow.
+            int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+            u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+
+            u.moves -= u.weapon.reload_time(u);
             refresh_all();
+        }
+
+        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
+            !u.weapon.has_flag("NO_AMMO") ) {
+            add_msg(m_info, _("You need to reload!"));
             return;
         }
-
-        if( !u.weapon.reload( u, reload_pos ) ) {
+        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
+            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
             return;
         }
-
-        // Burn 2x the strength required to fire in stamina.
-        int strength_needed = 6;
-        if (u.weapon.has_flag("STR8_DRAW")) {
-            strength_needed = 8;
-        }
-        if (u.weapon.has_flag("STR10_DRAW")) {
-            strength_needed = 10;
-        }
-        if (u.weapon.has_flag("STR12_DRAW")) {
-            strength_needed = 12;
-        }
-        u.mod_stat("stamina", strength_needed * -2);
-
-        // At low stamina levels, firing starts getting slow.
-        int sta_percent = (100 * u.stamina) / u.get_stamina_max();
-        u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
-
-        u.moves -= u.weapon.reload_time(u);
-        refresh_all();
-    }
-
-    if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-        !u.weapon.has_flag("NO_AMMO")) {
-        add_msg(m_info, _("You need to reload!"));
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-        add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-        add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-        add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    const auto gun = u.weapon.type->gun.get();
-    if( gun != nullptr && gun->ups_charges > 0 ) {
-        const int ups_drain = gun->ups_charges;
-        const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
-        const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
-        if( !( u.has_charges( "UPS_off", ups_drain ) ||
-               u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-               (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
-            add_msg( m_info,
-                     _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
-                     ups_drain, adv_ups_drain );
+        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
+            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
             return;
         }
-    }
-
-    if (u.weapon.has_flag("MOUNTED_GUN")) {
-        int vpart = -1;
-        vehicle *veh = m.veh_at(u.pos3(), vpart);
-        if (!m.has_flag_ter_or_furn("MOUNTABLE", u.pos()) &&
-            (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
-            add_msg(m_info,
-                    _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
+            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
             return;
+        }
+        const auto gun = u.weapon.type->gun.get();
+        if( gun != nullptr && gun->ups_charges > 0 ) {
+            const int ups_drain = gun->ups_charges;
+            const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
+            const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
+            if( !( u.has_charges( "UPS_off", ups_drain ) ||
+                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                   (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                add_msg( m_info,
+                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         ups_drain, adv_ups_drain );
+                return;
+            }
+        }
+
+        if (u.weapon.has_flag("MOUNTED_GUN")) {
+            int vpart = -1;
+            vehicle *veh = m.veh_at( u.pos3(), vpart );
+            if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos3() ) &&
+                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+                add_msg(m_info,
+                        _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+                return;
+            }
         }
     }
 
-    int range = u.weapon.gun_range(&u);
+    int range;
+    if( reach_attack ) {
+        range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+    } else {
+        range = u.weapon.gun_range( &u );
+    }
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos3() );
 
     tripoint p = u.pos3();
 
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_FIRE,
+    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode,
                                                      default_target );
 
     if (trajectory.empty()) {
@@ -10693,9 +10707,13 @@ void game::plfire( bool burst, const tripoint &default_target )
         burst = true;
     }
 
-    u.fire_gun( p, burst );
+    if( reach_attack ) {
+        u.reach_attack( p );
+    } else {
+        u.fire_gun( p, burst );
+    }
+
     reenter_fullscreen();
-    //fire(u, x, y, trajectory, burst);
 }
 
 void game::cycle_item_mode( bool force_gun )

@@ -824,6 +824,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         if( is_auxiliary_gunmod() ) {
             dump->push_back( iteminfo( "DESCRIPTION", _( "This mod must be attached to a gun, it can not be fired separately." ) ) );
         }
+        if( has_flag( "REACH_ATTACK" ) ) {
+            dump->push_back( iteminfo( "DESCRIPTION", _( "When attached to a gun, allows making reach melee attacks with it." ) ) );
+        }
         if (mod->dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
                                      mod->dispersion, true, ((mod->dispersion > 0) ? "+" : ""), true, true));
@@ -1194,6 +1197,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
         if (!tec_buffer.str().empty()) {
             dump->push_back(iteminfo("DESCRIPTION", std::string(_("Techniques: ")) + tec_buffer.str()));
+        }
+
+        if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            if( has_flag( "REACH3" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make long reach attacks.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
+            }
         }
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
@@ -3311,7 +3323,11 @@ void item::next_mode()
                 return;
             }
         }
-        set_gun_mode( "NULL" );
+        if( has_flag( "REACH_ATTACK" ) ) {
+            set_gun_mode( "MODE_REACH" );
+        } else {
+            set_gun_mode( "NULL" );
+        }
     } else if( is_in_auxiliary_mode() ) {
         size_t i = 0;
         // Advance to next aux mode, or if there isn't one, normal mode
@@ -3328,8 +3344,14 @@ void item::next_mode()
             }
         }
         if( i == contents.size() ) {
-            set_gun_mode( "NULL" );
+            if( has_flag( "REACH_ATTACK" ) ) {
+                set_gun_mode( "MODE_REACH" );
+            } else {
+                set_gun_mode( "NULL" );
+            }
         }
+    } else if( mode == "MODE_REACH" ) {
+        set_gun_mode( "NULL" );
     }
 }
 
