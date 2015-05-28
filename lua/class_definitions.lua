@@ -26,7 +26,7 @@ classes = {
             i_rem_keep_contents = { rval = nil, args = { "int" } },
             is_warm = { rval = "bool", args = { } },
             is_worn = { rval = "bool", args = { "item" } },
-            move_effects = { rval = "bool", args = { } },
+            move_effects = { rval = "bool", args = { "bool" } },
             mutation_effect = { rval = nil, args = { "string" } },
             mutation_loss_effect = { rval = nil, args = { "string" } },
             normalize = { rval = nil, args = { } },
@@ -774,7 +774,6 @@ classes = {
             pl_sees = { rval = "bool", args = { "tripoint", "int" } },
             place_gas_pump = { rval = nil, args = { "int", "int", "int" } },
             place_npc = { rval = "int", args = { "int", "int", "string" } },
-            place_spawns = { rval = nil, args = { "string", "int", "int", "int", "int", "int", "float" } },
             place_toilet = { rval = nil, args = { "int", "int", "int" } },
             place_vending = { rval = nil, args = { "int", "int", "string" } },
             post_process = { rval = nil, args = { "int" } },
@@ -936,7 +935,7 @@ classes = {
             mod_speed_bonus = { rval = nil, args = { "int" } },
             mod_stat = { rval = nil, args = { "string", "int" } },
             mod_str_bonus = { rval = nil, args = { "int" } },
-            move_effects = { rval = "bool", args = { } },
+            move_effects = { rval = "bool", args = { "bool" } },
             normalize = { rval = nil, args = { } },
             pos3 = { rval = "tripoint", args = { } },
             process_effects = { rval = nil, args = { } },
@@ -1059,7 +1058,7 @@ classes = {
             make_friendly = { rval = nil, args = { } },
             make_fungus = { rval = "bool", args = { } },
             move = { rval = nil, args = { } },
-            move_effects = { rval = "bool", args = { } },
+            move_effects = { rval = "bool", args = { "bool" } },
             move_target = { rval = "tripoint", args = { } },
             move_to = { rval = "bool", args = { "tripoint", "bool" } },
             name = { rval = "string", args = { "int" } },
@@ -1120,7 +1119,6 @@ classes = {
             sk_dodge = { type = "int", writable = true },
             speed = { type = "int", writable = true },
             sym = { type = "string", writable = true },
-            upgrade_group = { type = "string", writable = true },
             upgrade_min = { type = "int", writable = true },
             upgrades_into = { type = "string", writable = true },
             vision_day = { type = "int", writable = true },
@@ -1138,10 +1136,6 @@ classes = {
     },
     mongroup = {
         attributes = {
-            type = {
-                type = "string",
-                writable = true
-            },
             posx = {
                 type = "int",
                 writable = true

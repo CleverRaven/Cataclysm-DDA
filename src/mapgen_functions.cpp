@@ -1007,7 +1007,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->rotate(1);
     }
     if(sidewalks) {
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
             m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
@@ -1107,7 +1107,7 @@ ssss.......yy.......ssss\n",
         m->rotate(3);
     }
     if(sidewalks) {
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
             m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
@@ -1212,7 +1212,7 @@ ssss....................\n\
         m->rotate(3); //looks like that the code above paints road_ne
     }
     if(sidewalks) {
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
             m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
@@ -1260,7 +1260,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         m->rotate(3);
     }
     if(sidewalks) {
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
             m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
@@ -1342,7 +1342,7 @@ t   t\n\
         m->place_items("road",  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
     }
     if(sidewalks) {
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
             m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
@@ -2106,7 +2106,7 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
     if (terrain_type == "s_gas_west") {
         m->rotate(3);
     }
-    m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 ////////////////////
 
@@ -2886,7 +2886,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
         m->place_items("rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     } else { // Just boring old zombies
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
 
     int iid_diff = (int)terrain_type - terrain_type.t().loadid_base;
@@ -3085,7 +3085,7 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         m->place_items("harddrugs", 88, lw + 2, bw - 1, cw - 2, bw - 1, false, 0);
         m->place_items("behindcounter", 78, lw + 1, tw + 1, lw + 4, tw + 5, false, 0);
         autorotate(false);
-        m->place_spawns("GROUP_PHARM", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_PHARM" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
 }
 
@@ -3223,7 +3223,7 @@ void mapgen_s_grocery(map *m, oter_id terrain_type, mapgendata dat, int, float d
             m->place_items("magazines", 70, i, 7, i, 7, false, 0);
         }
         autorotate(false);
-        m->place_spawns("GROUP_GROCERY", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_GROCERY" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 
@@ -3368,7 +3368,7 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
             }
         }
         autorotate(false);
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 
@@ -3408,7 +3408,7 @@ void mapgen_s_electronics(map *m, oter_id terrain_type, mapgendata dat, int turn
                     turn - 50);
         m->place_items("consumer_electronics", 85, 5, 4, 8, 4, false, turn - 50);
         autorotate(false);
-        m->place_spawns("GROUP_ELECTRO", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ELECTRO" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
@@ -3484,7 +3484,7 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
             m->place_items("allsporting", 92, lw + 1, cw + 1, rw - 1, bw - 1, false, 0);
         }
         autorotate(false);
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
@@ -3535,7 +3535,7 @@ void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int, float de
             }
         }
         autorotate(false);
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
@@ -3582,7 +3582,7 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         m->place_items("allguns", 12,  5, 16, 17, 16, false, 0);
         m->place_items("gunxtras", 67, 16, 13, 19, 13, false, 0);
         autorotate(false);
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 
@@ -3669,7 +3669,7 @@ void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int, float d
             break;
         }
         autorotate(false);
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
@@ -3728,11 +3728,12 @@ void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int, float d
         m->place_items("manuals", 92,  3, 12, 15, 13, false, 0);
         m->place_items("textbooks", 88,  3, 16, 15, 16, false, 0);
         autorotate(false);
-        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 ////////////////////
 //    } else if (terrain_type == "shelter") {
 void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
+    static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
         // Init to grass & dirt;
         dat.fill_groundcover();
@@ -3775,11 +3776,11 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
         }
         if(ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START")) {
             //place zombies outside
-            m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
-            m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
-            m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4,
+            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 0, SEEX * 2 - 1, 3, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, 4, 3, SEEX * 2 - 4, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], SEEX * 2 - 3, 4,
                          SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
-            m->place_spawns("GROUP_ZOMBIE", ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3,
+            m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3,
                          SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
         }
 }
@@ -3804,7 +3805,7 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
             for( int x = 0; x < 10; ++x ) {
                 m->place_items("shelter", 90, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
             }
-            m->place_spawns("GROUP_ZOMBIE", 1, 6, 6, SEEX * 2 - 8, SEEX * 2 - 8, 0.2);
+            m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 1, 6, 6, SEEX * 2 - 8, SEEX * 2 - 8, 0.2);
         } else {
             // Scatter around some items.
             m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
@@ -3939,7 +3940,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
 void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -3956,7 +3957,7 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("gunxtras", 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_PREPPER_HOUSE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
+    m->place_spawns( mongroup_id( "GROUP_PREPPER_HOUSE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -3980,7 +3981,7 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
     m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_PREPPER_HOUSE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
+    m->place_spawns( mongroup_id( "GROUP_PREPPER_HOUSE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -3998,7 +3999,7 @@ void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int t
         m->place_items("electronics", 90, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY + 3, false, 0);
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
 void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -4042,7 +4043,7 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
 void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
@@ -4112,7 +4113,7 @@ void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
         m->place_items("fridgesnacks", 80,  13, 9, 15, 9, false, 0);
         m->place_items("pool_table", 90,  17, 14, 18, 16, false, 0);
         m->place_items("livingroom", 60, 9, 1, 23, 19, false, 0);
-        m->place_spawns("GROUP_ZOMBIE", 2, 9, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 9, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
 void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -4850,7 +4851,7 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
         }
         autorotate_down();
 
-        m->place_spawns("GROUP_POLICE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
 
 }
@@ -6031,7 +6032,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 // nothing, half the time
                 break;
             }
-            m->place_spawns("GROUP_CAVE", 2, 6, 6, 18, 18, 1.0);
+            m->place_spawns( mongroup_id( "GROUP_CAVE" ), 2, 6, 6, 18, 18, 1.0);
         } else { // We're above ground!
             // First, draw a forest
 /*

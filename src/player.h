@@ -199,7 +199,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_body_wetness();
         /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
         void update_needs();
-        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration. 
+        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.
           * Updates health and checks for sickness.
           */
         void regen();
@@ -384,6 +384,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
+        /** Returns value of player's stable footing */
+        int stability_roll() const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
@@ -404,7 +406,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec() const;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const;
+        bool has_grab_break_tec() const override;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block();
         /** Returns true if the player has the arm block technique available */
