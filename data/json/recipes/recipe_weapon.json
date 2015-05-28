@@ -6664,12 +6664,10 @@
       ["pipe", 1]
     ],
     [
-      ["steel_lumb", 1],
+      ["steel_lump", 1],
       ["steel_chunk", 4],
       ["scrap", 12]
     ]
   ]
 }
-
-
 ]
