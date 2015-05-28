@@ -20069,6 +20069,46 @@
           "id": "vp_roller_drum",
           "fg": 2612,
           "rotates": false
+        },
+        {
+          "id": "vp_xlhalfboard_horizontal",
+          "fg": 2410,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_horizontal_2",
+          "fg": 2411,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_ne",
+          "fg": 2412,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_nw",
+          "fg": 2413,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_se",
+          "fg": 2414,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_sw",
+          "fg": 2415,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_vertical",
+          "fg": 2416,
+          "rotates": true
+        },
+        {
+          "id": "vp_xlhalfboard_vertical_2",
+          "fg": 2417,
+          "rotates": true
         }
       ]
     },
