@@ -696,6 +696,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     if( crit ) {
         bash_dam += int(stat / 2);
         bash_dam += skill;
+        bash_mul *= 1.5f;
         // 50% arpen
         armor_mult = 0.5f;
     }
