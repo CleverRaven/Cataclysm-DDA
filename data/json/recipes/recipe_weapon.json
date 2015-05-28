@@ -6623,20 +6623,26 @@
     ]
 },
 {
-   "type": "recipe",
+  "type": "recipe",
   "result": "Abzats",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": ["gun", 4],
+  "skill_used": "fabrication",
+  "skills_required": [["mechanics", 6], ["gun", 4]],
   "difficulty": 6,
   "time": 180000,
   "reversible": false,
   "autolearn": true,
-  "qualities": [
-    {"id": "SAW_M_FINE", "level": 1, "amount": 1},
-    {"id": "SCREW_FINE", "level": 1, "amount": 1}
-  ], "tools": [
+  "qualities": 
+  [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": 
+  [
     [
       ["goggles_welding”, -1]
     ],
@@ -6650,9 +6656,8 @@
       ["small_repairkit", 150],
       ["large_repairkit", 30]
     ]
-  ],
-  "components": 
-  [
+  ], "components": 
+    [
     [
       ["m2browning", 1]
    ],
