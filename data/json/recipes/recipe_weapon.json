@@ -6624,7 +6624,7 @@
 },
 {
   "type": "recipe",
-  "result": "Abzats",
+  "result": "abzats",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
