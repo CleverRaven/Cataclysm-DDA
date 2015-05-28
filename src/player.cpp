@@ -5682,8 +5682,9 @@ void player::cough(bool harmful, int loudness) {
 
     moves -= 80;
     if( harmful ) {
-        mod_stat( "stamina", -10 );
-        if( stamina < 10 ) {
+        const int stam = stamina;
+        mod_stat( "stamina", -100 );
+        if( stam < 100 && x_in_y( 100 - stam, 100 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
     }
