@@ -1281,14 +1281,14 @@ bool player::uninstall_bionic(std::string const &b_id)
     // surgery is imminent, retract claws or blade if active
     if (has_bionic("bio_claws")) {
         if (weapon.type->id == "bio_claws_weapon") {
-            add_msg(m_neutral, ("You withdraw your claws."));
+            add_msg(m_neutral, _("You withdraw your claws."));
             weapon = ret_null;
           }
     }
 
     if (has_bionic("bio_blade")) {
         if (weapon.type->id == "bio_blade_weapon") {
-            add_msg(m_neutral, ("You retract your blade."));
+            add_msg(m_neutral, _("You retract your blade."));
             weapon = ret_null;
         }
     }
