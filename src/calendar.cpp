@@ -386,10 +386,14 @@ int calendar::season_length()
 void calendar::sync()
 {
     const int sl = season_length();
-    year = turn_number / DAYS(sl * 4);
-    season = season_type(turn_number / DAYS(sl) % 4);
-    day = turn_number / DAYS(1) % sl;
-    hour = turn_number / HOURS(1) % 24;
-    minute = turn_number / MINUTES(1) % 60;
-    second = (turn_number * 6) % 60;
+    // An ugly hack for now
+    const int offset = (this != &start && !ACTIVE_WORLD_OPTIONS["AGE_WORLD"]) ? start.turn_number : 0;
+    const int offset_turn = turn_number + offset;
+
+    year = offset_turn / DAYS(sl * 4);
+    season = season_type(offset_turn / DAYS(sl) % 4);
+    day = offset_turn / DAYS(1) % sl;
+    hour = offset_turn / HOURS(1) % 24;
+    minute = offset_turn / MINUTES(1) % 60;
+    second = (offset_turn * 6) % 60;
 }

@@ -933,6 +933,11 @@ void initOptions()
                                     14, 127, 14
                                    );
 
+    OPTIONS["AGE_WORLD"] = cOpt( "world_default", _("Age the world"),
+                                 _("If false, the game will start on 'turn zero'. If true, calculations like food rot and monster evolution will start from time 0.00 of the first day of the spring."),
+                                 true // Old saves will experience "time shift" if this isn't true
+                                 );
+
     OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
                                            _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
                                            0, 1000, 100

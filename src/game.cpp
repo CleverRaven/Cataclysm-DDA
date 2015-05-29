@@ -913,8 +913,8 @@ bool game::cleanup_at_end()
         std::string sTemp;
         std::stringstream ssTemp;
 
-        int days_survived = int(calendar::turn.get_turn() / DAYS(1));
-        int days_adventured = int((calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1));
+        int days_survived = int((calendar::turn.get_turn() + calendar::start.get_turn() ) / DAYS(1));
+        int days_adventured = int(calendar::turn.get_turn() / DAYS(1));
 
         for (int lifespan = 0; lifespan < 2; ++lifespan) {
             // Show the second, "Adventured", lifespan
@@ -14121,7 +14121,8 @@ void game::start_calendar()
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
         }
     }
-    calendar::turn = calendar::start;
+    // Will add calendar::start internally
+    calendar::turn = 0;
 }
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {

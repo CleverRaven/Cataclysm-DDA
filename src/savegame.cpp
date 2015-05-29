@@ -198,7 +198,9 @@ void game::unserialize(std::ifstream & fin)
         JsonObject data = jsin.get_object();
 
         data.read("turn",tmpturn);
-        data.read("calendar_start",tmpcalstart);
+        if( !ACTIVE_WORLD_OPTIONS["AGE_WORLD"] ) {
+            data.read("calendar_start",tmpcalstart);
+        } // Otherwise it should stay 0
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
