@@ -751,6 +751,14 @@ void set_ter_ids() {
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
     t_improvised_shelter = terfind("t_improvised_shelter");
+
+    for( auto &elem : terlist ) {
+        if( elem.trap_id_str.empty() ) {
+            elem.trap = tr_null;
+        } else {
+            elem.trap = trap_str_id( elem.trap_id_str );
+        }
+    }
 }
 
 furn_id furnfind(const std::string & id) {
