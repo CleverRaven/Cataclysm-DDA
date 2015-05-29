@@ -950,8 +950,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
 
 void check_furniture_and_terrain()
 {
-    for(std::vector<furn_t>::const_iterator a = furnlist.begin(); a != furnlist.end(); ++a) {
-        const furn_t &f = *a;
+    for( const furn_t& f : furnlist ) {
         check_bash_items(f.bash, f.id, false);
         check_decon_items(f.deconstruct, f.id, false);
         if( !f.open.empty() && furnmap.count( f.open ) == 0 ) {
@@ -961,8 +960,7 @@ void check_furniture_and_terrain()
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }
-    for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
-        const ter_t &t = *a;
+    for( const ter_t& t : terlist ) {
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
         if( !t.transforms_into.empty() && termap.count( t.transforms_into ) == 0 ) {
