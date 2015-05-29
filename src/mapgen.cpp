@@ -25,6 +25,7 @@
 #include "coordinates.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "vehicle_factory.h"
 #ifdef LUA
 #include "catalua.h"
 #endif
@@ -11558,6 +11559,12 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
     }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
     place_on_submap->spawns.push_back(tmp);
+}
+
+vehicle *map::add_vehicle(const vgroup_id & type, const point &p, const int dir,
+    const int veh_fuel, const int veh_status, const bool merge_wrecks)
+{
+    return add_vehicle(type.obj().pick(), p.x, p.y, dir, veh_fuel, veh_status, merge_wrecks);
 }
 
 vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
