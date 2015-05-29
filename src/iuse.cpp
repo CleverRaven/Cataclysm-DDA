@@ -5613,7 +5613,7 @@ music_description get_music_description( const player & p )
             break;
     }
     if (one_in(50)) {
-        result.sound = _("some bass-heavy post-glam speed polka");
+        result.sound = _("some bass-heavy post-glam speed polka.");
     }
     return result;
 }
@@ -5628,8 +5628,12 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
-        if( !music.sound.empty() ) {
+        // mp3 or stereo playing on the same square
+        if( !music.sound.empty() && p->pos() == source ) {
             sound = string_format( _("You listen to %s"), music.sound.c_str() );
+        } else if ( !music.sound.empty() ) {
+            // music from other squares, leave only music description
+            sound = string_format( _("%s"), music.sound.c_str() );
         }
         if( do_effects ) {
             p->stim += music.stim_bonus;
@@ -5646,7 +5650,10 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
 int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
-        play_music( p, pos, 0, 50 );
+        if (p->has_item(it)) {
+            // player has earbuds on, we can listen
+            play_music( p, pos, 5, 50 );
+        }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");
