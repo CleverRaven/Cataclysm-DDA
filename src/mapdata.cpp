@@ -173,7 +173,7 @@ furn_t null_furniture_t() {
   new_furniture.transparent = true;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
-  new_furniture.loadid = 0;
+  new_furniture.loadid = furn_id( 0 );
   new_furniture.open = "";
   new_furniture.close = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
@@ -197,7 +197,7 @@ ter_t null_terrain_t() {
   new_terrain.harvestable = "";
   new_terrain.transforms_into = "t_null";
   new_terrain.roof = "t_null";
-  new_terrain.loadid = 0;
+  new_terrain.loadid = ter_id( 0 );
   new_terrain.open = "";
   new_terrain.close = "";
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
@@ -262,7 +262,7 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.bash.load(jsobj, "bash", true);
   new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
-  new_furniture.loadid = furnlist.size();
+  new_furniture.loadid = furn_id( furnlist.size() );
   furnmap[new_furniture.id] = new_furniture;
   furnlist.push_back(new_furniture);
 }
@@ -346,7 +346,7 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-  new_terrain.loadid=terlist.size();
+  new_terrain.loadid = ter_id( terlist.size() );
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
 }
@@ -756,7 +756,7 @@ void set_ter_ids() {
 furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find %s",id.c_str());
-         return 0;
+         return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }

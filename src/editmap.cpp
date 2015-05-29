@@ -38,6 +38,8 @@
 #define maplim 132
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
 
+static const ter_id undefined_ter_id( -1 );
+
 bool inbounds( const int x, const int y, const int z )
 {
     return x >= 0 && x < maplim &&
@@ -621,7 +623,7 @@ void editmap::update_view( bool update_info )
 
 }
 
-int get_alt_ter( bool isvert, ter_id sel_ter )
+ter_id get_alt_ter( bool isvert, ter_id sel_ter )
 {
     std::map<std::string, std::string> alts;
     alts["_v"] = "_h";
@@ -641,7 +643,7 @@ int get_alt_ter( bool isvert, ter_id sel_ter )
             }
         }
     }
-    return -1;
+    return undefined_ter_id;
 }
 
 
@@ -861,7 +863,7 @@ int editmap::edit_ter()
                 bool isvert = false;
                 bool ishori = false;
                 bool doalt = false;
-                ter_id teralt = -1;
+                ter_id teralt = undefined_ter_id;
                 int alta = -1;
                 int altb = -1;
                 if( editshape == editmap_rect ) {
@@ -872,7 +874,7 @@ int editmap::edit_ter()
                         ishori = true;
                         teralt = get_alt_ter( isvert, ( ter_id )sel_ter );
                     }
-                    if( teralt != -1 ) {
+                    if( teralt != undefined_ter_id ) {
                         if( isvert ) {
                             alta = target.y;
                             altb = origin.y;

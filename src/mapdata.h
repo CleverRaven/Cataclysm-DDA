@@ -28,9 +28,13 @@ class game;
 class monster;
 class vehicle;
 struct trap;
+struct ter_t;
+struct furn_t;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
+using ter_id = int_id<ter_t>;
+using furn_id = int_id<furn_t>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -179,9 +183,6 @@ enum ter_bitflags {
     NUM_TERFLAGS
 };
 
-typedef int ter_id;
-typedef int furn_id;
-
 struct map_data_common_t {
     std::string id;    // The terrain's ID. Must be set, must be unique.
     std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
@@ -203,7 +204,6 @@ public:
     */
     long sym;
 
-    int loadid;     // This is akin to the old ter_id, however it is set at runtime.
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
@@ -229,6 +229,7 @@ public:
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+    ter_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
     std::string trap_id_str;     // String storing the id string of the trap.
     std::string harvestable;     // What will be harvested from this terrain?
     std::string transforms_into; // Transform into what terrain?
@@ -251,6 +252,7 @@ extern std::map<std::string, ter_t> termap;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 struct furn_t : map_data_common_t {
+    furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
     std::string crafting_pseudo_item;
 
     int move_str_req; //The amount of strength required to move through this terrain easily.

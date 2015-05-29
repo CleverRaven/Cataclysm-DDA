@@ -1247,12 +1247,15 @@ bool jmapgen_setmap::apply( map *m ) {
         for (int i = 0; i < trepeat; i++) {
             switch(op) {
                 case JMAPGEN_SETMAP_TER: {
-                    m->ter_set( x.get(), y.get(), val.get() );
+                    // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->ter_set( x.get(), y.get(), ter_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
-                    m->furn_set( x.get(), y.get(), val.get() );
+                    // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->furn_set( x.get(), y.get(), furn_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
+                    // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mtrap_set( m,  x.get(), y.get(), trap_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
@@ -1263,14 +1266,17 @@ bool jmapgen_setmap::apply( map *m ) {
                 } break;
 
                 case JMAPGEN_SETMAP_LINE_TER: {
-                    m->draw_line_ter( (ter_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_line_ter( ter_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_LINE_FURN: {
-                    m->draw_line_furn( (furn_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_line_furn( furn_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_LINE_TRAP: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
                     for (auto &i : line) {
+                        // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mtrap_set( m,  i.x, i.y, trap_id( val.get() ) );
                     }
                 } break;
@@ -1283,10 +1289,12 @@ bool jmapgen_setmap::apply( map *m ) {
 
 
                 case JMAPGEN_SETMAP_SQUARE_TER: {
-                    m->draw_square_ter( (ter_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_square_ter( ter_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_SQUARE_FURN: {
-                    m->draw_square_furn( (furn_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_square_furn( furn_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_SQUARE_TRAP: {
                     const int cx = x.get();
@@ -1295,6 +1303,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     const int cy2 = y2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                        for (int ty = cy; ty <= cy2; ty++) {
+                            // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                            mtrap_set( m,  tx, ty, trap_id( val.get() ) );
                        }
                     }
@@ -1326,7 +1335,8 @@ void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::s
  */
 void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
     if ( fill_ter != -1 ) {
-        m->draw_fill_background( fill_ter );
+        // TODO: fill_ter should be a ter_id
+        m->draw_fill_background( ter_id( fill_ter ) );
     }
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format.get(), mapgensize, mapgensize, 0, 0, fill_ter );

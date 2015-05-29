@@ -19,18 +19,21 @@ void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const i
         const int mul = y * height;
         for( int x = 0; x < width; x++ ) {
             const ter_furn_id tdata = data[ mul + x ];
-            if ( tdata.furn != f_null ) {
-                if ( tdata.ter != t_null ) {
-                    m->set(x, y, tdata.ter, tdata.furn);
+            // TODO: tdata.ter should be a ter_id
+            // TODO: tdata.furn should be a furn_id
+            // TODO: defter should be a ter_id
+            if ( furn_id( tdata.furn ) != f_null ) {
+                if ( ter_id( tdata.ter ) != t_null ) {
+                    m->set(x, y, ter_id( tdata.ter ), furn_id( tdata.furn ) );
                 } else if ( defter != -1 ) {
-                    m->set(x, y, defter, tdata.furn);
+                    m->set(x, y, ter_id( defter ), furn_id( tdata.furn ) );
                 } else {
-                    m->furn_set(x, y, tdata.furn);
+                    m->furn_set(x, y, furn_id( tdata.furn ) );
                 }
-            } else if ( tdata.ter != t_null ) {
-                m->ter_set(x, y, tdata.ter);
+            } else if ( ter_id( tdata.ter ) != t_null ) {
+                m->ter_set(x, y, ter_id( tdata.ter ) );
             } else if ( defter != -1 ) {
-                m->ter_set(x, y, defter);
+                m->ter_set(x, y, ter_id( defter ) );
             }
 
         }

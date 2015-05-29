@@ -6721,16 +6721,16 @@ ter_id find_ter_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused
     if( termap.find(id) == termap.end() ) {
          debugmsg("Can't find termap[%s]",id.c_str());
-         return 0;
+         return ter_id( 0 );
     }
     return termap[id].loadid;
 }
 
-ter_id find_furn_id(const std::string id, bool complain=true) {
+furn_id find_furn_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find furnmap[%s]",id.c_str());
-         return 0;
+         return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }
@@ -6817,7 +6817,7 @@ void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
 void map::draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f.get());
+            ter_set(x, y, ter_id( f.get() ) ); // TODO: make id_or_id templated on the identified type
         }
     }
 }
@@ -6845,7 +6845,7 @@ void map::draw_rough_circle_furn(furn_id type, int x, int y, int rad) {
     }
 }
 void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
-    draw_rough_circle(find_furn_id(type), x, y, rad);
+    draw_rough_circle_furn(find_furn_id(type), x, y, rad);
 }
 
 void map::add_corpse( const tripoint &p ) {

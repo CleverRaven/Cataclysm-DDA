@@ -9,6 +9,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "live_view.h"
+#include "int_id.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -63,8 +64,6 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
-typedef int ter_id;
-
 struct special_game;
 struct mtype;
 class mission;
@@ -84,6 +83,8 @@ class overmap;
 struct event;
 enum event_type : int;
 struct vehicle_part;
+struct ter_t;
+using ter_id = int_id<ter_t>;
 
 class game
 {
