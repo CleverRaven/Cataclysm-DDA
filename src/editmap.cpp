@@ -512,9 +512,9 @@ void editmap::update_view( bool update_info )
     }
 
     target_ter = g->m.ter( target );
-    const ter_t &terrain_type = terlist[target_ter];
+    const ter_t &terrain_type = target_ter.obj();
     target_frn = g->m.furn( target );
-    const furn_t &furniture_type = furnlist[target_frn];
+    const furn_t &furniture_type = target_frn.obj();
 
     cur_field = &g->m.get_field( target );
     cur_trap = g->m.tr_at( target ).loadid;
@@ -692,7 +692,7 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     alts["_v"] = "_h";
     alts["_vertical"] = "_horizontal";
     alts["_v_alarm"] = "_h_alarm";
-    const std::string tersid = terlist[sel_ter].id;
+    const std::string tersid = sel_ter.obj().id;
     const int sidlen = tersid.size();
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
@@ -763,12 +763,12 @@ int editmap::edit_ter()
 
     const int xmin = 3; // left margin
     int xmax = pickw - xmin;
-    int tymax = int( terlist.size() / xmax );
-    if( terlist.size() % xmax != 0 ) {
+    int tymax = int( termap.size() / xmax );
+    if( termap.size() % xmax != 0 ) {
         tymax++;
     }
-    int fymax = int( furnlist.size() / xmax );
-    if( furnlist.size() % xmax != 0 ) {
+    int fymax = int( furnmap.size() / xmax );
+    if( furnmap.size() % xmax != 0 ) {
         fymax++;
     }
 
@@ -804,15 +804,16 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for( int y = tstart; y < pickh && cur_t < ( int ) terlist.size(); y += 2 ) {
-            for( int x = xmin; x < pickw && cur_t < ( int ) terlist.size(); x++, cur_t++ ) {
-                const ter_t &ttype = terlist[cur_t];
+        for( int y = tstart; y < pickh && cur_t < ( int ) termap.size(); y += 2 ) {
+            for( int x = xmin; x < pickw && cur_t < ( int ) termap.size(); x++, cur_t++ ) {
+                const ter_id tid( cur_t );
+                const ter_t &ttype = tid.obj();
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color : c_dkgray ) , ttype.sym );
-                if( cur_t == sel_ter ) {
+                if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
-                } else if( cur_t == lastsel_ter ) {
+                } else if( tid == lastsel_ter ) {
                     lastsel_terp = tripoint( x, y, target.z );
-                } else if( cur_t == target_ter ) {
+                } else if( tid == target_ter ) {
                     target_terp = tripoint( x, y, target.z );
                 }
             }
@@ -837,13 +838,13 @@ int editmap::edit_ter()
         int off = tstart + tlen;
         mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
         if( ter_frn_mode == 0 ) { // unless furniture is selected
-            const ter_t &pttype = terlist[sel_ter];
+            const ter_t &pttype = sel_ter.obj();
 
             for( int i = 1; i < width - 2; i++ ) {
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), sel_ter, pttype.name.c_str() );
+            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.loadid.to_i(), pttype.name.c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras = "";
             if( pttype.has_flag( "INDOORS" ) ) {
@@ -858,17 +859,17 @@ int editmap::edit_ter()
         off += 2;
         int cur_f = 0;
         int fstart = off; // calc vertical offset, draw furniture icons
-        for( int y = fstart; y < pickh && cur_f < ( int ) furnlist.size(); y += 2 ) {
-            for( int x = xmin; x < pickw && cur_f < ( int ) furnlist.size(); x++, cur_f++ ) {
-
-                const furn_t &ftype = furnlist[cur_f];
+        for( int y = fstart; y < pickh && cur_f < ( int ) furnmap.size(); y += 2 ) {
+            for( int x = xmin; x < pickw && cur_f < ( int ) furnmap.size(); x++, cur_f++ ) {
+                const furn_id fid( cur_f );
+                const furn_t &ftype = fid.obj();
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color : c_dkgray ), ftype.sym );
 
-                if( cur_f == sel_frn ) {
+                if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
-                } else if( cur_f == lastsel_frn ) {
+                } else if( fid == lastsel_frn ) {
                     lastsel_frnp = tripoint( x, y, target.z );
-                } else if( cur_f == target_frn ) {
+                } else if( fid == target_frn ) {
                     target_frnp = tripoint( x, y, target.z );
                 }
             }
@@ -891,14 +892,13 @@ int editmap::edit_ter()
         off += flen;
         mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
         if( ter_frn_mode == 1 ) {
-
-            const furn_t &pftype = furnlist[sel_frn];
+            const furn_t &pftype = sel_frn.obj();
 
             for( int i = 1; i < width - 2; i++ ) {
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), sel_frn, pftype.name.c_str() );
+            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.loadid.to_i(), pftype.name.c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras = "";
             if( pftype.has_flag( "INDOORS" ) ) {
@@ -933,20 +933,20 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                increment( sel_ter, -1, terlist.size() );
+                increment( sel_ter, -1, termap.size() );
             } else if( action == "RIGHT" ) {
-                increment( sel_ter, +1, terlist.size() );
+                increment( sel_ter, +1, termap.size() );
             } else if( action == "UP" ) {
-                if( would_overflow( sel_ter, -xmax, terlist.size() ) ) {
+                if( would_overflow( sel_ter, -xmax, termap.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_ter, -xmax, terlist.size() );
+                    increment( sel_ter, -xmax, termap.size() );
                 }
             } else if( action == "DOWN" ) {
-                if( would_overflow( sel_ter, +xmax, terlist.size() ) ) {
+                if( would_overflow( sel_ter, +xmax, termap.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_ter, +xmax, terlist.size() );
+                    increment( sel_ter, +xmax, termap.size() );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 bool isvert = false;
@@ -956,10 +956,11 @@ int editmap::edit_ter()
                 int alta = -1;
                 int altb = -1;
                 if( editshape == editmap_rect ) {
-                    if( terlist[sel_ter].sym == LINE_XOXO || terlist[sel_ter].sym == '|' ) {
+                    const ter_t &t = sel_ter.obj();
+                    if( t.sym == LINE_XOXO || t.sym == '|' ) {
                         isvert = true;
                         teralt = get_alt_ter( isvert, sel_ter );
-                    } else if( terlist[sel_ter].sym == LINE_OXOX || terlist[sel_ter].sym == '-' ) {
+                    } else if( t.sym == LINE_OXOX || t.sym == '-' ) {
                         ishori = true;
                         teralt = get_alt_ter( isvert, sel_ter );
                     }
@@ -1000,20 +1001,20 @@ int editmap::edit_ter()
             }
         } else { // todo: cleanup
             if( action == "LEFT" ) {
-                increment( sel_frn, -1, furnlist.size() );
+                increment( sel_frn, -1, furnmap.size() );
             } else if( action == "RIGHT" ) {
-                increment( sel_frn, +1, furnlist.size() );
+                increment( sel_frn, +1, furnmap.size() );
             } else if( action == "UP" ) {
-                if( would_overflow( sel_frn, -xmax, furnlist.size() ) ) {
+                if( would_overflow( sel_frn, -xmax, furnmap.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_frn, -xmax, furnlist.size() );
+                    increment( sel_frn, -xmax, furnmap.size() );
                 }
             } else if( action == "DOWN" ) {
-                if( would_overflow( sel_frn, +xmax, furnlist.size() ) ) {
+                if( would_overflow( sel_frn, +xmax, furnmap.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_frn, +xmax, furnlist.size() );
+                    increment( sel_frn, +xmax, furnmap.size() );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 for( auto &elem : target_list ) {

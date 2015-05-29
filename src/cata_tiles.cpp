@@ -971,7 +971,7 @@ bool cata_tiles::apply_vision_effects( const int x, const int y,
 
 bool cata_tiles::draw_terrain( const tripoint &p )
 {
-    int t = g->m.ter( p ); // get the ter_id value at this point
+    const ter_id t = g->m.ter( p ); // get the ter_id value at this point
     // check for null, if null return false
     if (t == t_null) {
         return false;
@@ -987,9 +987,7 @@ bool cata_tiles::draw_terrain( const tripoint &p )
         // do something to get other terrain orientation values
     }
 
-    std::string tname;
-
-    tname = terlist[t].id;
+    const std::string& tname = t.obj().id;
 
     return draw_from_id_string(tname, C_TERRAIN, empty_string, p.x, p.y, subtile, rotation);
 }
@@ -1002,7 +1000,7 @@ bool cata_tiles::draw_furniture( const tripoint &p )
         return false;
     }
 
-    int f_id = g->m.furn( p );
+    const furn_id f_id = g->m.furn( p );
 
     // for rotation information
     const int neighborhood[4] = {
@@ -1016,7 +1014,7 @@ bool cata_tiles::draw_furniture( const tripoint &p )
     get_tile_values(f_id, neighborhood, subtile, rotation);
 
     // get the name of this furniture piece
-    std::string f_name = furnlist[f_id].id; // replace with furniture names array access
+    const std::string& f_name = f_id.obj().id; // replace with furniture names array access
     bool ret = draw_from_id_string(f_name, C_FURNITURE, empty_string, p.x, p.y, subtile, rotation);
     if( ret && g->m.sees_some_items( p, g->u ) ) {
         draw_item_highlight( p.x, p.y );

@@ -243,11 +243,11 @@ struct ter_t : map_data_common_t {
 
 void set_ter_ids();
 void set_furn_ids();
+void reset_furn_ter();
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
-extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
@@ -264,7 +264,6 @@ struct furn_t : map_data_common_t {
 };
 
 
-extern std::vector<furn_t> furnlist;
 extern std::map<std::string, furn_t> furnmap;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
@@ -413,8 +412,7 @@ struct submap {
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
     inline bool has_signage( const int x, const int y) const {
-        furn_id f = frn[x][y];
-        if( furnlist[f].id == "f_sign" ) {
+        if( frn[x][y] == furnfind( "f_sign" ) ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
 
@@ -422,8 +420,7 @@ struct submap {
     }
     // Dependent on furniture + cosmetics.
     inline const std::string get_signage( const int x, const int y ) const {
-        furn_id f = frn[x][y];
-        if( furnlist[f].id == "f_sign" ) {
+        if( frn[x][y] == furnfind( "f_sign" ) ) {
             auto iter = cosmetics[x][y].find("SIGNAGE");
             if( iter != cosmetics[x][y].end() ) {
                 return iter->second;
@@ -516,15 +513,8 @@ public:
         return sm->get_trap( x, y ).obj();
     }
 
-    inline const furn_t &get_furn_t() const
-    {
-        return furnlist[ sm->get_furn( x, y ) ];
-    }
-
-    inline const ter_t &get_ter_t() const
-    {
-        return terlist[ sm->get_ter( x, y ) ];
-    }
+    const furn_t &get_furn_t() const;
+    const ter_t &get_ter_t() const;
 
     inline const field &get_field() const
     {

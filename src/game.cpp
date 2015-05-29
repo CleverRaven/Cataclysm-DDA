@@ -7281,7 +7281,7 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
     // TODO: Z
     const int &x = p.x;
     const int &y = p.y;
-    const std::string &door_name = terlist[door_type].name;
+    const std::string &door_name = door_type.obj().name;
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
     for (int i = 0; i < 20; i++) {

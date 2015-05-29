@@ -62,8 +62,8 @@ void map::build_transparency_cache( const int zlev )
 
                     auto &value = transparency_cache[x][y];
 
-                    if( !(terlist [cur_submap->ter[sx][sy]].transparent &&
-                          furnlist[cur_submap->frn[sx][sy]].transparent) ) {
+                    if( !(cur_submap->ter[sx][sy].obj().transparent &&
+                          cur_submap->frn[sx][sy].obj().transparent) ) {
                         value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
                     }

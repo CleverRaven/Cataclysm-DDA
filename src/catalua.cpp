@@ -744,7 +744,7 @@ uimenu *create_uimenu()
 
 const ter_t &get_terrain_type(int id)
 {
-    return terlist[id];
+    return ter_id( id ).obj();
 }
 
 /** Create a new monster of the given type. */

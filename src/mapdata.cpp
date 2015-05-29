@@ -17,6 +17,38 @@ std::map<std::string, ter_t> termap;
 std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
 
+template<>
+const ter_t &int_id<ter_t>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= terlist.size() ) {
+        debugmsg( "invalid terrain id %d", _id );
+        static const ter_t dummy{};
+        return dummy;
+    }
+    return terlist[_id];
+}
+
+template<>
+const furn_t &int_id<furn_t>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= furnlist.size() ) {
+        debugmsg( "invalid furniture id %d", _id );
+        static const furn_t dummy{};
+        return dummy;
+    }
+    return furnlist[_id];
+}
+
+const furn_t &maptile::get_furn_t() const
+{
+    return sm->get_furn( x, y ).obj();
+}
+
+const ter_t &maptile::get_ter_t() const
+{
+    return sm->get_ter( x, y ).obj();
+}
+
 std::ostream & operator<<(std::ostream & out, const submap * sm)
 {
  out << "submap(";
@@ -759,6 +791,14 @@ void set_ter_ids() {
             elem.trap = trap_str_id( elem.trap_id_str );
         }
     }
+}
+
+void reset_furn_ter()
+{
+    termap.clear();
+    terlist.clear();
+    furnmap.clear();
+    furnlist.clear();
 }
 
 furn_id furnfind(const std::string & id) {
