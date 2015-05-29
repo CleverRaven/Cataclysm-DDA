@@ -5126,7 +5126,7 @@
   "flags": ["MODE_BURST", "RELOAD_EJECT"], 
   "skill": "shotgun",
   "ammo": "shot",
-  "weight": 28000,
+  "weight": 22000,
   "volume": 18,
   "bashing": 12,
   "cutting": 0,
