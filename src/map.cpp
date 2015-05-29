@@ -1288,7 +1288,7 @@ void map::furn_set(const int x, const int y, const std::string new_furniture) {
     if ( furnmap.find(new_furniture) == furnmap.end() ) {
         return;
     }
-    furn_set(x, y, (furn_id)furnmap[ new_furniture ].loadid );
+    furn_set(x, y, furnmap[ new_furniture ].loadid );
 }
 
 std::string map::furnname(const int x, const int y) {
@@ -1359,7 +1359,7 @@ void map::furn_set( const tripoint &p, const std::string new_furniture) {
         return;
     }
 
-    furn_set( p, (furn_id)furnmap[ new_furniture ].loadid );
+    furn_set( p, furnmap[ new_furniture ].loadid );
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
@@ -1405,7 +1405,7 @@ std::string map::get_ter_harvestable(const int x, const int y) const {
 }
 
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return (ter_id)termap[ ter_at(x, y).transforms_into ].loadid;
+    return termap[ ter_at(x, y).transforms_into ].loadid;
 }
 
 int map::get_ter_harvest_season(const int x, const int y) const {
@@ -1421,7 +1421,7 @@ void map::ter_set(const int x, const int y, const std::string new_terrain) {
     if ( termap.find(new_terrain) == termap.end() ) {
         return;
     }
-    ter_set(x, y, (ter_id)termap[ new_terrain ].loadid );
+    ter_set(x, y, termap[ new_terrain ].loadid );
 }
 
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
@@ -1475,7 +1475,7 @@ std::string map::get_ter_harvestable( const tripoint &p ) const {
  * Get the terrain transforms_into id (what will the terrain transforms into)
  */
 ter_id map::get_ter_transforms_into( const tripoint &p ) const {
-    return (ter_id)termap[ ter_at( p ).transforms_into ].loadid;
+    return termap[ ter_at( p ).transforms_into ].loadid;
 }
 
 /*
@@ -1501,7 +1501,7 @@ void map::ter_set( const tripoint &p, const std::string new_terrain) {
         return;
     }
 
-    ter_set( p, (ter_id)termap[ new_terrain ].loadid );
+    ter_set( p, termap[ new_terrain ].loadid );
 }
 
 /*

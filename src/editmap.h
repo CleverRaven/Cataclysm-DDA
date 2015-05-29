@@ -71,6 +71,7 @@ class editmap
         int height;
         int infoHeight;
 
+        // TODO: should be ter_id or furn_id
         int ter_frn_mode;
         int sel_ter;
         int target_ter;

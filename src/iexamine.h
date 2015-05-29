@@ -25,8 +25,6 @@ namespace iexamine
     * @param montype The monster type of the created spiders.
     */
 void egg_sack_generic( player *p, map *m, const tripoint &examp, const std::string &montype );
-void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, int new_ter,
-                 bool seeds = false );
 
 void none( player *p, map *m, const tripoint &examp );
 

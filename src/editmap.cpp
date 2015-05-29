@@ -869,10 +869,10 @@ int editmap::edit_ter()
                 if( editshape == editmap_rect ) {
                     if( terlist[sel_ter].sym == LINE_XOXO || terlist[sel_ter].sym == '|' ) {
                         isvert = true;
-                        teralt = get_alt_ter( isvert, ( ter_id )sel_ter );
+                        teralt = get_alt_ter( isvert, ter_id( sel_ter ) );
                     } else if( terlist[sel_ter].sym == LINE_OXOX || terlist[sel_ter].sym == '-' ) {
                         ishori = true;
-                        teralt = get_alt_ter( isvert, ( ter_id )sel_ter );
+                        teralt = get_alt_ter( isvert, ter_id( sel_ter ) );
                     }
                     if( teralt != undefined_ter_id ) {
                         if( isvert ) {
@@ -887,7 +887,7 @@ int editmap::edit_ter()
                 }
 
                 for( auto &elem : target_list ) {
-                    int wter = sel_ter;
+                    ter_id wter = ter_id( sel_ter );
                     if( doalt ) {
                         if( isvert && ( elem.y == alta || elem.y == altb ) ) {
                             wter = teralt;
@@ -895,7 +895,7 @@ int editmap::edit_ter()
                             wter = teralt;
                         }
                     }
-                    g->m.ter_set( elem, ( ter_id )wter );
+                    g->m.ter_set( elem, wter );
                 }
                 if( action == "CONFIRM_QUIT" ) {
                     break;
@@ -928,7 +928,7 @@ int editmap::edit_ter()
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 for( auto &elem : target_list ) {
-                    g->m.furn_set( elem, ( furn_id )sel_frn );
+                    g->m.furn_set( elem, furn_id( sel_frn ) );
                 }
                 if( action == "CONFIRM_QUIT" ) {
                     break;
