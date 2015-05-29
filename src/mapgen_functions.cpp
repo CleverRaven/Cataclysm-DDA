@@ -421,11 +421,9 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
 // todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
     if ( tfid.ter != t_null ) {
-        // TODO: tfid.ter should be a ter_id
-        m->ter_set(x, y, ter_id( tfid.ter ) );
+        m->ter_set(x, y, tfid.ter );
     } else if ( tfid.furn != f_null ) {
-        // TODO: tfid.furn should be a furn_id
-        m->furn_set(x, y, furn_id( tfid.furn ) );
+        m->furn_set(x, y, tfid.furn );
     }
 }
 

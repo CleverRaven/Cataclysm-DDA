@@ -613,15 +613,6 @@ struct id_or_id {
 };
 
 /*
- * It's a terrain! No, it's a furniture! Wait it's both!
- */
-struct ter_furn_id {
-   unsigned short ter;
-   unsigned short furn;
-   ter_furn_id() : ter(0), furn(0) {};
-};
-
-/*
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
@@ -761,5 +752,16 @@ extern furn_id f_null,
 
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
+
+// TODO: move into mapgen headers, it's not needed during normal game play.
+/*
+ * It's a terrain! No, it's a furniture! Wait it's both!
+ */
+struct ter_furn_id {
+   ter_id ter;
+   furn_id furn;
+   ter_furn_id() : ter( t_null ), furn( f_null ) { }
+};
+
 
 #endif

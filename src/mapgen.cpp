@@ -1071,7 +1071,7 @@ bool mapgen_function_json::setup() {
             if ( termap.find( tmpval ) == termap.end() ) {
                 jo.throw_error(string_format("  fill_ter: invalid terrain '%s'",tmpval.c_str() ));
             }
-            fill_ter = (int)termap[ tmpval ].loadid;
+            fill_ter = termap[ tmpval ].loadid;
             qualifies = true;
             tmpval = "";
         }
@@ -1080,8 +1080,8 @@ bool mapgen_function_json::setup() {
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
             placing_map format_placings;
-            std::map<int,int> format_terrain;
-            std::map<int,int> format_furniture;
+            std::map<int,ter_id> format_terrain;
+            std::map<int,furn_id> format_furniture;
             // manditory: every character in rows must have matching entry, unless fill_ter is set
             // "terrain": { "a": "t_grass", "b": "t_lava" }
             if ( jo.has_object("terrain") ) {
@@ -1334,9 +1334,8 @@ void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::s
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
-    if ( fill_ter != -1 ) {
-        // TODO: fill_ter should be a ter_id
-        m->draw_fill_background( ter_id( fill_ter ) );
+    if ( fill_ter != t_null ) {
+        m->draw_fill_background( fill_ter );
     }
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format.get(), mapgensize, mapgensize, 0, 0, fill_ter );

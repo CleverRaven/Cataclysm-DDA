@@ -13,27 +13,24 @@
  * Take array of struct { short; short } and spaw it on a map
  */
 
-void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const int defter ) {
+void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const ter_id defter ) {
     (void)startx; (void)starty; // FIXME: unused
     for ( int y = 0; y < height; y++ ) {
         const int mul = y * height;
         for( int x = 0; x < width; x++ ) {
             const ter_furn_id tdata = data[ mul + x ];
-            // TODO: tdata.ter should be a ter_id
-            // TODO: tdata.furn should be a furn_id
-            // TODO: defter should be a ter_id
-            if ( furn_id( tdata.furn ) != f_null ) {
-                if ( ter_id( tdata.ter ) != t_null ) {
-                    m->set(x, y, ter_id( tdata.ter ), furn_id( tdata.furn ) );
-                } else if ( defter != -1 ) {
-                    m->set(x, y, ter_id( defter ), furn_id( tdata.furn ) );
+            if ( tdata.furn != f_null ) {
+                if ( tdata.ter != t_null ) {
+                    m->set(x, y, tdata.ter, tdata.furn );
+                } else if ( defter != t_null ) {
+                    m->set(x, y, defter, tdata.furn );
                 } else {
-                    m->furn_set(x, y, furn_id( tdata.furn ) );
+                    m->furn_set(x, y, tdata.furn );
                 }
-            } else if ( ter_id( tdata.ter ) != t_null ) {
-                m->ter_set(x, y, ter_id( tdata.ter ) );
-            } else if ( defter != -1 ) {
-                m->ter_set(x, y, ter_id( defter ) );
+            } else if ( tdata.ter != t_null ) {
+                m->ter_set(x, y, tdata.ter );
+            } else if ( defter != t_null ) {
+                m->ter_set(x, y, defter );
             }
 
         }
