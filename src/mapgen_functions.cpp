@@ -112,7 +112,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["bank"] = &mapgen_bank;
     mapgen_cfunction_map["pawn"] = &mapgen_pawn;
     mapgen_cfunction_map["mil_surplus"] = &mapgen_mil_surplus;
-    mapgen_cfunction_map["abstorefront"] = &mapgen_abstorefront;
     mapgen_cfunction_map["cave"] = &mapgen_cave;
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
     mapgen_cfunction_map["cavern"] = &mapgen_cavern;
@@ -4980,39 +4979,6 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
             m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
         }
         autorotate(false);
-}
-
-
-void mapgen_abstorefront(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-
-(void)dat;
-//    } else if (is_ot_type("abstorefront", terrain_type)) {
-
-        fill_background(m, t_pavement);
-
-        square(m, t_floor, 2, 2, 21, 15);
-        mapf::formatted_set_simple(m, 1, 1,
-                                   "\
-|-xxxxxxxxDDxxxxxxxx-|\n\
-|                   B|\n\
-|B  c        B  B   B|\n\
-|B  c        B  B   B|\n\
-|B  c  B  B  B  B   B|\n\
-|cccc  B  B  B  B   B|\n\
-|B     B  B  B  B   B|\n\
-|B                  B|\n\
-|B  BBBB  BBBBBB BB B|\n\
-|                BB B|\n\
-|B  BBBB  BBBBBB    B|\n\
-|B               --+-|\n\
-|B               |B  |\n\
-|BBBBBBB  BBBBBB |B  D\n\
-|--------------------|\n",
-                                   mapf::basic_bind("x - | + D", t_window_boarded, t_wall, t_wall, t_door_c, t_door_locked),
-                                   mapf::basic_bind("B c", f_rack, f_counter));
-        autorotate(false);
-
 }
 
 
