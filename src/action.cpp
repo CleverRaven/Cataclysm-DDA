@@ -475,12 +475,12 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
-    const furn_t *xfurn_t = &furnlist[g->m.furn( p )];
-    const ter_t *xter_t = &terlist[g->m.ter( p )];
+    const furn_t &xfurn_t = furnlist[g->m.furn( p )];
+    const ter_t &xter_t = terlist[g->m.ter( p )];
 
-    if( g->m.has_furn( p ) && xfurn_t->examine != &iexamine::none ) {
+    if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
-    } else if( xter_t->examine != &iexamine::none ) {
+    } else if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 

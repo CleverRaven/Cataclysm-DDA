@@ -7893,15 +7893,15 @@ void game::examine( const tripoint &p )
         use_computer( examp );
         return;
     }
-    const furn_t *xfurn_t = &furnlist[m.furn(examp)];
-    const ter_t *xter_t = &terlist[m.ter(examp)];
+    const furn_t &xfurn_t = furnlist[m.furn(examp)];
+    const ter_t &xter_t = terlist[m.ter(examp)];
 
     const tripoint player_pos = u.pos();
 
     if (m.has_furn(examp)) {
-        xfurn_t->examine(&u, &m, examp);
+        xfurn_t.examine(&u, &m, examp);
     } else {
-        xter_t->examine(&u, &m, examp);
+        xter_t.examine(&u, &m, examp);
     }
 
     // Did the player get moved? Bail out if so; our examp probably
@@ -7916,7 +7916,7 @@ void game::examine( const tripoint &p )
     }
 
     bool none = true;
-    if (xter_t->examine != &iexamine::none || xfurn_t->examine != &iexamine::none) {
+    if (xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none) {
         none = false;
     }
 
