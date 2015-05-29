@@ -5277,8 +5277,8 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
     nc_color tercol;
-    const ter_t &curr_ter = terlist[ curr_maptile.get_ter() ];
-    const furn_t &curr_furn = furnlist[ curr_maptile.get_furn() ];
+    const ter_t &curr_ter = curr_maptile.get_ter_t();
+    const furn_t &curr_furn = curr_maptile.get_furn_t();
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     long sym;

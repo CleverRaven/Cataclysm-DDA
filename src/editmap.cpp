@@ -233,12 +233,12 @@ void editmap_hilight::draw( editmap *hm, bool update )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = terlist[g->m.ter( p )].sym;
-                nc_color t_col = terlist[g->m.ter( p )].color;
+                char t_sym = g->m.ter_at( p ).sym;
+                nc_color t_col = g->m.ter_at( p ).color;
 
 
                 if( g->m.furn( p ) > 0 ) {
-                    const furn_t &furniture_type = furnlist[g->m.furn( p )];
+                    const furn_t &furniture_type = g->m.furn_at( p );
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
@@ -543,12 +543,12 @@ void editmap::update_view( bool update_info )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = terlist[g->m.ter( p )].sym;
-                nc_color t_col = terlist[g->m.ter( p )].color;
+                char t_sym = g->m.ter_at( p ).sym;
+                nc_color t_col = g->m.ter_at( p ).color;
 
 
-                if( g->m.furn( p ) > 0 ) {
-                    const furn_t &furniture_type = furnlist[g->m.furn( p )];
+                if( g->m.has_furn( p ) > 0 ) {
+                    const furn_t &furniture_type = g->m.furn_at( p );
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }

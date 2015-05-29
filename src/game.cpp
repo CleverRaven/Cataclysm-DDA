@@ -5339,12 +5339,13 @@ void game::hallucinate( const tripoint &center )
     for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
         for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
             if( one_in(10) ) {
+                const ter_t &t = m.ter_at( p );
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                char ter_sym = terlist[m.ter( p )].sym;
+                char ter_sym = t.sym;
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                nc_color ter_col = terlist[m.ter( p )].color;
+                nc_color ter_col = t.color;
                 mvwputch(w_terrain, j, i, ter_col, ter_sym);
             }
         }
@@ -6987,9 +6988,9 @@ void game::close(int closex, int closey)
         // does not actually do anything.
         std::string door_name;
         if (m.has_furn(closex, closey)) {
-            door_name = furnlist[m.furn(closex, closey)].name;
+            door_name = m.furn_at(closex, closey).name;
         } else {
-            door_name = terlist[m.ter(closex, closey)].name;
+            door_name = m.ter_at(closex, closey).name;
         }
         // Print a message that we either can not close whatever is there
         // or (if we're outside) that we can only close it from the
@@ -7893,8 +7894,8 @@ void game::examine( const tripoint &p )
         use_computer( examp );
         return;
     }
-    const furn_t &xfurn_t = furnlist[m.furn(examp)];
-    const ter_t &xter_t = terlist[m.ter(examp)];
+    const furn_t &xfurn_t = m.furn_at(examp);
+    const ter_t &xter_t = m.ter_at(examp);
 
     const tripoint player_pos = u.pos();
 

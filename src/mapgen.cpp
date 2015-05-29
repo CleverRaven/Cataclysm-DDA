@@ -11522,9 +11522,9 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 py = rng(y1, y2);
                 tries++;
                 // Only place on valid terrain
-            } while (( (terlist[ter(px, py)].movecost == 0 &&
-                        !(terlist[ter(px, py)].has_flag("PLACE_ITEM")) ) &&
-                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
+            } while (( (ter_at(px, py).movecost == 0 &&
+                        !(ter_at(px, py).has_flag("PLACE_ITEM")) ) &&
+                       (!ongrass && !ter_at(px, py).has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
                 item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
