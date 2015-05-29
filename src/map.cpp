@@ -5083,7 +5083,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         }
     }
     // Then we just search for the light level in descending order.
-    if( apparent_light > LIGHT_SOURCE_BRIGHT ) {
+    if( apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
         return LL_BRIGHT;
     }
     if( apparent_light > LIGHT_AMBIENT_LIT ) {

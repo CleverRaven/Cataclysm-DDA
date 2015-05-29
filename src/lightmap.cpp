@@ -511,8 +511,9 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
     }
     const auto &map_cache = get_cache( abs_sub.z );
     return map_cache.seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        map_cache.seen_cache[tx][ty] * map_cache.lm[tx][ty] >
-        g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] );
+        ( map_cache.seen_cache[tx][ty] * map_cache.lm[tx][ty] >
+          g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
+          map_cache.sm[tx][ty] > 0.0 );
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range )
@@ -526,8 +527,9 @@ bool map::pl_sees( const tripoint &t, const int max_range )
     }
     const auto &map_cache = get_cache( t.z );
     return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
-        g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] );
+        ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
+          g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
+          map_cache.sm[t.x][t.y] > 0.0 );
 }
 
 /**
