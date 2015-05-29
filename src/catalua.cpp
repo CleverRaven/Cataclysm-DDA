@@ -717,11 +717,6 @@ ter_t *get_terrain_type(int id)
     return (ter_t *) &terlist[id];
 }
 
-overmap *get_current_overmap()
-{
-    return &g->get_cur_om();
-}
-
 /** Create a new monster of the given type. */
 monster *create_monster( const std::string &mon_type, const tripoint &p )
 {

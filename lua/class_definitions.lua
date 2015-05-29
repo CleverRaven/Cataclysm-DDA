@@ -167,6 +167,7 @@ classes = {
             { name = "flashbang", rval = nil, args = { "tripoint", "bool" } },
             { name = "game_error", rval = "bool", args = { } },
             { name = "game_quit", rval = "bool", args = { } },
+            { name = "get_cur_om", rval = "overmap", args = { } },
             { name = "get_levx", rval = "int", args = { } },
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
@@ -1601,11 +1602,6 @@ global_functions = {
         cpp_name = "trig_dist",
         args = {"int", "int", "int", "int"},
         rval = "int"
-    },
-    get_current_overmap = {
-        cpp_name = "get_current_overmap",
-        args = { },
-        rval = "overmap"
     },
     add_item_to_group = {
         cpp_name = "item_controller->add_item_to_group",
