@@ -39,6 +39,8 @@
 #define pinbounds(p) ( p.x >= 0 && p.x < maplim && p.y >= 0 && p.y < maplim)
 
 static const ter_id undefined_ter_id( -1 );
+static const furn_id undefined_furn_id( -1 );
+static const trap_id undefined_trap_id( -1 );
 
 bool inbounds( const int x, const int y, const int z )
 {
@@ -163,21 +165,21 @@ editmap::editmap()
     width = TERMX - TERRAIN_WINDOW_TERM_WIDTH;
     height = TERMY;
     infoHeight = 0;
-    sel_ter = -1;
-    target_ter = -1;
-    sel_frn = -1;
-    target_frn = -1;
+    sel_ter = undefined_ter_id;
+    target_ter = undefined_ter_id;
+    sel_frn = undefined_furn_id;
+    target_frn = undefined_furn_id;
     ter_frn_mode = 0;
     cur_field = 0;
     cur_trap = tr_null;
     sel_field = -1;
     sel_fdensity = -1;
-    sel_trap = -1;
+    sel_trap = undefined_trap_id;
 
-    fsel = -1;
-    fset = -1;
-    trsel = -1;
-    trset = -1;
+    fsel = undefined_furn_id;
+    fset = undefined_furn_id;
+    trsel = undefined_trap_id;
+    trset = undefined_trap_id;
     w_info = 0;
     w_help = 0;
     padding = std::string( width - 2, ' ' );
@@ -707,6 +709,32 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     return undefined_ter_id;
 }
 
+/**
+ * Adds the delta value to the given id and adjusts for overflow out of the valid
+ * range [0...count-1].
+ * @return Whether an overflow happened.
+ */
+template<typename T>
+bool increment( int_id<T> &id, int const delta, int const count )
+{
+    const int new_id = id.to_i() + delta;
+    if( new_id < 0 ) {
+        id = int_id<T>( new_id + count );
+        return true;
+    } else if( new_id >= count ) {
+        id = int_id<T>( new_id - count );
+        return true;
+    } else {
+        id = int_id<T>( new_id );
+        return false;
+    }
+}
+template<typename T>
+bool would_overflow( const int_id<T> &id, int const delta, int const count )
+{
+    const int new_id = id.to_i() + delta;
+    return new_id < 0 || new_id >= count;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// edit terrain type / furniture
@@ -722,16 +750,16 @@ int editmap::edit_ter()
     int pickh = pwh - 2;
     int pickw = width - 4;
 
-    if( sel_ter < 0 ) {
+    if( sel_ter == undefined_ter_id ) {
         sel_ter = target_ter;
     }
 
-    if( sel_frn < 0 ) {
+    if( sel_frn == undefined_furn_id ) {
         sel_frn = target_frn;
     }
 
-    int lastsel_ter = sel_ter;
-    int lastsel_frn = sel_frn;
+    ter_id lastsel_ter = sel_ter;
+    furn_id lastsel_frn = sel_frn;
 
     const int xmin = 3; // left margin
     int xmax = pickw - xmin;
@@ -905,20 +933,20 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                sel_ter = ( sel_ter - 1 >= 0 ? sel_ter - 1 : ( int ) terlist.size() - 1 );
+                increment( sel_ter, -1, terlist.size() );
             } else if( action == "RIGHT" ) {
-                sel_ter = ( sel_ter + 1 < ( int ) terlist.size() ? sel_ter + 1 : 0 );
+                increment( sel_ter, +1, terlist.size() );
             } else if( action == "UP" ) {
-                if( sel_ter - xmax >= 0 ) {
-                    sel_ter = sel_ter - xmax;
-                } else {
+                if( would_overflow( sel_ter, -xmax, terlist.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                } else {
+                    increment( sel_ter, -xmax, terlist.size() );
                 }
             } else if( action == "DOWN" ) {
-                if( sel_ter + xmax < ( int ) terlist.size() ) {
-                    sel_ter = sel_ter + xmax;
-                } else {
+                if( would_overflow( sel_ter, +xmax, terlist.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                } else {
+                    increment( sel_ter, +xmax, terlist.size() );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 bool isvert = false;
@@ -930,10 +958,10 @@ int editmap::edit_ter()
                 if( editshape == editmap_rect ) {
                     if( terlist[sel_ter].sym == LINE_XOXO || terlist[sel_ter].sym == '|' ) {
                         isvert = true;
-                        teralt = get_alt_ter( isvert, ter_id( sel_ter ) );
+                        teralt = get_alt_ter( isvert, sel_ter );
                     } else if( terlist[sel_ter].sym == LINE_OXOX || terlist[sel_ter].sym == '-' ) {
                         ishori = true;
-                        teralt = get_alt_ter( isvert, ter_id( sel_ter ) );
+                        teralt = get_alt_ter( isvert, sel_ter );
                     }
                     if( teralt != undefined_ter_id ) {
                         if( isvert ) {
@@ -948,7 +976,7 @@ int editmap::edit_ter()
                 }
 
                 for( auto &elem : target_list ) {
-                    ter_id wter = ter_id( sel_ter );
+                    ter_id wter = sel_ter;
                     if( doalt ) {
                         if( isvert && ( elem.y == alta || elem.y == altb ) ) {
                             wter = teralt;
@@ -963,7 +991,7 @@ int editmap::edit_ter()
                 }
                 update_view( false );
             } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
-                int sel_tmp = sel_ter;
+                ter_id sel_tmp = sel_ter;
                 select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
                 sel_ter = sel_tmp;
             } else if( action == "EDITMAP_SHOW_ALL" ) {
@@ -972,32 +1000,32 @@ int editmap::edit_ter()
             }
         } else { // todo: cleanup
             if( action == "LEFT" ) {
-                sel_frn = ( sel_frn - 1 >= 0 ? sel_frn - 1 : ( int ) furnlist.size() - 1 );
+                increment( sel_frn, -1, furnlist.size() );
             } else if( action == "RIGHT" ) {
-                sel_frn = ( sel_frn + 1 < ( int ) furnlist.size() ? sel_frn + 1 : 0 );
+                increment( sel_frn, +1, furnlist.size() );
             } else if( action == "UP" ) {
-                if( sel_frn - xmax >= 0 ) {
-                    sel_frn = sel_frn - xmax;
-                } else {
+                if( would_overflow( sel_frn, -xmax, furnlist.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                } else {
+                    increment( sel_frn, -xmax, furnlist.size() );
                 }
             } else if( action == "DOWN" ) {
-                if( sel_frn + xmax < ( int ) furnlist.size() ) {
-                    sel_frn = sel_frn + xmax;
-                } else {
+                if( would_overflow( sel_frn, +xmax, furnlist.size() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
+                } else {
+                    increment( sel_frn, +xmax, furnlist.size() );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 for( auto &elem : target_list ) {
-                    g->m.furn_set( elem, furn_id( sel_frn ) );
+                    g->m.furn_set( elem, sel_frn );
                 }
                 if( action == "CONFIRM_QUIT" ) {
                     break;
                 }
                 update_view( false );
             } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
-                int sel_frn_tmp = sel_frn;
-                int sel_ter_tmp = sel_ter;
+                furn_id sel_frn_tmp = sel_frn;
+                ter_id sel_ter_tmp = sel_ter;
                 select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
                 sel_frn = sel_frn_tmp;
                 sel_ter = sel_ter_tmp;
@@ -1187,7 +1215,7 @@ int editmap::edit_trp()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
-    if( trsel == -1 ) {
+    if( trsel == undefined_trap_id ) {
         trsel = cur_trap;
     }
     int num_trap_types = trap::count();
@@ -1196,10 +1224,10 @@ int editmap::edit_trp()
                 pgettext( "map editor: traps shortkeys", "[enter] change, [t] change/quit, [q]uit" ),
                 pgettext( "map editor: traps editing", "Traps" ) );
 
-        if( trsel < tshift ) {
-            tshift = trsel;
-        } else if( trsel > tshift + tmax ) {
-            tshift = trsel - tmax;
+        if( trsel.to_i() < tshift ) {
+            tshift = trsel.to_i();
+        } else if( trsel.to_i() > tshift + tmax ) {
+            tshift = trsel.to_i() - tmax;
         }
         std::string tnam;
         for( int t = tshift; t <= tshift + tmax; t++ ) {
@@ -1218,42 +1246,33 @@ int editmap::edit_trp()
                 }
                 mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
                 mvwprintz( w_picktrap, t + 1 - tshift, 4,
-                           ( trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
+                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
             }
         }
         wrefresh( w_picktrap );
 
         action = ctxt.handle_input();
         if( action == "UP" ) {
-            trsel--;
+            increment( trsel, -1, num_trap_types );
         } else if( action == "DOWN" ) {
-            trsel++;
+            increment( trsel, +1, num_trap_types );
         } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
-            if( trsel < num_trap_types && trsel >= 0 ) {
-                trset = trsel;
-            }
+            trset = trsel;
             for( auto &elem : target_list ) {
-                g->m.add_trap( elem, trap_id( trset ) );
+                g->m.add_trap( elem, trset );
             }
             if( action == "CONFIRM_QUIT" ) {
                 break;
             }
             update_view( false );
         } else if( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
-            int sel_tmp = trsel;
+            trap_id sel_tmp = trsel;
             select_shape( editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
-            sel_frn = sel_tmp;
+            trsel = sel_tmp;
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
             update_view( false );
         }
-
-        if( trsel < 0 ) {
-            trsel = num_trap_types - 1;
-        } else if( trsel >= num_trap_types ) {
-            trsel = 0;
-        }
-
     } while( action != "QUIT" );
     werase( w_picktrap );
     wrefresh( w_picktrap );

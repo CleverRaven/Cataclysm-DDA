@@ -71,12 +71,11 @@ class editmap
         int height;
         int infoHeight;
 
-        // TODO: should be ter_id or furn_id
         int ter_frn_mode;
-        int sel_ter;
-        int target_ter;
-        int sel_frn;
-        int target_frn;
+        ter_id sel_ter;
+        ter_id target_ter;
+        furn_id sel_frn;
+        furn_id target_frn;
 
         tripoint recalc_target( shapetype shape );
         bool move_target( const std::string &action, int moveorigin = -1 );
@@ -87,13 +86,13 @@ class editmap
         int sel_field;
         int sel_fdensity;
 
-        int sel_trap;
+        trap_id sel_trap;
 
 
-        int fsel;
-        int fset;
-        int trsel;
-        int trset;
+        furn_id fsel;
+        furn_id fset;
+        trap_id trsel;
+        trap_id trset;
 
         tripoint target;
         tripoint origin;
