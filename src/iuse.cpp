@@ -5628,12 +5628,13 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
-        // mp3 or stereo playing on the same square
-        if( !music.sound.empty() && p->pos() == source ) {
-            sound = string_format( _("You listen to %s"), music.sound.c_str() );
-        } else if ( !music.sound.empty() ) {
-            // music from other squares, leave only music description
-            sound = string_format( _("%s"), music.sound.c_str() );
+        if (!music.sound.empty()) {
+            // return only music description by default
+            sound = music.sound;
+            // music source is on player's square
+            if( p->pos() == source ) {
+                sound = string_format( _("You listen to %s"), music.sound.c_str() );
+            }
         }
         if( do_effects ) {
             p->stim += music.stim_bonus;
