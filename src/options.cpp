@@ -787,6 +787,10 @@ void initOptions()
                                       _("The amount of time to pause between animation frames in ms."),
                                       0, 100, 10
                                      );
+    OPTIONS["PROJECTILE_SKIP"] = cOpt("graphics", _("Projectile skip"),
+                                      _("The amount of frames skipped by projectiles when animating, speeding up the animation."),
+                                      0, 20, 0
+                                     );
 
     mOptionsSort["graphics"]++;
 
