@@ -5633,10 +5633,10 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             sound = music.sound;
             // music source is on player's square
             if( p->pos() == source && volume != 0 ) {
-                // generic stereo players
+                // generic stereo players without earphones
                 sound = string_format( _("You listen to %s"), music.sound.c_str() );
             } else if ( p->pos() == source && volume == 0 && !p->is_deaf() ) {
-                // mp3 player, that we are able to hear it, if not deaf
+                // mp3 player, if not deaf
                 p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
             }
         }
@@ -5645,8 +5645,8 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             morale_bonus += music.morale_bonus;
         }
     }
+    // do not process mp3 player
     if ( volume != 0 ) {
-            // process only audible sounds
             sounds::ambient_sound( source, volume, sound );
     }
     if( do_effects ) {
