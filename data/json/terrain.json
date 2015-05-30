@@ -765,6 +765,7 @@
         "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
+        "roof": "t_flat_roof",
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 30, "str_max": 210,
@@ -784,6 +785,7 @@
         "symbol": "LINE_OXOX",
         "color": "dkgray",
         "move_cost": 0,
+        "roof": "t_flat_roof",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 70, "str_max": 300,
@@ -802,6 +804,7 @@
         "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
+        "roof": "t_metal_floor",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 200, "str_max": 600,
@@ -1914,6 +1917,7 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
+        "roof": "t_flat_roof",
         "flags": [
             "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL"
         ],
@@ -2085,6 +2089,7 @@
         "symbol": "\"",
         "color": "ltgreen",
         "move_cost": 0,
+        "roof": "t_rock_floor",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
         "bash": {
             "str_min": 100, "str_max": 400,
@@ -2102,6 +2107,7 @@
         "symbol": "\"",
         "color": "ltred",
         "move_cost": 0,
+        "roof": "t_rock_floor",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
         "bash": {
             "str_min": 100, "str_max": 400,
@@ -2119,6 +2125,7 @@
         "symbol": "\"",
         "color": "ltblue",
         "move_cost": 0,
+        "roof": "t_rock_floor",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
         "bash": {
             "str_min": 100, "str_max": 400,
@@ -2155,6 +2162,7 @@
         "symbol": "#",
         "color": "magenta",
         "move_cost": 0,
+        "roof": "t_rock_floor",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
         "examine_action": "fault"
     },{
@@ -2704,6 +2712,7 @@
         "symbol": "#",
         "color": "brown",
         "move_cost": 0,
+        "roof": "t_dirt",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 150,
@@ -2721,6 +2730,7 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 0,
+        "roof": "t_floor_wax",
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM", "WALL"],
         "bash": {
             "str_min": 12, "str_max": 150,
@@ -4584,7 +4594,14 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"]
+        "flags": ["TRANSPARENT", "FLAT"],
+        "bash": {
+            "str_min": 30, "str_max": 210,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_null",
+            "bash_below": true
+        }
     }, {
         "type" : "terrain",
         "id" : "t_plut_generator",

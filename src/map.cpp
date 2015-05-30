@@ -45,11 +45,8 @@ static field            nulfield;          // Returned when &field_at() is asked
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
-// Less for performance and more so that they're visible for when ter_t gets its string_id
+// Less for performance and more so that it's visible for when ter_t gets its string_id
 static std::string null_ter_t = "t_null";
-static std::string air_ter_t = "t_open_air";
-static std::string dirt_ter_t = "t_dirt";
-static std::string rock_floor_ter_t = "t_dirt";
 
 // Map stack methods.
 size_t map_stack::size() const
@@ -2682,9 +2679,15 @@ ter_id map::get_roof( const tripoint &p )
         return t_rock_floor;
     }
 
-    const auto &roof = ter_at( p ).roof;
-    if( roof.empty() || roof == "t_null" ) {
+    const auto &ter_there = ter_at( p );
+    const auto &roof = ter_there.roof;
+    if( roof.empty() || roof == null_ter_t ) {
         // No roof
+        // Not acceptable if the tile is not passable
+        if( ter_there.movecost == 0 ) {
+            return t_dirt;
+        }
+
         return t_open_air;
     }
 
@@ -2761,6 +2764,17 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                     }
                     if ( bash->str_max_blocked != -1 ) {
                         smax = bash->str_max_blocked;
+                    }
+                }
+            }
+            if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
+                tripoint below( p.x, p.y, p.z - 1 );
+                if( !zlevels || has_flag( "SUPPORTS_ROOF", below ) ) {
+                    if ( bash->str_min_supported != -1 ) {
+                        smin = bash->str_min_supported;
+                    }
+                    if ( bash->str_max_supported != -1 ) {
+                        smax = bash->str_max_supported;
                     }
                 }
             }
