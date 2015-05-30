@@ -1342,7 +1342,6 @@
         "id": "grabbed",
         "name": ["Grabbed"],
         "desc": ["You have been grabbed by an attack.\nYou are being held in place and cannot dodge, and blocking is very difficult."],
-        "apply_message": "You have been grabbed.",
         "rating": "bad",
         "max_duration": 2,
         "max_intensity": 15,

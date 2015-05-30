@@ -4913,15 +4913,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
 
         if ( source->has_flag(MF_GRABS)) {
-            add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
-                                  source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
                 rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
-                add_msg_player_or_npc(m_good, _("You break the grab!"),
-                                      _("<npcname> breaks the grab!"));
+                if (has_effect("grabbed")){
+                    add_msg_if_player(m_info,_("You are being grabbed by %s, but you bat it away!"),
+                                      source->disp_name().c_str());
+                } else {add_msg_player_or_npc(m_info, _("You are being grabbed by %s, but you break its grab!"),
+                                    _("<npcname> are being grabbed by %s, but they break its grab!"),
+                                    source->disp_name().c_str());
+                }
             } else {
                 int prev_effect = get_effect_int("grabbed");
                 add_effect("grabbed", 2, bp_torso, false, prev_effect + 2);
+                add_msg_player_or_npc(m_bad, _("You are grabbed by %s!"), _("<npcname> is grabbed by <npcname>!"),
+                                source->disp_name().c_str());
             }
         }
     }
