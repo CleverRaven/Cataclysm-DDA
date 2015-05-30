@@ -5623,7 +5623,6 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
 
-    // fix do_effects
     bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
