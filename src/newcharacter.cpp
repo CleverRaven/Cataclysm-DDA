@@ -1537,41 +1537,41 @@ int set_scenario(WINDOW *w, player *u, int &points)
             wprintz(w_profession, c_ltgray, _("All"));
         }
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
-        wprintz(w_location, c_ltgray, _("\n"));
+        wprintz(w_location, c_ltgray, ("\n"));
         wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
 
         mvwprintz(w_flags, 0, 0, COL_HEADER, _("Scenario Flags:"));
-        wprintz(w_flags, c_ltgray, _("\n"));
+        wprintz(w_flags, c_ltgray, ("\n"));
 
         if ( sorted_scens[cur_id]->has_flag("SPR_START")) {
             wprintz(w_flags, c_ltgray, _("Spring start"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("SUM_START")) {
             wprintz(w_flags, c_ltgray, _("Summer start"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("AUT_START")) {
             wprintz(w_flags, c_ltgray, _("Autumn start"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         } else if ( sorted_scens[cur_id]->has_flag("WIN_START")) {
             wprintz(w_flags, c_ltgray, _("Winter start"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         }
 
         if ( sorted_scens[cur_id]->has_flag("INFECTED") ) {
             wprintz(w_flags, c_ltgray, _("Infected player"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("BAD_DAY") ) {
             wprintz(w_flags, c_ltgray, _("Drunk and sick player"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("FIRE_START") ) {
             wprintz(w_flags, c_ltgray, _("Fire nearby"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         }
         if ( sorted_scens[cur_id]->has_flag("SUR_START") ) {
             wprintz(w_flags, c_ltgray, _("Zombies nearby"));
-            wprintz(w_flags, c_ltgray, _("\n"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         }
 
         draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
