@@ -2728,14 +2728,8 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
     }
 
     // Floor bashing check
-    // We're bashing the floor if:
-    // * We're bashing terrain
-    // * The terrain we're bashing is not an obstacle (default move cost) and is flat
-    // * The terrain we're bashing has no bash->ter_set
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
-    if( smash_ter && ( !zlevels || !bash_floor ) &&
-        ( bash->ter_set == null_ter_t ||
-          ( ter_at( p ).movecost == 0 && ter_at( p ).has_flag( "FLAT" ) ) ) ) {
+    if( smash_ter && ( !zlevels || !bash_floor ) && bash->bash_below ) {
         smash_ter = false;
         bash = nullptr;
     }
@@ -2834,10 +2828,15 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 ter_set( p, t_open_air );
             }
 
-            if( zlevels && ter( p ) == t_open_air ) {
+            if( ter( p ) == t_open_air ) {
                 // Open air can't exist above tiles with roofs
-                tripoint below( p.x, p.y, p.z - 1 );
-                ter_set( p, get_roof( below ) );
+                if( zlevels ) {
+                    tripoint below( p.x, p.y, p.z - 1 );
+                    ter_set( p, get_roof( below ) );
+                } else {
+                    // We destroyed something, so we aren't just "plugging" air with dirt here
+                    ter_set( p, t_dirt );
+                }
             }
 
             spawn_item_list( bash->items, p );

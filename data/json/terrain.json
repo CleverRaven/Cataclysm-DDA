@@ -20,7 +20,7 @@
             "str_min": 30, "str_max": 100,
             "sound": "crash!",
             "sound_fail": "bash!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [ { "item": "rock", "amount": 10, "minamount": 6 } ]
         }
     },{
@@ -35,7 +35,7 @@
             "str_min": 60, "str_max": 160,
             "sound": "crash!",
             "sound_fail": "bash!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 20, "minamount": 10 }
             ]
@@ -142,8 +142,10 @@
         ],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 100,
+            "str_max": 400,
+            "str_min_supported": 150,
             "items": [
                 { "item": "rock", "amount": 10, "minamount": 5 },
                 { "item": "scrap", "amount": 8, "minamount": 5 },
@@ -162,8 +164,10 @@
         ],
         "bash": {
             "sound": "SCRRRASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 100,
+            "str_max": 400,
+            "str_min_supported": 150,
             "items": [
                 { "item": "scrap", "amount": 8, "minamount": 5 },
                 { "item": "rebar", "amount": 2, "minamount": 0 }
@@ -181,10 +185,12 @@
         ],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 150,
+            "str_max": 400,
+            "str_min_supported": 200,
             "items": [
-                    { "item": "rock", "amount": 22, "minamount": 10 },
+                { "item": "rock", "amount": 22, "minamount": 10 },
                 { "item": "scrap", "amount": 12, "minamount": 10 },
                 { "item": "rebar", "amount": 4, "minamount": 0 }
             ]
@@ -201,8 +207,10 @@
         ],
         "bash": {
                 "sound": "SCRRRASH!!",
-                "ter_set": "t_dirt",
-                "destroy_only": true,
+                "ter_set": "t_null",
+            "str_min": 100,
+            "str_max": 400,
+            "str_min_supported": 150,
                 "items": [
                         { "item": "scrap", "amount": 12, "minamount": 10 },
                         { "item": "rebar", "amount": 4, "minamount": 0 }
@@ -220,8 +228,10 @@
         ],
         "bash": {
                 "sound": "SMASH!!",
-                "ter_set": "t_dirt",
-                "destroy_only": true,
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 400,
+                "str_min_supported": 100,
                 "items": [
                         { "item": "rock", "amount": 11, "minamount": 5 },
                         { "item": "scrap", "amount": 12, "minamount": 10 },
@@ -337,8 +347,9 @@
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
         "bash": {
             "ter_set": "t_null",
-            "str_min": 100,
+            "str_min": 50,
             "str_max": 400,
+            "str_min_supported": 100,
             "bash_below": true
         }
     },{
@@ -366,8 +377,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "destroy_only": true,
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "rock", "amount": 10, "minamount": 2 },
                 { "item": "rebar", "amount": 4, "minamount": 0 }
@@ -382,8 +396,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "destroy_only": true,
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "rock", "amount": 10, "minamount": 2 },
                 { "item": "rebar", "amount": 4, "minamount": 0 }
@@ -398,8 +415,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "destroy_only": true,
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "rock", "amount": 10, "minamount": 2 }
             ]
@@ -413,8 +433,11 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT"],
         "bash": {
-            "destroy_only": true,
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "rock", "amount": 15, "minamount": 2 },
                 { "item": "rebar", "amount": 4, "minamount": 0 }
@@ -432,8 +455,11 @@
         ],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 10, "minamount": 5 }
@@ -451,8 +477,11 @@
         ],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "wax", "amount": 3, "minamount": 1 }
             ]
@@ -469,8 +498,11 @@
         ],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 10, "minamount": 5 }
@@ -512,8 +544,11 @@
         ],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
+            "bash_below": true,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 10, "minamount": 5 }
@@ -531,7 +566,7 @@
             "str_min": 40, "str_max": 120,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "splinter", "amount": 20, "minamount": 10 }
             ]
@@ -584,7 +619,7 @@
             "str_min": 8, "str_max": 150,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "splinter", "amount": 20, "minamount": 10 }
             ]
@@ -603,7 +638,7 @@
             "str_min": 10, "str_max": 150,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "splinter", "amount": 30, "minamount": 10 }
             ]
@@ -622,7 +657,7 @@
             "str_min": 6, "str_max": 150,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "splinter", "amount": 20, "minamount": 10 }
             ]
@@ -640,7 +675,7 @@
             "str_min": 6, "str_max": 150,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "splinter", "amount": 20, "minamount": 10 }
             ]
@@ -657,7 +692,7 @@
             "str_min": 10, "str_max": 70,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 5, "minamount": 0 },
                 { "item": "nail", "amount": 5, "minamount": 0 },
@@ -716,7 +751,7 @@
             "str_min": 4, "str_max": 110,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 5, "minamount": 2 },
                 { "item": "nail", "amount": 10, "minamount": 4 },
@@ -735,7 +770,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -754,7 +789,7 @@
             "str_min": 70, "str_max": 300,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 3, "minamount": 1 },
                 { "item": "rebar", "amount": 2, "minamount": 0 }
@@ -772,7 +807,7 @@
             "str_min": 200, "str_max": 600,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "steel_lump", "amount": 4, "minamount": 1 },
                 { "item": "steel_chunk", "amount": 12, "minamount": 3 },
@@ -1205,7 +1240,7 @@
             "str_min": 6, "str_max": 25,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 6, "minamount": 3 },
                 { "item": "splinter", "amount": 6, "minamount": 3 },
@@ -1224,7 +1259,7 @@
             "str_min": 18, "str_max": 75,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "spike", "amount": 4, "minamount": 2 },
                 { "item": "scrap", "amount": 6, "minamount": 3 }
@@ -1242,7 +1277,7 @@
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "wire", "amount": 20, "minamount": 8},
                 { "item": "scrap", "amount": 12, "minamount": 0 }
@@ -1261,7 +1296,7 @@
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
             "sound": "crack.",
             "sound_fail": "wham.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 4, "minamount": 1},
                 { "item": "nail", "amount": 8, "minamount": 2},
@@ -1282,7 +1317,7 @@
             "str_min": 4, "str_max": 60,
             "sound": "crash!",
             "sound_fail": "wham!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 4, "minamount": 1},
                 { "item": "nail", "amount": 8, "minamount": 2},
@@ -1302,7 +1337,7 @@
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 100,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "wire", "amount": 15, "minamount": 6 },
                 { "item": "pipe", "amount": 15, "minamount": 6 },
@@ -1322,7 +1357,7 @@
             "str_min": 5, "str_max": 150,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "wire", "amount": 15, "minamount": 6 },
                 { "item": "pipe", "amount": 15, "minamount": 6 },
@@ -1635,7 +1670,7 @@
             "str_min": 60, "str_max": 210, "str_min_blocked": 80, "str_max_blocked": 240,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "steel_chunk", "amount": 4, "minamount": 1 },
                 { "item": "scrap", "amount": 12, "minamount": 3 }
@@ -1886,7 +1921,7 @@
             "str_min": 10, "str_max": 70,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 5, "minamount": 0 },
                 { "item": "nail", "amount": 5, "minamount": 0 },
@@ -2136,7 +2171,7 @@
             "sound_fail": "slap!",
             "sound_vol": 8,
             "sound_fail_vol": 4,
-            "ter_set": "t_dirt"
+            "ter_set": "t_null"
         }
     },{
         "type" : "terrain",
@@ -2674,7 +2709,7 @@
             "str_min": 12, "str_max": 150,
             "sound": "crunch!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "splinter", "amount": 5, "minamount": 2 }
             ]
@@ -2719,7 +2754,7 @@
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
             "sound_fail": "wham.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
@@ -2741,7 +2776,7 @@
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
             "sound_fail": "wham.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "2x4", "amount": 3, "minamount": 1},
                 { "item": "nail", "amount": 6, "minamount": 2},
@@ -2800,7 +2835,7 @@
             "str_min": 8, "str_max": 30,
             "sound": "metal screeching!",
             "sound_fail": "clang!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "pipe", "amount": 4, "minamount": 1 },
                 { "item": "scrap", "amount": 6, "minamount": 3 }
@@ -2819,7 +2854,7 @@
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
             "sound_fail": "whump.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "pointy_stick", "amount": 2, "minamount": 0 }
             ]
@@ -2837,7 +2872,7 @@
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
             "sound_fail": "whump.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "pointy_stick", "amount": 2, "minamount": 0 },
                 { "item": "wire", "amount": 2, "minamount": 0 }
@@ -2856,7 +2891,7 @@
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
             "sound_fail": "whump.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "pointy_stick", "amount": 2, "minamount": 0 },
                 { "item": "wire_barbed", "amount": 2, "minamount": 0 }
@@ -2875,7 +2910,7 @@
             "str_min": 8, "str_max": 20,
             "sound": "crack.",
             "sound_fail": "whump.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "pointy_stick", "amount": 2, "minamount": 0 },
                 { "item": "rope_6", "amount": 1, "minamount": 0 },
@@ -2944,7 +2979,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"],
+        "bash": {
+            "sound": "smash", "//": "muffled because fungus",
+            "ter_set": "t_null",
+            "str_min": 20,
+            "str_max": 400,
+            "str_min_supported": 50
+        }
     },{
         "type" : "terrain",
         "id" : "t_fungus_floor_in",
@@ -2957,12 +2999,11 @@
             "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS"
         ],
         "bash": {
-            "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
-            "items": [
-                { "item": "splinter", "amount": 4, "minamount": 1 }
-            ]
+            "sound": "smash",
+            "ter_set": "t_null",
+            "str_min": 20,
+            "str_max": 400,
+            "str_min_supported": 50
         }
     },{
         "type" : "terrain",
@@ -2972,7 +3013,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT", "FUNGUS"],
+        "bash": {
+            "sound": "smash",
+            "ter_set": "t_null",
+            "str_min": 20,
+            "str_max": 400,
+            "str_min_supported": 50
+        }
     },{
         "type" : "terrain",
         "id" : "t_fungus_floor_out",
@@ -2981,7 +3029,14 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS"]
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "FUNGUS"],
+        "bash": {
+            "sound": "SMASH!!",
+            "ter_set": "t_null",
+            "str_min": 20,
+            "str_max": 400,
+            "str_min_supported": 50
+        }
     },{
         "type" : "terrain",
         "id" : "t_fungus_wall",
@@ -3661,7 +3716,7 @@
             "str_min": 8, "str_max": 40,
             "sound": "crunch!",
             "sound_fail": "whump.",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rope_6", "amount": 4, "minamount": 3 },
                 { "item": "2x4", "amount": 4, "minamount": 1 },
@@ -3784,7 +3839,7 @@
             "str_min": 40, "str_max": 200,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 3, "minamount": 1 },
                 { "item": "rebar", "amount": 2, "minamount": 0 }
@@ -4189,8 +4244,10 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 13, "minamount": 6 }
@@ -4207,8 +4264,10 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 13, "minamount": 6 }
@@ -4225,8 +4284,10 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 13, "minamount": 6 }
@@ -4243,8 +4304,10 @@
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 13, "minamount": 6 }
@@ -4261,8 +4324,10 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 10, "minamount": 5 }
@@ -4279,8 +4344,10 @@
             "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
         "bash": {
             "sound": "SMASH!!",
-            "ter_set": "t_dirt",
-            "destroy_only": true,
+            "ter_set": "t_null",
+            "str_min": 50,
+            "str_max": 400,
+            "str_min_supported": 100,
             "items": [
                 { "item": "splinter", "amount": 8, "minamount": 2 },
                 { "item": "nail", "amount": 10, "minamount": 5 }
@@ -4298,7 +4365,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -4317,7 +4384,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -4336,7 +4403,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -4355,7 +4422,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -4374,7 +4441,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -4393,7 +4460,7 @@
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 2, "minamount": 0 },
                 { "item": "nail", "amount": 8, "minamount": 2 },
@@ -4412,7 +4479,7 @@
             "str_min": 80, "str_max": 300,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 18, "minamount": 8 }
             ]
@@ -4429,7 +4496,7 @@
             "str_min": 40, "str_max": 200,
             "sound": "crash!",
             "sound_fail": "whump!",
-            "ter_set": "t_dirt",
+            "ter_set": "t_null",
             "items": [
                 { "item": "rock", "amount": 8, "minamount": 3 }
             ]

@@ -1441,7 +1441,7 @@ void vehicle::play_music()
             stereo_on = false;
             return;
         }
-        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], g->get_levz() ); // TODO: Z
+        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
         iuse::play_music( &g->u, radio_pos, 15, 50 );
     }
 }
@@ -5012,7 +5012,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         name.c_str());
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
-                                            g->get_levz() ),
+                                            smz ),
                                   pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
