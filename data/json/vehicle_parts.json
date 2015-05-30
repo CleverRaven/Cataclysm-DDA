@@ -3755,7 +3755,6 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "range" : 12,
-        "fuel_type" : "308",
         "item" : "m134",
         "difficulty" : 7,
         "size" : 2000,
