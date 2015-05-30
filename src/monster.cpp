@@ -1582,6 +1582,10 @@ void monster::process_effects()
                     made_of("wool"))
                     apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
             }
+            if( id == "shrieking"){
+                sounds::sound(pos(), 120, _("a piercing wail!"), true);
+                moves -= 40;
+            }
         }
     }
 
@@ -1639,12 +1643,6 @@ void monster::process_effects()
         if( hp < 0 ) {
             hp = 0;
         }
-    }
-
-    if( has_effect("shrieking")){
-        sounds::sound(pos(), 120, _("a piercing wail!"), true);
-        // Lose 40% of our maximum speed while shrieking
-        set_speed_base( .6 * type->speed);
     }
 
     Creature::process_effects();

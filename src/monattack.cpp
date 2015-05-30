@@ -218,18 +218,30 @@ void mattack::shriek_stun(monster *z, int index)
 
     Creature *target = z->attack_target();
     int dist;
-    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 15 ||
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 5 ||
         !z->sees( *target ) ) {
         return;
     }
 
     z->reset_special(index); // Reset timer
 
-    if ( one_in((dist + 2 )) && !(target->is_immune_effect("deaf")) ){
-        target->add_effect("stunned", rng(2,3));
-        auto msg_type = target == &g->u ? m_bad : m_info;
-        target->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
-                                      _("The screams seems to daze <npcname>!"));
+    tripoint cone = tripoint( z->posx(), z->posy(), z->posz() );
+    int tangle = g->m.coord_to_angle(posx(), posy(), m->posx(), m->posy());
+    int u_angle = g->m.coord_to_angle(posx(), posy(), u.posx(), u.posy());
+            int diff = abs(u_angle - tangle);
+    if( z->sees(cone) ) {
+    g->m.bash( cone, 10 );
+    if (g->mon_at(cone) != -1){
+        const int mondex = g->mon_at(cone);
+        Creature *zed = &g->zombie( mondex );
+        if ( one_in((dist + 2 )) && !(zed->is_immune_effect("deaf")) ){
+            zed->add_effect("stunned", rng(2,3));
+            auto msg_type = target == &g->u ? m_bad : m_info;
+            zed->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
+                                    _("The screams seems to daze <npcname>!"));
+        }
+
+        }
     }
 }
 

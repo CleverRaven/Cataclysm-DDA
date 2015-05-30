@@ -1840,7 +1840,6 @@
     "upgrade_min" : 7,
     "half_life" : 10,
     "base_upgrade_chance" : 15,
-    "luminance":0,
     "hp":60,
     "death_function":["NORMAL"],
     "special_attacks":[["SHRIEK", 10]],
@@ -2594,7 +2593,6 @@
         ]
     },
     "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "bot_mininuke_hack":1},
-    "luminance":0,
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER_ELITE", 3]],
@@ -2624,7 +2622,6 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "luminance":0,
     "hp":95,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
@@ -2654,7 +2651,6 @@
     "vision_day":50,
     "vision_night":5,
     "death_drops": "default_zombie_death_drops",
-    "luminance":0,
     "hp":180,
     "death_function":["NORMAL"],
     "special_attacks":[["UPGRADE", 10]],
@@ -2690,7 +2686,6 @@
             [ "hive", 80 ]
         ]
     },
-    "luminance":0,
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
@@ -2759,7 +2754,6 @@
     "upgrade_min" : 14,
     "half_life" : 14,
     "base_upgrade_chance" : 10,
-    "luminance":0,
     "hp":90,
     "death_function":["NORMAL"],
     "special_attacks":[["LEAP", 5], ["BITE", 5]],
@@ -2790,7 +2784,6 @@
     "vision_night":15,
     "item_chance":50,
     "death_drops": "default_zombie_death_drops",
-    "luminance":0,
     "hp":90,
     "death_function":["NORMAL"],
     "special_attacks":[["LEAP", 5], ["BITE", 5], ["IMPALE", 25]],
@@ -2819,7 +2812,6 @@
     "armor_cut":8,
     "vision_day":30,
     "vision_night":3, 
-    "luminance":0,
     "hp":100,
     "death_function":"BLOBSPLIT",
     "special_attacks":[["STRETCH_BITE", 10], ["STRETCH_ATTACK", 5]],
@@ -2857,7 +2849,6 @@
             [ "child_items", 65 ]
         ]
     },
-    "luminance":0,
     "hp":40,
     "death_function":["NORMAL"],
     "description":"It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
@@ -2886,7 +2877,6 @@
         "armor_cut":8,
         "vision_day":50,
         "vision_night":3,
-        "luminance":0,
         "hp":400,
         "death_function":"JABBERWOCKY",
         "special_attacks":[["FLESH_GOLEM", 5]],
@@ -2921,7 +2911,6 @@
             [ "vault_wanderer", 3 ]
         ]
     },
-    "luminance":0,
     "hp":90,
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 20]],
@@ -3057,7 +3046,6 @@
             [ "vault_wanderer", 1 ]
         ]
     },
-    "luminance":0,
     "hp":120,
     "death_function":"MELT",
     "special_attacks":[["LONGSWIPE", 8]],
@@ -3084,7 +3072,6 @@
     "dodge":0,
     "armor_bash":10,
     "armor_cut":4,
-    "luminance":0,
     "hp":80,
     "death_function":"NORMAL",
     "description":"A creeping animate plant, growing as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.",
@@ -3110,7 +3097,6 @@
     "dodge":0,
     "armor_bash":0,
     "armor_cut":0,
-    "luminance":0,
     "hp":40,
     "death_function":"NORMAL",
     "special_attacks":[["TRIFFID_GROWTH", 28800]],
@@ -3144,7 +3130,6 @@
             [ "fungal_sting", 80 ]
         ]
     },
-    "luminance":0,
     "hp":60,
     "death_function":"NORMAL",
     "special_attacks":[["PARA_STING", 10]],
@@ -3186,7 +3171,6 @@
     "dodge":0,
     "armor_bash":12,
     "armor_cut":8,
-    "luminance":0,
     "hp":280,
     "death_function":"NORMAL",
     "special_attacks":[["GROWPLANTS", 2]],
@@ -3213,7 +3197,6 @@
     "dodge":0,
     "armor_bash":8,
     "armor_cut":0,
-    "luminance":0,
     "hp":100,
     "death_function":"KILL_VINES",
     "special_attacks":[["GROW_VINE", 2]],
