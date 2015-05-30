@@ -73,7 +73,6 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
                                                          const tripoint &target_arg, double shot_dispersion )
 {
     bool const do_animation = OPTIONS["ANIMATIONS"];
-    int projectile_skip = OPTIONS["PROJECTILE_SKIP"];
 
     double range = rl_dist(source, target_arg);
     // .013 * trange is a computationally cheap version of finding the tangent in degrees.
@@ -110,18 +109,21 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
     //Start this now in case we hit something early
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
     bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
+    int projectile_skip_current_frame = 0;
+    float projectile_skip_multiplier = 0.1;
     for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
         tp = trajectory[i];
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        if (do_animation) {
-            if ( projectile_skip >= OPTIONS["PROJECTILE_SKIP"] ) {
+        if ( do_animation ) {
+            int projectile_skip_calculation = range * projectile_skip_multiplier;
+            if ( projectile_skip_current_frame >= projectile_skip_calculation ) {
                 g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
-                projectile_skip = 0;
+                projectile_skip_current_frame = 0;
             } else {
-                projectile_skip++;
+                projectile_skip_current_frame++;
             }
         }
 
