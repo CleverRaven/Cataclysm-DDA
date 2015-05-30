@@ -7256,6 +7256,9 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         // wet towels only as they are active items.
         return 0;
     }
+    bool slime = p->has_effect("slimed");
+    bool boom = p->has_effect("boomered");
+    bool glow = p->has_effect("glowing");
     bool towelUsed = false;
 
     // can't use an already wet towel!
@@ -7277,14 +7280,17 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         it->item_counter = 300;
     }
 
-    // clean off slime
-    else if (p->has_effect("slimed")) {
-        p->remove_effect("slimed");
+    // clean off the messes
+    else if (slime || boom || glow) {
+        p->remove_effect("slimed");  // able to clean off all at once
+        p->remove_effect("boomered");
+        p->remove_effect("glowing");
         p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
                              it->tname().c_str());
 
         towelUsed = true;
-        it->item_counter = 450; // slime takes a bit longer to dry
+        int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
+        it->item_counter = 450 * mult; // slime takes a bit longer to dry
     }
 
     // default message
