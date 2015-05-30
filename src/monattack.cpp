@@ -2448,7 +2448,7 @@ void mattack::grab(monster *z, int index)
     if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
         rng(0, target->get_dex()) : rng( 0, target->get_str()) > rng( 0 , z->type->melee_sides + z->type->melee_dice)) {
         if (target->has_effect("grabbed")){
-            target->add_msg_if_player(m_info,_("The %s tries grab you as well, but you bat it away!"),
+            target->add_msg_if_player(m_info,_("The %s tries to grab you as well, but you bat it away!"),
                                       z->name().c_str());
         } else {target->add_msg_player_or_npc(m_info, _("The %s tries to grab you, but you break its grab!"),
                                     _("The %s tries to grab <npcname>, but they break its grab!"),
