@@ -5654,6 +5654,10 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     if( do_effects ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
+        // mp3 player reduces hearing
+        if ( volume == 0 ) {
+             p->add_effect("earphones",1);
+        }
     }
 }
 
