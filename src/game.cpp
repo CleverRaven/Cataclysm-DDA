@@ -3721,7 +3721,7 @@ void game::debug()
             }
             const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
             const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-            for( int z = minz; z < maxz; z++ ) {
+            for( int z = minz; z <= maxz; z++ ) {
                 m.clear_vehicle_cache( z );
                 m.clear_vehicle_list( z );
             }
@@ -4999,7 +4999,7 @@ void game::refresh_all()
 {
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    for( int z = minz; z < maxz; z++ ) {
+    for( int z = minz; z <= maxz; z++ ) {
         m.reset_vehicle_cache( z );
     }
 
