@@ -344,6 +344,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
+        "roof": "t_rock_floor",
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
         "bash": {
             "ter_set": "t_null",
@@ -450,6 +451,7 @@
         "symbol": ".",
         "color": "cyan",
         "move_cost": 2,
+        "roof": "t_flat_roof",
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
         ],
@@ -785,7 +787,7 @@
         "symbol": "LINE_OXOX",
         "color": "dkgray",
         "move_cost": 0,
-        "roof": "t_flat_roof",
+        "roof": "t_rock_floor",
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 70, "str_max": 300,

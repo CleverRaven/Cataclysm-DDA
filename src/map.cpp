@@ -2830,12 +2830,10 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 // If the terrain has a valid post-destroy terrain, set it
                 ter_set( p, bash->ter_set );
             } else {
-                // Replacement with a null terrain means we just destroyed a floor.
-                // Bash the tile that supported it from below
                 tripoint below( p.x, p.y, p.z - 1 );
                 const auto &ter_below = ter_at( below );
                 if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
-                    // When bashing the tile below, don't allow bashing floor
+                    // When bashing the tile below, don't allow bashing the floor
                     bash_ter_furn( below, str, silent, destroy, false, res_roll );
                 }
 
