@@ -5634,8 +5634,8 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             // music source is on player's square
             if( p->pos() == source && volume != 0 ) {
                 sound = string_format( _("You listen to %s"), music.sound.c_str() );
-            } else if ( p->pos() == source && volume == 0 && p->can_hear( source, volume )) {
-                // listening through headphones, no further sound processing
+            } else if ( p->pos() == source && volume == 0 && !p->is_deaf() ) {
+                // able to listen, if not deaf
                 p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
             }
         }
