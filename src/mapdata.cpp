@@ -122,13 +122,15 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 
         destroy_only = j.get_bool("destroy_only", false);
 
+        bash_below = j.get_bool("bash_below", false);
+
         sound = j.get_string("sound", _("smash!"));
         sound_fail = j.get_string("sound_fail", _("thump!"));
 
         if (isfurniture) {
             furn_set = j.get_string("furn_set", "f_null");
         } else {
-            ter_set = j.get_string("ter_set");
+            ter_set = j.get_string( "ter_set" );
         }
 
         if ( j.has_array("items") ) {
@@ -149,7 +151,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     JsonObject j = jsobj.get_object(member);
     furn_set = j.get_string("furn_set", "");
     if (!isfurniture) {
-        ter_set = j.get_string("ter_set");
+        ter_set = j.get_string( "ter_set" );
     }
     can_do = true;
 
@@ -191,6 +193,7 @@ ter_t null_terrain_t() {
   new_terrain.harvest_season = 0;
   new_terrain.harvestable = "";
   new_terrain.transforms_into = "t_null";
+  new_terrain.roof = "t_null";
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
@@ -316,6 +319,10 @@ void load_terrain(JsonObject &jsobj)
 
   if (jsobj.has_member("transforms_into")) {
     new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
+  }
+
+  if (jsobj.has_member("roof")) {
+    new_terrain.roof = jsobj.get_string("roof"); // Get the terrain to create above this one if there would be open air otherwise
   }
 
   if (jsobj.has_member("harvest_season")) {

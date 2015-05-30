@@ -334,7 +334,13 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
+        "bash": {
+            "ter_set": "t_null",
+            "str_min": 100,
+            "str_max": 400,
+            "bash_below": true
+        }
     },{
         "type" : "terrain",
         "id" : "t_grass",
@@ -2096,6 +2102,7 @@
         "color": "white",
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "crash!",

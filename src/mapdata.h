@@ -50,30 +50,37 @@ struct map_bash_info {
     int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
     int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
+    int str_min_supported;  // Alternative values for floor supported by something from below
+    int str_max_supported;
     int str_min_roll;       // lower bound of success check; defaults to str_min
     int str_max_roll;       // upper bound of success check; defaults to str_max
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
     bool destroy_only;      // Only used for destroying, not normally bashable
+    bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
+                      str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      destroy_only(false), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      destroy_only(false), bash_below(false),
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
+    // This terrain provided a roof, we need to tear it down now
+    bool deconstruct_above;
     // items you get when deconstructing.
     std::vector<map_bash_item_drop> items;
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), items(), ter_set(), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), items(), ter_set(), furn_set() { }
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -225,6 +232,7 @@ struct ter_t : map_data_common_t {
     std::string trap_id_str;     // String storing the id string of the trap.
     std::string harvestable;     // What will be harvested from this terrain?
     std::string transforms_into; // Transform into what terrain?
+    std::string roof;            // What will be the floor above this terrain?
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 

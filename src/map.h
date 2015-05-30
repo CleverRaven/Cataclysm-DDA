@@ -1187,6 +1187,12 @@ private:
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
+    // Bashes terrain or furniture, handles collapse and roofs
+    std::pair<bool, bool> bash_ter_furn( const tripoint &p, const int str,
+                                         bool silent, bool destroy, float res_roll );
+    // Gets the roof type of the tile at p
+    ter_id get_roof( const tripoint &p );
+
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>
      void process_items( bool active, T processor, std::string const &signal );
