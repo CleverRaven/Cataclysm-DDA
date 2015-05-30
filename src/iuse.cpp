@@ -5613,7 +5613,7 @@ music_description get_music_description( const player & p )
             break;
     }
     if (one_in(50)) {
-        result.sound = _("some bass-heavy post-glam speed polka");
+        result.sound = _("some bass-heavy post-glam speed polka.");
     }
     return result;
 }
@@ -5622,31 +5622,51 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
+
     bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
-        if( !music.sound.empty() ) {
-            sound = string_format( _("You listen to %s"), music.sound.c_str() );
+        if ( !music.sound.empty() ) {
+            // return only music description by default
+            sound = music.sound;
+            // music source is on player's square
+            if( p->pos() == source && volume != 0 ) {
+                // generic stereo players without earphones
+                sound = string_format( _("You listen to %s"), music.sound.c_str() );
+            } else if ( p->pos() == source && volume == 0 && p->can_hear( source, volume)) {
+                // in-ear music, such as mp3 player
+                p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
+            }
         }
         if( do_effects ) {
             p->stim += music.stim_bonus;
             morale_bonus += music.morale_bonus;
         }
     }
-    sounds::ambient_sound( source, volume, sound );
+    // do not process mp3 player
+    if ( volume != 0 ) {
+            sounds::ambient_sound( source, volume, sound );
+    }
     if( do_effects ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
+        // mp3 player reduces hearing
+        if ( volume == 0 ) {
+             p->add_effect("earphones",1);
+        }
     }
 }
 
 int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
-        play_music( p, pos, 0, 50 );
+        if (p->has_item(it)) {
+            // mp3 player in inventory, we can listen
+            play_music( p, pos, 0, 50 );
+        }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");
