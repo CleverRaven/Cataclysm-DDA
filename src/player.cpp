@@ -4925,7 +4925,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             } else {
                 int prev_effect = get_effect_int("grabbed");
                 add_effect("grabbed", 2, bp_torso, false, prev_effect + 2);
-                add_msg_player_or_npc(m_bad, _("You are grabbed by %s!"), _("<npcname> is grabbed by <npcname>!"),
+                add_msg_player_or_npc(m_bad, _("You are grabbed by %s!"), _("<npcname> is grabbed by %s!"),
                                 source->disp_name().c_str());
             }
         }
