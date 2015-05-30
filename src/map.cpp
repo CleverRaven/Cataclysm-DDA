@@ -2733,10 +2733,9 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
     // * The terrain we're bashing is not an obstacle (default move cost) and is flat
     // * The terrain we're bashing has no bash->ter_set
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
-    if( smash_ter &&
+    if( smash_ter && ( !zlevels || !bash_floor ) &&
         ( bash->ter_set == null_ter_t ||
-          ( ter_at( p ).movecost == 0 && ter_at( p ).has_flag( "FLAT" ) ) &&
-        ( !zlevels || !bash_floor ) ) {
+          ( ter_at( p ).movecost == 0 && ter_at( p ).has_flag( "FLAT" ) ) ) ) {
         smash_ter = false;
         bash = nullptr;
     }
@@ -2828,7 +2827,8 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 tripoint below( p.x, p.y, p.z - 1 );
                 const auto &ter_below = ter_at( below );
                 if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
-                    bash_ter_furn( below, str, silent, destroy, res_roll );
+                    // When bashing the tile below, don't allow bashing floor
+                    bash_ter_furn( below, str, silent, destroy, false, res_roll );
                 }
 
                 ter_set( p, t_open_air );
@@ -2987,7 +2987,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
 }
 
 std::pair<bool, bool> map::bash( const tripoint &p, const int str,
-                                 bool silent, bool destroy, vehicle *bashing_vehicle.
+                                 bool silent, bool destroy, vehicle *bashing_vehicle,
                                  bool bash_floor )
 {
     bool smashed_something = false;

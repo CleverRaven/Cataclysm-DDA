@@ -782,6 +782,11 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    if( allow_vertical ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
+
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _( " (Direction button)" );
     mvwprintw( g->w_terrain, 0, 0, "%s", query_text.c_str() );
@@ -795,8 +800,10 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
         return true;
     } else if( action == "LEVEL_UP" ) {
         offset = tripoint( 0, 0, 1 );
+        return true;
     } else if( action == "LEVEL_DOWN" ) {
         offset = tripoint( 0, 0, -1 );
+        return true;
     }
 
     add_msg( _( "Invalid direction." ) );
