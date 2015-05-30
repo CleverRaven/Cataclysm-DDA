@@ -2808,8 +2808,8 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 ter_set( p, bash->ter_set );
                 // Elses below: terrain is unset, meaning we want to get it from terrain below
             } else if( !zlevels ) {
-                // No z-levels = no real floor for you! Have dirt instead
-                ter_set( p, t_dirt );
+                // No z-levels = no destructible floors!
+                // Do nothing, floors aren't destructible in 2D mode
             } else {
                 // Replacement with a null terrain means we just destroyed a floor.
                 // Bash the tile that supported it from below
