@@ -1422,8 +1422,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW_PTR w_locationptr( w_location );
 
-    WINDOW *w_flags = newwin(iContentHeight - 9, (FULL_SCREEN_WIDTH / 2) - 1,
-                             13 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW *w_flags = newwin(iContentHeight - 10, (FULL_SCREEN_WIDTH / 2) - 1,
+                             14 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     WINDOW_PTR w_flagsptr( w_flags );
 
