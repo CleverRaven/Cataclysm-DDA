@@ -5622,6 +5622,8 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
+
+    // fix do_effects
     bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
@@ -5635,8 +5637,8 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             if( p->pos() == source && volume != 0 ) {
                 // generic stereo players without earphones
                 sound = string_format( _("You listen to %s"), music.sound.c_str() );
-            } else if ( p->pos() == source && volume == 0 && !p->is_deaf() ) {
-                // mp3 player, if not deaf
+            } else if ( p->pos() == source && volume == 0 && p->can_hear( source, volume)) {
+                // in-ear music, such as mp3 player
                 p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
             }
         }
