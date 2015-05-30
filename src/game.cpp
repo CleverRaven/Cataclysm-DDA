@@ -5958,7 +5958,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
     // on the other side of a wall and more importantly the other side of floor/ceiling
     int dam;
     // Arbitrarily cut z-radius by a factor of 4
-    const int z_radius = m.has_zlevels() ? radius / 4: 0;
+    const int z_radius = m.has_zlevels() && debug_mode ? radius / 4: 0;
     for( auto &&t : m.points_in_radius( p, radius, z_radius ) ) {
         if( t == p ) {
             dam = 3 * power;
