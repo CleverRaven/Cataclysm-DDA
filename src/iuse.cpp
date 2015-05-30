@@ -5628,12 +5628,15 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
-        if (!music.sound.empty()) {
+        if ( !music.sound.empty() ) {
             // return only music description by default
             sound = music.sound;
             // music source is on player's square
-            if( p->pos() == source ) {
+            if( p->pos() == source && volume != 0 ) {
                 sound = string_format( _("You listen to %s"), music.sound.c_str() );
+            } else if ( p->pos() == source && volume == 0 && p->can_hear( source, volume )) {
+                // listening through headphones, no further sound processing
+                p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
             }
         }
         if( do_effects ) {
@@ -5641,7 +5644,10 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             morale_bonus += music.morale_bonus;
         }
     }
-    sounds::ambient_sound( source, volume, sound );
+    if ( volume != 0 ) {
+            // process only audible sounds
+            sounds::ambient_sound( source, volume, sound );
+    }
     if( do_effects ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
@@ -5652,8 +5658,8 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
         if (p->has_item(it)) {
-            // player has earbuds on, we can listen
-            play_music( p, pos, 5, 50 );
+            // mp3 player in inventory, we can listen
+            play_music( p, pos, 0, 50 );
         }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
