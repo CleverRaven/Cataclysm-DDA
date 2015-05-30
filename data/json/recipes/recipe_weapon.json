@@ -4920,6 +4920,55 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cutlass",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 6 ], [ "scots_cookbook", 8 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300],
+      [ "char_forge", 60],
+      [ "oxy_torch", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+     ],
+     [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "broadsword",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
