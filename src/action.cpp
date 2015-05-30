@@ -775,7 +775,7 @@ bool choose_direction( const std::string &message, int &x, int &y )
     return ret;
 }
 
-bool choose_direction( const std::string &message, tripoint &offset )
+bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_directions();
@@ -787,13 +787,16 @@ bool choose_direction( const std::string &message, tripoint &offset )
     mvwprintw( g->w_terrain, 0, 0, "%s", query_text.c_str() );
     wrefresh( g->w_terrain );
     const std::string action = ctxt.handle_input();
-    offset.z = 0; // TODO: Handle up/down in get_direction
     if( input_context::get_direction( offset.x, offset.y, action ) ) {
+        offset.z = 0;
         return true;
     } else if( action == "pause" ) {
-        offset.x = 0;
-        offset.y = 0;
+        offset = tripoint( 0, 0, 0 );
         return true;
+    } else if( action == "LEVEL_UP" ) {
+        offset = tripoint( 0, 0, 1 );
+    } else if( action == "LEVEL_DOWN" ) {
+        offset = tripoint( 0, 0, -1 );
     }
 
     add_msg( _( "Invalid direction." ) );
@@ -809,9 +812,9 @@ bool choose_adjacent( std::string message, int &x, int &y )
     return ret;
 }
 
-bool choose_adjacent( std::string message, tripoint &p )
+bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
 {
-    if( !choose_direction( message, p ) ) {
+    if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
     }
     p += g->u.pos3();

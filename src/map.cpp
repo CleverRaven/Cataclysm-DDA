@@ -2704,7 +2704,8 @@ ter_id map::get_roof( const tripoint &p )
 }
 
 std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
-                                          bool silent, bool destroy, float res_roll )
+                                          bool silent, bool destroy, bool bash_floor,
+                                          float res_roll )
 {
     if( !inbounds( p ) ) {
         return std::pair<bool, bool>( true, false );
@@ -2725,6 +2726,21 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
         bash = &(ter_at(p).bash);
         smash_ter = true;
     }
+
+    // Floor bashing check
+    // We're bashing the floor if:
+    // * We're bashing terrain
+    // * The terrain we're bashing is not an obstacle (default move cost) and is flat
+    // * The terrain we're bashing has no bash->ter_set
+    // Only allow bashing floors when we want to bash floors and we're in z-level mode
+    if( smash_ter &&
+        ( bash->ter_set == null_ter_t ||
+          ( ter_at( p ).movecost == 0 && ter_at( p ).has_flag( "FLAT" ) ) &&
+        ( !zlevels || !bash_floor ) ) {
+        smash_ter = false;
+        bash = nullptr;
+    }
+
     // TODO: what if silent is true?
     if (has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED)) {
         sounds::sound(p, 40, _("an alarm go off!"));
@@ -2806,10 +2822,6 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
             } else if( bash->ter_set != null_ter_t ) {
                 // If the terrain has a valid post-destroy terrain, set it
                 ter_set( p, bash->ter_set );
-                // Elses below: terrain is unset, meaning we want to get it from terrain below
-            } else if( !zlevels ) {
-                // No z-levels = no destructible floors!
-                // Do nothing, floors aren't destructible in 2D mode
             } else {
                 // Replacement with a null terrain means we just destroyed a floor.
                 // Bash the tile that supported it from below
@@ -2975,7 +2987,8 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
 }
 
 std::pair<bool, bool> map::bash( const tripoint &p, const int str,
-                                 bool silent, bool destroy, vehicle *bashing_vehicle )
+                                 bool silent, bool destroy, vehicle *bashing_vehicle.
+                                 bool bash_floor )
 {
     bool smashed_something = false;
     if( get_field( p, fd_web ) != nullptr ) {
@@ -3004,7 +3017,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
     spawn_items( p, smashed_contents );
 
     // Add a glass sound even when something else also breaks
-    if( smashed_glass ) {
+    if( smashed_glass && !silent ) {
         sounds::sound( p, 12, _("glass shattering"), false, "bash", _("glass shattering") );
     }
 
@@ -3013,13 +3026,16 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
     vehicle *veh = veh_at( p, vpart );
     if( veh != nullptr && veh != bashing_vehicle ) {
         veh->damage( vpart, str, 1 );
-        sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
+        if( !silent ) {
+            sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
+        }
+
         return std::pair<bool, bool>( true, true );
     }
 
     // Else smash furniture or terrain
     const float resistance_roll = rng_float( 0, 1.0f );
-    const auto ter_furn = bash_ter_furn( p, str, silent, destroy, resistance_roll );
+    const auto ter_furn = bash_ter_furn( p, str, silent, destroy, bash_floor, resistance_roll );
     // Glass or web won't change the second value (success at bashing),
     // but it can change the first (was an attempt at bashing made)
     return std::pair<bool, bool>( ter_furn.first || smashed_something, ter_furn.second );

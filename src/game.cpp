@@ -7045,8 +7045,19 @@ void game::smash()
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     tripoint smashp;
 
-    if (!choose_adjacent(_("Smash where?"), smashp)) {
+    if( !choose_adjacent(_("Smash where?"), smashp, true ) ) {
         return;
+    }
+
+    bool smash_floor = false;
+    if( smashp.z != 0 ) {
+        if( smashp.z > 0 ) {
+            // TODO: Knock on the ceiling
+            return;
+        }
+
+        smashp.z = 0;
+        smash_floor = true;
     }
 
     if( m.get_field( smashp, fd_web ) != nullptr ) {
@@ -7066,7 +7077,7 @@ void game::smash()
         }
     }
 
-    didit = m.bash(smashp, smashskill).first;
+    didit = m.bash( smashp, smashskill, false, false, nullptr, smash_floor ).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
