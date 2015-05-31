@@ -256,15 +256,6 @@ void item::make_handed( const handedness handed )
     make_sided_if( *armor, covered_bodyparts, handed, bp_foot_l, bp_foot_r );
 }
 
-void item::clear()
-{
-    // should we be clearing contents, as well?
-    // Seems risky to - there aren't any reported content-clearing bugs
-    // init(); // this should not go here either, or make() should not use it...
-    item_tags.clear();
-    item_vars.clear();
-}
-
 bool item::is_null() const
 {
     static const std::string s_null("null"); // used alot, no need to repeat
@@ -497,6 +488,11 @@ bool item::has_var( const std::string &name ) const
 void item::erase_var( const std::string &name )
 {
     item_vars.erase( name );
+}
+
+void item::clear_vars()
+{
+    item_vars.clear();
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
@@ -2239,6 +2235,11 @@ int item::damage_cut() const
     } else {
         return 0;
     }
+}
+
+void item::unset_flags()
+{
+    item_tags.clear();
 }
 
 bool item::has_flag( const std::string &f ) const

@@ -142,7 +142,6 @@ public:
         item &operator=(const item &) = default;
  virtual ~item();
  void make( const std::string new_type );
- void clear(); // cleanup that's required to re-use an item variable
 
  // returns the default container of this item, with this item in it
  item in_its_container();
@@ -716,6 +715,8 @@ public:
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
         void erase_var( const std::string &name );
+        /** Removes all item variables. */
+        void clear_vars();
         /*@}*/
 
         /**
@@ -731,6 +732,8 @@ public:
          */
         /*@{*/
         bool has_flag( const std::string& flag ) const;
+        /** Removes all item specific flags. */
+        void unset_flags();
         /*@}*/
 
         /**
