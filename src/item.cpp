@@ -4011,13 +4011,6 @@ bool item::reload(player &u, int pos)
     }
 }
 
-void item::use()
-{
-    if (charges > 0) {
-        charges--;
-    }
-}
-
 bool item::burn(int amount)
 {
     if( amount < 0 ) {

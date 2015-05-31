@@ -543,7 +543,6 @@ classes = {
             type_name = { rval = "string", args = { "int" } },
             unset_curammo = { rval = nil, args = { } },
             update_charger_gun_ammo = { rval = "bool", args = { } },
-            use = { rval = nil, args = { } },
             volume = { rval = "int", args = { "bool", "bool" } },
             volume_contained = { rval = "int", args = { } },
             weap_skill = { rval = "string", args = { } },

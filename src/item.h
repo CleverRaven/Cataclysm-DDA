@@ -157,7 +157,6 @@ public:
     nc_color color_in_inventory() const;
     std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
     std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
-    void use();
     bool burn(int amount = 1); // Returns true if destroyed
 
  // Returns the category of this item.
