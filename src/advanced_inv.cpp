@@ -1532,7 +1532,7 @@ void advanced_inventory::display()
             } else {
                 item &it = *sitem->it;
                 std::vector<iteminfo> vThisItem, vDummy;
-                it.info( true, &vThisItem );
+                it.info( true, vThisItem );
                 int rightWidth = w_width / 2;
                 ret = draw_item_info( colstart + ( src == left ? w_width / 2 : 0 ),
                                       rightWidth, 0, 0, it.tname(), vThisItem, vDummy );

@@ -558,11 +558,12 @@ void item::load_info(std::string data)
 std::string item::info(bool showtext) const
 {
     std::vector<iteminfo> dummy;
-    return info(showtext, &dummy);
+    return info(showtext, dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump) const
+std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 {
+    auto dump = &dump_ref; // for compatibility with the code below (which uses ->), TODO: switch to using the reference
     std::stringstream temp1, temp2;
     std::string space=" ";
     const bool debug = g != nullptr &&

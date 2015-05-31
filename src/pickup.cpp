@@ -721,7 +721,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 werase(w_item_info);
                 if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
-                    here[selected].info(true, &vThisItem);
+                    here[selected].info(true, vThisItem);
 
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
