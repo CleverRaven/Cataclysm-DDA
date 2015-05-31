@@ -153,9 +153,6 @@ public:
  virtual ~item();
  void make( const std::string new_type );
 
- // returns the default container of this item, with this item in it
- item in_its_container();
-
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
      */
@@ -242,8 +239,6 @@ public:
          * items that stack together (@ref stacks_with).
          */
         bool merge_charges( const item &rhs );
- void put_in(item payload);
- void add_rain_to_container(bool acid, int charges = 1);
 
  int weight() const;
 
@@ -334,13 +329,58 @@ public:
   * @param On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
-/**
- * Fill container with liquid up to its capacity.
- * @param liquid Liquid to fill the container with.
- * @param err Contains error message if function returns false.
- * @return Returns false in case of error
- */
- bool fill_with( item &liquid, std::string &err );
+
+    /**
+     * @name Containers
+     *
+     * Containers come in two flavors:
+     * - suitable for liquids (@ref is_watertight_container),
+     * - and the remaining one (they are for currently only for flavor).
+     */
+    /*@{*/
+    /** Whether this is container. Note that container does not necessarily means it's
+     * suitable for liquids. */
+    bool is_container() const;
+    /** Whether this is a container which can be used to store liquids. */
+    bool is_watertight_container() const;
+    /** Whether this item has no contents at all. */
+    bool is_container_empty() const;
+    /** Whether this item has no more free capacity for its current content. */
+    bool is_container_full() const;
+    /**
+     * Fill item with liquid up to its capacity. This works for guns and tools that accept
+     * liquid ammo.
+     * @param liquid Liquid to fill the container with.
+     * @param err Contains error message if function returns false.
+     * @return Returns false in case of error. Nothing has been added in that case.
+     */
+    bool fill_with( item &liquid, std::string &err );
+    /**
+     * How much more of this liquid (in charges) can be put in this container.
+     * If this is not a container (or not suitable for the liquid), it returns 0.
+     * Note that mixing different types of liquid is not possible.
+     * Also note that this works for guns and tools that accept liquid ammo.
+     */
+    long get_remaining_capacity_for_liquid(const item &liquid) const;
+    /**
+     * Puts the given item into this one, no checks are performed.
+     */
+    void put_in( item payload );
+    /**
+     * Returns this item into its default container. If it does not have a default container,
+     * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
+     */
+    item in_its_container(); // TODO: make this const
+    /*@}*/
+
+    /*@{*/
+    /**
+     * Funnel related functions. See weather.cpp for their usage.
+     */
+    bool is_funnel_container(int &bigger_than) const;
+    void add_rain_to_container(bool acid, int charges = 1);
+    /*@}*/
+
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  bool count_by_charges() const;
@@ -570,13 +610,8 @@ public:
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
- bool is_container() const;
- bool is_watertight_container() const;
  bool is_salvageable() const;
  bool is_disassemblable() const;
- bool is_container_empty() const;
- bool is_container_full() const;
- bool is_funnel_container(int &bigger_than) const;
 
  bool is_tool() const;
  bool is_tool_reversible() const;
@@ -602,8 +637,6 @@ public:
      * @see snippet_library.
      */
     void set_snippet( const std::string &snippet_id );
-
- long get_remaining_capacity_for_liquid(const item &liquid) const;
 
  bool operator<(const item& other) const;
     /** List of all @ref components in printable form, empty if this item has

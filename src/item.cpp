@@ -4082,7 +4082,6 @@ int item::getlight_emit() const {
     return lumint / 10;
 }
 
-// How much more of this liquid can be put in this container
 long item::get_remaining_capacity_for_liquid(const item &liquid) const
 {
     if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
