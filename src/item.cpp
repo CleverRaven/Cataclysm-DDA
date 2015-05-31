@@ -2851,7 +2851,7 @@ bool item::is_silent() const
     const auto curammo = get_curammo();
  // So far only gun code uses this check
  return type->gun && (
-   noise() < 5 ||              // almost silent
+   gun_noise().volume < 5 ||              // almost silent
    (
         curammo != nullptr &&
         (
@@ -3451,28 +3451,6 @@ int item::gun_pierce( bool with_ammo ) const
         }
     }
     // TODO: item::damage is not used here, but it is in item::gun_damage?
-    return ret;
-}
-
-int item::noise() const
-{
-    if( !is_gun() ) {
-        return 0;
-    }
-    item const* gunmod = active_gunmod();
-    if( gunmod != nullptr ) {
-        return gunmod->noise();
-    }
-    const islot_gun* gun = type->gun.get();
-    int ret = gun->loudness;
-    if( has_curammo() ) {
-        ret += get_curammo()->ammo->damage;
-    }
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->loudness;
-        }
-    }
     return ret;
 }
 

@@ -193,7 +193,6 @@ public:
  // Returns the category of this item.
  const item_category &get_category() const;
 
- int noise() const;
     /**
      * @param u The player whose inventory is used to search for suitable ammo.
      * @param interactive Whether to show a dialog to select the ammo, if false it will select
@@ -1010,6 +1009,17 @@ public:
         int aim_speed( int aim_threshold ) const;
         /** We use the current aim level to decide which sight to use. */
         int sight_dispersion( int aim_threshold ) const;
+        struct sound_data {
+            /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
+            int volume;
+            /** Sound description, can be used with @ref sounds::sounds, it is already translated. */
+            std::string sound;
+        };
+        /**
+         * Returns the sound of the gun being fired.
+         * @param burst Whether the gun was fired in burst mode (the sound string is usually different).
+         */
+        sound_data gun_noise( bool burst = false ) const;
         /**
          * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
          * Example: underslug shotgun.

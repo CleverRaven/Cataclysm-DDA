@@ -504,7 +504,6 @@ classes = {
             merge_charges = { rval = "bool", args = { "item" } },
             needs_processing = { rval = "bool", args = { } },
             next_mode = { rval = nil, args = { } },
-            noise = { rval = "int", args = { } },
             num_charges = { rval = "int", args = { } },
             on_wear = { rval = nil, args = { "player" } },
             on_wield = { rval = nil, args = { "player" } },
