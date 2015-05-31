@@ -2444,17 +2444,22 @@ void mattack::grab(monster *z, int index)
         }
     return;
     }
-    target->add_msg_player_or_npc(m_bad, _("%s grabs you!"), _("%s grabs <npcname>!"),
-                                z->disp_name().c_str());
 
     if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
         rng(0, target->get_dex()) : rng( 0, target->get_str()) > rng( 0 , z->type->melee_sides + z->type->melee_dice)) {
-        target->add_msg_player_or_npc(m_good, _("You break the grab!"),
-                                    _("<npcname> breaks the grab!"));
-        return;
+        if (target->has_effect("grabbed")){
+            target->add_msg_if_player(m_info,_("The %s tries to grab you as well, but you bat it away!"),
+                                      z->name().c_str());
+        } else {target->add_msg_player_or_npc(m_info, _("The %s tries to grab you, but you break its grab!"),
+                                    _("The %s tries to grab <npcname>, but they break its grab!"),
+                                    z->name().c_str());
         }
+        return;
+    }
     int prev_effect = target->get_effect_int("grabbed");
     target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 1);
+    target->add_msg_player_or_npc(m_bad, _("The %s grabs you!"), _("The %s grabs <npcname>!"),
+                                z->name().c_str());
 }
 
 void mattack::grab_drag(monster *z, int index)
