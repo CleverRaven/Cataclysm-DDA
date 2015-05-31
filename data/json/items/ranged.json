@@ -4222,8 +4222,7 @@
     "burst": 100,
     "clip_size": 500,
     "reload": 10000,
-    "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
+    "loudness" : 150
  },
  {
     "id": "m2browning_sawn",
