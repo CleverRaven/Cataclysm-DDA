@@ -1447,6 +1447,7 @@ void game::update_weather()
         w_point const w = weatherGen.get_weather( u.global_square_location(), calendar::turn );
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
+        sounds::do_ambient_sfx();
         if (weather == WEATHER_SUNNY && calendar::turn.is_night()) { weather = WEATHER_CLEAR; }
         temperature = w.temperature;
         lightning_active = false;
@@ -12377,6 +12378,7 @@ bool game::plmove(int dx, int dy)
 
     //Only now can we be sure we actually moved
     on_move_effects();
+    sounds::do_ambient_sfx();
     return true;
 }
 
