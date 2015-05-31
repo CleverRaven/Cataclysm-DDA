@@ -20,22 +20,64 @@
 #define dprint(a,...)      void()
 #endif
 ////////////////////////////////////////////////////////////////////////////////////
-void ui_container::refresh(bool refresh_children)
-{
-    // iterate through all the children and update their windows
-//    for(auto &w : 
-}
-
-void ui_container::add_element(const ui_element_info &element)
+////////////////////////////////////////////////////////////////////////////////////
+void ui_container::add_element(const ui_element_type &type, const std::string &name)
 {
 }
 
-void ui_container::rem_element(const ui_element_info &element)
+void ui_container::rem_element(const ui_element_type &type, const std::string &name)
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+void ui_scrollbar::draw()
+{
+//    if (iContentHeight >= iNumEntries) {
+//        //scrollbar is not required
+//        bar_color = BORDER_COLOR;
+//    }
+//
+//    //Clear previous scrollbar
+//    for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
+//        mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
+//    }
+//
+//    if (iContentHeight >= iNumEntries) {
+//        wrefresh(window);
+//        return;
+//    }
+//
+//    if (iNumEntries > 0) {
+//        mvwputch(window, iOffsetY, iOffsetX, c_ltgreen, '^');
+//        mvwputch(window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v');
+//
+//        int iSBHeight = ((iContentHeight - 2) * (iContentHeight - 2)) / iNumEntries;
+//
+//        if (iSBHeight < 2) {
+//            iSBHeight = 2;
+//        }
+//
+//        int iStartY = (iCurrentLine * (iContentHeight - 3 - iSBHeight)) / iNumEntries;
+//        if (iCurrentLine == 0) {
+//            iStartY = -1;
+//        } else if (iCurrentLine == iNumEntries - 1) {
+//            iStartY = iContentHeight - 3 - iSBHeight;
+//        }
+//
+//        for (int i = 0; i < iSBHeight; i++) {
+//            mvwputch(window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO);
+//        }
+//    }
+//
+    wrefresh(window.get());
+}
 
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////
 int getfoldedwidth (std::vector<std::string> foldedstring)
@@ -164,7 +206,7 @@ void uimenu::init()
     textalign = MENU_ALIGN_LEFT; // todo
     title = "";            // Makes use of the top border, no folding, sets min width if size.x is auto
     keypress = 0;          // last keypress from (int)getch()
-    window = NULL;         // our window
+    window.reset(new WINDOW); // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...todo submenu stuff)
@@ -278,8 +320,8 @@ std::string uimenu::inputfilter()
     std::string identifier = ""; // todo: uimenu.filter_identifier ?
     long key = 0;
     int spos = -1;
-    mvwprintz(window, size.y - 1, 2, border_color, "< ");
-    mvwprintz(window, size.y - 1, size.x - 3, border_color, " >");
+    mvwprintz(window.get(), size.y - 1, 2, border_color, "< ");
+    mvwprintz(window.get(), size.y - 1, size.x - 3, border_color, " >");
     /*
     //debatable merit
         std::string origfilter = filter;
@@ -289,7 +331,7 @@ std::string uimenu::inputfilter()
     */
     do {
         // filter=filter_input->query(filter, false);
-        filter = string_input_win( window, filter, 256, 4, size.y - 1, size.x - 4,
+        filter = string_input_win( window.get(), filter, 256, 4, size.y - 1, size.x - 4,
                                    false, key, spos, identifier, 4, size.y - 1 );
         // key = filter_input->keypress;
         if ( key != KEY_ESCAPE ) {
@@ -311,11 +353,11 @@ std::string uimenu::inputfilter()
         filterlist();
     }
 
-    wattron(window, border_color);
+    wattron(window.get(), border_color);
     for( int i = 1; i < size.x - 1; i++ ) {
-        mvwaddch(window, size.y - 1, i, LINE_OXOX);
+        mvwaddch(window.get(), size.y - 1, i, LINE_OXOX);
     }
-    wattroff(window, border_color);
+    wattroff(window.get(), border_color);
 
     return filter;
 }
@@ -493,14 +535,14 @@ void uimenu::setup()
     if ( (int)entries.size() <= vmax ) {
         scrollbar_auto = false;
     }
-    window = newwin(size.y, size.x, pos.y, pos.x);
+    window.reset(newwin(size.y, size.x, pos.y, pos.x));
 
-    werase(window);
-    draw_border(window, border_color);
+    werase(window.get());
+    draw_border(window.get(), border_color);
     if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
+        mvwprintz(window.get(), 0, 1, border_color, "< ");
+        wprintz(window.get(), title_color, "%s", title.c_str() );
+        wprintz(window.get(), border_color, " >");
     }
     fselected = selected;
     if(fselected < 0) {
@@ -532,19 +574,19 @@ void uimenu::apply_scrollbar()
         int estart = textformatted.size() + 1;
 
         if ( !fentries.empty() && vmax < (int)fentries.size() ) {
-            wattron(window, border_color);
-            mvwaddch(window, estart, sbside, '^');
-            wattroff(window, border_color);
+            wattron(window.get(), border_color);
+            mvwaddch(window.get(), estart, sbside, '^');
+            wattroff(window.get(), border_color);
 
-            wattron(window, scrollbar_nopage_color);
+            wattron(window.get(), scrollbar_nopage_color);
             for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
+                mvwaddch(window.get(), i, sbside, LINE_XOXO);
             }
-            wattroff(window, scrollbar_nopage_color);
+            wattroff(window.get(), scrollbar_nopage_color);
 
-            wattron(window, border_color);
-            mvwaddch(window, estart + vmax - 1, sbside, 'v');
-            wattroff(window, border_color);
+            wattron(window.get(), border_color);
+            mvwaddch(window.get(), estart + vmax - 1, sbside, 'v');
+            wattroff(window.get(), border_color);
 
             int svmax = vmax - 2;
             int fentriessz = fentries.size() - vmax;
@@ -556,18 +598,18 @@ void uimenu::apply_scrollbar()
             int sbstart = ( vshift * svmaxsz ) / fentriessz;
             int sbend = sbstart + sbsize;
 
-            wattron(window, scrollbar_page_color);
+            wattron(window.get(), scrollbar_page_color);
             for ( int i = sbstart; i < sbend; i++ ) {
-                mvwaddch(window, i + estart + 1, sbside, LINE_XOXO);
+                mvwaddch(window.get(), i + estart + 1, sbside, LINE_XOXO);
             }
-            wattroff(window, scrollbar_page_color);
+            wattroff(window.get(), scrollbar_page_color);
 
         } else {
-            wattron(window, border_color);
+            wattron(window.get(), border_color);
             for( int i = estart; i < estart + vmax; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
+                mvwaddch(window.get(), i, sbside, LINE_XOXO);
             }
-            wattroff(window, border_color);
+            wattroff(window.get(), border_color);
         }
     }
 }
@@ -583,14 +625,14 @@ void uimenu::show()
     std::string padspaces = std::string(size.x - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
     for ( int i = 0; i < text_lines; i++ ) {
-        trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+        trim_and_print(window.get(), 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
     }
 
-    mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
+    mvwputch(window.get(), text_lines + 1, 0, border_color, LINE_XXXO);
     for ( int i = 1; i < size.x - 1; ++i) {
-        mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+        mvwputch(window.get(), text_lines + 1, i, border_color, LINE_OXOX);
     }
-    mvwputch(window, text_lines + 1, size.x - 1, border_color, LINE_XOXX);
+    mvwputch(window.get(), text_lines + 1, size.x - 1, border_color, LINE_XOXX);
 
     int estart = text_lines + 2;
 
@@ -607,10 +649,10 @@ void uimenu::show()
                           );
 
             if ( hilight_full ) {
-                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
+                mvwprintz(window.get(), estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
             if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
-                mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
+                mvwprintz( window.get(), estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
                            hotkey_color , "%c", entries[ ei ].hotkey );
             }
             if( padspaces.size() > 3 ) {
@@ -619,46 +661,46 @@ void uimenu::show()
                 // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
                 const auto entry = utf8_wrapper( entries[ ei ].txt );
-                trim_and_print( window, estart + si, pad_left + 4, size.x - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
+                trim_and_print( window.get(), estart + si, pad_left + 4, size.x - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
-                mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                mvwprintz( window.get(), estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
             if ( entries[ei].extratxt.sym != 0 ) {
-                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                mvwputch ( window.get(), estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
             }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
+            mvwprintz(window.get(), estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
         }
     }
 
     if ( desc_enabled ) {
         // draw border
-        mvwputch(window, size.y - desc_lines - 2, 0, border_color, LINE_XXXO);
+        mvwputch(window.get(), size.y - desc_lines - 2, 0, border_color, LINE_XXXO);
         for ( int i = 1; i < size.x - 1; ++i) {
-            mvwputch(window, size.y - desc_lines - 2, i, border_color, LINE_OXOX);
+            mvwputch(window.get(), size.y - desc_lines - 2, i, border_color, LINE_OXOX);
         }
-        mvwputch(window, size.y - desc_lines - 2, size.x - 1, border_color, LINE_XOXX);
+        mvwputch(window.get(), size.y - desc_lines - 2, size.x - 1, border_color, LINE_XOXX);
 
         // clear previous desc the ugly way
         for ( int y = desc_lines + 1; y > 1; --y ) {
             for ( int x = 2; x < size.x - 2; ++x) {
-                mvwputch(window, size.y - y, x, text_color, " ");
+                mvwputch(window.get(), size.y - y, x, text_color, " ");
             }
         }
 
         // draw description
-        fold_and_print(window, size.y - desc_lines - 1, 2, size.x - 4, text_color, entries[selected].desc.c_str());
+        fold_and_print(window.get(), size.y - desc_lines - 1, 2, size.x - 4, text_color, entries[selected].desc.c_str());
     }
 
     if ( !filter.empty() ) {
-        mvwprintz( window, size.y - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz( window, size.y - 1, 4, text_color, "%s", filter.c_str() );
+        mvwprintz( window.get(), size.y - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window.get(), size.y - 1, 4, text_color, "%s", filter.c_str() );
     }
     apply_scrollbar();
 
@@ -670,7 +712,7 @@ void uimenu::show()
  */
 void uimenu::refresh( bool refresh_callback )
 {
-    wrefresh(window);
+    wrefresh(window.get());
     if ( refresh_callback && callback != NULL ) {
         callback->refresh(this);
     }
@@ -681,15 +723,15 @@ void uimenu::refresh( bool refresh_callback )
  */
 void uimenu::redraw( bool redraw_callback )
 {
-    draw_border(window, border_color);
+    draw_border(window.get(), border_color);
     if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
+        mvwprintz(window.get(), 0, 1, border_color, "< ");
+        wprintz(window.get(), title_color, "%s", title.c_str() );
+        wprintz(window.get(), border_color, " >");
     }
     if ( !filter.empty() ) {
-        mvwprintz(window, size.y - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz(window, size.y - 1, 4, text_color, "%s", filter.c_str());
+        mvwprintz(window.get(), size.y - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz(window.get(), size.y - 1, 4, text_color, "%s", filter.c_str());
     }
     (void)redraw_callback; // TODO
     /*
@@ -826,11 +868,11 @@ uimenu::~uimenu()
 
 void uimenu::reset()
 {
-    if (window != NULL) {
-        werase(window);
-        wrefresh(window);
-        delwin(window);
-        window = NULL;
+    if (window.get() != NULL) {
+        werase(window.get());
+        wrefresh(window.get());
+        delwin(window.get());
+        window.reset(new WINDOW);
     }
 
     init();

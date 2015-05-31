@@ -12,47 +12,93 @@
 class ui_element;
 
 enum ui_element_type {
-    UI_ELEMENT_TEXT = 0,
+    UI_ELEMENT_CANVAS = 0,          // raw drawing (like game window)
+    UI_ELEMENT_LIST,                // displays a list, also adds a scrollbar if needed
     UI_ELEMENT_INPUT,
     UI_ELEMENT_PROMPT,
     NUM_UI_ELEMENTS
 };
 
-// contains information about the newly created element, such as id and type
-struct ui_element_info {
-    ui_element_type type;   // type of element
-    std::string name;       // name of the element (used to refer to the element)
-    point size;             // size of the element
-    point pos;              // position of element
-    WINDOW *win;            // curses window handle
-
-    ui_element_info(ui_element_type T, std::string N, point S, point C) : 
-        type(T), name(N), size(S), pos(C) {};
+struct curses_char {
+    unsigned long ch;
+    nc_color fg;
 };
 
 // Virtual base class for windowed ui stuff (like uimenu)
-class ui_container
+class ui_base
 {
     protected:
-        WINDOW *window;
+        WINDOW_PTR window;
         point pos, size;
-        // children["given_name"] = element;
-        std::unordered_map<std::string, std::unique_ptr<ui_element>> children;
+    public:
+        virtual void draw() = 0;
+        virtual void handle_input() = 0;
+};
+
+class ui_element : public ui_base
+{
+    protected:
+        std::string name;
+        ui_element_type type;
+    public:
+        ui_element();
+        virtual ~ui_element();
+        virtual void draw();
+};
+
+class ui_canvas : public ui_base
+{
+    private:
+        std::vector<std::vector<curses_char>> canvas;
+    public:
+        void draw() override;
+};
+
+class ui_list : public ui_base
+{
+    private:
+        int current_line = 0;
+    public:
+        void draw() override;
+        int get_current_line() const
+        {
+            return current_line;
+        }
+};
+
+class ui_button : public ui_base
+{
+    public:
+        void draw() override;
+};
+
+class ui_text : public ui_base
+{
+    public:
+        void draw() override;
+};
+
+class ui_scrollbar : public ui_element
+{
+    private:
+        unsigned int num_items = 0;
+        point offset = {0, 0};
+        nc_color bar_color = c_white;
+    public:
+        void draw() override;
+};
+
+class ui_container : public ui_base
+{
+    private:
+        std::vector<std::unique_ptr<ui_element>> children;
     public:
         virtual void refresh(bool refresh_children = true);
         // add an element to this container
-        virtual void add_element(const ui_element_info &element);
+        virtual void add_element(const ui_element_type &type, const std::string &name = "");
         // remove an element from this container
-        virtual void rem_element(const ui_element_info &element);
+        virtual void rem_element(const ui_element_type &type, const std::string &name = "");
 };
-
-class ui_element : public ui_container {
-    private:
-        ui_element_info info;
-    public:
-        void set();
-};
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -160,7 +206,7 @@ class uimenu_callback
 /*
  * uimenu: scrolling vertical list menu
  */
-class uimenu: public ui_container
+class uimenu: public ui_base
 {
     public:
         int ret;
@@ -223,7 +269,7 @@ class uimenu: public ui_container
         void filterlist();
         void apply_scrollbar();
         std::string inputfilter();
-        void refresh(bool refresh_callback = true) override;
+        void refresh(bool refresh_callback = true);
         void redraw(bool redraw_callback = true);
         void addentry(std::string str);
         void addentry(const char *format, ...);
