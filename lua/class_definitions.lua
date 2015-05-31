@@ -404,7 +404,6 @@ classes = {
             color_in_inventory = { rval = "int", args = { } },
             components_to_string = { rval = "string", args = { } },
             conductive = { rval = "bool", args = { } },
-            contains_with_flag = { rval = "bool", args = { "string" } },
             count_by_charges = { rval = "bool", args = { } },
             craft_has_charges = { rval = "bool", args = { } },
             cut_resist = { rval = "int", args = { } },

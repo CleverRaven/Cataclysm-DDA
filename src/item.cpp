@@ -2288,16 +2288,6 @@ bool item::has_flag(const std::string &f) const
     return ret;
 }
 
-bool item::contains_with_flag(std::string f) const
-{
-    bool ret = false;
-    for (auto &k : contents) {
-        ret = k.has_flag(f);
-        if (ret) return ret;
-    }
-    return ret;
-}
-
 bool item::has_quality(std::string quality_id) const {
     return has_quality(quality_id, 1);
 }

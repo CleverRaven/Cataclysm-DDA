@@ -287,7 +287,6 @@ public:
  */
  bool fill_with( item &liquid, std::string &err );
  bool has_flag(const std::string &f) const;
- bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  int has_gunmod(itype_id type) const;
