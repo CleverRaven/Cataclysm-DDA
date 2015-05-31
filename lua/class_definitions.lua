@@ -453,7 +453,6 @@ classes = {
             has_rotten_away = { rval = "bool", args = { } },
             has_var = { rval = "bool", args = { "string" } },
             info = { rval = "string", args = { "bool" } },
-            init = { rval = nil, args = { } },
             invlet_is_okay = { rval = "bool", args = { } },
             is_ammo = { rval = "bool", args = { } },
             is_ammo_container = { rval = "bool", args = { } },

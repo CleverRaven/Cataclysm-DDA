@@ -145,7 +145,6 @@ public:
         item &operator=(item &&) = default;
         item &operator=(const item &) = default;
  virtual ~item();
- void init();
  void make( const std::string new_type );
  void clear(); // cleanup that's required to re-use an item variable
 
@@ -972,6 +971,8 @@ public:
         static bool type_is_defined( const itype_id &id );
 
     private:
+        /** Reset all members to default, making this a null item. */
+        void init();
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;
