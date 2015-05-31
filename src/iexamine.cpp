@@ -2041,45 +2041,36 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
     } else {
         auto drink = m->i_at(examp).begin();
         std::vector<std::string> menu_items;
-        std::vector<uimenu_entry> options_message;
-        menu_items.push_back(_("Fill a container with %drink"));
-        options_message.push_back(uimenu_entry(string_format(_("Fill a container with %s"),
-                                               drink->tname().c_str()), '1'));
-        menu_items.push_back(_("Have a drink"));
-        options_message.push_back(uimenu_entry(_("Have a drink"), '2'));
-        menu_items.push_back(_("Refill"));
-        options_message.push_back(uimenu_entry(_("Refill"), '3'));
-        menu_items.push_back(_("Examine"));
-        options_message.push_back(uimenu_entry(_("Examine"), '4'));
-        menu_items.push_back(_("Cancel"));
-        options_message.push_back(uimenu_entry(_("Cancel"), '5'));
+        enum options {
+            FILL_CONTAINER,
+            HAVE_A_DRINK,
+            REFILL,
+            EXAMINE,
+            CANCEL,
+        };
+        uimenu selectmenu;
+        selectmenu.addentry( FILL_CONTAINER, true, MENU_AUTOASSIGN, _("Fill a container with %s"),
+                            drink->tname().c_str() );
+        selectmenu.addentry( HAVE_A_DRINK, drink->is_food(), MENU_AUTOASSIGN, _("Have a drink") );
+        selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _("Refill") );
+        selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _("Examine") );
+        selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 
-        int choice;
-        if( menu_items.size() == 1 ) {
-            choice = 0;
-        } else {
-            uimenu selectmenu;
-            selectmenu.return_invalid = true;
-            selectmenu.text = _("Select an action");
-            selectmenu.entries = options_message;
-            selectmenu.selected = 0;
-            selectmenu.query();
-            choice = selectmenu.ret;
-        }
-        if(choice < 0) {
-            return;
-        }
+        selectmenu.return_invalid = true;
+        selectmenu.text = _("Select an action");
+        selectmenu.selected = 0;
+        selectmenu.query();
 
-        if(menu_items[choice] == _("Fill a container with %drink")) {
+        switch( static_cast<options>( selectmenu.ret ) ) {
+        case FILL_CONTAINER:
             if( g->handle_liquid(*drink, true, false) ) {
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
                         m->name(examp).c_str());
                 m->i_clear( examp );
             }
             return;
-        }
 
-        if(menu_items[choice] == _("Have a drink")) {
+        case HAVE_A_DRINK:
             if( !p->eat( &*drink, dynamic_cast<it_comest *>(drink->type) ) ) {
                 return; // They didn't actually drink
             }
@@ -2092,9 +2083,8 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
             }
             p->moves -= 250;
             return;
-        }
 
-        if(menu_items[choice] == _("Refill")) {
+        case REFILL: {
             int charges_held = p->charges_of(drink->typeId());
             int d_vol = drink->volume(false, true) / 1000;
             if (d_vol >= keg_cap) {
@@ -2123,11 +2113,15 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
             return;
         }
 
-        if(menu_items[choice] == _("Examine")) {
+        case EXAMINE: {
             add_msg(m_info, _("That is a %s."), m->name(examp).c_str());
             int full_pct = drink->volume(false, true) / (keg_cap * 10);
             add_msg(m_info, _("It contains %s (%d), %d%% full."),
                     drink->tname().c_str(), drink->charges, full_pct);
+            return;
+        }
+
+        case CANCEL:
             return;
         }
     }
