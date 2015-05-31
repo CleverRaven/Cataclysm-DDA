@@ -280,7 +280,6 @@ public:
  bool fill_with( item &liquid, std::string &err );
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
- int has_gunmod(itype_id type) const;
  bool goes_bad() const;
  bool is_going_bad() const;
  bool count_by_charges() const;
@@ -938,6 +937,12 @@ public:
          */
         item* active_gunmod();
         item const* active_gunmod() const;
+        /**
+         * Returns the index of a gunmod item of the given type. The actual gunmod item is in
+         * the @ref contents vector, the returned index point into that vector.
+         * Returns -1 if this is not a gun, or if it has no such gunmod.
+         */
+        int has_gunmod( const itype_id& type ) const;
         /*@}*/
 
         /**

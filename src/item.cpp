@@ -2317,7 +2317,7 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
-int item::has_gunmod(itype_id mod_type) const
+int item::has_gunmod( const itype_id& mod_type ) const
 {
     if( !is_gun() ) {
         return -1;
