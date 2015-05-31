@@ -349,6 +349,85 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
+weather_type previous_weather;
+
+void sounds::do_ambient_sfx()
+{
+    /* Channel assignments:
+    0: Daytime outdoors env
+    1: Nighttime outdoors env
+    2: Underground env
+    3: Indoors env
+    4: Indoors rain env
+    5: Outdoors snow env
+    6: Outdoors flurry env
+    7: Outdoors thunderstorm env
+    8: Outdoors rain env
+    9: Outdoors drizzle env
+    Group Assignments:
+    1: SFX related to weather
+    2: SFX related to time of day
+    */
+    set_group_channels(2, 9, 1);
+    set_group_channels(0, 1, 2);
+    // Check weather at player position
+    w_point weather_at_player = g->weatherGen.get_weather( g->u.global_square_location(), calendar::turn );
+    g->weather = g->weatherGen.get_weather_conditions(weather_at_player);
+    // Step in at night time / we are not indoors
+    if ( calendar::turn.is_night() && !g->is_sheltered(g->u.pos()) && is_channel_playing(1) != 1 ) {
+        fade_audio_group(2, 1000);
+        play_ambient_sound_effect("environment", "nighttime", 100, 1, 1000);
+    // Step in at day time / we are not indoors
+    } else if ( !calendar::turn.is_night() && is_channel_playing(0) != 1 && !g->is_sheltered(g->u.pos())) {
+        fade_audio_group(2, 1000);
+        play_ambient_sound_effect("environment", "daytime", 100, 0, 1000);
+    }
+    // We are underground
+    if (( g->get_levz() <= -1 && is_channel_playing(2) != 1 ) || ( g->get_levz() <= -1
+        && g->weather != previous_weather )) {
+        fade_audio_group(1, 1000);
+        fade_audio_group(2, 1000);
+        play_ambient_sound_effect("environment", "underground", 100, 2, 1000);
+    // We are indoors
+    } else if (( g->is_sheltered(g->u.pos()) &&  g->get_levz() >= 0 && is_channel_playing(3) != 1 ) ||
+               (g->is_sheltered(g->u.pos()) && g->get_levz() >= 0 && g->weather != previous_weather )) {
+        fade_audio_group(1, 1000);
+        fade_audio_group(2, 1000);
+        play_ambient_sound_effect("environment", "indoors", 100, 3, 1000);
+        // We are indoors and it is also raining
+        if (( g->weather == WEATHER_RAINY || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_THUNDER
+            || g->weather == WEATHER_LIGHTNING) && is_channel_playing(4) != 1 ) {
+            play_ambient_sound_effect("environment", "indoors_rain", 100, 4, 1000);
+        }
+    // We are outside
+    } else if (( !g->is_sheltered(g->u.pos()) && g->weather != WEATHER_CLEAR  && is_channel_playing(5) != 1  &&
+               is_channel_playing(6) != 1  && is_channel_playing(7) != 1  && is_channel_playing(8) != 1  &&
+               is_channel_playing(9) != 1 ) || ( !g->is_sheltered(g->u.pos()) && g->weather != previous_weather )) {
+        fade_audio_group(1, 1000);
+        // We are outside and there is precipitation
+        switch( g->weather ) {
+        case WEATHER_DRIZZLE:
+            play_ambient_sound_effect("environment", "WEATHER_DRIZZLE", 100, 9, 1000);
+            break;
+        case WEATHER_RAINY:
+            play_ambient_sound_effect("environment", "WEATHER_RAINY", 100, 8, 1000);
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            play_ambient_sound_effect("environment", "WEATHER_THUNDER", 100, 7, 1000);
+            break;
+        case WEATHER_FLURRIES:
+            play_ambient_sound_effect("environment", "WEATHER_FLURRIES", 100, 6, 1000);
+            break;
+        case WEATHER_SNOW:
+            play_ambient_sound_effect("environment", "WEATHER_SNOW", 100, 5, 1000);
+            break;
+        }
+    }
+    // Keep track of weather to compare for next iteration
+    previous_weather = g->weather;
+}
+
 void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window )
 {
     auto sound_clusters = cluster_sounds( recent_sounds );

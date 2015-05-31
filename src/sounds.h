@@ -32,6 +32,9 @@ namespace sounds {
     void reset_sounds();
     void reset_markers();
 
+    // Plays ambient sound effects depending on location and weather
+    void do_ambient_sfx();
+
     // Methods for processing sound events, these
     // process_sounds() applies the sounds since the last turn to monster AI,
     void process_sounds();

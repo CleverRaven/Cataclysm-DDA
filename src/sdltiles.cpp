@@ -2058,8 +2058,49 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
 #endif
 }
 
+void play_ambient_sound_effect(std::string id, std::string variant, int volume, int channel, int duration) {
+#ifdef SDL_SOUND
+    sound_effect_entry *effect_to_play = get_sound_effect(id, variant);
+    if (!effect_to_play) {
+        return;
+    }
+    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
+    if (Mix_FadeInChannel(channel, effect_to_play->chunk, -1, duration) == -1) {
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+    }
+#else
+    (void)id;(void)variant;(void)volume; (void)loops;
+#endif
+}
+
+void fade_audio_group(int tag, int duration) {
+#ifdef SDL_SOUND
+    Mix_FadeOutGroup(tag, duration);
+#else
+    (void)tag;(void)duration;
+#endif
+}
+
+void set_group_channels(int from, int to, int tag) {
+#ifdef SDL_SOUND
+    Mix_GroupChannels(from, to, tag);
+#else
+    (void)from;(void)to;(void)tag;
+#endif
+}
+
+int is_channel_playing(int channel) {
+#ifdef SDL_SOUND
+    return Mix_Playing(channel);
+#else
+    (void)channel;
+#endif
+}
+
 void load_soundset() {
 #ifdef SDL_SOUND
+    Mix_AllocateChannels(64);
+    Mix_ReserveChannels(10);
     std::string location = FILENAMES["datadir"] + "/sound/musicset.json";
     std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
