@@ -60,10 +60,6 @@ struct iteminfo {
                  bool LowerIsBetter = false, bool DrawName = true);
 };
 
-enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
-                        L_ERR_NOT_SEALED, L_ERR_FULL
-                       };
-
 enum layer_level {
     UNDERWEAR = 0,
     REGULAR_LAYER = 10,
@@ -522,7 +518,6 @@ public:
      */
     void set_snippet( const std::string &snippet_id );
 
- LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
  int get_remaining_capacity_for_liquid(const item &liquid) const;
 
  bool operator<(const item& other) const;
@@ -973,6 +968,9 @@ public:
     private:
         /** Reset all members to default, making this a null item. */
         void init();
+        /** Helper for liquid and container related stuff. */
+        enum LIQUID_FILL_ERROR : int;
+        LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;

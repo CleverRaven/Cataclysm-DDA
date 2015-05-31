@@ -37,6 +37,11 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
+enum item::LIQUID_FILL_ERROR : int {
+    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
+    L_ERR_NOT_SEALED, L_ERR_FULL
+};
+
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -4149,7 +4154,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid) const
     return remaining_capacity;
 }
 
-LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
+item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
 {
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
