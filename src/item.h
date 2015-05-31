@@ -604,7 +604,6 @@ public:
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
- bool is_silent() const;
  bool is_bionic() const;
  bool is_ammo() const;
  bool is_armor() const;
@@ -1020,6 +1019,8 @@ public:
          * @param burst Whether the gun was fired in burst mode (the sound string is usually different).
          */
         sound_data gun_noise( bool burst = false ) const;
+        /** Whether this is a (nearly) silent gun (a tiny bit of sound is allowed). Non-guns are always silent. */
+        bool is_silent() const;
         /**
          * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
          * Example: underslug shotgun.

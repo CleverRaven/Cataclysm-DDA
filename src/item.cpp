@@ -2845,24 +2845,7 @@ bool item::is_gun() const
 
 bool item::is_silent() const
 {
- if ( is_null() )
-  return false;
-
-    const auto curammo = get_curammo();
- // So far only gun code uses this check
- return type->gun && (
-   gun_noise().volume < 5 ||              // almost silent
-   (
-        curammo != nullptr &&
-        (
-            curammo->ammo->type == "bolt" || // crossbows
-            curammo->ammo->type == "arrow" ||// bows
-            curammo->ammo->type == "pebble" ||// sling[shot]
-            curammo->ammo->type == "fishspear" ||// speargun spears
-            curammo->ammo->type == "dart"     // blowguns and such
-        )
-   )
- );
+    return gun_noise().volume < 5;
 }
 
 bool item::is_gunmod() const
