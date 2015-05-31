@@ -191,7 +191,7 @@ void map::generate_lightmap( const int zlev )
                                 lm[x][y] = natural_light;
 
                                 if (light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID) {
-                                    apply_light_arc(x, y, dir_d[i], natural_light);
+                                    apply_directional_light(x, y, dir_d[i], natural_light);
                                 }
                             }
                         }
@@ -769,8 +769,8 @@ void map::apply_light_source(int x, int y, float luminance)
     }
 
     if( east ) {
-        castLight<0, 1, 1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
         castLight<0, -1, 1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<0, -1, -1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
     }
 
     if( south ) {
@@ -779,11 +779,32 @@ void map::apply_light_source(int x, int y, float luminance)
     }
 
     if( west ) {
+        castLight<0, 1, 1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
         castLight<0, 1, -1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
-        castLight<0, -1, -1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
     }
 }
 
+void map::apply_directional_light( int x, int y, int direction, float luminance )
+{
+    auto &cache = get_cache( abs_sub.z );
+    float (&lm)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.lm;
+    float (&transparency_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY] = cache.transparency_cache;
+
+    if( direction == 90 ) {
+        castLight<1, 0, 0, -1, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<-1, 0, 0, -1, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+    } else if( direction == 0 ) {
+        castLight<0, -1, 1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<0, -1, -1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+    } else if( direction == 270 ) {
+        castLight<1, 0, 0, 1, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<-1, 0, 0, 1, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+    } else if( direction == 180 ) {
+        castLight<0, 1, 1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+        castLight<0, 1, -1, 0, assign_light>( lm, transparency_cache, x, y, 0, LIGHT_AMBIENT_LOW, luminance );
+    }
+
+}
 
 void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangle )
 {
