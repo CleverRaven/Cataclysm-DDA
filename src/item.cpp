@@ -1627,8 +1627,9 @@ char item::symbol() const
     return type->sym;
 }
 
-nc_color item::color(player *u) const
+nc_color item::color_in_inventory() const
 {
+    player* const u = &g->u; // TODO: make a reference, make a const reference
     nc_color ret = c_ltgray;
 
     if(has_flag("WET")) {
@@ -1694,13 +1695,6 @@ nc_color item::color(player *u) const
         }
     }
     return ret;
-}
-
-nc_color item::color_in_inventory() const
-{
-    // This should be relevant only for the player,
-    // npcs don't care about the color
-    return color(&g->u);
 }
 
 void item::on_wear( player &p  )

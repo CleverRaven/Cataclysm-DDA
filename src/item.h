@@ -156,7 +156,15 @@ public:
  // returns the default container of this item, with this item in it
  item in_its_container();
 
-    nc_color color(player *u) const;
+    /**
+     * Returns the default color of the item (e.g. @ref itype::color).
+     */
+    nc_color color() const;
+    /**
+     * Returns the color of the item depending on usefulness for the player character,
+     * e.g. differently if it its an unread book or a spoiling food item etc.
+     * This should only be used for displaying data, it should not affect game play.
+     */
     nc_color color_in_inventory() const;
     /**
      * Return the (translated) item name.
@@ -217,7 +225,6 @@ public:
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);
  char symbol() const;
- nc_color color() const;
  int price() const;
 
     /**

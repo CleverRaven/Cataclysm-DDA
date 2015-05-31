@@ -399,7 +399,6 @@ classes = {
             can_revive = { rval = "bool", args = { } },
             clear_vars = { rval = nil, args = { } },
             clip_size = { rval = "int", args = { } },
-            color = { rval = "int", args = { "player" } },
             color = { rval = "int", args = { } },
             color_in_inventory = { rval = "int", args = { } },
             components_to_string = { rval = "string", args = { } },
