@@ -223,6 +223,13 @@
     },
     {
         "type": "effect_type",
+        "id": "earphones",
+        "name": ["Wearing earphones"],
+        "desc": ["You are wearing earphones and can't hear much from outside world."],
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
         "id": "deaf",
         "name": [
             "Impaired hearing",

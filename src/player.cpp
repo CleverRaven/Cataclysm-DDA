@@ -13648,6 +13648,14 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     if( is_deaf() ) {
         return false;
     }
+
+    // source is in-ear and at our square, we can hear it
+    if ( source == pos3() && volume == 0 ) {
+        return true;
+    }
+
+    // TODO: sound attenuation due to weather
+
     const int dist = rl_dist( source, pos3() );
     const float volume_multiplier = hearing_ability();
     return volume * volume_multiplier >= dist;
@@ -13686,6 +13694,10 @@ float player::hearing_ability() const
     if( has_effect( "deaf" ) ) {
         // Scale linearly up to 300
         volume_multiplier *= ( 300.0 - get_effect_dur( "deaf" ) ) / 300.0;
+    }
+
+    if( has_effect( "earphones" ) ) {
+        volume_multiplier *= .25;
     }
 
     return volume_multiplier;

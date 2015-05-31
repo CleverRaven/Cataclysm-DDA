@@ -3721,7 +3721,7 @@ void game::debug()
             }
             const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
             const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-            for( int z = minz; z < maxz; z++ ) {
+            for( int z = minz; z <= maxz; z++ ) {
                 m.clear_vehicle_cache( z );
                 m.clear_vehicle_list( z );
             }
@@ -4999,7 +4999,7 @@ void game::refresh_all()
 {
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    for( int z = minz; z < maxz; z++ ) {
+    for( int z = minz; z <= maxz; z++ ) {
         m.reset_vehicle_cache( z );
     }
 
@@ -9533,7 +9533,7 @@ int game::list_items(const int iLastState)
                             int numw = iItemNum > 9 ? 2 : 1;
                             mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                       ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                      numw, trig_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
+                                      numw, square_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
                                       direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y)).c_str()
                                      );
                         }
@@ -9765,7 +9765,7 @@ int game::list_monsters(const int iLastState)
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, y, width - (6 + numw),
                                   (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, critter->posx() - u.posx(),
+                                  numw, square_dist(0, 0, critter->posx() - u.posx(),
                                                   critter->posy() - u.posy()),
                                   direction_name_short(
                                       direction_from( 0, 0, critter->posx() - u.posx(),

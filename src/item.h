@@ -13,6 +13,7 @@
 #include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
+#include "line.h"
 
 class game;
 class Character;
@@ -1078,6 +1079,10 @@ class map_item_stack
 
         static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
         {
+            if ( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
+                return square_dist(tripoint(0, 0, 0), lhs.vIG[0].pos) < square_dist(tripoint(0, 0, 0), rhs.vIG[0].pos);
+            }
+
             return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };

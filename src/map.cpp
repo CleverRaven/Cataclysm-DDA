@@ -5758,7 +5758,7 @@ void map::shift( const int sx, const int sy )
 
     const int zmin = zlevels ? -OVERMAP_DEPTH : wz;
     const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
-    for( int gridz = zmin; gridz < zmax; gridz++ ) {
+    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
             veh->smx += sx;
             veh->smy += sy;
