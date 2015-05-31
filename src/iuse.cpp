@@ -7259,6 +7259,7 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
     bool slime = p->has_effect("slimed");
     bool boom = p->has_effect("boomered");
     bool glow = p->has_effect("glowing");
+    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
 
     // can't use an already wet towel!
@@ -7289,7 +7290,6 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
                              it->tname().c_str());
 
         towelUsed = true;
-        int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
         it->item_counter = 450 * mult; // slime takes a bit longer to dry
     }
 
@@ -7300,7 +7300,10 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
 
     // towel was used
     if (towelUsed) {
-        p->moves -= 50;
+        if ( mult == 0 ) {
+            mult = 1;
+        }
+        p->moves -= 50 * mult;
         // change "towel" to a "towel_wet" (different flavor text/color)
         if (it->type->id == "towel") {
             it->make("towel_wet");
