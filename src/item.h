@@ -351,46 +351,84 @@ public:
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (player *p);
-// how resistant item is to bashing and cutting damage
- int bash_resist() const;
- int cut_resist() const;
- // elemental resistances
- int acid_resist() const;
  bool is_two_handed(player *u);
- /**
-  * Material ids we are made of, whether or not we're a corpse.
-  */
- std::vector<std::string> made_of() const;
- /**
-  * Material types we are made of, whether or not we're a corpse.
-  * Returns base types.
-  */
- std::vector<material_type*> made_of_types() const;
- /**
-  * Check we are made of at least one of a set (e.g. true if even
-  * one item of the passed in set matches any material).
-  * @param mat_idents Set of material ids.
-  */
- bool made_of_any( const std::vector<std::string> &mat_idents ) const;
- /**
-  * Check we are made of only the materials (e.g. false if we have
-  * one material not in the set).
-  * @param mat_idents Set of material ids.
-  */
- bool only_made_of( const std::vector<std::string> &mat_idents ) const;
- /**
-  * Check we are made of this material (e.g. matches at least one
-  * in our set.)
-  * @param mat_idents Set of material ids.
-  */
- bool made_of( const std::string &mat_ident ) const;
- /**
-  * Are we solid, liquid, gas, plasma?
-  * @param phase
-  */
- bool made_of(phase_id phase) const;
- bool conductive() const; // Electricity
- bool flammable() const;
+
+    /**
+     * @name Material(s) of the item
+     *
+     * Each item is made of one or more materials (@ref material_type). Materials have
+     * properties that affect properties of the item (e.g. resistance against certain
+     * damage types).
+     *
+     * Additionally, items have a phase property (@ref phase_id). This is independent of
+     * the material types (there can be solid items made of X and liquid items made of the same
+     * material).
+     *
+     * Corpses inherit the material of the monster type.
+     */
+    /*@{*/
+    /**
+     * Get a material reference to a random material that this item is made of.
+     * This might return the null-material, you may check this with @ref material_type::is_null.
+     * Note that this may also return a different material each time it's invoked (if the
+     * item is made from several materials).
+     */
+    const material_type &get_random_material() const;
+    /**
+     * Get the basic (main) material of this item. May return the null-material.
+     */
+    const material_type &get_base_material() const;
+    /**
+     * The ids of all the materials this is made of.
+     */
+    std::vector<std::string> made_of() const;
+    /**
+     * Same as @ref made_of(), but returns the @ref material_type directly.
+     */
+    std::vector<material_type*> made_of_types() const;
+    /**
+     * Check we are made of at least one of a set (e.g. true if even
+     * one item of the passed in set matches any material).
+     * @param mat_idents Set of material ids.
+     */
+    bool made_of_any( const std::vector<std::string> &mat_idents ) const;
+    /**
+     * Check we are made of only the materials (e.g. false if we have
+     * one material not in the set).
+     * @param mat_idents Set of material ids.
+     */
+    bool only_made_of( const std::vector<std::string> &mat_idents ) const;
+    /**
+     * Check we are made of this material (e.g. matches at least one
+     * in our set.)
+     */
+    bool made_of( const std::string &mat_ident ) const;
+    /**
+     * Are we solid, liquid, gas, plasma?
+     */
+    bool made_of( phase_id phase ) const;
+    /**
+     * Whether the items is conductive.
+     */
+    bool conductive() const;
+    /**
+     * Whether the items is flammable. (Make sure to keep this in sync with
+     * fire code in fields.cpp)
+     */
+    bool flammable() const;
+    /*@}*/
+
+    /**
+     * Resistance against different damage types (@ref damage_type).
+     * Larger values means more resistance are thereby better, but there is no absolute value to
+     * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
+     * when exposed to the type of damage.
+     */
+    /*@{*/
+    int bash_resist() const;
+    int cut_resist() const;
+    int acid_resist() const;
+    /*@}*/
 
     /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
@@ -552,17 +590,6 @@ public:
          * \code set_curammo(ammo.typeId()) \endcode
          */
         void set_curammo( const item &ammo );
-        /**
-         * Get a material reference to a random material that this item is made of.
-         * This might return the null-material, you may check this with @ref material_type::is_null.
-         * Note that this may also return a different material each time it's invoked (if the
-         * item is made from several materials).
-         */
-        const material_type &get_random_material() const;
-        /**
-         * Get the basic (main) material of this item. May return the null-material.
-         */
-        const material_type &get_base_material() const;
         /**
          * Callback when a player starts wearing the item. The item is already in the worn
          * items vector and is called from there.
