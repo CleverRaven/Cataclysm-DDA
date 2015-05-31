@@ -557,10 +557,6 @@ public:
      */
     bool process_artifact( player *carrier, const tripoint &pos );
 
- // umber of mods that can still be installed into the given
- // mod location, for non-guns it returns always 0
- int get_free_mod_locations(const std::string &location) const;
-
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
@@ -946,6 +942,8 @@ public:
         /*@}*/
 
         /**
+         * @name Gun and gunmod functions
+         *
          * Gun and gun mod functions. Anything stated to apply to guns, applies to auxiliary gunmods
          * as well (they are some kind of gun). Non-guns are items that are neither gun nor
          * auxiliary gunmod.
@@ -1058,6 +1056,11 @@ public:
          * Returns -1 if this is not a gun, or if it has no such gunmod.
          */
         int has_gunmod( const itype_id& type ) const;
+        /**
+         * Number of mods that can still be installed into the given mod location,
+         * for non-guns it always returns 0.
+         */
+        int get_free_mod_locations( const std::string& location ) const;
         /*@}*/
 
         /**
