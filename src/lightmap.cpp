@@ -40,9 +40,11 @@ void map::add_light_from_items( const int x, const int y, std::list<item>::itera
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
-    auto &ch = get_cache( zlev );
-    auto &transparency_cache = ch.transparency_cache;
-    if( !ch.transparency_cache_dirty ) {
+    auto &map_cache = get_cache( zlev );
+    auto &transparency_cache = map_cache.transparency_cache;
+    auto &outside_cache = map_cache.outside_cache;
+
+    if( !map_cache.transparency_cache_dirty ) {
         return;
     }
 
@@ -68,7 +70,7 @@ void map::build_transparency_cache( const int zlev )
                         continue;
                     }
 
-                    if( is_outside(x, y) ) {
+                    if( outside_cache[x][y] ) {
                         value *= weather_data(g->weather).sight_penalty;
                     }
 
@@ -116,7 +118,7 @@ void map::build_transparency_cache( const int zlev )
             }
         }
     }
-    ch.transparency_cache_dirty = false;
+    map_cache.transparency_cache_dirty = false;
 }
 
 void map::apply_character_light( const player &p )
@@ -132,6 +134,7 @@ void map::generate_lightmap( const int zlev )
     auto &map_cache = get_cache( zlev );
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
+    auto &outside_cache = map_cache.outside_cache;
     std::memset(lm, 0, sizeof(lm));
     std::memset(sm, 0, sizeof(sm));
 
@@ -157,7 +160,7 @@ void map::generate_lightmap( const int zlev )
     for( int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx ) {
         for( int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy ) {
             // In bright light indoor light exists to some degree
-            if( !is_outside(sx, sy) ) {
+            if( !outside_cache[sx][sy] ) {
                 lm[sx][sy] = inside_light;
             } else {
                 lm[sx][sy] = natural_light;
@@ -170,8 +173,6 @@ void map::generate_lightmap( const int zlev )
         apply_character_light( *n );
     }
 
-    // LIGHTMAP_CACHE_X = MAPSIZE * SEEX
-    // LIGHTMAP_CACHE_Y = MAPSIZE * SEEY
     // Traverse the submaps in order
     for (int smx = 0; smx < my_MAPSIZE; ++smx) {
         for (int smy = 0; smy < my_MAPSIZE; ++smy) {
@@ -181,14 +182,12 @@ void map::generate_lightmap( const int zlev )
                 for (int sy = 0; sy < SEEY; ++sy) {
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
-                    // When underground natural_light is 0, if this changes we need to revisit
-                    // Only apply this whole thing if the player is inside,
-                    // buildings will be shadowed when outside looking in.
-                    if (natural_light > LIGHT_SOURCE_BRIGHT && !is_outside(x, y)) {
+                    // Project light into any openings into buildings.
+                    if (natural_light > LIGHT_SOURCE_BRIGHT && !outside_cache[x][y]) {
                         // Apply light sources for external/internal divide
                         for(int i = 0; i < 4; ++i) {
                             if (INBOUNDS(x + dir_x[i], y + dir_y[i]) &&
-                                is_outside(x + dir_x[i], y + dir_y[i])) {
+                                outside_cache[x + dir_x[i]][y + dir_y[i]]) {
                                 lm[x][y] = natural_light;
 
                                 if (light_transparency(x, y) > LIGHT_TRANSPARENCY_SOLID) {
@@ -884,6 +883,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     }
 
     auto &lm = get_cache( abs_sub.z ).lm;
+    auto &transparency_cache = get_cache( abs_sub.z ).transparency_cache;
 
     float distance = 1.0;
     float transparency = LIGHT_TRANSPARENCY_OPEN_AIR;
@@ -909,7 +909,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                     lm[x][y] = std::max( lm[x][y],
                                          luminance / ((float)exp( transparency * distance ) * distance) );
                 }
-                float current_transparency = light_transparency(x, y);
+                float current_transparency = transparency_cache[x][y];
                 if(current_transparency == LIGHT_TRANSPARENCY_SOLID) {
                     break;
                 }
@@ -939,7 +939,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                     lm[x][y] = std::max(lm[x][y],
                                         luminance / ((float)exp( transparency * distance ) * distance) );
                 }
-                float current_transparency = light_transparency(x, y);
+                float current_transparency = transparency_cache[x][y];
                 if(current_transparency == LIGHT_TRANSPARENCY_SOLID) {
                     break;
                 }
