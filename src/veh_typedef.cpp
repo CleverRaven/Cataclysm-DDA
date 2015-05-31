@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "color.h"
 #include "itype.h"
+#include "vehicle_factory.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -341,6 +342,8 @@ void vehicle_prototype::load(JsonObject &jo)
     if( vproto.parts.empty() ) {
         vproto.name = jo.get_string( "name" );
     }
+
+    vgroups[vgroup_id(jo.get_string("id"))].add_vehicle(vproto_id(jo.get_string("id")), 100);
 
     JsonArray parts = jo.get_array("parts");
     while (parts.has_more()) {

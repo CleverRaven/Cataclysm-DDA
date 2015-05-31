@@ -7,25 +7,29 @@
 #include <memory>
 #include "weighted_list.h"
 
-typedef std::string Vehicle_tag;
-
 /**
  * This class is used to group vehicles together into groups in much the same way as
  *  item groups work.
  */
 class VehicleGroup {
 public:
-    void add_vehicle(const std::string &type, const int &probability) {
+    VehicleGroup() : vehicles() {}
+
+    void add_vehicle(const vproto_id &type, const int &probability) {
         vehicles.add(type, probability);
     }
 
-    const std::string &pick() const {
+    const vproto_id &pick() const {
         return *(vehicles.pick());
     }
 
+    static void load( JsonObject &jo );
+
 private:
-    weighted_int_list<std::string> vehicles;
+    weighted_int_list<vproto_id> vehicles;
 };
+
+using vgroup_id = string_id<VehicleGroup>;
 
 /**
  * The location and facing data needed to place a vehicle onto the map.
@@ -106,7 +110,7 @@ public:
     void apply(map& m, const std::string &terrain_name) const override;
 
 private:
-    std::string vehicle;
+    vgroup_id vehicle;
     jmapgen_int number;
     int fuel;
     int status;
@@ -149,31 +153,11 @@ public:
     void vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name);
 
     /**
-     * This is a wrapper for map->add_vehicle that will handle vehicle groups.
-     * @param m The map on which to add the vehicle.
-     * @param vehicle_id This can be the id of a vehicle or a vehicle group.
-     * @param x The x position of the vehicle.
-     * @param y The y position of the vehicle.
-     * @param facing The facing of the vehicle.
-     * @param fuel The vehicle's fuel.
-     * @param status The vehicle's status.
-     * @param mergewreck optional.
-    */
-    vehicle* add_vehicle(map& m, const std::string &vehicle_id, const point &p, const int facing, const int fuel, const int status, const bool mergewrecks = true);
-
-    /**
      * This will randomly select one of the locations from a vehicle placement
      * @param placement_id The id of the placement from which to select a location.
      * @return either null, if there is no placement with that id or that placement has no locations. Else one of the locations of that placement chosen at random.
      */
     const VehicleLocation* pick_location(const std::string &placement_id) const;
-
-    /**
-     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle group definitions.
-     * @param jsobj The json object to load from.
-     * @throw std::string if the json object contains invalid data.
-     */
-    void load_vehicle_group(JsonObject &jo);
 
     /**
      * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
@@ -196,9 +180,6 @@ private:
     static void builtin_pileup(map& m, const std::string &terrainid);
     static void builtin_policepileup(map& m, const std::string &terrainid);
 
-    typedef std::unordered_map<Vehicle_tag, VehicleGroup> GroupMap;
-    GroupMap groups;
-
     typedef std::unordered_map<std::string, VehiclePlacement> PlacementMap;
     PlacementMap placements;
 
@@ -215,5 +196,6 @@ private:
 };
 
 extern std::unique_ptr<VehicleFactory> vehicle_controller;
+extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 #endif
