@@ -1959,12 +1959,6 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
     }
 }
 
-struct filter_is_drink {
-    bool operator()(const item &it) {
-        return it.is_drink();
-    }
-};
-
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 static int get_keg_cap( const furn_t &furn ) {
     if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
@@ -1977,7 +1971,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
     int keg_cap = get_keg_cap( m->furn_at(examp) );
     bool liquid_present = false;
     for (int i = 0; i < (int)m->i_at(examp).size(); i++) {
-        if (!(m->i_at(examp)[i].is_drink()) || liquid_present) {
+        if (!m->i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
             m->add_item_or_charges(examp, m->i_at(examp)[i]);
             m->i_rem( examp, i );
             i--;
@@ -1987,7 +1981,9 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
     }
     if (!liquid_present) {
         // Get list of all drinks
-        auto drinks_inv = p->items_with( filter_is_drink() );
+        auto drinks_inv = p->items_with( []( const item &it ) {
+            return it.made_of( LIQUID );
+        } );
         if ( drinks_inv.empty() ) {
             add_msg(m_info, _("You don't have any drinks to fill the %s with."), m->name(examp).c_str());
             return;
