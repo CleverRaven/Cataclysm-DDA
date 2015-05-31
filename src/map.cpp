@@ -2684,7 +2684,7 @@ ter_id map::get_roof( const tripoint &p )
     if( roof.empty() || roof == null_ter_t ) {
         // No roof
         // Not acceptable if the tile is not passable
-        if( ter_there.movecost == 0 ) {
+        if( ter_there.movecost != 0 ) {
             return t_dirt;
         }
 
@@ -2841,13 +2841,22 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
             }
 
             if( ter( p ) == t_open_air ) {
-                // Open air can't exist above tiles with roofs
-                if( zlevels ) {
-                    tripoint below( p.x, p.y, p.z - 1 );
-                    ter_set( p, get_roof( below ) );
-                } else {
+                if( !zlevels ) {
                     // We destroyed something, so we aren't just "plugging" air with dirt here
                     ter_set( p, t_dirt );
+                } else {
+                    tripoint below( p.x, p.y, p.z - 1 );
+                    const auto roof = get_roof( below );
+                    if( !bash_floor && roof == t_open_air ) {
+                        // If we didn't bash floor, we want a walkable tile
+                        // Let's use dirt if we can't get anything better
+                        ter_set( p, t_dirt );
+                    } else if( bash_floor && ter_at( below ).movecost != 0 ) {
+                        // If we bashed the floor, let's not rebuild it
+                        ter_set( p, t_open_air );
+                    } else {
+                        ter_set( p, get_roof( below ) );
+                    }
                 }
             }
 
