@@ -280,8 +280,6 @@ public:
  bool fill_with( item &liquid, std::string &err );
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
- bool goes_bad() const;
- bool is_going_bad() const;
  bool count_by_charges() const;
  bool craft_has_charges();
  long num_charges();
@@ -314,6 +312,10 @@ public:
      */
     bool has_rotten_away() const;
     /**
+     * Whether the item is nearly rotten (implies that it spoils).
+     */
+    bool is_going_bad() const;
+    /**
      * Get @ref rot value relative to it_comest::spoils, if the item does not spoil,
      * it returns 0. If the item is rotten the returned value is > 1.
      */
@@ -322,6 +324,10 @@ public:
      * Set the @ref rot to the given relative rot (relative to it_comest::spoils).
      */
     void set_relative_rot(float rel_rot);
+    /**
+     * Whether the item will spoil at all.
+     */
+    bool goes_bad() const;
 private:
     /**
      * Accumulated rot of the item. This is compared to it_comest::spoils
