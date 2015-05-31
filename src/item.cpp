@@ -2516,20 +2516,20 @@ int item::brewing_time() const
     return ret;
 }
 
-bool item::can_revive()
+bool item::can_revive() const
 {
-    if ( corpse != NULL && corpse->has_flag(MF_REVIVES) && damage < 4) {
+    if ( is_corpse() && corpse->has_flag(MF_REVIVES) && damage < 4) {
         return true;
     }
     return false;
 }
 
-bool item::ready_to_revive( const tripoint &pos )
+bool item::ready_to_revive( const tripoint &pos ) const
 {
     if(can_revive() == false) {
         return false;
     }
-    int age_in_hours = (int(calendar::turn) - bday) / (10 * 60);
+    int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
     age_in_hours -= int((float)burnt / volume() * 24);
     if( damage > 0 ) {
         age_in_hours /= (damage + 1);

@@ -134,6 +134,16 @@ public:
          * with @ref make_corpse.
          */
         bool is_corpse() const;
+        /**
+         * Whether this is a corpse that can be revived.
+         */
+        bool can_revive() const;
+        /**
+         * Whether this corpse should revive now. Note that this function includes some randomness,
+         * the return value can differ on successive calls.
+         * @param pos The location of the item (see REVIVE_SPECIAL flag).
+         */
+        bool ready_to_revive( const tripoint &pos ) const;
 
  item(JsonObject &jo);
         item(item &&) = default;
@@ -396,9 +406,7 @@ public:
     int fridge;
 
  int brewing_time() const;
- bool ready_to_revive( const tripoint &pos ); // used for corpses
  void detonate( const tripoint &p ) const;
- bool can_revive();      // test if item is a corpse and can be revived
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
