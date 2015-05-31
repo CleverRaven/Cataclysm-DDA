@@ -2199,15 +2199,6 @@ int item::volume(bool unit_value, bool precise_value ) const
     return ret;
 }
 
-int item::volume_contained() const
-{
-    int ret = 0;
-    for( auto &elem : contents ) {
-        ret += elem.volume();
-    }
-    return ret;
-}
-
 int item::attack_time() const
 {
     int ret = 65 + 4 * volume() + weight() / 60;

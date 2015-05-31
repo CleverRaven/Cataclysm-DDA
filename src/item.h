@@ -227,7 +227,6 @@ public:
 
  int precise_unit_volume() const;
  int volume(bool unit_value=false, bool precise_value=false) const;
- int volume_contained() const;
  int attack_time() const;
  int damage_bash() const;
  int damage_cut() const;

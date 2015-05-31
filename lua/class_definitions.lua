@@ -544,7 +544,6 @@ classes = {
             unset_curammo = { rval = nil, args = { } },
             update_charger_gun_ammo = { rval = "bool", args = { } },
             volume = { rval = "int", args = { "bool", "bool" } },
-            volume_contained = { rval = "int", args = { } },
             weap_skill = { rval = "string", args = { } },
             weapon_value = { rval = "int", args = { "player" } },
             weight = { rval = "int", args = { } },
