@@ -281,8 +281,6 @@ public:
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  int has_gunmod(itype_id type) const;
- item* active_gunmod();
- item const* active_gunmod() const;
  bool goes_bad() const;
  bool is_going_bad() const;
  bool count_by_charges() const;
@@ -933,6 +931,13 @@ public:
          * it returns 0.
          */
         int spare_mag_size() const;
+        /**
+         * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
+         * May return null if there is no such gun mod or if the gun is not in the
+         * auxiliary mode (@ref is_in_auxiliary_mode).
+         */
+        item* active_gunmod();
+        item const* active_gunmod() const;
         /*@}*/
 
         /**

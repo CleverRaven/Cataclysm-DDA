@@ -3231,14 +3231,7 @@ int item::reload_time(player &u) const
 
 item* item::active_gunmod()
 {
-    if( is_in_auxiliary_mode() ) {
-        for( auto &elem : contents ) {
-            if( elem.is_gunmod() && elem.is_in_auxiliary_mode() ) {
-                return &elem;
-            }
-        }
-    }
-    return NULL;
+    return const_cast<item*>( const_cast<const item*>( this )->active_gunmod() );
 }
 
 item const* item::active_gunmod() const
@@ -3250,7 +3243,7 @@ item const* item::active_gunmod() const
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 bool item::is_in_auxiliary_mode() const
