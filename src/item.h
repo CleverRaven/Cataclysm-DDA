@@ -518,7 +518,7 @@ public:
      */
     void set_snippet( const std::string &snippet_id );
 
- int get_remaining_capacity_for_liquid(const item &liquid) const;
+ long get_remaining_capacity_for_liquid(const item &liquid) const;
 
  bool operator<(const item& other) const;
     /** List of all @ref components in printable form, empty if this item has

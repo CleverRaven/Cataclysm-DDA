@@ -4127,7 +4127,7 @@ int item::getlight_emit() const {
 }
 
 // How much more of this liquid can be put in this container
-int item::get_remaining_capacity_for_liquid(const item &liquid) const
+long item::get_remaining_capacity_for_liquid(const item &liquid) const
 {
     if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
         return 0;
@@ -4135,7 +4135,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid) const
 
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
-        int max = 0;
+        long max = 0;
         if (is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(type);
             max = tool->max_charges;
@@ -4147,7 +4147,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid) const
 
     const auto total_capacity = liquid.liquid_charges( type->container->contains );
 
-    int remaining_capacity = total_capacity;
+    long remaining_capacity = total_capacity;
     if (!contents.empty()) {
         remaining_capacity -= contents[0].charges;
     }
@@ -4277,8 +4277,8 @@ bool item::fill_with( item &liquid, std::string &err )
             return false;
     }
 
-    int remaining_capacity = get_remaining_capacity_for_liquid( liquid );
-    int amount = std::min( (long)remaining_capacity, liquid.charges );
+    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid );
+    const long amount = std::min( remaining_capacity, liquid.charges );
 
     if( !is_container_empty() ) {
         contents[0].charges += amount;
