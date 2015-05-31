@@ -438,7 +438,6 @@ classes = {
             get_var = { rval = "string", args = { "string", "string" } },
             get_warmth = { rval = "int", args = { } },
             getlight_emit = { rval = "int", args = { } },
-            getlight_emit_active = { rval = "int", args = { } },
             goes_bad = { rval = "bool", args = { } },
             gun_damage = { rval = "int", args = { "bool" } },
             gun_dispersion = { rval = "int", args = { "bool" } },

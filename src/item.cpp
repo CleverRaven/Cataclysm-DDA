@@ -4126,14 +4126,6 @@ int item::getlight_emit() const {
     return lumint / 10;
 }
 
-int item::getlight_emit_active() const
-{
-    if( active && charges > 0 ) {
-        return getlight_emit();
-    }
-    return 0;
-}
-
 // How much more of this liquid can be put in this container
 int item::get_remaining_capacity_for_liquid(const item &liquid) const
 {

@@ -362,7 +362,6 @@ public:
  bool getlight(float & luminance, int & width, int & direction) const;
 // for quick iterative loops
  int getlight_emit() const;
- int getlight_emit_active() const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
