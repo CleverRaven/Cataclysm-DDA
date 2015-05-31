@@ -1752,11 +1752,6 @@ void item::on_pickup( Character &p  )
     }
 }
 
-/* @param with_prefix determines whether to return for more of its object, such as
-* the extent of damage and burning (was created to sort by name without prefix
-* in additional inventory)
-* @return name of item
-*/
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;

@@ -149,8 +149,31 @@ public:
 
     nc_color color(player *u) const;
     nc_color color_in_inventory() const;
-    std::string tname(unsigned int quantity = 1, bool with_prefix = true) const; // item name (includes damage, freshness, etc)
-    std::string display_name(unsigned int quantity = 1) const; // name for display (includes charges, etc)
+    /**
+     * Return the (translated) item name.
+     * @param quantity used for translation to the proper plural form of the name, e.g.
+     * returns "rock" for quantity 1 and "rocks" for quantity > 0.
+     * @param with_prefix determines whether to include more item properties, such as
+     * the extent of damage and burning (was created to sort by name without prefix
+     * in additional inventory)
+     */
+    std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+    /**
+     * Returns the item name and the charges or contained charges (if the item can have
+     * charges at at all). Calls @ref tname with given quantity and with_prefix being true.
+     */
+    std::string display_name( unsigned int quantity = 1) const;
+    /**
+     * Return all the information about the item and its type. This includes the different
+     * properties of the @ref itype (if they are visible to the player). The returned string
+     * is already translated and can be *very* long.
+     * @param showtext If true, shows the item description, otherwise only the properties item type.
+     * @param dump The properties (encapsulated into @ref iteminfo) are added to this vector,
+     * the vector can be used to compare them to properties of another item (@ref game::compare).
+     */
+    std::string info( bool showtext = false) const;
+    std::string info( bool showtext, std::vector<iteminfo> *dump, bool debug = false ) const;
+
     bool burn(int amount = 1); // Returns true if destroyed
 
  // Returns the category of this item.
@@ -184,9 +207,6 @@ public:
 
  void load_legacy(std::stringstream & dump);
  void load_info(std::string data);
- //std::string info(bool showtext = false); // Formatted for human viewing
- std::string info(bool showtext = false) const;
- std::string info(bool showtext, std::vector<iteminfo> *dump, bool debug = false) const;
  char symbol() const;
  nc_color color() const;
  int price() const;
