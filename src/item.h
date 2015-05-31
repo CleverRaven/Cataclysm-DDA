@@ -350,11 +350,6 @@ public:
  bool ready_to_revive( const tripoint &pos ); // used for corpses
  void detonate( const tripoint &p ) const;
  bool can_revive();      // test if item is a corpse and can be revived
-// light emission, determined by type->light_emission (LIGHT_???) tag (circular),
-// overridden by light.* struct (shaped)
- bool getlight(float & luminance, int & width, int & direction) const;
-// for quick iterative loops
- int getlight_emit() const;
 // Our value as a weapon, given particular skills
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
@@ -490,7 +485,6 @@ public:
  bool is_container_empty() const;
  bool is_container_full() const;
  bool is_funnel_container(int &bigger_than) const;
- bool is_emissive() const; //! whether the item emits light
 
  bool is_tool() const;
  bool is_tool_reversible() const;
@@ -666,6 +660,30 @@ public:
          */
         /*@{*/
         bool has_flag( const std::string& flag ) const;
+        /*@}*/
+
+        /**
+         * @name Light emitting items
+         *
+         * Items can emit light either through the definition of their type
+         * (@ref itype::light_emission) or through an item specific light data (@ref light).
+         */
+        /*@{*/
+        /**
+         * Directional light emission of the item.
+         * @param luminance The amount of light (see lightmap.cpp)
+         * @param width If greater 0, the light is emitted in an arc, this is the angle of it.
+         * @param direction The direction of the light arc. In degrees.
+         */
+        bool getlight( float& luminance, int& width, int& direction ) const;
+        /**
+         * How much light (see lightmap.cpp) the item emits (it's assumed to be circular).
+         */
+        int getlight_emit() const;
+        /**
+         * Whether the item emits any light at all.
+         */
+        bool is_emissive() const;
         /*@}*/
 
         /**

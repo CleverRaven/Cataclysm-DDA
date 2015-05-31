@@ -3098,7 +3098,7 @@ bool item::is_funnel_container(int &bigger_than) const
 
 bool item::is_emissive() const
 {
-    return light.luminance || (type && type->light_emission);
+    return light.luminance > 0 || type->light_emission > 0;
 }
 
 bool item::is_tool() const
@@ -4101,9 +4101,6 @@ bool item::getlight(float & luminance, int & width, int & direction ) const {
     return false;
 }
 
-/*
- * Returns just the integer
- */
 int item::getlight_emit() const {
     const int mult = 10; // woo intmath
     const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
