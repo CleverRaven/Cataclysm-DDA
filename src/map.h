@@ -1286,10 +1286,14 @@ public:
  tinymap(int mapsize = 2, bool zlevels = false);
 };
 
-template<int xx, int xy, int yx, int yy>
+// Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
+inline void assign_sight( float &target, const float value, const int /*distance*/ ) {
+    target = value;
+}
+
+template<int xx, int xy, int yx, int yy, void(*assign)(float &, const float, const int)>
     void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                    const std::function<void(float &, const float, const int)> &assign,
                     const int offsetX, const int offsetY, const int offsetDistance,
                     const float threshold = 0.0, const float numerator = 1.0, const int row = 1,
                     float start = 1.0f, const float end = 0.0f,

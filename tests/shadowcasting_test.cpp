@@ -156,35 +156,30 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     }
     clock_gettime( CLOCK_REALTIME, &end1 );
 
-    std::function<void(float &, const float, const int)> assign =
-        []( float &target, const float value, const int /*distance*/ ) {
-        target = std::max( target, value );
-    };
-
     struct timespec start2;
     struct timespec end2;
     clock_gettime( CLOCK_REALTIME, &start2 );
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
         // Then the current algorithm.
-        castLight<0, 1, 1, 0>( seen_squares_experiment, transparency_cache,
-                               assign, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1>( seen_squares_experiment, transparency_cache,
-                               assign, offsetX, offsetY, 0 );
+        castLight<0, 1, 1, 0, assign_sight>( seen_squares_experiment, transparency_cache,
+                                             offsetX, offsetY, 0 );
+        castLight<1, 0, 0, 1, assign_sight>( seen_squares_experiment, transparency_cache,
+                                             offsetX, offsetY, 0 );
 
-        castLight<0, -1, 1, 0>( seen_squares_experiment, transparency_cache,
-                                assign, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1>( seen_squares_experiment, transparency_cache,
-                                assign, offsetX, offsetY, 0 );
+        castLight<0, -1, 1, 0, assign_sight>( seen_squares_experiment, transparency_cache,
+                                              offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, 1, assign_sight>( seen_squares_experiment, transparency_cache,
+                                              offsetX, offsetY, 0 );
 
-        castLight<0, 1, -1, 0>( seen_squares_experiment, transparency_cache,
-                                assign, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1>( seen_squares_experiment, transparency_cache,
-                                assign, offsetX, offsetY, 0 );
+        castLight<0, 1, -1, 0, assign_sight>( seen_squares_experiment, transparency_cache,
+                                              offsetX, offsetY, 0 );
+        castLight<1, 0, 0, -1, assign_sight>( seen_squares_experiment, transparency_cache,
+                                              offsetX, offsetY, 0 );
 
-        castLight<0, -1, -1, 0>( seen_squares_experiment, transparency_cache,
-                                 assign, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1>( seen_squares_experiment, transparency_cache,
-                                 assign, offsetX, offsetY, 0 );
+        castLight<0, -1, -1, 0, assign_sight>( seen_squares_experiment, transparency_cache,
+                                               offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, -1, assign_sight>( seen_squares_experiment, transparency_cache,
+                                               offsetX, offsetY, 0 );
     }
     clock_gettime( CLOCK_REALTIME, &end2 );
 
