@@ -532,29 +532,6 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
     }
 }
 
-
-void item::load_info(std::string data)
-{
-    std::stringstream dump;
-    dump << data;
-    char check=dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check=data[1];
-    }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad item json\n%s", jsonerr.c_str() );
-        }
-        return;
-    } else {
-        load_legacy(dump);
-    }
-}
-
 std::string item::info(bool showtext) const
 {
     std::vector<iteminfo> dummy;

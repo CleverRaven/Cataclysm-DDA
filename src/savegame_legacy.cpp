@@ -2079,7 +2079,24 @@ void monster::load_legacy(std::stringstream & dump) {
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars );
 
-void item::load_legacy(std::stringstream & dump) {
+void item::load_info( const std::string &data )
+{
+    std::istringstream dump(data);
+    char check=dump.peek();
+    if ( check == ' ' ) {
+        // sigh..
+        check=data[1];
+    }
+    if ( check == '{' ) {
+        JsonIn jsin(dump);
+        try {
+            deserialize(jsin);
+        } catch (std::string jsonerr) {
+            debugmsg("Bad item json\n%s", jsonerr.c_str() );
+        }
+        return;
+    }
+
     clear();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;

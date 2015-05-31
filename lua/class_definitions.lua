@@ -491,7 +491,6 @@ classes = {
             is_weap = { rval = "bool", args = { } },
             liquid_charges = { rval = "int", args = { "int" } },
             liquid_units = { rval = "int", args = { "int" } },
-            load_info = { rval = nil, args = { "string" } },
             made_of = { rval = "bool", args = { "string" } },
             make = { rval = nil, args = { "string" } },
             make_corpse = { rval = nil, args = { "mtype", "int" } },

@@ -222,8 +222,8 @@ public:
         deserialize(jo);
     }
 
- void load_legacy(std::stringstream & dump);
- void load_info(std::string data);
+    // Legacy function, don't use.
+    void load_info( const std::string &data );
  char symbol() const;
  int price() const;
 
