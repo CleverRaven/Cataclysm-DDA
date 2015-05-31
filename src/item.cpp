@@ -561,14 +561,12 @@ std::string item::info(bool showtext) const
     return info(showtext, &dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) const
+std::string item::info(bool showtext, std::vector<iteminfo> *dump) const
 {
     std::stringstream temp1, temp2;
     std::string space=" ";
-    if( g != NULL && debug == false &&
-        ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) {
-        debug = true;
-    }
+    const bool debug = g != nullptr &&
+        ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) );
     if( !is_null() ) {
         dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
         dump->push_back(iteminfo("BASE", space + _("Weight: "),

@@ -171,7 +171,7 @@ public:
      * the vector can be used to compare them to properties of another item (@ref game::compare).
      */
     std::string info( bool showtext = false) const;
-    std::string info( bool showtext, std::vector<iteminfo> *dump, bool debug = false ) const;
+    std::string info( bool showtext, std::vector<iteminfo> *dump ) const;
 
     bool burn(int amount = 1); // Returns true if destroyed
 
