@@ -910,7 +910,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LAW``` Unpack the LAW for firing.
 - ```DEJAR```
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ABSORBENT```
+- ```TOWEL``` Dry your character using the item as towel.
 - ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.

@@ -7317,7 +7317,6 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         }
 
         // WET, active items have their timer decremented every turn
-        it->item_tags.erase("ABSORBENT");
         it->item_tags.insert("WET");
         it->active = true;
     }

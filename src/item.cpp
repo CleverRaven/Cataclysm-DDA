@@ -4838,9 +4838,6 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
             make( tool->revert_to );
         }
         item_tags.erase( "WET" );
-        if( !has_flag( "ABSORBENT" ) ) {
-            item_tags.insert( "ABSORBENT" );
-        }
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
