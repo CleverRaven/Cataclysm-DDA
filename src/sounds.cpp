@@ -420,6 +420,7 @@ void sounds::do_ambient_sfx()
             play_ambient_sound_effect("environment", "WEATHER_FLURRIES", 100, 6, 1000);
             break;
         case WEATHER_SNOW:
+        case WEATHER_SNOWSTORM:
             play_ambient_sound_effect("environment", "WEATHER_SNOW", 100, 5, 1000);
             break;
         }
