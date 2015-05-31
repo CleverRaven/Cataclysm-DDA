@@ -1698,33 +1698,41 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return false;
     }
 
-    if( move_cost( to ) <= 0 && !bash ) {
-        return false;
-    }
-
     if( from.z == to.z ) {
-        return true;
+        return bash || move_cost( to ) <= 0;
     }
 
     const bool going_up = from.z < to.z;
-    const tripoint &up = going_up ? to : from;
-    const tripoint &down = going_up ? from : to;
 
-    // Lower tile has ceiling or upper tile has floor
-    // Not even flying can help here
-    if( has_flag( TFLAG_INDOORS, down ) || ter( up ) != t_open_air ) {
+    const maptile up = maptile_at( going_up ? to : from );
+    const maptile down = maptile_at( going_up ? from : to );
+
+    const ter_t &up_ter = up.get_ter_t();
+    const ter_t &down_ter = down.get_ter_t();
+
+    if( up_ter.movecost == 0 || down_ter.movecost == 0 ) {
+        // Unpassable tile
         return false;
     }
 
-    if( flying ) {
+    if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) ) {
+        // Can't move from up to down
+        return false;
+    }
+
+    if( ( !flying || down_ter.has_flag( TFLAG_INDOORS ) ) &&
+        !down_ter.has_flag( TFLAG_GOES_UP ) ) {
+        // Can't safely (or at all - because ceiling) reach the lower tile
+        return false;
+    }
+
+    if( bash ) {
         return true;
     }
 
-    if( has_flag( "GOES_DOWN", up ) && has_flag( "GOES_UP", down ) ) {
-        return true;
-    }
-
-    return false;
+    // Currently only furniture can block movement if everything else is OK
+    // TODO: Vehicles with boards in the given spot
+    return up.get_furn_t().movecost >= 0;
 }
 
 // End of move cost
@@ -5641,7 +5649,7 @@ void map::shift( const int sx, const int sy )
 
     const int zmin = zlevels ? -OVERMAP_DEPTH : wz;
     const int zmax = zlevels ? OVERMAP_HEIGHT : wz;
-    for( int gridz = zmin; gridz < zmax; gridz++ ) {
+    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
             veh->smx += sx;
             veh->smy += sy;
@@ -6117,7 +6125,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( locations.empty() ) {
         // TODO: what now? there is now possible place to spawn monsters, most
         // likely because the player can see all the places.
-        dbg( D_ERROR ) << "Empty locations for group " << group.type << " at " << gx << "," << gy;
+        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() << " at " << gx << "," << gy;
         return;
     }
     for( int m = 0; m < pop; m++ ) {

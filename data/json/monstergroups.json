@@ -1,6 +1,12 @@
 [
   {
     "type":"monstergroup",
+    "name" : "GROUP_NULL",
+    "is_safe" : true,
+    "default" : "mon_null"
+  },
+  {
+    "type":"monstergroup",
     "name" : "GROUP_FOREST",
     "default" : "mon_null",
     "monsters" : [
@@ -497,7 +503,8 @@
       { "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_hazmat", "freq" : 10, "cost_multiplier" : 3 },
       { "monster" : "mon_zombie_fireman", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 30, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_grabber", "freq" : 35, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_grappler", "freq" : 5, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_hunter", "freq" : 10, "cost_multiplier" : 5 },
       { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_smoker", "freq" : 10, "cost_multiplier" : 5 },
@@ -907,7 +914,7 @@
       { "monster" : "mon_skitterbot", "freq" : 1, "cost_multiplier" : 0, "pack_size" : [8,12] },
       { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
       { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 25}
+      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5}
     ]
   },{
     "type":"monstergroup",
@@ -921,7 +928,7 @@
       { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
       { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5},
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 25}
+      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5}
 
     ]
   },{
@@ -1151,6 +1158,7 @@
       { "monster" : "mon_dog_zombie_cop", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_dog_zombie_rot", "freq" : 10, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_grabber", "freq" : 70, "cost_multiplier" : 1 },
+      { "monster" : "mon_zombie_grappler", "freq" : 10, "cost_multiplier" : 7 },
       { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 5},
@@ -1228,7 +1236,8 @@
     "default" : "mon_zombie_spitter",
     "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
     "monsters" : [
-      { "monster" : "mon_zombie_grabber", "freq" : 30, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_grabber", "freq" : 10, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_grappler", "freq" : 30, "cost_multiplier" : 7 },
       { "monster" : "mon_zombie_hunter", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_skeleton", "freq" : 30, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_smoker", "freq" : 10, "cost_multiplier" : 5 },
@@ -1248,7 +1257,8 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_SAFE", "_comment" : "used by mongroup::is_safe()",
+    "name" : "GROUP_SAFE",
+    "is_safe" : true,
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_bat", "freq" : 1, "cost_multiplier" : 1 },
@@ -1374,7 +1384,8 @@
       { "monster" : "mon_zombie_cop", "freq" : 40, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_hazmat", "freq" : 40, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_fireman", "freq" : 40, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie_grabber", "freq" : 50, "cost_multiplier" : 2 },
+      { "monster" : "mon_zombie_grabber", "freq" : 20, "cost_multiplier" : 2 },
+      { "monster" : "mon_zombie_grappler", "freq" : 30, "cost_multiplier" : 7 },
       { "monster" : "mon_zombie_hunter", "freq" : 50, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_smoker", "freq" : 30, "cost_multiplier" : 2 },
       { "monster" : "mon_zombie_gasbag", "freq" : 10, "cost_multiplier": 2},
@@ -1390,7 +1401,6 @@
       { "monster" : "mon_boomer_huge", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_brute", "freq" : 30, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_hulk", "freq" : 10, "cost_multiplier" : 25 },
-      { "monster" : "mon_zombie_armored", "freq" : 10, "cost_multiplier" : 25 },
       { "monster" : "mon_zombie_master", "freq" : 10, "cost_multiplier" : 15 },
       { "monster" : "mon_beekeeper", "freq" : 5, "cost_multiplier" : 1 },
       { "monster" : "mon_zombie_technician", "freq" : 10, "cost_multiplier" : 6},

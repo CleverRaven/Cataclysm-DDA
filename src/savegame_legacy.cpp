@@ -883,7 +883,7 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     }
                 } else if (datatype == 'Z') { // Monster group
                     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
-                    mongroup mg(cstr, cx, cy, cz, cs, cp);
+                    mongroup mg(mongroup_id( cstr ), cx, cy, cz, cs, cp);
                     mg.diffuse = cd;
                     mg.dying = cdying;
                     add_mon_group( mg );

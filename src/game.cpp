@@ -2641,7 +2641,7 @@ bool game::handle_action()
             break;
 
         case ACTION_UNLOAD:
-            unload(u.weapon);
+            unload( -1 );
             break;
 
         case ACTION_THROW:
@@ -3721,7 +3721,7 @@ void game::debug()
             }
             const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
             const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-            for( int z = minz; z < maxz; z++ ) {
+            for( int z = minz; z <= maxz; z++ ) {
                 m.clear_vehicle_cache( z );
                 m.clear_vehicle_list( z );
             }
@@ -4178,7 +4178,7 @@ void game::debug()
 
     case 24: {
 #ifdef LUA
-        std::string luacode = string_input_popup(_("Lua:"), 60, "");
+        std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
 #else
         popup( "This binary was not compiled with Lua support." );
@@ -4368,6 +4368,34 @@ void game::disp_faction_ends()
                     data.push_back( "the sun...");
                 }
                 display_table(w, "The Free Merchants", 1, data);
+            } else if (elem.name == "The Tacoma Commune" && elem.power != 100){
+                if (elem.power < 150){
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The fledgling outpost was abandoned a few months later.  The external");
+                    data.push_back( "threats combined with low crop yields caused the Free Merchants to withdraw");
+                    data.push_back( "their support.  When the exhausted migrants returned to the refugee center");
+                    data.push_back( "they were turned away to face the world on their own.");
+                } else {
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "" );
+                    data.push_back( "    The commune continued to grow rapidly through the years despite constant");
+                    data.push_back( "external threat.  While maintaining a reputation as a haven for all law");
+                    data.push_back( "abiding citizens, the commune's leadership remained loyal to the interests of");
+                    data.push_back( "the Free Merchants.  Hard labor for little reward remained the price to be");
+                    data.push_back( "paid for those who sought the safety of the community.");
+                }
+                display_table(w, "The Tacoma Commune", 1, data);
             } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
                 if (elem.power < 150){
                     data.push_back( "" );
@@ -4521,10 +4549,16 @@ faction *game::list_factions(std::string title)
             // fac_*_text() is in faction.cpp
             werase(w_info);
             mvwprintz(w_info, 0, 0, c_white,
-                      _("Ranking: %s"), fac_ranking_text(cur_frac->likes_u).c_str());
+                      _("Ranking:           %s"), fac_ranking_text(cur_frac->likes_u).c_str());
             mvwprintz(w_info, 1, 0, c_white,
-                      _("Respect: %s"), fac_respect_text(cur_frac->respects_u).c_str());
-            fold_and_print(w_info, 3, 0, maxlength, c_white, cur_frac->describe());
+                      _("Respect:           %s"), fac_respect_text(cur_frac->respects_u).c_str());
+            mvwprintz(w_info, 2, 0, c_white,
+                      _("Wealth:            %s"), fac_wealth_text(cur_frac->wealth, cur_frac->size).c_str());
+            mvwprintz(w_info, 3, 0, c_white,
+                      _("Food Supply:       %s"), fac_food_supply_text(cur_frac->food_supply, cur_frac->size).c_str());
+            mvwprintz(w_info, 4, 0, c_white,
+                      _("Combat Ability:    %s"), fac_combat_ability_text(cur_frac->combat_ability).c_str());
+            fold_and_print(w_info, 6, 0, maxlength, c_white, cur_frac->describe());
             wrefresh(w_info);
             redraw = false;
         }
@@ -4965,7 +4999,7 @@ void game::refresh_all()
 {
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    for( int z = minz; z < maxz; z++ ) {
+    for( int z = minz; z <= maxz; z++ ) {
         m.reset_vehicle_cache( z );
     }
 
@@ -6520,7 +6554,7 @@ void game::resonance_cascade( const tripoint &p )
             case 13:
             case 14:
             case 15:
-                spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                 invader = monster( GetMType(spawn_details.name), dest );
                 add_zombie(invader);
                 break;
@@ -9188,7 +9222,20 @@ int game::list_items(const int iLastState)
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
 
-    bool sort_radius = true;
+    bool sort_radius;
+    bool addcategory;
+
+    // use previously selected sorting method
+    if (uistate.list_item_sort == 1) {
+        sort_radius = true;
+        addcategory = false;
+    } else if (uistate.list_item_sort == 2) {
+        sort_radius = false;
+        addcategory = true;
+    } else { // default state after start
+	sort_radius = true;
+	addcategory = false;
+    }
 
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
@@ -9216,7 +9263,6 @@ int game::list_items(const int iLastState)
     tripoint iLastActive = tripoint_min;
     bool reset = true;
     bool refilter = true;
-    bool addcategory = false;
     int page_num = 0;
     int iCatSortNum = 0;
     map_item_stack *activeItem = NULL;
@@ -9287,11 +9333,11 @@ int game::list_items(const int iLastState)
                     sort_radius = false;
                     addcategory = true;
                     std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-
+                    uistate.list_item_sort = 2; // list is sorted by category
                 } else {
                     sort_radius = true;
-
                     ground_items = ground_items_radius;
+                    uistate.list_item_sort = 1; // list is sorted by distance
                 }
 
                 highPEnd = -1;
@@ -9301,8 +9347,15 @@ int game::list_items(const int iLastState)
                 mSortCategory.clear();
                 refilter = true;
                 reset = true;
+                    
             }
 
+            if ( uistate.list_item_sort == 1 ) {
+                ground_items = ground_items_radius;
+            } else if ( uistate.list_item_sort == 2 ) {
+                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
+            }
+                    
             if (refilter) {
                 refilter = false;
 
@@ -9460,7 +9513,7 @@ int game::list_items(const int iLastState)
                             int numw = iItemNum > 9 ? 2 : 1;
                             mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                       ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                      numw, trig_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
+                                      numw, square_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
                                       direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y)).c_str()
                                      );
                         }
@@ -9692,7 +9745,7 @@ int game::list_monsters(const int iLastState)
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, y, width - (6 + numw),
                                   (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, critter->posx() - u.posx(),
+                                  numw, square_dist(0, 0, critter->posx() - u.posx(),
                                                   critter->posy() - u.posy()),
                                   direction_name_short(
                                       direction_from( 0, 0, critter->posx() - u.posx(),
@@ -10499,129 +10552,143 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    if (!u.weapon.is_gun()) {
+    if( !u.weapon.is_gun() && !u.weapon.has_flag( "REACH_ATTACK" ) ) {
         return;
     }
     if( u.weapon.is_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
-    //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-    //should be fine to place this here, plfire(true,*) only once in code
-    if (burst && !u.weapon.has_flag("MODE_BURST")) {
-        return;
-    }
+    // Execute reach attack (instead of shooting) if our weapon can reach and
+    // either we're not using a gun or using a gun set to use a non-gun gunmod
+    bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) &&
+                        ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos3());
     if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
-        if( u.weapon.activate_charger_gun( u ) ) {
+
+    if( !reach_attack ) {
+        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
+        //should be fine to place this here, plfire(true,*) only once in code
+        if (burst && !u.weapon.has_flag("MODE_BURST")) {
             return;
         }
-    }
 
-    if (u.weapon.has_flag("NO_AMMO")) {
-        u.weapon.charges = 1;
-        u.weapon.set_curammo( "generic_no_ammo" );
-    }
+        if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
+            if( u.weapon.activate_charger_gun( u ) ) {
+                return;
+            }
+        }
 
-    if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
-        (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
-        (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
-        add_msg(m_info, _("You're not strong enough to draw the bow!"));
-        return;
-    }
+        if( u.weapon.has_flag("NO_AMMO") ) {
+            u.weapon.charges = 1;
+            u.weapon.set_curammo( "generic_no_ammo" );
+        }
 
-    if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-        const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-        if (reload_pos == INT_MIN) {
-            add_msg(m_info, _("Out of ammo!"));
+        if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
+            (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
+            (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
+            add_msg(m_info, _("You're not strong enough to draw the bow!"));
             return;
-        }else if (reload_pos == INT_MIN + 2) {
-            add_msg(m_info, _("Never mind."));
+        }
+
+        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
+            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
+            if( reload_pos == INT_MIN ) {
+                add_msg(m_info, _("Out of ammo!"));
+                return;
+            } else if( reload_pos == INT_MIN + 2 ) {
+                add_msg(m_info, _("Never mind."));
+                refresh_all();
+                return;
+            }
+
+            if( !u.weapon.reload( u, reload_pos ) ) {
+                return;
+            }
+
+            // Burn 2x the strength required to fire in stamina.
+            int strength_needed = 6;
+            if (u.weapon.has_flag("STR8_DRAW")) {
+                strength_needed = 8;
+            }
+            if (u.weapon.has_flag("STR10_DRAW")) {
+                strength_needed = 10;
+            }
+            if (u.weapon.has_flag("STR12_DRAW")) {
+                strength_needed = 12;
+            }
+            u.mod_stat("stamina", strength_needed * -2);
+
+            // At low stamina levels, firing starts getting slow.
+            int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+            u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+
+            u.moves -= u.weapon.reload_time(u);
             refresh_all();
+        }
+
+        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
+            !u.weapon.has_flag("NO_AMMO") ) {
+            add_msg(m_info, _("You need to reload!"));
             return;
         }
-
-        if( !u.weapon.reload( u, reload_pos ) ) {
+        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
+            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
             return;
         }
-
-        // Burn 2x the strength required to fire in stamina.
-        int strength_needed = 6;
-        if (u.weapon.has_flag("STR8_DRAW")) {
-            strength_needed = 8;
-        }
-        if (u.weapon.has_flag("STR10_DRAW")) {
-            strength_needed = 10;
-        }
-        if (u.weapon.has_flag("STR12_DRAW")) {
-            strength_needed = 12;
-        }
-        u.mod_stat("stamina", strength_needed * -2);
-
-        // At low stamina levels, firing starts getting slow.
-        int sta_percent = (100 * u.stamina) / u.get_stamina_max();
-        u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
-
-        u.moves -= u.weapon.reload_time(u);
-        refresh_all();
-    }
-
-    if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-        !u.weapon.has_flag("NO_AMMO")) {
-        add_msg(m_info, _("You need to reload!"));
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-        add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-        add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-        add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    const auto gun = u.weapon.type->gun.get();
-    if( gun != nullptr && gun->ups_charges > 0 ) {
-        const int ups_drain = gun->ups_charges;
-        const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
-        const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
-        if( !( u.has_charges( "UPS_off", ups_drain ) ||
-               u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-               (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
-            add_msg( m_info,
-                     _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
-                     ups_drain, adv_ups_drain );
+        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
+            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
             return;
         }
-    }
-
-    if (u.weapon.has_flag("MOUNTED_GUN")) {
-        int vpart = -1;
-        vehicle *veh = m.veh_at(u.pos3(), vpart);
-        if (!m.has_flag_ter_or_furn("MOUNTABLE", u.pos()) &&
-            (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
-            add_msg(m_info,
-                    _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
+            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
             return;
+        }
+        const auto gun = u.weapon.type->gun.get();
+        if( gun != nullptr && gun->ups_charges > 0 ) {
+            const int ups_drain = gun->ups_charges;
+            const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
+            const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
+            if( !( u.has_charges( "UPS_off", ups_drain ) ||
+                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                   (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                add_msg( m_info,
+                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         ups_drain, adv_ups_drain );
+                return;
+            }
+        }
+
+        if (u.weapon.has_flag("MOUNTED_GUN")) {
+            int vpart = -1;
+            vehicle *veh = m.veh_at( u.pos3(), vpart );
+            if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos3() ) &&
+                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+                add_msg(m_info,
+                        _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+                return;
+            }
         }
     }
 
-    int range = u.weapon.gun_range(&u);
+    int range;
+    if( reach_attack ) {
+        range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+    } else {
+        range = u.weapon.gun_range( &u );
+    }
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos3() );
 
     tripoint p = u.pos3();
 
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_FIRE,
+    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode,
                                                      default_target );
 
     if (trajectory.empty()) {
@@ -10640,9 +10707,13 @@ void game::plfire( bool burst, const tripoint &default_target )
         burst = true;
     }
 
-    u.fire_gun( p, burst );
+    if( reach_attack ) {
+        u.reach_attack( p );
+    } else {
+        u.fire_gun( p, burst );
+    }
+
     reenter_fullscreen();
-    //fire(u, x, y, trajectory, burst);
 }
 
 void game::cycle_item_mode( bool force_gun )
@@ -11041,24 +11112,32 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
-    // this is necessary to prevent re-selection of the same item later
-    item it = (u.inv.remove_item(pos));
-    if (!it.is_null()) {
-        unload(it);
-        u.i_add(it);
-    } else {
-        item ite;
-        if (pos == -1) { // item is wielded as weapon.
-            ite = u.weapon;
-            u.weapon = item("null", 0); //ret_null;
-            unload(ite);
-            u.weapon = ite;
+    item &itm = u.i_at( pos );
+    if( !itm.is_null() ) {
+        unload( itm );
+    } else if( pos == -1 || pos == INT_MIN ) {
+        // Empty hands and unloading the weapon
+        // or explicitly requested unload item menu
+        auto filter = [&]( const item &it ) {
+            return u.rate_action_unload( it ) == HINT_GOOD;
+        };
+
+        auto pr = inv_map_splice( filter, _("Unload item:") );
+        if( pr.second == nullptr ) {
+            add_msg( _("Never mind.") );
             return;
-        } else { //this is that opportunity for reselection where the original container is worn, see issue #808
-            item &itm = u.i_at(pos);
-            if (!itm.is_null()) {
-                unload(itm);
-            }
+        }
+
+        // TODO: Wrap it nicely into a player function
+        if( pr.first == -1 ) {
+            // Shouldn't happen
+            return;
+        } else if( pr.first != INT_MIN ) {
+            // In the inventory
+            unload( pr.first );
+        } else {
+            // Off the ground
+            unload( *pr.second );
         }
     }
 }
@@ -11453,10 +11532,6 @@ bool game::plmove(int dx, int dy)
         }
         return false;
     }
-    if (!u.move_effects()) {
-        u.moves -= 100;
-        return false;
-    }
 
     int x = 0;
     int y = 0;
@@ -11503,9 +11578,21 @@ bool game::plmove(int dx, int dy)
         return false;
     }
 
-    // Check if our movement is actually an attack on a monster
+    // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at(dest_loc);
+    int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?  If it's vermin, always.
+
+    bool attacking = false;
+    if (mondex != -1 || npcdex != -1){
+        attacking = true;
+    }
+
+    if (!u.move_effects(attacking)) {
+        u.moves -= 100;
+        return false;
+    }
+
     bool displace = false;
     if (mondex != -1) {
         monster &critter = zombie(mondex);
@@ -11540,7 +11627,6 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    int npcdex = npc_at( dest_loc );
     if (npcdex != -1) {
         npc &np = *active_npc[npcdex];
         bool force_attack = false;

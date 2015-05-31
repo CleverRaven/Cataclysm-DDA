@@ -103,20 +103,28 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
     tripoint prev_point = source;
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
-    const vehicle *in_veh = ( is_fake() || has_effect( "on_roof" ) ) ? 
+    const vehicle *in_veh = ( is_fake() || has_effect( "on_roof" ) ) ?
         g->m.veh_at(pos()) : nullptr;
 
     //Start this now in case we hit something early
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
     bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
+    int projectile_skip_current_frame = 0;
+    float projectile_skip_multiplier = 0.1;
     for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
         tp = trajectory[i];
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        if (do_animation) {
-            g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
+        if ( do_animation ) {
+            int projectile_skip_calculation = range * projectile_skip_multiplier;
+            if ( projectile_skip_current_frame >= projectile_skip_calculation ) {
+                g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
+                projectile_skip_current_frame = 0;
+            } else {
+                projectile_skip_current_frame++;
+            }
         }
 
         if( in_veh != nullptr ) {
@@ -550,13 +558,13 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
-        
+
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        int damage_factor = 21; 
+        int damage_factor = 21;
         //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
-        
-        
-        
+
+
+
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
@@ -942,7 +950,7 @@ std::vector<point> to_2d( const std::vector<tripoint> in )
     for( const tripoint &p : in ) {
         ret.push_back( point( p.x, p.y ) );
     }
-    
+
     return ret;
 }
 

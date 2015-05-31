@@ -45,7 +45,7 @@ Rough list based on building on Arch:
   * Curses: `ncurses`
   * Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
 
-E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev`.
+E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev` or `libncursesw5-dev`.
 
 Note on optional dependencies:
 
@@ -92,12 +92,12 @@ Building instructions, below, always assume you are running them from the Catacl
 
 Dependencies:
 
-  * ncurses
+  * ncurses or ncursesw (for multi-byte locales)
   * build essentials
 
 Install:
 
-    sudo apt-get install libncurses5-dev build-essential
+    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential
 
 ### Building
 
@@ -110,11 +110,11 @@ Run:
 Dependencies:
 
   * 32-bit toolchain
-  * 32-bit ncurses
+  * 32-bit ncursesw (compatible with both multi-byte and 8-bit locales)
 
 Install:
 
-    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncurses5-dev
+    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
 
 ### Building
 

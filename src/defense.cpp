@@ -1365,27 +1365,27 @@ void defense_game::spawn_wave()
 
 std::vector<std::string> defense_game::pick_monster_wave()
 {
-    std::vector<std::string> valid;
+    std::vector<mongroup_id> valid;
     std::vector<std::string> ret;
 
     if (zombies || specials) {
         if (specials) {
-            valid.push_back("GROUP_ZOMBIE");
+            valid.push_back( mongroup_id( "GROUP_ZOMBIE" ) );
         } else {
-            valid.push_back("GROUP_VANILLA");
+            valid.push_back( mongroup_id( "GROUP_VANILLA" ) );
         }
     }
     if (spiders) {
-        valid.push_back("GROUP_SPIDER");
+        valid.push_back( mongroup_id( "GROUP_SPIDER" ) );
     }
     if (triffids) {
-        valid.push_back("GROUP_TRIFFID");
+        valid.push_back( mongroup_id( "GROUP_TRIFFID" ) );
     }
     if (robots) {
-        valid.push_back("GROUP_ROBOT");
+        valid.push_back( mongroup_id( "GROUP_ROBOT" ) );
     }
     if (subspace) {
-        valid.push_back("GROUP_NETHER");
+        valid.push_back( mongroup_id( "GROUP_NETHER" ) );
     }
 
     if (valid.empty()) {

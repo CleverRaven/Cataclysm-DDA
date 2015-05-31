@@ -163,6 +163,17 @@
         "stun_dur" : 2
     },{
         "type" : "technique",
+        "id" : "WHIP_DISARM",
+        "name" : "Disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true,
+        "messages" : [
+            "You disarm %s using your whip!",
+            "<npcname> disarm %s using their whip!"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_counter",
         "name" : "Counterattack",
         "min_unarmed" : 0,

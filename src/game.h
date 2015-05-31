@@ -59,7 +59,8 @@ enum target_mode {
     TARGET_MODE_FIRE,
     TARGET_MODE_THROW,
     TARGET_MODE_TURRET,
-    TARGET_MODE_TURRET_MANUAL
+    TARGET_MODE_TURRET_MANUAL,
+    TARGET_MODE_REACH
 };
 
 typedef int ter_id;

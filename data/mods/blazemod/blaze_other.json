@@ -37,7 +37,7 @@
         "type":"GENERIC",
         "id" : "turret_engine_L",
         "name" : "large turret engine",
-        "description" : "An large engine and power system made to align with an existing turret chassis. However, it needs to be adapted to whatever weapon it's running before it can be used.",
+        "description" : "A large engine and power system made to align with an existing turret chassis. However, it needs to be adapted to whatever weapon it's running before it can be used.",
         "weight" : 7400,
         "to_hit" : -3,
         "color" : "light_gray",
