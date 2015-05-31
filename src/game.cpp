@@ -5968,7 +5968,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
         m.smash_items(t, dam);
         // Only smash down through floors if we have 1 "extra" z-level of radius
         // But smash up through ceilings even if we don't have that extra z-level
-        bool smash_floors = t.z - p.z < z_radius - 1;
+        const bool smash_floors = t.z > p.z - z_radius;
         m.bash( t, dam, false, false, nullptr, smash_floors );
         m.bash( t, dam, false, false, nullptr, smash_floors ); // Double up for tough doors, etc.
 

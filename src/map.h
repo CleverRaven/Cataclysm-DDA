@@ -1203,7 +1203,9 @@ private:
                                          bool silent, bool destroy, bool bash_floor,
                                          float res_roll );
     // Gets the roof type of the tile at p
-    ter_id get_roof( const tripoint &p );
+    // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
+    // or can just return air because we bashed down an entire floor tile
+    ter_id get_roof( const tripoint &p, bool allow_air );
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>

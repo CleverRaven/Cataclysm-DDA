@@ -2668,7 +2668,7 @@ void map::smash_items(const tripoint &p, const int power)
     }
 }
 
-ter_id map::get_roof( const tripoint &p )
+ter_id map::get_roof( const tripoint &p, const bool allow_air )
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
@@ -2684,7 +2684,7 @@ ter_id map::get_roof( const tripoint &p )
     if( roof.empty() || roof == null_ter_t ) {
         // No roof
         // Not acceptable if the tile is not passable
-        if( ter_there.movecost != 0 ) {
+        if( !allow_air ) {
             return t_dirt;
         }
 
@@ -2846,17 +2846,8 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                     ter_set( p, t_dirt );
                 } else {
                     tripoint below( p.x, p.y, p.z - 1 );
-                    const auto roof = get_roof( below );
-                    if( !bash_floor && roof == t_open_air ) {
-                        // If we didn't bash floor, we want a walkable tile
-                        // Let's use dirt if we can't get anything better
-                        ter_set( p, t_dirt );
-                    } else if( bash_floor && ter_at( below ).movecost != 0 ) {
-                        // If we bashed the floor, let's not rebuild it
-                        ter_set( p, t_open_air );
-                    } else {
-                        ter_set( p, get_roof( below ) );
-                    }
+                    const auto roof = get_roof( below, bash_floor && ter_at( below ).movecost != 0 );
+                    ter_set( p, roof );
                 }
             }
 

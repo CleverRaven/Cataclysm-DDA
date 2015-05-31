@@ -208,9 +208,9 @@
         "bash": {
                 "sound": "SCRRRASH!!",
                 "ter_set": "t_null",
-            "str_min": 100,
-            "str_max": 400,
-            "str_min_supported": 150,
+                "str_min": 100,
+                "str_max": 400,
+                "str_min_supported": 150,
                 "items": [
                         { "item": "scrap", "amount": 12, "minamount": 10 },
                         { "item": "rebar", "amount": 4, "minamount": 0 }
@@ -245,7 +245,15 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
     },{
         "type" : "terrain",
         "id" : "t_sand",
@@ -253,7 +261,15 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
     },{
         "type" : "terrain",
         "id" : "t_dirtmound",
@@ -262,6 +278,14 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "DIGGABLE", "MOUNTABLE"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "dirtmound"
     },{
         "type" : "terrain",
@@ -270,7 +294,15 @@
         "symbol": "0",
         "color": "yellow",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "DIGGABLE"]
+        "flags": ["TRANSPARENT", "DIGGABLE"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
     },{
         "type" : "terrain",
         "id" : "t_pit",
@@ -280,6 +312,14 @@
         "move_cost": 10,
         "trap": "tr_pit",
         "flags": ["TRANSPARENT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "pit"
     },{
         "type" : "terrain",
@@ -289,6 +329,14 @@
         "color": "green",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "DIGGABLE"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "note": "left diggable to clean out corpses-KA101"
     },{
         "type" : "terrain",
@@ -298,6 +346,14 @@
         "color": "ltred",
         "move_cost": 2,
         "flags": ["TRANSPARENT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "pit_covered"
     },{
         "type" : "terrain",
@@ -308,6 +364,14 @@
         "move_cost": 10,
         "trap": "tr_spike_pit",
         "flags": ["TRANSPARENT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "pit"
     },{
         "type" : "terrain",
@@ -317,6 +381,14 @@
         "color": "ltred",
         "move_cost": 2,
         "flags": ["TRANSPARENT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "pit_covered"
     },{
         "type" : "terrain",
@@ -327,6 +399,14 @@
         "move_cost": 10,
         "trap": "tr_glass_pit",
         "flags": ["TRANSPARENT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "pit"
     },{
         "type" : "terrain",
@@ -336,6 +416,14 @@
         "color": "ltcyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        },
         "examine_action": "pit_covered"
     },{
         "type" : "terrain",
@@ -344,11 +432,10 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "roof": "t_rock_floor",
         "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
         "bash": {
             "ter_set": "t_null",
-            "str_min": 50,
+            "str_min": 75,
             "str_max": 400,
             "str_min_supported": 100,
             "bash_below": true
@@ -360,7 +447,15 @@
         "symbol": ".",
         "color": "green",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"]
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
     },{
         "type" : "terrain",
         "id" : "t_metal_floor",
@@ -368,7 +463,14 @@
         "symbol": ".",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "INDOORS", "FLAT"]
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 100,
+                "str_max": 500,
+                "str_min_supported": 200
+        }
     },{
         "type" : "terrain",
         "id" : "t_pavement",
