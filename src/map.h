@@ -51,7 +51,7 @@ typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-struct VehicleGroup;
+class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
