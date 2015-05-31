@@ -22,7 +22,7 @@
  * Given a (valid!) city reference, select a random house within the city borders.
  * @return global overmap terrain coordinates of the house.
  */
-tripoint random_house_in_city( const city_reference &cref )
+static tripoint random_house_in_city( const city_reference &cref )
 {
     const auto city_center_omt = overmapbuffer::sm_to_omt_copy( cref.abs_sm_pos );
     const auto size = cref.city->s;
@@ -45,7 +45,7 @@ tripoint random_house_in_city( const city_reference &cref )
     return valid[ rng( 0, valid.size() - 1 ) ];
 }
 
-tripoint random_house_in_closest_city()
+static tripoint random_house_in_closest_city()
 {
     const auto center = g->u.global_sm_location();
     const auto cref = overmap_buffer.closest_city( center );
@@ -74,7 +74,7 @@ static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission
     return place;
 }
 
-tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
                                bool must_see, int range )
 {
     auto places = overmap_buffer.find_all( g->u.global_omt_location(), omter, range, must_see );
