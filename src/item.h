@@ -221,9 +221,44 @@ public:
 
  int precise_unit_volume() const;
  int volume(bool unit_value=false, bool precise_value=false) const;
- int attack_time() const;
- int damage_bash() const;
- int damage_cut() const;
+
+    /**
+     * @name Melee
+     *
+     * The functions here assume the item is used in melee, even if's a gun or not a weapon at
+     * all. Because the functions apply to all types of items, several of the is_* functions here
+     * may return true for the same item. This only indicates that it can be used in various ways.
+     */
+    /*@{*/
+    /**
+     * Number of moves (@ref Creature::moves) that a single attack take.
+     */
+    int attack_time() const;
+    /**
+     * Damage of type @ref DT_BASH that is caused by using this item as melee weapon.
+     */
+    int damage_bash() const;
+    /**
+     * Damage of type @ref DT_CUT that is caused by using this item as melee weapon.
+     */
+    int damage_cut() const;
+    /**
+     * Whether the character needs both hands to wield this item.
+     */
+    // TODO: make a reference. Make a const reference.
+    bool is_two_handed(player *u);
+    /** The weapon is considered a suitable melee weapon. */
+    bool is_weap() const;
+    /** The weapon inflicts at least a certain minimal basing damage. */
+    bool is_bashing_weapon() const;
+    /** The weapon inflicts at least a certain minimal cutting damage. */
+    bool is_cutting_weapon() const;
+    /**
+     * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
+     * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
+     */
+    std::string weap_skill() const;
+    /*@}*/
 
  /**
   * Count the amount of items of type 'it' including this item,
@@ -357,7 +392,6 @@ public:
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (player *p);
- bool is_two_handed(player *u);
 
     /**
      * @name Material(s) of the item
@@ -509,9 +543,6 @@ public:
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
- bool is_weap() const;
- bool is_bashing_weapon() const;
- bool is_cutting_weapon() const;
  bool is_gun() const;
  bool is_silent() const;
  bool is_gunmod() const;
@@ -953,11 +984,6 @@ public:
          * for which skill() would return a skill.
          */
         std::string gun_skill() const;
-        /**
-         * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
-         * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
-         */
-        std::string weap_skill() const;
         /**
          * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
          * it returns 0.
