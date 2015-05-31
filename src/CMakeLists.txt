@@ -145,6 +145,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/iuse.cpp
     ${CMAKE_SOURCE_DIR}/src/crafting.cpp
     ${CMAKE_SOURCE_DIR}/src/pathfinding.cpp
+    ${CMAKE_SOURCE_DIR}/src/mission_companion.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS

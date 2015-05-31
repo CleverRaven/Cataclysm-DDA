@@ -573,6 +573,7 @@ void game::setup()
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
+    mission_npc.clear();
     factions.clear();
     mission::clear_all();
     items_dragged.clear();
@@ -740,6 +741,22 @@ void game::load_npcs()
             active_npc.push_back(temp);
         }
     }
+}
+
+//Pulls the NPCs that were dumped into the world map on save back into mission_npcs
+void game::load_mission_npcs()
+{
+    const int radius = int(MAPSIZE / 2) - 1;
+    // uses submap coordinates
+    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
+    for( auto temp : npcs ) {
+        if (temp->companion_mission != ""){
+            mission_npc.push_back(temp);
+            overmap_buffer.hide_npc( temp->getID() );
+        }
+    }
+    active_npc.clear();
+    load_npcs();
 }
 
 void game::create_starting_npcs()
@@ -3321,6 +3338,7 @@ void game::load(std::string worldname, std::string name)
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
 
+    load_mission_npcs(); // Pull mission_npcs back out of the overmap before update_map
     update_map(&u);
 
     // legacy, needs to be here as we access the map.
@@ -3376,6 +3394,14 @@ void game::load_world_modfiles(WORLDPTR world)
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
+    //Dump all of the NPCs from mission_npc into the world map to be saved
+    for( auto *elem : mission_npc ) {
+        elem->spawn_at(get_levx(), get_levy(), get_levz());
+        elem->setx(u.posx() + 3);
+        elem->sety(u.posy() + 3);
+        elem->setz( u.posz() );
+    }
+    
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
     try {
         std::ofstream fout;
