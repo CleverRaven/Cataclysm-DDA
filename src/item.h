@@ -156,15 +156,7 @@ public:
  // Returns the category of this item.
  const item_category &get_category() const;
 
- // Firearm specifics
- int reload_time(player &u) const;
- int clip_size() const;
- // We use the current aim level to decide which sight to use.
- int sight_dispersion( int aim_threshold ) const;
- int aim_speed( int aim_threshold ) const;
  int noise() const;
- int burst_size() const;
- ammotype ammo_type() const;
     /**
      * @param u The player whose inventory is used to search for suitable ammo.
      * @param interactive Whether to show a dialog to select the ammo, if false it will select
@@ -543,9 +535,7 @@ public:
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
- bool is_gun() const;
  bool is_silent() const;
- bool is_gunmod() const;
  bool is_bionic() const;
  bool is_ammo() const;
  bool is_armor() const;
@@ -923,6 +913,34 @@ public:
          * auxiliary gunmod.
          */
         /*@{*/
+        bool is_gunmod() const;
+        bool is_gun() const;
+        /**
+         * How much moves (@ref Creature::moves) it takes to reload this item.
+         * This also applies to tools.
+         */
+        // TODO: constify u
+        int reload_time(player &u) const;
+        /**
+         * The id of the ammo type (@ref ammunition_type) that can be used by this item.
+         * Will return "NULL" if the item does not use a specific ammo type. Items without
+         * ammo type can not be reloaded.
+         */
+        ammotype ammo_type() const;
+        /**
+         * Number of charges this gun can hold. Includes effects from installed gunmods.
+         * This does use the auxiliary gunmod (if any).
+         */
+        // TODO: make long? Because it relates to charges.
+        int clip_size() const;
+        /**
+         * Burst size (see ranged.cpp), includes effects from installed gunmods.
+         */
+        int burst_size() const;
+        /** Aim speed. See ranged.cpp */
+        int aim_speed( int aim_threshold ) const;
+        /** We use the current aim level to decide which sight to use. */
+        int sight_dispersion( int aim_threshold ) const;
         /**
          * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
          * Example: underslug shotgun.

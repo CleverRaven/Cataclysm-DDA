@@ -255,7 +255,7 @@ struct islot_gun : common_firing_data {
      */
     int durability = 0;
     /**
-     * Reload time.
+     * Reload time, in moves.
      */
     int reload_time = 0;
     /**
