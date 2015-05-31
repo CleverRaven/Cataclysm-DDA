@@ -9513,7 +9513,7 @@ int game::list_items(const int iLastState)
                             int numw = iItemNum > 9 ? 2 : 1;
                             mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                       ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                      numw, trig_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
+                                      numw, square_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
                                       direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y)).c_str()
                                      );
                         }
@@ -9745,7 +9745,7 @@ int game::list_monsters(const int iLastState)
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, y, width - (6 + numw),
                                   (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, critter->posx() - u.posx(),
+                                  numw, square_dist(0, 0, critter->posx() - u.posx(),
                                                   critter->posy() - u.posy()),
                                   direction_name_short(
                                       direction_from( 0, 0, critter->posx() - u.posx(),
