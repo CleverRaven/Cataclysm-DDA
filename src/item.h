@@ -139,7 +139,6 @@ public:
          */
         bool is_corpse() const;
 
- item(std::string itemdata);
  item(JsonObject &jo);
         item(item &&) = default;
         item(const item &) = default;

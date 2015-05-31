@@ -226,7 +226,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 getline( fin, data );
                 for (int j = 0; j < num_items; j++) {
                     getline( fin, data );
-                    montmp.inv.push_back( item( data ) );
+                    item tmp; tmp.load_info( data );
+                    montmp.inv.push_back( tmp );
                 }
 
                 add_zombie(montmp);
@@ -259,7 +260,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     getline(fin, itemdata);
                     if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
                          item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-                        item tmpitem(itemdata);
+                        item tmpitem;
+                        tmpitem.load_info( itemdata );
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
@@ -337,7 +339,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 getline( fin, data );
                 for (int j = 0; j < num_items; j++) {
                     getline( fin, data );
-                    montmp.inv.push_back( item( data ) );
+                    item tmp; tmp.load_info( data );
+                    montmp.inv.push_back( tmp );
                 }
 
                 add_zombie(montmp);
@@ -370,7 +373,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     getline(fin, itemdata);
                     if ( item_place == 'I' || item_place == 'C' || item_place == 'W' ||
                          item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-                        item tmpitem(itemdata);
+                        item tmpitem;
+                        tmpitem.load_info( itemdata );
                         if (item_place == 'I') {
                             tmpinv.push_back(tmpitem);
                         } else if (item_place == 'C') {
@@ -445,7 +449,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
           getline( fin, data );
           for (int j = 0; j < num_items; j++) {
               getline( fin, data );
-              montmp.inv.push_back( item( data ) );
+              item tmp; tmp.load_info( data );
+              montmp.inv.push_back( tmp );
           }
 
           add_zombie(montmp);
@@ -474,7 +479,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
           if (!fin.eof()) {
            getline(fin, itemdata);
            if ( item_place == 'I' || item_place == 'C' || item_place == 'W' || item_place == 'S' || item_place == 'w' || item_place == 'c' ) {
-               item tmpitem(itemdata);
+               item tmpitem;
+               tmpitem.load_info( itemdata );
                if (item_place == 'I') {
                    tmpinv.push_back(tmpitem);
                } else if (item_place == 'C') {
@@ -928,7 +934,8 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                         debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
                                  loc.x, loc.y, itemdata.c_str());
                     } else {
-                        item tmp(itemdata);
+                        item tmp;
+                        tmp.load_info( itemdata );
                         npc* last = npcs.back();
                         switch (datatype) {
                         case 'I':

@@ -167,11 +167,6 @@ void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
     this->name = name;
 }
 
-item::item(std::string itemdata)
-{
-    load_info(itemdata);
-}
-
 item::item(JsonObject &jo)
 {
     deserialize(jo);
