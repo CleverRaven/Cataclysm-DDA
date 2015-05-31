@@ -278,7 +278,6 @@ public:
  * @return Returns false in case of error
  */
  bool fill_with( item &liquid, std::string &err );
- bool has_flag(const std::string &f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  int has_gunmod(itype_id type) const;
@@ -652,6 +651,18 @@ public:
         bool has_var( const std::string &name ) const;
         /** Erase the value of the given variable. */
         void erase_var( const std::string &name );
+        /*@}*/
+
+        /**
+         * @name Item flags
+         *
+         * Item flags are taken from the item type (@ref itype::item_tags), but also from the
+         * item itself (@ref item_tags). The item has the flag if it appears in either set.
+         *
+         * Gun mods that are attached to guns also contribute their flags to the gun item.
+         */
+        /*@{*/
+        bool has_flag( const std::string& flag ) const;
         /*@}*/
 
         /**

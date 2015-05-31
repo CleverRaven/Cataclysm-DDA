@@ -2246,12 +2246,12 @@ int item::damage_cut() const
     }
 }
 
-bool item::has_flag(const std::string &f) const
+bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
-
-    // first check for flags specific to item type
-    // gun flags
+    // TODO: this might need checking against the firing code, that code should use the
+    // auxiliary gun mod item directly (and call has_flag on it, *not* on the gun),
+    // e.g. for the NEVER_JAMS flag, that should not be inherited to the gun mod
     if (is_gun()) {
         if (is_in_auxiliary_mode()) {
             item const* gunmod = active_gunmod();
