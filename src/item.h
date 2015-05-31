@@ -325,7 +325,7 @@ public:
   * @param quantity How much to consumed.
   * @param use_container If the contents of an item are used, also use the
   * container it was in.
-  * @param On success all consumed items will be stored here.
+  * @param used On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
 
@@ -554,7 +554,7 @@ public:
      * @param pos The location of the item on the map, same system as
      * @ref player::pos3 used. If the item is carried, it should be the
      * location of the carrier.
-     * @param passive Whether the item should be activated (true), or
+     * @param activate Whether the item should be activated (true), or
      * processed as an active item.
      * @return true if the item has been destroyed by the processing. The caller
      * should than delete the item wherever it was stored.
@@ -825,7 +825,7 @@ public:
         /**
          * @name Armor related functions.
          *
-         * The functions here refer to values from @ref it_armor. They only apply to armor items,
+         * The functions here refer to values from @ref islot_armor. They only apply to armor items,
          * those items can be worn. The functions are safe to call for any item, for non-armor they
          * return a default value.
          */
@@ -836,7 +836,7 @@ public:
          * Does nothing if the item is no armor at all. If the item type is not handed, it is only
          * reset to be non-handed regardless of the requested handedness.
          * @param handed The new handedness. If NONE, the item is made non-handed - all handed
-         * information is erased and only the default coverage (@ref it_armor::covers) is applied.
+         * information is erased and only the default coverage (@ref islot_armor::covers) is applied.
          */
         void make_handed( handedness handed );
         /**
@@ -853,12 +853,12 @@ public:
         const std::bitset<num_bp> &get_covered_body_parts() const;
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
-         * related code, or @ref player:::warmth. Returned values should be positive. A value
+         * related code, or @ref player::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
          */
         int get_warmth() const;
         /**
-         * Returns the @ref it_armor::thickness value, or 0 for non-armor. Thickness is are
+         * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting damage.
          */
         int get_thickness() const;
@@ -873,17 +873,17 @@ public:
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
          * Note that this does not include any bonus from the FIT tag or similar, only
-         * @ref it_armor::encumber.
+         * @ref islot_armor::encumber.
          */
         int get_encumber() const;
         /**
-         * Returns the storage amount (@ref it_armor::storage) that this item provides when worn.
+         * Returns the storage amount (@ref islot_armor::storage) that this item provides when worn.
          * For non-armor it returns 0. The storage amount increases the volume capacity of the
          * character that wears the item.
          */
         int get_storage() const;
         /**
-         * Returns the resistance to environmental effects (@ref it_armor::env_resist) that this
+         * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
          */
@@ -901,6 +901,8 @@ public:
         /*@}*/
 
         /**
+         * @name Books
+         *
          * Book specific functions, apply to items that are books.
          */
         /*@{*/
@@ -923,6 +925,11 @@ public:
         void mark_chapter_as_read( const player &u );
         /*@}*/
 
+        /**
+         * @name Martial art techniques
+         *
+         * See martialarts.h for further info.
+         */
         /*@{*/
         /**
          * Whether the item supports a specific martial art technique (either through its type, or
@@ -941,12 +948,14 @@ public:
         /*@}*/
 
         /**
+         * @name Charger gun
+         *
          * These functions are used on charger guns. Those items are activated, load over time
          * (using the wielders UPS), and fire like a normal gun using pseudo ammo.
          * Each function returns false when called on items that are not charger guns.
          * Nothing is done in that case, so it's save to call them even when it's unknown whether
          * the item is a charger gun.
-         * You must all @ref update_charger_ammo before using properties of it as they depend
+         * You must all @ref update_charger_gun_ammo before using properties of it as they depend
          * on the charges of the gun.
          */
         /*@{*/
@@ -1011,7 +1020,7 @@ public:
         struct sound_data {
             /** Volume of the sound. Can be 0 if the gun is silent (or not a gun at all). */
             int volume;
-            /** Sound description, can be used with @ref sounds::sounds, it is already translated. */
+            /** Sound description, can be used with @ref sounds::sound, it is already translated. */
             std::string sound;
         };
         /**
