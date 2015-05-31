@@ -1207,7 +1207,7 @@ int editmap::edit_trp()
  */
 enum editmap_imenu_ent {
     imenu_bday, imenu_damage, imenu_burnt,
-    imenu_sep, imenu_luminance, imenu_direction, imenu_width,
+    imenu_sep,
     imenu_savetest,
     imenu_exit,
 };
@@ -1225,7 +1225,7 @@ int editmap::edit_itm()
     int i = 0;
     for( auto &an_item : items ) {
         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
-                         ( an_item.light.luminance > 0 ) ? " L" : "" );
+                         an_item.is_emissive() ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
     ilmenu.addentry( -5, true, 'a', _( "Add item" ) );
@@ -1248,15 +1248,6 @@ int editmap::edit_itm()
                             "burnt: %d" ), ( int )it->burnt );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
-            imenu.addentry( imenu_luminance, true, -1,
-                            pgettext( "item manipulation debug menu entry for luminance of item", "lum: %f" ),
-                            ( float )it->light.luminance );
-            imenu.addentry( imenu_direction, true, -1,
-                            pgettext( "item manipulation debug menu entry for item direction", "dir: %d" ),
-                            ( int )it->light.direction );
-            imenu.addentry( imenu_width, true, -1,
-                            pgettext( "item manipulation debug menu entry for item direction", "width: %d" ),
-                            ( int )it->light.width );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
                             "savetest" ) );
             imenu.addentry( imenu_exit, true, -1, pgettext( "item manipulation debug menu entry", "exit" ) );
@@ -1275,15 +1266,6 @@ int editmap::edit_itm()
                         case imenu_burnt:
                             intval = ( int )it->burnt;
                             break;
-                        case imenu_luminance:
-                            intval = ( int )it->light.luminance;
-                            break;
-                        case imenu_direction:
-                            intval = ( int )it->light.direction;
-                            break;
-                        case imenu_width:
-                            intval = ( int )it->light.width;
-                            break;
                     }
                     int retval = std::atoi(
                                      string_input_popup( "set: ", 20, to_string( intval ) ).c_str()
@@ -1298,22 +1280,6 @@ int editmap::edit_itm()
                         } else if( imenu.ret == imenu_burnt ) {
                             it->burnt = retval;
                             imenu.entries[imenu_burnt].txt = string_format( "burnt: %d", it->burnt );
-                        } else if( imenu.ret == imenu_luminance ) {
-                            int x, y;
-                            if( it->is_emissive() && !retval ) {
-                                g->m.get_submap_at( target, x, y )->update_lum_rem( *it, x, y );
-                            } else if( !it->is_emissive() && retval ) {
-                                g->m.get_submap_at( target, x, y )->update_lum_add( *it, x, y );
-                            }
-
-                            it->light.luminance = ( unsigned short )retval;
-                            imenu.entries[imenu_luminance].txt = string_format( "lum: %f", ( float )it->light.luminance );
-                        } else if( imenu.ret == imenu_direction ) {
-                            it->light.direction = ( short )retval;
-                            imenu.entries[imenu_direction].txt = string_format( "dir: %d", ( int )it->light.direction );
-                        } else if( imenu.ret == imenu_width ) {
-                            it->light.width = ( short )retval;
-                            imenu.entries[imenu_width].txt = string_format( "width: %d", ( int )it->light.width );
                         }
                         werase( g->w_terrain );
                         g->draw_ter( target );
@@ -1333,7 +1299,7 @@ int editmap::edit_itm()
             i = 0;
             for( auto &an_item : items ) {
                 ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname().c_str(),
-                                 ( an_item.light.luminance > 0 ) ? " L" : "" );
+                                 an_item.is_emissive() ? " L" : "" );
             }
             ilmenu.addentry( -5, true, 'a',
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );

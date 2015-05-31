@@ -979,6 +979,7 @@ public:
         // TODO: make a pointer to const
         mtype* corpse;
         std::set<matec_id> techniques; // item specific techniques
+        light_emission light;
 public:
  char invlet;             // Inventory letter
  long charges;
@@ -986,7 +987,6 @@ public:
  signed char damage;      // How much damage it's sustained; generally, max is 5
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
- light_emission light;
  union{
    int poison;          // How badly poisoned is it?
    int bigness;         // engine power, wheel size
