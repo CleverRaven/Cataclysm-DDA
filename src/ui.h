@@ -29,17 +29,30 @@ class ui_base
 {
     protected:
         WINDOW_PTR window;
-        point pos, size;
+        point pos = {0, 0};
+        point size = {0, 0};
     public:
         virtual void draw() = 0;
         virtual void handle_input() = 0;
 };
 
+class ui_scrollable
+{
+    protected:
+        int cur_line = 0;
+    public:
+        int get_line() const
+        {
+            return cur_line;
+        }
+};
+
 class ui_element : public ui_base
 {
     protected:
-        std::string name;
-        ui_element_type type;
+        ui_element_type type = NUM_UI_ELEMENTS;
+        std::string name = "";
+        ui_element *parent = nullptr;
     public:
         ui_element();
         virtual ~ui_element();
@@ -54,16 +67,10 @@ class ui_canvas : public ui_base
         void draw() override;
 };
 
-class ui_list : public ui_base
+class ui_list : public ui_base, public ui_scrollable
 {
-    private:
-        int current_line = 0;
     public:
         void draw() override;
-        int get_current_line() const
-        {
-            return current_line;
-        }
 };
 
 class ui_button : public ui_base
@@ -72,7 +79,7 @@ class ui_button : public ui_base
         void draw() override;
 };
 
-class ui_text : public ui_base
+class ui_text : public ui_base, public ui_scrollable
 {
     public:
         void draw() override;
@@ -91,13 +98,17 @@ class ui_scrollbar : public ui_element
 class ui_container : public ui_base
 {
     private:
-        std::vector<std::unique_ptr<ui_element>> children;
+        std::vector<ui_element> children;
     public:
-        virtual void refresh(bool refresh_children = true);
-        // add an element to this container
-        virtual void add_element(const ui_element_type &type, const std::string &name = "");
+        void refresh(bool refresh_children = true);
+        /* Adds the specified type of container with the specified name.
+         * If the element already contains an element of name `name', 
+         * then element is attached to it and stored under that element's
+         * `parent' pointer.
+         */
+        void add_element(const ui_element_type &type, const std::string &name);
         // remove an element from this container
-        virtual void rem_element(const ui_element_type &type, const std::string &name = "");
+        void rem_element(const ui_element_type &type, const std::string &name);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////

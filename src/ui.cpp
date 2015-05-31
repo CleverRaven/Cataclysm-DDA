@@ -32,43 +32,41 @@ void ui_container::rem_element(const ui_element_type &type, const std::string &n
 ////////////////////////////////////////////////////////////////////////////////////
 void ui_scrollbar::draw()
 {
-//    if (iContentHeight >= iNumEntries) {
-//        //scrollbar is not required
-//        bar_color = BORDER_COLOR;
-//    }
-//
-//    //Clear previous scrollbar
-//    for(int i = iOffsetY; i < iOffsetY + iContentHeight; i++) {
-//        mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
-//    }
-//
-//    if (iContentHeight >= iNumEntries) {
-//        wrefresh(window);
-//        return;
-//    }
-//
-//    if (iNumEntries > 0) {
-//        mvwputch(window, iOffsetY, iOffsetX, c_ltgreen, '^');
-//        mvwputch(window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v');
-//
-//        int iSBHeight = ((iContentHeight - 2) * (iContentHeight - 2)) / iNumEntries;
-//
-//        if (iSBHeight < 2) {
-//            iSBHeight = 2;
-//        }
-//
-//        int iStartY = (iCurrentLine * (iContentHeight - 3 - iSBHeight)) / iNumEntries;
-//        if (iCurrentLine == 0) {
-//            iStartY = -1;
-//        } else if (iCurrentLine == iNumEntries - 1) {
-//            iStartY = iContentHeight - 3 - iSBHeight;
-//        }
-//
-//        for (int i = 0; i < iSBHeight; i++) {
-//            mvwputch(window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO);
-//        }
-//    }
-//
+    if(size.y >= num_items) {
+        //scrollbar is not required
+        bar_color = BORDER_COLOR;
+    }
+
+    //Clear previous scrollbar
+    for(int i = offset.y; i < offset.y + size.y; i++) {
+        mvwputch(window.get(), i, offset.x, bar_color, LINE_XOXO);
+    }
+
+    if(size.y >= num_items) {
+        wrefresh(window.get());
+        return;
+    }
+
+    if(num_items > 0) {
+        mvwputch(window.get(), offset.y, offset.x, c_ltgreen, '^');
+        mvwputch(window.get(), offset.y + size.y - 1, offset.x, c_ltgreen, 'v');
+
+        int height = ((size.y - 2) * (size.y - 2)) / num_items;
+
+        if (height < 2) {
+            height = 2;
+        }
+
+        // FIXME: link up `parent' with ui_list!
+        const int &line = dynamic_cast<ui_scrollable*>(parent)->get_line();
+        int y = (line == 0) ? -1 :
+            (line == (num_items - 1)) ? size.y - 3 - height : 
+            (line * (size.y - 3 - height)) / num_items;
+        for(int i = 0; i < height; ++i) {
+            mvwputch(window.get(), i + size.y + 2 + y, offset.x, c_cyan_cyan, LINE_XOXO);
+        }
+    }
+
     wrefresh(window.get());
 }
 
