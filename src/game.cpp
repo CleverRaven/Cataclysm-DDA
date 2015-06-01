@@ -5954,16 +5954,23 @@ void game::monmove()
 
 void game::do_blast( const tripoint &p, const int power, const int radius, const bool fire )
 {
+    // TODO: Rewrite this to use some sort of a flood fill, to keep it from damaging stuff
+    // on the other side of a wall and more importantly the other side of floor/ceiling
     int dam;
-    for( auto &&t : m.points_in_radius( p, radius, 0 ) ) {
+    // Arbitrarily cut z-radius by a factor of 4
+    const int z_radius = m.has_zlevels() && debug_mode ? radius / 4: 0;
+    for( auto &&t : m.points_in_radius( p, radius, z_radius ) ) {
         if( t == p ) {
             dam = 3 * power;
         } else {
             dam = 3 * power / rl_dist( p, t );
         }
         m.smash_items(t, dam);
-        m.bash( t, dam );
-        m.bash( t, dam ); // Double up for tough doors, etc.
+        // Only smash down through floors if we have 1 "extra" z-level of radius
+        // But smash up through ceilings even if we don't have that extra z-level
+        const bool smash_floors = t.z > p.z - z_radius;
+        m.bash( t, dam, false, false, nullptr, smash_floors );
+        m.bash( t, dam, false, false, nullptr, smash_floors ); // Double up for tough doors, etc.
 
         int mon_hit = mon_at(t);
         int npc_hit = npc_at(t);
@@ -5975,12 +5982,12 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
 
         int vpart;
         vehicle *veh = m.veh_at( t, vpart );
-        if (veh) {
+        if( veh != nullptr) {
             veh->damage(vpart, dam, fire ? 2 : 1, false);
         }
 
         player *n = nullptr;
-        if (npc_hit != -1) {
+        if( npc_hit != -1 ) {
             n = active_npc[npc_hit];
         } else if( u.pos() == t ) {
             add_msg(m_bad, _("You're caught in the explosion!"));
@@ -5988,7 +5995,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
         }
         if( n != nullptr ) {
             n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
-            n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
@@ -6031,6 +6038,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     int t1, t2;
     std::vector<tripoint> traj;
     for (int i = 0; i < shrapnel; i++) {
+        // TODO: Z-level shrapnel, but not before z-level ranged attacks
         tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
@@ -7045,8 +7053,20 @@ void game::smash()
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     tripoint smashp;
 
-    if (!choose_adjacent(_("Smash where?"), smashp)) {
+    const bool allow_floor_bash = debug_mode; // Should later become "true"
+    if( !choose_adjacent(_("Smash where?"), smashp, allow_floor_bash ) ) {
         return;
+    }
+
+    bool smash_floor = false;
+    if( smashp.z != u.posz() ) {
+        if( smashp.z > u.posz() ) {
+            // TODO: Knock on the ceiling
+            return;
+        }
+
+        smashp.z = u.posz();
+        smash_floor = true;
     }
 
     if( m.get_field( smashp, fd_web ) != nullptr ) {
@@ -7066,7 +7086,7 @@ void game::smash()
         }
     }
 
-    didit = m.bash(smashp, smashskill).first;
+    didit = m.bash( smashp, smashskill, false, false, nullptr, smash_floor ).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;

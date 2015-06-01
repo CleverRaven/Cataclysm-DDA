@@ -1251,7 +1251,7 @@ bool vehicle::fold_up() {
     for (size_t p = 0; p < parts.size(); p++) {
         if( part_flag( p, "CARGO" ) ) {
             for( auto &elem : get_items(p) ) {
-                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+                g->m.add_item_or_charges( g->u.pos(), elem );
             }
             while( !get_items(p).empty() ) {
                 get_items(p).erase( get_items(p).begin() );
@@ -1284,7 +1284,7 @@ bool vehicle::fold_up() {
         bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
     }
 
-    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
+    g->m.add_item_or_charges( g->u.pos(), bicycle );
     g->m.destroy_vehicle(this);
 
     // TODO: take longer to fold bigger vehicles
@@ -1441,7 +1441,7 @@ void vehicle::play_music()
             stereo_on = false;
             return;
         }
-        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], g->get_levz() ); // TODO: Z
+        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
         iuse::play_music( &g->u, radio_pos, 15, 50 );
     }
 }
@@ -1967,14 +1967,17 @@ bool vehicle::remove_part (int p)
         }
     }
 
+    int x = parts[p].precalc[0].x;
+    int y = parts[p].precalc[0].y;
+    tripoint part_loc( global_x() + x, global_y() + y, smz );
+
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if(part_flag(p, "WINDOW")) {
         int curtain = part_with_feature(p, "CURTAIN", false);
         if (curtain >= 0) {
-            int x = parts[curtain].precalc[0].x, y = parts[curtain].precalc[0].y;
             item it = parts[curtain].properties_to_item();
-            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            g->m.add_item_or_charges( part_loc, it, 2 );
             remove_part(curtain);
         }
     }
@@ -1983,9 +1986,8 @@ bool vehicle::remove_part (int p)
     if(part_flag(p, "SEAT")) {
         int seatbelt = part_with_feature(p, "SEATBELT", false);
         if (seatbelt >= 0) {
-            int x = parts[seatbelt].precalc[0].x, y = parts[seatbelt].precalc[0].y;
             item it = parts[seatbelt].properties_to_item();
-            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            g->m.add_item_or_charges( part_loc, it, 2 );
             remove_part(seatbelt);
         }
     }
@@ -1995,8 +1997,7 @@ bool vehicle::remove_part (int p)
         std::vector<int> bp = boarded_parts();
         for( auto &elem : bp ) {
             if( elem == p ) {
-                g->m.unboard_vehicle( global_x() + parts[p].precalc[0].x,
-                                      global_y() + parts[p].precalc[0].y );
+                g->m.unboard_vehicle( part_loc );
             }
         }
     }
@@ -2034,9 +2035,10 @@ bool vehicle::remove_part (int p)
         }
     }
 
-    const auto pos = global_pos() + parts[p].precalc[0];
     for( auto &i : get_items(p) ) {
-        g->m.add_item_or_charges(pos.x + rng(-3, +3), pos.y + rng(-3, +3), i);
+        // Note: this can spawn items on the other side of the wall!
+        tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), smz );
+        g->m.add_item_or_charges( dest, i );
     }
     g->m.dirty_vehicle_list.insert(this);
     refresh();
@@ -2093,7 +2095,8 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            g->m.add_item_or_charges(actual_x, actual_y, piece);
+            tripoint dest( actual_x, actual_y, smz );
+            g->m.add_item_or_charges( dest, piece );
         }
     }
 }
@@ -3709,7 +3712,8 @@ void vehicle::slow_leak()
                 //   the leak manually and directly call m.add_item_or_charges().
                 item leak( pinfo.fuel_type, calendar::turn );
                 leak.charges = leak_amount;
-                g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
+                tripoint dest( global_x() + gx, global_y() + gy, smz );
+                g->m.add_item_or_charges( dest, leak );
             }
             part.amount -= leak_amount;
         }
@@ -4946,7 +4950,8 @@ int vehicle::damage_direct (int p, int dmg, int type)
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                            g->m.add_item_or_charges(pos.x, pos.y, part_as_item, true);
+                            tripoint dest( pos, smz );
+                            g->m.add_item_or_charges( dest, part_as_item, true );
                             remove_part(parts_in_square[index]);
                         }
                     }
@@ -5007,7 +5012,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         name.c_str());
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
-                                            g->get_levz() ),
+                                            smz ),
                                   pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
@@ -5016,10 +5021,11 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE"))
         {
-            g->m.spawn_item(global_x() + parts[p].precalc[0].x,
+            tripoint dest( global_x() + parts[p].precalc[0].x,
                            global_y() + parts[p].precalc[0].y,
-                           part_info(p).item, 1, 0, calendar::turn);
-            remove_part (p);
+                           smz );
+            g->m.spawn_item( dest, part_info(p).item, 1, 0, calendar::turn );
+            remove_part( p );
         }
     }
     if (dres < 0)
@@ -5045,8 +5051,9 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, ft);
-                    g->m.spawn_item(i, j, ft);
+                    tripoint dest( i, j, smz );
+                    g->m.spawn_item( dest, ft );
+                    g->m.spawn_item( dest, ft );
                     parts[p].amount -= 100;
                 }
     }
