@@ -166,7 +166,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             //Will be -1 if no battery at all
             item tmp_purifier( "water_purifier", 0 );
             // Drain a ton of power
-            tmp_purifier.charges = veh->drain( "battery", 100 );
+            tmp_purifier.charges = veh->drain( "battery", veh->fuel_left("battery"));
             if( tmp_purifier.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
