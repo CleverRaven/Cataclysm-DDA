@@ -725,7 +725,7 @@ public:
  */
 class jmapgen_vehicle : public jmapgen_piece {
 public:
-    vproto_id type;
+    vgroup_id type;
     jmapgen_int chance;
     std::vector<int> rotation;
     int fuel;
@@ -746,7 +746,7 @@ public:
         }
 
         if( !type.is_valid() ) {
-            jsi.throw_error( "no such vehicle type", "vehicle" );
+            jsi.throw_error( "no such vehicle type or group", "vehicle" );
         }
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
@@ -754,7 +754,7 @@ public:
         if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
-        m.add_vehicle( type, x, y, rotation[rng(0, rotation.size()-1)], fuel, status );
+        m.add_vehicle( type, point(x, y), rotation[rng(0, rotation.size()-1)], fuel, status );
     }
 };
 /**
