@@ -1263,7 +1263,7 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache( get_levz() );
+    m.build_map_cache( get_levz(), true );
     monmove();
     update_stair_monsters();
     u.process_turn();

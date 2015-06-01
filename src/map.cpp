@@ -6453,7 +6453,7 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
-void map::build_map_cache( const int zlev )
+void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     build_outside_cache( zlev );
     build_transparency_cache( zlev );
@@ -6484,7 +6484,9 @@ void map::build_map_cache( const int zlev )
     }
 
     build_seen_cache( tripoint( g->u.posx(), g->u.posy(), zlev ) );
-    generate_lightmap( zlev );
+    if( !skip_lightmap ) {
+        generate_lightmap( zlev );
+    }
 }
 
 std::vector<point> closest_points_first(int radius, point p)

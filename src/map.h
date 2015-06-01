@@ -949,7 +949,7 @@ void add_corpse( const tripoint &p );
  vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- void build_map_cache( int zlev );
+    void build_map_cache( int zlev, bool skip_lightmap = false );
 
     vehicle *add_vehicle( const std::string &type, const tripoint &p, const int dir,
                           const int init_veh_fuel = -1, const int init_veh_status = -1,
