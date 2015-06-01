@@ -1456,7 +1456,7 @@ int iuse::oxygen_bottle(player *p, item *it, bool, const tripoint& )
 int iuse::blech(player *p, item *it, bool, const tripoint& )
 {
     // TODO: Add more effects?
-    if (it->is_drink()) {
+    if( it->made_of( LIQUID ) ) {
         if (!query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
             return 0;
         }

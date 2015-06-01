@@ -484,7 +484,6 @@ public:
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
- bool is_drink() const;
  bool is_weap() const;
  bool is_bashing_weapon() const;
  bool is_cutting_weapon() const;

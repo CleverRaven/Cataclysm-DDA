@@ -472,7 +472,6 @@ classes = {
             is_corpse = { rval = "bool", args = { } },
             is_cutting_weapon = { rval = "bool", args = { } },
             is_disassemblable = { rval = "bool", args = { } },
-            is_drink = { rval = "bool", args = { } },
             is_emissive = { rval = "bool", args = { } },
             is_food = { rval = "bool", args = { "player" } },
             is_food = { rval = "bool", args = { } },

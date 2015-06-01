@@ -3001,14 +3001,6 @@ bool item::is_ammo_container() const
     return (contents.size() >= 1 && contents[0].is_ammo());
 }
 
-bool item::is_drink() const
-{
-    if( is_null() )
-        return false;
-
-    return type->is_food() && type->phase == LIQUID;
-}
-
 bool item::is_weap() const
 {
     if( is_null() )
