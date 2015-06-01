@@ -3028,7 +3028,7 @@
     "description": "A military-grade combat flamethrower designed by Rivtech, the RM451 flamethrower incorporates a cycling pressure rapid-feed fuel system with a high-speed piezoelectric igniter.  Solidly built with durability in mind, it serves as an incredibly destructive weapon in the right hands.",
     "price": 970000,
     "material": ["superalloy", "ceramic"],
-    "flags": ["FIRE_20", "NEVER_JAMS", "MODE_BURST"],
+    "flags": ["FIRE_20", "WATERPROOF_GUN", "NEVER_JAMS", "MODE_BURST"],
     "ammo_effects": ["NO_BOOM", "FLARE"],
     "skill": "launcher",
     "ammo": "gasoline",
@@ -3047,7 +3047,7 @@
     "burst": 5,
     "clip_size": 2000,
     "reload": 650,
-    "valid_mod_locations": [[ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ]]
   },
   {
     "id": "rm360_carbine",
@@ -3059,7 +3059,7 @@
     "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
     "price": 180000,
     "material": ["superalloy", "ceramic"],
-    "flags": "MODE_BURST",
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"],
     "skill": "smg",
     "ammo": "22",
     "weight": 1900,
@@ -3414,7 +3414,7 @@
     "clip_size": 50,
     "reload": 500,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm88_battle_rifle",
@@ -3443,7 +3443,7 @@
     "clip_size": 25,
     "reload": 600,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm614_lmg",
@@ -3472,7 +3472,7 @@
     "clip_size": 200,
     "reload": 750,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm2000_smg",
@@ -3500,7 +3500,7 @@
     "clip_size": 25,
     "reload": 450,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm99_pistol",
@@ -3528,7 +3528,7 @@
     "clip_size": 5,
     "reload": 90,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm103a_pistol",
@@ -3556,7 +3556,7 @@
     "clip_size": 10,
     "reload": 400,
     "loudness" : 160,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -3586,7 +3586,7 @@
     "clip_size": 10,
     "reload": 600,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "tihar",
@@ -3929,7 +3929,7 @@
     "clip_size": 100,
     "reload": 600,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "needlepistol",
@@ -3958,7 +3958,7 @@
     "clip_size": 25,
     "reload": 400,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "unbio_blaster_gun",
@@ -4075,7 +4075,7 @@
     "clip_size": 20,
     "reload": 550,
     "loudness" : 175,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm120c",
@@ -4104,7 +4104,7 @@
     "clip_size": 5,
     "reload": 80,
     "loudness" : 175,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm228",
@@ -4132,7 +4132,7 @@
     "clip_size": 2,
     "reload": 70,
     "loudness" : 175,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m107a1",
@@ -4162,7 +4162,7 @@
     "clip_size": 10,
     "reload": 340,
     "loudness" : 175,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
  },
  {
     "id": "m2browning",
@@ -4193,7 +4193,7 @@
     "clip_size": 200,
     "reload": 800,
     "loudness" : 175,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ]]
  },{
     "id": "m2browning_sawn",
     "type": "GUN",
@@ -4222,7 +4222,7 @@
     "clip_size": 1,
     "reload": 100,
     "loudness" : 200,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "stock", 1 ]]
  },
  {
     "id": "mark19",
@@ -4995,7 +4995,7 @@
     "clip_size": 600,
     "reload": 2250,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "laser_cannon",
