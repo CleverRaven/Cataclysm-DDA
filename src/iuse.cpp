@@ -213,10 +213,6 @@ std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius)
             continue;
         }
         if( p != center ) {
-            if (!g->m.sees( center, p, radius )) {
-                // No clear line of sight
-                continue;
-            }
             if (!g->m.clear_path( center, p, radius, 1, 100, junk, trash)) {
                 // Can not splatter gas from center to that point, something is in the way
                 continue;
