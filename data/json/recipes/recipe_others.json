@@ -627,29 +627,6 @@
     ]
 },{
   "type" : "recipe",
-  "result": "towel",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_OTHER",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 6000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "needle_bone", 7 ],
-      [ "needle_wood", 7 ],
-      [ "sewing_kit", 7 ],
-      [ "tailors_kit", 7 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "rag", 5 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "primitive_hammer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -1713,6 +1690,24 @@
     ],
     [
       [ "rag_bloody", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "towel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "towel_soiled", 1 ]
     ]
   ]
 },{

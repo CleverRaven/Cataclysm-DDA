@@ -7266,10 +7266,23 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
     if (it->has_flag("WET")) {
         p->add_msg_if_player(m_info, _("That %s is too wet to soak up any more liquid!"),
                              it->tname().c_str());
-    }
+
+
+    // clean off the messes first, more important
+    } else if (slime || boom || glow) {
+        p->remove_effect("slimed");  // able to clean off all at once
+        p->remove_effect("boomered");
+        p->remove_effect("glowing");
+        p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
+                             it->tname().c_str());
+
+        towelUsed = true;
+        if (it->type->id == "towel") {
+            it->make("towel_soiled");
+        }
 
     // dry off from being wet
-    else if (abs(p->has_morale(MORALE_WET))) {
+    } else if (abs(p->has_morale(MORALE_WET))) {
         p->rem_morale(MORALE_WET);
         for (int i = 0; i < num_bp; ++i) {
             p->body_wetness[i] = 0;
@@ -7279,22 +7292,9 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
 
         towelUsed = true;
         it->item_counter = 300;
-    }
-
-    // clean off the messes
-    else if (slime || boom || glow) {
-        p->remove_effect("slimed");  // able to clean off all at once
-        p->remove_effect("boomered");
-        p->remove_effect("glowing");
-        p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
-                             it->tname().c_str());
-
-        towelUsed = true;
-        it->item_counter = 450 * mult; // slime takes a bit longer to dry
-    }
 
     // default message
-    else {
+    } else {
         p->add_msg_if_player(_("You are already dry, the %s does nothing."), it->tname().c_str());
     }
 
