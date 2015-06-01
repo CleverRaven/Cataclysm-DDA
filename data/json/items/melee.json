@@ -780,7 +780,7 @@
         "weight": 908,
         "volume": 6,
         "bashing": 12,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "cutting": 6,
         "to_hit": 0
     },
@@ -2608,7 +2608,7 @@
         "volume" : 5,
         "bashing" : 4,
         "cutting" : 12,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 4000,
         "qualities": [["COOK", 1]]
     },
@@ -2628,7 +2628,7 @@
         "volume" : 6,
         "bashing" : 5,
         "cutting" : 16,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 4900,
         "qualities": [["COOK", 1]]
     },
@@ -2646,7 +2646,7 @@
         "volume" : 5,
         "bashing" : 6,
         "cutting" : 18,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },{
@@ -2664,7 +2664,7 @@
         "volume" : 9,
         "bashing" : 2,
         "cutting" : 24,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },
@@ -4716,7 +4716,7 @@
         "volume" : 7,
         "bashing" : 5,
         "cutting" : 15,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 2000
     },{
         "type": "GENERIC",

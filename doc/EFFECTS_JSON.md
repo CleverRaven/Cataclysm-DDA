@@ -391,6 +391,15 @@ Valid arguments:
 "fatigue_chance_bot"
 "fatigue_tick"      - Defaults to every tick
 
+"stamina_amount"
+"stamina_min"
+"stamina_max"       - if 0 or missing value will be exactly "stamina_min"
+"stamina_min_val"   - Defaults to 0, which means uncapped
+"stamina_max_val"   - Defaults to 0, which means uncapped
+"stamina_chance"
+"stamina_chance_bot"
+"stamina_tick"      - Defaults to every tick
+
 "cough_chance"
 "cough_chance_bot"
 "cough_tick"

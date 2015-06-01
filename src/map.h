@@ -51,6 +51,10 @@ typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+class VehicleGroup;
+using vgroup_id = string_id<VehicleGroup>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 class map_stack : public item_stack {
 private:
@@ -158,7 +162,7 @@ class map
 // Visual Output
  void debug();
 
-    
+
 
     /**
      * Sets a dirty flag on the transparency cache.
@@ -926,7 +930,7 @@ void add_corpse( const tripoint &p );
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
- void place_spawns(std::string group, const int chance,
+ void place_spawns(const mongroup_id& group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
@@ -936,6 +940,9 @@ void add_corpse( const tripoint &p );
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
+ vehicle *add_vehicle(const vgroup_id & type, const point &p, const int dir,
+                      const int init_veh_fuel = -1, const int init_veh_status = -1,
+                      const bool merge_wrecks = true);
  vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);

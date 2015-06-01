@@ -275,7 +275,7 @@ void map::generate_lightmap( const int zlev )
         }
         int mx = critter.posx();
         int my = critter.posy();
-        if (INBOUNDS(mx, my)) {
+        if( INBOUNDS(mx, my) && critter.posz() == zlev ) {
             if (critter.has_effect("onfire")) {
                 apply_light_source(mx, my, 3, trigdist);
             }
