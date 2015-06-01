@@ -2969,7 +2969,7 @@ int vehicle::acceleration(bool const fueled) const
 
 int vehicle::max_velocity(bool const fueled) const
 {
-    return total_power (fueled) * 80;
+    return total_power (fueled) * 60;
 }
 
 bool vehicle::do_environmental_effects()
