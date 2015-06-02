@@ -106,9 +106,15 @@ void advanced_inventory::load_settings()
     bool moved = uistate.adv_inv_last_coords != g->u.pos();
     for(int i = 0; i < NUM_PANES; ++i) {
         auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        auto square = squares[location];
+        bool same_as_last = (!moved && square.can_store_in_vehicle() && uistate.adv_inv_in_vehicle[i]);
+        // determine where to open first based on which stack is empty
+        bool has_veh_items = (square.can_store_in_vehicle()) ?
+            !square.veh->get_items(square.vstor).empty() : false;
+        bool has_map_items = !g->m.i_at(square.pos).empty();
+        bool in_vehicle_cargo = (has_veh_items || (!has_map_items && !has_veh_items));
+        panes[i].set_area(square, in_vehicle_cargo || same_as_last);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
-        bool is_in_vehicle = (moved == false && uistate.adv_inv_in_vehicle[i]);
-        panes[i].set_area(squares[location], is_in_vehicle || location == AIM_DRAGGED);
         panes[i].index = uistate.adv_inv_index[i];
         panes[i].filter = uistate.adv_inv_filter[i];
     }
