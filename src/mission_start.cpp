@@ -169,7 +169,7 @@ void mission_start::place_zombie_bay( mission *miss )
 
 void mission_start::place_caravan_ambush( mission *miss )
 {
-    tripoint site = target_om_ter_random( "field", 1, miss, false, 20 );
+    tripoint site = target_om_ter_random( "field", 1, miss, false, 80 );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
     bay.add_vehicle( vproto_id( "cube_van" ), SEEX, SEEY, 0 );
@@ -249,7 +249,7 @@ void mission_start::place_informant( mission *miss )
 
 void mission_start::place_grabber( mission *miss )
 {
-    tripoint site = target_om_ter_random( "field", 5, miss, false, 20 );
+    tripoint site = target_om_ter_random( "field", 5, miss, false, 50 );
     tinymap there;
     there.load( site.x * 2, site.y * 2, site.z, false );
     there.add_spawn( "mon_graboid", 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
@@ -622,7 +622,7 @@ void mission_start::radio_repeater( mission *miss )
 void mission_start::start_commune(mission *miss)
 {
  // Check entire overmap for now.
- tripoint site = target_om_ter_random("ranch_camp_67", 1, miss, false, 0);
+ tripoint site = target_om_ter("ranch_camp_67",1,miss,false);
  tinymap bay;
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.place_npc(SEEX+4, SEEY+3, "ranch_foreman");
