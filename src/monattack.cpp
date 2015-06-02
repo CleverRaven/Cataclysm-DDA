@@ -210,18 +210,6 @@ void mattack::shriek_alert(monster *z, int index)
 
 }
 
-static int posp( int posc ) //Determines orientation of target from the source
-{
-    if( posc > 0 ) {
-        return 1;
-    }
-    if( posc < 0 ) {
-        return -1;
-    } else {
-        return 0;
-    }
-}
-
 void mattack::shriek_stun(monster *z, int index)
 {
     if( !z->can_act() || !z->has_effect("shrieking")) {
@@ -237,41 +225,42 @@ void mattack::shriek_stun(monster *z, int index)
 
     z->reset_special(index); // Reset timer
 
-    float dx = posp( target->posx() - z->posx() );
-    float dy = posp( target->posy() - z->posy() ); //Find direction of player
-    int i = 0; int j = 0;
-    int bsize = 0;  //Set range of our boxes
-    for( int range = 0; range < 4; range++ ) {
-        dx = dx * 1.5;
-        dy = dy * 1.5;
-        i++;  j++; bsize--; //Increase size of boxes after each distance toward target
-        for (int boxx = bsize; boxx <= i; boxx++) {
-            for (int boxy = bsize; boxy <= j; boxy++) {
-                tripoint cone( z->posx() + dx + boxx,
-                               z->posy() + dy + boxy,
-                               z->posz() );
-            if( z->sees(cone) ) {
-                g->m.bash( cone, 3, true ); //Small bash to every square, silent to not flood message box
-                if (g->mon_at(cone) != -1){
-                    const int mondex = g->mon_at(cone);
-                    Creature *zed = &g->zombie( mondex ); //If a monster is there, chance for stun
-                    if ( one_in((dist + 8 )) && !(zed->is_immune_effect("deaf")) && !zed->has_effect("stunned") ){
-                        zed->add_effect("stunned", rng(2,3));
-
-                    }
-                } else if (cone == g->u.pos() || cone == target->pos()){ //Same for player
-                    if ( one_in((dist + 8 )) && !(target->is_immune_effect("deaf")) && !target->has_effect("stunned") ){
-                        target->add_effect("stunned", rng(2,3));
-                        auto msg_type = target == &g->u ? m_bad : m_info;
-                        target->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
-                                    _("The screams seems to daze <npcname>!"));
-                    }
+    int target_angle = g->m.coord_to_angle(z->posx(), z->posy(), target->posx(), target->posy());
+    int cone_angle = 20;
+    for (int boxx = -6; boxx <= 6; boxx++) {
+        for (int boxy = -6; boxy <= 6; boxy++) {
+                tripoint cone( target->posx() + boxx,
+                               target->posy() + boxy,
+                               target->posz() );
+        int tile_angle = g->m.coord_to_angle(z->posx(), z->posy(), cone.x, cone.y);
+        int diff = abs( target_angle - tile_angle );
+        if( diff + cone_angle > 360 || diff > cone_angle ) {
+        continue; // skip the target, because it's outside cone
+        }
+        // affect the target
+        if( z->sees(cone) ) {
+            g->m.bash( cone, 3, true ); //Small bash to every square, silent to not flood message box
+            if ( g->is_empty(cone) == false ){
+                Creature *target = g->critter_at( cone ); //If a monster is there, chance for stun
+                if ( target == nullptr ){
+                    continue;
+                }
+                if ( one_in((dist)) && !(target->is_immune_effect("deaf")) ){
+                    int prev_effect = target->get_effect_int("dazed");
+                    target->add_effect("dazed", rng(10,20), bp_head, false, prev_effect + 2);
+                    auto msg_type = target == &g->u ? m_bad : m_info;
+                    target->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
+                                                    _("The screams seems to daze <npcname>!"));
                 }
             }
-            }
+
+        }
         }
     }
 }
+
+
+
 
 void mattack::howl(monster *z, int index)
 {
