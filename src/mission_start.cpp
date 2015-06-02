@@ -628,6 +628,8 @@ void mission_start::start_commune(mission *miss)
  bay.place_npc(SEEX+4, SEEY+3, "ranch_foreman");
  bay.place_npc(SEEX-3, SEEY+5, "ranch_construction_1");
  bay.save();
+ npc *p = g->find_npc( miss->npc_id );
+ p->toggle_mutation( "NPC_MISSION_LEV_1" );
 }
 
 const int RANCH_SIZE = 5;
@@ -1245,8 +1247,18 @@ void mission_start::ranch_construct_16(mission *miss)
  bay.draw_square_furn(f_rack, 11, 16, 11, 17);
  bay.draw_square_furn(f_wood_keg, 16, 19, 17, 19);
  bay.draw_square_furn(f_fvat_empty, 16, 21, 17, 21);
- bay.place_npc( 12, 22,"ranch_bartender");
- bay.place_npc( 7, 20, "scavenger_merc" );
+ //Do a check to prevent duplicate NPCs in the last mission of each version
+ std::vector<npc*> all_npcs = overmap_buffer.get_npcs_near(site.x*2,site.y*2,site.z,3);
+ bool already_has = false;
+ for( auto *elem : all_npcs) {
+    if (elem->name.find(", Bartender") != -1){
+        already_has = true;
+    }
+ }
+ if (already_has == false){
+    bay.place_npc( 12, 22,"ranch_bartender");
+    bay.place_npc( 7, 20, "scavenger_merc" );
+ }
  bay.save();
 
  site = target_om_ter_random("ranch_camp_60", 1, miss, false, RANCH_SIZE);
