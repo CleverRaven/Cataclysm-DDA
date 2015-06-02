@@ -4114,9 +4114,8 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             smashed = false;
         } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
-            // TODO: Z
-            smashed = g->m.bash( p, obj_dmg, false, false, this).second;
-            if (smashed) {
+            smashed = g->m.bash( p, obj_dmg, false, false, this ).second;
+            if( smashed ) {
                 if (g->m.is_bashable_ter_furn(p)) {
                     // There's new terrain there to smash
                     smashed = false;
@@ -4245,7 +4244,8 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             turn (one_in (2)? turn_amount : -turn_amount);
         }
     }
-    damage (parm, part_dmg, 1);
+
+    damage( parm, part_dmg, 1 );
 
     veh_collision ret;
     ret.part = part;
@@ -4795,71 +4795,83 @@ bool vehicle::is_inside(int const p) const
 
 void vehicle::unboard_all ()
 {
-    std::vector<int> bp = boarded_parts ();
-    for (auto &i : bp) {
-        g->m.unboard_vehicle (global_x() + parts[i].precalc[0].x,
-                              global_y() + parts[i].precalc[0].y);
+    std::vector<int> bp = boarded_parts();
+    for( auto &i : bp ) {
+        g->m.unboard_vehicle( tripoint( global_x() + parts[i].precalc[0].x,
+                                        global_y() + parts[i].precalc[0].y,
+                                        smz ) );
     }
 }
 
-int vehicle::damage (int p, int dmg, int type, bool aimed)
+int vehicle::damage( int p, int dmg, int type, bool aimed )
 {
-    if (dmg < 1) {
+    if( dmg < 1 ) {
         return dmg;
     }
 
-    std::vector<int> pl = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
-    if (pl.empty()) {
+    std::vector<int> pl = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    if( pl.empty() ) {
       // We ran out of non removed parts at this location already.
       return dmg;
     }
+
     if( !aimed ) {
         bool found_obs = false;
-        for (auto &i : pl)
-            if (part_flag (i, "OBSTACLE") &&
-                (!part_flag (i, "OPENABLE") || !parts[i].open)) {
+        for( auto &i : pl ) {
+            if( part_flag( i, "OBSTACLE" ) &&
+                (!part_flag( i, "OPENABLE" ) || !parts[i].open) ) {
                 found_obs = true;
                 break;
             }
-        if (!found_obs) // not aimed at this tile and no obstacle here -- fly through
+        }
+
+        if( !found_obs ) { // not aimed at this tile and no obstacle here -- fly through
             return dmg;
+        }
     }
-    int parm = part_with_feature (p, "ARMOR");
-    int pdm = pl[rng (0, pl.size()-1)];
+    int parm = part_with_feature( p, "ARMOR" );
+    int pdm = pl[rng( 0, pl.size() - 1 )];
     int dres;
-    if (parm < 0) {
+    if( parm < 0 ) {
         // not covered by armor -- damage part
-        dres = damage_direct (pdm, dmg, type);
+        dres = damage_direct( pdm, dmg, type );
     } else {
         // covered by armor -- damage armor first
         // half damage for internal part(over parts not covered)
-        bool overhead = part_flag(pdm, "ROOF") || part_info(pdm).location == "on_roof";
+        bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefor the other indes (pdm) becames
         // wrong if pdm > parm.
         // Damaging the part with the higher index first is save,
         // as removing a part only changes indizes after the
         // removed part.
-        if(parm < pdm) {
-            damage_direct (pdm, overhead ? dmg : dmg / 2, type);
-            dres = damage_direct (parm, dmg, type);
+        if( parm < pdm ) {
+            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
+            dres = damage_direct( parm, dmg, type );
         } else {
-            dres = damage_direct (parm, dmg, type);
-            damage_direct (pdm, overhead ? dmg : dmg / 2, type);
+            dres = damage_direct( parm, dmg, type );
+            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
         }
     }
+
     return dres;
 }
 
-void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
+void vehicle::damage_all( int dmg1, int dmg2, int type, const point &impact )
 {
-    if (dmg2 < dmg1) { std::swap(dmg1, dmg2); }
-    if (dmg1 < 1) { return; }
-    for (size_t p = 0; p < parts.size(); p++) {
+    if( dmg2 < dmg1 ) {
+        std::swap( dmg1, dmg2 );
+    }
+
+    if( dmg1 < 1 ) {
+        return;
+    }
+
+    for( size_t p = 0; p < parts.size(); p++ ) {
         int distance = 1 + square_dist( parts[p].mount.x, parts[p].mount.y, impact.x, impact.y );
         if( distance > 1 && part_info(p).location == part_location_structure &&
             !part_info(p).has_flag("PROTRUSION") ) {
-            damage_direct (p, rng( dmg1, dmg2 ) / (distance * distance), type);
+            damage_direct( p, rng( dmg1, dmg2 ) / (distance * distance), type );
         }
     }
 }
