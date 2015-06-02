@@ -402,8 +402,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
-- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it with their feet.
-- ```HAND_RIMS``` Similar to 'ENGINE', but requires the player to manually power it with their hands.
+- ```MUSCLE_LEGS`` Power of the engine with such flag depends on player's strength.
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than 'MUSCLE_LEGS').
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
