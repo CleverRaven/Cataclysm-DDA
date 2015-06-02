@@ -41,6 +41,25 @@ lua_State *lua_state;
 // we know where to load files from.
 std::string lua_file_path = "";
 
+#if LUA_VERSION_NUM < 502
+// Compatibility, for before Lua 5.2, which does not have luaL_setfuncs
+static void luaL_setfuncs( lua_State * const L, const luaL_Reg arrary[], int const nup )
+{
+    for( ; arrary->name != nullptr; arrary++ ) {
+        lua_pushstring( L, arrary->name );
+        // Need to copy the up-values because lua_pushcclosure removes them, they need
+        // to be set for each C-function.
+        for( int i = 0; i < nup; i++ ) {
+            lua_pushvalue( L, -(nup + 1) );
+        }
+        lua_pushcclosure( L, arrary->func, nup );
+        lua_settable( L, -(nup + 3) );
+    }
+    // Remove up-values as per definition of luaL_setfuncs in 5.2
+    lua_pop( L, nup );
+}
+#endif
+
 // Helper functions for making working with the lua API more straightforward.
 // --------------------------------------------------------------------------
 
