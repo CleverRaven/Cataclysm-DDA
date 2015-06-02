@@ -71,7 +71,8 @@ void talk_function::bionic_install(npc *p)
 
     //Makes the doctor awesome at installing but not perfect
     if (g->u.install_bionics(it, 20)){
-        g->u.cash -= tmp.price()*2;
+        g->u.cash -= price;
+        p->cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
     }
 }
@@ -128,6 +129,7 @@ void talk_function::bionic_remove(npc *p)
     //Makes the doctor awesome at installing but not perfect
     if (g->u.uninstall_bionic(bionic_types[bionic_index], 20)){
         g->u.cash -= price;
+        p->cash += price;
         g->u.amount_of( bionic_types[bionic_index] );
     }
 
@@ -1496,7 +1498,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
             //Hoover up tasty items!
             for (unsigned int i = 0; i < bay.i_at(p).size(); i++){
                 if (((bay.i_at(p)[i].is_food() || bay.i_at(p)[i].is_food_container()) && !one_in(8)) ||
-                    (bay.i_at(p)[i].is_drink() && !one_in(8)) ||
+                    (bay.i_at(p)[i].made_of ( LIQUID ) && !one_in(8)) ||
                     (bay.i_at(p)[i].price() > 1000 && !one_in(4)) ||
                     one_in(5)){
                     item *it = &bay.i_at(p)[i];
