@@ -13798,6 +13798,9 @@ void game::quicksave()
 
     //perform save
     save();
+    //Pull all of the mission_npc's back out of the world map where they are saved
+    mission_npc.clear();
+    load_mission_npcs();
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     last_save_timestamp = now;
