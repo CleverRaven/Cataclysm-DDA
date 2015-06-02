@@ -243,7 +243,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(std::string const &b_id);
+        bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -431,7 +431,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void fire_gun( const tripoint &target, long burst_size );
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
-
+        
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -643,7 +643,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type);
+        bool install_bionics(const itype &type, int skill_level = -1);
         /** Handles reading effects */
         void read(int pos);
         /** Completes book reading action. **/
