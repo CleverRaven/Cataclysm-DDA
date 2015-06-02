@@ -905,8 +905,8 @@ IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
 TO WRITE US A LETTER PLEASE SEND IT TO...\n\
 \n\
 It takes you forever to find the address on your map...\n"));
-        overmap_buffer.reveal(overmap_buffer.find_all( g->u.global_omt_location(), "evac_center_13", OMAPX*2, false )[0], 3);
-        query_any(_("You mark it..."));
+        overmap_buffer.reveal(overmap_buffer.find_closest( g->u.global_omt_location(), "evac_center_13", 0, false ), 3);
+        query_any(_("You mark the refugee center..."));
         reset_terminal();
         break;
 
