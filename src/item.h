@@ -253,7 +253,8 @@ public:
      */
     /*@{*/
     /**
-     * Number of moves (@ref Creature::moves) that a single attack take.
+     * Base number of moves (@ref Creature::moves) that a single melee attack with this items
+     * takes. The actual time depends heavily on the attacker, see melee.cpp.
      */
     int attack_time() const;
     /**
@@ -271,9 +272,9 @@ public:
     bool is_two_handed(player *u);
     /** The weapon is considered a suitable melee weapon. */
     bool is_weap() const;
-    /** The weapon inflicts at least a certain minimal basing damage. */
+    /** The item is considered a bashing weapon (inflicts a considerable bash damage). */
     bool is_bashing_weapon() const;
-    /** The weapon inflicts at least a certain minimal cutting damage. */
+    /** The item is considered a cutting weapon (inflicts a considerable cutting damage). */
     bool is_cutting_weapon() const;
     /**
      * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
