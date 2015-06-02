@@ -12547,7 +12547,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             }
             float velocity_difference = previous_velocity - flvel;
             dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 9;
-            c->fall_hit( dam1 );
+            c->impact( dam1 );
             const auto msg_type = is_u ? m_bad : m_warning;
             if( thru ) {
                 c->add_msg_player_or_npc( msg_type,
@@ -12594,7 +12594,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             force = std::max( force / 2 - 5, 0 );
         }
         if( force > 0 ) {
-            c->fall_hit( force );
+            c->impact( force );
         }
     } else {
         c->underwater = true;
