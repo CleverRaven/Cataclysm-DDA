@@ -110,6 +110,10 @@ namespace talk_function {
     void give_equipment       (npc *);
     void give_aid             (npc *);
     void give_all_aid         (npc *);
+
+    void bionic_install       (npc *);
+    void bionic_remove        (npc *);
+
     void construction_tips    (npc *);
     void buy_beer             (npc *);
     void buy_brandy           (npc *);
@@ -173,7 +177,7 @@ namespace talk_function {
     //Send a companion on an individual mission or attaches them to a group to depart later
     void individual_mission         (npc *p, std::string desc, std::string id, bool group = false);
 
-    void caravan_return             (npc *p, std::string dest, std::string id);//
+    void caravan_return             (npc *p, std::string dest, std::string id);
     void caravan_depart             (npc *p, std::string dest, std::string id);
     int caravan_dist                (std::string dest);
     void field_build_1              (npc *p);
