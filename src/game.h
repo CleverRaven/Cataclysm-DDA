@@ -7,7 +7,6 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "weather.h"
-#include "weather_gen.h"
 #include "live_view.h"
 #include "int_id.h"
 #include "item_location.h"
@@ -92,6 +91,7 @@ enum event_type : int;
 struct vehicle_part;
 struct ter_t;
 using ter_id = int_id<ter_t>;
+class weather_generator;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -400,7 +400,7 @@ class game
         void zoom_in();
         void zoom_out();
 
-        weather_generator weatherGen; //A weather engine.
+        std::unique_ptr<weather_generator> weatherGen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h

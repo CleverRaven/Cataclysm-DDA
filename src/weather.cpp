@@ -8,6 +8,7 @@
 #include "trap.h"
 #include "math.h"
 #include "translations.h"
+#include "weather_gen.h"
 
 #include <vector>
 #include <sstream>
@@ -61,7 +62,7 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     // TODO: maybe have different rotting speed when underground?
     int ret = 0;
     for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weatherGen.get_weather(location, i);
+        w_point w = g->weatherGen->get_weather(location, i);
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
@@ -104,7 +105,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
     int acid_turns = 0;
     for( calendar turn(startturn); turn < endturn; turn += 10) {
         // TODO: Z-level weather
-        switch(g->weatherGen.get_weather_conditions(point(location.x, location.y), turn)) {
+        switch(g->weatherGen->get_weather_conditions(point(location.x, location.y), turn)) {
         case WEATHER_DRIZZLE:
             rain_amount += 4;
             rain_turns++;
@@ -509,8 +510,8 @@ std::string weather_forecast( point const &abs_sm_pos )
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather( abs_ms_pos, i );
-            forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
+            w_point w = g->weatherGen->get_weather( abs_ms_pos, i );
+            forecast = std::max(forecast, g->weatherGen->get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }

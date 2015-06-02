@@ -33,6 +33,7 @@
 #include "ui.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather_gen.h"
 
 #include <vector>
 #include <sstream>
@@ -9435,7 +9436,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 
 int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
 {
-    w_point const weatherPoint = g->weatherGen.get_weather( p->global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weatherGen->get_weather( p->global_square_location(), calendar::turn );
 
     if (it->type->id == "weather_reader") {
         p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());
