@@ -5114,5 +5114,33 @@
     "burst": 0,
     "clip_size": 0,
     "reload": 0
-  }
+  },
+  {
+  "id": "abzats",
+  "type": "GUN",
+  "symbol": "(",
+  "color": "dark_gray",
+  "name": "Heavy Automatic Shotgun",
+  "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
+  "price": 750000,
+  "material": ["hardsteel", "wood"],
+  "flags": ["MODE_BURST", "RELOAD_EJECT"], 
+  "skill": "shotgun",
+  "ammo": "shot",
+  "weight": 22000,
+  "volume": 18,
+  "bashing": 12,
+  "cutting": 0,
+  "to_hit": -3,
+  "dispersion": 150,
+  "sight_dispersion": 75,
+  "aim_speed": 5,
+  "recoil": 180,
+  "durability": 6,
+  "burst": 5,
+  "clip_size": 20,
+  "reload": 800,
+  "loudness": 200,
+  "valid_mod_locations": [["accessories", 4], ["magazine", 2 ], ["mechanism", 4], ["rail", 1], ["sights", 1]]
+}
 ]
