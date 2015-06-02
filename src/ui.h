@@ -21,8 +21,9 @@ enum ui_element_type {
 
 struct curses_char {
     unsigned long ch;
-    nc_color fg;
+    nc_color cl;
 };
+typedef std::vector<std::vector<curses_char>> canvas_2d;
 
 // Virtual base class for windowed ui stuff (like uimenu)
 class ui_base
@@ -61,10 +62,8 @@ class ui_element : public ui_base
 
 class ui_canvas : public ui_base
 {
-    private:
-        std::vector<std::vector<curses_char>> canvas;
     public:
-        void draw() override;
+        virtual void draw();
 };
 
 class ui_list : public ui_base, public ui_scrollable
