@@ -30,13 +30,17 @@ end
 -- Convert a given type such as "string" to the corresponding C++
 -- type string, e.g. "std::string"
 function member_type_to_cpp_type(member_type)
-    if member_type == "bool" then return "int"
+    if member_type == "bool" then return "bool"
     elseif member_type == "cstring" then return "const char*"
     elseif member_type == "string" then return "std::string"
     else
         for name, value in pairs(classes) do
             if name == member_type then
-                return member_type.."*"
+                if value.by_value then
+                    return "LuaValue<" .. member_type .. ">"
+                else
+                    return "LuaReference<" .. member_type .. ">"
+                end
             end
         end
     end
@@ -46,19 +50,15 @@ end
 
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
-function retrieve_lua_value(out_variable, value_type, stack_position)
-    local cpp_value_type = member_type_to_cpp_type(value_type)
+function retrieve_lua_value(value_type, stack_position)
     if value_type == "int" or value_type == "float" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_tonumber(L, "..stack_position..");"
+        return "lua_tonumber(L, "..stack_position..");"
     elseif value_type == "bool" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_toboolean(L, "..stack_position..");"
+        return "lua_toboolean(L, "..stack_position..");"
     elseif value_type == "string" or value_type == "cstring" then
-        return cpp_value_type .. " "..out_variable.." = ("..cpp_value_type..") lua_tostring(L, "..stack_position..");"
-    elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
-        -- a little complex: first have to extract the value as a double pointer, e.g. map**, then have to retrieve the pointer, e.g. map*
-        local rval = cpp_value_type .. "* "..out_variable.."_pointer = ("..cpp_value_type.."*) lua_touserdata(L, "..stack_position.."); "
-        rval = rval .. cpp_value_type .. " "..out_variable.." = *" .. out_variable.."_pointer;"
-        return rval
+        return "lua_tostring_wrapper(L, "..stack_position..");"
+    else
+        return member_type_to_cpp_type(value_type) .. "::get_proxy(L, " .. stack_position .. ");"
     end
 end
 
@@ -74,11 +74,8 @@ function push_lua_value(in_variable, value_type)
         text = text .. "lua_pushstring(L, "..in_variable..".c_str());"
     elseif value_type == "bool" then
         text = text .. "lua_pushboolean(L, "..in_variable..");"
-    elseif member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
-        text = text .. "if(" .. in_variable .. " == NULL) { lua_pushnil(L); } else {"
-        text = text .. value_type .. "** userdata_" .. in_variable .. " = ("..value_type.."**) lua_newuserdata(L, sizeof("..value_type.."*));"
-        text = text .. "*userdata_" .. in_variable .. " = ("..value_type.."*)"..in_variable..";"
-        text = text .. 'luah_setmetatable(L, "'..value_type..'_metatable");}'
+    else
+        text = text .. member_type_to_cpp_type(value_type) .. "::push(L, " .. in_variable .. ");"
     end
     
     return text
@@ -104,13 +101,9 @@ function generate_getter(class, member_name, member_type, cpp_name)
     local function_name = class.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. class .. "** "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
+    text = text .. tab .. "auto & "..class.."_instance = "..member_type_to_cpp_type(class).."::get(L, 1);"..br
 
-    text = text .. tab .. "if(!"..class.."_instance) {"..br
-    text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
-    text = text .. tab .. "}" .. br
-
-    text = text .. tab .. push_lua_value("(*"..class.."_instance"..")->"..cpp_name, member_type)..br
+    text = text .. tab .. push_lua_value(class.."_instance."..cpp_name, member_type)..br
 
     text = text .. tab .. "return 1;  // 1 return value"..br
     text = text .. "}" .. br
@@ -124,17 +117,12 @@ function generate_setter(class, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. class .. "** "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
-
-    text = text .. tab .. "if(!"..class.."_instance) {"..br
-    text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
-    text = text .. tab .. "}" .. br
+    text = text .. tab .. "auto & "..class.."_instance = "..member_type_to_cpp_type(class).."::get(L, 1);"..br
 
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
+    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
 
-    text = text .. tab .. retrieve_lua_value("value", member_type, 2) ..br
-
-    text = text .. tab .. "(*"..class.."_instance)->"..cpp_name.." = value;"..br
+    text = text .. tab .. class.."_instance."..cpp_name.." = value;"..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
     text = text .. "}" .. br
@@ -148,13 +136,14 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     for i, arg in ipairs(args) do
-        text = text .. tab .. retrieve_lua_value("parameter"..i, arg, i)..br
+        text = text .. tab .. "luaL_checktype(L, "..i..", "..member_type_to_lua_type(arg)..");"..br
+        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..br
     end
 
     text = text .. tab
 
     if rval then
-        text = text .. member_type_to_cpp_type(rval) .. " rval = (" .. member_type_to_cpp_type(rval) .. ")"
+        text = text .. "auto && rval = "
     end
 
     text = text .. function_to_call .. "("
@@ -184,17 +173,14 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     local text = "static int "..class.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. class .. "** "..class.."_instance = ("..class.."**) lua_touserdata(L, 1);\n"..br
-
-    text = text .. tab .. "if(!"..class.."_instance) {"..br
-    text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'. Did you use foo.bar() instead of foo:bar()?");'..br
-    text = text .. tab .. "}" .. br
+    text = text .. tab .. "auto & "..class.."_instance = "..member_type_to_cpp_type(class).."::get(L, 1);"..br
 
     local stack_index = 1
     for i, arg in ipairs(args) do
         -- fixme; non hardcoded userdata to class thingy
         if arg ~= "game" then
-            text = text .. tab .. retrieve_lua_value("parameter"..i, arg, stack_index+1)..br
+            text = text .. tab .. "luaL_checktype(L, "..(stack_index+1)..", "..member_type_to_lua_type(arg)..");"..br
+            text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
             stack_index = stack_index + 1
         end
     end
@@ -202,10 +188,10 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     text = text .. tab
 
     if rval then
-        text = text .. member_type_to_cpp_type(rval) .. " rval = "
+        text = text .. "auto && rval = "
     end
 
-    text = text .. "(*" .. class.. "_instance)->"..function_to_call .. "("
+    text = text .. class.. "_instance."..function_to_call .. "("
 
     for i, arg in ipairs(args) do
         if arg == "game" then
@@ -224,6 +210,66 @@ function generate_class_function_wrapper(class, function_name, function_to_call,
     else
         text = text .. tab .. "return 0; // 0 return values"..br
     end
+    text = text .. "}"..br
+
+    return text
+end
+
+function generate_constructor(class, args)
+    local text = "static int "..class.."___call(lua_State *L) {"..br
+
+    local stack_index = 1
+    for i, arg in ipairs(args) do
+        -- fixme; non hardcoded userdata to class thingy
+        if arg ~= "game" then
+            text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
+            stack_index = stack_index + 1
+        end
+    end
+
+    text = text .. tab .. "auto && rval = " .. class .. "("
+
+    for i, arg in ipairs(args) do
+        if arg == "game" then
+            text = text .. "g"
+        else
+            text = text .. "parameter"..i
+        end
+        if next(args, i) then text = text .. ", " end
+    end
+
+    text = text .. ");"..br
+
+    text = text .. tab .. push_lua_value("rval", class)..br
+    text = text .. tab .. "return 1; // 1 return values"..br
+    text = text .. "}"..br
+
+    return text
+end
+
+function generate_operator(class, function_name, cppname)
+    local text = "static int "..class.."_"..function_name.."(lua_State *L) {"..br
+
+    if classes[class].by_value then
+        text = text .. tab .. "auto & lhs = LuaValue<"..class..">::get( L, 1 );"..br
+        text = text .. tab .. "auto & rhs = LuaValue<"..class..">::get( L, 2 );"..br
+    else
+        text = text .. tab .. "auto & lhs = LuaReference<"..class..">::get( L, 1 );"..br
+        text = text .. tab .. "auto & rhs = LuaReference<"..class..">::get( L, 2 );"..br
+    end
+
+    text = text .. tab .. "bool rval = "
+
+    if classes[class].by_value then
+        text = text .. "lhs " .. cppname .. " rhs";
+    else
+        -- Both objects are pointers, they need to point to the same object to be equal.
+        text = text .. "&lhs " .. cppname .. " &rhs";
+    end
+    text = text .. ";"
+
+    text = text .. tab .. push_lua_value("rval", "bool")..br
+    text = text .. tab .. "return 1; // 1 return values"..br
     text = text .. "}"..br
 
     return text
@@ -268,6 +314,12 @@ end
 for name, value in pairs(classes) do
     while value do
         generate_class_function_wrappers(value.functions, name)
+        if value.new then
+            cpp_output = cpp_output .. generate_constructor(name, value.new)
+        end
+        if value.has_equal then
+            cpp_output = cpp_output .. generate_operator(name, "__eq", "==")
+        end
         value = classes[value.parent]
     end
 end
@@ -276,33 +328,91 @@ for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. generate_global_function_wrapper(name, func.cpp_name, func.args, func.rval)
 end
 
--- Create a lua registry with our getters and setters.
-cpp_output = cpp_output .. "static const struct luaL_Reg gamelib [] = {"..br
-
--- Now that the wrapper functions are implemented, we need to make them accessible to lua.
--- For this, the lua "registry" is used, which maps strings to C functions.
-function generate_registry(class, name)
-    for key, attribute in pairs(class.attributes) do
-        local getter_name = name.."_get_"..key
-        local setter_name = name.."_set_"..key
-        cpp_output = cpp_output .. tab .. '{"'..getter_name..'", '..getter_name..'},'..br
-        if attribute.writable then
-            cpp_output = cpp_output .. tab .. '{"'..setter_name..'", '..setter_name..'},'..br
-        end
-    end
-
-    for key, func in pairs(class.functions) do
-        local func_name = name.."_"..key
-        cpp_output = cpp_output .. tab .. '{"'..func_name..'", '..func_name..'},'..br
-    end
+-- luaL_Reg is the name of the struct in C which this creates and returns.
+function luaL_Reg(name, suffix)
+    local cpp_name = name .. "_" .. suffix
+    local lua_name = suffix
+    return tab .. '{"' .. lua_name .. '", ' .. cpp_name .. '},' .. br
 end
+-- Creates the LuaValue<T>::FUNCTIONS array, containing all the public functions of the class.
+function generate_functions_static(cpp_type, class, name)
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const luaL_Reg " .. cpp_type .. "::FUNCTIONS[] = {" .. br
+    while class do
+        for key, _ in pairs(class.functions) do
+            cpp_output = cpp_output .. luaL_Reg(name, key)
+        end
+        if class.new then
+            cpp_output = cpp_output .. luaL_Reg(name, "__call")
+        end
+        if class.has_equal then
+            cpp_output = cpp_output .. luaL_Reg(name, "__eq")
+        end
+        class = classes[class.parent]
+    end
+    cpp_output = cpp_output .. tab .. "{NULL, NULL}" .. br -- sentinel to indicate end of array
+    cpp_output = cpp_output .. "};" .. br
+end
+-- Creates the LuaValue<T>::READ_MEMBERS map, containing the getters. Example:
+-- const LuaValue<foo>::MRMap LuaValue<foo>::READ_MEMBERS = { { "id", foo_get_id }, ... };
+function generate_read_members_static(cpp_type, class, name)
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS = {" .. br
+    while class do
+        for key, attribute in pairs(class.attributes) do
+            cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. name .. "_get_" .. key .. "}," .. br
+        end
+        class = classes[class.parent]
+    end
+    cpp_output = cpp_output .. "};" .. br
+end
+-- Creates the LuaValue<T>::READ_MEMBERS map, containing the setters. Example:
+-- const LuaValue<foo>::MWMap LuaValue<foo>::WRITE_MEMBERS = { { "id", foo_set_id }, ... };
+function generate_write_members_static(cpp_type, class, name)
+    cpp_output = cpp_output .. "template<>" .. br
+    cpp_output = cpp_output .. "const " .. cpp_type .. "::MWMap " .. cpp_type .. "::WRITE_MEMBERS = {" .. br
+    while class do
+        for key, attribute in pairs(class.attributes) do
+            if attribute.writable then
+                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. name .. "_set_" .. key .. "}," .. br
+            end
+        end
+        class = classes[class.parent]
+    end
+    cpp_output = cpp_output .. "};" .. br
+end
+
+-- Create the static constant members of LuaValue
+for name, value in pairs(classes) do
+    cpp_output = cpp_output .. "template<>" .. br
+    local cpp_name = ""
+    -- The static constant is always define in LuaValue (LuaReference gets it via inheritance)
+    -- But LuaReference inherits from LuaValue<T*>!
+    if value.by_value then
+        cpp_name = "LuaValue<" .. name .. ">"
+    else
+        cpp_name = "LuaValue<" .. name .. "*>"
+    end
+    cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. name .. "_metatable\";" .. br
+    generate_functions_static(cpp_name, value, name)
+    generate_read_members_static(cpp_name, value, name)
+    generate_write_members_static(cpp_name, value, name)
+end
+
+-- Create a function that calls load_metatable on all the registered LuaValue's
+cpp_output = cpp_output .. "static void load_metatables(lua_State* const L) {" .. br
 
 for name, value in pairs(classes) do
-    while value do
-        generate_registry(value, name)
-        value = classes[value.parent]
+    if value.by_value then
+        cpp_output = cpp_output .. tab .. "LuaValue<" .. name .. ">::load_metatable( L );" .. br
+    else
+        cpp_output = cpp_output .. tab .. "LuaValue<" .. name .. "*>::load_metatable( L );" .. br
     end
 end
+cpp_output = cpp_output .. "}" .. br
+
+-- Create a lua registry with the global functions
+cpp_output = cpp_output .. "static const struct luaL_Reg gamelib [] = {"..br
 
 for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. tab .. '{"'..name..'", '..name..'},'..br

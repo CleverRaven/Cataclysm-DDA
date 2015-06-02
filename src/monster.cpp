@@ -147,7 +147,7 @@ bool monster::can_upgrade() const
 {
     // If we don't upgrade
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
         return false;
     }
     // Or we aren't allowed to yet
@@ -170,7 +170,7 @@ void monster::update_check() {
 
     // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == "NULL" && type->upgrades_into == "NULL")) {
+        (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
         return;
     }
     int current_day = calendar::turn.get_turn()/ DAYS(1);
@@ -1117,7 +1117,7 @@ void monster::die_in_explosion(Creature* source)
     die( source );
 }
 
-bool monster::move_effects()
+bool monster::move_effects(bool attacking)
 {
     bool u_see_me = g->u.sees(*this);
     if (has_effect("tied")) {
@@ -1198,7 +1198,17 @@ bool monster::move_effects()
             remove_effect("in_pit");
         }
     }
-    return Creature::move_effects();
+    if (has_effect("grabbed")){
+        if ( (dice(type->melee_dice + type->melee_sides, 3) < get_effect_int("grabbed")) || !one_in(4) ){
+            return false;
+        } else {
+            if (u_see_me) {
+                add_msg(_("The %s breaks free from the grab!"), name().c_str());
+            }
+            remove_effect("grabbed");
+        }
+    }
+    return Creature::move_effects(attacking);
 }
 
 void monster::add_eff_effects(effect e, bool reduced)
@@ -1240,6 +1250,35 @@ int monster::hit_roll() const {
     }
 
     return dice(type->melee_skill, 10);
+}
+
+bool monster::has_grab_break_tec() const
+{
+    return false;
+}
+
+int monster::stability_roll() const
+{
+    int size_bonus = 0;
+    switch (type->size) {
+        case MS_TINY:
+            size_bonus -= 7;
+            break;
+        case MS_SMALL:
+            size_bonus -= 3;
+            break;
+        case MS_LARGE:
+            size_bonus += 5;
+            break;
+        case MS_HUGE:
+            size_bonus += 10;
+            break;
+        case MS_MEDIUM:
+            break; // keep default
+    }
+
+    int stability = dice(type->melee_sides, type->melee_dice) + size_bonus;
+        return stability;
 }
 
 int monster::get_dodge() const

@@ -338,7 +338,8 @@ void monster::move()
     if( moves < 0 ) {
         return;
     }
-    if( !move_effects() ) {
+    bool attacking = false;
+    if( !move_effects(attacking) ) {
         moves = 0;
         return;
     }

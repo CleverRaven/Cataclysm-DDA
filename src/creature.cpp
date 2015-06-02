@@ -775,8 +775,9 @@ void Creature::set_fake(const bool fake_value)
 /*
  * Effect-related methods
  */
-bool Creature::move_effects()
+bool Creature::move_effects(bool attacking)
 {
+    (void)attacking;
     return true;
 }
 
@@ -787,7 +788,7 @@ void Creature::add_eff_effects(effect e, bool reduced)
     return;
 }
 
-void Creature::add_effect( efftype_id eff_id, int dur, body_part bp, 
+void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
     // Check our innate immunity
@@ -1284,6 +1285,7 @@ int Creature::get_grab_resist() const
 {
     return grab_resist;
 }
+
 int Creature::get_throw_resist() const
 {
     return throw_resist;

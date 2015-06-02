@@ -90,7 +90,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // works with TFLAG_AUTO_WALL_SYMBOL
     { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
-    { "GOES_UP",                  TFLAG_GOES_UP }         // Allows non-flying creatures to move upwards
+    { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
+    { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
 } };
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {

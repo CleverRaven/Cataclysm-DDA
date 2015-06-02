@@ -1419,7 +1419,13 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
                                   10 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+
     WINDOW_PTR w_locationptr( w_location );
+
+    WINDOW *w_flags = newwin(iContentHeight - 10, (FULL_SCREEN_WIDTH / 2) - 1,
+                             14 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+
+    WINDOW_PTR w_flagsptr( w_flags );
 
     std::vector<const scenario *> sorted_scens;
     for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
@@ -1521,6 +1527,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         scen_items.insert( scen_items.end(), scen_gender_items.begin(), scen_gender_items.end() );
         werase(w_profession);
         werase(w_location);
+        werase(w_flags);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
 
         wprintz(w_profession, c_ltgray, _("\n"));
@@ -1530,13 +1537,49 @@ int set_scenario(WINDOW *w, player *u, int &points)
             wprintz(w_profession, c_ltgray, _("All"));
         }
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
-        wprintz(w_location, c_ltgray, _("\n"));
+        wprintz(w_location, c_ltgray, ("\n"));
         wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
+
+        mvwprintz(w_flags, 0, 0, COL_HEADER, _("Scenario Flags:"));
+        wprintz(w_flags, c_ltgray, ("\n"));
+
+        if ( sorted_scens[cur_id]->has_flag("SPR_START")) {
+            wprintz(w_flags, c_ltgray, _("Spring start"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        } else if ( sorted_scens[cur_id]->has_flag("SUM_START")) {
+            wprintz(w_flags, c_ltgray, _("Summer start"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        } else if ( sorted_scens[cur_id]->has_flag("AUT_START")) {
+            wprintz(w_flags, c_ltgray, _("Autumn start"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        } else if ( sorted_scens[cur_id]->has_flag("WIN_START")) {
+            wprintz(w_flags, c_ltgray, _("Winter start"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        }
+
+        if ( sorted_scens[cur_id]->has_flag("INFECTED") ) {
+            wprintz(w_flags, c_ltgray, _("Infected player"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        }
+        if ( sorted_scens[cur_id]->has_flag("BAD_DAY") ) {
+            wprintz(w_flags, c_ltgray, _("Drunk and sick player"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        }
+        if ( sorted_scens[cur_id]->has_flag("FIRE_START") ) {
+            wprintz(w_flags, c_ltgray, _("Fire nearby"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        }
+        if ( sorted_scens[cur_id]->has_flag("SUR_START") ) {
+            wprintz(w_flags, c_ltgray, _("Zombies nearby"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        }
+
         draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_profession);
         wrefresh(w_location);
+        wrefresh(w_flags);
 
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {

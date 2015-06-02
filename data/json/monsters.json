@@ -1559,7 +1559,7 @@
     "luminance":0,
     "hp":80,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["GRAB", 7]],
     "description":"A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1625,7 +1625,7 @@
     "luminance":0,
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["GRAB", 7]],
     "description":"Once an athletic human, now a brutal monster.  Its facial features are twisted into an expression of pure rage.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1687,7 +1687,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["GRAB", 7]],
     "description":"This zombie's face and body is completely covered by a protective suit.  It wanders around, unsteadily.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1718,6 +1718,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
+    "special_attacks":[["GRAB", 7]],
     "description":"A decaying human body clad in tattered firefighting gear.  It staggers aimlessly, reeking of smoke and decay.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1748,7 +1749,7 @@
     "luminance":0,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 20], ["BITE", 5]],
+    "special_attacks":[["SHRIEK", 20], ["BITE", 5], ["GRAB", 7]],
     "description":"Still wearing the tattered remnants of improvised armor and weaponry, it is plain to see that this zombie was once a survivor like you.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
@@ -1778,7 +1779,7 @@
     "luminance":0,
     "hp":55,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 2]],
+    "special_attacks":[["BITE", 2], ["GRAB", 7]],
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1809,6 +1810,7 @@
     "luminance":0,
     "hp":80,
     "death_function":["NORMAL"],
+    "special_attacks":[["GRAB", 7]],
     "description":"A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1839,7 +1841,7 @@
     "luminance":0,
     "hp":60,
     "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 10]],
+    "special_attacks":[["SHRIEK", 10], ["GRAB", 7]],
     "description":"An elongated human body with a swollen chest and a gaping hole where its jaw used to be.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
@@ -2028,7 +2030,7 @@
     "luminance":0,
     "hp":70,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[["BITE", 5], ["GRAB", 7]],
     "description":"A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BLEED", "SWIMS", "REVIVES", "BONES"]
     },{
@@ -2182,7 +2184,7 @@
     "luminance":0,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 30]],
+    "special_attacks":[["SMASH", 30], ["GRAB", 7]],
     "description":"Its entire body bulges with distended muscles and swollen, festering wounds.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
@@ -2590,12 +2592,46 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "upgrades_into" : "mon_zombie_grappler",
+    "upgrade_min" : 6,
+    "half_life" : 7,
+    "base_upgrade_chance" : 20,
     "luminance":0,
     "hp":95,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
     "description":"A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_grappler",
+    "name": "grappler zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"cyan_white",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":15,
+    "aggression":100,
+    "morale":100,
+    "speed":85,
+    "melee_skill":5,
+    "melee_dice":4,
+    "melee_dice_sides":5,
+    "melee_cut":0,
+    "dodge":2,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":30,
+    "vision_night":5,
+    "death_drops": "default_zombie_death_drops",
+    "luminance":0,
+    "hp":110,
+    "death_function":["NORMAL"],
+    "special_attacks":[["RANGED_PULL", 20], ["GRAB_DRAG", 3], ["BITE", 5]],
+    "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
@@ -6453,7 +6489,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_armored",
-    "name": "decayed paladin",
+    "name": "armored zombie",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",
@@ -6465,12 +6501,12 @@
     "morale":100,
     "speed":70,
     "melee_skill":5,
-    "melee_dice":2,
+    "melee_dice":3,
     "melee_dice_sides":6,
     "melee_cut":0,
     "dodge":0,
-    "armor_bash":36,
-    "armor_cut":36,
+    "armor_bash":64,
+    "armor_cut":64,
     "vision_day":30,
     "vision_night":3,
     "death_drops": "mon_zombie_armored_death_drops",
