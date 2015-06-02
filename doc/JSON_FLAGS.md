@@ -766,7 +766,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
-- ```RADIO_MO``` The item has been made into a radio-activated item.
+- ```RADIO_MOD``` The item has been made into a radio-activated item.
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
