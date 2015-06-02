@@ -1250,8 +1250,9 @@ void mission_start::ranch_construct_16(mission *miss)
  //Do a check to prevent duplicate NPCs in the last mission of each version
  std::vector<npc*> all_npcs = overmap_buffer.get_npcs_near(site.x*2,site.y*2,site.z,3);
  bool already_has = false;
+ unsigned int a = -1;
  for( auto *elem : all_npcs) {
-    if (elem->name.find(", Bartender") != -1){
+    if (elem->name.find(", Bartender") != a){
         already_has = true;
     }
  }
