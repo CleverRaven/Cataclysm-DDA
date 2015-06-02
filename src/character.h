@@ -17,14 +17,14 @@ class Character : public Creature
         field_id gibType() const override;
         virtual bool is_warm() const override;
         virtual const std::string &symbol() const override;
-        
+
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects() override;
+        virtual bool move_effects(bool attacking) override;
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
-        
+
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
         /** Modifies the player's sight values
@@ -37,14 +37,14 @@ class Character : public Creature
          * - clothes
          */
         void recalc_sight_limits();
-        
+
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
         std::string random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
         std::string random_bad_trait();
-        
+
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
         virtual bool has_trait(const std::string &flag) const override;
@@ -52,12 +52,12 @@ class Character : public Creature
         bool has_base_trait(const std::string &flag) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         std::string trait_by_invlet( char ch ) const;
-        
+
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
         /** Toggles a mutation on the player, but does not trigger mutation loss/gain effects. */
         void toggle_mutation(const std::string &flag);
-        
+
  private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
@@ -69,15 +69,15 @@ class Character : public Creature
         void mutation_effect(std::string mut);
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect(std::string mut);
-        
+
         bool has_active_mutation(const std::string &b) const;
-        
+
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
         bool has_bionic(const std::string &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic(const std::string &b) const;
-        
+
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -103,7 +103,7 @@ class Character : public Creature
             }
             return false;
         }
-        
+
         /**
          * Test whether an item in the possession of this player match a
          * certain filter.
@@ -198,7 +198,7 @@ class Character : public Creature
             }
             return result;
         }
-        
+
         item &i_add(item it);
         /**
          * Remove a specific item from player possession. The item is compared
@@ -220,27 +220,27 @@ class Character : public Creature
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop(item &it, int qty = 1);
-        
+
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
         std::set<char> allocated_invlets() const;
-        
+
         /**
          * Whether the player carries an active item of the given item type.
          */
         bool has_active_item(const itype_id &id) const;
         item remove_weapon();
         void remove_mission_items(int mission_id);
-        
+
         int weight_carried() const;
         int volume_carried() const;
         int weight_capacity() const override;
         int volume_capacity() const;
         bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
-        
+
         bool has_artifact_with(const art_effect_passive effect) const;
-        
+
         // --------------- Clothing Stuff ---------------
         /** Returns true if the player is wearing the item. */
         bool is_wearing(const itype_id &it) const;
@@ -248,7 +248,7 @@ class Character : public Creature
         bool is_wearing_on_bp(const itype_id &it, body_part bp) const;
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( std::string flag ) const;
-        
+
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
         SkillLevel &skillLevel(Skill const &_skill);
@@ -258,9 +258,9 @@ class Character : public Creature
         SkillLevel const& get_skill_level(const Skill* _skill) const;
         SkillLevel const& get_skill_level(const Skill &_skill) const;
         SkillLevel const& get_skill_level(const std::string &ident) const;
-        
+
         // --------------- Other Stuff ---------------
-        
+
 
         /** return the calendar::turn the character expired */
         int get_turn_died() const
@@ -272,20 +272,20 @@ class Character : public Creature
         {
             turn_died = (turn_died != -1) ? turn : turn_died;
         }
-        
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
          */
         virtual void normalize() override;
         virtual void die(Creature *nkiller) override;
-        
+
         /** Resets stats, and applies effects in an idempotent manner */
         virtual void reset_stats() override;
-        
+
         /** Returns true if the player has some form of night vision */
         bool has_nv();
-        
+
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */
@@ -297,15 +297,15 @@ class Character : public Creature
         /** Empties the trait list */
         void empty_traits();
         void add_traits();
-        
+
         // --------------- Values ---------------
         std::string name;
         bool male;
-        
+
         std::vector<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max;
         bool nv_cached;
-        
+
         inventory inv;
         std::map<char, itype_id> assigned_invlet;
         itype_id last_item;
@@ -350,7 +350,7 @@ class Character : public Creature
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
-        
+
         // --------------- Values ---------------
         std::map<const Skill*, SkillLevel> _skills;
 

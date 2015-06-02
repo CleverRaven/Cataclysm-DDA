@@ -198,7 +198,7 @@
       "range" : 0,
       "dispersion" : 12,
       "recoil" : 0,
-      "count" : 100
+      "count" : 250
    },
 	{
       "type" : "AMMO",

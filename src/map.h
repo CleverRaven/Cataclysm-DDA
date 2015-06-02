@@ -51,6 +51,10 @@ typedef std::vector< std::pair< item*, int > > itemslice;
 typedef std::string items_location;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+class VehicleGroup;
+using vgroup_id = string_id<VehicleGroup>;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 class map_stack : public item_stack {
 private:
@@ -158,7 +162,7 @@ class map
 // Visual Output
  void debug();
 
-    
+
 
     /**
      * Sets a dirty flag on the transparency cache.
@@ -399,8 +403,6 @@ public:
                               const int bash, const int maxdist ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
-    // First angle is horizontal, second is vertical
-    point coords_to_angles( const tripoint &a, const tripoint &b ) const;
 // Vehicles: Common to 2D and 3D
     VehicleList get_vehicles();
     void update_vehicle_cache(vehicle *, const bool brand_new = false);
@@ -655,11 +657,17 @@ void add_corpse( const tripoint &p );
     void collapse_at( const tripoint &p );
     /** Tries to smash the items at the given tripoint. Used by the explosion code */
     void smash_items( const tripoint &p, const int power );
-    /** Returns a pair where first is whether something was smashed and second is if it was a success */
+    /**
+     * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
+     *
+     * @param silent Don't produce any sound
+     * @param destroy Destroys some otherwise unbashable tiles
+     * @param bashing_vehicle Vehicle NOT to bash (to prevent vehicle bashing itself)
+     * @param bash_floor Allow bashing the floor and the tile that supports it
+     */
     std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,
-                                bool destroy = false, vehicle *bashing_vehicle = nullptr );
-    std::pair<bool, bool> bash( int, int, const int, bool silent = false,
-                                bool destroy = false, vehicle *bashing_vehicle = nullptr ) = delete;
+                                bool destroy = false, vehicle *bashing_vehicle = nullptr,
+                                bool bash_floor = false );
     /** Spawn items from the list, see map_bash_item_drop */
     void spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p );
 
@@ -695,8 +703,6 @@ void add_corpse( const tripoint &p );
     void adjust_radiation( const tripoint &p, const int delta );
     // Overload for mapgen
     void adjust_radiation( const int x, const int y, const int delta );
-    /** Sums radiation from `start` to `end` */
-    int radiation_over( const tripoint &start, const tripoint &end ) const;
 
 // Temperature
     int& temperature( const tripoint &p );    // Temperature for submap
@@ -930,7 +936,7 @@ void add_corpse( const tripoint &p );
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
- void place_spawns(std::string group, const int chance,
+ void place_spawns(const mongroup_id& group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
@@ -940,6 +946,9 @@ void add_corpse( const tripoint &p );
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
+ vehicle *add_vehicle(const vgroup_id & type, const point &p, const int dir,
+                      const int init_veh_fuel = -1, const int init_veh_status = -1,
+                      const bool merge_wrecks = true);
  vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
@@ -996,7 +1005,6 @@ void add_corpse( const tripoint &p );
     point getlocal(const int x, const int y ) const;
     point getlocal(const point p) const { return getlocal(p.x, p.y); }
     tripoint getlocal( const tripoint &p ) const;
- bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y) const;
  bool inbounds(const int x, const int y, const int z) const;
  bool inbounds( const tripoint &p ) const;
@@ -1189,6 +1197,15 @@ private:
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
+
+    // Bashes terrain or furniture, handles collapse and roofs
+    std::pair<bool, bool> bash_ter_furn( const tripoint &p, const int str,
+                                         bool silent, bool destroy, bool bash_floor,
+                                         float res_roll );
+    // Gets the roof type of the tile at p
+    // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
+    // or can just return air because we bashed down an entire floor tile
+    ter_id get_roof( const tripoint &p, bool allow_air );
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>

@@ -25,6 +25,7 @@
 #include "coordinates.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "vehicle_factory.h"
 #ifdef LUA
 #include "catalua.h"
 #endif
@@ -110,7 +111,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 
     const overmap_spawns &spawns = terrain_type.t().static_spawns;
-    if( spawns.group != "GROUP_NULL" && x_in_y( spawns.chance, 100 ) ) {
+    if( spawns.group != mongroup_id( "GROUP_NULL" ) && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.min_population, spawns.max_population );
         // place_spawns currently depends on the STATIC_SPAWN world option, this
         // must bypass it.
@@ -672,21 +673,21 @@ public:
  */
 class jmapgen_monster_group : public jmapgen_piece {
 public:
-    std::string mongroup_id;
+    mongroup_id id;
     float density;
     jmapgen_int chance;
     jmapgen_monster_group( JsonObject &jsi ) : jmapgen_piece()
-    , mongroup_id( jsi.get_string( "monster" ) )
+    , id( jsi.get_string( "monster" ) )
     , density( jsi.get_float( "density", -1.0f ) )
     , chance( jsi, "chance", 1, 1 )
     {
-        if( !MonsterGroupManager::isValidMonsterGroup( mongroup_id ) ) {
+        if( !id.is_valid() ) {
             jsi.throw_error( "no such monster group", "monster" );
         }
     }
     void apply( map &m, const size_t x, const size_t y, const float mdensity ) const override
     {
-        m.place_spawns( mongroup_id, chance.get(), x, y, x, y, density == -1.0f ? mdensity : density );
+        m.place_spawns( id, chance.get(), x, y, x, y, density == -1.0f ? mdensity : density );
     }
 };
 /**
@@ -1414,6 +1415,9 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                    const oter_id t_above, const int turn, const float density,
                    const int zlevel, const regional_settings * rsettings)
 {
+    static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+    static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
+    static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -1533,7 +1537,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(1, 8), 15, 10);
         }
@@ -1625,7 +1629,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1714,7 +1718,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1801,7 +1805,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -1890,7 +1894,7 @@ ss                      \n",
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(1, 8), 15, 10);
         }
@@ -1985,7 +1989,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -2076,7 +2080,7 @@ ss                      \n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -2167,7 +2171,7 @@ EE|.+..........e|ssR    \n\
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
                 add_spawn("mon_zombie", rng(1, 8), 15, 10);
             }
@@ -2225,7 +2229,7 @@ ssssss______ss______ssss\n",
         place_items("office", 75, 19, 6, 19, 6, false, 0);
         place_items("office", 75, 12, 8, 14, 8, false, 0);
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 12, 3, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 12, 3, density);
         } else {
             if (x_in_y(1, 2)) {
                 add_spawn("mon_zombie", 2, 15, 7);
@@ -2299,7 +2303,7 @@ ss%|rrrr|...|.R.|EEED...\n",
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 2, 8, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 2, 8, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), 15, 7);
                 if (x_in_y(1, 1)) {
@@ -2382,7 +2386,7 @@ ssssssssssssssssssssssss\n",
             place_items("cubical_office", 75, 19, 5, 19, 7, false, 0);
             place_items("cleaning", 80, 1, 7, 2, 7, false, 0);
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 14, 10, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 14, 10, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 15), 14, 10);
                 if (x_in_y(1, 2)) {
@@ -2453,7 +2457,7 @@ ssssssssssssssssssssssss\n\
             place_items("office", 75, 16, 11, 17, 12, false, 0);
             place_items("cleaning", 75, 8, 20, 10, 20, false, 0);
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 9, 15, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), 9, 15);
             }
@@ -2514,7 +2518,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         } else {
             add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
         }
@@ -2575,7 +2579,7 @@ sss|........|.R.|EEED___\n",
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
             }
@@ -2676,7 +2680,7 @@ ssssssssssssssssssssssss\n",
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
             }
@@ -2769,7 +2773,7 @@ ___DEEE|.R.|...,,...|sss\n",
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
                                                f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
             } else {
                 add_spawn("mon_zombie", rng(0, 5), SEEX * 2 - 1, SEEX * 2 - 1);
             }
@@ -2889,9 +2893,9 @@ ssssssssssssssssssssssss\n",
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, .20);
         }
         if (t_north == "cathedral_1" && t_west == "cathedral_1") {
             rotate(3);
@@ -2969,9 +2973,9 @@ ss          #bbbb...bbbb\n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, .20);
             }
             if (t_west == "cathedral_1_entrance") {
                 rotate(1);
@@ -3044,9 +3048,9 @@ ssssssssssssssssssssssss\n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, .20);
             }
             if (t_north == "cathedral_1_entrance") {
                 rotate(1);
@@ -3114,9 +3118,9 @@ bbb...bbbb#           ss\n",
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, .20);
             }
             if (t_west == "cathedral_1" && t_north == "cathedral_1") {
                 rotate(1);
@@ -3183,9 +3187,9 @@ bbb...bbbb#           ss\n",
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, .20);
         }
         if (t_north == "cathedral_b" && t_west == "cathedral_b") {
             rotate(3);
@@ -3323,9 +3327,9 @@ cc-|-D----|#############\n\
                 }
             }
             if (density > 1) {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
             } else {
-                place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+                place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, .20);
             }
             if (t_north == "cathedral_b_entrance") {
                 rotate(1);
@@ -6053,7 +6057,7 @@ ff.......|....|WWWWWWWW|\n\
         place_items("bigtools", 80,  18, 7, 21,  7, false, 0);
         place_items("office", 80,  18,  11, 20,  11, false, 0);
         place_items("office", 60,  18,  13, 18,  13, false, 0);
-        place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
+        place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
         if (t_north == "public_works" && t_west == "public_works") {
             rotate(3);
         } else if (t_north == "public_works" && t_east == "public_works") {
@@ -6119,7 +6123,7 @@ ff.......|....|WWWWWWWW|\n\
             spawn_item(12, 2, "nail");
             spawn_item(13, 2, "nail");
             spawn_item(14, 2, "material_sand", rng(1, 10));
-            place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
+            place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works_entrance") {
                 rotate(1);
             }
@@ -6176,7 +6180,7 @@ ____sss                 \n",
             place_items("construction_worker", 90,  3, 10, 10,  10, false, 0);
             place_items("office", 80,  15,  19, 17,  19, false, 0);
             place_items("cleaning", 80,  17,  16, 17,  16, false, 0);
-            place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
+            place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.3);
             if (t_north == "public_works_entrance") {
                 rotate(1);
             }
@@ -6234,7 +6238,7 @@ __________           f  \n",
             place_items("electronics", 80,  16,  2, 18,  2, false, 0);
             place_items("cleaning", 85,  12,  2, 13,  2, false, 0);
             spawn_item(3, 2, "log", rng(1, 3));
-            place_spawns("GROUP_PUBLICWORKERS", 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
+            place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
                 if (x_in_y(2, 3)) {
@@ -8013,7 +8017,7 @@ ssssssssssssssssssssssss\n",
                                            f_null,   f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table,
                                            f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase,
                                            f_chair, f_counter, f_dresser, f_locker, f_null));
-        place_spawns("GROUP_ZOMBIE", 2, 6, 6, 18, 18, density);
+        place_spawns( GROUP_ZOMBIE, 2, 6, 6, 18, 18, density);
         if (t_north == "hotel_tower_1_2") {
             rotate(3);
         } else if (t_east == "hotel_tower_1_2") {
@@ -8062,7 +8066,7 @@ s________sssss________ss\n",
                                            f_null,   f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table,
                                            f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase,
                                            f_chair, f_counter, f_dresser, f_locker, f_null));
-        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_5") {
             rotate(0);
         } else if (t_east == "hotel_tower_1_5") {
@@ -8111,7 +8115,7 @@ sssssssssssssssssssssss\n",
                                            f_null,   f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table,
                                            f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase,
                                            f_chair, f_counter, f_dresser, f_locker, f_null));
-        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_2") {
             rotate(1);
             if (x_in_y(1, 12)) {
@@ -8196,7 +8200,7 @@ s_____,_____,_____,_____\n",
                 }
             }
         }
-        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_5") {
             rotate(3);
         } else if (t_east == "hotel_tower_1_5") {
@@ -8260,7 +8264,7 @@ ________________________\n\
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
             if (x_in_y(1, 2)) {
                 add_spawn("mon_zombie", 2, 15, 7);
@@ -8335,7 +8339,7 @@ ____,_____,_____,_____s\n",
                 }
             }
         }
-        place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+        place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         if (t_north == "hotel_tower_1_5") {
             rotate(1);
         } else if (t_east == "hotel_tower_1_5") {
@@ -8407,7 +8411,7 @@ s    |c....|c....|c....|\n",
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(0, 12), 14, 11);
         }
@@ -8482,7 +8486,7 @@ c...d|t.........t|....c|\n",
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 23, 23, 3, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 23, 23, 3, density);
         } else {
             add_spawn("mon_zombie", rng(1, 18), 12, 12);
         }
@@ -8557,7 +8561,7 @@ h....|h....|h....|    s \n\
             }
         }
         if (density > 1) {
-            place_spawns("GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
         } else {
             add_spawn("mon_zombie", rng(1, 8), 12, 12);
         }
@@ -9570,7 +9574,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if (one_in(2)) {
                 add_spawn("mon_zombie", rng(1, 6), 4, 14);
             } else {
-                place_spawns("GROUP_DOMESTIC", 2, 10, 15, 12, 17, 1);
+                place_spawns( GROUP_DOMESTIC, 2, 10, 15, 12, 17, 1);
             }
         } else {
             dat.fill_groundcover();
@@ -9721,7 +9725,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             if (one_in(3)) {
                 add_spawn("mon_zombie", rng(3, 6), 12, 12);
             } else {
-                place_spawns("GROUP_DOMESTIC", 2, 0, 0, 15, 15, 1);
+                place_spawns( GROUP_DOMESTIC, 2, 0, 0, 15, 15, 1);
             }
 
         } else {
@@ -11383,14 +11387,14 @@ void map::post_process(unsigned zones)
 
 }
 
-void map::place_spawns(std::string group, const int chance,
+void map::place_spawns(const mongroup_id& group, const int chance,
                        const int x1, const int y1, const int x2, const int y2, const float density)
 {
     if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
         return;
     }
 
-    if( !MonsterGroupManager::isValidMonsterGroup( group ) ) {
+    if( !group.is_valid() ) {
         const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
@@ -11550,11 +11554,17 @@ void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
         // Don't spawn non-classic monsters in classic zombie mode.
         return;
     }
-    if (monster_is_blacklisted(GetMType(type))) {
+    if (MonsterGroupManager::monster_is_blacklisted(GetMType(type))) {
         return;
     }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);
     place_on_submap->spawns.push_back(tmp);
+}
+
+vehicle *map::add_vehicle(const vgroup_id & type, const point &p, const int dir,
+    const int veh_fuel, const int veh_status, const bool merge_wrecks)
+{
+    return add_vehicle(type.obj().pick(), p.x, p.y, dir, veh_fuel, veh_status, merge_wrecks);
 }
 
 vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
@@ -13275,6 +13285,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
 
 void map::add_extra(map_extra type)
 {
+    static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
     item body;
     body.make_corpse();
 
@@ -13318,7 +13329,7 @@ void map::add_extra(map_extra type)
             extra_items = "bionics";
             break;
         }
-        place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
+        place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
         place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
     }
     break;
@@ -13356,7 +13367,7 @@ void map::add_extra(map_extra type)
             int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
             add_spawn(type, 1, mx, my);
         }
-        place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
+        place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
                      0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }

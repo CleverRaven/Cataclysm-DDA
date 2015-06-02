@@ -213,10 +213,6 @@ std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius)
             continue;
         }
         if( p != center ) {
-            if (!g->m.sees( center, p, radius )) {
-                // No clear line of sight
-                continue;
-            }
             if (!g->m.clear_path( center, p, radius, 1, 100, junk, trash)) {
                 // Can not splatter gas from center to that point, something is in the way
                 continue;
@@ -1266,8 +1262,11 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         duration += 600;
     }
     if (duration > 0) {
-        int hungerpen = (p->str_cur < 10 ? 20 : 40 - p->str_cur);
-        p->hunger -= hungerpen;
+        // meth actually inhibits hunger, weaker characters benefit more
+        int hungerpen = (p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ));
+        if (hungerpen>0) {
+            p->hunger -= hungerpen;
+        }
         p->add_effect("meth", duration);
     }
     return it->type->charges_to_use();
@@ -1453,7 +1452,7 @@ int iuse::oxygen_bottle(player *p, item *it, bool, const tripoint& )
 int iuse::blech(player *p, item *it, bool, const tripoint& )
 {
     // TODO: Add more effects?
-    if (it->is_drink()) {
+    if( it->made_of( LIQUID ) ) {
         if (!query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
             return 0;
         }
@@ -3228,7 +3227,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                     //lets say it is a 5% chance per fish to catch
                     if (one_in(20)) {
                         item fish;
-                        std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                        std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                         std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
                         fish.make_corpse( fish_mon, it->bday + rng(0, 1800)); //we don't know when it was caught. its random
                         //Yes, we can put fishes in the trap like knives in the boot,
@@ -5610,7 +5609,7 @@ music_description get_music_description( const player & p )
             break;
     }
     if (one_in(50)) {
-        result.sound = _("some bass-heavy post-glam speed polka");
+        result.sound = _("some bass-heavy post-glam speed polka.");
     }
     return result;
 }
@@ -5619,31 +5618,51 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
+
     bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
     if( int(calendar::turn) % 50 == 0 ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
-        if( !music.sound.empty() ) {
-            sound = string_format( _("You listen to %s"), music.sound.c_str() );
+        if ( !music.sound.empty() ) {
+            // return only music description by default
+            sound = music.sound;
+            // music source is on player's square
+            if( p->pos() == source && volume != 0 ) {
+                // generic stereo players without earphones
+                sound = string_format( _("You listen to %s"), music.sound.c_str() );
+            } else if ( p->pos() == source && volume == 0 && p->can_hear( source, volume)) {
+                // in-ear music, such as mp3 player
+                p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
+            }
         }
         if( do_effects ) {
             p->stim += music.stim_bonus;
             morale_bonus += music.morale_bonus;
         }
     }
-    sounds::ambient_sound( source, volume, sound );
+    // do not process mp3 player
+    if ( volume != 0 ) {
+            sounds::ambient_sound( source, volume, sound );
+    }
     if( do_effects ) {
         p->add_effect("music", 1);
         p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
+        // mp3 player reduces hearing
+        if ( volume == 0 ) {
+             p->add_effect("earphones",1);
+        }
     }
 }
 
 int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
-        play_music( p, pos, 0, 50 );
+        if (p->has_item(it)) {
+            // mp3 player in inventory, we can listen
+            play_music( p, pos, 0, 50 );
+        }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
         it->make("mp3");

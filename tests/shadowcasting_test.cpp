@@ -1,7 +1,8 @@
-#include <tap++/tap++.h>
-using namespace TAP;
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 #include "map.h"
+#include "line.h"
 
 #include <chrono>
 #include <random>
@@ -106,11 +107,7 @@ void oldCastLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     }
 }
 
-int main(int argc, char *argv[])
-{
-    (void)argc;
-    (void)argv;
-    plan( 1 );
+TEST_CASE("Regression test against old shadowcasting implementation.") {
 
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
@@ -244,7 +241,5 @@ int main(int argc, char *argv[])
         }
     }
 
-    ok( passed );
-
-    return exit_status();
+    REQUIRE( passed );
 }

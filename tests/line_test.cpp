@@ -1,5 +1,5 @@
-#include <tap++/tap++.h>
-using namespace TAP;
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 #include "rng.h"
 #include "line.h"
@@ -102,18 +102,13 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
 #define RANDOM_TEST_NUM 1000
 #define COORDINATE_RANGE 99
 
-int main(int argc, char *argv[])
-{
-    (void)argc;
-    (void)argv;
- plan( 2 + RANDOM_TEST_NUM );
+TEST_CASE("Compare line_to() to canonical line_to()") {
 
- ok( trig_dist(0, 0, 0, 0) == 0 );
- ok( trig_dist(0, 0, 1, 0) == 1 );
+ REQUIRE( trig_dist(0, 0, 0, 0) == 0 );
+ REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
 
  const int seed = time( NULL );
  srandom( seed );
- char test_message[100];
 
  for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
      const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
@@ -122,10 +117,7 @@ int main(int argc, char *argv[])
      const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
      int t1 = 0;
      int t2 = 0;
-     snprintf( test_message, sizeof(test_message), "Line from %d, %d to %d, %d.",
-               x1, y1, x2, y2 );
-     ok( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ),
-         test_message );
+     REQUIRE( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ) );
  }
 
  {
@@ -150,7 +142,7 @@ int main(int argc, char *argv[])
      struct timespec end2;
      clock_gettime( CLOCK_REALTIME, &start2 );
      while( count2 < PERFORMANCE_TEST_ITERATIONS ) {
-         line_to( x1, y1, x2, y2, t2 );
+         canonical_line_to( x1, y1, x2, y2, t2 );
          count2++;
      }
      clock_gettime( CLOCK_REALTIME, &end2 );
@@ -166,6 +158,4 @@ int main(int argc, char *argv[])
      printf( "canonical_line_to() executed %d times in %ld.%ld seconds.\n",
              PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
  }
-
- return exit_status();
 }

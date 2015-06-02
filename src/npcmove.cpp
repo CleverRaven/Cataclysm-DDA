@@ -1087,10 +1087,6 @@ bool npc::can_move_to( const tripoint &p ) const
 
 void npc::move_to( const tripoint &pt )
 {
-    if( !move_effects() ) {
-        mod_moves(-100);
-        return;
-    }
     if( g->m.has_flag("UNSTABLE", pt ) ) {
         add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
@@ -1134,6 +1130,14 @@ void npc::move_to( const tripoint &pt )
         newpath = line_to( pos3(), p, linet1, linet2 );
 
         p = newpath[0];
+    }
+    bool attacking = false;
+    if (g->mon_at(p)){
+        attacking = true;
+    }
+    if( !move_effects(attacking) ) {
+        mod_moves(-100);
+        return;
     }
 
     if( p == pos3() ) { // We're just pausing!

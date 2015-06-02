@@ -448,7 +448,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
         if( fishables.size() < 1 ) {
             if( one_in(20) ) {
                 item fish;
-                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
+                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                 std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
                 fish.make_corpse( fish_mon, calendar::turn );
                 g->m.add_item_or_charges(p->pos(), fish);
@@ -913,6 +913,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         } else {
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
             p->recoil = MIN_RECOIL;
+        }
+
+        // Create noise.
+        if(reloadable->is_gun()) {
+            islot_gun* gun = reloadable->type->gun.get();
+            if( gun->reload_noise_volume > 0 ) {
+              sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
+                             true, "reload", reloadable->typeId() );
+            }
         }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());

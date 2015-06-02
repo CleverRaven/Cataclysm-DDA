@@ -13,6 +13,7 @@
 #include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
+#include "line.h"
 
 class game;
 class Character;
@@ -483,7 +484,6 @@ public:
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
- bool is_drink() const;
  bool is_weap() const;
  bool is_bashing_weapon() const;
  bool is_cutting_weapon() const;
@@ -1078,6 +1078,10 @@ class map_item_stack
 
         static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
         {
+            if ( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
+                return square_dist(tripoint(0, 0, 0), lhs.vIG[0].pos) < square_dist(tripoint(0, 0, 0), rhs.vIG[0].pos);
+            }
+
             return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };

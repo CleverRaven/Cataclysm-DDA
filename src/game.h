@@ -59,7 +59,8 @@ enum target_mode {
     TARGET_MODE_FIRE,
     TARGET_MODE_THROW,
     TARGET_MODE_TURRET,
-    TARGET_MODE_TURRET_MANUAL
+    TARGET_MODE_TURRET_MANUAL,
+    TARGET_MODE_REACH
 };
 
 typedef int ter_id;
@@ -532,7 +533,6 @@ class game
         // Data Initialization
         void init_npctalk();
         void init_fields();
-        void init_morale();
         void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
         void init_savedata_translation_tables();

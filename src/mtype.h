@@ -7,6 +7,7 @@
 #include "color.h"
 #include "field.h"
 #include "int_id.h"
+#include "string_id.h"
 
 #include <bitset>
 #include <string>
@@ -23,6 +24,8 @@ enum body_part : int;
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 using mfaction_id = int_id<monfaction>;
 
@@ -219,7 +222,7 @@ struct mtype {
         // Modifier of the chance of upgrading per half life, i.e. 10 would mean an additional 10% chance to upgrade per half life,
         // or -10 would mean a -10% chance to upgrade per half life.
         float base_upgrade_chance;
-        std::string upgrade_group;
+        mongroup_id upgrade_group;
         std::string upgrades_into;
         // Default constructor
         mtype ();

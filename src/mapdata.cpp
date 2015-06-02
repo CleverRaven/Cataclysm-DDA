@@ -90,7 +90,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // works with TFLAG_AUTO_WALL_SYMBOL
     { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
-    { "GOES_UP",                  TFLAG_GOES_UP }         // Allows non-flying creatures to move upwards
+    { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
+    { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
 } };
 
 void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
@@ -111,6 +112,9 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         str_min_blocked = j.get_int("str_min_blocked", -1);
         str_max_blocked = j.get_int("str_max_blocked", -1);
 
+        str_min_supported = j.get_int("str_min_supported", -1);
+        str_max_supported = j.get_int("str_max_supported", -1);
+
         str_min_roll = j.get_int("str_min_roll", str_min);
         str_max_roll = j.get_int("str_min_roll", str_max);
 
@@ -121,13 +125,15 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 
         destroy_only = j.get_bool("destroy_only", false);
 
+        bash_below = j.get_bool("bash_below", false);
+
         sound = j.get_string("sound", _("smash!"));
         sound_fail = j.get_string("sound_fail", _("thump!"));
 
         if (isfurniture) {
             furn_set = j.get_string("furn_set", "f_null");
         } else {
-            ter_set = j.get_string("ter_set");
+            ter_set = j.get_string( "ter_set" );
         }
 
         if ( j.has_array("items") ) {
@@ -148,7 +154,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     JsonObject j = jsobj.get_object(member);
     furn_set = j.get_string("furn_set", "");
     if (!isfurniture) {
-        ter_set = j.get_string("ter_set");
+        ter_set = j.get_string( "ter_set" );
     }
     can_do = true;
 
@@ -190,6 +196,7 @@ ter_t null_terrain_t() {
   new_terrain.harvest_season = 0;
   new_terrain.harvestable = "";
   new_terrain.transforms_into = "t_null";
+  new_terrain.roof = "t_null";
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
@@ -311,13 +318,17 @@ void load_terrain(JsonObject &jsobj)
   // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
     new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
-  }  
-  
-  if (jsobj.has_member("transforms_into")) {   
+  }
+
+  if (jsobj.has_member("transforms_into")) {
     new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
   }
-  
-  if (jsobj.has_member("harvest_season")) {  
+
+  if (jsobj.has_member("roof")) {
+    new_terrain.roof = jsobj.get_string("roof"); // Get the terrain to create above this one if there would be open air otherwise
+  }
+
+  if (jsobj.has_member("harvest_season")) {
     //get the harvest season
     if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
     else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
@@ -773,6 +784,7 @@ furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
+    f_standing_tank,
     f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_floor_canvas,
@@ -862,6 +874,7 @@ void set_furn_ids() {
     f_fvat_empty=furnfind("f_fvat_empty");
     f_fvat_full=furnfind("f_fvat_full");
     f_wood_keg=furnfind("f_wood_keg");
+    f_standing_tank=furnfind("f_standing_tank");
     f_statue=furnfind("f_statue");
     f_egg_sackbw=furnfind("f_egg_sackbw");
     f_egg_sackws=furnfind("f_egg_sackws");

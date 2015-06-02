@@ -86,7 +86,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         nc_color basic_symbol_color() const override;
         nc_color symbol_color() const override;
         const std::string &symbol() const override;
-        bool is_symbol_inverted() const;
         bool is_symbol_highlighted() const override;
 
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
@@ -208,7 +207,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_fleeing(player &u) const; // True if we're fleeing
         monster_attitude attitude(player *u = NULL) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
-        int morale_level(player &u); // Looks at our HP etc.
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
         int trigger_sum(std::set<monster_trigger> *triggers) const;
@@ -250,7 +248,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         virtual void process_effects() override;
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects() override;
+        virtual bool move_effects(bool attacking) override;
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
@@ -271,6 +269,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Deals falling/collision damage with terrain/creature at pos */
         virtual int impact( int force, const tripoint &pos ) override;
 
+        bool has_grab_break_tec() const override;
+
+        int stability_roll() const override;
         // We just dodged an attack from something
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         // Something hit us (possibly null source)
