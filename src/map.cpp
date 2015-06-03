@@ -918,7 +918,7 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
     // This function is called A LOT. Move as much out of here as possible.
     const auto &ch = get_cache( p.z );
     if( !ch.veh_in_active_range || !ch.veh_exists_at[p.x][p.y] ) {
-        part_num = 0;
+        part_num = -1;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
@@ -929,7 +929,7 @@ const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
     }
 
     debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
-    part_num = 0;
+    part_num = -1;
     return nullptr;
 }
 
