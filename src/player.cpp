@@ -4112,7 +4112,7 @@ float player::active_light() const
 
     int maxlum = 0;
     has_item_with( [&maxlum]( const item &it ) {
-        const int lumit = it.getlight_emit_active();
+        const int lumit = it.active && it.charges > 0 ? it.getlight_emit() : 0;
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -13745,7 +13745,7 @@ void player::place_corpse()
     item body;
     body.make_corpse( GetMType( "mon_null" ), calendar::turn, name );
     for( auto itm : tmp ) {
-        g->m.add_item_or_charges( posx(), posy(), *itm );
+        g->m.add_item_or_charges( pos(), *itm );
     }
     for( auto & bio : my_bionics ) {
         if( item::type_is_defined( bio.id ) ) {
@@ -13762,7 +13762,7 @@ void player::place_corpse()
             body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
         }
     }
-    g->m.add_item_or_charges( posx(), posy(), body );
+    g->m.add_item_or_charges( pos(), body );
 }
 
 bool player::sees_with_infrared( const Creature &critter ) const

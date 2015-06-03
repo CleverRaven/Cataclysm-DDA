@@ -1193,7 +1193,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Allow weaker fires to spread occasionally
                             const int power = cur->getFieldDensity() + one_in( 5 );
                             if( rng(1, 100) < spread_chance && tr_brazier != trp &&
-                                  (ter.has_flag( TFLAG_FIRE_CONTAINER ) != true ) &&
+                                  !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) &&
                                   (in_pit == (dsterid == t_pit)) &&
                                   (
                                     (power >= 3 && cur->getFieldAge() < 0 && one_in( 20 ) ) ||

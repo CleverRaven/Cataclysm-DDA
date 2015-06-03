@@ -562,7 +562,6 @@
             {"x": 2, "y": 1, "part": "storage_battery"},
             {"x": 2, "y": 1, "part": "xlhalfboard_horizontal"},
             {"x": 2, "y": -1, "part": "xlframe_nw"},
-            {"x": 1, "y": -1, "part": "engine_electric_enhanced"},
             {"x": 2, "y": -1, "part": "xlhalfboard_nw"},
             {"x": 2, "y": -1, "part": "wheel"},
             {"x": 2, "y": -1, "part": "headlight"},

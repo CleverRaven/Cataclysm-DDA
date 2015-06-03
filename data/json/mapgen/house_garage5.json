@@ -98,7 +98,7 @@
                     ],
                         "comment": "randomly picked from a group ---v",
             "place_vehicles": [
-                { "vehicle": "car_mini", "x": 5, "y": 5, "rotation": 270, "chance": 10  }
+                { "vehicle": "suburban_home", "x": 5, "y": 5, "rotation": 270, "chance": 10  }
             ],
             "place_items": [
                 { "item": "bed", "chance": 80,  "x": [12,13 ], "y": [18,19 ] },

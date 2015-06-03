@@ -451,7 +451,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
-                item tmp(itemdata);
+                item tmp;
+                tmp.load_info(itemdata);
                 npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;

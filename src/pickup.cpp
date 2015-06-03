@@ -166,7 +166,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             //Will be -1 if no battery at all
             item tmp_purifier( "water_purifier", 0 );
             // Drain a ton of power
-            tmp_purifier.charges = veh->drain( "battery", 100 );
+            tmp_purifier.charges = veh->drain( "battery", veh->fuel_left("battery"));
             if( tmp_purifier.is_tool() ) {
                 it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
                 if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
@@ -721,7 +721,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 werase(w_item_info);
                 if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
-                    here[selected].info(true, &vThisItem);
+                    here[selected].info(true, vThisItem);
 
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
@@ -756,7 +756,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
                           "                                        ");
                 if (cur_it < (int)here.size()) {
-                    nc_color icolor = here[cur_it].color(&g->u);
+                    nc_color icolor = here[cur_it].color_in_inventory();
                     if (cur_it == selected) {
                         icolor = hilite(icolor);
                     }
