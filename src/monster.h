@@ -68,7 +68,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
         std::string get_material() const override
         {
-            return type->mat;
+            return type->mat[0];
         };
         int hp_percentage() const override;
 

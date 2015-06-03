@@ -244,22 +244,20 @@ std::string monster::name(unsigned int quantity) const
 // MATERIALS-TODO: put description in materials.json?
 std::string monster::name_with_armor() const
 {
- std::string ret;
- if (type->in_species("INSECT")) {
-     ret = string_format(_("carapace"));
- }
- else {
-     if (type->mat == "veggy") {
-         ret = string_format(_("thick bark"));
-     } else if (type->mat == "flesh" || type->mat == "hflesh" || type->mat == "iflesh") {
-         ret = string_format(_("thick hide"));
-     } else if (type->mat == "iron" || type->mat == "steel") {
-         ret = string_format(_("armor plating"));
-     } else if (type->mat == "protoplasmic") {
-         ret = string_format(_("hard protoplasmic hide"));
-     }
- }
- return ret;
+    std::string ret;
+    if( type->in_species("INSECT") ) {
+        ret = string_format(_("carapace"));
+    } else if( type->has_material("veggy") ) {
+        ret = string_format(_("thick bark"));
+    } else if( type->has_material("flesh") || type->has_material("hflesh") ||
+               type->has_material("iflesh") ) {
+        ret = string_format(_("thick hide"));
+    } else if( type->has_material("iron") || type->has_material("steel")) {
+        ret = string_format(_("armor plating"));
+    } else if( type->has_material("protoplasmic") ) {
+        ret = string_format(_("hard protoplasmic hide"));
+    }
+    return ret;
 }
 
 std::string monster::disp_name(bool possessive) const {
@@ -472,7 +470,7 @@ int monster::sight_range( const int light_level ) const
 
 bool monster::made_of(std::string m) const
 {
-    return type->mat == m;
+    return type->has_material( m );
 }
 
 bool monster::made_of(phase_id p) const

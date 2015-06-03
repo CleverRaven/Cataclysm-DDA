@@ -487,7 +487,7 @@ public:
     /**
      * The ids of all the materials this is made of.
      */
-    std::vector<std::string> made_of() const;
+    const std::vector<std::string> &made_of() const;
     /**
      * Same as @ref made_of(), but returns the @ref material_type directly.
      */

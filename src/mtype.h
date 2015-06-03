@@ -174,7 +174,7 @@ struct mtype {
         std::string sym;
         nc_color color;
         m_size size;
-        std::string mat;
+        std::vector<std::string> mat;
         phase_id phase;
         std::set<m_flag> flags;
         std::set<monster_trigger> anger, placate, fear;
@@ -242,6 +242,7 @@ struct mtype {
         std::string nname(unsigned int quantity = 1) const;
         bool has_flag(m_flag flag) const;
         bool has_flag(std::string flag) const;
+        bool has_material( const std::string &material ) const;
         void set_flag(std::string flag, bool state);
         bool has_anger_trigger(monster_trigger trigger) const;
         bool has_fear_trigger(monster_trigger trigger) const;

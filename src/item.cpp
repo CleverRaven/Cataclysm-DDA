@@ -2730,21 +2730,16 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-std::vector<std::string> item::made_of() const
+const std::vector<std::string> &item::made_of() const
 {
-    std::vector<std::string> materials_composed_of;
-    if (is_null()) {
+    const static std::vector<std::string> null_material = {"null"};
+    if( is_null() ) {
         // pass, we're not made of anything at the moment.
-        materials_composed_of.push_back("null");
-    } else if (is_corpse()) {
-        // Corpses are only made of one type of material.
-        materials_composed_of.push_back(corpse->mat);
-    } else {
-        // Defensive copy of materials.
-        // More idiomatic to return a const reference?
-        materials_composed_of = type->materials;
+        return null_material;
+    } else if( is_corpse() ) {
+        return corpse->mat;
     }
-    return materials_composed_of;
+    return type->materials;
 }
 
 std::vector<material_type*> item::made_of_types() const
@@ -2791,17 +2786,12 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 
 bool item::made_of( const std::string &mat_ident ) const
 {
-    if (is_null()) {
+    if( is_null() ) {
         return false;
     }
 
-    std::vector<std::string> mat_composed_of = made_of();
-    for (auto m : mat_composed_of) {
-        if (m == mat_ident) {
-            return true;
-        }
-    }
-    return false;
+    const auto &materials = made_of();
+    return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
 
 bool item::made_of(phase_id phase) const
