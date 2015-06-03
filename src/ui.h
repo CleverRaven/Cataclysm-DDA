@@ -28,20 +28,24 @@ class ui_element : public ui_base
 {
     private:
         std::vector<ui_element*> children;
-    protected:
-        const ui_element *parent = nullptr;
-        virtual void set_parent(const ui_element *ue) final;
+        const ui_element *my_parent = nullptr;
 
+        virtual void set_parent(const ui_element *ue) final;
+    protected:
+        // return the `parent' pointer
+        virtual const ui_element *parent() const final;
         // add an element to this container
         virtual void add_element(ui_element &ue) final {add_element(&ue);}
         virtual void add_element(ui_element *ue) final;
         // remove an element from this container
         virtual void rem_element(ui_element &ue) final {add_element(&ue);}
         virtual void rem_element(ui_element *ue) final;
+
     public:
         ui_element() {};
         ui_element(ui_element &ue) {add_element(ue);}
         ui_element(ui_element *ue) {add_element(ue);}
+        // make sure any nested ui_elements are also destroyed properly
         virtual ~ui_element();
 
         virtual void refresh() final;

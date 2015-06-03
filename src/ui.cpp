@@ -31,9 +31,17 @@ ui_base::~ui_base()
 
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_element /////////////////////////////////////////////////////////////// {{{1
+ui_element::~ui_element()
+{
+    for(auto &elem : children) {
+        // `delete child' is too macabre! so use `elem' instead :-)
+        delete elem;
+    }
+}
+
 void ui_element::set_parent(const ui_element *ue)
 {
-    this->parent = ue;
+    this->my_parent = ue;
 }
 
 void ui_element::add_element(ui_element *ue)
@@ -103,8 +111,7 @@ void ui_scrollbar::draw()
             height = 2;
         }
 
-        // FIXME: link up `parent' with ui_list!
-        const int &line = dynamic_cast<const ui_scrollable*>(parent)->get_line();
+        const int &line = dynamic_cast<const ui_scrollable*>(parent())->get_line();
         int y = (line == 0) ? -1 :
             (line == (num_items - 1)) ? size.y - 3 - height : 
             (line * (size.y - 3 - height)) / num_items;
