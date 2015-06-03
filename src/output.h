@@ -154,8 +154,8 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
-void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
-void draw_tabs(WINDOW *w, int active_tab, ...);
+void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR); // XXX:
+void draw_tabs(WINDOW *w, int active_tab, ...); // XXX:
 
 std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
@@ -230,7 +230,7 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
-                    nc_color bar_color = c_white);
+                    nc_color bar_color = c_white); // XXX:
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);

@@ -23,12 +23,13 @@
 //// ui_base ////////////////////////////////////////////////////////////////// {{{1
 ui_base::ui_base()
 {
+    ctxt = new input_context(ctxt_name);
 }
 
 ui_base::~ui_base()
 {
+    delete ctxt;
 }
-
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_element /////////////////////////////////////////////////////////////// {{{1
 ui_element::~ui_element()
@@ -68,15 +69,107 @@ void ui_element::rem_element(ui_element *ue)
     assert(true);
 }
 
+void ui_element::finish()
+{
+    this->draw_border();
+}
+
 void ui_element::refresh()
 {
     // mothers first
     this->draw();
+    this->finish();
     // then children
     for(auto &child : children) {
-        child->draw();
+        // recursive drawing
+        child->refresh();
     }
 }
+
+void ui_element::draw_border(nc_color FG)
+{
+    auto *w = window.get();
+
+    wattron(w, FG);
+    wborder(w, LINE_XOXO, LINE_XOXO, 
+               LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, 
+               LINE_XXOO, LINE_XOOX);
+    wattroff(w, FG);
+}
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_tabbed //////////////////////////////////////////////////////////////// {{{1
+void ui_tabbed::draw_tabs(int active_tab, ...)
+{
+    auto *w = window.get();
+
+    int win_width;
+    win_width = getmaxx(w);
+    std::vector<std::string> labels;
+    va_list ap;
+    va_start(ap, active_tab);
+    while (char const *const tmp = va_arg(ap, char *)) {
+        labels.push_back(tmp);
+    }
+    va_end(ap);
+
+    // Draw the line under the tabs
+    for (int x = 0; x < win_width; x++) {
+        mvwputch(w, 2, x, c_white, LINE_OXOX);
+    }
+
+    int total_width = 0;
+    for (auto &i : labels) {
+        total_width += i.length() + 6;    // "< |four| >"
+    }
+
+    if (total_width > win_width) {
+        //debugmsg("draw_tabs not given enough space! %s", labels[0]);
+        return;
+    }
+
+    // Extra "buffer" space per each side of each tab
+    double buffer_extra = (win_width - total_width) / (labels.size() * 2);
+    int buffer = int(buffer_extra);
+    // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
+    buffer_extra = buffer_extra - buffer;
+    int xpos = 0;
+    double savings = 0;
+
+    for (size_t i = 0; i < labels.size(); i++) {
+        int length = labels[i].length();
+        xpos += buffer + 2;
+        savings += buffer_extra;
+        if (savings > 1) {
+            savings--;
+            xpos++;
+        }
+        mvwputch(w, 0, xpos, c_white, LINE_OXXO);
+        mvwputch(w, 1, xpos, c_white, LINE_XOXO);
+        mvwputch(w, 0, xpos + length + 1, c_white, LINE_OOXX);
+        mvwputch(w, 1, xpos + length + 1, c_white, LINE_XOXO);
+        if ((int)i == active_tab) {
+            mvwputch(w, 1, xpos - 2, h_white, '<');
+            mvwputch(w, 1, xpos + length + 3, h_white, '>');
+            mvwputch(w, 2, xpos, c_white, LINE_XOOX);
+            mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOO);
+            mvwprintz(w, 1, xpos + 1, h_white, "%s", labels[i].c_str());
+            for (int x = xpos + 1; x <= xpos + length; x++) {
+                mvwputch(w, 0, x, c_white, LINE_OXOX);
+                mvwputch(w, 2, x, c_black, 'x');
+            }
+        } else {
+            mvwputch(w, 2, xpos, c_white, LINE_XXOX);
+            mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOX);
+            mvwprintz(w, 1, xpos + 1, c_white, "%s", labels[i].c_str());
+            for (int x = xpos + 1; x <= xpos + length; x++) {
+                mvwputch(w, 0, x, c_white, LINE_OXOX);
+            }
+        }
+        xpos += length + 1 + buffer;
+    }
+}
+
 
 
 

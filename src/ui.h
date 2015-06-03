@@ -9,47 +9,87 @@
 #include <unordered_map>
 #include <memory>
 //// ui_base ////////////////////////////////////////////////////////////////// {{{1
+/*  ui_base provides a base pure virtual interface for classes that deal with any
+ *  screen drawing and/or screen input. Since this is a pure virtual, one must define
+ *  their own `handle_input()' and `draw()' functions.
+ */
+class input_context;
 class ui_base
 {
     protected:
         WINDOW_PTR window;
         point pos = {0, 0};
         point size = {0, 0};
+        // override this for the context
+        const std::string ctxt_name = "default";
+        input_context *ctxt;
     public:
         ui_base();
-        virtual ~ui_base() = 0;
-
+        virtual ~ui_base();
+        /*  handle_input() is to be overridden per derived class for one to deal with
+         *  keystrokes in its own custom way. The input will be handled via the standard
+         *  `input_manager'. You can get the results of the input from XXX and co.
+         */
         virtual void handle_input() = 0;
+        virtual void get_input() = 0;
+        /*  draw() is to be overriden to allow any custom drawing for the derived class.
+         *  Since this is a pure virtual interface, you should have access to the variables
+         *  and methods of the derived class, so use this as you please when you draw! :-)
+         */
         virtual void draw() = 0;
+        /*  finish() contains the last remnants of what needs to be drawn or changed for
+         *  the derived class. Takes place after a draw().
+         */
+        virtual void finish() = 0;
 };
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_element /////////////////////////////////////////////////////////////// {{{1
+/*  ui_elements are used to provide specific interface types to the user.
+ *  all elements are based off this class, and some specific functions are
+ *  unavailable to overload, such as `(add|rem)_element', so the intended
+ *  "behind the scenes" actions are still taken. The `parent()' method is used
+ *  to get information from said parent, as is the case with `ui_scrollbar' and
+ *  `ui_scrollable'. With this, the scrollbar can get the parent element's line
+ *  number, and can display the line being displayed properly with respect to its
+ *  nested nature. Information is merely transferred, no actions can be taken to
+ *  change the parent's nature, nor the parent to the child. The handling is specific
+ *  to that element, and only information required to correctly draw or handle that
+ *  information is allowed. Each element is its own handler of the information provided,
+ *  whether internally or externally.
+ */
 class ui_element : public ui_base
 {
     private:
+        // two way communication and nesting
         std::vector<ui_element*> children;
         const ui_element *my_parent = nullptr;
 
+        // called when an element is added, to allow intercommunication
         virtual void set_parent(const ui_element *ue) final;
     protected:
         // return the `parent' pointer
         virtual const ui_element *parent() const final;
-        // add an element to this container
+        // add an element
         virtual void add_element(ui_element &ue) final {add_element(&ue);}
         virtual void add_element(ui_element *ue) final;
-        // remove an element from this container
+        // remove an element
         virtual void rem_element(ui_element &ue) final {add_element(&ue);}
         virtual void rem_element(ui_element *ue) final;
 
+        virtual void draw_border(nc_color FG = BORDER_COLOR) final;
     public:
         ui_element() {};
+        // create an element with elements in place
         ui_element(ui_element &ue) {add_element(ue);}
         ui_element(ui_element *ue) {add_element(ue);}
         // make sure any nested ui_elements are also destroyed properly
         virtual ~ui_element();
 
+        // handles things that need to happen after a child draws
+        virtual void finish();
+        // refresh both this element, and any nested ones
         virtual void refresh() final;
-        virtual void draw();
+
 };
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_scrollable //////////////////////////////////////////////////////////// {{{1
@@ -62,6 +102,14 @@ class ui_scrollable
         {
             return cur_line;
         }
+};
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_tabbed //////////////////////////////////////////////////////////////// {{{1
+class ui_tabbed : public ui_base
+{
+    public:
+        void draw_tabs(int active_tab, ...);
+        virtual void finish() override;
 };
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_canvas //////////////////////////////////////////////////////////////// {{{1
