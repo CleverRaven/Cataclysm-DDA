@@ -1470,6 +1470,13 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     } else { // example: foot crank
        pwr = part_info(index).power;
     }
+
+    if (part_info(index).fuel_type == fuel_type_muscle) {
+        int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
+                         (part_flag(index, "MUSCLE_ARMS") ? 2 : 0);
+        pwr += int(((g->u).str_cur - 8) * pwr_factor);
+    }
+
     if( pwr < 0 ) {
         return pwr; // Consumers always draw full power, even if broken
     }
