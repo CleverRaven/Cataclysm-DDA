@@ -721,7 +721,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 werase(w_item_info);
                 if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
-                    here[selected].info(true, &vThisItem);
+                    here[selected].info(true, vThisItem);
 
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
@@ -756,7 +756,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
                           "                                        ");
                 if (cur_it < (int)here.size()) {
-                    nc_color icolor = here[cur_it].color(&g->u);
+                    nc_color icolor = here[cur_it].color_in_inventory();
                     if (cur_it == selected) {
                         icolor = hilite(icolor);
                     }

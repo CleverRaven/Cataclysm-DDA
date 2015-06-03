@@ -1356,7 +1356,6 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "TOWEL",
-    "flags": ["ABSORBENT"],
     "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,

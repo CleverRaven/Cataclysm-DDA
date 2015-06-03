@@ -597,7 +597,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```wooled``` - This piece of clothing has a wool lining sewn into it to increase its overall warmth.
+- ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 
 ## Comestibles
 
@@ -664,6 +664,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```EATEN_HOT``` Morale bonus for eating hot.
+- ```EATEN_COLD``` Morale bonus for eating cold.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.
@@ -707,6 +708,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
@@ -752,6 +754,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
 - ```RADIOSIGNAL_1``` Activated per radios signal 1.
 - ```RADIOSIGNAL_2``` Activated per radios signal 2.
+- ```RADIOSIGNAL_3``` Activated per radios signal 3.
 - ```BOMB``` It's a radio controlled bomb.
 - ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
 - ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
@@ -761,6 +764,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
+- ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
+- ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
+- ```RADIO_MOD``` The item has been made into a radio-activated item.
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -769,9 +775,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 - ```FIT``` Reduces encumbrance by one.
+- ```COLD``` Item is cold (see EATEN_COLD).
+- ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
+- ```RIGHT``` or ```LEFT``` Item is handed, the flag indicates which side it is for.
 
 ## Books
 
@@ -910,7 +919,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LAW``` Unpack the LAW for firing.
 - ```DEJAR```
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ABSORBENT```
+- ```TOWEL``` Dry your character using the item as towel.
 - ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.
@@ -942,6 +951,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
+- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
 
 ## Skills
 

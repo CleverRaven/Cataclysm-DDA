@@ -1631,7 +1631,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         int offset_line = 0;
         int max_line = 0;
-        const std::string str = oThisItem.info(true, &vThisItem);
+        const std::string str = oThisItem.info(true, vThisItem);
         const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
         WINDOW_PTR wptr( w );
@@ -9329,7 +9329,7 @@ int game::list_items(const int iLastState)
             } else if (action == "EXAMINE" && filtered_items.size()) {
                 std::vector<iteminfo> vThisItem, vDummy;
 
-                activeItem->example->info(true, &vThisItem);
+                activeItem->example->info(true, vThisItem);
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
                                activeItem->example->tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
@@ -9563,7 +9563,7 @@ int game::list_items(const int iLastState)
 
                 if ( iItemNum > 0 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
-                    activeItem->example->info(true, &vThisItem);
+                    activeItem->example->info(true, vThisItem);
 
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 

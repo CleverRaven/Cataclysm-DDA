@@ -7317,7 +7317,6 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         }
 
         // WET, active items have their timer decremented every turn
-        it->item_tags.erase("ABSORBENT");
         it->item_tags.insert("WET");
         it->active = true;
     }
@@ -7966,7 +7965,8 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
     }
 
     if (mc->has_flag("MC_TURN_USED")) {
-        mc->clear();
+        mc->clear_vars();
+        mc->unset_flags();
         mc->make("mobile_memory_card_used");
     }
 
@@ -8306,7 +8306,8 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                     p->add_msg_if_player(m_neutral, _("You failed to decrypt the %s."), mc->tname().c_str());
                 } else {
                     p->add_msg_if_player(m_bad, _("You tripped the firmware protection, and the card deleted its data!"));
-                    mc->clear();
+                    mc->clear_vars();
+                    mc->unset_flags();
                     mc->make("mobile_memory_card_used");
                 }
             }
@@ -8585,7 +8586,8 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         }
 
         mc->make("mobile_memory_card");
-        mc->clear();
+        mc->clear_vars();
+        mc->unset_flags();
         mc->item_tags.insert("MC_HAS_DATA");
 
         mc->set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );

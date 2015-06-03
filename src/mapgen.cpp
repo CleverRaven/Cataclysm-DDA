@@ -11592,8 +11592,6 @@ vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, cons
     veh->face.init( dir );
     veh->turn_dir = dir;
     veh->precalc_mounts( 0, dir );
-    // veh->init_veh_fuel = 50;
-    // veh->init_veh_status = 0;
 //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
