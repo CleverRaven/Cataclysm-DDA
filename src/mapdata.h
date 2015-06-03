@@ -659,6 +659,7 @@ extern ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
+    t_brick_wall_halfway, t_brick_wall,
     t_wall, t_concrete_wall,
     t_wall_metal,
     t_wall_glass,
