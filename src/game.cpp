@@ -12526,15 +12526,15 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             if( !critter->is_dead() ) {
                 thru = false;
             }
-        } else if (m.move_cost( pt ) == 0) {
+        } else if( m.move_cost( pt ) == 0 ) {
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at( pt, vpart );
             dname = veh ? veh->part_info(vpart).name : m.tername( pt );
-            if (m.is_bashable( pt )) {
-                // Only go through if we successfully destroy what we hit
-                // TODO: Vehicles always count as smashed through
-                thru = m.bash( pt, flvel ).second;
+            if( m.is_bashable( pt ) ) {
+                // Only go through if we successfully make the tile passable
+                m.bash( pt, flvel );
+                thru = m.move_cost( pt ) != 0;
             } else {
                 thru = false;
             }
@@ -12547,7 +12547,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             }
             float velocity_difference = previous_velocity - flvel;
             dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 9;
-            c->impact( dam1 );
+            c->impact( dam1, pt );
             const auto msg_type = is_u ? m_bad : m_warning;
             if( thru ) {
                 c->add_msg_player_or_npc( msg_type,
@@ -12589,12 +12589,14 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     if( !m.has_flag( "SWIMMABLE", pt ) ) {
         // Fall on ground
-        int force = rng( flvel, flvel * 2.0 ) / 9;
+        int force = rng( flvel, flvel * 2 ) / 9;
         if( controlled ) {
             force = std::max( force / 2 - 5, 0 );
         }
         if( force > 0 ) {
-            c->impact( force );
+            int dmg = c->impact( force, pt );
+            // TODO: Make landing damage the floor
+            m.bash( pt, dmg / 4, false, false, nullptr, false );
         }
     } else {
         c->underwater = true;

@@ -5162,34 +5162,82 @@ float player::fall_damage_mod() const
     return std::max( 0.0f, ret );
 }
 
+// force is maximum damage to hp before scaling
 int player::impact( const int force, const tripoint &p )
 {
+    // Falls over ~30m are fatal more often than not
+    // But that would be quite a lot considering 21 z-levels in game
+    // so let's assume 1 z-level is comparable to 30 force
+
+    if( force <= 0 ) {
+        return force;
+    }
+
+    // Damage modifier (post armor)
     float mod = 1.0f;
     int effective_force = force;
-    float armor_eff = 0.25f;
-
-    std::string target_name = "a swarm of bugs";
-    Creature *critter = g->critter_at( p );
-    if( critter == nullptr || critter == this ) {
-        // Slamming into terrain/furniture/vehicle
-        
-    }
-    
-    mod = fall_damage_mod();
-    // Get impaled on stuff
-    // TODO: Get target's spikiness when it's not a terrain
-    int cut = g->m.has_flag( TFLAG_SHARP, p ) ? force / 4 : 0;
-    // Soft ground.
-    // TODO: Make it check for good stuff to land on, like water, hay or creatures
-    int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+    int cut = 0;
     // Percentage arpen - armor won't help much here
     // TODO: Make cushioned items like bike helmets help more
-    float armor_eff = 0.25f; // Not much
+    float armor_eff = 1.0f;
 
-    int effective_force = force + hard_ground;
-    if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
-        // TODO: Some formula of swimming
-        effective_force /= 4;
+    // Being slammed against things rather than landing means we can't
+    // control the impact as well
+    const bool slam = p != pos();
+    std::string target_name = "a swarm of bugs";
+    Creature *critter = g->critter_at( p );
+    int part_num = -1;
+    vehicle *veh = g->m.veh_at( p, part_num );
+    if( critter != this && critter != nullptr ) {
+        target_name = critter->disp_name();
+        // Slamming into creatures and NPCs
+        // TODO: Handle spikes/horns and hard materials
+        armor_eff = 0.5f; // 2x as much as with the ground
+        // TODO: Modify based on something?
+        mod = 1.0f;
+        effective_force = force;
+    } else if( veh != nullptr ) {
+        // Slamming into vehicles
+        // TODO: Integrate it with vehicle collision function somehow
+        target_name = veh->name;
+        if( veh->part_with_feature( part_num, "SHARP" ) ) {
+            // Now we're actually getting impaled
+            cut = force; // Lots of fun
+        }
+
+        mod = slam ? 1.0f : fall_damage_mod();
+        if( !slam && veh->part_with_feature( part_num, "ROOF" ) ) {
+            // Roof offers better landing than frame or pavement
+            effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
+        }
+    } else {
+        // Slamming into terrain/furniture
+        target_name = g->m.name( p );
+        int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        armor_eff = 0.25f; // Not much
+        // Get cut by stuff
+        // This isn't impalement on metal wreckage, more like flying through a closed window
+        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5: 0;
+        effective_force = force + hard_ground;
+        mod = slam ? 1.0f : fall_damage_mod();
+        if( g->m.has_furn( p ) ) {
+            // TODO: Make furniture matter
+        } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
+            // TODO: Some formula of swimming
+            effective_force /= 4;
+        }
+    }
+
+    // Rescale for huge force
+    // At >30 force, proper landing is impossible and armor helps way less
+    if( effective_force > 30 ) {
+        // Armor simply helps way less
+        armor_eff *= 30.0f / effective_force;
+        if( mod < 1.0f ) {
+            // Landing helps only with the last 30 damage
+            const float scaled_damage = ( 30.0f * mod ) + effective_force - 30.0f;
+            mod = scaled_damage / effective_force;
+        }
     }
 
     int total_dealt = 0;
@@ -5198,20 +5246,19 @@ int player::impact( const int force, const tripoint &p )
         int bash = ( effective_force * rng(60, 100) / 100 );
         damage_instance di;
         di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
-        di.add_damage( DT_CUT, cut, 0, armor_eff );
+        // No good way to land on sharp stuff, so here modifier == 1.0f
+        di.add_damage( DT_CUT,  cut,  0, armor_eff, 1.0f );
         total_dealt += deal_damage( nullptr, bp, di ).total_damage();
     }
 
     if( is_player() ) {
-        const bool slam = p != pos();
         // "You slam against the dirt" is fine
         if( total_dealt > 0 && is_player() ) {
-            add_msg_if_player( m_bad, _("You slam against the %s for %d damage.")
+            add_msg_if_player( m_bad, _("You slam against the %s for %d damage."),
                                target_name.c_str(), total_dealt );
-        } else if( slam ) {
-            // NPCs always get this line when slammed (we don't know for how much)
-            add_msg_player_or_npc( m_bad, _("You slam against the %s."),
-                                          _("<npcname> slams against the %s."), target_name.c_str() );
+        } else if( !is_player() && slam ) {
+            // Only print this line if 
+            add_msg_if_npc( m_bad, _("<npcname> slams against the %s."), target_name.c_str() );
         } else {
             // No landing message for NPCs
             add_msg_if_player( _("You land on the %s."), target_name.c_str() );
@@ -5219,7 +5266,7 @@ int player::impact( const int force, const tripoint &p )
     }
 
     if( x_in_y( mod, 1.0f ) ) {
-        add_effect( "downed", 3 );
+        add_effect( "downed", 1 + rng( 0, mod * 3 ) );
     }
 
     return total_dealt;
