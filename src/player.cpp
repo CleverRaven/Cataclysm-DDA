@@ -5206,6 +5206,7 @@ int player::impact( const int force, const tripoint &p )
         }
 
         mod = slam ? 1.0f : fall_damage_mod();
+        armor_eff = 0.25f; // Not much
         if( !slam && veh->part_with_feature( part_num, "ROOF" ) ) {
             // Roof offers better landing than frame or pavement
             effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
@@ -5254,11 +5255,11 @@ int player::impact( const int force, const tripoint &p )
     if( is_player() ) {
         // "You slam against the dirt" is fine
         if( total_dealt > 0 && is_player() ) {
-            add_msg_if_player( m_bad, _("You slam against the %s for %d damage."),
+            add_msg_if_player( m_bad, _("You are slammed against the %s for %d damage."),
                                target_name.c_str(), total_dealt );
         } else if( !is_player() && slam ) {
             // Only print this line if 
-            add_msg_if_npc( m_bad, _("<npcname> slams against the %s."), target_name.c_str() );
+            add_msg_if_npc( m_bad, _("<npcname> is slammed against the %s."), target_name.c_str() );
         } else {
             // No landing message for NPCs
             add_msg_if_player( _("You land on the %s."), target_name.c_str() );

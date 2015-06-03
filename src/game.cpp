@@ -12548,18 +12548,6 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             float velocity_difference = previous_velocity - flvel;
             dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 9;
             c->impact( dam1, pt );
-            const auto msg_type = is_u ? m_bad : m_warning;
-            if( thru ) {
-                c->add_msg_player_or_npc( msg_type,
-                                          _("You are slammed through the %s for %d damage!"),
-                                          _("The <npcname> is slammed through the %s!"),
-                                          dname.c_str(), dam1 );
-            } else {
-                c->add_msg_player_or_npc( msg_type,
-                                          _("You are slammed against the %s for %d damage!"),
-                                          _("The <npcname> is slammed against the %s!"),
-                                          dname.c_str(), dam1 );
-            }
         }
         if( thru ) {
             if( p != nullptr ) {
@@ -12587,16 +12575,17 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
     }
 
-    if( !m.has_flag( "SWIMMABLE", pt ) ) {
+    // Fall down to the ground - always on the last reached tile
+    if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
         // Fall on ground
         int force = rng( flvel, flvel * 2 ) / 9;
         if( controlled ) {
             force = std::max( force / 2 - 5, 0 );
         }
         if( force > 0 ) {
-            int dmg = c->impact( force, pt );
+            int dmg = c->impact( force, c->pos() );
             // TODO: Make landing damage the floor
-            m.bash( pt, dmg / 4, false, false, nullptr, false );
+            m.bash( c->pos(), dmg / 4, false, false, nullptr, false );
         }
     } else {
         c->underwater = true;
