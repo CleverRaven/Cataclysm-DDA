@@ -8,24 +8,7 @@
 #include <stdlib.h>
 #include <unordered_map>
 #include <memory>
-////////////////////////////////////////////////////////////////////////////////////
-class ui_element;
-
-enum ui_element_type {
-    UI_ELEMENT_CANVAS = 0,          // raw drawing (like game window)
-    UI_ELEMENT_LIST,                // displays a list, also adds a scrollbar if needed
-    UI_ELEMENT_INPUT,
-    UI_ELEMENT_PROMPT,
-    NUM_UI_ELEMENTS
-};
-
-struct curses_char {
-    unsigned long ch;
-    nc_color cl;
-};
-typedef std::vector<std::vector<curses_char>> canvas_2d;
-
-// Virtual base class for windowed ui stuff (like uimenu)
+//// ui_base ////////////////////////////////////////////////////////////////// {{{1
 class ui_base
 {
     protected:
@@ -33,10 +16,39 @@ class ui_base
         point pos = {0, 0};
         point size = {0, 0};
     public:
-        virtual void draw() = 0;
-        virtual void handle_input() = 0;
-};
+        ui_base();
+        virtual ~ui_base() = 0;
 
+        virtual void handle_input() = 0;
+        virtual void draw() = 0;
+};
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_element /////////////////////////////////////////////////////////////// {{{1
+class ui_element : public ui_base
+{
+    private:
+        std::vector<ui_element*> children;
+    protected:
+        const ui_element *parent = nullptr;
+        virtual void set_parent(const ui_element *ue) final;
+
+        // add an element to this container
+        virtual void add_element(ui_element &ue) final {add_element(&ue);}
+        virtual void add_element(ui_element *ue) final;
+        // remove an element from this container
+        virtual void rem_element(ui_element &ue) final {add_element(&ue);}
+        virtual void rem_element(ui_element *ue) final;
+    public:
+        ui_element() {};
+        ui_element(ui_element &ue) {add_element(ue);}
+        ui_element(ui_element *ue) {add_element(ue);}
+        virtual ~ui_element();
+
+        virtual void refresh() final;
+        virtual void draw();
+};
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_scrollable //////////////////////////////////////////////////////////// {{{1
 class ui_scrollable
 {
     protected:
@@ -47,43 +59,36 @@ class ui_scrollable
             return cur_line;
         }
 };
-
-class ui_element : public ui_base
-{
-    protected:
-        ui_element_type type = NUM_UI_ELEMENTS;
-        std::string name = "";
-        ui_element *parent = nullptr;
-    public:
-        ui_element();
-        virtual ~ui_element();
-        virtual void draw();
-};
-
-class ui_canvas : public ui_base
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_canvas //////////////////////////////////////////////////////////////// {{{1
+class ui_canvas : public ui_element
 {
     public:
         virtual void draw();
 };
-
-class ui_list : public ui_base, public ui_scrollable
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_list ////////////////////////////////////////////////////////////////// {{{1
+class ui_list : public ui_element, public ui_scrollable
 {
     public:
         void draw() override;
 };
-
-class ui_button : public ui_base
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_button //////////////////////////////////////////////////////////////// {{{1
+class ui_button : public ui_element
 {
     public:
         void draw() override;
 };
-
-class ui_text : public ui_base, public ui_scrollable
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_text ////////////////////////////////////////////////////////////////// {{{1
+class ui_text : public ui_element, public ui_scrollable
 {
     public:
         void draw() override;
 };
-
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_scrollbar ///////////////////////////////////////////////////////////// {{{1
 class ui_scrollbar : public ui_element
 {
     private:
@@ -93,24 +98,16 @@ class ui_scrollbar : public ui_element
     public:
         void draw() override;
 };
-
+/////////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_container ///////////////////////////////////////////////////////////// {{{1
 class ui_container : public ui_base
 {
-    private:
-        std::vector<ui_element> children;
-    public:
-        void refresh(bool refresh_children = true);
-        /* Adds the specified type of container with the specified name.
-         * If the element already contains an element of name `name', 
-         * then element is attached to it and stored under that element's
-         * `parent' pointer.
-         */
-        void add_element(const ui_element_type &type, const std::string &name);
-        // remove an element from this container
-        void rem_element(const ui_element_type &type, const std::string &name);
 };
+/////////////////////////////////////////////////////////////////////////////// }}}1
 
-////////////////////////////////////////////////////////////////////////////////////
+
+
+//// work in progress ///////////////////////////////////////////////////////// {{{1
 /*
  * mvwzstr: line of text with horizontal offset and color
  */
@@ -318,4 +315,5 @@ class pointmenu_cb : public uimenu_callback {
         void refresh( uimenu *menu ) override;
 };
 
+/////////////////////////////////////////////////////////////////////////////// }}}1
 #endif
