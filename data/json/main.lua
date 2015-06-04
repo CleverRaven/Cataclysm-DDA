@@ -52,7 +52,7 @@ function monster_move.dog(monster)
             if item:made_of("flesh") then
                 game.add_msg("The dog eats the "..item:tname())
                 monster.hp = monster.hp + 30
-                game.remove_item(monster:pos(), item)
+                map:i_rem(monster:pos(), item)
             end
             
             if monster.hp >= monster:max_hp() then
