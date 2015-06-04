@@ -670,13 +670,13 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
-            float leadingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
-            float trailingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
+            float trailingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
+            float leadingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
 
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
-                  currentY < SEEY * MAPSIZE) || start < trailingEdge ) {
+                  currentY < SEEY * MAPSIZE) || start < leadingEdge ) {
                 continue;
-            } else if( end > leadingEdge ) {
+            } else if( end > trailingEdge ) {
                 break;
             }
             if( !started_row ) {
@@ -693,20 +693,23 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
 
             if( new_transparency != current_transparency ) {
                 // Only cast recursively if previous span was not opaque.
-                if( check( current_transparency, last_intensity )) {
+                if( check( current_transparency, last_intensity ) ) {
                     castLight<xx, xy, yx, yy, calc, check>(
                         output_cache, input_array, offsetX, offsetY, offsetDistance,
-                        numerator, distance + 1, start, leadingEdge,
+                        numerator, distance + 1, start, trailingEdge,
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance );
                 }
-                // We either recursed into a transparent span, or did NOT recurse into an opaque span,
-                // either way the new span starts at the trailing edge of the previous square.
-                if( new_transparency != LIGHT_TRANSPARENCY_SOLID ) {
+                // The new span starts at the leading edge of the previous square if it is opaque,
+                // and at the trailing edge of the current square if it is transparent.
+                if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
                     start = newStart;
+                } else {
+                    // Note this is the same slope as the recursive call we just made.
+                    start = trailingEdge;
                 }
                 current_transparency = new_transparency;
             }
-            newStart = trailingEdge;
+            newStart = leadingEdge;
         }
         if( !check(current_transparency, last_intensity) ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
