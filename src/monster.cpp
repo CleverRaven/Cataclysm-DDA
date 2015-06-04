@@ -1348,9 +1348,9 @@ float monster::fall_damage_mod() const
             return 1.4f;
         case MS_HUGE:
             return 2.0f;
-        default:
-            return 0.0f;
     }
+
+    return 0.0f;
 }
 
 int monster::impact( const int force, const tripoint &p )

@@ -4708,6 +4708,30 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 }
 
+void on_damage( Creature *source )
+{
+    if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
+        add_effect("adrenaline", 200);
+    }
+
+    if( in_sleep_state() ) {
+        wake_up();
+    }
+
+    if( !is_npc() ) {
+        if( source != nullptr ) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            g->cancel_activity_query(_("You were hurt!"));
+        }
+    }
+
+    if( is_dead_state() ) {
+        set_killer( source );
+    }
+}
+
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
 {
     if( has_trait( "DEBUG_NODMG" ) ) {
@@ -4716,19 +4740,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
-
-    if (in_sleep_state()) {
-        wake_up();
-    }
-
-    if (is_player()) {
-        if (source != nullptr) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            // TODO: Find the name of what the player is hurt by
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if(g->u.sees( pos() )) {
@@ -4818,11 +4829,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             source->deal_damage(this, bp_torso, acidblood_damage);
             source->deal_damage(this, bp_head, acidblood_damage);
         }
-    }
-
-    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_effect("adrenaline", 200);
     }
 
     switch (bp) {
@@ -4929,6 +4935,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
+    on_damage( source );
     return dealt_damage_instance(dealt_dams);
 }
 
@@ -4965,68 +4972,28 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         return;
     }
 
-    hp_part hurtpart;
-    switch (hurt) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
-        case bp_head:
-            hurtpart = hp_head;
-            break;
-        case bp_torso:
-            hurtpart = hp_torso;
-            break;
-        case bp_hand_l: // fall through to arms
-        case bp_arm_l:
-            hurtpart = hp_arm_l;
-            break;
-        case bp_hand_r: // but fall through to arms
-        case bp_arm_r:
-            hurtpart = hp_arm_r;
-            break;
-        case bp_foot_l: // but fall through to legs
-        case bp_leg_l:
-            hurtpart = hp_leg_l;
-            break;
-        case bp_foot_r: // but fall through to legs
-        case bp_leg_r:
-            hurtpart = hp_leg_r;
-            break;
-        default:
-            debugmsg("Wacky body part hurt!");
-            hurtpart = hp_torso;
-    }
-    if (in_sleep_state()) {
-        wake_up();
+    hp_part hurtpart = mutate_to_main_part( hurt );
+    if( hurtpart == num_bp ) {
+        debugmsg("Wacky body part hurt!");
+        hurtpart = hp_torso;
     }
 
-    if (dam <= 0) {
+    if( dam <= 0 ) {
+        // Call on_damage to wake player up etc.
+        on_damage( source );
         return;
     }
 
-    if (!is_npc()) {
-        if (source != nullptr) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            // TODO: Find the name of what the player is hurt by
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
+    mod_pain( dam / 2 );
 
-    mod_pain( dam /2 );
-
-    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_effect("adrenaline", 200);
-    }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
         lifetime_stats()->damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
+
     lifetime_stats()->damage_taken += dam;
-    if( is_dead_state() ) {
-        set_killer( source );
-    }
+    on_damage( source );
 }
 
 void player::heal(body_part healed, int dam)
@@ -5108,24 +5075,9 @@ void player::hurtall(int dam, Creature *source)
         }
     }
 
-    if( in_sleep_state() ) {
-        wake_up();
-    }
-
-    if( !is_npc() ) {
-        if( source != nullptr ) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
-
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
     mod_pain( dam );
-
-    if( is_dead_state() ) {
-        set_killer( source );
-    }
+    on_damage( source );
 }
 
 int player::hitall(int dam, int vary, Creature *source)
@@ -5189,7 +5141,7 @@ int player::impact( const int force, const tripoint &p )
     int part_num = -1;
     vehicle *veh = g->m.veh_at( p, part_num );
     if( critter != this && critter != nullptr ) {
-        target_name = critter->disp_name();
+        target_name = critter->name();
         // Slamming into creatures and NPCs
         // TODO: Handle spikes/horns and hard materials
         armor_eff = 0.5f; // 2x as much as with the ground
@@ -5200,7 +5152,7 @@ int player::impact( const int force, const tripoint &p )
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = veh->name;
-        if( veh->part_with_feature( part_num, "SHARP" ) ) {
+        if( veh->part_with_feature( part_num, "SHARP" ) != -1 ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
         }
@@ -5252,18 +5204,16 @@ int player::impact( const int force, const tripoint &p )
         total_dealt += deal_damage( nullptr, bp, di ).total_damage();
     }
 
-    if( is_player() ) {
-        // "You slam against the dirt" is fine
-        if( total_dealt > 0 && is_player() ) {
-            add_msg_if_player( m_bad, _("You are slammed against the %s for %d damage."),
-                               target_name.c_str(), total_dealt );
-        } else if( !is_player() && slam ) {
-            // Only print this line if 
-            add_msg_if_npc( m_bad, _("<npcname> is slammed against the %s."), target_name.c_str() );
-        } else {
-            // No landing message for NPCs
-            add_msg_if_player( _("You land on the %s."), target_name.c_str() );
-        }
+    // "You slam against the dirt" is fine
+    if( total_dealt > 0 ) {
+        add_msg_if_player( m_bad, _("You are slammed against %s for %d damage."),
+                           target_name.c_str(), total_dealt );
+    } else if( slam ) {
+        // Only print this line if it is a slam and not a landing 
+        add_msg_if_npc( m_bad, _("<npcname> is slammed against %s."), target_name.c_str() );
+    } else {
+        // No landing message for NPCs
+        add_msg_if_player( _("You land on %s."), target_name.c_str() );
     }
 
     if( x_in_y( mod, 1.0f ) ) {

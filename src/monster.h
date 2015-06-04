@@ -267,7 +267,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        virtual int impact( int force, const tripoint &pos ) override;
+        int impact( int force, const tripoint &pos ) override;
 
         bool has_grab_break_tec() const override;
 
