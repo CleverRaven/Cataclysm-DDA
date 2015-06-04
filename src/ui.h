@@ -14,6 +14,18 @@
  *  their own `handle_input()' and `draw()' functions.
  */
 class input_context;
+
+// ui_callback `func' function signature
+typedef std::function<void(void *)> ui_function;
+// contains name and respective function
+struct ui_callback {
+    std::string name;
+    ui_function func;
+    
+    ui_callback(const std::string &N) : name(N) {};
+    ui_callback(const std::string &N, ui_function F) : name(N), func(F) {};
+};
+
 class ui_base
 {
     protected:
@@ -23,6 +35,18 @@ class ui_base
         // override this for the context
         const std::string ctxt_name = "default";
         input_context *ctxt;
+        // for named functions, name is pertinent to the derived class
+        std::unordered_map<std::string, ui_function> functions;
+
+        // adds a functor to function, accessible via `name'
+        void add_function(const std::string &name, ui_function func);
+        void add_function(const ui_callback &uc);
+        // remove function of `name'
+        void rem_function(const std::string &name);
+        void rem_function(const ui_callback &uc);
+        // replace the function accessed by `name'
+        void mod_function(const std::string &name, ui_function func);
+        void mod_function(const ui_callback &uc);
     public:
         ui_base();
         virtual ~ui_base();
@@ -69,13 +93,7 @@ class ui_element : public ui_base
     protected:
         // return the `parent' pointer
         virtual const ui_element *parent() const final;
-        // add an element
-        virtual void add_element(ui_element &ue) final {add_element(&ue);}
-        virtual void add_element(ui_element *ue) final;
-        // remove an element
-        virtual void rem_element(ui_element &ue) final {add_element(&ue);}
-        virtual void rem_element(ui_element *ue) final;
-
+        // draw the element's border
         virtual void draw_border(nc_color FG = BORDER_COLOR) final;
     public:
         ui_element() {};
@@ -84,7 +102,12 @@ class ui_element : public ui_base
         ui_element(ui_element *ue) {add_element(ue);}
         // make sure any nested ui_elements are also destroyed properly
         virtual ~ui_element();
-
+        // add an element
+        virtual void add_element(ui_element &ue) final {add_element(&ue);}
+        virtual void add_element(ui_element *ue) final;
+        // remove an element
+        virtual void rem_element(ui_element &ue) final {add_element(&ue);}
+        virtual void rem_element(ui_element *ue) final;
         // handles things that need to happen after a child draws
         virtual void finish();
         // refresh both this element, and any nested ones
@@ -105,10 +128,31 @@ class ui_scrollable
 };
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_tabbed //////////////////////////////////////////////////////////////// {{{1
+
 class ui_tabbed : public ui_base
 {
+    private:
+        int active_tab = 0;
+        std::vector<std::string> labels;
+        // returns the index of the label in `labels'
+        size_t find_label(const std::string &name);
+    protected:
+        // set the names of the labels, clears the prior labels
+        void set_labels(const char *first_label, ...);
+        template <typename T> void set_labels(T v);
+        // add a label to the end of the list
+        void add_label(const std::string &name);
+        // remove a label by its name
+        void rem_label(const std::string &name);
+        // modify a label from old_name to new_name
+        void mod_label(const std::string &old_name, const std::string &new_name);
+        // draw the tabs for the element
+        void draw_tabs();
     public:
-        void draw_tabs(int active_tab, ...);
+        ui_tabbed();
+        ui_tabbed(const char *start, ...);
+
+        const std::vector<std::string> &get_labels() const;
         virtual void finish() override;
 };
 /////////////////////////////////////////////////////////////////////////////// }}}1
@@ -155,6 +199,8 @@ class ui_scrollbar : public ui_element
 class ui_container : public ui_base
 {
 };
+/////////////////////////////////////////////////////////////////////////////// }}}1
+////             ////////////////////////////////////////////////////////////// {{{1
 /////////////////////////////////////////////////////////////////////////////// }}}1
 
 

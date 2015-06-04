@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <iterator>
+#include <cstring>
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -30,6 +31,46 @@ ui_base::~ui_base()
 {
     delete ctxt;
 }
+
+void ui_base::add_function(const std::string &name, ui_function func)
+{
+    add_function(ui_callback(name, func));
+}
+
+void ui_base::add_function(const ui_callback &uc)
+{
+    functions[uc.name] = uc.func;
+}
+
+void ui_base::rem_function(const std::string &name)
+{
+    rem_function(ui_callback(name));
+}
+
+void ui_base::rem_function(const ui_callback &uc)
+{
+    for(auto iter = functions.begin(); iter != functions.end(); ++iter) {
+        if(iter->first == uc.name) {
+            functions.erase(iter);
+            return;
+        }
+    }
+    // check your code homie! :-)
+    assert(false);
+}
+
+void ui_base::mod_function(const std::string &name, ui_function func)
+{
+    mod_function(ui_callback(name, func));
+}
+
+void ui_base::mod_function(const ui_callback &uc)
+{
+    // the function must be present! use add_function() to add a new one! :-)
+    assert(functions.find(uc.name) != functions.end());
+    functions[uc.name] = uc.func;
+}
+
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_element /////////////////////////////////////////////////////////////// {{{1
 ui_element::~ui_element()
@@ -66,7 +107,7 @@ void ui_element::rem_element(ui_element *ue)
         }
     }
     // shouldn't reach here unless you done fudged up bud! recheck your code? :-)
-    assert(true);
+    assert(false);
 }
 
 void ui_element::finish()
@@ -99,19 +140,93 @@ void ui_element::draw_border(nc_color FG)
 }
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_tabbed //////////////////////////////////////////////////////////////// {{{1
-void ui_tabbed::draw_tabs(int active_tab, ...)
+ui_tabbed::ui_tabbed()
+{
+    labels.push_back("NULL");
+}
+
+ui_tabbed::ui_tabbed(const char *start, ...)
+{
+    va_list ap;
+    if(start == nullptr || strlen(start) == 0) {
+        labels.push_back("NULL");
+        return;
+    }
+    labels.push_back(std::string(start));
+    va_start(ap, start);
+    while (const char *label = va_arg(ap, char *)) {
+        labels.push_back(std::string(label));
+    }
+    va_end(ap);
+}
+
+const std::vector<std::string> &ui_tabbed::get_labels() const
+{
+    return labels;
+}
+
+template <typename T>
+void ui_tabbed::set_labels(T v)
+{
+    labels = v;
+}
+
+// yucky duplicat code :-(
+void ui_tabbed::set_labels(const char *start, ...)
+{
+    // free the previous labels
+    labels.clear();
+    va_list ap;
+    if(start == nullptr || strlen(start) == 0) {
+        labels.push_back("NULL");
+        return;
+    }
+    labels.push_back(std::string(start));
+    va_start(ap, start);
+    while (const char *label = va_arg(ap, char *)) {
+        labels.push_back(std::string(label));
+    }
+    va_end(ap);
+}
+
+size_t ui_tabbed::find_label(const std::string &name)
+{
+    int index = -1;
+    for(int i = 0; i < labels.size(); ++i) {
+        if(name == labels[i]) {
+            index = i;
+            break;
+        }
+    }
+    // recheck your code friend! :-)
+    assert(index != -1);
+    return index;
+}
+
+void ui_tabbed::add_label(const std::string &name)
+{
+    labels.push_back(name);
+}
+
+void ui_tabbed::rem_label(const std::string &name)
+{
+    auto elem = labels.begin();
+    std::advance(elem, find_label(name));
+    labels.erase(elem);
+}
+
+void ui_tabbed::mod_label(const std::string &old_name, const std::string &new_name)
+{
+    labels[find_label(old_name)] = new_name;
+}
+
+// TODO: go through the window drawing code to assure sanity
+void ui_tabbed::draw_tabs()
 {
     auto *w = window.get();
 
     int win_width;
     win_width = getmaxx(w);
-    std::vector<std::string> labels;
-    va_list ap;
-    va_start(ap, active_tab);
-    while (char const *const tmp = va_arg(ap, char *)) {
-        labels.push_back(tmp);
-    }
-    va_end(ap);
 
     // Draw the line under the tabs
     for (int x = 0; x < win_width; x++) {
@@ -130,7 +245,7 @@ void ui_tabbed::draw_tabs(int active_tab, ...)
 
     // Extra "buffer" space per each side of each tab
     double buffer_extra = (win_width - total_width) / (labels.size() * 2);
-    int buffer = int(buffer_extra);
+    int buffer = static_cast<int>(buffer_extra);
     // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
     buffer_extra = buffer_extra - buffer;
     int xpos = 0;
@@ -170,9 +285,9 @@ void ui_tabbed::draw_tabs(int active_tab, ...)
     }
 }
 
-
-
-
+void ui_tabbed::finish()
+{
+}
 /////////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_scrollable //////////////////////////////////////////////////////////// {{{1
 /////////////////////////////////////////////////////////////////////////////// }}}1
