@@ -21,7 +21,7 @@
 #define dprint(a,...)      void()
 #endif
 
-//// ui_base ////////////////////////////////////////////////////////////////// {{{1
+//// ui_base ////////////////////////////////////////////////////////////// {{{1
 ui_base::ui_base()
 {
     ctxt = new input_context(ctxt_name);
@@ -32,22 +32,14 @@ ui_base::~ui_base()
     delete ctxt;
 }
 
-void ui_base::add_function(const std::string &name, ui_function func)
-{
-    add_function(ui_callback(name, func));
-}
-
-void ui_base::add_function(const ui_callback &uc)
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_functor /////////////////////////////////////////////////////////// {{{1
+void ui_functor::add_function(const ui_callback &uc)
 {
     functions[uc.name] = uc.func;
 }
 
-void ui_base::rem_function(const std::string &name)
-{
-    rem_function(ui_callback(name));
-}
-
-void ui_base::rem_function(const ui_callback &uc)
+void ui_functor::rem_function(const ui_callback &uc)
 {
     for(auto iter = functions.begin(); iter != functions.end(); ++iter) {
         if(iter->first == uc.name) {
@@ -59,87 +51,98 @@ void ui_base::rem_function(const ui_callback &uc)
     assert(false);
 }
 
-void ui_base::mod_function(const std::string &name, ui_function func)
-{
-    mod_function(ui_callback(name, func));
-}
-
-void ui_base::mod_function(const ui_callback &uc)
+void ui_functor::mod_function(const ui_callback &uc)
 {
     // the function must be present! use add_function() to add a new one! :-)
     assert(functions.find(uc.name) != functions.end());
     functions[uc.name] = uc.func;
 }
-
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_element /////////////////////////////////////////////////////////////// {{{1
-ui_element::~ui_element()
-{
-    for(auto &elem : children) {
-        // `delete child' is too macabre! so use `elem' instead :-)
-        delete elem;
-    }
-}
-
-void ui_element::set_parent(const ui_element *ue)
-{
-    this->my_parent = ue;
-}
-
-void ui_element::add_element(ui_element *ue)
-{
-    children.push_back(ue);
-    // make sure the children know who their parents are!
-    // (for those of us who ever got lost in a grocery store...*cough*)
-    ue->set_parent(this);
-}
-
-void ui_element::rem_element(ui_element *ue)
-{
-    // iterate through most recently added first
-    for(int i = (children.size() - 1); i >= 0; --i) {
-        // remove from the list, then leave in style
-        if(ue == children[i]) {
-            auto iter = children.begin();
-            std::advance(iter, i);
-            children.erase(iter);
-            return;
-        }
-    }
-    // shouldn't reach here unless you done fudged up bud! recheck your code? :-)
-    assert(false);
-}
-
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_element /////////////////////////////////////////////////////////// {{{1
 void ui_element::finish()
 {
-    this->draw_border();
-}
-
-void ui_element::refresh()
-{
-    // mothers first
-    this->draw();
-    this->finish();
-    // then children
-    for(auto &child : children) {
-        // recursive drawing
-        child->refresh();
+    if(do_border) {
+        draw_border();
     }
 }
 
-void ui_element::draw_border(nc_color FG)
+void ui_element::draw()
+{
+    finish();
+}
+
+void ui_element::draw_border()
 {
     auto *w = window.get();
-
-    wattron(w, FG);
+    wattron(w, border_color);
     wborder(w, LINE_XOXO, LINE_XOXO, 
                LINE_OXOX, LINE_OXOX,
                LINE_OXXO, LINE_OOXX, 
                LINE_XXOO, LINE_XOOX);
-    wattroff(w, FG);
+    wattroff(w, border_color);
 }
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_tabbed //////////////////////////////////////////////////////////////// {{{1
+
+void ui_element::set_border(int should_draw)
+{
+//    const auto &pos = get_size();
+    switch(should_draw) {
+        case -1:    // draw the window with no offset for borders calculated in
+            // negate the padding for the border
+            pos.x += 2; 
+            pos.y += 2;
+        case false: // do not draw the border, but keep the offset padding
+        case true:  // draw the border, default behaviour for new class!
+            do_border = should_draw;
+            break;
+        default:
+            // TODO: write debug message!
+            break;
+    }
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_scrollbar ///////////////////////////////////////////////////////// {{{1
+void ui_scrollbar::draw()
+{
+    const auto &offset = pos;
+
+    if(size.y >= num_items) {
+        //scrollbar is not required
+        bar_color = BORDER_COLOR;
+    }
+
+    //Clear previous scrollbar
+    for(int i = offset.y; i < offset.y + size.y; i++) {
+        mvwputch(window.get(), i, offset.x, bar_color, LINE_XOXO);
+    }
+
+    if(size.y >= num_items) {
+        wrefresh(window.get());
+        return;
+    }
+
+    if(num_items > 0) {
+        mvwputch(window.get(), offset.y, offset.x, c_ltgreen, '^');
+        mvwputch(window.get(), offset.y + size.y - 1, offset.x, c_ltgreen, 'v');
+
+        int height = ((size.y - 2) * (size.y - 2)) / num_items;
+
+        if (height < 2) {
+            height = 2;
+        }
+
+        const int &line = this->get_line();
+        int y = (line == 0) ? -1 :
+            (line == (num_items - 1)) ? size.y - 3 - height : 
+            (line * (size.y - 3 - height)) / num_items;
+        for(int i = 0; i < height; ++i) {
+            mvwputch(window.get(), i + size.y + 2 + y, offset.x, c_cyan_cyan, LINE_XOXO);
+        }
+    }
+
+    wrefresh(window.get());
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_tabbed //////////////////////////////////////////////////////////// {{{1
 ui_tabbed::ui_tabbed()
 {
     labels.push_back("NULL");
@@ -288,59 +291,17 @@ void ui_tabbed::draw_tabs()
 void ui_tabbed::finish()
 {
 }
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_scrollable //////////////////////////////////////////////////////////// {{{1
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_scrollbar ///////////////////////////////////////////////////////////// {{{1
-void ui_scrollbar::draw()
-{
-    if(size.y >= num_items) {
-        //scrollbar is not required
-        bar_color = BORDER_COLOR;
-    }
-
-    //Clear previous scrollbar
-    for(int i = offset.y; i < offset.y + size.y; i++) {
-        mvwputch(window.get(), i, offset.x, bar_color, LINE_XOXO);
-    }
-
-    if(size.y >= num_items) {
-        wrefresh(window.get());
-        return;
-    }
-
-    if(num_items > 0) {
-        mvwputch(window.get(), offset.y, offset.x, c_ltgreen, '^');
-        mvwputch(window.get(), offset.y + size.y - 1, offset.x, c_ltgreen, 'v');
-
-        int height = ((size.y - 2) * (size.y - 2)) / num_items;
-
-        if (height < 2) {
-            height = 2;
-        }
-
-        const int &line = dynamic_cast<const ui_scrollable*>(parent())->get_line();
-        int y = (line == 0) ? -1 :
-            (line == (num_items - 1)) ? size.y - 3 - height : 
-            (line * (size.y - 3 - height)) / num_items;
-        for(int i = 0; i < height; ++i) {
-            mvwputch(window.get(), i + size.y + 2 + y, offset.x, c_cyan_cyan, LINE_XOXO);
-        }
-    }
-
-    wrefresh(window.get());
-}
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_canvas //////////////////////////////////////////////////////////////// {{{1
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_list ////////////////////////////////////////////////////////////////// {{{1
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_container ///////////////////////////////////////////////////////////// {{{1
-/////////////////////////////////////////////////////////////////////////////// }}}1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_canvas //////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_list ////////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_container ///////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
 
 
 
-//// work in progress ///////////////////////////////////////////////////////// {{{1
+//// work in progress ///////////////////////////////////////////////////// {{{1
 ////////////////////////////////////
 int getfoldedwidth (std::vector<std::string> foldedstring)
 {
@@ -1222,4 +1183,4 @@ void pointmenu_cb::refresh( uimenu *menu ) {
     menu->redraw( false );
     menu->show();
 }
-/////////////////////////////////////////////////////////////////////////////// }}}1
+/////////////////////////////////////////////////////////////////////////// }}}1

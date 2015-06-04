@@ -8,48 +8,45 @@
 #include <stdlib.h>
 #include <unordered_map>
 #include <memory>
-//// ui_base ////////////////////////////////////////////////////////////////// {{{1
+
+//// ui_base ////////////////////////////////////////////////////////////// {{{1
 /*  ui_base provides a base pure virtual interface for classes that deal with any
  *  screen drawing and/or screen input. Since this is a pure virtual, one must define
  *  their own `handle_input()' and `draw()' functions.
  */
 class input_context;
 
-// ui_callback `func' function signature
-typedef std::function<void(void *)> ui_function;
-// contains name and respective function
-struct ui_callback {
-    std::string name;
-    ui_function func;
-    
-    ui_callback(const std::string &N) : name(N) {};
-    ui_callback(const std::string &N, ui_function F) : name(N), func(F) {};
-};
-
 class ui_base
 {
     protected:
+        // basic window properties, needed for all classes in UI!
         WINDOW_PTR window;
-        point pos = {0, 0};
+        point pos  = {0, 0};
         point size = {0, 0};
-        // override this for the context
+        // override "ctxt_name" in derived classes
         const std::string ctxt_name = "default";
         input_context *ctxt;
-        // for named functions, name is pertinent to the derived class
-        std::unordered_map<std::string, ui_function> functions;
 
-        // adds a functor to function, accessible via `name'
-        void add_function(const std::string &name, ui_function func);
-        void add_function(const ui_callback &uc);
-        // remove function of `name'
-        void rem_function(const std::string &name);
-        void rem_function(const ui_callback &uc);
-        // replace the function accessed by `name'
-        void mod_function(const std::string &name, ui_function func);
-        void mod_function(const ui_callback &uc);
+        // set the size of the window
+        virtual void set_size(const point &s) final
+        {
+            size = s;
+        }
+        virtual void set_position(const point &p) final
+        {
+            pos = p;
+        }
     public:
+        // let the container sort out the position and size
         ui_base();
+        // allow one to initialize it straight off
+        ui_base(const point &s, const point p) : size(s), pos(p) {};
         virtual ~ui_base();
+
+        // returns the size (size) of the window
+        const point &get_size() const;
+        // returns the position (pos) of the window
+        const point &get_position() const;
         /*  handle_input() is to be overridden per derived class for one to deal with
          *  keystrokes in its own custom way. The input will be handled via the standard
          *  `input_manager'. You can get the results of the input from XXX and co.
@@ -66,68 +63,81 @@ class ui_base
          */
         virtual void finish() = 0;
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_element /////////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_functor /////////////////////////////////////////////////////////// {{{1
+typedef std::function<void(void*, void*)> ui_function;
+// contains name and respective function for function functionality
+struct ui_callback {
+    std::string name;
+    ui_function func;
+    
+    // probably will only be used for rem_function()
+    ui_callback(const std::string &N) : name(N) {};
+    // more verbose struct initialization: 
+    //      i.e. ui_callback("func1", func1);
+    ui_callback(const std::string &N, ui_function F) : name(N), func(F) {};
+};
+
+class ui_functor
+{
+    protected:
+        // for named functions, name is pertinent to the derived class
+        std::unordered_map<std::string, ui_function> functions;
+
+        // adds a functor to function, accessible via `name'
+        void add_function(const ui_callback &uc);
+        // remove function of `name'
+        void rem_function(const ui_callback &uc);
+        // replace the function accessed by `name'
+        void mod_function(const ui_callback &uc);
+    public:
+        // invoke function "name" with refs to in and out variable vectors
+        void invoke(const std::string &name,
+                std::vector<void*> &in,
+                std::vector<void*> &out);
+};
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_element /////////////////////////////////////////////////////////// {{{1
 /*  ui_elements are used to provide specific interface types to the user.
- *  all elements are based off this class, and some specific functions are
- *  unavailable to overload, such as `(add|rem)_element', so the intended
- *  "behind the scenes" actions are still taken. The `parent()' method is used
- *  to get information from said parent, as is the case with `ui_scrollbar' and
- *  `ui_scrollable'. With this, the scrollbar can get the parent element's line
- *  number, and can display the line being displayed properly with respect to its
- *  nested nature. Information is merely transferred, no actions can be taken to
- *  change the parent's nature, nor the parent to the child. The handling is specific
- *  to that element, and only information required to correctly draw or handle that
- *  information is allowed. Each element is its own handler of the information provided,
- *  whether internally or externally.
+ *  This class is to be derived from for any new type of element of the UI.
  */
 class ui_element : public ui_base
 {
     private:
-        // two way communication and nesting
-        std::vector<ui_element*> children;
-        const ui_element *my_parent = nullptr;
-
-        // called when an element is added, to allow intercommunication
-        virtual void set_parent(const ui_element *ue) final;
-    protected:
-        // return the `parent' pointer
-        virtual const ui_element *parent() const final;
+        // whether to draw the border or not
+        int do_border = true;
+        // border color to draw
+        nc_color border_color = BORDER_COLOR;
         // draw the element's border
-        virtual void draw_border(nc_color FG = BORDER_COLOR) final;
+        virtual void draw_border() final;
+        // enable/disable the border for the window 
+        // (offset will still calculate if there is one, unless do_border == -1)
+        virtual void set_border(int should_draw = true);
     public:
-        ui_element() {};
-        // create an element with elements in place
-        ui_element(ui_element &ue) {add_element(ue);}
-        ui_element(ui_element *ue) {add_element(ue);}
-        // make sure any nested ui_elements are also destroyed properly
+        ui_element();
         virtual ~ui_element();
-        // add an element
-        virtual void add_element(ui_element &ue) final {add_element(&ue);}
-        virtual void add_element(ui_element *ue) final;
-        // remove an element
-        virtual void rem_element(ui_element &ue) final {add_element(&ue);}
-        virtual void rem_element(ui_element *ue) final;
-        // handles things that need to happen after a child draws
-        virtual void finish();
-        // refresh both this element, and any nested ones
-        virtual void refresh() final;
 
-};
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_scrollable //////////////////////////////////////////////////////////// {{{1
-class ui_scrollable
-{
-    protected:
-        int cur_line = 0;
-    public:
-        int get_line() const
+        virtual void set_border_color(nc_color c)
         {
-            return cur_line;
+            border_color = c;
         }
+        virtual void draw() override;
+        virtual void finish() override;
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_tabbed //////////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_scrollbar ///////////////////////////////////////////////////////// {{{1
+class ui_scrollbar : public ui_element
+{
+    private:
+        unsigned int num_items = 0;
+        nc_color bar_color = c_white;
+    public:
+        // inheriting class must define this for scrollbar to work
+        virtual const int get_line() const = 0;
+        virtual void draw() override;
+};
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_tabbed ////////////////////////////////////////////////////////////// {{{1
 
 class ui_tabbed : public ui_base
 {
@@ -155,57 +165,62 @@ class ui_tabbed : public ui_base
         const std::vector<std::string> &get_labels() const;
         virtual void finish() override;
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_canvas //////////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_canvas //////////////////////////////////////////////////////////// {{{1
 class ui_canvas : public ui_element
 {
     public:
         virtual void draw();
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_list ////////////////////////////////////////////////////////////////// {{{1
-class ui_list : public ui_element, public ui_scrollable
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_list ////////////////////////////////////////////////////////////// {{{1
+class ui_list : public ui_element, public ui_scrollbar
 {
     public:
+        const int get_line() const override;
         void draw() override;
+        virtual void finish() override final;
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_button //////////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_button //////////////////////////////////////////////////////////// {{{1
 class ui_button : public ui_element
 {
     public:
         void draw() override;
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_text ////////////////////////////////////////////////////////////////// {{{1
-class ui_text : public ui_element, public ui_scrollable
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_text ////////////////////////////////////////////////////////////// {{{1
+class ui_text : public ui_element, public ui_scrollbar
 {
     public:
         void draw() override;
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_scrollbar ///////////////////////////////////////////////////////////// {{{1
-class ui_scrollbar : public ui_element
-{
-    private:
-        unsigned int num_items = 0;
-        point offset = {0, 0};
-        nc_color bar_color = c_white;
-    public:
-        void draw() override;
-};
-/////////////////////////////////////////////////////////////////////////////// }}}1
-//// ui_container ///////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_container ///////////////////////////////////////////////////////// {{{1
 class ui_container : public ui_base
 {
+    private:
+        ui_base *child;
+    public:
+        ui_container(ui_base *like) : child(like) /* innocence! :-) */ {};
+        void refresh();
 };
-/////////////////////////////////////////////////////////////////////////////// }}}1
-////             ////////////////////////////////////////////////////////////// {{{1
-/////////////////////////////////////////////////////////////////////////////// }}}1
+/////////////////////////////////////////////////////////////////////////// }}}1
+////             ////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+////             ////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+////             ////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+////             ////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+////             ////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+
+/////////////////////////////////////////////////////////////////////////// }}}1
 
 
-
-//// work in progress ///////////////////////////////////////////////////////// {{{1
+//// work in progress ///////////////////////////////////////////////////// {{{1
 /*
  * mvwzstr: line of text with horizontal offset and color
  */
@@ -413,5 +428,5 @@ class pointmenu_cb : public uimenu_callback {
         void refresh( uimenu *menu ) override;
 };
 
-/////////////////////////////////////////////////////////////////////////////// }}}1
+/////////////////////////////////////////////////////////////////////////// }}}1
 #endif
