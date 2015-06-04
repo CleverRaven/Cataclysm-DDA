@@ -1125,7 +1125,8 @@ void monster::store(JsonOut &json) const
 void item::deserialize(JsonObject &data)
 {
     init();
-    clear();
+    unset_flags();
+    clear_vars();
 
     std::string idtmp = "";
     std::string ammotmp = "null";
