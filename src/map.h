@@ -576,20 +576,20 @@ public:
     int bash_rating(const int str, const int x, const int y) const;
 // Bashable: 3D
     /** Returns true if there is a bashable vehicle part or the furn/terrain is bashable at p */
-    bool is_bashable( const tripoint &p ) const;
+    bool is_bashable( const tripoint &p, bool allow_floor = false ) const;
     /** Returns true if the terrain at p is bashable */
-    bool is_bashable_ter( const tripoint &p ) const;
+    bool is_bashable_ter( const tripoint &p, bool allow_floor = false ) const;
     /** Returns true if the furniture at p is bashable */
     bool is_bashable_furn( const tripoint &p ) const;
     /** Returns true if the furniture or terrain at p is bashable */
-    bool is_bashable_ter_furn( const tripoint &p ) const;
+    bool is_bashable_ter_furn( const tripoint &p, bool allow_floor = false ) const;
     /** Returns max_str of the furniture or terrain at p */
-    int bash_strength( const tripoint &p ) const;
+    int bash_strength( const tripoint &p, bool allow_floor = false ) const;
     /** Returns min_str of the furniture or terrain at p */
-    int bash_resistance( const tripoint &p ) const;
+    int bash_resistance( const tripoint &p, bool allow_floor = false ) const;
     /** Returns a success rating from -1 to 10 for a given tile based on a set strength, used for AI movement planning
     *  Values roughly correspond to 10% increment chances of success on a given bash, rounded down. -1 means the square is not bashable */
-    int bash_rating( const int str, const tripoint &p ) const;
+    int bash_rating( const int str, const tripoint &p, bool allow_floor = false ) const;
 
     /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
      *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
@@ -1173,7 +1173,8 @@ private:
     int move_cost_internal(const furn_t &furniture, const ter_t &terrain,
                            const vehicle *veh, const int vpart) const;
     int bash_rating_internal( const int str, const furn_t &furniture,
-                              const ter_t &terrain, const vehicle *veh, const int part ) const;
+                              const ter_t &terrain, bool allow_floor,
+                              const vehicle *veh, const int part ) const;
 
      /**
       * Internal version of the drawsq. Keeps a cached maptile for less re-getting.

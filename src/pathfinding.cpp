@@ -230,7 +230,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             const int cost = move_cost_internal( furniture, terrain, veh, part );
             // Don't calculate bash rating unless we intend to actually use it
             const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                                 bash_rating_internal( bash, furniture, terrain, veh, part );
+                                 bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
             if( cost == 0 && rating <= 0 && terrain.open.empty() ) {
                 layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs

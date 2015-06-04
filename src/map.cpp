@@ -1904,13 +1904,14 @@ bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) co
 // Bashable - common function
 
 int map::bash_rating_internal( const int str, const furn_t &furniture,
-                               const ter_t &terrain, const vehicle *veh, const int part ) const
+                               const ter_t &terrain, const bool allow_floor,
+                               const vehicle *veh, const int part ) const
 {
     bool furn_smash = false;
     bool ter_smash = false;
     if( furniture.loadid != f_null && furniture.bash.str_max != -1 ) {
         furn_smash = true;
-    } else if( terrain.bash.str_max != -1 ) {
+    } else if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
         ter_smash = true;
     }
 
@@ -1931,9 +1932,9 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
         return -1;
     }
 
-    if (str < bash_min) {
+    if( str < bash_min ) {
         return 0;
-    } else if (str >= bash_max) {
+    } else if( str >= bash_max ) {
         return 10;
     }
 
@@ -1946,86 +1947,42 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
 
 bool map::is_bashable(const int x, const int y) const
 {
-    if( !inbounds(x, y) ) {
-        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
-                                     << x << ", " << y;
-        return false;
-    }
-
-    int vpart = -1;
-    const vehicle *veh = veh_at( x, y, vpart );
-    if( veh != nullptr && veh->obstacle_at_part( vpart ) >= 0 ) {
-        return true;
-    }
-
-    if( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-        return true;
-    } else if( ter_at(x, y).bash.str_max != -1 ) {
-        return true;
-    }
-
-    return false;
+    return is_bashable( tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::is_bashable_ter(const int x, const int y) const
 {
-    if ( ter_at(x, y).bash.str_max != -1 ) {
-        return true;
-    }
-    return false;
+    return is_bashable_ter( tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::is_bashable_furn(const int x, const int y) const
 {
-    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-        return true;
-    }
-    return false;
+    return is_bashable_furn( tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::is_bashable_ter_furn(const int x, const int y) const
 {
-    return is_bashable_furn(x, y) || is_bashable_ter(x, y);
+    return is_bashable_ter_furn( tripoint( x, y, abs_sub.z ) );
 }
 
 int map::bash_strength(const int x, const int y) const
 {
-    if ( has_furn(x, y) && furn_at(x, y).bash.str_max != -1 ) {
-        return furn_at(x, y).bash.str_max;
-    } else if ( ter_at(x, y).bash.str_max != -1 ) {
-        return ter_at(x, y).bash.str_max;
-    }
-    return -1;
+    return bash_strength( tripoint( x, y, abs_sub.z ) );
 }
 
 int map::bash_resistance(const int x, const int y) const
 {
-    if ( has_furn(x, y) && furn_at(x, y).bash.str_min != -1 ) {
-        return furn_at(x, y).bash.str_min;
-    } else if ( ter_at(x, y).bash.str_min != -1 ) {
-        return ter_at(x, y).bash.str_min;
-    }
-    return -1;
+    return bash_resistance( tripoint( x, y, abs_sub.z ) );
 }
 
 int map::bash_rating(const int str, const int x, const int y) const
 {
-    if (!inbounds(x, y)) {
-        DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
-                                     << x << ", " << y;
-        return -1;
-    }
-
-    int part = -1;
-    const furn_t &furniture = furn_at( x, y );
-    const ter_t &terrain = ter_at( x, y );
-    const vehicle *veh = veh_at( x, y, part );
-    return bash_rating_internal( str, furniture, terrain, veh, part );
+    return bash_rating( str, tripoint( x, y, abs_sub.z ) );
 }
 
 // 3D bashable
 
-bool map::is_bashable( const tripoint &p ) const
+bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
 {
     if( !inbounds( p ) ) {
         DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
@@ -2041,18 +1998,23 @@ bool map::is_bashable( const tripoint &p ) const
 
     if( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
         return true;
-    } else if( ter_at( p ).bash.str_max != -1 ) {
+    }
+
+    const auto &ter_bash = ter_at( p ).bash;
+    if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return true;
     }
 
     return false;
 }
 
-bool map::is_bashable_ter( const tripoint &p ) const
+bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 {
-    if ( ter_at( p ).bash.str_max != -1 ) {
+    const auto &ter_bash = ter_at( p ).bash;
+    if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return true;
     }
+
     return false;
 }
 
@@ -2064,32 +2026,40 @@ bool map::is_bashable_furn( const tripoint &p ) const
     return false;
 }
 
-bool map::is_bashable_ter_furn( const tripoint &p ) const
+bool map::is_bashable_ter_furn( const tripoint &p, const bool allow_floor ) const
 {
-    return is_bashable_furn( p ) || is_bashable_ter( p );
+    return is_bashable_furn( p ) || is_bashable_ter( p, allow_floor );
 }
 
-int map::bash_strength( const tripoint &p ) const
+int map::bash_strength( const tripoint &p, const bool allow_floor ) const
 {
-    if ( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
+    if( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
         return furn_at( p ).bash.str_max;
-    } else if ( ter_at( p ).bash.str_max != -1 ) {
-        return ter_at( p ).bash.str_max;
     }
+
+    const auto &ter_bash = ter_at( p ).bash;
+    if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
+        return ter_bash.str_max;
+    }
+
     return -1;
 }
 
-int map::bash_resistance( const tripoint &p ) const
+int map::bash_resistance( const tripoint &p, const bool allow_floor ) const
 {
-    if ( has_furn( p ) && furn_at( p ).bash.str_min != -1 ) {
+    if( has_furn( p ) && furn_at( p ).bash.str_min != -1 ) {
         return furn_at( p ).bash.str_min;
-    } else if ( ter_at( p ).bash.str_min != -1 ) {
-        return ter_at( p ).bash.str_min;
     }
+
+    const auto &ter_bash = ter_at( p ).bash;
+    if( ter_bash.str_min != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
+        return ter_bash.str_min;
+    }
+
     return -1;
 }
 
-int map::bash_rating( const int str, const tripoint &p ) const
+int map::bash_rating( const int str, const tripoint &p, const bool allow_floor ) const
 {
     if( !inbounds( p ) ) {
         DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
@@ -2101,7 +2071,7 @@ int map::bash_rating( const int str, const tripoint &p ) const
     const furn_t &furniture = furn_at( p );
     const ter_t &terrain = ter_at( p );
     const vehicle *veh = veh_at( p, part );
-    return bash_rating_internal( str, furniture, terrain, veh, part );
+    return bash_rating_internal( str, furniture, terrain, allow_floor, veh, part );
 }
 
 // End of 3D bashable
