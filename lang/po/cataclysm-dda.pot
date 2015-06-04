@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 09:38+0300\n"
+"POT-Creation-Date: 2015-06-02 10:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10121,6 +10121,31 @@ msgstr[1] ""
 msgid ""
 "Bits of wool stitched together and tied into a makeshift loincloth.  Covers "
 "your modesty, but not much else."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of wool hand wraps"
+msgid_plural "pairs of wool hand wraps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Long pieces of wool that are meant to be wrapped around your hands to "
+"provide small amounts of protection while punching and performing other "
+"general mischief."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "pair of wool foot wraps"
+msgid_plural "pairs of wool foot wraps"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"Felt patches tied around your feet.  Not much of an improvement over being "
+"barefoot, still better than nothing."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -26388,7 +26413,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A vehicle frame made of bone. It's coated in a thick layer of ooze, "
-"particularly at the bindings that hold it togather. Allowing a significant "
+"particularly at the bindings that hold it together. Allowing a significant "
 "amount of flexibility; yet retaining strength. It seems to stick to anything "
 "it touches if left for enough but loosens at your touch."
 msgstr ""
@@ -26497,7 +26522,7 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"An large engine and power system made to align with an existing turret "
+"A large engine and power system made to align with an existing turret "
 "chassis. However, it needs to be adapted to whatever weapon it's running "
 "before it can be used."
 msgstr ""
@@ -29812,6 +29837,19 @@ msgid "Doesn't actually fire anything, just there to aim the turrets."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "Heavy Automatic Shotgun"
+msgid_plural "Heavy Automatic Shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Modified from the massive M2 Browning, this heavy machine gun has been re-"
+"chambered and re-bored for shotgun shells, and completely redesigned to be "
+"wielded unmounted by one user."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "SVS-24"
 msgid_plural "SVS-24"
 msgstr[0] ""
@@ -30227,7 +30265,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
 msgid "RM298 turret"
-msgid_plural "RM298 HMG"
+msgid_plural "RM298 turrets"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -30406,11 +30444,11 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"TThis weapon is an... odd combination of blob and human ingenuity. A "
-"constructed skeleton made of shaped bones, held together by a living blob; "
-"Which, when fed, produces an extremely corrosive liquid. The blob then spits "
-"out this \"acid\" at nearby enemies. The liquid's effectiveness against "
-"hostiles is only matched by its horrible smell."
+"This weapon is an... odd combination of blob and human ingenuity. A "
+"constructed skeleton made of shaped bones, held together by a living blob.  "
+"When fed, it produces an extremely corrosive liquid. The blob then spits out "
+"this \"acid\" at nearby enemies. The liquid's effectiveness against hostiles "
+"is only matched by its horrible smell."
 msgstr ""
 
 #: lang/json/GUN_from_json.py lang/json/vehicle_part_from_json.py
@@ -30679,7 +30717,7 @@ msgid ""
 "and frankly dangerous, improvements made to the power systems of this weapon "
 "is capable imbueing a massive charge into a single-rail; so much that it "
 "often shatters into deadly fragments on impact. It's capabilities are "
-"limited by its prodigious power requirements however; and its large size "
+"limited by its prodigious power requirements however, and its large size "
 "necessitates a specially made turret mount be installed first."
 msgstr ""
 
@@ -32163,6 +32201,19 @@ msgstr[1] ""
 msgid ""
 "A deformed human body, once living.  Its arms dangle from its sides like the "
 "limbs of some skinless ape, mindlessly groping at their surroundings."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "grappler zombie"
+msgid_plural "grappler zombies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An undead humanoid, its elongated arms drag along the ground as it moves. It "
+"looks to almost have a hunch from the swollen back and shoulder muscles "
+"tearing though its skin."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -36975,7 +37026,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
-msgid "You misprogram the mininuke hack; Pray."
+msgid "You misprogram the mininuke hack.  Pray."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -43070,6 +43121,14 @@ msgid "Your sight returns!"
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Wearing earphones"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "You are wearing earphones and can't hear much from outside world."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Impaired hearing"
 msgstr ""
 
@@ -43919,11 +43978,7 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgid ""
 "You have been grabbed by an attack.\n"
-"You cannot dodge and blocking is very difficult."
-msgstr ""
-
-#: lang/json/effects_from_json.py
-msgid "You have been grabbed."
+"You are being held in place and cannot dodge, and blocking is very difficult."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -44149,7 +44204,6 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/map.cpp
 #: src/map.cpp
 msgid "crash!"
 msgstr ""
@@ -59946,6 +60000,20 @@ msgid "<npcname> precisely hits %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
+msgid "Disarm"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+#, python-format
+msgid "You disarm %s using your whip!"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+#, python-format
+msgid "<npcname> disarm %s using their whip!"
+msgstr ""
+
+#: lang/json/technique_from_json.py
 msgid "Counterattack"
 msgstr ""
 
@@ -60995,6 +61063,10 @@ msgid "dirt"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "thump"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "mound of dirt"
 msgstr ""
 
@@ -61465,6 +61537,10 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "fungal bed"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "smash"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -63280,12 +63356,11 @@ msgstr ""
 #: src/game.cpp
 #: src/game.cpp src/iexamine.cpp
 #: src/iexamine.cpp
-#: src/iexamine.cpp src/inventory_ui.cpp
-#: src/item_action.cpp src/iuse.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp src/item_action.cpp
 #: src/iuse.cpp
-#: src/iuse_actor.cpp src/player.cpp
-#: src/player.cpp src/veh_interact.cpp
-#: src/vehicle.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
+#: src/player.cpp
+#: src/veh_interact.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -66032,6 +66107,22 @@ msgstr ""
 msgid "<npcname> escapes the pit!"
 msgstr ""
 
+#: src/character.cpp
+msgid "You try break out of the grab, but fail!"
+msgstr ""
+
+#: src/character.cpp
+msgid "<npcname> tries to break out of the grab, but fails!"
+msgstr ""
+
+#: src/character.cpp
+msgid "You break out of the grab!"
+msgstr ""
+
+#: src/character.cpp
+msgid "<npcname> breaks out of the grab!"
+msgstr ""
+
 #: src/clzones.cpp
 msgid "No Auto Pickup"
 msgstr ""
@@ -68727,6 +68818,14 @@ msgid "pain"
 msgstr ""
 
 #: src/effect.cpp
+msgid "fatigue"
+msgstr ""
+
+#: src/effect.cpp
+msgid "stamina recovery"
+msgstr ""
+
+#: src/effect.cpp
 msgid "quench"
 msgstr ""
 
@@ -68743,11 +68842,11 @@ msgid "sate"
 msgstr ""
 
 #: src/effect.cpp
-msgid "fatigue"
+msgid "rest"
 msgstr ""
 
 #: src/effect.cpp
-msgid "rest"
+msgid "sleepiness"
 msgstr ""
 
 #: src/effect.cpp
@@ -72873,6 +72972,10 @@ msgid "You're not wielding anything."
 msgstr ""
 
 #: src/game.cpp
+msgid "Unload item:"
+msgstr ""
+
+#: src/game.cpp
 #, c-format
 msgid "You put the %s in your inventory."
 msgstr ""
@@ -75776,15 +75879,10 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Fill a container with %drink"
-msgstr ""
-
-#: src/iexamine.cpp
-#, c-format
 msgid "Fill a container with %s"
 msgstr ""
 
-#: src/iexamine.cpp
+#: src/iexamine.cpp src/pickup.cpp
 #: src/pickup.cpp
 msgid "Have a drink"
 msgstr ""
@@ -76466,6 +76564,10 @@ msgid "This mod must be attached to a gun, it can not be fired separately."
 msgstr ""
 
 #: src/item.cpp
+msgid "When attached to a gun, allows making reach melee attacks with it."
+msgstr ""
+
+#: src/item.cpp
 msgid "Dispersion modifier: "
 msgstr ""
 
@@ -76791,6 +76893,14 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Techniques: "
+msgstr ""
+
+#: src/item.cpp
+msgid "This item can be used to make long reach attacks."
+msgstr ""
+
+#: src/item.cpp
+msgid "This item can be used to make reach attacks."
 msgstr ""
 
 #: src/item.cpp
@@ -79806,7 +79916,7 @@ msgid "dramatic classical music."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "some bass-heavy post-glam speed polka"
+msgid "some bass-heavy post-glam speed polka."
 msgstr ""
 
 #: src/iuse.cpp
@@ -83069,11 +83179,11 @@ msgid "You're covered in tiny spores!"
 msgstr ""
 
 #: src/map.cpp
-msgid "glass shattering"
+msgid "an alarm go off!"
 msgstr ""
 
 #: src/map.cpp
-msgid "an alarm go off!"
+msgid "glass shattering"
 msgstr ""
 
 #: src/map.cpp
@@ -83462,6 +83572,18 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "%s misses."
+msgstr ""
+
+#: src/melee.cpp
+msgid "<npcname> hits something."
+msgstr ""
+
+#: src/melee.cpp
+msgid "You hit something."
+msgstr ""
+
+#: src/melee.cpp
+msgid "You swing at the air."
 msgstr ""
 
 #: src/melee.cpp
@@ -87309,6 +87431,91 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
+msgid "The %s flings its arms at you, but they bounce off the %s"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's arms fly out at you, but you dodge!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's arms fly out at <npcname>, but they dodge!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's arms fly out at you, but them miss you!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's arms fly out at <npcname>, but they miss!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s's arms fly out and pull and grab %s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s gropes at you, but you dodge!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s gropes at <npcname>, but they dodge!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s tries to grab you as well, but you bat it away!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s tries to grab you, but you break its grab!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s tries to grab <npcname>, but they break its grab!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s grabs <npcname>!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "The %s grabs you!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "You are dragged behind the %s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "<npcname> gets dragged behind the %s!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "You resist the %s as it tries to drag you!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
+msgid "<npcname> resist the %s as it tries to drag them!"
+msgstr ""
+
+#: src/monattack.cpp
+#, c-format
 msgid "The %s shoots a dart into you!"
 msgstr ""
 
@@ -88410,6 +88617,11 @@ msgstr ""
 
 #: src/monster.cpp
 #, c-format
+msgid "The %s breaks free from the grab!"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
 msgctxt "memorial_male"
 msgid "Killed a %s."
 msgstr ""
@@ -89017,6 +89229,42 @@ msgstr ""
 
 #: src/newcharacter.cpp
 msgid "Scenario Location:"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Scenario Flags:"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Spring start"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Summer start"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Autumn start"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Winter start"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Infected player"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Drunk and sick player"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Fire nearby"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Zombies nearby"
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -95620,6 +95868,11 @@ msgid "%s (Burst)"
 msgstr ""
 
 #: src/player.cpp
+#, c-format
+msgid "%s (Bayonet)"
+msgstr ""
+
+#: src/player.cpp
 msgid "Recoil"
 msgstr ""
 
@@ -95905,20 +96158,27 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "%s grabs <npcname>!"
+msgid "You are being grabbed by %s, but you bat it away!"
 msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "%s grabs you!"
+msgid "You are being grabbed by %s, but you break its grab!"
 msgstr ""
 
 #: src/player.cpp
-msgid "You break the grab!"
+#, c-format
+msgid "<npcname> are being grabbed by %s, but they break its grab!"
 msgstr ""
 
 #: src/player.cpp
-msgid "<npcname> breaks the grab!"
+#, c-format
+msgid "<npcname> is grabbed by %s!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You are grabbed by %s!"
 msgstr ""
 
 #: src/player.cpp

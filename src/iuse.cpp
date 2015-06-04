@@ -7272,16 +7272,33 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         // wet towels only as they are active items.
         return 0;
     }
+    bool slime = p->has_effect("slimed");
+    bool boom = p->has_effect("boomered");
+    bool glow = p->has_effect("glowing");
+    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
 
     // can't use an already wet towel!
     if (it->has_flag("WET")) {
         p->add_msg_if_player(m_info, _("That %s is too wet to soak up any more liquid!"),
                              it->tname().c_str());
-    }
+
+
+    // clean off the messes first, more important
+    } else if (slime || boom || glow) {
+        p->remove_effect("slimed");  // able to clean off all at once
+        p->remove_effect("boomered");
+        p->remove_effect("glowing");
+        p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
+                             it->tname().c_str());
+
+        towelUsed = true;
+        if (it->type->id == "towel") {
+            it->make("towel_soiled");
+        }
 
     // dry off from being wet
-    else if (abs(p->has_morale(MORALE_WET))) {
+    } else if (abs(p->has_morale(MORALE_WET))) {
         p->rem_morale(MORALE_WET);
         for (int i = 0; i < num_bp; ++i) {
             p->body_wetness[i] = 0;
@@ -7291,33 +7308,24 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
 
         towelUsed = true;
         it->item_counter = 300;
-    }
-
-    // clean off slime
-    else if (p->has_effect("slimed")) {
-        p->remove_effect("slimed");
-        p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
-                             it->tname().c_str());
-
-        towelUsed = true;
-        it->item_counter = 450; // slime takes a bit longer to dry
-    }
 
     // default message
-    else {
+    } else {
         p->add_msg_if_player(_("You are already dry, the %s does nothing."), it->tname().c_str());
     }
 
     // towel was used
     if (towelUsed) {
-        p->moves -= 50;
+        if ( mult == 0 ) {
+            mult = 1;
+        }
+        p->moves -= 50 * mult;
         // change "towel" to a "towel_wet" (different flavor text/color)
         if (it->type->id == "towel") {
             it->make("towel_wet");
         }
 
         // WET, active items have their timer decremented every turn
-        it->item_tags.erase("ABSORBENT");
         it->item_tags.insert("WET");
         it->active = true;
     }
@@ -7966,7 +7974,8 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
     }
 
     if (mc->has_flag("MC_TURN_USED")) {
-        mc->clear();
+        mc->clear_vars();
+        mc->unset_flags();
         mc->make("mobile_memory_card_used");
     }
 
@@ -8306,7 +8315,8 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                     p->add_msg_if_player(m_neutral, _("You failed to decrypt the %s."), mc->tname().c_str());
                 } else {
                     p->add_msg_if_player(m_bad, _("You tripped the firmware protection, and the card deleted its data!"));
-                    mc->clear();
+                    mc->clear_vars();
+                    mc->unset_flags();
                     mc->make("mobile_memory_card_used");
                 }
             }
@@ -8585,7 +8595,8 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         }
 
         mc->make("mobile_memory_card");
-        mc->clear();
+        mc->clear_vars();
+        mc->unset_flags();
         mc->item_tags.insert("MC_HAS_DATA");
 
         mc->set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );

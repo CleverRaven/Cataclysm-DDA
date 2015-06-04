@@ -2688,12 +2688,12 @@
         "damage_modifier" : 50,
         "durability" : 50,
         "folded_volume": 2,
-        "power" : 60,
+        "power" : 45,
         "fuel_type" : "muscle",
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE", "NAILABLE"],
+        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_LEGS"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2709,12 +2709,12 @@
         "damage_modifier" : 50,
         "durability" : 50,
         "folded_volume": 2,
-        "power" : 50,
+        "power" : 32,
         "fuel_type" : "muscle",
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE", "NAILABLE"],
+        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_ARMS"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
