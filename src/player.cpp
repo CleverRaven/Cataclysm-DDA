@@ -4708,7 +4708,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 }
 
-void on_damage( Creature *source )
+void player::on_hurt( Creature *source )
 {
     if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
@@ -4935,7 +4935,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-    on_damage( source );
+    on_hurt( source );
     return dealt_damage_instance(dealt_dams);
 }
 
@@ -4972,15 +4972,15 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         return;
     }
 
-    hp_part hurtpart = mutate_to_main_part( hurt );
-    if( hurtpart == num_bp ) {
+    hp_part hurtpart = bp_to_hp( hurt );
+    if( hurtpart == num_hp_parts ) {
         debugmsg("Wacky body part hurt!");
         hurtpart = hp_torso;
     }
 
     if( dam <= 0 ) {
-        // Call on_damage to wake player up etc.
-        on_damage( source );
+        // Call on_hurt to wake player up etc.
+        on_hurt( source );
         return;
     }
 
@@ -4993,7 +4993,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    on_damage( source );
+    on_hurt( source );
 }
 
 void player::heal(body_part healed, int dam)
@@ -5077,7 +5077,7 @@ void player::hurtall(int dam, Creature *source)
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
     mod_pain( dam );
-    on_damage( source );
+    on_hurt( source );
 }
 
 int player::hitall(int dam, int vary, Creature *source)
@@ -5141,7 +5141,7 @@ int player::impact( const int force, const tripoint &p )
     int part_num = -1;
     vehicle *veh = g->m.veh_at( p, part_num );
     if( critter != this && critter != nullptr ) {
-        target_name = critter->name();
+        target_name = critter->disp_name();
         // Slamming into creatures and NPCs
         // TODO: Handle spikes/horns and hard materials
         armor_eff = 0.5f; // 2x as much as with the ground
@@ -5165,7 +5165,7 @@ int player::impact( const int force, const tripoint &p )
         }
     } else {
         // Slamming into terrain/furniture
-        target_name = g->m.name( p );
+        target_name = _("the ") + g->m.name( p );
         int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
@@ -5204,8 +5204,8 @@ int player::impact( const int force, const tripoint &p )
         total_dealt += deal_damage( nullptr, bp, di ).total_damage();
     }
 
-    // "You slam against the dirt" is fine
     if( total_dealt > 0 ) {
+        // "You slam against the dirt" is fine
         add_msg_if_player( m_bad, _("You are slammed against %s for %d damage."),
                            target_name.c_str(), total_dealt );
     } else if( slam ) {
