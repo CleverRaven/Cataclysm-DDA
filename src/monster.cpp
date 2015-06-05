@@ -687,12 +687,21 @@ void monster::process_triggers()
 {
     anger += trigger_sum( &(type->anger) );
     anger -= trigger_sum( &(type->placate) );
-    if (morale < 0) {
-        if( morale < type->morale && one_in(20) ) {
+    morale -= trigger_sum( &(type->fear) );
+    if( morale != type->morale && one_in( 10 ) ) {
+        if( morale < type->morale ) {
             morale++;
+        } else {
+            morale--;
         }
-    } else {
-        morale -= trigger_sum( &(type->fear) );
+    }
+
+    if( anger != type->agro && one_in( 10 ) ) {
+        if( anger < type->agro ) {
+            anger++;
+        } else {
+            anger--;
+        }
     }
 
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
@@ -722,7 +731,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
     for( const auto &trigger : *triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
-                if (anger > 0 && one_in(20)) {
+                if( anger > 0 && one_in( 5 ) ) {
                     ret++;
                 }
                 break;
@@ -1557,13 +1566,13 @@ void monster::die(Creature* nkiller) {
 
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
-    if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust += 15;
     }
-    if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_fear_trigger( MTRIG_FRIEND_DIED ) ) {
         morale_adjust -= 15;
     }
-    if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_placate_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust -= 15;
     }
 
