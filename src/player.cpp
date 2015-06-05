@@ -5195,7 +5195,7 @@ int player::impact( const int force, const tripoint &p )
         }
     }
 
-    if( !slam && mod < 1.0f && mod * effective_force < 5 ) {
+    if( !slam && mod < 1.0f && mod * force < 5 ) {
         // Perfect landing, no damage (regardless of armor)
         add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
         return 0;
