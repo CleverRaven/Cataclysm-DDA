@@ -31,12 +31,14 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
-# Enable experimental z-levels
-#  make ZLEVELS=1
+# Change mapsize (reality bubble size)
+#  make MAPSIZE=<size>
 # Install to system directories.
 #  make install
 # Enable lua support. Required only for full-fledged mods.
 #  make LUA=1
+# Use user's XDG base directories for save files and configs.
+#  make USE_XDG_DIR=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
 # Use dynamic linking (requires system libraries).
@@ -141,10 +143,6 @@ ifdef CLANG
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-type-limits -Wno-narrowing
 endif
 
-ifdef ZLEVELS
-  DEFINES += -DZLEVELS
-endif
-
 OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
@@ -191,6 +189,7 @@ ifeq ($(NATIVE), osx)
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
+      CXXFLAGS += -I$(shell ncursesw5-config --includedir)
       LDFLAGS += -L$(shell ncursesw5-config --libdir)
     endif
   endif
@@ -245,6 +244,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(NATIVE), win64)
     RFLAGS += -F pe-x86-64
   endif
+endif
+
+ifdef MAPSIZE
+    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
 ifdef SOUND
@@ -406,7 +409,17 @@ ifeq ($(TARGETSYSTEM), CYGWIN)
 endif
 
 ifeq ($(USE_HOME_DIR),1)
+  ifeq ($(USE_XDG_DIR),1)
+    $(error "USE_HOME_DIR=1 does not work with USE_XDG_DIR=1")
+  endif
   DEFINES += -DUSE_HOME_DIR
+endif
+
+ifeq ($(USE_XDG_DIR),1)
+  ifeq ($(USE_HOME_DIR),1)
+    $(error "USE_HOME_DIR=1 does not work with USE_XDG_DIR=1")
+  endif
+  DEFINES += -DUSE_XDG_DIR
 endif
 
 all: version $(TARGET) $(L10N)
@@ -433,7 +446,7 @@ $(DDIR):
 	@mkdir $(DDIR)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@

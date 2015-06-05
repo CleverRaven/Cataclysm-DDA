@@ -1,7 +1,6 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "messages.h"
 #include "player.h"
 #include "faction.h"
 #include "json.h"
@@ -20,6 +19,7 @@ class item;
 class overmap;
 class player;
 class field_entry;
+enum game_message_type : int;
 
 void parse_tags(std::string &phrase, const player *u, const npc *me);
 
@@ -89,6 +89,8 @@ enum npc_class {
  NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
  NC_HUNTER,         // Survivor type good with bow or rifle
  NC_SOLDIER,        // Well equiped and trained combatant, good with rifles and melee
+ NC_BARTENDER,      // Stocks alcohol
+ NC_JUNK_SHOPKEEP,  // Stocks wide range of items...
  NC_MAX
 };
 
@@ -151,9 +153,9 @@ struct npc_favor : public JsonSerializer, public JsonDeserializer
     };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -171,9 +173,9 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer
  };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_opinion : public JsonSerializer, public JsonDeserializer
@@ -200,7 +202,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
              trust (T), fear (F), value (V), anger(A), owed (O) { };
 
- npc_opinion& operator+= (npc_opinion &rhs)
+ npc_opinion& operator+= ( const npc_opinion &rhs )
  {
   trust += rhs.trust;
   fear  += rhs.fear;
@@ -228,9 +230,9 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
  };
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
  void load_legacy(std::stringstream &info);
 };
@@ -261,12 +263,15 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
  void load_legacy(std::istream &data);
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 };
 
-enum talk_topic {
+// DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
+// TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
+// the new string values (used to load old saves).
+enum talk_topic_enum {
  TALK_NONE = 0, // Used to go back to last subject
  TALK_DONE, // Used to end the conversation
  TALK_GUARD, // End conversation, nothing to be said
@@ -387,6 +392,69 @@ enum talk_topic {
  TALK_OLD_GUARD_NEC_COMMO_GOAL,
  TALK_OLD_GUARD_NEC_COMMO_FREQ,
 
+ TALK_RANCH_FOREMAN,//105, Mission source/critical to building up the ranch camp
+ TALK_RANCH_FOREMAN_PROSPECTUS,
+ TALK_RANCH_FOREMAN_OUTPOST,
+ TALK_RANCH_FOREMAN_REFUGEES,
+ TALK_RANCH_FOREMAN_JOB,
+
+ TALK_RANCH_CONSTRUCTION_1,//110
+
+ TALK_RANCH_CONSTRUCTION_2,//111
+ TALK_RANCH_CONSTRUCTION_2_JOB,
+ TALK_RANCH_CONSTRUCTION_2_HIRE,
+
+ TALK_RANCH_WOODCUTTER,//114
+ TALK_RANCH_WOODCUTTER_JOB,
+ TALK_RANCH_WOODCUTTER_HIRE,
+
+ TALK_RANCH_WOODCUTTER_2,//117
+ TALK_RANCH_WOODCUTTER_2_JOB,
+ TALK_RANCH_WOODCUTTER_2_HIRE,
+
+ TALK_RANCH_FARMER_1,//120
+ TALK_RANCH_FARMER_1_JOB,
+ TALK_RANCH_FARMER_1_HIRE,
+
+ TALK_RANCH_FARMER_2,//123
+ TALK_RANCH_FARMER_2_JOB,
+ TALK_RANCH_FARMER_2_HIRE,
+
+ TALK_RANCH_CROP_OVERSEER,//126
+ TALK_RANCH_CROP_OVERSEER_JOB,
+
+ TALK_RANCH_ILL_1,//128
+ TALK_RANCH_ILL_1_JOB,
+ TALK_RANCH_ILL_1_HIRE,
+ TALK_RANCH_ILL_1_SICK,
+
+ TALK_RANCH_NURSE,//132
+ TALK_RANCH_NURSE_JOB,
+ TALK_RANCH_NURSE_HIRE,
+ TALK_RANCH_NURSE_AID,
+ TALK_RANCH_NURSE_AID_DONE,
+
+ TALK_RANCH_DOCTOR,//137
+
+ TALK_RANCH_SCRAPPER,//138
+ TALK_RANCH_SCRAPPER_JOB,
+ TALK_RANCH_SCRAPPER_HIRE,
+
+ TALK_RANCH_SCAVENGER_1,//141
+ TALK_RANCH_SCAVENGER_1_JOB,
+ TALK_RANCH_SCAVENGER_1_HIRE,
+
+ TALK_RANCH_BARKEEP,//144
+ TALK_RANCH_BARKEEP_JOB,
+ TALK_RANCH_BARKEEP_INFORMATION,
+ TALK_RANCH_BARKEEP_TAP,
+
+ TALK_RANCH_BARBER,//148
+ TALK_RANCH_BARBER_JOB,
+ TALK_RANCH_BARBER_HIRE,
+ TALK_RANCH_BARBER_CUT,
+
+ TALK_RANCH_STOCKS_BANDAGES,
 
  TALK_SHELTER,
  TALK_SHELTER_PLANS,
@@ -446,6 +514,11 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      */
     void add_new_mission( mission *miss );
     /**
+     * Check that assigned missions are still assigned if not move them back to the
+     * unassigned vector. This is called directly before talking.
+     */
+    void check_missions();
+    /**
      * Missions that the NPC can give out. All missions in this vector should be unassigned,
      * when given out, they should be moved to @ref missions_assigned.
      */
@@ -458,38 +531,32 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
      * The mission (if any) that we talk about right now. Can be null. Should be one of the
      * missions in @ref missions or @ref missions_assigned.
      */
-    mission *mission_selected;
- int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
+    mission *mission_selected = nullptr;
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill;
+    const Skill* skill = nullptr;
     /**
      * The martial art style this NPC offers to train.
      */
     matype_id style;
- talk_topic first_topic;
+    std::string first_topic = "TALK_NONE";
 
- npc_chatbin()
- {
-  mission_selected = nullptr;
-  tempvalue = -1;
-  skill = NULL;
-  style = "";
-  first_topic = TALK_NONE;
- }
+    npc_chatbin() = default;
 
     using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const;
+    void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin);
+    void deserialize(JsonIn &jsin) override;
 
  void load_legacy(std::stringstream &info);
 };
 
 class npc;
+struct epilogue;
 
 typedef std::map<std::string, npc> npc_map;
+typedef std::map<std::string, epilogue> epilogue_map;
 
 class npc : public player
 {
@@ -501,8 +568,8 @@ public:
  npc &operator=(const npc &) = default;
  npc &operator=(npc &&) = default;
  virtual ~npc();
- virtual bool is_player() const { return false; }
- virtual bool is_npc() const { return true; }
+ virtual bool is_player() const override { return false; }
+ virtual bool is_npc() const override { return true; }
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
@@ -513,7 +580,7 @@ public:
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**
-     * Set @ref mapx and @ref mapx and @ref mapz.
+     * Set @ref mapx and @ref mapx and @ref pos.
      * @param mx,my,mz are global submap coordinates.
      * This function also adds the npc object to the overmap.
      */
@@ -540,18 +607,18 @@ public:
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_legacy(std::stringstream & dump);// Overloaded from player
- virtual void load_info(std::string data);// Overloaded from player
- virtual std::string save_info();
+ virtual void load_legacy(std::stringstream & dump) override;// Overloaded from player
+ virtual void load_info(std::string data) override;// Overloaded from player
+ virtual std::string save_info() override;
 
     using player::deserialize;
-    virtual void deserialize(JsonIn &jsin);
+    virtual void deserialize(JsonIn &jsin) override;
     using player::serialize;
     virtual void serialize(JsonOut &jsout) const override;
 
 // Display
-    virtual nc_color basic_symbol_color() const;
- int print_info(WINDOW* w, int vStart, int vLines, int column) const;
+    virtual nc_color basic_symbol_color() const override;
+ int print_info(WINDOW* w, int vStart, int vLines, int column) const override;
  std::string short_description() const;
  std::string opinion_text() const;
 
@@ -564,7 +631,7 @@ public:
 
 // Interaction with the player
  void form_opinion(player *u);
- talk_topic pick_talk_topic(player *u);
+    std::string pick_talk_topic(player *u);
  int  player_danger(player *u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
@@ -573,7 +640,10 @@ public:
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
  std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
- std::vector<itype_id> styles_offered_to(const player &p); // Martial Arts
+    /**
+     * Martial art styles that we known, but the player p doesn't.
+     */
+    std::vector<matype_id> styles_offered_to( const player &p ) const;
 // State checks
  bool is_enemy() const; // We want to kill/mug/etc the player
  bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
@@ -605,7 +675,7 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(item* it, bool);
+ virtual bool wield(item* it, bool) override;
  virtual bool wield(item* it);
  bool has_healing_item();
  bool has_painkiller();
@@ -621,7 +691,7 @@ public:
  bool is_active() const;
  void say(std::string line, ...) const;
  void decide_needs();
- void die(Creature* killer);
+ void die(Creature* killer) override;
  bool is_dead() const;
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -647,19 +717,19 @@ public:
 
 // Helper functions for ranged combat
  int  confident_range(int position = -1); // >= 50% chance to hit
- bool wont_hit_friend(int tarx, int tary, int position = -1);
+ bool wont_hit_friend(  const tripoint &p , int position = -1 );
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path (int x, int y);
- bool can_move_to (int x, int y) const;
- void move_to  (int x, int y);
- void move_to_next (); // Next in <path>
+ void update_path( const tripoint &p );
+ bool can_move_to( const tripoint &p ) const;
+ void move_to    ( const tripoint &p );
+ void move_to_next(); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
- void move_away_from (int x, int y);
- void move_pause (); // Same as if the player pressed '.'
+ void move_away_from( const tripoint &p );
+ void move_pause(); // Same as if the player pressed '.'
 
 // Item discovery and fetching
  void find_item  (); // Look around and pick an item
@@ -688,13 +758,13 @@ public:
  void reach_destination(); // We made it!
 
  //message related stuff
- virtual void add_msg_if_npc(const char* msg, ...) const;
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const;
- virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const;
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const;
- virtual void add_msg_if_player(const char *, ...) const{};
- virtual void add_msg_if_player(game_message_type, const char *, ...) const{};
- virtual void add_memorial_log(const char*, const char*, ...) {};
+ virtual void add_msg_if_npc(const char* msg, ...) const override;
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
+ virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const override;
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override;
+ virtual void add_msg_if_player(const char *, ...) const override{};
+ virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
+ virtual void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
 
 // The preceding are in npcmove.cpp
@@ -705,7 +775,6 @@ public:
 
  npc_attitude attitude; // What we want to do to the player
  npc_class myclass; // What's our archetype?
- int wandx, wandy, wandf; // Location of heard sound, etc.
  std::string idz; // A temp variable used to inform the game which npc json to use as a template
  int miss_id; // A temp variable used to link to the correct mission
 
@@ -718,7 +787,7 @@ private:
      * overmap if needed.
      * (mapx,mapy) defines the overmap the npc is stored on.
      */
-    int mapx, mapy, mapz;
+    int mapx, mapy;
 public:
 
     static npc_map _all_npc;
@@ -730,7 +799,7 @@ public:
      * point(
      *     mapx * SEEX + posx,
      *     mapy * SEEY + posy,
-     *     mapz)
+     *     pos.z)
      * (Expressed in map squares, the system that @ref map uses.)
      * Any of om, map, pos can be in any range.
      * For active NPCs pos would be in the valid range required by
@@ -740,20 +809,25 @@ public:
      * This does not change the global position of the NPC.
      */
     tripoint global_square_location() const override;
- int plx, ply, plt;// Where we last saw the player, timeout to forgetting
- int itx, ity; // The square containing an item we want
- int guardx, guardy;  // These are the local coordinates that a guard will return to inside of their goal tripoint
+    tripoint last_player_seen_pos; // Where we last saw the player
+    int last_seen_player_turn; // Timeout to forgetting
+    tripoint wanted_item_pos; // The square containing an item we want
+    tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
     /**
      * Global overmap terrain coordinate, where we want to get to
      * if no goal exist, this is no_goal_point.
      */
     tripoint goal;
+
+    tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+    int wander_time;
+
  int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
  int  worst_item_value; // The value of our least-wanted item
 
- std::vector<point> path; // Our movement plans
+ std::vector<tripoint> path; // Our movement plans
 
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
@@ -780,8 +854,23 @@ private:
     bool dead;  // If true, we need to be cleaned up
 
     bool is_dangerous_field( const field_entry &fld ) const;
-    bool sees_dangerous_field( point p ) const;
-    bool could_move_onto( point p ) const;
+    bool sees_dangerous_field( const tripoint &p ) const;
+    bool could_move_onto( const tripoint &p ) const;
 };
 
+struct epilogue {
+    epilogue();
+
+    std::string id; //Unique name for declaring an ending for a given individual
+    std::string group; //Male/female (dog/cyborg/mutant... whatever you want)
+    bool is_unique; //If true, will not occur in random endings
+    //The lines you with to draw
+    std::vector<std::string> lines;
+
+    static epilogue_map _all_epilogue;
+
+    static void load_epilogue(JsonObject &jsobj);
+    epilogue* find_epilogue(std::string ident);
+    void random_by_group(std::string group, std::string name);
+};
 #endif

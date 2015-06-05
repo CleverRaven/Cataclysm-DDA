@@ -4,10 +4,14 @@
 #include "color.h"
 #include "json.h"
 #include "enums.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <list>
 #include <set>
+
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 #define OMAPX 180
 #define OMAPY 180
@@ -17,7 +21,7 @@ class overmap;
 struct overmap_spawns {
     overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
         chance(0) {};
-    std::string group;
+    mongroup_id group;
     int min_population;
     int max_population;
     int chance;
@@ -139,7 +143,7 @@ typedef oter_id oter_iid;
 struct overmap_special_spawns {
     overmap_special_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
         min_radius(0), max_radius(0) {};
-    std::string group;
+    mongroup_id group;
     int min_population;
     int max_population;
     int min_radius;
@@ -147,6 +151,7 @@ struct overmap_special_spawns {
 };
 
 struct overmap_special_terrain {
+    overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
     std::string connect;
     std::string terrain;

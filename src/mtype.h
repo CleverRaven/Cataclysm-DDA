@@ -3,10 +3,11 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include "material.h"
 #include "enums.h"
 #include "color.h"
 #include "field.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #include <bitset>
 #include <string>
@@ -15,10 +16,18 @@
 #include <math.h>
 
 class Creature;
+class monster;
+class monfaction;
+struct projectile;
+enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
+
+using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
 
@@ -90,6 +99,7 @@ enum m_flag {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
+    MF_FIREPROOF,           //Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_LEAKSGAS,            // Occasionally leaks gas when moving
@@ -131,29 +141,9 @@ enum m_flag {
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
+    MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
+    MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
-};
-
-enum mf_attitude {
-    MFA_BY_MOOD = 0,    // Hostile if angry
-    MFA_NEUTRAL,        // Neutral even when angry
-    MFA_FRIENDLY        // Friendly
-};
-
-class monfaction;
-
-typedef std::map< const monfaction*, mf_attitude > mfaction_att_map;
-
-class monfaction {
-    public:
-        int id;
-        std::string name;
-        const monfaction *base_faction;
-
-        mf_attitude attitude( const monfaction *other ) const;
-        friend class MonsterGenerator;
-    private:
-        mfaction_att_map attitude_map;
 };
 
 /** Used to store monster effects placed on attack */
@@ -164,7 +154,7 @@ struct mon_effect_data
     body_part bp;
     bool permanent;
     int chance;
-    
+
     mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
@@ -174,13 +164,12 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
-        std::string faction_name;
     public:
         std::string id;
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
-        const monfaction *default_faction;
+        mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;
@@ -192,7 +181,7 @@ struct mtype {
 
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
-        
+
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
@@ -218,9 +207,9 @@ struct mtype {
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
         std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
-        
+
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        
+
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
         std::vector<mon_action_attack> sp_attack;  // This monster's special attack
 
@@ -228,6 +217,13 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
+        int upgrade_min; // First day upon which this monster can upgrade
+        int half_life;  // Radioactive decay based upgrade chance half life length
+        // Modifier of the chance of upgrading per half life, i.e. 10 would mean an additional 10% chance to upgrade per half life,
+        // or -10 would mean a -10% chance to upgrade per half life.
+        float base_upgrade_chance;
+        mongroup_id upgrade_group;
+        std::string upgrades_into;
         // Default constructor
         mtype ();
         /**

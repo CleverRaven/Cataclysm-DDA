@@ -2,6 +2,8 @@
 #include "rng.h"
 #include "output.h"
 #include "player.h"
+#include "translations.h"
+#include "messages.h"
 #include <map>
 #include <sstream>
 
@@ -42,7 +44,7 @@ void weed_msg(player *p) {
             if(p->has_amount("money_bundle", 1)) { // Half Baked
                 p->add_msg_if_player(_("You ever see the back of a twenty dollar bill... on weed?"));
                 if(one_in(2)) {
-                    p->add_msg_if_player(_("Oh, there's some crazy shit, man. There's a dude in the bushes. Has he got a gun? I dunno!"));
+                    p->add_msg_if_player(_("Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!"));
                     if(one_in(3)) {
                         p->add_msg_if_player(_("RED TEAM GO, RED TEAM GO!"));
                     }
@@ -267,6 +269,15 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "fatigue_chance_bot",member, "FATIGUE",  "chance_bot");
         extract_effect(j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick");
 
+        // Then stamina
+        extract_effect(j, mod_data, "stamina_amount",    member, "STAMINA",  "amount");
+        extract_effect(j, mod_data, "stamina_min",       member, "STAMINA",  "min");
+        extract_effect(j, mod_data, "stamina_max",       member, "STAMINA",  "max");
+        extract_effect(j, mod_data, "stamina_max_val",   member, "STAMINA",  "max_val");
+        extract_effect(j, mod_data, "stamina_chance",    member, "STAMINA",  "chance_top");
+        extract_effect(j, mod_data, "stamina_chance_bot",member, "STAMINA",  "chance_bot");
+        extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
+
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
         extract_effect(j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot");
@@ -480,12 +491,14 @@ std::string effect::disp_desc(bool reduced) const
     values.push_back(desc_freq(get_percentage("PAIN", val, reduced), val, _("pain"), _("pain")));
     val = get_avg_mod("HURT", reduced);
     values.push_back(desc_freq(get_percentage("HURT", val, reduced), val, _("damage"), _("damage")));
+    val = get_avg_mod("STAMINA", reduced);
+    values.push_back(desc_freq(get_percentage("STAMINA", val, reduced), val, _("stamina recovery"), _("fatigue")));
     val = get_avg_mod("THIRST", reduced);
     values.push_back(desc_freq(get_percentage("THIRST", val, reduced), val, _("thirst"), _("quench")));
     val = get_avg_mod("HUNGER", reduced);
     values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
     val = get_avg_mod("FATIGUE", reduced);
-    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("fatigue"), _("rest")));
+    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("sleepiness"), _("rest")));
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);
@@ -746,6 +759,12 @@ std::string effect::get_resist_effect() const
 const std::vector<std::string> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
+}
+const std::vector<std::string> effect::get_blocks_effects() const
+{
+    std::vector<std::string> ret = eff_type->removes_effects;
+    ret.insert(ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end());
+    return ret;
 }
 
 int effect::get_mod(std::string arg, bool reduced) const
@@ -1048,10 +1067,15 @@ std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
 std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
-    if (eff_type->speed_mod_name == "") {
+    // But make sure the name for this intensity actually exists!
+    if( eff_type->speed_mod_name != "" ) {
+        return eff_type->speed_mod_name;
+    } else if( eff_type->use_name_ints() ) {
+        return eff_type->name[intensity-1];
+    } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
-        return eff_type->speed_mod_name;
+        return "";
     }
 }
 
@@ -1122,6 +1146,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.resist_trait = jo.get_string("resist_trait", "");
     new_etype.resist_effect = jo.get_string("resist_effect", "");
     new_etype.removes_effects = jo.get_string_array("removes_effects");
+    new_etype.blocks_effects = jo.get_string_array("blocks_effects");
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);

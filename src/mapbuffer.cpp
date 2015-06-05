@@ -9,6 +9,10 @@
 #include "mapdata.h"
 #include "worldfactory.h"
 #include "game.h"
+#include "map.h"
+#include "trap.h"
+#include "vehicle.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -74,21 +78,26 @@ void mapbuffer::remove_submap( tripoint addr )
 
 submap *mapbuffer::lookup_submap(int x, int y, int z)
 {
-    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << x << "], y[" << y << "], z[" << z << "])";
+    return lookup_submap( tripoint( x, y, z ) );
+}
 
-    const tripoint p(x, y, z);
-    if (submaps.count(p) == 0) {
+submap *mapbuffer::lookup_submap( const tripoint &p )
+{
+    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
+
+    auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
         } catch (std::string &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.c_str());
+            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.c_str());
         } catch (const std::exception &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.what());
+            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what());
         }
         return NULL;
     }
 
-    return submaps[p];
+    return iter->second;
 }
 
 void mapbuffer::save( bool delete_after_save )
@@ -101,9 +110,10 @@ void mapbuffer::save( bool delete_after_save )
     int num_total_submaps = submaps.size();
 
     const tripoint map_origin = overmapbuffer::sm_to_omt_copy( g->m.get_abs_sub() );
+    const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
     // A set of already-saved submaps, in global overmap coordinates.
-    std::set<tripoint, pointcomp> saved_submaps;
+    std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
     for( auto &elem : submaps ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
@@ -135,11 +145,7 @@ void mapbuffer::save( bool delete_after_save )
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-#ifndef ZLEVELS
-        const bool zlev_del = om_addr.z != g->get_levz();
-#else
-        const bool zlev_del = false;
-#endif
+        const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
         save_quad( dirname.str(), quad_path.str(), om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
@@ -296,7 +302,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( traplist[ sm->get_trap( i, j ) ]->id );
+                    // TODO: jsout should support writting an id like jsout.write( trap_id )
+                    jsout.write( sm->get_trap( i, j ).id().str() );
                     jsout.end_array();
                 }
             }
@@ -459,14 +466,14 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             } else if (ter_string == "t_pwr_sb_switchgear_s"){
                                 sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
                             } else {
-                                sm->ter[i][j] = termap[ ter_string ].loadid;
+                                sm->ter[i][j] = terfind( ter_string );
                             }
                         }
                     }
                 } else {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            sm->ter[i][j] = termap[ jsin.get_string() ].loadid;
+                            sm->ter[i][j] = terfind( jsin.get_string() );
                         }
                     }
                 }
@@ -518,7 +525,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->trp[i][j] = trapmap[ jsin.get_string() ];
+                    // TODO: jsin should support returning an id like jsin.get_id<trap>()
+                    sm->trp[i][j] = trap_str_id( jsin.get_string() );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {

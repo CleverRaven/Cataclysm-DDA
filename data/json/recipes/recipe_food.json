@@ -224,7 +224,8 @@
   "components": [
     [
       [ "plant_sac", 1 ],
-      [ "seed_cotton_boll", 1 ]
+      [ "seed_cotton_boll", 1 ],
+      [ "seed_canola", 4 ]
     ]
   ]
 },{
@@ -813,10 +814,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 3 ]
     ]
   ],
   "components": [
@@ -1308,6 +1309,34 @@
   "components": [
     [
       [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cooked_cattail_stalk",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "byproducts": "plant_fibre",
+  "skills_required": [ "survival", 1 ],
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cattail_stalk", 1 ]
     ]
   ]
 },{
@@ -2269,14 +2298,10 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
-  ],    "components": [
-    [
-      [ "roasted_coffee_bean", 1 ]
-    ],
-	[
-		["bag_plastic",1]
-	]
-	
+  ],
+  "components": [
+    [ [ "roasted_coffee_bean", 1 ] ],
+    [ ["bag_plastic",1] ]
   ]
 },{
   "type" : "recipe",
@@ -2410,6 +2435,48 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "starch",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "dahlia_root", 2 ],
+      [ "potato_raw", 2 ],
+      [ "potato_irradiated", 2 ],
+      [ "cattail_stalk", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "starch",
+  "id_suffix": "from_fibrous_stuff",
+  "byproducts": { "id" : "plant_fibre", "charges_mult" : 5 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "cattail_rhizome", 1 ]
     ]
   ]
 },{
@@ -2665,7 +2732,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
-  "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough. Gelatin from pectin is harder. Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
+  "difficulty": 5, "//": "Gelatin from bones is just boiling them long enough.  Gelatin from pectin is harder.  Instead of duping the ingredients, *1.5 them for aforementioned pectin.",
   "time": 40000,
   "reversible": false,
   "autolearn": true,
@@ -3055,6 +3122,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "broth_human",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "batch_time_factors":[80, 4],
+  "book_learn": [[ "cookbook_human", 1 ]],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 6 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone_human", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "soup_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3090,6 +3188,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "acorns_cooked", 1 ]
@@ -3149,6 +3248,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "acorns_cooked", 1 ]
@@ -3212,6 +3312,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "dry_mushroom", 1 ],
@@ -3278,6 +3379,7 @@
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "acorns_cooked", 1 ]
@@ -3308,7 +3410,8 @@
   "components": [
     [
       [ "broth", 1 ],
-      [ "broth_bone", 1]
+      [ "broth_bone", 1],
+      [ "broth_human", 1]
     ],
     [
       [ "spaghetti_raw", 1 ],
@@ -3322,6 +3425,7 @@
       [ "egg_bird", 1 ],
       [ "egg_reptile", 1 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "acorns_cooked", 1 ]
     ],
@@ -3531,7 +3635,8 @@
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 2,
-  "time": 20000,
+  "time": 28000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3610,11 +3715,36 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "dry_beans",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "raw_beans", 8 ]
     ]
   ]
 },{
@@ -3866,7 +3996,8 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "dry_rice", 1 ]
@@ -3899,7 +4030,8 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "dry_rice", 1 ]
@@ -3955,7 +4087,8 @@
   ],
   "components": [
     [
-      [ "dry_beans", 1 ]
+      [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ]
     ],
     [
       [ "dry_rice", 1 ]
@@ -4121,7 +4254,7 @@
   "skill_used": "cooking",
   "skills_required": [ "survival", 2 ],
   "difficulty": 1,
-  "time": 3000,
+  "time": 6000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -4134,7 +4267,7 @@
   ],
   "components": [
     [
-      ["pinecone", 1]
+      ["pinecone", 4]
     ]
   ]
 },{
@@ -5137,6 +5270,7 @@
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ]
     ],
     [
@@ -5181,6 +5315,7 @@
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "dry_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "dry_rice", 1 ]
     ],
     [
@@ -5232,7 +5367,8 @@
     ],
     [
       [ "can_beans", 1],
-      [ "dry_beans", 1 ]
+      [ "raw_beans", 1],
+      [ "dry_beans", 1]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5279,7 +5415,8 @@
     ],
     [
       [ "can_beans", 1],
-      [ "dry_beans", 1 ]
+      [ "raw_beans", 1],
+      [ "dry_beans", 1]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5725,9 +5862,14 @@
   "time": 48000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
     [
-      [ "chemistry_set", 50 ]
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5755,9 +5897,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5845,9 +5988,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
-      [ "toolset", 50 ]
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
@@ -5880,9 +6024,10 @@
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 40 ],
       [ "hotplate", 40 ],
-      [ "toolset", 40 ]
+      [ "toolset", 40 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 4 ]
     ]
   ],
   "components": [
@@ -6475,6 +6620,44 @@
   ]
 },{
   "type" : "recipe",
+  "result": "jar_broth_human",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "bone_human", 10 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bag_meat_vac",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -6799,7 +6982,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2] ] ]
+  "components": [ [ ["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2], ["starch", 2] ] ]
 },{
   "type" : "recipe",
   "result": "cornmeal",
@@ -6825,6 +7008,18 @@
   "autolearn": true,
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["bone", 1] ] ]
+},{
+  "type" : "recipe",
+  "result": "meal_bone_tainted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "components": [ [ ["bone_tainted", 1] ] ]
 },{
   "type" : "recipe",
   "result": "spaghetti_raw",
@@ -6980,7 +7175,7 @@
   "time": 25000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ ["brewing_cookbook", 5] ],
+  "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
   ], "tools": [
@@ -7105,7 +7300,7 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -7142,7 +7337,7 @@
   "qualities":[
     {"id":"BREW","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
     [
@@ -8980,6 +9175,7 @@
       [ "char_smoker", 1 ],
       [ "toolset", 8 ],
       [ "coffeemaker", 8],
+      [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ]
     ]
   ],
@@ -9310,6 +9506,152 @@
         [ "honey_glassed", 5 ]
       ]
     ]
+},{
+  "type" : "recipe",
+  "result": "haggis",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 1 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "stomach", 1 ]
+    ],
+    [
+      [ "oatmeal", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "meat", 1],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
+      [ "jerky", 1 ],
+      [ "meat_vac", 1 ],
+      [ "meat_smoked", 1 ]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_cullenskink",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "family_cookbook", 4 ], [ "scots_cookbook", 2 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "dry_fish", 1],
+      [ "salted_fish", 1 ],
+      [ "fish_smoked", 1],
+      [ "fish_pickled", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cloutie_dumpling",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "family_cookbook", 6 ], [ "scots_cookbook", 2 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oatmeal", 1 ],
+      [ "flour", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "dry_fruit", 1]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "syrup", 1 ],
+      [ "beet_syrup", 1],
+      [ "molasses", 1 ],
+      [ "coffee_syrup", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
+    ]
+  ]
 },
 {
   "type" : "recipe",
@@ -9350,6 +9692,299 @@
   "components": [
     [
       [ "thyme", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_canola",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "canola", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_dogbane",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "dogbane", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_bee_balm",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bee_balm", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bee_balm_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "bee_balm", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mugwort",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mugwort", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mugwort_oil",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 4 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ], 
+  "tools": [
+    [ [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ], 
+  "components": [
+    [ [ "cooking_oil", 2 ] ],
+    [ [ "mugwort", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_rhubarb",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "rhubarb", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_buckwheat",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "buckwheat", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_wild_herbs",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "wild_herbs", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_veggy_wild",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "veggy_wild", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_raw_dandelion",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "raw_dandelion", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom_magic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom_magic", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom_poison",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 4,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom_poison", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_mushroom_morel",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 5,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "mushroom_morel", 1 ]
     ]
   ]
 }

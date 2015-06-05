@@ -1141,6 +1141,180 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "broken_grenade_hack",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broken_mininuke_hack",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 5,
+  "time": 4000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broken_gasbomb_hack",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broken_EMP_hack",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broken_flashbang_hack",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "broken_c4_hack",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "electronics",
+  "difficulty": 4,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
+},{
     "type" : "recipe",
     "result": "broken_eyebot",
     "category": "CC_NONCRAFT",
@@ -1921,7 +2095,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-  "tools": [ [ [ "crucible", -1 ] ] ],
+  "tools": [ [ [ "crucible", -1 ], ["crucible_clay", -1] ] ],
   "components": [ [ [ "material_limestone", 10 ] ] ]
 },{
   "type" : "recipe",
@@ -1946,7 +2120,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "paper", 10 ] ]	]
+    "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
     "result": "survivormap",
@@ -1979,7 +2153,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "paper", 10 ] ]	]
+    "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
     "result": "touristmap",
@@ -1990,7 +2164,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "paper", 10 ] ]	]
+    "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
     "result": "newest_newspaper",
@@ -2317,5 +2491,24 @@
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [ [ [ "wild_herbs", 10 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "seat",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"CUT","level":1,"amount":1}
+    ], "tools": [
+        [ [ "oxy_torch", 12 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
+    "components": [
+    [ [ "pipe", 4 ] ],
+    [ [ "spring", 2 ] ],
+    [ [ "leather", 12 ] ]
+    ]
 }
 ]

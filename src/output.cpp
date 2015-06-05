@@ -21,6 +21,9 @@
 #include "uistate.h"
 #include "translations.h"
 #include "path_info.h"
+#include "ui.h"
+#include "item.h"
+#include "line.h"
 
 // Display data
 int TERMX;
@@ -550,9 +553,12 @@ bool query_yn(const char *mes, ...)
 
     bool const force_uc = !!OPTIONS["FORCE_CAPITAL_YN"];
 
-    // localizes the selectors, requires translation to use lower case
+    //~ Translation of query answer letters (y mean yes, n - no)
+    //~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
+    //~ Translation MUST be in lowercase. Undefined behavior otherwise.
+    //~ Translation MUST contain only 2 letters. Original string will be used otherwise.
     std::string selectors = _("yn");
-    if (selectors.length() < 2) {
+    if (selectors.length() != 2) {
         selectors = "yn";
     }
     std::string ucselectors = selectors;
@@ -1735,6 +1741,12 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     iDirX = pairDirXY.x;
     iDirY = pairDirXY.y;
 
+    if( iDirX == 0 && iDirY == 0 ) {
+        // This would cause infinite loop otherwise
+        oDir = WEST;
+        iDirX = -1;
+    }
+
     iStep = 0;
     iStepOffset = 0;
 
@@ -1955,8 +1967,8 @@ void play_music(std::string)
 {
 }
 
-void play_sound(std::string)
+void play_sound_effect(std::string, std::string, int)
 {
 }
-
 #endif
+

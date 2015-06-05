@@ -199,14 +199,14 @@
                 "____________________|--|"
             ],
             "terrain": {
-                "|": "t_wall_v",
-                "-": "t_wall_h",
+                "|": "t_wall",
+                "-": "t_wall",
                 "W": "t_window",
                 "+": "t_door_c",
                 "D": "t_door_locked",
                 "_": "t_pavement",
                 ",": "t_pavement_y",
-                "G": "t_wall_glass_h",
+                "G": "t_wall_glass",
                 "C": "t_curtains",
                 "w": "t_linoleum_white",
                 "g": "t_linoleum_gray",

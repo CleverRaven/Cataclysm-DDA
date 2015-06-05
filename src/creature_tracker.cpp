@@ -1,6 +1,6 @@
 #include "creature_tracker.h"
+#include "monster.h"
 #include "mongroup.h"
-#include "output.h"
 #include "debug.h"
 
 Creature_tracker::Creature_tracker()
@@ -49,7 +49,7 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    if( monster_is_blacklisted(critter.type) ) {
+    if( MonsterGroupManager::monster_is_blacklisted(critter.type) ) {
         return false;
     }
 
@@ -65,7 +65,7 @@ size_t Creature_tracker::size() const
 
 bool Creature_tracker::update_pos(const monster &critter, const tripoint &new_pos)
 {
-    const auto old_pos = critter.pos3();
+    const auto old_pos = critter.pos();
     if( critter.is_dead() ) {
         // mon_at ignores dead critters anyway, changing their position in the
         // monsters_by_location map is useless.
@@ -77,21 +77,26 @@ bool Creature_tracker::update_pos(const monster &critter, const tripoint &new_po
     const int critter_id = mon_at( old_pos );
     const int new_critter_id = mon_at( new_pos );
     if( new_critter_id >= 0 ) {
-        debugmsg("update_zombie_pos: new location %d,%d,%d already has zombie %d",
-                 new_pos.x, new_pos.y, new_pos.z, new_critter_id);
+        const auto &othermon = *monsters_list[new_critter_id];
+        debugmsg( "update_zombie_pos: wanted to move %s to %d,%d,%d, but new location already has %s",
+                  critter.disp_name().c_str(),
+                  new_pos.x, new_pos.y, new_pos.z, othermon.disp_name().c_str() );
     } else if( critter_id >= 0 ) {
         if( &critter == monsters_list[critter_id] ) {
             monsters_by_location.erase( old_pos );
             monsters_by_location[new_pos] = critter_id;
             success = true;
         } else {
-            debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
-                     old_pos.x, old_pos.y, critter_id);
+            const auto &othermon = *monsters_list[critter_id];
+            debugmsg( "update_zombie_pos: wanted to move %s from old location %d,%d,%d, but it had %s instead",
+                      critter.disp_name().c_str(),
+                      old_pos.x, old_pos.y, old_pos.z, othermon.disp_name().c_str() );
         }
     } else {
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update monsters_by_location for us.
-        debugmsg("update_zombie_pos: no such zombie at %d,%d,%d (moving to %d,%d,%d)",
+        debugmsg("update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
+                 critter.disp_name().c_str(),
                  old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();

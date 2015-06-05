@@ -20,32 +20,35 @@ not_json = {
     "main.lua",
     "preload.lua",
     "LOADING_ORDER.md"
-
 }
 
 # don't parse this files. Full related path.
 ignore_files = {
-    "data/mods/obsolete-mods.json"
+    "data/mods/obsolete-mods.json",
+    "data/raw/color_templates/no_bright_background.json"
 }
 
 # these objects have no translatable strings
 ignorable = {
-    "colordef",
+    "BULLET_PULLING",
     "ITEM_BLACKLIST",
-    "item_group",
-    "monstergroup",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "MONSTER_WHITELIST",
+    "SPECIES",
+    "colordef",
+    "epilogue", # FIXME right now this object can't be translated correctly
+    "item_group",
     "monitems",
-    "npc", # FIXME right now this object is unextractable
+    "monstergroup",
+    "npc",      # FIXME right now this object is unextractable
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
-    "recipe",
+    "region_overlay",
     "region_settings",
-    "BULLET_PULLING",
-    "SPECIES"
+    "vehicle_group",
+    "vehicle_placement"
 }
 
 # these objects can have their strings automatically extracted.
@@ -201,6 +204,47 @@ def extract_mapgen(item):
                     if speckey == "signage":
                         writestr(outfile, special[speckey])
 
+def extract_recipes(item):
+    outfile = get_outfile("recipe")
+    if "book_learn" in item:
+        for arr in item["book_learn"]:
+            if len(arr) >= 3 and len(arr[2]) > 0:
+                writestr(outfile, arr[2])
+
+def extract_dynamic_line_optional(line, member, outfile):
+    if member in line:
+        extract_dynamic_line(line[member], outfile)
+
+def extract_dynamic_line(line, outfile):
+    if type(line) == list:
+        for l in line:
+            extract_dynamic_line(l, outfile)
+    elif type(line) == dict:
+        extract_dynamic_line_optional(line, "u_male", outfile)
+        extract_dynamic_line_optional(line, "u_female", outfile)
+        extract_dynamic_line_optional(line, "npc_male", outfile)
+        extract_dynamic_line_optional(line, "npc_female", outfile)
+        extract_dynamic_line_optional(line, "yes", outfile)
+        extract_dynamic_line_optional(line, "no", outfile)
+    else:
+        writestr(outfile, line)
+
+def extract_talk_response(response, outfile):
+    if "text" in response:
+        writestr(outfile, response["text"])
+    if "success" in response:
+        extract_talk_response(response["success"], outfile)
+    if "failure" in response:
+        extract_talk_response(response["failure"], outfile)
+
+def extract_talk_topic(item):
+    outfile = get_outfile("talk_topic")
+    if "dynamic_line" in item:
+        extract_dynamic_line(item["dynamic_line"], outfile)
+    for r in item["responses"]:
+        extract_talk_response(r, outfile)
+
+
 def extract_mutation(item):
     outfile = get_outfile("mutation_category")
 
@@ -229,15 +273,28 @@ def extract_mutation(item):
              comment="Mutation class: {0} Female memorial messsage".format(item_name))
 
 
+def extract_vehspawn(item):
+    outfile = get_outfile("vehicle_spawn")
+
+    found = item.get("spawn_types")
+    if not found:
+        return
+
+    for st in found:
+        writestr(outfile, st.get("description"), comment="Vehicle Spawn Description")
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
     "material": extract_material,
     "martial_art": extract_martial_art,
     "profession": extract_professions,
+    "recipe": extract_recipes,
     "scenario": extract_scenarios,
     "mapgen": extract_mapgen,
-    "mutation_category":extract_mutation
+    "talk_topic": extract_talk_topic,
+    "mutation_category": extract_mutation,
+    "vehicle_spawn": extract_vehspawn
 }
 
 ##
@@ -390,6 +447,9 @@ def extract(item, infilename):
         if "sound_fail" in bash:
             writestr(outfile, bash["sound_fail"], **kwargs)
             wrote = True
+    if "seed_data" in item:
+        seed_data = item["seed_data"]
+        writestr(outfile, seed_data["plant_name"], **kwargs)
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
@@ -447,16 +507,6 @@ def add_fake_types():
     outfile = os.path.join(to_dir, "faketypes.py")
 
     # fake item types
-    writestr(outfile, "corpse", "corpses")
-    writestr(outfile, "nearby fire")
-    writestr(outfile, "cvd machine")
-    writestr(outfile, "integrated toolset")
-    writestr(outfile, "a smoking device and a source of flame")
-    writestr(outfile, "note", "notes")
-    writestr(outfile, "misc software")
-    writestr(outfile, "MediSoft")
-    writestr(outfile, "infection data")
-    writestr(outfile, "hackPRO")
 
     # fake monster types
     writestr(outfile, "human", "humans")

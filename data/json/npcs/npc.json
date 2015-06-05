@@ -15,10 +15,9 @@
     "comment" : "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
     "comment" : "and 7=NPC_MISSION_GUARD",
     "mission" : 7,
-    "comment" : "Chat is based on the enum talk_topic in npc.h.  Which is going to be a nightmare to update... 1=TALK_DONE",
-    "chat" : 76,
+    "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
-    "mission_offered" : 30,
+    "mission_offered" : 31,
     "comment" : "Mission_offered is based on the enum mission_id in mission.h.  0=MISSION_NULL"
   },{
     "type" : "npc",
@@ -28,7 +27,7 @@
     "class" : 14,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 98,
+    "chat" : "TALK_OLD_GUARD_SOLDIER",
     "faction" : "old_guard"
   },{
     "type" : "npc",
@@ -38,9 +37,9 @@
     "class" : 14,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 99,
+    "chat" : "TALK_OLD_GUARD_NEC_CPT",
     "faction" : "old_guard",
-    "mission_offered" : 34
+    "mission_offered" : 35
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
@@ -49,9 +48,9 @@
     "class" : 14,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 102,
+    "chat" : "TALK_OLD_GUARD_NEC_COMMO",
     "faction" : "old_guard",
-    "mission_offered" : 36
+    "mission_offered" : 37
   },{
     "type" : "npc",
     "id" : "evac_merchant",
@@ -60,7 +59,7 @@
     "class" : 1,
     "attitude" : 0,
     "mission" : 3,
-    "chat" : 17,
+    "chat" : "TALK_EVAC_MERCHANT",
     "mission_offered" : 27,
     "faction" : "free_merchants"
   },{
@@ -71,7 +70,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 28,
+    "chat" : "TALK_FREE_MERCHANT_STOCKS",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -81,7 +80,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 42,
+    "chat" : "TALK_EVAC_GUARD1",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -91,7 +90,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 53,
+    "chat" : "TALK_EVAC_GUARD2",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -101,7 +100,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 59,
+    "chat" : "TALK_EVAC_GUARD3",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -111,7 +110,7 @@
     "class" : 9,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 2,
+    "chat" : "TALK_GUARD",
     "faction" : "free_merchants"
   },{
     "type" : "npc",
@@ -121,8 +120,163 @@
     "class" : 9,
     "attitude" : 10,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "free_merchants"
+  },{
+    "type" : "npc",
+    "id" : "ranch_foreman",
+    "comment" : "Appears at the ranch after you progress in the refugee center quests.  Faction critical.",
+    "name+" : ", Foreman",
+    "class" : 9,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_FOREMAN",
+    "mission_offered" : 40,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_construction_1",
+    "comment" : "Flavor",
+    "name+" : ", Carpenter",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_CONSTRUCTION_1",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_construction_2",
+    "comment" : "Construction skill trainer",
+    "name+" : ", Carpenter",
+    "class" : 10,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_CONSTRUCTION_2",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_woodcutter_1",
+    "comment" : "Can purchase wood",
+    "name+" : ", Lumberjack",
+    "class" : 7,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_WOODCUTTER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch__woodcutter_2",
+    "comment" : "Flavor",
+    "name+" : ", Woodworker",
+    "class" : 7,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_WOODCUTTER_2",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_crop_overseer",
+    "comment" : "Flavor",
+    "name+" : ", Crop Overseer",
+    "class" : 9,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_CROP_OVERSEER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_farmer_1",
+    "comment" : "Flavor",
+    "name+" : ", Farmer",
+    "class" : 10,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_FARMER_1",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_farmer_2",
+    "comment" : "Flavor",
+    "name+" : ", Farmer",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_FARMER_2",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_ill_1",
+    "comment" : "Flavor",
+    "name+" : ", Laborer",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_ILL_1",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_nurse_1",
+    "comment" : "Mission source for clinic.  Provides medical attention.",
+    "name+" : ", Nurse",
+    "gender" : "female",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_NURSE",
+    "mission_offered" : 57,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_doctor",
+    "comment" : "Provides advanced medical attention.",
+    "name+" : ", Doctor",
+    "class" : 4,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_DOCTOR",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_scrapper_1",
+    "comment" : "Flavor",
+    "name+" : ", Scrapper",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_SCRAPPER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_scavenger_1",
+    "comment" : "Mission source, shopkeep",
+    "name+" : ", Scavenger Boss",
+    "class" : 16,
+    "attitude" : 0,
+    "mission" : 3,
+    "chat" : "TALK_RANCH_SCAVENGER_1",
+    "mission_offered" : 68,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_bartender",
+    "comment" : "Mission source, shopkeep",
+    "name+" : ", Bartender",
+    "class" : 15,
+    "attitude" : 0,
+    "mission" : 3,
+    "chat" : "TALK_RANCH_BARKEEP",
+    "mission_offered" : 72,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_barber",
+    "comment" : "Provides hair cuts",
+    "name+" : ", Barber",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_BARBER",
+    "faction" : "tacoma_commune"
   },{
     "type" : "npc",
     "id" : "scavenger_hunter",
@@ -131,7 +285,7 @@
     "class" : 13,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 68,
+    "chat" : "TALK_EVAC_HUNTER",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -141,7 +295,7 @@
     "class" : 7,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 93,
+    "chat" : "TALK_SCAVENGER_MERC",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -153,7 +307,7 @@
     "class" : 12,
     "attitude" : 0,
     "mission" : 3,
-    "chat" : 84,
+    "chat" : "TALK_ARSONIST",
     "faction" : "wasteland_scavengers"
   },{
     "type" : "npc",
@@ -163,7 +317,7 @@
     "class" : 10,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   },{
     "type" : "npc",
@@ -173,7 +327,7 @@
     "class" : 11,
     "attitude" : 0,
     "mission" : 7,
-    "chat" : 1,
+    "chat" : "TALK_DONE",
     "faction" : "hells_raiders"
   }
 ]

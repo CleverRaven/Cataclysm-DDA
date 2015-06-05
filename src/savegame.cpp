@@ -1,4 +1,5 @@
 #include "game.h"
+#include "creature_tracker.h"
 #include "output.h"
 #include "skill.h"
 #include "line.h"
@@ -17,6 +18,7 @@
 #include "messages.h"
 #include "mapdata.h"
 #include "translations.h"
+#include "mongroup.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -28,6 +30,8 @@
 #include "debug.h"
 #include "weather.h"
 #include "mapsharing.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"
@@ -112,7 +116,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "grscent", rle_out.str() );
 
         // Then each monster
-        json.member( "active_monsters", critter_tracker.list() );
+        json.member( "active_monsters", critter_tracker->list() );
         json.member( "stair_monsters", coming_to_stairs );
 
         // save killcounts.
@@ -296,14 +300,14 @@ void game::load_weather(std::ifstream & fin) {
         int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weatherSeed = seed;
+        weatherGen.set_seed( seed );
     }
 }
 
 void game::save_weather(std::ofstream & fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weatherSeed;
+    fout << "seed: " << weatherGen.get_seed();
 }
 ///// overmap
 void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
@@ -378,7 +382,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             ty = 0;
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            mongroup mg( cstr, cx, cy, cz, cs, cp );
+            mongroup mg( mongroup_id( cstr ), cx, cy, cz, cs, cp );
             // Bugfix for old saves: population of 2147483647 is far too much and will
             // crash the game. This specific number was caused by a bug in
             // overmap::add_mon_group.
@@ -447,7 +451,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
-                item tmp(itemdata);
+                item tmp;
+                tmp.load_info(itemdata);
                 npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
@@ -469,8 +474,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
 
                     if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
                         if ( settings.id != tmpstr ) {
-                            std::unordered_map<std::string, regional_settings>::const_iterator rit =
-                                region_settings_map.find( tmpstr );
+                            t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
                             if ( rit != region_settings_map.end() ) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
@@ -672,7 +676,7 @@ void overmap::save() const
 
     for( auto &mgv : zg ) {
         auto &mg = mgv.second;
-        fout << "Z " << mg.type << " " << mg.posx << " " << mg.posy << " " <<
+        fout << "Z " << mg.type.str() << " " << mg.posx << " " << mg.posy << " " <<
             mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
             mg.diffuse << " " << mg.dying << " " <<
             mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;

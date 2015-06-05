@@ -223,7 +223,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ] , [ "manual_mechanics", 2] ],
   "tools": [
-    [ ["crucible", -1] ],
+    [ ["crucible", -1], ["crucible_clay", -1] ],
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
@@ -1128,6 +1128,124 @@
       [ "burnt_out_bionic", 1 ],
       [ "processor", 2 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_reactor",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 10 ],
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 120 ],
+      [ "toolset", 120 ]
+    ]
+  ],
+  "components": [
+    [ [ "minireactor", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ],
+    [
+      [ "burnt_out_bionic", 1 ],
+      [ "processor", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_plut_filter",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "firstaid", 10 ],
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 80 ],
+      [ "toolset", 80 ]
+    ],
+    [
+      [ "laptop", -1 ],
+      [ "control_laptop", -1 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_blood_filter", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ],
+    [
+      [ "burnt_out_bionic", 1 ],
+      [ "processor", 2 ]
+    ],
+    [
+      [ "usb_drive", 1 ],
+      [ "RAM", 1 ],
+      [ "mobile_memory_card", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_reactor_upgrade",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 10 ],
+  "difficulty": 10,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 120 ],
+      [ "toolset", 120 ]
+    ],
+    [
+      [ "laptop", -1 ],
+      [ "control_laptop", -1 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_radscrubber", 1 ] ],
+    [ [ "bio_geiger", 1 ] ],
+    [
+      [ "usb_drive", 1 ],
+      [ "RAM", 1 ],
+      [ "mobile_memory_card", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_advreactor",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 10 ],
+  "difficulty": 10,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 10 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [ [ "bio_reactor", 1 ] ],
+    [ [ "bio_reactor_upgrade", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2245,8 +2363,8 @@
   "qualities":[ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-	[ "soldering_iron", 50 ],
-	[ "toolset", 50 ]
+    [ "soldering_iron", 50 ],
+    [ "toolset", 50 ]
     ],
     [ [ "mold_plastic", -1 ] ]
   ],
@@ -2357,6 +2475,31 @@
     [ [ "amplifier", 2 ] ],
     [ [ "cable", 1 ] ],
     [ [ "battery_truck", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "radio_mod",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "skills_required" : [ "fabrication", 2 ],
+  "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 2]],
+  "difficulty": 4,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [ [ "receiver", 1 ] ],
+    [ [ "pilot_light", 1 ] ],
+    [ [ "battery", 5 ] ],
+    [ [ "cable", 2 ] ]
   ]
 }
 ]

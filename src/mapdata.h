@@ -1,38 +1,36 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include "game_constants.h"
 #include "color.h"
 #include "item.h"
-#include "trap.h"
-#include "monster.h"
+//#include "monster.h"
 #include "enums.h"
 #include "computer.h"
-#include "vehicle.h"
 #include "basecamp.h"
 #include "iexamine.h"
 #include "field.h"
-#include "translations.h"
 #include "item_stack.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "rng.h"
+#include "active_item_cache.h"
 
 #include <iosfwd>
+#include <bitset>
 #include <unordered_set>
 #include <vector>
 #include <list>
 #include <string>
 
+struct maptile;
 class game;
 class monster;
+class vehicle;
+struct trap;
 
-//More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
-#ifndef SEEX    // SEEX is how far the player can see in the X direction (at
-#define SEEX 12 // least, without scrolling).  All map segments will need to be
-#endif          // at least this wide. The map therefore needs to be 3x as wide.
-
-#ifndef SEEY    // Same as SEEX
-#define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-#endif          // Nuts to 80x24 terms. Mostly exists in graphical clients, and
-                // those fatcats can resize.
+using trap_id = int_id<trap>;
+using trap_str_id = string_id<trap>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -52,30 +50,37 @@ struct map_bash_info {
     int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
     int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
+    int str_min_supported;  // Alternative values for floor supported by something from below
+    int str_max_supported;
     int str_min_roll;       // lower bound of success check; defaults to str_min
     int str_max_roll;       // upper bound of success check; defaults to str_max
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
     bool destroy_only;      // Only used for destroying, not normally bashable
+    bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
+                      str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      destroy_only(false), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      destroy_only(false), bash_below(false),
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
+    // This terrain provided a roof, we need to tear it down now
+    bool deconstruct_above;
     // items you get when deconstructing.
     std::vector<map_bash_item_drop> items;
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), items(), ter_set(), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), items(), ter_set(), furn_set() { }
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -138,7 +143,6 @@ struct map_deconstruct_info {
  * Order does not matter.
  */
 enum ter_bitflags {
-    TFLAG_NONE,
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -146,6 +150,7 @@ enum ter_bitflags {
     TFLAG_SUPPORTS_ROOF,
     TFLAG_NOITEM,
     TFLAG_SEALED,
+    TFLAG_ALLOW_FIELD_EFFECT,
     TFLAG_LIQUID,
     TFLAG_COLLAPSES,
     TFLAG_FLAMMABLE_ASH,
@@ -163,10 +168,16 @@ enum ter_bitflags {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_HARVESTED,
-    TFLAG_PERMEABLE
+    TFLAG_PERMEABLE,
+    TFLAG_AUTO_WALL_SYMBOL,
+    TFLAG_CONNECT_TO_WALL,
+    TFLAG_CLIMBABLE,
+    TFLAG_GOES_DOWN,
+    TFLAG_GOES_UP,
+    TFLAG_NO_FLOOR,
+
+    NUM_TERFLAGS
 };
-extern std::map<std::string, ter_bitflags> ter_bitflags_map;
-void init_ter_bitflags_map();
 
 typedef int ter_id;
 typedef int furn_id;
@@ -180,8 +191,10 @@ struct map_data_common_t {
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
 
+private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-    unsigned long         bitflags; // bitfield of -certian- string flags which are heavily checked
+    std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+public:
 
     /*
     * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
@@ -201,25 +214,14 @@ struct map_data_common_t {
     bool transparent;
 
     bool has_flag(const std::string & flag) const {
-        return !!flags.count(flag);
+        return flags.count(flag) > 0;
     }
 
     bool has_flag(const ter_bitflags flag) const {
-        return (bitflags & mfb(flag));
+        return bitflags.test( flag );
     }
 
-    void set_flag(std::string flag) {
-        flags.insert( flag );
-
-        if(!transparent && "TRANSPARENT" == flag) {
-            transparent = true;
-        }
-
-        auto const it = ter_bitflags_map.find(flag);
-        if (it != std::end(ter_bitflags_map)) {
-            bitflags |= mfb(it->second);
-        }
-    }
+    void set_flag( const std::string &flag );
 };
 
 /*
@@ -230,6 +232,7 @@ struct ter_t : map_data_common_t {
     std::string trap_id_str;     // String storing the id string of the trap.
     std::string harvestable;     // What will be harvested from this terrain?
     std::string transforms_into; // Transform into what terrain?
+    std::string roof;            // What will be the floor above this terrain?
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
@@ -475,6 +478,109 @@ struct submap {
     void delete_vehicles();
 };
 
+/**
+ * A wrapper for a submap point. Allows getting multiple map features
+ * (terrain, furniture etc.) without directly accessing submaps or
+ * doing multiple bounds checks and submap gets.
+ */
+struct maptile {
+private:
+    friend map; // To allow "sliding" the tile in x/y without bounds checks
+    friend submap;
+    submap *const sm;
+    size_t x;
+    size_t y;
+
+    maptile( submap *sub, const size_t nx, const size_t ny ) :
+        sm( sub ), x( nx ), y( ny ) { }
+public:
+    inline trap_id get_trap() const
+    {
+        return sm->get_trap( x, y );
+    }
+
+    inline furn_id get_furn() const
+    {
+        return sm->get_furn( x, y );
+    }
+
+    inline ter_id get_ter() const
+    {
+        return sm->get_ter( x, y );
+    }
+
+    inline const trap &get_trap_t() const
+    {
+        return sm->get_trap( x, y ).obj();
+    }
+
+    inline const furn_t &get_furn_t() const
+    {
+        return furnlist[ sm->get_furn( x, y ) ];
+    }
+
+    inline const ter_t &get_ter_t() const
+    {
+        return terlist[ sm->get_ter( x, y ) ];
+    }
+
+    inline const field &get_field() const
+    {
+        return sm->fld[x][y];
+    }
+
+    inline field_entry* find_field( const field_id field_to_find )
+    {
+        return sm->fld[x][y].findField( field_to_find );
+    }
+
+    inline bool add_field( const field_id field_to_add, const int new_density, const int new_age )
+    {
+        const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
+        if( ret ) {
+            sm->field_count++;
+        }
+
+        return ret;
+    }
+
+    inline int get_radiation() const
+    {
+        return sm->get_radiation( x, y );
+    }
+
+    inline bool has_graffiti() const
+    {
+        return sm->has_graffiti( x, y );
+    }
+
+    inline const std::string &get_graffiti() const
+    {
+        return sm->get_graffiti( x, y );
+    }
+
+    inline bool has_signage() const
+    {
+        return sm->has_signage( x, y );
+    }
+
+    inline const std::string get_signage() const
+    {
+        return sm->get_signage( x, y );
+    }
+
+    // For map::draw_maptile
+    inline size_t get_item_count() const
+    {
+        return sm->itm[x][y].size();
+    }
+
+    inline const item &get_last_item() const
+    {
+        return sm->itm[x][y].back();
+    }
+};
+
 std::ostream & operator<<(std::ostream &, const submap *);
 std::ostream & operator<<(std::ostream &, const submap &);
 
@@ -553,11 +659,11 @@ extern ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-    t_wall_v, t_wall_h, t_concrete_v, t_concrete_h,
-    t_wall_metal_v, t_wall_metal_h,
-    t_wall_glass_v, t_wall_glass_h,
-    t_wall_glass_v_alarm, t_wall_glass_h_alarm,
-    t_reinforced_glass_v, t_reinforced_glass_h,
+    t_wall, t_concrete_wall,
+    t_wall_metal,
+    t_wall_glass,
+    t_wall_glass_alarm,
+    t_reinforced_glass,
     t_bars,
     t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
     t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
@@ -583,8 +689,8 @@ extern ter_id t_null,
     t_fence_post, t_fence_wire, t_fence_barbed, t_fence_rope,
     t_railing_v, t_railing_h,
     // Nether
-    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
-    t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
+    t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
+    t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
     // Water, lava, etc.
     t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
@@ -629,7 +735,7 @@ furn_id refers to a position in the furnlist[] where the furn_t struct is stored
 about ter_id above.
 */
 extern furn_id f_null,
-    f_hay,
+    f_hay, f_cattails,
     f_rubble, f_rubble_rock, f_wreckage, f_ash,
     f_barricade_road, f_sandbag_half, f_sandbag_wall,
     f_bulletin,
@@ -650,7 +756,9 @@ extern furn_id f_null,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
-    f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_wood_keg,
+    f_standing_tank,
+    f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,

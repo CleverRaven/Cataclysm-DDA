@@ -1,9 +1,132 @@
 #include "game.h"
 #include "player.h"
-#include "armor_layers.h"
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
+#include "item.h"
+#include "translations.h"
+
+#include <vector>
+#include <string>
+
+namespace {
+void draw_mid_pane(WINDOW *win, item const &worn_item);
+
+std::string clothing_layer(item const &worn_item);
+std::vector<std::string> clothing_properties(item const &worn_item, int width);
+std::vector<std::string> clothing_flags_description(item const &worn_item);
+
+void draw_mid_pane(WINDOW *w_sort_middle, item const &worn_item)
+{
+    mvwprintz(w_sort_middle, 0, 1, c_white, worn_item.type_name(1).c_str());
+    int middle_w = getmaxx(w_sort_middle);
+    std::vector<std::string> props = clothing_properties(worn_item, middle_w - 3);
+    size_t i;
+    for (i = 0; i < props.size(); ++i) {
+        // headers are green, info is gray
+        nc_color c = (props[i][0] == '[' ? c_green : c_ltgray);
+        mvwprintz(w_sort_middle, i + 1, 2, c, props[i].c_str());
+    }
+
+    i += 2;
+    i += fold_and_print(w_sort_middle, i, 0, middle_w, c_ltblue,
+                        "%s", clothing_layer(worn_item).c_str());
+
+    std::vector<std::string> desc = clothing_flags_description(worn_item);
+    if (!desc.empty()) {
+        for (size_t j = 0; j < desc.size(); ++j) {
+            i += -1 + fold_and_print(w_sort_middle, i + j, 0, middle_w,
+                                     c_ltblue, "%s", desc[j].c_str());
+        }
+    }
+}
+
+std::string clothing_layer(item const &worn_item)
+{
+    std::string layer;
+
+    if (worn_item.has_flag("SKINTIGHT")) {
+        layer = _("This is worn next to the skin.");
+    } else if (worn_item.has_flag("WAIST")) {
+        layer = _("This is worn on or around your waist.");
+    } else if (worn_item.has_flag("OUTER")) {
+        layer = _("This is worn over your other clothes.");
+    } else if (worn_item.has_flag("BELTED")) {
+        layer = _("This is strapped onto you.");
+    }
+
+    return layer;
+}
+
+std::vector<std::string> clothing_properties(item const &worn_item, int const width)
+{
+    std::vector<std::string> props;
+    props.reserve(9);
+
+    const std::string space = "  ";
+    props.push_back(string_format("[%s]", _("Properties")));
+    props.push_back(name_and_value(space + _("Coverage:"),
+                                   string_format("%3d", worn_item.get_coverage()), width));
+    props.push_back(name_and_value(space + _("Encumbrance:"), string_format("%3d",
+                                   (worn_item.has_flag("FIT")) ? std::max(0, (worn_item.get_encumber() - 10)) :
+                                   worn_item.get_encumber()), width));
+    props.push_back(name_and_value(space + _("Warmth:"),
+                                   string_format("%3d", worn_item.get_warmth()), width));
+    props.push_back(name_and_value(space + _("Storage:"),
+                                   string_format("%3d", worn_item.get_storage()), width));
+    props.push_back(string_format("[%s]", _("Protection")));
+    props.push_back(name_and_value(space + _("Bash:"),
+                                   string_format("%3d", int(worn_item.bash_resist())), width));
+    props.push_back(name_and_value(space + _("Cut:"),
+                                   string_format("%3d", int(worn_item.cut_resist())), width));
+    props.push_back(name_and_value(space + _("Environmental:"),
+                                   string_format("%3d", int(worn_item.get_env_resist())), width));
+
+    return props;
+}
+
+std::vector<std::string> clothing_flags_description(item const &worn_item)
+{
+    std::vector<std::string> description_stack;
+
+    if (worn_item.has_flag("FIT")) {
+        description_stack.push_back(_("It fits you well."));
+    } else if (worn_item.has_flag("VARSIZE")) {
+        description_stack.push_back(_("It could be refitted."));
+    }
+
+    if (worn_item.has_flag("HOOD")) {
+        description_stack.push_back(_("It has a hood."));
+    }
+    if (worn_item.has_flag("POCKETS")) {
+        description_stack.push_back(_("It has pockets."));
+    }
+    if (worn_item.has_flag("WATERPROOF")) {
+        description_stack.push_back(_("It is waterproof."));
+    }
+    if (worn_item.has_flag("WATER_FRIENDLY")) {
+        description_stack.push_back(_("It is water friendly."));
+    }
+    if (worn_item.has_flag("FANCY")) {
+        description_stack.push_back(_("It looks fancy."));
+    }
+    if (worn_item.has_flag("SUPER_FANCY")) {
+        description_stack.push_back(_("It looks really fancy."));
+    }
+    if (worn_item.has_flag("FLOATATION")) {
+        description_stack.push_back(_("You will not drown today."));
+    }
+    if (worn_item.has_flag("OVERSIZE")) {
+        description_stack.push_back(_("It is very bulky."));
+    }
+    if (worn_item.has_flag("SWIM_GOGGLES")) {
+        description_stack.push_back(_("It helps you to see clearly underwater."));
+    }
+
+    return description_stack;
+}
+
+} //namespace
 
 void player::sort_armor()
 {
@@ -168,7 +291,7 @@ void player::sort_armor()
 
         // Items stats
         if (leftListSize) {
-            draw_mid_pane(w_sort_middle, tmp_worn[leftListIndex]);
+            draw_mid_pane(w_sort_middle, *tmp_worn[leftListIndex]);
         } else {
             mvwprintz(w_sort_middle, 0, 1, c_white, _("Nothing to see here!"));
         }
@@ -186,14 +309,13 @@ void player::sort_armor()
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
             }
             true_enc = enc - armorenc;
-            char my_spaces[]    = "   ";    // lol
-            char *spaces        = (char*)&my_spaces;
-            if(true_enc > 9)    ++spaces;
-            if(armorenc > 9)    ++spaces;
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d%s= ", armorenc, true_enc, spaces);
-            wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
+            // well, now I can't use my "Tom is my only friend" joke anymore
+            std::string enc_string = string_format("%3d+%-3d = ", armorenc, true_enc);
+            // TODO: perhaps make (middle_w - 20) something a bit more dynamic? (p.s. originally 'middle_w - 16')
+            mvwprintz(w_sort_middle, cont_h - 12 + i, (middle_w - 20), c_ltgray, enc_string.c_str());
+            wprintz(w_sort_middle, encumb_color(enc), "%-3d" , enc);
             int bodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6, bodytemp_color(i), "(%3d)", bodyTempInt);
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6, bodytemp_color(i), "(% 3d)", bodyTempInt);
         }
 
         // Right header
@@ -344,6 +466,7 @@ void player::sort_armor()
             if(query_yn(_("Remove selected armor?"))) {
                 // remove the item, asking to drop it if necessary
                 takeoff(tmp_worn[leftListIndex]);
+                wrefresh(w_sort_armor);
             }
         } else if (action == "ASSIGN_INVLETS") {
             // prompt first before doing this (yes yes, more popups...)
@@ -398,112 +521,4 @@ The sum of these values is the effective encumbrance value your character has fo
     delwin(w_sort_middle);
     delwin(w_sort_right);
     delwin(w_sort_armor);
-}
-
-void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
-{
-    mvwprintz(w_sort_middle, 0, 1, c_white, worn_item->type_name(1).c_str());
-    int middle_w = getmaxx(w_sort_middle);
-    std::vector<std::string> props = clothing_properties(worn_item, middle_w - 3);
-    size_t i;
-    for (i = 0; i < props.size(); ++i) {
-        // headers are green, info is gray
-        nc_color c = (props[i][0] == '[' ? c_green : c_ltgray);
-        mvwprintz(w_sort_middle, i + 1, 2, c, props[i].c_str());
-    }
-
-    i += 2;
-    i += fold_and_print(w_sort_middle, i, 0, middle_w, c_ltblue,
-                        "%s", clothing_layer(worn_item).c_str());
-
-    std::vector<std::string> desc = clothing_flags_description(worn_item);
-    if (!desc.empty()) {
-        for (size_t j = 0; j < desc.size(); ++j) {
-            i += -1 + fold_and_print(w_sort_middle, i + j, 0, middle_w,
-                                     c_ltblue, "%s", desc[j].c_str());
-        }
-    }
-}
-
-std::string clothing_layer(item *worn_item)
-{
-    std::string layer = "";
-
-    if (worn_item->has_flag("SKINTIGHT")) {
-        layer = _("This is worn next to the skin.");
-    } else if (worn_item->has_flag("WAIST")) {
-        layer = _("This is worn on or around your waist.");
-    } else if (worn_item->has_flag("OUTER")) {
-        layer = _("This is worn over your other clothes.");
-    } else if (worn_item->has_flag("BELTED")) {
-        layer = _("This is strapped onto you.");
-    }
-
-    return layer;
-}
-
-std::vector<std::string> clothing_properties(item *worn_item, int width)
-{
-    std::vector<std::string> props;
-    const std::string space = "  ";
-    props.push_back(string_format("[%s]", _("Properties")));
-    props.push_back(name_and_value(space + _("Coverage:"),
-                                   string_format("%3d", worn_item->get_coverage()), width));
-    props.push_back(name_and_value(space + _("Encumbrance:"), string_format("%3d",
-                                   (worn_item->has_flag("FIT")) ? std::max(0, (worn_item->get_encumber() - 10)) :
-                                   worn_item->get_encumber()), width));
-    props.push_back(name_and_value(space + _("Warmth:"),
-                                   string_format("%3d", worn_item->get_warmth()), width));
-    props.push_back(name_and_value(space + _("Storage:"),
-                                   string_format("%3d", worn_item->get_storage()), width));
-    props.push_back(string_format("[%s]", _("Protection")));
-    props.push_back(name_and_value(space + _("Bash:"),
-                                   string_format("%3d", int(worn_item->bash_resist())), width));
-    props.push_back(name_and_value(space + _("Cut:"),
-                                   string_format("%3d", int(worn_item->cut_resist())), width));
-    props.push_back(name_and_value(space + _("Environmental:"),
-                                   string_format("%3d", int(worn_item->get_env_resist())), width));
-
-    return props;
-}
-
-std::vector<std::string> clothing_flags_description(item *worn_item)
-{
-    std::vector<std::string> description_stack;
-
-    if (worn_item->has_flag("FIT")) {
-        description_stack.push_back(_("It fits you well."));
-    } else if (worn_item->has_flag("VARSIZE")) {
-        description_stack.push_back(_("It could be refitted."));
-    }
-
-    if (worn_item->has_flag("HOOD")) {
-        description_stack.push_back(_("It has a hood."));
-    }
-    if (worn_item->has_flag("POCKETS")) {
-        description_stack.push_back(_("It has pockets."));
-    }
-    if (worn_item->has_flag("WATERPROOF")) {
-        description_stack.push_back(_("It is waterproof."));
-    }
-    if (worn_item->has_flag("WATER_FRIENDLY")) {
-        description_stack.push_back(_("It is water friendly."));
-    }
-    if (worn_item->has_flag("FANCY")) {
-        description_stack.push_back(_("It looks fancy."));
-    }
-    if (worn_item->has_flag("SUPER_FANCY")) {
-        description_stack.push_back(_("It looks really fancy."));
-    }
-    if (worn_item->has_flag("FLOATATION")) {
-        description_stack.push_back(_("You will not drown today."));
-    }
-    if (worn_item->has_flag("OVERSIZE")) {
-        description_stack.push_back(_("It is very bulky."));
-    }
-    if (worn_item->has_flag("SWIM_GOGGLES")) {
-        description_stack.push_back(_("It helps you to see clearly underwater."));
-    }
-
-    return description_stack;
 }

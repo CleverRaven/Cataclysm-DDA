@@ -7,7 +7,7 @@ function testui()
     for _, value in ipairs(selections) do
         ui:addentry(value)
     end
-    ui:query()
+    ui:query(true)
     game.add_msg("You selected: "..selections[ui.selected+1])
 end
 
@@ -23,6 +23,15 @@ function testmon()
     if #monsters > 0 then
         game.add_msg("The first of which is a "..monsters[1]:name())
     end
+end
+
+function testvalues()
+    local p = player:pos()
+    game.add_msg("The player is at " .. p.x .. "," .. p.y .. "," .. p.z)
+    p.x = 10
+    p.y = 11
+    p.z = 3333
+    game.add_msg("The point is now " .. p.x .. "," .. p.y .. "," .. p.z .. " - the player should not have moved!")
 end
 
 function makehungry(player, item, active)
@@ -43,7 +52,7 @@ function monster_move.dog(monster)
             if item:made_of("flesh") then
                 game.add_msg("The dog eats the "..item:tname())
                 monster.hp = monster.hp + 30
-                game.remove_item(monster.posx, monster.posy, item)
+                map:i_rem(monster:pos(), item)
             end
             
             if monster.hp >= monster:max_hp() then

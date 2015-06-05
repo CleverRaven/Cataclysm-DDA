@@ -134,6 +134,50 @@
     {
         "type" : "item_group",
         "subtype": "collection",
+        "id": "mon_zombie_grenadier",
+        "entries":
+        [
+            { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
+            { "item": "bot_grenade_hack", "count-min": 0, "count-max": 3},
+            { "item": "bot_flashbang_hack", "prob": 50},
+            { "item": "bot_gasbomb_hack", "prob": 50}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_grenadier_elite",
+        "entries":
+        [
+            { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
+            { "item": "molle_pack", "damage-min": 1, "damage-max": 4},
+            { "item": "bot_grenade_hack", "count-min": 0, "count-max": 4},
+            { "item": "bot_flashbang_hack", "count-min": 1, "count-max": 2, "prob": 50},
+            { "item": "bot_gasbomb_hack", "count-min": 1, "count-max": 2, "prob": 50},
+            { "item": "bot_c4_hack", "count-min": 1, "count-max": 2, "prob": 20},
+            { "item": "bot_mininuke_hack", "prob": 1}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_armored_death_drops",
+        "entries":
+        [
+            { "item": "power_supply", "count-min": 0, "count-max": 7, "prob": 25},
+            { "item": "element", "count-min": 0, "count-max": 3, "prob": 40},
+            { "item": "cable", "charges-min": 0, "charges-max": 12, "prob": 60},
+            { "item": "transponder", "count-min": 0, "count-max": 1, "prob": 25},
+            { "item": "circuit", "count-min": 0, "count-max": 8, "prob": 40},
+            { "item": "small_lcd_screen", "count-min": 0, "count-max": 2, "prob": 25},
+            { "item": "RAM", "count-min": 0, "count-max": 1, "prob": 25},
+            { "item": "depowered_helmet", "count-min": 0, "count-max": 1, "prob": 20},
+            { "item": "depowered_armor", "count-min": 0, "count-max": 1, "prob": 20}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "mon_zombie_hulk_death_drops",
         "entries":
         [

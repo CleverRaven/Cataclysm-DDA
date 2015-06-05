@@ -1,9 +1,13 @@
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "uistate.h"
 #include "translations.h"
 #include "options.h"
 #include "messages.h"
+#include "morale.h"
+#include "input.h"
+#include "catacharset.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -330,6 +334,9 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
         if (it.invlet != 0) {
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
+        }
+        if (OPTIONS["ITEM_SYMBOLS"]) {
+            item_name = string_format("%c %s", it.symbol(), item_name.c_str());
         }
         trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
     }
@@ -799,14 +806,6 @@ int game::inv_activatable(std::string const &title)
     return display_slice(activatables, title);
 }
 
-int game::inv_type(std::string const &title, item_cat const inv_item_type)
-{
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_category(inv_item_type, u);
-    return display_slice(reduced_inv, title);
-}
-
 int game::inv_for_liquid(const item &liquid, const std::string &title, bool const auto_choose_single)
 {
     u.inv.restack(&u);
@@ -829,35 +828,51 @@ int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
     return display_slice(reduced_inv, title);
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
+std::pair< int, item* > game::inv_map_splice( item_filter filter, const std::string &title )
 {
-    auto here = m.i_at(g->u.posx(), g->u.posy());
+    return inv_map_splice( filter, filter, title );
+}
+
+std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filter ground_filter, const std::string &title )
+{
+    constexpr char first_invlet = '0';
+    constexpr char last_invlet = '9';
+
+    auto here = m.i_at( g->u.pos3() );
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
-    std::vector<item *> ground_containers;
+    std::vector<item *> ground_selectables;
 
-    std::set<std::string> dups;
     for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
-        if( candidate->get_remaining_capacity_for_liquid( liquid ) > 0 ) {
-            if( dups.count( candidate->tname() ) == 0 ) {
+        if( ground_filter( *candidate ) ) {
+            // Check if we can stack the item with an existing one
+            bool stacks = false;
+            for( auto &elem : grounditems ) {
+                if( candidate->stacks_with( elem.back() ) ) {
+                    stacks = true;
+                    elem.push_back( *candidate );
+                    break;
+                }
+            }
+
+            if( !stacks ) {
                 grounditems.push_back( std::list<item>( 1, *candidate ) );
 
-                if( grounditems.size() <= 10 ) {
-                    grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                if( grounditems.size() <= last_invlet - first_invlet + 1 ) {
+                    grounditems.back().front().invlet = first_invlet + grounditems.size() - 1;
                 } else {
                     grounditems.back().front().invlet = ' ';
                 }
-                dups.insert( candidate->tname() );
 
-                ground_containers.push_back( &*candidate );
+                ground_selectables.push_back( &*candidate );
             }
         }
     }
 
-    for (size_t a = 0; a < grounditems.size(); a++) {
+    for( size_t a = 0; a < grounditems.size(); a++ ) {
         // avoid INT_MIN, as it can be confused with "no item at all"
-        grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
+        grounditems_slice.push_back( indexed_invslice::value_type( &grounditems[a], INT_MIN + a + 1) );
     }
     static const item_category category_on_ground(
         "GROUND:",
@@ -867,11 +882,11 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
 
     u.inv.restack(&u);
     u.inv.sort();
-    const indexed_invslice stacks = u.inv.slice_filter_by_capacity_for_liquid(liquid);
+    const indexed_invslice stacks = u.inv.slice_filter_by( inv_filter );
 
-    inventory_selector inv_s(false, true, title);
-    inv_s.make_item_list(grounditems_slice, &category_on_ground);
+    inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(stacks);
+    inv_s.make_item_list(grounditems_slice, &category_on_ground);
     inv_s.prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
@@ -881,29 +896,47 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
 
-        if (item_pos != INT_MIN) {
+        if( item_pos != INT_MIN ) {
             inv_s.set_to_drop(item_pos, 0);
-            return inv_s.first_item;
-        } else if (ch >= '0' && ch <= '9' && (size_t)(ch - '0') < grounditems_slice.size()) {
-            const int ip = ch - '0';
-            return ground_containers[ip];
+            // In the inventory
+            return std::make_pair( item_pos, inv_s.first_item );
+        } else if( ch >= first_invlet && ch <= last_invlet && 
+                   (size_t)(ch - first_invlet) < grounditems_slice.size() ) {
+            const int ip = ch - first_invlet;
+            // One of the (indexed) ground items
+            return std::make_pair( INT_MIN, ground_selectables[ip] );
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
-            return NULL;
+            return std::make_pair( INT_MIN, nullptr );
         } else if (action == "RIGHT" || action == "CONFIRM") {
-
             inv_s.set_selected_to_drop(0);
 
             for( size_t i = 0; i < grounditems_slice.size(); i++) {
                 if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
-                    return ground_containers[i];
+                    // Ground item, may be unindexed
+                    return std::make_pair( INT_MIN, ground_selectables[i] );
                 }
             }
 
-            return inv_s.first_item;
+            // Inventory item or possibly nothing
+            int inv_pos = inv_s.get_selected_item_position();
+            if( inv_pos == INT_MIN ) {
+                return std::make_pair( INT_MIN, nullptr );
+            } else {
+                return std::make_pair( inv_pos, inv_s.first_item );
+            }
         }
     }
+}
+
+item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
+{
+    auto filter = [&]( const item &candidate ) {
+        return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
+    };
+
+    return inv_map_splice( filter, filter, title ).second;
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
@@ -999,18 +1032,22 @@ std::list<std::pair<int, int>> game::multidrop()
     return dropped_pos_and_qty;
 }
 
-void game::compare(int const iCompareX, int const iCompareY)
+void game::compare()
 {
-    int examx, examy;
+    tripoint dir;
+    int &dirx = dir.x;
+    int &diry = dir.y;
 
-    if (iCompareX != -999 && iCompareY != -999) {
-        examx = u.posx() + iCompareX;
-        examy = u.posy() + iCompareY;
-    } else if (!choose_adjacent(_("Compare where?"), examx, examy)) {
-        return;
+    if( choose_direction(_("Compare where?"), dirx, diry ) ) {
+        compare( tripoint( dirx, diry, 0 ) );
     }
+}
 
-    auto here = m.i_at(examx, examy);
+void game::compare( const tripoint &offset )
+{
+    const tripoint examp = u.pos3() + offset;
+
+    auto here = m.i_at( examp );
     typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
@@ -1069,9 +1106,9 @@ void game::compare(int const iCompareX, int const iCompareY)
         if (inv_s.second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;
             std::string sItemLastCh, sItemCh;
-            inv_s.first_item->info(true, &vItemCh);
+            inv_s.first_item->info(true, vItemCh);
             sItemCh = inv_s.first_item->tname();
-            inv_s.second_item->info(true, &vItemLastCh);
+            inv_s.second_item->info(true, vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
             draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
                            sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()

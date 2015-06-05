@@ -42,6 +42,9 @@ enum activity_type {    // expanded this enum for readability
     ACT_HOTWIRE_CAR,
     ACT_AIM,
     ACT_ATM,
+    ACT_START_ENGINES,
+    ACT_OXYTORCH,
+    ACT_WAIT_NPC,
     NUM_ACTIVITIES
 };
 
@@ -65,7 +68,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
-        point placement;
+        std::vector<tripoint> coords;
+        tripoint placement;
         /** If true, the player has been warned of dangerously close monsters with
          * respect to this activity.
          */
@@ -101,9 +105,9 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         bool is_suspendable() const;
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const;
+        void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
 
         void load_legacy(std::stringstream &dump);
 

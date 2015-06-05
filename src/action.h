@@ -6,6 +6,8 @@
 #include <string>
 #include <set>
 
+struct tripoint;
+
 enum action_id {
     ACTION_NULL = 0,
     // Movement
@@ -20,6 +22,7 @@ enum action_id {
     ACTION_MOVE_NW,
     ACTION_MOVE_DOWN,
     ACTION_MOVE_UP,
+    ACTION_TOGGLE_MOVE,
     // Shift view
     ACTION_CENTER,
     ACTION_SHIFT_N,
@@ -118,10 +121,13 @@ action_id action_from_key(char ch);
 // Use the keymap to figure out direction properly
 void get_direction(int &x, int &y, char ch);
 // Get input from the player to choose an adjacent tile (for examine() etc)
-bool choose_adjacent(std::string message, int &x, int &y);
+bool choose_adjacent( std::string message, int &x, int &y );
+bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical = false );
 // Input from player for a direction, not related to the player position
 bool choose_direction(const std::string &message, int &x, int &y);
 bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
+bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical = false );
+bool choose_adjacent_highlight( std::string message, tripoint &offset, action_id action_to_highlight );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x(action_id act);
@@ -133,7 +139,7 @@ std::string press_x(action_id act, std::string key_bound_pre,
 std::string press_x(action_id act, std::string act_desc);
 
 // Helper function to convert co-ordinate delta to a movement direction
-action_id get_movement_direction_from_delta(const int dx, const int dy);
+action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
 
 action_id handle_action_menu(); // Show the action menu.
 
@@ -147,11 +153,11 @@ action_id handle_action_menu(); // Show the action menu.
  * interacted with. "suggest" context-sensitive actions to the
  * user that are currently relevant.
  */
-bool can_interact_at(action_id action, int x, int y);
+bool can_interact_at( action_id action, const tripoint &p );
 
-bool can_butcher_at(int x, int y);
-bool can_move_vertical_at(int x, int y, int movez);
-bool can_examine_at(int x, int y);
+bool can_butcher_at( const tripoint &p );
+bool can_move_vertical_at( const tripoint &p, int movez );
+bool can_examine_at( const tripoint &p );
 
 
 #endif

@@ -35,11 +35,11 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "2": "t_window_domestic",
                 "w": "t_window",
                 "3": "t_door_locked",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -99,7 +99,7 @@
                 { "point": "terrain", "id": "t_door_c", "x": [ 11, 12 ], "y": 12, "repeat": [ 0, 1 ] }
             ],
             "place_vehicles": [
-                { "vehicle": "car_sports", "x": 11, "y": 8, "rotation": 0, "chance": 10  }
+                { "vehicle": "suburban_home", "x": 11, "y": 8, "rotation": 0, "chance": 10  }
             ],
             "place_items": [
                 { "item": "bed", "chance": 80,  "x": [20,21 ], "y": [19,20 ] },

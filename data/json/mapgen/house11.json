@@ -35,8 +35,8 @@
             ],
             "terrain": {
                 " ": "t_floor",
-                "|": "t_wall_v",
-                "-": "t_wall_h",
+                "|": "t_wall",
+                "-": "t_wall",
                 ".": "t_grass",
                 "_": "t_pavement",
                 "#": "t_shrub",
@@ -63,7 +63,7 @@
                 "s": "t_sidewalk",
                 "t": "t_floor",
                 "u": "t_floor",
-                "V": "t_wall_glass_v",
+                "V": "t_wall_glass",
                 "v": "t_window_domestic",
                 "Z": "t_sidewalk",
                 "z": "t_sidewalk"
@@ -96,7 +96,7 @@
             ],
             "comment": "randomly picked from a group ---v",
             "place_vehicles": [
-                { "vehicle": "electric_car", "x": 17, "y": 10, "rotation": 270, "chance": 15 }
+                { "vehicle": "suburban_home", "x": 17, "y": 10, "rotation": 270, "chance": 15 }
             ],
             "place_items": [
                 { "item": "homebooks", "chance": 70, "x": [ 13,13], "y": [ 11,12 ] },

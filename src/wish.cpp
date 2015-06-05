@@ -1,9 +1,16 @@
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "item_factory.h"
 #include "uistate.h"
 #include "monstergenerator.h"
 #include "compatibility.h"
+#include "translations.h"
+#include "input.h"
+#include "monster.h"
+#include "ui.h"
+#include "mutation.h"
 
 #include <sstream>
 
@@ -36,7 +43,7 @@ class wish_mutate_callback: public uimenu_callback
             vTraits.clear();
             pTraits.clear();
         }
-        virtual bool key(int key, int entnum, uimenu *menu)
+        virtual bool key(int key, int entnum, uimenu *menu) override
         {
             if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
@@ -54,7 +61,7 @@ class wish_mutate_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu)
+        virtual void select(int entnum, uimenu *menu) override
         {
             if ( ! started ) {
                 started = true;
@@ -280,7 +287,7 @@ class wish_monster_callback: public uimenu_callback
             wrefresh(w_info);
         }
 
-        virtual bool key(int key, int entnum, uimenu *menu)
+        virtual bool key(int key, int entnum, uimenu *menu) override
         {
             (void)entnum; // unused
             (void)menu;   // unused
@@ -301,7 +308,7 @@ class wish_monster_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu)
+        virtual void select(int entnum, uimenu *menu) override
         {
             if ( ! started ) {
                 started = true;
@@ -331,7 +338,7 @@ class wish_monster_callback: public uimenu_callback
                       _("[/] find, [f]riendly, [h]allucination [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
-        virtual void refresh(uimenu *menu)
+        virtual void refresh(uimenu *menu) override
         {
             (void)menu; // unused
             wrefresh(w_info);
@@ -345,7 +352,7 @@ class wish_monster_callback: public uimenu_callback
         }
 };
 
-void game::wishmonster(int x, int y)
+void game::wishmonster( const tripoint &p )
 {
     const std::map<std::string, mtype *> montypes = MonsterGenerator::generator().get_all_mtypes();
 
@@ -372,17 +379,18 @@ void game::wishmonster(int x, int y)
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
             monster mon = monster(GetMType(wmenu.ret));
+            mon.reset_last_load();
             if (cb->friendly) {
                 mon.friendly = -1;
             }
             if (cb->hallucination) {
                 mon.hallucination = true;
             }
-            point spawn = ( x == -1 && y == -1 ? look_around() : point ( x, y ) );
-            if (spawn.x != -1) {
-                std::vector<point> spawn_points = closest_points_first( cb->group, spawn );
+            tripoint spawn = ( p == tripoint_min ? look_around() : p );
+            if( spawn != tripoint_min ) {
+                std::vector<tripoint> spawn_points = closest_tripoints_first( cb->group, spawn );
                 for( auto spawn_point : spawn_points ) {
-                    mon.spawn(spawn_point.x, spawn_point.y);
+                    mon.spawn( spawn_point );
                     add_zombie(mon);
                 }
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
@@ -406,7 +414,7 @@ class wish_item_callback: public uimenu_callback
             , standard_itype_ids( ids )
         {
         }
-        virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/)
+        virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/) override
         {
             if ( key == 'f' ) {
                 incontainer = !incontainer;
@@ -415,7 +423,7 @@ class wish_item_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu)
+        virtual void select(int entnum, uimenu *menu) override
         {
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
@@ -438,7 +446,7 @@ class wish_item_callback: public uimenu_callback
         }
 };
 
-void game::wishitem( player *p, int x, int y)
+void game::wishitem( player *p, int x, int y, int z)
 {
     if ( p == NULL && x <= 0 ) {
         debugmsg("game::wishitem(): invalid parameters");
@@ -481,7 +489,7 @@ void game::wishitem( player *p, int x, int y)
                 }
                 p->invalidate_crafting_inventory();
             } else if ( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges(x, y, granted);
+                m.add_item_or_charges( tripoint( x, y, z ), granted);
                 wmenu.keypress = 'q';
             }
             if ( amount > 0 ) {
@@ -509,7 +517,7 @@ void game::wishskill(player *p)
     skmenu.text = _("Select a skill to modify");
     skmenu.return_invalid = true;
     skmenu.addentry(0, true, '1', _("Set all skills to..."));
- 
+
     std::vector<int> origskills;
     origskills.reserve(Skill::skills.size());
 

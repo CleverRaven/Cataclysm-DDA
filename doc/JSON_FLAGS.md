@@ -72,6 +72,13 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
+
+Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+```
+-X-    -Y-
+ |      O
+```
 
 ### Examine actions
 
@@ -395,8 +402,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
-- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it with their feet.
-- ```HAND_RIMS``` Similar to 'ENGINE', but requires the player to manually power it with their hands.
+- ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than 'MUSCLE_LEGS').
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
@@ -419,6 +426,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
+- ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 
 ## Ammo
 
@@ -589,7 +597,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```wooled``` - This piece of clothing has a wool lining sewn into it to increase its overall warmth.
+- ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 
 ## Comestibles
 
@@ -656,9 +664,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```EATEN_HOT``` Morale bonus for eating hot.
+- ```EATEN_COLD``` Morale bonus for eating cold.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
-- ```SEED``` Plantable seed for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.
 - ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
@@ -700,6 +708,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
@@ -728,6 +737,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
 
 ## Tools
 
@@ -744,6 +754,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
 - ```RADIOSIGNAL_1``` Activated per radios signal 1.
 - ```RADIOSIGNAL_2``` Activated per radios signal 2.
+- ```RADIOSIGNAL_3``` Activated per radios signal 3.
 - ```BOMB``` It's a radio controlled bomb.
 - ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
 - ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
@@ -753,6 +764,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
+- ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
+- ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
+- ```RADIO_MOD``` The item has been made into a radio-activated item.
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -761,9 +775,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 - ```FIT``` Reduces encumbrance by one.
+- ```COLD``` Item is cold (see EATEN_COLD).
+- ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
+- ```RIGHT``` or ```LEFT``` Item is handed, the flag indicates which side it is for.
 
 ## Books
 
@@ -902,7 +919,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LAW``` Unpack the LAW for firing.
 - ```DEJAR```
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ABSORBENT```
+- ```TOWEL``` Dry your character using the item as towel.
 - ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.
@@ -933,6 +950,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
+- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
+- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
 
 ## Skills
 

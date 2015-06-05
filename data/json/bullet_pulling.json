@@ -54,7 +54,7 @@
         "bullet": "22_lr",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 2]
         ]
     },
@@ -63,7 +63,7 @@
         "bullet": "22_ratshot",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 2]
         ]
     },
@@ -72,7 +72,7 @@
         "bullet": "22_cb",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 1]
         ]
     },
@@ -81,7 +81,7 @@
         "bullet": "22_fmj",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 1],
             ["copper", 2]
         ]

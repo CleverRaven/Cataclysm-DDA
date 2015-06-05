@@ -1,8 +1,11 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include "color.h"
+
 #include <vector>
 #include <string>
+#include <map>
 #include <iosfwd>
 
 /*
@@ -205,10 +208,16 @@ public:
 
     /**
      * Removes the field entry with a type equal to the field_id parameter.
-     * @return The iterator to the field after the removed on.
-     * The result might be the @ref end iterator.
+     * Make sure to decrement the field counter in the submap if (and only if) the
+     * function returns true.
+     * @return True if the field was removed, false if it did not exist in the first place.
      */
-    std::map<field_id, field_entry>::iterator removeField(const field_id field_to_remove);
+    bool removeField( field_id field_to_remove );
+    /**
+     * Make sure to decrement the field counter in the submap.
+     * Removes the field entry, the iterator must point into @ref field_list and must be valid.
+     */
+    void removeField( std::map<field_id, field_entry>::iterator );
 
     //Returns the number of fields existing on the current tile.
     unsigned int fieldCount() const;
@@ -217,8 +226,6 @@ public:
      * Returns the id of the field that should be drawn.
      */
     field_id fieldSymbol() const;
-
-    std::map<field_id, field_entry>::iterator replaceField(field_id old_field, field_id new_field);
 
     //Returns the vector iterator to begin searching through the list.
     std::map<field_id, field_entry>::iterator begin();

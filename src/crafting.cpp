@@ -5,6 +5,8 @@
 #include "json.h"
 #include "input.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "options.h"
 #include "output.h"
 #include "crafting.h"
@@ -13,6 +15,10 @@
 #include "messages.h"
 #include "itype.h"
 #include "rng.h"
+#include "translations.h"
+#include "morale.h"
+#include "npc.h"
+#include "vehicle.h"
 
 #include <queue>
 #include <math.h>    //sqrt
@@ -237,9 +243,12 @@ void load_recipe(JsonObject &jsobj)
     jsarr = jsobj.get_array("book_learn");
     while (jsarr.has_more()) {
         JsonArray ja = jsarr.next_array();
-        std::string book_name = ja.get_string(0);
-        int book_level = ja.get_int(1);
-        rec->booksets.push_back(std::pair<std::string, int>(book_name, book_level));
+        recipe::bookdata_t bd{ ja.get_string( 0 ), ja.get_int( 1 ), "", false };
+        if( ja.size() >= 3 ) {
+            bd.recipe_name = ja.get_string( 2 );
+            bd.hidden = bd.recipe_name.empty();
+        }
+        rec->booksets.push_back( bd );
     }
 
     add_to_component_lookup(rec);
@@ -262,10 +271,8 @@ void finalize_recipes()
 {
     for( auto &recipes_it : recipes ) {
         for( auto r : recipes_it.second ) {
-
             for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
-                const std::string &book_id = j->first;
-                const int skill_level = j->second;
+                const std::string &book_id = j->book_id;
                 if( !item::type_is_defined( book_id ) ) {
                     debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
@@ -276,7 +283,13 @@ void finalize_recipes()
                     debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
-                t->book->recipes[r] = skill_level;
+                islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
+                if( j->recipe_name.empty() ) {
+                    rwd.name = item::nname( r->result );
+                } else {
+                    rwd.name = _( j->recipe_name.c_str() );
+                }
+                t->book->recipes.insert( rwd );
             }
             r->booksets.clear();
         }
@@ -857,7 +870,18 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Search tools or component using prefix t. \nSearch skills using prefix s, or S for skill used only. \n (i.e. \"t:hammer\" or \"c:two by four\" or \"s:cooking\".)"));
+                                              _("Special prefixes:\n"
+                                                "  [t] search tools\n"
+                                                "  [c] search components\n"
+                                                "  [q] search qualities\n"
+                                                "  [s] search skills\n"
+                                                "  [S] search skill used only\n"
+                                                "Examples:\n"
+                                                "  t:hammer\n"
+                                                "  c:two by four\n"
+                                                "  q:butchering\n"
+                                                "  s:cooking"
+                                                ));
             redraw = true;
         } else if (action == "QUIT") {
             chosen = nullptr;
@@ -1125,10 +1149,10 @@ const inventory& player::crafting_inventory()
 {
     if (cached_moves == moves
             && cached_turn == calendar::turn.get_turn()
-            && cached_position == pos()) {
+            && cached_position == pos3()) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map(pos(), PICKUP_RANGE, false);
+    cached_crafting_inventory.form_from_map(pos3(), PICKUP_RANGE, false);
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -1139,7 +1163,7 @@ const inventory& player::crafting_inventory()
     }
     cached_moves = moves;
     cached_turn = calendar::turn.get_turn();
-    cached_position = pos();
+    cached_position = pos3();
     return cached_crafting_inventory;
 }
 
@@ -1209,6 +1233,15 @@ int recipe::batch_time(int batch) const
         return time * batch;
     }
 
+    // NPCs around you should assist in batch production if they have the skills
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (elem->skillLevel(skill_used) >= difficulty)
+                assistants++;
+        }
+    }
+
     double total_time = 0.0;
     double scale = batch_rsize / 6.0; // At batch_rsize, incremental time increase is 99.5% of batch_rscale
     for (int x = 0; x < batch; x++) {
@@ -1216,6 +1249,15 @@ int recipe::batch_time(int batch) const
         double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
         total_time += (double)time * (1.0 - (batch_rscale * logf));
     }
+
+    //Assistants can decrease the time for production but never less than that of one unit
+    if (assistants == 1){
+        total_time = total_time * .75;
+    } else if (assistants >= 2) {
+        total_time = total_time * .60;
+    }
+    if (total_time < time)
+        total_time = time;
 
     return (int)total_time;
 }
@@ -1230,6 +1272,7 @@ void pick_recipes(const inventory &crafting_inv,
     bool search_component = false;
     bool search_skill = false;
     bool search_skill_primary_only = false;
+    bool search_qualities = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -1245,6 +1288,8 @@ void pick_recipes(const inventory &crafting_inv,
                 search_skill = true;
             } else if( elem == 'S' ) {
                 search_skill_primary_only = true;
+            } else if( elem == 'q' ) {
+                search_qualities = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1285,6 +1330,20 @@ void pick_recipes(const inventory &crafting_inv,
                     if( !lcmatch( item::nname( rec->result ), filter ) ) {
                         continue;
                     }
+                }
+                if(search_qualities) {
+                  bool match_found = false;
+                  itype *it = item::find_type(rec->result);
+
+                  for( auto & quality : it->qualities ) {
+                    if (lcmatch(quality::get_name(quality.first), filter)) {
+                      match_found = true;
+                      break;
+                    }
+                  }
+                  if (!match_found) {
+                    continue;
+                  }
                 }
                 if(search_tool) {
                     if( !lcmatch_any( rec->requirements.tools, filter ) ) {
@@ -1447,7 +1506,7 @@ void player::complete_craft()
 
     handedness handed = NONE;
     if (making->paired) {
-        switch( menu(true, ("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL) ) {
+        switch( menu(true, _("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL) ) {
             case 1:
                 handed = LEFT;
                 break;
@@ -1500,8 +1559,28 @@ void player::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        practice( making->skill_used, making->difficulty * 5 + 20,
+        //normalize experience gain to crafting time, giving a bonus for longer crafting
+        practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) ),
                     (int)making->difficulty * 1.25 );
+
+        //NPCs assisting or watching should gain experience...
+        for( auto &elem : g->active_npc ) {
+            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+                //If the NPC can understand what you are doing, they gain more exp
+                if (elem->skillLevel(making->skill_used) >= making->difficulty){
+                    elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
+                    if (batch_size > 1)
+                        add_msg(m_info, _("%s assists with crafting..."), elem->name.c_str());
+                    if (batch_size == 1)
+                        add_msg(m_info, _("%s could assist you with a batch..."), elem->name.c_str());
+                //NPCs around you understand the skill used better
+                } else {
+                    elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .15), (int)making->difficulty * 1.25 );
+                    add_msg(m_info, _("%s watches you craft..."), elem->name.c_str());
+                }
+            }
+        }
+
     }
 
     // Messed up badly; waste some components.
@@ -1561,7 +1640,7 @@ void player::complete_craft()
                 int difficulty = has_recipe( making, crafting_inventory() );
                 if( x_in_y( making->time, (1000 * 8 *
                             ( difficulty * difficulty * difficulty * difficulty ) ) /
-                            ( get_skill_level( making->skill_used ) * get_int() ) ) ) {
+                            ( get_skill_level( making->skill_used ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
                             newit.type_name( 1 ).c_str());
@@ -1662,7 +1741,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     } use_from;
     item_comp selected_comp("", 0);
     inventory map_inv;
-    map_inv.form_from_map(pos(), PICKUP_RANGE);
+    map_inv.form_from_map(pos3(), PICKUP_RANGE);
 
     for( const auto &component : components ) {
         itype_id type = component.type;
@@ -1748,10 +1827,10 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
         }
     }
 
-    const point &loc = pos();
+    const tripoint &loc = pos3();
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
-    int real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
+    long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
     const bool in_container = (selected_comp.count < 0);
     // First try to get everything from the map, than (remaining amount) from player
     if (use_from & use_from_map) {
@@ -1792,7 +1871,7 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
 {
     bool found_nocharge = false;
     inventory map_inv;
-    map_inv.form_from_map(pos(), PICKUP_RANGE);
+    map_inv.form_from_map(pos3(), PICKUP_RANGE);
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
@@ -1818,7 +1897,8 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
         if(map_has.empty()) {
             use_charges(player_has[0].type, player_has[0].count * batch);
         } else {
-            g->m.use_charges(pos(), PICKUP_RANGE, map_has[0].type, map_has[0].count * batch);
+            long quantity = map_has[0].count * batch;
+            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[0].type, quantity);
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1837,10 +1917,10 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
 
         // Get selection via a popup menu
         size_t selection = menu_vec(false, _("Use which tool?"), options, hotkeys) - 1;
-        if (selection < map_has.size())
-            g->m.use_charges(pos(), PICKUP_RANGE,
-                          map_has[selection].type, map_has[selection].count * batch);
-        else {
+        if (selection < map_has.size()) {
+            long quantity = map_has[selection].count * batch;
+            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[selection].type, quantity );
+        } else {
             selection -= map_has.size();
             use_charges(player_has[selection].type, player_has[selection].count * batch);
         }
@@ -1956,7 +2036,7 @@ void player::disassemble(int dis_pos)
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
         (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
-        dis_item->calc_rot(pos());
+        dis_item->calc_rot( global_square_location() );
         if( dis_item->rotten() ||
             (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
             add_msg(m_info, _("It's rotten, I'm not taking that apart."));

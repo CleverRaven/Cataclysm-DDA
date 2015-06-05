@@ -18,6 +18,40 @@
         "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will."
     },{
         "type": "bionic",
+        "id": "bio_plut_filter",
+        "name": "Plutonium Filter",
+        "toggled": true,
+        "act_cost": 1,
+        "react_cost": 1,
+        "time": 2,
+        "description": "This set of tanks and filters allows you to more rapidly extract usable plutonium from slurry for a microreactor."
+    },{
+        "type": "bionic",
+        "id": "bio_plutdump",
+        "name": "Plutonium Purger",
+        "act_cost": 1,
+        "description": "Emergency reactor fuel purge ejects all fuel from your reactor."
+    },{
+        "type": "bionic",
+        "id": "bio_reactor_upgrade",
+        "name": "Reactor Upgrade",
+        "description": "You shouldn't see this."
+    },{
+        "type": "bionic",
+        "id": "bio_reactor",
+        "name": "Microreactor System",
+        "power_source": true,
+        "toggled": true,
+        "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake."
+    },{
+        "type": "bionic",
+        "id": "bio_advreactor",
+        "name": "Advanced Microreactor System",
+        "power_source": true,
+        "toggled": true,
+        "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake."
+    },{
+        "type": "bionic",
         "id": "bio_metabolics",
         "name": "Metabolic Interchange",
         "power_source": true,
@@ -653,7 +687,7 @@
         "id": "bio_meteorologist",
         "name": "Weather Reader",
         "act_cost": 25,
-        "description": "A multitude of scientific instruments and sensors collect environmental data. The data is compiled and presented as a simple readout of the current weather."
+        "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather."
     },{
         "type": "bionic",
         "id": "bio_remote",

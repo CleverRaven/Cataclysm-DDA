@@ -1,6 +1,8 @@
 #include "construction.h"
 
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "output.h"
 #include "player.h"
 #include "inventory.h"
@@ -12,6 +14,13 @@
 #include "veh_interact.h"
 #include "messages.h"
 #include "rng.h"
+#include "trap.h"
+#include "overmapbuffer.h"
+#include "options.h"
+#include "npc.h"
+#include "iuse.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 #include <algorithm>
 #include <map>
@@ -613,7 +622,7 @@ void place_construction(const std::string &desc)
     const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc(desc);
-    std::map<point, construction *> valid;
+    std::map<tripoint, construction *> valid;
     for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
         for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
             if (x == g->u.posx() && y == g->u.posy()) {
@@ -621,15 +630,15 @@ void place_construction(const std::string &desc)
             }
             for( auto &con : cons ) {
                 if( can_construct( con, x, y ) && player_can_build( g->u, total_inv, con ) ) {
-                    valid[point( x, y )] = con;
+                    valid[tripoint( x, y, g->u.posz() )] = con;
                 }
             }
         }
     }
 
     for( auto &elem : valid ) {
-        int x = elem.first.x, y = elem.first.y;
-        g->m.drawsq(g->w_terrain, g->u, x, y, true, false, g->u.posx() + g->u.view_offset_x, g->u.posy() + g->u.view_offset_y);
+        g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
+                     g->u.posx() + g->u.view_offset.x, g->u.posy() + g->u.view_offset.y );
     }
     wrefresh(g->w_terrain);
 
@@ -638,15 +647,15 @@ void place_construction(const std::string &desc)
         return;
     }
 
-    point choice(dirx, diry);
+    tripoint choice( dirx, diry, g->u.posz() );
     if (valid.find(choice) == valid.end()) {
         add_msg(m_info, _("You cannot build there!"));
         return;
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->time, con->id);
-    g->u.activity.placement = choice;
+    g->u.assign_activity(ACT_BUILD, con->adjusted_time(), con->id);
+    g->u.activity.placement =  choice;
 }
 
 void complete_construction()
@@ -654,8 +663,27 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, std::max(built.difficulty, 1) * 10,
-                   (int)(built.difficulty * 1.25) );
+    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                    (int)(built.difficulty * 1.25) );
+                   
+
+    // Friendly NPCs gain exp from assisting or watching...
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            //If the NPC can understand what you are doing, they gain more exp
+            if (elem->skillLevel(built.skill) >= built.difficulty){
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                                    (int)(built.difficulty * 1.25) );
+                add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
+            //NPC near you isn't skilled enough to help
+            } else {
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+                                    (int)(built.difficulty * 1.25) );
+                add_msg(m_info, _("%s watches you work..."), elem->name.c_str());
+            }
+        }
+    }
+                   
     for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
@@ -683,11 +711,12 @@ void complete_construction()
     built.post_special(point(terx, tery));
 }
 
-bool construct::check_empty(point p)
+bool construct::check_empty(point p_arg)
 {
-    return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
-            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y).is_null() &&
-            g->m.i_at(p.x, p.y).empty() && g->m.veh_at(p.x, p.y) == NULL);
+    tripoint p( p_arg, g->u.posz() );
+    return (g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
+            g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
+            g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL);
 }
 
 bool construct::check_support(point p)
@@ -743,7 +772,7 @@ void construct::done_tree(point p)
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
     for( auto &elem : tree ) {
-        g->m.destroy( elem.x, elem.y );
+        g->m.destroy( tripoint( elem.x, elem.y, g->get_levz() ) );
         g->m.ter_set( elem.x, elem.y, t_trunk );
     }
 }
@@ -758,9 +787,28 @@ void construct::done_trunk_plank(point p)
     (void)p; //unused
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
-        item tmplog( "log", int(calendar::turn) );
-        iuse::cut_log_into_planks( &(g->u), &tmplog);
+        iuse::cut_log_into_planks( &(g->u) );
     }
+}
+
+const vpart_str_id &vpart_from_item( const std::string &item_id )
+{
+    for( auto vp : vpart_info::get_all() ) {
+        if( vp->item == item_id && vp->has_flag( "INITIAL_PART" ) ) {
+            return vp->id;
+        }
+    }
+    // The INITIAL_PART flag is optional, if no part (based on the given item) has it, just use the
+    // first part that is based in the given item (this is fine for example if there is only one
+    // such type anyway).
+    for( auto vp : vpart_info::get_all() ) {
+        if( vp->item == item_id ) {
+            return vp->id;
+        }
+    }
+    debugmsg( "item %s used by construction is not base item of any vehicle part!", item_id.c_str() );
+    static const vpart_str_id frame_id( "frame_vertical_2" );
+    return frame_id;
 }
 
 void construct::done_vehicle(point p)
@@ -770,27 +818,14 @@ void construct::done_vehicle(point p)
         name = _("Car");
     }
 
-    vehicle *veh = g->m.add_vehicle ("none", p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p.x, p.y, 270, 0, 0);
 
     if (!veh) {
         debugmsg ("error constructing vehicle");
         return;
     }
     veh->name = name;
-
-    if (g->u.lastconsumed == "hdframe") {
-        veh->install_part (0, 0, "hdframe_vertical_2");
-    } else if (g->u.lastconsumed == "frame_wood") {
-        veh->install_part (0, 0, "frame_wood_vertical_2");
-    } else if (g->u.lastconsumed == "xlframe") {
-        veh->install_part (0, 0, "xlframe_vertical_2");
-    } else if (g->u.lastconsumed == "frame_wood_light") {
-        veh->install_part (0, 0, "frame_wood_light_vertical_2");
-    } else if (g->u.lastconsumed == "foldframe") {
-        veh->install_part (0, 0, "folding_frame");
-    } else {
-        veh->install_part (0, 0, "frame_vertical_2");
-    }
+    veh->install_part( 0, 0, vpart_from_item( g->u.lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -799,6 +834,8 @@ void construct::done_vehicle(point p)
 
 void construct::done_deconstruct(point p)
 {
+    // TODO: Make this the argument
+    tripoint p3( p, g->get_levz() );
     if (g->m.has_furn(p.x, p.y)) {
         furn_t &f = g->m.furn_at(p.x, p.y);
         if (!f.deconstruct.can_do) {
@@ -811,13 +848,13 @@ void construct::done_deconstruct(point p)
             g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
-        g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
+        g->m.spawn_item_list( f.deconstruct.items, p3 );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
         // mysteriously appearing for a sign later built here, remove the
         // writing from the submap.
-        g->m.delete_signage(p.x, p.y);
+        g->m.delete_signage( p3 );
     } else {
         ter_t &t = g->m.ter_at(p.x, p.y);
         if (!t.deconstruct.can_do) {
@@ -836,37 +873,77 @@ void construct::done_deconstruct(point p)
         }
         g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
         add_msg(_("You disassemble the %s."), t.name.c_str());
-        g->m.spawn_item_list(t.deconstruct.items, p.x, p.y);
+        g->m.spawn_item_list( t.deconstruct.items, p3 );
     }
+}
+
+std::vector<point> find_safe_places( point const &center )
+{
+    map &m = g->m;
+    // Determine safe places for the character to get pulled to
+    std::vector<point> safe;
+    for( int i = center.x - 1; i <= center.x + 1; i++ ) {
+        for( int j = center.y - 1; j <= center.y + 1; j++ ) {
+            if( m.move_cost( i, j ) > 0 ) {
+                safe.push_back( point( i, j ) );
+            }
+        }
+    }
+    return safe;
+}
+
+bool catch_with_rope( point const &center )
+{
+    player &u = g->u;
+    std::vector<point> const safe = find_safe_places( center );
+    if( safe.empty() ) {
+        add_msg( m_bad, _( "There's nowhere to pull yourself to, and you fall!" ) );
+        return false;
+    }
+    add_msg( _( "You pull yourself to safety!" ) );
+    int const index = rng( 0, safe.size() - 1 );
+    u.setx( safe[index].x );
+    u.sety( safe[index].y );
+    g->update_map( &u );
+    return true;
+}
+
+int digging_perception( int const offset )
+{
+    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
+    int prox = ( ( g->u.int_cur + g->u.per_cur ) / 2 ) - offset;
+    return std::max( 1, prox );
+}
+
+void unroll_digging( int const numer_of_2x4s )
+{
+    // refund components!
+    if( !g->u.has_trait( "WEB_ROPE" ) ) {
+        item rope( "rope_30", 0 );
+        g->m.add_item_or_charges( g->u.posx(), g->u.posy(), rope );
+    }
+    // presuming 2x4 to conserve lumber.
+    g->m.spawn_item( g->u.posx(), g->u.posy(), "2x4", numer_of_2x4s );
 }
 
 void construct::done_dig_stair(point p)
 {
- tinymap tmpmap;
- // Upper left corner of the current active map (levx/levy) plus half active map width.
- // The player is always in the center tile of that 11x11 square.
- const auto pos_sm = g->global_sm_location();
- tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
-
-    point omtile_align_start(
-        g->m.getlocal( rc.begin_om_pos() )
-    );
-    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
-    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 8 );
-    if (prox <= 0) {
-        prox = 1;
-    }
-  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
-      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
+    int const prox = digging_perception( 10 );
+    for (int i = 0; i < omtilesz; i++) {
+        for (int j = 0; j < omtilesz; j++) {
+          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
           // This ought to catch anything that's open-space
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
+          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
               danger_open = true; // You might not know what's down there!
           }
       }
@@ -875,30 +952,18 @@ void construct::done_dig_stair(point p)
       g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 8);
+              unroll_digging( 8 );
               return;
           }
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 8);
+              unroll_digging( 8 );
               return;
           }
       }
   }
-  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+  if (tmpmap.move_cost( local_tmp.x, local_tmp.y ) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth."));
           g->u.hunger += 15;
@@ -918,10 +983,10 @@ void construct::done_dig_stair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_stairs_up); // and there's the bottom half.
       tmpmap.save();
    }
-   else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
+   else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You strike deeply--above a magma flow!"));
           g->u.hunger += 15;
@@ -959,26 +1024,10 @@ void construct::done_dig_stair(point p)
               add_msg(_("The grappling hook catches something!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
-                  } else {
-                      add_msg(_("You pull yourself to safety!"));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1008,24 +1057,8 @@ void construct::done_dig_stair(point p)
                       add_msg(_("Your web holds firm!"));
                       if (rng(g->u.skillLevel("unarmed"),
                           g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-                          // Determine safe places for the character to get pulled to
-                          std::vector<point> safe;
-                          for (int i = p.x - 1; i <= p.x + 1; i++) {
-                            for (int j = p.y - 1; j <= p.y + 1; j++) {
-                              if (g->m.move_cost(i, j) > 0) {
-                                  safe.push_back(point(i, j));
-                              }
-                            }
-                          }
-                          if (safe.empty()) {
-                              add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                          if( !catch_with_rope( p ) ) {
                               g->vertical_move(-1, true);
-                          } else {
-                              add_msg(_("You pull yourself to safety!"));
-                              int index = rng(0, safe.size() - 1);
-                              g->u.setx( safe[index].x );
-                              g->u.sety( safe[index].y );
-                              g->update_map(&(g->u));
                           }
                       } else {
                             add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1047,26 +1080,11 @@ void construct::done_dig_stair(point p)
               add_msg(_("The rope snags and holds!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
-                      add_msg(_("You pull yourself to safety!"));
                       add_msg(_("The rope gives way and plummets, just as you escape."));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1084,7 +1102,7 @@ void construct::done_dig_stair(point p)
           }
       }
    }
-   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
+   else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth, and break into open space."));
           g->u.hunger += 10; // Less heavy work, but making the ladder's still fatiguing
@@ -1104,7 +1122,7 @@ void construct::done_dig_stair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
       tmpmap.save();
    }
@@ -1112,32 +1130,23 @@ void construct::done_dig_stair(point p)
 
 void construct::done_mine_downstair(point p)
 {
- tinymap tmpmap;
- // Upper left corner of the current active map (levx/levy) plus half active map width.
- // The player is always in the center tile of that 11x11 square.
- const auto pos_sm = g->global_sm_location();
- tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
+    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
-
-    point omtile_align_start(
-        g->m.getlocal( rc.begin_om_pos() )
-    );
-    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
     // Tougher with the noisy J-Hammer though
-    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 10 );
-    if (prox <= 0) {
-        prox = 1;
-    }
-  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
-      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
+    int const prox = digging_perception( 10 );
+    for (int i = 0; i < omtilesz; i++) {
+        for (int j = 0; j < omtilesz; j++) {
+          if (rl_dist(local_tmp.x, local_tmp.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
           // This ought to catch anything that's open-space
-          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
+          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
               danger_open = true; // You might not know what's down there!
           }
       }
@@ -1146,30 +1155,18 @@ void construct::done_mine_downstair(point p)
       g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+              unroll_digging( 12 );
               return;
           }
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+              unroll_digging( 12 );
               return;
           }
       }
   }
-  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+  if (tmpmap.move_cost(local_tmp.x, local_tmp.y) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth."));
           g->u.hunger += 25;
@@ -1189,10 +1186,10 @@ void construct::done_mine_downstair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_stairs_up); // and there's the bottom half.
       tmpmap.save();
    }
-   else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
+   else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You delve down directly above a magma flow!"));
           g->u.hunger += 25;
@@ -1230,26 +1227,10 @@ void construct::done_mine_downstair(point p)
               add_msg(_("The grappling hook catches something!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
-                  } else {
-                      add_msg(_("You pull yourself to safety!"));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1279,24 +1260,8 @@ void construct::done_mine_downstair(point p)
                       add_msg(_("Your web holds firm!"));
                       if (rng(g->u.skillLevel("unarmed"),
                           g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-                          // Determine safe places for the character to get pulled to
-                          std::vector<point> safe;
-                          for (int i = p.x - 1; i <= p.x + 1; i++) {
-                            for (int j = p.y - 1; j <= p.y + 1; j++) {
-                              if (g->m.move_cost(i, j) > 0) {
-                                  safe.push_back(point(i, j));
-                              }
-                            }
-                          }
-                          if (safe.empty()) {
-                              add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                          if( !catch_with_rope( p ) ) {
                               g->vertical_move(-1, true);
-                          } else {
-                              add_msg(_("You pull yourself to safety!"));
-                              int index = rng(0, safe.size() - 1);
-                              g->u.setx( safe[index].x );
-                              g->u.sety( safe[index].y );
-                              g->update_map(&(g->u));
                           }
                       } else {
                             add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1318,26 +1283,11 @@ void construct::done_mine_downstair(point p)
               add_msg(_("The rope snags and holds!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
-              // Determine safe places for the character to get pulled to
-              std::vector<point> safe;
-                  for (int i = p.x - 1; i <= p.x + 1; i++) {
-                    for (int j = p.y - 1; j <= p.y + 1; j++) {
-                      if (g->m.move_cost(i, j) > 0) {
-                          safe.push_back(point(i, j));
-                      }
-                    }
-                  }
-                  if (safe.empty()) {
-                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
+                  if( !catch_with_rope( p ) ) {
                       g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
-                      add_msg(_("You pull yourself to safety!"));
                       add_msg(_("The rope gives way and plummets, just as you escape."));
-                      int index = rng(0, safe.size() - 1);
-                      g->u.setx( safe[index].x );
-                      g->u.sety( safe[index].y );
-                      g->update_map(&(g->u));
                   }
               } else {
                     add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
@@ -1355,7 +1305,7 @@ void construct::done_mine_downstair(point p)
           }
       }
    }
-   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
+   else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth, and break into open space."));
           g->u.hunger += 20; // Less heavy work, but making the ladder's still fatiguing
@@ -1375,7 +1325,7 @@ void construct::done_mine_downstair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
+      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
       tmpmap.save();
    }
@@ -1383,28 +1333,19 @@ void construct::done_mine_downstair(point p)
 
 void construct::done_mine_upstair(point p)
 {
- tinymap tmpmap;
- // Upper left corner of the current active map (levx/levy) plus half active map width.
- // The player is always in the center tile of that 11x11 square.
- const auto pos_sm = g->global_sm_location();
- tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
+    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
+    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
  bool danger_lava = false;
  bool danger_open = false;
  bool danger_liquid = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
-
-    point omtile_align_start(
-        g->m.getlocal( rc.begin_om_pos() )
-    );
-    // Smart and perceptive folks can pick up on Bad Stuff Above farther out
     // Tougher with the noisy J-Hammer though
-    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 10 );
-    if (prox <= 0) {
-        prox = 1;
-    }
-  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
-      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
+    int const prox = digging_perception( 10 );
+    for (int i = 0; i < omtilesz; i++) {
+        for (int j = 0; j < omtilesz; j++) {
           if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
@@ -1424,36 +1365,18 @@ void construct::done_mine_upstair(point p)
       g->m.ter_set(p.x, p.y, t_rock_floor); // You dug a bit before discovering the problem
       if (danger_lava) {
           add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
-          // refund components!
-          if (!(g->u.has_trait("WEB_ROPE"))) {
-              item rope("rope_30", 0);
-              g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-          }
-          // presuming 2x4 to conserve lumber.
-          g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+        unroll_digging( 12 );
           return;
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              // refund components!
-              if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope("rope_30", 0);
-                  g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-              }
-              // presuming 2x4 to conserve lumber.
-              g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+            unroll_digging( 12 );
               return;
           }
       }
       if (danger_liquid) {
           add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
-          // refund components!
-          if (!(g->u.has_trait("WEB_ROPE"))) {
-              item rope("rope_30", 0);
-              g->m.add_item_or_charges(g->u.posx(), g->u.posy(), rope);
-          }
-          // presuming 2x4 to conserve lumber.
-          g->m.spawn_item(g->u.posx(), g->u.posy(),"2x4", 12);
+        unroll_digging( 12 );
           return;
       }
   }
@@ -1635,9 +1558,40 @@ int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
+float construction::time_scale() const
+{
+    //incorporate construction time scaling
+    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]) == 0 ) {
+        return calendar::season_ratio();
+    }else{
+        return 100.0 / int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]);
+    }
+}
+
+int construction::adjusted_time() const
+{
+    int basic = time;
+    int assistants = 0;                
+    
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (elem->skillLevel(skill) >= difficulty)
+                assistants++;
+        }
+    }
+    for( int i = 0; i < assistants; i++ )
+        basic = basic * .75;
+    if (basic <= time * .4)
+        basic = time * .4;
+        
+    basic *= time_scale();
+    
+    return basic;
+}
+
 std::string construction::get_time_string() const
 {
-    const int turns = time / 100;
+    const int turns = adjusted_time() / 100;
     std::string text;
     if( turns < MINUTES( 1 ) ) {
         const int seconds = std::max( 1, turns * 6 );

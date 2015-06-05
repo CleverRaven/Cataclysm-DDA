@@ -4,7 +4,6 @@
 #include "damage.h"
 #include "pldata.h"
 #include "skill.h"
-#include "bionics.h"
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
@@ -57,7 +56,7 @@ class Creature
         virtual void reset_bonuses();
         /** Resets creature stats to normal levels for the start of each turn. Should be idempotent. */
         virtual void reset_stats();
-        
+
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
@@ -106,12 +105,16 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresenham_slope ) const;
+        virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
+        bool sees( const Creature &critter, int &bresenham_slope ) const;
         bool sees( const Creature &critter ) const;
         bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool sees( int tx, int ty ) const;
-        virtual bool sees( point t, int &bresenham_slope ) const;
+        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        bool sees( const tripoint &t, int &bresen1 ) const;
+        bool sees( const tripoint &t ) const;
         bool sees( point t ) const;
+
         /*@}*/
 
         /**
@@ -140,21 +143,23 @@ class Creature
         /** Make a single melee attack with the currently equipped weapon against the targeted
          *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
         virtual void melee_attack(Creature &t, bool allow_special,
-                                  matec_id technique) = 0;
+                                  const matec_id & technique) = 0;
+        /**
+         * Calls the to other melee_attack function with an empty technique id (meaning no specific
+         * technique should be used).
+         */
+        void melee_attack(Creature &t, bool allow_special);
 
-        /** Fires a projectile at the target point from the source point with total_dispersion
-         *  dispersion. Returns the rolled dispersion of the shot. */
-        virtual double projectile_attack(const projectile &proj, int sourcex, int sourcey,
-                                         int targetx, int targety, double total_dispersion);
+        /** 
+         *  Fires a projectile at the target point from the source point with total_dispersion
+         *  dispersion.
+         *  Returns the rolled dispersion of the shot and the actually hit point.
+         */
+        std::pair<double, tripoint> projectile_attack( const projectile &proj, const tripoint &source,
+                                                       const tripoint &target, double total_dispersion );
         /** Overloaded version that assumes the projectile comes from this Creature's postion. */
-        virtual double projectile_attack(const projectile &proj, int targetx, int targety,
-                                         double total_dispersion);
-
-        /*
-        // instantly deals damage at the target point
-        virtual int smite_attack(game* g, projectile &proj, int targetx, int targety,
-                std::set<std::string>& proj_effects);
-                */
+        std::pair<double, tripoint> projectile_attack( const projectile &proj, const tripoint &target,
+                                                       double total_dispersion );
 
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
@@ -168,7 +173,7 @@ class Creature
         virtual void absorb_hit(body_part bp, damage_instance &dam) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        virtual void knock_back_from(int posx, int posy) = 0;
+        virtual void knock_back_from( const tripoint &p ) = 0;
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
@@ -204,6 +209,18 @@ class Creature
         // increase pain, apply effects, etc
         virtual void apply_damage(Creature *source, body_part bp, int amount) = 0;
 
+        /**
+         * This creature just dodged an attack - possibly special/ranged attack - from source.
+         * Players should train dodge, monsters may use some special defenses.
+         */
+        virtual void on_dodge( Creature *source, int difficulty = INT_MIN ) = 0;
+        /**
+         * This creature just got hit by an attack - possibly special/ranged attack - from source.
+         * Players should train dodge, possibly counter-attack somehow.
+         */
+        virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
+                             int difficulty = INT_MIN, projectile const* const proj = nullptr ) = 0;
+
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
@@ -212,6 +229,13 @@ class Creature
         virtual bool is_hallucination() const = 0;
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
+
+        // Resistances
+        bool is_immune( const std::string &type ) const;
+        virtual bool is_elec_immune() const = 0;
+        virtual bool is_immune_effect( const std::string &type ) const = 0;
+        virtual bool is_immune_damage( const damage_type type ) const = 0;
+
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
          * You can either call this function after hitting this creature, or let the game
@@ -227,32 +251,34 @@ class Creature
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual const point &pos() const = 0;
-        // This should eventually replace the regular pos() above
-        virtual const tripoint pos3() const  {
-            return tripoint( pos(), posz() );
+        virtual const tripoint &pos() const = 0;
+
+        virtual const tripoint &pos3() const
+        {
+            return pos();
         }
 
         struct compare_by_dist_to_point {
-            point center;
+            tripoint center;
             // Compare the two creatures a and b by their distance to a fixed center point.
             // The nearer creature is considered smaller and sorted first.
             bool operator()( const Creature *a, const Creature *b ) const;
         };
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
-        virtual bool move_effects();
+        virtual bool move_effects(bool attacking);
 
         /** Handles effect application effects. */
         virtual void add_eff_effects(effect e, bool reduced);
 
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect(efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
-                                int intensity = 0);
+        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+                                 int intensity = 0, bool force = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
-                            body_part bp = num_bp, bool permanent = false, int intensity = 1);
+        bool add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+                             bool force = false );
         /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
          *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
         bool remove_effect(efftype_id eff_id, body_part bp = num_bp);
@@ -288,6 +314,9 @@ class Creature
         virtual void set_moves(int nmoves);
 
         virtual bool in_sleep_state() const;
+
+        virtual int stability_roll() const = 0;
+        //Returns true if the target will be moved
 
         /*
          * Get/set our killer, this is currently used exclusively to allow
@@ -355,6 +384,8 @@ class Creature
             return false;
         };
 
+        virtual body_part get_random_body_part( bool main = false ) const = 0;
+
         virtual int get_speed_base() const;
         virtual int get_dodge_base() const;
         virtual int get_hit_base() const;
@@ -370,6 +401,7 @@ class Creature
 
         virtual bool get_melee_quiet() const;
         virtual int get_grab_resist() const;
+        virtual bool has_grab_break_tec() const = 0;
         virtual int get_throw_resist() const;
 
         /*
@@ -419,13 +451,6 @@ class Creature
 
         virtual int weight_capacity() const;
 
-        /*
-         * Event handlers
-         */
-
-        virtual void on_gethit(Creature *source, body_part bp_hit,
-                               damage_instance &dam);
-
         // innate stats, slowly move these to protected as we rewrite more of
         // the codebase
         int str_max, dex_max, per_max, int_max,
@@ -435,6 +460,7 @@ class Creature
         bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
+        void draw(WINDOW *w, const tripoint &plp, bool inv) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

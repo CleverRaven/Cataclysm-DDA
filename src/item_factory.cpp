@@ -1,4 +1,4 @@
-#include "item_factory.h"
+﻿#include "item_factory.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -11,6 +11,11 @@
 #include "debug.h"
 #include "construction.h"
 #include "text_snippets.h"
+#include "ui.h"
+#include "skill.h"
+#include "bionics.h"
+#include "material.h"
+#include "artifact.h"
 #include <algorithm>
 #include <sstream>
 
@@ -284,6 +289,7 @@ void Item_factory::init()
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
+    iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
     iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
@@ -293,6 +299,7 @@ void Item_factory::init()
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
+    iuse_function_list["RADIO_MOD"] = &iuse::radio_mod;
     iuse_function_list["FISH_ROD"] = &iuse::fishing_rod;
     iuse_function_list["FISH_TRAP"] = &iuse::fish_trap;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
@@ -329,8 +336,6 @@ void Item_factory::init()
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
-
-    init_old();
 }
 
 void Item_factory::create_inital_categories()
@@ -416,7 +421,7 @@ void Item_factory::check_definitions() const
             }
         }
         for( const auto &_a : type->techniques ) {
-            if( ma_techniques.count( _a ) == 0 ) {
+            if( !_a.is_valid() ) {
                 msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
             }
         }
@@ -442,6 +447,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
             }
         }
+        if( type->seed ) {
+            if( !has_template( type->seed->fruit_id ) ) {
+                msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
+            }
+            for( auto & b : type->seed->byproducts ) {
+                if( !has_template( b ) ) {
+                    msg << string_format( "invalid byproduct id %s", b.c_str() ) << "\n";
+                }
+            }
+        }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
@@ -465,7 +480,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->bionic ) {
-            if( bionics.count( type->bionic->bionic_id ) == 0 ) {
+            if (!is_valid_bionic(type->bionic->bionic_id)) {
                 msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }
@@ -562,6 +577,12 @@ void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonO
     load_slot( slotptr, slotjo );
 }
 
+void Item_factory::load( islot_software &slot, JsonObject &jo )
+{
+    slot.type = jo.get_string( "type" );
+    slot.power = jo.get_int( "power" );
+}
+
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
@@ -588,9 +609,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
     slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
-    // TODO: implement loading this from json (think of a proper name)
-    // Or calculate it automatically, see item::noise and ranged.cpp
-    // slot.loudness = jo.get_string( "loudness", 0 );
+    slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion" );
@@ -601,6 +620,8 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size" );
     slot.reload_time = jo.get_int( "reload" );
+    slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
+    slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
@@ -746,9 +767,6 @@ void Item_factory::load_comestible(JsonObject &jo)
     }
     comest_template->fun = jo.get_int("fun", 0);
 
-    //Default to 91 as an approximation of a real world season length.
-    comest_template->grow = jo.get_int("grow", 91);
-
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
     itype *new_item_template = comest_template;
@@ -761,6 +779,15 @@ void Item_factory::load_container(JsonObject &jo)
     itype *new_item_template = new itype();
     load_slot( new_item_template->container, jo );
     load_basic_info( jo, new_item_template );
+}
+
+void Item_factory::load( islot_seed &slot, JsonObject &jo )
+{
+    slot.grow = jo.get_int( "grow" );
+    slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.fruit_id = jo.get_string( "fruit" );
+    slot.spawn_seeds = jo.get_bool( "seeds", true );
+    slot.byproducts = jo.get_string_array( "byproducts" );
 }
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )
@@ -952,7 +979,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         set_properties_from_json(jo, "properties", new_item_template);
     }
 
-    new_item_template->techniques = jo.get_tags("techniques");
+    for( auto & s : jo.get_tags( "techniques" ) ) {
+        new_item_template->techniques.insert( matec_id( s ) );
+    }
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
@@ -970,6 +999,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->bionic, jo, "bionic_data" );
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
+    load_slot_optional( new_item_template->seed, jo, "seed_data" );
+    load_slot_optional( new_item_template->software, jo, "software_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1395,64 +1426,35 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
         // global defined in bodypart.h
         if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
             return;
-        } else if (new_flag == "ARMS" || new_flag == "HANDS" || new_flag == "LEGS" || new_flag == "FEET") {
-            std::vector<std::string> parts;
-            if (new_flag == "ARMS") {
-                parts.push_back("ARM_L");
-                parts.push_back("ARM_R");
-            } else if (new_flag == "HANDS") {
-                parts.push_back("HAND_L");
-                parts.push_back("HAND_R");
-            } else if (new_flag == "LEGS") {
-                parts.push_back("LEG_L");
-                parts.push_back("LEG_R");
-            } else if (new_flag == "FEET") {
-                parts.push_back("FOOT_L");
-                parts.push_back("FOOT_R");
-            }
-            for( auto &part : parts ) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter =
-                    body_parts.find( part );
-                if (found_flag_iter != body_parts.end()) {
-                    cur_flags.set(found_flag_iter->second);
-                } else {
-                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-                }
-            }
+        } else if( new_flag == "ARMS" ) {
+            cur_flags.set( bp_arm_l );
+            cur_flags.set( bp_arm_r );
+        } else if( new_flag == "HANDS" ) {
+            cur_flags.set( bp_hand_l );
+            cur_flags.set( bp_hand_r );
+        } else if( new_flag == "LEGS" ) {
+            cur_flags.set( bp_leg_l );
+            cur_flags.set( bp_leg_r );
+        } else if( new_flag == "FEET" ) {
+            cur_flags.set( bp_foot_l );
+            cur_flags.set( bp_foot_r );
         } else {
-            std::map<std::string, body_part>::const_iterator found_flag_iter = body_parts.find(new_flag);
-            if (found_flag_iter != body_parts.end()) {
-                cur_flags.set(found_flag_iter->second);
-            } else {
-                debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-            }
+            cur_flags.set( get_body_part_token( new_flag ) );
         }
     } else if (flag_type == "sided") {
         // global defined in bodypart.h
-        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
-            std::vector<std::string> parts;
-            if (new_flag == "ARM") {
-                parts.push_back("ARM_L");
-                parts.push_back("ARM_R");
-            } else if (new_flag == "HAND") {
-                parts.push_back("HAND_L");
-                parts.push_back("HAND_R");
-            } else if (new_flag == "LEG") {
-                parts.push_back("LEG_L");
-                parts.push_back("LEG_R");
-            } else if (new_flag == "FOOT") {
-                parts.push_back("FOOT_L");
-                parts.push_back("FOOT_R");
-            }
-            for( auto &part : parts ) {
-                std::map<std::string, body_part>::const_iterator found_flag_iter =
-                    body_parts.find( part );
-                if (found_flag_iter != body_parts.end()) {
-                    cur_flags.set(found_flag_iter->second);
-                } else {
-                    debugmsg("Invalid item bodyparts flag: %s", new_flag.c_str());
-                }
-            }
+        if( new_flag == "ARM" ) {
+            cur_flags.set( bp_arm_l );
+            cur_flags.set( bp_arm_r );
+        } else if( new_flag == "HAND" ) {
+            cur_flags.set( bp_hand_l );
+            cur_flags.set( bp_hand_r );
+        } else if( new_flag == "LEG" ) {
+            cur_flags.set( bp_leg_l );
+            cur_flags.set( bp_leg_r );
+        } else if( new_flag == "FOOT" ) {
+            cur_flags.set( bp_foot_l );
+            cur_flags.set( bp_foot_r );
         }
     }
 

@@ -5,7 +5,11 @@
 #include "color.h"
 #include "field.h"
 #include "bodypart.h"
+#include "string_id.h"
 #include <limits.h>
+
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 class JsonObject;
 
@@ -59,8 +63,8 @@ class iuse_transform : public iuse_actor
         }
         virtual ~iuse_transform();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -90,9 +94,9 @@ class auto_iuse_transform : public iuse_transform
         {
         }
         virtual ~auto_iuse_transform();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual void load( JsonObject &jo ) override;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -153,8 +157,8 @@ class explosion_iuse : public iuse_actor
         }
         virtual ~explosion_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -163,8 +167,9 @@ class explosion_iuse : public iuse_actor
 class unfold_vehicle_iuse : public iuse_actor
 {
     public:
-        /** Vehicle name (@see map::add_vehicle what it expects). */
-        std::string vehicle_name;
+        /** Id of the vehicle prototype (@see map::add_vehicle what it expects) that will be
+         * created when unfolding the item. */
+        vproto_id vehicle_id;
         /** Message shown after successfully unfolding the item. */
         std::string unfold_msg;
         /** Creature::moves it takes to unfold. */
@@ -177,8 +182,8 @@ class unfold_vehicle_iuse : public iuse_actor
         }
         virtual ~unfold_vehicle_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /** Used in consume_drug_iuse for storing effect data. */
@@ -215,8 +220,8 @@ class consume_drug_iuse : public iuse_actor
         consume_drug_iuse() : iuse_actor() { }
         virtual ~consume_drug_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -244,9 +249,9 @@ class delayed_transform_iuse : public iuse_transform
 
         delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
         virtual ~delayed_transform_iuse();
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, point ) const;
-        virtual iuse_actor *clone() const;
+        virtual void load( JsonObject &jo ) override;
+        virtual long use( player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -275,8 +280,8 @@ class place_monster_iuse : public iuse_actor
         place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
         virtual ~place_monster_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -297,8 +302,8 @@ class ups_based_armor_actor : public iuse_actor
         ups_based_armor_actor() : iuse_actor() { }
         virtual ~ups_based_armor_actor();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -315,8 +320,8 @@ class pick_lock_actor : public iuse_actor
         pick_lock_actor() : iuse_actor(), pick_quality( 0 ) { }
         virtual ~pick_lock_actor();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -340,13 +345,13 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const std::string &target, int reveal_distance ) const;
+        void reveal_targets( tripoint const & center, const std::string &target, int reveal_distance ) const;
 
         reveal_map_actor() : iuse_actor(), radius( 0 ) { }
         virtual ~reveal_map_actor();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -360,15 +365,15 @@ class firestarter_actor : public iuse_actor
          */
         int moves_cost;
 
-        static bool prep_firestarter_use( const player *p, const item *it, point &pos );
-        static void resolve_firestarter_use( const player *p, const item *, const point &pos );
+        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
+        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
 
         firestarter_actor() : iuse_actor(), moves_cost( 0 ) { }
         virtual ~firestarter_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -386,10 +391,10 @@ class extended_firestarter_actor : public firestarter_actor
 
         extended_firestarter_actor() : firestarter_actor(), need_sunlight( false ) { }
         virtual ~extended_firestarter_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual void load( JsonObject &jo ) override;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -414,8 +419,8 @@ class salvage_actor : public iuse_actor
         salvage_actor() : iuse_actor(), moves_per_part( 25 ) { }
         virtual ~salvage_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -443,8 +448,8 @@ class inscribe_actor : public iuse_actor
         inscribe_actor() : iuse_actor(), on_items( true ), on_terrain( false ), material_restricted( true ) { }
         virtual ~inscribe_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -461,8 +466,8 @@ class cauterize_actor : public iuse_actor
         cauterize_actor() : iuse_actor(), flame( true ) { }
         virtual ~cauterize_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -474,9 +479,9 @@ class enzlave_actor : public iuse_actor
         enzlave_actor() : iuse_actor() { }
         virtual ~enzlave_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -497,9 +502,9 @@ class fireweapon_off_actor : public iuse_actor
         fireweapon_off_actor() : iuse_actor(), noise(0), moves(0), success_chance(INT_MIN) { }
         virtual ~fireweapon_off_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -520,8 +525,8 @@ class fireweapon_on_actor : public iuse_actor
         fireweapon_on_actor() : iuse_actor(), noise(0), noise_chance(1) { }
         virtual ~fireweapon_on_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -558,9 +563,9 @@ class musical_instrument_actor : public iuse_actor
         musical_instrument_actor() = default;
         virtual ~musical_instrument_actor() = default;
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 #endif

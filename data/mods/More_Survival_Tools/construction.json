@@ -1,0 +1,37 @@
+[
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Pine Lean-To",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 90,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 },
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "stick", 6 ], [ "2x4", 3 ] ]
+        ],
+        "pre_terrain" : "t_tree_pine",
+        "post_terrain" : "t_leanto"
+    },
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Tarp Lean-To",
+        "category" : "CONSTRUCT",
+        "difficulty" : 1,
+        "time" : 50,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "pointy_stick", 4 ] ],
+            [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+            [ [ "tarp", 1 ] ]
+        ],
+        "pre_flags" : [ "DIGGABLE", "FLAT" ],
+        "post_terrain" : "t_tarptent"
+    }
+  ]

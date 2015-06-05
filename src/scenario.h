@@ -4,14 +4,15 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "pldata.h"
-#include "addiction.h"
-#include "start_location.h"
-#include "skill.h"
-#include "profession.h"
-#include "json.h"
+#include <set>
 
 class scenario;
+class profession;
+class player;
+class JsonArray;
+class JsonObject;
+class addiction;
+enum add_type : int;
 
 typedef std::map<std::string, scenario> scenmap;
 

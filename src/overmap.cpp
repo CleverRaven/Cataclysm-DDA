@@ -4,13 +4,15 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <cstring>
+#include <ostream>
+#include <queue>
+
 #include "overmap.h"
 #include "rng.h"
 #include "line.h"
 #include "game.h"
 #include "npc.h"
-#include <cstring>
-#include <ostream>
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
@@ -19,10 +21,12 @@
 #include "action.h"
 #include "input.h"
 #include "json.h"
-#include <queue>
 #include "mapdata.h"
 #include "mapgen.h"
 #include "uistate.h"
+#include "mongroup.h"
+#include "name.h"
+#include "translations.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -70,9 +74,17 @@ std::vector<oter_t> oterlist;
 
 std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
-std::unordered_map<std::string, regional_settings> region_settings_map;
+t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
+
+city::city( int const X, int const Y, int const S)
+: x (X)
+, y (Y)
+, s (S)
+, name( Name::get( nameIsTownName ) )
+{
+}
 
 void load_overmap_specials(JsonObject &jo)
 {
@@ -121,7 +133,7 @@ void load_overmap_specials(JsonObject &jo)
 
     if(jo.has_object("spawns")) {
         JsonObject spawns = jo.get_object("spawns");
-        spec.spawns.group = spawns.get_string("group");
+        spec.spawns.group = mongroup_id( spawns.get_string("group") );
         spec.spawns.min_population = spawns.get_array("population").get_int(0);
         spec.spawns.max_population = spawns.get_array("population").get_int(1);
         spec.spawns.min_radius = spawns.get_array("radius").get_int(0);
@@ -168,7 +180,7 @@ bool road_allowed(const oter_id &ter)
 /*
  * Pick an oter_baseid from weightlist and return rotated oter_id
  */
-oter_id shop(int dir, oter_weight_list &weightlist )
+oter_id shop(int dir, weighted_int_list<oter_weight> &weightlist )
   // todo: rename to something better than 'shop', make it an oter_weight_list method?
 {
     if ( dir > 3 ) {
@@ -180,7 +192,8 @@ oter_id shop(int dir, oter_weight_list &weightlist )
     if (dir < 0) {
         dir += 4;
     }
-    const int ret = weightlist.pick();
+
+    const int ret = weightlist.pick()->ot_iid;
 
     if ( oterlist[ ret ].has_flag(rotates) == false ) {
         return ret;
@@ -318,7 +331,7 @@ void load_overmap_terrain(JsonObject &jo)
 
     if( jo.has_object( "spawns" ) ) {
         JsonObject spawns = jo.get_object( "spawns" );
-        oter.static_spawns.group = spawns.get_string( "group" );
+        oter.static_spawns.group = mongroup_id( spawns.get_string( "group" ) );
         oter.static_spawns.min_population = spawns.get_array( "population" ).get_int( 0 );
         oter.static_spawns.max_population = spawns.get_array( "population" ).get_int( 1 );
         oter.static_spawns.chance = spawns.get_int( "chance" );
@@ -451,8 +464,6 @@ void finalize_overmap_terrain( )
     }
 }
 
-
-
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -572,7 +583,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.shops.add_item( key, wjo.get_int( key ) );
+                        new_region.city_spec.shops.add({key, -1}, wjo.get_int( key ) );
                     }
                 }
             }
@@ -587,7 +598,7 @@ void load_region_settings( JsonObject &jo )
             for( const auto &key : keys ) {
                 if( key != "//" ) {
                     if( wjo.has_int( key ) ) {
-                        new_region.city_spec.parks.add_item( key, wjo.get_int( key ) );
+                        new_region.city_spec.parks.add({key, -1}, wjo.get_int( key ) );
                     }
                 }
             }
@@ -601,6 +612,140 @@ void reset_region_settings()
     region_settings_map.clear();
 }
 
+/*
+    Entry point for parsing "region_overlay" json objects.
+        Will loop through and apply the overlay to each of the overlay's regions.
+*/
+void load_region_overlay(JsonObject &jo)
+{
+    if (jo.has_array("regions")) {
+        JsonArray regions = jo.get_array("regions");
+
+        while (regions.has_more()) {
+            std::string regionid = regions.next_string();
+
+            if(regionid == "all") {
+                if(regions.size() != 1) {
+                    jo.throw_error("regions: More than one region is not allowed when \"all\" is used");
+                }
+
+                for(auto &itr : region_settings_map) {
+                    apply_region_overlay(jo, itr.second);
+                }
+            }
+            else {
+                auto itr = region_settings_map.find(regionid);
+                if(itr == region_settings_map.end()) {
+                    jo.throw_error("region: " + regionid + " not found in region_settings_map");
+                }
+                else {
+                    apply_region_overlay(jo, itr->second);
+                }
+            }
+        }
+    }
+    else {
+        jo.throw_error("\"regions\" is required and must be an array");
+    }
+}
+
+void apply_region_overlay(JsonObject &jo, regional_settings &region)
+{
+    jo.read("default_oter", region.default_oter);
+
+    if (jo.has_object("default_groundcover")) {
+        JsonObject jio = jo.get_object("default_groundcover");
+
+        jio.read("primary", region.default_groundcover_str->primary_str);
+        jio.read("secondary", region.default_groundcover_str->secondary_str);
+        jio.read("ratio", region.default_groundcover.chance);
+    }
+
+    jo.read("num_forests", region.num_forests);
+    jo.read("forest_size_min", region.forest_size_min);
+    jo.read("forest_size_max", region.forest_size_max);
+    jo.read("house_basement_chance", region.house_basement_chance);
+    jo.read("swamp_maxsize", region.swamp_maxsize);
+    jo.read("swamp_river_influence", region.swamp_river_influence);
+    jo.read("swamp_spread_chance", region.swamp_spread_chance);
+
+    JsonObject fieldjo = jo.get_object("field_coverage");
+    double tmpval = 0.0f;
+    if (fieldjo.read("percent_coverage", tmpval)) {
+        region.field_coverage.mpercent_coverage = (int)(tmpval * 10000.0);
+    }
+
+    fieldjo.read("default_ter", region.field_coverage.default_ter_str);
+
+    JsonObject otherjo = fieldjo.get_object("other");
+    std::set<std::string> keys = otherjo.get_member_names();
+    for( const auto &key : keys ) {
+        if( key != "//" ) {
+            if( otherjo.read( key, tmpval ) ) {
+                region.field_coverage.percent_str[key] = tmpval;
+            }
+        }
+    }
+
+    if (fieldjo.read("boost_chance", tmpval)) {
+        region.field_coverage.boost_chance = (int)(tmpval * 10000.0);
+    }
+    if (fieldjo.read("boosted_percent_coverage", tmpval)) {
+        if(region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f) {
+            fieldjo.throw_error("boost_chance > 0 requires boosted_percent_coverage");
+        }
+
+        region.field_coverage.boosted_mpercent_coverage = (int)(tmpval * 10000.0);
+    }
+
+    if (fieldjo.read("boosted_other_percent", tmpval)) {
+        if(region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f) {
+            fieldjo.throw_error("boost_chance > 0 requires boosted_other_percent");
+        }
+
+        region.field_coverage.boosted_other_mpercent = (int)(tmpval * 10000.0);
+    }
+
+    JsonObject boostedjo = fieldjo.get_object("boosted_other");
+    std::set<std::string> boostedkeys = boostedjo.get_member_names();
+    for( const auto &key : boostedkeys ) {
+        if( key != "//" ) {
+            if( boostedjo.read( key, tmpval ) ) {
+                region.field_coverage.boosted_percent_str[key] = tmpval;
+            }
+        }
+    }
+
+    if(region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.size() == 0) {
+        fieldjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
+    }
+
+    JsonObject cityjo = jo.get_object("city");
+
+    cityjo.read("shop_radius", region.city_spec.shop_radius);
+    cityjo.read("park_radius", region.city_spec.park_radius);
+
+    JsonObject shopsjo = cityjo.get_object("shops");
+    std::set<std::string> shopkeys = shopsjo.get_member_names();
+    for( const auto &key : shopkeys ) {
+        if( key != "//" ) {
+            if( shopsjo.has_int( key ) ) {
+                region.city_spec.shops.add_or_replace({key, -1}, shopsjo.get_int(key));
+            }
+        }
+    }
+
+    JsonObject parksjo = cityjo.get_object("parks");
+    std::set<std::string> parkkeys = parksjo.get_member_names();
+    for( const auto &key : parkkeys ) {
+        if( key != "//" ) {
+            if( parksjo.has_int( key ) ) {
+                region.city_spec.parks.add_or_replace({key, -1}, parksjo.get_int(key));
+            }
+        }
+    }
+
+}
 
 // *** BEGIN overmap FUNCTIONS ***
 
@@ -612,8 +757,7 @@ overmap::overmap(int const x, int const y)
     // STUB: need region map:
     // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-    std::unordered_map<std::string, regional_settings>::const_iterator rsit =
-        region_settings_map.find( rsettings_id );
+    t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
         debugmsg("overmap(%d,%d): can't find region '%s'", x, y, rsettings_id.c_str() ); // gonna die now =[
@@ -631,7 +775,7 @@ overmap::~overmap()
 void overmap::init_layers()
 {
     for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-        oter_id default_type = (z < OVERMAP_DEPTH) ? "rock" : (z == OVERMAP_DEPTH) ? settings.default_oter :
+        oter_id default_type = (z < OVERMAP_DEPTH) ? "empty_rock" : (z == OVERMAP_DEPTH) ? settings.default_oter :
                                "open_air";
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
@@ -1078,7 +1222,7 @@ bool overmap::generate_sub(int const z)
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
-        oter_id("rock"), oter_id("forest"), oter_id("field"),
+        oter_id("empty_rock"), oter_id("forest"), oter_id("field"),
         oter_id("forest_thick"), oter_id("forest_water")
     };
 
@@ -1119,12 +1263,13 @@ bool overmap::generate_sub(int const z)
             } else if (oter_above == "anthill") {
                 int size = rng(MIN_ANT_SIZE, MAX_ANT_SIZE);
                 ant_points.push_back(city(i, j, size));
-                add_mon_group(mongroup("GROUP_ANT", i * 2, j * 2, z, (size * 3) / 2, rng(6000, 8000)));
+                add_mon_group(mongroup( mongroup_id( "GROUP_ANT" ), i * 2, j * 2, z, (size * 3) / 2, rng(6000, 8000)));
             } else if (oter_above == "slimepit_down") {
                 int size = rng(MIN_GOO_SIZE, MAX_GOO_SIZE);
                 goo_points.push_back(city(i, j, size));
             } else if (oter_above == "forest_water") {
                 ter(i, j, z) = "cavern";
+                chip_rock( i, j, z );
             } else if (oter_above == "lab_core" ||
                        (z == -1 && oter_above == "lab_stairs")) {
                 lab_points.push_back(city(i, j, rng(1, 5 + z)));
@@ -1151,7 +1296,7 @@ bool overmap::generate_sub(int const z)
                     }
                 }
                 ter(i, j, z) = "spiral_hub";
-                add_mon_group(mongroup("GROUP_SPIRAL", i * 2, j * 2, z, 2, 200));
+                add_mon_group(mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200));
             } else if (oter_above == "silo") {
                 if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
                     ter(i, j, z) = "silo_finale";
@@ -1194,10 +1339,10 @@ bool overmap::generate_sub(int const z)
 
     for (auto &i : cities) {
         if (one_in(3)) {
-            add_mon_group(mongroup("GROUP_CHUD", i.x * 2, i.y * 2, z, i.s, i.s * 20));
+            add_mon_group(mongroup( mongroup_id( "GROUP_CHUD" ), i.x * 2, i.y * 2, z, i.s, i.s * 20));
         }
         if (!one_in(8)) {
-            add_mon_group(mongroup("GROUP_SEWER", i.x * 2, i.y * 2, z, (i.s * 7) / 2, i.s * 70));
+            add_mon_group(mongroup( mongroup_id( "GROUP_SEWER" ), i.x * 2, i.y * 2, z, (i.s * 7) / 2, i.s * 70));
         }
     }
 
@@ -1227,11 +1372,11 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     return found;
 }
 
-int overmap::dist_from_city(point p)
+int overmap::dist_from_city( const tripoint &p )
 {
     int distance = 999;
     for (auto &i : cities) {
-        int dist = rl_dist(p.x, p.y, i.x, i.y);
+        int dist = rl_dist( p, { i.x, i.y, 0 } );
         dist -= i.s;
         if (dist < distance) {
             distance = dist;
@@ -1278,21 +1423,75 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
     return result;
 }
 
+bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
+{
+    // Weather calculation is a bit expensive, so it's cached here.
+    static std::map<point, weather_type> weather_cache;
+    static calendar last_weather_display = calendar::turn;
+    if( last_weather_display != calendar::turn ) {
+        last_weather_display = calendar::turn;
+        weather_cache.clear();
+    }
+    auto iter = weather_cache.find( pos );
+    if( iter == weather_cache.end() ) {
+        auto const abs_ms_pos =  point( pos.x * SEEX * 2, pos.y * SEEY * 2 );
+        auto const weather = g->weatherGen.get_weather_conditions( abs_ms_pos, calendar::turn );
+        iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
+    }
+    switch( iter->second ) {
+        case WEATHER_SUNNY:
+        case WEATHER_CLEAR:
+        case WEATHER_NULL:
+        case NUM_WEATHER_TYPES:
+            // show the terrain as usual
+            return false;
+        case WEATHER_CLOUDY:
+            ter_color = c_white;
+            ter_sym = '8';
+            break;
+        case WEATHER_DRIZZLE:
+        case WEATHER_FLURRIES:
+            ter_color = c_ltblue;
+            ter_sym = '8';
+            break;
+        case WEATHER_ACID_DRIZZLE:
+            ter_color = c_ltgreen;
+            ter_sym = '8';
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_SNOW:
+            ter_color = c_blue;
+            ter_sym = '8';
+            break;
+        case WEATHER_ACID_RAIN:
+            ter_color = c_green;
+            ter_sym = '8';
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+        case WEATHER_SNOWSTORM:
+            ter_color = c_dkgray;
+            ter_sym = '8';
+            break;
+    }
+    return true;
+}
+
 void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                    const tripoint &orig, bool blink, bool show_explored,
-                   input_context *inp_ctxt,
-                   bool debug_monstergroups,
-                   const int iZoneIndex)
+                   input_context *inp_ctxt, const draw_data_t &data)
 {
     const int z     = center.z;
     const int cursx = center.x;
     const int cursy = center.y;
     const int om_map_width  = OVERMAP_WINDOW_WIDTH;
     const int om_map_height = OVERMAP_WINDOW_HEIGHT;
+    const int om_half_width = om_map_width / 2;
+    const int om_half_height = om_map_height / 2;
 
     // Target of current mission
-    const point target = g->u.get_active_mission_target();
-    const bool has_target = target != overmap::invalid_point;
+    const tripoint target = g->u.get_active_mission_target();
+    const bool has_target = target != overmap::invalid_tripoint;
     // seen status & terrain of center position
     bool csee = false;
     oter_id ccur_ter = "";
@@ -1306,16 +1505,16 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
 
-    if (iZoneIndex != -1) {
-        sZoneName = g->u.Zones.vZones[iZoneIndex].getName();
-        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[iZoneIndex].getCenterPoint());
-        tripointZone = tripoint(pOMZone.x, pOMZone.y);
+    if (data.iZoneIndex != -1) {
+        sZoneName = g->u.Zones.vZones[data.iZoneIndex].getName();
+        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[data.iZoneIndex].getCenterPoint());
+        tripointZone = tripoint( pOMZone, 0 );
     }
 
     // If we're debugging monster groups, find the monster group we've selected
     const mongroup *mgroup = nullptr;
     std::vector<mongroup *> mgroups;
-    if(debug_monstergroups) {
+    if(data.debug_mongroup) {
         mgroups = overmap_buffer.monsters_at( center.x, center.y, center.z );
         for( const auto &mgp : mgroups ) {
             mgroup = mgp;
@@ -1331,34 +1530,39 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::array<std::pair<oter_id, oter_t const*>, cache_size> cache {{}};
     size_t cache_next = 0;
 
-    int const offset_x = cursx - (om_map_width  / 2);
-    int const offset_y = cursy - (om_map_height / 2);
+    int const offset_x = cursx - om_half_width;
+    int const offset_y = cursy - om_half_height;
 
     for (int i = 0; i < om_map_width; ++i) {
         for (int j = 0; j < om_map_height; ++j) {
             const int omx = i + offset_x;
             const int omy = j + offset_y;
-            
+
             const bool see = overmap_buffer.seen(omx, omy, z);
             if (see) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter(omx, omy, z);
             }
 
-            // Check if location is within player line-of-sight
-            const bool los = see && g->u.overmap_los(omx, omy, sight_points);
-
             tripoint const cur_pos {omx, omy, z};
+            // Check if location is within player line-of-sight
+            const bool los = see && g->u.overmap_los( cur_pos, sight_points );
 
             if (blink && cur_pos == orig) {
                 // Display player pos, should always be visible
                 ter_color = g->u.symbol_color();
                 ter_sym   = '@';
-            } else if (blink && has_target && omx == target.x && omy == target.y && z == 0) {
-                // TODO: mission targets currently have no z-component, are assumed to be on z=0
+            } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
+                // ter_color and ter_sym have been set by get_weather_glyph
+            } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
                 ter_sym   = '*';
+                if( target.z > z ) {
+                    ter_sym = '^';
+                } else if( target.z < z ) {
+                    ter_sym = 'v';
+                }
             } else if (blink && overmap_buffer.has_note(cur_pos)) {
                 // Display notes in all situations, even when not seen
                 std::tie(ter_sym, ter_color, std::ignore) =
@@ -1417,7 +1621,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             }
 
             // Are we debugging monster groups?
-            if(blink && debug_monstergroups) {
+            if(blink && data.debug_mongroup) {
                 // Check if this tile is the target of the currently selected group
                 if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
                     ter_color = c_red;
@@ -1425,7 +1629,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omx, omy, center.z );
                     for( auto &mgp : groups ) {
-                        if( mgp->type == "GROUP_FOREST" ) {
+                        if( mgp->type == mongroup_id( "GROUP_FOREST" ) ) {
                             // Don't flood the map with forest creatures.
                             continue;
                         }
@@ -1459,35 +1663,34 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
     if (has_target && blink &&
-        (target.x < cursx - om_map_height / 2 ||
-         target.x > cursx + om_map_height / 2  ||
-         target.y < cursy - om_map_width / 2 ||
-         target.y > cursy + om_map_width / 2)) {
-        // TODO: mission targets currently have no z-component, are assumed to be on z=0
+        (target.x < cursx - om_half_width ||
+         target.x >= cursx + om_half_width  ||
+         target.y < cursy - om_half_height ||
+         target.y >= cursy + om_half_height)) {
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0, om_map_width / 2, c_red, '^');
+            mvwputch(w, 0,                  om_half_width - 1,  c_red, '^');
             break;
         case NORTHEAST:
-            mvwputch(w, 0, om_map_width - 1, c_red, LINE_OOXX);
+            mvwputch(w, 0,                  om_map_width - 1,   c_red, LINE_OOXX);
             break;
         case EAST:
-            mvwputch(w, om_map_height / 2, om_map_width - 1, c_red, '>');
+            mvwputch(w, om_half_height - 1, om_map_width - 1,   c_red, '>');
             break;
         case SOUTHEAST:
-            mvwputch(w, om_map_height, om_map_width - 1, c_red, LINE_XOOX);
+            mvwputch(w, om_map_height - 1,  om_map_width - 1,   c_red, LINE_XOOX);
             break;
         case SOUTH:
-            mvwputch(w, om_map_height, om_map_height / 2, c_red, 'v');
+            mvwputch(w, om_map_height - 1,  om_half_width - 1,  c_red, 'v');
             break;
         case SOUTHWEST:
-            mvwputch(w, om_map_height, 0, c_red, LINE_XXOO);
+            mvwputch(w, om_map_height - 1,  0,                  c_red, LINE_XXOO);
             break;
         case WEST:
-            mvwputch(w, om_map_height / 2,  0, c_red, '<');
+            mvwputch(w, om_half_height - 1, 0,                  c_red, '<');
             break;
         case NORTHWEST:
-            mvwputch(w,  0,  0, c_red, LINE_OXXO);
+            mvwputch(w, 0,                  0,                  c_red, LINE_OXXO);
             break;
         default:
             break; //Do nothing
@@ -1503,7 +1706,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             corner_text.emplace_back(note_text.substr(pos));
         }
     }
-   
+
     for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
         if( !npc->marked_for_death ) {
             corner_text.emplace_back( npc->name );
@@ -1590,8 +1793,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     if (has_target) {
-        // TODO: mission targets currently have no z-component, are assumed to be on z=0
-        int distance = rl_dist(orig.x, orig.y, target.x, target.y);
+        // TODO: Add a note that the target is above/below us
+        int distance = rl_dist( orig, target );
         mvwprintz(wbar, 3, 1, c_white, _("Distance to target: %d"), distance);
     }
     mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
@@ -1621,6 +1824,14 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const point om = overmapbuffer::omt_to_om_remain(omt);
     mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
+
+    // draw nice crosshair around the cursor
+    if(blink) {
+        mvwputch(w, om_half_height-1, om_half_width-1, c_ltgray, LINE_OXXO);
+        mvwputch(w, om_half_height-1, om_half_width+1, c_ltgray, LINE_OOXX);
+        mvwputch(w, om_half_height+1, om_half_width-1, c_ltgray, LINE_XXOO);
+        mvwputch(w, om_half_height+1, om_half_width+1, c_ltgray, LINE_XOOX);
+    }
     // Done with all drawing!
     wrefresh(w);
     wrefresh(wbar);
@@ -1628,18 +1839,40 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
 tripoint overmap::draw_overmap()
 {
-    return draw_overmap(g->global_omt_location());
+    return draw_overmap(g->u.global_omt_location(), draw_data_t());
 }
 
 tripoint overmap::draw_overmap(int z)
 {
-    tripoint loc = g->global_omt_location();
+    tripoint loc = g->u.global_omt_location();
     loc.z = z;
-    return draw_overmap(loc);
+    return draw_overmap(loc, draw_data_t());
+}
+
+tripoint overmap::draw_hordes()
+{
+    draw_data_t data;
+    data.debug_mongroup = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_weather()
+{
+    draw_data_t data;
+    data.debug_weather = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_zones( tripoint const &center, tripoint const &select, int const iZoneIndex )
+{
+    draw_data_t data;
+    data.select = select;
+    data.iZoneIndex = iZoneIndex;
+    return overmap::draw_overmap( center, data );
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select, const int iZoneIndex)
+tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
 {
     delwin(g->w_omlegend);
     g->w_omlegend = newwin(TERMY, 28, 0, TERMX - 28);
@@ -1655,8 +1888,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     tripoint ret = invalid_tripoint;
     tripoint curs(orig);
 
-    if (select.x != -1 && select.y != -1 && select.z != -1) {
-        curs = tripoint(select);
+    if( data.select != tripoint( -1, -1, -1 ) ) {
+        curs = tripoint(data.select);
     }
 
     // Configure input context for navigating the map.
@@ -1682,7 +1915,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     bool show_explored = true;
     do {
         timeout( BLINK_SPEED );
-        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, debug_mongroup, iZoneIndex);
+        draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -1775,7 +2008,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
-                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL);
+                draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -1856,6 +2089,11 @@ void overmap::process_mongroups()
     }
 }
 
+void overmap::clear_mon_groups()
+{
+    zg.clear();
+}
+
 void mongroup::wander()
 {
     // TODO: More interesting stuff possible, like looking for nearby shelter.
@@ -1909,14 +2147,14 @@ void overmap::move_hordes()
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
-void overmap::signal_hordes( const int x, const int y, const int sig_power)
+void overmap::signal_hordes( const tripoint &p, const int sig_power)
 {
     for( auto &elem : zg ) {
         mongroup &mg = elem.second;
         if( !mg.horde ) {
             continue;
         }
-            const int dist = rl_dist( x, y, mg.posx, mg.posy );
+            const int dist = rl_dist( p, { mg.posx, mg.posy, mg.posz } );
             if( sig_power <= dist ) {
                 continue;
             }
@@ -1924,13 +2162,14 @@ void overmap::signal_hordes( const int x, const int y, const int sig_power)
             const int d_inter = (sig_power - dist) * 5;
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
-                const int targ_dist = rl_dist( x, y, mg.tx, mg.ty );
+                // TODO: Z coord for mongroup targets
+                const int targ_dist = rl_dist( p, { mg.tx, mg.ty, mg.posz } );
                 // TODO: Base this on targ_dist:dist ratio.
                 if (targ_dist < 5) {
-                    mg.set_target( (mg.tx + x) / 2, (mg.ty + y) / 2 );
+                    mg.set_target( (mg.tx + p.x) / 2, (mg.ty + p.y) / 2 );
                     mg.inc_interest( d_inter );
                 } else {
-                    mg.set_target( x, y );
+                    mg.set_target( p.x, p.y );
                     mg.set_interest( d_inter );
                 }
             }
@@ -2477,6 +2716,7 @@ bool overmap::build_slimepit(int x, int y, int z, int s)
         for (int i = x - n; i <= x + n; i++) {
             for (int j = y - n; j <= y + n; j++) {
                 if (rng(1, s * 2) >= n) {
+                    chip_rock( i, j, z );
                     if (one_in(8) && z > -OVERMAP_DEPTH) {
                         ter(i, j, z) = "slimepit_down";
                         requires_sub = true;
@@ -2502,10 +2742,10 @@ void overmap::build_mine(int x, int y, int z, int s)
         ter(x, y, z) = "mine";
         std::vector<point> next;
         for (int i = -1; i <= 1; i += 2) {
-            if (ter(x, y + i, z) == "rock") {
+            if (ter(x, y + i, z) == "empty_rock") {
                 next.push_back( point(x, y + i) );
             }
-            if (ter(x + i, y, z) == "rock") {
+            if (ter(x + i, y, z) == "empty_rock") {
                 next.push_back( point(x + i, y) );
             }
         }
@@ -2797,6 +3037,26 @@ void overmap::polish(const int z, const std::string &terrain_type)
                 }
             }
         }
+    }
+}
+
+// Changes neighboring empty rock to partial rock
+void overmap::chip_rock(int x, int y, int z)
+{
+    if( ter( x - 1, y, z ) == "empty_rock" ) {
+        ter( x - 1, y, z ) = "rock";
+    }
+
+    if( ter( x + 1, y, z ) == "empty_rock" ) {
+        ter( x + 1, y, z ) = "rock";
+    }
+
+    if( ter( x, y - 1, z ) == "empty_rock" ) {
+        ter( x, y - 1, z ) = "rock";
+    }
+
+    if( ter( x, y + 1, z ) == "empty_rock" ) {
+        ter( x, y + 1, z ) = "rock";
     }
 }
 
@@ -3158,9 +3418,8 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
     }
 
     // then do city range checking
-    point citypt = point(p.x, p.y);
-    if(!(special.min_city_distance == -1 || dist_from_city(citypt) >= special.min_city_distance) ||
-       !(special.max_city_distance == -1 || dist_from_city(citypt) <= special.max_city_distance)) {
+    if(!(special.min_city_distance == -1 || dist_from_city( p ) >= special.min_city_distance) ||
+       !(special.max_city_distance == -1 || dist_from_city( p ) <= special.max_city_distance)) {
         return false;
     }
     // then check location flags
@@ -3396,7 +3655,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
     }
 
     // place spawns
-    if(special.spawns.group != "GROUP_NULL") {
+    if(special.spawns.group != mongroup_id( "GROUP_NULL" ) ) {
         overmap_special_spawns spawns = special.spawns;
         int pop = rng(spawns.min_population, spawns.max_population);
         int rad = rng(spawns.min_radius, spawns.max_radius);
@@ -3426,7 +3685,7 @@ void overmap::place_mongroups()
     for( auto &elem : cities ) {
         if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
             if( !one_in( 16 ) || elem.s > 5 ) {
-                mongroup m( "GROUP_ZOMBIE", ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
+                mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
                             elem.s * 80 );
 //                m.set_target( zg.back().posx, zg.back().posy );
                 m.horde = true;
@@ -3435,7 +3694,7 @@ void overmap::place_mongroups()
             }
         }
         if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
-            add_mon_group( mongroup( "GROUP_ZOMBIE", ( elem.x * 2 ), ( elem.y * 2 ), 0,
+            add_mon_group( mongroup( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0,
                                      int( elem.s * 2.5 ), elem.s * 80 ) );
         }
     }
@@ -3453,7 +3712,7 @@ void overmap::place_mongroups()
                     }
                 }
                 if (swamp_count >= 25)
-                    add_mon_group(mongroup("GROUP_SWAMP", x * 2, y * 2, 0, 3,
+                    add_mon_group(mongroup( mongroup_id( "GROUP_SWAMP" ), x * 2, y * 2, 0, 3,
                                           rng(swamp_count * 8, swamp_count * 25)));
             }
         }
@@ -3472,7 +3731,7 @@ void overmap::place_mongroups()
                     }
                 }
                 if (river_count >= 25)
-                    add_mon_group(mongroup("GROUP_RIVER", x * 2, y * 2, 0, 3,
+                    add_mon_group(mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
                                           rng(river_count * 8, river_count * 25)));
             }
         }
@@ -3482,7 +3741,7 @@ void overmap::place_mongroups()
         // Place the "put me anywhere" groups
         int numgroups = rng(0, 3);
         for (int i = 0; i < numgroups; i++) {
-            add_mon_group(mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
+            add_mon_group(mongroup( mongroup_id( "GROUP_WORM" ), rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
                          rng(20, 40), rng(30, 50)));
         }
     }
@@ -3804,10 +4063,22 @@ void regional_settings::setup()
         default_groundcover.primary = terfind(default_groundcover_str->primary_str);
         default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
         field_coverage.setup();
-        city_spec.shops.setup();
-        city_spec.parks.setup();
+        city_spec.shops.apply(&setup_oter);
+        city_spec.parks.apply(&setup_oter);
         default_groundcover_str = NULL;
         optionsdata.add_value("DEFAULT_REGION", id );
+    }
+}
+
+void regional_settings::setup_oter(oter_weight &oter) {
+    if ( oter.ot_iid == -1 ) {
+        std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(oter.ot_sid);
+        if ( it == obasetermap.end() ) {
+            debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", oter.ot_sid.c_str() );
+            oter.ot_iid = 0;
+        } else {
+            oter.ot_iid = it->second.loadid;
+        }
     }
 }
 
@@ -3843,7 +4114,7 @@ void overmap::add_mon_group(const mongroup &group)
                 pop_here = ( 1.0 - static_cast<double>( dist ) / rad ) * pop / total_area;
             }
             if( pop_here > pop || pop_here < 0 ) {
-                DebugLog( D_ERROR, D_GAME ) << group.type << ": invalid population here: " << pop_here;
+                DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": invalid population here: " << pop_here;
             }
             int p = std::max( 0, static_cast<int>(std::floor( pop_here )) );
             if( pop_here - p != 0 ) {
@@ -3876,7 +4147,7 @@ void overmap::add_mon_group(const mongroup &group)
             xpop += tmp.population;
         }
     }
-    DebugLog( D_ERROR, D_GAME ) << group.type << ": " << group.population << " => " << xpop;
+    DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
 }
 
 const point overmap::invalid_point = point(INT_MIN, INT_MIN);

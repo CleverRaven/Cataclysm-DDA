@@ -6,6 +6,7 @@
 #include "json.h"
 #include "output.h"
 #include "calendar.h"
+#include "translations.h"
 
 #include <deque>
 #include <iterator>
@@ -23,7 +24,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
 
     game_message() = default;
     game_message(std::string &&msg, game_message_type const t)
-      : message {std::move(msg)}, time {calendar::turn}, type {t}
+      : message (std::move(msg)), time (calendar::turn), type (t)
     {
     }
 
