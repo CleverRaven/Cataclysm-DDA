@@ -20032,7 +20032,7 @@
         {
           "id": "vp_wing_mirror",
           "fg": 2609,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "mirror",
@@ -20042,12 +20042,12 @@
         {
           "id": "vp_lit_aisle_horizontal",
           "fg": 2611,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "vp_lit_aisle_vertical",
           "fg": 2611,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "vp_folding_seat",
@@ -20063,7 +20063,7 @@
         {
           "id": "vp_roller_drum",
           "fg": 2612,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "vp_xlhalfboard_horizontal",
