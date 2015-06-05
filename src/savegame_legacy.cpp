@@ -2097,7 +2097,8 @@ void item::load_info( const std::string &data )
         return;
     }
 
-    clear();
+    unset_flags();
+    clear_vars();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
     int owned; // Ignoring an obsolete member. 

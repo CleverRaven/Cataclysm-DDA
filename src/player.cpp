@@ -3036,7 +3036,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += string_format( _("Melee skill %+d; "), - (encumb( bp_torso ) / 10));
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
                 s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - skillLevel( "swimming" ) * 3 ) );
-                s += melee_cost_text( (encumb( bp_torso ) / 10) * 20 );
+                s += melee_cost_text( encumb( bp_torso ) );
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
             } else if (line == 2) { //Head
@@ -3047,15 +3047,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             } else if (line == 3) { //Eyes
                 s += _("Covering your mouth will make it more difficult to breathe and catch your breath.");
             } else if (line == 4) { //Left Arm
-                s += _("Arm encumbrance affects your accuracy with ranged weapons.");
+                s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
             } else if (line == 5) { //Right Arm
-                s += _("Arm encumbrance affects your accuracy with ranged weapons.");
+                s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
                 s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_l )/10) );
+                s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_l )/10) );
+                s += melee_cost_text( encumb( bp_hand_l ) / 2 );
             } else if (line == 7) { //Right Hand
                 s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items."), -(encumb( bp_hand_r )/10) );
+                s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
+                s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
                 s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );

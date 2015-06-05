@@ -1547,13 +1547,13 @@
         },
         {
           "id": "backpack",
-          "fg": 252,
+          "fg": 2878,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "backpack_leather",
-          "fg": 253,
+          "fg": 2876,
           "bg": 632,
           "rotates": false
         },
@@ -1656,7 +1656,7 @@
         },
         {
           "id": "boots",
-          "fg": 270,
+          "fg": 2841,
           "bg": 632,
           "rotates": false
         },
@@ -1896,6 +1896,12 @@
           "rotates": false
         },
         {
+          "id": "maid_dress",
+          "fg": 2848,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "dress_shirt",
           "fg": 311,
           "bg": 632
@@ -1919,7 +1925,7 @@
         },
         {
           "id": "duffelbag",
-          "fg": 314,
+          "fg": 2866,
           "bg": 632,
           "rotates": false
         },
@@ -1968,6 +1974,11 @@
           "id": "fishing_waders",
           "fg": 322,
           "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "fishing_hook_basic",
+          "fg": 2836,
           "rotates": false
         },
         {
@@ -2166,6 +2177,16 @@
           "bg": 632
         },
         {
+          "id": "gold_ear",
+          "fg": 2934,
+          "bg": 632
+        },
+        {
+          "id": "silver_ear",
+          "fg": 2935,
+          "bg": 632
+        },
+        {
           "id": "sf_watch",
           "fg": 354
         },
@@ -2332,6 +2353,14 @@
         {
           "id": "back_holster",
           "fg": 379
+        },
+        {
+          "id": "shoulder_strap",
+          "fg": 520
+        },
+        {
+          "id": "overlay_shoulder_strap_worn",
+          "fg": 520
         },
         {
           "id": "sholster",
@@ -2697,8 +2726,7 @@
         },
         {
           "id": "molle_pack",
-          "fg": 424,
-          "bg": 632,
+          "fg": 2877,
           "rotates": false
         },
         {
@@ -2797,7 +2825,7 @@
         },
         {
           "id": "overlay_worn_jacket_leather",
-          "fg": 432,
+          "fg": 539,
           "rotates": false
         },
         {
@@ -3333,7 +3361,7 @@
         },
         {
           "id": "overlay_worn_maid_dress",
-          "fg": 457,
+          "fg": 2849,
           "rotates": false
         },
         {
@@ -4254,8 +4282,13 @@
           "fg": 504
         },
         {
+          "id": "jacket_evac",
+          "fg": 2831,
+          "rotates": false
+        },
+        {
           "id": "overlay_worn_jacket_evac",
-          "fg": 505,
+          "fg": 2837,
           "rotates": false
         },
         {
@@ -4775,7 +4808,7 @@
         },
         {
           "id": "overlay_worn_sweater",
-          "fg": 537,
+          "fg": 2838,
           "rotates": false
         },
         {
@@ -4859,8 +4892,13 @@
           "rotates": false
         },
         {
+          "id": "linuxtshirt",
+          "fg": 2953,
+          "rotates": false
+        },
+        {
           "id": "overlay_worn_linuxtshirt",
-          "fg": 541,
+          "fg": 2954,
           "rotates": false
         },
         {
@@ -4949,7 +4987,12 @@
         },
         {
           "id": "overlay_worn_waistcoat",
-          "fg": 547,
+          "fg": 2856,
+          "rotates": false
+        },
+        {
+          "id": "waistcoat",
+          "fg": 2855,
           "rotates": false
         },
         {
@@ -5298,8 +5341,7 @@
         },
         {
           "id": "socks",
-          "fg": 592,
-          "bg": 632,
+          "fg": 2843,
           "rotates": false
         },
         {
@@ -5355,7 +5397,7 @@
         },
         {
           "id": "sweater",
-          "fg": 600,
+          "fg": 2839,
           "bg": 632,
           "rotates": false
         },
@@ -5887,6 +5929,12 @@
           "rotates": false
         },
         {
+          "id": "plastic_shopping_bag",
+          "fg": 2879,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "bag_veggy_vac",
           "fg": 1172,
           "bg": 632,
@@ -6014,8 +6062,7 @@
         },
         {
           "id": "binoculars",
-          "fg": 1182,
-          "bg": 632,
+          "fg": 2842,
           "rotates": false
         },
         {
@@ -6828,9 +6875,39 @@
           "bg": 632,
           "rotates": false
         },
+ 	{
+          "id": "cake",
+          "fg": 2927,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "cake2",
+          "fg": 2927,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "cake3",
+          "fg": 2927,
+          "bg": 632,
+          "rotates": false
+        },
         {
           "id": "can_beans",
           "fg": 771,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "raw_beans",
+          "fg": 2881,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "dry_beans",
+          "fg": 2881,
           "bg": 632,
           "rotates": false
         },
@@ -7461,6 +7538,12 @@
           "rotates": false
         },
         {
+          "id": "crucible_clay",
+          "fg": 2932,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "cu_pipe",
           "fg": 1219,
           "bg": 632,
@@ -7612,8 +7695,12 @@
         },
         {
           "id": "emer_blanket",
-          "fg": 2357,
-          "bg": 632,
+          "fg": 2832,
+          "rotates": false
+        },
+        {
+          "id": "emer_blanket_on",
+          "fg": 2833,
           "rotates": false
         },
         {
@@ -8606,7 +8693,7 @@
         },
         {
           "id": "jar_glass",
-          "fg": 1022,
+          "fg": 2790,
           "bg": 632,
           "rotates": false
         },
@@ -8905,7 +8992,7 @@
         },
         {
           "id": "lighter",
-          "fg": 2427,
+          "fg": 2846,
           "bg": 632
         },
         {
@@ -9554,6 +9641,11 @@
           "rotates": false
         },
         {
+          "id": "needlepistol",
+          "fg": 2865,
+          "rotates": false
+        },
+        {
           "id": "nic_gum",
           "fg": 913,
           "bg": 632,
@@ -9718,6 +9810,11 @@
           "id": "pickaxe",
           "fg": 2488,
           "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "crude_picklock",
+          "fg": 2834,
           "rotates": false
         },
         {
@@ -9959,6 +10056,12 @@
           "rotates": false
         },
         {
+          "id": "mouthpiece",
+          "fg": 2840,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "protein_drink",
           "fg": 730,
           "bg": 632,
@@ -10021,6 +10124,12 @@
         {
           "id": "quikclot",
           "fg": 940,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "two_way_radio",
+          "fg": 2880,
           "bg": 632,
           "rotates": false
         },
@@ -10109,7 +10218,7 @@
         },
         {
           "id": "ref_lighter",
-          "fg": 2506,
+          "fg": 2847,
           "bg": 632,
           "rotates": false
         },
@@ -10529,7 +10638,7 @@
           "bg": 632,
           "rotates": false
         },
-        {
+	{
           "id": "grapnel",
           "fg": 2772,
           "bg": 632,
@@ -10829,6 +10938,12 @@
           "rotates": false
         },
         {
+          "id": "clay_lump",
+          "fg": 2930,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "steel_lump",
           "fg": 1393,
           "bg": 632,
@@ -10855,6 +10970,12 @@
         {
           "id": "still",
           "fg": 2536,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "stomach",
+          "fg": 2931,
           "bg": 632,
           "rotates": false
         },
@@ -11005,6 +11126,12 @@
         {
           "id": "tallow",
           "fg": 980,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "tanbark",
+          "fg": 2928,
           "bg": 632,
           "rotates": false
         },
@@ -11416,6 +11543,11 @@
         {
           "id": "water_acid_weak",
           "fg": 737,
+          "bg": 632
+        },
+       {
+          "id": "watercannon",
+          "fg": 2933,
           "bg": 632
         },
         {
@@ -11927,7 +12059,7 @@
         },
         {
           "id": "bottle_plastic_small",
-          "fg": 1009,
+          "fg": 2850,
           "bg": 632
         },
         {
@@ -12104,7 +12236,7 @@
             },
             {
               "id": "end_piece",
-              "fg": 1065
+              "fg": [2955, 2956, 2957, 2958]
             },
             {
               "id": "t_connection",
@@ -12115,6 +12247,16 @@
         {
           "id": "f_null",
           "fg": 633,
+          "rotates": false
+        },
+	{
+          "id": "f_forge_rock",
+          "fg": 2925,
+          "rotates": false
+        },
+        {
+          "id": "brick_kiln",
+          "fg": 2926,
           "rotates": false
         },
         {
@@ -12145,8 +12287,7 @@
             },
             {
               "id": "end_piece",
-              "fg": 1142,
-              "bg": 633
+              "fg": [2964, 2965, 2966, 2967]
             },
             {
               "id": "unconnected",
@@ -12236,6 +12377,45 @@
           "fg": 1925,
           "bg": 633,
           "rotates": false
+        },
+        {
+          "id": "fd_electricity",
+          "fg": 2857,
+          "bg": 633,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 2857,
+              "bg": 633
+            },
+            {
+              "id": "corner",
+              "fg": 2858,
+              "bg": 633
+            },
+            {
+              "id": "edge",
+              "fg": 2859,
+              "bg": 633
+            },
+            {
+              "id": "t_connection",
+              "fg": 2861,
+              "bg": 633
+            },
+            {
+              "id": "end_piece",
+              "fg": 2860,
+              "bg": 633
+            },
+            {
+              "id": "unconnected",
+              "fg": 1925,
+              "bg": 633
+            }
+          ]
         },
         {
           "id": "fd_smoke",
@@ -14171,6 +14351,12 @@
           "rotates": false
         },
         {
+          "id": "t_claymound",
+          "fg": 2929,
+          "bg": 640,
+          "rotates": false
+        },
+        {
           "id": "t_dirtmound",
           "fg": 1990,
           "bg": 640,
@@ -14460,6 +14646,30 @@
           "rotates": false
         },
         {
+          "id": "t_underbrush_harvested_autumn",
+          "fg": 2829,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_winter",
+          "fg": 2829,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_spring",
+          "fg": 2829,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_summer",
+          "fg": 2829,
+          "bg": 640,
+          "rotates": false
+        },
+        {
           "id": "t_wall_half",
           "fg": 2211,
           "bg": 640,
@@ -14518,9 +14728,38 @@
         },
         {
           "id": "t_wall",
-          "fg": 2210,
+          "fg": [2918, 2919, 2918, 2919],
           "bg": 640,
-          "rotates": false,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": [2919, 2918, 2919, 2918]
+            },
+            {
+              "id": "corner",
+              "fg": [2924, 2922, 2922, 2923]
+            },
+            {
+              "id": "end_piece",
+              "fg": [2918, 2919, 2918, 2919]
+            },
+            {
+              "id": "t_connection",
+              "fg": [2919, 2918, 2919, 2918]
+            },
+            {
+              "id": "unconnected",
+              "fg": 2235
+            }
+          ]
+        },
+{
+          "id": "t_wall_v",
+          "fg": [2901, 2902, 2903, 2904],
+          "bg": 640,
+          "rotates": true,
           "multitile": true,
           "additional_tiles": [
             {
@@ -14529,11 +14768,36 @@
             },
             {
               "id": "corner",
-              "fg": 2219
+              "fg": [2897, 2898, 2899, 2900]
             },
             {
-              "id": "edge",
-              "fg": 2220
+              "id": "end_piece",
+              "fg": 2221
+            },
+            {
+              "id": "t_connection",
+              "fg": 2234
+            },
+            {
+              "id": "unconnected",
+              "fg": 2235
+            }
+          ]
+        },
+{
+          "id": "t_wall_h",
+          "fg": [2901, 2902, 2903, 2904],
+          "bg": 640,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 2218
+            },
+            {
+              "id": "corner",
+              "fg": [2897, 2898, 2899, 2900]
             },
             {
               "id": "end_piece",
@@ -15000,6 +15264,26 @@
           "bg": 642
         },
         {
+          "id": "mon_boomer_huge",
+          "fg": 2948,
+          "bg": 642
+        },
+        {
+          "id": "mon_zombie_grappler",
+          "fg": 2949,
+          "bg": 642
+        },
+        {
+          "id": "mon_zombie_acidic",
+          "fg": 2951,
+          "bg": 642
+        },
+        {
+          "id": "mon_zombie_caustic",
+          "fg": 1806,
+          "bg": 642
+        },
+        {
           "id": "mon_boomer_fungus",
           "fg": 1637,
           "bg": 642
@@ -15007,6 +15291,60 @@
         {
           "id": "mon_zombie_gasbag",
           "fg": 1794,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_grenadier",
+          "fg": 2882,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_gasbomb_hack",
+          "fg": 2883,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_grenade_hack",
+          "fg": 2884,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_c4_hack",
+          "fg": 2885,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_mininuke_hack",
+          "fg": 2886,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_EMP_hack",
+          "fg": 2887,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_flashbang_hack",
+          "fg": 2888,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "metal_tank_small",
+          "fg": 2889,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "oxy_torch",
+          "fg": 2890,
           "bg": 642,
           "rotates": false
         },
@@ -15146,7 +15484,7 @@
         },
         {
           "id": "mon_dog",
-          "fg": 2803,
+          "fg": 2799,
           "bg": 642,
           "rotates": false
         },
@@ -15158,7 +15496,7 @@
         },
         {
           "id": "mon_dog_thing",
-          "fg": 2799,
+          "fg": 2803,
           "bg": 642,
           "rotates": false
         },
@@ -15236,7 +15574,7 @@
         },
         {
           "id": "mon_fungal_blossom",
-          "fg": 2828,
+          "fg": 2821,
           "bg": 642,
           "rotates": false
         },
@@ -15252,17 +15590,12 @@
           "rotates": false
         },
         {
-          "id": "mon_fungaloid_seeder",
-          "fg": 2821,
-          "rotates": false
-        },
-        {
           "id": "mon_fungal_tendril",
           "fg": 2823,
           "rotates": false
         },
         {
-          "id": "mon_fungaloid_tower",
+          "id": "mon_fungal_tower",
           "fg": 1694,
           "rotates": false
         },
@@ -15287,6 +15620,12 @@
         {
           "id": "mon_fungaloid_queen",
           "fg": 1695,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_fungaloid_seeder",
+          "fg": 2828,
           "bg": 642,
           "rotates": false
         },
@@ -15577,7 +15916,7 @@
         },
         {
           "id": "mon_spider_jumping",
-          "fg": 2814,
+          "fg": 2813,
           "bg": 642,
           "rotates": false
         },
@@ -15867,6 +16206,12 @@
           "rotates": false
         },
         {
+          "id": "mon_zombie_runner",
+          "fg": 2909,
+          "bg": 642,
+          "rotates": false
+        },
+        {
           "id": "mon_zombie_master",
           "fg": 1799,
           "bg": 642,
@@ -15881,6 +16226,12 @@
         {
           "id": "mon_zombie_necro",
           "fg": 1800,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_predator",
+          "fg": 2943,
           "bg": 642,
           "rotates": false
         },
@@ -15916,7 +16267,7 @@
         },
         {
           "id": "mon_zombie_spitter",
-          "fg": 1806,
+          "fg": 2950,
           "bg": 642,
           "rotates": false
         },
@@ -17309,7 +17660,7 @@
         },
         {
           "id": "t_door_o",
-          "fg": 2008,
+          "fg": [2937, 2936, 2937, 2936],
           "bg": 661,
           "rotates": true
         },
@@ -17375,19 +17726,19 @@
         },
         {
           "id": "t_window_empty",
-          "fg": 2291,
+          "fg": [2941, 2952, 2941, 2952],
           "bg": 661,
           "rotates": true
         },
         {
           "id": "t_window_frame",
-          "fg": 2293,
+          "fg": [2940, 2942, 2940, 2942],
           "bg": 661,
           "rotates": true
         },
         {
           "id": "t_window_open",
-          "fg": 2294,
+          "fg": [2939, 2912, 2939, 2912],
           "bg": 661,
           "rotates": true
         },
@@ -17399,7 +17750,7 @@
         },
         {
           "id": "t_window_boarded_noglass",
-          "fg": 2290,
+          "fg": [2903, 2904, 2903, 2904],
           "bg": 661,
           "rotates": true
         },
@@ -17411,25 +17762,25 @@
         },
         {
           "id": "t_door_locked_peep",
-          "fg": 2006,
+          "fg": [2906, 2920, 2906, 2920],
           "bg": 661,
           "rotates": true
         },
         {
           "id": "t_door_locked_interior",
-          "fg": 2005,
+          "fg": [2906, 2920, 2906, 2920],
           "bg": 661,
           "rotates": true
         },
         {
           "id": "t_door_locked_alarm",
-          "fg": 2005,
+          "fg": [2906, 2920, 2906, 2920],
           "bg": 661,
           "rotates": true
         },
         {
           "id": "t_door_locked",
-          "fg": 2005,
+          "fg": [2906, 2920, 2906, 2920],
           "bg": 661,
           "rotates": true
         },
@@ -17447,7 +17798,7 @@
         },
         {
           "id": "t_door_c",
-          "fg": 2005,
+          "fg": [2906, 2920, 2906, 2920],
           "bg": 661,
           "rotates": true
         },
@@ -18785,6 +19136,18 @@
           "fg": 1050
         },
         {
+          "id": "canola",
+          "fg": 2863
+        },
+        {
+          "id": "stabilizer",
+          "fg": 2864
+        },
+        {
+          "id": "straw_pile",
+          "fg": 2862
+        },
+        {
           "id": "f_mutpoppy",
           "fg": 1050
         },
@@ -19026,9 +19389,31 @@
           "rotates": false
         },
         {
+          "id": "large_tent_kit",
+          "fg": 2867,
+          "rotates": false
+        },
+        {
+          "id": "f_kiln_empty",
+          "fg": 2868,
+          "rotates": false
+        },
+        {
+          "id": "f_kiln_full",
+          "fg": 2869,
+          "rotates": false
+        },
+        {
           "id": "f_locker",
           "fg": 1105,
-          "rotates": false
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "open",
+              "fg": 2848
+            }
+          ]
         },
         {
           "id": "f_makeshift_bed",
@@ -19133,7 +19518,7 @@
             },
             {
               "id": "end_piece",
-              "fg": 1125
+              "fg": [2960, 2961, 2962, 2963]
             },
             {
               "id": "t_connection",
@@ -21873,8 +22258,8 @@
         },
         {
           "id": "animation_hit",
-          "fg": 1847,
-          "bg": 1847
+          "fg": 2914,
+          "bg": 2914
         },
         {
           "id": "cursor",
@@ -21899,11 +22284,6 @@
         {
           "id": "fd_slime",
           "bg": 1852,
-          "rotates": false
-        },
-        {
-          "id": "fd_electricity",
-          "fg": 1893,
           "rotates": false
         },
         {
@@ -22000,7 +22380,7 @@
         },
         {
           "id": "t_curtains",
-          "fg": 1985,
+          "fg": [2911, 2921, 2911, 2921],
           "rotates": true
         },
         {
@@ -22519,7 +22899,7 @@
         },
         {
           "id": "t_window",
-          "fg": 2286,
+          "fg": [2938, 2904, 2938, 2904],
           "rotates": true
         },
         {
@@ -22529,7 +22909,7 @@
         },
         {
           "id": "t_window_domestic",
-          "fg": 2286,
+          "fg": [2938, 2904, 2938, 2904],
           "rotates": true
         },
         {
@@ -22549,12 +22929,12 @@
         },
         {
           "id": "t_window_bars_alarm",
-          "fg": 2288,
+          "fg": [2947, 2946, 2947, 2946],
           "rotates": true
         },
         {
           "id": "t_window_boarded",
-          "fg": 2289,
+          "fg": [2916, 2915, 2916, 2915],
           "rotates": true
         },
         {
@@ -22662,7 +23042,30 @@
         },
         {
           "id": "fire_ax",
-          "fg": 2371,
+          "fg": 2871,
+          "rotates": false
+        },
+        {
+          "id": "primitive_axe",
+          "fg": 2870,
+          "rotates": false
+        },
+        {
+          "id": "primitive_adze",
+          "fg": 2874,
+          "rotates": false
+        },
+        {
+          "id": "l_enforcer_45",
+          "fg": 2875
+        },
+        {
+          "id": "raw_dandelion",
+          "fg": 2873
+        },
+       {
+          "id": "distaff_spindle",
+          "fg": 2872,
           "rotates": false
         },
         {
@@ -23502,6 +23905,42 @@
           "fg": 2577
         },
         {
+          "id": "thermal_suit",
+          "fg": 2851
+        },
+        {
+          "id": "thermal_suit_on",
+          "fg": 2853
+        },
+        {
+          "id": "overlay_worn_thermal_suit",
+          "fg": 2852,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_thermal_suit_on",
+          "fg": 2854,
+          "rotates": false
+        },
+        {
+          "id": "thermal_outfit",
+          "fg": 2851
+        },
+        {
+          "id": "thermal_outfit_on",
+          "fg": 2853
+        },
+        {
+          "id": "overlay_worn_thermal_outfit",
+          "fg": 2852,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_thermal_outfit_on",
+          "fg": 2854,
+          "rotates": false
+        },
+        {
           "id": "rad_monitor",
           "fg": 2578,
           "rotates": false
@@ -23513,6 +23952,19 @@
         },
         {
           "id": "rebreather_on",
+          "fg": 2579
+        },
+        {
+          "id": "rebreather_filter",
+          "fg": 2820
+        },
+        {
+          "id": "rebreather_xl",
+          "fg": 2579,
+          "rotates": false
+        },
+        {
+          "id": "rebreather_xl_on",
           "fg": 2579
         },
         {
@@ -23631,11 +24083,15 @@
         },
         {
           "id": "acoustic_guitar",
-          "fg": 2626
+          "fg": 2844
         },
         {
           "id": "saxophone",
-          "fg": 2627
+          "fg": 2626
+        },
+         {
+          "id": "ukulele",
+          "fg": 2845
         },
         {
           "id": "vp_engine_1cyl",
@@ -24282,7 +24738,8 @@
         },
         {
           "id": "vp_roller_drum",
-          "fg": 2741
+          "fg": 2741,
+          "rotates": true
         },
         {
           "id": "vp_roof_wood",
