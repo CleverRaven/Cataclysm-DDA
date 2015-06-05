@@ -393,11 +393,13 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.check_dead_state();
     }
 
-    int melee = get_skill_level("melee");
-    int mod_sta = ( (weapon.weight() / (12 * str_cur) ) - melee + 20) * -1;
+    const int melee = get_skill_level("melee");
+    const int weight_cost = weapon.weight() / ( 12 * str_cur );
+    const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5;
+    const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
     mod_stat("stamina", mod_sta);
-    int sta_percent = (100 * stamina) / get_stamina_max();
-    int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
+    const int sta_percent = (100 * stamina) / get_stamina_max();
+    const int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
     move_cost += mod_mc;
 
     mod_moves(-move_cost);
@@ -2344,10 +2346,12 @@ int attack_speed(player &u)
     const int melee_skill = u.has_active_bionic("bio_cqb") ? 5 : (int)u.get_skill_level("melee");
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
     const int dexbonus = rng( 0, u.dex_cur );
+    const int encumbrance_penalty = u.encumb( bp_torso ) +
+                                    ( u.encumb( bp_hand_l ) + u.encumb( bp_hand_r ) ) / 2;
 
     int move_cost = base_move_cost;
     move_cost += skill_cost;
-    move_cost += 2 * u.encumb(bp_torso);
+    move_cost += encumbrance_penalty;
     move_cost -= dexbonus;
 
     if( u.has_trait("HOLLOW_BONES") ) {
