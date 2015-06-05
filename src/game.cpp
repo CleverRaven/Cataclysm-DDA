@@ -12496,7 +12496,6 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     int steps = 0;
     const bool is_u = (c == &u);
-    int dam1, dam2;
 
     player *p = dynamic_cast<player*>(c);
 
@@ -12505,32 +12504,47 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     tripoint pt = c->pos();
     while (range > 0) {
         c->underwater = false;
+        // TODO: Check whenever it is actually in the viewport
+        // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        std::string dname;
         bool thru = true;
-        bool slam = false;
         int mondex = mon_at( pt );
-        float previous_velocity = flvel;
-        monster *critter = nullptr;
+        float force = 0;
 
         if( mondex >= 0 ) {
-            critter = &zombie(mondex);
-            slam = true;
-            dname = critter->name();
-            dam2 = rng( flvel, flvel * 2.0 );
-            critter->apply_damage( c, bp_torso, dam2 );
-            critter->check_dead_state();
-            if( !critter->is_dead() ) {
+            monster &critter = zombie( mondex );
+            // Approximate critter's "stopping power" with its max hp
+            force = std::min<float>( 1.5f * critter.type->hp, flvel );
+            const int damage = rng( force, force * 2.0f ) / 6;
+            c->impact( damage, pt );
+            // Multiply zed damage by 6 because no body parts
+            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            critter.apply_damage( c, bp_torso, zed_damage );
+            critter.check_dead_state();
+            if( !critter.is_dead() ) {
                 thru = false;
             }
         } else if( m.move_cost( pt ) == 0 ) {
-            slam = true;
-            int vpart;
-            vehicle *veh = m.veh_at( pt, vpart );
-            dname = veh ? veh->part_info(vpart).name : m.tername( pt );
+            int part = -1;
+            vehicle *veh = m.veh_at( pt, part );
+            if( veh != nullptr ) {
+                part = veh->obstacle_at_part( part );
+                if( part == -1 ) {
+                    force = std::min<float>( m.bash_strength( pt ), flvel );
+                } else {
+                    // No good way of limiting force here
+                    // Keep it 1 less than maximum to make the impact hurt
+                    // but to keep the target flying after it
+                    force = flvel - 1;
+                }
+            } else {
+                force = std::min<float>( m.bash_strength( pt ), flvel );
+            }
+            const int damage = rng( force, force * 2.0f ) / 9;
+            c->impact( damage, pt );
             if( m.is_bashable( pt ) ) {
                 // Only go through if we successfully make the tile passable
                 m.bash( pt, flvel );
@@ -12539,24 +12553,16 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 thru = false;
             }
         }
-        if( slam ) {
-            if( thru ) {
-                flvel /= 2.0;
-            } else {
-                flvel = 0.0;
-            }
-            float velocity_difference = previous_velocity - flvel;
-            dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 9;
-            c->impact( dam1, pt );
-        }
+
+        flvel -= force;
         if( thru ) {
             if( p != nullptr ) {
                 // If we're flinging the player around, make sure the map stays centered on them.
                 if( is_u ) {
                     update_map( pt.x, pt.y );
                 }
-                if (p->in_vehicle) {
-                    m.unboard_vehicle(p->pos());
+                if( p->in_vehicle ) {
+                    m.unboard_vehicle( p->pos() );
                 }
                 p->setpos( pt );
             } else if( mon_at( pt ) < 0 ) {
@@ -12566,6 +12572,8 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 c->setpos( pt );
             }
         } else {
+            // Don't zero flvel - count this as slamming both the obstacle and the ground
+            // although at lower velocity
             break;
         }
         range--;

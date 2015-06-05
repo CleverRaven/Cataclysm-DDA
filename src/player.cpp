@@ -5104,7 +5104,7 @@ float player::fall_damage_mod() const
     // Penalize for wearing heavy stuff
     dex_dodge -= ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 20 ) + ( encumb(bp_torso) / 10 );
     // But prevent it from increasing damage
-    dex_dodge = std::min( 0.0f, dex_dodge );
+    dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= (100.0f - (dex_dodge * 4.0f)) / 100.0f;
 
@@ -5206,12 +5206,14 @@ int player::impact( const int force, const tripoint &p )
         total_dealt += deal_damage( nullptr, bp, di ).total_damage();
     }
 
-    if( total_dealt > 0 ) {
+    if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
-        add_msg_if_player( m_bad, _("You are slammed against %s for %d damage."),
-                           target_name.c_str(), total_dealt );
+        add_msg( m_bad, _("You are slammed against %s for %d damage."),
+                 target_name.c_str(), total_dealt );
     } else if( slam ) {
-        // Only print this line if it is a slam and not a landing 
+        // Only print this line if it is a slam and not a landing
+        // Non-players should only get this one: player doesn't know how much damage was dealt
+        // and landing messages for each slammed creature would be too much
         add_msg_player_or_npc( m_bad,
                                _("You are slammed against %s."),
                                _("<npcname> is slammed against %s."),

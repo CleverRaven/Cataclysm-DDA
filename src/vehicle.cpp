@@ -588,7 +588,7 @@ void vehicle::smash() {
     }
 }
 
-std::string vehicle::disp_name()
+const std::string vehicle::disp_name()
 {
     return string_format( _("the %s"), name.c_str() );
 }
