@@ -8881,7 +8881,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "UPS conversion mod",
-    "description": "This device converts conventional battery connections to run off of a Unified Power System instead.  Having the UPS on will slowly charge an tool in your inventory.",
+    "description": "This device converts conventional battery connections to run off of a Unified Power System instead.  Having the UPS on will slowly charge a tool in your inventory.",
     "price": 50000,
     "material": ["plastic", "ceramic"],
     "weight": 142,
