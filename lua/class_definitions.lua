@@ -984,6 +984,7 @@ classes = {
             { name = "flammable_items_at", rval = "bool", args = { "tripoint" } },
             { name = "free_volume", rval = "int", args = { "tripoint" } },
             { name = "furn", rval = "int", args = { "tripoint" } },
+            { name = "furn_at", rval = "furn_t", args = { "tripoint" } },
             { name = "furn_set", rval = nil, args = { "tripoint", "int" } },
             { name = "furn_set", rval = nil, args = { "tripoint", "string" } },
             { name = "furnname", rval = "string", args = { "tripoint" } },
@@ -1117,6 +1118,23 @@ classes = {
                 type = "int",
                 writable = false
             }
+        },
+        functions = {
+        }
+    },
+    furn_t = {
+        attributes = {
+            close = { type = "string", writable = true },
+            color = { type = "int", writable = true },
+            id = { type = "string" },
+            max_volume = { type = "int", writable = true },
+            movecost = { type = "int", writable = true },
+            name = { type = "string", writable = true },
+            open = { type = "string", writable = true },
+            sym = { type = "int", writable = true },
+            transparent = { type = "bool", writable = true },
+            loadid = { type = "int" },
+            move_str_req = { type = "int", writable = true },
         },
         functions = {
         }
