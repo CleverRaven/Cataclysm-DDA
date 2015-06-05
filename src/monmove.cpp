@@ -104,17 +104,13 @@ float monster::rate_target( Creature &c, int &bresen1, int &bresen2, float best,
         return INT_MAX;
     }
 
-    const bool sees_c = sees( c, bresen1, bresen2 );
-    if( !sees_c ) {
+    // Check a very common and cheap case first
+    if( !smart && d >= best ) {
         return INT_MAX;
     }
 
-    if( !smart ) {
-        if( d >= best ) {
-            return INT_MAX;
-        }
-
-        return d;
+    if( !sees( c, bresen1, bresen2 ) ) {
+        return INT_MAX;
     }
 
     float power = c.power_rating();
@@ -175,29 +171,36 @@ void monster::plan( const mfactions &factions )
         }
     }
 
-    if( !docile ) {
-        for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-            npc *me = g->active_npc[i];
-            float rating = rate_target( *me, bresenham_slope, bresen2, dist, electronic );
-            bool fleeing_from = is_fleeing( *me );
-            // Switch targets if closer and hostile or scarier than current target
-            if( ( rating < dist && fleeing ) ||
-                ( rating < dist && attitude( me ) == MATT_ATTACK ) ||
-                ( !fleeing && fleeing_from ) ) {
-                target = me;
-                dist = rating;
-                selected_slope = bresenham_slope;
-            }
-            fleeing = fleeing || fleeing_from;
-            if( rating <= 5 ) {
-                anger += angers_hostile_near;
-                morale -= fears_hostile_near;
-            }
+    if( docile ) {
+        if( friendly != 0 && target != nullptr ) {
+            int slope = rng( 0, 1 );
+            set_dest( target->pos(), slope );
+        }
+
+        return;
+    }
+
+    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
+        npc *me = g->active_npc[i];
+        float rating = rate_target( *me, bresenham_slope, bresen2, dist, electronic );
+        bool fleeing_from = is_fleeing( *me );
+        // Switch targets if closer and hostile or scarier than current target
+        if( ( rating < dist && fleeing ) ||
+            ( rating < dist && attitude( me ) == MATT_ATTACK ) ||
+            ( !fleeing && fleeing_from ) ) {
+            target = me;
+            dist = rating;
+            selected_slope = bresenham_slope;
+        }
+        fleeing = fleeing || fleeing_from;
+        if( rating <= 5 ) {
+            anger += angers_hostile_near;
+            morale -= fears_hostile_near;
         }
     }
 
     fleeing = fleeing || ( mood == MATT_FLEE );
-    if( friendly == 0 && !docile ) {
+    if( friendly == 0 ) {
         for( const auto &fac : factions ) {
             auto faction_att = faction.obj().attitude( fac.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -261,7 +264,7 @@ void monster::plan( const mfactions &factions )
             --selected_slope;
         }
 
-        tripoint dest = target->pos3();
+        tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
         if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
             set_dest( dest, selected_slope );
@@ -391,8 +394,7 @@ void monster::move()
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     const bool can_fly = has_flag( MF_FLIES );
     if( !plans.empty() &&
-        ( rl_dist( pos(), plans[0] ) > 1 ||
-          !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) ) {
+        !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) {
         plans.clear();
     }
 

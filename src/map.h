@@ -522,20 +522,24 @@ public:
     // a iuse function needs fire.
     bool has_nearby_fire( const tripoint &p, int radius = 1);
     /**
-     * Check if player can see some items at p. Includes:
-     * - check for items at this location (!i_at().empty())
+     * Check if creature can see some items at p. Includes:
+     * - check for items at this location (has_items(p))
      * - check for SEALED flag (sealed furniture/terrain makes
      * items not visible under any circumstances).
      * - check for CONTAINER flag (makes items only visible when
-     * the player is at p or at an adjacent square).
+     * the creature is at p or at an adjacent square).
      */
-    bool sees_some_items( const tripoint &p, const player &u );
+    bool sees_some_items( const tripoint &p, const Creature &who ) const;
     /**
-     * Check if the player could see items at p if there were
+     * Check if the creature could see items at p if there were
      * any items. This is similar to @ref sees_some_items, but it
      * does not check that there are actually any items.
      */
-    bool could_see_items( const tripoint &p, const player &u ) const;
+    bool could_see_items( const tripoint &p, const Creature &who ) const;
+    /**
+     * Checks for existence of items. Faster than i_at(p).empty
+     */
+    bool has_items( const tripoint &p ) const;
 
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -1282,6 +1286,7 @@ std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
 // Does not build "piles" - does the same as above functions, except in tripoints
 std::vector<tripoint> closest_tripoints_first(int radius, const tripoint &p);
+bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags flag );
 class tinymap : public map
 {
 friend class editmap;
