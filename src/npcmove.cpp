@@ -96,9 +96,25 @@ void npc::move()
     int total_danger = 0;
     int target = INT_MIN;
 
-    choose_monster_target(target, danger, total_danger);
-    add_msg( m_debug, "NPC %s: target = %d, danger = %d, range = %d",
-                 name.c_str(), target, danger, confident_range(-1));
+    // NPCs that are following the player try to avoid getting stuck in
+    // combat. Exception: They've been told to "attack all".
+    bool avoid_combat = false;
+    if(is_following() && combat_rules.engagement != ENGAGE_ALL) {
+        int distance = rl_dist(pos(), g->u.pos());
+        int max_distance = 15;
+        if(combat_rules.engagement == ENGAGE_CLOSE) {
+            max_distance = 9;
+        }
+        if(distance > max_distance) {
+            avoid_combat = true;
+        }
+    }
+
+    if(!avoid_combat) {
+        choose_monster_target(target, danger, total_danger);
+        add_msg( m_debug, "NPC %s: target = %d, danger = %d, range = %d",
+                     name.c_str(), target, danger, confident_range(-1));
+    }
 
     //faction opinion determines if it should consider you hostile
     if( my_fac != nullptr && my_fac->likes_u < -10 && sees( g->u ) ) {
