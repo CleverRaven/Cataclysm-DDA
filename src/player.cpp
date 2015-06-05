@@ -5172,7 +5172,7 @@ int player::impact( const int force, const tripoint &p )
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
         // This isn't impalement on metal wreckage, more like flying through a closed window
-        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5: 0;
+        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( g->m.has_furn( p ) ) {
@@ -5193,6 +5193,12 @@ int player::impact( const int force, const tripoint &p )
             const float scaled_damage = ( 30.0f * mod ) + effective_force - 30.0f;
             mod = scaled_damage / effective_force;
         }
+    }
+
+    if( !slam && mod < 1.0f && mod * effective_force < 5 ) {
+        // Perfect landing, no damage (regardless of armor)
+        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
+        return 0;
     }
 
     int total_dealt = 0;
