@@ -588,6 +588,11 @@ void vehicle::smash() {
     }
 }
 
+std::string vehicle::disp_name()
+{
+    return string_format( _("the %s"), name.c_str() );
+}
+
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors

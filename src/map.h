@@ -481,6 +481,7 @@ public:
     void set( const tripoint &p, const std::string new_terrain, const std::string new_furniture );
 
     std::string name( const tripoint &p );
+    std::string disp_name( const tripoint &p );
     bool has_furn( const tripoint &p ) const;
 
     furn_id furn( const tripoint &p ) const;

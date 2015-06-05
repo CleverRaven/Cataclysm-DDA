@@ -5151,7 +5151,7 @@ int player::impact( const int force, const tripoint &p )
     } else if( veh != nullptr ) {
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
-        target_name = veh->name;
+        target_name = veh->disp_name();
         if( veh->part_with_feature( part_num, "SHARP" ) != -1 ) {
             // Now we're actually getting impaled
             cut = force; // Lots of fun
@@ -5165,7 +5165,7 @@ int player::impact( const int force, const tripoint &p )
         }
     } else {
         // Slamming into terrain/furniture
-        target_name = _("the ") + g->m.name( p );
+        target_name = g->m.disp_name( p );
         int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
@@ -5210,10 +5210,13 @@ int player::impact( const int force, const tripoint &p )
                            target_name.c_str(), total_dealt );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing 
-        add_msg_if_npc( m_bad, _("<npcname> is slammed against %s."), target_name.c_str() );
+        add_msg_player_or_npc( m_bad,
+                               _("You are slammed against %s."),
+                               _("<npcname> is slammed against %s."),
+                               target_name.c_str() );
     } else {
         // No landing message for NPCs
-        add_msg_if_player( _("You land on %s."), target_name.c_str() );
+        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
     }
 
     if( x_in_y( mod, 1.0f ) ) {
