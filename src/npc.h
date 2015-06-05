@@ -717,6 +717,10 @@ public:
 
 // Helper functions for ranged combat
  int  confident_range(int position = -1); // >= 50% chance to hit
+ /**
+  * Check if this NPC is blocking movement from the given position
+  */
+ bool is_blocking_position( const tripoint &p );
  bool wont_hit_friend(  const tripoint &p , int position = -1 );
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
