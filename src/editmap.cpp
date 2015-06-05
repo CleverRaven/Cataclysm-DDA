@@ -238,7 +238,7 @@ void editmap_hilight::draw( editmap *hm, bool update )
 
 
                 if( g->m.furn( p ) > 0 ) {
-                    furn_t furniture_type = furnlist[g->m.furn( p )];
+                    const furn_t &furniture_type = furnlist[g->m.furn( p )];
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
@@ -512,9 +512,9 @@ void editmap::update_view( bool update_info )
     }
 
     target_ter = g->m.ter( target );
-    ter_t terrain_type = terlist[target_ter];
+    const ter_t &terrain_type = terlist[target_ter];
     target_frn = g->m.furn( target );
-    furn_t furniture_type = furnlist[target_frn];
+    const furn_t &furniture_type = furnlist[target_frn];
 
     cur_field = &g->m.get_field( target );
     cur_trap = g->m.tr_at( target ).loadid;
@@ -548,7 +548,7 @@ void editmap::update_view( bool update_info )
 
 
                 if( g->m.furn( p ) > 0 ) {
-                    furn_t furniture_type = furnlist[g->m.furn( p )];
+                    const furn_t &furniture_type = furnlist[g->m.furn( p )];
                     t_sym = furniture_type.sym;
                     t_col = furniture_type.color;
                 }
@@ -806,7 +806,7 @@ int editmap::edit_ter()
         // draw icon grid
         for( int y = tstart; y < pickh && cur_t < ( int ) terlist.size(); y += 2 ) {
             for( int x = xmin; x < pickw && cur_t < ( int ) terlist.size(); x++, cur_t++ ) {
-                ter_t ttype = terlist[cur_t];
+                const ter_t &ttype = terlist[cur_t];
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color : c_dkgray ) , ttype.sym );
                 if( cur_t == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
@@ -837,7 +837,7 @@ int editmap::edit_ter()
         int off = tstart + tlen;
         mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
         if( ter_frn_mode == 0 ) { // unless furniture is selected
-            ter_t pttype = terlist[sel_ter];
+            const ter_t &pttype = terlist[sel_ter];
 
             for( int i = 1; i < width - 2; i++ ) {
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
@@ -861,7 +861,7 @@ int editmap::edit_ter()
         for( int y = fstart; y < pickh && cur_f < ( int ) furnlist.size(); y += 2 ) {
             for( int x = xmin; x < pickw && cur_f < ( int ) furnlist.size(); x++, cur_f++ ) {
 
-                furn_t ftype = furnlist[cur_f];
+                const furn_t &ftype = furnlist[cur_f];
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color : c_dkgray ), ftype.sym );
 
                 if( cur_f == sel_frn ) {
@@ -892,7 +892,7 @@ int editmap::edit_ter()
         mvwprintw( w_pickter, off, 1, "%s", padding.c_str() );
         if( ter_frn_mode == 1 ) {
 
-            furn_t pftype = furnlist[sel_frn];
+            const furn_t &pftype = furnlist[sel_frn];
 
             for( int i = 1; i < width - 2; i++ ) {
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );

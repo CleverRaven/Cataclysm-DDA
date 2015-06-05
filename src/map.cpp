@@ -1262,7 +1262,7 @@ std::string map::get_furn(const int x, const int y) const
     return furn_at(x, y).id;
 }
 
-furn_t & map::furn_at(const int x, const int y) const
+const furn_t & map::furn_at(const int x, const int y) const
 {
     return furnlist[ furn(x,y) ];
 }
@@ -1322,7 +1322,7 @@ std::string map::get_furn( const tripoint &p ) const
     return furn_at( p ).id;
 }
 
-furn_t & map::furn_at( const tripoint &p ) const
+const furn_t & map::furn_at( const tripoint &p ) const
 {
     return furnlist[ furn( p ) ];
 }
@@ -1412,7 +1412,7 @@ int map::get_ter_harvest_season(const int x, const int y) const {
     return ter_at(x, y).harvest_season;
 }
 
-ter_t & map::ter_at(const int x, const int y) const
+const ter_t & map::ter_at(const int x, const int y) const
 {
     return terlist[ ter(x,y) ];
 }
@@ -1488,7 +1488,7 @@ int map::get_ter_harvest_season( const tripoint &p ) const {
 /*
  * Get a reference to the actual terrain struct.
  */
-ter_t & map::ter_at( const tripoint &p ) const
+const ter_t & map::ter_at( const tripoint &p ) const
 {
     return terlist[ ter( p ) ];
 }
@@ -2690,7 +2690,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
     int sound_volume = 0;
     bool smash_furn = false;
     bool smash_ter = false;
-    map_bash_info *bash = nullptr;
+    const map_bash_info *bash = nullptr;
 
     if( has_furn(p) && furn_at(p).bash.str_max != -1 ) {
         bash = &(furn_at(p).bash);
