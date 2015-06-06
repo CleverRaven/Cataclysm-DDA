@@ -14,7 +14,7 @@ class game;
 class item;
 class player;
 class map;
-class tripoint;
+struct tripoint;
 
 namespace iexamine
 {
