@@ -115,7 +115,9 @@ void advanced_inventory::load_settings()
         bool has_veh_items = (square.can_store_in_vehicle()) ?
             !square.veh->get_items(square.vstor).empty() : false;
         bool has_map_items = !g->m.i_at(square.pos).empty();
-        bool in_vehicle_cargo = (has_veh_items || (!has_map_items && !has_veh_items));
+        bool in_vehicle_cargo = (has_veh_items || 
+                (!has_map_items && !has_veh_items) || 
+                uistate.adv_inv_in_vehicle[i]);
         panes[i].set_area(square, in_vehicle_cargo || same_as_last);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         panes[i].index = uistate.adv_inv_index[i];
