@@ -113,7 +113,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["bank"] = &mapgen_bank;
     mapgen_cfunction_map["pawn"] = &mapgen_pawn;
     mapgen_cfunction_map["mil_surplus"] = &mapgen_mil_surplus;
-    mapgen_cfunction_map["furniture"] = &mapgen_furniture;
     mapgen_cfunction_map["abstorefront"] = &mapgen_abstorefront;
     mapgen_cfunction_map["cave"] = &mapgen_cave;
     mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
@@ -5046,60 +5045,6 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
             }
             m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
         }
-        autorotate(false);
-}
-
-
-void mapgen_furniture(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-
-(void)dat;
-
-//    } else if (is_ot_type("furniture", terrain_type)) {
-
-        fill_background(m, t_pavement);
-
-        square(m, t_floor, 2, 2, 21, 15);
-
-        square(m, t_floor, 2, 17, 7, 18);
-
-        mapf::formatted_set_simple(m, 1, 1,
-                                   "\
-|ggggggggg++ggggggggg|\n\
-| C h H      O O & & |\n\
-|B      c            |\n\
-|B      c            |\n\
-|cccccccc   # m  e  B|\n\
-|bb           m  e  B|\n\
-|d          mm   e  B|\n\
-|bb                 B|\n\
-|bb     dd  OO  oo   |\n\
-|#      dd  OO  oo  B|\n\
-|h                  B|\n\
-|h      EE  CC  &&  B|\n\
-|H      EE  CC  &&  B|\n\
-|H                   |\n\
-|      BBBBBBBBBBBBBB|\n\
-|DD------------------|\n\
-|      D              \n\
-|BBBB  D              \n\
-|------|              \n",
-                                   mapf::basic_bind("g - | + D", t_wall_glass, t_wall, t_wall, t_door_c, t_door_locked),
-                                   mapf::basic_bind("# c & B C O b H h o d e m E", f_table, f_counter, f_fridge, f_rack, f_cupboard,
-                                           f_oven, f_bed, f_armchair, f_chair, f_toilet, f_dresser, f_desk, f_sofa, f_bookcase),
-                                   true // empty toilets
-                                  );
-        m->place_items("tools", 50, 21, 5, 21, 8, false, 0);
-        //Upper Right Shelf
-        m->place_items("hardware", 50, 21, 10, 21, 13, false, 0);
-        //Right Shelf
-        m->place_items("hardware", 75, 8, 15, 21, 15, false, 0);
-        //Bottom Right Shelf
-        m->place_items("tools", 75, 2, 18, 5, 18, false, 0);
-        //Bottom Left Shelf
-        m->place_items("magazines", 75, 2, 3, 2, 4, false, 0);
-        //Upper Left Shelf
-
         autorotate(false);
 }
 
