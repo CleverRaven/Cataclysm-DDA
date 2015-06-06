@@ -513,6 +513,8 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint& origin, const std
                                                int dist, bool must_be_seen )
 {
     std::vector<tripoint> result;
+    // dist == 0 means search a whole overmap diameter.
+    dist = dist ? dist : OMAPX;
     for (int x = origin.x - dist; x <= origin.x + dist; x++) {
         for (int y = origin.y - dist; y <= origin.y + dist; y++) {
             if (must_be_seen && !seen(x, y, origin.z)) {
