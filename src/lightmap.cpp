@@ -406,13 +406,13 @@ void map::add_light_source(int x, int y, float luminance )
 
 // Tile light/transparency: 2D overloads
 
-lit_level map::light_at(int dx, int dy)
+lit_level map::light_at(int dx, int dy) const
 {
     if (!INBOUNDS(dx, dy)) {
         return LL_DARK;    // Out of bounds
     }
 
-    const auto &map_cache = get_cache( abs_sub.z );
+    const auto &map_cache = get_cache_ref( abs_sub.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
     if (sm[dx][dy] >= LIGHT_SOURCE_BRIGHT) {
@@ -430,13 +430,13 @@ lit_level map::light_at(int dx, int dy)
     return LL_DARK;
 }
 
-float map::ambient_light_at(int dx, int dy)
+float map::ambient_light_at(int dx, int dy) const
 {
     if (!INBOUNDS(dx, dy)) {
         return 0.0f;
     }
 
-    return get_cache( abs_sub.z ).lm[dx][dy];
+    return get_cache_ref( abs_sub.z ).lm[dx][dy];
 }
 
 bool map::trans(const int x, const int y) const
@@ -446,18 +446,18 @@ bool map::trans(const int x, const int y) const
 
 float map::light_transparency(const int x, const int y) const
 {
-    return get_cache( abs_sub.z ).transparency_cache[x][y];
+    return get_cache_ref( abs_sub.z ).transparency_cache[x][y];
 }
 
 // Tile light/transparency: 3D
 
-lit_level map::light_at( const tripoint &p )
+lit_level map::light_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return LL_DARK;    // Out of bounds
     }
 
-    const auto &map_cache = get_cache( p.z );
+    const auto &map_cache = get_cache_ref( p.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
     // TODO: Fix in FoV update
@@ -478,13 +478,13 @@ lit_level map::light_at( const tripoint &p )
     return LL_DARK;
 }
 
-float map::ambient_light_at( const tripoint &p )
+float map::ambient_light_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return 0.0f;
     }
 
-    return get_cache( p.z ).lm[p.x][p.y];
+    return get_cache_ref( p.z ).lm[p.x][p.y];
 }
 
 bool map::trans( const tripoint &p ) const
@@ -494,12 +494,12 @@ bool map::trans( const tripoint &p ) const
 
 float map::light_transparency( const tripoint &p ) const
 {
-    return get_cache( p.z ).transparency_cache[p.x][p.y];
+    return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
 }
 
 // End of tile light/transparency
 
-bool map::pl_sees( const int tx, const int ty, const int max_range )
+bool map::pl_sees( const int tx, const int ty, const int max_range ) const
 {
     if (!INBOUNDS(tx, ty)) {
         return false;
@@ -508,14 +508,14 @@ bool map::pl_sees( const int tx, const int ty, const int max_range )
     if( max_range >= 0 && square_dist( tx, ty, g->u.posx(), g->u.posy() ) > max_range ) {
         return false;    // Out of range!
     }
-    const auto &map_cache = get_cache( abs_sub.z );
+    const auto &map_cache = get_cache_ref( abs_sub.z );
     return map_cache.seen_cache[tx][ty] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
         ( map_cache.seen_cache[tx][ty] * map_cache.lm[tx][ty] >
           g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
           map_cache.sm[tx][ty] > 0.0 );
 }
 
-bool map::pl_sees( const tripoint &t, const int max_range )
+bool map::pl_sees( const tripoint &t, const int max_range ) const
 {
     if( !inbounds( t ) ) {
         return false;
@@ -524,7 +524,7 @@ bool map::pl_sees( const tripoint &t, const int max_range )
     if( max_range >= 0 && square_dist( t, g->u.pos3() ) > max_range ) {
         return false;    // Out of range!
     }
-    const auto &map_cache = get_cache( t.z );
+    const auto &map_cache = get_cache_ref( t.z );
     return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
         ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
           g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||

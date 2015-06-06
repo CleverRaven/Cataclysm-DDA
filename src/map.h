@@ -196,7 +196,7 @@ class map
      *
      * @param x, y The tile on this map to draw.
      */
-    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache );
+    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
 
@@ -957,13 +957,13 @@ void add_corpse( const tripoint &p );
 
 // Light/transparency: 2D
     float light_transparency(const int x, const int y) const;
-    lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
-    float ambient_light_at(int dx, int dy); // Raw values for tilesets
+    lit_level light_at(int dx, int dy) const; // Assumes 0,0 is light map center
+    float ambient_light_at(int dx, int dy) const; // Raw values for tilesets
     bool trans(const int x, const int y) const; // Transparent?
 // Light/transparency: 3D
     float light_transparency( const tripoint &p ) const;
-    lit_level light_at( const tripoint &p ); // Assumes 0,0 is light map center
-    float ambient_light_at( const tripoint &p ); // Raw values for tilesets
+    lit_level light_at( const tripoint &p ) const; // Assumes 0,0 is light map center
+    float ambient_light_at( const tripoint &p ) const; // Raw values for tilesets
     /**
      * Returns whether the tile at `p` is transparent(you can look past it).
      */
@@ -976,8 +976,8 @@ void add_corpse( const tripoint &p );
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        bool pl_sees( int tx, int ty, int max_range );
-        bool pl_sees( const tripoint &t, int max_range );
+        bool pl_sees( int tx, int ty, int max_range ) const;
+        bool pl_sees( const tripoint &t, int max_range ) const;
     std::set<vehicle*> dirty_vehicle_list;
 
     /** return @ref abs_sub */
@@ -1263,11 +1263,11 @@ private:
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
-    const level_cache &get_cache( const int zlev ) const {
+  public:
+    const level_cache &get_cache_ref( const int zlev ) const {
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
-  public:
     void update_visibility_cache( visibility_variables &cache, int zlev );
 
     // Clips the area to map bounds

@@ -906,7 +906,7 @@ vehicle* map::veh_at( const tripoint &p, int &part_num )
 
 const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
 {
-    if( !get_cache( p.z ).veh_in_active_range || !inbounds( p ) ) {
+    if( !get_cache_ref( p.z ).veh_in_active_range || !inbounds( p ) ) {
         return nullptr; // Out-of-bounds - null vehicle
     }
 
@@ -916,7 +916,7 @@ const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
 const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
-    const auto &ch = get_cache( p.z );
+    const auto &ch = get_cache_ref( p.z );
     if( !ch.veh_in_active_range || !ch.veh_exists_at[p.x][p.y] ) {
         part_num = -1;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
@@ -2159,7 +2159,7 @@ bool map::is_outside(const int x, const int y) const
         return true;
     }
 
-    const auto &outside_cache = get_cache( abs_sub.z ).outside_cache;
+    const auto &outside_cache = get_cache_ref( abs_sub.z ).outside_cache;
     return outside_cache[x][y];
 }
 
@@ -2169,7 +2169,7 @@ bool map::is_outside( const tripoint &p ) const
         return true;
     }
 
-    const auto &outside_cache = get_cache( p.z ).outside_cache;
+    const auto &outside_cache = get_cache_ref( p.z ).outside_cache;
     return outside_cache[p.x][p.y];
 }
 
@@ -2281,7 +2281,7 @@ void map::decay_fields_and_scent( const int amount )
     // Coord code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
-    const auto &outside_cache = get_cache( smz ).outside_cache;
+    const auto &outside_cache = get_cache_ref( smz ).outside_cache;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, smz );
@@ -5020,7 +5020,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.variables_set = true; // Not used yet
     cache.g_light_level = (int)g->light_level();
     cache.vision_threshold = g->u.get_vision_threshold(
-        get_cache(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
+        get_cache_ref(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
 
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
@@ -5055,7 +5055,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     }
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) {
+lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
     const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
 
     // Clairvoyance overrides everything.
@@ -5066,7 +5066,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( cache.u_sight_impaired ) {
         return LL_DARK;
     }
-    const auto &map_cache = get_cache(p.z);
+    const auto &map_cache = get_cache_ref(p.z);
     const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
     if( map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
         if( apparent_light > LIGHT_AMBIENT_LIT ) {
@@ -5165,7 +5165,7 @@ void map::draw( WINDOW* w, const tripoint &center )
     visibility_variables cache;
     update_visibility_cache( cache, center.z );
 
-    const auto &visibility_cache = get_cache( center.z ).visibility_cache;
+    const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
