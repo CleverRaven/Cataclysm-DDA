@@ -27,15 +27,6 @@ class ui_base
         const std::string ctxt_name = "default";
         input_context *ctxt;
 
-        // set the size of the window
-        virtual void set_size(const point &s) final
-        {
-            size = s;
-        }
-        virtual void set_position(const point &p) final
-        {
-            pos = p;
-        }
     public:
         // let the container sort out the position and size
         ui_base();
@@ -52,7 +43,7 @@ class ui_base
          *  `input_manager'. You can get the results of the input from XXX and co.
          */
         virtual void handle_input() = 0;
-        virtual void get_input() = 0;
+        virtual void get_input();
         /*  draw() is to be overriden to allow any custom drawing for the derived class.
          *  Since this is a pure virtual interface, you should have access to the variables
          *  and methods of the derived class, so use this as you please when you draw! :-)
@@ -61,7 +52,11 @@ class ui_base
         /*  finish() contains the last remnants of what needs to be drawn or changed for
          *  the derived class. Takes place after a draw().
          */
-        virtual void finish() = 0;
+        virtual void finish();
+        // set the size of the window
+        virtual void set_size(const point &s) final;
+        // set the position of the window
+        virtual void set_position(const point &p) final;
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_functor /////////////////////////////////////////////////////////// {{{1
@@ -112,17 +107,17 @@ class ui_element : public ui_base
         virtual void draw_border() final;
         // enable/disable the border for the window 
         // (offset will still calculate if there is one, unless do_border == -1)
-        virtual void set_border(int should_draw = true);
+        void set_border(int should_draw = true);
     public:
         ui_element();
         virtual ~ui_element();
 
-        virtual void set_border_color(nc_color c)
+        void set_border_color(nc_color c)
         {
             border_color = c;
         }
-        virtual void draw() override;
-        virtual void finish() override;
+        void draw() override;
+        void finish() override;
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_scrollbar ///////////////////////////////////////////////////////// {{{1
@@ -134,7 +129,7 @@ class ui_scrollbar : public ui_element
     public:
         // inheriting class must define this for scrollbar to work
         virtual const int get_line() const = 0;
-        virtual void draw() override;
+        void draw() override;
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_tabbed ////////////////////////////////////////////////////////////// {{{1

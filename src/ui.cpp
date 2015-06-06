@@ -32,6 +32,17 @@ ui_base::~ui_base()
     delete ctxt;
 }
 
+// set the size of the window
+void ui_base::set_size(const point &s)
+{
+    size = s;
+}
+
+// set the position of the window
+void ui_base::set_position(const point &p)
+{
+    pos = p;
+}
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_functor /////////////////////////////////////////////////////////// {{{1
 void ui_functor::add_function(const ui_callback &uc)
@@ -174,7 +185,7 @@ void ui_tabbed::set_labels(T v)
     labels = v;
 }
 
-// yucky duplicat code :-(
+// yucky duplicate code :-(
 void ui_tabbed::set_labels(const char *start, ...)
 {
     // free the previous labels
