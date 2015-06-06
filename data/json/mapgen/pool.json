@@ -1,0 +1,57 @@
+[
+    {
+        "type":"monstergroup",
+        "name" : "GROUP_MAPGEN_POOL",
+        "default" : "mon_null",
+        "monsters" : [
+            { "monster" : "mon_zombie_swimmer", "freq" : 500, "cost_multiplier" : 0 }
+        ]
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "pool"
+        ],
+        "method": "json",
+        "object": {
+            "rows": [
+                "........................",
+                "........................",
+                "..++n++n++n++n++n++n++..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..+wwwwwwwwwwwwwwwwww+..",
+                "..++n++n++n++n++n++n++..",
+                "........................",
+                "........................"
+            ],
+            "terrain": {
+                ".": [ "t_grass", "t_grass", "t_dirt" ],
+                "+": "t_concrete",
+                "n": "t_concrete",
+                "w": "t_water_dp"
+            },
+            "furniture": {
+                "n": "f_dive_block"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_MAPGEN_POOL", "chance": 1, "x": [3,3], "y": [20,20], "repeat": [1,6] }
+            ]
+        }
+    }
+]
