@@ -84,7 +84,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
     mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
-    mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
     mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
@@ -3264,54 +3263,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
-
-void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i == 2 || i == SEEX * 2 - 3) && j > 6 && j < SEEY * 2 - 1) {
-                    m->ter_set(i, j, t_wall);
-                } else if ((i == 8 && j > 6 && j < 13) ||
-                           (j == 16 && (i == 5 || i == 8 || i == 11 || i == 14 || i == 17))) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if ((j == 6 && ((i > 4 && i < 8) || (i > 15 && i < 19)))) {
-                    m->ter_set(i, j, t_window_bars_alarm);
-                } else if ((j == 14 && i > 3 && i < 15)) {
-                    m->ter_set(i, j, t_window_bars_alarm);
-                } else if (j == 16 && i == SEEX * 2 - 4) {
-                    m->ter_set(i, j, t_door_metal_pickable);
-                } else if (((j == 6 || j == SEEY * 2 - 1) && i > 1 && i < SEEX * 2 - 2) ||
-                           ((j == 16 || j == 14) && i > 2 && i < SEEX * 2 - 3)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == 3 || i == SEEX * 2 - 4) && j > 6 && j < 14) ||
-                           ((j > 8 && j < 12) && (i == 12 || i == 13 || i == 16)) ||
-                           (j == 13 && i > 15 && i < SEEX * 2 - 4)) {
-                    m->set(i, j, t_floor, f_rack);
-                } else if (i > 2 && i < SEEX * 2 - 3 && j > 6 && j < SEEY * 2 - 1) {
-                    m->ter_set(i, j, t_floor);
-                } else if ((j > 0 && j < 6 &&
-                            (i == 2 || i == 6 || i == 10 || i == 17 || i == SEEX * 2 - 3))) {
-                    m->ter_set(i, j, t_pavement_y);
-                } else if (j < 6 && i > 1 && i < SEEX * 2 - 2) {
-                    m->ter_set(i, j, t_pavement);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-        m->ter_set(rng(11, 14), 6, t_door_metal_pickable);
-        m->ter_set(rng(5, 14), 14, t_door_metal_pickable);
-        m->place_items("pistols", 70, 12,  9, 13, 11, false, 0);
-        m->place_items("shotguns", 60, 16,  9, 16, 11, false, 0);
-        m->place_items("rifles", 80, 20,  7, 20, 12, false, 0);
-        m->place_items("smg",  25,  3,  7,  3,  8, false, 0);
-        m->place_items("assault", 18,  3,  9,  3, 10, false, 0);
-        m->place_items("ammo",  93,  3, 11,  3, 13, false, 0);
-        m->place_items("allguns", 12,  5, 16, 17, 16, false, 0);
-        m->place_items("gunxtras", 67, 16, 13, 19, 13, false, 0);
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-
 
 void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
 
