@@ -431,7 +431,7 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         // Note: The below works because C++ in A() || B() won't call B() if A() is true
-        bool did_something = attack_at( next ) || push_to( next ) ||
+        bool did_something = attack_at( next ) || push_to( next, 0, 0 ) ||
                              bash_at( next ) || move_to( next );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -997,11 +997,9 @@ bool monster::move_to( const tripoint &p, bool force )
     return true;
 }
 
-// TODO: Add swapping positions
-// Can't be like with zlave pos swap due to 1 mon-per-tile limit
-bool monster::push_to( const tripoint &p )
+bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 {
-    if( !has_flag( MF_PUSH_MON ) ) {
+    if( !has_flag( MF_PUSH_MON ) || depth > 3 || has_effect( "pushed" ) ) {
         return false;
     }
 
@@ -1019,74 +1017,81 @@ bool monster::push_to( const tripoint &p )
     // Stability roll of the pushed critter
     const int defend = critter->stability_roll();
     // Stability roll of the pushing zed
-    const int attack = stability_roll();
+    const int attack = stability_roll() + boost;
     if( defend > attack ) {
         return false;
     }
 
-    tripoint dir = p - pos();
+    const tripoint dir = p - pos();
 
-    const auto push_roll = [&]( const int dx, const int dy ) {
+    // Mark self as pushed to simplify recursive pushing
+    add_effect( "pushed", 1 );
+
+    // 3 is arbitrary
+    for( size_t i = 0; i < 3; i++ ) {
+        const int dx = rng( -1, 1 );
+        const int dy = rng( -1, 1 );
         if( dx == 0 && dy == 0 ) {
-            return false;
+            continue;
         }
 
         tripoint dest( p.x + dx, p.y + dy, p.z );
         // Pushing forward is easier than pushing aside
         const int direction_penalty = abs( dx - dir.x ) + abs( dy + dir.y );
-        if( g->critter_at( dest ) != nullptr ) {
-            // No chain pushing (yet?)
-            // Still gives a chance to trample
-            return false;
-        }
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
         if( movecost_penalty <= -2 ) {
             // Can't push into unpassable terrain
-            return false;
+            continue;
         }
 
-        return attack >= defend + direction_penalty + movecost_penalty;
-    };
-
-    bool pushed = false;
-    // 3 is arbitrary
-    for( size_t i = 0; i < 3; i++ ) {
-        const int dx = rng( -1, 1 );
-        const int dy = rng( -1, 1 );
-        if( push_roll( dx, dy ) ) {
-            dir.x = dx;
-            dir.y = dy;
-            pushed = true;
-        }
-    }
-
-    if( !pushed ) {
-        if( attack < 2 * defend ) {
-            return false;
+        int roll = attack - ( defend + direction_penalty + movecost_penalty );
+        if( roll < 0 ) {
+            continue;
         }
 
-        // Trample over a much weaker zed (or one with worse rolls)
-        dir = pos() - p;
-    }
+        Creature *critter_recur = g->critter_at( dest );
+        if( critter_recur != nullptr ) {
+            // Try to push recursively
+            monster *mon_recur = dynamic_cast< monster* >( critter_recur );
+            if( mon_recur == nullptr ) {
+                continue;
+            }
 
-    const tripoint dest = p + dir;
-    if( dest != pos() ) {
+            if( critter->push_to( dest, roll, depth + 1 ) ) {
+                // The tile isn't necessarily free, need to check
+                if( g->mon_at( p ) == -1 ) {
+                    move_to( p );
+                }
+
+                moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
+                return true;
+            } else {
+                continue;
+            }
+        }
+
         critter->setpos( dest );
         move_to( p );
-    } else {
-        // Pushing the other zed onto own position is trampling
-        g->swap_critters( *critter, *this );
-        critter->add_effect( "downed", rng( 0, 2 ) );
-        if( g->u.sees( *critter ) ) {
-            add_msg( m_warning, _("The %s tramples %s"),
-                     name().c_str(), critter->disp_name().c_str() );
-        }
+        moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
+        return true;
     }
 
-    critter->moves -= 100;
-    moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
+    // Try to trample over a much weaker zed (or one with worse rolls)
+    // Don't allow trampling with boost
+    if( boost > 0 || attack < 2 * defend ) {
+        return false;
+    }
+
+    g->swap_critters( *critter, *this );
+    critter->add_effect( "downed", rng( 0, 2 ) );
+    // Only print the message when near player or it can get spammy
+    if( rl_dist( g->u.pos() && pos() ) < 4 && g->u.sees( *critter ) ) {
+        add_msg( m_warning, _("The %s tramples %s"),
+                 name().c_str(), critter->disp_name().c_str() );
+    }
+
     return true;
 }
 
