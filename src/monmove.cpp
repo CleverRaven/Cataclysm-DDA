@@ -431,7 +431,8 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         // Note: The below works because C++ in A() || B() won't call B() if A() is true
-        bool did_something = attack_at( next ) || bash_at( next ) || move_to( next );
+        bool did_something = attack_at( next ) || push_to( next ) ||
+                             bash_at( next ) || move_to( next );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
@@ -993,6 +994,95 @@ bool monster::move_to( const tripoint &p, bool force )
         }
     }
 
+    return true;
+}
+
+// TODO: Add swapping positions
+// Can't be like with zlave pos swap due to 1 mon-per-tile limit
+bool monster::push_to( const tripoint &p )
+{
+    if( !has_flag( MF_PUSH_MON ) ) {
+        return false;
+    }
+
+    // TODO: Generalize this to Creature
+    const int mondex = g->mon_at( p );
+    if( mondex < 0 ) {
+        return false;
+    }
+
+    monster *critter = &g->zombie( mondex );
+    if( critter == nullptr || critter == this || p == pos() ) {
+        return false;
+    }
+
+    // Stability roll of the pushed critter
+    const int defend = critter->stability_roll();
+    // Stability roll of the pushing zed
+    const int attack = stability_roll();
+    if( defend > attack ) {
+        return false;
+    }
+
+    tripoint dir = p - pos();
+
+    const auto push_roll = [&]( const int dx, const int dy ) {
+        if( dx == 0 && dy == 0 ) {
+            return false;
+        }
+
+        tripoint dest( p.x + dx, p.y + dy, p.z );
+        // Pushing forward is easier than pushing aside
+        const int direction_penalty = abs( dx - dir.x ) + abs( dy + dir.y );
+        if( g->critter_at( dest ) != nullptr ) {
+            // No chain pushing (yet?)
+            return false;
+        }
+
+        // Pushing into cars/windows etc. is harder
+        const int movecost_penalty = g->m.move_cost( dest ) - 2;
+        if( movecost_penalty <= -2 ) {
+
+            // Can't push into unpassable terrain
+            return false;
+        }
+
+        return attack >= defend + direction_penalty + movecost_penalty;
+    };
+
+    bool success = false;
+    // 3 is arbitrary
+    for( size_t i = 0; i < 3; i++ ) {
+        const int dx = rng( -1, 1 );
+        const int dy = rng( -1, 1 );
+        if( push_roll( dx, dy ) ) {
+            dir.x = dx;
+            dir.y = dy;
+            success = true;
+        }
+    }
+
+    if( !success ) {
+        if( attack < 2 * defend + 4 ) {
+            return false;
+        }
+
+        // Trample over a much weaker zed
+        dir = pos() - p;
+    }
+
+    const tripoint dest = p + dir;
+    if( dest != pos() ) {
+        critter->setpos( p + dir );
+        move_to( p );
+    } else {
+        // Pushing zed onto own position is trampling
+        g->swap_critters( *critter, *this );
+        critter->add_effect( "downed", 1 );
+    }
+
+    critter->moves -= 100;
+    moves -= std::max( 0, 100 - 10 * ( attack - defend ) );
     return true;
 }
 

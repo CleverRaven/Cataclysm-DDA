@@ -143,6 +143,7 @@ enum m_flag {
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

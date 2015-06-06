@@ -193,6 +193,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         bool bash_at( const tripoint &p );
 
+        /**
+         * Try to push away whatever occupies p, then step in.
+         *
+         * @return true if we managed to push something and took its place, false otherwise.
+         */
+        bool push_to( const tripoint &p );
+
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
         int bash_estimate();

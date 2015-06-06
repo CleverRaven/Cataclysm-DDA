@@ -1278,7 +1278,7 @@ int monster::stability_roll() const
     }
 
     int stability = dice(type->melee_sides, type->melee_dice) + size_bonus;
-        return stability;
+    return stability;
 }
 
 int monster::get_dodge() const
