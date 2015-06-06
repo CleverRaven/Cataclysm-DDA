@@ -1950,6 +1950,11 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
+        visibility_variables cache;
+        m.update_visibility_cache( cache, u.posz() );
+        const level_cache &map_cache = m.get_cache_ref( u.posz() );
+        const auto &visibility_cache = map_cache.visibility_cache;
+
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
@@ -1964,25 +1969,28 @@ input_context game::get_player_input(std::string &action)
 
                 //Erase previous drops from w_terrain
                 for( auto &elem : wPrint.vdrops ) {
-                    m.drawsq( w_terrain, u, tripoint( elem.first + offset_x, elem.second + offset_y, get_levz() ),
-                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
+                    const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
+                    const lit_level lighting = visibility_cache[location.x][location.y];
+                    wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                    if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                        m.drawsq( w_terrain, u, location, false, true,
+                                  u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                  lighting == LL_LOW, lighting == LL_BRIGHT );
+                    }
                 }
 
                 wPrint.vdrops.clear();
 
-                const int light_sight_range = u.sight_range( light_level() );
                 for (int i = 0; i < dropCount; i++) {
                     const int iRandX = rng(iStartX, iEndX - 1);
                     const int iRandY = rng(iStartY, iEndY - 1);
                     const int mapx = iRandX + offset_x;
                     const int mapy = iRandY + offset_y;
                     const tripoint mapp( mapx, mapy, u.posz() );
-                    const int distance = rl_dist( u.pos(), mapp );
 
-                    if( m.is_outside( mapp ) &&
-                        ( m.light_at( mapp ) > LL_LOW ||
-                          distance <= light_sight_range ) &&
-                        m.pl_sees( mapp, distance ) &&
+                    const lit_level lighting = visibility_cache[mapp.x][mapp.y];
+
+                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
                         !critter_at(mapp) ) {
                         // Supress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
@@ -1998,22 +2006,13 @@ input_context game::get_player_input(std::string &action)
                         //Erase previous text from w_terrain
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
-                                if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u,
-                                              tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
-                                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
-                                } else {
-                                    const int iDY =
-                                        POSY + ( elem.getPosY() - ( u.posy() + u.view_offset.y ) );
-                                    const int iDX =
-                                        POSX + ( elem.getPosX() - ( u.posx() + u.view_offset.x ) );
-
-                                    if (u.has_effect("boomered")) {
-                                        mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
-
-                                    } else {
-                                        mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
-                                    }
+                                const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
+                                const lit_level lighting = visibility_cache[location.x][location.y];
+                                wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                                if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                                    m.drawsq( w_terrain, u, location, false, true,
+                                              u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                              lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
                         }
