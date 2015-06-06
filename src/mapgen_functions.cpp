@@ -3543,7 +3543,7 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
                 if ((i == 2 || i == SEEX * 2 - 3) && j > 6 && j < SEEY * 2 - 1) {
-                    m->ter_set(i, j, t_wall);
+                    m->ter_set(i, j, t_brick_wall);
                 } else if ((i == 8 && j > 6 && j < 13) ||
                            (j == 16 && (i == 5 || i == 8 || i == 11 || i == 14 || i == 17))) {
                     m->set(i, j, t_floor, f_counter);
