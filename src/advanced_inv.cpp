@@ -2163,7 +2163,8 @@ void advanced_inventory::refresh_minimap()
 
 void advanced_inventory::draw_minimap()
 {
-    static const std::array<aim_location, 3> places = {
+    // if player is in one of the below, invert the player cell
+    static const std::array<aim_location, 3> great_music = {
         {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
     };
     static const std::array<side, NUM_PANES> sides = {{left, right}};
@@ -2181,12 +2182,24 @@ void advanced_inventory::draw_minimap()
             invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
         mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
     }
-    // draw the player iff neither pane's area isn't in `places'
-    bool lip = is_any_of(panes[src].get_area(), places);
-    bool rip = is_any_of(panes[dest].get_area(), places);
-    if(!(lip && rip)) {
-        // draw the player in the center of the map
-        g->u.draw(minimap, g->u.pos(), (lip || rip));
+    /* I now present to you, a story of killer moves and even chiller grooves */
+    bool is_funky, supah_funky, da_funkiest; // it must be talkin' about this fly guy
+    da_funkiest = supah_funky = is_funky = false; // time to krunk the funky dunk!
+    auto play_a_tune_that = [this, &is_funky] // there we go, now _that's_ funky!
+        (const aim_location &groovy) { // as groovy as this tye-dye?
+            // for maximum groovage, and radical coolage!
+            return groovy == this->panes[(is_funky = !is_funky)].get_area();
+        };
+    for(auto /* jefferson */ &airplane : great_music) {
+        supah_funky = play_a_tune_that(/* on that */ airplane); 
+        // listen to the funk in the krunkosphere...
+        da_funkiest = play_a_tune_that(/* under that */ airplane);
+        // ... and groove to those tunes on the krunkwalk!
+    }
+    if(!(supah_funky && da_funkiest)) { // and remember the funkiest of them all!
+        bool player_is_funky = supah_funky || da_funkiest; // thanks to all the players (and bug-hunters)!
+        g->u.draw(minimap, g->u.pos(), player_is_funky); // and thanks for reading fellow coder! :-)
+        // hope you enjoyed the far out experience, man!    -davek
     }
 }
 
