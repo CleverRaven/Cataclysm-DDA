@@ -1014,6 +1014,10 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
+    if( !can_move_to( p ) ) {
+        return false;
+    }
+
     // Stability roll of the pushed critter
     const int defend = critter->stability_roll();
     // Stability roll of the pushing zed
@@ -1022,6 +1026,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
+    const int movecost_from = 50 * g->m.move_cost( p );
+    const int movecost_attacker = std::max( movecost_from, 200 - 10 * ( attack - defend ) );
     const tripoint dir = p - pos();
 
     // Mark self as pushed to simplify recursive pushing
@@ -1068,7 +1074,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                     move_to( p );
                 }
 
-                moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
+                moves -= movecost_attacker;
+                if( movecost_from > 100 ) {
+                    critter->add_effect( "downed", movecost_from / 100 + 1 );
+                } else {
+                    critter->moves -= movecost_from;
+                }
+
                 return true;
             } else {
                 continue;
@@ -1077,7 +1089,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
         critter->setpos( dest );
         move_to( p );
-        moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
+        moves -= movecost_attacker;
+        if( movecost_from > 100 ) {
+            critter->add_effect( "downed", movecost_from / 100 + 1 );
+        } else {
+            critter->moves -= movecost_from;
+        }
+
         return true;
     }
 
@@ -1095,7 +1113,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                  name().c_str(), critter->disp_name().c_str() );
     }
 
-    moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
+    moves -= movecost_attacker;
+    if( movecost_from > 100 ) {
+        critter->add_effect( "downed", movecost_from / 100 + 1 );
+    } else {
+        critter->moves -= movecost_from;
+    }
+    
     return true;
 }
 
