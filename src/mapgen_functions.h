@@ -123,7 +123,6 @@ void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, i
 void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_cabin_strange_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_cabin(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

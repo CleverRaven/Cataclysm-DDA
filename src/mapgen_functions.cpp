@@ -106,7 +106,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
-    mapgen_cfunction_map["cabin_strange_b"] = &mapgen_cabin_strange_b;
     mapgen_cfunction_map["cabin"] = &mapgen_cabin;
 //    mapgen_cfunction_map["farm"] = &mapgen_farm;
 //    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
@@ -4443,76 +4442,6 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 m->add_vehicle(vt, vx + v * tdx, vy + v * tdy, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
         }
-
-
-
-}
-
-
-// _b is basement, obviously!
-void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
-{
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(m, 0, 0,
-                                   "\
-########################\n\
-################...h...#\n\
-########c.cc####.httth.#\n\
-###T..##c....+...ht.th.#\n\
-###...G....c####.......#\n\
-###bb.##....############\n\
-##########D###|---|---|#\n\
-##########.###|cdc|<..|#\n\
-##.hhh.##...##|.h.|-D-|#\n\
-#.......#.C.##|-+-|..h##\n\
-#.hh.hh.D...##c......c##\n\
-#.......#.C.##ccC..Ccc##\n\
-#.hh.hh.#...##cc.....r##\n\
-#.......#.C.##ccC..C.r##\n\
-#.hh.hh.#...##tt..ch.r##\n\
-#.......#.C.##ttCccC..##\n\
-#.......#............A##\n\
-#...t...#.C..C.cC..C..##\n\
-##.....##..h..ccccbbo.##\n\
-###+#+##################\n\
-##.....#################\n\
-##.....#################\n\
-##.....#################\n\
-########################\n",
-                                   mapf::basic_bind("G A b C . - | t + = D o h c d r < # T", t_door_bar_locked, t_dirtfloor,
-                                           t_dirtfloor, t_column, t_dirtfloor, t_wall, t_wall,  t_dirtfloor, t_door_c, t_door_boarded,
-                                           t_door_locked_interior, t_dirtfloor, t_dirtfloor, t_floor,   t_dirtfloor, t_dirtfloor, t_stairs_up,
-                                           t_rock, t_dirtfloor),
-                                   mapf::basic_bind("G A b C . - | t + = D o h c d r < # T", f_null,            f_armchair,     f_bed,
-                                           f_null,   f_null,      f_null,   f_null,    f_table,     f_null,   f_null,         f_null,
-                                           f_bookcase,  f_chair,     f_crate_o, f_desk,      f_rack,      f_null,      f_null, f_toilet));
-        m->spawn_item(2, 17, "brazier");
-        m->spawn_item(6, 17, "brazier");
-        m->spawn_item(4, 17, "etched_skull");
-        for (int i = 0; i <= 23; i++) {
-            for (int j = 0; j <= 23; j++) {
-                if (m->furn(i, j) == f_crate_c) {
-                    m->place_items("dresser",  20, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_cupboard || m->furn(i, j) == f_rack) {
-                    m->place_items("cannedfood",  30, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_bookcase) {
-                    m->place_items("novels",  40, i, j, i, j, true, 0);
-                }
-                if (m->ter(i, j) == t_dirtfloor) {
-                    m->place_items("subway",  10, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_bed) {
-                    m->place_items("bed",  40, i, j, i, j, true, 0);
-                }
-            }
-        }
-        m->add_spawn("mon_dementia", rng(3, 6), 4, 12);
-        m->add_spawn("mon_dementia", rng(1, 4), 19, 2);
-        m->add_spawn("mon_blood_sacrifice", 1, 4, 21);
 
 
 
