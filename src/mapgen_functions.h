@@ -84,7 +84,6 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
 void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_s_grocery(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

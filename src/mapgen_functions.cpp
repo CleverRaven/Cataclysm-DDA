@@ -82,7 +82,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["church_new_england"]             = &mapgen_church_new_england;
     mapgen_cfunction_map["church_gothic"]             = &mapgen_church_gothic;
     mapgen_cfunction_map["s_pharm"]             = &mapgen_pharm;
-    mapgen_cfunction_map["office_cubical"]             = &mapgen_office_cubical;
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
     mapgen_cfunction_map["s_grocery"] = mapgen_s_grocery;
     mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
@@ -3086,71 +3085,6 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         m->place_spawns( mongroup_id( "GROUP_PHARM" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
 }
-
-void mapgen_office_cubical(map *m, oter_id terrain_type, mapgendata dat, int, float) {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(m, 0, 0,
-                                   "\
-      sss               \n\
-     ^sss^              \n\
- |---|-D|------|--|---| \n\
- |cdx|..|xdccxl|.^|cxc| \n\
- |.h....|.h..h......hd| \n\
- |---|..|------|..|---| \n\
- |xdl|....h..hd|..|xdc| \n\
- |ch....|dxcccx|....h.| \n\
- |---|..|------|..|---| \n\
- |xcc|...^cclc....|cdx| \n\
- |dh................hc| \n\
- |-------......|------| \n\
- |e.....+......|n.xdc.| \n\
- |S.....|----..|h.ch..| \n\
- |-+|-+-|......+.....^| \n\
- |..|..S|..hc..|------| \n\
- |l.|..T|cccc..|......| \n\
- |--|---|......|.htth.| \n\
- |^hhh..+......+.htth.| \n\
- |o.....|......|.htth.| \n\
- |o.dx..|--++--|.htth.| \n\
- |o.h...|$$ss$$|......| \n\
- |-wwww-|  ss  |-wwww-| \n\
-           ss           \n",
-                                   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", t_console_broken, t_shrub, t_floor,
-                                           t_floor, t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked,
-                                           t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,
-                                           t_sidewalk, t_floor),
-                                   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s n", f_null,           f_null,
-                                           f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
-                                           f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
-                                           f_locker, f_null, f_safe_l));
-        if (one_in(2)) {
-            m->place_vending(7, 13, "vending_drink");
-        } else {
-            m->place_vending(7, 13, "vending_food");
-        }
-        m->place_items("fridge", 50,  2,  12, 2,  13, false, 0);
-        m->place_items("cleaning", 50,  2,  15, 3,  16, false, 0);
-        m->place_items("office", 80, 11,  7, 13,  7, false, 0);
-        m->place_items("office", 80,  10,  3, 12,  3, false, 0);
-        m->place_items("cubical_office", 60,  2,  3, 3,  3, false, 0);
-        m->place_items("cubical_office", 60,  3,  6, 4,  6, false, 0);
-        m->place_items("cubical_office", 60,  3,  9, 4,  9, false, 0);
-        m->place_items("cubical_office", 60,  21,  3, 21,  4, false, 0);
-        m->place_items("cubical_office", 60,  20,  6, 21,  6, false, 0);
-        m->place_items("cubical_office", 60,  19,  9, 20,  9, false, 0);
-        m->place_items("cubical_office", 60,  18,  17, 19,  20, false, 0);
-        m->place_items("novels", 70,  2,  19, 2,  21, false, 0);
-        {
-            int num_chairs = rng(0, 6);
-            for( int i = 0; i < num_chairs; i++ ) {
-                m->add_vehicle( vproto_id( "swivel_chair" ), rng(6, 16), rng(6, 16), 0, -1, -1, false);
-            }
-        }
-        autorotate(true);
-}
-
 
 void mapgen_s_grocery(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
 
