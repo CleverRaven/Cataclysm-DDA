@@ -45,6 +45,7 @@
 #include "monfaction.h"
 #include "martialarts.h"
 #include "veh_type.h"
+#include "sounds.h"
 
 #include <string>
 #include <vector>
@@ -215,6 +216,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["MONSTER_FACTION"] =
         new StaticFunctionAccessor(&monfactions::load_monster_faction);
+    type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
 
 }
 

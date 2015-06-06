@@ -9,6 +9,14 @@
 #include "messages.h"
 #include "monster.h"
 #include "line.h"
+#include "npc.h"
+#include "item.h"
+#include "player.h"
+#include "path_info.h"
+#include "options.h"
+#include <chrono>
+
+#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 struct sound_event {
     int volume;
@@ -36,6 +44,7 @@ static std::vector<std::pair<tripoint, int>> recent_sounds;
 static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
 static std::unordered_map<tripoint, sound_event> sound_markers;
+std::vector<sound_effect> sound_effects_p;
 
 void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
 {
@@ -349,86 +358,6 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
-weather_type previous_weather;
-
-void sounds::do_ambient_sfx()
-{
-    /* Channel assignments:
-    0: Daytime outdoors env
-    1: Nighttime outdoors env
-    2: Underground env
-    3: Indoors env
-    4: Indoors rain env
-    5: Outdoors snow env
-    6: Outdoors flurry env
-    7: Outdoors thunderstorm env
-    8: Outdoors rain env
-    9: Outdoors drizzle env
-    Group Assignments:
-    1: SFX related to weather
-    2: SFX related to time of day
-    */
-    set_group_channels(2, 9, 1);
-    set_group_channels(0, 1, 2);
-    // Check weather at player position
-    w_point weather_at_player = g->weatherGen.get_weather( g->u.global_square_location(), calendar::turn );
-    g->weather = g->weatherGen.get_weather_conditions(weather_at_player);
-    // Step in at night time / we are not indoors
-    if ( calendar::turn.is_night() && !g->is_sheltered(g->u.pos()) && is_channel_playing(1) != 1 ) {
-        fade_audio_group(2, 1000);
-        play_ambient_sound_effect("environment", "nighttime", 100, 1, 1000);
-    // Step in at day time / we are not indoors
-    } else if ( !calendar::turn.is_night() && is_channel_playing(0) != 1 && !g->is_sheltered(g->u.pos())) {
-        fade_audio_group(2, 1000);
-        play_ambient_sound_effect("environment", "daytime", 100, 0, 1000);
-    }
-    // We are underground
-    if (( g->get_levz() <= -1 && is_channel_playing(2) != 1 ) || ( g->get_levz() <= -1
-        && g->weather != previous_weather )) {
-        fade_audio_group(1, 1000);
-        fade_audio_group(2, 1000);
-        play_ambient_sound_effect("environment", "underground", 100, 2, 1000);
-    // We are indoors
-    } else if (( g->is_sheltered(g->u.pos()) &&  g->get_levz() >= 0 && is_channel_playing(3) != 1 ) ||
-               (g->is_sheltered(g->u.pos()) && g->get_levz() >= 0 && g->weather != previous_weather )) {
-        fade_audio_group(1, 1000);
-        fade_audio_group(2, 1000);
-        play_ambient_sound_effect("environment", "indoors", 100, 3, 1000);
-        // We are indoors and it is also raining
-        if (( g->weather == WEATHER_RAINY || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_THUNDER
-            || g->weather == WEATHER_LIGHTNING) && is_channel_playing(4) != 1 ) {
-            play_ambient_sound_effect("environment", "indoors_rain", 100, 4, 1000);
-        }
-    // We are outside
-    } else if (( !g->is_sheltered(g->u.pos()) && g->weather != WEATHER_CLEAR  && is_channel_playing(5) != 1  &&
-               is_channel_playing(6) != 1  && is_channel_playing(7) != 1  && is_channel_playing(8) != 1  &&
-               is_channel_playing(9) != 1 ) || ( !g->is_sheltered(g->u.pos()) && g->weather != previous_weather )) {
-        fade_audio_group(1, 1000);
-        // We are outside and there is precipitation
-        switch( g->weather ) {
-        case WEATHER_DRIZZLE:
-            play_ambient_sound_effect("environment", "WEATHER_DRIZZLE", 100, 9, 1000);
-            break;
-        case WEATHER_RAINY:
-            play_ambient_sound_effect("environment", "WEATHER_RAINY", 100, 8, 1000);
-            break;
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            play_ambient_sound_effect("environment", "WEATHER_THUNDER", 100, 7, 1000);
-            break;
-        case WEATHER_FLURRIES:
-            play_ambient_sound_effect("environment", "WEATHER_FLURRIES", 100, 6, 1000);
-            break;
-        case WEATHER_SNOW:
-        case WEATHER_SNOWSTORM:
-            play_ambient_sound_effect("environment", "WEATHER_SNOW", 100, 5, 1000);
-            break;
-        }
-    }
-    // Keep track of weather to compare for next iteration
-    previous_weather = g->weather;
-}
-
 void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window )
 {
     auto sound_clusters = cluster_sounds( recent_sounds );
@@ -480,4 +409,465 @@ std::string sounds::sound_at( const tripoint &location )
     }
 
     return _("a sound");
+}
+
+weather_type previous_weather;
+int prev_hostiles = 0;
+int deafness_turns = 0;
+int current_deafness_turns = 0;
+float g_sfx_volume_multiplier = 1;
+auto start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+auto end_footstep_timestamp = std::chrono::high_resolution_clock::now();
+auto footstep_time = end_footstep_timestamp - start_footstep_timestamp;
+
+//sfx::
+void sfx::load_sound_effects(JsonObject &jsobj)
+{
+    int index = 0;
+    std::string file;
+    sound_effect new_sound_effect;
+    new_sound_effect.id = jsobj.get_string("id");
+    new_sound_effect.volume = jsobj.get_int("volume");
+    new_sound_effect.variant = jsobj.get_string("variant");
+    JsonArray jsarr = jsobj.get_array("files");
+    while (jsarr.has_more()) {
+        new_sound_effect.files.push_back(_(jsarr.next_string().c_str()));
+        file = new_sound_effect.files[index];
+        index++;
+        std::string path = (FILENAMES["datadir"] + "/sound/" + file);
+        Mix_Chunk *loaded_chunk = Mix_LoadWAV(path.c_str());
+        if (!loaded_chunk) {
+            dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+        }
+        new_sound_effect.chunk = loaded_chunk;
+        sound_effects_p.push_back(new_sound_effect);
+    }
+    sound_effects_p.push_back(new_sound_effect);
+}
+
+void sfx::play_variant_sound( std::string id, std::string variant, int volume )
+{
+    if ( volume == 0 ) {
+        return;
+    }
+    //add_msg(m_warning, _("Call for: %s / %s"), id.c_str(), variant.c_str());
+    std::string file;
+    std::vector<sound_effect> valid_sound_effects;
+    sound_effect selected_sound_effect;
+    for (auto &i : sound_effects_p) {
+        if (( i.id == id ) && ( i.variant == variant )) {
+            valid_sound_effects.push_back(i);
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        for (auto &i : sound_effects_p) {
+            if (( i.id == id ) && ( i.variant == "default" )) {
+                valid_sound_effects.push_back(i);
+            }
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        return;
+    }
+    int index = rng(0, valid_sound_effects.size() - 1);
+    selected_sound_effect = valid_sound_effects[index];
+    index = rng(0, selected_sound_effect.files.size() - 1);
+    file = selected_sound_effect.files[index];
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
+    Mix_VolumeChunk(effect_to_play, selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
+    if (Mix_PlayChannel(-1, effect_to_play, 0) == -1) {
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+    }
+}
+
+void sfx::play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel, int duration )
+{
+    if ( volume == 0 ) {
+        return;
+    }
+    //add_msg(m_warning, _("Call for: %s / %s"), id.c_str(), variant.c_str());
+    std::string file;
+    std::vector<sound_effect> valid_sound_effects;
+    sound_effect selected_sound_effect;
+    for (auto &i : sound_effects_p) {
+        if (( i.id == id ) && ( i.variant == variant )) {
+            valid_sound_effects.push_back(i);
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        for (auto &i : sound_effects_p) {
+            if (( i.id == id ) && ( i.variant == "default" )) {
+                valid_sound_effects.push_back(i);
+            }
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        return;
+    }
+    int index = rng(0, valid_sound_effects.size() - 1);
+    selected_sound_effect = valid_sound_effects[index];
+    index = rng(0, selected_sound_effect.files.size() - 1);
+    file = selected_sound_effect.files[index];
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
+    Mix_VolumeChunk(effect_to_play, selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
+    if (Mix_FadeInChannel(channel, effect_to_play, -1, duration) == -1) {
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+    }
+}
+
+void sfx::fade_audio_group(int tag, int duration) {
+#ifdef SDL_SOUND
+    Mix_FadeOutGroup(tag, duration);
+#else
+    (void)tag;(void)duration;
+#endif
+}
+
+void sfx::set_group_channels(int from, int to, int tag) {
+#ifdef SDL_SOUND
+    Mix_GroupChannels(from, to, tag);
+#else
+    (void)from;(void)to;(void)tag;
+#endif
+}
+
+int sfx::is_channel_playing(int channel) {
+#ifdef SDL_SOUND
+    return Mix_Playing(channel);
+#else
+    (void)channel;
+#endif
+}
+
+void sfx::stop_sound_effect_fade(int channel, int duration) {
+#ifdef SDL_SOUND
+    if (Mix_FadeOutChannel(channel, duration) == -1) {
+        dbg( D_ERROR ) << "Failed to stop sound effect: " << Mix_GetError();
+    }
+#else
+    (void)id;(void)variant;(void)volume; (void)loops;
+#endif
+}
+
+void sfx::do_ambient_sfx()
+{
+    /* Channel assignments:
+    0: Daytime outdoors env
+    1: Nighttime outdoors env
+    2: Underground env
+    3: Indoors env
+    4: Indoors rain env
+    5: Outdoors snow env
+    6: Outdoors flurry env
+    7: Outdoors thunderstorm env
+    8: Outdoors rain env
+    9: Outdoors drizzle env
+    10: Deafness tone
+    11: Danger high theme
+    12: Danger medium theme
+    13: Danger low theme
+    14: Danger extreme theme
+    Group Assignments:
+    1: SFX related to weather
+    2: SFX related to time of day
+    3: SFX related to context themes
+    */
+    set_group_channels(2, 9, 1);
+    set_group_channels(0, 1, 2);
+    // Check weather at player position
+    w_point weather_at_player = g->weatherGen.get_weather( g->u.global_square_location(), calendar::turn );
+    g->weather = g->weatherGen.get_weather_conditions(weather_at_player);
+    // Step in at night time / we are not indoors
+    if ( calendar::turn.is_night() && !g->is_sheltered(g->u.pos()) && is_channel_playing(1) != 1 && !g->u.get_effect_int( "deaf" ) > 0 ) {
+        fade_audio_group(2, 1000);
+        play_ambient_variant_sound("environment", "nighttime", get_heard_volume( g->u.pos()), 1, 1000);
+    // Step in at day time / we are not indoors
+    } else if ( !calendar::turn.is_night() && is_channel_playing(0) != 1 && !g->is_sheltered(g->u.pos()) && !g->u.get_effect_int( "deaf" ) > 0 ) {
+        fade_audio_group(2, 1000);
+        play_ambient_variant_sound("environment", "daytime", get_heard_volume( g->u.pos()), 0, 1000);
+    }
+    // We are underground
+    if (( g->is_underground(g->u.pos()) && is_channel_playing(2) != 1 && !g->u.get_effect_int( "deaf" ) > 0 ) || ( g->is_underground(g->u.pos())
+        && g->weather != previous_weather && !g->u.get_effect_int( "deaf" ) > 0  )) {
+        fade_audio_group(1, 1000);
+        fade_audio_group(2, 1000);
+        play_ambient_variant_sound("environment", "underground", get_heard_volume( g->u.pos()), 2, 1000);
+    // We are indoors
+    } else if (( g->is_sheltered(g->u.pos()) && !g->is_underground(g->u.pos()) && is_channel_playing(3) != 1 && !g->u.get_effect_int( "deaf" ) > 0 ) ||
+               (g->is_sheltered(g->u.pos()) && !g->is_underground(g->u.pos()) && g->weather != previous_weather && !g->u.get_effect_int( "deaf" ) > 0  )) {
+        fade_audio_group(1, 1000);
+        fade_audio_group(2, 1000);
+        play_ambient_variant_sound("environment", "indoors", get_heard_volume( g->u.pos()), 3, 1000);
+        // We are indoors and it is also raining
+        if (( g->weather == WEATHER_RAINY || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_THUNDER
+            || g->weather == WEATHER_LIGHTNING) && is_channel_playing(4) != 1 ) {
+            play_ambient_variant_sound("environment", "indoors_rain", get_heard_volume( g->u.pos()), 4, 1000);
+        }
+    // We are outside
+    } else if (( !g->is_sheltered(g->u.pos()) && g->weather != WEATHER_CLEAR  && is_channel_playing(5) != 1  &&
+               is_channel_playing(6) != 1  && is_channel_playing(7) != 1  && is_channel_playing(8) != 1  &&
+               is_channel_playing(9) != 1  && !g->u.get_effect_int( "deaf" ) > 0 ) || ( !g->is_sheltered(g->u.pos()) &&
+                g->weather != previous_weather  && !g->u.get_effect_int( "deaf" ) > 0 )) {
+        fade_audio_group(1, 1000);
+        // We are outside and there is precipitation
+        switch( g->weather ) {
+        case WEATHER_DRIZZLE:
+            play_ambient_variant_sound("environment", "WEATHER_DRIZZLE", get_heard_volume( g->u.pos()), 9, 1000);
+            break;
+        case WEATHER_RAINY:
+            play_ambient_variant_sound("environment", "WEATHER_RAINY", get_heard_volume( g->u.pos()), 8, 1000);
+            break;
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            play_ambient_variant_sound("environment", "WEATHER_THUNDER", get_heard_volume( g->u.pos()), 7, 1000);
+            break;
+        case WEATHER_FLURRIES:
+            play_ambient_variant_sound("environment", "WEATHER_FLURRIES", get_heard_volume( g->u.pos()), 6, 1000);
+            break;
+        case WEATHER_SNOWSTORM:
+        case WEATHER_SNOW:
+            play_ambient_variant_sound("environment", "WEATHER_SNOW", get_heard_volume( g->u.pos()), 5, 1000);
+            break;
+        }
+    }
+    // Keep track of weather to compare for next iteration
+    previous_weather = g->weather;
+}
+
+int sfx::get_heard_volume( const tripoint source )
+{
+    int distance = rl_dist( g->u.pos3(), source );
+    const float fract = -100 / 24;
+    int heard_volume = fract * distance - 1 + 100;
+    if ( heard_volume <= 0 ) {
+        heard_volume = 0;
+    }
+    heard_volume *= g_sfx_volume_multiplier;
+    return(heard_volume);
+}
+
+void sfx::generate_gun_soundfx( const tripoint source )
+{
+    int heard_volume = get_heard_volume(source);
+    if ( heard_volume <= 30 ) {
+        heard_volume = 30;
+    }
+    int distance = rl_dist( g->u.pos3(), source );
+    if( source == g->u.pos3() ) {
+        itype_id weapon_id = g->u.weapon.typeId();
+        std::string weapon_type = g->u.weapon.gun_skill();
+        std::string selected_sound = "fire_gun";
+        if ( g->u.weapon.has_gunmod( "suppressor" ) == 1 || g->u.weapon.has_gunmod( "homemade suppressor" ) == 1) {
+            selected_sound = "fire_gun_suppressed";
+        }
+        play_variant_sound( selected_sound, weapon_id, heard_volume );
+        return;
+    }
+
+    if(g->npc_at( source ) != -1 ) {
+        auto npc_source = g->active_npc[ g->npc_at( source ) ];
+        if ( distance <= 17 ) {
+            itype_id weapon_id = npc_source->weapon.typeId();
+            play_variant_sound( "fire_gun", weapon_id, heard_volume );
+            return;
+        } else {
+            std::string weapon_type = npc_source->weapon.gun_skill();
+            play_variant_sound( "fire_gun_distant", weapon_type, heard_volume );
+            return;
+        }
+    }
+    int mon_pos = g->mon_at( source );
+    if(mon_pos != -1) {
+        monster *monster = g->monster_at( source );
+        std::string monster_id = monster->type->id;
+        if ( distance <= 18 ) {
+            if ( monster_id == "mon_turret" || monster_id == "mon_secubot" ) {
+                play_variant_sound( "fire_gun", "hk_mp5", heard_volume );
+            } else if ( monster_id == "mon_turret_rifle" || monster_id == "mon_chickenbot" || monster_id == "mon_tankbot") {
+                play_variant_sound( "fire_gun", "m4a1", heard_volume );
+            }
+        } else {
+            if ( monster_id == "mon_turret" || monster_id == "mon_secubot" ) {
+                play_variant_sound( "fire_gun_distant", "smg", heard_volume );
+            } else if ( monster_id == "mon_turret_rifle" || monster_id == "mon_chickenbot" || monster_id == "mon_tankbot") {
+                play_variant_sound( "fire_gun_distant", "rifle", heard_volume );
+            }
+        }
+    }
+}
+
+void sfx::do_projectile_hit_sfx ( const Creature *target )
+{
+    std::string selected_sound;
+    int heard_volume;
+    if( !target->is_npc() && !target->is_player() ) {
+        const monster *mon = dynamic_cast<const monster *>(target);
+        heard_volume = get_heard_volume(mon->pos());
+        const auto material = mon->get_material();
+
+        static std::set<mat_type> const fleshy = {
+            mat_type( "flesh" ),
+            mat_type( "iflesh" ),
+            mat_type( "veggy" ),
+            mat_type( "bone" ),
+            mat_type( "protoplasmic" ),
+        };
+
+        if( fleshy.count( material ) > 0 || mon->has_flag( MF_VERMIN)) {
+            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume );
+            return;
+        } else if (mon->get_material() == "stone") {
+            play_variant_sound( "bullet_hit", "hit_wall", heard_volume );
+            return;
+        } else if (mon->get_material() == "steel") {
+            play_variant_sound( "bullet_hit", "hit_metal", heard_volume );
+            return;
+        } else {
+            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume );
+            return;
+        }
+    }
+    heard_volume = sfx::get_heard_volume( target->pos() );
+    play_variant_sound( "bullet_hit", "hit_flesh", heard_volume );
+}
+
+void sfx::do_danger_music()
+{
+    set_group_channels(11, 14, 3);
+    int hostiles = 0;
+    for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
+        if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+            hostiles++;
+        }
+    }
+    if ( hostiles == prev_hostiles ) {
+        return;
+    }
+    if ( hostiles <= 4 ) {
+        fade_audio_group(3, 1000);
+        prev_hostiles = hostiles;
+        return;
+    } else if ( hostiles >= 5 && hostiles <= 9 && !is_channel_playing(13)) {
+        fade_audio_group(3, 1000);
+        play_ambient_variant_sound( "danger_low", "default", 100, 13, 1000);
+        prev_hostiles = hostiles;
+        return;
+    } else if ( hostiles >= 10 && hostiles <= 14 && !is_channel_playing(12)) {
+        fade_audio_group(3, 1000);
+        play_ambient_variant_sound( "danger_medium", "default", 100, 12, 1000);
+        prev_hostiles = hostiles;
+        return;
+    } else if ( hostiles >= 15 && hostiles <= 19 && !is_channel_playing(11)) {
+        fade_audio_group(3, 1000);
+        play_ambient_variant_sound( "danger_high", "default", 100, 11, 1000);
+        prev_hostiles = hostiles;
+        return;
+    } else if ( hostiles >= 20 && !is_channel_playing(14)) {
+        fade_audio_group(3, 1000);
+        play_ambient_variant_sound( "danger_extreme", "default", 100, 14, 1000);
+        prev_hostiles = hostiles;
+        return;
+    }
+    prev_hostiles = hostiles;
+}
+
+void sfx::do_hearing_loss_sfx( int turns )
+{
+    if ( deafness_turns == 0 ) {
+        deafness_turns = turns;
+        g_sfx_volume_multiplier = .1;
+        fade_audio_group(1, 50);
+        fade_audio_group(2, 50);
+        play_variant_sound( "environment", "deafness_shock", 100 );
+        play_variant_sound( "environment", "deafness_tone_start", 100 );
+        if ( deafness_turns <= 35 ) {
+            play_ambient_variant_sound( "environment", "deafness_tone_light", 90, 10, 100 );
+        } else if ( deafness_turns <= 90 ) {
+            play_ambient_variant_sound( "environment", "deafness_tone_medium", 90, 10, 100 );
+        } else if ( deafness_turns >= 91 ) {
+            play_ambient_variant_sound( "environment", "deafness_tone_heavy", 90, 10, 100 );
+        }
+    } else {
+        deafness_turns += turns;
+    }
+}
+
+void sfx::remove_hearing_loss_sfx()
+{
+    if ( current_deafness_turns >= deafness_turns ) {
+        stop_sound_effect_fade(10, 300);
+        g_sfx_volume_multiplier = 1;
+        deafness_turns = 0;
+        current_deafness_turns = 0;
+        do_ambient_sfx();
+    }
+    current_deafness_turns++;
+}
+
+void sfx::do_footstep_sfx()
+{
+    end_footstep_timestamp = std::chrono::high_resolution_clock::now();
+    footstep_time = end_footstep_timestamp - start_footstep_timestamp;
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(footstep_time).count() > 400) {
+        int heard_volume = sfx::get_heard_volume( g->u.pos() );
+        const auto terrain = g->m.ter_at( g->u.pos()).id;
+
+        static std::set<ter_type> const grass = {
+            ter_type( "t_grass" ),
+            ter_type( "t_shrub" ),
+            ter_type( "t_underbrush" ),
+        };
+
+        static std::set<ter_type> const dirt = {
+            ter_type( "t_dirt" ),
+            ter_type( "t_sand" ),
+            ter_type( "t_dirtfloor" ),
+            ter_type( "t_palisade_gate_o" ),
+            ter_type( "t_sandbox" ),
+        };
+
+        static std::set<ter_type> const metal = {
+            ter_type( "t_ov_smreb_cage" ),
+            ter_type( "t_metal_floor" ),
+            ter_type( "t_grate" ),
+            ter_type( "t_bridge" ),
+            ter_type( "t_elevator" ),
+            ter_type( "t_guardrail_bg_dp" ),
+        };
+
+        static std::set<ter_type> const water = {
+            ter_type( "t_water_sh" ),
+            ter_type( "t_water_dp" ),
+            ter_type( "t_swater_sh" ),
+            ter_type( "t_swater_dp" ),
+            ter_type( "t_water_pool" ),
+            ter_type( "t_sewage" ),
+        };
+
+        if ( !g->u.wearing_something_on( bp_foot_l )) {
+            play_variant_sound( "plmove", "walk_barefoot", heard_volume );
+            start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+            return;
+        } else if( grass.count( terrain ) > 0 ) {
+            play_variant_sound( "plmove", "walk_grass", heard_volume );
+            start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+            return;
+        } else if( dirt.count( terrain ) > 0 ) {
+            play_variant_sound( "plmove", "walk_dirt", heard_volume );
+            start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+            return;
+        } else if( metal.count( terrain ) > 0 ) {
+            play_variant_sound( "plmove", "walk_metal", heard_volume );
+            start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+            return;
+        } else if( water.count( terrain ) > 0 ) {
+            play_variant_sound( "plmove", "walk_water", heard_volume );
+            start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+            return;
+        } else {
+            play_variant_sound( "plmove", "walk_tarmac", heard_volume );
+            start_footstep_timestamp = std::chrono::high_resolution_clock::now();
+            return;
+        }
+    }
 }

@@ -3,12 +3,31 @@
 
 #include "enums.h" // For point
 #include "cursesdef.h" // For WINDOW
-
+#ifdef SDL_SOUND
+#include "SDL2/SDL_mixer.h"
+#endif
 #include <vector>
 #include <string>
 
 class monster;
 class player;
+class Creature;
+struct sound_effect;
+
+struct sound_effect {
+    std::vector<std::string> files;
+    std::string id;
+    std::string variant;
+    int volume;
+    Mix_Chunk *chunk;
+
+    sound_effect()
+    {
+        id = "";
+        variant = "";
+        volume = 0;
+    }
+};
 
 namespace sounds {
     // Methods for recording sound events.
@@ -50,6 +69,27 @@ namespace sounds {
     void draw_monster_sounds( const tripoint &offset, WINDOW *window );
     // retrieve the sound event(s?) at a location.
     std::string sound_at( const tripoint &location );
+}
+
+typedef std::string mat_type;
+typedef std::string ter_type;
+
+namespace sfx {
+    void load_sound_effects(JsonObject &jsobj);
+    void play_variant_sound( std::string id, std::string variant, int volume );
+    void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel, int duration );
+    void generate_gun_soundfx( const tripoint source );
+    void do_hearing_loss_sfx( int turns );
+    void remove_hearing_loss_sfx();
+    void do_projectile_hit_sfx( const Creature *target = nullptr );
+    int get_heard_volume( const tripoint source );
+    void do_footstep_sfx();
+    void do_danger_music();
+    void do_ambient_sfx();
+    void set_group_channels(int from, int to, int tag);
+    void fade_audio_group(int tag, int duration);
+    int is_channel_playing(int channel);
+    void stop_sound_effect_fade(int channel, int duration);
 }
 
 #endif

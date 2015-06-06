@@ -166,7 +166,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
 
     int practice = std::max( 0, 4 + pieces + roll_butchery());
-    
+
     p->practice("survival", practice);
 
     // Lose some meat, skins, etc if the rolls are low
@@ -205,7 +205,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( stomach ) {
-        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON) && 
+        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON) &&
             !corpse->has_flag(MF_HUMAN)) {
             const itype_id meat = corpse->get_meat_itype();
             if ((corpse->size == MS_SMALL || corpse->size == MS_MEDIUM) && meat == "meat") {
@@ -513,9 +513,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         next_ter = terfind("t_underbrush_harvested_winter");
         break;
     }
-    
+
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
-    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {                
+    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {
         // Returns zero if location has no defined items.
         int cnt = g->m.put_items_from_loc( loc, p->pos3(), calendar::turn );
         if( cnt > 0 ) {
@@ -919,8 +919,10 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         if(reloadable->is_gun()) {
             islot_gun* gun = reloadable->type->gun.get();
             if( gun->reload_noise_volume > 0 ) {
+
+              sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume(p->pos()));
               sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
-                             true, "reload", reloadable->typeId() );
+                             true, "", "" );
             }
         }
     } else {

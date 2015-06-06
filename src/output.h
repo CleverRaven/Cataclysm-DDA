@@ -341,9 +341,5 @@ bool is_draw_tiles_mode();
 
 void play_music(std::string playlist);
 void play_sound_effect(std::string id, std::string variant, int volume);
-void play_ambient_sound_effect(std::string id, std::string variant, int volume, int channel, int duration);
-int is_channel_playing(int channel);
-void fade_audio_group(int tag, int duration);
-void set_group_channels(int from, int to, int tag);
 
 #endif

@@ -87,6 +87,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
         // Shoot a random nearby space?
         target.x += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
         target.y += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume(target));
         // TODO: Z dispersion
     }
 
@@ -111,6 +112,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
     bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
     int projectile_skip_current_frame = 0;
     float projectile_skip_multiplier = 0.1;
+    sfx::generate_gun_soundfx( source );
     for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
@@ -167,6 +169,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
                 splatter( blood_traj, dam, critter );
+                sfx::do_projectile_hit_sfx( critter );
             }
             if (!passed_through) {
                 dam = 0;
@@ -214,6 +217,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     z.add_effect("bounced", 1);
                     projectile_attack(proj, tp, z.pos(), shot_dispersion);
+                    sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()));
                     break;
                 }
             }
@@ -484,6 +488,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                         // Try not to drop the casing on a wall if at all possible.
                     } while( g->m.move_cost( brass ) == 0 && count < 10 );
                     g->m.add_item_or_charges(brass, casing);
+                    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume(brass));
                 }
             }
         }
@@ -651,10 +656,12 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
         trajectory = line_to( p.pos3(), target, tart1, tart2 );
         missed = true;
         p.add_msg_if_player(_("You miss!"));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume(targ));
     } else if (missed_by >= .6) {
         // Hit the space, but not the monster there
         missed = true;
         p.add_msg_if_player(_("You barely miss!"));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume(targ));
     }
 
     // The damage dealt due to item's weight and player's strength
@@ -1304,7 +1311,7 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
     const auto data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, data.sound, false, "fire_gun", weapon->typeId() );
+        sounds::sound( p.pos(), data.volume, data.sound, false, "", "" );
     }
 }
 

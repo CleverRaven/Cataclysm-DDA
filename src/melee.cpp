@@ -344,9 +344,10 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) { // check martial arts silence
-            sounds::sound( pos3(), 8, "", false, "melee_hit", weapon.typeId() );
+            sounds::sound( pos3(), 8, "", false, "", "" );
+            sfx::play_variant_sound( "melee_hit", weapon.typeId(), sfx::get_heard_volume(pos3()));
         }
-
+        sfx::play_variant_sound( "melee_hit", weapon.typeId(), sfx::get_heard_volume(pos3()) * .6);
         int dam = dealt_dam.total_damage();
 
         bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());
@@ -429,16 +430,16 @@ void player::reach_attack( const tripoint &p )
     for( const tripoint &p : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = g->critter_at( p );
-        if( inter != nullptr && 
-              !x_in_y( ( target_size * target_size + 1 ) * skill, 
+        if( inter != nullptr &&
+              !x_in_y( ( target_size * target_size + 1 ) * skill,
                        ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
         } else if( g->m.move_cost( p ) == 0 &&
                    // Fences etc. Spears can stab through those
-                     !( weapon.has_flag( "SPEAR" ) && 
-                        g->m.has_flag( "THIN_OBSTACLE", p ) && 
+                     !( weapon.has_flag( "SPEAR" ) &&
+                        g->m.has_flag( "THIN_OBSTACLE", p ) &&
                         x_in_y( skill, 10 ) ) ) {
             g->m.bash( p, str_cur + weapon.type->melee_dam );
             handle_melee_wear();
@@ -756,7 +757,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
         // 50% arpen
         armor_mult = 0.5f;
     }
-    
+
     di.add_damage( DT_BASH, bash_dam, 0, armor_mult, bash_mul );
 }
 

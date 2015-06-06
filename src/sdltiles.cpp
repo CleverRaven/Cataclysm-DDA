@@ -46,7 +46,7 @@
 #endif
 
 #ifdef SDL_SOUND
-#include "SDL_mixer.h"
+#include "SDL2/SDL_mixer.h"
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -118,7 +118,7 @@ protected:
             return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }
     };
-    
+
     struct cached_t {
         SDL_Texture* texture;
         int          width;
@@ -368,11 +368,13 @@ bool WinCreate()
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
     int audio_channels = 2;
-    int audio_buffers = 4096;
+    int audio_buffers = 2048;
 
     if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
         dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
     }
+    Mix_AllocateChannels(128);
+    Mix_ReserveChannels(15);
 #endif
 
     return true;
@@ -511,7 +513,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 }
 
 void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
-{   
+{
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
     cached_t value;
 
@@ -2058,49 +2060,8 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
 #endif
 }
 
-void play_ambient_sound_effect(std::string id, std::string variant, int volume, int channel, int duration) {
-#ifdef SDL_SOUND
-    sound_effect_entry *effect_to_play = get_sound_effect(id, variant);
-    if (!effect_to_play) {
-        return;
-    }
-    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
-    if (Mix_FadeInChannel(channel, effect_to_play->chunk, -1, duration) == -1) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
-    }
-#else
-    (void)id;(void)variant;(void)volume; (void)loops;
-#endif
-}
-
-void fade_audio_group(int tag, int duration) {
-#ifdef SDL_SOUND
-    Mix_FadeOutGroup(tag, duration);
-#else
-    (void)tag;(void)duration;
-#endif
-}
-
-void set_group_channels(int from, int to, int tag) {
-#ifdef SDL_SOUND
-    Mix_GroupChannels(from, to, tag);
-#else
-    (void)from;(void)to;(void)tag;
-#endif
-}
-
-int is_channel_playing(int channel) {
-#ifdef SDL_SOUND
-    return Mix_Playing(channel);
-#else
-    (void)channel;
-#endif
-}
-
 void load_soundset() {
 #ifdef SDL_SOUND
-    Mix_AllocateChannels(64);
-    Mix_ReserveChannels(10);
     std::string location = FILENAMES["datadir"] + "/sound/musicset.json";
     std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
