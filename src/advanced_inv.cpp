@@ -1728,6 +1728,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     redraw = true; // the menu has messed the screen up.
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
         assert( squares[menu.ret].canputitems() );
+        vehicle_override = squares[def].can_store_in_vehicle(); // icallhacks
         def = static_cast<aim_location>( menu.ret );
         uistate.adv_inv_last_popup_dest = menu.ret;
         return true;
@@ -1753,8 +1754,9 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem )
         rc = true;
     } else if( sitem.area == AIM_WORN ) {
         rc = g->u.takeoff( sitem.it );
-    } else if( sitem.from_vehicle ) {
+    } else if( sitem.from_vehicle  || vehicle_override ) {
         rc = s.veh->remove_item( s.vstor, sitem.it );
+        vehicle_override = false; // reset
     }
 
     if( !rc ) {
@@ -1775,8 +1777,9 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item )
         return g->u.wear_item(&new_item);
     } else {
         advanced_inv_area &p = squares[destarea];
-        if( panes[dest].in_vehicle() ) {
+        if( panes[dest].in_vehicle() || vehicle_override) {
             rc = p.veh->add_item( p.vstor, new_item );
+            vehicle_override = false; // reset
         } else {
             rc = g->m.add_item_or_charges( p.pos, new_item, 0 );
         }

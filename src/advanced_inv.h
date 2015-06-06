@@ -313,6 +313,10 @@ class advanced_inventory
         void refresh_minimap();
         char get_minimap_sym(side p) const;
 
+        // override whether an item is added or removed from a vehicle
+        // (hack for query_destination() to always dump to veh if there)
+        bool vehicle_override = false;
+
         bool inCategoryMode;
 
         int itemsPerPage;
