@@ -86,7 +86,6 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 
 void mapgen_s_grocery(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_s_electronics(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

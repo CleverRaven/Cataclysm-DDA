@@ -84,7 +84,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
     mapgen_cfunction_map["s_grocery"] = mapgen_s_grocery;
     mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
-    mapgen_cfunction_map["s_electronics"] = mapgen_s_electronics;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
     mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
     mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
@@ -3262,46 +3261,6 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
         }
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-
-
-void mapgen_s_electronics(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
-
-        dat.fill_groundcover();
-        square(m, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
-        line(m, t_wall, 3, 4, 3, SEEY * 2 - 4);
-        line(m, t_wall, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
-        line(m, t_wall, 3, 3, SEEX * 2 - 3, 3);
-        line(m, t_wall, 3, SEEY * 2 - 3, SEEX * 2 - 3, SEEY * 2 - 3);
-        m->ter_set(13, 3, t_door_c);
-        line(m, t_window, 10, 3, 11, 3);
-        line(m, t_window, 16, 3, 18, 3);
-        line(m, t_window, SEEX * 2 - 3, 9,  SEEX * 2 - 3, 11);
-        line(m, t_window, SEEX * 2 - 3, 14,  SEEX * 2 - 3, 16);
-        line_furn(m, f_counter, 4, SEEY * 2 - 4, SEEX * 2 - 4, SEEY * 2 - 4);
-        line_furn(m, f_counter, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9);
-        line_furn(m, f_counter, SEEX * 2 - 4, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 9);
-        line_furn(m, f_counter, SEEX * 2 - 7, 4, SEEX * 2 - 7, 6);
-        line_furn(m, f_counter, SEEX * 2 - 7, 7, SEEX * 2 - 5, 7);
-        line_furn(m, f_rack, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9);
-        line_furn(m, f_rack, SEEX * 2 - 9, SEEY * 2 - 5, SEEX * 2 - 9, SEEY * 2 - 9);
-        line_furn(m, f_rack, 4, 4, 4, SEEY * 2 - 10);
-        line_furn(m, f_rack, 5, 4, 8, 4);
-        m->place_items("consumer_electronics", 85, 4, SEEY * 2 - 4, SEEX * 2 - 4,
-                    SEEY * 2 - 4, false, turn - 50);
-        m->place_items("consumer_electronics", 85, 4, SEEY * 2 - 5, 4, SEEY * 2 - 9,
-                    false, turn - 50);
-        m->place_items("consumer_electronics", 85, SEEX * 2 - 4, SEEY * 2 - 5,
-                    SEEX * 2 - 4, SEEY * 2 - 9, false, turn - 50);
-        m->place_items("consumer_electronics", 85, 9, SEEY * 2 - 5, 9, SEEY * 2 - 9,
-                    false, turn - 50);
-        m->place_items("consumer_electronics", 85, SEEX * 2 - 9, SEEY * 2 - 5,
-                    SEEX * 2 - 9, SEEY * 2 - 9, false, turn - 50);
-        m->place_items("consumer_electronics", 85, 4, 4, 4, SEEY * 2 - 10, false,
-                    turn - 50);
-        m->place_items("consumer_electronics", 85, 5, 4, 8, 4, false, turn - 50);
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_ELECTRO" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
 void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
