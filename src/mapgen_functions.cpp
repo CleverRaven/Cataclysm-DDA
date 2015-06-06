@@ -106,7 +106,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
-    mapgen_cfunction_map["cabin_strange"] = &mapgen_cabin_strange;
     mapgen_cfunction_map["cabin_strange_b"] = &mapgen_cabin_strange_b;
     mapgen_cfunction_map["cabin"] = &mapgen_cabin;
 //    mapgen_cfunction_map["farm"] = &mapgen_farm;
@@ -4449,75 +4448,6 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 
 }
 
-
-void mapgen_cabin_strange(map *m, oter_id, mapgendata dat, int, float)
-{
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(m, 0, 0,
-                                   "\
-                        \n\
-^  FfffffffffffGfffffF  \n\
-   F                 F  \n\
-   F              ^  F  \n\
-  ^F  |-w---|        F  \n\
-   F  |cSecu|sssss   F  \n\
-  |-w-|O....=sssss|---| \n\
-  |H.T|c...u|-w-w-|>..w \n\
-  |H..+....u|d....|-|-| \n\
-  |..S|.....+.....+.|r| \n\
-  |-+-|.....|...bb|r|.| \n\
-  |.........|---|-|-|+| \n\
-  w...hh....aaaa|.d...| \n\
-  |..htth.......|.....w \n\
-  w..htth.......D..bb.w \n\
-  w...hh.......o|..bb.| \n\
-  |o...........A|-----| \n\
-  w.............|d.bb.| \n\
-  |.............+..bb.w \n\
-  |-+|-w-==-w-|-|.....| \n\
-  |L.|ssssssss|r+.....| \n\
-  |--|ssssssss|-|--w--| \n\
-     ssCssssCss         \n\
-  ^                 ^   \n",
-                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", t_shrub, t_tree,
-                                           t_fence_h, t_fence_v, t_fencegate_c, t_floor,   t_floor,    t_floor, t_floor,    t_floor, t_column,
-                                           t_floor, t_wall, t_wall,  t_floor, t_door_c, t_door_boarded, t_door_locked_interior,
-                                           t_window_boarded, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,   t_floor,
-                                           t_sidewalk, t_floor, t_stairs_down, t_floor),
-                                   mapf::basic_bind("% ^ f F G H u a A b C . - | t + = D w T S e o h c d r s O > L", f_null,  f_null,
-                                           f_null,    f_null,    f_null,        f_bathtub, f_cupboard, f_sofa,  f_armchair, f_bed,   f_null,
-                                           f_null,  f_null,   f_null,    f_table, f_null,   f_null,         f_null,                 f_null,
-                                           f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_dresser, f_rack,  f_null,     f_oven,
-                                           f_null, f_locker));
-        for (int i = 0; i <= 23; i++) {
-            for (int j = 0; j <= 23; j++) {
-                if (m->furn(i, j) == f_fridge) {
-                    m->place_items("fridgesnacks",  30, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_cupboard) {
-                    m->place_items("cannedfood",  30, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_rack || m->furn(i, j) == f_dresser || m->furn(i, j) == f_locker) {
-                    m->place_items("dresser",  40, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_bookcase) {
-                    m->place_items("novels",  40, i, j, i, j, true, 0);
-                }
-                if (m->ter(i, j) == t_floor) {
-                    m->place_items("subway",  10, i, j, i, j, true, 0);
-                }
-                if (m->furn(i, j) == f_locker) {
-                    m->place_items("bed",  60, i, j, i, j, true, 0);
-                }
-            }
-        }
-
-
-
-
-}
 
 // _b is basement, obviously!
 void mapgen_cabin_strange_b(map *m, oter_id, mapgendata dat, int, float)
