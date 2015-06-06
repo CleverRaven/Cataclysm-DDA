@@ -4172,7 +4172,7 @@ int player::sight_range(int light_level) const
     return std::min(range, sight_max);
 }
 
-int player::unimpaired_range() {
+int player::unimpaired_range() const {
     int ret = DAYLIGHT_LEVEL;
     if( has_trait("PER_SLIME") ) {
         ret = 6;
@@ -4180,7 +4180,7 @@ int player::unimpaired_range() {
     if( has_active_mutation("SHELL2") ) {
         ret = 2;
     }
-    if( has_effect("in_pit") ) {
+    if( has_effect("in_pit") || has_effect("boomered") ) {
         ret = 1;
     }
     if( has_effect("blind") || worn_with_flag("BLIND") ) {
@@ -13608,6 +13608,9 @@ bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
+        can_see = false;
+    }
+    if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }
     // Clairvoyance is a really expensive check,
