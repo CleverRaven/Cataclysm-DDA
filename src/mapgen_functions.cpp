@@ -84,7 +84,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
     mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
-    mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
@@ -3259,92 +3258,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         m->place_items("sports", 82, rw - 1, tw + 1, rw - 1, cw - 4, false, 0);
         if (!one_in(4)) {
             m->place_items("allsporting", 92, lw + 1, cw + 1, rw - 1, bw - 1, false, 0);
-        }
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-
-void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
-
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j == 2 && (i == 11 || i == 12)) {
-                    m->ter_set(i, j, t_door_glass_c);
-                } else if (j == 2 && i > 3 && i < SEEX * 2 - 4) {
-                    m->ter_set(i, j, t_wall_glass);
-                } else if (((j == 2 || j == SEEY * 2 - 2) && i > 1 && i < SEEX * 2 - 2) ||
-                           (j == 4 && i > 12 && i < SEEX * 2 - 3) ||
-                           (j == 17 && i > 2 && i < 12) ||
-                           (j == 20 && i > 2 && i < 11)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == 2 || i == SEEX * 2 - 3) && j > 1 && j < SEEY * 2 - 1) ||
-                           (i == 11 && (j == 18 || j == 20 || j == 21)) ||
-                           (j == 21 && (i == 5 || i == 8))) {
-                    m->ter_set(i, j, t_wall);
-                } else if ((i == 16 && j > 4 && j < 9) ||
-                           (j == 8 && (i == 17 || i == 18)) ||
-                           (j == 18 && i > 2 && i < 11)) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if ((i == 3 && j > 4 && j < 13) ||
-                           (i == SEEX * 2 - 4 && j > 9 && j < 20) ||
-                           ((j == 10 || j == 11) && i > 6 && i < 13) ||
-                           ((j == 14 || j == 15) && i > 4 && i < 13) ||
-                           ((i == 15 || i == 16) && j > 10 && j < 18) ||
-                           (j == SEEY * 2 - 3 && i > 11 && i < 18)) {
-                    m->set(i, j, t_floor, f_rack);
-                } else if (i > 2 && i < SEEX * 2 - 3 && j > 2 && j < SEEY * 2 - 2) {
-                    m->ter_set(i, j, t_floor);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-
-        for (int i = 3; i <= 9; i += 3) {
-            if (one_in(2)) {
-                m->ter_set(i, SEEY * 2 - 4, t_door_c);
-            } else {
-                m->ter_set(i + 1, SEEY * 2 - 4, t_door_c);
-            }
-        }
-
-        {
-            int num_carts = rng(0, 5);
-            for( int i = 0; i < num_carts; i++ ) {
-                m->add_vehicle( vproto_id( "shopping_cart" ), rng(3, 16), rng(3, 21), 90);
-            }
-        }
-
-        m->place_items("shoes",  70,  7, 10, 12, 10, false, 0);
-        m->place_items("pants",  88,  5, 14, 12, 14, false, 0);
-        m->place_items("shirts", 88,  7, 11, 12, 11, false, 0);
-        m->place_items("jackets", 80,  3,  5,  3, 12, false, 0);
-        m->place_items("winter", 60,  5, 15, 12, 15, false, 0);
-        m->place_items("bags",  70, 15, 11, 15, 17, false, 0);
-        m->place_items("dresser", 50, 12, 21, 17, 21, false, 0);
-        m->place_items("allclothes", 20,  3, 21, 10, 21, false, 0);
-        m->place_items("allclothes", 20,  3, 18, 10, 18, false, 0);
-        switch (rng(0, 2)) {
-        case 0:
-            m->place_items("pants", 70, 16, 11, 16, 17, false, 0);
-            break;
-        case 1:
-            m->place_items("shirts", 70, 16, 11, 16, 17, false, 0);
-            break;
-        case 2:
-            m->place_items("bags", 70, 16, 11, 16, 17, false, 0);
-            break;
-        }
-        switch (rng(0, 2)) {
-        case 0:
-            m->place_items("pants", 75, 20, 10, 20, 19, false, 0);
-            break;
-        case 1:
-            m->place_items("shirts", 75, 20, 10, 20, 19, false, 0);
-            break;
-        case 2:
-            m->place_items("jackets", 75, 20, 10, 20, 19, false, 0);
-            break;
         }
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
