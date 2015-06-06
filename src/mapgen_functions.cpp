@@ -86,7 +86,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
     mapgen_cfunction_map["s_electronics"] = mapgen_s_electronics;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
-    mapgen_cfunction_map["s_liquor"] = mapgen_s_liquor;
     mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
     mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
@@ -3376,57 +3375,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         m->place_items("sports", 82, rw - 1, tw + 1, rw - 1, cw - 4, false, 0);
         if (!one_in(4)) {
             m->place_items("allsporting", 92, lw + 1, cw + 1, rw - 1, bw - 1, false, 0);
-        }
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-
-void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
-//    } else if (is_ot_type("s_liquor", terrain_type)) {
-
-        dat.fill_groundcover();
-        square(m, t_pavement, 3, 13, SEEX * 2 - 4, SEEY * 2 - 1);
-        square(m, t_floor, 3, 2, SEEX * 2 - 4, 12);
-        mapf::formatted_set_simple(m, 3, 2,
-                                   "\
---:------------:--\n\
-|#  #####    c   |\n\
-|#  ##       c   |\n\
-|#  ##  ##   ccc |\n\
-|#  ##  ##       |\n\
-|#  ##          &|\n\
-|       #####   &|\n\
-|----   #####   &|\n\
-|   |           &|\n\
-|   |         &&&|\n\
-------------------\n",
-                                   mapf::basic_bind("- | :", t_wall, t_wall, t_window),
-                                   mapf::basic_bind("# c &", f_rack, f_counter, f_glass_fridge));
-        square_furn(m, f_dumpster, 5, 13, 7, 14);
-        square_furn(m, f_dumpster, SEEX * 2 - 6, 15, SEEX * 2 - 5, 17);
-
-        m->ter_set(rng(13, 15), 2, t_door_c);
-        m->ter_set(rng(4, 6), 9, t_door_c);
-        m->ter_set(rng(9, 16), 12, t_door_c);
-
-        m->place_items("alcohol", 96,  4,  3,  4,  7, false, 0);
-        m->place_items("alcohol", 96,  7,  3, 11,  3, false, 0);
-        m->place_items("alcohol", 96,  7,  4,  8,  7, false, 0);
-        m->place_items("alcohol", 96, 11,  8, 15,  9, false, 0);
-        m->place_items("snacks", 85, 11,  5, 12,  6, false, 0);
-        m->place_items("fridgesnacks", 90, 19,  7, 19, 10, false, 0);
-        m->place_items("fridgesnacks", 90, 17, 11, 19, 11, false, 0);
-        m->place_items("behindcounter", 80, 17,  3, 19,  4, false, 0);
-        m->place_items("liqstore_brew", 70, 16,  3, 16,  5, false, 0);
-        m->place_items("liqstore_brew", 70, 17,  5, 18,  5, false, 0);
-        m->place_items("trash",  30,  5, 14,  7, 14, false, 0);
-        m->place_items("trash",  30, 18, 15, 18, 17, false, 0);
-
-        {
-            int num_carts = rng(0, 3);
-            for( int i = 0; i < num_carts; i++ ) {
-                m->add_vehicle( vproto_id( "shopping_cart" ), rng(4, 19), rng(3, 11), 90);
-            }
         }
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
