@@ -1278,6 +1278,9 @@ int monster::stability_roll() const
     }
 
     int stability = dice(type->melee_sides, type->melee_dice) + size_bonus;
+    if( has_effect( "stunned" ) ) {
+        stability -= rng( 1, 5 );
+    }
     return stability;
 }
 

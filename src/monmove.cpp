@@ -431,8 +431,8 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         // Note: The below works because C++ in A() || B() won't call B() if A() is true
-        bool did_something = attack_at( next ) || push_to( next, 0, 0 ) ||
-                             bash_at( next ) || move_to( next );
+        bool did_something = attack_at( next ) || bash_at( next ) ||
+                             push_to( next, 0, 0 ) || move_to( next );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
@@ -999,7 +999,7 @@ bool monster::move_to( const tripoint &p, bool force )
 
 bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 {
-    if( !has_flag( MF_PUSH_MON ) || depth > 3 || has_effect( "pushed" ) ) {
+    if( !has_flag( MF_PUSH_MON ) || depth > 2 || has_effect( "pushed" ) ) {
         return false;
     }
 
@@ -1027,17 +1027,20 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     // Mark self as pushed to simplify recursive pushing
     add_effect( "pushed", 1 );
 
-    // 3 is arbitrary
-    for( size_t i = 0; i < 3; i++ ) {
+    for( size_t i = 0; i < 6; i++ ) {
         const int dx = rng( -1, 1 );
         const int dy = rng( -1, 1 );
         if( dx == 0 && dy == 0 ) {
             continue;
         }
 
-        tripoint dest( p.x + dx, p.y + dy, p.z );
         // Pushing forward is easier than pushing aside
         const int direction_penalty = abs( dx - dir.x ) + abs( dy + dir.y );
+        if( direction_penalty > 2 ) {
+            continue;
+        }
+
+        tripoint dest( p.x + dx, p.y + dy, p.z );
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
@@ -1085,13 +1088,14 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     g->swap_critters( *critter, *this );
-    critter->add_effect( "downed", rng( 0, 2 ) );
+    critter->add_effect( "stunned", rng( 0, 2 ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _("The %s tramples %s"),
                  name().c_str(), critter->disp_name().c_str() );
     }
 
+    moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
     return true;
 }
 
