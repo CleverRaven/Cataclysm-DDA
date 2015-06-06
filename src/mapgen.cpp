@@ -1030,6 +1030,12 @@ void mapgen_function_json::load_place_mapings( JsonObject &jo, const std::string
     if( !jo.has_object( member_name ) ) {
         return;
     }
+    /* This is kind of a hack. Loading furniture/terrain from `jo` is already done in
+     * mapgen_function_json::setup, continuing here would load it again and cause trouble.
+     */
+    if( member_name == "terrain" || member_name == "furniture" ) {
+        return;
+    }
     JsonObject pjo = jo.get_object( member_name );
     for( auto & key : pjo.get_member_names() ) {
         if( key.size() != 1 ) {
@@ -1144,6 +1150,8 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_spawn_item>( jo, "item", format_placings );
             load_place_mapings<jmapgen_trap>( jo, "traps", format_placings );
             load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
+            load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
+            load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]

@@ -478,7 +478,7 @@ Or define the mappings for one character at once:
         "traps": "tr_beartrap",
         "field": { "field": "fd_blood" },
         "item": { "item": "corpse" },
-        "terrain": { "t_dirt" },
+        "terrain": { "t_dirt" }
     }
 }
 ```
