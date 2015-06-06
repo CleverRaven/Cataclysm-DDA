@@ -82,7 +82,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["church_gothic"]             = &mapgen_church_gothic;
     mapgen_cfunction_map["s_pharm"]             = &mapgen_pharm;
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
-    mapgen_cfunction_map["s_grocery"] = mapgen_s_grocery;
     mapgen_cfunction_map["s_hardware"] = mapgen_s_hardware;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
     mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
@@ -3045,79 +3044,6 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         m->place_spawns( mongroup_id( "GROUP_PHARM" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
 }
-
-void mapgen_s_grocery(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
-
-        dat.fill_groundcover();
-        square(m, t_floor, 3, 3, SEEX * 2 - 4, SEEX * 2 - 4);
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j == 2 && ((i > 4 && i < 8) || (i > 15 && i < 19))) {
-                    m->ter_set(i, j, t_window);
-                } else if ((j == 2 && (i == 11 || i == 12)) || (i == 6 && j == 20)) {
-                    m->ter_set(i, j, t_door_c);
-                } else if (((j == 2 || j == SEEY * 2 - 3) && i > 1 && i < SEEX * 2 - 2) ||
-                           (j == 18 && i > 2 && i < 7)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (((i == 2 || i == SEEX * 2 - 3) && j > 2 && j < SEEY * 2 - 3) ||
-                           (i == 6 && j == 19)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (j > 4 && j < 8) {
-                    if (i == 5 || i == 9 || i == 13 || i == 17) {
-                        m->set(i, j, t_floor, f_counter);
-                    } else if (i == 8 || i == 12 || i == 16 || i == 20) {
-                        m->set(i, j, t_floor, f_rack);
-                    } else if (i > 2 && i < SEEX * 2 - 3) {
-                        m->ter_set(i, j, t_floor);
-                    } else {
-                        m->ter_set(i, j, dat.groundcover());
-                    }
-                } else if ((j == 7 && (i == 3 || i == 4)) ||
-                           ((j == 11 || j == 14) && (i == 18 || i == 19)) ||
-                           ((j > 9 && j < 16) && (i == 6 || i == 7 || i == 10 ||
-                                                  i == 11 || i == 14 || i == 15 ||
-                                                  i == 20))) {
-                    m->set(i, j, t_floor, f_rack);
-                } else if ((j == 18 && i > 15 && i < 21) || (j == 19 && i == 16)) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if ((i == 3 && j > 9 && j < 16) ||
-                           (j == 20 && ((i > 7 && i < 15) || (i > 18 && i < 21)))) {
-                    m->set(i, j, t_floor, f_glass_fridge);
-                } else if (i > 2 && i < SEEX * 2 - 3 && j > 2 && j < SEEY * 2 - 3) {
-                    m->ter_set(i, j, t_floor);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-
-        {
-            int num_carts = rng(0, 5);
-            for( int i = 0; i < num_carts; i++ ) {
-                m->add_vehicle( vproto_id( "shopping_cart" ), rng(3, 21), rng(3, 21), 90);
-            }
-        }
-
-        m->place_items("fridgesnacks", 65,  3, 10,  3, 15, false, 0);
-        m->place_items("fridge", 70,  8, 20, 14, 20, false, 0);
-        m->place_items("fridge", 50, 19, 20, 20, 20, false, 0);
-        m->place_items("softdrugs", 55,  6, 10,  6, 15, false, 0);
-        m->place_items("cleaning", 88,  7, 10,  7, 15, false, 0);
-        m->place_items("kitchen", 75, 10, 10, 10, 15, false, 0);
-        m->place_items("snacks", 78, 11, 10, 11, 15, false, 0);
-        m->place_items("cannedfood", 80, 14, 10, 14, 15, false, 0);
-        m->place_items("pasta",  74, 15, 10, 15, 15, false, 0);
-        m->place_items("produce", 60, 20, 10, 20, 15, false, 0);
-        m->place_items("produce", 50, 18, 11, 19, 11, false, 0);
-        m->place_items("produce", 50, 18, 10, 20, 15, false, 0);
-        for (int i = 8; i < 21; i += 4) { // Checkout snacks & magazines
-            m->place_items("snacks",    50, i, 5, i, 6, false, 0);
-            m->place_items("magazines", 70, i, 7, i, 7, false, 0);
-        }
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_GROCERY" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-
 
 void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
   int rn = 0;
