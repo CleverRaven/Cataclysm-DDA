@@ -1087,7 +1087,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     g->swap_critters( *critter, *this );
     critter->add_effect( "downed", rng( 0, 2 ) );
     // Only print the message when near player or it can get spammy
-    if( rl_dist( g->u.pos() && pos() ) < 4 && g->u.sees( *critter ) ) {
+    if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _("The %s tramples %s"),
                  name().c_str(), critter->disp_name().c_str() );
     }
