@@ -400,7 +400,7 @@ void monster::move()
     auto mon_att = mondex != -1 ? attitude_to( g->zombie( mondex ) ) : A_HOSTILE;
 
     if( !plans.empty() &&
-        ( mon_att == A_HOSTILE || has_flag( MF_ATTACKMON ) ) &&
+        ( mon_att == A_HOSTILE || has_flag( MF_ATTACKMON ) || has_flag( MF_PUSH_MON ) ) &&
         ( can_move_to( plans[0] ) ||
           ( plans[0] == g->u.pos3() ) ||
           ( ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) ) &&
@@ -1036,13 +1036,13 @@ bool monster::push_to( const tripoint &p )
         const int direction_penalty = abs( dx - dir.x ) + abs( dy + dir.y );
         if( g->critter_at( dest ) != nullptr ) {
             // No chain pushing (yet?)
+            // Still gives a chance to trample
             return false;
         }
 
         // Pushing into cars/windows etc. is harder
         const int movecost_penalty = g->m.move_cost( dest ) - 2;
         if( movecost_penalty <= -2 ) {
-
             // Can't push into unpassable terrain
             return false;
         }
@@ -1050,7 +1050,7 @@ bool monster::push_to( const tripoint &p )
         return attack >= defend + direction_penalty + movecost_penalty;
     };
 
-    bool success = false;
+    bool pushed = false;
     // 3 is arbitrary
     for( size_t i = 0; i < 3; i++ ) {
         const int dx = rng( -1, 1 );
@@ -1058,31 +1058,35 @@ bool monster::push_to( const tripoint &p )
         if( push_roll( dx, dy ) ) {
             dir.x = dx;
             dir.y = dy;
-            success = true;
+            pushed = true;
         }
     }
 
-    if( !success ) {
-        if( attack < 2 * defend + 4 ) {
+    if( !pushed ) {
+        if( attack < 2 * defend ) {
             return false;
         }
 
-        // Trample over a much weaker zed
+        // Trample over a much weaker zed (or one with worse rolls)
         dir = pos() - p;
     }
 
     const tripoint dest = p + dir;
     if( dest != pos() ) {
-        critter->setpos( p + dir );
+        critter->setpos( dest );
         move_to( p );
     } else {
-        // Pushing zed onto own position is trampling
+        // Pushing the other zed onto own position is trampling
         g->swap_critters( *critter, *this );
-        critter->add_effect( "downed", 1 );
+        critter->add_effect( "downed", rng( 0, 2 ) );
+        if( g->u.sees( *critter ) ) {
+            add_msg( m_warning, _("The %s tramples %s"),
+                     name().c_str(), critter->disp_name().c_str() );
+        }
     }
 
     critter->moves -= 100;
-    moves -= std::max( 0, 100 - 10 * ( attack - defend ) );
+    moves -= std::max( 100, 200 - 10 * ( attack - defend ) );
     return true;
 }
 
