@@ -956,7 +956,7 @@ bool salvage_actor::valid_to_cut_up(const item *it) const
     if( !it->only_made_of( material_whitelist ) ) {
         return false;
     }
-    if (it->is_container() && !it->contents.empty()) {
+    if( !it->contents.empty() ) {
         return false;
     }
     if (it->volume() == 0) {
