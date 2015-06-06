@@ -705,8 +705,8 @@ void monster::process_triggers()
     }
 
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
-    morale = std::min( 100, std::max( 0, morale ) );
-    anger  = std::min( 100, std::max( 0, anger  ) );
+    morale = std::min( 100, std::max( -100, morale ) );
+    anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
 // This Adjustes anger/morale levels given a single trigger.
