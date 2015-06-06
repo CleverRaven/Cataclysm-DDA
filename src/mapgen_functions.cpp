@@ -89,7 +89,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["s_liquor"] = mapgen_s_liquor;
     mapgen_cfunction_map["s_gun"] = mapgen_s_gun;
     mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
-    mapgen_cfunction_map["s_library"] = mapgen_s_library;
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
@@ -3567,64 +3566,6 @@ void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int, float d
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
-void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
-//    } else if (is_ot_type("s_library", terrain_type)) {
-
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j == 2) {
-                    if (i == 5 || i == 6 || i == 17 || i == 18) {
-                        m->ter_set(i, j, t_window_domestic);
-                    } else if (i == 11 || i == 12) {
-                        m->ter_set(i, j, t_door_c);
-                    } else if (i > 1 && i < SEEX * 2 - 2) {
-                        m->ter_set(i, j, t_wall);
-                    } else {
-                        m->ter_set(i, j, dat.groundcover());
-                    }
-                } else if (j == 17 && i > 1 && i < SEEX * 2 - 2) {
-                    m->ter_set(i, j, t_wall);
-                } else if (i == 2) {
-                    if (j == 6 || j == 7 || j == 10 || j == 11 || j == 14 || j == 15) {
-                        m->ter_set(i, j, t_window_domestic);
-                    } else if (j > 1 && j < 17) {
-                        m->ter_set(i, j, t_wall);
-                    } else {
-                        m->ter_set(i, j, dat.groundcover());
-                    }
-                } else if (i == SEEX * 2 - 3) {
-                    if (j == 6 || j == 7) {
-                        m->ter_set(i, j, t_window_domestic);
-                    } else if (j > 1 && j < 17) {
-                        m->ter_set(i, j, t_wall);
-                    } else {
-                        m->ter_set(i, j, dat.groundcover());
-                    }
-                } else if (((j == 4 || j == 5) && i > 2 && i < 10) ||
-                           ((j == 8 || j == 9 || j == 12 || j == 13 || j == 16) &&
-                            i > 2 && i < 16) || (i == 20 && j > 7 && j < 17)) {
-                    m->set(i, j, t_floor, f_bookcase);
-                } else if ((i == 14 && j < 6 && j > 2) || (j == 5 && i > 14 && i < 19)) {
-                    m->set(i, j, t_floor, f_counter);
-                } else if (i > 2 && i < SEEX * 2 - 3 && j > 2 && j < 17) {
-                    m->ter_set(i, j, t_floor);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            }
-        }
-        if (!one_in(3)) {
-            m->ter_set(18, 17, t_door_c);
-        }
-        m->place_items("magazines",  70,  3,  4,  9,  4, false, 0);
-        m->place_items("magazines", 70, 20,  8, 20, 16, false, 0);
-        m->place_items("novels",  96,  3,  5,  9,  5, false, 0);
-        m->place_items("novels", 96,  3,  8, 15,  9, false, 0);
-        m->place_items("manuals", 92,  3, 12, 15, 13, false, 0);
-        m->place_items("textbooks", 88,  3, 16, 15, 16, false, 0);
-        autorotate(false);
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
 ////////////////////
 //    } else if (terrain_type == "shelter") {
 void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
