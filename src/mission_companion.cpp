@@ -1456,18 +1456,18 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.ter_set( x, y, "t_door_o");
             } else if (bay.get_ter(x,y) == "t_door_locked" || bay.get_ter(x,y) == "t_door_locked_peep"
                 || bay.get_ter(x,y) == "t_door_locked_alarm"){
-                    map_bash_info *bash = &(bay.ter_at(x,y).bash);
-                    bay.ter_set( x, y, bash->ter_set);
-                    bay.spawn_item_list( bash->items, p );
+                    const map_bash_info &bash = bay.ter_at(x,y).bash;
+                    bay.ter_set( x, y, bash.ter_set);
+                    bay.spawn_item_list( bash.items, p );
             } else if (bay.get_ter(x,y) == "t_door_metal_c" || bay.get_ter(x,y) == "t_door_metal_locked"
                 || bay.get_ter(x,y) == "t_door_metal_pickable"){
                     bay.ter_set( x, y, "t_door_metal_o");
             } else if (bay.get_ter(x,y) == "t_door_glass_c"){
                     bay.ter_set( x, y, "t_door_glass_o");
             } else if (bay.get_ter(x,y) == "t_wall" && one_in(25)){
-                    map_bash_info *bash = &(bay.ter_at(x,y).bash);
-                    bay.ter_set( x, y, bash->ter_set);
-                    bay.spawn_item_list( bash->items, p );
+                    const map_bash_info &bash = bay.ter_at(x,y).bash;
+                    bay.ter_set( x, y, bash.ter_set);
+                    bay.spawn_item_list( bash.items, p );
                     bay.collapse_at( p );
             }
             //Smash easily breakable stuff
@@ -1477,18 +1477,18 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.get_ter(x,y) == "t_window_alarm_taped" || bay.get_ter(x,y) == "t_window_boarded" ||
                     bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm")
                     && one_in(4) ){
-                map_bash_info *bash = &(bay.ter_at(x,y).bash);
-                bay.ter_set( x, y, bash->ter_set);
-                bay.spawn_item_list( bash->items, p );
+                const map_bash_info &bash = bay.ter_at(x,y).bash;
+                bay.ter_set( x, y, bash.ter_set);
+                bay.spawn_item_list( bash.items, p );
             } else if ((bay.get_ter(x,y) == "t_wall_glass" || bay.get_ter(x,y) == "t_wall_glass_alarm") && one_in(3) ){
-                map_bash_info *bash = &(bay.ter_at(x,y).bash);
-                bay.ter_set( x, y, bash->ter_set);
-                bay.spawn_item_list( bash->items, p );
+                const map_bash_info &bash = bay.ter_at(x,y).bash;
+                bay.ter_set( x, y, bash.ter_set);
+                bay.spawn_item_list( bash.items, p );
             } else if ( bay.has_furn(x,y) && bay.furn_at(x,y).bash.str_max != -1 && one_in(10)) {
-                map_bash_info *bash = &(bay.furn_at(x,y).bash);
-                bay.furn_set(x,y, bash->furn_set);
+                const map_bash_info &bash = bay.furn_at(x,y).bash;
+                bay.furn_set(x,y, bash.furn_set);
                 bay.delete_signage( p );
-                bay.spawn_item_list( bash->items, p );
+                bay.spawn_item_list( bash.items, p );
             }
             //Kill zombies!  Only works agains pre-spawned enemies at the moment...
             Creature *critter = g->critter_at( p);
