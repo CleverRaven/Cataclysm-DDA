@@ -445,6 +445,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source );
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
@@ -553,6 +555,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
         void knock_back_from( const tripoint &p ) override;
+
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);

@@ -391,7 +391,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ((encumb(bp_leg_l) / 10) + encumb(bp_leg_r))/20 - (encumb(bp_torso) / 10) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb(bp_leg_l) + encumb(bp_leg_r) )/20 - (encumb(bp_torso) / 10) );
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -4710,6 +4710,30 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 }
 
+void player::on_hurt( Creature *source )
+{
+    if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
+        add_effect("adrenaline", 200);
+    }
+
+    if( in_sleep_state() ) {
+        wake_up();
+    }
+
+    if( !is_npc() ) {
+        if( source != nullptr ) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            g->cancel_activity_query(_("You were hurt!"));
+        }
+    }
+
+    if( is_dead_state() ) {
+        set_killer( source );
+    }
+}
+
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
 {
     if( has_trait( "DEBUG_NODMG" ) ) {
@@ -4718,19 +4742,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
-
-    if (in_sleep_state()) {
-        wake_up();
-    }
-
-    if (is_player()) {
-        if (source != nullptr) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            // TODO: Find the name of what the player is hurt by
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if(g->u.sees( pos() )) {
@@ -4799,34 +4810,27 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-
-
-        //Acid blood effects.
-        bool u_see = g->u.sees(*this);
-        int cut_dam = dealt_dams.type_damage(DT_CUT);
-        if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
-            if (is_player()) {
-                add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
-                                source->disp_name().c_str());
-            } else if (u_see) {
-                add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
-                            disp_name().c_str(),
+    //Acid blood effects.
+    bool u_see = g->u.sees(*this);
+    int cut_dam = dealt_dams.type_damage(DT_CUT);
+    if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
+        if (is_player()) {
+            add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
                             source->disp_name().c_str());
-            }
-            damage_instance acidblood_damage;
-            acidblood_damage.add_damage(DT_ACID, rng(4,16));
-            if (!one_in(4)) {
+        } else if (u_see) {
+            add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
+                        disp_name().c_str(),
+                        source->disp_name().c_str());
+        }
+        damage_instance acidblood_damage;
+        acidblood_damage.add_damage(DT_ACID, rng(4,16));
+        if (!one_in(4)) {
             source->deal_damage(this, bp_arm_l, acidblood_damage);
             source->deal_damage(this, bp_arm_r, acidblood_damage);
-            } else {
+        } else {
             source->deal_damage(this, bp_torso, acidblood_damage);
             source->deal_damage(this, bp_head, acidblood_damage);
-            }
         }
-
-    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_effect("adrenaline", 200);
     }
 
     switch (bp) {
@@ -4933,6 +4937,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
+    on_hurt( source );
     return dealt_damage_instance(dealt_dams);
 }
 
@@ -4969,68 +4974,28 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         return;
     }
 
-    hp_part hurtpart;
-    switch (hurt) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
-        case bp_head:
-            hurtpart = hp_head;
-            break;
-        case bp_torso:
-            hurtpart = hp_torso;
-            break;
-        case bp_hand_l: // fall through to arms
-        case bp_arm_l:
-            hurtpart = hp_arm_l;
-            break;
-        case bp_hand_r: // but fall through to arms
-        case bp_arm_r:
-            hurtpart = hp_arm_r;
-            break;
-        case bp_foot_l: // but fall through to legs
-        case bp_leg_l:
-            hurtpart = hp_leg_l;
-            break;
-        case bp_foot_r: // but fall through to legs
-        case bp_leg_r:
-            hurtpart = hp_leg_r;
-            break;
-        default:
-            debugmsg("Wacky body part hurt!");
-            hurtpart = hp_torso;
-    }
-    if (in_sleep_state()) {
-        wake_up();
+    hp_part hurtpart = bp_to_hp( hurt );
+    if( hurtpart == num_hp_parts ) {
+        debugmsg("Wacky body part hurt!");
+        hurtpart = hp_torso;
     }
 
-    if (dam <= 0) {
+    if( dam <= 0 ) {
+        // Call on_hurt to wake player up etc.
+        on_hurt( source );
         return;
     }
 
-    if (!is_npc()) {
-        if (source != nullptr) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            // TODO: Find the name of what the player is hurt by
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
+    mod_pain( dam / 2 );
 
-    mod_pain( dam /2 );
-
-    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_effect("adrenaline", 200);
-    }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
         lifetime_stats()->damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
+
     lifetime_stats()->damage_taken += dam;
-    if( is_dead_state() ) {
-        set_killer( source );
-    }
+    on_hurt( source );
 }
 
 void player::heal(body_part healed, int dam)
@@ -5097,10 +5062,24 @@ void player::healall(int dam)
 
 void player::hurtall(int dam, Creature *source)
 {
-    for (int i = 0; i < num_hp_parts; i++) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        apply_damage( source, bp, dam );
+    if( is_dead_state() || has_trait( "DEBUG_NODMG" ) || dam <= 0 ) {
+        return;
     }
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const hp_part bp = static_cast<hp_part>( i );
+        // Don't use apply_damage here or it will annoy the player with 6 queries
+        hp_cur[bp] -= dam;
+        lifetime_stats()->damage_taken += dam;
+        if( hp_cur[bp] < 0 ) {
+            lifetime_stats()->damage_taken += hp_cur[bp];
+            hp_cur[bp] = 0;
+        }
+    }
+
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    mod_pain( dam );
+    on_hurt( source );
 }
 
 int player::hitall(int dam, int vary, Creature *source)
@@ -5114,6 +5093,147 @@ int player::hitall(int dam, int vary, Creature *source)
         damage_taken += deal_damage( source, bp, damage ).total_damage();
     }
     return damage_taken;
+}
+
+float player::fall_damage_mod() const
+{
+    float ret = 1.0f;
+
+    // Ability to land properly is 2x as important as dexterity itself
+    float dex_dodge = dex_cur / 2 + get_skill_level( "dodge" );
+    // Penalize for wearing heavy stuff
+    dex_dodge -= ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 20 ) + ( encumb(bp_torso) / 10 );
+    // But prevent it from increasing damage
+    dex_dodge = std::max( 0.0f, dex_dodge );
+    // 100% damage at 0, 75% at 10, 50% at 20 and so on
+    ret *= (100.0f - (dex_dodge * 4.0f)) / 100.0f;
+
+    if( has_trait("PARKOUR") ) {
+        ret *= 2.0f / 3.0f;
+    }
+
+    // TODO: Bonus for Judo, mutations. Penalty for heavy weight (including mutations)
+    return std::max( 0.0f, ret );
+}
+
+// force is maximum damage to hp before scaling
+int player::impact( const int force, const tripoint &p )
+{
+    // Falls over ~30m are fatal more often than not
+    // But that would be quite a lot considering 21 z-levels in game
+    // so let's assume 1 z-level is comparable to 30 force
+
+    if( force <= 0 ) {
+        return force;
+    }
+
+    // Damage modifier (post armor)
+    float mod = 1.0f;
+    int effective_force = force;
+    int cut = 0;
+    // Percentage arpen - armor won't help much here
+    // TODO: Make cushioned items like bike helmets help more
+    float armor_eff = 1.0f;
+
+    // Being slammed against things rather than landing means we can't
+    // control the impact as well
+    const bool slam = p != pos();
+    std::string target_name = "a swarm of bugs";
+    Creature *critter = g->critter_at( p );
+    int part_num = -1;
+    vehicle *veh = g->m.veh_at( p, part_num );
+    if( critter != this && critter != nullptr ) {
+        target_name = critter->disp_name();
+        // Slamming into creatures and NPCs
+        // TODO: Handle spikes/horns and hard materials
+        armor_eff = 0.5f; // 2x as much as with the ground
+        // TODO: Modify based on something?
+        mod = 1.0f;
+        effective_force = force;
+    } else if( veh != nullptr ) {
+        // Slamming into vehicles
+        // TODO: Integrate it with vehicle collision function somehow
+        target_name = veh->disp_name();
+        if( veh->part_with_feature( part_num, "SHARP" ) != -1 ) {
+            // Now we're actually getting impaled
+            cut = force; // Lots of fun
+        }
+
+        mod = slam ? 1.0f : fall_damage_mod();
+        armor_eff = 0.25f; // Not much
+        if( !slam && veh->part_with_feature( part_num, "ROOF" ) ) {
+            // Roof offers better landing than frame or pavement
+            effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
+        }
+    } else {
+        // Slamming into terrain/furniture
+        target_name = g->m.disp_name( p );
+        int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        armor_eff = 0.25f; // Not much
+        // Get cut by stuff
+        // This isn't impalement on metal wreckage, more like flying through a closed window
+        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
+        effective_force = force + hard_ground;
+        mod = slam ? 1.0f : fall_damage_mod();
+        if( g->m.has_furn( p ) ) {
+            // TODO: Make furniture matter
+        } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
+            // TODO: Some formula of swimming
+            effective_force /= 4;
+        }
+    }
+
+    // Rescale for huge force
+    // At >30 force, proper landing is impossible and armor helps way less
+    if( effective_force > 30 ) {
+        // Armor simply helps way less
+        armor_eff *= 30.0f / effective_force;
+        if( mod < 1.0f ) {
+            // Landing helps only with the last 30 damage
+            const float scaled_damage = ( 30.0f * mod ) + effective_force - 30.0f;
+            mod = scaled_damage / effective_force;
+        }
+    }
+
+    if( !slam && mod < 1.0f && mod * force < 5 ) {
+        // Perfect landing, no damage (regardless of armor)
+        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
+        return 0;
+    }
+
+    int total_dealt = 0;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        int bash = ( effective_force * rng(60, 100) / 100 );
+        damage_instance di;
+        di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+        // No good way to land on sharp stuff, so here modifier == 1.0f
+        di.add_damage( DT_CUT,  cut,  0, armor_eff, 1.0f );
+        total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+    }
+
+    if( total_dealt > 0 && is_player() ) {
+        // "You slam against the dirt" is fine
+        add_msg( m_bad, _("You are slammed against %s for %d damage."),
+                 target_name.c_str(), total_dealt );
+    } else if( slam ) {
+        // Only print this line if it is a slam and not a landing
+        // Non-players should only get this one: player doesn't know how much damage was dealt
+        // and landing messages for each slammed creature would be too much
+        add_msg_player_or_npc( m_bad,
+                               _("You are slammed against %s."),
+                               _("<npcname> is slammed against %s."),
+                               target_name.c_str() );
+    } else {
+        // No landing message for NPCs
+        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
+    }
+
+    if( x_in_y( mod, 1.0f ) ) {
+        add_effect( "downed", 1 + rng( 0, mod * 3 ) );
+    }
+
+    return total_dealt;
 }
 
 void player::knock_back_from( const tripoint &p )

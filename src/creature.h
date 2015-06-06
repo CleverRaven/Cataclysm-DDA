@@ -236,6 +236,11 @@ class Creature
         virtual bool is_immune_effect( const std::string &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;
 
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        virtual float fall_damage_mod() const = 0;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        virtual int impact( int force, const tripoint &pos ) = 0;
+
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
          * You can either call this function after hitting this creature, or let the game
@@ -257,6 +262,8 @@ class Creature
         {
             return pos();
         }
+
+        virtual void setpos( const tripoint &pos ) = 0;
 
         struct compare_by_dist_to_point {
             tripoint center;

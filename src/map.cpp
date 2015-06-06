@@ -1312,6 +1312,11 @@ std::string map::name( const tripoint &p )
  return has_furn( p ) ? furn_at( p ).name : ter_at( p ).name;
 }
 
+std::string map::disp_name( const tripoint &p )
+{
+    return string_format( _("the %s"), name( p ).c_str() );
+}
+
 bool map::has_furn( const tripoint &p ) const
 {
   return furn( p ) != f_null;

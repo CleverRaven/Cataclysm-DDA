@@ -11785,7 +11785,8 @@ bool game::plmove(int dx, int dy)
                 dangerous = cur.is_dangerous();
                 break;
             }
-            if( dangerous && !u.has_trait( "DEBUG_NODMG" ) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
+            if( dangerous && !u.has_trait( "DEBUG_NODMG" ) &&
+                !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
                 return false;
             }
         }
@@ -12496,102 +12497,84 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     int steps = 0;
     const bool is_u = (c == &u);
-    int dam1, dam2;
 
     player *p = dynamic_cast<player*>(c);
-    monster *zz = dynamic_cast<monster*>(c);
 
     tileray tdir(dir);
     int range = flvel / 10;
     tripoint pt = c->pos();
     while (range > 0) {
         c->underwater = false;
+        // TODO: Check whenever it is actually in the viewport
+        // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        std::string dname;
         bool thru = true;
-        bool slam = false;
         int mondex = mon_at( pt );
-        float previous_velocity = flvel;
-        monster *critter = nullptr;
+        float force = 0;
 
-        dam1 = rng( flvel, flvel * 2.0 ) / 3;
-        if (controlled) {
-            dam1 = std::max((dam1 / 2) - 5, 0);
-        }
         if( mondex >= 0 ) {
-            critter = &zombie(mondex);
-            slam = true;
-            dname = critter->name();
-            dam2 = rng( flvel, flvel * 2.0 );
-            critter->apply_damage( c, bp_torso, dam2 );
-            critter->check_dead_state();
-            if( !critter->is_dead() ) {
+            monster &critter = zombie( mondex );
+            // Approximate critter's "stopping power" with its max hp
+            force = std::min<float>( 1.5f * critter.type->hp, flvel );
+            const int damage = rng( force, force * 2.0f ) / 6;
+            c->impact( damage, pt );
+            // Multiply zed damage by 6 because no body parts
+            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            critter.apply_damage( c, bp_torso, zed_damage );
+            critter.check_dead_state();
+            if( !critter.is_dead() ) {
                 thru = false;
-                // NOTE: The inverse is not true!
-                // Even if we killed the former occupant of the tile,
-                // it isn't necessarily free (due to creature-spawning mondeath).
             }
-        } else if (m.move_cost( pt ) == 0) {
-            slam = true;
-            int vpart;
-            vehicle *veh = m.veh_at( pt, vpart );
-            dname = veh ? veh->part_info(vpart).name : m.tername( pt );
-            if (m.is_bashable( pt )) {
-                // Only go through if we successfully destroy what we hit
-                thru = m.bash( pt, flvel ).second;
+        } else if( m.move_cost( pt ) == 0 ) {
+            int part = -1;
+            vehicle *veh = m.veh_at( pt, part );
+            if( veh != nullptr ) {
+                part = veh->obstacle_at_part( part );
+                if( part == -1 ) {
+                    force = std::min<float>( m.bash_strength( pt ), flvel );
+                } else {
+                    // No good way of limiting force here
+                    // Keep it 1 less than maximum to make the impact hurt
+                    // but to keep the target flying after it
+                    force = flvel - 1;
+                }
+            } else {
+                force = std::min<float>( m.bash_strength( pt ), flvel );
+            }
+            const int damage = rng( force, force * 2.0f ) / 9;
+            c->impact( damage, pt );
+            if( m.is_bashable( pt ) ) {
+                // Only go through if we successfully make the tile passable
+                m.bash( pt, flvel );
+                thru = m.move_cost( pt ) != 0;
             } else {
                 thru = false;
             }
         }
-        if( slam ) {
-            if( thru ) {
-                flvel /= 2.0;
-            } else {
-                flvel = 0.0;
-            }
-            float velocity_difference = previous_velocity - flvel;
-            dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 3;
-            int damage_taken = 0;
-            if( p != nullptr ) {
-                damage_taken = p->hitall(dam1, 40, critter);
-            } else {
-                zz->apply_damage( critter, bp_torso, dam1 );
-                zz->check_dead_state();
-            }
-            if( thru ) {
-                c->add_msg_player_or_npc( _("You are slammed through the %s for %d damage!"),
-                                          _("The <npcname> is slammed through the %s!"),
-                                          dname.c_str(), damage_taken );
-            } else {
-                c->add_msg_player_or_npc( _("You are slammed against the %s for %d damage!"),
-                                          _("The <npcname> is slammed against the %s!"),
-                                          dname.c_str(), damage_taken );
-            }
-        }
+
+        flvel -= force;
         if( thru ) {
             if( p != nullptr ) {
                 // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
-                    pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                if( is_u ) {
                     update_map( pt.x, pt.y );
                 }
-                if (p->in_vehicle) {
-                    m.unboard_vehicle(p->pos());
+                if( p->in_vehicle ) {
+                    m.unboard_vehicle( p->pos() );
                 }
                 p->setpos( pt );
             } else if( mon_at( pt ) < 0 ) {
-                // We have to handle the rare case where monster lands on a fungus/blob
-                // and can't occupy the new location because the dead parent spawned
-                // new monsters that occupy it.
-                zz->setpos( pt );
-            } else {
-                // TODO: Handle it nicely (retry) instead of bailing out
-                break;
+                // Dying monster doesn't always leave an empty tile (blob spawning etc.)
+                // Just don't setpos if it happens - next iteration will do so
+                // or the monster will stop a tile before the unpassable one
+                c->setpos( pt );
             }
         } else {
+            // Don't zero flvel - count this as slamming both the obstacle and the ground
+            // although at lower velocity
             break;
         }
         range--;
@@ -12601,32 +12584,17 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
     }
 
-    if (!m.has_flag("SWIMMABLE", pt)) {
-        // fall on ground
-        dam1 = rng( flvel, flvel * 2.0 ) / 6;
-        if (controlled) {
-            dam1 = std::max(dam1 / 2 - 5, 0);
+    // Fall down to the ground - always on the last reached tile
+    if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
+        // Fall on ground
+        int force = rng( flvel, flvel * 2 ) / 9;
+        if( controlled ) {
+            force = std::max( force / 2 - 5, 0 );
         }
-        int damage_taken = 0;
-        if( p != nullptr ) {
-            int dex_reduce = p->dex_cur < 4 ? 4 : p->dex_cur;
-            dam1 = dam1 * 8 / dex_reduce;
-            if (p->has_trait("PARKOUR")) {
-                dam1 /= 2;
-            }
-            if (dam1 > 0) {
-                damage_taken = p->hitall(dam1, 40, nullptr);
-            }
-        } else {
-            zz->apply_damage( nullptr, bp_torso, dam1 );
-            zz->check_dead_state();
-        }
-        if( is_u ) {
-            if( damage_taken > 0 ) {
-                add_msg(m_bad, _("You fall on the ground for %d damage."), damage_taken);
-            } else if( !controlled ) {
-                add_msg(_("You land on the ground."));
-            }
+        if( force > 0 ) {
+            int dmg = c->impact( force, c->pos() );
+            // TODO: Make landing damage the floor
+            m.bash( c->pos(), dmg / 4, false, false, nullptr, false );
         }
     } else {
         c->underwater = true;
@@ -13008,13 +12976,16 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
+    if( shiftx == 0 && shifty == 0 ) {
+        // Not actually shifting, all the stuff below would do nothing
+        return;
+    }
+
     m.shift( shiftx, shifty );
 
-    // Shift monsters if we're actually shifting
-    if (shiftx || shifty) {
-        shift_monsters( shiftx, shifty, 0 );
-        u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
-    }
+    // Shift monsters
+    shift_monsters( shiftx, shifty, 0 );
+    u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
 
     // Shift NPCs
     for (std::vector<npc *>::iterator it = active_npc.begin();
@@ -13224,7 +13195,7 @@ void game::update_stair_monsters()
             const int creature_push_attempts = 9;
             const int player_throw_resist_chance = 3;
 
-            critter.setpos( {mposx, mposy, get_levz()}, true );
+            critter.spawn( tripoint(mposx, mposy, get_levz()) );
             while (tries < creature_push_attempts) {
                 tries++;
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
@@ -13273,7 +13244,7 @@ void game::update_stair_monsters()
         } else if( mon_at( {mposx, mposy, get_levz()} ) != -1) {
             // Monster attempts to displace a monster from the stairs
             monster &other = critter_tracker->find( mon_at({mposx, mposy, get_levz()}) );
-            critter.setpos( {mposx, mposy, get_levz()}, true );
+            critter.spawn( tripoint(mposx, mposy, get_levz()) );
 
             // the critter is now right on top of another and will push it
             // if it can find a square to push it into inside of his tries.
@@ -13294,7 +13265,7 @@ void game::update_stair_monsters()
                     continue;
                 }
                 if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
-                    other.setpos( {iposx, iposy, get_levz()} );
+                    other.spawn( tripoint(iposx, iposy, get_levz()) );
                     other.moves -= 50;
                     std::string msg = "";
                     if (one_in(creature_throw_resist)) {
