@@ -1071,7 +1071,7 @@ bool mapgen_function_json::setup() {
             if ( termap.find( tmpval ) == termap.end() ) {
                 jo.throw_error(string_format("  fill_ter: invalid terrain '%s'",tmpval.c_str() ));
             }
-            fill_ter = (int)termap[ tmpval ].loadid;
+            fill_ter = termap[ tmpval ].loadid;
             qualifies = true;
             tmpval = "";
         }
@@ -1080,8 +1080,8 @@ bool mapgen_function_json::setup() {
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
             placing_map format_placings;
-            std::map<int,int> format_terrain;
-            std::map<int,int> format_furniture;
+            std::map<int,ter_id> format_terrain;
+            std::map<int,furn_id> format_furniture;
             // manditory: every character in rows must have matching entry, unless fill_ter is set
             // "terrain": { "a": "t_grass", "b": "t_lava" }
             if ( jo.has_object("terrain") ) {
@@ -1247,12 +1247,15 @@ bool jmapgen_setmap::apply( map *m ) {
         for (int i = 0; i < trepeat; i++) {
             switch(op) {
                 case JMAPGEN_SETMAP_TER: {
-                    m->ter_set( x.get(), y.get(), val.get() );
+                    // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->ter_set( x.get(), y.get(), ter_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
-                    m->furn_set( x.get(), y.get(), val.get() );
+                    // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->furn_set( x.get(), y.get(), furn_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
+                    // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mtrap_set( m,  x.get(), y.get(), trap_id( val.get() ) );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
@@ -1263,14 +1266,17 @@ bool jmapgen_setmap::apply( map *m ) {
                 } break;
 
                 case JMAPGEN_SETMAP_LINE_TER: {
-                    m->draw_line_ter( (ter_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_line_ter( ter_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_LINE_FURN: {
-                    m->draw_line_furn( (furn_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_line_furn( furn_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_LINE_TRAP: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
                     for (auto &i : line) {
+                        // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mtrap_set( m,  i.x, i.y, trap_id( val.get() ) );
                     }
                 } break;
@@ -1283,10 +1289,12 @@ bool jmapgen_setmap::apply( map *m ) {
 
 
                 case JMAPGEN_SETMAP_SQUARE_TER: {
-                    m->draw_square_ter( (ter_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_square_ter( ter_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_SQUARE_FURN: {
-                    m->draw_square_furn( (furn_id)val.get(), x.get(), y.get(), x2.get(), y2.get() );
+                    // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
+                    m->draw_square_furn( furn_id( val.get() ), x.get(), y.get(), x2.get(), y2.get() );
                 } break;
                 case JMAPGEN_SETMAP_SQUARE_TRAP: {
                     const int cx = x.get();
@@ -1295,6 +1303,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     const int cy2 = y2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                        for (int ty = cy; ty <= cy2; ty++) {
+                            // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                            mtrap_set( m,  tx, ty, trap_id( val.get() ) );
                        }
                     }
@@ -1325,7 +1334,7 @@ void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::s
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
-    if ( fill_ter != -1 ) {
+    if ( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
     if ( do_format ) {
@@ -11512,9 +11521,9 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 py = rng(y1, y2);
                 tries++;
                 // Only place on valid terrain
-            } while (( (terlist[ter(px, py)].movecost == 0 &&
-                        !(terlist[ter(px, py)].has_flag("PLACE_ITEM")) ) &&
-                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
+            } while (( (ter_at(px, py).movecost == 0 &&
+                        !(ter_at(px, py).has_flag("PLACE_ITEM")) ) &&
+                       (!ongrass && !ter_at(px, py).has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
                 item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );

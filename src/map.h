@@ -470,7 +470,7 @@ public:
 
     furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
     std::string get_furn(const int x, const int y) const;
-    furn_t & furn_at(const int x, const int y) const;
+    const furn_t & furn_at(const int x, const int y) const;
 
     void furn_set(const int x, const int y, const furn_id new_furniture);
     void furn_set(const int x, const int y, const std::string new_furniture);
@@ -485,7 +485,7 @@ public:
 
     furn_id furn( const tripoint &p ) const;
     std::string get_furn( const tripoint &p ) const;
-    furn_t & furn_at( const tripoint &p ) const;
+    const furn_t & furn_at( const tripoint &p ) const;
 
     void furn_set( const tripoint &p, const furn_id new_furniture );
     void furn_set( const tripoint &p, const std::string new_furniture );
@@ -498,7 +498,7 @@ public:
     std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
     ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
     int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
-    ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    const ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
     void ter_set(const int x, const int y, const ter_id new_terrain);
     void ter_set(const int x, const int y, const std::string new_terrain);
@@ -510,7 +510,7 @@ public:
     std::string get_ter_harvestable( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
     int get_ter_harvest_season( const tripoint &p ) const;
-    ter_t & ter_at( const tripoint &p ) const;
+    const ter_t & ter_at( const tripoint &p ) const;
 
     void ter_set( const tripoint &p, const ter_id new_terrain);
     void ter_set( const tripoint &p, const std::string new_terrain);

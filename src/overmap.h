@@ -87,7 +87,7 @@ struct groundcover_extra {
     std::map<std::string, double> boosted_percent_str;
     std::map<int, ter_furn_id>    weightlist;
     std::map<int, ter_furn_id>    boosted_weightlist;
-    int default_ter               = 0;
+    ter_id default_ter               = t_null;
     int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
     int boost_chance              = 0;
     int boosted_mpercent_coverage = 0;

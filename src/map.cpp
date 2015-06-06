@@ -1262,9 +1262,9 @@ std::string map::get_furn(const int x, const int y) const
     return furn_at(x, y).id;
 }
 
-furn_t & map::furn_at(const int x, const int y) const
+const furn_t & map::furn_at(const int x, const int y) const
 {
-    return furnlist[ furn(x,y) ];
+    return furn(x,y).obj();
 }
 
 furn_id map::furn(const int x, const int y) const
@@ -1288,7 +1288,7 @@ void map::furn_set(const int x, const int y, const std::string new_furniture) {
     if ( furnmap.find(new_furniture) == furnmap.end() ) {
         return;
     }
-    furn_set(x, y, (furn_id)furnmap[ new_furniture ].loadid );
+    furn_set(x, y, furnmap[ new_furniture ].loadid );
 }
 
 std::string map::furnname(const int x, const int y) {
@@ -1322,9 +1322,9 @@ std::string map::get_furn( const tripoint &p ) const
     return furn_at( p ).id;
 }
 
-furn_t & map::furn_at( const tripoint &p ) const
+const furn_t & map::furn_at( const tripoint &p ) const
 {
-    return furnlist[ furn( p ) ];
+    return furn( p ).obj();
 }
 
 furn_id map::furn( const tripoint &p ) const
@@ -1359,7 +1359,7 @@ void map::furn_set( const tripoint &p, const std::string new_furniture) {
         return;
     }
 
-    furn_set( p, (furn_id)furnmap[ new_furniture ].loadid );
+    furn_set( p, furnmap[ new_furniture ].loadid );
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
@@ -1405,23 +1405,23 @@ std::string map::get_ter_harvestable(const int x, const int y) const {
 }
 
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return (ter_id)termap[ ter_at(x, y).transforms_into ].loadid;
+    return termap[ ter_at(x, y).transforms_into ].loadid;
 }
 
 int map::get_ter_harvest_season(const int x, const int y) const {
     return ter_at(x, y).harvest_season;
 }
 
-ter_t & map::ter_at(const int x, const int y) const
+const ter_t & map::ter_at(const int x, const int y) const
 {
-    return terlist[ ter(x,y) ];
+    return ter(x,y).obj();
 }
 
 void map::ter_set(const int x, const int y, const std::string new_terrain) {
     if ( termap.find(new_terrain) == termap.end() ) {
         return;
     }
-    ter_set(x, y, (ter_id)termap[ new_terrain ].loadid );
+    ter_set(x, y, termap[ new_terrain ].loadid );
 }
 
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
@@ -1475,7 +1475,7 @@ std::string map::get_ter_harvestable( const tripoint &p ) const {
  * Get the terrain transforms_into id (what will the terrain transforms into)
  */
 ter_id map::get_ter_transforms_into( const tripoint &p ) const {
-    return (ter_id)termap[ ter_at( p ).transforms_into ].loadid;
+    return termap[ ter_at( p ).transforms_into ].loadid;
 }
 
 /*
@@ -1488,9 +1488,9 @@ int map::get_ter_harvest_season( const tripoint &p ) const {
 /*
  * Get a reference to the actual terrain struct.
  */
-ter_t & map::ter_at( const tripoint &p ) const
+const ter_t & map::ter_at( const tripoint &p ) const
 {
-    return terlist[ ter( p ) ];
+    return ter( p ).obj();
 }
 
 /*
@@ -1501,7 +1501,7 @@ void map::ter_set( const tripoint &p, const std::string new_terrain) {
         return;
     }
 
-    ter_set( p, (ter_id)termap[ new_terrain ].loadid );
+    ter_set( p, termap[ new_terrain ].loadid );
 }
 
 /*
@@ -1615,12 +1615,12 @@ int map::move_cost_ter_furn(const int x, const int y) const
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    const int tercost = terlist[ current_submap->get_ter( lx, ly ) ].movecost;
+    const int tercost = current_submap->get_ter( lx, ly ).obj().movecost;
     if ( tercost == 0 ) {
         return 0;
     }
 
-    const int furncost = furnlist[ current_submap->get_furn(lx, ly) ].movecost;
+    const int furncost =  current_submap->get_furn(lx, ly).obj().movecost;
     if ( furncost < 0 ) {
         return 0;
     }
@@ -1657,12 +1657,12 @@ int map::move_cost_ter_furn( const tripoint &p ) const
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
 
-    const int tercost = terlist[ current_submap->get_ter( lx, ly ) ].movecost;
+    const int tercost = current_submap->get_ter( lx, ly ).obj().movecost;
     if ( tercost == 0 ) {
         return 0;
     }
 
-    const int furncost = furnlist[ current_submap->get_furn( lx, ly ) ].movecost;
+    const int furncost = current_submap->get_furn( lx, ly ).obj().movecost;
     if ( furncost < 0 ) {
         return 0;
     }
@@ -1771,7 +1771,7 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
+    return current_submap->get_ter( lx, ly ).obj().has_flag(flag) || current_submap->get_furn(lx, ly).obj().has_flag(flag);
 }
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
@@ -1803,7 +1803,7 @@ bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
+    return current_submap->get_ter( lx, ly ).obj().has_flag(flag) || current_submap->get_furn(lx, ly).obj().has_flag(flag);
 }
 
 bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
@@ -1815,7 +1815,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at( x, y, lx, ly );
 
-    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
+    return current_submap->get_ter( lx, ly ).obj().has_flag(flag) && current_submap->get_furn(lx, ly).obj().has_flag(flag);
 }
 
 // End of 2D flags
@@ -1849,8 +1849,8 @@ bool map::has_flag_ter_or_furn( const std::string & flag, const tripoint &p ) co
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
 
-    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag( flag ) ||
-           furnlist[ current_submap->get_furn( lx, ly ) ].has_flag( flag );
+    return current_submap->get_ter( lx, ly ).obj().has_flag( flag ) ||
+           current_submap->get_furn( lx, ly ).obj().has_flag( flag );
 }
 
 bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) const
@@ -1882,8 +1882,8 @@ bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) con
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
 
-    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag( flag ) ||
-           furnlist[ current_submap->get_furn( lx, ly ) ].has_flag( flag );
+    return current_submap->get_ter( lx, ly ).obj().has_flag( flag ) ||
+           current_submap->get_furn( lx, ly ).obj().has_flag( flag );
 }
 
 bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) const
@@ -1895,8 +1895,8 @@ bool map::has_flag_ter_and_furn( const ter_bitflags flag, const tripoint &p ) co
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
 
-    return terlist[ current_submap->get_ter( lx, ly ) ].has_flag( flag ) &&
-           furnlist[ current_submap->get_furn( lx, ly ) ].has_flag( flag );
+    return current_submap->get_ter( lx, ly ).obj().has_flag( flag ) &&
+           current_submap->get_furn( lx, ly ).obj().has_flag( flag );
 }
 
 // End of 3D flags
@@ -2690,7 +2690,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
     int sound_volume = 0;
     bool smash_furn = false;
     bool smash_ter = false;
-    map_bash_info *bash = nullptr;
+    const map_bash_info *bash = nullptr;
 
     if( has_furn(p) && furn_at(p).bash.str_max != -1 ) {
         bash = &(furn_at(p).bash);
@@ -3515,8 +3515,8 @@ void map::translate(const ter_id from, const ter_id to)
 {
     if (from == to) {
         debugmsg( "map::translate %s => %s",
-                  terlist[from].name.c_str(),
-                  terlist[from].name.c_str() );
+                  from.obj().name.c_str(),
+                  from.obj().name.c_str() );
         return;
         }
 
@@ -3537,8 +3537,8 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
-                  terlist[from].name.c_str(),
-                  terlist[from].name.c_str() );
+                  from.obj().name.c_str(),
+                  from.obj().name.c_str() );
         return;
     }
 
@@ -4681,8 +4681,8 @@ const trap &map::tr_at( const tripoint &p ) const
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
 
-    if (terlist[ current_submap->get_ter( lx, ly ) ].trap != tr_null) {
-        return terlist[ current_submap->get_ter( lx, ly ) ].trap.obj();
+    if (current_submap->get_ter( lx, ly ).obj().trap != tr_null) {
+        return current_submap->get_ter( lx, ly ).obj().trap.obj();
     }
 
     return current_submap->get_trap( lx, ly ).obj();
@@ -4697,7 +4697,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
 
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
-    const ter_t &ter = terlist[ current_submap->get_ter( lx, ly ) ];
+    const ter_t &ter = current_submap->get_ter( lx, ly ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
                   t.obj().name.c_str(), ter.name.c_str() );
@@ -5277,8 +5277,8 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     int cx = view_center_x_arg;
     int cy = view_center_y_arg;
     nc_color tercol;
-    const ter_t &curr_ter = terlist[ curr_maptile.get_ter() ];
-    const furn_t &curr_furn = furnlist[ curr_maptile.get_furn() ];
+    const ter_t &curr_ter = curr_maptile.get_ter_t();
+    const furn_t &curr_furn = curr_maptile.get_furn_t();
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     long sym;
@@ -6455,8 +6455,8 @@ void map::build_outside_cache( const int zlev )
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    if( terlist[ cur_submap->get_ter( sx, sy ) ].has_flag( TFLAG_INDOORS ) ||
-                        furnlist[ cur_submap->get_furn( sx, sy ) ].has_flag( TFLAG_INDOORS ) ) {
+                    if( cur_submap->get_ter( sx, sy ).obj().has_flag( TFLAG_INDOORS ) ||
+                        cur_submap->get_furn( sx, sy ).obj().has_flag( TFLAG_INDOORS ) ) {
                         const int x = sx + ( smx * SEEX );
                         const int y = sy + ( smy * SEEY );
                         // Add 1 to both coords, because we're operating on the padded cache
@@ -6721,16 +6721,16 @@ ter_id find_ter_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused
     if( termap.find(id) == termap.end() ) {
          debugmsg("Can't find termap[%s]",id.c_str());
-         return 0;
+         return ter_id( 0 );
     }
     return termap[id].loadid;
 }
 
-ter_id find_furn_id(const std::string id, bool complain=true) {
+furn_id find_furn_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find furnmap[%s]",id.c_str());
-         return 0;
+         return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }
@@ -6817,7 +6817,7 @@ void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
 void map::draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f.get());
+            ter_set(x, y, ter_id( f.get() ) ); // TODO: make id_or_id templated on the identified type
         }
     }
 }
@@ -6845,7 +6845,7 @@ void map::draw_rough_circle_furn(furn_id type, int x, int y, int rad) {
     }
 }
 void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
-    draw_rough_circle(find_furn_id(type), x, y, rad);
+    draw_rough_circle_furn(find_furn_id(type), x, y, rad);
 }
 
 void map::add_corpse( const tripoint &p ) {
@@ -6969,12 +6969,12 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_WALL;
     auto fill_values = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
-        if( terlist[ sm->get_ter( lp.x, lp.y ) ].has_flag( block ) ) {
+        if( sm->get_ter( lp.x, lp.y ).obj().has_flag( block ) ) {
             // We need to generate the x/y coords, because we can't get them "for free"
             const int x = ( gp.x * SEEX ) + lp.x;
             const int y = ( gp.y * SEEY ) + lp.y;
             blocks_scent[x][y] = true;
-        } else if( terlist[ sm->get_ter( lp.x, lp.y ) ].has_flag( reduce ) || furnlist[ sm->get_furn( lp.x, lp.y ) ].has_flag( reduce ) ) {
+        } else if( sm->get_ter( lp.x, lp.y ).obj().has_flag( reduce ) || sm->get_furn( lp.x, lp.y ).obj().has_flag( reduce ) ) {
             const int x = ( gp.x * SEEX ) + lp.x;
             const int y = ( gp.y * SEEY ) + lp.y;
             reduces_scent[x][y] = true;

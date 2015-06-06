@@ -358,7 +358,8 @@ bool mapgendata::is_groundcover(const int iid ) const {
 }
 
 ter_id mapgendata::groundcover() {
-    return (ter_id)this->default_groundcover.get();
+    // TODO default_groundcover.get() should return a ter_id
+    return ter_id( this->default_groundcover.get() );
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
@@ -420,14 +421,8 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
 // todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
     if ( tfid.ter != t_null ) {
-        if ( tfid.ter >= terlist.size() ) {
-            debugmsg("tfid.ter %d %c",tfid.ter);
-        }
         m->ter_set(x, y, tfid.ter );
     } else if ( tfid.furn != f_null ) {
-        if ( tfid.furn >= furnlist.size() ) {
-            debugmsg("tfid.furn %d %c",tfid.furn);
-        }
         m->furn_set(x, y, tfid.furn );
     }
 }
@@ -533,32 +528,38 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
-                std::array<std::array<int, 10>, 2> tree_chances = {{
+                std::array<std::pair<int, ter_id>, 10> tree_chances = {{
                         // todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
                         // Reserve the last one (1 in 1) for simple trees that fill up the rest.
-                        {{ 250, 300, 300, 350, 350, 350, 128, 16, 16, 1 }},
-                        {{ t_tree_apple, t_tree_pear, t_tree_cherry, t_tree_peach,
-                           t_tree_apricot, t_tree_plum, t_tree_deadpine, t_tree_pine, t_tree_blackjack,
-                           t_tree}}
+                        { 250, t_tree_apple },
+                        { 300, t_tree_pear },
+                        { 300, t_tree_cherry },
+                        { 350, t_tree_apricot },
+                        { 350, t_tree_peach },
+                        { 350, t_tree_plum },
+                        { 128, t_tree_deadpine },
+                        { 16, t_tree_pine },
+                        { 16, t_tree_blackjack },
+                        { 1, t_tree },
                     }};
                 double earlier_chances = 0;
                 // Remember the earlier chances to calculate the sliding errors
-                for (size_t c = 0; c < tree_chances[0].size(); c++){
-                    if (tree_chances[0][c] == 1) {
+                for (size_t c = 0; c < tree_chances.size(); c++){
+                    if (tree_chances[c].first == 1) {
                         // If something has chances of 1, just put it in and go on.
-                        m->ter_set(i, j, tree_chances[1][c]);
+                        m->ter_set(i, j, tree_chances[c].second );
                         break;
                     }
                     else if( earlier_chances != 1 &&
-                             (one_in_improved((1/(1 - earlier_chances))*tree_chances[0][c])) ){
+                             (one_in_improved((1/(1 - earlier_chances))*tree_chances[c].first)) ){
                         // (1/(1 - earlier_chances)) is the sliding error. fixed here
-                        m->ter_set(i, j, tree_chances[1][c]);
+                        m->ter_set(i, j, tree_chances[c].second );
                         break;
                     }
                     else {
-                        earlier_chances += 1 / double(tree_chances[0][c]);
+                        earlier_chances += 1 / double(tree_chances[c].first);
                     }
                 }
             } else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance)) {
@@ -5093,7 +5094,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
-                        m->furn_set( i, j, t_null );
+                        m->furn_set( i, j, f_null );
                     }
                 }
                 line(m, t_wall, lw + 1, office_top, office_right, office_top);
@@ -5115,7 +5116,7 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
                     for (int j = office_top; j <= bw - 1; j++) {
                         m->i_clear(i, j);
                         m->ter_set(i, j, t_floor);
-                        m->furn_set( i, j, t_null );
+                        m->furn_set( i, j, f_null );
                     }
                 }
                 line(m, t_wall, office_left, office_top, rw - 1, office_top);

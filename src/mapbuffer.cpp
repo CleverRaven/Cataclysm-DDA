@@ -233,7 +233,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
                 // Save terrains
-                jsout.write( terlist[sm->ter[i][j]].id );
+                jsout.write( sm->ter[i][j].obj().id );
             }
         }
         jsout.end_array();
@@ -272,7 +272,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( furnlist[ sm->get_furn( i, j ) ].id );
+                    jsout.write( sm->get_furn( i, j ).obj().id );
                     jsout.end_array();
                 }
             }

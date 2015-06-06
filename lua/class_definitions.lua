@@ -17,6 +17,11 @@ Optional values are:
 - new (a function description): defines the constrcutor of the object. This is only useful for
   by_value objects, it allows to create an instance of it in Lua. The contents of this entry
   follow the same format as the contents of a global function (see global_functions).
+- int_id (optional, a string): if the class has an associated int_id (e.g. ter_t has int_id<ter_t>,
+  which is typedefed to ter_id), this can be used to define that int_id (for ter_t is should be
+  "ter_id"). At the end of this file, this will be used to create an actual entry in the classes
+  table for the type name given here.
+  This is done because all the int_id objects have essentially the same functions.
 
 The attributes table contains the members of the C++ class. Each key is the name of the member,
 it maps to a map with the following values:
@@ -233,7 +238,7 @@ classes = {
             { name = "natural_light_level", rval = "float", args = { } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
             { name = "num_zombies", rval = "int", args = { } },
-            { name = "open_gate", rval = nil, args = { "tripoint", "int" } },
+            { name = "open_gate", rval = nil, args = { "tripoint", "ter_id" } },
             { name = "opening_screen", rval = "bool", args = { } },
             { name = "peek", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { } },
@@ -965,26 +970,27 @@ classes = {
             { name = "disarm_trap", rval = nil, args = { "tripoint" } },
             { name = "displace_vehicle", rval = "bool", args = { "tripoint", "tripoint", "bool" } },
             { name = "displace_water", rval = "bool", args = { "tripoint" } },
-            { name = "draw_fill_background", rval = nil, args = { "int" } },
+            { name = "draw_fill_background", rval = nil, args = { "ter_id" } },
             { name = "draw_fill_background", rval = nil, args = { "string" } },
-            { name = "draw_line_furn", rval = nil, args = { "int", "int", "int", "int", "int" } },
+            { name = "draw_line_furn", rval = nil, args = { "furn_id", "int", "int", "int", "int" } },
             { name = "draw_line_furn", rval = nil, args = { "string", "int", "int", "int", "int" } },
-            { name = "draw_line_ter", rval = nil, args = { "int", "int", "int", "int", "int" } },
+            { name = "draw_line_ter", rval = nil, args = { "ter_id", "int", "int", "int", "int" } },
             { name = "draw_line_ter", rval = nil, args = { "string", "int", "int", "int", "int" } },
-            { name = "draw_rough_circle", rval = nil, args = { "int", "int", "int", "int" } },
+            { name = "draw_rough_circle", rval = nil, args = { "ter_id", "int", "int", "int" } },
             { name = "draw_rough_circle", rval = nil, args = { "string", "int", "int", "int" } },
-            { name = "draw_rough_circle_furn", rval = nil, args = { "int", "int", "int", "int" } },
+            { name = "draw_rough_circle_furn", rval = nil, args = { "furn_id", "int", "int", "int" } },
             { name = "draw_rough_circle_furn", rval = nil, args = { "string", "int", "int", "int" } },
-            { name = "draw_square_furn", rval = nil, args = { "int", "int", "int", "int", "int" } },
+            { name = "draw_square_furn", rval = nil, args = { "furn_id", "int", "int", "int", "int" } },
             { name = "draw_square_furn", rval = nil, args = { "string", "int", "int", "int", "int" } },
-            { name = "draw_square_ter", rval = nil, args = { "int", "int", "int", "int", "int" } },
+            { name = "draw_square_ter", rval = nil, args = { "ter_id", "int", "int", "int", "int" } },
             { name = "draw_square_ter", rval = nil, args = { "string", "int", "int", "int", "int" } },
             { name = "features", rval = "string", args = { "tripoint" } },
             { name = "field_at", rval = "field", args = { "tripoint" } },
             { name = "flammable_items_at", rval = "bool", args = { "tripoint" } },
             { name = "free_volume", rval = "int", args = { "tripoint" } },
-            { name = "furn", rval = "int", args = { "tripoint" } },
-            { name = "furn_set", rval = nil, args = { "tripoint", "int" } },
+            { name = "furn", rval = "furn_id", args = { "tripoint" } },
+            { name = "furn_at", rval = "furn_t", args = { "tripoint" } },
+            { name = "furn_set", rval = nil, args = { "tripoint", "furn_id" } },
             { name = "furn_set", rval = nil, args = { "tripoint", "string" } },
             { name = "furnname", rval = "string", args = { "tripoint" } },
             { name = "get_abs_sub", rval = "tripoint", args = { } },
@@ -997,7 +1003,7 @@ classes = {
             { name = "get_ter", rval = "string", args = { "tripoint" } },
             { name = "get_ter_harvest_season", rval = "int", args = { "tripoint" } },
             { name = "get_ter_harvestable", rval = "string", args = { "tripoint" } },
-            { name = "get_ter_transforms_into", rval = "int", args = { "tripoint" } },
+            { name = "get_ter_transforms_into", rval = "ter_id", args = { "tripoint" } },
             { name = "getabs", rval = "tripoint", args = { "tripoint" } },
             { name = "getlocal", rval = "tripoint", args = { "tripoint" } },
             { name = "getmapsize", rval = "int", args = { } },
@@ -1034,10 +1040,10 @@ classes = {
             { name = "light_transparency", rval = "float", args = { "tripoint" } },
             { name = "load", rval = nil, args = { "int", "int", "int", "bool" } },
             { name = "make_rubble", rval = nil, args = { "tripoint" } },
-            { name = "make_rubble", rval = nil, args = { "tripoint", "int" } },
-            { name = "make_rubble", rval = nil, args = { "tripoint", "int", "bool" } },
-            { name = "make_rubble", rval = nil, args = { "tripoint", "int", "bool", "int" } },
-            { name = "make_rubble", rval = nil, args = { "tripoint", "int", "bool", "int", "bool" } },
+            { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id" } },
+            { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool" } },
+            { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool", "ter_id" } },
+            { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool", "ter_id", "bool" } },
             { name = "marlossify", rval = "bool", args = { "tripoint" } },
             { name = "max_volume", rval = "int", args = { "tripoint" } },
             { name = "mop_spills", rval = nil, args = { "tripoint" } },
@@ -1083,14 +1089,14 @@ classes = {
             { name = "spawn_item", rval = nil, args = { "tripoint", "string", "int", "int", "int", "int", "bool" } },
             { name = "spawn_monsters", rval = nil, args = { "bool" } },
             { name = "stored_volume", rval = "int", args = { "tripoint" } },
-            { name = "ter", rval = "int", args = { "tripoint" } },
+            { name = "ter", rval = "ter_id", args = { "tripoint" } },
             { name = "ter_at", rval = "ter_t", args = { "tripoint" } },
-            { name = "ter_set", rval = nil, args = { "tripoint", "int" } },
+            { name = "ter_set", rval = nil, args = { "tripoint", "ter_id" } },
             { name = "ter_set", rval = nil, args = { "tripoint", "string" } },
             { name = "tername", rval = "string", args = { "tripoint" } },
             { name = "trans", rval = "bool", args = { "tripoint" } },
-            { name = "translate", rval = nil, args = { "int", "int" } },
-            { name = "translate_radius", rval = nil, args = { "int", "int", "float", "tripoint" } },
+            { name = "translate", rval = nil, args = { "ter_id", "ter_id" } },
+            { name = "translate_radius", rval = nil, args = { "ter_id", "ter_id", "float", "tripoint" } },
             { name = "trigger_rc_items", rval = nil, args = { "string" } },
             { name = "unboard_vehicle", rval = nil, args = { "tripoint" } },
             { name = "valid_move", rval = "bool", args = { "tripoint", "tripoint" } },
@@ -1100,6 +1106,7 @@ classes = {
         }
     },
     ter_t = {
+        int_id = "ter_id",
         attributes = {
             name = {
                 type = "string",
@@ -1117,6 +1124,24 @@ classes = {
                 type = "int",
                 writable = false
             }
+        },
+        functions = {
+        }
+    },
+    furn_t = {
+        int_id = "furn_id",
+        attributes = {
+            close = { type = "string", writable = true },
+            color = { type = "int", writable = true },
+            id = { type = "string" },
+            max_volume = { type = "int", writable = true },
+            movecost = { type = "int", writable = true },
+            name = { type = "string", writable = true },
+            open = { type = "string", writable = true },
+            sym = { type = "int", writable = true },
+            transparent = { type = "bool", writable = true },
+            loadid = { type = "int" },
+            move_str_req = { type = "int", writable = true },
         },
         functions = {
         }
@@ -1909,5 +1934,28 @@ for class_name, value in pairs(classes) do
         else
             i = i + 1
         end
+    end
+end
+
+-- This adds the int_id wrappers from the class definition as real classes.
+-- All int_id<T>s have the same interface, so we only need to add some mark to T, that this class
+-- T has an int_id of some name.
+-- In the class definition: add "int_id" = "XXX" (XXX is the typedef id that is used by C++).
+for name, value in pairs(classes) do
+    if value.int_id then
+        -- This is the common int_id<T> interface:
+        classes[value.int_id] = {
+            by_value = true,
+            has_equal = true,
+            -- IDs *could* be constructed from int, but where does the Lua script get the int from?
+            -- The int is only exposed as int_id<T>, so Lua should never know about it.
+            attributes = { },
+            functions = {
+                -- Use with care, only for displaying the value for debugging purpose!
+                { name = "to_i", rval = "int", args = { } },
+                -- TODO: currently disabled because it returns a const-reference
+                -- { name = "obj", rval = name, args = { } },
+            }
+        }
     end
 end

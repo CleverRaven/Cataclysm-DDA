@@ -11828,10 +11828,10 @@ void player::try_to_sleep()
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) ) {
         add_msg(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
-        add_msg( terlist[ter_at_pos].movecost <= 2 ?
+        add_msg( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
-                 terlist[ter_at_pos].name.c_str() );
+                 ter_at_pos.obj().name.c_str() );
     }
     add_effect("lying_down", 300);
 }

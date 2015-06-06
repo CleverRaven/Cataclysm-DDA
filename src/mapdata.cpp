@@ -17,6 +17,38 @@ std::map<std::string, ter_t> termap;
 std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
 
+template<>
+const ter_t &int_id<ter_t>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= terlist.size() ) {
+        debugmsg( "invalid terrain id %d", _id );
+        static const ter_t dummy{};
+        return dummy;
+    }
+    return terlist[_id];
+}
+
+template<>
+const furn_t &int_id<furn_t>::obj() const
+{
+    if( static_cast<size_t>( _id ) >= furnlist.size() ) {
+        debugmsg( "invalid furniture id %d", _id );
+        static const furn_t dummy{};
+        return dummy;
+    }
+    return furnlist[_id];
+}
+
+const furn_t &maptile::get_furn_t() const
+{
+    return sm->get_furn( x, y ).obj();
+}
+
+const ter_t &maptile::get_ter_t() const
+{
+    return sm->get_ter( x, y ).obj();
+}
+
 std::ostream & operator<<(std::ostream & out, const submap * sm)
 {
  out << "submap(";
@@ -173,7 +205,7 @@ furn_t null_furniture_t() {
   new_furniture.transparent = true;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
-  new_furniture.loadid = 0;
+  new_furniture.loadid = furn_id( 0 );
   new_furniture.open = "";
   new_furniture.close = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
@@ -197,7 +229,7 @@ ter_t null_terrain_t() {
   new_terrain.harvestable = "";
   new_terrain.transforms_into = "t_null";
   new_terrain.roof = "t_null";
-  new_terrain.loadid = 0;
+  new_terrain.loadid = ter_id( 0 );
   new_terrain.open = "";
   new_terrain.close = "";
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
@@ -262,7 +294,7 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.bash.load(jsobj, "bash", true);
   new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
-  new_furniture.loadid = furnlist.size();
+  new_furniture.loadid = furn_id( furnlist.size() );
   furnmap[new_furniture.id] = new_furniture;
   furnlist.push_back(new_furniture);
 }
@@ -346,7 +378,7 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-  new_terrain.loadid=terlist.size();
+  new_terrain.loadid = ter_id( terlist.size() );
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
 }
@@ -751,12 +783,28 @@ void set_ter_ids() {
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
     t_improvised_shelter = terfind("t_improvised_shelter");
+
+    for( auto &elem : terlist ) {
+        if( elem.trap_id_str.empty() ) {
+            elem.trap = tr_null;
+        } else {
+            elem.trap = trap_str_id( elem.trap_id_str );
+        }
+    }
+}
+
+void reset_furn_ter()
+{
+    termap.clear();
+    terlist.clear();
+    furnmap.clear();
+    furnlist.clear();
 }
 
 furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find %s",id.c_str());
-         return 0;
+         return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }
@@ -942,8 +990,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
 
 void check_furniture_and_terrain()
 {
-    for(std::vector<furn_t>::const_iterator a = furnlist.begin(); a != furnlist.end(); ++a) {
-        const furn_t &f = *a;
+    for( const furn_t& f : furnlist ) {
         check_bash_items(f.bash, f.id, false);
         check_decon_items(f.deconstruct, f.id, false);
         if( !f.open.empty() && furnmap.count( f.open ) == 0 ) {
@@ -953,8 +1000,7 @@ void check_furniture_and_terrain()
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }
-    for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
-        const ter_t &t = *a;
+    for( const ter_t& t : terlist ) {
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
         if( !t.transforms_into.empty() && termap.count( t.transforms_into ) == 0 ) {
