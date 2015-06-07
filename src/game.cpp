@@ -12784,14 +12784,9 @@ void game::vertical_move(int movez, bool force)
             }
         }
 
-        if (danger_lava){
-            if( movez == 1 && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ){
-                actually_moved = false;
-            }
-            else if( movez == -1 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
-                actually_moved = false;
-            }
-        }   
+        if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+            actually_moved = false;
+        }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
                 if (maybetmp.move_cost(u.pos()) == 0) {
