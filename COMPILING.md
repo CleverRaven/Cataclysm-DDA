@@ -341,16 +341,17 @@ once installed we need to get the right packages. In "Basic Setup", mark `mingw-
 
 Then install these components using `Installation -> Apply Changes`.
 
-Furthermore, we will need gettext and libintl. In "All Packages -> MinGW -> MinGW Autotools" ensure that `mingw32-gettext` and `mingw32-libintl` are installed.
+### Localization
+If we want to compile with localization, we will need gettext and libintl. In "All Packages -> MinGW -> MinGW Autotools" ensure that `mingw32-gettext` and `mingw32-libintl` are installed.
 
-## Reqired Libraries
-Once that is done, we need to download a few libraries.
+## Required Tiles(SDL) Libraries
+If we want to compile with Tiles (SDL) we have to download a few libraries.
 * `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
 * `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
 * `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
 * `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
 
-### Installing libraries.
+### Installing Tiles(SDL) libraries.
 For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installtion folder. (Reccomended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
 
 For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
@@ -360,9 +361,6 @@ There seems to be at the moment of writing that a file in SDL is broken and need
 https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
 Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
 
-##Configuring makefile
-The only thing you to do is modify one line. You want to find the line `LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2` and replace it with `LDFLAGS += -lfreetype`
-
 ##Compiling
 Navigate to `MinGW\msys\1.0` and run `msys.bat`. This will start a cmd-like shell where the following entries will be made.
 
@@ -370,4 +368,8 @@ Add the MinGW toolchain to your PATH with `export PATH=$PATH:/c/MinGW/bin`. Repl
 
 Navigate to the CDDA source code directory.
 
-Compile using make TILES=1 NATIVE=win32 LOCALIZE=0 and unless there are problems, it should produce a CDDA binary for you.
+Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1` and unless there are problems, it should produce a CDDA binary for you.
+
+If you dont want tiles you can change `TILES` to 0.
+
+If you dont want localization you can change `LOCALIZE` to 0.
