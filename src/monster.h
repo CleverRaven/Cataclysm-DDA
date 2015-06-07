@@ -193,6 +193,17 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         bool bash_at( const tripoint &p );
 
+        /**
+         * Try to push away whatever occupies p, then step in.
+         * May recurse and try to make the creature at p push further.
+         *
+         * @param boost A bonus on the roll to represent a horde pushing from behind
+         * @param depth Number of recursions so far
+         *
+         * @return True if we managed to push something and took its place, false otherwise.
+         */
+        bool push_to( const tripoint &p, int boost, size_t depth );
+
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
         int bash_estimate();

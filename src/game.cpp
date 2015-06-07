@@ -6814,6 +6814,71 @@ void game::rebuild_mon_at_cache()
     critter_tracker->rebuild_cache();
 }
 
+bool game::swap_critters( Creature &a, Creature &b )
+{
+    if( &a == &b ) {
+        // No need to do anything, but print a debugmsg anyway
+        debugmsg( "Tried to swap %s with itself", a.disp_name().c_str() );
+        return true;
+    }
+
+    // Simplify by "sorting" the arguments
+    // Only the first argument can be u
+    // If swapping player/npc with a monster, monster is second
+    bool a_first = a.is_player() ||
+                   ( a.is_npc() && !b.is_player() );
+    Creature &first =  a_first ? a : b;
+    Creature &second = a_first ? b : a;
+    // Possible options:
+    // both first and second are monsters
+    // second is a monster, first is a player or an npc
+    // first is a player, second is an npc
+    // both first and second are npcs
+    if( first.is_monster() ) {
+        monster *m1 = dynamic_cast< monster* >( &first );
+        monster *m2 = dynamic_cast< monster* >( &second );
+        if( m1 == nullptr || m2 == nullptr || m1 == m2 ) {
+            debugmsg( "Couldn't swap two monsters" );
+            return false;
+        }
+
+        critter_tracker->swap_positions( *m1, *m2 );
+        return true;
+    } else if( second.is_monster() ) {
+        // TODO: Remove the ugly casts when Creature::setpos exists
+        player *u_or_npc = dynamic_cast< player* >( &first );
+        monster *mon = dynamic_cast< monster* >( &second );
+        if( u_or_npc == nullptr || mon == nullptr ) {
+            debugmsg( "Couldn't swap the player or an npc with a monster" );
+            return false;
+        }
+
+        tripoint temp = mon->pos();
+        mon->setpos( u_or_npc->pos() );
+        u_or_npc->setpos( temp );
+        if( u_or_npc->is_player() ) {
+            update_map( u_or_npc );
+        }
+    } else {
+        // TODO: Also remove casts
+        player *u_or_npc = dynamic_cast< player* >( &first );
+        player *other_npc = dynamic_cast< player* >( &second );
+        if( u_or_npc == nullptr || other_npc == nullptr ) {
+            debugmsg( "Couldn't swap the player or an npc with an npc" );
+            return false;
+        }
+
+        tripoint temp = u_or_npc->pos();
+        u_or_npc->setpos( second.pos() );
+        other_npc->setpos( temp );
+        if( first.is_player() ) {
+            update_map( u_or_npc );
+        }
+    }
+
+    return true;
+}
+
 bool game::is_empty( const tripoint &p )
 {
     return ( m.move_cost( p ) > 0 || m.has_flag( "LIQUID", p ) ) &&

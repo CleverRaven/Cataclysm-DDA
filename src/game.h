@@ -203,6 +203,8 @@ class game
         void clear_zombies();
         /** Spawns a hallucination close to the player. */
         bool spawn_hallucination();
+        /** Swaps positions of two creatures */
+        bool swap_critters( Creature &first, Creature &second );
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p ) const;
