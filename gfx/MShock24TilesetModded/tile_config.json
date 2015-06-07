@@ -20162,6 +20162,11 @@
           "id": "m240",
           "fg": 1297,
           "rotates": false
+        },
+        {
+          "id": "cutlass",
+          "fg": 2623,
+          "rotates": false
         }
       ]
     },
