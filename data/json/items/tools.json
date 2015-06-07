@@ -2508,7 +2508,7 @@
     "symbol": "*",
     "color": "blue",
     "name": "throwable fire extinguisher",
-    "description": "This is a fire extinguisher in grenade form factor, not as effective as a regular fire extinguisher, but you can use it from the distance.  It activates due to heating, so just throw it in to the flame for instant effect.",
+    "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It is activated by heat, so just throw it into the flames.",
     "price": 3000,
     "material": "plastic",
     "weight": 630,
