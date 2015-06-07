@@ -797,8 +797,8 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, flagstmp, atttmp;
-    std::string facID;
+    int misstmp, classtmp, flagstmp, atttmp, comp_miss_t, stock;
+    std::string facID, comp_miss;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
@@ -857,6 +857,18 @@ void npc::load(JsonObject &data)
 
     if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
+    }
+
+    if ( data.read( "companion_mission", comp_miss) ) {
+        companion_mission = comp_miss;
+    }
+
+    if ( data.read( "companion_mission_time", comp_miss_t) ) {
+        companion_mission_time = comp_miss_t;
+    }
+
+    if ( data.read( "restock", stock) ) {
+        restock = stock;
     }
 
     data.read("op_of_u", op_of_u);
@@ -918,6 +930,11 @@ void npc::store(JsonOut &json) const
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
     json.member("combat_rules", combat_rules);
+
+    json.member("companion_mission", companion_mission);
+    json.member("companion_mission_time", companion_mission_time);
+    json.member("restock", restock);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

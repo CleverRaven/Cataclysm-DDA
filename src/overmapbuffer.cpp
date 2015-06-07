@@ -509,19 +509,17 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
     return overmap::invalid_tripoint;
 }
 
-std::vector<tripoint> overmapbuffer::find_all(const tripoint& origin, const std::string& type, int dist, bool must_be_seen)
+std::vector<tripoint> overmapbuffer::find_all( const tripoint& origin, const std::string& type,
+                                               int dist, bool must_be_seen )
 {
     std::vector<tripoint> result;
-    int max = (dist == 0 ? OMAPX : dist);
-    for (dist = 0; dist <= max; dist++) {
-        for (int x = origin.x - dist; x <= origin.x + dist; x++) {
-            for (int y = origin.y - dist; y <= origin.y + dist; y++) {
-                if (must_be_seen && !seen(x, y, origin.z)) {
-                    continue;
-                }
-                if (check_ot_type(type, x, y, origin.z)) {
-                    result.push_back( tripoint( x, y, origin.z ) );
-                }
+    for (int x = origin.x - dist; x <= origin.x + dist; x++) {
+        for (int y = origin.y - dist; y <= origin.y + dist; y++) {
+            if (must_be_seen && !seen(x, y, origin.z)) {
+                continue;
+            }
+            if (check_ot_type(type, x, y, origin.z)) {
+                result.push_back( tripoint( x, y, origin.z ) );
             }
         }
     }
@@ -555,6 +553,20 @@ void overmapbuffer::remove_npc(int id)
         }
     }
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
+}
+
+void overmapbuffer::hide_npc(int id)
+{
+    for( auto &it : overmaps ) {
+        for (size_t i = 0; i < it.second->npcs.size(); i++) {
+            npc *p = it.second->npcs[i];
+            if (p->getID() == id) {
+                it.second->npcs.erase(it.second->npcs.begin() + i);
+                return;
+            }
+        }
+    }
+    debugmsg("overmapbuffer::hide_npc: NPC (%d) not found.", id);
 }
 
 std::vector<npc*> overmapbuffer::get_npcs_near_player(int radius)

@@ -332,6 +332,8 @@ class Character : public Creature
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
 
+        std::vector<bionic> my_bionics;
+
     protected:
         Character();
         Character(const Character &) = default;
@@ -366,7 +368,6 @@ class Character : public Creature
          * Contains mutation ids of the base traits.
          */
         std::unordered_set<std::string> my_traits;
-        std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);

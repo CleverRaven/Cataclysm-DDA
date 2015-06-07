@@ -279,6 +279,16 @@
     "faction" : "tacoma_commune"
   },{
     "type" : "npc",
+    "id" : "commune_guard",
+    "comment" : "A generic guard for the Tacoma Commune faction.",
+    "name+" : ", Guard",
+    "class" : 9,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_GUARD",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
     "id" : "scavenger_hunter",
     "comment" : "Appears in the refugee center as a trader.",
     "name+" : ", Hunter",
