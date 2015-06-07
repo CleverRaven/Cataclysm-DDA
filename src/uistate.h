@@ -41,6 +41,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
         bool adv_inv_container_in_vehicle = 0;
+        int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
         bool adv_inv_re_enter_move_all = false;

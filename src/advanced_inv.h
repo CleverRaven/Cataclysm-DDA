@@ -424,7 +424,8 @@ class advanced_inventory
          * should be moved. A return value of true indicates that amount now contains
          * a valid item count to be moved.
          */
-        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, bool askamount, long &amount );
+        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, 
+                const std::string &action, long &amount);
         /**
          * Remove the item from source area. Must not be used on items with area
          * AIM_ALL or AIM_INVENTORY! (but is... and seems to work)

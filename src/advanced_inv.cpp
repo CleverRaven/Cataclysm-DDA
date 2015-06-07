@@ -34,6 +34,12 @@
 
 static itype_id null_item = "NULL";
 
+enum aim_exit {
+    exit_none = 0,
+    exit_okay,
+    exit_re_entry
+};
+
 advanced_inventory::advanced_inventory()
     : head_height( 5 )
     , min_w_height( 10 )
@@ -73,6 +79,7 @@ advanced_inventory::advanced_inventory()
 advanced_inventory::~advanced_inventory()
 {
     save_settings(false);
+    uistate.adv_inv_exit_code = exit_okay;
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
         werase( head );
@@ -108,23 +115,29 @@ void advanced_inventory::save_settings(bool only_panes)
 
 void advanced_inventory::load_settings()
 {
-    bool moved = uistate.adv_inv_last_coords != g->u.pos();
+    aim_exit aim_code = static_cast<aim_exit>(uistate.adv_inv_exit_code);
     for(int i = 0; i < NUM_PANES; ++i) {
         auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         auto square = squares[location];
-        bool same_as_last = (!moved && square.can_store_in_vehicle() && uistate.adv_inv_in_vehicle[i]);
-        // determine where to open first based on which stack is empty
-        bool has_veh_items = (square.can_store_in_vehicle()) ?
-            !square.veh->get_items(square.vstor).empty() : false;
-        bool has_map_items = !g->m.i_at(square.pos).empty();
-        bool in_vehicle_cargo = (has_veh_items || 
-                (!has_map_items && !has_veh_items) || 
-                uistate.adv_inv_in_vehicle[i]);
-        panes[i].set_area(square, in_vehicle_cargo || same_as_last);
+        bool show_vehicle = false;
+        // restore if we were moving items or haven't moved
+        if(aim_code == exit_re_entry) {
+            show_vehicle = uistate.adv_inv_in_vehicle[i];
+        // however, do some heuristics otherwise
+        } else {
+            // determine the square's veh/map item presence
+            bool has_veh_items = (square.can_store_in_vehicle()) ?
+                !square.veh->get_items(square.vstor).empty() : false;
+            bool has_map_items = !g->m.i_at(square.pos).empty();
+            // determine based on map items and settings to show cargo
+            show_vehicle = (has_veh_items) ? true : (has_map_items) ? false : true;
+        }
+        panes[i].set_area(square, show_vehicle);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         panes[i].index = uistate.adv_inv_index[i];
         panes[i].filter = uistate.adv_inv_filter[i];
     }
+    uistate.adv_inv_exit_code = exit_none;
 }
 
 std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
@@ -1253,6 +1266,7 @@ void advanced_inventory::display()
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "MOVE_SINGLE_ITEM" );
+    ctxt.register_action( "MOVE_VARIABLE_ITEM" );
     ctxt.register_action( "MOVE_ITEM_STACK" );
     ctxt.register_action( "MOVE_ALL_ITEMS" );
     ctxt.register_action( "CATEGORY_SELECTION" );
@@ -1312,9 +1326,7 @@ void advanced_inventory::display()
         advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
         aim_location changeSquare;
 
-        const std::string action = (uistate.adv_inv_re_enter_move_all) ? 
-            "MOVE_ALL_ITEMS" : ctxt.handle_input();
-
+        const std::string action = ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
@@ -1370,7 +1382,8 @@ void advanced_inventory::display()
                 popup( _( "You can't put items there" ) );
                 redraw = true; // to clear the popup
             }
-        } else if( action == "MOVE_SINGLE_ITEM" || action == "MOVE_ITEM_STACK" ) {
+        } else if( action == "MOVE_SINGLE_ITEM" || action == "MOVE_VARIABLE_ITEM" || 
+                   action == "MOVE_ITEM_STACK" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
             }
@@ -1392,7 +1405,7 @@ void advanced_inventory::display()
             assert( !sitem->items.empty() );
             const bool by_charges = sitem->items.front()->count_by_charges();
             long amount_to_move = 0;
-            if( !query_charges( destarea, *sitem, action == "MOVE_SINGLE_ITEM", amount_to_move ) ) {
+            if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
                 continue;
             }
             // This makes sure that all item references in the advanced_inventory_pane::items vector
@@ -1855,7 +1868,7 @@ int advanced_inv_area::free_volume( bool in_vehicle ) const
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                                        bool askamount, long &amount )
+                                        const std::string &action, long &amount )
 {
     assert( destarea != AIM_ALL ); // should be a specific location instead
     assert( !sitem.items.empty() ); // valid item is obviously required
@@ -1865,7 +1878,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const int unitvolume = it.precise_unit_volume();
     const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
-    const long input_amount = by_charges ? it.charges : ( destarea == AIM_WORN ) ? 1 : sitem.stacks;
+    const long input_amount = by_charges ? it.charges : (action == "MOVE_ITEM_STACK") ?
+        sitem.stacks : (action == "MOVE_SINGLE_ITEM" || destarea == AIM_WORN);
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
@@ -1921,7 +1935,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
     // Now we have the final amount. Query if needed (either requested, or when
     // the destination can not hold all items).
-    if( askamount || amount < input_amount ) {
+    if( action == "MOVE_VARIABLE_ITEM" || amount < input_amount ) {
         // moving several items (not charges!) from ground it currently not implemented.
         // TODO: implement this properly, see the code where this is called from.
         //if( !by_charges && sitem.area != AIM_INVENTORY && sitem.area != AIM_WORN ) {
@@ -2276,5 +2290,6 @@ void advanced_inventory::do_return_entry()
     save_settings(true);
     g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
     g->u.activity.auto_resume = true;
+    uistate.adv_inv_exit_code = exit_re_entry;
 }
 
