@@ -4173,20 +4173,7 @@ int player::sight_range(int light_level) const
 }
 
 int player::unimpaired_range() const {
-    int ret = DAYLIGHT_LEVEL;
-    if( has_trait("PER_SLIME") ) {
-        ret = 6;
-    }
-    if( has_active_mutation("SHELL2") ) {
-        ret = 2;
-    }
-    if( has_effect("in_pit") || has_effect("boomered") ) {
-        ret = 1;
-    }
-    if( has_effect("blind") || worn_with_flag("BLIND") ) {
-        ret = 0;
-    }
-    return ret;
+    return std::min(sight_max, 60);
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )

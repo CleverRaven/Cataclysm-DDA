@@ -5062,8 +5062,8 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( dist <= cache.u_clairvoyance ) {
         return LL_BRIGHT;
     }
-    // Blindness overrides everything else.
-    if( cache.u_sight_impaired ) {
+    // Several vision impairments cut vision range to a hard limit.
+    if( dist > g->u.unimpaired_range() ) {
         return LL_DARK;
     }
     const auto &map_cache = get_cache_ref(p.z);
