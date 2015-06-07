@@ -12785,10 +12785,10 @@ void game::vertical_move(int movez, bool force)
         }
 
         if (danger_lava){
-            if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ){
+            if( movez == 1 && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ){
                 actually_moved = false;
             }
-            else if( movez < 0 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+            else if( movez == -1 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
                 actually_moved = false;
             }
         }   
