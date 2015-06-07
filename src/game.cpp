@@ -8646,6 +8646,10 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 print_all_tile_info( lp, w_info, 1, off, false);
                 break;
             case VIS_BOOMER:
+                mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
+                //~ Describing what you can see when you're boomered.
+                mvwprintw(w_info, 1, 1, _("A bright pink blur."));
+                break;
             case VIS_BOOMER_DARK:
                 mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
                 //~ Describing what you can see when you're boomered.
