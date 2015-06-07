@@ -15053,7 +15053,7 @@
         },
         {
           "id": "t_shrub_season_winter",
-          "fg": 1944,
+          "fg": 2559,
           "bg": 543
         },
         {
@@ -19576,25 +19576,25 @@
         {
           "id": "t_underbrush_harvested_spring",
           "fg": 2557,
-          "bg": 515,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_summer",
           "fg": 2557,
-          "bg": 515,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_autumn",
           "fg": 2557,
-          "bg": 515,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_winter",
           "fg": 2558,
-          "bg": 515,
+          "bg": 543,
           "rotates": false
         },
         {
