@@ -1,5 +1,6 @@
 #include "monster.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
@@ -683,13 +684,28 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
- anger += trigger_sum(&(type->anger));
- anger -= trigger_sum(&(type->placate));
- if (morale < 0) {
-  if (morale < type->morale && one_in(20))
-  morale++;
- } else
-  morale -= trigger_sum(&(type->fear));
+    anger += trigger_sum( &(type->anger) );
+    anger -= trigger_sum( &(type->placate) );
+    morale -= trigger_sum( &(type->fear) );
+    if( morale != type->morale && one_in( 10 ) ) {
+        if( morale < type->morale ) {
+            morale++;
+        } else {
+            morale--;
+        }
+    }
+
+    if( anger != type->agro && one_in( 10 ) ) {
+        if( anger < type->agro ) {
+            anger++;
+        } else {
+            anger--;
+        }
+    }
+
+    // Cap values at [-100, 100] to prevent perma-angry moose etc.
+    morale = std::min( 100, std::max( -100, morale ) );
+    anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
 // This Adjustes anger/morale levels given a single trigger.
@@ -714,14 +730,18 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
     for( const auto &trigger : *triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
-                if (anger > 0 && one_in(20)) {
+                if( anger > 0 && one_in( 5 ) ) {
                     ret++;
                 }
                 break;
 
             case MTRIG_MEAT:
-                check_terrain = true;
-                check_meat = true;
+                // Disable meat checking for now
+                // It's hard to ever see it in action
+                // and even harder to balance it without making it exploity
+
+                // check_terrain = true;
+                // check_meat = true;
                 break;
 
             case MTRIG_FIRE:
@@ -734,27 +754,23 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
         }
     }
 
-    if (check_terrain) {
-        for (int x = posx() - 3; x <= posx() + 3; x++) {
-            for (int y = posy() - 3; y <= posy() + 3; y++) {
-                if (check_meat) {
-                    auto items = g->m.i_at(x, y);
-                    for( auto &item : items ) {
-                        if( item.is_corpse() || item.type->id == "meat" ||
-                            item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
-                            ret += 3;
-                            check_meat = false;
-                        }
+    if( check_terrain ) {
+        for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
+            // Note: can_see_items doesn't check actual visibility
+            // This will check through walls, but it's too small to matter
+            if( check_meat && g->m.sees_some_items( p, *this ) ) {
+                auto items = g->m.i_at( p );
+                for( auto &item : items ) {
+                    if( item.is_corpse() || item.type->id == "meat" ||
+                        item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
+                        ret += 3;
+                        check_meat = false;
                     }
                 }
-                if (check_fire) {
-                    ret += ( 5 * g->m.get_field_strength( tripoint(x, y, posz()), fd_fire) );
-                }
             }
-        }
-        if (check_fire) {
-            if (g->u.has_amount("torch_lit", 1)) {
-                ret += 49;
+
+            if( check_fire ) {
+                ret += 5 * g->m.get_field_strength( p, fd_fire );
             }
         }
     }
@@ -763,7 +779,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 }
 
 bool monster::is_underwater() const {
-    return can_submerge() && underwater;
+    return underwater && can_submerge();
 }
 
 bool monster::is_on_ground() const {
@@ -1579,13 +1595,13 @@ void monster::die(Creature* nkiller) {
 
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
-    if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust += 15;
     }
-    if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_fear_trigger( MTRIG_FRIEND_DIED ) ) {
         morale_adjust -= 15;
     }
-    if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_placate_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust -= 15;
     }
 

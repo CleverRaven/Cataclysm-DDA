@@ -1707,7 +1707,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
 
     if( from.z == to.z ) {
-        return bash || move_cost( to ) <= 0;
+        return bash || move_cost( to ) > 0;
     }
 
     const bool going_up = from.z < to.z;
@@ -4303,13 +4303,16 @@ void map::process_items_in_vehicle( vehicle *const cur_veh, submap *const curren
 }
 
 // Crafting/item finding functions
-bool map::sees_some_items( const tripoint &p, const player &u )
+
+// Note: this is called quite a lot when drawing tiles
+// Console build has the most expensive parts optimized out
+bool map::sees_some_items( const tripoint &p, const Creature &who ) const
 {
-    // can only see items if there are any items.
-    return !i_at( p ).empty() && could_see_items( p, u );
+    // Can only see items if there are any items.
+    return has_items( p ) && could_see_items( p, who );
 }
 
-bool map::could_see_items( const tripoint &p, const player &u ) const
+bool map::could_see_items( const tripoint &p, const Creature &who ) const
 {
     const bool container = has_flag_ter_or_furn( "CONTAINER", p );
     const bool sealed = has_flag_ter_or_furn( "SEALED", p );
@@ -4320,11 +4323,23 @@ bool map::could_see_items( const tripoint &p, const player &u ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - u.posx() ) <= 1 &&
-                 abs( p.y - u.posy() ) <= 1 &&
-                 abs( p.z - u.posz() ) <= 1 );
+        return ( abs( p.x - who.posx() ) <= 1 &&
+                 abs( p.y - who.posy() ) <= 1 &&
+                 abs( p.z - who.posz() ) <= 1 );
     }
     return true;
+}
+
+bool map::has_items( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at( p, lx, ly );
+
+    return !current_submap->itm[lx][ly].empty();
 }
 
 template <typename Stack>
