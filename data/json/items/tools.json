@@ -5298,6 +5298,7 @@
     "description": "This is a military combat knife designed for close quarters conflict.  It is light and extremely sharp, and could be deadly in the right hands.  It could be used to butcher corpses.",
     "price": 10000,
     "material": ["steel", "plastic"],
+    "techniques": "RAPID",
     "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "weight": 558,
     "volume": 2,
