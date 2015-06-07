@@ -11816,7 +11816,7 @@
         },
         {
           "id": "t_shrub",
-          "fg": 1897,
+          "fg": 2556,
           "bg": 513,
           "rotates": false
         },
@@ -15028,7 +15028,7 @@
         },
         {
           "id": "t_shrub_season_winter",
-          "fg": 1944,
+          "fg": 2559,
           "bg": 543
         },
         {
@@ -19501,6 +19501,59 @@
         {
           "id": "thermometer",
           "fg": 2552,
+          "rotates": false
+        },
+
+        {
+          "id": "kimono",
+          "fg": 2553,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "b_shorts",
+          "fg": 460,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "under_armor_shorts",
+          "fg": 288,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "teleporter",
+          "fg": 2554,
+          "rotates": false
+        },
+        {
+          "id": "telepad",
+          "fg": 2555,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_spring",
+          "fg": 2557,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_summer",
+          "fg": 2557,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_autumn",
+          "fg": 2557,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_underbrush_harvested_winter",
+          "fg": 2558,
+          "bg": 513,
           "rotates": false
         }
       ]
