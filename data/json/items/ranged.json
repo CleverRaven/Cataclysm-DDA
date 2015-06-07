@@ -4291,7 +4291,7 @@
     "description": "The M134 Minigun is a 7.62x51 mm NATO, six-barreled machine gun.  It features Gatling-style rotating barrels with an electric motor.  Its' recoil is too powerful for firing unmounted, but if you could attach it to a vehicle and find enough ammo for it, it would become a devastating weapon. ",
     "price": 5500000,
     "material": "hardsteel",
-    "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["MODE_BURST", "BURST_ONLY", "NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "rifle",
     "ups_charges": 1,
     "ammo": "308",
