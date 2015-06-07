@@ -361,6 +361,10 @@ There seems to be at the moment of writing that a file in SDL is broken and need
 https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
 Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
 
+##Makefile changes
+This probably not the best way to do it. But it seems that you need to remove a few dependenceis from the makefile or it will not build.
+change the line `LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2` to `LDFLAGS += -lfreetype`
+
 ##Compiling
 Navigate to `MinGW\msys\1.0` and run `msys.bat`. This will start a cmd-like shell where the following entries will be made.
 
