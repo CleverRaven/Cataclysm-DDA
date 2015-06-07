@@ -289,9 +289,15 @@ void Character::recalc_sight_limits()
 float Character::get_vision_threshold(int light_level) const {
     // Bail out in extremely common case where character hs no special vision mode or
     // it's too bright for nightvision to work.
-    if( vision_mode_cache.none() || light_level > 8 ) {
+    if( vision_mode_cache.none() || light_level > LIGHT_AMBIENT_LIT ) {
         return LIGHT_AMBIENT_LOW;
     }
+    // As ligt_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
+    // dimming goes from 1.0 to 2.0.
+    const float dimming_from_light = 1.0 + (((float)light_level - LIGHT_AMBIENT_MINIMAL) /
+                                            (LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL));
+    float threshold = LIGHT_AMBIENT_LOW;
+
     /**
      * Consider vision modes in order of descending goodness until we get a hit.
      * The values are based on expected sight distance in "total darkness", which is set to 3.7.
@@ -302,38 +308,38 @@ float Character::get_vision_threshold(int light_level) const {
      */
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
-        return 0.01;
+        threshold = 0.01;
     } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
                vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         if( vision_mode_cache[BIRD_EYE] ) {
             // Bird eye adds one, so 13.
-            return 1.9;
+            threshold = 1.9;
         } else {
             // Highest normal night vision is expected to provide sight out to 12 squares.
-            return 1.99;
+            threshold = 1.99;
         }
     } else if( vision_mode_cache[ELFA_VISION] ) {
         // Range 7.
-        return 2.65;
+        threshold = 2.65;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
                vision_mode_cache[URSINE_VISION] ) {
         if( vision_mode_cache[BIRD_EYE] ) {
             // Range 5.
-            return 2.78;
+            threshold = 2.78;
         } else {
             // Range 4.
-            return 2.9;
+            threshold = 2.9;
         }
     } else if( vision_mode_cache[NIGHTVISION_1] ) {
         if( vision_mode_cache[BIRD_EYE] ) {
             // Range 3.
-            return 3.2;
+            threshold = 3.2;
         } else {
             // Range 2.
-            return 3.35;
+            threshold = 3.35;
         }
     }
-    return LIGHT_AMBIENT_LOW;
+    return std::min( (float)LIGHT_AMBIENT_LOW, threshold * dimming_from_light );
 }
 
 bool Character::has_bionic(const std::string & b) const
