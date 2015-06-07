@@ -332,3 +332,4 @@ Workaround: install XCode 3 like that article describes, or disable localization
 
 Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings -> Text"
 
+# Windows MinGW Guide
