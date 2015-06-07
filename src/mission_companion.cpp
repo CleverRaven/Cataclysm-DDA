@@ -486,7 +486,8 @@ void talk_function::caravan_depart(npc *p, std::string dest, std::string id)
     for( auto &elem : npc_list ) {
         if (elem->companion_mission_time == -1){
             //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = time + int(time*rng(-.1,.1)) + calendar::turn.get_turn();
+            elem->companion_mission_time = time + int(time * rng_float(-.1,.1)) +
+	      calendar::turn.get_turn();
         }
     }
 
@@ -527,9 +528,9 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
 
     int distance = caravan_dist(dest);
     int time = 200 + distance * 100;
-    int experience = rng(10,time/300);
+    int experience = rng( 10, time / 300 );
 
-    for (int i = 0; i < rng(1,3); i++){
+    for (int i = 0; i < rng( 1, 3 ); i++){
         bandit_party.push_back(temp_npc("bandit"));
         bandit_party.push_back(temp_npc("thug"));
     }
@@ -607,14 +608,14 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     if (attacker.size() == 0 || defender.size() ==0){
             return;
     }
-    npc* att = attacker[rng(0,attacker.size()-1)];
-    npc* def = defender[rng(0,defender.size()-1)];
+    npc* att = attacker[rng( 0, attacker.size() - 1 )];
+    npc* def = defender[rng( 0, defender.size() - 1 )];
     const Skill* best = att->best_skill();
     int best_score = 1;
     if (best != nullptr){
         best_score = att->skillLevel(best);
     }
-    if (rng(-1,best_score) >= rng(0,def->skillLevel("dodge"))){
+    if( rng( -1, best_score ) >= rng( 0, def->skillLevel("dodge") ) ){
         def->hp_cur[hp_torso] = 0;
         popup(_("%s is wasted by %s!"), def->name.c_str(), att->name.c_str());
     } else {
@@ -922,7 +923,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
     if (comp == NULL){
         return false;
     }
-    int experience = rng(5,20);
+    int experience = rng( 5, 20 );
     if (one_in(4)){
         popup(_("While scavenging, %s's party suddenly found itself set upon by a large mob of undead..."), comp->name.c_str());
         int skill = comp->skillLevel( "melee" ) + (.5*comp->skillLevel( "survival" )) + comp->skillLevel( "bashing" ) +
@@ -932,10 +933,11 @@ bool talk_function::scavenging_patrol_return(npc *p)
             popup(_("Through quick thinking the group was able to evade combat!"));
         } else {
             popup(_("Combat took place in close quarters, focusing on melee skills..."));
-            int monsters = rng (8, 30);
-            if (skill*rng(.60,1.4) > (.35*monsters*rng(.6,1.4))){
-                popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
-                experience += rng (2,10);
+            int monsters = rng( 8, 30 );
+            if( skill * rng_float( .60, 1.4 ) > (.35 * monsters * rng_float( .6, 1.4 )) ) {
+                popup(_("Through brute force the party smashed through the group of %d undead!"),
+		      monsters);
+                experience += rng ( 2, 10 );
             } else {
                 popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
                 companion_lost(comp);
@@ -944,13 +946,13 @@ bool talk_function::scavenging_patrol_return(npc *p)
         }
     }
 
-    int money = rng(25,450);
+    int money = rng( 25, 450 );
     g->u.cash += money*100;
 
-    int y,i=0;
+    int y, i = 0;
     while (i < experience){
-        y = rng(0,100);
-        if (y < 40){
+        y = rng( 0, 100 );
+        if( y < 40 ){
             comp->practice("survival", 10);
         } else if (y < 60){
             comp->practice("mechanics", 10);
@@ -1006,9 +1008,9 @@ bool talk_function::scavenging_raid_return(npc *p)
         } else {
             popup(_("Combat took place in close quarters, focusing on melee skills..."));
             int monsters = rng (8, 30);
-            if (skill*rng(.60,1.4) > (.35*monsters*rng(.6,1.4))){
+            if( skill * rng_float( .60, 1.4 ) > (.35 * monsters * rng_float( .6, 1.4 )) ) {
                 popup(_("Through brute force the party smashed through the group of %d undead!"), monsters);
-                experience += rng (2,10);
+                experience += rng( 2, 10 );
             } else {
                 popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
                 companion_lost(comp);
@@ -1017,18 +1019,18 @@ bool talk_function::scavenging_raid_return(npc *p)
         }
     }
     //The loot value needs to be added to the faction - what the player is payed
-    for (int i = 0; i < rng(2,3); i++){
+    for (int i = 0; i < rng( 2, 3 ); i++){
         const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "house", 0, false );
         overmap_buffer.reveal(site,2);
         loot_building(site);
     }
 
-    int money = rng(200,900);
-    g->u.cash += money*100;
+    int money = rng( 200, 900 );
+    g->u.cash += money * 100;
 
     int y,i=0;
     while (i < experience){
-        y = rng(0,100);
+        y = rng( 0, 100 );
         if (y < 40){
             comp->practice("survival", 10);
         } else if (y < 60){
@@ -1089,7 +1091,7 @@ bool talk_function::labor_return(npc *p)
     int exp = turns;
     int y,i = 0;
     while (i < exp){
-        y = rng(0,100);
+        y = rng( 0, 100 );
         if (y < 50){
             comp->practice("carpentry", 5);
         } else if (y < 70){
@@ -1126,11 +1128,11 @@ bool talk_function::carpenter_return(npc *p)
         int skill_2 = comp->skillLevel( "dodge" );
         int skill_3 = comp->skillLevel( "survival" );
         popup(_("While %s was framing a building one of the walls began to collapse..."), comp->name.c_str());
-        if ( skill_1 > rng(1,8)){
+        if( skill_1 > rng( 1, 8 ) ){
             popup(_("In the blink of an eye, %s threw a brace up and averted a disaster."), comp->name.c_str());
-        } else if ( skill_2 > rng(1,8)) {
+        } else if( skill_2 > rng( 1, 8 ) ) {
             popup(_("Darting out a window, %s escaped the collapse."), comp->name.c_str());
-        } else if ( skill_3 > rng(1,8)) {
+        } else if( skill_3 > rng( 1, 8 ) ) {
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
             popup(_("but was rescued from the debris with only minor injuries!"), comp->name.c_str());
         } else {
@@ -1149,7 +1151,7 @@ bool talk_function::carpenter_return(npc *p)
     int exp = turns;
     int y,i = 0;
     while (i < exp){
-        y = rng(0,100);
+        y = rng( 0, 100 );
         if (y < 70){
             comp->practice("carpentry", 10);
         } else if (y < 80){
@@ -1179,18 +1181,18 @@ bool talk_function::forage_return(npc *p)
         popup(_("While foraging, a beast began to stalk %s..."), comp->name.c_str());
         int skill_1 = comp->skillLevel( "survival" );
         int skill_2 = comp->skillLevel( "dodge" );
-        if ( skill_1 > rng(-2,8)){
+        if( skill_1 > rng( -2, 8 ) ){
             popup(_("Alterted by a russle, %s fled to the safety of the outpost!"), comp->name.c_str());
-        } else if ( skill_2 > rng(-2,8)){
+        } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("As soon as the cougar sprang %s darted to the safety of the outpost!"), comp->name.c_str());
         } else {
             popup(_("%s was caught unaware and was forced to fight the creature at close range!"), comp->name.c_str());
             int skill = comp->skillLevel( "melee" ) + (.5*comp->skillLevel( "survival" )) + comp->skillLevel( "bashing" ) +
             comp->skillLevel( "cutting" ) + comp->skillLevel( "stabbing" ) + comp->skillLevel( "unarmed" )
             + comp->skillLevel( "dodge" );
-            int monsters = rng(0,10);
-            if (skill*rng(.80,1.2) > (monsters*rng(.8,1.2))){
-                if (one_in(2)){
+            int monsters = rng( 0, 10 );
+            if( skill * rng_float( .80, 1.2 ) > (monsters * rng_float( .8, 1.2 )) ){
+                if( one_in(2) ){
                     popup(_("%s was able to scare off the bear after delivering a nasty blow!"), comp->name.c_str());
                 } else {
                     popup(_("%s beat the cougar into a bloody pulp!"), comp->name.c_str());
@@ -1216,7 +1218,7 @@ bool talk_function::forage_return(npc *p)
     int exp = turns;
     int y,i = 0;
     while (i < exp){
-        y = rng(0,100);
+        y = rng( 0, 100 );
         if (y < 60){
             comp->practice("survival", 7);
         } else if (y < 75){
@@ -1233,7 +1235,7 @@ bool talk_function::forage_return(npc *p)
 
     popup(_("%s returns from working as a forager having earned $%d and a bit of experience..."), comp->name.c_str(),money);
     int skill = comp->skillLevel( "survival" );
-    if ( skill > rng(-.5,8)){
+    if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
             switch (calendar::turn.get_season() ) {
@@ -1314,8 +1316,8 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
             }
             return;
         } else {
-            def_init = rng(1,6) + advantage;
-            att_init = rng(1,6);
+            def_init = rng( 1, 6 ) + advantage;
+            att_init = rng( 1, 6 );
             if (def_init >= att_init) {
                 attack_random( remaining_att, remaining_def);
             }
@@ -1356,11 +1358,11 @@ void talk_function::companion_return(npc *comp){
             elem->companion_mission = "";
             elem->companion_mission_time = 0;
             elem->spawn_at(g->get_levx(), g->get_levy(), g->get_levz());
-            elem->setx( g->u.posx() + rng(-2,2));
+            elem->setx( g->u.posx() + rng( -2, 2 ));
             if (one_in(2)){
-                elem->sety( g->u.posy() + rng(-2,2));
+                elem->sety( g->u.posy() + rng( -2, 2 ) );
             }else{
-                elem->sety( g->u.posy() - rng(-2,2));
+                elem->sety( g->u.posy() - rng( -2, 2 ) );
             }
             elem->setz( g->u.posz() );
         } else {
