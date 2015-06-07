@@ -18914,6 +18914,11 @@
           "rotates": false
         },
         {
+          "id": "mon_zhark",
+          "fg": 2472,
+          "rotates": false
+        },
+        {
           "id": "hat_hooded",
           "fg": 2473,
           "rotates": false
@@ -19519,37 +19524,31 @@
         {
           "id": "crude_picklock",
           "fg": 2548,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "tailors_kit",
           "fg": 2549,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "hygrometer",
           "fg": 2550,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "barometer",
           "fg": 2551,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "thermometer",
           "fg": 2552,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "kimono",
           "fg": 2553,
-          "bg": 515,
           "rotates": false
         },
         {
@@ -19567,13 +19566,11 @@
         {
           "id": "teleporter",
           "fg": 2554,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "telepad",
           "fg": 2555,
-          "bg": 513,
           "rotates": false
         },
         {
@@ -20104,6 +20101,67 @@
           "id": "vp_xlhalfboard_vertical_2",
           "fg": 2417,
           "rotates": true
+        },
+        {
+          "id": "mon_mutant_carp",
+          "fg": 2613,
+          "rotates": false
+        },
+        {
+          "id": "mon_mutant_salmon",
+          "fg": 2614,
+          "rotates": false
+        },
+        {
+          "id": "mon_boomer_huge",
+          "fg": 2615,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "pliers",
+          "fg": 2616,
+          "rotates": false
+        },
+        {
+          "id": "screwdriver_set",
+          "fg": 2617,
+          "rotates": false
+        },
+        {
+          "id": "sten",
+          "fg": 2618,
+          "rotates": false
+        },
+        {
+          "id": "tommygun",
+          "fg": 2619,
+          "rotates": false
+        },
+        {
+          "id": "m1903",
+          "fg": 2620,
+          "rotates": false
+        },
+        {
+          "id": "garand",
+          "fg": 2621,
+          "rotates": false
+        },
+        {
+          "id": "m1918",
+          "fg": 2622,
+          "rotates": false
+        },
+        {
+          "id": "m60",
+          "fg": 1297,
+          "rotates": false
+        },
+        {
+          "id": "m240",
+          "fg": 1297,
+          "rotates": false
         }
       ]
     },
