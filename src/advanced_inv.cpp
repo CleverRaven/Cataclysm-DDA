@@ -32,7 +32,6 @@
 #include <cstdlib>
 #include <cstring>
 
-static itype_id null_item = "NULL";
 
 enum aim_exit {
     exit_none = 0,
@@ -651,10 +650,9 @@ void advanced_inv_area::init()
     static const std::array<ter_id, 6> ter_water = {
         {t_water_dp, t_water_pool, t_swater_dp, t_water_sh, t_swater_sh, t_sewage}
     };
-    const auto &map = g->m;
-    auto ter_check = [&map, this]
+    auto ter_check = [this]
         (const ter_id id) {
-            return map.ter(this->pos) == id;
+            return g->m.ter(this->pos) == id;
         };
     if(std::any_of(ter_water.begin(), ter_water.end(), ter_check)) {
         flags.append( _( " WATER" ) );
@@ -664,7 +662,6 @@ void advanced_inv_area::init()
     if( flags.length() ) {
         flags.erase( 0, 1 );
     }
-
 }
 
 std::string center_text( const char *str, int width )
@@ -746,7 +743,7 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
 advanced_inv_listitem::advanced_inv_listitem()
     : idx()
     , area()
-    , id(null_item)
+    , id("null")
     , name()
     , name_without_prefix()
     , autopickup()
@@ -760,7 +757,7 @@ advanced_inv_listitem::advanced_inv_listitem()
 advanced_inv_listitem::advanced_inv_listitem( const item_category *category )
     : idx()
     , area()
-    , id(null_item)
+    , id("null")
     , name( category->name )
     , name_without_prefix()
     , autopickup()
@@ -1876,8 +1873,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const int unitvolume = it.precise_unit_volume();
     const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
-    const long input_amount = by_charges ? it.charges : (action == "MOVE_ITEM_STACK") ?
-        sitem.stacks : (action == "MOVE_SINGLE_ITEM" || destarea == AIM_WORN);
+    const long input_amount = by_charges ? it.charges : 
+        (destarea != AIM_WORN && action == "MOVE_ITEM_STACK") ?  sitem.stacks : 1;
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
@@ -1934,22 +1931,14 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Now we have the final amount. Query if needed (either requested, or when
     // the destination can not hold all items).
     if( action == "MOVE_VARIABLE_ITEM" || amount < input_amount ) {
-        // moving several items (not charges!) from ground it currently not implemented.
-        // TODO: implement this properly, see the code where this is called from.
-        //if( !by_charges && sitem.area != AIM_INVENTORY && sitem.area != AIM_WORN ) {
-        //    amount = 1;
-        //    return true;
-        //}
         std::string popupmsg = _( "How many do you want to move? (0 to cancel)" );
         // At this point amount contains the maximal amount that the destination can hold.
         if( amount < input_amount ) {
             popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ),
                                       amount );
         }
-        // instead of prompting to move all, prompt to move all _but_ one
         const long possible_max = std::min( input_amount, amount );
-        amount = std::atoi( string_input_popup( popupmsg, 20, 
-                    to_string( possible_max ), "", "", -1, true ).c_str() );
+        amount = std::atoi( string_input_popup( popupmsg, 20, "", "", "", -1, true ).c_str() );
         if( amount <= 0 ) {
             return false;
         }
@@ -2218,6 +2207,9 @@ void advanced_inventory::draw_minimap()
             invert_color(c_ltcyan) : c_ltcyan | A_BLINK;
         mvwputch(minimap, pt.y, pt.x, static_cast<nc_color>(cl), sym);
     }
+    // the below "routine," if you will, determines whether to invert the
+    // player's cell if it is in one of the tiles in `great_music' above. 
+
     /* I now present to you, a story of killer moves and even chiller grooves */
     bool is_funky, supah_funky, da_funkiest; // it must be talkin' about this fly guy
     da_funkiest = supah_funky = is_funky = false; // time to krunk the funky dunk!

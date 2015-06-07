@@ -180,8 +180,8 @@ struct advanced_inv_listitem {
     /**
      * Create a normal item entry.
      * @param an_item The item pointer, stored in @ref it. Must not be null.
-     * @param count The stack size, stored in @ref stacks.
      * @param index The index, stored in @ref idx.
+     * @param count The stack size, stored in @ref stacks.
      * @param area The source area, stored in @ref area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
@@ -191,7 +191,6 @@ struct advanced_inv_listitem {
      * Create a normal item entry.
      * @param items The list of item pointers, stored in @ref it.
      * @param index The index, stored in @ref idx.
-     * @param count The stack size, stored in @ref stacks.
      * @param area The source area, stored in @ref area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
