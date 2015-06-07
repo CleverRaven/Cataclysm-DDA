@@ -12808,15 +12808,24 @@ void game::vertical_move(int movez, bool force)
                     stairy = j;
                     best = rl_dist(u.pos(), dest);
                 }
-                // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.pos(), dest) <= 3 && (maybetmp.ter(dest) == t_lava)) {
-                    danger_lava = true;
-                }
             }
         }
 
-        if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-            actually_moved = false;
+        //Look around the destination area for lava.
+
+        tripoint lavaloc( stairx, stairy, z_after );
+        if( maybetmp.ter(lavaloc) == t_lava ){
+            danger_lava = true;
+        }
+
+
+        if (danger_lava){
+            if( movez < 0 && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+                actually_moved = false;
+            }
+            else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+                actually_moved = false;
+            }
         }
         if (stairx == -1 || stairy == -1) { // No stairs found!
             if (movez < 0) {
