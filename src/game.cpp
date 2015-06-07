@@ -12778,23 +12778,22 @@ void game::vertical_move(int movez, bool force)
     }
 
     // Find the corresponding staircase
-    int stairx = -1, stairy = -1;
     bool rope_ladder = false;
 
-    const int omtilesz=SEEX * 2;
+    const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
     point omtile_align_start(
         m.getlocal(rc.begin_om_pos())
     );
 
+    tripoint stairs( -1, -1, z_after );
     bool actually_moved = true;
     if (force) {
-        stairx = u.posx();
-        stairy = u.posy();
+        stairs = u.pos();
+        stairs.z = z_after;
     } else { // We need to find the stairs.
+        tripoint dest( -1, -1, z_after );
         int best = 999;
-        bool danger_lava = false;
-        tripoint dest( 0, 0, z_after );
         int &i = dest.x;
         int &j = dest.y;
         for( i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++ ) {
@@ -12804,32 +12803,26 @@ void game::vertical_move(int movez, bool force)
                      (movez == 1 && (maybetmp.has_flag("GOES_DOWN", dest) ||
                                      maybetmp.ter(dest) == t_manhole_cover)) ||
                      ((movez == 2 || movez == -2) && maybetmp.ter(dest) == t_elevator))) {
-                    stairx = i;
-                    stairy = j;
+                    stairs = dest;
                     best = rl_dist(u.pos(), dest);
                 }
             }
         }
 
-        //Look around the destination area for lava.
-
-        tripoint lavaloc( stairx, stairy, z_after );
-        if( maybetmp.ter(lavaloc) == t_lava ){
-            danger_lava = true;
-        }
-
-
-        if (danger_lava){
-            if( movez < 0 && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-                actually_moved = false;
-            }
-            else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
-                actually_moved = false;
-            }
-        }
-        if (stairx == -1 || stairy == -1) { // No stairs found!
-            if (movez < 0) {
-                if (maybetmp.move_cost(u.pos()) == 0) {
+        if( stairs.x == -1 || stairs.y == -1 ) { // No stairs found!
+            stairs = u.pos();
+            stairs.z = z_after;
+            // Check the destination area for lava.
+            if( maybetmp.ter(stairs) == t_lava ){
+                if( movez < 0 &&
+                    !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+                    actually_moved = false;
+                } else if( movez > 0 &&
+                           !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+                    actually_moved = false;
+                }
+            } else if (movez < 0) {
+                if (maybetmp.move_cost(stairs) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
                     actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
@@ -12889,8 +12882,6 @@ void game::vertical_move(int movez, bool force)
                     actually_moved = false;
                 }
             }
-            stairx = u.posx();
-            stairy = u.posy();
         }
     }
 
@@ -12976,15 +12967,13 @@ void game::vertical_move(int movez, bool force)
         m.load( get_levx(), get_levy(), z_after, true );
     }
 
-    u.setx( stairx );
-    u.sety( stairy );
-    u.setz( get_levz() );
+    u.setpos( stairs );
     if (rope_ladder) {
         m.ter_set(u.pos(), t_rope_up);
     }
-    if (m.ter(stairx, stairy) == t_manhole_cover) {
-        m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover");
-        m.ter_set(stairx, stairy, t_manhole);
+    if (m.ter(stairs.x, stairs.y) == t_manhole_cover) {
+        m.spawn_item(stairs.x + rng(-1, 1), stairs.y + rng(-1, 1), "manhole_cover");
+        m.ter_set(stairs.x, stairs.y, t_manhole);
     }
 
     m.spawn_monsters( true );
