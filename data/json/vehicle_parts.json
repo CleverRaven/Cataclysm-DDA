@@ -3746,6 +3746,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "mounted_m134",
+        "name" : "mounted M134D-H Minigun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 2000,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "m134", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "mounted_mk19",
         "name" : "mounted Mark 19 grenade launcher",
         "symbol" : "t",
