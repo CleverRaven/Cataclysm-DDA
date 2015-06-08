@@ -784,6 +784,7 @@
       ["pipe_tobacco", 5],
       ["weed", 15],
       ["joint", 5],
+      ["razor_blade", 5],
       ["ecig", 10],
       ["advanced_ecig", 8],
       ["nicotine_liquid", 8],
@@ -3608,6 +3609,7 @@
       ["touring_suit", 20],
       ["helmet_motor", 14],
       ["shavingkit", 30],
+      ["razor_blade", 5],
       ["kilt", 5]
     ]
   },{
