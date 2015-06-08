@@ -389,7 +389,10 @@
   ],
   "tools" : [
     [
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1],
+      [ "toolset", 3]
     ]
   ],
   "components" : [
