@@ -315,6 +315,8 @@ void Item_factory::init()
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
     iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
+    iuse_function_list["SHAVEKIT"]  = &iuse::shavekit;
+    iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
 

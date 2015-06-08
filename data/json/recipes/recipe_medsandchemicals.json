@@ -2505,7 +2505,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
-  "difficulty": 6,
+  "difficulty": 3,
   "time": 45000,
   "reversible": false,
   "qualities" : [
@@ -2521,12 +2521,12 @@
     ],
   "components": [
     [
-     [ "tallow", 5 ],
-     [ "lard", 5 ],
+     [ "tallow", 2 ],
+     [ "lard", 2 ],
      [ "cooking_oil", 5 ]
     ],
     [
-     [ "lye_powder", 20 ]
+     [ "lye_powder", 10 ]
     ],
     [
      [ "water", 1 ],
