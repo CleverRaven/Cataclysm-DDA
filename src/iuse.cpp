@@ -9542,7 +9542,7 @@ int iuse::shavekit(player *p, item *it, bool, const tripoint &pos)
         p->add_msg_if_player(_("You need soap to use this."));
     } else {
         p->add_msg_if_player(_("You open up your kit and shave."));
-        p->moves -= 600;
+        p->moves -= 3000;
         p->add_morale(MORALE_SHAVE, 8, 8, 2400, 30);
     }
     return it->type->charges_to_use();
@@ -9551,7 +9551,7 @@ int iuse::shavekit(player *p, item *it, bool, const tripoint &pos)
 int iuse::hairkit(player *p, item *it, bool, const tripoint &pos)
 {
         p->add_msg_if_player(_("You give your hair a trim."));
-        p->moves -= 1200;
+        p->moves -= 3000;
         p->add_morale(MORALE_HAIRCUT, 3, 3, 4800, 30);
     return it->type->charges_to_use();
 }
