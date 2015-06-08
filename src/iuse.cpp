@@ -9536,6 +9536,18 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::shavekit(player *p, item *it, bool, const tripoint &pos)
+{
+    if (it->charges < it->type->charges_to_use()) {
+        p->add_msg_if_player(_("You need soap to use this."));
+    } else {
+        p->add_msg_if_player(_("You open up your kit and shave."));
+        p->moves -= 300;
+        p->add_morale(MORALE_SHAVE, 10, 10, 2400, 30);
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
 {
     w_point const weatherPoint = g->weatherGen.get_weather( p->global_square_location(), calendar::turn );

@@ -1639,6 +1639,7 @@
       ["oxygen_tank", 20],
       ["smoxygen_tank", 5],
       ["eyedrops", 35],
+      ["shavingkit", 5],
       ["nic_gum", 25]
     ]
   },{
@@ -3606,6 +3607,7 @@
       ["multitool", 8],
       ["touring_suit", 20],
       ["helmet_motor", 14],
+      ["shavingkit", 30],
       ["kilt", 5]
     ]
   },{
@@ -4517,6 +4519,7 @@
       ["fitover_sunglasses", 20],
       ["fancy_sunglasses", 5],
       ["glasses_reading", 30],
+      ["shavingkit", 20],
       ["glasses_bifocal", 30],
       ["tailor_portfolio", 3],
       ["house_coat", 20],
@@ -7133,6 +7136,7 @@
       ["sholster", 2],
       ["toolbox", 1],
       ["survnote", 5],
+      ["shavingkit", 15],
       ["tinfoil_hat", 1]
     ]
   },{

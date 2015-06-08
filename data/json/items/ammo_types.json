@@ -211,6 +211,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "soap",
+        "name" : "soap",
+        "default" : "soap"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "tape",
         "name" : "duct tape",
         "default" : "duct_tape"

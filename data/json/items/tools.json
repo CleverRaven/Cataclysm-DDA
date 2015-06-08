@@ -8827,6 +8827,28 @@
     "use_action": "MISC_REPAIR"
   },
   {
+    "id": "shavingkit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "shaving kit",
+    "description": "This is a shaving kit made for travelers.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
+    "price": 1000,
+    "material": "plastic",
+    "weight": 90,
+    "volume": 4,
+    "bashing": 2,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 10,
+    "initial_charges": 5,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "soap",
+    "revert_to": "null",
+    "use_action": "SHAVEKIT"
+  },
+  {
     "id": "toolbox",
     "type": "TOOL",
     "symbol": ";",
