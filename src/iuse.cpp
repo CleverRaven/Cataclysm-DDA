@@ -7189,32 +7189,6 @@ int iuse::holster_ankle(player *p, item *it, bool b, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::survivor_belt(player *p, item *it, bool b, const tripoint &pos)
-{
-    int choice = -1;
-
-    choice = menu( true,
-                   _( "Using survivor belt:" ),
-                   it->contents.empty() ? _( "Sheathe a knife" ) : _( "Unsheathe a knife" ),
-                   _( "Use hammer" ),
-                   _( "Use hacksaw" ),
-                   _( "Use wood saw" ),
-                   _( "Cancel" ),
-                   NULL );
-
-    switch ( choice ) {
-        case 1:
-            return sheath_knife( p, it, b, pos );
-        case 2:
-            return hammer( p, it, b, pos );
-        case 3:
-            return hacksaw( p, it, b, pos );
-        case 4:
-            return lumber( p, it, b, pos );
-    }
-    return 0;
-}
-
 int iuse::boots(player *p, item *it, bool, const tripoint& )
 {
     int choice = -1;
