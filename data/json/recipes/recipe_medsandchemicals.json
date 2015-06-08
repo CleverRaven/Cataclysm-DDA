@@ -2505,7 +2505,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
-  "difficulty": 6,
+  "difficulty": 3,
   "time": 45000,
   "reversible": false,
   "qualities" : [
