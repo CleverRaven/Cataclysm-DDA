@@ -23,7 +23,9 @@
 #include "monfaction.h"
 #include "options.h"
 #include "trap.h"
+#include "sounds.h"
 #include "line.h"
+
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -337,6 +339,8 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("Trapped"));
     } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
+    } else if (has_effect("shrieking")) {
+        wprintz(w, h_white, _("Shrieking"));
     }
     std::string damage_info;
     nc_color col;
@@ -1664,6 +1668,10 @@ void monster::process_effects()
                 if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
                     made_of("wool"))
                     apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
+            }
+            if( id == "shrieking"){
+                sounds::sound(pos(), 120, _("a piercing wail!"), true);
+                moves -= 40;
             }
         }
     }
