@@ -2478,6 +2478,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "elec_hairtrimmer",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 3] , ["textbook_fabrication", 3] , ["manual_fabrication", 4]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+   "tools" : [
+    [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 10],
+      ["fire", -1]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components" : [
+    [ ["plastic_chunk", 1] ],
+    [ ["motor_small", 1] ],
+    [ ["power_supply", 1] ],
+    [ [ "scrap", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "radio_mod",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",

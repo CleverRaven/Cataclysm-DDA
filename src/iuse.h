@@ -203,6 +203,7 @@ public:
     int ehandcuffs          ( player*, item*, bool, const tripoint& );
     int cable_attach        ( player*, item*, bool, const tripoint& );
     int shavekit            ( player*, item*, bool, const tripoint& );
+    int hairkit             ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );
     int survivor_belt       ( player*, item*, bool, const tripoint& );
 
