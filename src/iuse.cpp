@@ -9536,7 +9536,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::shavekit(player *p, item *it, bool, const tripoint &pos)
+int iuse::shavekit(player *p, item *it, bool, const tripoint&)
 {
     if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("You need soap to use this."));
@@ -9548,7 +9548,7 @@ int iuse::shavekit(player *p, item *it, bool, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::hairkit(player *p, item *it, bool, const tripoint &pos)
+int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 {
         p->add_msg_if_player(_("You give your hair a trim."));
         p->moves -= 3000;
