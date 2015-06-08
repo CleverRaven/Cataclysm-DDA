@@ -9552,7 +9552,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint &pos)
 {
         p->add_msg_if_player(_("You give your hair a trim."));
         p->moves -= 1200;
-        p->add_morale(MORALE_HAIRCUT, 4, 4, 4800, 30);
+        p->add_morale(MORALE_HAIRCUT, 3, 3, 4800, 30);
     return it->type->charges_to_use();
 }
 

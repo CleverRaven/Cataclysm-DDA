@@ -8893,6 +8893,28 @@
     "use_action": "HAIRKIT"
   },
   {
+    "id": "survivor_hairtrimmer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "makeshift haircut kit",
+    "description": "This is a kit with tools for cutting hair.",
+    "price": 1000,
+    "material": ["leather", "steel"],
+    "weight": 466,
+    "volume": 3,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAIRKIT"
+  },
+  {
     "id": "toolbox",
     "type": "TOOL",
     "symbol": ";",

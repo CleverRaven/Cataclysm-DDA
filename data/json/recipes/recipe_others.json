@@ -4080,6 +4080,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "scissors",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+  ], "tools": [
+    [ ["tongs", -1]  ],
+    [ ["chisel", -1] ],
+    [ ["swage", -1]  ],
+    [ ["anvil", -1]  ],
+    [ ["forge", 100], [ "char_forge", 20], [ "oxy_torch", 20] ]
+           ],
+  "components": [
+    [
+      [ "steel_chunk", 1 ],
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pot",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -7458,6 +7483,34 @@
     [
       [ "plastic_chunk", 1 ],
       [ "skewer", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "survivor_hairtrimmer",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "scissors", 1 ]
+    ],
+    [
+      [ "mirror", 1 ]
+    ],
+    [
+      [ "string_6", 4 ]
     ]
   ]
 },{
