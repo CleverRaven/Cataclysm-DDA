@@ -12781,14 +12781,12 @@ void game::vertical_move(int movez, bool force)
         }
 
         //Look around the destination area for lava.
-        for( int lavax = -3; lavax <= 3; lavax++ ){
-            for( int lavay = -3; lavay <= 3; lavay++){
-                tripoint lavaloc( stairx + lavax, stairy + lavay, z_after );
-                if( maybetmp.ter(lavaloc) == t_lava ){
-                    danger_lava = true;
-                }
-            }
+
+        tripoint lavaloc( stairx, stairy, z_after );
+        if( maybetmp.ter(lavaloc) == t_lava ){
+            danger_lava = true;
         }
+
 
         if (danger_lava){
             if( movez < 0 && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
