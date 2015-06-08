@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-02 10:48+0300\n"
+"POT-Creation-Date: 2015-06-08 09:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -949,6 +949,18 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "An empty casing from a .22 round.  These can't be hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "unused .22 casing"
+msgid_plural "unused .22 casings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"An empty casing from a .22 round that hasn't been fired, and still has an "
+"intact case with primer."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3542,6 +3554,60 @@ msgid ""
 "range use.  Its stupendous accuracy and armor piercing capabilities make it "
 "one of the most deadly rounds available, offset only by its drastic recoil "
 "and noise.  This one has been hand-reloaded."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handloaded .22 LR"
+msgid_plural "handloaded .22 LR"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"One of the smallest calibers available, the .22 Long Rifle cartridge has "
+"maintained popularity for nearly two centuries.  Its minimal recoil, low "
+"cost and low noise are offset by its paltry damage. This one has been "
+"handmade using an intact casing."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handloaded .22 FMJ"
+msgid_plural "handloaded .22 FMJ"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A brass-jacketed .22 caliber round with superior penetration capacity. This "
+"one has been handmade using an intact casing."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handloaded .22 CB"
+msgid_plural "handloaded .22 CB"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Conical Ball .22 is a variety of .22 ammunition with a very small propellant "
+"charge and generally lacks gunpowder.  The end result is a subsonic round.  "
+"It is nearly silent, but is so weak as to be nearly useless. This one has "
+"been handmade using an intact casing."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "handloaded .22 rat-shot"
+msgid_plural "handloaded .22 rat-shots"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or "
+"other small vermin while being unable to damage walls.  It has an extremely "
+"short range and is unable to injure all but the smallest creatures. This one "
+"has been handmade using an intact casing."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -6655,6 +6721,16 @@ msgstr[1] ""
 msgid ""
 "A cotton bandana, worn over the mouth for warmth and minor protection from "
 "dust and other contaminants."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "wedding veil"
+msgid_plural "wedding veils"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "A lacy white wedding veil."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -24285,6 +24361,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
+msgid "cutlass"
+msgid_plural "cutlasses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a dull, cheaply made replica of a broad saber known for its use by "
+"sailors and pirates."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 msgid "katana"
 msgid_plural "katanas"
 msgstr[0] ""
@@ -27209,8 +27297,20 @@ msgstr[1] ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
-"A folding stock which reduces volume but needs unfolding before use. "
+"A folding stock which reduces volume but needs unfolding before use.  "
 "Increases the time needed to wield the weapon."
+msgstr ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid "lightweight replacement furniture"
+msgid_plural "lightweight replacement furnitures"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUNMOD_from_json.py
+msgid ""
+"A set of lightweight composite grips and furniture that reduces a firearm's "
+"weight, and as a consequence, its melee damage as well."
 msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
@@ -28417,6 +28517,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "Browning Automatic Rifle"
+msgid_plural "Browning Automatic Rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"Designed near the end of World War I, the BAR provided fire support for the "
+"US Army from World War II all the way to the Vietnam War. Too much firepower "
+"to serve as a battle rifle, but not enough to be an ideal light machine gun, "
+"it still found a niche on the battlefield."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "Ruger Mini-14"
 msgid_plural "Ruger Mini-14"
 msgstr[0] ""
@@ -28764,6 +28878,32 @@ msgid ""
 "The M249 is a mountable machine gun used by the US military and SWAT teams.  "
 "Quite inaccurate and difficult to control, the M249 is designed to fire many "
 "rounds very quickly."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "M240"
+msgid_plural "M240"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The M240 is a medium machine gun used by the US military, replacing the "
+"older M60.  Quite inaccurate and difficult to control, the M240 is designed "
+"to fire many rounds very quickly."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "M60"
+msgid_plural "M60"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The M60 is a general-purpose machine gun developed to replace the .30-"
+"caliber M1918 and M1919. Heavy and difficult to handle fired from the "
+"shoulder, as most people aren't action-movie heroes."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -29431,6 +29571,20 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "M134D-H Minigun"
+msgid_plural "M134D-H Miniguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"The M134 Minigun is a 7.62x51 mm NATO, six-barreled machine gun.  It "
+"features Gatling-style rotating barrels with an electric motor.  Its' recoil "
+"is too powerful for firing unmounted, but if you could attach it to a "
+"vehicle and find enough ammo for it, it would become a devastating weapon. "
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid ".50 caliber rifle"
 msgid_plural ".50 caliber rifles"
 msgstr[0] ""
@@ -29600,6 +29754,34 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "Thompson Submachine Gun"
+msgid_plural "Thompson Submachine Guns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"An American-made submachine gun developed during the very end of World War "
+"I, too late to see action. Infamous during the 1920s for its use by "
+"gangsters, and was used during World War II before being mostly replaced "
+"with less-espensive alternatives."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "Sten"
+msgid_plural "Stens"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A British submachine gun developed during World War II, to make up for "
+"shortages of supplies. Designed to be made using unskilled labor and not "
+"known for reliablity, its main advantages were low cost and being able to "
+"use German 9mm ammunition."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "Walther PPK"
 msgid_plural "Walther PPK"
 msgstr[0] ""
@@ -29760,6 +29942,33 @@ msgstr[1] ""
 msgid ""
 "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day "
 "stock capable of accepting modifications."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "M1903 Rifle"
+msgid_plural "M1903 Rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A powerful military rifle chambered in .30-06, developed to replace the US "
+"Army's older Krag rifle. Served as the main American rifle in World War I, "
+"was used alongside the M1 Garand in World War II, and was used as a sniper "
+"rifle as late as the Vietnam War."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "M1 Garand Rifle"
+msgid_plural "M1 Garand Rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A semi-automatic .30-06 battle rifle, developed to replace the M1903 "
+"Springfield. It didn't completely supplant the older bolt-action until after "
+"World War II."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -34823,6 +35032,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
+msgid "soiled towel"
+msgid_plural "soiled towels"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"This is a large towel, covered in a thick, gooey liquid.  You'll need to "
+"wash it in some water to make it usable again.  Don't panic."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
 msgid "straw fedora"
 msgid_plural "straw fedoras"
 msgstr[0] ""
@@ -36521,10 +36742,9 @@ msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a fire extinguisher in grenade form factor, not as effective as a "
-"regular fire extinguisher, but you can use it from the distance.  It "
-"activates due to heating, so just throw it in to the flame for instant "
-"effect."
+"This is a fire extinguisher in grenade form.  While not as effective as a "
+"regular fire extinguisher, you can use it from a distance.  It is activated "
+"by heat, so just throw it into the flames."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -37526,6 +37746,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid ""
+"This is a broad saber known for its use by sailors and pirates, as its short "
+"blade is easy to handle in close quarters."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "diamond knife"
 msgid_plural "diamond knives"
 msgstr[0] ""
@@ -38051,6 +38277,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "screwdriver set"
+msgid_plural "screwdriver sets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a set of screwdrivers in several sizes and blade types.  Guaranteed "
+"to have the right tools for more precise work."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "wrench"
 msgid_plural "wrenches"
 msgstr[0] ""
@@ -38060,6 +38298,18 @@ msgstr[1] ""
 msgid ""
 "This is an adjustable crescent wrench.  It could be a decent melee weapon, "
 "and is used in many mechanics crafting recipes."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "pliers"
+msgid_plural "pliers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a basic pair of slip-joint pliers, able to handle basic mechanical "
+"work.  Anything too complex will require a wrench."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -39253,7 +39503,7 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This device converts conventional battery connections to run off of a "
-"Unified Power System instead.  Having the UPS on will slowly charge an tool "
+"Unified Power System instead.  Having the UPS on will slowly charge a tool "
 "in your inventory."
 msgstr ""
 
@@ -43008,6 +43258,15 @@ msgid "AI tag used for bouncing ammo targeting.  This is a bug if you have it."
 msgstr ""
 
 #: lang/json/effects_from_json.py
+msgid "Pushed"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid ""
+"AI tag used for monsters pushing each other.  This is a bug if you have it."
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Downed"
 msgstr ""
 
@@ -46046,11 +46305,13 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py src/construction.cpp
 #: src/game.cpp
+#: src/mission_companion.cpp
 msgid "Move cursor up"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/construction.cpp
 #: src/game.cpp
+#: src/mission_companion.cpp
 msgid "Move cursor down"
 msgstr ""
 
@@ -52070,6 +52331,26 @@ msgid "This Bartender now carries whiskey!"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+msgid "Has Level 1 Companion Missions"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "New mission options have become available!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Has Level 1 Construction Built"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "New options may have become available!"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "Has Level 2 Construction Built"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Debug Vision"
 msgstr ""
 
@@ -52769,6 +53050,10 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "ranch"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "looted building"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -62986,6 +63271,10 @@ msgid "mounted M2 Browning"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
+msgid "mounted M134D-H Minigun"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted Mark 19 grenade launcher"
 msgstr ""
 
@@ -63359,6 +63648,7 @@ msgstr ""
 #: src/iexamine.cpp src/inventory_ui.cpp src/item_action.cpp
 #: src/iuse.cpp
 #: src/iuse.cpp src/iuse_actor.cpp
+#: src/mission_companion.cpp
 #: src/player.cpp
 #: src/veh_interact.cpp src/vehicle.cpp
 msgid "Cancel"
@@ -66690,6 +66980,23 @@ msgstr ""
 
 #: src/computer.cpp
 msgid ""
+"IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n"
+"THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n"
+"THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n"
+"4PM AT 1-800-255-5678.                                      \n"
+"\n"
+"IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
+"TO WRITE US A LETTER PLEASE SEND IT TO...\n"
+"\n"
+"It takes you forever to find the address on your map...\n"
+msgstr ""
+
+#: src/computer.cpp
+msgid "You mark the refugee center..."
+msgstr ""
+
+#: src/computer.cpp
+msgid ""
 "  WARNING, RADIO TOWER IS UNRESPONSIVE. \n"
 "  \n"
 "  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n"
@@ -68321,7 +68628,27 @@ msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "dist: %d u_see: %d light: %d v_in: %d scent: %d"
+msgid "dist: %d u_see: %d v_in: %d scent: %d"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "sight_range: %d, daylight_sight_range: %d,"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "transparency: %f.2 visibility: %f.2"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "apparent light: %f.2, light_at: %f.2"
+msgstr ""
+
+#: src/editmap.cpp
+#, c-format
+msgid "outside: %d"
 msgstr ""
 
 #: src/editmap.cpp
@@ -68467,24 +68794,6 @@ msgstr ""
 #: src/editmap.cpp
 msgctxt "item manipulation debug menu entry"
 msgid "-[ light emission ]-"
-msgstr ""
-
-#: src/editmap.cpp
-#, c-format
-msgctxt "item manipulation debug menu entry for luminance of item"
-msgid "lum: %f"
-msgstr ""
-
-#: src/editmap.cpp
-#, c-format
-msgctxt "item manipulation debug menu entry for item direction"
-msgid "dir: %d"
-msgstr ""
-
-#: src/editmap.cpp
-#, c-format
-msgctxt "item manipulation debug menu entry for item direction"
-msgid "width: %d"
 msgstr ""
 
 #: src/editmap.cpp
@@ -72421,6 +72730,20 @@ msgstr ""
 msgid "to list items and monsters"
 msgstr ""
 
+#. ~ Describing what you can see when you're boomered.
+#: src/game.cpp
+msgid "A bright pink blur."
+msgstr ""
+
+#. ~ Describing what you can see when you're boomered.
+#: src/game.cpp
+msgid "A pink blur."
+msgstr ""
+
+#: src/game.cpp
+msgid "Darkness."
+msgstr ""
+
 #: src/game.cpp
 msgid "Bright light."
 msgstr ""
@@ -73413,35 +73736,6 @@ msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "You are slammed through the %s for %d damage!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The <npcname> is slammed through the %s!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You are slammed against the %s for %d damage!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "The <npcname> is slammed against the %s!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "You fall on the ground for %d damage."
-msgstr ""
-
-#: src/game.cpp
-msgid "You land on the ground."
-msgstr ""
-
-#: src/game.cpp
 msgid "You dive into water."
 msgstr ""
 
@@ -73505,6 +73799,10 @@ msgstr ""
 
 #: src/game.cpp
 msgid "There is a LOT of heat coming out of there.  Descend anyway?"
+msgstr ""
+
+#: src/game.cpp
+msgid "There is a LOT of heat coming out of there.  Ascend anyway?"
 msgstr ""
 
 #: src/game.cpp
@@ -75673,7 +75971,7 @@ msgstr ""
 msgid "The %s crumbles into spores!"
 msgstr ""
 
-#: src/iexamine.cpp
+#: src/iexamine.cpp src/mission_companion.cpp
 msgid "It is too cold to plant anything now."
 msgstr ""
 
@@ -75694,7 +75992,7 @@ msgstr ""
 msgid "Plant %s here?"
 msgstr ""
 
-#: src/iexamine.cpp
+#: src/iexamine.cpp src/mission_companion.cpp
 msgid "You saved your seeds for later."
 msgstr ""
 
@@ -80623,12 +80921,12 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You use the %s to dry off, saturating it with water!"
+msgid "You use the %s to clean yourself off, saturating it with slime!"
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You use the %s to clean yourself off, saturating it with slime!"
+msgid "You use the %s to dry off, saturating it with water!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -83150,6 +83448,11 @@ msgstr ""
 msgid "You hear a splash!"
 msgstr ""
 
+#: src/map.cpp src/melee.cpp src/monster.cpp src/vehicle.cpp
+#, c-format
+msgid "the %s"
+msgstr ""
+
 #: src/map.cpp
 msgid "Smashable. "
 msgstr ""
@@ -83478,6 +83781,10 @@ msgid "Disable External Power"
 msgstr ""
 
 #: src/mapgen_functions.cpp
+msgid "Contact Us"
+msgstr ""
+
+#: src/mapgen_functions.cpp
 msgid "PolCom OS v1.47"
 msgstr ""
 
@@ -83614,11 +83921,6 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "<npcname> disarms %s!"
-msgstr ""
-
-#: src/melee.cpp src/monster.cpp
-#, c-format
-msgid "the %s"
 msgstr ""
 
 #: src/melee.cpp
@@ -86401,6 +86703,356 @@ msgstr ""
 msgid "Do you have the 55-gallon drums?"
 msgstr ""
 
+#: src/mission_companion.cpp
+msgid "You have no bionics to install!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Which bionic do you wish to have installed?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You decide to hold off..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You can't afford the procedure..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You don't have any bionics installed..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Which bionic do you wish to uninstall?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "There are no missions at this colony.  Press Spacebar..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "The caravan departs with an estimated total travel time of %d hours..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returns to your party."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "A bandit party approaches the caravan in the open!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "A bandit party attacks the caravan while it it's camped!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "The caravan walks into a bandit ambush!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "The caravan party has returned.  Your share of the profits are $%d!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "The caravan was a disaster and your companions never made it home..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s is wasted by %s!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s dodges %s's attack!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "I'm sorry, you don't have enough money."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s jots your name down on a ledger and yells out to nearby laborers to begin "
+"plowing your new field."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"After counting your money %s directs a nearby laborer to begin constructing "
+"a fence around your plot..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You have no seeds to plant!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Which seeds do you wish to have planted?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You have no room to plant seeds..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "I'm sorry, you don't have enough money to plant those seeds..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Do you wish to have %d %s planted here for $%d?"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"After counting your money and collecting your seeds, %s calls forth a labor "
+"party to plant your field."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "There aren't any plants that are ready to harvest..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Which plants do you want to have harvested?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You decided to hold off for now..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid ""
+"You don't have enough to pay the workers to harvest the crop so you are "
+"forced to liquidate..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Do you wish to liquidate the crop of %d %s for a profit of $%d?"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "The %s are liquidated for $%d..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "You receive %d %s..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"While scavenging, %s's party suddenly found itself set upon by a large mob "
+"of undead..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Through quick thinking the group was able to evade combat!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Combat took place in close quarters, focusing on melee skills..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Through brute force the party smashed through the group of %d undead!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Unfortunatly they were overpowered by the undead... I'm sorry."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s returns from patrol having earned $%d and a fair bit of experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s was impressed with %s's performance and gave you a small bonus ($100)"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s feels more confident in your abilities and is willing to let you "
+"participate in daring raids."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s returns from the raid having earned $%d and a fair bit of experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s returned with a %s for you!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s returns from working as a laborer having earned $%d and a bit of "
+"experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s feels more confident in your companions and is willing to let them "
+"participate in advanced tasks."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "While %s was framing a building one of the walls began to collapse..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "In the blink of an eye, %s threw a brace up and averted a disaster."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Darting out a window, %s escaped the collapse."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s didn't make it out in time..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "but was rescued from the debris with only minor injuries!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Everyone who was trapped under the collapsing roof died..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "I'm sorry, there is nothing we could do."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s returns from working as a carpenter having earned $%d and a bit of "
+"experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "While foraging, a beast began to stalk %s..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Alterted by a russle, %s fled to the safety of the outpost!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "As soon as the cougar sprang %s darted to the safety of the outpost!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s was caught unaware and was forced to fight the creature at close range!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s was able to scare off the bear after delivering a nasty blow!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s beat the cougar into a bloody pulp!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s was able to hold off the first wolf but the others that were sulking in "
+"the tree line caught up..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "I'm sorry, there wasn't anything we could do..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"We... we don't know what exactly happened but we found %s's gear ripped and "
+"bloody..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "I fear your companion won't be returning."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid ""
+"%s returns from working as a forager having earned $%d and a bit of "
+"experience..."
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "Engagement between %d members of %s %s and %d members of %s %s%s!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s forces are destroyed!"
+msgstr ""
+
+#: src/mission_companion.cpp
+#, c-format
+msgid "%s forces retreat from combat!"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You don't have any companions to send out..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Who do you want to send?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "You don't have any companions ready to return..."
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "Who should return?"
+msgstr ""
+
+#: src/mission_companion.cpp
+msgid "No one returns to your party..."
+msgstr ""
+
 #: src/mission_end.cpp
 #, c-format
 msgid "%s gave you an item from the deposit box."
@@ -88407,6 +89059,11 @@ msgstr ""
 
 #: src/monmove.cpp
 msgid "sinks"
+msgstr ""
+
+#: src/monmove.cpp
+#, c-format
+msgid "The %s tramples %s"
 msgstr ""
 
 #: src/monmove.cpp
@@ -91928,6 +92585,10 @@ msgid "I'm sorry, I don't have time to see you at the moment."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "I imagine we might be able to work something out..."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Don't mind me."
 msgstr ""
 
@@ -92572,6 +93233,10 @@ msgid "Let's trade then."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "I figured you might be looking for some help..."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "No rest for the weary..."
 msgstr ""
 
@@ -92979,6 +93644,14 @@ msgid "I'll talk with them then..."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "I'm interested in investing in agriculture..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Can I help you with anything?"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "What's wrong?"
 msgstr ""
 
@@ -93007,7 +93680,27 @@ msgid "I should be fine..."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "For the right price could I borrow your services?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I was wondering if you could install a cybernetic implant..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I need help removing an implant..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Nevermind."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Let's see what you've managed to find..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Tell me more about the scavenging runs..."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -93776,12 +94469,12 @@ msgid "If true, auto-safemode will be on after starting a new game or loading."
 msgstr ""
 
 #: src/options.cpp
-msgid "Turns to reenable safemode"
+msgid "Turns to re-enable safemode"
 msgstr ""
 
 #: src/options.cpp
 msgid ""
-"Number of turns after safemode is reenabled if no hostiles are in "
+"Number of turns after safemode is re-enabled if no hostiles are in "
 "safemodeproximity distance."
 msgstr ""
 
@@ -95816,12 +96509,14 @@ msgid ""
 msgstr ""
 
 #: src/player.cpp
-msgid "Arm encumbrance affects your accuracy with ranged weapons."
+msgid ""
+"Arm encumbrance affects stamina cost of melee attacks and accuracy with "
+"ranged weapons."
 msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Dexterity %+d when throwing items."
+msgid "Dexterity %+d when throwing items;\n"
 msgstr ""
 
 #: src/player.cpp
@@ -96183,6 +96878,26 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Ouch, you were hurt!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You land on %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You are slammed against %s for %d damage."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You are slammed against %s."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "<npcname> is slammed against %s."
 msgstr ""
 
 #: src/player.cpp
