@@ -12780,6 +12780,7 @@ void game::vertical_move(int movez, bool force)
             }
         }
 
+        //Look around the destination area for lava.
         for( int lavax = -3; lavax <= 3; lavax++ ){
             for( int lavay = -3; lavay <= 3; lavay++){
                 tripoint lavaloc( stairx + lavax, stairy + lavay, z_after );
