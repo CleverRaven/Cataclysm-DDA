@@ -2027,6 +2027,10 @@ int item::weight() const
     int ret = type->weight;
     ret = get_var( "weight", ret );
 
+    if (has_flag("REDUCED_WEIGHT")) {
+        ret *= 0.75;
+    }
+
     if (count_by_charges()) {
         ret *= charges;
     } else if (type->gun && charges >= 1 && has_curammo() ) {
@@ -2173,6 +2177,9 @@ int item::damage_bash() const
         return 0;
     }
     total -= total * (damage * 0.1);
+    if(has_flag("REDUCED_BASHING")) {
+        total *= 0.5;
+    }
     if (total > 0) {
         return total;
     } else {
