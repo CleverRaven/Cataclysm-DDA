@@ -4169,11 +4169,16 @@ int iuse::chainsaw_off(player *p, item *it, bool, const tripoint& )
 {
     p->moves -= 80;
     if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
+        sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+        sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+        sfx::play_ambient_variant_sound("chainsaw_idle", "chainsaw_on", sfx::get_heard_volume(p->pos()), 18, 1000);
+        sfx::play_ambient_variant_sound("weapon_theme", "chainsaw", sfx::get_heard_volume(p->pos()), 19, 3000);
         sounds::sound( p->pos(), 20,
                       _("With a roar, the chainsaw leaps to life!"));
         it->make("chainsaw_on");
         it->active = true;
     } else {
+        sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume(p->pos()));
         p->add_msg_if_player(_("You yank the cord, but nothing happens."));
     }
     return it->type->charges_to_use();
@@ -4191,6 +4196,9 @@ int iuse::chainsaw_on(player *p, item *it, bool t, const tripoint& )
         }
     } else { // Toggling
         p->add_msg_if_player(_("Your chainsaw dies."));
+        sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+        sfx::fade_audio_channel(18, 100);
+        sfx::fade_audio_channel(19, 3000);
         it->make("chainsaw_off");
         it->active = false;
     }

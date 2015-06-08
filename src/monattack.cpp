@@ -3823,7 +3823,7 @@ void mattack::bite(monster *z, int index)
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check(z, target) ){
         auto msg_type = target == &g->u ? m_warning : m_info;
-        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume(z->pos()));
+        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume(z->pos()), sfx::get_heard_angle(z->pos()));
         target->add_msg_player_or_npc( msg_type, _("The %s lunges at you, but you dodge!"),
                                               _("The %s lunges at <npcname>, but they dodge!"),
                                     z->name().c_str() );
@@ -3841,7 +3841,8 @@ void mattack::bite(monster *z, int index)
         auto msg_type = target == &g->u ? m_bad : m_info;
         //~ 1$s is monster name, 2$s bodypart in accusative
         if ( target->is_player()) {
-            sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume(z->pos()));
+            sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume(z->pos()), sfx::get_heard_angle(z->pos()));
+            sfx::do_player_death_hurt_sfx(g->u.male, 0 );
         }
         target->add_msg_player_or_npc( msg_type,
                                     _("The %1$s bites your %2$s!"),
@@ -3858,7 +3859,7 @@ void mattack::bite(monster *z, int index)
             }
         }
     } else {
-        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume(z->pos()));
+        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume(z->pos()), sfx::get_heard_angle(z->pos()));
         target->add_msg_player_or_npc( _("The %1$s bites your %2$s, but fails to penetrate armor!"),
                                     _("The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!"),
                                     z->name().c_str(),

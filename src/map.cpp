@@ -2994,7 +2994,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
     }
     if( !sound.empty() && !silent ) {
         sounds::sound( p, sound_volume, sound, false, "", "");
-        sfx::play_variant_sound( soundfxid, soundfxvariant, sfx::get_heard_volume(p));
+        sfx::play_variant_sound( soundfxid, soundfxvariant, sfx::get_heard_volume(p), sfx::get_heard_angle(p));
     }
 
     return std::pair<bool, bool>( smashed_something, success );

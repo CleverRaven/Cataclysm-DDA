@@ -362,13 +362,13 @@ void weather_effect::thunder()
     if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
         if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
-            sfx::play_variant_sound("environment", "thunder_far", 80);
+            sfx::play_variant_sound("environment", "thunder_far", 80, rng(0, 359));
         } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
-            sfx::play_variant_sound("environment", "thunder_far", 100);
+            sfx::play_variant_sound("environment", "thunder_far", 100, rng(0, 359));
         } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
-            sfx::play_variant_sound("environment", "thunder_far", 60);
+            sfx::play_variant_sound("environment", "thunder_far", 60, rng(0, 359));
         }
     }
 }
@@ -387,7 +387,7 @@ void weather_effect::lightning()
     if(one_in(LIGHTNING_CHANCE)) {
         if(g->get_levz() >= 0) {
             add_msg(_("A flash of lightning illuminates your surroundings!"));
-            sfx::play_variant_sound("environment", "thunder_near", 100);
+            sfx::play_variant_sound("environment", "thunder_near", 100, rng(0, 359));
             g->lightning_active = true;
         }
     } else {

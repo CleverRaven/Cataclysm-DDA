@@ -903,6 +903,12 @@ bool game::cleanup_at_end()
         WINDOW *w_rip = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
         draw_border(w_rip);
 
+        sfx::do_player_death_hurt_sfx(g->u.male, 1 );
+        sfx::fade_audio_group(1, 2000);
+        sfx::fade_audio_group(2, 2000);
+        sfx::fade_audio_group(3, 2000);
+        sfx::fade_audio_group(4, 2000);
+
         for (unsigned int iY = 0; iY < vRip.size(); ++iY) {
             for (unsigned int iX = 0; iX < vRip[iY].length(); ++iX) {
                 char cTemp = vRip[iY][iX];
@@ -1303,6 +1309,7 @@ bool game::do_turn()
     }
     sfx::remove_hearing_loss_sfx();
     sfx::do_danger_music();
+    sfx::do_fatigue_sfx();
 
     return false;
 }
@@ -3403,7 +3410,7 @@ bool game::save_factions_missions_npcs()
         elem->sety(u.posy() + 3);
         elem->setz( u.posz() );
     }
-    
+
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
     try {
         std::ofstream fout;

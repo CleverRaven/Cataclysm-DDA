@@ -87,7 +87,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
         // Shoot a random nearby space?
         target.x += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
         target.y += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume(target));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
     }
 
@@ -217,7 +217,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     z.add_effect("bounced", 1);
                     projectile_attack(proj, tp, z.pos(), shot_dispersion);
-                    sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()));
+                    sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()), sfx::get_heard_angle(z.pos()));
                     break;
                 }
             }
@@ -488,7 +488,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                         // Try not to drop the casing on a wall if at all possible.
                     } while( g->m.move_cost( brass ) == 0 && count < 10 );
                     g->m.add_item_or_charges(brass, casing);
-                    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume(brass));
+                    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( brass ), sfx::get_heard_angle( brass ));
                 }
             }
         }
@@ -656,12 +656,12 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
         trajectory = line_to( p.pos3(), target, tart1, tart2 );
         missed = true;
         p.add_msg_if_player(_("You miss!"));
-        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume(targ));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( targ ), sfx::get_heard_angle( targ ));
     } else if (missed_by >= .6) {
         // Hit the space, but not the monster there
         missed = true;
         p.add_msg_if_player(_("You barely miss!"));
-        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume(targ));
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( targ ), sfx::get_heard_angle( targ ));
     }
 
     // The damage dealt due to item's weight and player's strength

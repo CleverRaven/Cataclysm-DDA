@@ -21,6 +21,7 @@
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
+#include "sounds.h"
 
 #include <sstream>
 #include <algorithm>
@@ -734,6 +735,7 @@ void iexamine::chainfence( player *p, map *m, const tripoint &examp )
             return;
         }
         p->moves += climb * 10;
+        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(g->u.pos()) );
     }
     if( p->in_vehicle ) {
         m->unboard_vehicle( p->pos() );

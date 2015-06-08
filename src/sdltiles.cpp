@@ -374,7 +374,7 @@ bool WinCreate()
         dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
     }
     Mix_AllocateChannels(128);
-    Mix_ReserveChannels(15);
+    Mix_ReserveChannels(20);
 #endif
 
     return true;

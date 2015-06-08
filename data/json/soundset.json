@@ -1,15 +1,6 @@
 [
     {
         "type": "sound_effect",
-        "id" : "menu_move",
-        "volume" : 100,
-        "variant" : "default",
-        "files" : [
-            "menu/menu_selection_click1.ogg"
-        ]
-    },
-    {
-        "type": "sound_effect",
         "id" : "fire_gun",
         "volume" : 90,
         "variant" : "bio_laser_gun",
@@ -1226,7 +1217,7 @@
     {
         "type": "sound_effect",
         "id" : "fire_gun",
-        "volume" : 90,
+        "volume" : 70,
         "variant" : "ak47",
         "files" : [
             "guns/assaultrifle_generic/weapon_fire_762x39.wav"
@@ -1235,7 +1226,7 @@
     {
         "type": "sound_effect",
         "id" : "reload",
-        "volume" : 90,
+        "volume" : 70,
         "variant" : "ak47",
         "files" : [
             "guns/assaultrifle_generic/weapon_reload_ak.wav"
@@ -1477,9 +1468,9 @@
     },
     {
         "type": "sound_effect",
-        "id" : "fire_gun_suppressed",
+        "id" : "fire_gun",
         "volume" : 40,
-        "variant" : "h&k416a5",
+        "variant" : "weapon_fire_suppressed",
         "files" : [
             "guns/assaultrifle_generic/weapon_fire_556_sd.wav"
         ]
@@ -3558,16 +3549,7 @@
         "type": "sound_effect",
         "id" : "melee_hit",
         "variant" : "ax",
-        "volume" : 85,
-        "files" : [
-            "melee/big_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "fire_ax",
-        "volume" : 85,
+        "volume" : 65,
         "files" : [
             "melee/big_bash/weapon_attack.wav"
         ]
@@ -4160,24 +4142,6 @@
     {
         "type": "sound_effect",
         "id" : "melee_hit",
-        "variant" : "chainsaw_off",
-        "volume" : 85,
-        "files" : [
-            "melee/big_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "chainsaw_on",
-        "volume" : 85,
-        "files" : [
-            "melee/big_misc/weapon_chainsaw.ogg"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
         "variant" : "combatsaw_off",
         "volume" : 85,
         "files" : [
@@ -4213,9 +4177,167 @@
     },
     {
         "type": "sound_effect",
+        "id" : "melee_hit",
+        "variant" : "chainsaw_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/weapon_attack.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "fire_ax",
+        "volume" : 65,
+        "files" : [
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "fire_ax",
+        "volume" : 45,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_cord",
+        "variant" : "chainsaw_on",
+        "volume" : 95,
+        "files" : [
+            "melee/big_misc/saw_pull_1.wav",
+            "melee/big_misc/saw_pull_2.wav",
+            "melee/big_misc/saw_pull_3.wav",
+            "melee/big_misc/saw_pull_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_start",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_start_1.wav",
+            "melee/big_misc/saw_start_2.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_stop",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_stop_1.wav",
+            "melee/big_misc/saw_stop_2.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "chainsaw_idle",
+        "variant" : "chainsaw_on",
+        "volume" : 45,
+        "files" : [
+            "melee/big_misc/saw_idle_loop_1.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing_start",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_rev_start_1.wav",
+            "melee/big_misc/saw_rev_start_2.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing_end",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_rev_end_1.wav",
+            "melee/big_misc/saw_rev_end_2.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "chainsaw_on",
+        "volume" : 55,
+        "files" : [
+            "melee/big_misc/saw_swing_full.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "chainsaw_on",
+        "volume" : 75,
+        "files" : [
+            "melee/big_misc/hit_flesh_1.wav",
+            "melee/big_misc/hit_flesh_2.wav",
+            "melee/big_misc/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "chainsaw_on",
+        "volume" : 75,
+        "files" : [
+            "melee/big_misc/hit_metal_1.wav",
+            "melee/big_misc/hit_metal_2.wav",
+            "melee/big_misc/hit_metal_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "weapon_theme",
+        "variant" : "chainsaw",
+        "volume" : 75,
+        "files" : [
+            "music/chainsaw_theme/chainsaw_theme.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "player_laugh",
+        "variant" : "laugh_f",
+        "volume" : 100,
+        "files" : [
+            "player/laugh_f/laugh_1.wav",
+            "player/laugh_f/laugh_2.wav",
+            "player/laugh_f/laugh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "player_laugh",
+        "variant" : "laugh_m",
+        "volume" : 110,
+        "files" : [
+            "player/laugh_m/laugh_1.wav",
+            "player/laugh_m/laugh_2.wav",
+            "player/laugh_m/laugh_3.wav",
+            "player/laugh_m/laugh_4.wav",
+            "player/laugh_m/laugh_5.wav",
+            "player/laugh_m/laugh_6.wav",
+            "player/laugh_m/laugh_7.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
         "id" : "plmove",
         "variant" : "walk_grass",
-        "volume" : 50,
+        "volume" : 30,
         "files" : [
             "env/walk/walk_grass1.wav",
             "env/walk/walk_grass2.wav",
@@ -4229,7 +4351,7 @@
         "type": "sound_effect",
         "id" : "plmove",
         "variant" : "walk_dirt",
-        "volume" : 50,
+        "volume" : 30,
         "files" : [
             "env/walk/walk_dirt1.wav",
             "env/walk/walk_dirt2.wav",
@@ -4243,7 +4365,7 @@
         "type": "sound_effect",
         "id" : "plmove",
         "variant" : "walk_metal",
-        "volume" : 50,
+        "volume" : 30,
         "files" : [
             "env/walk/walk_metal1.wav",
             "env/walk/walk_metal2.wav",
@@ -4257,7 +4379,7 @@
         "type": "sound_effect",
         "id" : "plmove",
         "variant" : "walk_water",
-        "volume" : 50,
+        "volume" : 30,
         "files" : [
             "env/walk/walk_water1.wav",
             "env/walk/walk_water2.wav",
@@ -4271,7 +4393,7 @@
         "type": "sound_effect",
         "id" : "plmove",
         "variant" : "walk_tarmac",
-        "volume" : 70,
+        "volume" : 40,
         "files" : [
             "env/walk/walk_tarmac1.wav",
             "env/walk/walk_tarmac2.wav",
@@ -4285,7 +4407,7 @@
         "type": "sound_effect",
         "id" : "plmove",
         "variant" : "walk_barefoot",
-        "volume" : 100,
+        "volume" : 50,
         "files" : [
             "env/walk/walk_barefoot1.wav",
             "env/walk/walk_barefoot2.wav",
@@ -5022,7 +5144,7 @@
         "type": "sound_effect",
         "id" : "bullet_hit",
         "variant" : "hit_flesh",
-        "volume" : 20,
+        "volume" : 30,
         "files" : [
             "guns/misc_generic/hit_flesh_1.wav",
             "guns/misc_generic/hit_flesh_2.wav",
@@ -5033,7 +5155,7 @@
         "type": "sound_effect",
         "id" : "bullet_hit",
         "variant" : "hit_wall",
-        "volume" : 40,
+        "volume" : 50,
         "files" : [
             "guns/misc_generic/hit_wall_1.wav",
             "guns/misc_generic/hit_wall_2.wav",
@@ -5044,7 +5166,7 @@
         "type": "sound_effect",
         "id" : "bullet_hit",
         "variant" : "hit_metal",
-        "volume" : 30,
+        "volume" : 50,
         "files" : [
             "guns/misc_generic/hit_metal_1.wav",
             "guns/misc_generic/hit_metal_2.wav",
@@ -5055,7 +5177,7 @@
         "type": "sound_effect",
         "id" : "mon_death",
         "variant" : "zombie_death",
-        "volume" : 40,
+        "volume" : 50,
         "files" : [
             "monster/zombie_death_1.wav",
             "monster/zombie_death_2.wav",
@@ -5067,7 +5189,7 @@
         "type": "sound_effect",
         "id" : "mon_bite",
         "variant" : "bite_miss",
-        "volume" : 40,
+        "volume" : 50,
         "files" : [
             "monster/bite_miss_1.wav",
             "monster/bite_miss_2.wav",
@@ -5079,7 +5201,7 @@
         "type": "sound_effect",
         "id" : "mon_bite",
         "variant" : "bite_hit",
-        "volume" : 40,
+        "volume" : 60,
         "files" : [
             "monster/bite_hit_1.wav",
             "monster/bite_hit_2.wav",
@@ -5091,9 +5213,127 @@
         "type": "sound_effect",
         "id" : "mon_death",
         "variant" : "zombie_gibbed",
-        "volume" : 70,
+        "volume" : 80,
         "files" : [
             "monster/zombie_gibbed.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "deal_damage",
+        "variant" : "hurt_f",
+        "volume" : 50,
+        "files" : [
+            "player/hurt_f/hurt_1.wav",
+            "player/hurt_f/hurt_2.wav",
+            "player/hurt_f/hurt_3.wav",
+            "player/hurt_f/hurt_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "deal_damage",
+        "variant" : "hurt_m",
+        "volume" : 50,
+        "files" : [
+            "player/hurt_m/hurt_1.wav",
+            "player/hurt_m/hurt_2.wav",
+            "player/hurt_m/hurt_3.wav",
+            "player/hurt_m/hurt_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_attack",
+        "variant" : "monster_melee_hit",
+        "volume" : 50,
+        "files" : [
+            "melee/generic/generic_melee_hit.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "plmove",
+        "variant" : "fatigue_m_high",
+        "volume" : 60,
+        "files" : [
+            "player/fatigue_m/fatigue_high.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "plmove",
+        "variant" : "fatigue_m_med",
+        "volume" : 60,
+        "files" : [
+            "player/fatigue_m/fatigue_med.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "plmove",
+        "variant" : "fatigue_m_low",
+        "volume" : 50,
+        "files" : [
+            "player/fatigue_m/fatigue_low.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "plmove",
+        "variant" : "fatigue_f_high",
+        "volume" : 60,
+        "files" : [
+            "player/fatigue_f/fatigue_high.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "plmove",
+        "variant" : "fatigue_f_med",
+        "volume" : 60,
+        "files" : [
+            "player/fatigue_f/fatigue_med.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "plmove",
+        "variant" : "fatigue_f_low",
+        "volume" : 60,
+        "files" : [
+            "player/fatigue_f/fatigue_low.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "clean_up_at_end",
+        "variant" : "game_over",
+        "volume" : 50,
+        "files" : [
+            "misc/game_over/game_over_1.wav",
+            "misc/game_over/game_over_2.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "clean_up_at_end",
+        "variant" : "death_m",
+        "volume" : 60,
+        "files" : [
+            "player/death_m/death_1.wav",
+            "player/death_m/death_2.wav",
+            "player/death_m/death_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "clean_up_at_end",
+        "variant" : "death_f",
+        "volume" : 60,
+        "files" : [
+            "player/death_f/death_1.wav",
+            "player/death_f/death_2.wav"
         ]
     },
     {

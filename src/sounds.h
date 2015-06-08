@@ -21,8 +21,7 @@ struct sound_effect {
     int volume;
     Mix_Chunk *chunk;
 
-    sound_effect()
-    {
+    sound_effect() {
         id = "";
         variant = "";
         volume = 0;
@@ -75,10 +74,13 @@ typedef std::string mat_type;
 typedef std::string ter_type;
 
 namespace sfx {
-    void load_sound_effects(JsonObject &jsobj);
-    void play_variant_sound( std::string id, std::string variant, int volume );
-    void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel, int duration );
+    void load_sound_effects( JsonObject &jsobj );
+    void play_variant_sound( std::string id, std::string variant, int volume, int angle = 0 );
+    void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
+                                     int duration );
     void generate_gun_soundfx( const tripoint source );
+    void generate_melee_soundfx( const tripoint source, bool hit );
+    void *generate_melee_soundfx_thread( void * argument );
     void do_hearing_loss_sfx( int turns );
     void remove_hearing_loss_sfx();
     void do_projectile_hit_sfx( const Creature *target = nullptr );
@@ -86,10 +88,16 @@ namespace sfx {
     void do_footstep_sfx();
     void do_danger_music();
     void do_ambient_sfx();
-    void set_group_channels(int from, int to, int tag);
-    void fade_audio_group(int tag, int duration);
-    int is_channel_playing(int channel);
-    void stop_sound_effect_fade(int channel, int duration);
+    void set_group_channels( int from, int to, int tag );
+    void fade_audio_group( int tag, int duration );
+    void fade_audio_channel( int tag, int duration );
+    int is_channel_playing( int channel );
+    void stop_sound_effect_fade( int channel, int duration );
+    void do_player_death_hurt_sfx( bool gender, bool death );
+    void do_fatigue_sfx();
+    int get_heard_angle( const tripoint source );
+    int get_channel( Mix_Chunk * effect_to_play );
+    void do_obstacle_sfx();
 }
 
 #endif
