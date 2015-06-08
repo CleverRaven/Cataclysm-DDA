@@ -57,6 +57,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int last_inv_start = -2;
         int last_inv_sel = -2;
         int list_item_mon = -1;
+        int list_item_sort = 0;
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */

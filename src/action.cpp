@@ -475,12 +475,12 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
-    const furn_t *xfurn_t = &furnlist[g->m.furn( p )];
-    const ter_t *xter_t = &terlist[g->m.ter( p )];
+    const furn_t &xfurn_t = g->m.furn_at( p );
+    const ter_t &xter_t = g->m.ter_at( p );
 
-    if( g->m.has_furn( p ) && xfurn_t->examine != &iexamine::none ) {
+    if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
-    } else if( xter_t->examine != &iexamine::none ) {
+    } else if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 
@@ -775,24 +775,34 @@ bool choose_direction( const std::string &message, int &x, int &y )
     return ret;
 }
 
-bool choose_direction( const std::string &message, tripoint &offset )
+bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    if( allow_vertical ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
+
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _( " (Direction button)" );
     mvwprintw( g->w_terrain, 0, 0, "%s", query_text.c_str() );
     wrefresh( g->w_terrain );
     const std::string action = ctxt.handle_input();
-    offset.z = 0; // TODO: Handle up/down in get_direction
     if( input_context::get_direction( offset.x, offset.y, action ) ) {
+        offset.z = 0;
         return true;
     } else if( action == "pause" ) {
-        offset.x = 0;
-        offset.y = 0;
+        offset = tripoint( 0, 0, 0 );
+        return true;
+    } else if( action == "LEVEL_UP" ) {
+        offset = tripoint( 0, 0, 1 );
+        return true;
+    } else if( action == "LEVEL_DOWN" ) {
+        offset = tripoint( 0, 0, -1 );
         return true;
     }
 
@@ -809,9 +819,9 @@ bool choose_adjacent( std::string message, int &x, int &y )
     return ret;
 }
 
-bool choose_adjacent( std::string message, tripoint &p )
+bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
 {
-    if( !choose_direction( message, p ) ) {
+    if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
     }
     p += g->u.pos3();

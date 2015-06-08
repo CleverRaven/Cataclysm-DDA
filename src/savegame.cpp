@@ -382,7 +382,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             ty = 0;
             intr = 0;
             buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            mongroup mg( cstr, cx, cy, cz, cs, cp );
+            mongroup mg( mongroup_id( cstr ), cx, cy, cz, cs, cp );
             // Bugfix for old saves: population of 2147483647 is far too much and will
             // crash the game. This specific number was caused by a bug in
             // overmap::add_mon_group.
@@ -451,7 +451,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
                          loc.x, loc.y, itemdata.c_str());
             } else {
-                item tmp(itemdata);
+                item tmp;
+                tmp.load_info(itemdata);
                 npc* last = npcs.back();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
@@ -675,7 +676,7 @@ void overmap::save() const
 
     for( auto &mgv : zg ) {
         auto &mg = mgv.second;
-        fout << "Z " << mg.type << " " << mg.posx << " " << mg.posy << " " <<
+        fout << "Z " << mg.type.str() << " " << mg.posx << " " << mg.posy << " " <<
             mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
             mg.diffuse << " " << mg.dying << " " <<
             mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;

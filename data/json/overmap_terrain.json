@@ -6662,6 +6662,13 @@
 	    "sym" : 46,
         "color" : "brown",
         "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "looted_building",
+        "name" : "looted building",
+	    "sym" : 35,
+        "color" : "light_gray",
+        "see_cost" : 2
     }
 ]
 

@@ -106,9 +106,15 @@ void advanced_inventory::load_settings()
     bool moved = uistate.adv_inv_last_coords != g->u.pos();
     for(int i = 0; i < NUM_PANES; ++i) {
         auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        auto square = squares[location];
+        bool same_as_last = (!moved && square.can_store_in_vehicle() && uistate.adv_inv_in_vehicle[i]);
+        // determine where to open first based on which stack is empty
+        bool has_veh_items = (square.can_store_in_vehicle()) ?
+            !square.veh->get_items(square.vstor).empty() : false;
+        bool has_map_items = !g->m.i_at(square.pos).empty();
+        bool in_vehicle_cargo = (has_veh_items || (!has_map_items && !has_veh_items));
+        panes[i].set_area(square, in_vehicle_cargo || same_as_last);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
-        bool is_in_vehicle = (moved == false && uistate.adv_inv_in_vehicle[i]);
-        panes[i].set_area(squares[location], is_in_vehicle || location == AIM_DRAGGED);
         panes[i].index = uistate.adv_inv_index[i];
         panes[i].filter = uistate.adv_inv_filter[i];
     }
@@ -264,7 +270,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         const auto &it = *sitem.it;
         const bool selected = active && index == i;
 
-        nc_color thiscolor = active ? it.color( &g->u ) : norm;
+        nc_color thiscolor = active ? it.color_in_inventory() : norm;
         nc_color thiscolordark = c_dkgray;
         nc_color print_color;
 
@@ -333,7 +339,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
 
         if( active && sitem.autopickup ) {
-            mvwprintz( window, 6 + x, 1, magenta_background( it.color( &g->u ) ), "%s",
+            mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",
                        ( compact ? it.tname().substr( 0, 1 ) : ">" ).c_str() );
         }
     }
@@ -1532,7 +1538,7 @@ void advanced_inventory::display()
             } else {
                 item &it = *sitem->it;
                 std::vector<iteminfo> vThisItem, vDummy;
-                it.info( true, &vThisItem );
+                it.info( true, vThisItem );
                 int rightWidth = w_width / 2;
                 ret = draw_item_info( colstart + ( src == left ? w_width / 2 : 0 ),
                                       rightWidth, 0, 0, it.tname(), vThisItem, vDummy );

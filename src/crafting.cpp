@@ -308,7 +308,6 @@ bool player::crafting_allowed()
 bool player::crafting_can_see()
 {
     if (fine_detail_vision_mod() > 4) {
-        //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
@@ -1640,7 +1639,7 @@ void player::complete_craft()
                 int difficulty = has_recipe( making, crafting_inventory() );
                 if( x_in_y( making->time, (1000 * 8 *
                             ( difficulty * difficulty * difficulty * difficulty ) ) /
-                            ( get_skill_level( making->skill_used ) * get_int() ) ) ) {
+                            ( get_skill_level( making->skill_used ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
                             newit.type_name( 1 ).c_str());

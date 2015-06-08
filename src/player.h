@@ -199,7 +199,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_body_wetness();
         /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
         void update_needs();
-        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration. 
+        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.
           * Updates health and checks for sickness.
           */
         void regen();
@@ -243,7 +243,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(std::string const &b_id);
+        bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -285,7 +285,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
-        int  unimpaired_range();
+        int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
         bool overmap_los( const tripoint &omt, int sight_points );
         /** Returns the distance the player can see on the overmap */
@@ -384,6 +384,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int mabuff_cut_bonus() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
+        /** Returns value of player's stable footing */
+        int stability_roll() const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
@@ -404,7 +406,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec() const;
         /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const;
+        bool has_grab_break_tec() const override;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block();
         /** Returns true if the player has the arm block technique available */
@@ -427,7 +429,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles gun firing effects and functions */
         void fire_gun( const tripoint &target, bool burst );
         void fire_gun( const tripoint &target, long burst_size );
-
+        /** Handles reach melee attacks */
+        void reach_attack( const tripoint &target );
+        
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -441,6 +445,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source );
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
@@ -550,6 +556,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Knocks the player back one square from a tile */
         void knock_back_from( const tripoint &p ) override;
 
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
+
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
         /** Converts an hp_part to a body_part */
@@ -639,7 +650,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type);
+        bool install_bionics(const itype &type, int skill_level = -1);
         /** Handles reading effects */
         void read(int pos);
         /** Completes book reading action. **/
@@ -658,12 +669,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling();
-        /** Returns a value used for things like reading and sewing based on light level */
+        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
+         * for the time taken to perform tasks that require detail vision,
+         * above 4.0 means these activities cannot be performed. */
         float fine_detail_vision_mod();
 
-        /** Used to determine player feedback on item use for the inventory code */
-        hint_rating rate_action_use(const item *it)
-        const; //rates usability lower for non-tools (books, etc.)
+        /** Used to determine player feedback on item use for the inventory code.
+         *  rates usability lower for non-tools (books, etc.) */
+        hint_rating rate_action_use(const item *it) const;
         hint_rating rate_action_wear(item *it);
         hint_rating rate_action_eat(item *it);
         hint_rating rate_action_read(item *it);

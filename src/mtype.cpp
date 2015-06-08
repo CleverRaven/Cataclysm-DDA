@@ -12,7 +12,7 @@ mtype::mtype ()
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
-    mat = "hflesh";
+    mat = {"hflesh"};
     phase = SOLID;
     difficulty = 0;
     agro = 0;
@@ -31,7 +31,7 @@ mtype::mtype ()
     half_life = -1;
     base_upgrade_chance = 0;
     upgrades_into = "NULL";
-    upgrade_group = "NULL";
+    upgrade_group = mongroup_id( "GROUP_NULL" );
     dies.push_back(&mdeath::normal);
     sp_attack.push_back(nullptr);
     sp_defense = nullptr;
@@ -62,6 +62,11 @@ void mtype::set_flag(std::string flag, bool state)
     } else {
         flags.erase( MonsterGenerator::generator().m_flag_from_string( flag ) );
     }
+}
+
+bool mtype::has_material( const std::string &material ) const
+{
+    return std::find( mat.begin(), mat.end(),  material ) != mat.end();
 }
 
 bool mtype::has_anger_trigger(monster_trigger trig) const
@@ -117,13 +122,13 @@ field_id mtype::bloodType() const
     if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD)) {
         return fd_blood_invertebrate;
     }
-    if (mat == "veggy") {
+    if( has_material("veggy") ) {
         return fd_blood_veggy;
     }
-    if (mat == "iflesh") {
+    if( has_material("iflesh") ) {
         return fd_blood_insect;
     }
-    if( has_flag( MF_WARM ) && mat == "flesh" ) {
+    if( has_flag( MF_WARM ) && has_material("flesh") ) {
         return fd_blood;
     }
     return fd_null;
@@ -134,13 +139,13 @@ field_id mtype::gibType() const
     if (has_flag(MF_LARVA) || in_species("MOLLUSK")) {
         return fd_gibs_invertebrate;
     }
-    if (mat == "veggy") {
+    if( has_material("veggy") ) {
         return fd_gibs_veggy;
     }
-    if (mat == "iflesh") {
+    if( has_material("iflesh") ) {
         return fd_gibs_insect;
     }
-    if (mat == "flesh") {
+    if( has_material("flesh") ) {
         return fd_gibs_flesh;
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
@@ -150,16 +155,16 @@ field_id mtype::gibType() const
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
-        if( mat == "flesh" || mat == "hflesh" ) {
+        if( has_material("flesh") || has_material("hflesh") ) {
             return "meat_tainted";
-        } else if( mat == "iflesh" ) {
+        } else if( has_material("iflesh") ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat_tainted";
-        } else if( mat == "veggy" ) {
+        } else if( has_material("veggy") ) {
             return "veggy_tainted";
         }
     } else {
-        if( mat == "flesh" || mat == "hflesh" ) {
+        if( has_material("flesh") || has_material("hflesh") ) {
             if( has_flag( MF_HUMAN ) ) {
                 return "human_flesh";
             } else if( has_flag( MF_AQUATIC ) ) {
@@ -167,12 +172,12 @@ itype_id mtype::get_meat_itype() const
             } else {
                 return "meat";
             }
-        } else if( mat == "bone" ) {
+        } else if( has_material("bone") ) {
             return "bone_tainted";
-        } else if( mat == "iflesh" ) {
+        } else if( has_material("iflesh") ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat";
-        } else if( mat == "veggy" ) {
+        } else if( has_material("veggy") ) {
             return "veggy";
         }
     }

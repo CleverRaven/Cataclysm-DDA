@@ -223,14 +223,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             int part = -1;
             const maptile &tile = maptile_at_internal( p );
-            const auto &terrain = terlist[tile.get_ter()];
-            const auto &furniture = furnlist[tile.get_furn()];
+            const auto &terrain = tile.get_ter_t();
+            const auto &furniture = tile.get_furn_t();
             const vehicle *veh = veh_at_internal( p, part );
 
             const int cost = move_cost_internal( furniture, terrain, veh, part );
             // Don't calculate bash rating unless we intend to actually use it
             const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                                 bash_rating_internal( bash, furniture, terrain, veh, part );
+                                 bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
             if( cost == 0 && rating <= 0 && terrain.open.empty() ) {
                 layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
@@ -280,7 +280,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         const maptile &parent_tile = maptile_at_internal( cur );
-        const auto &parent_terrain = terlist[parent_tile.get_ter()];
+        const auto &parent_terrain = parent_tile.get_ter_t();
         if( cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
             tripoint dest( cur.x, cur.y, cur.z - 1 );
             dest = vertical_move_destination<TFLAG_GOES_UP>( *this, dest );

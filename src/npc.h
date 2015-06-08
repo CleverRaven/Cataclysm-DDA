@@ -717,6 +717,10 @@ public:
 
 // Helper functions for ranged combat
  int  confident_range(int position = -1); // >= 50% chance to hit
+ /**
+  * Check if this NPC is blocking movement from the given position
+  */
+ bool is_blocking_position( const tripoint &p );
  bool wont_hit_friend(  const tripoint &p , int position = -1 );
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
@@ -832,6 +836,8 @@ public:
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
+ std::string companion_mission;
+ int companion_mission_time;
  npc_mission mission;
  npc_personality personality;
  npc_opinion op_of_u;

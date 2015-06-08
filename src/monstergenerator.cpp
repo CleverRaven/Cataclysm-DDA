@@ -242,6 +242,9 @@ void MonsterGenerator::init_attack()
     attack_map["RIOTBOT"] = &mattack::riotbot;
     attack_map["STRETCH_ATTACK"] = &mattack::stretch_attack;
     attack_map["STRETCH_BITE"] = &mattack::stretch_bite;
+    attack_map["RANGED_PULL"] = &mattack::ranged_pull;
+    attack_map["GRAB"] = &mattack::grab;
+    attack_map["GRAB_DRAG"] = &mattack::grab_drag;
 }
 
 void MonsterGenerator::init_defense()
@@ -349,6 +352,7 @@ void MonsterGenerator::init_flags()
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
+    flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
@@ -387,7 +391,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
         newmon->description = _(jo.get_string("description").c_str());
 
-        newmon->mat = jo.get_string("material");
+        newmon->mat.push_back(jo.get_string("material"));
 
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");
@@ -452,7 +456,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->upgrade_min = jo.get_int("upgrade_min", -1);
         newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
-        newmon->upgrade_group = jo.get_string("upgrade_group", "NULL");
+        newmon->upgrade_group = mongroup_id( jo.get_string("upgrade_group", "GROUP_NULL") );
         newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
@@ -681,7 +685,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
             }
         }
-        if( mon->upgrade_group != "NULL" && !MonsterGroupManager::isValidMonsterGroup( mon->upgrade_group ) ) {
+        if( !mon->upgrade_group.is_valid() ) {
             debugmsg( "upgrade_group %s of monster %s is not a valid monster group",
                       mon->upgrade_group.c_str(), mon->id.c_str() );
         }

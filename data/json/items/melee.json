@@ -780,7 +780,7 @@
         "weight": 908,
         "volume": 6,
         "bashing": 12,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "cutting": 6,
         "to_hit": 0
     },
@@ -2608,7 +2608,7 @@
         "volume" : 5,
         "bashing" : 4,
         "cutting" : 12,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 4000,
         "qualities": [["COOK", 1]]
     },
@@ -2628,7 +2628,7 @@
         "volume" : 6,
         "bashing" : 5,
         "cutting" : 16,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 4900,
         "qualities": [["COOK", 1]]
     },
@@ -2646,7 +2646,7 @@
         "volume" : 5,
         "bashing" : 6,
         "cutting" : 18,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },{
@@ -2664,7 +2664,7 @@
         "volume" : 9,
         "bashing" : 2,
         "cutting" : 24,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },
@@ -3385,7 +3385,7 @@
         "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.",
         "price": 125000,
         "material": ["plastic", "aluminum"],
-        "flags": ["LIGHT_2", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+        "flags": ["LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
         "weight": 3714,
         "volume": 1,
         "bashing": 4,
@@ -4020,6 +4020,31 @@
         "cutting": 6,
         "to_hit": 2,
         "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+    },
+    {
+        "id": "cutlass_fake",
+        "type": "GENERIC",
+        "symbol": "/",
+        "color": "dark_gray",
+        "name": "cutlass",
+        "name_plural": "cutlasses",
+        "description": "This is a dull, cheaply made replica of a broad saber known for its use by sailors and pirates.",
+        "price": 9600,
+        "material": "aluminum",
+        "techniques": "WBLOCK_1",
+        "flags" : ["BASH", "SHEATH_SWORD"],
+        "weight": 634,
+        "volume": 7,
+        "bashing": 8,
+        "cutting": 2,
+        "to_hit": 2,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "revert_to": "null",
+        "category" : "weapons"
     },
     {
         "id": "katana_fake",
@@ -4716,7 +4741,7 @@
         "volume" : 7,
         "bashing" : 5,
         "cutting" : 15,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 2000
     },{
         "type": "GENERIC",

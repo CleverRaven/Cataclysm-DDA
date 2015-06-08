@@ -37,6 +37,11 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
+enum item::LIQUID_FILL_ERROR : int {
+    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
+    L_ERR_NOT_SEALED, L_ERR_FULL
+};
+
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -167,11 +172,6 @@ void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
     this->name = name;
 }
 
-item::item(std::string itemdata)
-{
-    load_info(itemdata);
-}
-
 item::item(JsonObject &jo)
 {
     deserialize(jo);
@@ -254,15 +254,6 @@ void item::make_handed( const handedness handed )
     make_sided_if( *armor, covered_bodyparts, handed, bp_hand_l, bp_hand_r );
     make_sided_if( *armor, covered_bodyparts, handed, bp_leg_l, bp_leg_r );
     make_sided_if( *armor, covered_bodyparts, handed, bp_foot_l, bp_foot_r );
-}
-
-void item::clear()
-{
-    // should we be clearing contents, as well?
-    // Seems risky to - there aren't any reported content-clearing bugs
-    // init(); // this should not go here either, or make() should not use it...
-    item_tags.clear();
-    item_vars.clear();
 }
 
 bool item::is_null() const
@@ -499,6 +490,11 @@ void item::erase_var( const std::string &name )
     item_vars.erase( name );
 }
 
+void item::clear_vars()
+{
+    item_vars.clear();
+}
+
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
@@ -536,43 +532,19 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
     }
 }
 
-
-void item::load_info(std::string data)
-{
-    std::stringstream dump;
-    dump << data;
-    char check=dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check=data[1];
-    }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad item json\n%s", jsonerr.c_str() );
-        }
-        return;
-    } else {
-        load_legacy(dump);
-    }
-}
-
 std::string item::info(bool showtext) const
 {
     std::vector<iteminfo> dummy;
-    return info(showtext, &dummy);
+    return info(showtext, dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) const
+std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 {
+    auto dump = &dump_ref; // for compatibility with the code below (which uses ->), TODO: switch to using the reference
     std::stringstream temp1, temp2;
     std::string space=" ";
-    if( g != NULL && debug == false &&
-        ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) {
-        debug = true;
-    }
+    const bool debug = g != nullptr &&
+        ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) );
     if( !is_null() ) {
         dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
         dump->push_back(iteminfo("BASE", space + _("Weight: "),
@@ -823,6 +795,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
 
         if( is_auxiliary_gunmod() ) {
             dump->push_back( iteminfo( "DESCRIPTION", _( "This mod must be attached to a gun, it can not be fired separately." ) ) );
+        }
+        if( has_flag( "REACH_ATTACK" ) ) {
+            dump->push_back( iteminfo( "DESCRIPTION", _( "When attached to a gun, allows making reach melee attacks with it." ) ) );
         }
         if (mod->dispersion != 0) {
             dump->push_back(iteminfo("GUNMOD", _("Dispersion modifier: "), "",
@@ -1194,6 +1169,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug) c
         }
         if (!tec_buffer.str().empty()) {
             dump->push_back(iteminfo("DESCRIPTION", std::string(_("Techniques: ")) + tec_buffer.str()));
+        }
+
+        if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            if( has_flag( "REACH3" ) ) {
+                dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make long reach attacks.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
+            }
         }
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
@@ -1620,8 +1604,9 @@ char item::symbol() const
     return type->sym;
 }
 
-nc_color item::color(player *u) const
+nc_color item::color_in_inventory() const
 {
+    player* const u = &g->u; // TODO: make a reference, make a const reference
     nc_color ret = c_ltgray;
 
     if(has_flag("WET")) {
@@ -1681,15 +1666,12 @@ nc_color item::color(player *u) const
         } else {
             ret = c_red; // Book hasn't been identified yet: red
         }
+    } else if (is_bionic()) {
+        if (!u->has_bionic(type->id)) {
+            ret = c_green; // installable bionics show as green
+        }
     }
     return ret;
-}
-
-nc_color item::color_in_inventory() const
-{
-    // This should be relevant only for the player,
-    // npcs don't care about the color
-    return color(&g->u);
 }
 
 void item::on_wear( player &p  )
@@ -1736,11 +1718,6 @@ void item::on_pickup( Character &p  )
     }
 }
 
-/* @param with_prefix determines whether to return for more of its object, such as
-* the extent of damage and burning (was created to sort by name without prefix
-* in additional inventory)
-* @return name of item
-*/
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
@@ -2050,6 +2027,10 @@ int item::weight() const
     int ret = type->weight;
     ret = get_var( "weight", ret );
 
+    if (has_flag("REDUCED_WEIGHT")) {
+        ret *= 0.75;
+    }
+
     if (count_by_charges()) {
         ret *= charges;
     } else if (type->gun && charges >= 1 && has_curammo() ) {
@@ -2183,15 +2164,6 @@ int item::volume(bool unit_value, bool precise_value ) const
     return ret;
 }
 
-int item::volume_contained() const
-{
-    int ret = 0;
-    for( auto &elem : contents ) {
-        ret += elem.volume();
-    }
-    return ret;
-}
-
 int item::attack_time() const
 {
     int ret = 65 + 4 * volume() + weight() / 60;
@@ -2205,6 +2177,9 @@ int item::damage_bash() const
         return 0;
     }
     total -= total * (damage * 0.1);
+    if(has_flag("REDUCED_BASHING")) {
+        total *= 0.5;
+    }
     if (total > 0) {
         return total;
     } else {
@@ -2239,12 +2214,17 @@ int item::damage_cut() const
     }
 }
 
-bool item::has_flag(const std::string &f) const
+void item::unset_flags()
+{
+    item_tags.clear();
+}
+
+bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
-
-    // first check for flags specific to item type
-    // gun flags
+    // TODO: this might need checking against the firing code, that code should use the
+    // auxiliary gun mod item directly (and call has_flag on it, *not* on the gun),
+    // e.g. for the NEVER_JAMS flag, that should not be inherited to the gun mod
     if (is_gun()) {
         if (is_in_auxiliary_mode()) {
             item const* gunmod = active_gunmod();
@@ -2269,16 +2249,6 @@ bool item::has_flag(const std::string &f) const
 
     // now check for item specific flags
     ret = item_tags.count(f);
-    return ret;
-}
-
-bool item::contains_with_flag(std::string f) const
-{
-    bool ret = false;
-    for (auto &k : contents) {
-        ret = k.has_flag(f);
-        if (ret) return ret;
-    }
     return ret;
 }
 
@@ -2320,7 +2290,7 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
-int item::has_gunmod(itype_id mod_type) const
+int item::has_gunmod( const itype_id& mod_type ) const
 {
     if( !is_gun() ) {
         return -1;
@@ -2524,20 +2494,20 @@ int item::brewing_time() const
     return ret;
 }
 
-bool item::can_revive()
+bool item::can_revive() const
 {
-    if ( corpse != NULL && corpse->has_flag(MF_REVIVES) && damage < 4) {
+    if ( is_corpse() && corpse->has_flag(MF_REVIVES) && damage < 4) {
         return true;
     }
     return false;
 }
 
-bool item::ready_to_revive( const tripoint &pos )
+bool item::ready_to_revive( const tripoint &pos ) const
 {
     if(can_revive() == false) {
         return false;
     }
-    int age_in_hours = (int(calendar::turn) - bday) / (10 * 60);
+    int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
     age_in_hours -= int((float)burnt / volume() * 24);
     if( damage > 0 ) {
         age_in_hours /= (damage + 1);
@@ -2689,7 +2659,7 @@ int item::bash_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::cut_resist() const
@@ -2731,7 +2701,7 @@ int item::cut_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
 int item::acid_resist() const
@@ -2755,7 +2725,7 @@ int item::acid_resist() const
     // Average based on number of materials.
     resist /= mat_types.size();
 
-    return std::lround(resist);
+    return lround(resist);
 }
 
 bool item::is_two_handed(player *u)
@@ -2767,21 +2737,16 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-std::vector<std::string> item::made_of() const
+const std::vector<std::string> &item::made_of() const
 {
-    std::vector<std::string> materials_composed_of;
-    if (is_null()) {
+    const static std::vector<std::string> null_material = {"null"};
+    if( is_null() ) {
         // pass, we're not made of anything at the moment.
-        materials_composed_of.push_back("null");
-    } else if (is_corpse()) {
-        // Corpses are only made of one type of material.
-        materials_composed_of.push_back(corpse->mat);
-    } else {
-        // Defensive copy of materials.
-        // More idiomatic to return a const reference?
-        materials_composed_of = type->materials;
+        return null_material;
+    } else if( is_corpse() ) {
+        return corpse->mat;
     }
-    return materials_composed_of;
+    return type->materials;
 }
 
 std::vector<material_type*> item::made_of_types() const
@@ -2828,17 +2793,12 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 
 bool item::made_of( const std::string &mat_ident ) const
 {
-    if (is_null()) {
+    if( is_null() ) {
         return false;
     }
 
-    std::vector<std::string> mat_composed_of = made_of();
-    for (auto m : mat_composed_of) {
-        if (m == mat_ident) {
-            return true;
-        }
-    }
-    return false;
+    const auto &materials = made_of();
+    return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
 
 bool item::made_of(phase_id phase) const
@@ -2882,24 +2842,7 @@ bool item::is_gun() const
 
 bool item::is_silent() const
 {
- if ( is_null() )
-  return false;
-
-    const auto curammo = get_curammo();
- // So far only gun code uses this check
- return type->gun && (
-   noise() < 5 ||              // almost silent
-   (
-        curammo != nullptr &&
-        (
-            curammo->ammo->type == "bolt" || // crossbows
-            curammo->ammo->type == "arrow" ||// bows
-            curammo->ammo->type == "pebble" ||// sling[shot]
-            curammo->ammo->type == "fishspear" ||// speargun spears
-            curammo->ammo->type == "dart"     // blowguns and such
-        )
-   )
- );
+    return gun_noise().volume < 5;
 }
 
 bool item::is_gunmod() const
@@ -2983,14 +2926,6 @@ void item::set_mtype( mtype * const m )
 bool item::is_ammo_container() const
 {
     return (contents.size() >= 1 && contents[0].is_ammo());
-}
-
-bool item::is_drink() const
-{
-    if( is_null() )
-        return false;
-
-    return type->is_food() && type->phase == LIQUID;
 }
 
 bool item::is_weap() const
@@ -3109,7 +3044,7 @@ bool item::is_funnel_container(int &bigger_than) const
 
 bool item::is_emissive() const
 {
-    return light.luminance || (type && type->light_emission);
+    return light.luminance > 0 || type->light_emission > 0;
 }
 
 bool item::is_tool() const
@@ -3242,14 +3177,7 @@ int item::reload_time(player &u) const
 
 item* item::active_gunmod()
 {
-    if( is_in_auxiliary_mode() ) {
-        for( auto &elem : contents ) {
-            if( elem.is_gunmod() && elem.is_in_auxiliary_mode() ) {
-                return &elem;
-            }
-        }
-    }
-    return NULL;
+    return const_cast<item*>( const_cast<const item*>( this )->active_gunmod() );
 }
 
 item const* item::active_gunmod() const
@@ -3261,7 +3189,7 @@ item const* item::active_gunmod() const
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 bool item::is_in_auxiliary_mode() const
@@ -3307,7 +3235,11 @@ void item::next_mode()
                 return;
             }
         }
-        set_gun_mode( "NULL" );
+        if( has_flag( "REACH_ATTACK" ) ) {
+            set_gun_mode( "MODE_REACH" );
+        } else {
+            set_gun_mode( "NULL" );
+        }
     } else if( is_in_auxiliary_mode() ) {
         size_t i = 0;
         // Advance to next aux mode, or if there isn't one, normal mode
@@ -3324,8 +3256,14 @@ void item::next_mode()
             }
         }
         if( i == contents.size() ) {
-            set_gun_mode( "NULL" );
+            if( has_flag( "REACH_ATTACK" ) ) {
+                set_gun_mode( "MODE_REACH" );
+            } else {
+                set_gun_mode( "NULL" );
+            }
         }
+    } else if( mode == "MODE_REACH" ) {
+        set_gun_mode( "NULL" );
     }
 }
 
@@ -3493,28 +3431,6 @@ int item::gun_pierce( bool with_ammo ) const
         }
     }
     // TODO: item::damage is not used here, but it is in item::gun_damage?
-    return ret;
-}
-
-int item::noise() const
-{
-    if( !is_gun() ) {
-        return 0;
-    }
-    item const* gunmod = active_gunmod();
-    if( gunmod != nullptr ) {
-        return gunmod->noise();
-    }
-    const islot_gun* gun = type->gun.get();
-    int ret = gun->loudness;
-    if( has_curammo() ) {
-        ret += get_curammo()->ammo->damage;
-    }
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->loudness;
-        }
-    }
     return ret;
 }
 
@@ -4003,13 +3919,6 @@ bool item::reload(player &u, int pos)
     }
 }
 
-void item::use()
-{
-    if (charges > 0) {
-        charges--;
-    }
-}
-
 bool item::burn(int amount)
 {
     if( amount < 0 ) {
@@ -4109,14 +4018,8 @@ bool item::getlight(float & luminance, int & width, int & direction ) const {
     return false;
 }
 
-/*
- * Returns just the integer
- */
 int item::getlight_emit() const {
-    const int mult = 10; // woo intmath
-    const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
-
-    int lumint = type->light_emission * mult;
+    float lumint = type->light_emission;
 
     if ( lumint == 0 ) {
         return 0;
@@ -4124,26 +4027,15 @@ int item::getlight_emit() const {
     if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
-        if ( maxcharge > 0 ) {
-            lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
+        // Falloff starts at 1/5 total charge and scales linearly from there to 0.
+        if( maxcharge > 0 && charges < maxcharge / 5 ) {
+            lumint *= (float)charges * 5.0 / (float)maxcharge;
         }
     }
-    if ( lumint > 4 && lumint < 10 ) {
-        lumint = 10;
-    }
-    return lumint / 10;
+    return lumint;
 }
 
-int item::getlight_emit_active() const
-{
-    if( active && charges > 0 ) {
-        return getlight_emit();
-    }
-    return 0;
-}
-
-// How much more of this liquid can be put in this container
-int item::get_remaining_capacity_for_liquid(const item &liquid) const
+long item::get_remaining_capacity_for_liquid(const item &liquid) const
 {
     if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
         return 0;
@@ -4151,7 +4043,7 @@ int item::get_remaining_capacity_for_liquid(const item &liquid) const
 
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
-        int max = 0;
+        long max = 0;
         if (is_tool()) {
             it_tool *tool = dynamic_cast<it_tool *>(type);
             max = tool->max_charges;
@@ -4163,14 +4055,14 @@ int item::get_remaining_capacity_for_liquid(const item &liquid) const
 
     const auto total_capacity = liquid.liquid_charges( type->container->contains );
 
-    int remaining_capacity = total_capacity;
+    long remaining_capacity = total_capacity;
     if (!contents.empty()) {
         remaining_capacity -= contents[0].charges;
     }
     return remaining_capacity;
 }
 
-LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
+item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
 {
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
@@ -4293,8 +4185,8 @@ bool item::fill_with( item &liquid, std::string &err )
             return false;
     }
 
-    int remaining_capacity = get_remaining_capacity_for_liquid( liquid );
-    int amount = std::min( (long)remaining_capacity, liquid.charges );
+    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid );
+    const long amount = std::min( remaining_capacity, liquid.charges );
 
     if( !is_container_empty() ) {
         contents[0].charges += amount;
@@ -4859,9 +4751,6 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
             make( tool->revert_to );
         }
         item_tags.erase( "WET" );
-        if( !has_flag( "ABSORBENT" ) ) {
-            item_tags.insert( "ABSORBENT" );
-        }
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.

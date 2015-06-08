@@ -1228,7 +1228,7 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
     return chance_of_success;
 }
 
-bool player::uninstall_bionic(std::string const &b_id)
+bool player::uninstall_bionic(std::string const &b_id, int skill_level)
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
@@ -1243,7 +1243,8 @@ bool player::uninstall_bionic(std::string const &b_id)
         popup(_("You don't have this bionic installed."));
         return false;
     }
-    if (!(has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
+    //If you are paying the doctor to do it, shouldn't use your supplies
+    if (!(has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1)) && skill_level == -1) {
         popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }
@@ -1267,18 +1268,29 @@ bool player::uninstall_bionic(std::string const &b_id)
     }
 
     // removal of bionics adds +2 difficulty over installation
-    int chance_of_success = bionic_manip_cos(int_cur,
-                            skillLevel("electronics"),
-                            skillLevel("firstaid"),
-                            skillLevel("mechanics"),
-                            difficulty + 2);
+    int chance_of_success;
+    if (skill_level != -1){
+        chance_of_success = bionic_manip_cos(skill_level,
+                                skill_level,
+                                skill_level,
+                                skill_level,
+                                difficulty + 2);
+    } else {
+        chance_of_success = bionic_manip_cos(int_cur,
+                                skillLevel("electronics"),
+                                skillLevel("firstaid"),
+                                skillLevel("mechanics"),
+                                difficulty + 2);
+    }
 
     if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
     }
 
-    use_charges("1st_aid", 1);
+    //If you are paying the doctor to do it, shouldn't use your supplies
+    if (skill_level == -1)
+        use_charges("1st_aid", 1);
 
     practice( "electronics", int((100 - chance_of_success) * 1.5) );
     practice( "firstaid", int((100 - chance_of_success) * 1.0) );
@@ -1308,7 +1320,7 @@ bool player::uninstall_bionic(std::string const &b_id)
     return true;
 }
 
-bool player::install_bionics(const itype &type)
+bool player::install_bionics(const itype &type, int skill_level)
 {
     if( type.bionic.get() == nullptr ) {
         debugmsg("Tried to install NULL bionic");
@@ -1350,11 +1362,20 @@ bool player::install_bionics(const itype &type)
         }
     }
     const int difficult = type.bionic->difficulty;
-    int chance_of_success = bionic_manip_cos(int_cur,
-                            skillLevel("electronics"),
-                            skillLevel("firstaid"),
-                            skillLevel("mechanics"),
-                            difficult);
+    int chance_of_success;
+    if (skill_level != -1){
+        chance_of_success = bionic_manip_cos(skill_level,
+                                skill_level,
+                                skill_level,
+                                skill_level,
+                                difficult);
+    } else {
+        chance_of_success = bionic_manip_cos(int_cur,
+                                skillLevel("electronics"),
+                                skillLevel("firstaid"),
+                                skillLevel("mechanics"),
+                                difficult);
+    }
 
     if (!query_yn(
             _("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"),

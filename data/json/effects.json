@@ -147,6 +147,12 @@
         "desc": ["AI tag used for bouncing ammo targeting.  This is a bug if you have it."]
     },
     {
+        "type": "effect_type",
+        "id": "pushed",
+        "name": ["Pushed"],
+        "desc": ["AI tag used for monsters pushing each other.  This is a bug if you have it."]
+    },
+    {
         "//": "ACTUAL PLAYER EFFECTS START HERE",
         "type": "effect_type",
         "id": "downed",
@@ -219,6 +225,13 @@
         "removes_effects": ["glare", "darkness"],
         "apply_message": "You're blinded!",
         "remove_message": "Your sight returns!",
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "earphones",
+        "name": ["Wearing earphones"],
+        "desc": ["You are wearing earphones and can't hear much from outside world."],
         "rating": "bad"
     },
     {
@@ -768,13 +781,15 @@
             "thirst_chance": [2],
             "pain_min": [1],
             "pain_chance": [2],
-            "pain_max_val": [-1]
+            "pain_max_val": [-1],
+            "stamina_chance": [2]
         },
         "scaling_mods": {
-            "speed_mod": [-7],
+            "speed_mod": [-4],
             "thirst_min": [1],
             "thirst_tick": [-100],
-            "pain_max_val": [10]
+            "pain_max_val": [10],
+            "stamina_min": [-1]
         }
     },
     {
@@ -995,7 +1010,9 @@
             "str_mod": [1],
             "dex_mod": [4],
             "per_mod": [4],
-            "int_mod": [-1]
+            "int_mod": [-1],
+            "stamina_min": [4],
+            "stamina_max": [8]
         }
     },
     {
@@ -1073,20 +1090,22 @@
         "max_intensity": 2,
         "int_dur_factor": 200,
         "base_mods": {
-            "speed_mod": [-40],
+            "speed_mod": [-20],
             "str_mod": [-3],
             "dex_mod": [-2],
             "int_mod": [-1],
             "per_mod": [-2],
-            "vomit_chance": [2000]
+            "vomit_chance": [2000],
+            "stamina_min": [-4]
         },
         "scaling_mods": {
-            "speed_mod": [90],
+            "speed_mod": [30],
             "str_mod": [4],
             "dex_mod": [4],
             "int_mod": [3],
             "per_mod": [5],
-            "fatigue_min": [1]
+            "fatigue_min": [1],
+            "stamina_min": [8]
         }
     },
     {
@@ -1335,11 +1354,15 @@
         "type": "effect_type",
         "id": "grabbed",
         "name": ["Grabbed"],
-        "desc": ["You have been grabbed by an attack.\nYou cannot dodge and blocking is very difficult."],
-        "apply_message": "You have been grabbed.",
+        "desc": ["You have been grabbed by an attack.\nYou are being held in place and cannot dodge, and blocking is very difficult."],
         "rating": "bad",
+        "max_duration": 2,
+        "max_intensity": 15,
         "base_mods": {
-            "speed_mod": [-25]
+            "speed_mod": [-15]
+        },
+        "scaling_mods": {
+            "speed_mod": [-5]
         }
     },
     {

@@ -106,7 +106,7 @@ struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
-    int sight_penalty;      //!< Penalty to max sight range.
+    float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
     int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.

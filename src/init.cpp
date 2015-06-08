@@ -133,8 +133,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
     type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
-    type_function_map["vehicle_group"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
-            &VehicleFactory::load_vehicle_group);
+    type_function_map["vehicle_group"] = new StaticFunctionAccessor( &VehicleGroup::load );
     type_function_map["vehicle_placement"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
             &VehicleFactory::load_vehicle_placement);
     type_function_map["vehicle_spawn"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
@@ -339,10 +338,7 @@ void DynamicDataLoader::unload_data()
     mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
-    furnlist.clear();
-    furnmap.clear();
-    terlist.clear();
-    termap.clear();
+    reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
     vehicle_prototype::reset();

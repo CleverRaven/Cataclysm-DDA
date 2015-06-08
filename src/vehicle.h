@@ -804,6 +804,8 @@ public:
      */
     void set_submap_moved(int x, int y);
 
+    const std::string disp_name();
+
     // config values
     std::string name;   // vehicle name
     /**
@@ -843,8 +845,6 @@ public:
      */
     int smx, smy, smz;
 
-    int init_veh_fuel;
-    int init_veh_status;
     float alternator_load;
     calendar last_repair_turn = -1; // Turn it was last repaired, used to make consecutive repairs faster.
 

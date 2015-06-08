@@ -4920,6 +4920,55 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cutlass",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 6 ], [ "scots_cookbook", 8 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300],
+      [ "char_forge", 60],
+      [ "oxy_torch", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+     ],
+     [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "broadsword",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -6621,7 +6670,49 @@
         [ "UPS_off", 2]
       ]
     ]
+},
+{
+  "type": "recipe",
+  "result": "abzats",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [["mechanics", 6], ["gun", 4]],
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": 
+  [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": 
+  [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 60],
+      ["welder", 300],
+      ["welder_crude", 450],
+      ["toolset", 450]
+    ],
+    [
+      ["small_repairkit", 150],
+      ["large_repairkit", 30]
+    ]
+  ], "components": 
+  [
+    [["m2browning", 1]],
+    [["2x4", 1]],
+    [["pipe", 1]],
+    [["steel_lump", 1],
+    ["steel_chunk", 4],
+    ["scrap", 12]]
+  ]
 }
-
-
 ]

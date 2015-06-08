@@ -114,6 +114,8 @@ else
 endif
 RC  = $(CROSS)windres
 
+# We don't need scientific precision for our math functions, this lets them run much faster.
+CXXFLAGS += -ffast-math
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
@@ -446,7 +448,7 @@ $(DDIR):
 	@mkdir $(DDIR)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@

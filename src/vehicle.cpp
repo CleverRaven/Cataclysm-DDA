@@ -588,6 +588,11 @@ void vehicle::smash() {
     }
 }
 
+const std::string vehicle::disp_name()
+{
+    return string_format( _("the %s"), name.c_str() );
+}
+
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
@@ -1251,7 +1256,7 @@ bool vehicle::fold_up() {
     for (size_t p = 0; p < parts.size(); p++) {
         if( part_flag( p, "CARGO" ) ) {
             for( auto &elem : get_items(p) ) {
-                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+                g->m.add_item_or_charges( g->u.pos(), elem );
             }
             while( !get_items(p).empty() ) {
                 get_items(p).erase( get_items(p).begin() );
@@ -1284,7 +1289,7 @@ bool vehicle::fold_up() {
         bicycle.set_var( "description", string_format(_("A folded %s."), name.c_str()) );
     }
 
-    g->m.add_item_or_charges(g->u.posx(), g->u.posy(), bicycle);
+    g->m.add_item_or_charges( g->u.pos(), bicycle );
     g->m.destroy_vehicle(this);
 
     // TODO: take longer to fold bigger vehicles
@@ -1441,7 +1446,7 @@ void vehicle::play_music()
             stereo_on = false;
             return;
         }
-        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], g->get_levz() ); // TODO: Z
+        const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
         iuse::play_music( &g->u, radio_pos, 15, 50 );
     }
 }
@@ -1470,6 +1475,13 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     } else { // example: foot crank
        pwr = part_info(index).power;
     }
+
+    if (part_info(index).fuel_type == fuel_type_muscle) {
+        int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
+                         (part_flag(index, "MUSCLE_ARMS") ? 2 : 0);
+        pwr += int(((g->u).str_cur - 8) * pwr_factor);
+    }
+
     if( pwr < 0 ) {
         return pwr; // Consumers always draw full power, even if broken
     }
@@ -1967,14 +1979,17 @@ bool vehicle::remove_part (int p)
         }
     }
 
+    int x = parts[p].precalc[0].x;
+    int y = parts[p].precalc[0].y;
+    tripoint part_loc( global_x() + x, global_y() + y, smz );
+
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if(part_flag(p, "WINDOW")) {
         int curtain = part_with_feature(p, "CURTAIN", false);
         if (curtain >= 0) {
-            int x = parts[curtain].precalc[0].x, y = parts[curtain].precalc[0].y;
             item it = parts[curtain].properties_to_item();
-            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            g->m.add_item_or_charges( part_loc, it, 2 );
             remove_part(curtain);
         }
     }
@@ -1983,9 +1998,8 @@ bool vehicle::remove_part (int p)
     if(part_flag(p, "SEAT")) {
         int seatbelt = part_with_feature(p, "SEATBELT", false);
         if (seatbelt >= 0) {
-            int x = parts[seatbelt].precalc[0].x, y = parts[seatbelt].precalc[0].y;
             item it = parts[seatbelt].properties_to_item();
-            g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
+            g->m.add_item_or_charges( part_loc, it, 2 );
             remove_part(seatbelt);
         }
     }
@@ -1995,8 +2009,7 @@ bool vehicle::remove_part (int p)
         std::vector<int> bp = boarded_parts();
         for( auto &elem : bp ) {
             if( elem == p ) {
-                g->m.unboard_vehicle( global_x() + parts[p].precalc[0].x,
-                                      global_y() + parts[p].precalc[0].y );
+                g->m.unboard_vehicle( part_loc );
             }
         }
     }
@@ -2034,9 +2047,10 @@ bool vehicle::remove_part (int p)
         }
     }
 
-    const auto pos = global_pos() + parts[p].precalc[0];
     for( auto &i : get_items(p) ) {
-        g->m.add_item_or_charges(pos.x + rng(-3, +3), pos.y + rng(-3, +3), i);
+        // Note: this can spawn items on the other side of the wall!
+        tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), smz );
+        g->m.add_item_or_charges( dest, i );
     }
     g->m.dirty_vehicle_list.insert(this);
     refresh();
@@ -2093,7 +2107,8 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            g->m.add_item_or_charges(actual_x, actual_y, piece);
+            tripoint dest( actual_x, actual_y, smz );
+            g->m.add_item_or_charges( dest, piece );
         }
     }
 }
@@ -2761,8 +2776,8 @@ void vehicle::center_of_mass(int &x, int &y) const
     }
     xf /= m_total;
     yf /= m_total;
-    x = std::round(xf);
-    y = std::round(yf);
+    x = round(xf);
+    y = round(yf);
 }
 
 int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
@@ -2939,8 +2954,8 @@ int vehicle::solar_epower( const tripoint &sm_loc ) const
                 continue;
             }
 
-            if( !(terlist[sm->ter[pg.x][pg.y]].has_flag(TFLAG_INDOORS) ||
-                  furnlist[sm->get_furn(pg.x, pg.y)].has_flag(TFLAG_INDOORS)) ) {
+            if( !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
+                  sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS)) ) {
                 epower += ( part_epower( elem ) * g->ground_natural_light_level() ) / DAYLIGHT_LEVEL;
             }
         }
@@ -3709,7 +3724,8 @@ void vehicle::slow_leak()
                 //   the leak manually and directly call m.add_item_or_charges().
                 item leak( pinfo.fuel_type, calendar::turn );
                 leak.charges = leak_amount;
-                g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
+                tripoint dest( global_x() + gx, global_y() + gy, smz );
+                g->m.add_item_or_charges( dest, leak );
             }
             part.amount -= leak_amount;
         }
@@ -4110,9 +4126,8 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             smashed = false;
         } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
-            // TODO: Z
-            smashed = g->m.bash( p, obj_dmg, false, false, this).second;
-            if (smashed) {
+            smashed = g->m.bash( p, obj_dmg, false, false, this ).second;
+            if( smashed ) {
                 if (g->m.is_bashable_ter_furn(p)) {
                     // There's new terrain there to smash
                     smashed = false;
@@ -4241,7 +4256,8 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             turn (one_in (2)? turn_amount : -turn_amount);
         }
     }
-    damage (parm, part_dmg, 1);
+
+    damage( parm, part_dmg, 1 );
 
     veh_collision ret;
     ret.part = part;
@@ -4791,71 +4807,83 @@ bool vehicle::is_inside(int const p) const
 
 void vehicle::unboard_all ()
 {
-    std::vector<int> bp = boarded_parts ();
-    for (auto &i : bp) {
-        g->m.unboard_vehicle (global_x() + parts[i].precalc[0].x,
-                              global_y() + parts[i].precalc[0].y);
+    std::vector<int> bp = boarded_parts();
+    for( auto &i : bp ) {
+        g->m.unboard_vehicle( tripoint( global_x() + parts[i].precalc[0].x,
+                                        global_y() + parts[i].precalc[0].y,
+                                        smz ) );
     }
 }
 
-int vehicle::damage (int p, int dmg, int type, bool aimed)
+int vehicle::damage( int p, int dmg, int type, bool aimed )
 {
-    if (dmg < 1) {
+    if( dmg < 1 ) {
         return dmg;
     }
 
-    std::vector<int> pl = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
-    if (pl.empty()) {
+    std::vector<int> pl = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+    if( pl.empty() ) {
       // We ran out of non removed parts at this location already.
       return dmg;
     }
+
     if( !aimed ) {
         bool found_obs = false;
-        for (auto &i : pl)
-            if (part_flag (i, "OBSTACLE") &&
-                (!part_flag (i, "OPENABLE") || !parts[i].open)) {
+        for( auto &i : pl ) {
+            if( part_flag( i, "OBSTACLE" ) &&
+                (!part_flag( i, "OPENABLE" ) || !parts[i].open) ) {
                 found_obs = true;
                 break;
             }
-        if (!found_obs) // not aimed at this tile and no obstacle here -- fly through
+        }
+
+        if( !found_obs ) { // not aimed at this tile and no obstacle here -- fly through
             return dmg;
+        }
     }
-    int parm = part_with_feature (p, "ARMOR");
-    int pdm = pl[rng (0, pl.size()-1)];
+    int parm = part_with_feature( p, "ARMOR" );
+    int pdm = pl[rng( 0, pl.size() - 1 )];
     int dres;
-    if (parm < 0) {
+    if( parm < 0 ) {
         // not covered by armor -- damage part
-        dres = damage_direct (pdm, dmg, type);
+        dres = damage_direct( pdm, dmg, type );
     } else {
         // covered by armor -- damage armor first
         // half damage for internal part(over parts not covered)
-        bool overhead = part_flag(pdm, "ROOF") || part_info(pdm).location == "on_roof";
+        bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefor the other indes (pdm) becames
         // wrong if pdm > parm.
         // Damaging the part with the higher index first is save,
         // as removing a part only changes indizes after the
         // removed part.
-        if(parm < pdm) {
-            damage_direct (pdm, overhead ? dmg : dmg / 2, type);
-            dres = damage_direct (parm, dmg, type);
+        if( parm < pdm ) {
+            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
+            dres = damage_direct( parm, dmg, type );
         } else {
-            dres = damage_direct (parm, dmg, type);
-            damage_direct (pdm, overhead ? dmg : dmg / 2, type);
+            dres = damage_direct( parm, dmg, type );
+            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
         }
     }
+
     return dres;
 }
 
-void vehicle::damage_all (int dmg1, int dmg2, int type, const point &impact)
+void vehicle::damage_all( int dmg1, int dmg2, int type, const point &impact )
 {
-    if (dmg2 < dmg1) { std::swap(dmg1, dmg2); }
-    if (dmg1 < 1) { return; }
-    for (size_t p = 0; p < parts.size(); p++) {
+    if( dmg2 < dmg1 ) {
+        std::swap( dmg1, dmg2 );
+    }
+
+    if( dmg1 < 1 ) {
+        return;
+    }
+
+    for( size_t p = 0; p < parts.size(); p++ ) {
         int distance = 1 + square_dist( parts[p].mount.x, parts[p].mount.y, impact.x, impact.y );
         if( distance > 1 && part_info(p).location == part_location_structure &&
             !part_info(p).has_flag("PROTRUSION") ) {
-            damage_direct (p, rng( dmg1, dmg2 ) / (distance * distance), type);
+            damage_direct( p, rng( dmg1, dmg2 ) / (distance * distance), type );
         }
     }
 }
@@ -4946,7 +4974,8 @@ int vehicle::damage_direct (int p, int dmg, int type)
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                            g->m.add_item_or_charges(pos.x, pos.y, part_as_item, true);
+                            tripoint dest( pos, smz );
+                            g->m.add_item_or_charges( dest, part_as_item, true );
                             remove_part(parts_in_square[index]);
                         }
                     }
@@ -5007,7 +5036,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         name.c_str());
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
-                                            g->get_levz() ),
+                                            smz ),
                                   pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
                     parts[p].hp = 0;
                 }
@@ -5016,10 +5045,11 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE"))
         {
-            g->m.spawn_item(global_x() + parts[p].precalc[0].x,
+            tripoint dest( global_x() + parts[p].precalc[0].x,
                            global_y() + parts[p].precalc[0].y,
-                           part_info(p).item, 1, 0, calendar::turn);
-            remove_part (p);
+                           smz );
+            g->m.spawn_item( dest, part_info(p).item, 1, 0, calendar::turn );
+            remove_part( p );
         }
     }
     if (dres < 0)
@@ -5045,8 +5075,9 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, ft);
-                    g->m.spawn_item(i, j, ft);
+                    tripoint dest( i, j, smz );
+                    g->m.spawn_item( dest, ft );
+                    g->m.spawn_item( dest, ft );
                     parts[p].amount -= 100;
                 }
     }
@@ -5296,15 +5327,16 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     vehicle_part &tr = parts[p];
+    const bool auto_only = gun.has_flag("BURST_ONLY");
     const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
     const bool was_auto = tr.mode > 0;
-    if( tr.mode < -1 ) {
+    if( tr.mode < -1 && !auto_only ) {
         tr.mode = -1;
     } else if( tr.mode < 0 && !only_manual_modes ) {
         tr.mode = 0;
-    } else if( tr.mode == 0 && !only_manual_modes ) {
+    } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
-    } else if( tr.mode == 1 && !only_manual_modes ) {
+    } else if( tr.mode <= 1 && !only_manual_modes ) {
         tr.mode = burst_or_charge ? 1000 : -1;
     } else {
         tr.mode = burst_or_charge ? -1000 : -1;

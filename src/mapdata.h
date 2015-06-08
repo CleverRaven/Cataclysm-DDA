@@ -28,9 +28,13 @@ class game;
 class monster;
 class vehicle;
 struct trap;
+struct ter_t;
+struct furn_t;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
+using ter_id = int_id<ter_t>;
+using furn_id = int_id<furn_t>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -50,30 +54,37 @@ struct map_bash_info {
     int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
     int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
+    int str_min_supported;  // Alternative values for floor supported by something from below
+    int str_max_supported;
     int str_min_roll;       // lower bound of success check; defaults to str_min
     int str_max_roll;       // upper bound of success check; defaults to str_max
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
     bool destroy_only;      // Only used for destroying, not normally bashable
+    bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
+                      str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      destroy_only(false), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      destroy_only(false), bash_below(false),
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
+    // This terrain provided a roof, we need to tear it down now
+    bool deconstruct_above;
     // items you get when deconstructing.
     std::vector<map_bash_item_drop> items;
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), items(), ter_set(), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), items(), ter_set(), furn_set() { }
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -167,12 +178,10 @@ enum ter_bitflags {
     TFLAG_CLIMBABLE,
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
+    TFLAG_NO_FLOOR,
 
     NUM_TERFLAGS
 };
-
-typedef int ter_id;
-typedef int furn_id;
 
 struct map_data_common_t {
     std::string id;    // The terrain's ID. Must be set, must be unique.
@@ -195,7 +204,6 @@ public:
     */
     long sym;
 
-    int loadid;     // This is akin to the old ter_id, however it is set at runtime.
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
@@ -221,9 +229,11 @@ public:
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+    ter_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
     std::string trap_id_str;     // String storing the id string of the trap.
     std::string harvestable;     // What will be harvested from this terrain?
     std::string transforms_into; // Transform into what terrain?
+    std::string roof;            // What will be the floor above this terrain?
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
@@ -233,15 +243,16 @@ struct ter_t : map_data_common_t {
 
 void set_ter_ids();
 void set_furn_ids();
+void reset_furn_ter();
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
-extern std::vector<ter_t> terlist;
 extern std::map<std::string, ter_t> termap;
 ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 struct furn_t : map_data_common_t {
+    furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
     std::string crafting_pseudo_item;
 
     int move_str_req; //The amount of strength required to move through this terrain easily.
@@ -253,7 +264,6 @@ struct furn_t : map_data_common_t {
 };
 
 
-extern std::vector<furn_t> furnlist;
 extern std::map<std::string, furn_t> furnmap;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
@@ -402,8 +412,7 @@ struct submap {
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
     inline bool has_signage( const int x, const int y) const {
-        furn_id f = frn[x][y];
-        if( furnlist[f].id == "f_sign" ) {
+        if( frn[x][y] == furnfind( "f_sign" ) ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
 
@@ -411,8 +420,7 @@ struct submap {
     }
     // Dependent on furniture + cosmetics.
     inline const std::string get_signage( const int x, const int y ) const {
-        furn_id f = frn[x][y];
-        if( furnlist[f].id == "f_sign" ) {
+        if( frn[x][y] == furnfind( "f_sign" ) ) {
             auto iter = cosmetics[x][y].find("SIGNAGE");
             if( iter != cosmetics[x][y].end() ) {
                 return iter->second;
@@ -505,15 +513,8 @@ public:
         return sm->get_trap( x, y ).obj();
     }
 
-    inline const furn_t &get_furn_t() const
-    {
-        return furnlist[ sm->get_furn( x, y ) ];
-    }
-
-    inline const ter_t &get_ter_t() const
-    {
-        return terlist[ sm->get_ter( x, y ) ];
-    }
+    const furn_t &get_furn_t() const;
+    const ter_t &get_ter_t() const;
 
     inline const field &get_field() const
     {
@@ -609,15 +610,6 @@ struct id_or_id {
    int get() const {
        return ( one_in(chance) ? secondary : primary );
    }
-};
-
-/*
- * It's a terrain! No, it's a furniture! Wait it's both!
- */
-struct ter_furn_id {
-   unsigned short ter;
-   unsigned short furn;
-   ter_furn_id() : ter(0), furn(0) {};
 };
 
 /*
@@ -760,5 +752,16 @@ extern furn_id f_null,
 
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
+
+// TODO: move into mapgen headers, it's not needed during normal game play.
+/*
+ * It's a terrain! No, it's a furniture! Wait it's both!
+ */
+struct ter_furn_id {
+   ter_id ter;
+   furn_id furn;
+   ter_furn_id() : ter( t_null ), furn( f_null ) { }
+};
+
 
 #endif

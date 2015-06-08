@@ -49,11 +49,11 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    if( monster_is_blacklisted(critter.type) ) {
+    if( MonsterGroupManager::monster_is_blacklisted(critter.type) ) {
         return false;
     }
 
-    monsters_by_location[critter.pos3()] = monsters_list.size();
+    monsters_by_location[critter.pos()] = monsters_list.size();
     monsters_list.push_back(new monster(critter));
     return true;
 }
@@ -165,4 +165,28 @@ const std::vector<monster> &Creature_tracker::list() const
         for_now.push_back( *monster_ptr );
     }
     return for_now;
+}
+
+void Creature_tracker::swap_positions( monster &first, monster &second )
+{
+    const int first_mdex = mon_at( first.pos() );
+    const int second_mdex = mon_at( second.pos() );
+    remove_from_location_map( first );
+    remove_from_location_map( second );
+    bool ok = true;
+    if( first_mdex == -1 || second_mdex == -1 || first_mdex == second_mdex ) {
+        debugmsg( "Tried to swap monsters with invalid positions" );
+        ok = false;
+    }
+
+    tripoint temp = second.pos();
+    second.spawn( first.pos() );
+    first.spawn( temp );
+    if( ok ) {
+        monsters_by_location[first.pos()] = first_mdex;
+        monsters_by_location[second.pos()] = second_mdex;
+    } else {
+        // Try to avoid spamming error messages if something weird happens
+        rebuild_cache();
+    }
 }

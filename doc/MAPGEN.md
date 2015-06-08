@@ -478,7 +478,7 @@ Or define the mappings for one character at once:
         "traps": "tr_beartrap",
         "field": { "field": "fd_blood" },
         "item": { "item": "corpse" },
-        "terrain": { "t_dirt" },
+        "terrain": { "t_dirt" }
     }
 }
 ```
@@ -566,7 +566,7 @@ Places a monster spawn point, the actual monsters are spawned when the map is lo
 
 ### 2.7.8 "vehicles"
 Places a vehicle. Values:
-- "vehicle": (required, string) type of the vehicle.
+- "vehicle": (required, string) type of the vehicle or id of a vehicle group.
 - "chance": (optional, integer or min/max array) chance of the vehicle spawning at all (in percent, 100 = always). The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
 - "rotation": (optional, integer) the direction the vehicle faces.
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 

@@ -490,6 +490,54 @@
             ],
             "rotates":false
         },
+		{
+            "id":"t_conveyor",
+            "fg":1998,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1998
+                },
+                {
+                    "id": "corner",
+                    "fg": 1999
+                },
+                {
+                    "id": "edge",
+                    "fg": 1998
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 2000
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 1998
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 1998
+                }
+            ],
+            "rotates":false
+        },
+		{
+            "id":"t_machinery_light",
+            "bg":2001,
+            "rotates":false
+        },
+		{
+            "id":"t_machinery_electronic",
+            "bg":2002,
+            "rotates":false
+        },
+		{
+            "id":"t_machinery_old",
+            "bg":2003,
+            "rotates":false
+        },
         {
             "id":"t_wreckage",
             "bg":422,
@@ -821,7 +869,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_r",
             "fg":1448,
             "bg":2,
@@ -855,7 +903,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_b",
             "fg":1453,
             "bg":2,
@@ -889,7 +937,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_g",
             "fg":1456,
             "bg":2,
@@ -923,7 +971,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_y",
             "fg":1459,
             "bg":2,
@@ -957,7 +1005,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_p",
             "fg":1462,
             "bg":2,
@@ -1059,7 +1107,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_glass",
             "fg":419,
             "bg":0,
@@ -1093,7 +1141,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_wall_glass_alarm",
 			"fg":405,
 			"bg":64,
@@ -1161,7 +1209,7 @@
             ],
             "rotates":false
         },
-		{
+        {
             "id":"t_bars",
 			"fg":90,
             "multitile":true,
@@ -2015,6 +2063,30 @@
             "bg":1,
             "rotates":false
         },
+		{
+            "id":"t_underbrush_harvested_autumn",
+            "fg":2004,
+            "bg":1,
+            "rotates":false
+        },
+		{
+            "id":"t_underbrush_harvested_spring",
+            "fg":2004,
+            "bg":1,
+            "rotates":false
+        },
+		{
+            "id":"t_underbrush_harvested_summer",
+            "fg":2004,
+            "bg":1,
+            "rotates":false
+        },
+		{
+            "id":"t_underbrush_harvested_winter",
+            "fg":2004,
+            "bg":1,
+            "rotates":false
+        },
         {
             "id":"t_shrub",
             "fg":8,
@@ -2113,6 +2185,31 @@
             "id":"f_lane",
 			"fg":92,
             "rotates":true
+        },
+		{
+            "id":"f_cattails",
+			"fg":1938,
+            "rotates":false
+        },
+		{
+            "id":"f_mannequin",
+			"fg":1939,
+            "rotates":false
+        },
+		{
+            "id":"f_clay_kiln",
+			"fg":1993,
+            "rotates":false
+        },
+		{
+            "id":"f_forge_rock",
+			"fg":1994,
+            "rotates":false
+        },
+		{
+            "id":"f_smoking_rack",
+			"fg":1995,
+            "rotates":false
         },
         {
             "id":"t_fence_v",
@@ -2369,6 +2466,11 @@
             "rotates":false
         },
 		{
+            "id":"t_fungus_wall_transformed",
+			"fg":467,
+            "rotates":false
+        },
+		{
             "id":"t_fungus_mound",
 			"fg":470,
             "rotates":false
@@ -2618,6 +2720,11 @@
 			"fg":85,
             "rotates":false
         },
+		{
+            "id":"t_machinery_heavy",
+			"fg":317,
+            "rotates":false
+        },
         {
             "id":"t_sewage_pump",
 			"fg":317,
@@ -2844,6 +2951,11 @@
         },
         {
             "id":"t_switch_even",
+			"fg":1151,
+            "rotates":false
+        },
+		{
+            "id":"t_gates_control_metal",
 			"fg":1151,
             "rotates":false
         },
@@ -3154,19 +3266,108 @@
 			"bg":935,
             "rotates":false
         },
-        {
+		{
             "id":"fd_bile",
-			"bg":279,
-            "rotates":false
+            "fg":1946,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1941
+                },
+                {
+                    "id": "corner",
+                    "fg": 1942
+                },
+                {
+                    "id": "edge",
+                   "fg": 1943
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1944
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1945
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 1946
+                }
+            ],
+           "rotates":false
+        },
+		{
+            "id":"fd_gibs_veggy",
+            "fg":1946,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1941
+                },
+                {
+                    "id": "corner",
+                    "fg": 1942
+                },
+                {
+                    "id": "edge",
+                   "fg": 1943
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1944
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1945
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 1946
+                }
+            ],
+           "rotates":false
+        },
+		{
+            "id":"fd_sap",
+            "fg":1946,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1941
+                },
+                {
+                    "id": "corner",
+                    "fg": 1942
+                },
+                {
+                    "id": "edge",
+                   "fg": 1943
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1944
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1945
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 1946
+                }
+            ],
+           "rotates":false
         },
         {
             "id":"fd_gibs_flesh",
 			"fg":967,
-            "rotates":false
-        },
-        {
-            "id":"fd_gibs_veggy",
-			"bg":279,
             "rotates":false
         },
 		{
@@ -3179,30 +3380,137 @@
 			"bg":934,
             "rotates":false
         },
-        {
+		{
             "id":"fd_web",
-			"bg":281,
-            "rotates":false
+            "fg":281,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1965
+                },
+                {
+                    "id": "corner",
+                    "fg": 1966
+                },
+                {
+                    "id": "edge",
+                   "fg": 1967
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1968
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1969
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 281
+                }
+            ],
+           "rotates":false
         },
-        {
-            "id":"fd_slime",
-			"bg":283,
-            "rotates":false
-        },
-        {
+		{
             "id":"fd_acid",
-			"bg":282,
-            "rotates":false
+            "fg":1952,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1947
+                },
+                {
+                    "id": "corner",
+                    "fg": 1948
+                },
+                {
+                    "id": "edge",
+                   "fg": 1949
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1950
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1951
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 1952
+                }
+            ],
+           "rotates":false
         },
-        {
-            "id":"fd_sap",
-			"bg":279,
-            "rotates":false
+		{
+            "id":"fd_slime",
+            "fg":1958,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1953
+                },
+                {
+                    "id": "corner",
+                    "fg": 1954
+                },
+                {
+                    "id": "edge",
+                   "fg": 1955
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1956
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1957
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 1958
+                }
+            ],
+           "rotates":false
         },
-        {
+		{
             "id":"fd_sludge",
-			"bg":284,
-            "rotates":false
+            "fg":1964,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 1959
+                },
+                {
+                    "id": "corner",
+                    "fg": 1960
+                },
+                {
+                    "id": "edge",
+                   "fg": 1961
+                },
+                {
+                    "id": "t_connection",
+                   "fg": 1962
+                },
+                {
+                    "id": "end_piece",
+                   "fg": 1963
+                },
+                {
+                    "id": "unconnected",
+                   "fg": 1964
+                }
+            ],
+           "rotates":false
         },
 		{
             "id":"fd_fire",
@@ -4184,6 +4492,61 @@
 			"fg":1730,
             "rotates":false
         },
+		{
+            "id":"mon_boomer_huge",
+			"fg":1922,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_acidic",
+			"fg":1923,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_corrosive",
+			"fg":1924,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_armored",
+			"fg":1925,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_grenadier",
+			"fg":1926,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_grenadier_elite",
+			"fg":1927,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_hollow",
+			"fg":1928,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_predator",
+			"fg":1929,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_runner",
+			"fg":1930,
+            "rotates":false
+        },
+		{
+            "id":"mon_bear_smoky",
+			"fg":1931,
+            "rotates":false
+        },
+		{
+            "id":"mon_zombie_grappler",
+			"fg":1940,
+            "rotates":false
+        },
         {
             "id":"mon_jabberwock",
 			"fg":242,
@@ -4923,6 +5286,36 @@
             "rotates":false
         },
 		{
+            "id":"mon_c4_hack",
+			"fg":1932,
+            "rotates":false
+        },
+        {
+            "id":"mon_EMP_hack",
+			"fg":1933,
+            "rotates":false
+        },
+		{
+            "id":"mon_flashbang_hack",
+			"fg":1934,
+            "rotates":false
+        },
+		{
+            "id":"mon_gasbomb_hack",
+			"fg":1935,
+            "rotates":false
+        },
+		{
+            "id":"mon_grenade_hack",
+			"fg":1936,
+            "rotates":false
+        },
+		{
+            "id":"mon_mininuke_hack",
+			"fg":1937,
+            "rotates":false
+        },
+		{
             "id":"broken_eyebot",
 			"fg":1647,
             "rotates":false
@@ -5343,6 +5736,11 @@
             "rotates":false
         },
 		{
+            "id":"f_robotic_arm",
+            "fg":1985,
+            "rotates":false
+        },
+		{
             "id":"f_displaycase",
             "fg":1691,
             "rotates":false
@@ -5501,6 +5899,16 @@
         {
             "id":"f_dryer",
 			"fg":485,
+            "rotates":false
+        },
+		{
+            "id":"f_bigmirror",
+			"fg":1991,
+            "rotates":false
+        },
+		{
+            "id":"f_bigmirror_b",
+			"fg":1992,
             "rotates":false
         },
 		{
@@ -5777,7 +6185,33 @@
 			]
 		},
 		{
+            "id":"vp_vehicle_clock",
+			"fg":1256,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
+		{
             "id":"vp_wing_mirror",
+			"fg":1232,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
+		{
+            "id":"vp_inboard_mirror",
 			"fg":1232,
             "rotates":true,
             "multitile":true,
@@ -5856,6 +6290,19 @@
 		},
 		{
             "id":"vp_saddle",
+			"fg":391,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
+		{
+            "id":"vp_reclining_seat",
 			"fg":391,
             "rotates":true,
             "multitile":true,
@@ -7230,6 +7677,19 @@
 			]
 		},
 		{
+            "id":"vp_aisle_lights",
+			"fg":1905,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
+		{
             "id":"vp_trunk_floor",
 			"fg":383,
             "rotates":true,
@@ -7743,6 +8203,20 @@
 			]
         },
 		{
+            "id":"vp_wheel_barrow",
+			"fg":339,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				
+				{
+					"id":"broken",
+					"fg":348
+				}
+			]
+        },
+		{
             "id":"vp_wheel_armor",
 			"fg":638,
             "rotates":true,
@@ -7833,6 +8307,12 @@
 		},
 		{
 			 "id" : "wheel_small", 
+			 "fg" : 339, 
+			 "rotates" : false, 
+			 "multitile" : false
+		},
+		{
+			 "id" : "wheel_barrow", 
 			 "fg" : 339, 
 			 "rotates" : false, 
 			 "multitile" : false
@@ -8096,6 +8576,19 @@
 			]
 		},
 		{
+            "id":"vp_napalm_tank",
+			"fg":436,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":431
+				}
+			]
+		},
+		{
             "id":"vp_diesel_tank",
 			"fg":1843,
             "rotates":true,
@@ -8305,6 +8798,19 @@
 		},
 		{
             "id":"vp_water_tank",
+			"fg":440,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":431
+				}
+			]
+		},
+		{
+            "id":"vp_water_dirty_tank",
 			"fg":440,
             "rotates":true,
             "multitile":true,
@@ -8549,6 +9055,19 @@
         },
 		{
             "id":"vp_veh_table",
+			"fg":665,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":442
+				}
+			]
+		},
+		{
+            "id":"vp_veh_table_wood",
 			"fg":665,
             "rotates":true,
             "multitile":true,
@@ -8913,6 +9432,19 @@
 		},
 		{
             "id":"vp_laser_gun",
+			"fg":549,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":1907
+				}
+			]
+		},
+		{
+            "id":"vp_laser_rifle",
 			"fg":549,
             "rotates":true,
             "multitile":true,
@@ -9343,6 +9875,11 @@
         },
 		{
             "id":"vp_engine_electric_small",
+			"fg":351,
+            "rotates":true
+        },
+		{
+            "id":"vp_engine_electric_enhanced",
 			"fg":351,
             "rotates":true
         },
@@ -10222,6 +10759,34 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "reloaded_22_cb", 
+         "fg" : 521, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "reloaded_22_fmj", 
+         "fg" : 521, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "reloaded_22_lr", 
+         "fg" : 521, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "reloaded_22_ratshot", 
+         "fg" : 521, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "laser_pack", 
          "fg" : 603, 
@@ -10452,6 +11017,10 @@
         },
 		{
             "id":"32_casing",
+			"fg":598
+        },
+		{
+            "id":"22_casing_new",
 			"fg":598
         },
       { 
@@ -11323,6 +11892,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "sockmitts", 
+         "fg" : 672, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "socks_wool", 
          "fg" : 673, 
@@ -11521,6 +12097,13 @@
       },
 	  { 
          "id" : "straw_sandals", 
+         "fg" : 683, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "slippers", 
          "fg" : 683, 
          "bg" : -1, 
          "rotates" : false, 
@@ -13254,7 +13837,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "survivor_goggles", 
+         "fg" : 789, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "goggles_nv", 
          "fg" : 790, 
@@ -13471,14 +14061,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
 	  { 
          "id" : "pot_helmet", 
          "fg" : 805, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "tinfoil_hat", 
+         "fg" : 805, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "helmet_ball", 
          "fg" : 806, 
@@ -13942,6 +14539,20 @@
          "multitile" : false
       },
 	  { 
+         "id" : "sharp_rock", 
+         "fg" : 1996, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "w_table", 
+         "fg" : 1997, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "peephole", 
          "fg" : 1810, 
          "bg" : -1, 
@@ -14119,6 +14730,13 @@
 	  { 
          "id" : "towel_wet", 
          "fg" : 835, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "towel_soiled", 
+         "fg" : 2011, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -15689,6 +16307,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "advanced_electronics", 
+         "fg" : 888, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "repeater_mod_guide", 
+         "fg" : 888, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "textbook_electronics", 
          "fg" : 882, 
@@ -15892,6 +16524,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "commune_prospectus", 
+         "fg" : 890, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "necropolis_freq", 
+         "fg" : 890, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "textbook_armwest", 
          "fg" : 888, 
@@ -16003,6 +16649,11 @@
       },
 	  { 
          "id" : "holybook_bible3", 
+         "fg" : 886, 
+         "rotates" : false
+      },
+	  { 
+         "id" : "scots_cookbook", 
          "fg" : 886, 
          "rotates" : false
       },
@@ -16244,6 +16895,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "necropolis_leaflet", 
+         "fg" : 553, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "soap", 
          "fg" : 639, 
          "bg" : -1, 
@@ -16271,6 +16929,32 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  {
+            "id":"vp_atomic_light",
+			"fg":892,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
+	  {
+            "id":"vp_atomic_lamp",
+			"fg":1918,
+            "rotates":true,
+            "multitile":true,
+			"additional_tiles":
+			[
+				{
+					"id":"broken",
+					"fg":430
+				}
+			]
+		},
 	  { 
          "id" : "baseball", 
          "fg" : 893, 
@@ -16427,6 +17111,13 @@
       },
 	  { 
          "id" : "ampoule", 
+         "fg" : 1293, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "stimpack_ammo", 
          "fg" : 1293, 
          "bg" : -1, 
          "rotates" : false, 
@@ -16714,6 +17405,13 @@
       },
 	  { 
          "id" : "obi_gi", 
+         "fg" : 1398, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "blindfold", 
          "fg" : 1398, 
          "bg" : -1, 
          "rotates" : false, 
@@ -17377,7 +18075,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "soup_cullenskink", 
+         "fg" : 949, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "V8", 
          "fg" : 950, 
@@ -17391,14 +18096,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
       { 
          "id" : "broth_bone", 
          "fg" : 945, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "broth_human", 
+         "fg" : 945, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "soup_veggy", 
          "fg" : 951, 
@@ -17408,6 +18120,20 @@
       },
 	  { 
          "id" : "herbal_tea", 
+         "fg" : 951, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "plut_slurry", 
+         "fg" : 951, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "plut_slurry_dense", 
          "fg" : 951, 
          "bg" : -1, 
          "rotates" : false, 
@@ -17461,7 +18187,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "bee_balm_tea", 
+         "fg" : 952, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "wine_cabernet", 
          "fg" : 950, 
@@ -18436,6 +19169,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "raw_beans", 
+         "fg" : 1009, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "rehydrated_veggy", 
          "fg" : 1010, 
          "bg" : -1, 
@@ -18960,6 +19700,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "cooked_cattail_stalk", 
+         "fg" : 1057, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "pretzels", 
          "fg" : 1022, 
@@ -19414,7 +20161,112 @@
          "multitile" : false
       },
 	  { 
+         "id" : "seed_bee_balm", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_blackberries", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_buckwheat", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_canola", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_cranberries", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_dogbane", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_mugwort", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_raspberries", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_raw_dandelion", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_thyme", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_wild_herbs", 
+         "fg" : 1036, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "fungal_seeds", 
+         "fg" : 1103, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_mushroom", 
+         "fg" : 1103, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_mushroom_magic", 
+         "fg" : 1103, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_mushroom_morel", 
+         "fg" : 1103, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_mushroom_poison", 
          "fg" : 1103, 
          "bg" : -1, 
          "rotates" : false, 
@@ -19504,6 +20356,48 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "canola", 
+         "fg" : 1984, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cattail_rhizome", 
+         "fg" : 1672, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "dogbane", 
+         "fg" : 1986, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_rhubarb", 
+         "fg" : 1987, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "seed_veggy_wild", 
+         "fg" : 1988, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "thyme", 
+         "fg" : 1988, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "zucchini", 
          "fg" : 1039, 
@@ -19527,6 +20421,13 @@
       },
 	  { 
          "id" : "irradiated_cucumber", 
+         "fg" : 1039, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cattail_stalk", 
          "fg" : 1039, 
          "bg" : -1, 
          "rotates" : false, 
@@ -20072,6 +20973,27 @@
          "multitile" : false
       },
 	  { 
+         "id" : "stomach", 
+         "fg" : 1989, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "stomach_large", 
+         "fg" : 1989, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "stomach_boiled", 
+         "fg" : 1990, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "lard", 
          "fg" : 1065, 
          "bg" : -1, 
@@ -20154,7 +21076,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "meal_bone_tainted", 
+         "fg" : 1068, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "starch", 
+         "fg" : 1068, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "meal_chitin_piece", 
          "fg" : 1072, 
@@ -20262,6 +21198,20 @@
       },
 	  { 
          "id" : "toasterpastry", 
+         "fg" : 1047, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cloutie_dumpling", 
+         "fg" : 1047, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "haggis", 
          "fg" : 1047, 
          "bg" : -1, 
          "rotates" : false, 
@@ -20938,6 +21888,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "mugwort", 
+         "fg" : 1113, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "cherries", 
          "fg" : 1114, 
          "bg" : -1, 
@@ -21262,6 +22219,13 @@
 	  { 
          "id" : "dandelion_fried", 
          "fg" : 1773, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bee_balm", 
+         "fg" : 1983, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -21770,6 +22734,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "mugwort_oil", 
+         "fg" : 1127, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "thyme_oil", 
+         "fg" : 1127, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "veggy_pickled", 
          "fg" : 1010, 
@@ -21955,6 +22933,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "large_stomach_sealed", 
+         "fg" : 1162, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "stomach_sealed", 
+         "fg" : 1162, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "jerrycan_big", 
          "fg" : 1163, 
@@ -21996,14 +22988,77 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "banjo", 
+         "fg" : 1168, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "ukulele", 
+         "fg" : 1168, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "violin", 
+         "fg" : 1168, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "acoustic_guitar", 
+         "fg" : 1168, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "DRUM", 
          "fg" : 1169, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "violin_golden", 
+         "fg" : 2006, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "trumpet", 
+         "fg" : 2007, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "tuba", 
+         "fg" : 2007, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "saxophone", 
+         "fg" : 2008, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bagpipes", 
+         "fg" : 2009, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
         {
             "id":"wrapper",
 			"fg":132,
@@ -22173,7 +23228,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "radio_repeater_mod", 
+         "fg" : 985, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "radio_mod", 
+         "fg" : 985, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "small_lcd_screen", 
          "fg" : 1201, 
@@ -22378,6 +23447,41 @@
          "multitile" : false
       }, 
       { 
+         "id" : "software_blood_data", 
+         "fg" : 1223, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      }, 
+      { 
+         "id" : "software_hacking", 
+         "fg" : 1223, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      }, 
+      { 
+         "id" : "software_math", 
+         "fg" : 1223, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      }, 
+      { 
+         "id" : "software_medical", 
+         "fg" : 1223, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      }, 
+      { 
+         "id" : "software_useless", 
+         "fg" : 1223, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+      { 
          "id" : "pool_ball", 
          "fg" : 1224, 
          "bg" : -1, 
@@ -22453,7 +23557,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "clarinet", 
+         "fg" : 2010, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "flute", 
+         "fg" : 1308, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "log", 
          "fg" : 1230, 
@@ -22554,7 +23672,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "crude_firestarter", 
+         "fg" : 1240, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "toaster", 
          "fg" : 1241, 
@@ -22634,6 +23759,13 @@
       },
 	  { 
          "id" : "survivor_mess_kit", 
+         "fg" : 1875, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "crucible_clay", 
          "fg" : 1875, 
          "bg" : -1, 
          "rotates" : false, 
@@ -22732,6 +23864,13 @@
       },
 	  { 
          "id" : "jar_broth_bone", 
+         "fg" : 1254, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "jar_broth_human", 
          "fg" : 1254, 
          "bg" : -1, 
          "rotates" : false, 
@@ -23373,6 +24512,13 @@
       },
 	  { 
          "id" : "motor_small", 
+         "fg" : 1292, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "motor_enhanced", 
          "fg" : 1292, 
          "bg" : -1, 
          "rotates" : false, 
@@ -24272,6 +25418,13 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "folding_stock", 
+         "fg" : 671, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "nailgun", 
          "fg" : 1376, 
@@ -24337,6 +25490,20 @@
       },
 	  { 
          "id" : "surv_carbine_223", 
+         "fg" : 1378, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "garand", 
+         "fg" : 1378, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "m1903", 
          "fg" : 1378, 
          "bg" : -1, 
          "rotates" : false, 
@@ -24441,6 +25608,13 @@
          "multitile" : false
       },
 	  { 
+         "id" : "rx11_stimpack", 
+         "fg" : 1388, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
          "id" : "trex_gun", 
          "fg" : 1406, 
          "bg" : -1, 
@@ -24502,7 +25676,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "glock_22", 
+         "fg" : 1386, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "usp_9mm", 
          "fg" : 1386, 
@@ -24797,20 +25978,41 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "abzats", 
+         "fg" : 1407, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "saiga_12", 
          "fg" : 1409, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "m1918", 
+         "fg" : 1409, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "american_180", 
          "fg" : 1410, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "tommygun", 
+         "fg" : 1410, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "uzi", 
          "fg" : 1384, 
@@ -24852,7 +26054,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "sten", 
+         "fg" : 1384, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "TDI", 
          "fg" : 1417, 
@@ -24883,6 +26092,13 @@
       },
 	  { 
          "id" : "heavy_rail_rifle", 
+         "fg" : 1418, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "rm360_carbine", 
          "fg" : 1418, 
          "bg" : -1, 
          "rotates" : false, 
@@ -25168,6 +26384,20 @@
          "rotates" : false, 
          "multitile" : false
       },
+	  { 
+         "id" : "m240", 
+         "fg" : 1440, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "m60", 
+         "fg" : 1440, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "v29", 
          "fg" : 1441, 
@@ -25268,6 +26498,13 @@
       },
 	  { 
          "id" : "RPG", 
+         "fg" : 1449, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "harmonica_holder", 
          "fg" : 1449, 
          "bg" : -1, 
          "rotates" : false, 
@@ -25492,7 +26729,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "aluminum_foil", 
+         "fg" : 132, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "rock_quern", 
          "fg" : 1476, 
@@ -25552,6 +26796,13 @@
 	  { 
          "id" : "thermometer", 
          "fg" : 1914, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "screwdriver_set", 
+         "fg" : 2005, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
@@ -25723,7 +26974,21 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "gasoline_cooker", 
+         "fg" : 1492, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "oil_cooker", 
+         "fg" : 1492, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "soldering_iron", 
          "fg" : 1493, 
@@ -26437,14 +27702,98 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
 	  { 
          "id" : "broken_manhack", 
-         "fg" : 1558, 
+         "fg" : 1970, 
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "bot_c4_hack", 
+         "fg" : 1971, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bot_EMP_hack", 
+         "fg" : 1972, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bot_flashbang_hack", 
+         "fg" : 1973, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bot_gasbomb_hack", 
+         "fg" : 1974, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bot_grenade_hack", 
+         "fg" : 1975, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bot_mininuke_hack", 
+         "fg" : 1976, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "broken_c4_hack", 
+         "fg" : 1977, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "broken_EMP_hack", 
+         "fg" : 1978, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "broken_flashbang_hack", 
+         "fg" : 1979, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "broken_gasbomb_hack", 
+         "fg" : 1980, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "broken_grenade_hack", 
+         "fg" : 1981, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "broken_mininuke_hack", 
+         "fg" : 1982, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "bot_turret", 
          "fg" : 1559, 
@@ -26678,6 +28027,20 @@
       },
 	  { 
          "id" : "kukri", 
+         "fg" : 1584, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cutlass_fake", 
+         "fg" : 1584, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "cutlass", 
          "fg" : 1584, 
          "bg" : -1, 
          "rotates" : false, 
@@ -27304,7 +28667,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "primitive_adze", 
+         "fg" : 1633, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "primitive_shovel", 
          "fg" : 1634, 
@@ -27946,7 +29316,14 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
+      },
+	  { 
+         "id" : "pliers", 
+         "fg" : 1669, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
       { 
          "id" : "chisel", 
          "fg" : 1670, 
@@ -28733,6 +30110,34 @@
       },
 	  { 
          "id" : "bio_remote", 
+         "fg" : 916, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bio_advreactor", 
+         "fg" : 916, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bio_plut_filter", 
+         "fg" : 916, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bio_reactor", 
+         "fg" : 916, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  { 
+         "id" : "bio_reactor_upgrade", 
          "fg" : 916, 
          "bg" : -1, 
          "rotates" : false, 

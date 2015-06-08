@@ -573,6 +573,7 @@ void game::setup()
     clear_zombies();
     coming_to_stairs.clear();
     active_npc.clear();
+    mission_npc.clear();
     factions.clear();
     mission::clear_all();
     items_dragged.clear();
@@ -740,6 +741,22 @@ void game::load_npcs()
             active_npc.push_back(temp);
         }
     }
+}
+
+//Pulls the NPCs that were dumped into the world map on save back into mission_npcs
+void game::load_mission_npcs()
+{
+    const int radius = int(MAPSIZE / 2) - 1;
+    // uses submap coordinates
+    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
+    for( auto temp : npcs ) {
+        if (temp->companion_mission != ""){
+            mission_npc.push_back(temp);
+            overmap_buffer.hide_npc( temp->getID() );
+        }
+    }
+    active_npc.clear();
+    load_npcs();
 }
 
 void game::create_starting_npcs()
@@ -1263,7 +1280,7 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.build_map_cache( get_levz() );
+    m.build_map_cache( get_levz(), true );
     monmove();
     update_stair_monsters();
     u.process_turn();
@@ -1631,7 +1648,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         int offset_line = 0;
         int max_line = 0;
-        const std::string str = oThisItem.info(true, &vThisItem);
+        const std::string str = oThisItem.info(true, vThisItem);
         const std::string item_name = oThisItem.tname();
         WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
         WINDOW_PTR wptr( w );
@@ -1950,6 +1967,11 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
+        visibility_variables cache;
+        m.update_visibility_cache( cache, u.posz() );
+        const level_cache &map_cache = m.get_cache_ref( u.posz() );
+        const auto &visibility_cache = map_cache.visibility_cache;
+
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
@@ -1964,25 +1986,28 @@ input_context game::get_player_input(std::string &action)
 
                 //Erase previous drops from w_terrain
                 for( auto &elem : wPrint.vdrops ) {
-                    m.drawsq( w_terrain, u, tripoint( elem.first + offset_x, elem.second + offset_y, get_levz() ),
-                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
+                    const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
+                    const lit_level lighting = visibility_cache[location.x][location.y];
+                    wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                    if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                        m.drawsq( w_terrain, u, location, false, true,
+                                  u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                  lighting == LL_LOW, lighting == LL_BRIGHT );
+                    }
                 }
 
                 wPrint.vdrops.clear();
 
-                const int light_sight_range = u.sight_range( light_level() );
                 for (int i = 0; i < dropCount; i++) {
                     const int iRandX = rng(iStartX, iEndX - 1);
                     const int iRandY = rng(iStartY, iEndY - 1);
                     const int mapx = iRandX + offset_x;
                     const int mapy = iRandY + offset_y;
                     const tripoint mapp( mapx, mapy, u.posz() );
-                    const int distance = rl_dist( u.pos(), mapp );
 
-                    if( m.is_outside( mapp ) &&
-                        ( m.light_at( mapp ) > LL_LOW ||
-                          distance <= light_sight_range ) &&
-                        m.pl_sees( mapp, distance ) &&
+                    const lit_level lighting = visibility_cache[mapp.x][mapp.y];
+
+                    if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
                         !critter_at(mapp) ) {
                         // Supress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
@@ -1998,22 +2023,13 @@ input_context game::get_player_input(std::string &action)
                         //Erase previous text from w_terrain
                         if( elem.getStep() > 0 ) {
                             for( size_t i = 0; i < elem.getText().length(); ++i ) {
-                                if( u.sees( elem.getPosX() + i, elem.getPosY() ) ) {
-                                    m.drawsq( w_terrain, u,
-                                              tripoint( elem.getPosX() + i, elem.getPosY(), u.posz() + u.view_offset.z ),
-                                              false, true, u.posx() + u.view_offset.x, u.posy() + u.view_offset.y );
-                                } else {
-                                    const int iDY =
-                                        POSY + ( elem.getPosY() - ( u.posy() + u.view_offset.y ) );
-                                    const int iDX =
-                                        POSX + ( elem.getPosX() - ( u.posx() + u.view_offset.x ) );
-
-                                    if (u.has_effect("boomered")) {
-                                        mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
-
-                                    } else {
-                                        mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
-                                    }
+                                const tripoint location( elem.getPosX() + i, elem.getPosY(), get_levz() );
+                                const lit_level lighting = visibility_cache[location.x][location.y];
+                                wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                                if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                                    m.drawsq( w_terrain, u, location, false, true,
+                                              u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                              lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
                         }
@@ -2641,7 +2657,7 @@ bool game::handle_action()
             break;
 
         case ACTION_UNLOAD:
-            unload(u.weapon);
+            unload( -1 );
             break;
 
         case ACTION_THROW:
@@ -3321,6 +3337,7 @@ void game::load(std::string worldname, std::string name)
     u.load_zones(); // Load character world zones
     load_uistate(worldname);
 
+    load_mission_npcs(); // Pull mission_npcs back out of the overmap before update_map
     update_map(&u);
 
     // legacy, needs to be here as we access the map.
@@ -3376,6 +3393,14 @@ void game::load_world_modfiles(WORLDPTR world)
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
+    //Dump all of the NPCs from mission_npc into the world map to be saved
+    for( auto *elem : mission_npc ) {
+        elem->spawn_at(get_levx(), get_levy(), get_levz());
+        elem->setx(u.posx() + 3);
+        elem->sety(u.posy() + 3);
+        elem->setz( u.posz() );
+    }
+    
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
     try {
         std::ofstream fout;
@@ -3644,9 +3669,9 @@ struct terrain {
     };
 };
 
-bool game::event_queued(event_type type)
+bool game::event_queued(event_type type) const
 {
-    for( auto &e : events ) {
+    for( const auto &e : events ) {
         if( e.type == type ) {
             return true;
         }
@@ -3721,7 +3746,7 @@ void game::debug()
             }
             const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
             const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-            for( int z = minz; z < maxz; z++ ) {
+            for( int z = minz; z <= maxz; z++ ) {
                 m.clear_vehicle_cache( z );
                 m.clear_vehicle_list( z );
             }
@@ -4178,7 +4203,7 @@ void game::debug()
 
     case 24: {
 #ifdef LUA
-        std::string luacode = string_input_popup(_("Lua:"), 60, "");
+        std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
 #else
         popup( "This binary was not compiled with Lua support." );
@@ -4999,7 +5024,7 @@ void game::refresh_all()
 {
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    for( int z = minz; z < maxz; z++ ) {
+    for( int z = minz; z <= maxz; z++ ) {
         m.reset_vehicle_cache( z );
     }
 
@@ -5339,12 +5364,13 @@ void game::hallucinate( const tripoint &center )
     for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
         for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
             if( one_in(10) ) {
+                const ter_t &t = m.ter_at( p );
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                char ter_sym = terlist[m.ter( p )].sym;
+                char ter_sym = t.sym;
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                nc_color ter_col = terlist[m.ter( p )].color;
+                nc_color ter_col = t.color;
                 mvwputch(w_terrain, j, i, ter_col, ter_sym);
             }
         }
@@ -5354,39 +5380,15 @@ void game::hallucinate( const tripoint &center )
 
 float game::ground_natural_light_level() const
 {
-    float ret = (float)calendar::turn.sunlight();
-    ret += weather_data(weather).light_modifier;
-
-    return std::max(0.0f, ret);
-}
-
-float game::natural_light_level() const
-{
-    float ret = 0;
-
-    if (get_levz() >= 0) {
-        ret = (float)calendar::turn.sunlight();
-        ret += weather_data(weather).light_modifier;
-    }
-
-    return std::max(0.0f, ret);
-}
-
-unsigned char game::light_level()
-{
-    //already found the light level for now?
-    if (calendar::turn == latest_lightlevel_turn) {
+    // Already found the light level for now?
+    if( calendar::turn == latest_lightlevel_turn ) {
         return latest_lightlevel;
     }
 
-    int ret;
-    if (get_levz() < 0) { // Underground!
-        ret = 1;
-    } else {
-        ret = calendar::turn.sunlight();
-        ret -= weather_data(weather).sight_penalty;
-    }
-    for( auto &e : events ) {
+    float ret = (float)calendar::turn.sunlight();
+    ret += weather_data(weather).light_modifier;
+
+    for( const auto &e : events ) {
         // The EVENT_DIM event slowly dims the sky, then relights it
         // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it
         if( e.type == EVENT_DIM ) {
@@ -5399,16 +5401,31 @@ unsigned char game::light_level()
             break;
         }
     }
-    if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT)) {
-        ret = 8;
+    // Check whether the light level is under the threshld first because
+    // event_queued() is relatively expensive.
+    if( ret < 5.15 && event_queued(EVENT_ARTIFACT_LIGHT) ) {
+        ret = 5.15;
     }
-    if (ret < 1) {
-        ret = 1;
-    }
+
+    ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
 
     latest_lightlevel = ret;
     latest_lightlevel_turn = calendar::turn;
     return ret;
+}
+
+float game::natural_light_level() const
+{
+    if( get_levz() >= 0 ) {
+        return ground_natural_light_level();
+    }
+    return LIGHT_AMBIENT_MINIMAL;
+}
+
+unsigned char game::light_level() const
+{
+    const float light = natural_light_level();
+    return LIGHT_RANGE(light);
 }
 
 void game::reset_light_level()
@@ -5954,16 +5971,23 @@ void game::monmove()
 
 void game::do_blast( const tripoint &p, const int power, const int radius, const bool fire )
 {
+    // TODO: Rewrite this to use some sort of a flood fill, to keep it from damaging stuff
+    // on the other side of a wall and more importantly the other side of floor/ceiling
     int dam;
-    for( auto &&t : m.points_in_radius( p, radius, 0 ) ) {
+    // Arbitrarily cut z-radius by a factor of 4
+    const int z_radius = m.has_zlevels() && debug_mode ? radius / 4: 0;
+    for( auto &&t : m.points_in_radius( p, radius, z_radius ) ) {
         if( t == p ) {
             dam = 3 * power;
         } else {
             dam = 3 * power / rl_dist( p, t );
         }
         m.smash_items(t, dam);
-        m.bash( t, dam );
-        m.bash( t, dam ); // Double up for tough doors, etc.
+        // Only smash down through floors if we have 1 "extra" z-level of radius
+        // But smash up through ceilings even if we don't have that extra z-level
+        const bool smash_floors = t.z > p.z - z_radius;
+        m.bash( t, dam, false, false, nullptr, smash_floors );
+        m.bash( t, dam, false, false, nullptr, smash_floors ); // Double up for tough doors, etc.
 
         int mon_hit = mon_at(t);
         int npc_hit = npc_at(t);
@@ -5975,12 +5999,12 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
 
         int vpart;
         vehicle *veh = m.veh_at( t, vpart );
-        if (veh) {
+        if( veh != nullptr) {
             veh->damage(vpart, dam, fire ? 2 : 1, false);
         }
 
         player *n = nullptr;
-        if (npc_hit != -1) {
+        if( npc_hit != -1 ) {
             n = active_npc[npc_hit];
         } else if( u.pos() == t ) {
             add_msg(m_bad, _("You're caught in the explosion!"));
@@ -5988,7 +6012,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
         }
         if( n != nullptr ) {
             n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
-            n->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+            n->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
@@ -6031,6 +6055,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     int t1, t2;
     std::vector<tripoint> traj;
     for (int i = 0; i < shrapnel; i++) {
+        // TODO: Z-level shrapnel, but not before z-level ranged attacks
         tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
@@ -6554,7 +6579,7 @@ void game::resonance_cascade( const tripoint &p )
             case 13:
             case 14:
             case 15:
-                spawn_details = MonsterGroupManager::GetResultFromGroup("GROUP_NETHER");
+                spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
                 invader = monster( GetMType(spawn_details.name), dest );
                 add_zombie(invader);
                 break;
@@ -6805,6 +6830,71 @@ void game::rebuild_mon_at_cache()
     critter_tracker->rebuild_cache();
 }
 
+bool game::swap_critters( Creature &a, Creature &b )
+{
+    if( &a == &b ) {
+        // No need to do anything, but print a debugmsg anyway
+        debugmsg( "Tried to swap %s with itself", a.disp_name().c_str() );
+        return true;
+    }
+
+    // Simplify by "sorting" the arguments
+    // Only the first argument can be u
+    // If swapping player/npc with a monster, monster is second
+    bool a_first = a.is_player() ||
+                   ( a.is_npc() && !b.is_player() );
+    Creature &first =  a_first ? a : b;
+    Creature &second = a_first ? b : a;
+    // Possible options:
+    // both first and second are monsters
+    // second is a monster, first is a player or an npc
+    // first is a player, second is an npc
+    // both first and second are npcs
+    if( first.is_monster() ) {
+        monster *m1 = dynamic_cast< monster* >( &first );
+        monster *m2 = dynamic_cast< monster* >( &second );
+        if( m1 == nullptr || m2 == nullptr || m1 == m2 ) {
+            debugmsg( "Couldn't swap two monsters" );
+            return false;
+        }
+
+        critter_tracker->swap_positions( *m1, *m2 );
+        return true;
+    } else if( second.is_monster() ) {
+        // TODO: Remove the ugly casts when Creature::setpos exists
+        player *u_or_npc = dynamic_cast< player* >( &first );
+        monster *mon = dynamic_cast< monster* >( &second );
+        if( u_or_npc == nullptr || mon == nullptr ) {
+            debugmsg( "Couldn't swap the player or an npc with a monster" );
+            return false;
+        }
+
+        tripoint temp = mon->pos();
+        mon->setpos( u_or_npc->pos() );
+        u_or_npc->setpos( temp );
+        if( u_or_npc->is_player() ) {
+            update_map( u_or_npc );
+        }
+    } else {
+        // TODO: Also remove casts
+        player *u_or_npc = dynamic_cast< player* >( &first );
+        player *other_npc = dynamic_cast< player* >( &second );
+        if( u_or_npc == nullptr || other_npc == nullptr ) {
+            debugmsg( "Couldn't swap the player or an npc with an npc" );
+            return false;
+        }
+
+        tripoint temp = u_or_npc->pos();
+        u_or_npc->setpos( second.pos() );
+        other_npc->setpos( temp );
+        if( first.is_player() ) {
+            update_map( u_or_npc );
+        }
+    }
+
+    return true;
+}
+
 bool game::is_empty( const tripoint &p )
 {
     return ( m.move_cost( p ) > 0 || m.has_flag( "LIQUID", p ) ) &&
@@ -6979,9 +7069,9 @@ void game::close(int closex, int closey)
         // does not actually do anything.
         std::string door_name;
         if (m.has_furn(closex, closey)) {
-            door_name = furnlist[m.furn(closex, closey)].name;
+            door_name = m.furn_at(closex, closey).name;
         } else {
-            door_name = terlist[m.ter(closex, closey)].name;
+            door_name = m.ter_at(closex, closey).name;
         }
         // Print a message that we either can not close whatever is there
         // or (if we're outside) that we can only close it from the
@@ -7045,8 +7135,20 @@ void game::smash()
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     tripoint smashp;
 
-    if (!choose_adjacent(_("Smash where?"), smashp)) {
+    const bool allow_floor_bash = debug_mode; // Should later become "true"
+    if( !choose_adjacent(_("Smash where?"), smashp, allow_floor_bash ) ) {
         return;
+    }
+
+    bool smash_floor = false;
+    if( smashp.z != u.posz() ) {
+        if( smashp.z > u.posz() ) {
+            // TODO: Knock on the ceiling
+            return;
+        }
+
+        smashp.z = u.posz();
+        smash_floor = true;
     }
 
     if( m.get_field( smashp, fd_web ) != nullptr ) {
@@ -7066,7 +7168,7 @@ void game::smash()
         }
     }
 
-    didit = m.bash(smashp, smashskill).first;
+    didit = m.bash( smashp, smashskill, false, false, nullptr, smash_floor ).first;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -7260,7 +7362,7 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
     // TODO: Z
     const int &x = p.x;
     const int &y = p.y;
-    const std::string &door_name = terlist[door_type].name;
+    const std::string &door_name = door_type.obj().name;
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
     for (int i = 0; i < 20; i++) {
@@ -7873,15 +7975,15 @@ void game::examine( const tripoint &p )
         use_computer( examp );
         return;
     }
-    const furn_t *xfurn_t = &furnlist[m.furn(examp)];
-    const ter_t *xter_t = &terlist[m.ter(examp)];
+    const furn_t &xfurn_t = m.furn_at(examp);
+    const ter_t &xter_t = m.ter_at(examp);
 
     const tripoint player_pos = u.pos();
 
     if (m.has_furn(examp)) {
-        xfurn_t->examine(&u, &m, examp);
+        xfurn_t.examine(&u, &m, examp);
     } else {
-        xter_t->examine(&u, &m, examp);
+        xter_t.examine(&u, &m, examp);
     }
 
     // Did the player get moved? Bail out if so; our examp probably
@@ -7896,7 +7998,7 @@ void game::examine( const tripoint &p )
     }
 
     bool none = true;
-    if (xter_t->examine != &iexamine::none || xfurn_t->examine != &iexamine::none) {
+    if (xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none) {
         none = false;
     }
 
@@ -8555,6 +8657,9 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     const int old_levz = get_levz();
 
+    visibility_variables cache;
+    m.update_visibility_cache( cache, old_levz );
+
     do {
         if (bNewWindow) {
             werase(w_info);
@@ -8627,28 +8732,32 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
         } else {
             //Look around
-            if (u.sees(lp)) {
+            switch( m.get_visibility(m.apparent_light_at(lp, cache), cache) ) {
+            case VIS_CLEAR:
                 print_all_tile_info( lp, w_info, 1, off, false);
-
-            } else if (u.sight_impaired() &&
-                       m.light_at( lp ) == LL_BRIGHT &&
-                       rl_dist( u.pos(), lp) < u.unimpaired_range() &&
-                       m.sees( u.pos(), lp, u.unimpaired_range() ) ) {
-                if (u.has_effect("boomered")) {
-                    mvwputch_inv(w_terrain, POSY + (ly - u.posy()), POSX + (lx - u.posx()), c_pink, '#');
-
-                } else if (u.has_effect("darkness")) {
-                    mvwputch_inv(w_terrain, POSY + (ly - u.posy()), POSX + (lx - u.posx()), c_dkgray, '#');
-
-                } else {
-                    mvwputch_inv(w_terrain, POSY + (ly - u.posy()), POSX + (lx - u.posx()), c_ltgray, '#');
-                }
-
+                break;
+            case VIS_BOOMER:
+                mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
+                //~ Describing what you can see when you're boomered.
+                mvwprintw(w_info, 1, 1, _("A bright pink blur."));
+                break;
+            case VIS_BOOMER_DARK:
+                mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
+                //~ Describing what you can see when you're boomered.
+                mvwprintw(w_info, 1, 1, _("A pink blur."));
+                break;
+            case VIS_DARK:
+                mvwputch_inv(w_terrain, POSY, POSX, c_dkgray, '#');
+                mvwprintw(w_info, 1, 1, _("Darkness."));
+                break;
+            case VIS_LIT:
+                mvwputch_inv(w_terrain, POSY, POSX, c_ltgray, '#');
                 mvwprintw(w_info, 1, 1, _("Bright light."));
-
-            } else {
+                break;
+            case VIS_HIDDEN:
                 mvwputch(w_terrain, POSY, POSX, c_white, 'x');
                 mvwprintw(w_info, 1, 1, _("Unseen."));
+                break;
             }
 
             if (fast_scroll) {
@@ -8673,8 +8782,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
                     auto zlev_sound = sounds::sound_at( tmp );
                     if( !zlev_sound.empty() ) {
-                        mvwprintw( w_info, ++off, 1,
-                                   tmp.z > lp.z ?  _("You heard %s from above.") : _("You heard %s from below."),
+                        mvwprintw( w_info, ++off, 1, tmp.z > lp.z ?
+                                   _("You heard %s from above.") : _("You heard %s from below."),
                                    zlev_sound.c_str() );
                     }
                 }
@@ -9222,7 +9331,20 @@ int game::list_items(const int iLastState)
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
 
-    bool sort_radius = true;
+    bool sort_radius;
+    bool addcategory;
+
+    // use previously selected sorting method
+    if (uistate.list_item_sort == 1) {
+        sort_radius = true;
+        addcategory = false;
+    } else if (uistate.list_item_sort == 2) {
+        sort_radius = false;
+        addcategory = true;
+    } else { // default state after start
+	sort_radius = true;
+	addcategory = false;
+    }
 
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items_radius = find_nearby_items(iRadius);
@@ -9250,7 +9372,6 @@ int game::list_items(const int iLastState)
     tripoint iLastActive = tripoint_min;
     bool reset = true;
     bool refilter = true;
-    bool addcategory = false;
     int page_num = 0;
     int iCatSortNum = 0;
     map_item_stack *activeItem = NULL;
@@ -9297,7 +9418,7 @@ int game::list_items(const int iLastState)
             } else if (action == "EXAMINE" && filtered_items.size()) {
                 std::vector<iteminfo> vThisItem, vDummy;
 
-                activeItem->example->info(true, &vThisItem);
+                activeItem->example->info(true, vThisItem);
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
                                activeItem->example->tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
@@ -9321,11 +9442,11 @@ int game::list_items(const int iLastState)
                     sort_radius = false;
                     addcategory = true;
                     std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
-
+                    uistate.list_item_sort = 2; // list is sorted by category
                 } else {
                     sort_radius = true;
-
                     ground_items = ground_items_radius;
+                    uistate.list_item_sort = 1; // list is sorted by distance
                 }
 
                 highPEnd = -1;
@@ -9335,8 +9456,15 @@ int game::list_items(const int iLastState)
                 mSortCategory.clear();
                 refilter = true;
                 reset = true;
+                    
             }
 
+            if ( uistate.list_item_sort == 1 ) {
+                ground_items = ground_items_radius;
+            } else if ( uistate.list_item_sort == 2 ) {
+                std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
+            }
+                    
             if (refilter) {
                 refilter = false;
 
@@ -9494,7 +9622,7 @@ int game::list_items(const int iLastState)
                             int numw = iItemNum > 9 ? 2 : 1;
                             mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                       ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                      numw, trig_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
+                                      numw, square_dist(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y),
                                       direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].pos.x, iter->vIG[iThisPage].pos.y)).c_str()
                                      );
                         }
@@ -9524,7 +9652,7 @@ int game::list_items(const int iLastState)
 
                 if ( iItemNum > 0 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
-                    activeItem->example->info(true, &vThisItem);
+                    activeItem->example->info(true, vThisItem);
 
                     draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
@@ -9726,7 +9854,7 @@ int game::list_monsters(const int iLastState)
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, y, width - (6 + numw),
                                   (selected ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, critter->posx() - u.posx(),
+                                  numw, square_dist(0, 0, critter->posx() - u.posx(),
                                                   critter->posy() - u.posy()),
                                   direction_name_short(
                                       direction_from( 0, 0, critter->posx() - u.posx(),
@@ -10533,129 +10661,143 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    if (!u.weapon.is_gun()) {
+    if( !u.weapon.is_gun() && !u.weapon.has_flag( "REACH_ATTACK" ) ) {
         return;
     }
     if( u.weapon.is_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
-    //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-    //should be fine to place this here, plfire(true,*) only once in code
-    if (burst && !u.weapon.has_flag("MODE_BURST")) {
-        return;
-    }
+    // Execute reach attack (instead of shooting) if our weapon can reach and
+    // either we're not using a gun or using a gun set to use a non-gun gunmod
+    bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) &&
+                        ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos3());
     if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
-    if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
-        if( u.weapon.activate_charger_gun( u ) ) {
+
+    if( !reach_attack ) {
+        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
+        //should be fine to place this here, plfire(true,*) only once in code
+        if (burst && !u.weapon.has_flag("MODE_BURST")) {
             return;
         }
-    }
 
-    if (u.weapon.has_flag("NO_AMMO")) {
-        u.weapon.charges = 1;
-        u.weapon.set_curammo( "generic_no_ammo" );
-    }
+        if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
+            if( u.weapon.activate_charger_gun( u ) ) {
+                return;
+            }
+        }
 
-    if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
-        (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
-        (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
-        add_msg(m_info, _("You're not strong enough to draw the bow!"));
-        return;
-    }
+        if( u.weapon.has_flag("NO_AMMO") ) {
+            u.weapon.charges = 1;
+            u.weapon.set_curammo( "generic_no_ammo" );
+        }
 
-    if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-        const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-        if (reload_pos == INT_MIN) {
-            add_msg(m_info, _("Out of ammo!"));
+        if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
+            (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
+            (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
+            add_msg(m_info, _("You're not strong enough to draw the bow!"));
             return;
-        }else if (reload_pos == INT_MIN + 2) {
-            add_msg(m_info, _("Never mind."));
+        }
+
+        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
+            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
+            if( reload_pos == INT_MIN ) {
+                add_msg(m_info, _("Out of ammo!"));
+                return;
+            } else if( reload_pos == INT_MIN + 2 ) {
+                add_msg(m_info, _("Never mind."));
+                refresh_all();
+                return;
+            }
+
+            if( !u.weapon.reload( u, reload_pos ) ) {
+                return;
+            }
+
+            // Burn 2x the strength required to fire in stamina.
+            int strength_needed = 6;
+            if (u.weapon.has_flag("STR8_DRAW")) {
+                strength_needed = 8;
+            }
+            if (u.weapon.has_flag("STR10_DRAW")) {
+                strength_needed = 10;
+            }
+            if (u.weapon.has_flag("STR12_DRAW")) {
+                strength_needed = 12;
+            }
+            u.mod_stat("stamina", strength_needed * -2);
+
+            // At low stamina levels, firing starts getting slow.
+            int sta_percent = (100 * u.stamina) / u.get_stamina_max();
+            u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+
+            u.moves -= u.weapon.reload_time(u);
             refresh_all();
+        }
+
+        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
+            !u.weapon.has_flag("NO_AMMO") ) {
+            add_msg(m_info, _("You need to reload!"));
             return;
         }
-
-        if( !u.weapon.reload( u, reload_pos ) ) {
+        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
+            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
             return;
         }
-
-        // Burn 2x the strength required to fire in stamina.
-        int strength_needed = 6;
-        if (u.weapon.has_flag("STR8_DRAW")) {
-            strength_needed = 8;
-        }
-        if (u.weapon.has_flag("STR10_DRAW")) {
-            strength_needed = 10;
-        }
-        if (u.weapon.has_flag("STR12_DRAW")) {
-            strength_needed = 12;
-        }
-        u.mod_stat("stamina", strength_needed * -2);
-
-        // At low stamina levels, firing starts getting slow.
-        int sta_percent = (100 * u.stamina) / u.get_stamina_max();
-        u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
-
-        u.moves -= u.weapon.reload_time(u);
-        refresh_all();
-    }
-
-    if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-        !u.weapon.has_flag("NO_AMMO")) {
-        add_msg(m_info, _("You need to reload!"));
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-        add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-        add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-        add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-        return;
-    }
-    const auto gun = u.weapon.type->gun.get();
-    if( gun != nullptr && gun->ups_charges > 0 ) {
-        const int ups_drain = gun->ups_charges;
-        const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
-        const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
-        if( !( u.has_charges( "UPS_off", ups_drain ) ||
-               u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-               (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
-            add_msg( m_info,
-                     _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
-                     ups_drain, adv_ups_drain );
+        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
+            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
             return;
         }
-    }
-
-    if (u.weapon.has_flag("MOUNTED_GUN")) {
-        int vpart = -1;
-        vehicle *veh = m.veh_at(u.pos3(), vpart);
-        if (!m.has_flag_ter_or_furn("MOUNTABLE", u.pos()) &&
-            (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
-            add_msg(m_info,
-                    _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
+            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
             return;
+        }
+        const auto gun = u.weapon.type->gun.get();
+        if( gun != nullptr && gun->ups_charges > 0 ) {
+            const int ups_drain = gun->ups_charges;
+            const int adv_ups_drain = std::min( 1, gun->ups_charges * 3 / 5 );
+            const int bio_power_drain = std::min( 1, gun->ups_charges / 5 );
+            if( !( u.has_charges( "UPS_off", ups_drain ) ||
+                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                   (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                add_msg( m_info,
+                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         ups_drain, adv_ups_drain );
+                return;
+            }
+        }
+
+        if (u.weapon.has_flag("MOUNTED_GUN")) {
+            int vpart = -1;
+            vehicle *veh = m.veh_at( u.pos3(), vpart );
+            if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos3() ) &&
+                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+                add_msg(m_info,
+                        _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
+                return;
+            }
         }
     }
 
-    int range = u.weapon.gun_range(&u);
+    int range;
+    if( reach_attack ) {
+        range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+    } else {
+        range = u.weapon.gun_range( &u );
+    }
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos3() );
 
     tripoint p = u.pos3();
 
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_FIRE,
+    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode,
                                                      default_target );
 
     if (trajectory.empty()) {
@@ -10674,9 +10816,13 @@ void game::plfire( bool burst, const tripoint &default_target )
         burst = true;
     }
 
-    u.fire_gun( p, burst );
+    if( reach_attack ) {
+        u.reach_attack( p );
+    } else {
+        u.fire_gun( p, burst );
+    }
+
     reenter_fullscreen();
-    //fire(u, x, y, trajectory, burst);
 }
 
 void game::cycle_item_mode( bool force_gun )
@@ -11075,24 +11221,32 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
-    // this is necessary to prevent re-selection of the same item later
-    item it = (u.inv.remove_item(pos));
-    if (!it.is_null()) {
-        unload(it);
-        u.i_add(it);
-    } else {
-        item ite;
-        if (pos == -1) { // item is wielded as weapon.
-            ite = u.weapon;
-            u.weapon = item("null", 0); //ret_null;
-            unload(ite);
-            u.weapon = ite;
+    item &itm = u.i_at( pos );
+    if( !itm.is_null() ) {
+        unload( itm );
+    } else if( pos == -1 || pos == INT_MIN ) {
+        // Empty hands and unloading the weapon
+        // or explicitly requested unload item menu
+        auto filter = [&]( const item &it ) {
+            return u.rate_action_unload( it ) == HINT_GOOD;
+        };
+
+        auto pr = inv_map_splice( filter, _("Unload item:") );
+        if( pr.second == nullptr ) {
+            add_msg( _("Never mind.") );
             return;
-        } else { //this is that opportunity for reselection where the original container is worn, see issue #808
-            item &itm = u.i_at(pos);
-            if (!itm.is_null()) {
-                unload(itm);
-            }
+        }
+
+        // TODO: Wrap it nicely into a player function
+        if( pr.first == -1 ) {
+            // Shouldn't happen
+            return;
+        } else if( pr.first != INT_MIN ) {
+            // In the inventory
+            unload( pr.first );
+        } else {
+            // Off the ground
+            unload( *pr.second );
         }
     }
 }
@@ -11487,10 +11641,6 @@ bool game::plmove(int dx, int dy)
         }
         return false;
     }
-    if (!u.move_effects()) {
-        u.moves -= 100;
-        return false;
-    }
 
     int x = 0;
     int y = 0;
@@ -11537,9 +11687,21 @@ bool game::plmove(int dx, int dy)
         return false;
     }
 
-    // Check if our movement is actually an attack on a monster
+    // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at(dest_loc);
+    int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?  If it's vermin, always.
+
+    bool attacking = false;
+    if (mondex != -1 || npcdex != -1){
+        attacking = true;
+    }
+
+    if (!u.move_effects(attacking)) {
+        u.moves -= 100;
+        return false;
+    }
+
     bool displace = false;
     if (mondex != -1) {
         monster &critter = zombie(mondex);
@@ -11574,7 +11736,6 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    int npcdex = npc_at( dest_loc );
     if (npcdex != -1) {
         npc &np = *active_npc[npcdex];
         bool force_attack = false;
@@ -11712,7 +11873,8 @@ bool game::plmove(int dx, int dy)
                 dangerous = cur.is_dangerous();
                 break;
             }
-            if( dangerous && !u.has_trait( "DEBUG_NODMG" ) && !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
+            if( dangerous && !u.has_trait( "DEBUG_NODMG" ) &&
+                !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
                 return false;
             }
         }
@@ -12423,102 +12585,84 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     int steps = 0;
     const bool is_u = (c == &u);
-    int dam1, dam2;
 
     player *p = dynamic_cast<player*>(c);
-    monster *zz = dynamic_cast<monster*>(c);
 
     tileray tdir(dir);
     int range = flvel / 10;
     tripoint pt = c->pos();
     while (range > 0) {
         c->underwater = false;
+        // TODO: Check whenever it is actually in the viewport
+        // or maybe even just redraw the changed tiles
         bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        std::string dname;
         bool thru = true;
-        bool slam = false;
         int mondex = mon_at( pt );
-        float previous_velocity = flvel;
-        monster *critter = nullptr;
+        float force = 0;
 
-        dam1 = rng( flvel, flvel * 2.0 ) / 3;
-        if (controlled) {
-            dam1 = std::max((dam1 / 2) - 5, 0);
-        }
         if( mondex >= 0 ) {
-            critter = &zombie(mondex);
-            slam = true;
-            dname = critter->name();
-            dam2 = rng( flvel, flvel * 2.0 );
-            critter->apply_damage( c, bp_torso, dam2 );
-            critter->check_dead_state();
-            if( !critter->is_dead() ) {
+            monster &critter = zombie( mondex );
+            // Approximate critter's "stopping power" with its max hp
+            force = std::min<float>( 1.5f * critter.type->hp, flvel );
+            const int damage = rng( force, force * 2.0f ) / 6;
+            c->impact( damage, pt );
+            // Multiply zed damage by 6 because no body parts
+            const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            critter.apply_damage( c, bp_torso, zed_damage );
+            critter.check_dead_state();
+            if( !critter.is_dead() ) {
                 thru = false;
-                // NOTE: The inverse is not true!
-                // Even if we killed the former occupant of the tile,
-                // it isn't necessarily free (due to creature-spawning mondeath).
             }
-        } else if (m.move_cost( pt ) == 0) {
-            slam = true;
-            int vpart;
-            vehicle *veh = m.veh_at( pt, vpart );
-            dname = veh ? veh->part_info(vpart).name : m.tername( pt );
-            if (m.is_bashable( pt )) {
-                // Only go through if we successfully destroy what we hit
-                thru = m.bash( pt, flvel ).second;
+        } else if( m.move_cost( pt ) == 0 ) {
+            int part = -1;
+            vehicle *veh = m.veh_at( pt, part );
+            if( veh != nullptr ) {
+                part = veh->obstacle_at_part( part );
+                if( part == -1 ) {
+                    force = std::min<float>( m.bash_strength( pt ), flvel );
+                } else {
+                    // No good way of limiting force here
+                    // Keep it 1 less than maximum to make the impact hurt
+                    // but to keep the target flying after it
+                    force = flvel - 1;
+                }
+            } else {
+                force = std::min<float>( m.bash_strength( pt ), flvel );
+            }
+            const int damage = rng( force, force * 2.0f ) / 9;
+            c->impact( damage, pt );
+            if( m.is_bashable( pt ) ) {
+                // Only go through if we successfully make the tile passable
+                m.bash( pt, flvel );
+                thru = m.move_cost( pt ) != 0;
             } else {
                 thru = false;
             }
         }
-        if( slam ) {
-            if( thru ) {
-                flvel /= 2.0;
-            } else {
-                flvel = 0.0;
-            }
-            float velocity_difference = previous_velocity - flvel;
-            dam1 = rng( velocity_difference, velocity_difference * 2.0 ) / 3;
-            int damage_taken = 0;
-            if( p != nullptr ) {
-                damage_taken = p->hitall(dam1, 40, critter);
-            } else {
-                zz->apply_damage( critter, bp_torso, dam1 );
-                zz->check_dead_state();
-            }
-            if( thru ) {
-                c->add_msg_player_or_npc( _("You are slammed through the %s for %d damage!"),
-                                          _("The <npcname> is slammed through the %s!"),
-                                          dname.c_str(), damage_taken );
-            } else {
-                c->add_msg_player_or_npc( _("You are slammed against the %s for %d damage!"),
-                                          _("The <npcname> is slammed against the %s!"),
-                                          dname.c_str(), damage_taken );
-            }
-        }
+
+        flvel -= force;
         if( thru ) {
             if( p != nullptr ) {
                 // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
-                    pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                if( is_u ) {
                     update_map( pt.x, pt.y );
                 }
-                if (p->in_vehicle) {
-                    m.unboard_vehicle(p->pos());
+                if( p->in_vehicle ) {
+                    m.unboard_vehicle( p->pos() );
                 }
                 p->setpos( pt );
             } else if( mon_at( pt ) < 0 ) {
-                // We have to handle the rare case where monster lands on a fungus/blob
-                // and can't occupy the new location because the dead parent spawned
-                // new monsters that occupy it.
-                zz->setpos( pt );
-            } else {
-                // TODO: Handle it nicely (retry) instead of bailing out
-                break;
+                // Dying monster doesn't always leave an empty tile (blob spawning etc.)
+                // Just don't setpos if it happens - next iteration will do so
+                // or the monster will stop a tile before the unpassable one
+                c->setpos( pt );
             }
         } else {
+            // Don't zero flvel - count this as slamming both the obstacle and the ground
+            // although at lower velocity
             break;
         }
         range--;
@@ -12528,32 +12672,17 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
     }
 
-    if (!m.has_flag("SWIMMABLE", pt)) {
-        // fall on ground
-        dam1 = rng( flvel, flvel * 2.0 ) / 6;
-        if (controlled) {
-            dam1 = std::max(dam1 / 2 - 5, 0);
+    // Fall down to the ground - always on the last reached tile
+    if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
+        // Fall on ground
+        int force = rng( flvel, flvel * 2 ) / 9;
+        if( controlled ) {
+            force = std::max( force / 2 - 5, 0 );
         }
-        int damage_taken = 0;
-        if( p != nullptr ) {
-            int dex_reduce = p->dex_cur < 4 ? 4 : p->dex_cur;
-            dam1 = dam1 * 8 / dex_reduce;
-            if (p->has_trait("PARKOUR")) {
-                dam1 /= 2;
-            }
-            if (dam1 > 0) {
-                damage_taken = p->hitall(dam1, 40, nullptr);
-            }
-        } else {
-            zz->apply_damage( nullptr, bp_torso, dam1 );
-            zz->check_dead_state();
-        }
-        if( is_u ) {
-            if( damage_taken > 0 ) {
-                add_msg(m_bad, _("You fall on the ground for %d damage."), damage_taken);
-            } else if( !controlled ) {
-                add_msg(_("You land on the ground."));
-            }
+        if( force > 0 ) {
+            int dmg = c->impact( force, c->pos() );
+            // TODO: Make landing damage the floor
+            m.bash( c->pos(), dmg / 4, false, false, nullptr, false );
         }
     } else {
         c->underwater = true;
@@ -12675,23 +12804,22 @@ void game::vertical_move(int movez, bool force)
     }
 
     // Find the corresponding staircase
-    int stairx = -1, stairy = -1;
     bool rope_ladder = false;
 
-    const int omtilesz=SEEX * 2;
+    const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
     point omtile_align_start(
         m.getlocal(rc.begin_om_pos())
     );
 
+    tripoint stairs( -1, -1, z_after );
     bool actually_moved = true;
     if (force) {
-        stairx = u.posx();
-        stairy = u.posy();
+        stairs = u.pos();
+        stairs.z = z_after;
     } else { // We need to find the stairs.
+        tripoint dest( -1, -1, z_after );
         int best = 999;
-        bool danger_lava = false;
-        tripoint dest( 0, 0, z_after );
         int &i = dest.x;
         int &j = dest.y;
         for( i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++ ) {
@@ -12701,23 +12829,26 @@ void game::vertical_move(int movez, bool force)
                      (movez == 1 && (maybetmp.has_flag("GOES_DOWN", dest) ||
                                      maybetmp.ter(dest) == t_manhole_cover)) ||
                      ((movez == 2 || movez == -2) && maybetmp.ter(dest) == t_elevator))) {
-                    stairx = i;
-                    stairy = j;
+                    stairs = dest;
                     best = rl_dist(u.pos(), dest);
-                }
-                // Magic number used as double-shifting "best" added a bit of lag
-                if (rl_dist(u.pos(), dest) <= 3 && (maybetmp.ter(dest) == t_lava)) {
-                    danger_lava = true;
                 }
             }
         }
 
-        if (danger_lava && !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-            actually_moved = false;
-        }
-        if (stairx == -1 || stairy == -1) { // No stairs found!
-            if (movez < 0) {
-                if (maybetmp.move_cost(u.pos()) == 0) {
+        if( stairs.x == -1 || stairs.y == -1 ) { // No stairs found!
+            stairs = u.pos();
+            stairs.z = z_after;
+            // Check the destination area for lava.
+            if( maybetmp.ter(stairs) == t_lava ){
+                if( movez < 0 &&
+                    !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+                    actually_moved = false;
+                } else if( movez > 0 &&
+                           !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+                    actually_moved = false;
+                }
+            } else if (movez < 0) {
+                if (maybetmp.move_cost(stairs) == 0) {
                     popup(_("Halfway down, the way down becomes blocked off."));
                     actually_moved = false;
                 } else if (u.has_trait("WEB_RAPPEL")) {
@@ -12777,8 +12908,6 @@ void game::vertical_move(int movez, bool force)
                     actually_moved = false;
                 }
             }
-            stairx = u.posx();
-            stairy = u.posy();
         }
     }
 
@@ -12864,15 +12993,13 @@ void game::vertical_move(int movez, bool force)
         m.load( get_levx(), get_levy(), z_after, true );
     }
 
-    u.setx( stairx );
-    u.sety( stairy );
-    u.setz( get_levz() );
+    u.setpos( stairs );
     if (rope_ladder) {
         m.ter_set(u.pos(), t_rope_up);
     }
-    if (m.ter(stairx, stairy) == t_manhole_cover) {
-        m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover");
-        m.ter_set(stairx, stairy, t_manhole);
+    if (m.ter(stairs.x, stairs.y) == t_manhole_cover) {
+        m.spawn_item(stairs.x + rng(-1, 1), stairs.y + rng(-1, 1), "manhole_cover");
+        m.ter_set(stairs.x, stairs.y, t_manhole);
     }
 
     m.spawn_monsters( true );
@@ -12935,13 +13062,16 @@ void game::update_map(int &x, int &y)
         shifty++;
     }
 
+    if( shiftx == 0 && shifty == 0 ) {
+        // Not actually shifting, all the stuff below would do nothing
+        return;
+    }
+
     m.shift( shiftx, shifty );
 
-    // Shift monsters if we're actually shifting
-    if (shiftx || shifty) {
-        shift_monsters( shiftx, shifty, 0 );
-        u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
-    }
+    // Shift monsters
+    shift_monsters( shiftx, shifty, 0 );
+    u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
 
     // Shift NPCs
     for (std::vector<npc *>::iterator it = active_npc.begin();
@@ -13151,7 +13281,7 @@ void game::update_stair_monsters()
             const int creature_push_attempts = 9;
             const int player_throw_resist_chance = 3;
 
-            critter.setpos( {mposx, mposy, get_levz()}, true );
+            critter.spawn( tripoint(mposx, mposy, get_levz()) );
             while (tries < creature_push_attempts) {
                 tries++;
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
@@ -13200,7 +13330,7 @@ void game::update_stair_monsters()
         } else if( mon_at( {mposx, mposy, get_levz()} ) != -1) {
             // Monster attempts to displace a monster from the stairs
             monster &other = critter_tracker->find( mon_at({mposx, mposy, get_levz()}) );
-            critter.setpos( {mposx, mposy, get_levz()}, true );
+            critter.spawn( tripoint(mposx, mposy, get_levz()) );
 
             // the critter is now right on top of another and will push it
             // if it can find a square to push it into inside of his tries.
@@ -13221,7 +13351,7 @@ void game::update_stair_monsters()
                     continue;
                 }
                 if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
-                    other.setpos( {iposx, iposy, get_levz()} );
+                    other.spawn( tripoint(iposx, iposy, get_levz()) );
                     other.moves -= 50;
                     std::string msg = "";
                     if (one_in(creature_throw_resist)) {
@@ -13536,12 +13666,12 @@ bool game::spread_fungus( const tripoint &p )
                 converted = true;
             }
         } else if (m.has_flag("FLAT", x, y)) {
-            if (m.has_flag("INDOORS", x, y)) {
+            if( m.has_flag( TFLAG_INDOORS, x, y ) ) {
                 if (x_in_y(growth * 10, 500)) {
                     m.ter_set(x, y, t_fungus_floor_in);
                     converted = true;
                 }
-            } else if (m.has_flag("SUPPORTS_ROOF", x, y)) {
+            } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, x, y ) ) {
                 if (x_in_y(growth * 10, 1000)) {
                     m.ter_set(x, y, t_fungus_floor_sup);
                     converted = true;
@@ -13606,12 +13736,12 @@ bool game::spread_fungus( const tripoint &p )
                         m.ter_set(i, j, t_fungus);
                         converted = true;
                     } else if (m.has_flag("FLAT", i, j)) {
-                        if (m.has_flag("INDOORS", i, j)) {
+                        if( m.has_flag( TFLAG_INDOORS, i, j ) ) {
                             if (one_in(5)) {
                                 m.ter_set(i, j, t_fungus_floor_in);
                                 converted = true;
                             }
-                        } else if (m.has_flag("SUPPORTS_ROOF", i, j)) {
+                        } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, i, j ) ) {
                             if (one_in(10)) {
                                 m.ter_set(i, j, t_fungus_floor_sup);
                                 converted = true;

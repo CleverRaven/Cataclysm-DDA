@@ -1,0 +1,93 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "office_cubical"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "           ss           ",
+                " |-wwww-|  ss  |-wwww-| ",
+                " |......|$$ss$$|...h.o| ",
+                " |.htth.|--++--|..xd.o| ",
+                " |.htth.|......|.....o| ",
+                " |.htth.+......+..hhh^| ",
+                " |.htth.|......|---|--| ",
+                " |......|..cccc|T..|.l| ",
+                " |------|..ch..|S..|..| ",
+                " |^.....+......|-+-|+-| ",
+                " |..hc.h|..----|V....S| ",
+                " |.cdx.n|......+.....e| ",
+                " |------|......-------| ",
+                " |ch................hd| ",
+                " |xdc|....clcc^...|ccx| ",
+                " |---|..|------|..|---| ",
+                " |.h....|xcccxd|....hc| ",
+                " |cdx|..|dh..h....|ldx| ",
+                " |---|..|------|..|---| ",
+                " |dh......h..h.|....h.| ",
+                " |cxc|^.|lxccdx|..|xdc| ",
+                " |---|--|------|D-|---| ",
+                "              ^sss^     ",
+                "               sss      "
+            ],
+            "terrain": {
+                " ": [ "t_grass", "t_grass", "t_dirt" ],
+                "x": "t_console_broken",
+                "$": "t_shrub",
+                "|": "t_wall",
+                "-": "t_wall",
+                "+": "t_door_c",
+                "D": "t_door_locked",
+                "w": "t_window",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "#": "f_bench",
+                "t": "f_table",
+                "^": "f_indoor_plant",
+                "o": "f_bookcase",
+                "h": "f_chair",
+                "c": "f_counter",
+                "d": "f_desk",
+                "l": "f_locker",
+                "n": "f_safe_l"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "vendingmachines": {
+                "V": { }
+            },
+            "vehicles": {
+                ".": { "vehicle": "swivel_chair", "status": 0, "chance": 1 }
+            },
+            "mapping": {
+                "S": {
+                    "items": { "item": "fridge", "chance": 50 },
+                    "furniture": "f_sink"
+                },
+                "e": {
+                    "items": { "item": "fridge", "chance": 50 },
+                    "furniture": "f_fridge"
+                }
+            },
+            "place_items": [
+                { "x": 21, "y": [10,11], "item": "fridge", "chance": 50, "repeat": 1 },
+                { "x": [20,21], "y": [7,8], "item": "cleaning", "chance": 50, "repeat": 1 },
+                { "x": [10,12], "y": 16, "item": "office", "chance": 80, "repeat": 1 },
+                { "x": [11,13], "y": 20, "item": "office", "chance": 80, "repeat": 1 },
+                { "x": [20,21], "y": 20, "item": "cubical_office", "chance": 60, "repeat": 1 },
+                { "x": [19,20], "y": 17, "item": "cubical_office", "chance": 60, "repeat": 1 },
+                { "x": [19,20], "y": 14, "item": "cubical_office", "chance": 60, "repeat": 1 },
+                { "x": 2, "y": [19,20], "item": "cubical_office", "chance": 60, "repeat": 1 },
+                { "x": [2,3], "y": 17, "item": "cubical_office", "chance": 60, "repeat": 1 },
+                { "x": [3,4], "y": 14, "item": "cubical_office", "chance": 60, "repeat": 1 },
+                { "x": [4,5], "y": [3,6], "item": "novels", "chance": 70, "repeat": 1 }
+            ]
+        }
+    }
+]

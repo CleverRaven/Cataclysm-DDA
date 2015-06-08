@@ -379,8 +379,12 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             healall( rng(dam / 10, dam / 5) );
         }
 
-        message = melee_message( technique, *this, dealt_dam );
-        player_hit_message(this, message, t, dam, critical_hit);
+        if( g->u.sees( t ) ) {
+            message = melee_message( technique, *this, dealt_dam );
+            player_hit_message( this, message, t, dam, critical_hit );
+        } else {
+            add_msg_player_or_npc( m_good, _("You hit something."), _("<npcname> hits something.") );
+        }
 
         if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
@@ -389,11 +393,13 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.check_dead_state();
     }
 
-    int melee = get_skill_level("melee");
-    int mod_sta = ( (weapon.weight() / (12 * str_cur) ) - melee + 20) * -1;
+    const int melee = get_skill_level("melee");
+    const int weight_cost = weapon.weight() / ( 12 * str_cur );
+    const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5;
+    const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
     mod_stat("stamina", mod_sta);
-    int sta_percent = (100 * stamina) / get_stamina_max();
-    int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
+    const int sta_percent = (100 * stamina) / get_stamina_max();
+    const int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
     move_cost += mod_mc;
 
     mod_moves(-move_cost);
@@ -402,6 +408,56 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
     return;
+}
+
+void player::reach_attack( const tripoint &p )
+{
+    matec_id force_technique = tec_none;
+    if( weapon.has_flag( "WHIP" ) && ( skillLevel( "melee" ) > 5) && one_in( 3 ) ) {
+        force_technique = matec_id( "WHIP_DISARM" );
+    }
+
+    Creature *critter = g->critter_at( p );
+    // Original target size, used when there are monsters in front of our target
+    int target_size = critter != nullptr ? critter->get_size() : 2;
+
+    int move_cost = attack_speed( *this );
+    int skill = std::min( 10, (int)get_skill_level("stabbing") );
+    int t = 0;
+    std::vector<tripoint> path = line_to( pos3(), p, t, 0 );
+    path.pop_back(); // Last point is our critter
+    for( const tripoint &p : path ) {
+        // Possibly hit some unintended target instead
+        Creature *inter = g->critter_at( p );
+        if( inter != nullptr && 
+              !x_in_y( ( target_size * target_size + 1 ) * skill, 
+                       ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
+            // Even if we miss here, low roll means weapon is pushed away or something like that
+            critter = inter;
+            break;
+        } else if( g->m.move_cost( p ) == 0 &&
+                   // Fences etc. Spears can stab through those
+                     !( weapon.has_flag( "SPEAR" ) && 
+                        g->m.has_flag( "THIN_OBSTACLE", p ) && 
+                        x_in_y( skill, 10 ) ) ) {
+            g->m.bash( p, str_cur + weapon.type->melee_dam );
+            handle_melee_wear();
+            mod_moves( -move_cost );
+            return;
+        }
+    }
+
+    if( critter == nullptr ) {
+        add_msg_if_player( _("You swing at the air.") );
+        if( has_miss_recovery_tec() ) {
+            move_cost /= 3; // "Probing" is faster than a regular miss
+        }
+
+        mod_moves( -move_cost );
+        return;
+    }
+
+    melee_attack( *critter, !force_technique.str().empty(), force_technique );
 }
 
 int stumble(player &u)
@@ -593,23 +649,37 @@ int player::dodge_roll()
 
 int player::base_damage(bool real_life, int stat)
 {
- if (stat == -999)
-  stat = (real_life ? str_cur : str_max);
- int dam = (real_life ? rng(0, stat / 2) : stat / 2);
-// Bonus for statong characters
- if (stat > 10)
-  dam += int((stat - 9) / 2);
-// Big bonus for super-human characters
- if (stat > 20)
-  dam += int((stat - 20) * 1.5);
+    int dam = 0;
+    if( real_life ) {
+        if (stat == -999) {
+            stat = get_str();
+        }
 
- return dam;
+        dam += rng(0, stat / 2);
+    } else {
+        if (stat == -999) {
+            stat = str_max;
+        }
+
+        dam += stat / 2;
+    }
+
+    // Bonus for strong characters
+    if( stat > 10 ) {
+        dam += int( (stat - 9) / 2 );
+    }
+    // Big bonus for super-human characters
+    if (stat > 20) {
+        dam += int( (stat - 20) * 1.5 );
+    }
+
+    return dam;
 }
 
 void player::roll_bash_damage( bool crit, damage_instance &di )
 {
     int bash_dam = 0;
-    int stat = str_cur; // Which stat determines damage?
+    int stat = get_str();
 
     int bashing_skill = get_skill_level("bashing");
     int unarmed_skill = get_skill_level("unarmed");
@@ -619,14 +689,14 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
         unarmed_skill = 5;
     }
 
-    int skill = bashing_skill; // Which skill determines damage?
-
     stat += mabuff_bash_bonus();
 
-    if (unarmed_attack())
+    int skill = bashing_skill; // Which skill determines damage?
+    if( unarmed_attack() ) {
         skill = unarmed_skill;
+    }
 
-    bash_dam = base_damage(true, stat);
+    bash_dam = base_damage( true, stat );
 
     // Drunken Master damage bonuses
     if (has_trait("DRUNKEN") && has_effect("drunk")) {
@@ -648,11 +718,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     float bash_mul = 1.0f;
 
     if (unarmed_attack()) {
-        if (weapon.has_flag("UNARMED_WEAPON")) {
-            weap_dam = rng(0, int(stat / 2) + unarmed_skill + weapon.damage_bash());
-        } else {
-            weap_dam = rng(0, int(stat / 2) + unarmed_skill);
-        }
+        weap_dam = rng( 0, int(stat / 2) + unarmed_skill + weapon.damage_bash() );
     } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
         if( bashing_skill < 5 ) {
@@ -663,12 +729,12 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     }
 
     if( crit ) {
-        weap_dam *= 1.5;
         bash_cap *= 2;
     }
 
-    if( weap_dam > bash_cap )// Cap for weak characters
-        weap_dam = (bash_cap * 3 + weap_dam) / 4;
+    if( weap_dam > bash_cap ) { // Cap for weak characters
+        weap_dam = (bash_cap + weap_dam) / 2;
+    }
 
     int bash_min = weap_dam / 4;
 
@@ -681,17 +747,17 @@ void player::roll_bash_damage( bool crit, damage_instance &di )
     bash_dam += weap_dam;
     bash_mul *= mabuff_bash_mult();
 
-    float percentage_arpen = 0.0f;
+    float armor_mult = 1.0f;
     // Finally, extra crit effects
     if( crit ) {
         bash_dam += int(stat / 2);
         bash_dam += skill;
-        bash_mul *= 1.5;
+        bash_mul *= 1.5f;
         // 50% arpen
-        percentage_arpen = 0.5f;
+        armor_mult = 0.5f;
     }
     
-    di.add_damage( DT_BASH, bash_dam, 0, percentage_arpen, bash_mul );
+    di.add_damage( DT_BASH, bash_dam, 0, armor_mult, bash_mul );
 }
 
 void player::roll_cut_damage( bool crit, damage_instance &di )
@@ -823,15 +889,15 @@ void player::roll_stab_damage( bool crit, damage_instance &di )
     }
 
     stab_mul *= mabuff_cut_mult();
-    float percentage_arpen = 0.0f;
+    float armor_mult = 1.0f;
 
     if( crit ) {
         stab_mul *= 1.0 + (stabbing_skill / 10.0);
         // Stab criticals have extra extra %arpen
-        percentage_arpen = 0.33f;
+        armor_mult = 0.66f;
     }
 
-    di.add_damage( DT_STAB, cut_dam, 0, percentage_arpen, stab_mul );
+    di.add_damage( DT_STAB, cut_dam, 0, armor_mult, stab_mul );
 }
 
 // Chance of a weapon sticking is based on weapon attack type.
@@ -2280,10 +2346,12 @@ int attack_speed(player &u)
     const int melee_skill = u.has_active_bionic("bio_cqb") ? 5 : (int)u.get_skill_level("melee");
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
     const int dexbonus = rng( 0, u.dex_cur );
+    const int encumbrance_penalty = u.encumb( bp_torso ) +
+                                    ( u.encumb( bp_hand_l ) + u.encumb( bp_hand_r ) ) / 2;
 
     int move_cost = base_move_cost;
     move_cost += skill_cost;
-    move_cost += 2 * u.encumb(bp_torso);
+    move_cost += encumbrance_penalty;
     move_cost -= dexbonus;
 
     if( u.has_trait("HOLLOW_BONES") ) {

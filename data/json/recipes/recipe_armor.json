@@ -3314,6 +3314,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "towel",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 7 ],
+      [ "needle_wood", 7 ],
+      [ "sewing_kit", 7 ],
+      [ "tailors_kit", 7 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -4499,7 +4523,7 @@
       [ "survivor_belt_notools", 1 ]
      ],
      [
-      [ "screwdriver", 1]
+      [ "screwdriver_set", 1]
      ],
      [
       [ "wrench", 1]

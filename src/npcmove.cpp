@@ -233,6 +233,16 @@ void npc::execute_action(npc_action action, int target)
                name.c_str(), target, npc_action_name(action).c_str());
     */
 
+    // Before doing anything else, if the player is friendly and we're
+    // blocking them, get out of the way.
+    if (attitude_to(g->u) == Creature::A_FRIENDLY && rl_dist(pos(), g->u.pos()) == 1) {
+        // We are only blocking movement if we're one tile away from the player.
+        if(is_blocking_position(g->u.pos())) {
+            move_away_from(g->u.pos());
+            return;
+        }
+    }
+
     std::vector<tripoint> line;
     if( tar != pos3() ) {
         int linet1, linet2;
@@ -1016,6 +1026,41 @@ bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
     return true;
 }
 
+bool npc::is_blocking_position( const tripoint &p ) {
+    // TODO: consider 3d? not very important for now
+    // TODO: there might be a more elegant way to do this
+    int dx = posx() - p.x;
+    int dy = posy() - p.y;
+
+    // Check whether this NPC is blocking movement from the given tile.
+    // Example:
+    // W..
+    // NP.
+    // W..
+    //
+    // Here the two W's are blocking movement from P to the tile left
+    // of N
+
+    tripoint left = pos();
+    tripoint right = pos();
+
+    if(dx == 0) {
+        // Vertical movement
+        left.x--;
+        right.x++;
+    } else if(dy == 0) {
+        // Horizontal movement
+        left.y--;
+        right.y++;
+    } else if(dx * dy == 1) {
+        // Diagonal movement
+        left.x += dx;
+        right.y += dy;
+    }
+
+    return (g->m.move_cost(left) == 0 && g->m.move_cost(right) == 0);
+}
+
 bool npc::can_reload()
 {
     if (!weapon.is_gun()) {
@@ -1087,10 +1132,6 @@ bool npc::can_move_to( const tripoint &p ) const
 
 void npc::move_to( const tripoint &pt )
 {
-    if( !move_effects() ) {
-        mod_moves(-100);
-        return;
-    }
     if( g->m.has_flag("UNSTABLE", pt ) ) {
         add_effect("bouldering", 1, num_bp, true);
     } else if (has_effect("bouldering")) {
@@ -1134,6 +1175,14 @@ void npc::move_to( const tripoint &pt )
         newpath = line_to( pos3(), p, linet1, linet2 );
 
         p = newpath[0];
+    }
+    bool attacking = false;
+    if (g->mon_at(p)){
+        attacking = true;
+    }
+    if( !move_effects(attacking) ) {
+        mod_moves(-100);
+        return;
     }
 
     if( p == pos3() ) { // We're just pausing!

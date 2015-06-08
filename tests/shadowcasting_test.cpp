@@ -2,6 +2,7 @@
 #include "catch/catch.hpp"
 
 #include "map.h"
+#include "line.h" // For rl_dist.
 
 #include <chrono>
 #include <random>
@@ -44,7 +45,7 @@ constexpr int DENOMINATOR = 10;
 // The width and height of the area being checked.
 constexpr int DIMENSION = 121;
 
-void oldCastLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+void oldCastLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                    const int xx, const int xy, const int yx, const int yy,
                    const int offsetX, const int offsetY, const int offsetDistance,
@@ -79,7 +80,7 @@ void oldCastLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                   float bright = (float) (1 - (rStrat.radius(delta.x, delta.y) / radius));
                   lightMap[currentX][currentY] = bright;
                 */
-                output_cache[currentX][currentY] = true;
+                output_cache[currentX][currentY] = LIGHT_TRANSPARENCY_CLEAR;
             }
 
             if( blocked ) {
@@ -116,8 +117,8 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     std::uniform_int_distribution<unsigned int> distribution(0, DENOMINATOR);
     auto rng = std::bind ( distribution, generator );
 
-    bool seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
-    bool seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
+    float seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
+    float seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
 
     // Initialize the transparency value of each square to a random value.
@@ -140,18 +141,18 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     clock_gettime( CLOCK_REALTIME, &start1 );
 #define PERFORMANCE_TEST_ITERATIONS 10000000
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
-    // First the control algorithm.
-    oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
+        // First the control algorithm.
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
 
-    oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
-    oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
     }
     clock_gettime( CLOCK_REALTIME, &end1 );
 
@@ -160,17 +161,25 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     clock_gettime( CLOCK_REALTIME, &start2 );
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
         // Then the current algorithm.
-        castLight<0, 1, 1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<1, 0, 0, 1, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
 
-        castLight<0, -1, 1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<0, -1, 1, 0, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
 
-        castLight<0, 1, -1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
 
-        castLight<0, -1, -1, 0>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1>( seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
     }
     clock_gettime( CLOCK_REALTIME, &end2 );
 
@@ -189,7 +198,9 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     bool passed = true;
     for( int x = 0; passed && x < MAPSIZE*SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE*SEEX; ++y ) {
-            if( seen_squares_control[x][y] != seen_squares_experiment[x][y] ) {
+            // Check that both agree on the outcome, but not necessarally the same values.
+            if( (seen_squares_control[x][y] > LIGHT_TRANSPARENCY_SOLID) !=
+                (seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID) ) {
                 passed = false;
                 break;
             }

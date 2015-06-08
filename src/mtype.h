@@ -7,6 +7,7 @@
 #include "color.h"
 #include "field.h"
 #include "int_id.h"
+#include "string_id.h"
 
 #include <bitset>
 #include <string>
@@ -23,6 +24,8 @@ enum body_part : int;
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 using mfaction_id = int_id<monfaction>;
 
@@ -140,6 +143,7 @@ enum m_flag {
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -171,7 +175,7 @@ struct mtype {
         std::string sym;
         nc_color color;
         m_size size;
-        std::string mat;
+        std::vector<std::string> mat;
         phase_id phase;
         std::set<m_flag> flags;
         std::set<monster_trigger> anger, placate, fear;
@@ -219,7 +223,7 @@ struct mtype {
         // Modifier of the chance of upgrading per half life, i.e. 10 would mean an additional 10% chance to upgrade per half life,
         // or -10 would mean a -10% chance to upgrade per half life.
         float base_upgrade_chance;
-        std::string upgrade_group;
+        mongroup_id upgrade_group;
         std::string upgrades_into;
         // Default constructor
         mtype ();
@@ -239,6 +243,7 @@ struct mtype {
         std::string nname(unsigned int quantity = 1) const;
         bool has_flag(m_flag flag) const;
         bool has_flag(std::string flag) const;
+        bool has_material( const std::string &material ) const;
         void set_flag(std::string flag, bool state);
         bool has_anger_trigger(monster_trigger trigger) const;
         bool has_fear_trigger(monster_trigger trigger) const;

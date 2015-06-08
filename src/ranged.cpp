@@ -103,20 +103,28 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
     tripoint prev_point = source;
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
-    const vehicle *in_veh = ( is_fake() || has_effect( "on_roof" ) ) ? 
+    const vehicle *in_veh = ( is_fake() || has_effect( "on_roof" ) ) ?
         g->m.veh_at(pos()) : nullptr;
 
     //Start this now in case we hit something early
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
     bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
+    int projectile_skip_current_frame = 0;
+    float projectile_skip_multiplier = 0.1;
     for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
         tp = trajectory[i];
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        if (do_animation) {
-            g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
+        if ( do_animation ) {
+            int projectile_skip_calculation = range * projectile_skip_multiplier;
+            if ( projectile_skip_current_frame >= projectile_skip_calculation ) {
+                g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
+                projectile_skip_current_frame = 0;
+            } else {
+                projectile_skip_current_frame++;
+            }
         }
 
         if( in_veh != nullptr ) {
@@ -550,13 +558,13 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
-        
+
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        int damage_factor = 21; 
+        int damage_factor = 21;
         //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
-        
-        
-        
+
+
+
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
@@ -942,7 +950,7 @@ std::vector<point> to_2d( const std::vector<tripoint> in )
     for( const tripoint &p : in ) {
         ret.push_back( point( p.x, p.y ) );
     }
-    
+
     return ret;
 }
 
@@ -1291,14 +1299,54 @@ int time_to_fire(player &p, const itype &firingt)
     return std::max(info.min_time, info.base - info.reduction * p.skillLevel(it->first));
 }
 
+
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
-    std::string gunsound;
-    int noise = p.weapon.noise();
-    const auto &ammo_used = weapon->type->gun->ammo;
-    const auto &ammo_effects = weapon->type->gun->ammo_effects;
-    const auto &weapon_id = weapon->typeId();
+    const auto data = weapon->gun_noise( burst );
+    if( data.volume > 0 ) {
+        sounds::sound( p.pos(), data.volume, data.sound, false, "fire_gun", weapon->typeId() );
+    }
+}
 
+item::sound_data item::gun_noise( bool const burst ) const
+{
+    if( !is_gun() ) {
+        return sound_data{ 0, { "" } };
+    }
+    item const* const gunmod = active_gunmod();
+    if( gunmod != nullptr ) {
+        return gunmod->gun_noise( burst );
+    }
+    const islot_gun &gun = *type->gun;
+    const auto &ammo_used = gun.ammo;
+
+    // TODO: make this a property of the ammo type.
+    static std::set<ammotype> const always_silent_ammotypes = {
+        ammotype( "bolt" ),
+        ammotype( "arrow" ),
+        ammotype( "pebble" ),
+        ammotype( "fishspear" ),
+        ammotype( "dart" ),
+    };
+    if( always_silent_ammotypes.count( ammo_used ) > 0 ) {
+        return sound_data{ 0, { "" } };
+    }
+
+    int noise = gun.loudness;
+    if( has_curammo() ) {
+        noise += get_curammo()->ammo->damage;
+    }
+    for( auto &elem : contents ) {
+        if( elem.is_gunmod() ) {
+            noise += elem.type->gunmod->loudness;
+        }
+    }
+
+    const auto &ammo_effects = gun.ammo_effects;
+    const auto &weapon_id = type->id;
+
+    const char* gunsound = "";
+    // TODO: most of this could be statically allocated.
     if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
         if (noise < 20) {
             gunsound = _("Fzzt!");
@@ -1351,16 +1399,17 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
     }
 
     if( ammo_used == "40mm") {
-        sounds::sound(p.pos(), 8, _("Thunk!"), false, "fire_gun", weapon->typeId());
+        gunsound = _("Thunk!");
+        noise = 8;
     } else if( weapon_id == "hk_g80") {
-        sounds::sound(p.pos(), 24, _("tz-CRACKck!"), false, "fire_gun", weapon->typeId());
+        gunsound = _("tz-CRACKck!");
+        noise = 24;
     } else if( ammo_used == "gasoline" || ammo_used == "66mm" ||
                ammo_used == "84x246mm" || ammo_used == "m235" ) {
-        sounds::sound(p.pos(), 4, _("Fwoosh!"), false, "fire_gun", weapon->typeId());
-    } else if( noise > 0 && ammo_used != "bolt" && ammo_used != "arrow" && ammo_used != "pebble" &&
-               ammo_used != "fishspear" && ammo_used != "dart" ) {
-        sounds::sound(p.pos(), noise, gunsound, false, "fire_gun", weapon->typeId());
+        gunsound = _("Fwoosh!");
+        noise = 4;
     }
+    return sound_data{ noise, { gunsound } };
 }
 
 // Little helper to clean up dispersion calculation methods.
