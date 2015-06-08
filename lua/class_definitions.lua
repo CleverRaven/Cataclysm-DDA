@@ -1487,7 +1487,6 @@ classes = {
             hp = { type = "int", writable = true },
             id = { type = "string" },
             luminance = { type = "float", writable = true },
-            mat = { type = "string", writable = true },
             melee_cut = { type = "int", writable = true },
             melee_dice = { type = "int", writable = true },
             melee_sides = { type = "int", writable = true },

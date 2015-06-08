@@ -161,7 +161,7 @@ class game
          */
         void add_event(event_type type, int on_turn, int faction_id = -1);
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
-        bool event_queued(event_type type);
+        bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast = true );
         /** Triggers a flashbang explosion at p. */
@@ -295,7 +295,10 @@ class game
         int &scent( const tripoint &p );
         float ground_natural_light_level() const;
         float natural_light_level() const;
-        unsigned char light_level();
+        /** Returns coarse number-of-squares of visibility at the current light level.
+         * Used by monster and NPC AI.
+         */
+        unsigned char light_level() const;
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
@@ -724,8 +727,8 @@ class game
         std::map<std::string, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;
-        unsigned char latest_lightlevel;
-        calendar latest_lightlevel_turn;
+        mutable float latest_lightlevel;
+        mutable calendar latest_lightlevel_turn;
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;

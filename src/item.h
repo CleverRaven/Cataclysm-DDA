@@ -487,7 +487,7 @@ public:
     /**
      * The ids of all the materials this is made of.
      */
-    std::vector<std::string> made_of() const;
+    const std::vector<std::string> &made_of() const;
     /**
      * Same as @ref made_of(), but returns the @ref material_type directly.
      */
@@ -792,7 +792,7 @@ public:
          * @param width If greater 0, the light is emitted in an arc, this is the angle of it.
          * @param direction The direction of the light arc. In degrees.
          */
-        bool getlight( float& luminance, int& width, int& direction ) const;
+        bool getlight( float &luminance, int &width, int &direction ) const;
         /**
          * How much light (see lightmap.cpp) the item emits (it's assumed to be circular).
          */

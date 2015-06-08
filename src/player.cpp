@@ -214,8 +214,6 @@ player::player() : Character()
  focus_pool = 100;
  last_item = itype_id("null");
  sight_max = 9999;
- sight_boost = 0;
- sight_boost_cap = 0;
  last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position = tripoint_min;
@@ -4114,7 +4112,7 @@ float player::active_light() const
 
     int maxlum = 0;
     has_item_with( [&maxlum]( const item &it ) {
-        const int lumit = it.active && it.charges > 0 ? it.getlight_emit() : 0;
+        const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -4155,31 +4153,27 @@ const tripoint &player::pos() const
 
 int player::sight_range(int light_level) const
 {
-    // Apply the sight boost (night vision).
-    if (light_level < sight_boost_cap) {
-        light_level = std::min(light_level + sight_boost, sight_boost_cap);
-    }
+    /* Via Beer-Lambert we have:
+     * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
+     * Solving for distance:
+     * 1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) <= LIGHT_AMBIENT_LOW / light_level
+     * 1 <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW / light_level
+     * light_level <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW
+     * log(light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance + log(LIGHT_AMBIENT_LOW)
+     * log(light_level) - log(LIGHT_AMBIENT_LOW) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
+     */
+    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos3()) ) / (float)light_level ) *
+        (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
+    // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
     // Clamp to sight_max.
-    return std::min(light_level, sight_max);
+    return std::min(range, sight_max);
 }
 
-int player::unimpaired_range()
-{
- int ret = DAYLIGHT_LEVEL;
- if (has_trait("PER_SLIME")) {
-    ret = 6;
- }
- if (has_active_mutation("SHELL2")) {
-    ret = 2;
- }
- if (has_effect("in_pit")) {
-    ret = 1;
-  }
- if (has_effect("blind") || worn_with_flag("BLIND")) {
-    ret = 0;
-  }
- return ret;
+int player::unimpaired_range() const {
+    return std::min(sight_max, 60);
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )
@@ -11467,7 +11461,7 @@ void player::read(int inventory_position)
 
     // Check if reading is okay
     // check for light level
-    if (fine_detail_vision_mod() > 4) { //minimum LL_LOW or LL_DARK + (ELFA_NV or atomic_light)
+    if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
         return;
     }
@@ -12149,51 +12143,25 @@ std::string player::is_snuggling()
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// 2.5 is enough light for detail work.
+// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
 float player::fine_detail_vision_mod()
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if ((has_effect("blind") || worn_with_flag("BLIND")) || ((has_effect("boomered")) &&
-    !(has_trait("PER_SLIME_OK"))))
-    {
-        return 5;
+    if( has_effect("blind") || worn_with_flag("BLIND") ||
+        (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
+        return 5.0;
     }
-    if ( has_nv() )
-    {
-        return 1.5;
-    }
-    // flashlight is handled by the light level check below
-    if (has_active_item("lightstrip"))
-    {
-        return 1;
-    }
-    if (LL_LIT <= g->m.light_at(posx(), posy()))
-    {
-        return 1;
-    }
+    // If we're actually a source of light, assume we can direct it where we need it.
+    // Scale linearly own_light approaches LIGHT_AMBIENT_LIT.
+    // but also enforce a monimum of 1.0, and drop by one as a bonus.
+    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() );
 
-    float vision_ii = 0;
-    if (g->m.light_at(posx(), posy()) == LL_LOW) { vision_ii = 4; }
-    else if (g->m.light_at(posx(), posy()) == LL_DARK) { vision_ii = 5; }
+    // Same calculation as above, but with a result 1 lower.
+    float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( pos() ) + 1.0 );
 
-    if (has_item_with_flag("LIGHT_2")){
-        vision_ii -= 2;
-    } else if (has_item_with_flag("LIGHT_1")){
-        vision_ii -= 1;
-    }
-
-    if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
-    else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) { vision_ii -= 2; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
-      has_trait("CEPH_VISION")) {
-        vision_ii -= 3;
-    }
-
-    if (vision_ii < 1) { vision_ii = 1; }
-    return vision_ii;
+    return std::min( own_light, ambient_light );
 }
 
 int player::get_wind_resistance(body_part bp) const
@@ -12203,24 +12171,16 @@ int player::get_wind_resistance(body_part bp) const
     int totalCoverage = 0;
     int penalty = 100;
 
-    for (auto &i : worn)
-    {
-        if (i.covers(bp))
-        {
-            if (i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") || i.made_of("chitin") || i.made_of("nomex"))
-            {
+    for( auto &i : worn ) {
+        if( i.covers(bp) ) {
+            if( i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") ||
+                i.made_of("chitin") || i.made_of("nomex") ) {
                 penalty = 10; // 90% effective
-            }
-            else if (i.made_of("cotton"))
-            {
+            } else if( i.made_of("cotton") ) {
                 penalty = 30;
-            }
-            else if (i.made_of("wool"))
-            {
+            } else if( i.made_of("wool") ) {
                 penalty = 40;
-            }
-            else
-            {
+            } else {
                 penalty = 1; // 99% effective
             }
 
@@ -13630,10 +13590,14 @@ bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos3(), t );
-    bool can_see = Creature::sees( t, bresen1, bresen2 );
+    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
+        Creature::sees( t, bresen1, bresen2 );;
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
+        can_see = false;
+    }
+    if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }
     // Clairvoyance is a really expensive check,
@@ -13896,13 +13860,8 @@ bool player::sees_with_infrared( const Creature &critter ) const
     if( !has_ir || !critter.is_warm() ) {
         return false;
     }
-    const auto range = sight_range( DAYLIGHT_LEVEL );
-    if( is_player() ) {
-        return g->m.pl_sees(critter.posx(), critter.posy(), range );
-    } else {
-        int bresenham_slope;
-        return g->m.sees(critter.posx(), critter.posy(), range, bresenham_slope );
-    }
+    int bresenham_slope;
+    return g->m.sees(critter.posx(), critter.posy(), sight_range(DAYLIGHT_LEVEL), bresenham_slope );
 }
 
 std::vector<std::string> player::get_overlay_ids() const {

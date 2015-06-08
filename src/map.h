@@ -85,14 +85,10 @@ struct visibility_variables {
     bool variables_set; // Is this struct initialized for current z-level
     // cached values for map visibility calculations
     int g_light_level;
-    int natural_sight_range;
-    int light_sight_range;
-    int lowlight_sight_range;
-    int max_sight_range;
     int u_clairvoyance;
     bool u_sight_impaired;
-    bool bio_night_active;
     bool u_is_boomered;
+    float vision_threshold;
 };
 
 enum visibility_type {
@@ -118,7 +114,7 @@ struct level_cache {
     float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY];
     bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
-    bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    float seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
 
     bool veh_in_active_range;
@@ -200,7 +196,7 @@ class map
      *
      * @param x, y The tile on this map to draw.
      */
-    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache );
+    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
 
@@ -957,7 +953,7 @@ void add_corpse( const tripoint &p );
  vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- void build_map_cache( int zlev );
+    void build_map_cache( int zlev, bool skip_lightmap = false );
 
     vehicle *add_vehicle( const std::string &type, const tripoint &p, const int dir,
                           const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -965,13 +961,13 @@ void add_corpse( const tripoint &p );
 
 // Light/transparency: 2D
     float light_transparency(const int x, const int y) const;
-    lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
-    float ambient_light_at(int dx, int dy); // Raw values for tilesets
+    lit_level light_at(int dx, int dy) const; // Assumes 0,0 is light map center
+    float ambient_light_at(int dx, int dy) const; // Raw values for tilesets
     bool trans(const int x, const int y) const; // Transparent?
 // Light/transparency: 3D
     float light_transparency( const tripoint &p ) const;
-    lit_level light_at( const tripoint &p ); // Assumes 0,0 is light map center
-    float ambient_light_at( const tripoint &p ); // Raw values for tilesets
+    lit_level light_at( const tripoint &p ) const; // Assumes 0,0 is light map center
+    float ambient_light_at( const tripoint &p ) const; // Raw values for tilesets
     /**
      * Returns whether the tile at `p` is transparent(you can look past it).
      */
@@ -984,8 +980,8 @@ void add_corpse( const tripoint &p );
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        bool pl_sees( int tx, int ty, int max_range );
-        bool pl_sees( const tripoint &t, int max_range );
+        bool pl_sees( int tx, int ty, int max_range ) const;
+        bool pl_sees( const tripoint &t, int max_range ) const;
     std::set<vehicle*> dirty_vehicle_list;
 
     /** return @ref abs_sub */
@@ -1102,9 +1098,9 @@ protected:
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );
- void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap( int zlev );
+ void build_seen_cache(const tripoint &origin);
  void apply_character_light( const player &p );
 
  int my_MAPSIZE;
@@ -1192,13 +1188,15 @@ private:
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
- void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
+ void apply_light_source(int x, int y, float luminance);
  // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
  // light rays from causing massive slowdowns, if there's a huge amount of light.
  void add_light_source(int x, int y, float luminance);
+ // Handle just cardinal directions and 45 deg angles.
+ void apply_directional_light( int x, int y, int direction, float luminance );
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                      int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+                      int sx, int sy, int ex, int ey, float luminance);
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
@@ -1269,11 +1267,11 @@ private:
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
-    const level_cache &get_cache( const int zlev ) const {
+  public:
+    const level_cache &get_cache_ref( const int zlev ) const {
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
-  public:
     void update_visibility_cache( visibility_variables &cache, int zlev );
 
     // Clips the area to map bounds
@@ -1295,11 +1293,26 @@ public:
  tinymap(int mapsize = 2, bool zlevels = false);
 };
 
-template<int xx, int xy, int yx, int yy>
-    void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+// Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
+// Beer–Lambert law says attenuation is going to be equal to
+// 1 / (e^al) where a = coefficient of absorption and l = length.
+// Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
+// We merge all of the absorption values by taking their cumulative average.
+inline float sight_calc( const float &numerator, const float &transparency, const int &distance ) {
+    return numerator / (float)exp( transparency * distance );
+}
+inline bool sight_check( const float &transparency, const float &/*intensity*/ ) {
+    return transparency > LIGHT_TRANSPARENCY_SOLID;
+}
+
+template<int xx, int xy, int yx, int yy, float(*calc)(const float &, const float &, const int &),
+    bool(*check)(const float &, const float &)>
+    void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const int offsetX, const int offsetY, const int offsetDistance,
-                    const int row = 1, float start = 1.0f, const float end = 0.0f );
+                    const float numerator = 1.0, const int row = 1,
+                    float start = 1.0f, const float end = 0.0f,
+                    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 #endif
 

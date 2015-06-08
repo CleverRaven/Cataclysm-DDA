@@ -332,6 +332,7 @@ void player::activate_mutation( const std::string &mut )
 
         // Handle stat changes from activation
         apply_mods(mut, true);
+        recalc_sight_limits();
     }
 
     if( mut == "WEB_WEAVER" ) {
@@ -460,6 +461,7 @@ void player::deactivate_mutation( const std::string &mut )
 
     // Handle stat changes from deactivation
     apply_mods(mut, false);
+    recalc_sight_limits();
 }
 
 void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)

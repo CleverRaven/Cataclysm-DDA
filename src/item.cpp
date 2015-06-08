@@ -2730,21 +2730,16 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-std::vector<std::string> item::made_of() const
+const std::vector<std::string> &item::made_of() const
 {
-    std::vector<std::string> materials_composed_of;
-    if (is_null()) {
+    const static std::vector<std::string> null_material = {"null"};
+    if( is_null() ) {
         // pass, we're not made of anything at the moment.
-        materials_composed_of.push_back("null");
-    } else if (is_corpse()) {
-        // Corpses are only made of one type of material.
-        materials_composed_of.push_back(corpse->mat);
-    } else {
-        // Defensive copy of materials.
-        // More idiomatic to return a const reference?
-        materials_composed_of = type->materials;
+        return null_material;
+    } else if( is_corpse() ) {
+        return corpse->mat;
     }
-    return materials_composed_of;
+    return type->materials;
 }
 
 std::vector<material_type*> item::made_of_types() const
@@ -2791,17 +2786,12 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 
 bool item::made_of( const std::string &mat_ident ) const
 {
-    if (is_null()) {
+    if( is_null() ) {
         return false;
     }
 
-    std::vector<std::string> mat_composed_of = made_of();
-    for (auto m : mat_composed_of) {
-        if (m == mat_ident) {
-            return true;
-        }
-    }
-    return false;
+    const auto &materials = made_of();
+    return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
 
 bool item::made_of(phase_id phase) const
@@ -4022,10 +4012,7 @@ bool item::getlight(float & luminance, int & width, int & direction ) const {
 }
 
 int item::getlight_emit() const {
-    const int mult = 10; // woo intmath
-    const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
-
-    int lumint = type->light_emission * mult;
+    float lumint = type->light_emission;
 
     if ( lumint == 0 ) {
         return 0;
@@ -4033,14 +4020,12 @@ int item::getlight_emit() const {
     if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
-        if ( maxcharge > 0 ) {
-            lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
+        // Falloff starts at 1/5 total charge and scales linearly from there to 0.
+        if( maxcharge > 0 && charges < maxcharge / 5 ) {
+            lumint *= (float)charges * 5.0 / (float)maxcharge;
         }
     }
-    if ( lumint > 4 && lumint < 10 ) {
-        lumint = 10;
-    }
-    return lumint / 10;
+    return lumint;
 }
 
 long item::get_remaining_capacity_for_liquid(const item &liquid) const

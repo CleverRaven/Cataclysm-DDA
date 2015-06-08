@@ -906,7 +906,7 @@ vehicle* map::veh_at( const tripoint &p, int &part_num )
 
 const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
 {
-    if( !get_cache( p.z ).veh_in_active_range || !inbounds( p ) ) {
+    if( !get_cache_ref( p.z ).veh_in_active_range || !inbounds( p ) ) {
         return nullptr; // Out-of-bounds - null vehicle
     }
 
@@ -916,7 +916,7 @@ const vehicle* map::veh_at( const tripoint &p, int &part_num ) const
 const vehicle* map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
-    const auto &ch = get_cache( p.z );
+    const auto &ch = get_cache_ref( p.z );
     if( !ch.veh_in_active_range || !ch.veh_exists_at[p.x][p.y] ) {
         part_num = -1;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
@@ -2155,11 +2155,12 @@ bool map::is_divable( const tripoint &p ) const
 
 bool map::is_outside(const int x, const int y) const
 {
- if(!INBOUNDS(x, y))
-  return true;
+    if(!INBOUNDS(x, y)) {
+        return true;
+    }
 
-  auto &outside_cache = get_cache( abs_sub.z ).outside_cache;
- return outside_cache[x][y];
+    const auto &outside_cache = get_cache_ref( abs_sub.z ).outside_cache;
+    return outside_cache[x][y];
 }
 
 bool map::is_outside( const tripoint &p ) const
@@ -2168,7 +2169,7 @@ bool map::is_outside( const tripoint &p ) const
         return true;
     }
 
-    auto &outside_cache = get_cache( p.z ).outside_cache;
+    const auto &outside_cache = get_cache_ref( p.z ).outside_cache;
     return outside_cache[p.x][p.y];
 }
 
@@ -2280,7 +2281,7 @@ void map::decay_fields_and_scent( const int amount )
     // Coord code copied from lightmap calculations
     // TODO: Z
     const int smz = abs_sub.z;
-    auto &outside_cache = get_cache( smz ).outside_cache;
+    const auto &outside_cache = get_cache_ref( smz ).outside_cache;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, smz );
@@ -5033,15 +5034,11 @@ void map::debug()
 void map::update_visibility_cache( visibility_variables &cache, const int zlev ) {
     cache.variables_set = true; // Not used yet
     cache.g_light_level = (int)g->light_level();
-    cache.natural_sight_range = g->u.sight_range(1);
-    cache.light_sight_range = g->u.sight_range(cache.g_light_level);
-    cache.lowlight_sight_range = std::max(cache.g_light_level / 2,
-                                          cache.natural_sight_range);
-    cache.max_sight_range = g->u.unimpaired_range();
+    cache.vision_threshold = g->u.get_vision_threshold(
+        get_cache_ref(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
+
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
-    cache.bio_night_active = g->u.has_active_bionic("bio_night");
-
     cache.u_is_boomered = g->u.has_effect("boomered");
 
     int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
@@ -5057,10 +5054,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
         for( y = 0; y < MAPSIZE * SEEY; y++ ) {
             lit_level ll = apparent_light_at( p, cache );
             visibility_cache[x][y] = ll;
-            sm_squares_seen[x/SEEX][y/SEEY] += (
-                ll == LL_BRIGHT ||
-                ll == LL_LIT
-            );
+            sm_squares_seen[ x / SEEX ][ y / SEEY ] += (ll == LL_BRIGHT || ll == LL_LIT);
         }
     }
 
@@ -5074,73 +5068,54 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
             }
         }
     }
-
-
 }
 
-lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) {
+lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
     const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
 
-    int sight_range = cache.light_sight_range;
-    int low_sight_range = cache.lowlight_sight_range;
-    lit_level lit = light_at( p );
-
-    // While viewing indoor areas use lightmap model
-    if( !is_outside( p ) ) {
-        sight_range = cache.natural_sight_range;
-
-    // Don't display area as shadowy if it's outside and illuminated by natural light
-    // and illuminated by source of light
-    } else if (lit > LL_LOW || dist <= cache.light_sight_range) {
-        low_sight_range = std::max(cache.g_light_level, cache.natural_sight_range);
+    // Clairvoyance overrides everything.
+    if( dist <= cache.u_clairvoyance ) {
+        return LL_BRIGHT;
     }
-
-    int real_max_sight_range = std::max(cache.light_sight_range, cache.max_sight_range);
-    int distance_to_look = DAYLIGHT_LEVEL;
-
-    bool can_see = pl_sees( p, distance_to_look );
-
-    // now we're gonna adjust real_max_sight, to cover some nearby "highlights",
-    // but at the same time changing light-level depending on distance,
-    // to create actual "gradual" stuff
-    // Also we'll try to ALWAYS show LL_BRIGHT stuff independent of where it is...
-    if (lit != LL_BRIGHT) {
-        if (dist > real_max_sight_range) {
-            int intLit = (int)lit - (dist - real_max_sight_range)/2;
-            if (intLit < 0) intLit = LL_DARK;
-            lit = (lit_level)intLit;
-        }
-    }
-
-    // additional case for real_max_sight_range
-    // if both light_sight_range and max_sight_range were small
-    // it means we really have limited visibility (e.g. inside a pit)
-    // and we shouldn't touch that
-    if( lit > LL_DARK && real_max_sight_range > 1 ) {
-        real_max_sight_range = distance_to_look;
-    }
-
-    if ((cache.bio_night_active && dist < 15 && dist > cache.natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
-        dist > real_max_sight_range || // too far away, no matter what
-        (dist > cache.light_sight_range &&
-            (lit == LL_DARK ||
-                (cache.u_sight_impaired && lit != LL_BRIGHT) ||
-                !can_see))) { // blind
-        return LL_DARK;
-    } else if (dist > cache.light_sight_range && cache.u_sight_impaired && lit == LL_BRIGHT) {
-        return LL_BRIGHT_ONLY;
-    } else if (dist <= cache.u_clairvoyance || can_see) {
-        if ( lit == LL_BRIGHT ) {
-            return LL_BRIGHT;
+    const auto &map_cache = get_cache_ref(p.z);
+    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
+    // Unimpaired range is an override to strictly limit vision range based on various conditions,
+    // but the player can still see light sources.
+    if( dist > g->u.unimpaired_range() ) {
+        if( map_cache.sm[p.x][p.y] > 0.0 ) {
+            return LL_BRIGHT_ONLY;
         } else {
-            if ( (dist > low_sight_range && LL_LIT > lit) || (dist > sight_range && LL_LOW == lit) ) {
-                return LL_LOW;
-            } else {
-                return LL_LIT;
-            }
+            return LL_DARK;
         }
     }
-    return LL_BLANK;
+    if( map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+        if( apparent_light > LIGHT_AMBIENT_LIT ) {
+            if( apparent_light > cache.g_light_level ) {
+                // This represents too hazy to see detail,
+                // but enough light getting through to illuminate.
+                return LL_BRIGHT_ONLY;
+            } else {
+                // If it's not brighter than the surroundings, it just ends up shadowy.
+                return LL_LOW;
+            }
+        } else {
+            return LL_BLANK;
+        }
+    }
+    // Then we just search for the light level in descending order.
+    if( apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
+        return LL_BRIGHT;
+    }
+    if( apparent_light > LIGHT_AMBIENT_LIT ) {
+        return LL_LIT;
+    }
+    if( apparent_light > cache.vision_threshold ) {
+        return LL_LOW;
+    } else {
+        return LL_BLANK;
+    }
+    // Is this ever supposed to happen?
+    return LL_DARK;
 }
 
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const {
@@ -5173,10 +5148,6 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     nc_color color = c_black;
 
     switch( get_visibility(ll, cache) ) {
-        case VIS_DARK: // can't see this square at all
-            symbol = '#';
-            color = c_dkgray;
-            break;
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -5185,13 +5156,14 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
             color = c_ltgray;
             break;
         case VIS_BOOMER:
-          symbol = '#';
-          color = c_pink;
+            symbol = '#';
+            color = c_pink;
             break;
         case VIS_BOOMER_DARK:
-          symbol = '#';
-          color = c_magenta;
+            symbol = '#';
+            color = c_magenta;
             break;
+        case VIS_DARK: // can't see this square at all
         case VIS_HIDDEN:
             symbol = ' ';
             color = c_black;
@@ -5213,7 +5185,7 @@ void map::draw( WINDOW* w, const tripoint &center )
     visibility_variables cache;
     update_visibility_cache( cache, center.z );
 
-    auto &visibility_cache = get_cache( center.z ).visibility_cache;
+    const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
@@ -5225,14 +5197,14 @@ void map::draw( WINDOW* w, const tripoint &center )
         wmove( w, y - center.y + getmaxy(w) / 2, 0 );
         if( y < 0 || y >= MAPSIZE * SEEY ) {
             for( int x = 0; x < getmaxx(w); x++ ) {
-                wputch( w, c_dkgray, '#' );
+                wputch( w, c_black, ' ' );
             }
             continue;
         }
 
         x = center.x - getmaxx(w) / 2;
         while( x < 0 ) {
-            wputch( w, c_dkgray, '#' );
+            wputch( w, c_black, ' ' );
             x++;
         }
 
@@ -5256,7 +5228,7 @@ void map::draw( WINDOW* w, const tripoint &center )
         }
 
         while( x <= center.x + getmaxx(w) / 2 ) {
-            wputch( w, c_dkgray, '#' );
+            wputch( w, c_black, ' ' );
             x++;
         }
     }
@@ -5987,11 +5959,11 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
     // Update vehicle data
     if( update_vehicles ) {
-        auto &ch = get_cache( gridz );
+        auto &map_cache = get_cache( gridz );
         for( auto it : tmpsub->vehicles ) {
             // Only add if not tracking already.
-            if( ch.vehicle_list.find( it ) == ch.vehicle_list.end() ) {
-                ch.vehicle_list.insert( it );
+            if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
+                map_cache.vehicle_list.insert( it );
                 update_vehicle_cache( it, gridz );
             }
         }
@@ -6501,7 +6473,7 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
-void map::build_map_cache( const int zlev )
+void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     build_outside_cache( zlev );
     build_transparency_cache( zlev );
@@ -6532,7 +6504,9 @@ void map::build_map_cache( const int zlev )
     }
 
     build_seen_cache( tripoint( g->u.posx(), g->u.posy(), zlev ) );
-    generate_lightmap( zlev );
+    if( !skip_lightmap ) {
+        generate_lightmap( zlev );
+    }
 }
 
 std::vector<point> closest_points_first(int radius, point p)
