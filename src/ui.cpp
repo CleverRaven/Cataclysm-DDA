@@ -25,11 +25,55 @@
 ui_base::ui_base()
 {
     ctxt = new input_context(ctxt_name);
+    register_input_actions();
 }
 
 ui_base::~ui_base()
 {
     delete ctxt;
+}
+
+void ui_base::set_error(int code, const std::string &msg)
+{
+    error_code = code;
+    error_msg = msg;
+}
+
+ui_input_code ui_base::handle_input(const std::string &action)
+{
+    return ui_continue;
+}
+
+std::string ui_base::get_input() const
+{
+    return "";
+}
+
+int ui_base::operator ()()
+{
+    return run();
+}
+
+int ui_base::run()
+{
+    while(true) {
+        draw();
+        finish();
+        auto code = handle_input(get_input());
+        switch(code) {
+            case ui_error: // ran into an issue
+                debugmsg("ui_error [%d]: %s", error_code, error_msg.c_str());
+                return -1;
+            case ui_exit: // exit normally
+                return return_code;
+            case ui_continue: // continue displaying the ui
+                break;
+            default:    // unknown ui code
+                debugmsg("Invalid ui_input_code given! [%d]", code);
+                return -2;
+        }
+    }
+    // control should not reach here
 }
 
 // set the size of the window
@@ -306,6 +350,60 @@ void ui_tabbed::finish()
 //// ui_canvas //////////////////////////////////////////////////////////// {{{1
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_list ////////////////////////////////////////////////////////////// {{{1
+size_t ui_list::find_entry(const std::string &name) const
+{
+    for(size_t i = 0; i < entries.size(); ++i) {
+        if(entries[i].name == name) {
+            return i;
+        }
+    }
+    // entry must be valid!
+    assert(false);
+    return entries.size();
+}
+
+void ui_list::add_entry(const std::string &name, bool enabled, nc_color col, int ret)
+{
+    add_entry(ui_list_entry(name, enabled, col, ret));
+}
+
+void ui_list::add_entry(const ui_list_entry &entry)
+{
+    entries.push_back(entry);
+}
+
+void ui_list::rem_entry(const std::string &name)
+{
+    rem_entry(ui_list_entry(name));
+}
+
+void ui_list::rem_entry(const ui_list_entry &entry)
+{
+    auto iter = entries.begin();
+    std::advance(iter, find_entry(entry.name));
+    entries.erase(iter);
+}
+
+void ui_list::mod_entry(const std::string &name, bool enabled, nc_color col)
+{
+    mod_entry(ui_list_entry(name, enabled, col));
+}
+
+void ui_list::mod_entry(const ui_list_entry &entry)
+{
+    entries[find_entry(entry.name)] = entry;
+}
+
+ui_list_entry ui_list::get_entry(const std::string &name) const
+{
+    return entries[find_entry(name)];
+}
+
+void ui_list::clear()
+{
+    entries.clear();
+}
+
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_container ///////////////////////////////////////////////////////// {{{1
 /////////////////////////////////////////////////////////////////////////// }}}1

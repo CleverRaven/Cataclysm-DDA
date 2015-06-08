@@ -16,34 +16,52 @@
  */
 class input_context;
 
+enum ui_input_code {
+    ui_error = -2,
+    ui_exit = -1,
+    ui_continue = 0,
+};
+
 class ui_base
 {
     protected:
         // basic window properties, needed for all classes in UI!
-        WINDOW_PTR window;
+        WINDOW_PTR window = nullptr;
         point pos  = {0, 0};
         point size = {0, 0};
         // override "ctxt_name" in derived classes
         const std::string ctxt_name = "default";
         input_context *ctxt;
+        // for error display
+        std::string error_msg = "";
+        int error_code = 0;
+        // code to be returned on good exit
+        int return_code = 0;
 
+        // set the error code and message
+        void set_error(int code, const std::string &msg);
+        // register input actions for the above context
+        virtual void register_input_actions();
+        /*  handle_input() is to be overridden per derived class for one to deal with
+         *  keystrokes in its own custom way. The input will be handled via the standard
+         *  `input_manager'. You can get the results of the input from XXX and co.
+         */
+        virtual ui_input_code handle_input(const std::string &action);
+        virtual std::string get_input() const;
     public:
         // let the container sort out the position and size
         ui_base();
         // allow one to initialize it straight off
         ui_base(const point &s, const point p) : size(s), pos(p) {};
         virtual ~ui_base();
+        // execute ui's `run()' function
+        virtual int operator ()();
+        virtual int run() = 0;
 
         // returns the size (size) of the window
         const point &get_size() const;
         // returns the position (pos) of the window
         const point &get_position() const;
-        /*  handle_input() is to be overridden per derived class for one to deal with
-         *  keystrokes in its own custom way. The input will be handled via the standard
-         *  `input_manager'. You can get the results of the input from XXX and co.
-         */
-        virtual void handle_input() = 0;
-        virtual void get_input();
         /*  draw() is to be overriden to allow any custom drawing for the derived class.
          *  Since this is a pure virtual interface, you should have access to the variables
          *  and methods of the derived class, so use this as you please when you draw! :-)
@@ -169,12 +187,45 @@ class ui_canvas : public ui_element
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_list ////////////////////////////////////////////////////////////// {{{1
+struct ui_list_entry {
+    std::string name;
+    bool enabled;
+    nc_color text_color;
+    int return_code;
+
+    ui_list_entry(const std::string &N) : name(N) {};
+    ui_list_entry(const std::string &N, bool E) : name(N), enabled(E) {};
+    ui_list_entry(const std::string &N, bool E, nc_color C) :
+        name(N), enabled(E), text_color(C) {};
+    ui_list_entry(const std::string &N, bool E, nc_color C, int R) : 
+        name(N), enabled(E), text_color(C), return_code(R) {};
+};
+
 class ui_list : public ui_element, public ui_scrollbar
 {
+    private:
+        std::vector<ui_list_entry> entries;
+        size_t find_entry(const std::string &name) const;
     public:
         const int get_line() const override;
         void draw() override;
         virtual void finish() override final;
+
+        // adds an entry with the given attributes
+        void add_entry(const std::string &name, bool enabled = true, 
+                nc_color text_color = COLOR_WHITE, int return_code = -1);
+        void add_entry(const ui_list_entry &entry);
+        // removes the named entry 
+        void rem_entry(const std::string &name);
+        void rem_entry(const ui_list_entry &entry);
+        // modifies an existing entry
+        void mod_entry(const std::string &name, bool enabled = true,
+                nc_color text_color = COLOR_WHITE);
+        void mod_entry(const ui_list_entry &entry);
+        // returns the entry by name
+        ui_list_entry get_entry(const std::string &name) const;
+        // clear all entries
+        void clear();
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_button //////////////////////////////////////////////////////////// {{{1
