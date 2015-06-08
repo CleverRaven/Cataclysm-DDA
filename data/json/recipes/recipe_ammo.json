@@ -387,6 +387,11 @@
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ],
+  "tools" : [
+    [
+      [ "fire", -1 ]
+    ]
+  ],
   "components" : [
     [ 
       [ "water", 1 ],
