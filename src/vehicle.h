@@ -804,6 +804,8 @@ public:
      */
     void set_submap_moved(int x, int y);
 
+    const std::string disp_name();
+
     // config values
     std::string name;   // vehicle name
     /**

@@ -1,0 +1,86 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_library"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "********~~**************",
+                    "*qrqrqrq~~qrqrqrqrqrqrq*",
+                    "*|----==::=====|--OO--|*",
+                    "*|d..#.........|.hh.h.|*",
+                    "*|d..%.....hTh.|.TTTT.|*",
+                    "*|d..#.....hTh.|..hhh.|*",
+                    "*|f..%.........|+-----|*",
+                    "*|...#................O*",
+                    "*O........h%%h...]]..]|*",
+                    "*|]..]]...h%%h...]]..]|*",
+                    "*|]..]]...h%%h...]]..]|*",
+                    "*|]..]]...h%%h...]]..]|*",
+                    "*|]..]]...h%%h...]]..]|*",
+                    "*|....................|*",
+                    "*|]]]]]]]]]]]]]]]]]]]]|*",
+                    "*|--------------------|*",
+                    "************************",
+                    "************************",
+                    "****4*******************",
+                    "*******************4****",
+                    "************************",
+                    "************************"
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_MAYBE_ZOMBIE", "x": [16, 21], "y": [5, 7], "density": 1 }
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ";": "t_door_locked",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "=": "t_wall_glass",
+                "#": "t_floor",
+                "h": "t_floor",
+                "T": "t_floor",
+                "f": "t_floor",
+                "d": "t_floor",
+                "]": "t_floor",
+                "q": "t_grass",
+                "r": "t_grass",
+                "4": "t_tree_pine",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "h": "f_chair",
+                "T": "f_table",
+                "f": "f_indoor_plant",
+                "d": "f_desk",
+                "]": "f_bookcase",
+                "q": "f_bluebell",
+                "r": "f_dahlia"
+            },
+            "place_items": [
+                { "item": "magazines", "chance": 50, "x": 21,   "y": [10,14], "repeat": [3,6] },
+                { "item": "novels", "chance": 60, "x": [2,21],   "y": 16, "repeat": [12,20] },
+                { "item": "homebooks", "chance": 50, "x": [17,18],   "y": [10,14], "repeat": [4,8] },
+                { "item": "manuals", "chance": 40, "x": 2,   "y": [11,14], "repeat": [2,4] },
+                { "item": "textbooks", "chance": 40, "x": 2,   "y": [11,14], "repeat": 2 },
+                { "item": "manuals", "chance": 40, "x": [5,6],   "y": [11,14], "repeat": [2,6] },
+                { "item": "textbooks", "chance": 40, "x": [5,6],   "y": [11,14], "repeat": [2,3] },
+                { "item": "office", "chance": 50, "x": 2,   "y": [5,7], "repeat": [1,3] }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]
+

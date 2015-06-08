@@ -837,7 +837,7 @@ void construct::done_deconstruct(point p)
     // TODO: Make this the argument
     tripoint p3( p, g->get_levz() );
     if (g->m.has_furn(p.x, p.y)) {
-        furn_t &f = g->m.furn_at(p.x, p.y);
+        const furn_t &f = g->m.furn_at(p.x, p.y);
         if (!f.deconstruct.can_do) {
             add_msg(m_info, _("That %s can not be disassembled!"), f.name.c_str());
             return;
@@ -856,7 +856,7 @@ void construct::done_deconstruct(point p)
         // writing from the submap.
         g->m.delete_signage( p3 );
     } else {
-        ter_t &t = g->m.ter_at(p.x, p.y);
+        const ter_t &t = g->m.ter_at(p.x, p.y);
         if (!t.deconstruct.can_do) {
             add_msg(_("That %s can not be disassembled!"), t.name.c_str());
             return;

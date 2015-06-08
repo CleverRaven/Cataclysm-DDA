@@ -340,10 +340,7 @@ void DynamicDataLoader::unload_data()
     mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
-    furnlist.clear();
-    furnmap.clear();
-    terlist.clear();
-    termap.clear();
+    reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
     vehicle_prototype::reset();

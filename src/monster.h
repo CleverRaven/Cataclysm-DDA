@@ -68,7 +68,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
         std::string get_material() const override
         {
-            return type->mat;
+            return type->mat[0];
         };
         int hp_percentage() const override;
 
@@ -193,6 +193,17 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         bool bash_at( const tripoint &p );
 
+        /**
+         * Try to push away whatever occupies p, then step in.
+         * May recurse and try to make the creature at p push further.
+         *
+         * @param boost A bonus on the roll to represent a horde pushing from behind
+         * @param depth Number of recursions so far
+         *
+         * @return True if we managed to push something and took its place, false otherwise.
+         */
+        bool push_to( const tripoint &p, int boost, size_t depth );
+
         /** Returns innate monster bash skill, without calculating additional from helpers */
         int bash_skill();
         int bash_estimate();
@@ -263,7 +274,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
-        int  fall_damage() const; // How much a fall hurts us
+
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
 
         bool has_grab_break_tec() const override;
 
@@ -324,8 +339,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string unique_name; // If we're unique
         bool hallucination;
 
-        // level_change == true means "monster isn't spawned yet, don't update position in tracker"
-        bool setpos( const tripoint &p, const bool level_change = false );
+        void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;
         inline int posx() const override
         {

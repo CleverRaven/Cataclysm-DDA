@@ -187,7 +187,7 @@ class mapgen_function_json : public virtual mapgen_function {
     mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
         jdata = s;
         mapgensize = 24;
-        fill_ter = -1;
+        fill_ter = t_null;
         is_ready = false;
         do_format = false;
     }
@@ -198,7 +198,7 @@ class mapgen_function_json : public virtual mapgen_function {
 
     std::string jdata;
     size_t mapgensize;
-    int fill_ter;
+    ter_id fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
 

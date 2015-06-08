@@ -179,7 +179,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     stomach = (roll_butchery() >= 0);
 
     if( bones > 0 ) {
-        if( corpse->mat == "veggy" ) {
+        if( corpse->has_material("veggy") ) {
             g->m.spawn_item(p->pos(), "plant_sac", bones, 0, age);
             add_msg(m_good, _("You harvest some fluid bladders!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON) ) {
@@ -198,14 +198,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "sinew", sinews, 0, age);
             add_msg(m_good, _("You harvest some usable sinews!"));
-        } else if( corpse->mat == "veggy" ) {
+        } else if( corpse->has_material("veggy") ) {
             g->m.spawn_item(p->pos(), "plant_fibre", sinews, 0, age);
             add_msg(m_good, _("You harvest some plant fibers!"));
         }
     }
 
     if( stomach ) {
-        if (corpse->mat != "veggy" && !corpse->has_flag(MF_POISON) &&
+        if( !corpse->has_material("veggy") && !corpse->has_flag(MF_POISON) &&
             !corpse->has_flag(MF_HUMAN)) {
             const itype_id meat = corpse->get_meat_itype();
             if ((corpse->size == MS_SMALL || corpse->size == MS_MEDIUM) && meat == "meat") {
@@ -494,7 +494,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         found_something = true;
     }
     items_location loc;
-    ter_id next_ter = 0; //Just to have a default for compilers' sake
+    ter_id next_ter = t_null; //Just to have a default for compilers' sake
     switch (calendar::turn.get_season() ) {
     case SPRING:
         loc = "forage_spring";

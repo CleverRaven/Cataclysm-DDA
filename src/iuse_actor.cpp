@@ -842,7 +842,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
     if( need_sunlight ) {
         // Needs the correct weather, light and to be outside.
         if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-            g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos ) ) {
+            g->natural_light_level() >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
             if( prep_firestarter_use(p, it, pos ) ) {
                 // turns needed for activity.
                 const int turns = calculate_time_for_lens_fire( p, g->natural_light_level() );
@@ -895,7 +895,7 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     if( need_sunlight ) {
         return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level() >= 60 && !g->m.has_flag( "INDOORS", pos );
+                 g->natural_light_level() >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
     }
 
     return true;
@@ -956,7 +956,7 @@ bool salvage_actor::valid_to_cut_up(const item *it) const
     if( !it->only_made_of( material_whitelist ) ) {
         return false;
     }
-    if (it->is_container() && !it->contents.empty()) {
+    if( !it->contents.empty() ) {
         return false;
     }
     if (it->volume() == 0) {
@@ -1328,7 +1328,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species("ZOMBIE") && mt->mat == "flesh" &&
+        if( it.is_corpse() && mt->in_species("ZOMBIE") && mt->has_material("flesh") &&
             mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }

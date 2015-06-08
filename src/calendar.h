@@ -8,22 +8,10 @@
 #define HOURS(x)   ((x) * 600)
 #define DAYS(x)    ((x) * 14400)
 
-// Times for sunrise, sunset at equinoxes
-#define SUNRISE_WINTER   7
-#define SUNRISE_SOLSTICE 6
-#define SUNRISE_SUMMER   5
-
-#define SUNSET_WINTER   17
-#define SUNSET_SOLSTICE 19
-#define SUNSET_SUMMER   21
-
-// How long, in minutes, does sunrise/sunset last?
-#define TWILIGHT_MINUTES 60
-
 // How much light moon provides--double for full moon
-#define MOONLIGHT_LEVEL 4
+#define MOONLIGHT_LEVEL 4.5
 // How much light is provided in full daylight
-#define DAYLIGHT_LEVEL 60
+#define DAYLIGHT_LEVEL 100
 
 // How long real-life seasons last, in days, for reference
 #define REAL_WORLD_SEASON_LENGTH 91
@@ -83,18 +71,20 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns the number of minutes past midnight. Used for sunrise/set calculations. */
+        /** Returns the number of minutes past midnight. Used for weather calculations. */
         int minutes_past_midnight() const;
+        /** Returns the number of seconds past midnight. Used for sunrise/set calculations. */
+        int seconds_past_midnight() const;
         /** Returns the current phase of the moon. */
         moon_phase moon() const;
         /** Returns the current sunrise time based on the time of year. */
         calendar sunrise() const;
         /** Returns the current sunset time based on the time of year. */
         calendar sunset() const;
-        /** Returns true if it's currently after sunset + TWILIGHT_MINUTES or before sunrise. */
+        /** Returns true if it's currently after sunset + TWILIGHT_SECONDS or before sunrise. */
         bool is_night() const;
         /** Returns the current sunlight or moonlight level through the preceding functions. */
-        int sunlight() const;
+        float sunlight() const;
 
         /** Basic accessors */
         int seconds() const

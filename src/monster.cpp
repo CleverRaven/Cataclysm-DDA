@@ -1,5 +1,6 @@
 #include "monster.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
@@ -110,15 +111,14 @@ monster::~monster()
 {
 }
 
-bool monster::setpos( const tripoint &p, const bool level_change )
+void monster::setpos( const tripoint &p )
 {
     if( p == pos3() ) {
-        return true;
+        return;
     }
-    bool ret = level_change ? true : g->update_zombie_pos( *this, p );
-    position = p;
 
-    return ret;
+    g->update_zombie_pos( *this, p );
+    position = p;
 }
 
 const tripoint &monster::pos() const
@@ -245,22 +245,20 @@ std::string monster::name(unsigned int quantity) const
 // MATERIALS-TODO: put description in materials.json?
 std::string monster::name_with_armor() const
 {
- std::string ret;
- if (type->in_species("INSECT")) {
-     ret = string_format(_("carapace"));
- }
- else {
-     if (type->mat == "veggy") {
-         ret = string_format(_("thick bark"));
-     } else if (type->mat == "flesh" || type->mat == "hflesh" || type->mat == "iflesh") {
-         ret = string_format(_("thick hide"));
-     } else if (type->mat == "iron" || type->mat == "steel") {
-         ret = string_format(_("armor plating"));
-     } else if (type->mat == "protoplasmic") {
-         ret = string_format(_("hard protoplasmic hide"));
-     }
- }
- return ret;
+    std::string ret;
+    if( type->in_species("INSECT") ) {
+        ret = string_format(_("carapace"));
+    } else if( type->has_material("veggy") ) {
+        ret = string_format(_("thick bark"));
+    } else if( type->has_material("flesh") || type->has_material("hflesh") ||
+               type->has_material("iflesh") ) {
+        ret = string_format(_("thick hide"));
+    } else if( type->has_material("iron") || type->has_material("steel")) {
+        ret = string_format(_("armor plating"));
+    } else if( type->has_material("protoplasmic") ) {
+        ret = string_format(_("hard protoplasmic hide"));
+    }
+    return ret;
 }
 
 std::string monster::disp_name(bool possessive) const {
@@ -473,7 +471,7 @@ int monster::sight_range( const int light_level ) const
 
 bool monster::made_of(std::string m) const
 {
-    return type->mat == m;
+    return type->has_material( m );
 }
 
 bool monster::made_of(phase_id p) const
@@ -684,13 +682,28 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
- anger += trigger_sum(&(type->anger));
- anger -= trigger_sum(&(type->placate));
- if (morale < 0) {
-  if (morale < type->morale && one_in(20))
-  morale++;
- } else
-  morale -= trigger_sum(&(type->fear));
+    anger += trigger_sum( &(type->anger) );
+    anger -= trigger_sum( &(type->placate) );
+    morale -= trigger_sum( &(type->fear) );
+    if( morale != type->morale && one_in( 10 ) ) {
+        if( morale < type->morale ) {
+            morale++;
+        } else {
+            morale--;
+        }
+    }
+
+    if( anger != type->agro && one_in( 10 ) ) {
+        if( anger < type->agro ) {
+            anger++;
+        } else {
+            anger--;
+        }
+    }
+
+    // Cap values at [-100, 100] to prevent perma-angry moose etc.
+    morale = std::min( 100, std::max( -100, morale ) );
+    anger  = std::min( 100, std::max( -100, anger  ) );
 }
 
 // This Adjustes anger/morale levels given a single trigger.
@@ -715,14 +728,18 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
     for( const auto &trigger : *triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
-                if (anger > 0 && one_in(20)) {
+                if( anger > 0 && one_in( 5 ) ) {
                     ret++;
                 }
                 break;
 
             case MTRIG_MEAT:
-                check_terrain = true;
-                check_meat = true;
+                // Disable meat checking for now
+                // It's hard to ever see it in action
+                // and even harder to balance it without making it exploity
+
+                // check_terrain = true;
+                // check_meat = true;
                 break;
 
             case MTRIG_FIRE:
@@ -735,27 +752,23 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
         }
     }
 
-    if (check_terrain) {
-        for (int x = posx() - 3; x <= posx() + 3; x++) {
-            for (int y = posy() - 3; y <= posy() + 3; y++) {
-                if (check_meat) {
-                    auto items = g->m.i_at(x, y);
-                    for( auto &item : items ) {
-                        if( item.is_corpse() || item.type->id == "meat" ||
-                            item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
-                            ret += 3;
-                            check_meat = false;
-                        }
+    if( check_terrain ) {
+        for( auto &p : g->m.points_in_radius( pos(), 3 ) ) {
+            // Note: can_see_items doesn't check actual visibility
+            // This will check through walls, but it's too small to matter
+            if( check_meat && g->m.sees_some_items( p, *this ) ) {
+                auto items = g->m.i_at( p );
+                for( auto &item : items ) {
+                    if( item.is_corpse() || item.type->id == "meat" ||
+                        item.type->id == "meat_cooked" || item.type->id == "human_flesh" ) {
+                        ret += 3;
+                        check_meat = false;
                     }
                 }
-                if (check_fire) {
-                    ret += ( 5 * g->m.get_field_strength( tripoint(x, y, posz()), fd_fire) );
-                }
             }
-        }
-        if (check_fire) {
-            if (g->u.has_amount("torch_lit", 1)) {
-                ret += 49;
+
+            if( check_fire ) {
+                ret += 5 * g->m.get_field_strength( p, fd_fire );
             }
         }
     }
@@ -764,7 +777,7 @@ int monster::trigger_sum(std::set<monster_trigger> *triggers) const
 }
 
 bool monster::is_underwater() const {
-    return can_submerge() && underwater;
+    return underwater && can_submerge();
 }
 
 bool monster::is_on_ground() const {
@@ -1278,7 +1291,10 @@ int monster::stability_roll() const
     }
 
     int stability = dice(type->melee_sides, type->melee_dice) + size_bonus;
-        return stability;
+    if( has_effect( "stunned" ) ) {
+        stability -= rng( 1, 5 );
+    }
+    return stability;
 }
 
 int monster::get_dodge() const
@@ -1332,19 +1348,49 @@ int monster::dodge_roll()
     return dice(numdice, 10);
 }
 
-int monster::fall_damage() const
+float monster::fall_damage_mod() const
 {
- if (has_flag(MF_FLIES))
-  return 0;
- switch (type->size) {
-  case MS_TINY:   return rng(0, 4);  break;
-  case MS_SMALL:  return rng(0, 6);  break;
-  case MS_MEDIUM: return dice(2, 4); break;
-  case MS_LARGE:  return dice(2, 6); break;
-  case MS_HUGE:   return dice(3, 5); break;
- }
+    if( has_flag(MF_FLIES) ) {
+        return 0.0f;
+    }
 
- return 0;
+    switch (type->size) {
+        case MS_TINY:
+            return 0.2f;
+        case MS_SMALL:
+            return 0.6f;
+        case MS_MEDIUM:
+            return 1.0f;
+        case MS_LARGE:
+            return 1.4f;
+        case MS_HUGE:
+            return 2.0f;
+    }
+
+    return 0.0f;
+}
+
+int monster::impact( const int force, const tripoint &p )
+{
+    if( force <= 0 ) {
+        return force;
+    }
+
+    const float mod = fall_damage_mod();
+    int total_dealt = 0;
+    if( g->m.has_flag( TFLAG_SHARP, p ) ) {
+        const int cut_damage = 10 * mod - get_armor_cut( bp_torso );
+        apply_damage( nullptr, bp_torso, cut_damage );
+        total_dealt += 10 * mod;
+    }
+
+    const int bash_damage = force * mod - get_armor_bash( bp_torso );
+    apply_damage( nullptr, bp_torso, bash_damage );
+    total_dealt += force * mod;
+
+    add_effect( "downed", rng( 0, mod * 3 + 1 ) );
+
+    return total_dealt;
 }
 
 void monster::reset_special(int index)
@@ -1550,13 +1596,13 @@ void monster::die(Creature* nkiller) {
 
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0, morale_adjust = 0;
-    if (type->has_anger_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_anger_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust += 15;
     }
-    if (type->has_fear_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_fear_trigger( MTRIG_FRIEND_DIED ) ) {
         morale_adjust -= 15;
     }
-    if (type->has_placate_trigger(MTRIG_FRIEND_DIED)){
+    if( type->has_placate_trigger( MTRIG_FRIEND_DIED ) ) {
         anger_adjust -= 15;
     }
 

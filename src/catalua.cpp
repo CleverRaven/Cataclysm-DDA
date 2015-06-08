@@ -443,9 +443,19 @@ public:
         }
         LuaValue<T*>::push( L, value );
     }
+    // HACK: because Lua does not known what const is.
+    static void push( lua_State* const L, const T* const value )
+    {
+        push( L, const_cast<T*>( value ) );
+    }
     static void push( lua_State* const L, T& value )
     {
         LuaValue<T*>::push( L, &value );
+    }
+    // HACK: because Lua does not known what const is.
+    static void push( lua_State* const L, const T& value )
+    {
+        push( L, const_cast<T&>( value ) );
     }
     static int push_reg( lua_State* const L, T* const value )
     {
@@ -732,9 +742,9 @@ uimenu *create_uimenu()
     return uimenu_instance.get();
 }
 
-ter_t *get_terrain_type(int id)
+const ter_t &get_terrain_type(int id)
 {
-    return (ter_t *) &terlist[id];
+    return ter_id( id ).obj();
 }
 
 /** Create a new monster of the given type. */

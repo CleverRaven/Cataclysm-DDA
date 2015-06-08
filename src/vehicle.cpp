@@ -588,6 +588,11 @@ void vehicle::smash() {
     }
 }
 
+const std::string vehicle::disp_name()
+{
+    return string_format( _("the %s"), name.c_str() );
+}
+
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
@@ -2949,8 +2954,8 @@ int vehicle::solar_epower( const tripoint &sm_loc ) const
                 continue;
             }
 
-            if( !(terlist[sm->ter[pg.x][pg.y]].has_flag(TFLAG_INDOORS) ||
-                  furnlist[sm->get_furn(pg.x, pg.y)].has_flag(TFLAG_INDOORS)) ) {
+            if( !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
+                  sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS)) ) {
                 epower += ( part_epower( elem ) * g->ground_natural_light_level() ) / DAYLIGHT_LEVEL;
             }
         }
@@ -5322,15 +5327,16 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     vehicle_part &tr = parts[p];
+    const bool auto_only = gun.has_flag("BURST_ONLY");
     const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
     const bool was_auto = tr.mode > 0;
-    if( tr.mode < -1 ) {
+    if( tr.mode < -1 && !auto_only ) {
         tr.mode = -1;
     } else if( tr.mode < 0 && !only_manual_modes ) {
         tr.mode = 0;
-    } else if( tr.mode == 0 && !only_manual_modes ) {
+    } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
-    } else if( tr.mode == 1 && !only_manual_modes ) {
+    } else if( tr.mode <= 1 && !only_manual_modes ) {
         tr.mode = burst_or_charge ? 1000 : -1;
     } else {
         tr.mode = burst_or_charge ? -1000 : -1;

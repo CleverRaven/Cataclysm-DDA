@@ -330,6 +330,7 @@
 		<Unit filename="src/messages.h" />
 		<Unit filename="src/mission.cpp" />
 		<Unit filename="src/mission.h" />
+		<Unit filename="src/mission_companion.cpp" />
 		<Unit filename="src/mission_end.cpp" />
 		<Unit filename="src/mission_fail.cpp" />
 		<Unit filename="src/mission_place.cpp" />

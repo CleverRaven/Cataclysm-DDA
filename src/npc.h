@@ -836,6 +836,8 @@ public:
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
+ std::string companion_mission;
+ int companion_mission_time;
  npc_mission mission;
  npc_personality personality;
  npc_opinion op_of_u;

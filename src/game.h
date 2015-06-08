@@ -9,6 +9,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "live_view.h"
+#include "int_id.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -63,8 +64,6 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
-typedef int ter_id;
-
 struct special_game;
 struct mtype;
 class mission;
@@ -84,6 +83,8 @@ class overmap;
 struct event;
 enum event_type : int;
 struct vehicle_part;
+struct ter_t;
+using ter_id = int_id<ter_t>;
 
 class game
 {
@@ -160,7 +161,7 @@ class game
          */
         void add_event(event_type type, int on_turn, int faction_id = -1);
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
-        bool event_queued(event_type type);
+        bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel. */
         void explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast = true );
         /** Triggers a flashbang explosion at p. */
@@ -202,6 +203,8 @@ class game
         void clear_zombies();
         /** Spawns a hallucination close to the player. */
         bool spawn_hallucination();
+        /** Swaps positions of two creatures */
+        bool swap_critters( Creature &first, Creature &second );
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p ) const;
@@ -270,6 +273,8 @@ class game
         npc *find_npc(int id);
         /** Makes any nearby NPC's on the overmap active. */
         void load_npcs();
+        /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
+        void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count(std::string mon);
         /** Increments the number of kills of the given mtype_id by the player upwards. */
@@ -293,7 +298,10 @@ class game
         int &scent( const tripoint &p );
         float ground_natural_light_level() const;
         float natural_light_level() const;
-        unsigned char light_level();
+        /** Returns coarse number-of-squares of visibility at the current light level.
+         * Used by monster and NPC AI.
+         */
+        unsigned char light_level() const;
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
@@ -402,6 +410,7 @@ class game
         std::vector<monster> coming_to_stairs;
         int monstairz;
         std::vector<npc *> active_npc;
+        std::vector<npc *> mission_npc;
         std::vector<faction> factions;
         // NEW: Dragging a piece of furniture, with a list of items contained
         std::vector<item> items_dragged;
@@ -722,8 +731,8 @@ class game
         std::map<std::string, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;
-        unsigned char latest_lightlevel;
-        calendar latest_lightlevel_turn;
+        mutable float latest_lightlevel;
+        mutable calendar latest_lightlevel_turn;
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
