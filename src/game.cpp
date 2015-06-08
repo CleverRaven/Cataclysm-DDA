@@ -12764,8 +12764,8 @@ void game::vertical_move(int movez, bool force)
         int best = 999;
         bool danger_lava = false;
         tripoint dest( 0, 0, z_after );
-        int &i;
-        int &j;
+        int &i = dest.x;
+        int &j = dest.y;
         for( i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++ ) {
             for( j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++ ) {
                 if (rl_dist(u.pos(), dest) <= best &&
