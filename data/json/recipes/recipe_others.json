@@ -7429,6 +7429,39 @@
   ]
 },{
   "type" : "recipe",
+  "result": "survivor_shavingkit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ],
+    [
+      [ "razor_blade", 1 ],
+      [ "sharp_rock", 1 ]
+    ],
+    [
+      [ "mirror", 1 ]
+    ],
+    [
+      [ "string_6", 2 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ],
+      [ "skewer", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "plant_fibre",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
