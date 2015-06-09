@@ -193,10 +193,12 @@ struct ui_list_entry {
     nc_color text_color;
     int return_code;
 
-    ui_list_entry(const std::string &N) : name(N) {};
-    ui_list_entry(const std::string &N, bool E) : name(N), enabled(E) {};
+    ui_list_entry(const std::string &N) : 
+        name(N), enabled(true), text_color(COLOR_WHITE), return_code(-1) {};
+    ui_list_entry(const std::string &N, bool E) : 
+        name(N), enabled(E), text_color(COLOR_WHITE), return_code(-1) {};
     ui_list_entry(const std::string &N, bool E, nc_color C) :
-        name(N), enabled(E), text_color(C) {};
+        name(N), enabled(E), text_color(C), return_code(-1) {};
     ui_list_entry(const std::string &N, bool E, nc_color C, int R) : 
         name(N), enabled(E), text_color(C), return_code(R) {};
 };
