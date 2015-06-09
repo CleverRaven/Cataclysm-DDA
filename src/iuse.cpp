@@ -2905,11 +2905,6 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    if (modded->has_flag("ATOMIC_AMMO")) {
-    p->add_msg_if_player( _( "You cannot improve your %s with this device." ), modded->tname().c_str() );
-        return 0;
-    }
-
     p->add_msg_if_player( _( "You double the plutonium capacity of your %s!" ), modded->tname().c_str() );
     modded->item_tags.insert("DOUBLE_AMMO");
     return 1;
