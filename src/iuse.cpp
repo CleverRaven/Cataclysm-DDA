@@ -2882,6 +2882,39 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
     return 1;
 }
 
+int iuse::double_reactor(player *p, item *, bool, const tripoint& )
+{
+    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
+        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        return tl != nullptr && tl->ammo_id == "plutonium";
+    } );
+    item *modded = &( p->i_at( inventory_index ) );
+
+    if (modded == NULL || modded->is_null()) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0;
+    }
+    if (!modded->is_tool()) {
+        p->add_msg_if_player(m_info, _("This device can only be used on tools."));
+        return 0;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    if (tool->ammo_id != "plutonium") {
+        p->add_msg_if_player(m_info, _("That item does not use plutonium!"));
+        return 0;
+    }
+
+    if (modded->has_flag("ATOMIC_AMMO")) {
+    p->add_msg_if_player( _( "You cannot improve your %s with this device." ), modded->tname().c_str() );
+        return 0;
+    }
+
+    p->add_msg_if_player( _( "You double the plutonium capacity of your %s!" ), modded->tname().c_str() );
+    modded->item_tags.insert("DOUBLE_AMMO");
+    return 1;
+}
+
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {

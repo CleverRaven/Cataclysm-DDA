@@ -536,6 +536,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "double_plutonium_core",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 7 ],
+  "difficulty": 7,
+  "time": 60000,
+  "reversible": false,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [[ "recipe_atomic_battery", 7 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [ [ "scrap", 9 ] ],
+    [ [ "cable", 6 ] ],
+    [ [ "alloy_plate", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "noise_emitter",
   "id_suffix": "radio-mod",
   "category": "CC_ELECTRONIC",
