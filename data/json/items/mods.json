@@ -228,7 +228,7 @@
         "type" : "GUNMOD",
         "id" : "spare_mag",
         "name" : "spare magazine",
-        "description" : "A spare magazine you can keep on hand to make reloads faster, but must itself  be reloaded before it can be used again.",
+        "description" : "A spare magazine you can keep on hand to make reloads faster, but must itself be reloaded before it can be used again.",
         "location": "accessories",
         "weight" : 330,
         "to_hit" : 0,
