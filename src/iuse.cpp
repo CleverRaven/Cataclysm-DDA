@@ -3093,7 +3093,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _( "Detach battery mods from what?" ), []( const item & itm ) {
+    int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
         it_tool *tl = dynamic_cast<it_tool *>(itm.type);
         return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
                                   itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
@@ -3105,13 +3105,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     }
 
     if (!modded->is_tool()) {
-        p->add_msg_if_player( m_info, _( "Only battery mods for tools can be removed this way." ) );
-        return 0;
-    }
-
-    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
-        p->add_msg_if_player( m_info, _( "That item does not use batteries!" ) );
+        p->add_msg_if_player( m_info, _( "Only power mods for tools can be removed this way." ) );
         return 0;
     }
 
