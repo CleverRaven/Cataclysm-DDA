@@ -934,6 +934,13 @@ void add_corpse( const tripoint &p );
     void set_graffiti( const tripoint &p, const std::string &contents);
     void delete_graffiti( const tripoint &p );
 
+// Climbing
+    /**
+     * Checks 3x3 block centered on p for terrain to climb.
+     * @return Difficulty of climbing check from/to point p.
+     */
+    int climb_difficulty( const tripoint &p ) const;
+
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);

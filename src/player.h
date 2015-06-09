@@ -488,6 +488,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
         int dodge_roll() override;
+        /** Returns the player's climbing_cost based on mutations, position and destination. */
+        int climbing_cost( const tripoint &dest ) const override;
+        
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         int get_melee() const override;
         /**
@@ -508,7 +511,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile();
 
         // ranged.cpp

@@ -124,7 +124,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool wander(); // Returns true if we have no plans
 
         /**
-         * Checks whether we can move to/through (x, y). This does not account for bashing.
+         * Checks whether we can move to/through p. This does not account for bashing.
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
@@ -274,6 +274,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+
+        int climbing_cost( const tripoint &dest ) const override; // Cost is in moves
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;

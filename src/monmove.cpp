@@ -30,14 +30,11 @@ bool monster::wander()
 
 bool monster::can_move_to( const tripoint &p ) const
 {
-
-    if ((has_flag(MF_CLIMBS) || has_flag(MF_FLIES)) && g->m.has_flag("CLIMBABLE", p)) {
-        return true;
-    }
-    if( g->m.move_cost( p ) == 0 )
-    {
+    const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
+    if( g->m.move_cost( p ) == 0 && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
         return false;
     }
+
     if( !can_submerge() && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         return false;
     }
@@ -59,8 +56,8 @@ bool monster::can_move_to( const tripoint &p ) const
             return false;
         }
 
-        // don't enter open pits ever unless tiny or can fly
-        if( !( type->size == MS_TINY || has_flag( MF_FLIES ) ) &&
+        // Don't enter open pits ever unless tiny, can fly or climb well
+        if( !( type->size == MS_TINY || can_climb ) &&
             ( g->m.ter( p ) == t_pit || g->m.ter( p ) == t_pit_spiked || g->m.ter( p ) == t_pit_glass ) ) {
             return false;
         }
@@ -76,20 +73,36 @@ bool monster::can_move_to( const tripoint &p ) const
             return false;
         }
     }
+
+    if( g->m.has_flag( TFLAG_NO_FLOOR ) ) {
+        if( !can_climb ) {
+            return false;
+        }
+
+        if( has_flag( MF_FLIES ) ) {
+            return true;
+        }
+
+        // This should become more variable, but for now make all climbers really good at the job
+        if( g->m.climb_difficulty( p ) < 10 ) {
+            return true;
+        }
+    }
+
     return true;
 }
 
 // Resets plans (list of squares to visit) and builds it as a straight line
-// to the destination (x,y). t is used to choose which eligible line to use.
-// Currently, this assumes we can see (x,y), so shouldn't be used in any other
+// to the destination p. t is used to choose which eligible line to use.
+// Currently, this assumes we can see p, so shouldn't be used in any other
 // circumstance (or else the monster will "phase" through solid terrain!)
 void monster::set_dest( const tripoint &p, int &t )
 {
     plans.clear();
-    plans = line_to( pos3(), p, t, 0 );
+    plans = line_to( pos(), p, t, 0 );
 }
 
-// Move towards (x,y) for f more turns--generally if we hear a sound there
+// Move towards p for f more turns--generally if we hear a sound there
 // "Stupid" movement; "if (wander_pos.x < posx) posx--;" etc.
 void monster::wander_to( const tripoint &p, int f )
 {
@@ -869,10 +882,13 @@ bool monster::attack_at( const tripoint &p )
 
 bool monster::move_to( const tripoint &p, bool force )
 {
+    const bool digs = digging();
+    const bool flies = has_flag( MF_FLIES );
+    const bool climbs = is_climbing();
     //Allows climbing monsters to move on terrain with movecost <= 0
-    if (g->m.has_flag("CLIMBABLE", p)) {
-        if (!g->is_empty(p)) {
-            if (has_flag (MF_FLIES)) {
+    if( g->m.has_flag( "CLIMBABLE", p ) ) {
+        if( g->m.move_cost( p ) == 0 && g->critter_at( p ) == nullptr ) {
+            if( has_flag (MF_FLIES) ) {
                 moves -= 100;
                 force = true;
                 if (g->u.sees( *this )){
@@ -899,12 +915,17 @@ bool monster::move_to( const tripoint &p, bool force )
     }
 
     if( !force ) {
-        moves -= calc_movecost( pos(), p );
+        if( !climbs ) {
+            moves -= calc_movecost( pos(), p );
+        } else {
+            
+            asdf
+        }
     }
 
     //Check for moving into/out of water
     bool was_water = g->m.is_divable( pos3() );
-    bool will_be_water = !has_flag( MF_FLIES ) && can_submerge() && g->m.is_divable( p );
+    bool will_be_water = on_ground && can_submerge() && g->m.is_divable( p );
 
     if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
@@ -924,7 +945,7 @@ bool monster::move_to( const tripoint &p, bool force )
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    if( type->size != MS_TINY && !has_flag( MF_FLIES)) {
+    if( type->size != MS_TINY && on_ground ) {
         if( g->m.has_flag( "SHARP", pos3() ) && !one_in( 4 ) ) {
             apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
         }
@@ -934,7 +955,7 @@ bool monster::move_to( const tripoint &p, bool force )
 
     }
 
-    if( g->m.has_flag( "UNSTABLE", p ) && !has_flag( MF_FLIES) ) {
+    if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
         add_effect( "bouldering", 1, num_bp, true );
     } else if( has_effect( "bouldering" ) ) {
         remove_effect( "bouldering" );
@@ -976,16 +997,10 @@ bool monster::move_to( const tripoint &p, bool force )
     }
 
     if( has_flag( MF_SLUDGETRAIL ) ) {
-        tripoint temp;
-        temp.z = posz();
-        int &tx = temp.x;
-        int &ty = temp.y;
-        for( tx = posx() - 1; tx <= posx() + 1; tx++ ) {
-            for( ty = posy() - 1; ty <= posy() + 1; ty++ ) {
-                const int fstr = 3 - ( abs( tx - posx() ) + abs( ty - posy() ) );
-                if( fstr >= 2 ) {
-                    g->m.add_field( temp, fd_sludge, fstr, 0 );
-                }
+        for( const tripoint &sludge_p : g->m.points_in_radius( pos(), 1 ) ) {
+            const int fstr = 3 - ( abs( sludge_p.x - posx() ) + abs( sludge_p.y - posy() ) );
+            if( fstr >= 2 ) {
+                g->m.add_field( sludge_p, fd_sludge, fstr, 0 );
             }
         }
     }
