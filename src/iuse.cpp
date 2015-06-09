@@ -7199,6 +7199,7 @@ int iuse::survivor_belt(player *p, item *it, bool b, const tripoint &pos)
                    _( "Use hammer" ),
                    _( "Use hacksaw" ),
                    _( "Use wood saw" ),
+                   _( "Use screwdriver" ),
                    _( "Cancel" ),
                    NULL );
 
@@ -7211,6 +7212,8 @@ int iuse::survivor_belt(player *p, item *it, bool b, const tripoint &pos)
             return hacksaw( p, it, b, pos );
         case 4:
             return lumber( p, it, b, pos );
+        case 5:
+            return remove_all_mods( p, it, b, pos );
     }
     return 0;
 }
