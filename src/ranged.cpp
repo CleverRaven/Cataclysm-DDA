@@ -430,7 +430,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             auto new_targets = get_visible_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
-                if( attitude_to( z ) == A_FRIENDLY ) {
+                if( attitude_to( z ) != A_HOSTILE ) {
                     if( !trigger_happy ) {
                         it = new_targets.erase( it );
                         continue;
