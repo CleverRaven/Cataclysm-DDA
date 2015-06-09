@@ -3178,695 +3178,1802 @@
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "default",
         "volume" : 85,
         "files" : [
-            "melee/generic/generic_attack.wav"
+            "melee/small_bash/swing_1.wav",
+            "melee/small_bash/swing_2.wav",
+            "melee/small_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "default",
+        "volume" : 85,
+        "files" : [
+            "melee/small_bash/hit_flesh_1.wav",
+            "melee/small_bash/hit_flesh_2.wav",
+            "melee/small_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "default",
+        "volume" : 85,
+        "files" : [
+            "melee/small_bash/hit_metal_1.wav",
+            "melee/small_bash/hit_metal_2.wav",
+            "melee/small_bash/hit_metal_3.wav",
+            "melee/small_bash/hit_metal_4.wav",
+            "melee/small_bash/hit_metal_5.wav",
+            "melee/small_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "katana",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "katana",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "katana",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "lajatang",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "lajatang",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "lajatang",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "bio_blade_weapon",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "bio_blade_weapon",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "bio_blade_weapon",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "machete",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "machete",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "machete",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "firemachete_off",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "firemachete_off",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "firemachete_off",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "firemachete_on",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack_fire.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "firemachete_on",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "firemachete_on",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_knife",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack_diamond.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "torch_lit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_knife",
         "volume" : 85,
         "files" : [
-            "melee/generic/generic_attack_fire.wav"
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_knife",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_machete",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack_diamond.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_machete",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_machete",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_katana",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_diamond.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_katana",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_katana",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "wakizashi",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "wakizashi",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "wakizashi",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "firekatana_off",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "firekatana_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "firekatana_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "firekatana_on",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_fire.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "firekatana_on",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "firekatana_on",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "broadsword",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "broadsword",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "broadsword",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "broadfire_off",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "broadfire_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "broadfire_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "broadfire_on",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_fire.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "broadfire_on",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "broadfire_on",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "nodachi",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "nodachi",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "nodachi",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "kukri",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "kukri",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "kukri",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_kukri",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack_diamond.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_kukri",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_kukri",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "survivor_machete",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "survivor_machete",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "survivor_machete",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_rapier",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack_diamond.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_rapier",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_rapier",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_broadsword",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_diamond.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_broadsword",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_broadsword",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_wakizashi",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack_diamond.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_wakizashi",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_wakizashi",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_nodachi",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_diamond.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_nodachi",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_nodachi",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "hammer_sledge",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "hammer_sledge",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "hammer_sledge",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "mjolnir",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "bokken",
+        "id" : "melee_hit_flesh",
+        "variant" : "mjolnir",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "cudgel",
+        "id" : "melee_hit_metal",
+        "variant" : "mjolnir",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "q_staff",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "q_staff",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "q_staff",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "i_staff",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "i_staff",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "i_staff",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "warhammer",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "warhammer",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "warhammer",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "homewrecker",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "wrench",
+        "id" : "melee_hit_flesh",
+        "variant" : "homewrecker",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "boltcutters",
+        "id" : "melee_hit_metal",
+        "variant" : "homewrecker",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "morningstar",
+        "id" : "melee_swing",
+        "variant" : "hallingan",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "mace",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
         "variant" : "halligan",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_metal",
+        "variant" : "halligan",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "zweihander",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "zweihander",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "zweihander",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "zweifire_off",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "zweifire_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "zweifire_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "zweifire_on",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_fire.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "ax",
-        "volume" : 65,
+        "id" : "melee_hit_flesh",
+        "variant" : "zweifire_on",
+        "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_metal",
+        "variant" : "zweifire_on",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "ax",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "ax",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "ax",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "battleaxe",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "battletorch",
+        "id" : "melee_hit_flesh",
+        "variant" : "battleaxe",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "battletorch_lit",
+        "id" : "melee_hit_metal",
+        "variant" : "battleaxe",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden_fire.wav"
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "scythe_war",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "scythe_war",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "scythe_war",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "shock_staff",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack_electric.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "shock_staff",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "shock_staff",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diamond_zweihander",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack_diamond.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "diamond_zweihander",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diamond_zweihander",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "knife_combat",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "knife_combat",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "knife_combat",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "screwdriver",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "sword_nail",
+        "id" : "melee_hit_flesh",
+        "variant" : "screwdriver",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "sword_wood",
+        "id" : "melee_hit_metal",
+        "variant" : "screwdriver",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "sword_crude",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "sword_crude",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "sword_crude",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "sword_forged",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "nailboard",
+        "id" : "melee_hit_flesh",
+        "variant" : "sword_forged",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "nailbat",
+        "id" : "melee_hit_metal",
+        "variant" : "sword_forged",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "bwirebat",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "bowling_axe",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "pipe",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "bat",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "bat_metal",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "spear_wood",
         "volume" : 85,
         "files" : [
-            "melee/big_stabbing/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "spear_wood",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "spear_wood",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "spear_forked",
         "volume" : 85,
         "files" : [
-            "melee/big_stabbing/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "spear_forked",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "spear_forked",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "spear_steel",
         "volume" : 85,
         "files" : [
-            "melee/big_stabbing/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "spear_steel",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "spear_steel",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "spear_survivor",
         "volume" : 85,
         "files" : [
-            "melee/big_stabbing/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "baton-extended",
+        "id" : "melee_hit_flesh",
+        "variant" : "spear_survivor",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_metal",
+        "variant" : "spear_survivor",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "hockey_stick",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "hockey_stick",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "hockey_stick",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "pickaxe",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "tonfa",
+        "id" : "melee_hit_flesh",
+        "variant" : "pickaxe",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "tonfa_wood",
+        "id" : "melee_hit_metal",
+        "variant" : "pickaxe",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "PR24-extended",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "glass_macuahuitl",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "hammer",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "crowbar",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "primitive_hammer",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "primitive_adze",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "e-tool",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
         ]
     },
     {
@@ -3889,65 +4996,218 @@
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "primitive_shovel",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "primitive_shovel",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "primitive_shovel",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "primitive_knife",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "makeshift_crowbar",
+        "id" : "melee_hit_flesh",
+        "variant" : "primitive_knife",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_metal",
+        "variant" : "primitive_knife",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "shovel",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "shovel",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "shovel",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "tanto",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "tanto",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "tanto",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "makeshift_knife",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "makeshift_knife",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "makeshift_knife",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "kris",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "kris",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "kris",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
         ]
     },
     {
@@ -3961,74 +5221,294 @@
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "rapier",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "rapier",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "rapier",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "pike",
         "volume" : 85,
         "files" : [
-            "melee/big_stabbing/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "pike",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "pike",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "makeshift_machete",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "makeshift_machete",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "makeshift_machete",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "shishkebab_off",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "shishkebab_on",
+        "id" : "melee_hit_flesh",
+        "variant" : "shishkebab_off",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack_fire.wav"
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_metal",
+        "variant" : "shishkebab_off",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
+        "variant" : "shichkebab_on",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "shichkebab_on",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "shichkebab_on",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "makeshift_halberd",
         "volume" : 85,
         "files" : [
-            "melee/big_stabbing/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "makeshift_halberd",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "makeshift_halberd",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "knife_trench",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "knife_trench",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "knife_trench",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "switchblade",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "switchblade",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "switchblade",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
         ]
     },
     {
@@ -4051,65 +5531,220 @@
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "knife_hunting",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "knife_hunting",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "knife_hunting",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "knife_rambo",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "knife_rambo",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "knife_rambo",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "knife_rm42",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "knife_rm42",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "knife_rm42",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "scythe",
         "volume" : 85,
         "files" : [
-            "melee/big_cutting/weapon_attack.wav"
+            "melee/big_cutting/swing_1.wav",
+            "melee/big_cutting/swing_2.wav",
+            "melee/big_cutting/swing_3.wav",
+            "melee/big_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "scythe",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_flesh_1.wav",
+            "melee/big_cutting/hit_flesh_2.wav",
+            "melee/big_cutting/hit_flesh_3.wav",
+            "melee/big_cutting/hit_flesh_4.wav",
+            "melee/big_cutting/hit_flesh_5.wav",
+            "melee/big_cutting/hit_flesh_6.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "scythe",
+        "volume" : 85,
+        "files" : [
+            "melee/big_cutting/hit_metal_1.wav",
+            "melee/big_cutting/hit_metal_2.wav",
+            "melee/big_cutting/hit_metal_3.wav",
+            "melee/big_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "sickle",
         "volume" : 85,
         "files" : [
-            "melee/small_cutting/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_hit_flesh",
+        "variant" : "sickle",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "sickle",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_swing",
         "variant" : "diveknife",
         "volume" : 85,
         "files" : [
-            "melee/small_stabbing/weapon_attack.wav"
+            "melee/small_cutting/swing_1.wav",
+            "melee/small_cutting/swing_2.wav",
+            "melee/small_cutting/swing_3.wav",
+            "melee/small_cutting/swing_4.wav"
         ]
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "lobotomizer",
+        "id" : "melee_hit_flesh",
+        "variant" : "diveknife",
         "volume" : 85,
         "files" : [
-            "melee/small_bash/weapon_attack.wav"
+            "melee/small_cutting/hit_flesh_1.wav",
+            "melee/small_cutting/hit_flesh_2.wav",
+            "melee/small_cutting/hit_flesh_3.wav",
+            "melee/small_cutting/hit_flesh_4.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "diveknife",
+        "volume" : 85,
+        "files" : [
+            "melee/small_cutting/hit_metal_1.wav",
+            "melee/small_cutting/hit_metal_2.wav",
+            "melee/small_cutting/hit_metal_3.wav",
+            "melee/small_cutting/hit_metal_4.wav"
         ]
     },
     {
@@ -4124,33 +5759,6 @@
     {
         "type": "sound_effect",
         "id" : "melee_hit",
-        "variant" : "shocktonfa_off",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack_wooden.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "shocktonfa_on",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack_wooden_electric.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
-        "variant" : "combatsaw_off",
-        "volume" : 85,
-        "files" : [
-            "melee/small_bash/weapon_attack.wav"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "melee_hit",
         "variant" : "combatsaw_on",
         "volume" : 85,
         "files" : [
@@ -4159,11 +5767,38 @@
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "cslajatang_off",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "cslajatang_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "cslajatang_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
         ]
     },
     {
@@ -4177,11 +5812,38 @@
     },
     {
         "type": "sound_effect",
-        "id" : "melee_hit",
+        "id" : "melee_swing",
         "variant" : "chainsaw_off",
         "volume" : 85,
         "files" : [
-            "melee/big_bash/weapon_attack.wav"
+            "melee/big_bash/swing_1.wav",
+            "melee/big_bash/swing_2.wav",
+            "melee/big_bash/swing_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_flesh",
+        "variant" : "chainsaw_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_flesh_1.wav",
+            "melee/big_bash/hit_flesh_2.wav",
+            "melee/big_bash/hit_flesh_3.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "melee_hit_metal",
+        "variant" : "chainsaw_off",
+        "volume" : 85,
+        "files" : [
+            "melee/big_bash/hit_metal_1.wav",
+            "melee/big_bash/hit_metal_2.wav",
+            "melee/big_bash/hit_metal_3.wav",
+            "melee/big_bash/hit_metal_4.wav",
+            "melee/big_bash/hit_metal_5.wav",
+            "melee/big_bash/hit_metal_6.wav"
         ]
     },
     {
