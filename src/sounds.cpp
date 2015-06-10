@@ -721,7 +721,7 @@ void sfx::generate_gun_soundfx( const tripoint source ) {
 
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
-    if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 60 ) {
+    if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
     int heard_volume = get_heard_volume( source );
@@ -765,19 +765,39 @@ void sfx::generate_gun_soundfx( const tripoint source ) {
             if( monster_id == "mon_turret" || monster_id == "mon_secubot" ) {
                 play_variant_sound( "fire_gun", "hk_mp5", heard_volume, angle, 0.8, 1.2 );
                 start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
             } else if( monster_id == "mon_turret_rifle" || monster_id == "mon_chickenbot"
                        || monster_id == "mon_tankbot" ) {
                 play_variant_sound( "fire_gun", "m4a1", heard_volume, angle, 0.8, 1.2 );
                 start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
+            } else if( monster_id == "mon_turret_bmg" ) {
+                play_variant_sound( "fire_gun", "m2browning", heard_volume, angle, 0.8, 1.2 );
+                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
+            } else if( monster_id == "mon_laserturret" ) {
+                play_variant_sound( "fire_gun", "laser_rifle", heard_volume, angle, 0.8, 1.2 );
+                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
             }
         } else {
             if( monster_id == "mon_turret" || monster_id == "mon_secubot" ) {
                 play_variant_sound( "fire_gun_distant", "smg", heard_volume, angle, 0.8, 1.2 );
                 start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
             } else if( monster_id == "mon_turret_rifle" || monster_id == "mon_chickenbot"
                        || monster_id == "mon_tankbot" ) {
                 play_variant_sound( "fire_gun_distant", "rifle", heard_volume, angle, 0.8, 1.2 );
                 start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
+            } else if( monster_id == "mon_turret_bmg" ) {
+                play_variant_sound( "fire_gun_distant", "rifle", heard_volume, angle, 0.8, 1.2 );
+                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
+            } else if( monster_id == "mon_laserturret" ) {
+                play_variant_sound( "fire_gun_distant", "laser", heard_volume, angle, 0.8, 1.2 );
+                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+                return;
             }
         }
     }
