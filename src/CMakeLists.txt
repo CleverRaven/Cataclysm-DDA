@@ -83,6 +83,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/savegame.cpp
     ${CMAKE_SOURCE_DIR}/src/lightmap.cpp
     ${CMAKE_SOURCE_DIR}/src/mapdata.cpp
+    ${CMAKE_SOURCE_DIR}/src/submap.cpp
     ${CMAKE_SOURCE_DIR}/src/weather_data.cpp
     ${CMAKE_SOURCE_DIR}/src/martialarts.cpp
     ${CMAKE_SOURCE_DIR}/src/mod_manager.cpp
@@ -264,6 +265,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/gamemode.h
     ${CMAKE_SOURCE_DIR}/src/artifact.h
     ${CMAKE_SOURCE_DIR}/src/mapdata.h
+    ${CMAKE_SOURCE_DIR}/src/submap.h
     ${CMAKE_SOURCE_DIR}/src/text_snippets.h
     ${CMAKE_SOURCE_DIR}/src/monattack.h
     ${CMAKE_SOURCE_DIR}/src/filesystem.h
