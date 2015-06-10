@@ -912,7 +912,6 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
             }
         }
     }
-    pthread_exit( NULL );
     return 0;
 }
 
