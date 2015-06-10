@@ -195,8 +195,14 @@ public:
         return sm->get_trap( x, y ).obj();
     }
 
-    const furn_t &get_furn_t() const;
-    const ter_t &get_ter_t() const;
+    const furn_t &get_furn_t() const
+    {
+        return sm->get_furn( x, y ).obj();
+    }
+    const ter_t &get_ter_t() const
+    {
+        return sm->get_ter( x, y ).obj();
+    }
 
     inline const field &get_field() const
     {

@@ -59,13 +59,3 @@ void submap::delete_graffiti( int x, int y )
     is_uniform = false;
     cosmetics[x][y].erase( COSMETICS_GRAFFITI );
 }
-
-const furn_t &maptile::get_furn_t() const
-{
-    return sm->get_furn( x, y ).obj();
-}
-
-const ter_t &maptile::get_ter_t() const
-{
-    return sm->get_ter( x, y ).obj();
-}
