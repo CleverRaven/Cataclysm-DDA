@@ -685,7 +685,7 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 current_transparency = input_array[ currentX ][ currentY ];
             }
 
-            const int dist = rl_dist( origin, delta );
+            const int dist = rl_dist( origin, delta ) + offsetDistance;
             last_intensity = calc( numerator, cumulative_transparency, dist );
             output_cache[currentX][currentY] =
                 std::max( output_cache[currentX][currentY], last_intensity );
