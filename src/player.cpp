@@ -12299,17 +12299,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, worn[i].get_encumber() - 40);
             } else {
-                int newenc = worn[i].get_encumber();
-                // Fitted clothes will reduce either encumbrance or layering.
-                if( worn[i].has_flag( "FIT" ) ) {
-                    if( newenc > 0 ) {
-                        newenc = std::max( 0, newenc - 10 );
-                    } else if (layer[level] > 0) {
-                        layer[level] -= 5;
-                    }
-                }
-
-                armorenc += newenc;
+                armorenc += worn[i].get_encumber();
             }
         }
     }

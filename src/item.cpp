@@ -942,7 +942,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, get_encumber() - 10), true, "", true, true));
+                                     get_encumber(), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
                                      get_encumber(), true, "", true, true));
@@ -1182,13 +1182,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            if( get_encumber() > 0 ) {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
-            } else {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly and layers easily.")));
-            }
+	    dump->push_back(iteminfo("DESCRIPTION", "--"));
+	    dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
@@ -2422,6 +2417,10 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
+    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
+    if( item::item_tags.count("FIT") ) {
+        encumber = std::max( encumber / 2, encumber - 10 );
+    }
     // Good items to test this stuff on:
     // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
     // Nomes socks (2 thickness, 0 encumbrance)

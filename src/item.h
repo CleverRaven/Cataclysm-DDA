@@ -873,8 +873,6 @@ public:
         /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
-         * Note that this does not include any bonus from the FIT tag or similar, only
-         * @ref islot_armor::encumber.
          */
         int get_encumber() const;
         /**
