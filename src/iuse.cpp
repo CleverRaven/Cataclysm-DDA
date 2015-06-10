@@ -46,7 +46,7 @@
 
 void remove_double_ammo_mod( item &it, player &p )
 {
-    if( !it.item_tags.count( "DOUBLE_AMMO" ) ) {
+    if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
         return;
     }
     p.add_msg_if_player( _( "You remove the double battery capacity mod of your %s!" ),
@@ -60,6 +60,26 @@ void remove_double_ammo_mod( item &it, player &p )
         batteries.charges = it.charges;
         it.charges = 0;
         p.i_add_or_drop( batteries, 1 );
+    }
+}
+
+void remove_double_plut_mod( item &it, player &p )
+{
+    if( !it.item_tags.count( "DOUBLE_AMMO" ) && !it.item_tags.count( "DOUBLE_REACTOR" ) ) {
+        return;
+    }
+    p.add_msg_if_player( _( "You remove the double plutonium capacity mod of your %s!" ),
+                         it.tname().c_str() );
+    item mod( "double_plutonium_core", calendar::turn );
+    p.i_add_or_drop( mod, 1 );
+    it.item_tags.erase( "DOUBLE_AMMO" );
+    it.item_tags.erase( "DOUBLE_REACTOR" );
+    // Easier to remove all cells than to check for the actual real maximum
+    if( it.charges > 0 ) {
+        item cells( "plut_cell", calendar::turn );
+        cells.charges = it.charges / 500;
+        it.charges = 0;
+        p.i_add_or_drop( cells, 1 );
     }
 }
 
@@ -2845,6 +2865,8 @@ void remove_battery_mods( item &modded, player &p )
     remove_atomic_mod( modded, p );
     remove_recharge_mod( modded, p );
     remove_ups_mod( modded, p );
+    remove_double_ammo_mod( modded, p );
+    remove_double_plut_mod( modded, p );
 }
 
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
@@ -2907,6 +2929,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 
     p->add_msg_if_player( _( "You double the plutonium capacity of your %s!" ), modded->tname().c_str() );
     modded->item_tags.insert("DOUBLE_AMMO");
+    modded->item_tags.insert("DOUBLE_REACTOR");   //This flag lets the remove_ functions know that this is a plutonium tool without taking extra steps.
     return 1;
 }
 
@@ -2967,16 +2990,16 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
     }
 
     it_tool *tool = dynamic_cast<it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
-        return 0;
-    }
-
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(m_info,
                              _("That item has already had its battery modified to accept plutonium cells."));
         return 0;
     }
+    if (tool->ammo_id != "battery") {
+        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
+        return 0;
+    }
+
 
     remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
