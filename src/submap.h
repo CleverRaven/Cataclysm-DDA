@@ -44,34 +44,34 @@ struct spawn_point {
 };
 
 struct submap {
-    inline trap_id get_trap( const int x, const int y ) const {
+    trap_id get_trap( const int x, const int y ) const {
         return trp[x][y];
     }
 
-    inline void set_trap( const int x, const int y, trap_id trap ) {
+    void set_trap( const int x, const int y, trap_id trap ) {
         is_uniform = false;
         trp[x][y] = trap;
     }
 
-    inline furn_id get_furn( const int x, const int y ) const {
+    furn_id get_furn( const int x, const int y ) const {
         return frn[x][y];
     }
 
-    inline void set_furn( const int x, const int y, furn_id furn ) {
+    void set_furn( const int x, const int y, furn_id furn ) {
         is_uniform = false;
         frn[x][y] = furn;
     }
 
-    inline ter_id get_ter( const int x, const int y ) const {
+    ter_id get_ter( const int x, const int y ) const {
         return ter[x][y];
     }
 
-    inline void set_ter( const int x, const int y, ter_id terr ) {
+    void set_ter( const int x, const int y, ter_id terr ) {
         is_uniform = false;
         ter[x][y] = terr;
     }
 
-    inline int get_radiation( const int x, const int y ) const {
+    int get_radiation( const int x, const int y ) const {
         return rad[x][y];
     }
 
@@ -118,7 +118,7 @@ struct submap {
     // Signage is a pretend union between furniture on a square and stored
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
-    inline bool has_signage( const int x, const int y) const {
+    bool has_signage( const int x, const int y) const {
         if( frn[x][y] == furnfind( "f_sign" ) ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
@@ -126,7 +126,7 @@ struct submap {
         return false;
     }
     // Dependent on furniture + cosmetics.
-    inline const std::string get_signage( const int x, const int y ) const {
+    const std::string get_signage( const int x, const int y ) const {
         if( frn[x][y] == furnfind( "f_sign" ) ) {
             auto iter = cosmetics[x][y].find("SIGNAGE");
             if( iter != cosmetics[x][y].end() ) {
@@ -137,12 +137,12 @@ struct submap {
         return "";
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void set_signage( const int x, const int y, std::string s) {
+    void set_signage( const int x, const int y, std::string s) {
         is_uniform = false;
         cosmetics[x][y]["SIGNAGE"] = s;
     }
     // Can be used anytime (prevents code from needing to place sign first.)
-    inline void delete_signage( const int x, const int y) {
+    void delete_signage( const int x, const int y) {
         is_uniform = false;
         cosmetics[x][y].erase("SIGNAGE");
     }
@@ -200,22 +200,22 @@ private:
     maptile( submap *sub, const size_t nx, const size_t ny ) :
         sm( sub ), x( nx ), y( ny ) { }
 public:
-    inline trap_id get_trap() const
+    trap_id get_trap() const
     {
         return sm->get_trap( x, y );
     }
 
-    inline furn_id get_furn() const
+    furn_id get_furn() const
     {
         return sm->get_furn( x, y );
     }
 
-    inline ter_id get_ter() const
+    ter_id get_ter() const
     {
         return sm->get_ter( x, y );
     }
 
-    inline const trap &get_trap_t() const
+    const trap &get_trap_t() const
     {
         return sm->get_trap( x, y ).obj();
     }
@@ -229,17 +229,17 @@ public:
         return sm->get_ter( x, y ).obj();
     }
 
-    inline const field &get_field() const
+    const field &get_field() const
     {
         return sm->fld[x][y];
     }
 
-    inline field_entry* find_field( const field_id field_to_find )
+    field_entry* find_field( const field_id field_to_find )
     {
         return sm->fld[x][y].findField( field_to_find );
     }
 
-    inline bool add_field( const field_id field_to_add, const int new_density, const int new_age )
+    bool add_field( const field_id field_to_add, const int new_density, const int new_age )
     {
         const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
         if( ret ) {
@@ -249,38 +249,38 @@ public:
         return ret;
     }
 
-    inline int get_radiation() const
+    int get_radiation() const
     {
         return sm->get_radiation( x, y );
     }
 
-    inline bool has_graffiti() const
+    bool has_graffiti() const
     {
         return sm->has_graffiti( x, y );
     }
 
-    inline const std::string &get_graffiti() const
+    const std::string &get_graffiti() const
     {
         return sm->get_graffiti( x, y );
     }
 
-    inline bool has_signage() const
+    bool has_signage() const
     {
         return sm->has_signage( x, y );
     }
 
-    inline const std::string get_signage() const
+    const std::string get_signage() const
     {
         return sm->get_signage( x, y );
     }
 
     // For map::draw_maptile
-    inline size_t get_item_count() const
+    size_t get_item_count() const
     {
         return sm->itm[x][y].size();
     }
 
-    inline const item &get_last_item() const
+    const item &get_last_item() const
     {
         return sm->itm[x][y].back();
     }
