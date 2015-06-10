@@ -370,7 +370,7 @@
         "difficulty" : 1,
         "item" : "foldwoodframe",
         "location" : "structure",
-        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART"],
+        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "min": 0, "max": 6},
             {"item": "nail", "min": 1, "max": 15}
