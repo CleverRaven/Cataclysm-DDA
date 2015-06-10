@@ -1,7 +1,32 @@
 #if !defined(SUBMAP_H)
 #define SUBMAP_H
 
-#include "mapdata.h"
+#include "game_constants.h"
+#include "computer.h"
+#include "basecamp.h"
+#include "item.h"
+#include "field.h"
+#include "item_stack.h"
+#include "int_id.h"
+#include "active_item_cache.h"
+
+#include <vector>
+#include <list>
+#include <map>
+#include <string>
+
+class map;
+class vehicle;
+struct trap;
+struct ter_t;
+struct furn_t;
+
+using trap_id = int_id<trap>;
+using ter_id = int_id<ter_t>;
+using furn_id = int_id<furn_t>;
+
+// TODO: use string_id and string_id::id to get the id
+extern furn_id furnfind(const std::string & id);
 
 struct spawn_point {
  int posx, posy;

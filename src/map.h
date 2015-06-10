@@ -1,21 +1,15 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "cursesdef.h"
-
-#include <stdlib.h>
 #include <vector>
 #include <string>
 #include <set>
 #include <map>
-#include <unordered_map>
-#include <unordered_set>
 #include <memory>
 
 #include "game_constants.h"
 #include "mapdata.h"
 #include "item.h"
-#include "json.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"

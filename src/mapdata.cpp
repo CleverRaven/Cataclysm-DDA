@@ -5,10 +5,10 @@
 #include "debug.h"
 #include "translations.h"
 #include "trap.h"
-#include "vehicle.h"
+#include "output.h"
+#include "item.h"
 
 #include <unordered_map>
-#include <memory>
 
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
