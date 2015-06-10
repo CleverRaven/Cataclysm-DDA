@@ -12,6 +12,7 @@
 #include "map.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "submap.h"
 
 #include <fstream>
 #include <sstream>

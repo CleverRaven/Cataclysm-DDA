@@ -38,6 +38,7 @@
 #include "crafting.h"
 #include "veh_type.h"
 #include "mutation.h"
+#include "submap.h"
 
 #if !defined(_MSC_VER)
 #include <unistd.h>

@@ -36,6 +36,7 @@
 #include "ui.h"
 #include "trap.h"
 #include "map_iterator.h"
+#include "submap.h"
 #include <map>
 
 #ifdef SDLTILES

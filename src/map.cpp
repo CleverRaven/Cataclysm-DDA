@@ -23,7 +23,7 @@
 #include "veh_type.h"
 #include "artifact.h"
 #include "omdata.h"
-
+#include "submap.h"
 #include "map_iterator.h"
 
 #include <cmath>

@@ -17,6 +17,8 @@
 #include "mapgen.h"
 #include "translations.h"
 #include "trap.h"
+#include "submap.h"
+
 #include <algorithm>
 #include <cassert>
 #include <list>

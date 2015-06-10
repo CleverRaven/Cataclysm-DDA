@@ -21,6 +21,7 @@
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
+#include "basecamp.h"
 
 #include <sstream>
 #include <algorithm>
