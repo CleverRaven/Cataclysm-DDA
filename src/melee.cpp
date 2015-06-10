@@ -836,7 +836,6 @@ void player::roll_stab_damage( bool crit, damage_instance &di )
 
     int unarmed_skill = get_skill_level("unarmed");
     int stabbing_skill = get_skill_level("stabbing");
-    float stab_mul = 0.0f;
 
     if (has_active_bionic("bio_cqb")) {
         stabbing_skill = 5;
@@ -881,11 +880,12 @@ void player::roll_stab_damage( bool crit, damage_instance &di )
         return; // No negative stabbing!
     }
 
+    float stab_mul = 1.0f;
     // 66%, 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%
     if( stabbing_skill <= 5 ) {
-        stab_mul *= 0.66 + 0.1 * stabbing_skill;
+        stab_mul = 0.66 + 0.1 * stabbing_skill;
     } else {
-        stab_mul *= 0.86 + 0.06 * stabbing_skill;
+        stab_mul = 0.86 + 0.06 * stabbing_skill;
     }
 
     stab_mul *= mabuff_cut_mult();
