@@ -3239,7 +3239,7 @@
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "nail", "min": 10, "max": 15}
-        ]{
+        ],{
         "type" : "vehicle_part",
         "id" : "basketsm",
         "name" : "wire bike basket",
