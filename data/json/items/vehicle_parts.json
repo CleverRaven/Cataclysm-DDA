@@ -21,6 +21,23 @@
         "category" : "veh_parts",
         "price" : 4000
     },
+	{
+        "type":"GENERIC",
+        "id" : "foldwoodframe",
+        "name" : "foldable wooden frame",
+        "description" : "A small foldable frame made from wood",
+        "weight" : 8048,
+        "to_hit" : -3,
+        "color" : "brown",
+        "symbol" : "]",
+        "material" : ["wood", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 50,
+        "bashing" : 15,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 4000
+    },
     {
         "type":"GENERIC",
         "id" : "xlframe",
