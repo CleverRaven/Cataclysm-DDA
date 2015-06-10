@@ -7197,32 +7197,6 @@ int iuse::holster_ankle(player *p, item *it, bool b, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::survivor_belt(player *p, item *it, bool b, const tripoint &pos)
-{
-    int choice = -1;
-
-    choice = menu( true,
-                   _( "Using survivor belt:" ),
-                   it->contents.empty() ? _( "Sheathe a knife" ) : _( "Unsheathe a knife" ),
-                   _( "Use hammer" ),
-                   _( "Use hacksaw" ),
-                   _( "Use wood saw" ),
-                   _( "Cancel" ),
-                   NULL );
-
-    switch ( choice ) {
-        case 1:
-            return sheath_knife( p, it, b, pos );
-        case 2:
-            return hammer( p, it, b, pos );
-        case 3:
-            return hacksaw( p, it, b, pos );
-        case 4:
-            return lumber( p, it, b, pos );
-    }
-    return 0;
-}
-
 int iuse::boots(player *p, item *it, bool, const tripoint& )
 {
     int choice = -1;
@@ -9540,6 +9514,26 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
     }
 
     return 0;
+}
+
+int iuse::shavekit(player *p, item *it, bool, const tripoint&)
+{
+    if (it->charges < it->type->charges_to_use()) {
+        p->add_msg_if_player(_("You need soap to use this."));
+    } else {
+        p->add_msg_if_player(_("You open up your kit and shave."));
+        p->moves -= 3000;
+        p->add_morale(MORALE_SHAVE, 8, 8, 2400, 30);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::hairkit(player *p, item *it, bool, const tripoint&)
+{
+        p->add_msg_if_player(_("You give your hair a trim."));
+        p->moves -= 3000;
+        p->add_morale(MORALE_HAIRCUT, 3, 3, 4800, 30);
+    return it->type->charges_to_use();
 }
 
 int iuse::weather_tool(player *p, item *it, bool, const tripoint& )

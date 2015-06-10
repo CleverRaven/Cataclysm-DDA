@@ -391,7 +391,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
         newmon->description = _(jo.get_string("description").c_str());
 
-        newmon->mat.push_back(jo.get_string("material"));
+        // Have to overwrite the default { "hflesh" } here
+        newmon->mat = { jo.get_string("material") };
 
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");

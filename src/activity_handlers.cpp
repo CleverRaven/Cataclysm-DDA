@@ -205,13 +205,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( stomach ) {
-        if( !corpse->has_material("veggy") && !corpse->has_flag(MF_POISON) &&
-            !corpse->has_flag(MF_HUMAN)) {
-            const itype_id meat = corpse->get_meat_itype();
-            if ((corpse->size == MS_SMALL || corpse->size == MS_MEDIUM) && meat == "meat") {
+        const itype_id meat = corpse->get_meat_itype();
+        if( meat == "meat" ) {
+            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
                 g->m.spawn_item(p->pos(), "stomach", 1, 0, age);
                 add_msg(m_good, _("You harvest the stomach!"));
-            } else if ((corpse->size == MS_LARGE || corpse->size == MS_HUGE) && meat == "meat") {
+            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
                 g->m.spawn_item(p->pos(), "stomach_large", 1, 0, age);
                 add_msg(m_good, _("You harvest the stomach!"));
             }
