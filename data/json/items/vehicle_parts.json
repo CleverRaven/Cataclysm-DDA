@@ -34,7 +34,7 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 50,
         "bashing" : 15,
-        "cutting" : 1,
+        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 4000
     },
