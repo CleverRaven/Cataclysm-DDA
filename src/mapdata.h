@@ -16,7 +16,6 @@
 #include "rng.h"
 #include "active_item_cache.h"
 
-#include <iosfwd>
 #include <bitset>
 #include <unordered_set>
 #include <vector>
@@ -572,9 +571,6 @@ public:
         return sm->itm[x][y].back();
     }
 };
-
-std::ostream & operator<<(std::ostream &, const submap *);
-std::ostream & operator<<(std::ostream &, const submap &);
 
 void load_furniture(JsonObject &jsobj);
 void load_terrain(JsonObject &jsobj);
