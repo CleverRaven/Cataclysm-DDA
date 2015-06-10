@@ -5,10 +5,7 @@ This regretably restricts which compilers will compile the project, while at the
 
 ## GCC
 
-GCC is the preferred compiler for building on Linux.
-Technically GCC doesn't "fully" support c++11 until version 4.8.1, but we aren't currently using any language features past 4.6 or so.  That is liable to change in the future.
-There was one use of constructor delegation in the code which I've replaced with an init method.
-At some point we are going to want to switch that back once enough people are using gcc 4.7, or some other killer feature comes along that makes us declare a hard dependency on 4.7+.
+GCC is the preferred compiler for building on Linux, and the required version is 4.8.1+ (since GCC doesn't "fully" support c++11 until this version).
 
 ## Clang
 
