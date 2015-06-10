@@ -3185,6 +3185,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "wood box",
+        "name" : "wood box",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 70,
+        "size" : 300,
+        "item" : "frame_wood",
+        "difficulty" : 0,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "nail", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "basketsm",
         "name" : "wire bike basket",
         "symbol" : "o",
