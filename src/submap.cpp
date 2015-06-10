@@ -1,3 +1,4 @@
+#include "submap.h"
 #include "mapdata.h"
 #include "trap.h"
 #include "vehicle.h"

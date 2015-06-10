@@ -21,6 +21,7 @@
 #include "coordinates.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "submap.h"
 
 #include <fstream>
 #include <sstream>

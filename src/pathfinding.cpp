@@ -5,6 +5,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "vehicle.h"
+#include "submap.h"
 
 #include <algorithm>
 #include <queue>

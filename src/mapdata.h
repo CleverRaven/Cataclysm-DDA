@@ -320,8 +320,6 @@ struct map_extras {
  }
 };
 
-#include "submap.h"
-
 void load_furniture(JsonObject &jsobj);
 void load_terrain(JsonObject &jsobj);
 

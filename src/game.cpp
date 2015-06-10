@@ -67,6 +67,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "vehicle.h"
+#include "submap.h"
 
 #include <map>
 #include <set>

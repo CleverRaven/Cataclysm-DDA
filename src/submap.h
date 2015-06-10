@@ -1,6 +1,8 @@
 #if !defined(SUBMAP_H)
 #define SUBMAP_H
 
+#include "mapdata.h"
+
 struct spawn_point {
  int posx, posy;
  int count;

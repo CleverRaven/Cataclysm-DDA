@@ -22,6 +22,7 @@
 #include "veh_type.h"
 #include "trap.h"
 #include "itype.h"
+#include "submap.h"
 
 #include <fstream>
 #include <sstream>
