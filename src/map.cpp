@@ -2110,6 +2110,16 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
 // End of 3D bashable
 
+void map::make_rubble( const tripoint &p )
+{
+    make_rubble( p, f_rubble, false, t_dirt, false );
+}
+
+void map::make_rubble( const tripoint &p, const furn_id rubble_type, const bool items )
+{
+    make_rubble( p, rubble_type, items, t_dirt, false );
+}
+
 void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
     if (overwrite) {
