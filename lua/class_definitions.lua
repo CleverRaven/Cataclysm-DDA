@@ -573,6 +573,7 @@ classes = {
             { name = "setID", rval = nil, args = { "int" } },
             { name = "set_cat_level_rec", rval = nil, args = { "string" } },
             { name = "set_highest_cat_level", rval = nil, args = { } },
+            { name = "get_skill_level", rval = "int", args = { "string" } },
             { name = "set_skill_level", rval = nil, args = { "string", "int" } },
             { name = "set_underwater", rval = nil, args = { "bool" } },
             { name = "setpos", rval = nil, args = { "tripoint" } },
