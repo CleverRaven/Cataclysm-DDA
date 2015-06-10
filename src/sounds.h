@@ -6,6 +6,7 @@
 #ifdef SDL_SOUND
 #include "SDL2/SDL_mixer.h"
 #endif
+
 #include <vector>
 #include <string>
 
@@ -40,7 +41,8 @@ namespace sounds {
      * If true, activities continue.
      * @returns true if the player could hear the sound.
      */
-    void sound( const tripoint &p, int vol, std::string description, bool ambient = false, const std::string& id = "", const std::string& variant = "default" );
+    void sound( const tripoint &p, int vol, std::string description, bool ambient = false,
+                const std::string& id = "", const std::string& variant = "default" );
     /** Functions identical to sound(..., true). */
     void ambient_sound( const tripoint &p, int vol, std::string description );
     /** Creates a list of coordinates at which to draw footsteps. */
@@ -49,9 +51,6 @@ namespace sounds {
     /* Make sure the sounds are all reset when we start a new game. */
     void reset_sounds();
     void reset_markers();
-
-    // Plays ambient sound effects depending on location and weather
-    void do_ambient_sfx();
 
     // Methods for processing sound events, these
     // process_sounds() applies the sounds since the last turn to monster AI,
@@ -63,7 +62,6 @@ namespace sounds {
     std::vector<tripoint> get_footstep_markers();
     // Return list of all sounds and the list of sound cluster centroids.
     std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
-
     // Draw sounds as heard by monsters, including clustering.
     void draw_monster_sounds( const tripoint &offset, WINDOW *window );
     // retrieve the sound event(s?) at a location.
@@ -75,11 +73,11 @@ typedef std::string ter_type;
 
 namespace sfx {
     void load_sound_effects( JsonObject &jsobj );
-    void play_variant_sound( std::string id, std::string variant, int volume, int angle = 0 );
+    void play_variant_sound( std::string id, std::string variant, int volume, int angle = 0, float pitch_mix = 1.0, float pitch_max = 1.0 );
     void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
                                      int duration );
     void generate_gun_soundfx( const tripoint source );
-    void generate_melee_soundfx( const tripoint source, bool hit );
+    void generate_melee_soundfx( const tripoint source, const tripoint target, bool hit, bool targ_mon = 0, std::string material = "flesh" );
     void *generate_melee_soundfx_thread( void * argument );
     void do_hearing_loss_sfx( int turns );
     void remove_hearing_loss_sfx();

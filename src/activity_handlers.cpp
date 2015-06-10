@@ -924,6 +924,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
               sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
                              true, "", "" );
             }
+            sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume(p->pos()));
         }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());

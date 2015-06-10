@@ -291,7 +291,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
-        sfx::generate_melee_soundfx( pos3(), 0);
+        sfx::generate_melee_soundfx( pos3(), t.pos3(), 0, 0);
         if (is_player()) { // Only display messages if this is the player
 
             if (one_in(2)) {
@@ -346,9 +346,16 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) { // check martial arts silence
             sounds::sound( pos3(), 8, "", false, "", "" );
-            sfx::generate_melee_soundfx( pos3(), 1);
         }
-        sfx::play_variant_sound( "melee_hit", weapon.typeId(), sfx::get_heard_volume(pos3()) * .6);
+        std::string material = "flesh";
+        bool targ_mon = (!t.is_npc() && !t.is_player());
+        if ( targ_mon ) {
+            const monster *m = dynamic_cast<const monster*>( &t );
+            if ( m->made_of("steel")) {
+                material = "steel";
+            }
+        }
+        sfx::generate_melee_soundfx( pos3(), t.pos3(), 1, targ_mon, material);
         int dam = dealt_dam.total_damage();
 
         bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());

@@ -1115,7 +1115,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
     for( const auto &quality : type->qualities ){
         const auto desc = string_format( _("Has level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name(quality.first).c_str() );
         dump->push_back( iteminfo( "QUALITIES", "", desc ) );
     }
@@ -1128,7 +1128,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
 
             const auto desc = string_format( _("  Level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name( quality.first ).c_str() );
             dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
@@ -3289,7 +3289,7 @@ std::string item::gun_skill() const
 
 std::string item::weap_skill() const
 {
-    if (! is_weap()) return "null";
+    if (! is_weap() && ! is_tool()) return "null";
 
     if (type->melee_dam >= type->melee_cut) return "bashing";
     if (has_flag("STAB")) return "stabbing";

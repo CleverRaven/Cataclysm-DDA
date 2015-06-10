@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN
@@ -268,6 +269,7 @@ void npc::execute_action(npc_action action, int target)
         if (g->u.sees( *this )) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
+            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos3()), sfx::get_heard_angle( pos3()));
         }
     }
     break;
