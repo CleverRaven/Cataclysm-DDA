@@ -10,9 +10,8 @@
 #include "SDL2/SDL_ttf.h"
 
 #include "animation.h"
-#include "game.h"
 #include "map.h"
-#include "mapdata.h"
+#include "weather.h"
 #include "tile_id_data.h"
 #include "enums.h"
 
@@ -20,6 +19,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 class JsonObject;
 struct visibility_variables;
