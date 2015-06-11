@@ -151,7 +151,7 @@ void Item_factory::init()
     iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
-    iuse_function_list["ALCOHOL"] = &iuse::alcohol;
+    iuse_function_list["ALCOHOL"] = &iuse::alcohol_medium;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
     iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["XANAX"] = &iuse::xanax;

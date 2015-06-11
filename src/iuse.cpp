@@ -691,81 +691,45 @@ int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
         128); // paincysts
 }
 
-int iuse::alcohol(player *p, item *it, bool, const tripoint& )
+#define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
+int alcohol(player *p, item *it, int strength)
 {
-    int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
+    // Weaker characters are cheap drunks
+    int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
-        duration = 180 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional value;
-        // might not be healthy, and still causes Thirst problems, though
-        p->hunger -= (abs(food->stim));
-        // Metabolizing it cancels out depressant
-        // effects, but doesn't make it any more stimulating
-        if ((food->stim) < 0) {
-            p->stim += (abs(food->stim));
-        }
-    } else if (p->has_trait("TOLERANCE")) {
-        duration -= 300;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 300;
-    }
-    if (!(p->has_trait("ALCMET"))) {
-        p->pkill += 8;
-    }
-    p->add_effect("drunk", duration);
-    return it->type->charges_to_use();
-}
-
-int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
-{
-    int duration = 340 - (6 * p->str_max);
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
-        duration = 90 - (6 * p->str_max);
+        duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out the depressant
         p->stim += (abs(food->stim));
     } else if (p->has_trait("TOLERANCE")) {
-        duration -= 120;
+        duration -= STR(120, 300, 450);
     } else if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 120;
+        duration += STR(120, 300, 450);
     }
     if (!(p->has_trait("ALCMET"))) {
-        p->pkill += 4;
+        p->pkill += STR(4, 8, 12);
     }
     p->add_effect("drunk", duration);
     return it->type->charges_to_use();
 }
+#undef STR
+
+int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
+{
+    return alcohol(p, it, 0);
+}
+
+int iuse::alcohol_medium(player *p, item *it, bool, const tripoint& )
+{
+    return alcohol(p, it, 1);
+}
 
 int iuse::alcohol_strong(player *p, item *it, bool, const tripoint& )
 {
-    int duration = 900 - (12 * p->str_max);
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
-        duration = 250 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional
-        // value; might not be healthy, and still
-        // causes Thirst problems, though
-        p->hunger -= (abs(food->stim));
-        // Metabolizing it cancels out depressant
-        // effects, but doesn't make it any more
-        // stimulating
-        if ((food->stim) < 0) {
-            p->stim += (abs(food->stim));
-        }
-    } else if (p->has_trait("TOLERANCE")) {
-        duration -= 450;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 450;
-    }
-    if (!(p->has_trait("ALCMET"))) {
-        p->pkill += 12;
-    }
-    p->add_effect("drunk", duration);
-    return it->type->charges_to_use();
+    return alcohol(p, it, 2);
 }
 
 /**
