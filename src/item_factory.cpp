@@ -232,7 +232,6 @@ void Item_factory::init()
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
-    iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
     iuse_function_list["SET_TRAP"] = &iuse::set_trap;
     iuse_function_list["GEIGER"] = &iuse::geiger;

@@ -2128,7 +2128,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": "JACQUESHAMMER"
+    "use_action": "JACKHAMMER"
   },
 
   {

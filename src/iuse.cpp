@@ -4332,15 +4332,25 @@ int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
 {
+    bool normal_language = it->type->id != "jacqueshammer";
+      // Jacqueshammers function the same as ordinary
+      // jackhammers, except they print messages in French for
+      // comic effect.
     if (it->charges < it->type->charges_to_use()) {
         return 0;
     }
     if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+        p->add_msg_if_player(m_info, normal_language
+          ? _("You can't do that while underwater.")
+          : _("Vous ne pouvez pas faire que sous l'eau."));
         return 0;
     }
     tripoint dirp = pos;
-    if (!choose_adjacent(_("Drill where?"), dirp)) {
+    if (!choose_adjacent(
+          normal_language
+            ? _("Drill where?")
+            : _("Percer dans quelle direction?"),
+          dirp)) {
         return 0;
     }
 
@@ -4348,72 +4358,30 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     int &diry = dirp.y;
 
     if (dirx == p->posx() && diry == p->posy()) {
-        p->add_msg_if_player(_("My god! Let's talk it over OK?"));
-        p->add_msg_if_player(_("Don't do anything rash.."));
+        p->add_msg_if_player(normal_language
+          ? _("My god! Let's talk it over OK?")
+          : _("Mon dieu!  Nous allons en parler OK?"));
+        p->add_msg_if_player(normal_language
+          ? _("Don't do anything rash.")
+          : _("Ne pas faire eruption rien."));
         return 0;
     }
 
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-        g->m.ter(dirx, diry) != t_tree) {
+    if (
+           (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+                g->m.ter(dirx, diry) != t_tree) ||
+           (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
+                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
         g->m.destroy( dirp, true );
         p->moves -= 500;
         //~ the sound of a jackhammer
-        sounds::sound(dirp, 45, _("TATATATATATATAT!"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
-               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy( dirp, true );
-        p->moves -= 500;
-        sounds::sound(dirp, 45, _("TATATATATATATAT!"));
+        sounds::sound(dirp, 45, normal_language
+          ? _("TATATATATATATAT!")
+          : _("OHOHOHOHOHOHOHOHO!"));
     } else {
-        p->add_msg_if_player(m_info, _("You can't drill there."));
-        return 0;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::jacqueshammer(player *p, item *it, bool, const tripoint& )
-{
-    if (it->charges < it->type->charges_to_use()) {
-        return 0;
-    }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    // translator comments for everything to reduce confusion
-    int dirx, diry;
-    g->draw();
-    //~ (jacqueshammer) "Drill where?"
-    if (!choose_direction(_("Percer dans quelle direction?"), dirx, diry)) {
-        //~ (jacqueshammer) "Invalid direction"
-        p->add_msg_if_player(m_info, _("Direction invalide"));
-        return 0;
-    }
-    if (dirx == 0 && diry == 0) {
-        //~ (jacqueshammer) "My god! Let's talk it over, OK?"
-        p->add_msg_if_player(_("Mon dieu!  Nous allons en parler OK?"));
-        //~ (jacqueshammer) "Don't do anything rash."
-        p->add_msg_if_player(_("Ne pas faire eruption rien.."));
-        return 0;
-    }
-    dirx += p->posx();
-    diry += p->posy();
-    tripoint dirp( dirx, diry, p->posz() );
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-        g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy( dirp, true );
-        // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
-        p->moves -= 500;
-        //~ the sound of a "jacqueshammer"
-        sounds::sound(dirp, 45, _("OHOHOHOHOHOHOHOHO!"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
-               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy( dirp, true );
-        p->moves -= 500;
-        sounds::sound(dirp, 45, _("OHOHOHOHOHOHOHOHO!"));
-    } else {
-        //~ (jacqueshammer) "You can't drill there."
-        p->add_msg_if_player(m_info, _("Vous ne pouvez pas percer la-bas.."));
+        p->add_msg_if_player(m_info, normal_language
+          ? _("You can't drill there.")
+          : _("Vous ne pouvez pas percer la-bas."));
         return 0;
     }
     return it->type->charges_to_use();
