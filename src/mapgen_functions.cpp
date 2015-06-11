@@ -73,7 +73,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["river_straight"]   = &mapgen_river_straight;
     mapgen_cfunction_map["river_curved"]     = &mapgen_river_curved;
     mapgen_cfunction_map["parking_lot"]      = &mapgen_parking_lot;
-    mapgen_cfunction_map["park_basketball"]             = &mapgen_park_basketball;
     mapgen_cfunction_map["s_gas"]      = &mapgen_gas_station;
     mapgen_cfunction_map["house_generic_boxy"]      = &mapgen_generic_house_boxy;
     mapgen_cfunction_map["house_generic_big_livingroom"]      = &mapgen_generic_house_big_livingroom;
@@ -1865,44 +1864,6 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             m->rotate(i);
         }
     }
-}
-
-void mapgen_park_basketball(map *m, oter_id, mapgendata dat, int, float)
-{
-    (void)dat;
-        fill_background(m, t_pavement);
-        mapf::formatted_set_simple(m, 0, 0,
-"\
-                        \n\
-|-+------------------+-|\n\
-|     .  . 7 .  .      |\n\
-|     .  .   .  .      |\n\
-|#    .  .....  .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#     .       .      #|\n\
-|#      .     .       #|\n\
-|......................|\n\
-|#      .     .       #|\n\
-|#     .       .      #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .  .....  .     #|\n\
-|     .  .   .  .      |\n\
-|     .  . 7 .  .      |\n\
-|-+------------------+-|\n\
-                        \n\
-                        \n",
-        mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
-        mapf::basic_bind("#", f_bench));
-        m->place_vending(22, 19, "vending_drink");
-        m->rotate(rng(0, 3));
-//    }
-    m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
 }
 
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float density)
