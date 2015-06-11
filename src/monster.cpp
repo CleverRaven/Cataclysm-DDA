@@ -483,16 +483,11 @@ void monster::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
-    if ( dump.peek() == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
-        }
-        return;
-    } else {
-        load_legacy(dump);
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
     }
 }
 

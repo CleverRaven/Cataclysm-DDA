@@ -109,8 +109,6 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         using JsonDeserializer::deserialize;
         void deserialize(JsonIn &jsin) override;
 
-        void load_legacy(std::stringstream &dump);
-
         /**
          * Performs the activity for a single turn. If the activity is complete
          * at the end of the turn, do_turn also executes whatever actions, if

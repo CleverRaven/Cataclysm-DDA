@@ -2,7 +2,6 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "savegame.h"
 #include "filesystem.h"
 #include "overmapbuffer.h"
 #include "mapsharing.h"

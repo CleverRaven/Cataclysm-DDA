@@ -2929,7 +2929,6 @@ bool game::handle_action()
             MAPBUFFER.reset();
             overmap_buffer.clear();
             setup();
-            MAPBUFFER.load( world_generator->active_world->world_name );
             load( world_generator->active_world->world_name, base64_encode(u.name) );
             return false;
 
@@ -3680,7 +3679,6 @@ bool game::event_queued(event_type type) const
     return false;
 }
 
-#include "savegame.h"
 void game::debug()
 {
     int action = menu(true, // cancelable
