@@ -20167,6 +20167,17 @@
           "id": "cutlass",
           "fg": 2623,
           "rotates": false
+        },
+        {
+          "id": "cutlass_fake",
+          "fg": 2623,
+          "rotates": false
+        },
+        {
+          "id": "holy_symbol",
+          "fg": 424,
+          "bg": 505,
+          "rotates": false
         }
       ]
     },
