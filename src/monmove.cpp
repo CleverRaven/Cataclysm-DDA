@@ -729,14 +729,20 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     return movecost;
 }
 
-int monster::calc_climb_cost( const tripoint & /* f */, const tripoint & /* t */ ) const
+int monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const
 {
-    // For now just this, later on it may use a rebalance
-    if( has_flag( MF_CLIMBS ) ) {
-        return 150;
+    if( has_flag( MF_FLIES ) ) {
+        return 100;
     }
 
-    return 400;
+    if( has_flag( MF_CLIMBS ) && !g->m.has_flag( TFLAG_NO_FLOOR, t ) ) {
+        const int diff = g->m.climb_difficulty( f );
+        if( diff <= 10 ) {
+            return 150;
+        }
+    }
+
+    return 0;
 }
 
 /*
@@ -956,10 +962,12 @@ bool monster::move_to( const tripoint &p, bool force )
     }
 
     if( !force ) {
-        if( !climbs ) {
-            moves -= calc_movecost( pos(), p );
+        const int cost = !climbs ? calc_movecost( pos(), p ) :
+                                   calc_climb_cost( pos(), p );
+        if( cost > 0 ) {
+            moves -= cost;
         } else {
-            moves -= calc_climb_cost( pos(), p );
+            return false;
         }
     }
 
@@ -1220,7 +1228,7 @@ void monster::stumble( bool moved )
         }
         // More restrictions for moving up
         // It should happen during "shambling around", but not as actual stumbling
-        if( !moved && one_in( 5 ) &&
+        if( !moved && one_in( 5 ) && has_flag( MF_FLIES ) &&
             g->m.valid_move( pos(), above, false, true ) && can_move_to( above ) ) {
             valid_stumbles.push_back( above );
         }
