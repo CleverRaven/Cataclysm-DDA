@@ -70,7 +70,6 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int t
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_park_playground(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_park_basketball(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
