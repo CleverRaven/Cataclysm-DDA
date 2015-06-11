@@ -20167,6 +20167,11 @@
           "id": "cutlass",
           "fg": 2623,
           "rotates": false
+        },
+        {
+          "id": "cutlass_fake",
+          "fg": 2623,
+          "rotates": false
         }
       ]
     },
