@@ -1203,6 +1203,9 @@ bool mapgen_function_json::setup() {
                 throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
             }
        }
+        if( jo.has_member( "rotation" ) ) {
+            rotation = jmapgen_int( jo, "rotation" );
+        }
         // this is for backwards compatibility, it should better be named place_items
         objects.load_objects<jmapgen_spawn_item>( jo, "add" );
         objects.load_objects<jmapgen_field>( jo, "place_fields" );
@@ -1363,6 +1366,8 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
 #endif
 
     objects.apply(m, d);
+
+    m->rotate( rotation.get() );
 
     if( terrain_type.t().has_flag(rotates) ) {
         mapgen_rotate(m, terrain_type, false );
