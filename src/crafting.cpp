@@ -2032,6 +2032,12 @@ void player::disassemble(int dis_pos)
     }
     const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
 
+    //no disassembly without proper light
+    if (fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to craft!"));
+        return;
+    }
+
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||
         (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
