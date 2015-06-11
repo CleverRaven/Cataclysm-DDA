@@ -625,98 +625,70 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
+int raw_food(player *p, item *it, int c_tp, int c_bl, int c_br, int c_pc)
 {
-    if ((one_in(32)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") ||
-                          // Hyper-Metabolism digests the thing before it can set up shop.
-                          p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(64)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    if ((one_in(64)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("paincysts", 1, num_bp, true);
+    if (!(p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        if (c_tp && one_in(c_tp) && !(p->has_effect("tapeworm") || p->has_trait("EATHEALTH"))) {
+               // Hyper-Metabolism digests the thing before it can set up shop.
+            p->add_effect("tapeworm", 1, num_bp, true);
+        }
+        if (c_bl && one_in(c_bl) && !(p->has_effect("bloodworms") || p->has_trait("ACIDBLOOD"))) {
+               // The worms can't survive in acidic blood.
+            p->add_effect("bloodworms", 1, num_bp, true);
+        }
+        if (c_br && one_in(c_br) && !p->has_effect("brainworms")) {
+            p->add_effect("brainworms", 1, num_bp, true);
+        }
+        if (c_pc && one_in(c_pc) && !p->has_effect("paincysts")) {
+            p->add_effect("paincysts", 1, num_bp, true);
+        }
     }
     return it->type->charges_to_use();
+}
+
+int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
+{
+    return raw_food(p, it,
+         32,  // tapeworm
+         64,  // bloodworms
+        128,  // brainworms
+         64); // paincysts
 }
 
 int iuse::raw_fat(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(64)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") ||
-                          p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    return raw_food(p, it,
+         64,  // tapeworm
+        128,  // bloodworms
+        128,  // brainworms
+          0); // paincysts
 }
 
 int iuse::raw_bone(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    return raw_food(p, it,
+          0,  // tapeworm
+        128,  // bloodworms
+          0,  // brainworms
+          0); // paincysts
 }
 
 int iuse::raw_fish(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(256)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") ||
-                           p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("paincysts", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    return raw_food(p, it,
+        256, // tapeworm
+        256, // bloodworms
+        256, // brainworms
+        256); // paincysts
 }
 
 int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(512)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") ||
-                           p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(512)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("paincysts", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    return raw_food(p, it,
+        512, // tapeworm
+        256, // bloodworms
+        512, // brainworms
+        128); // paincysts
 }
 
 int iuse::alcohol(player *p, item *it, bool, const tripoint& )
