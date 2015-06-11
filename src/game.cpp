@@ -12756,24 +12756,49 @@ void game::vertical_move(int movez, bool force)
         u.moves -= 100;
         return;
     }
+
     // Force means we're going down, even if there's no staircase, etc.
-    // This happens with sinkholes and the like.
-    if (!force && ((movez == -1 && !m.has_flag("GOES_DOWN", u.pos())) ||
-                   (movez == 1 && !m.has_flag("GOES_UP", u.pos())))) {
-        if (movez == -1) {
-            add_msg(m_info, _("You can't go down here!"));
-        } else {
-            add_msg(m_info, _("You can't go up here!"));
+    bool climbing = false;
+    int move_cost = 100;
+    tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
+    if( !force && ( ( movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) ||
+                    ( movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) ) ) {
+        if( m.has_zlevels() &&
+            m.valid_move( u.pos(), stairs, false, true ) ) {
+            // Climbing
+            int cost = u.climbing_cost( u.pos(), stairs );
+            std::vector<tripoint> pts;
+            for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
+                if( m.move_cost( pt ) > 0 && !m.has_flag( TFLAG_NO_FLOOR, pt ) ) {
+                    pts.push_back( pt );
+                }
+            }
+            if( cost > 0 && !pts.empty() ) {
+                climbing = true;
+                move_cost = cost;
+                // TODO: Allow picking this instead of forcing a random one
+                stairs = pts[rng( 0, pts.size() - 1 )];
+            }
+            // TODO: Make it an extended action
         }
-        return;
+
+        if( !climbing ) {
+            if( movez == -1 ) {
+                add_msg(m_info, _("You can't go down here!"));
+            } else {
+                add_msg(m_info, _("You can't go up here!"));
+            }
+
+            return;
+        }
     }
 
-    if (force) {
+    if( force ) {
         // Let go of a grabbed cart.
         u.grab_point.x = 0;
         u.grab_point.y = 0;
         u.grab_point.z = 0;
-    } else if (u.grab_point.x != 0 || u.grab_point.y != 0) {
+    } else if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
         // TODO: Warp the cart along with you if you're on an elevator
         add_msg(m_info, _("You can't drag things up and down stairs."));
         return;
@@ -12812,12 +12837,10 @@ void game::vertical_move(int movez, bool force)
         m.getlocal(rc.begin_om_pos())
     );
 
-    tripoint stairs( -1, -1, z_after );
     bool actually_moved = true;
-    if (force) {
-        stairs = u.pos();
-        stairs.z = z_after;
-    } else { // We need to find the stairs.
+    if( !force && !climbing ) { // We need to find the stairs.
+        stairs.x = -1;
+        stairs.y = -1;
         tripoint dest( -1, -1, z_after );
         int best = 999;
         int &i = dest.x;
@@ -12984,7 +13007,7 @@ void game::vertical_move(int movez, bool force)
         }
     }
 
-    u.moves -= 100;
+    u.moves -= move_cost;
     if( !m.has_zlevels() ) {
         m.clear_vehicle_cache( z_before );
         m.access_cache( z_before ).vehicle_list.clear();

@@ -161,6 +161,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint scent_move();
         tripoint wander_next();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
+        int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
         /**
          * Attempt to move to p.
@@ -274,8 +275,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         int  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
-
-        int climbing_cost( const tripoint &dest ) const override; // Cost is in moves
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;

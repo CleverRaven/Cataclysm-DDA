@@ -1728,9 +1728,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return false;
     }
 
-    if( ( !flying || down_ter.has_flag( TFLAG_INDOORS ) ) &&
-        !down_ter.has_flag( TFLAG_GOES_UP ) ) {
-        // Can't safely (or at all - because ceiling) reach the lower tile
+    if( !flying && !down_ter.has_flag( TFLAG_GOES_UP ) ) {
+        // Can't safely reach the lower tile
         return false;
     }
 
@@ -1744,6 +1743,31 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 }
 
 // End of move cost
+
+int map::climb_difficulty( const tripoint &p ) const
+{
+    if( p.z > OVERMAP_HEIGHT || p.z < -OVERMAP_DEPTH ) {
+        debugmsg( "climb_difficulty on out of bounds point: %d, %d, %d", p.x, p.y, p.z );
+        return INT_MAX;
+    }
+
+    int best_difficulty = INT_MAX;
+    int blocks_movement = 0;
+    for( const auto &pt : points_in_radius( p, 1 ) ) {
+        if( move_cost( pt ) == 0 ) {
+            // TODO: Non-hardcoded climbability
+            best_difficulty = std::min( best_difficulty, 10 );
+            blocks_movement++;
+        }
+
+        if( has_flag( "CLIMBABLE", pt ) ) {
+            best_difficulty = std::min( best_difficulty, 5 );
+        }
+    }
+
+    // TODO: Make this more sensible - check opposite sides, not just movement blocker count
+    return best_difficulty - blocks_movement;
+}
 
 // 2D flags
 

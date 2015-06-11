@@ -937,7 +937,7 @@ void add_corpse( const tripoint &p );
 // Climbing
     /**
      * Checks 3x3 block centered on p for terrain to climb.
-     * @return Difficulty of climbing check from/to point p.
+     * @return Difficulty of climbing check from point p.
      */
     int climb_difficulty( const tripoint &p ) const;
 

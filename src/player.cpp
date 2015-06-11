@@ -13334,7 +13334,23 @@ tripoint player::adjacent_tile()
         return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
     }
 
-    return pos3(); // or return player position if no valid adjacent tiles
+    return pos(); // or return player position if no valid adjacent tiles
+}
+
+int player::climbing_cost( const tripoint &from, const tripoint &to ) const
+{
+    if( !g->m.valid_move( from, to, false, true ) ) {
+        return 0;
+    }
+
+    const int diff = g->m.climb_difficulty( from );
+
+    if( diff > 5 ) {
+        return 0;
+    }
+
+    return 50 + diff * 100;
+    // TODO: All sorts of mutations, equipment weight etc.
 }
 
 // --- Library functions ---

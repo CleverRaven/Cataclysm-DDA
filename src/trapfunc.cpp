@@ -933,7 +933,7 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
     pit( c, p );
 }
 
-void trapfunc::ledge( Creature *c, const tripoint& )
+void trapfunc::ledge( Creature *c, const tripoint &p )
 {
     if( c == &g->u ) {
         add_msg( m_warning, _( "You fall down a level!" ) );
@@ -942,11 +942,36 @@ void trapfunc::ledge( Creature *c, const tripoint& )
         g->vertical_move( -1, true );
         return;
     }
-    // TODO; port to Z-levels
-    if( c != nullptr ) {
+
+    if( c == nullptr ) {
+        return;
+    }
+
+    monster *m = dynamic_cast<monster*>( c );
+    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+        return;
+    }
+
+    if( !g->m.has_zlevels() ) {
         c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
         c->die( nullptr );
+        return;
     }
+
+    int height = 0;
+    tripoint where = p;
+    while( g->m.has_flag( TFLAG_NO_FLOOR, where ) && g->critter_at( where ) == nullptr ) {
+        height++;
+        where.z--;
+    }
+
+    if( height == 0 ) {
+        return;
+    }
+
+    c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+    c->setpos( where );
+    c->impact( height * 20, where );
 }
 
 void trapfunc::temple_flood( Creature *c, const tripoint &p )

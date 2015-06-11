@@ -66,15 +66,6 @@ class Creature
         virtual int stability_roll() const = 0;
 
         /**
-         * Checks both the neighborhood of current position and of dest for climbable surfaces,
-         * returns move cost of climbing from current position to dest.
-         * 0 means climbing is not possible, negative result signifies failure.
-         * Return value can depend on orientation of the terrain, but isn't random.
-         */
-        virtual int climbing_cost( const tripoint &dest ) const = 0;
-        virtual bool can_climb() const;
-
-        /**
          * Simplified attitude towards any creature:
          * hostile - hate, want to kill, etc.
          * friendly - avoid harming it, maybe even help.
@@ -234,7 +225,6 @@ class Creature
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
-        virtual bool is_climbing() const;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
@@ -473,7 +463,6 @@ class Creature
 
         int moves, pain;
         bool underwater;
-        bool climbing;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
         void draw(WINDOW *w, const tripoint &plp, bool inv) const;
