@@ -3233,7 +3233,7 @@
         "folded_volume": 6,
         "size" : 120,
         "item" : "foldwoodframe",
-        "difficulty" : 0,
+        "difficulty" : 4,
         "location" : "center",
         "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
         "breaks_into" : [
