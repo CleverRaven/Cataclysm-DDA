@@ -57,10 +57,23 @@ function member_type_to_cpp_type(member_type)
     return member_type
 end
 
+-- Loads an instance of class_name (which must be the first thing on the stack) into a local
+-- variable, named "<class_name>_instance". Only use for classes (not enums/primitives).
+function load_instance(class_name)
+    local instance_name = class_name .. "_instance"
+    local wrapper_type = ""
+    if classes[class_name].by_value then
+        wrapper_type = "LuaValue<" .. class_name .. ">"
+    else
+        wrapper_type = "LuaValue<" .. class_name .. "*>"
+    end
+    return class_name .. "& " .. instance_name .. " = " .. wrapper_type .. "::get(L, 1);"
+end
+
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
-    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get_proxy(L, " .. stack_position .. ");"
+    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get(L, " .. stack_position .. ");"
 end
 
 -- Returns code to take a C++ variable of the given type and push a lua version
@@ -89,7 +102,7 @@ function generate_getter(class_name, member_name, member_type, cpp_name)
     local function_name = class_name.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
+    text = text .. tab .. load_instance(class_name)..br
 
     text = text .. tab .. push_lua_value(class_name.."_instance."..cpp_name, member_type)..br
 
@@ -105,10 +118,10 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
+    text = text .. tab .. load_instance(class_name)..br
 
     text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
-    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
+    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2)..br
 
     text = text .. tab .. class_name.."_instance."..cpp_name.." = value;"..br
 
@@ -286,7 +299,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
     local text = "static int "..class_name.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
+    text = text .. tab .. load_instance(class_name)..br
 
     local cbc = function(indentation, stack_index, rval, function_to_call)
     local tab = string.rep("    ", indentation)
