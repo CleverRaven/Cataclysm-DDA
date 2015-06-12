@@ -1094,6 +1094,7 @@ classes = {
             { name = "ter_set", rval = nil, args = { "tripoint", "ter_id" } },
             { name = "ter_set", rval = nil, args = { "tripoint", "string" } },
             { name = "tername", rval = "string", args = { "tripoint" } },
+            { name = "tr_at", rval = "trap", args = { "tripoint" } },
             { name = "trans", rval = "bool", args = { "tripoint" } },
             { name = "translate", rval = nil, args = { "ter_id", "ter_id" } },
             { name = "translate_radius", rval = nil, args = { "ter_id", "ter_id", "float", "tripoint" } },
@@ -1605,6 +1606,28 @@ classes = {
             { name = "maximum_charges", rval = "int", args = { } },
             { name = "nname", rval = "string", args = { "int" } },
             { name = "tick", rval = "int", args = { "player", "item", "tripoint" } },
+        }
+    },
+    trap = {
+        attributes = {
+            color = { type = "int" },
+            name = { type = "string" },
+            sym = { type = "int" },
+        },
+        functions = {
+            { name = "can_see", rval = "bool", args = { "tripoint", "player" } },
+            { name = "detect_trap", rval = "bool", args = { "tripoint", "player" } },
+            { name = "funnel_turns_per_charge", rval = "float", args = { "float" } },
+            { name = "get_avoidance", rval = "int", args = { } },
+            { name = "get_difficulty", rval = "int", args = { } },
+            { name = "get_visibility", rval = "int", args = { } },
+            { name = "is_3x3_trap", rval = "bool", args = { } },
+            { name = "is_benign", rval = "bool", args = { } },
+            { name = "is_funnel", rval = "bool", args = { } },
+            { name = "is_null", rval = "bool", args = { } },
+            { name = "on_disarmed", rval = nil, args = { "tripoint" } },
+            { name = "trigger", rval = nil, args = { "tripoint", "Creature" } },
+            { name = "triggered_by_item", rval = "bool", args = { "item" } },
         }
     },
     it_comest = {

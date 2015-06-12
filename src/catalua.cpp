@@ -22,6 +22,7 @@
 #include "mongroup.h"
 #include "itype.h"
 #include "morale.h"
+#include "trap.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
