@@ -52,8 +52,6 @@
 #include <sstream> // for throwing errors
 #include <locale> // for loading names
 
-#include "savegame.h"
-
 DynamicDataLoader::DynamicDataLoader()
 {
 }

@@ -151,24 +151,14 @@ void npc::load_info(std::string data)
     std::stringstream dump;
     dump << data;
 
-    char check = dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check = data[1];
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad npc json\n%s", jsonerr.c_str() );
     }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
-        }
-        if (fac_id != ""){
-            set_fac(fac_id);
-        }
-        return;
-    } else {
-        load_legacy(dump);
+    if( fac_id != "" ) {
+        set_fac(fac_id);
     }
 }
 

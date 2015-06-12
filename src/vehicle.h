@@ -353,7 +353,6 @@ public:
     void smash();
 
     // load and init vehicle data from stream. This implies valid save data!
-    void load_legacy(std::ifstream &stin);
     void load (std::ifstream &stin);
 
     // Save vehicle data to stream

@@ -772,7 +772,6 @@ classes = {
             { name = "is_weap", rval = "bool", args = { } },
             { name = "liquid_charges", rval = "int", args = { "int" } },
             { name = "liquid_units", rval = "int", args = { "int" } },
-            { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
             { name = "made_of", rval = "bool", args = { "string" } },
             { name = "make", rval = nil, args = { "string" } },

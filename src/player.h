@@ -134,8 +134,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns what color the player should be drawn as */
         virtual nc_color basic_symbol_color() const override;
 
-        /** Stringstream loader for old player data files */
-        virtual void load_legacy(std::stringstream &dump);
         /** Deserializes string data when loading files */
         virtual void load_info(std::string data);
         /** Outputs a serialized json string for saving */

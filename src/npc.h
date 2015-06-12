@@ -233,8 +233,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
-
- void load_legacy(std::stringstream &info);
 };
 
 enum combat_engagement {
@@ -259,8 +257,6 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
   use_grenades = true;
   use_silent = false;
  };
-
- void load_legacy(std::istream &data);
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -548,8 +544,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
-
- void load_legacy(std::stringstream &info);
 };
 
 class npc;
@@ -607,7 +601,6 @@ public:
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_legacy(std::stringstream & dump) override;// Overloaded from player
  virtual void load_info(std::string data) override;// Overloaded from player
  virtual std::string save_info() override;
 

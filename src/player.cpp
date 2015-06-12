@@ -1912,21 +1912,11 @@ void player::load_info(std::string data)
     std::stringstream dump;
     dump << data;
 
-    char check = dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check = data[1];
-    }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad player json\n%s", jsonerr.c_str() );
-        }
-        return;
-    } else { // old save
-        load_legacy(dump);
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad player json\n%s", jsonerr.c_str() );
     }
 }
 
