@@ -13,9 +13,6 @@
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 
-#define OMAPX 180
-#define OMAPY 180
-
 class overmap;
 
 struct overmap_spawns {
