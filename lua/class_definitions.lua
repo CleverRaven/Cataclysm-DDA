@@ -1615,7 +1615,9 @@ classes = {
     },
     trap = {
         int_id = "trap_id",
+        string_id = "trap_str_id",
         attributes = {
+            id = { type = "trap_str_id" },
             loadid = { type = "trap_id" },
             color = { type = "int" },
             name = { type = "string" },
@@ -1974,7 +1976,7 @@ end
 for name, value in pairs(classes) do
     if value.int_id then
         -- This is the common int_id<T> interface:
-        classes[value.int_id] = {
+        local t = {
             by_value = true,
             has_equal = true,
             -- IDs *could* be constructed from int, but where does the Lua script get the int from?
@@ -1986,5 +1988,30 @@ for name, value in pairs(classes) do
                 { name = "obj", rval = name, args = { } },
             }
         }
+        if value.string_id then
+            -- Allow conversion from int_id to string_id
+            t[#t.functions] = { name = "id", rval = value.string_id, args = { } }
+            -- And creation of an int_id from a string_id
+            t.new = { value.string_id }
+        end
+        classes[value.int_id] = t
+    end
+    -- Very similar to int_id above
+    if value.string_id then
+        local t = {
+            by_value = true,
+            has_equal = true,
+            new = { "string" },
+            attributes = { },
+            functions = {
+                { name = "str", rval = "string", args = { } },
+                { name = "is_valid", rval = "bool", args = { } },
+                { name = "obj", rval = name, args = { } },
+            }
+        }
+        if value.int_id then
+            t.functions[#t.functions] = { name = "id", rval = value.int_id, args = { } }
+        end
+        classes[value.string_id] = t
     end
 end
