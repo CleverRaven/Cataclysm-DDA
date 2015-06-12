@@ -2267,7 +2267,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 1,
+  "difficulty": 4,
 "time": 9000,
   "reversible": true,
   "autolearn": true,
