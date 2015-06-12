@@ -325,6 +325,7 @@ classes = {
             { name = "active_light", rval = "float", args = { } },
             { name = "add_ammo_to_worn_quiver", rval = "int", args = { "item" } },
             { name = "add_bionic", rval = nil, args = { "string" } },
+            { name = "add_known_trap", rval = nil, args = { "tripoint", "trap" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int", "int" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int", "int", "int" } },
@@ -337,6 +338,7 @@ classes = {
             { name = "aim_per_time", rval = "int", args = { "item" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "apply_persistent_morale", rval = nil, args = { } },
+            { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "base_damage", rval = "int", args = { "bool" } },
             { name = "base_damage", rval = "int", args = { "bool", "int" } },
             { name = "base_damage", rval = "int", args = { } },
@@ -935,6 +937,7 @@ classes = {
             { name = "add_spawn", rval = nil, args = { "string", "int", "int", "int", "bool", "int" } },
             { name = "add_spawn", rval = nil, args = { "string", "int", "int", "int", "bool", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "string", "int", "int", "int", "bool", "int", "int", "string" } },
+            { name = "add_trap", rval = nil, args = { "tripoint", "trap_id" } },
             { name = "adjust_field_age", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_field_strength", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_radiation", rval = nil, args = { "tripoint", "int" } },
@@ -1097,6 +1100,7 @@ classes = {
             { name = "tr_at", rval = "trap", args = { "tripoint" } },
             { name = "trans", rval = "bool", args = { "tripoint" } },
             { name = "translate", rval = nil, args = { "ter_id", "ter_id" } },
+            { name = "trap_set", rval = nil, args = { "tripoint", "trap_id" } },
             { name = "translate_radius", rval = nil, args = { "ter_id", "ter_id", "float", "tripoint" } },
             { name = "trigger_rc_items", rval = nil, args = { "string" } },
             { name = "unboard_vehicle", rval = nil, args = { "tripoint" } },
@@ -1365,6 +1369,7 @@ classes = {
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "attack_at", rval = "bool", args = { "tripoint" } },
             { name = "attack_target", rval = "Creature", args = { } },
+            { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "bash_at", rval = "bool", args = { "tripoint" } },
             { name = "bash_estimate", rval = "int", args = { } },
             { name = "bash_skill", rval = "int", args = { } },
@@ -1609,7 +1614,9 @@ classes = {
         }
     },
     trap = {
+        int_id = "trap_id",
         attributes = {
+            loadid = { type = "trap_id" },
             color = { type = "int" },
             name = { type = "string" },
             sym = { type = "int" },
@@ -1976,8 +1983,7 @@ for name, value in pairs(classes) do
             functions = {
                 -- Use with care, only for displaying the value for debugging purpose!
                 { name = "to_i", rval = "int", args = { } },
-                -- TODO: currently disabled because it returns a const-reference
-                -- { name = "obj", rval = name, args = { } },
+                { name = "obj", rval = name, args = { } },
             }
         }
     end
