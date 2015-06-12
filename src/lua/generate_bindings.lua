@@ -392,7 +392,7 @@ function generate_operator(class_name, function_name, cppname)
         -- Both objects are pointers, they need to point to the same object to be equal.
         text = text .. "&lhs " .. cppname .. " &rhs";
     end
-    text = text .. ";"
+    text = text .. ";"..br
 
     text = text .. tab .. push_lua_value("rval", "bool")..br
     text = text .. tab .. "return 1; // 1 return values"..br
