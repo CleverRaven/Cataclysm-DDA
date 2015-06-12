@@ -26,8 +26,55 @@
             { "group": "military", "damage-min": 1, "damage-max": 4, "prob": 86 },
             { "item": "winter_pants_army", "damage-min": 1, "damage-max": 4 },
             { "item": "boots_combat", "damage-min": 1, "damage-max": 4 },
-            { "item": "id_military", "prob": 12 },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_college_camping",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "group": "college_camping", "prob": 50 },
+            { "group": "college_camping", "prob": 80 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_college_sports",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "group": "college_sports", "prob": 50 },
+            { "group": "college_sports", "prob": 90 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_college_lake",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "group": "college_lake", "prob": 50 },
+            { "group": "college_lake", "prob": 70 }
         ]
     }, {
         "type" : "item_group",
