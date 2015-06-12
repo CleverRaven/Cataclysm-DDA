@@ -625,21 +625,30 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int raw_food(player *p, item *it, int c_tp, int c_bl, int c_br, int c_pc)
+struct parasite_chances {
+    int tapeworm;
+    int bloodworms;
+    int brainworms;
+    int paincysts;
+};
+
+int raw_food(player *p, item *it, const struct parasite_chances &pcs)
 {
     if (!(p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        if (c_tp && one_in(c_tp) && !(p->has_effect("tapeworm") || p->has_trait("EATHEALTH"))) {
+        if (pcs.tapeworm && one_in(pcs.tapeworm) && !(p->has_effect("tapeworm")
+                || p->has_trait("EATHEALTH"))) {
                // Hyper-Metabolism digests the thing before it can set up shop.
             p->add_effect("tapeworm", 1, num_bp, true);
         }
-        if (c_bl && one_in(c_bl) && !(p->has_effect("bloodworms") || p->has_trait("ACIDBLOOD"))) {
+        if (pcs.bloodworms && one_in(pcs.bloodworms) && !(p->has_effect("bloodworms")
+               || p->has_trait("ACIDBLOOD"))) {
                // The worms can't survive in acidic blood.
             p->add_effect("bloodworms", 1, num_bp, true);
         }
-        if (c_br && one_in(c_br) && !p->has_effect("brainworms")) {
+        if (pcs.brainworms && one_in(pcs.brainworms) && !p->has_effect("brainworms")) {
             p->add_effect("brainworms", 1, num_bp, true);
         }
-        if (c_pc && one_in(c_pc) && !p->has_effect("paincysts")) {
+        if (pcs.paincysts && one_in(pcs.paincysts) && !p->has_effect("paincysts")) {
             p->add_effect("paincysts", 1, num_bp, true);
         }
     }
@@ -648,47 +657,48 @@ int raw_food(player *p, item *it, int c_tp, int c_bl, int c_br, int c_pc)
 
 int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
 {
-    return raw_food(p, it,
-         32,  // tapeworm
-         64,  // bloodworms
-        128,  // brainworms
-         64); // paincysts
+    struct parasite_chances pcs = {};
+    pcs.tapeworm = 32;
+    pcs.bloodworms = 64;
+    pcs.brainworms = 128;
+    pcs.paincysts = 64;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_fat(player *p, item *it, bool, const tripoint& )
 {
-    return raw_food(p, it,
-         64,  // tapeworm
-        128,  // bloodworms
-        128,  // brainworms
-          0); // paincysts
+    struct parasite_chances pcs = {};
+    pcs.tapeworm = 64;
+    pcs.bloodworms = 128;
+    pcs.brainworms = 128;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_bone(player *p, item *it, bool, const tripoint& )
 {
-    return raw_food(p, it,
-          0,  // tapeworm
-        128,  // bloodworms
-          0,  // brainworms
-          0); // paincysts
+    struct parasite_chances pcs = {};
+    pcs.bloodworms = 128;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_fish(player *p, item *it, bool, const tripoint& )
 {
-    return raw_food(p, it,
-        256, // tapeworm
-        256, // bloodworms
-        256, // brainworms
-        256); // paincysts
+    struct parasite_chances pcs = {};
+    pcs.tapeworm = 256;
+    pcs.bloodworms = 256;
+    pcs.brainworms = 256;
+    pcs.paincysts = 256;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
 {
-    return raw_food(p, it,
-        512, // tapeworm
-        256, // bloodworms
-        512, // brainworms
-        128); // paincysts
+    struct parasite_chances pcs = {};
+    pcs.tapeworm = 512;
+    pcs.bloodworms = 256;
+    pcs.brainworms = 512;
+    pcs.paincysts = 128;
+    return raw_food(p, it, pcs);
 }
 
 #define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
