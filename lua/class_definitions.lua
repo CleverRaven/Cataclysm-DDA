@@ -161,7 +161,6 @@ classes = {
             { name = "cleanup_at_end", rval = "bool", args = { } },
             { name = "clear_zombies", rval = nil, args = { } },
             { name = "critter_at", rval = "Creature", args = { "tripoint" } },
-            { name = "critter_at", rval = "Creature", args = { "tripoint" } },
             { name = "cycle_item_mode", rval = nil, args = { "bool" } },
             { name = "delete_world", rval = nil, args = { "string", "bool" } },
             { name = "do_blast", rval = nil, args = { "tripoint", "int", "int", "bool" } },
