@@ -419,6 +419,9 @@ public:
  *   LuaReference<Foo>::push( L, x );
  *   LuaReference<Foo>::push( L, *x ); // both push calls do exactly the same.
  *   \endcode
+ *   push is also overloaded to accept const and non-const references / pointers. The templated
+ *   third parameter there makes sure that this is only done when T is not const. Otherwise we
+ *   would end up with 2 identical push functions, both taking a const references.
  * - @ref get returns a proxy object. It contains the pointer to T. It will automatically convert
  *   to a reference / a pointer to T:
  *   \code
@@ -439,7 +442,8 @@ public:
 template<typename T>
 class LuaReference : private LuaValue<T*> {
 public:
-    static void push( lua_State* const L, T* const value )
+    template<typename U = T>
+    static void push( lua_State* const L, T* const value, typename std::enable_if<!std::is_const<U>::value>::value_type* = nullptr )
     {
         if( value == nullptr ) {
             lua_pushnil( L );
@@ -450,16 +454,21 @@ public:
     // HACK: because Lua does not known what const is.
     static void push( lua_State* const L, const T* const value )
     {
-        push( L, const_cast<T*>( value ) );
+        if( value == nullptr ) {
+            lua_pushnil( L );
+            return;
+        }
+        LuaValue<T*>::push( L, const_cast<T*>( value ) );
     }
-    static void push( lua_State* const L, T& value )
+    template<typename U = T>
+    static void push( lua_State* const L, T& value, typename std::enable_if<!std::is_const<U>::value>::value_type* = nullptr )
     {
         LuaValue<T*>::push( L, &value );
     }
     // HACK: because Lua does not known what const is.
     static void push( lua_State* const L, const T& value )
     {
-        push( L, const_cast<T&>( value ) );
+        LuaValue<T*>::push( L, const_cast<T*>( &value ) );
     }
     static int push_reg( lua_State* const L, T* const value )
     {
