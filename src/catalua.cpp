@@ -182,12 +182,14 @@ private:
      * reinterpret_cast, but that is evil).
      * We need a simple pointer (not a pointer-to-pointer).
      *
-     * We get the simple pointer by removing the pointer from T via the std thingy.
-     * A `Type*` is of not much use if we can't convert it back to a `T&`, after all the caller
-     * wants a `T&`. Converting it back uses the two cast functions:
-     * If T is not a pointer at all (Type == T), the first overload is chosen, because it's
-     * actually the same as `Type& cast(Type*)`.
-     * If T is a pointer (Type* == T), the second overload is chosen: `Type*& cast(Type*&)`
+     * We get the simple pointer by removing the pointer from T via the std thingy, which gives us
+     * @ref Type. A reference to that is returned by @ref get.
+     *
+     * Reading user data from Lua gives a T*, so it must be converted to Type&, which may either
+     * be just one dereferencing (if T*==Type*) or two (if T*==Type**).
+     * One dereferencing is always done int @ref get, the (conditional) second is done in @ref cast.
+     * The two overloads match either a Type* (which dereferences the parameter) or a Type&
+     * (which just returns the reference without any changes).
      *
      * Maybe an example will help:
      * For T = monster* the function monster::die(Creature*) needs a Creature as parameter.
@@ -201,7 +203,7 @@ private:
      * If so, a pointer the those objects (converted to `Creature*`) is returned. `cast()` will
      * simply pass that pointer through and the caller can return the `Creature*`.
      *
-     * No assume T = point (and assume tripoint inherit from point, why not?)
+     * Now assume T = point (and assume tripoint inherit from point, why not?)
      * A function calls for a `point`, the input is a tripoint, so the metatables don't match.
      * `get_subclass` is called and successfully extract a tripoint from the userdata. It
      * returns a pointer to the tripoint (converted to `point*`). The caller needs a point (or
@@ -210,11 +212,13 @@ private:
      */
     using Type = typename std::remove_pointer<T>::type;
     static Type* get_subclass( lua_State* S, int stack_index );
-    static T& cast( T* ptr )
+    template<typename P>
+    static Type& cast( P* ptr )
     {
         return *ptr;
     }
-    static T& cast( T& ptr )
+    template<typename P>
+    static Type& cast( P& ptr )
     {
         return ptr;
     }
@@ -352,7 +356,7 @@ public:
         push( L, value );
         return luah_store_in_registry( L, -1 );
     }
-    static T& get( lua_State* const L, int const stack_index )
+    static Type& get( lua_State* const L, int const stack_index )
     {
         luaL_checktype( L, stack_index, LUA_TUSERDATA );
         T* user_data = static_cast<T*>( lua_touserdata( L, stack_index ) );
@@ -361,14 +365,14 @@ public:
             luaL_error( L, "First argument to function is not a class" );
         }
         if( has_matching_metatable( L, stack_index ) ) {
-            return *user_data;
+            return cast( *user_data );
         }
-        Type* subobject = get_subclass( L, stack_index );
+        Type* const subobject = get_subclass( L, stack_index );
         if( subobject == nullptr ) {
             // luaL_argerror does not return at all.
             luaL_argerror( L, stack_index, METATABLE_NAME );
         }
-        return cast( subobject );
+        return *subobject;
     }
     /** Compatibility with the function in @ref LuaReference. But this *always* returns a reference. */
     static T &get_proxy( lua_State * const L, int const stack_position )
@@ -420,7 +424,6 @@ public:
  *   LuaReference<Foo>::push( L, x );
  *   LuaReference<Foo>::push( L, *x ); // both push calls do exactly the same.
  *   \endcode
- * - @ref get returns a reference to T, not a pointer! This is often more convenient, but see next:
  * - @ref get_proxy is the same as @ref get, but returns a proxy object. The proxy contains the
  *   reference returned by @ref get and it has two operators that allow implicit conversion to
  *   T& and to T* - this allows it to be used for function that accept either.
@@ -466,10 +469,7 @@ public:
     {
         return LuaValue<T*>::push_reg( L, &value );
     }
-    static T &get( lua_State* const L, int const stack_position )
-    {
-        return *LuaValue<T*>::get( L, stack_position );
-    }
+    using LuaValue<T*>::get;
     /** A proxy object that allows to convert the reference to a pointer on-demand. The proxy object can
      * be used as argument to functions that expect either a pointer and to functions expecting a
      * reference. */
@@ -481,7 +481,7 @@ public:
     /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
     static proxy get_proxy( lua_State* const L, int const stack_position )
     {
-        return proxy{ LuaValue<T*>::get( L, stack_position ) };
+        return proxy{ &LuaValue<T*>::get( L, stack_position ) };
     }
     using LuaValue<T*>::has;
     using LuaValue<T*>::check;
