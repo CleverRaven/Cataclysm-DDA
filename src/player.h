@@ -326,6 +326,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
+	 * As above, but includes all creatures the player can detect well enough to target
+	 * with ranged weapons, e.g. with infared vision.
+         */
+        std::vector<Creature*> get_targetable_creatures( int range ) const;
+        /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
          * And of course a line of sight exists.

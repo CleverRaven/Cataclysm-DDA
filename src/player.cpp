@@ -13824,6 +13824,14 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
     } );
 }
 
+std::vector<Creature *> player::get_targetable_creatures( const int range ) const
+{
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && ( this->sees(critter) || this->sees_with_infrared(critter) ) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
+}
+
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
