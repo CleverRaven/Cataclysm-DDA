@@ -1588,5 +1588,34 @@
       [ "felt_patch", 6 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "iggaak",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "string_6", 2 ],
+      [ "thread", 100 ],
+      [ "sinew", 100 ],
+      [ "plant_fibre", 100 ],
+      [ "yarn", 50 ]
+    ],
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ],
+      [ "bone", 1 ],
+      [ "bone_human", 1 ]
+    ]
+  ]
 }
 ]
