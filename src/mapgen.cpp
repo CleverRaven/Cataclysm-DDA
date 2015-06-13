@@ -361,6 +361,21 @@ bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     }
     return true;
 }
+
+mapgen_function_json::mapgen_function_json( std::string s, int const w )
+: mapgen_function( w )
+, jdata( std::move( s ) )
+, mapgensize( 24 )
+, fill_ter( t_null )
+, format()
+, setmap_points()
+, do_format( false )
+, is_ready( false )
+, objects()
+, rotation( 0 )
+{
+}
+
 #define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
 
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
