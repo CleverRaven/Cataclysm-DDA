@@ -113,8 +113,9 @@ void VehicleFunction_json::apply(map& m, const std::string &terrain_name) const
     for(auto i = number.get(); i > 0; i--) {
         if(! location) {
             size_t replace = placement.find("%t");
-            const VehicleLocation* loc = vehicle_controller->pick_location(
-                replace != std::string::npos ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2) : placement);
+            const VehicleLocation* loc = vplacement_id(replace != std::string::npos
+                ? placement.substr(0,replace) + terrain_name + placement.substr(replace+2)
+                : placement).obj().pick();
 
             if(! loc) {
                 debugmsg("vehiclefunction_json: unable to get location to place vehicle.");
@@ -131,18 +132,6 @@ void VehicleFunction_json::apply(map& m, const std::string &terrain_name) const
 void VehicleFactory::vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name)
 {
     spawns[spawn_id].pick()->apply(m, terrain_name);
-}
-
-const VehicleLocation* VehicleFactory::pick_location(const std::string &placement_id) const
-{
-    vplacement_id id(placement_id);
-
-    if(! id.is_valid()) {
-        debugmsg("unknown placement %s", id.c_str());
-        return NULL;
-    }
-
-    return id.obj().pick();
 }
 
 void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
@@ -180,7 +169,7 @@ void VehicleFactory::builtin_no_vehicles(map&, const std::string&)
 
 void VehicleFactory::builtin_jackknifed_semi(map& m, const std::string &terrainid)
 {
-    const VehicleLocation* loc = vehicle_controller->pick_location(terrainid+"_semi");
+    const VehicleLocation* loc = vplacement_id(terrainid+"_semi").obj().pick();
     if(! loc) {
         debugmsg("builtin_jackknifed_semi unable to get location to place vehicle. placement %s", (terrainid+"_semi").c_str());
         return;
@@ -214,7 +203,7 @@ void VehicleFactory::builtin_pileup(map& m, const std::string&)
     int num_cars = rng(18, 22);
 
     for(int i = 0; i < num_cars; i++) {
-        const VehicleLocation* loc = vehicle_controller->pick_location("pileup");
+        const VehicleLocation* loc = vplacement_id("pileup").obj().pick();
         if(! loc) {
             debugmsg("builtin_pileup unable to get location to place vehicle.");
             return;
@@ -235,7 +224,7 @@ void VehicleFactory::builtin_policepileup(map& m, const std::string&)
     int num_cars = rng(18, 22);
 
     for(int i = 0; i < num_cars; i++) {
-        const VehicleLocation* loc = vehicle_controller->pick_location("pileup");
+        const VehicleLocation* loc = vplacement_id("pileup").obj().pick();
         if(! loc) {
             debugmsg("builtin_policepileup unable to get location to place vehicle.");
             return;

@@ -156,13 +156,6 @@ public:
     void vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name);
 
     /**
-     * This will randomly select one of the locations from a vehicle placement
-     * @param placement_id The id of the placement from which to select a location.
-     * @return either null, if there is no placement with that id or that placement has no locations. Else one of the locations of that placement chosen at random.
-     */
-    const VehicleLocation* pick_location(const std::string &placement_id) const;
-
-    /**
      * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
      * @param jsobj The json object to load from.
      * @throw std::string if the json object contains invalid data.
