@@ -117,6 +117,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("overmap_blinking", overmap_blinking);
             json.member("overmap_show_overlays", overmap_show_overlays);
             json.member("list_item_mon", list_item_mon);
+            json.member("list_item_sort", list_item_sort);
 
             json.member("input_history");
             json.start_object();
@@ -192,6 +193,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
             jo.read("list_item_mon", list_item_mon);
+            jo.read("list_item_sort", list_item_sort);
 
             JsonObject inhist = jo.get_object("input_history");
             std::set<std::string> inhist_members = inhist.get_member_names();
