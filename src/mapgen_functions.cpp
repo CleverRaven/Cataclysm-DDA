@@ -974,7 +974,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    vehicle_controller->vehicle_spawn(*m, (sidewalks) ? "default_city" : "default_country", "road_straight");
+    VehicleSpawn::apply((sidewalks) ? vspawn_id("default_city") : vspawn_id("default_country"), *m, "road_straight");
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1015,7 +1015,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    vehicle_controller->vehicle_spawn(*m, (sidewalks) ? "default_city" : "default_country", "road_end");
+    VehicleSpawn::apply((sidewalks) ? vspawn_id("default_city") : vspawn_id("default_country"), *m, "road_end");
 
     bool turning_cycle;
     if (sidewalks) {
@@ -1115,7 +1115,7 @@ void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         }
     }
 
-    vehicle_controller->vehicle_spawn(*m, (sidewalks) ? "default_city" : "default_country", "road_curved");
+    VehicleSpawn::apply((sidewalks) ? vspawn_id("default_city") : vspawn_id("default_country"), *m, "road_curved");
 
     if (sidewalks) { //this crossroad has sidewalk => this crossroad is in the city
         for (int i=0; i< SEEX * 2; i++) {
@@ -1220,7 +1220,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    vehicle_controller->vehicle_spawn(*m, (sidewalks) ? "default_city" : "default_country", "road_tee");
+    VehicleSpawn::apply((sidewalks) ? vspawn_id("default_city") : vspawn_id("default_country"), *m, "road_tee");
 
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1276,7 +1276,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     // spawn city car wrecks
     if (sidewalks) {
-        vehicle_controller->vehicle_spawn(*m, "default_city", "road_four_way");
+        VehicleSpawn::apply(vspawn_id("default_city"), *m, "road_four_way");
     }
 
     for (int i = 0; i < SEEX * 2; i++) {

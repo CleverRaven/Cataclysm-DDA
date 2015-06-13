@@ -6,6 +6,7 @@
 std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
+std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
 
 template<>
 const VehicleGroup &string_id<VehicleGroup>::obj() const
@@ -24,7 +25,6 @@ bool string_id<VehicleGroup>::is_valid() const
 {
     return vgroups.count( *this ) > 0;
 }
-
 
 template<>
 const VehiclePlacement &string_id<VehiclePlacement>::obj() const
@@ -129,15 +129,27 @@ void VehicleFunction_json::apply(map& m, const std::string &terrain_name) const
     }
 }
 
-void VehicleFactory::vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name)
+template<>
+const VehicleSpawn &string_id<VehicleSpawn>::obj() const
 {
-    spawns[spawn_id].pick()->apply(m, terrain_name);
+    const auto iter = vspawns.find( *this );
+    if( iter == vspawns.end() ) {
+        debugmsg( "invalid vehicle spawn id %s", c_str() );
+        static const VehicleSpawn dummy;
+        return dummy;
+    }
+    return iter->second;
 }
 
-void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
+template<>
+bool string_id<VehicleSpawn>::is_valid() const
 {
-    const std::string spawn_id = jo.get_string("id");
-    VehicleSpawn spawn;
+    return vspawns.count( *this ) > 0;
+}
+
+void VehicleSpawn::load(JsonObject &jo)
+{
+    VehicleSpawn &spawn = vspawns[vspawn_id(jo.get_string("id"))];
 
     JsonArray types = jo.get_array("spawn_types");
 
@@ -149,19 +161,27 @@ void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
             spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_json>(vjo));
         }
         else if(type.has_string("vehicle_function")) {
-            if(builtin_functions.count(type.get_string("vehicle_function")) == 0) {
+            if(vehicle_controller->builtin_functions.count(type.get_string("vehicle_function")) == 0) {
                 type.throw_error("load_vehicle_spawn: unable to find builtin function", "vehicle_function");
             }
 
             spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_builtin>(
-                builtin_functions[type.get_string("vehicle_function")]));
+                vehicle_controller->builtin_functions[type.get_string("vehicle_function")]));
         }
         else {
             type.throw_error("load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string).");
         }
     }
+}
 
-    spawns[spawn_id] = spawn;
+void VehicleSpawn::apply(map& m, const std::string &terrain_name) const
+{
+    pick()->apply(m, terrain_name);
+}
+
+void VehicleSpawn::apply(const vspawn_id &id, map& m, const std::string &terrain_name)
+{
+    id.obj().apply(m, terrain_name);
 }
 
 void VehicleFactory::builtin_no_vehicles(map&, const std::string&)

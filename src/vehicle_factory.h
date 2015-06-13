@@ -126,6 +126,9 @@ private:
  * This class handles a weighted list of different spawn functions, allowing a single
  * vehicle_spawn to have multiple possibilities.
  */
+class VehicleSpawn;
+using vspawn_id = string_id<VehicleSpawn>;
+
 class VehicleSpawn {
 public:
     void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {
@@ -135,6 +138,23 @@ public:
     const VehicleFunction* pick() const {
         return types.pick()->get();
     }
+
+    /**
+     * This will invoke the vehicle spawn on the map.
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on.
+     */
+    void apply(map& m, const std::string &terrain_name) const;
+
+    /**
+     * A static helper function. This will invoke the supplied vehicle spawn on the map.
+     * @param id The spawnid to apply
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on.
+     */
+    static void apply(const vspawn_id &id, map& m, const std::string &terrain_name);
+
+    static void load( JsonObject &jo );
 
 private:
     weighted_float_list<std::shared_ptr<VehicleFunction>> types;
@@ -148,21 +168,7 @@ private:
 class VehicleFactory {
 public:
 
-    /**
-     * This will invoke the given vehicle spawn on the map.
-     * @param spawn_id The id of the vehicle spawn to invoke.
-     * @param m The map on which to add the vehicle.
-     */
-    void vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name);
 
-    /**
-     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
-     * @param jsobj The json object to load from.
-     * @throw std::string if the json object contains invalid data.
-     */
-    void load_vehicle_spawn(JsonObject &jo);
-
-private:
     // builtin functions
     static void builtin_no_vehicles(map& m, const std::string &terrainid);
     static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
