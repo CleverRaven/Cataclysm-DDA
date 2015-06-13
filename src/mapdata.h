@@ -275,13 +275,14 @@ enum map_extra {
  mx_fumarole,
  mx_portal_in,
  mx_anomaly,
+ mx_collegekids,
  num_map_extras
 };
 
 //Classic Extras is for when you have special zombies turned off.
 const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_roadblock) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
-  mfb(mx_crater);
+  mfb(mx_crater) | mfb(mx_collegekids);
 
 
 struct map_extras {
@@ -290,7 +291,8 @@ struct map_extras {
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int roadblock = 0, int drug = 0, int supply = 0,
             int portal = 0, int minefield = 0,
-            int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
+            int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0,
+            int collegekids = 0)
             : chance(embellished)
  {
   chances[ 0] = 0;
@@ -306,7 +308,8 @@ struct map_extras {
   chances[10] = lava;
   chances[11] = marloss;
   chances[12] = anomaly;
-  chances[13] = 0;
+  chances[13] = collegekids;
+  chances[14] = 0;
  }
 };
 
