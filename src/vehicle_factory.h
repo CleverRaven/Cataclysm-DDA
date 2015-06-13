@@ -145,10 +145,6 @@ public:
         types.add(func, weight);
     }
 
-    const VehicleFunction* pick() const {
-        return types.pick()->get();
-    }
-
     /**
      * This will invoke the vehicle spawn on the map.
      * @param m The map on which to add the vehicle.
