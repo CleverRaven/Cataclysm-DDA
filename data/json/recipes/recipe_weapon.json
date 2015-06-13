@@ -725,6 +725,7 @@
       [ "gasoline", 200 ],
       [ "diesel", 200 ],
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_bird", 6 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ]
@@ -6106,7 +6107,8 @@
       [ "rolling_paper", 5 ]
     ],
     [
-      [ "gunpowder", 5 ]
+      [ "gunpowder", 5 ],
+      [ "chem_black_powder", 10 ]
     ]
   ]
 },{
