@@ -13791,6 +13791,26 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
     return vStart;
 }
 
+std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>pred )
+{
+    std::vector<Creature *> result;
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        auto &critter = g->zombie( i );
+        if( !critter.is_dead() && pred( critter ) ) {
+            result.push_back( &critter );
+        }
+    }
+    for( auto & n : g->active_npc ) {
+        if( pred( *n ) ) {
+            result.push_back( n );
+        }
+    }
+    if( pred( g->u ) ) {
+        result.push_back( &g->u );
+    }
+    return result;
+}
+
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
@@ -13798,22 +13818,18 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
-    std::vector<Creature *> result;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        auto &critter = g->zombie( i );
-        if( !critter.is_dead() && is_visible_in_range( critter, range ) ) {
-            result.push_back( &critter );
-        }
-    }
-    for( auto & n : g->active_npc ) {
-        if( n != this && is_visible_in_range( *n, range ) ) {
-            result.push_back( n );
-        }
-    }
-    if( this != &g->u && is_visible_in_range( g->u, range ) ) {
-        result.push_back( &g->u );
-    }
-    return result;
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && this->sees(critter) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
+}
+
+std::vector<Creature *> player::get_targetable_creatures( const int range ) const
+{
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && ( this->sees(critter) || this->sees_with_infrared(critter) ) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
 }
 
 void player::place_corpse()
@@ -13851,8 +13867,7 @@ bool player::sees_with_infrared( const Creature &critter ) const
     if( !has_ir || !critter.is_warm() ) {
         return false;
     }
-    int bresenham_slope;
-    return g->m.sees(critter.posx(), critter.posy(), sight_range(DAYLIGHT_LEVEL), bresenham_slope );
+    return g->m.sees(pos(), critter.pos(), sight_range(DAYLIGHT_LEVEL) );
 }
 
 std::vector<std::string> player::get_overlay_ids() const {
