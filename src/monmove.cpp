@@ -73,20 +73,9 @@ bool monster::can_move_to( const tripoint &p ) const
         if( local_field.findField( fd_fire ) || local_field.findField( fd_electricity ) ) {
             return false;
         }
-    }
 
-    if( g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
-        if( !g->m.has_zlevels() || !can_climb ) {
+        if( g->m.has_flag( TFLAG_NO_FLOOR, p ) && !has_flag( MF_FLIES ) ) {
             return false;
-        }
-
-        if( has_flag( MF_FLIES ) ) {
-            return true;
-        }
-
-        // This should become more variable, but for now make all climbers really good at the job
-        if( g->m.climb_difficulty( p ) < 10 ) {
-            return true;
         }
     }
 

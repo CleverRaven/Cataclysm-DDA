@@ -974,8 +974,26 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     }
 
     c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-    c->setpos( where );
-    c->impact( height * 20, where );
+    player *pl = dynamic_cast<player*>( c );
+    if( pl == nullptr ) {
+        c->setpos( where );
+        c->impact( height * 20, where );
+        return;
+    }
+
+    if( pl->has_trait("WINGS_BIRD") || ( one_in( 2 ) && pl->has_trait("WINGS_BUTTERFLY") ) ) {
+        add_msg_if_player( _("You flap your wings and flutter down gracefully.") );
+    } else {
+        if( pl->is_player() ) {
+            for( size_t zlevs = height; zlevs > 0; zlevs-- ) {
+                g->vertical_move( -1, true );
+            }
+        } else {
+            pl->setpos( where );
+        }
+
+        pl->impact( height * 20, where );
+    }
 }
 
 void trapfunc::temple_flood( Creature *c, const tripoint &p )
