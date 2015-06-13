@@ -1276,7 +1276,7 @@ void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     // spawn city car wrecks
     if (sidewalks) {
-        VehicleSpawn::apply(vspawn_id("default_city"), *m, "road_four_way");
+        vspawn_id("default_city").obj().apply(*m, "road_four_way");
     }
 
     for (int i = 0; i < SEEX * 2; i++) {

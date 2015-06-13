@@ -158,6 +158,15 @@ public:
 
 private:
     weighted_float_list<std::shared_ptr<VehicleFunction>> types;
+
+    // builtin functions
+    static void builtin_no_vehicles(map& m, const std::string &terrainid);
+    static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
+    static void builtin_pileup(map& m, const std::string &terrainid);
+    static void builtin_policepileup(map& m, const std::string &terrainid);
+
+    typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
+    static FunctionMap builtin_functions;
 };
 
 /**
@@ -169,22 +178,7 @@ class VehicleFactory {
 public:
 
 
-    // builtin functions
-    static void builtin_no_vehicles(map& m, const std::string &terrainid);
-    static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
-    static void builtin_pileup(map& m, const std::string &terrainid);
-    static void builtin_policepileup(map& m, const std::string &terrainid);
 
-    typedef std::unordered_map<std::string, VehicleSpawn> VehicleSpawnsMap;
-    VehicleSpawnsMap spawns;
-
-    typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
-    FunctionMap builtin_functions {
-        { "no_vehicles", builtin_no_vehicles },
-        { "jack-knifed_semi", builtin_jackknifed_semi },
-        { "vehicle_pileup", builtin_pileup },
-        { "policecar_pileup", builtin_policepileup }
-    };
 };
 
 extern std::unique_ptr<VehicleFactory> vehicle_controller;

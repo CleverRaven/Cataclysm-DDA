@@ -147,6 +147,13 @@ bool string_id<VehicleSpawn>::is_valid() const
     return vspawns.count( *this ) > 0;
 }
 
+VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
+    { "no_vehicles", builtin_no_vehicles },
+    { "jack-knifed_semi", builtin_jackknifed_semi },
+    { "vehicle_pileup", builtin_pileup },
+    { "policecar_pileup", builtin_policepileup }
+};
+
 void VehicleSpawn::load(JsonObject &jo)
 {
     VehicleSpawn &spawn = vspawns[vspawn_id(jo.get_string("id"))];
@@ -161,12 +168,12 @@ void VehicleSpawn::load(JsonObject &jo)
             spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_json>(vjo));
         }
         else if(type.has_string("vehicle_function")) {
-            if(vehicle_controller->builtin_functions.count(type.get_string("vehicle_function")) == 0) {
+            if(builtin_functions.count(type.get_string("vehicle_function")) == 0) {
                 type.throw_error("load_vehicle_spawn: unable to find builtin function", "vehicle_function");
             }
 
             spawn.add(type.get_float("weight"), std::make_shared<VehicleFunction_builtin>(
-                vehicle_controller->builtin_functions[type.get_string("vehicle_function")]));
+                builtin_functions[type.get_string("vehicle_function")]));
         }
         else {
             type.throw_error("load_vehicle_spawn: missing required vehicle_json (object) or vehicle_function (string).");
@@ -184,10 +191,10 @@ void VehicleSpawn::apply(const vspawn_id &id, map& m, const std::string &terrain
     id.obj().apply(m, terrain_name);
 }
 
-void VehicleFactory::builtin_no_vehicles(map&, const std::string&)
+void VehicleSpawn::builtin_no_vehicles(map&, const std::string&)
 {}
 
-void VehicleFactory::builtin_jackknifed_semi(map& m, const std::string &terrainid)
+void VehicleSpawn::builtin_jackknifed_semi(map& m, const std::string &terrainid)
 {
     const VehicleLocation* loc = vplacement_id(terrainid+"_semi").obj().pick();
     if(! loc) {
@@ -217,7 +224,7 @@ void VehicleFactory::builtin_jackknifed_semi(map& m, const std::string &terraini
     m.add_vehicle(vgroup_id("truck_trailer"), trailer_p, (facing + 90) % 360, -1, 1);
 }
 
-void VehicleFactory::builtin_pileup(map& m, const std::string&)
+void VehicleSpawn::builtin_pileup(map& m, const std::string&)
 {
     vehicle *last_added_car = NULL;
     int num_cars = rng(18, 22);
@@ -238,7 +245,7 @@ void VehicleFactory::builtin_pileup(map& m, const std::string&)
     }
 }
 
-void VehicleFactory::builtin_policepileup(map& m, const std::string&)
+void VehicleSpawn::builtin_policepileup(map& m, const std::string&)
 {
     vehicle *last_added_car = NULL;
     int num_cars = rng(18, 22);
