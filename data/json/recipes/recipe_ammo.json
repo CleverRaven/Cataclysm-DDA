@@ -970,7 +970,8 @@
       [ "bb", 40 ]
     ],
     [
-      [ "gunpowder", 60 ]
+      [ "gunpowder", 60 ],
+      [ "chem_black_powder", 120 ]
     ]
   ]
 },{
@@ -1080,7 +1081,8 @@
         ["shotgun_primer", 1]
     ],
     [
-      [ "gunpowder", 20 ]
+      [ "gunpowder", 20 ],
+      [ "chem_black_powder", 40 ]
     ]
   ]
 },{
@@ -2677,7 +2679,8 @@
   ],
   "components": [
     [
-      [ "gunpowder", 16 ]
+      [ "gunpowder", 16 ],
+      [ "chem_black_powder", 32 ]
     ],
     [
       [ "scrap", 1 ],
@@ -2715,7 +2718,8 @@
     ]
   ],"components": [
     [
-      [ "gunpowder", 16 ]
+      [ "gunpowder", 16 ],
+      [ "chem_black_powder", 32 ]
     ],
     [
       [ "rebar", 1 ],
@@ -2748,7 +2752,8 @@
     ]
   ], "components":  [
     [
-      [ "gunpowder", 16 ]
+      [ "gunpowder", 16 ],
+      [ "chem_black_powder", 32 ]
     ],
     [
       [ "glass_shard", 1],
@@ -3850,7 +3855,8 @@
     ],
     "components": [
       [
-        [ "gunpowder", 600 ]
+        [ "gunpowder", 600 ],
+        [ "chem_black_powder", 1200 ]
       ],
       [
         [ "lead", 400 ],
@@ -3884,7 +3890,8 @@
     ],
     "components": [
       [
-        [ "gunpowder", 100 ]
+        [ "gunpowder", 100 ],
+        [ "chem_black_powder", 200 ]
       ],
       [
         [ "lead", 30 ],
@@ -3919,7 +3926,8 @@
     ],
     "components": [
       [
-        [ "gunpowder", 160 ]
+        [ "gunpowder", 160 ],
+        [ "chem_black_powder", 320 ]
       ],
       [
         [ "lead", 45 ],

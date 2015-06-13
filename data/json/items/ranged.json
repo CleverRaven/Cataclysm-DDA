@@ -2782,7 +2782,7 @@
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
     "skill": "rifle",
-    "ammo": "223",
+    "ammo": "308",
     "weight": 10500,
     "volume": 16,
     "bashing": 15,
@@ -2795,7 +2795,7 @@
     "recoil": 140,
     "durability": 7,
     "burst": 20,
-    "clip_size": 300,
+    "clip_size": 200,
     "reload": 750,
     "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
