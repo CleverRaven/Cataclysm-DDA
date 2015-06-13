@@ -399,6 +399,11 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag, const short de
     }
 }
 
+int jmapgen_int::get() const
+{
+    return val == valmax ? val : rng( val, valmax );
+}
+
 /*
  * Turn json gobbldigook into machine friendly gobbldigook, for applying
  * basic map 'set' functions, optionally based on one_in(chance) or repeat value

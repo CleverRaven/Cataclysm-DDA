@@ -54,9 +54,7 @@ struct jmapgen_int {
      */
     jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
-  int get() const {
-      return ( val == valmax ? val : rng(val, valmax) );
-  }
+    int get() const;
 };
 
 enum jmapgen_setmap_op {
