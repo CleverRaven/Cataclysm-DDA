@@ -70,6 +70,8 @@ struct VehicleLocation {
  * A list of vehicle locations which are valid for spawning new vehicles.
  */
 struct VehiclePlacement {
+    VehiclePlacement() {}
+
     void add(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings) {
         locations.emplace_back(x, y, facings);
     }
@@ -141,6 +143,8 @@ private:
  */
 class VehicleSpawn {
 public:
+    VehicleSpawn() : types() {}
+
     void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {
         types.add(func, weight);
     }
