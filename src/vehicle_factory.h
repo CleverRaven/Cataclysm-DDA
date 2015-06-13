@@ -70,10 +70,13 @@ struct VehiclePlacement {
     }
 
     const VehicleLocation* pick() const;
+    static void load( JsonObject &jo );
 
     typedef std::vector<VehicleLocation> LocationMap;
     LocationMap locations;
 };
+
+using vplacement_id = string_id<VehiclePlacement>;
 
 /**
  * These classes are used to wrap around a set of vehicle spawning functions. There are
@@ -160,13 +163,6 @@ public:
     const VehicleLocation* pick_location(const std::string &placement_id) const;
 
     /**
-     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
-     * @param jsobj The json object to load from.
-     * @throw std::string if the json object contains invalid data.
-     */
-    void load_vehicle_placement(JsonObject &jo);
-
-    /**
      * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
      * @param jsobj The json object to load from.
      * @throw std::string if the json object contains invalid data.
@@ -179,9 +175,6 @@ private:
     static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
     static void builtin_pileup(map& m, const std::string &terrainid);
     static void builtin_policepileup(map& m, const std::string &terrainid);
-
-    typedef std::unordered_map<std::string, VehiclePlacement> PlacementMap;
-    PlacementMap placements;
 
     typedef std::unordered_map<std::string, VehicleSpawn> VehicleSpawnsMap;
     VehicleSpawnsMap spawns;

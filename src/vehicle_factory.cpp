@@ -5,6 +5,7 @@
 
 std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
+std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
 
 template<>
 const VehicleGroup &string_id<VehicleGroup>::obj() const
@@ -23,6 +24,26 @@ bool string_id<VehicleGroup>::is_valid() const
 {
     return vgroups.count( *this ) > 0;
 }
+
+
+template<>
+const VehiclePlacement &string_id<VehiclePlacement>::obj() const
+{
+    const auto iter = vplacements.find( *this );
+    if( iter == vplacements.end() ) {
+        debugmsg( "invalid vehicle placement id %s", c_str() );
+        static const VehiclePlacement dummy;
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<VehiclePlacement>::is_valid() const
+{
+    return vplacements.count( *this ) > 0;
+}
+
 
 void VehicleGroup::load(JsonObject &jo)
 {
@@ -46,6 +67,18 @@ VehicleFacings::VehicleFacings(JsonObject &jo, const std::string &key)
     }
     else {
         values.push_back(jo.get_int(key));
+    }
+}
+
+void VehiclePlacement::load(JsonObject &jo)
+{
+    VehiclePlacement &placement = vplacements[vplacement_id(jo.get_string("id"))];
+
+    JsonArray locations = jo.get_array("locations");
+    while (locations.has_more()) {
+        JsonObject jloc = locations.next_object();
+
+        placement.add(jmapgen_int(jloc, "x"), jmapgen_int(jloc, "y"), VehicleFacings(jloc, "facing"));
     }
 }
 
@@ -102,25 +135,14 @@ void VehicleFactory::vehicle_spawn(map& m, const std::string &spawn_id, const st
 
 const VehicleLocation* VehicleFactory::pick_location(const std::string &placement_id) const
 {
-    if(placements.count(placement_id) == 0) {
-        debugmsg("vehiclefactory unknown placement %s", placement_id.c_str());
+    vplacement_id id(placement_id);
+
+    if(! id.is_valid()) {
+        debugmsg("unknown placement %s", id.c_str());
         return NULL;
     }
 
-    return placements.find(placement_id)->second.pick();
-}
-
-void VehicleFactory::load_vehicle_placement(JsonObject &jo)
-{
-    const std::string placement_id = jo.get_string("id");
-    VehiclePlacement &placement = placements[placement_id];
-
-    JsonArray locations = jo.get_array("locations");
-    while (locations.has_more()) {
-        JsonObject jloc = locations.next_object();
-
-        placement.add(jmapgen_int(jloc, "x"), jmapgen_int(jloc, "y"), VehicleFacings(jloc, "facing"));
-    }
+    return id.obj().pick();
 }
 
 void VehicleFactory::load_vehicle_spawn(JsonObject &jo)
