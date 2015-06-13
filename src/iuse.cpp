@@ -634,30 +634,31 @@ struct parasite_chances {
 
 int raw_food(player *p, item *it, const struct parasite_chances &pcs)
 {
-    if (!(p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        if (pcs.tapeworm && one_in(pcs.tapeworm) && !(p->has_effect("tapeworm")
-                || p->has_trait("EATHEALTH"))) {
-               // Hyper-Metabolism digests the thing before it can set up shop.
-            p->add_effect("tapeworm", 1, num_bp, true);
-        }
-        if (pcs.bloodworms && one_in(pcs.bloodworms) && !(p->has_effect("bloodworms")
-               || p->has_trait("ACIDBLOOD"))) {
-               // The worms can't survive in acidic blood.
-            p->add_effect("bloodworms", 1, num_bp, true);
-        }
-        if (pcs.brainworms && one_in(pcs.brainworms) && !p->has_effect("brainworms")) {
-            p->add_effect("brainworms", 1, num_bp, true);
-        }
-        if (pcs.paincysts && one_in(pcs.paincysts) && !p->has_effect("paincysts")) {
-            p->add_effect("paincysts", 1, num_bp, true);
-        }
+    if (p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE")) {
+        return it->type->charges_to_use();
+    }
+    if (pcs.tapeworm > 0 && one_in(pcs.tapeworm) && !(p->has_effect("tapeworm")
+            || p->has_trait("EATHEALTH"))) {
+           // Hyper-Metabolism digests the thing before it can set up shop.
+        p->add_effect("tapeworm", 1, num_bp, true);
+    }
+    if (pcs.bloodworms > 0 && one_in(pcs.bloodworms) && !(p->has_effect("bloodworms")
+           || p->has_trait("ACIDBLOOD"))) {
+           // The worms can't survive in acidic blood.
+        p->add_effect("bloodworms", 1, num_bp, true);
+    }
+    if (pcs.brainworms > 0 && one_in(pcs.brainworms) && !p->has_effect("brainworms")) {
+        p->add_effect("brainworms", 1, num_bp, true);
+    }
+    if (pcs.paincysts > 0 && one_in(pcs.paincysts) && !p->has_effect("paincysts")) {
+        p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
 
 int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
 {
-    struct parasite_chances pcs = {};
+    struct parasite_chances pcs = {0, 0, 0, 0};
     pcs.tapeworm = 32;
     pcs.bloodworms = 64;
     pcs.brainworms = 128;
@@ -667,7 +668,7 @@ int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
 
 int iuse::raw_fat(player *p, item *it, bool, const tripoint& )
 {
-    struct parasite_chances pcs = {};
+    struct parasite_chances pcs = {0, 0, 0, 0};
     pcs.tapeworm = 64;
     pcs.bloodworms = 128;
     pcs.brainworms = 128;
@@ -676,14 +677,14 @@ int iuse::raw_fat(player *p, item *it, bool, const tripoint& )
 
 int iuse::raw_bone(player *p, item *it, bool, const tripoint& )
 {
-    struct parasite_chances pcs = {};
+    struct parasite_chances pcs = {0, 0, 0, 0};
     pcs.bloodworms = 128;
     return raw_food(p, it, pcs);
 }
 
 int iuse::raw_fish(player *p, item *it, bool, const tripoint& )
 {
-    struct parasite_chances pcs = {};
+    struct parasite_chances pcs = {0, 0, 0, 0};
     pcs.tapeworm = 256;
     pcs.bloodworms = 256;
     pcs.brainworms = 256;
@@ -693,7 +694,7 @@ int iuse::raw_fish(player *p, item *it, bool, const tripoint& )
 
 int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
 {
-    struct parasite_chances pcs = {};
+    struct parasite_chances pcs = {0, 0, 0, 0};
     pcs.tapeworm = 512;
     pcs.bloodworms = 256;
     pcs.brainworms = 512;
