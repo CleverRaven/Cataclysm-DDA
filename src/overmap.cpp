@@ -27,6 +27,8 @@
 #include "mongroup.h"
 #include "name.h"
 #include "translations.h"
+#include "mapgen_functions.h"
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
