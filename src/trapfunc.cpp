@@ -935,14 +935,6 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
 void trapfunc::ledge( Creature *c, const tripoint &p )
 {
-    if( c == &g->u ) {
-        add_msg( m_warning, _( "You fall down a level!" ) );
-        g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
-                               pgettext( "memorial_female", "Fell down a ledge." ) );
-        g->vertical_move( -1, true );
-        return;
-    }
-
     if( c == nullptr ) {
         return;
     }
@@ -953,8 +945,17 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     }
 
     if( !g->m.has_zlevels() ) {
-        c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-        c->die( nullptr );
+        if( c == &g->u ) {
+            add_msg( m_warning, _( "You fall down a level!" ) );
+            g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
+                                   pgettext( "memorial_female", "Fell down a ledge." ) );
+            g->vertical_move( -1, true );
+            g->u.impact( 30, p );
+        } else {
+            c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+            c->die( nullptr );
+        }
+
         return;
     }
 
@@ -981,17 +982,18 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
         return;
     }
 
-    if( pl->has_trait("WINGS_BIRD") || ( one_in( 2 ) && pl->has_trait("WINGS_BUTTERFLY") ) ) {
-        add_msg_if_player( _("You flap your wings and flutter down gracefully.") );
+    if( pl->is_player() ) {
+        add_msg( m_warning, _( "You fall down a level!" ) );
+        g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
+                               pgettext( "memorial_female", "Fell down a ledge." ) );
+        g->vertical_move( -height, true );
     } else {
-        if( pl->is_player() ) {
-            for( size_t zlevs = height; zlevs > 0; zlevs-- ) {
-                g->vertical_move( -1, true );
-            }
-        } else {
-            pl->setpos( where );
-        }
-
+        pl->setpos( where );
+    }
+    if( pl->has_trait("WINGS_BIRD") || ( one_in( 2 ) && pl->has_trait("WINGS_BUTTERFLY") ) ) {
+        pl->add_msg_player_or_npc( _("You flap your wings and flutter down gracefully."),
+                                   _("<npcname> flaps their wings and flutters down gracefully.") );
+    } else {
         pl->impact( height * 20, where );
     }
 }
