@@ -100,6 +100,11 @@ public:
     VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
     ~VehicleFunction_builtin() { }
 
+    /**
+     * This will invoke the vehicle spawning fuction on the map.
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on.
+     */
     void apply(map& m, const std::string &terrainid) const override {
         func(m, terrainid);
     }
@@ -113,6 +118,11 @@ public:
     VehicleFunction_json(JsonObject &jo);
     ~VehicleFunction_json() { }
 
+    /**
+     * This will invoke the vehicle spawning fuction on the map.
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on. This is ignored by the json handler.
+     */
     void apply(map& m, const std::string &terrain_name) const override;
 
 private:
