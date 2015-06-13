@@ -396,9 +396,8 @@ void mattack::acid_accurate(monster *z, int index)
     }
     if( g->u.sees( *target ) ) {
         target->add_msg_player_or_npc( msg_type,
-                                    _("A bolt of acid hits your %2$s!"),
-                                    _("A bolt of acid hits %1$s's %2$s!"),
-                                    target->disp_name().c_str(),
+                                    _("A bolt of acid hits your %s!"),
+                                    _("A bolt of acid hits <npcname>'s %s!"),
                                     body_part_name_accusative( bp ).c_str() );
     }
     target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
