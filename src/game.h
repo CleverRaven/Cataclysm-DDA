@@ -534,8 +534,6 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather(std::ofstream &fout);
-        void load_legacy_future_weather(std::string data);
-        void load_legacy_future_weather(std::istream &fin);
         // returns false if saving failed for whatever reason
         bool save_uistate();
         void load_uistate(std::string worldname);

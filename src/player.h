@@ -134,8 +134,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns what color the player should be drawn as */
         virtual nc_color basic_symbol_color() const override;
 
-        /** Stringstream loader for old player data files */
-        virtual void load_legacy(std::stringstream &dump);
         /** Deserializes string data when loading files */
         virtual void load_info(std::string data);
         /** Outputs a serialized json string for saving */
@@ -327,6 +325,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
+        /**
+	 * As above, but includes all creatures the player can detect well enough to target
+	 * with ranged weapons, e.g. with infared vision.
+         */
+        std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
@@ -927,7 +930,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.z = z;
         }
-        inline void setpos( const tripoint &p )
+        inline void setpos( const tripoint &p ) override
         {
             position = p;
         }

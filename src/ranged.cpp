@@ -427,10 +427,10 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         const auto critter = g->critter_at( targ );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
             const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
-            auto new_targets = get_visible_creatures( weaponrange );
+            auto new_targets = get_targetable_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
-                if( attitude_to( z ) == A_FRIENDLY ) {
+                if( attitude_to( z ) != A_HOSTILE ) {
                     if( !trigger_happy ) {
                         it = new_targets.erase( it );
                         continue;

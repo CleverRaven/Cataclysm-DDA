@@ -5,11 +5,10 @@
 #include "debug.h"
 #include "translations.h"
 #include "trap.h"
-#include "vehicle.h"
+#include "output.h"
+#include "item.h"
 
-#include <ostream>
 #include <unordered_map>
-#include <memory>
 
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
@@ -37,59 +36,6 @@ const furn_t &int_id<furn_t>::obj() const
         return dummy;
     }
     return furnlist[_id];
-}
-
-const furn_t &maptile::get_furn_t() const
-{
-    return sm->get_furn( x, y ).obj();
-}
-
-const ter_t &maptile::get_ter_t() const
-{
-    return sm->get_ter( x, y ).obj();
-}
-
-std::ostream & operator<<(std::ostream & out, const submap * sm)
-{
- out << "submap(";
- if( !sm )
- {
-  out << "NULL)";
-  return out;
- }
-
- out << "\n\tter:";
- for(int x = 0; x < SEEX; ++x)
- {
-  out << "\n\t" << x << ": ";
-  for(int y = 0; y < SEEY; ++y)
-   out << sm->ter[x][y] << ", ";
- }
-
- out << "\n\titm:";
- for(int x = 0; x < SEEX; ++x)
- {
-  for(int y = 0; y < SEEY; ++y)
-  {
-   if( !sm->itm[x][y].empty() )
-   {
-    for( auto it = sm->itm[x][y].begin(), end = sm->itm[x][y].end(); it != end; ++it )
-    {
-     out << "\n\t("<<x<<","<<y<<") ";
-     out << *it << ", ";
-    }
-   }
-  }
- }
-
-   out << "\n\t)";
- return out;
-}
-
-std::ostream & operator<<(std::ostream & out, const submap & sm)
-{
- out << (&sm);
- return out;
 }
 
 static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
@@ -1013,59 +959,4 @@ void check_furniture_and_terrain()
             debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
         }
     }
-}
-
-submap::submap()
-{
-    constexpr size_t elements = SEEX * SEEY;
-
-    std::uninitialized_fill_n(&ter[0][0], elements, t_null);
-    std::uninitialized_fill_n(&frn[0][0], elements, f_null);
-    std::uninitialized_fill_n(&lum[0][0], elements, 0);
-    std::uninitialized_fill_n(&trp[0][0], elements, tr_null);
-    std::uninitialized_fill_n(&rad[0][0], elements, 0);
-
-    is_uniform = false;
-}
-
-submap::~submap()
-{
-    delete_vehicles();
-}
-
-void submap::delete_vehicles()
-{
-    for(vehicle *veh : vehicles) {
-        delete veh;
-    }
-    vehicles.clear();
-}
-
-static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
-
-bool submap::has_graffiti( int x, int y ) const
-{
-    return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
-}
-
-const std::string &submap::get_graffiti( int x, int y ) const
-{
-    const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
-    if( it == cosmetics[x][y].end() ) {
-        static const std::string empty_string;
-        return empty_string;
-    }
-    return it->second;
-}
-
-void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
-{
-    is_uniform = false;
-    cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
-}
-
-void submap::delete_graffiti( int x, int y )
-{
-    is_uniform = false;
-    cosmetics[x][y].erase( COSMETICS_GRAFFITI );
 }

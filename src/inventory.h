@@ -154,8 +154,6 @@ class inventory
         // vector rather than list because it's NOT an item stack
         std::vector<item *> active_items();
 
-        void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
-
         void json_load_invcache(JsonIn &jsin);
         void json_load_items(JsonIn &jsin);
 

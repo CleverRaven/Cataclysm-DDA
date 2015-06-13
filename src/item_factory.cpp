@@ -201,6 +201,7 @@ void Item_factory::init()
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
+    iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
@@ -314,7 +315,8 @@ void Item_factory::init()
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
-    iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
+    iuse_function_list["SHAVEKIT"]  = &iuse::shavekit;
+    iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
 

@@ -2,7 +2,6 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "savegame.h"
 #include "filesystem.h"
 #include "overmapbuffer.h"
 #include "mapsharing.h"
@@ -12,6 +11,7 @@
 #include "map.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "submap.h"
 
 #include <fstream>
 #include <sstream>

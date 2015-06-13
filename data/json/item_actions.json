@@ -81,6 +81,18 @@
         "name" : "Take anticonvulsant"
     },{
         "type" : "item_action",
+        "id" : "SHEATH_KNIFE",
+        "name" : "Sheathe/draw a knife"
+    },{
+        "type" : "item_action",
+        "id" : "LUMBER",
+        "name" : "Cut a log into planks"
+    },{
+        "type" : "item_action",
+        "id" : "REMOVE_ALL_MODS",
+        "name" : "Remove tool mods"
+    },{
+        "type" : "item_action",
         "id" : "salvage",
         "name" : "Cut up an item"
     },{

@@ -18,6 +18,7 @@
 #include "input.h"
 #include "item_group.h"
 #include "compatibility.h"
+#include "basecamp.h"
 
 #include <vector>
 #include <string>

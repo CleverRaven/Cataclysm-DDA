@@ -22,6 +22,7 @@
 #include "veh_type.h"
 #include "trap.h"
 #include "itype.h"
+#include "submap.h"
 
 #include <fstream>
 #include <sstream>
@@ -270,17 +271,13 @@ void vehicle::load (std::ifstream &stin)
     getline(stin, type);
     this->type = vproto_id( type );
 
-    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
-        std::stringstream derp;
-        derp << type;
-        JsonIn jsin(derp);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-        }
-    } else {
-        load_legacy(stin);
+    std::stringstream derp;
+    derp << type;
+    JsonIn jsin(derp);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
     }
     refresh(); // part index lists are lost on save??
     shift_if_needed();
@@ -767,7 +764,7 @@ bool vehicle::interact_vehicle_locked()
     if (is_locked){
         const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if( crafting_inv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+        if( crafting_inv.has_items_with_quality( "SCREW", 1, 1 ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
 
