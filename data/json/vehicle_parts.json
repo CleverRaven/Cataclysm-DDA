@@ -4000,6 +4000,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "beeper",
+        "name" : "back-up beeper",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "*",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 10,
+        "durability" : 90,
+        "bonus" : 28,
+        "item" : "beeper",
+        "difficulty" : 2,
+        "flags" : ["BEEPER", "ODDTURN"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 0, "max": 2},
+            {"item": "cable", "min": 1, "max": 3},
+            {"item": "e_scrap", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "battery_motorbike",
         "name" : "motorbike battery",
         "symbol" : "o",

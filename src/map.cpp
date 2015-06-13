@@ -322,6 +322,9 @@ void map::vehmove()
             vehicle *veh = vehs_v.v;
             veh->gain_moves();
             veh->slow_leak();
+            if ( veh->velocity < 0) {
+                veh->beeper_sound();
+            }
         }
     }
 
@@ -720,7 +723,7 @@ const vehicle *map::vehproceed()
 
     // now we're gonna handle traps we're standing on (if we're still moving).
     // this is done here before displacement because
-    // after displacement veh reference would be invdalid.
+    // after displacement veh reference would be invalid.
     // damn references!
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
