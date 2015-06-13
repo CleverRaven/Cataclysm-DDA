@@ -283,7 +283,7 @@
         "warmth" : 10,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 15,
+        "encumbrance" : 20,
         "bashing" : -4,
         "coverage" : 90,
         "flags" : ["SUN_GLASSES"],
