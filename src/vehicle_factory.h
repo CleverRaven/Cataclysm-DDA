@@ -30,6 +30,7 @@ private:
 };
 
 using vgroup_id = string_id<VehicleGroup>;
+extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**
  * The location and facing data needed to place a vehicle onto the map.
@@ -168,20 +169,5 @@ private:
     typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
     static FunctionMap builtin_functions;
 };
-
-/**
- * Vehicle placment management class.
- *
- * You usually use the single global instance @ref vehicle_controller.
- */
-class VehicleFactory {
-public:
-
-
-
-};
-
-extern std::unique_ptr<VehicleFactory> vehicle_controller;
-extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 #endif

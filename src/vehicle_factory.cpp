@@ -3,7 +3,6 @@
 #include "translations.h"
 #include "vehicle.h"
 
-std::unique_ptr<VehicleFactory> vehicle_controller( new VehicleFactory() );
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
 std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
