@@ -4288,6 +4288,7 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, normal_language
           ? _("You can't do that while underwater.")
+          //~ (jacqueshammer) "You can't do that while underwater."
           : _("Vous ne pouvez pas faire que sous l'eau."));
         return 0;
     }
@@ -4295,6 +4296,7 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     if (!choose_adjacent(
           normal_language
             ? _("Drill where?")
+            //~ (jacqueshammer) "Drill where?"
             : _("Percer dans quelle direction?"),
           dirp)) {
         return 0;
@@ -4306,9 +4308,11 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     if (dirx == p->posx() && diry == p->posy()) {
         p->add_msg_if_player(normal_language
           ? _("My god! Let's talk it over OK?")
+          //~ (jacqueshammer) "My god! Let's talk it over OK?"
           : _("Mon dieu!  Nous allons en parler OK?"));
         p->add_msg_if_player(normal_language
           ? _("Don't do anything rash.")
+          //~ (jacqueshammer) "Don't do anything rash."
           : _("Ne pas faire eruption rien."));
         return 0;
     }
@@ -4320,13 +4324,15 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
                 g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
         g->m.destroy( dirp, true );
         p->moves -= 500;
-        //~ the sound of a jackhammer
         sounds::sound(dirp, 45, normal_language
+          //~ the sound of a jackhammer
           ? _("TATATATATATATAT!")
+          //~ the sound of a "jacqueshammer"
           : _("OHOHOHOHOHOHOHOHO!"));
     } else {
         p->add_msg_if_player(m_info, normal_language
           ? _("You can't drill there.")
+          //~ (jacqueshammer) "You can't drill there."
           : _("Vous ne pouvez pas percer la-bas."));
         return 0;
     }
