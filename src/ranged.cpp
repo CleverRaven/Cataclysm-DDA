@@ -393,7 +393,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion + used_weapon->gun_dispersion();
+    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion + used_weapon->gun_dispersion(false);
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
@@ -1456,7 +1456,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
         dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);
     }
 
-    dispersion += rand_or_max( random, weapon->gun_dispersion() );
+    dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
     if( random ) {
         int adj_recoil = recoil + driving_recoil;
         dispersion += rng( int(adj_recoil / 4), adj_recoil );
