@@ -164,6 +164,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 }
 
+void mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
+{
+    (*fptr)( m, o, mgd, i, d );
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 ///// mapgen_function class.

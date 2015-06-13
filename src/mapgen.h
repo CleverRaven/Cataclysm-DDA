@@ -30,9 +30,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override {
-        (*fptr)(m, o, mgd, i, d);
-    }
+    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
