@@ -1436,7 +1436,7 @@ void vehicle::honk_horn()
 void vehicle::beeper_sound()
 {
     // No power = no sound
-    if( !fuel_left( fuel_type_battery, true ) ) {
+    if( fuel_left( fuel_type_battery, true ) == 0 ) {
         return;
     }
 
