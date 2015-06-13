@@ -295,8 +295,6 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
-    Character::reset_stats();
-
     clear_miss_reasons();
 
     // Trait / mutation buffs
@@ -425,6 +423,21 @@ void player::reset_stats()
 
     recalc_sight_limits();
     recalc_speed_bonus();
+
+    // Effects
+    for( auto maps : effects ) {
+        for( auto i : maps.second ) {
+            const auto &it = i.second;
+            bool reduced = has_trait(  it.get_resist_trait() ) ||
+                           has_effect( it.get_resist_effect() );
+            mod_str_bonus( it.get_mod( "STR", reduced ) );
+            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
+            mod_per_bonus( it.get_mod( "PER", reduced ) );
+            mod_int_bonus( it.get_mod( "INT", reduced ) );
+        }
+    }
+
+    Character::reset_stats();
 }
 
 void player::process_turn()
@@ -2596,77 +2609,32 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     nc_color status = c_white;
 
-    // Strength current and max
-    int stat_tmp = get_str();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < str_max / 2)
-        status = c_red;
-    else if (stat_tmp < str_max)
-        status = c_ltred;
-    else if (stat_tmp == str_max)
-        status = c_white;
-    else if (stat_tmp < str_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
-    mvwprintz(w_stats, 2, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 2, 21, c_ltgray, "(%2d)", str_max);
+    // Stats
+    const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line ) {
+        nc_color status = c_white;
+        if( cur <= 0 ) {
+            status = c_dkgray;
+        } else if( cur < max / 2 ) {
+            status = c_red;
+        } else if( cur < max ) {
+            status = c_ltred;
+        } else if( cur == max ) {
+            status = c_white;
+        } else if( cur < max * 1.5 ) {
+            status = c_ltgreen;
+        } else {
+            status = c_green;
+        }
 
-    // Dexterity current and max
-    stat_tmp = get_dex();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < dex_max / 2)
-        status = c_red;
-    else if (stat_tmp < dex_max)
-        status = c_ltred;
-    else if (stat_tmp == dex_max)
-        status = c_white;
-    else if (stat_tmp < dex_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
-    mvwprintz(w_stats, 3, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 3, 21, c_ltgray, "(%2d)", dex_max);
+        mvwprintz( w_stats, line, 1, c_ltgray, name );
+        mvwprintz( w_stats, line, 18, status, "%2d", cur );
+        mvwprintz( w_stats, line, 21, c_ltgray, "(%2d)", max );
+    };
 
-    // Intelligence current and max
-    stat_tmp = get_int();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < int_max / 2)
-        status = c_red;
-    else if (stat_tmp < int_max)
-        status = c_ltred;
-    else if (stat_tmp == int_max)
-        status = c_white;
-    else if (stat_tmp < int_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
-    mvwprintz(w_stats, 4, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 4, 21, c_ltgray, "(%2d)", int_max);
-
-    // Intelligence current and max
-    stat_tmp = get_per();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < per_max / 2)
-        status = c_red;
-    else if (stat_tmp < per_max)
-        status = c_ltred;
-    else if (stat_tmp == per_max)
-        status = c_white;
-    else if (stat_tmp < per_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
-    mvwprintz(w_stats, 5, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 5, 21, c_ltgray, "(%2d)", per_max);
+    display_stat( _("Strength:"),     str_cur, str_max, 2 );
+    display_stat( _("Dexterity:"),    dex_cur, dex_max, 3 );
+    display_stat( _("Intelligence:"), int_cur, int_max, 4 );
+    display_stat( _("Perception:"),   per_cur, per_max, 5 );
 
     wrefresh(w_stats);
 
@@ -3790,10 +3758,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     int y  = sideStyle ?  0 :  3;
     int dx = sideStyle ?  0 :  6;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), get_str());
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), get_dex());
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), get_int());
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), get_per());
+    mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), str_cur );
+    mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), dex_cur );
+    mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), int_cur );
+    mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), per_cur );
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
@@ -6056,13 +6024,6 @@ void player::process_effects() {
                 }
             }
 
-            // Handle stat changes
-            mod_str_bonus(it.get_mod("STR", reduced));
-            mod_dex_bonus(it.get_mod("DEX", reduced));
-            mod_per_bonus(it.get_mod("PER", reduced));
-            mod_int_bonus(it.get_mod("INT", reduced));
-            // Speed is already added in recalc_speed_bonus
-
             // Handle Pain
             val = it.get_mod("PAIN", reduced);
             if (val != 0) {
@@ -6170,6 +6131,8 @@ void player::process_effects() {
                     }
                 }
             }
+
+            // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
         }
     }
 

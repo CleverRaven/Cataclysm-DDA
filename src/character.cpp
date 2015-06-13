@@ -682,8 +682,6 @@ void Character::die(Creature* nkiller)
 
 void Character::reset_stats()
 {
-    Creature::reset_stats();
-
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
@@ -750,6 +748,9 @@ void Character::reset_stats()
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
+
+    // Has to be at the end because it applies the bonuses
+    Creature::reset_stats();
 }
 
 bool Character::has_nv()
