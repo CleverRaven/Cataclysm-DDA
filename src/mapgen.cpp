@@ -19,6 +19,7 @@
 #include "trap.h"
 #include "submap.h"
 #include "mapdata.h"
+#include "overmap.h"
 
 #include <algorithm>
 #include <cassert>

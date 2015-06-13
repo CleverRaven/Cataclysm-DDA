@@ -23,6 +23,7 @@
 #include "itype.h"
 #include "morale.h"
 #include "trap.h"
+#include "overmap.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
