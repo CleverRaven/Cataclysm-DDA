@@ -279,17 +279,6 @@ void load_terrain(JsonObject &jsobj);
 void verify_furniture();
 void verify_terrain();
 
-
-/*
- * Temporary container id_or_id. Stores str for delayed lookup and conversion.
- */
-struct sid_or_sid {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
-};
-
 /*
  * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
  */

@@ -56,6 +56,16 @@ t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
 
+/*
+ * Temporary container id_or_id. Stores str for delayed lookup and conversion.
+ */
+struct sid_or_sid {
+   std::string primary_str;   // 32
+   std::string secondary_str; // 64
+   int chance;                // 68
+   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
+};
+
 city::city( int const X, int const Y, int const S)
 : x (X)
 , y (Y)

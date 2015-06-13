@@ -98,6 +98,7 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct sid_or_sid;
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
