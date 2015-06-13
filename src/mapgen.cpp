@@ -20,6 +20,7 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "overmap.h"
+#include "mapgen_functions.h"
 
 #include <algorithm>
 #include <cassert>
