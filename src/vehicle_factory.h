@@ -7,6 +7,13 @@
 #include <memory>
 #include "weighted_list.h"
 
+class VehicleGroup;
+using vgroup_id = string_id<VehicleGroup>;
+class VehicleSpawn;
+using vspawn_id = string_id<VehicleSpawn>;
+
+extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
+
 /**
  * This class is used to group vehicles together into groups in much the same way as
  *  item groups work.
@@ -28,9 +35,6 @@ public:
 private:
     weighted_int_list<vproto_id> vehicles;
 };
-
-using vgroup_id = string_id<VehicleGroup>;
-extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**
  * The location and facing data needed to place a vehicle onto the map.
@@ -76,8 +80,6 @@ struct VehiclePlacement {
     typedef std::vector<VehicleLocation> LocationMap;
     LocationMap locations;
 };
-
-using vplacement_id = string_id<VehiclePlacement>;
 
 /**
  * These classes are used to wrap around a set of vehicle spawning functions. There are
@@ -127,9 +129,6 @@ private:
  * This class handles a weighted list of different spawn functions, allowing a single
  * vehicle_spawn to have multiple possibilities.
  */
-class VehicleSpawn;
-using vspawn_id = string_id<VehicleSpawn>;
-
 class VehicleSpawn {
 public:
     void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {

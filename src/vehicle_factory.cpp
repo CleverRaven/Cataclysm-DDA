@@ -3,6 +3,8 @@
 #include "translations.h"
 #include "vehicle.h"
 
+using vplacement_id = string_id<VehiclePlacement>;
+
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
 std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
