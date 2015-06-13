@@ -1440,7 +1440,7 @@ void vehicle::beeper_sound()
         return;
     }
 
-    const bool odd_turn = (calendar::turn % 2);
+    const bool odd_turn = (calendar::turn % 2 == 0);
     for( size_t p = 0; p < parts.size(); ++p ) {
         if( !part_flag( p, "BEEPER" ) ) {
             continue;
