@@ -18,7 +18,7 @@
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
-    default_groundcover(0,1,0)
+    default_groundcover(t_null,1,t_null)
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
@@ -340,13 +340,12 @@ void mapgendata::square_groundcover(const int x1, const int y1, const int x2, co
 void mapgendata::fill_groundcover() {
     m->draw_fill_background( this->default_groundcover );
 }
-bool mapgendata::is_groundcover(const int iid ) const {
+bool mapgendata::is_groundcover(const ter_id iid ) const {
     return this->default_groundcover.match( iid );
 }
 
 ter_id mapgendata::groundcover() {
-    // TODO default_groundcover.get() should return a ter_id
-    return ter_id( this->default_groundcover.get() );
+    return this->default_groundcover.get();
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {

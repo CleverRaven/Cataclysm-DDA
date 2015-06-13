@@ -6814,7 +6814,7 @@ void map::draw_fill_background(std::string type) {
 void map::draw_fill_background(ter_id (*f)()) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
-void map::draw_fill_background(const id_or_id & f) {
+void map::draw_fill_background(const id_or_id<ter_t> & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
 
@@ -6848,10 +6848,10 @@ void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
     }
 }
 
-void map::draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2) {
+void map::draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, ter_id( f.get() ) ); // TODO: make id_or_id templated on the identified type
+            ter_set(x, y, f.get() );
         }
     }
 }

@@ -293,18 +293,19 @@ struct sid_or_sid {
 /*
  * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
  */
+template<typename T>
 struct id_or_id {
    int chance;                  // 8
-   short primary;               // 12
-   short secondary;             // 16
-   id_or_id(const int id1, const int i, const int id2) : chance(i), primary(id1), secondary(id2) { }
-   bool match( const int iid ) const {
+   int_id<T> primary;
+   int_id<T> secondary;
+   id_or_id(const int_id<T> id1, const int i, const int_id<T> id2) : chance(i), primary(id1), secondary(id2) { }
+   bool match( const int_id<T> iid ) const {
        if ( iid == primary || iid == secondary ) {
            return true;
        }
        return false;
    }
-   int get() const {
+   int_id<T> get() const {
        return ( one_in(chance) ? secondary : primary );
    }
 };

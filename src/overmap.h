@@ -106,7 +106,7 @@ struct regional_settings {
     std::string id;           //
     std::string default_oter; // 'field'
 
-    id_or_id    default_groundcover; // ie, 'grass_or_dirt'
+    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     sid_or_sid *default_groundcover_str = nullptr;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
@@ -123,7 +123,7 @@ struct regional_settings {
 
     std::unordered_map<std::string, map_extras> region_extras;
 
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
+    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
     static void setup_oter(oter_weight &oter);
 };

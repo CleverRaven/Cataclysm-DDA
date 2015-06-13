@@ -14018,7 +14018,7 @@ void fill_background(map *m, ter_id type) {
 void fill_background(map *m, ter_id (*f)()) {
     m->draw_fill_background(f);
 }
-void fill_background(map *m, const id_or_id & f) {
+void fill_background(map *m, const id_or_id<ter_t> & f) {
     m->draw_fill_background(f);
 }
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
@@ -14030,7 +14030,7 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
-void square(map *m, const id_or_id & f, int x1, int y1, int x2, int y2) {
+void square(map *m, const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {
