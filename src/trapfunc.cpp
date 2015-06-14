@@ -950,7 +950,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
-            g->u.impact( 30, p );
+            g->u.impact( 20, p );
         } else {
             c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
             c->die( nullptr );
@@ -978,7 +978,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     player *pl = dynamic_cast<player*>( c );
     if( pl == nullptr ) {
         c->setpos( where );
-        c->impact( height * 20, where );
+        c->impact( height * 10, where );
         return;
     }
 
@@ -994,7 +994,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
         pl->add_msg_player_or_npc( _("You flap your wings and flutter down gracefully."),
                                    _("<npcname> flaps their wings and flutters down gracefully.") );
     } else {
-        pl->impact( height * 20, where );
+        pl->impact( height * 10, where );
     }
 }
 

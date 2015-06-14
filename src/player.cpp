@@ -5174,8 +5174,9 @@ int player::impact( const int force, const tripoint &p )
         // Armor simply helps way less
         armor_eff *= 30.0f / effective_force;
         if( mod < 1.0f ) {
-            // Landing helps only with the last 30 damage
-            const float scaled_damage = ( 30.0f * mod ) + effective_force - 30.0f;
+            // Everything past 30 damage gets a worse modifier
+            const float scaled_mod = std::pow( mod, 30.0f / effective_force );
+            const float scaled_damage = ( 30.0f * mod ) + scaled_mod * ( effective_force - 30.0f );
             mod = scaled_damage / effective_force;
         }
     }
