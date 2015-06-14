@@ -133,11 +133,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
         int  turns_to_reach(int x, int y); // How long will it take?
 
-        void set_dest( const tripoint &p, int &t ); // Go in a straight line to (x, y)
+        void set_dest( const tripoint &p, int &t ); // Go in a straight line to p
         // t determines WHICH Bresenham line
 
         /**
-         * Set (x, y) as wander destination.
+         * Set p as wander destination.
          *
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.

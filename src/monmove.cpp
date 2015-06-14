@@ -341,9 +341,16 @@ void monster::move()
             type->sp_attack[i]( this, i );
         }
     }
+
+    // The monster can sometimes hang in air due to last fall being blocked
+    if( has_flag( MF_FLIES ) && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
+        g->m.creature_on_trap( *this, false );
+    }
+
     if( moves < 0 ) {
         return;
     }
+
     bool attacking = false;
     if( !move_effects(attacking) ) {
         moves = 0;
@@ -614,50 +621,58 @@ tripoint monster::wander_next()
         z_move = false;
     }
 
+    if( !x_move && !y_move && !z_move ) {
+        return next;
+    }
+
+    // Any creature can "fly" downwards
+    const bool flies = z < posz() || has_flag( MF_FLIES );
+    const bool climbs =  has_flag( MF_CLIMBS );
     const bool canbash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     const int bash_est = bash_estimate();
     // Check if we can move into position, attack player on position or bash position
     // If yes, set next to this position and return true, otherwise return false
-    const auto try_pos = [&]( const int x, const int y ) {
-        tripoint dest( x, y, posz() );
-        if( ( canbash && g->m.bash_rating( bash_est, dest ) > 0 ) || can_move_to( dest ) ) {
-            next = dest;
-            return true;
-        }
-
-        return false;
-    };
-
-    // Same as above, except for vertical movement.
-    // No diagonals yet
-    const bool climbs = has_flag( MF_FLIES ) || has_flag( MF_CLIMBS );
-    const auto try_climb = [&]( const int x, const int y, const int z ) {
+    const auto try_pos = [&]( const int x, const int y, const int z ) {
         tripoint dest( x, y, z );
-        if( g->m.valid_move( pos(), dest, false, climbs ) ) {
-            // Climbing and flying
+        if( ( canbash && g->m.bash_rating( bash_est, dest ) > 0 ) ||
+            ( ( flies || !g->m.has_flag( TFLAG_NO_FLOOR, dest ) ) && can_move_to( dest ) ) ) {
             next = dest;
             return true;
         }
 
         return false;
     };
+
+    bool found = false;
+    if( z_move && g->m.valid_move( pos(), tripoint( posx(), posy(), z ), false, flies || climbs ) ) {
+        found = true;
+        if( ( x_move || y_move ) && try_pos( x, y, z ) ) {
+        } else if( y_move && try_pos( x, y2, z ) ) {
+        } else if( x_move && try_pos( x2, y, z ) ) {
+        } else if( try_pos( posx(), posy(), z ) ) {
+        } else {
+            found = false;
+        }
+    }
+
+    if( found ) {
+        return next;
+    }
 
     if( xbest ) {
-        // Do nothing in each of those ifs, the if-else is just for convenience
-        if( ( x_move || y_move ) && try_pos( x, y ) ) {
-        } else if( y_move && try_pos( x, y2 ) ) {
-        } else if( x_move && try_pos( x2, y ) ) {
-        } else if( y_move && try_pos( x, y3 ) ) {
-        } else if( x_move && try_pos( x3, y ) ) {
-        } else if( z_move && try_climb( x, y, z ) ) {
+        if( ( x_move || y_move ) && try_pos( x, y, posz() ) ) {
+            // Do nothing in each of those ifs, the if-else is just for convenience
+        } else if( y_move && try_pos( x, y2, posz() ) ) {
+        } else if( x_move && try_pos( x2, y, posz() ) ) {
+        } else if( y_move && try_pos( x, y3, posz() ) ) {
+        } else if( x_move && try_pos( x3, y, posz() ) ) {
         }
     } else {
-        if( ( x_move || y_move ) && try_pos( x, y ) ) {
-        } else if( x_move && try_pos( x2, y ) ) {
-        } else if( y_move && try_pos( x, y2 ) ) {
-        } else if( x_move && try_pos( x3, y ) ) {
-        } else if( y_move && try_pos( x, y3 ) ) {
-        } else if( z_move && try_climb( x, y, z ) ) {
+        if( ( x_move || y_move ) && try_pos( x, y, posz() ) ) {
+        } else if( x_move && try_pos( x2, y, posz() ) ) {
+        } else if( y_move && try_pos( x, y2, posz() ) ) {
+        } else if( x_move && try_pos( x3, y, posz() ) ) {
+        } else if( y_move && try_pos( x, y3, posz() ) ) {
         }
     }
 
