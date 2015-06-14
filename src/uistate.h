@@ -220,7 +220,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
                     v->push_back(ja.next_string());
                 }
             }
-            // fetch list_item settings from input_histor 
+            // fetch list_item settings from input_history
             if ( !gethistory("item_filter")->empty() ) {
                 list_item_filter = gethistory("item_filter")->back();
             }
