@@ -161,7 +161,6 @@ classes = {
             { name = "cleanup_at_end", rval = "bool", args = { } },
             { name = "clear_zombies", rval = nil, args = { } },
             { name = "critter_at", rval = "Creature", args = { "tripoint" } },
-            { name = "critter_at", rval = "Creature", args = { "tripoint" } },
             { name = "cycle_item_mode", rval = nil, args = { "bool" } },
             { name = "delete_world", rval = nil, args = { "string", "bool" } },
             { name = "do_blast", rval = nil, args = { "tripoint", "int", "int", "bool" } },
@@ -326,6 +325,7 @@ classes = {
             { name = "active_light", rval = "float", args = { } },
             { name = "add_ammo_to_worn_quiver", rval = "int", args = { "item" } },
             { name = "add_bionic", rval = nil, args = { "string" } },
+            { name = "add_known_trap", rval = nil, args = { "tripoint", "trap" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int", "int" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int", "int", "int" } },
@@ -338,6 +338,7 @@ classes = {
             { name = "aim_per_time", rval = "int", args = { "item" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "apply_persistent_morale", rval = nil, args = { } },
+            { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "base_damage", rval = "int", args = { "bool" } },
             { name = "base_damage", rval = "int", args = { "bool", "int" } },
             { name = "base_damage", rval = "int", args = { } },
@@ -936,6 +937,7 @@ classes = {
             { name = "add_spawn", rval = nil, args = { "string", "int", "int", "int", "bool", "int" } },
             { name = "add_spawn", rval = nil, args = { "string", "int", "int", "int", "bool", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "string", "int", "int", "int", "bool", "int", "int", "string" } },
+            { name = "add_trap", rval = nil, args = { "tripoint", "trap_id" } },
             { name = "adjust_field_age", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_field_strength", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_radiation", rval = nil, args = { "tripoint", "int" } },
@@ -1095,8 +1097,10 @@ classes = {
             { name = "ter_set", rval = nil, args = { "tripoint", "ter_id" } },
             { name = "ter_set", rval = nil, args = { "tripoint", "string" } },
             { name = "tername", rval = "string", args = { "tripoint" } },
+            { name = "tr_at", rval = "trap", args = { "tripoint" } },
             { name = "trans", rval = "bool", args = { "tripoint" } },
             { name = "translate", rval = nil, args = { "ter_id", "ter_id" } },
+            { name = "trap_set", rval = nil, args = { "tripoint", "trap_id" } },
             { name = "translate_radius", rval = nil, args = { "ter_id", "ter_id", "float", "tripoint" } },
             { name = "trigger_rc_items", rval = nil, args = { "string" } },
             { name = "unboard_vehicle", rval = nil, args = { "tripoint" } },
@@ -1365,6 +1369,7 @@ classes = {
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "attack_at", rval = "bool", args = { "tripoint" } },
             { name = "attack_target", rval = "Creature", args = { } },
+            { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "bash_at", rval = "bool", args = { "tripoint" } },
             { name = "bash_estimate", rval = "int", args = { } },
             { name = "bash_skill", rval = "int", args = { } },
@@ -1606,6 +1611,32 @@ classes = {
             { name = "maximum_charges", rval = "int", args = { } },
             { name = "nname", rval = "string", args = { "int" } },
             { name = "tick", rval = "int", args = { "player", "item", "tripoint" } },
+        }
+    },
+    trap = {
+        int_id = "trap_id",
+        string_id = "trap_str_id",
+        attributes = {
+            id = { type = "trap_str_id" },
+            loadid = { type = "trap_id" },
+            color = { type = "int" },
+            name = { type = "string" },
+            sym = { type = "int" },
+        },
+        functions = {
+            { name = "can_see", rval = "bool", args = { "tripoint", "player" } },
+            { name = "detect_trap", rval = "bool", args = { "tripoint", "player" } },
+            { name = "funnel_turns_per_charge", rval = "float", args = { "float" } },
+            { name = "get_avoidance", rval = "int", args = { } },
+            { name = "get_difficulty", rval = "int", args = { } },
+            { name = "get_visibility", rval = "int", args = { } },
+            { name = "is_3x3_trap", rval = "bool", args = { } },
+            { name = "is_benign", rval = "bool", args = { } },
+            { name = "is_funnel", rval = "bool", args = { } },
+            { name = "is_null", rval = "bool", args = { } },
+            { name = "on_disarmed", rval = nil, args = { "tripoint" } },
+            { name = "trigger", rval = nil, args = { "tripoint", "Creature" } },
+            { name = "triggered_by_item", rval = "bool", args = { "item" } },
         }
     },
     it_comest = {
@@ -1945,7 +1976,7 @@ end
 for name, value in pairs(classes) do
     if value.int_id then
         -- This is the common int_id<T> interface:
-        classes[value.int_id] = {
+        local t = {
             by_value = true,
             has_equal = true,
             -- IDs *could* be constructed from int, but where does the Lua script get the int from?
@@ -1954,9 +1985,33 @@ for name, value in pairs(classes) do
             functions = {
                 -- Use with care, only for displaying the value for debugging purpose!
                 { name = "to_i", rval = "int", args = { } },
-                -- TODO: currently disabled because it returns a const-reference
-                -- { name = "obj", rval = name, args = { } },
+                { name = "obj", rval = name, args = { } },
             }
         }
+        if value.string_id then
+            -- Allow conversion from int_id to string_id
+            t[#t.functions] = { name = "id", rval = value.string_id, args = { } }
+            -- And creation of an int_id from a string_id
+            t.new = { value.string_id }
+        end
+        classes[value.int_id] = t
+    end
+    -- Very similar to int_id above
+    if value.string_id then
+        local t = {
+            by_value = true,
+            has_equal = true,
+            new = { "string" },
+            attributes = { },
+            functions = {
+                { name = "str", rval = "string", args = { } },
+                { name = "is_valid", rval = "bool", args = { } },
+                { name = "obj", rval = name, args = { } },
+            }
+        }
+        if value.int_id then
+            t.functions[#t.functions] = { name = "id", rval = value.int_id, args = { } }
+        end
+        classes[value.string_id] = t
     end
 end

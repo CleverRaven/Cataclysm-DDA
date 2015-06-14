@@ -7,6 +7,13 @@
 #include <memory>
 #include "weighted_list.h"
 
+class VehicleGroup;
+using vgroup_id = string_id<VehicleGroup>;
+class VehicleSpawn;
+using vspawn_id = string_id<VehicleSpawn>;
+
+extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
+
 /**
  * This class is used to group vehicles together into groups in much the same way as
  *  item groups work.
@@ -28,8 +35,6 @@ public:
 private:
     weighted_int_list<vproto_id> vehicles;
 };
-
-using vgroup_id = string_id<VehicleGroup>;
 
 /**
  * The location and facing data needed to place a vehicle onto the map.
@@ -65,11 +70,14 @@ struct VehicleLocation {
  * A list of vehicle locations which are valid for spawning new vehicles.
  */
 struct VehiclePlacement {
+    VehiclePlacement() {}
+
     void add(const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings) {
         locations.emplace_back(x, y, facings);
     }
 
     const VehicleLocation* pick() const;
+    static void load( JsonObject &jo );
 
     typedef std::vector<VehicleLocation> LocationMap;
     LocationMap locations;
@@ -94,6 +102,11 @@ public:
     VehicleFunction_builtin(const vehicle_gen_pointer &func) : func(func) {}
     ~VehicleFunction_builtin() { }
 
+    /**
+     * This will invoke the vehicle spawning fuction on the map.
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on.
+     */
     void apply(map& m, const std::string &terrainid) const override {
         func(m, terrainid);
     }
@@ -107,6 +120,11 @@ public:
     VehicleFunction_json(JsonObject &jo);
     ~VehicleFunction_json() { }
 
+    /**
+     * This will invoke the vehicle spawning fuction on the map.
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on. This is ignored by the json handler.
+     */
     void apply(map& m, const std::string &terrain_name) const override;
 
 private:
@@ -125,77 +143,40 @@ private:
  */
 class VehicleSpawn {
 public:
+    VehicleSpawn() : types() {}
+
     void add(const double &weight, const std::shared_ptr<VehicleFunction> &func) {
         types.add(func, weight);
     }
 
-    const VehicleFunction* pick() const {
-        return types.pick()->get();
-    }
+    /**
+     * This will invoke the vehicle spawn on the map.
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on.
+     */
+    void apply(map& m, const std::string &terrain_name) const;
+
+    /**
+     * A static helper function. This will invoke the supplied vehicle spawn on the map.
+     * @param id The spawnid to apply
+     * @param m The map on which to add the vehicle.
+     * @param terrain_name The name of the terrain being spawned on.
+     */
+    static void apply(const vspawn_id &id, map& m, const std::string &terrain_name);
+
+    static void load( JsonObject &jo );
 
 private:
     weighted_float_list<std::shared_ptr<VehicleFunction>> types;
-};
 
-/**
- * Vehicle placment management class.
- *
- * You usually use the single global instance @ref vehicle_controller.
- */
-class VehicleFactory {
-public:
-
-    /**
-     * This will invoke the given vehicle spawn on the map.
-     * @param spawn_id The id of the vehicle spawn to invoke.
-     * @param m The map on which to add the vehicle.
-     */
-    void vehicle_spawn(map& m, const std::string &spawn_id, const std::string &terrain_name);
-
-    /**
-     * This will randomly select one of the locations from a vehicle placement
-     * @param placement_id The id of the placement from which to select a location.
-     * @return either null, if there is no placement with that id or that placement has no locations. Else one of the locations of that placement chosen at random.
-     */
-    const VehicleLocation* pick_location(const std::string &placement_id) const;
-
-    /**
-     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle placement definitions.
-     * @param jsobj The json object to load from.
-     * @throw std::string if the json object contains invalid data.
-     */
-    void load_vehicle_placement(JsonObject &jo);
-
-    /**
-     * Callback for the init system (@ref DynamicDataLoader), loads a vehicle spawn definitions.
-     * @param jsobj The json object to load from.
-     * @throw std::string if the json object contains invalid data.
-     */
-    void load_vehicle_spawn(JsonObject &jo);
-
-private:
     // builtin functions
     static void builtin_no_vehicles(map& m, const std::string &terrainid);
     static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
     static void builtin_pileup(map& m, const std::string &terrainid);
     static void builtin_policepileup(map& m, const std::string &terrainid);
 
-    typedef std::unordered_map<std::string, VehiclePlacement> PlacementMap;
-    PlacementMap placements;
-
-    typedef std::unordered_map<std::string, VehicleSpawn> VehicleSpawnsMap;
-    VehicleSpawnsMap spawns;
-
     typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
-    FunctionMap builtin_functions {
-        { "no_vehicles", builtin_no_vehicles },
-        { "jack-knifed_semi", builtin_jackknifed_semi },
-        { "vehicle_pileup", builtin_pileup },
-        { "policecar_pileup", builtin_policepileup }
-    };
+    static FunctionMap builtin_functions;
 };
-
-extern std::unique_ptr<VehicleFactory> vehicle_controller;
-extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 #endif
