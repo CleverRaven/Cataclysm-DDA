@@ -12760,37 +12760,45 @@ void game::vertical_move(int movez, bool force)
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
-    if( !force && ( ( movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) ||
-                    ( movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) ) ) {
-        if( m.has_zlevels() &&
-            m.valid_move( u.pos(), stairs, false, true ) ) {
-            // Climbing
-            int cost = u.climbing_cost( u.pos(), stairs );
-            std::vector<tripoint> pts;
-            for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-                if( m.move_cost( pt ) > 0 && !m.has_flag( TFLAG_NO_FLOOR, pt ) ) {
-                    pts.push_back( pt );
-                }
-            }
-            if( cost > 0 && !pts.empty() ) {
-                climbing = true;
-                move_cost = cost;
-                // TODO: Allow picking this instead of forcing a random one
-                stairs = pts[rng( 0, pts.size() - 1 )];
-            }
-            // TODO: Make it an extended action
-        }
-
-        if( !climbing ) {
-            if( movez == -1 ) {
-                add_msg(m_info, _("You can't go down here!"));
-            } else {
-                add_msg(m_info, _("You can't go up here!"));
-            }
-
+    if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+        // Climbing
+        if( !m.valid_move( u.pos(), stairs, false, true ) ) {
+            add_msg( m_info, _("You can't climb here - there's a ceiling above your head") );
             return;
         }
+
+        const int cost = u.climbing_cost( u.pos(), stairs );
+        if( cost == 0 ) {
+            add_msg( m_info, _("You can't climb here - you need walls and/or furniture to brace against") );
+            return;
+        }
+
+        std::vector<tripoint> pts;
+        for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
+            if( m.move_cost( pt ) > 0 && !m.has_flag( TFLAG_NO_FLOOR, pt ) ) {
+                pts.push_back( pt );
+            }
+        }
+
+        if( cost > 0 && !pts.empty() ) {
+            climbing = true;
+            move_cost = cost;
+            // TODO: Allow picking this instead of forcing a random one
+            stairs = pts[rng( 0, pts.size() - 1 )];
+        } else {
+            add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
+            return;
+        }
+        // TODO: Make it an extended action
     }
+
+    if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
+        add_msg(m_info, _("You can't go down here!"));
+        return;
+    } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
+        add_msg(m_info, _("You can't go up here!"));
+        return;
+    }    
 
     if( force ) {
         // Let go of a grabbed cart.
