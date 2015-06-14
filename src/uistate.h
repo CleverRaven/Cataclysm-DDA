@@ -58,6 +58,14 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int last_inv_sel = -2;
         int list_item_mon = -1;
         int list_item_sort = 0;
+        std::string list_item_filter;
+        std::string list_item_downvote;
+        std::string list_item_priority;
+        bool list_item_filter_active = false;
+        bool list_item_downvote_active = false;
+        bool list_item_priority_active = false;
+        bool list_item_init = false;
+
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
@@ -118,6 +126,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("overmap_show_overlays", overmap_show_overlays);
             json.member("list_item_mon", list_item_mon);
             json.member("list_item_sort", list_item_sort);
+            json.member("list_item_filter_active", list_item_filter_active);
+            json.member("list_item_downvote_active", list_item_downvote_active);
+            json.member("list_item_priority_active", list_item_priority_active);
 
             json.member("input_history");
             json.start_object();
@@ -194,6 +205,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("overmap_show_overlays", overmap_show_overlays);
             jo.read("list_item_mon", list_item_mon);
             jo.read("list_item_sort", list_item_sort);
+            jo.read("list_item_filter_active", list_item_filter_active);
+            jo.read("list_item_downvote_active", list_item_downvote_active);
+            jo.read("list_item_priority_active", list_item_priority_active);
 
             JsonObject inhist = jo.get_object("input_history");
             std::set<std::string> inhist_members = inhist.get_member_names();
@@ -206,6 +220,10 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
                     v->push_back(ja.next_string());
                 }
             }
+            // fetch item_list elements from deserialized vectors
+            list_item_filter = gethistory("item_filter")->back();
+            list_item_downvote = gethistory("list_item_downvote")->back();
+            list_item_priority = gethistory("list_item_priority")->back();
         };
 };
 extern uistatedata uistate;
