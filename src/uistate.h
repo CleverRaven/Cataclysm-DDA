@@ -220,10 +220,16 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
                     v->push_back(ja.next_string());
                 }
             }
-            // fetch item_list elements from deserialized vectors
-            list_item_filter = gethistory("item_filter")->back();
-            list_item_downvote = gethistory("list_item_downvote")->back();
-            list_item_priority = gethistory("list_item_priority")->back();
+            // fetch list_item settings from input_histor 
+            if ( !gethistory("item_filter")->empty() ) {
+                list_item_filter = gethistory("item_filter")->back();
+            }
+            if ( !gethistory("list_item_downvote")->empty() ) {
+                list_item_downvote = gethistory("list_item_downvote")->back();
+            }
+            if ( !gethistory("list_item_priority")->empty() ) {
+                list_item_priority = gethistory("list_item_priority")->back();
+            }
         };
 };
 extern uistatedata uistate;
