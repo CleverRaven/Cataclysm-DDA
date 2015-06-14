@@ -964,6 +964,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     while( g->m.has_flag( TFLAG_NO_FLOOR, where ) ) {
         where.z--;
         if( g->critter_at( where ) != nullptr ) {
+            where.z++;
             break;
         }
 

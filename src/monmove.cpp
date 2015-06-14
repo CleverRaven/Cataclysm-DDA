@@ -1159,6 +1159,10 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             }
         }
 
+        if( g->mon_at( dest ) != -1 ) {
+            return false;
+        }
+
         critter->setpos( dest );
         move_to( p );
         moves -= movecost_attacker;
