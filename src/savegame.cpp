@@ -288,9 +288,8 @@ void game::save_weather(std::ofstream &fout) {
 ///// overmap
 void overmap::unserialize( std::ifstream &fin ) {
     // DEBUG VARS
-    int nummg = 0;
     char datatype;
-    int cx, cy, cz, cs, cp, cd, cdying, horde, tx, ty, intr;
+    int cx, cy, cs;
     std::string cstr;
     city tmp;
     std::list<item> npc_inventory;
@@ -345,30 +344,14 @@ void overmap::unserialize( std::ifstream &fin ) {
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            // save compatiblity hack: read the line, initialze new members to 0,
-            // "parse" line,
-            std::string tmp;
-            getline(fin, tmp);
-            std::istringstream buffer(tmp);
-            horde = 0;
-            tx = 0;
-            ty = 0;
-            intr = 0;
-            buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
-            mongroup mg( mongroup_id( cstr ), cx, cy, cz, cs, cp );
-            // Bugfix for old saves: population of 2147483647 is far too much and will
-            // crash the game. This specific number was caused by a bug in
-            // overmap::add_mon_group.
-            if( mg.population == 2147483647ul ) {
-                mg.population = rng( 1, 10 );
+            JsonIn jsin(fin);
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                mongroup new_group;
+                new_group.deserialize(jsin);
+                add_mon_group( new_group );
             }
-            mg.diffuse = cd;
-            mg.dying = cdying;
-            mg.horde = horde;
-            mg.set_target( tx, ty );
-            mg.interest = intr;
-            add_mon_group( mg );
-            nummg++;
+            jsin.end_array();
         } else if( datatype == 'M' ) {
             tripoint mon_loc;
             monster new_monster;
@@ -636,18 +619,25 @@ void overmap::serialize( std::ofstream &fout ) const
         json.start_object();
         json.member("region_id", settings.id); // temporary, to allow user to manually switch regions during play until regionmap is done.
         json.end_object();
+        fout << std::endl;
     } catch (std::string e) {
         //debugmsg("error saving overmap: %s", e.c_str());
     }
-    fout << std::endl;
 
-    for( auto &mgv : zg ) {
-        auto &mg = mgv.second;
-        fout << "Z " << mg.type.str() << " " << mg.posx << " " << mg.posy << " " <<
-            mg.posz << " " << int(mg.radius) << " " << mg.population << " " <<
-            mg.diffuse << " " << mg.dying << " " <<
-            mg.horde << " " << mg.tx << " " << mg.ty << " " << mg.interest << std::endl;
+    try {
+        fout << "Z ";
+        JsonOut json(fout, false);
+        json.start_array();
+        for( const auto &group : zg ) {
+            json.write(group.second);
+        }
+        json.end_array();
+        // Current code wants there to be a comma and newline here.
+        fout << ',' << std::endl;
+    } catch( std::string e ) {
+        debugmsg("error saving overmap mongroups : %s", e.c_str());
     }
+
     for (auto &i : cities)
         fout << "t " << i.x << " " << i.y << " " << i.s << std::endl;
     for (auto &i : roads_out)
@@ -672,6 +662,40 @@ void overmap::serialize( std::ofstream &fout ) const
     for (auto &i : npcs)
         fout << "n " << i->save_info() << std::endl;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+///// mongroup
+void mongroup::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("type", type.str());
+    json.member("pos", pos);
+    json.member("radius", radius);
+    json.member("population", population);
+    json.member("diffuse", diffuse);
+    json.member("dying", dying);
+    json.member("horde", horde);
+    json.member("target", target);
+    json.member("interest", interest);
+    json.end_object();
+}
+
+void mongroup::deserialize(JsonIn &json)
+{
+    JsonObject jo = json.get_object();
+    std::string group_type;
+    jo.read("type", group_type);
+    type = mongroup_id(group_type);
+    jo.read("pos", pos);
+    jo.read("radius", radius);
+    jo.read("population", population);
+    jo.read("diffuse", diffuse);
+    jo.read("dying", dying);
+    jo.read("horde", horde);
+    jo.read("target", target);
+    jo.read("interest", interest);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// mapbuffer

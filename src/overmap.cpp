@@ -1669,7 +1669,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             // Are we debugging monster groups?
             if(blink && data.debug_mongroup) {
                 // Check if this tile is the target of the currently selected group
-                if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
+                if(mgroup && mgroup->target.x / 2 == omx && mgroup->target.y / 2 == omy) {
                     ter_color = c_red;
                     ter_sym = 'x';
                 } else {
@@ -1823,7 +1823,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 mvwprintz(wbar, line_number++, 3,
                           c_blue, "  Interest: %d", mgroup->interest);
                 mvwprintz(wbar, line_number, 3,
-                          c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
+                          c_blue, "  Target: %d, %d", mgroup->target.x, mgroup->target.y);
                 mvwprintz(wbar, line_number++, 3,
                           c_red, "x");
             }
@@ -2141,8 +2141,8 @@ void mongroup::wander()
 {
     // TODO: More interesting stuff possible, like looking for nearby shelter.
     // What a monster thinks of as shelter is another matter...
-    tx += rng( -10, 10 );
-    ty += rng( -10, 10 );
+    target.x += rng( -10, 10 );
+    target.y += rng( -10, 10 );
     interest = 30;
 }
 
@@ -2160,26 +2160,26 @@ void overmap::move_hordes()
         if( rng(0, 100) < mg.interest ) {
             // TODO: Adjust for monster speed.
             // TODO: Handle moving to adjacent overmaps.
-            if( mg.posx > mg.tx) {
-                mg.posx--;
+            if( mg.pos.x > mg.target.x) {
+                mg.pos.x--;
             }
-            if( mg.posx < mg.tx) {
-                mg.posx++;
+            if( mg.pos.x < mg.target.x) {
+                mg.pos.x++;
             }
-            if( mg.posy > mg.ty) {
-                mg.posy--;
+            if( mg.pos.y > mg.target.y) {
+                mg.pos.y--;
             }
-            if( mg.posy < mg.ty) {
-                mg.posy++;
+            if( mg.pos.y < mg.target.y) {
+                mg.pos.y++;
             }
 
-            if( mg.posx == mg.tx && mg.posy == mg.ty ) {
+            if( mg.pos.x == mg.target.x && mg.pos.y == mg.target.y ) {
                 mg.wander();
             } else {
                 mg.dec_interest( 1 );
             }
             // Erase the group at it's old location, add the group with the new location
-            tmpzg.insert( std::pair<tripoint, mongroup>( tripoint(mg.posx, mg.posy, mg.posz ), mg ) );
+            tmpzg.insert( std::pair<tripoint, mongroup>( mg.pos, mg ) );
             zg.erase( it++ );
         }
     }
@@ -2197,7 +2197,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
         if( !mg.horde ) {
             continue;
         }
-            const int dist = rl_dist( p, { mg.posx, mg.posy, mg.posz } );
+            const int dist = rl_dist( p, mg.pos );
             if( sig_power <= dist ) {
                 continue;
             }
@@ -2206,10 +2206,10 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
                 // TODO: Z coord for mongroup targets
-                const int targ_dist = rl_dist( p, { mg.tx, mg.ty, mg.posz } );
+                const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
                 if (targ_dist < 5) {
-                    mg.set_target( (mg.tx + p.x) / 2, (mg.ty + p.y) / 2 );
+                    mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
                     mg.inc_interest( d_inter );
                 } else {
                     mg.set_target( p.x, p.y );
@@ -4143,7 +4143,7 @@ void overmap::add_mon_group(const mongroup &group)
     // makes the diffuse setting obsolete (as it only controls how the radius
     // is interpreted) - it's only used when adding monster groups with function.
     if( group.radius == 1 ) {
-        zg.insert(std::pair<tripoint, mongroup>( tripoint( group.posx, group.posy, group.posz ), group ) );
+        zg.insert(std::pair<tripoint, mongroup>( group.pos, group ) );
         return;
     }
     // diffuse groups use a circular area, non-diffuse groups use a rectangular area
@@ -4187,8 +4187,8 @@ void overmap::add_mon_group(const mongroup &group)
             // for a single-submap group.
             mongroup tmp( group );
             tmp.radius = 1;
-            tmp.posx += x;
-            tmp.posy += y;
+            tmp.pos.x += x;
+            tmp.pos.y += y;
             tmp.population = p;
             // This *can* create groups outside of the area of this overmap.
             // As this function is called during generating the overmap, the
