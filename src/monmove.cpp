@@ -649,6 +649,8 @@ tripoint monster::wander_next()
         if( ( x_move || y_move ) && try_pos( x, y, z ) ) {
         } else if( y_move && try_pos( x, y2, z ) ) {
         } else if( x_move && try_pos( x2, y, z ) ) {
+        } else if( y_move && try_pos( x, y3, z ) ) {
+        } else if( x_move && try_pos( x3, y, z ) ) {
         } else if( try_pos( posx(), posy(), z ) ) {
         } else {
             found = false;
