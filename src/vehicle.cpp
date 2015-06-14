@@ -1433,6 +1433,31 @@ void vehicle::honk_horn()
     }
 }
 
+void vehicle::beeper_sound()
+{
+    // No power = no sound
+    if( fuel_left( fuel_type_battery, true ) == 0 ) {
+        return;
+    }
+
+    const bool odd_turn = (calendar::turn % 2 == 0);
+    for( size_t p = 0; p < parts.size(); ++p ) {
+        if( !part_flag( p, "BEEPER" ) ) {
+            continue;
+        }
+        if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
+            ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
+            continue;
+        }
+
+        const vpart_info &beeper_type = part_info( p );
+        //Get global position of backup beeper
+        const tripoint beeper_pos = global_pos3() + parts[p].precalc[0];
+        //Determine sound
+        sounds::sound( beeper_pos, beeper_type.bonus, _("beep!") );
+    }
+}
+
 void vehicle::play_music()
 {
     for( size_t p = 0; p < parts.size(); ++p ) {

@@ -57,17 +57,17 @@ map_extras no_extras(0);
     // Formatting deviates from standard to make the headers read reliably
     // Careful with astyle here, please?
 map_extras road_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
+    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3, 50);
 map_extras field_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
+    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3, 25);
 map_extras subway_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
+    75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3, 15);
 map_extras build_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
+// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
+    90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3, 15);
 
 std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;

@@ -13420,6 +13420,46 @@ void map::add_extra(map_extra type)
     }
     break;
 
+    case mx_collegekids: { //college kids that got into trouble
+        int num_bodies = dice(2, 6);
+        int type = dice(1,10);
+
+        for (int i = 0; i < num_bodies; i++) {
+            int x, y, tries = 0;
+            do { // Loop until we find a valid spot to dump a body, or we give up
+                x = rng(0, SEEX * 2 - 1);
+                y = rng(0, SEEY * 2 - 1);
+                tries++;
+            } while (tries < 10 && move_cost(x, y) == 0);
+
+            if (tries < 10) { // We found a valid spot!
+                if (one_in(10)) {
+                    add_spawn("mon_zombie_tough", 1, x, y);
+                }
+                else {
+                    if(type < 6) { // kids going to a cabin in the woods
+                        place_items("map_extra_college_camping", 100, x, y, x, y, true, 0);
+                    }
+                    else if (type < 9) { // kids going to a sporting event
+                        place_items("map_extra_college_sports", 100, x, y, x, y, true, 0);
+                    }
+                    else { // kids going to a lake
+                        place_items("map_extra_college_lake", 100, x, y, x, y, true, 0);
+                    }
+                }
+            }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
+        }
+    }
+    break;
+
     case mx_roadblock: {
     // OK, if there's a way to get ajacent road tiles w/o bringing in
     // the overmap-scan I'm not seeing it.  So gonna make it Generic.
