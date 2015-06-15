@@ -78,14 +78,14 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
         bool _really_testing_save = false; // internal: spammy
 
-        std::vector<std::string> *gethistory(std::string id)
+        std::vector<std::string>& gethistory(std::string id)
         {
             std::map<std::string, std::vector<std::string>*>::iterator it = input_history.find(id);
             if(it == input_history.end() || it->second == NULL ) {
                 input_history[id] = new std::vector<std::string>;
                 it = input_history.find(id);
             }
-            return it->second;
+            return *it->second;
         }
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
@@ -214,21 +214,21 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             for (std::set<std::string>::iterator it = inhist_members.begin();
                  it != inhist_members.end(); ++it) {
                 JsonArray ja = inhist.get_array(*it);
-                std::vector<std::string> *v = gethistory(*it);
-                v->clear();
+                std::vector<std::string>& v = gethistory(*it);
+                v.clear();
                 while (ja.has_more()) {
-                    v->push_back(ja.next_string());
+                    v.push_back(ja.next_string());
                 }
             }
             // fetch list_item settings from input_history
-            if ( !gethistory("item_filter")->empty() ) {
-                list_item_filter = gethistory("item_filter")->back();
+            if ( !gethistory("item_filter").empty() ) {
+                list_item_filter = gethistory("item_filter").back();
             }
-            if ( !gethistory("list_item_downvote")->empty() ) {
-                list_item_downvote = gethistory("list_item_downvote")->back();
+            if ( !gethistory("list_item_downvote").empty() ) {
+                list_item_downvote = gethistory("list_item_downvote").back();
             }
-            if ( !gethistory("list_item_priority")->empty() ) {
-                list_item_priority = gethistory("list_item_priority")->back();
+            if ( !gethistory("list_item_priority").empty() ) {
+                list_item_priority = gethistory("list_item_priority").back();
             }
         };
 };
