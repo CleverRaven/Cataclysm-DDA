@@ -879,6 +879,40 @@ public:
         m.ter_set( x, y, id );
     }
 };
+/**
+ * Calls @ref map::make_rubble to create rubble and destroy the existing terrain/furniture.
+ * See map::make_rubble for explanation of the parameters.
+ */
+class jmapgen_make_rubble : public jmapgen_piece {
+public:
+    furn_id rubble_type = f_rubble;
+    bool items = false;
+    ter_id floor_type = t_dirt;
+    bool overwrite = false;
+    jmapgen_make_rubble( JsonObject &jsi ) : jmapgen_piece()
+    {
+        if( jsi.has_string( "rubble_type" ) ) {
+            const auto iter = furnmap.find( jsi.get_string( "rubble_type" ) );
+            if( iter == furnmap.end() ) {
+                jsi.throw_error( "unknown furniture type", "rubble_type" );
+            }
+            rubble_type = iter->second.loadid;
+        }
+        jsi.read( "items", items );
+        if( jsi.has_string( "floor_type" ) ) {
+            const auto iter = termap.find( jsi.get_string( "floor_type" ) );
+            if( iter == termap.end() ) {
+                jsi.throw_error( "unknown terrain type", "floor_type" );
+            }
+            floor_type = iter->second.loadid;
+        }
+        jsi.read( "overwrite", overwrite );
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        m.make_rubble( tripoint( x, y, m.get_abs_sub().z ), rubble_type, items, floor_type, overwrite );
+    }
+};
 
 void jmapgen_objects::add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece)
 {
@@ -1154,6 +1188,7 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
             load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
             load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
+            load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
@@ -1221,6 +1256,7 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_furniture>( jo, "place_furniture" );
         objects.load_objects<jmapgen_terrain>( jo, "place_terrain" );
         objects.load_objects<jmapgen_monster>( jo, "place_monster" );
+        objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
 
 #ifdef LUA
        // silently ignore if unsupported in build
