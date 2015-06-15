@@ -645,175 +645,122 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
+struct parasite_chances {
+    int tapeworm;
+    int bloodworms;
+    int brainworms;
+    int paincysts;
+};
+
+int raw_food(player *p, item *it, const struct parasite_chances &pcs)
 {
-    if ((one_in(32)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") ||
-                          // Hyper-Metabolism digests the thing before it can set up shop.
-                          p->has_trait("EATHEALTH"))) {
+    if (p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE")) {
+        return it->type->charges_to_use();
+    }
+    if (pcs.tapeworm > 0 && one_in(pcs.tapeworm) && !(p->has_effect("tapeworm")
+            || p->has_trait("EATHEALTH"))) {
+           // Hyper-Metabolism digests the thing before it can set up shop.
         p->add_effect("tapeworm", 1, num_bp, true);
     }
-    if ((one_in(64)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
+    if (pcs.bloodworms > 0 && one_in(pcs.bloodworms) && !(p->has_effect("bloodworms")
+           || p->has_trait("ACIDBLOOD"))) {
+           // The worms can't survive in acidic blood.
         p->add_effect("bloodworms", 1, num_bp, true);
     }
-    if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
+    if (pcs.brainworms > 0 && one_in(pcs.brainworms) && !p->has_effect("brainworms")) {
+        p->add_effect("brainworms", 1, num_bp, true);
     }
-    if ((one_in(64)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE"))) {
+    if (pcs.paincysts > 0 && one_in(pcs.paincysts) && !p->has_effect("paincysts")) {
         p->add_effect("paincysts", 1, num_bp, true);
     }
     return it->type->charges_to_use();
+}
+
+int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
+{
+    struct parasite_chances pcs = {0, 0, 0, 0};
+    pcs.tapeworm = 32;
+    pcs.bloodworms = 64;
+    pcs.brainworms = 128;
+    pcs.paincysts = 64;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_fat(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(64)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                          p->has_trait("PARAIMMUNE") ||
-                          p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    struct parasite_chances pcs = {0, 0, 0, 0};
+    pcs.tapeworm = 64;
+    pcs.bloodworms = 128;
+    pcs.brainworms = 128;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_bone(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(128)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    struct parasite_chances pcs = {0, 0, 0, 0};
+    pcs.bloodworms = 128;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_fish(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(256)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") ||
-                           p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("paincysts", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    struct parasite_chances pcs = {0, 0, 0, 0};
+    pcs.tapeworm = 256;
+    pcs.bloodworms = 256;
+    pcs.brainworms = 256;
+    pcs.paincysts = 256;
+    return raw_food(p, it, pcs);
 }
 
 int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
 {
-    if ((one_in(512)) && !(p->has_effect("tapeworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") ||
-                           p->has_trait("EATHEALTH"))) {
-        p->add_effect("tapeworm", 1, num_bp, true);
-    }
-    if ((one_in(256)) && !(p->has_effect("bloodworms") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE") || p->has_trait("ACIDBLOOD"))) {
-        p->add_effect("bloodworms", 1, num_bp, true);
-    }
-    if ((one_in(512)) && !(p->has_effect("brainworm") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("brainworm", 1, num_bp, true);
-    }
-    if ((one_in(128)) && !(p->has_effect("paincysts") || p->has_bionic("bio_digestion") ||
-                           p->has_trait("PARAIMMUNE"))) {
-        p->add_effect("paincysts", 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
+    struct parasite_chances pcs = {0, 0, 0, 0};
+    pcs.tapeworm = 512;
+    pcs.bloodworms = 256;
+    pcs.brainworms = 512;
+    pcs.paincysts = 128;
+    return raw_food(p, it, pcs);
 }
 
-int iuse::alcohol(player *p, item *it, bool, const tripoint& )
+#define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
+int alcohol(player *p, item *it, int strength)
 {
-    int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
+    // Weaker characters are cheap drunks
+    int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
     it_comest *food = dynamic_cast<it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
-        duration = 180 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional value;
-        // might not be healthy, and still causes Thirst problems, though
-        p->hunger -= (abs(food->stim));
-        // Metabolizing it cancels out depressant
-        // effects, but doesn't make it any more stimulating
-        if ((food->stim) < 0) {
-            p->stim += (abs(food->stim));
-        }
-    } else if (p->has_trait("TOLERANCE")) {
-        duration -= 300;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 300;
-    }
-    if (!(p->has_trait("ALCMET"))) {
-        p->pkill += 8;
-    }
-    p->add_effect("drunk", duration);
-    return it->type->charges_to_use();
-}
-
-int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
-{
-    int duration = 340 - (6 * p->str_max);
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
-        duration = 90 - (6 * p->str_max);
+        duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->hunger -= (abs(food->stim));
         // Metabolizing it cancels out the depressant
         p->stim += (abs(food->stim));
     } else if (p->has_trait("TOLERANCE")) {
-        duration -= 120;
+        duration -= STR(120, 300, 450);
     } else if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 120;
+        duration += STR(120, 300, 450);
     }
     if (!(p->has_trait("ALCMET"))) {
-        p->pkill += 4;
+        p->pkill += STR(4, 8, 12);
     }
     p->add_effect("drunk", duration);
     return it->type->charges_to_use();
 }
+#undef STR
+
+int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
+{
+    return alcohol(p, it, 0);
+}
+
+int iuse::alcohol_medium(player *p, item *it, bool, const tripoint& )
+{
+    return alcohol(p, it, 1);
+}
 
 int iuse::alcohol_strong(player *p, item *it, bool, const tripoint& )
 {
-    int duration = 900 - (12 * p->str_max);
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
-    if (p->has_trait("ALCMET")) {
-        duration = 250 - (10 * p->str_max);
-        // Metabolizing the booze improves the nutritional
-        // value; might not be healthy, and still
-        // causes Thirst problems, though
-        p->hunger -= (abs(food->stim));
-        // Metabolizing it cancels out depressant
-        // effects, but doesn't make it any more
-        // stimulating
-        if ((food->stim) < 0) {
-            p->stim += (abs(food->stim));
-        }
-    } else if (p->has_trait("TOLERANCE")) {
-        duration -= 450;
-    } else if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 450;
-    }
-    if (!(p->has_trait("ALCMET"))) {
-        p->pkill += 12;
-    }
-    p->add_effect("drunk", duration);
-    return it->type->charges_to_use();
+    return alcohol(p, it, 2);
 }
 
 /**
@@ -4373,15 +4320,27 @@ int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
 {
+    bool normal_language = it->type->id != "jacqueshammer";
+      // Jacqueshammers function the same as ordinary
+      // jackhammers, except they print messages in French for
+      // comic effect.
     if (it->charges < it->type->charges_to_use()) {
         return 0;
     }
     if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+        p->add_msg_if_player(m_info, normal_language
+          ? _("You can't do that while underwater.")
+          //~ (jacqueshammer) "You can't do that while underwater."
+          : _("Vous ne pouvez pas faire que sous l'eau."));
         return 0;
     }
     tripoint dirp = pos;
-    if (!choose_adjacent(_("Drill where?"), dirp)) {
+    if (!choose_adjacent(
+          normal_language
+            ? _("Drill where?")
+            //~ (jacqueshammer) "Drill where?"
+            : _("Percer dans quelle direction?"),
+          dirp)) {
         return 0;
     }
 
@@ -4389,72 +4348,34 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     int &diry = dirp.y;
 
     if (dirx == p->posx() && diry == p->posy()) {
-        p->add_msg_if_player(_("My god! Let's talk it over OK?"));
-        p->add_msg_if_player(_("Don't do anything rash.."));
+        p->add_msg_if_player(normal_language
+          ? _("My god! Let's talk it over OK?")
+          //~ (jacqueshammer) "My god! Let's talk it over OK?"
+          : _("Mon dieu!  Nous allons en parler OK?"));
+        p->add_msg_if_player(normal_language
+          ? _("Don't do anything rash.")
+          //~ (jacqueshammer) "Don't do anything rash."
+          : _("Ne pas faire eruption rien."));
         return 0;
     }
 
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-        g->m.ter(dirx, diry) != t_tree) {
+    if (
+           (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+                g->m.ter(dirx, diry) != t_tree) ||
+           (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
+                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
         g->m.destroy( dirp, true );
         p->moves -= 500;
-        //~ the sound of a jackhammer
-        sounds::sound(dirp, 45, _("TATATATATATATAT!"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
-               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy( dirp, true );
-        p->moves -= 500;
-        sounds::sound(dirp, 45, _("TATATATATATATAT!"));
+        sounds::sound(dirp, 45, normal_language
+          //~ the sound of a jackhammer
+          ? _("TATATATATATATAT!")
+          //~ the sound of a "jacqueshammer"
+          : _("OHOHOHOHOHOHOHOHO!"));
     } else {
-        p->add_msg_if_player(m_info, _("You can't drill there."));
-        return 0;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::jacqueshammer(player *p, item *it, bool, const tripoint& )
-{
-    if (it->charges < it->type->charges_to_use()) {
-        return 0;
-    }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    // translator comments for everything to reduce confusion
-    int dirx, diry;
-    g->draw();
-    //~ (jacqueshammer) "Drill where?"
-    if (!choose_direction(_("Percer dans quelle direction?"), dirx, diry)) {
-        //~ (jacqueshammer) "Invalid direction"
-        p->add_msg_if_player(m_info, _("Direction invalide"));
-        return 0;
-    }
-    if (dirx == 0 && diry == 0) {
-        //~ (jacqueshammer) "My god! Let's talk it over, OK?"
-        p->add_msg_if_player(_("Mon dieu!  Nous allons en parler OK?"));
-        //~ (jacqueshammer) "Don't do anything rash."
-        p->add_msg_if_player(_("Ne pas faire eruption rien.."));
-        return 0;
-    }
-    dirx += p->posx();
-    diry += p->posy();
-    tripoint dirp( dirx, diry, p->posz() );
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-        g->m.ter(dirx, diry) != t_tree) {
-        g->m.destroy( dirp, true );
-        // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
-        p->moves -= 500;
-        //~ the sound of a "jacqueshammer"
-        sounds::sound(dirp, 45, _("OHOHOHOHOHOHOHOHO!"));
-    } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
-               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-        g->m.destroy( dirp, true );
-        p->moves -= 500;
-        sounds::sound(dirp, 45, _("OHOHOHOHOHOHOHOHO!"));
-    } else {
-        //~ (jacqueshammer) "You can't drill there."
-        p->add_msg_if_player(m_info, _("Vous ne pouvez pas percer la-bas.."));
+        p->add_msg_if_player(m_info, normal_language
+          ? _("You can't drill there.")
+          //~ (jacqueshammer) "You can't drill there."
+          : _("Vous ne pouvez pas percer la-bas."));
         return 0;
     }
     return it->type->charges_to_use();

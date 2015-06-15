@@ -151,7 +151,7 @@ void Item_factory::init()
     iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
-    iuse_function_list["ALCOHOL"] = &iuse::alcohol;
+    iuse_function_list["ALCOHOL"] = &iuse::alcohol_medium;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
     iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["XANAX"] = &iuse::xanax;
@@ -233,7 +233,6 @@ void Item_factory::init()
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
-    iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
     iuse_function_list["SET_TRAP"] = &iuse::set_trap;
     iuse_function_list["GEIGER"] = &iuse::geiger;
