@@ -350,13 +350,6 @@ ter_id grass_or_dirt()
  return t_dirt;
 }
 
-ter_id dirt_or_pile()
-{
- if (one_in(4))
-  return t_dirtmound;
- return t_dirt;
-}
-
 ter_id clay_or_sand()
 {
  if (one_in(4))
