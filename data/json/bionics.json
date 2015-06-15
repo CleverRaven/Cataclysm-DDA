@@ -369,7 +369,7 @@
         "id": "bio_geiger",
         "name": "Integrated Dosimeter",
         "act_cost": 25,
-        "description": "Small radiation sensors have been implanted throughout your body, allowing you to analyze your level of absorbed radiation. It will also alert you whenever exposed to environmental radiation."
+        "description": "Small radiation sensors have been implanted throughout your body, allowing you to analyze your level of absorbed radiation. They will also alert you whenever exposed to environmental radiation."
     },{
         "type": "bionic",
         "id": "bio_radscrubber",
