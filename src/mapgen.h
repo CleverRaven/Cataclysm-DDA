@@ -319,4 +319,23 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
+namespace MapSpecials {
+    static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
+
+    void mx_null(map &m, const tripoint &abs_sub);
+    void mx_helicopter(map &m, const tripoint &abs_sub);
+    void mx_military(map &m, const tripoint &abs_sub);
+    void mx_science(map &m, const tripoint &abs_sub);
+    void mx_collegekids(map &m, const tripoint &abs_sub);
+    void mx_roadblock(map &m, const tripoint &abs_sub);
+    void mx_drugdeal(map &m, const tripoint &abs_sub);
+    void mx_supplydrop(map &m, const tripoint &abs_sub);
+    void mx_portal(map &m, const tripoint &abs_sub);
+    void mx_minefield(map &m, const tripoint &abs_sub);
+    void mx_crater(map &m, const tripoint &abs_sub);
+    void mx_fumarole(map &m, const tripoint &abs_sub);
+    void mx_portal_in(map &m, const tripoint &abs_sub);
+    void mx_anomaly(map &m, const tripoint &abs_sub);
+};
+
 #endif
