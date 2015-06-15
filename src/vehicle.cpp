@@ -4754,7 +4754,10 @@ void vehicle::remove_remote_part(int part_num) {
 }
 
 void vehicle::shed_loose_parts() {
-    for( auto &elem : loose_parts ) {
+    // remove_part rebuilds the loose_parts vector, when all of those parts have been removed,
+    // it will stay empty.
+    while( !loose_parts.empty() ) {
+        int const elem = loose_parts.front();
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
             remove_remote_part( elem );
         }
@@ -4766,7 +4769,6 @@ void vehicle::shed_loose_parts() {
 
         remove_part( elem );
     }
-    loose_parts.clear();
 }
 
 void vehicle::refresh_insides ()
