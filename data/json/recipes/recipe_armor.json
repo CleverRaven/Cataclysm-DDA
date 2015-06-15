@@ -779,6 +779,30 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "boxer_briefs",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "sewing_kit", 15 ],
+      [ "tailors_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "union_suit",
   "category": "CC_ARMOR",
@@ -2042,6 +2066,37 @@
     ],
     [
       [ "scrap", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_work",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_tailor", 2 ] , [ "mag_tailor", 3 ] , ["textbook_survival", 2]],
+  "qualities": [
+       {"id":"CUT","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "needle_bone", 6 ],
+      [ "needle_wood", 6 ],
+      [ "sewing_kit", 6 ],
+      [ "tailors_kit", 6 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ],
+      [ "gloves_leather", 1 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "gloves_light", 1 ]
     ]
   ]
 },{
@@ -4008,6 +4063,52 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cloak_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "loincloth_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 12 ],
+      [ "needle_wood", 12 ],
+      [ "tailors_kit", 12 ],
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "cloak_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4162,7 +4263,9 @@
   "components": [
     [
       [ "leather", 6 ],
-      [ "tanned_hide", 1 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ],
     [
       [ "string_36", 1 ],
@@ -4302,6 +4405,21 @@
   "components": [
     [
       [ "rag", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "felt_patch", 4 ]
     ]
   ]
 },{
@@ -6783,6 +6901,21 @@
   "components": [
     [
       [ "rag", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "felt_patch", 6 ]
     ]
   ]
 },{

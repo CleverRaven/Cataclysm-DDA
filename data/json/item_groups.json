@@ -237,6 +237,7 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["gloves_fingerless", 20],
+      ["gloves_work", 2],
       ["bandana", 35],
       ["scarf", 45],
       ["knit_scarf", 35],
@@ -716,6 +717,7 @@
       ["hacksaw", 17],
       ["xacto", 10],
       ["gloves_leather", 45],
+      ["gloves_work", 45],
       ["cordless_drill", 10],
       ["mask_dust", 65],
       ["glasses_safety", 40],
@@ -1125,6 +1127,7 @@
       ["undershirt", 70],
       ["boxer_shorts", 50],
       ["briefs", 40],
+      ["boxer_briefs", 45],
       ["panties", 70],
       ["boy_shorts", 25],
       ["veil_wedding", 1],
@@ -1779,6 +1782,7 @@
       ["celery", 5],
       ["wheat", 3],
       ["onion", 3],
+      ["garlic", 3],
       ["pine_nuts", 2],
       ["carrot", 3]
     ]
@@ -3429,7 +3433,8 @@
     "id" : "male_underwear_bottom",
     "items":[
       ["boxer_shorts", 70],
-      ["briefs", 30]
+      ["briefs", 30],
+      ["boxer_briefs", 50]
     ]
   },{
     "type" : "item_group",
@@ -3463,6 +3468,7 @@
       ["undershirt", 30],
       ["boxer_shorts", 30],
       ["briefs", 15],
+      ["boxer_briefs", 20],
       ["panties", 30],
       ["boy_shorts", 25],
       ["sweatshirt", 75],
@@ -3485,6 +3491,7 @@
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
+      ["gloves_work", 5],
       ["scarf", 45],
       ["knit_scarf", 35],
       ["long_knit_scarf", 5],
@@ -3516,6 +3523,7 @@
       ["sleeveless_duster_leather", 2],
       ["sleeveless_duster_fur", 1],
       ["cloak", 5],
+      ["cloak_wool", 5]
       ["house_coat", 25],
       ["flotation_vest", 1],
       ["fishing_waders", 5],
@@ -3600,6 +3608,7 @@
       ["undershirt", 30],
       ["boxer_shorts", 30],
       ["briefs", 15],
+      ["boxer_briefs", 20],
       ["panties", 30],
       ["boy_shorts", 25],
       ["sweatshirt", 75],
@@ -6078,6 +6087,7 @@
       ["seed_corn", 1],
       ["seed_hops", 1],
       ["raw_beans", 1],
+      ["seed_garlic", 1],
       ["tomato", 9],
       ["broccoli", 9],
       ["cucumber", 10],
@@ -6086,6 +6096,7 @@
       ["corn", 7],
       ["celery", 4],
       ["onion", 3],
+      ["garlic", 3],
       ["carrot", 3],
       ["withered", 40],
       ["straw_pile", 20],
@@ -7069,6 +7080,7 @@
       ["flotation_vest", 1],
       ["fishing_waders", 2],
       ["cloak", 5],
+      ["cloak_wool", 5],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
       ["apron_leather", 2],
@@ -7206,6 +7218,7 @@
       ["jumpsuit", 20],
       ["gloves_rubber", 20],
       ["gloves_leather", 45],
+      ["gloves_work", 45],
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
@@ -8776,6 +8789,7 @@
     "id" : "loincloth",
     "items":[
       ["loincloth", 2],
+      ["loincloth_wool", 1],
       ["loincloth_fur", 1],
       ["loincloth_leather", 1]
     ]
@@ -9057,6 +9071,7 @@
       ["gauntlets_bone", 12],
       ["gloves_fur", 4],
       ["gloves_leather", 22],
+      ["gloves_work", 22]
       ["gloves_plate", 2],
       ["gloves_wraps", 1]
     ]
@@ -9692,6 +9707,8 @@
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "garlic_seed", "prob": 5, "count-min": 1, "count-max": 6 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
@@ -9710,6 +9727,8 @@
       { "item": "blackberries", "prob": 20, "count-min": 2, "count-max": 5 },
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "garlic_seed", "prob": 1, "count-min": 1, "count-max": 6 },
       { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
@@ -9725,6 +9744,8 @@
       { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },      
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "garlic_seed", "prob": 4, "count-min": 1, "count-max": 6 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
