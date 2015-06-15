@@ -812,20 +812,19 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             return_key = true;
         } else if (ch == KEY_UP ) {
             if(!identifier.empty()) {
-                std::vector<std::string> *hist = uistate.gethistory(identifier);
-                if(hist != NULL) {
+                std::vector<std::string>& hist = uistate.gethistory(identifier);
                     uimenu hmenu;
                     hmenu.title = _("d: delete history");
                     hmenu.return_invalid = true;
-                    for(size_t h = 0; h < hist->size(); h++) {
-                        hmenu.addentry(h, true, -2, (*hist)[h].c_str());
+                    for(size_t h = 0; h < hist.size(); h++) {
+                        hmenu.addentry(h, true, -2, hist[h].c_str());
                     }
                     if ( !ret.empty() && ( hmenu.entries.empty() ||
-                                           hmenu.entries[hist->size() - 1].txt != ret.str() ) ) {
-                        hmenu.addentry(hist->size(), true, -2, ret.str());
-                        hmenu.selected = hist->size();
+                                           hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
+                        hmenu.addentry(hist.size(), true, -2, ret.str());
+                        hmenu.selected = hist.size();
                     } else {
-                        hmenu.selected = hist->size() - 1;
+                        hmenu.selected = hist.size() - 1;
                     }
                     // number of lines that make up the menu window: title,2*border+entries
                     hmenu.w_height = 3 + hmenu.entries.size();
@@ -839,16 +838,15 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     hmenu.query();
                     if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
                         ret = hmenu.entries[hmenu.ret].txt;
-                        if( hmenu.ret < (int)hist->size() ) {
-                            hist->erase(hist->begin() + hmenu.ret);
-                            hist->push_back(ret.str());
+                        if( hmenu.ret < (int)hist.size() ) {
+                            hist.erase(hist.begin() + hmenu.ret);
+                            hist.push_back(ret.str());
                         }
                         pos = ret.size();
                         redraw = true;
                     } else if ( hmenu.keypress == 'd' ) {
-                        hist->clear();
+                        hist.clear();
                     }
-                }
             }
         } else if (ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE ) {
             /* absolutely nothing */
@@ -907,12 +905,10 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {
-                    std::vector<std::string> *hist = uistate.gethistory(identifier);
-                    if( hist != NULL ) {
-                        if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret.str() ) {
-                            hist->push_back(ret.str());
+                    std::vector<std::string>& hist = uistate.gethistory(identifier);
+                        if ( hist.size() == 0 || hist[hist.size() - 1] != ret.str() ) {
+                            hist.push_back(ret.str());
                         }
-                    }
                 }
                 return ret.str();
             }
