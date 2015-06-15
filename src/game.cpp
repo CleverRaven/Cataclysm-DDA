@@ -10962,7 +10962,8 @@ void game::butcher()
 
     int butcher_corpse_index = 0;
     bool multisalvage = corpses.size() - salvage_index > 1;
-    if (corpses.size() > 1) {
+    // Always ask before cutting up/disassembly, but not before butchery
+    if( corpses.size() > 1 || has_item ) {
         uimenu kmenu;
         if( has_item && has_corpse ) {
             kmenu.text = _("Choose corpse to butcher / item to disassemble");
@@ -11024,27 +11025,27 @@ void game::butcher()
     }
     mtype *corpse = dis_item.get_mtype();
     int time_to_cut = 0;
-    switch (corpse->size) { // Time in turns to cut up te corpse
+    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
     case MS_TINY:
-        time_to_cut = 2;
+        time_to_cut = 6;
         break;
     case MS_SMALL:
-        time_to_cut = 5;
+        time_to_cut = 15;
         break;
     case MS_MEDIUM:
-        time_to_cut = 10;
+        time_to_cut = 30;
         break;
     case MS_LARGE:
-        time_to_cut = 18;
+        time_to_cut = 60;
         break;
     case MS_HUGE:
-        time_to_cut = 40;
+        time_to_cut = 120;
         break;
     }
-    time_to_cut *= 100; // Convert to movement points
-    time_to_cut -= factor * 5; // Penalty for poor tool or benefit for good tool
-    if (time_to_cut < 250) {
-        time_to_cut = 250;
+    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
+    time_to_cut *= std::max( 25, 100 - factor );
+    if( time_to_cut < 500 ) {
+        time_to_cut = 500;
     }
     u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
 }
