@@ -5,322 +5,46 @@ mods["StatsThoughSkills"] = MOD
 
 function MOD.on_day_passed()
     game.add_msg("Calculating new stats based off skills")
-    int_bonus = 8
     str_bonus = 8
     dex_bonus = 8
+    int_bonus = 8
     per_bonus = 8
 
-    --based skills
-    barter_skill = player:get_skill_level("barter")
-    if (barter_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (barter_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (barter_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
-    computer_skill = player:get_skill_level("computer")
-    if (computer_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (computer_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (computer_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
-    cooking_skill = player:get_skill_level("cooking")
-    if (cooking_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (cooking_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (cooking_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
-    electronics_skill = player:get_skill_level("electronics")
-    if (electronics_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (electronics_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (electronics_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
-    fabrication_skill = player:get_skill_level("fabrication")
-    if (fabrication_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (fabrication_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (fabrication_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
-    firstaid_skill = player:get_skill_level("firstaid")
-    if (firstaid_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (firstaid_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (firstaid_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
-    speech_skill = player:get_skill_level("speech")
-    if (speech_skill >= 3) then
-        int_bonus = int_bonus + 1
-        if (speech_skill >= 6) then
-            int_bonus = int_bonus + 1
-            if (speech_skill >= 9) then
-                int_bonus = int_bonus + 1
-            end
-        end
-    end
-
     --Str based skills
-    carpentry_skill = player:get_skill_level("carpentry")
-    if (carpentry_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (carpentry_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (carpentry_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
-
-    mechanics_skill = player:get_skill_level("mechanics")
-    if (mechanics_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (mechanics_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (mechanics_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
-
-    swimming_skill = player:get_skill_level("swimming")
-    if (swimming_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (swimming_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (swimming_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
-
-    bashing_skill = player:get_skill_level("bashing")
-    if (bashing_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (bashing_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (bashing_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
-
-    cutting_skill = player:get_skill_level("cutting")
-    if (cutting_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (cutting_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (cutting_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
-
-    melee_skill = player:get_skill_level("melee")
-    if (melee_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (melee_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (melee_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
-
-    throw_skill = player:get_skill_level("throw")
-    if (throw_skill >= 3) then
-        str_bonus = str_bonus + 1
-        if (throw_skill >= 6) then
-            str_bonus = str_bonus + 1
-            if (throw_skill >= 9) then
-                str_bonus = str_bonus + 1
-            end
-        end
-    end
+    str_bonus = calc_bonus(str_bonus,"carpentry")
+    str_bonus = calc_bonus(str_bonus,"mechanics")
+    str_bonus = calc_bonus(str_bonus,"swimming")
+    str_bonus = calc_bonus(str_bonus,"bashing")
+    str_bonus = calc_bonus(str_bonus,"cutting")
+    str_bonus = calc_bonus(str_bonus,"melee")
+    str_bonus = calc_bonus(str_bonus,"throw")
 
     --Dex based skills
-    driving_skill = player:get_skill_level("driving")
-    if (driving_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (driving_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (driving_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
+    dex_bonus = calc_bonus(dex_bonus,"driving")
+    dex_bonus = calc_bonus(dex_bonus,"survival")
+    dex_bonus = calc_bonus(dex_bonus,"tailor")
+    dex_bonus = calc_bonus(dex_bonus,"traps")
+    dex_bonus = calc_bonus(dex_bonus,"dodge")
+    dex_bonus = calc_bonus(dex_bonus,"stabbing")
+    dex_bonus = calc_bonus(dex_bonus,"unarmed")
 
-    survival_skill = player:get_skill_level("survival")
-    if (survival_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (survival_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (survival_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
-
-    tailor_skill = player:get_skill_level("tailor")
-    if (tailor_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (tailor_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (tailor_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
-
-    traps_skill = player:get_skill_level("traps")
-    if (traps_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (traps_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (traps_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
-
-    dodge_skill = player:get_skill_level("dodge")
-    if (dodge_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (dodge_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (dodge_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
-
-    stabbing_skill = player:get_skill_level("stabbing")
-    if (stabbing_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (stabbing_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (stabbing_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
-
-    unarmed_skill = player:get_skill_level("unarmed")
-    if (unarmed_skill >= 3) then
-        dex_bonus = dex_bonus + 1
-        if (unarmed_skill >= 6) then
-            dex_bonus = dex_bonus + 1
-            if (unarmed_skill >= 9) then
-                dex_bonus = dex_bonus + 1
-            end
-        end
-    end
+    --Int based skills
+    int_bonus = calc_bonus(int_bonus,"barter")
+    int_bonus = calc_bonus(int_bonus,"computer")
+    int_bonus = calc_bonus(int_bonus,"cooking")
+    int_bonus = calc_bonus(int_bonus,"electronics")
+    int_bonus = calc_bonus(int_bonus,"fabrication")
+    int_bonus = calc_bonus(int_bonus,"firstaid")
+    int_bonus = calc_bonus(int_bonus,"speech")
 
     --Per based skills
-    archery_skill = player:get_skill_level("archery")
-    if (archery_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (archery_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (archery_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
-
-    gun_skill = player:get_skill_level("gun")
-    if (gun_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (gun_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (gun_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
-
-    launcher_skill = player:get_skill_level("launcher")
-    if (launcher_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (launcher_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (launcher_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
-
-    pistol_skill = player:get_skill_level("pistol")
-    if (pistol_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (pistol_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (pistol_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
-
-    rifle_skill = player:get_skill_level("rifle")
-    if (rifle_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (rifle_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (rifle_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
-
-    shotgun_skill = player:get_skill_level("shotgun")
-    if (shotgun_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (shotgun_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (shotgun_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
-
-    smg_skill = player:get_skill_level("smg")
-    if (smg_skill >= 3) then
-        per_bonus = per_bonus + 1
-        if (smg_skill >= 6) then
-            per_bonus = per_bonus + 1
-            if (smg_skill >= 9) then
-                per_bonus = per_bonus + 1
-            end
-        end
-    end
+    per_bonus = calc_bonus(per_bonus,"archery")
+    per_bonus = calc_bonus(per_bonus,"gun")
+    per_bonus = calc_bonus(per_bonus,"launcher")
+    per_bonus = calc_bonus(per_bonus,"pistol")
+    per_bonus = calc_bonus(per_bonus,"rifle")
+    per_bonus = calc_bonus(per_bonus,"shotgun")
+    per_bonus = calc_bonus(per_bonus,"smg")
 
     --Checking for mutations
     if player:has_trait("BENDY1") then dex_bonus = dex_bonus + 1 end
@@ -361,33 +85,35 @@ function MOD.on_day_passed()
     if player:has_trait("PER_SLIME") then per_bonus = per_bonus - 8 end
     if player:has_trait("PER_SLIME_OK") then per_bonus = per_bonus + 5 end
 
-    if (player.int_max < int_bonus) then
-        game.add_msg("Raising Int to "..tostring(int_bonus))
-    elseif (player.int_max > int_bonus) then
-        game.add_msg("Lowering Int to "..tostring(int_bonus))
-    end
-    player.int_max = int_bonus
-
-    if (player.str_max < str_bonus) then
-        game.add_msg("Raising Str to "..tostring(str_bonus))
-    elseif (player.str_max > str_bonus) then
-        game.add_msg("Lowering Str to "..tostring(str_bonus))
-    end
+    print_results(str_bonus,"Str",player.str_max)
     player.str_max = str_bonus
 
-    if (player.dex_max < dex_bonus) then
-        game.add_msg("Raising Dex to "..tostring(dex_bonus))
-    elseif (player.dex_max > dex_bonus) then
-        game.add_msg("Lowering Dex to "..tostring(dex_bonus))
-    end
+    print_results(dex_bonus,"Dex",player.dex_max)
     player.dex_max = dex_bonus
 
-    if (player.per_max < per_bonus) then
-        game.add_msg("Raising Per to "..tostring(per_bonus))
-    elseif (player.per_max > per_bonus) then
-        game.add_msg("Lowering Per to "..tostring(per_bonus))
-    end
+    print_results(int_bonus,"Int",player.int_max)
+    player.int_max = int_bonus
+
+    print_results(per_bonus,"Per",player.per_max)
     player.per_max = per_bonus
 
     player:recalc_hp()
+end
+
+function calc_bonus(stat_bonus,skill)
+    skill_level = player:get_skill_level(skill)
+    if (skill_level / 3 < 3) then
+        stat_bonus = stat_bonus + skill_level / 3
+    else
+        stat_bonus = stat_bonus + 3
+    end
+    return math.floor(stat_bonus)
+end
+
+function print_results(stat_bonus,stat,player_stat)
+    if (player_stat < stat_bonus) then
+        game.add_msg("Raising "..stat.." to "..tostring(stat_bonus))
+    elseif (player_stat > stat_bonus) then
+        game.add_msg("Lowering "..stat.." to "..tostring(stat_bonus))
+    end
 end
