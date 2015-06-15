@@ -8031,8 +8031,8 @@ void player::suffer()
             if( x_in_y( rads - rads_max, 1 ) ) {
                 rads_max++;
             }
-            if( int(calendar::turn) % 10 == 0 && has_bionic("bio_geiger") ) {
-                add_msg(m_warning, _("Your integrated dosimeter beeps quietly."));
+            if( int(calendar::turn) % 30 == 0 && has_bionic("bio_geiger") && localRadiation > 0 ) {
+                add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
             }
         }
         radiation += rng( 0, rads_max );
