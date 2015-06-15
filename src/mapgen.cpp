@@ -13815,12 +13815,15 @@ void map::add_extra(map_extra type)
     }
 }
 
-void MapSpecials::mx_null(map &, const tripoint &)
+namespace MapSpecials {
+static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
+
+void mx_null(map &, const tripoint &)
 {
     debugmsg("Tried to generate null map extra.");
 }
 
-void MapSpecials::mx_helicopter(map &m, const tripoint &abs_sub)
+void mx_helicopter(map &m, const tripoint &abs_sub)
 {
     int cx = rng(4, SEEX * 2 - 5), cy = rng(4, SEEY * 2 - 5);
     for (int x = 0; x < SEEX * 2; x++) {
@@ -13859,7 +13862,7 @@ void MapSpecials::mx_helicopter(map &m, const tripoint &abs_sub)
     m.place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
 }
 
-void MapSpecials::mx_military(map &m, const tripoint &)
+void mx_military(map &m, const tripoint &)
 {
     int num_bodies = dice(2, 6);
     for (int i = 0; i < num_bodies; i++) {
@@ -13898,7 +13901,7 @@ void MapSpecials::mx_military(map &m, const tripoint &)
     m.place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-void MapSpecials::mx_science(map &m, const tripoint &)
+void mx_science(map &m, const tripoint &)
 {
     int num_bodies = dice(2, 5);
     for (int i = 0; i < num_bodies; i++) {
@@ -13928,7 +13931,7 @@ void MapSpecials::mx_science(map &m, const tripoint &)
     m.place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-void MapSpecials::mx_collegekids(map &m, const tripoint &)
+void mx_collegekids(map &m, const tripoint &)
 {   //college kids that got into trouble
     int num_bodies = dice(2, 6);
     int type = dice(1,10);
@@ -13968,7 +13971,7 @@ void MapSpecials::mx_collegekids(map &m, const tripoint &)
     }
 }
 
-void MapSpecials::mx_roadblock(map &m, const tripoint &abs_sub)
+void mx_roadblock(map &m, const tripoint &abs_sub)
 {
     // OK, if there's a way to get ajacent road tiles w/o bringing in
     // the overmap-scan I'm not seeing it.  So gonna make it Generic.
@@ -14054,7 +14057,7 @@ void MapSpecials::mx_roadblock(map &m, const tripoint &abs_sub)
     }
 }
 
-void MapSpecials::mx_drugdeal(map &m, const tripoint &abs_sub)
+void mx_drugdeal(map &m, const tripoint &abs_sub)
 {
     // Decide on a drug type
     int num_drugs = 0;
@@ -14174,7 +14177,7 @@ void MapSpecials::mx_drugdeal(map &m, const tripoint &abs_sub)
     }
 }
 
-void MapSpecials::mx_supplydrop(map &m, const tripoint &abs_sub)
+void mx_supplydrop(map &m, const tripoint &abs_sub)
 {
     int num_crates = rng(1, 5);
     for (int i = 0; i < num_crates; i++) {
@@ -14216,7 +14219,7 @@ void MapSpecials::mx_supplydrop(map &m, const tripoint &abs_sub)
     }
 }
 
-void MapSpecials::mx_portal(map &m, const tripoint &abs_sub)
+void mx_portal(map &m, const tripoint &abs_sub)
 {
     std::string spawncreatures[5] = {"mon_gelatin", "mon_flaming_eye",
                                      "mon_kreck", "mon_gracke", "mon_blank"};
@@ -14236,7 +14239,7 @@ void MapSpecials::mx_portal(map &m, const tripoint &abs_sub)
     }
 }
 
-void MapSpecials::mx_minefield(map &m, const tripoint &abs_sub)
+void mx_minefield(map &m, const tripoint &abs_sub)
 {
     int num_mines = rng(6, 20);
     for (int x = 0; x < SEEX * 2; x++) {
@@ -14268,7 +14271,7 @@ void MapSpecials::mx_minefield(map &m, const tripoint &abs_sub)
     m.set_signage( tripoint( x2,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
 }
 
-void MapSpecials::mx_crater(map &m, const tripoint &abs_sub)
+void mx_crater(map &m, const tripoint &abs_sub)
 {
     int size = rng(2, 6);
     int size_squared = size * size;
@@ -14285,7 +14288,7 @@ void MapSpecials::mx_crater(map &m, const tripoint &abs_sub)
     }
 }
 
-void MapSpecials::mx_fumarole(map &m, const tripoint &)
+void mx_fumarole(map &m, const tripoint &)
 {
     int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
         x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
@@ -14295,7 +14298,7 @@ void MapSpecials::mx_fumarole(map &m, const tripoint &)
     }
 }
 
-void MapSpecials::mx_portal_in(map &m, const tripoint &abs_sub)
+void mx_portal_in(map &m, const tripoint &abs_sub)
 {
     std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
     int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
@@ -14312,7 +14315,7 @@ void MapSpecials::mx_portal_in(map &m, const tripoint &abs_sub)
     }
 }
 
-void MapSpecials::mx_anomaly(map &m, const tripoint &abs_sub)
+void mx_anomaly(map &m, const tripoint &abs_sub)
 {
     tripoint center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7), abs_sub.z );
     artifact_natural_property prop =
@@ -14320,6 +14323,36 @@ void MapSpecials::mx_anomaly(map &m, const tripoint &abs_sub)
     m.create_anomaly( center, prop );
     m.spawn_natural_artifact( center, prop );
 }
+
+typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
+FunctionMap builtin_functions = {
+    { "mx_null", mx_null },
+    { "mx_helicopter", mx_helicopter },
+    { "mx_military", mx_military },
+    { "mx_science", mx_science },
+    { "mx_collegekids", mx_collegekids },
+    { "mx_roadblock", mx_roadblock },
+    { "mx_drugdeal", mx_drugdeal },
+    { "mx_supplydrop", mx_supplydrop },
+    { "mx_portal", mx_portal },
+    { "mx_minefield", mx_minefield },
+    { "mx_crater", mx_crater },
+    { "mx_fumarole", mx_fumarole },
+    { "mx_portal_in", mx_portal_in },
+    { "mx_anomaly", mx_anomaly }
+};
+
+map_special_pointer get_function(std::string name)
+{
+    const auto iter = builtin_functions.find(name);
+    if(iter == builtin_functions.end()) {
+        debugmsg( "no map special with name %s", name.c_str() );
+        return NULL;
+    }
+    return iter->second;
+}
+
+};
 
 void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 {
