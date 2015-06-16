@@ -5969,8 +5969,20 @@ void game::monmove()
     cleanup_dead();
 }
 
+struct pair_greater_cmp
+{
+    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b)
+    {
+        return a.first > b.first;
+    }
+};
+
 void game::do_blast( const tripoint &p, const int power, const bool fire )
 {
+    const float tile_dist = 1.0f;
+    const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
+    const float zlev_dist = 8.0f; // Penalty for going up/down
+    const float distance_factor = 0.8f;
     // 7 3 5
     // 1 . 2
     // 6 4 8
@@ -5980,12 +5992,16 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
     constexpr std::array<int, 10> z_offset = {  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 };
     const size_t max_index = m.has_zlevels() ? 10 : 8;
 
-    std::queue<tripoint> open;
+    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
     std::set<tripoint> closed;
-    open.push( p );
+    std::map<tripoint, float> dist_map;
+    open.push( std::make_pair( 1.0f, p ) );
+    dist_map[p] = 1.0f;
     // Find all points to blast
     while( !open.empty() ) {
-        tripoint pt = open.front();
+        // Add some random factor to effective distance to make it look cooler
+        const float distance = open.top().first * rng_float( 1.0f, 1.2f );
+        const tripoint pt = open.top().second;
         open.pop();
 
         if( closed.count( pt ) != 0 ) {
@@ -5994,103 +6010,94 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
 
         closed.insert( pt );
 
-        // Z-level distance counts extra
-        const float force = power / ( rl_dist( p, pt ) + abs( p.z - pt.z ) + 1 );
+        const float force = power * std::pow( distance_factor, distance );
         if( force <= 1 ) {
             continue;
         }
 
         if( m.move_cost( pt ) == 0 ) {
-            // Will be handled after this loop ends
+            // Don't propagate further
             continue;
         }
 
-        float sum_force = 0.0f;
-        for( size_t i = 0; i < max_index; i++ ) {
+        // Those will be used for making "shaped charges"
+        // Don't check up/down (for now) - this will make 2D/3D balancing easier
+        int empty_neighbors = 0;
+        for( size_t i = 0; i < 8; i++ ) {
             tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( m.valid_move( pt, dest, false, true ) && closed.count( dest ) == 0 ) {
+            if( closed.count( dest ) == 0 && m.valid_move( pt, dest, false, true ) ) {
                 empty_neighbors++;
             }
         }
 
-        // Iterate over all x/y (but not z) neighbors. Bash all of them, propagate to some
-        for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z );
-            m.bash( dest, force, false, false, nullptr, true );
-            if( closed.count( dest ) == 0 ) {
-                open.push( dest );
+        empty_neighbors = std::max( 1, empty_neighbors );
+        // Iterate over all neighbors. Bash all of them, propagate to some
+        for( size_t i = 0; i < max_index; i++ ) {
+            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            if( closed.count( dest ) != 0 ) {
+                continue;
             }
-        }
 
-        // TODO: Z propagation
+            // Up to 200% bonus for shaped charge
+            const float bash_force = force + ( 2 * force / empty_neighbors );
+            m.bash( dest, bash_force, false, false, nullptr, true );
 
-        if( open.size() > 900 ) {
-            debugmsg("OVER 900!");
-            break;
+            float next_dist = distance;
+            next_dist += ( x_offset[i] == 0 || y_offset[i] == 0 ) ? tile_dist : diag_dist;
+            if( z_offset[i] != 0 ) {
+                if( !m.valid_move( pt, dest, false, true ) ) {
+                    continue;
+                }
+
+                next_dist += zlev_dist;
+            }
+
+            if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
+                open.push( std::make_pair( next_dist, dest ) );
+                dist_map[dest] = next_dist;
+            }
         }
     }
 
     for( const tripoint &pt : closed ) {
-        const float force = power / ( rl_dist( p, pt ) + abs( p.z - pt.z ) + 1 );
-        m.bash( pt, force, false, false, nullptr, true );
-        (void)fire;
-        m.add_field( pt, fd_fire, 1 + (blasted[pt] > 10) + (blasted[pt] > 50), 0 );
-        add_msg("blasting %d,%d,%d with %f", pt.x, pt.y, pt.z, blasted[pt] );
-    }
-    return;
-    /*
-    // TODO: Rewrite this to use some sort of a flood fill, to keep it from damaging stuff
-    // on the other side of a wall and more importantly the other side of floor/ceiling
-    int dam;
-    // Arbitrarily cut z-radius by a factor of 4
-    const int z_radius = m.has_zlevels() && debug_mode ? radius / 4: 0;
-    for( auto &&t : m.points_in_radius( p, radius, z_radius ) ) {
-        if( t == p ) {
-            dam = 3 * power;
-        } else {
-            dam = 3 * power / rl_dist( p, t );
-        }
-        m.smash_items(t, dam);
-        // Only smash down through floors if we have 1 "extra" z-level of radius
-        // But smash up through ceilings even if we don't have that extra z-level
-        const bool smash_floors = t.z > p.z - z_radius;
-        m.bash( t, dam, false, false, nullptr, smash_floors );
-        m.bash( t, dam, false, false, nullptr, smash_floors ); // Double up for tough doors, etc.
-
-        int mon_hit = mon_at(t);
-        int npc_hit = npc_at(t);
-        if (mon_hit != -1) {
-            monster &mon = critter_tracker->find(mon_hit);
-            mon.apply_damage( nullptr, bp_torso, rng( dam / 2, long( dam * 1.5 ) ) ); // TODO: player's fault?
-            mon.check_dead_state();
+        const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
+        m.smash_items( pt, force );
+        if( fire ) {
+            m.add_field( pt, fd_fire, force / 10, 0 );
         }
 
         int vpart;
-        vehicle *veh = m.veh_at( t, vpart );
+        vehicle *veh = m.veh_at( pt, vpart );
         if( veh != nullptr) {
-            veh->damage(vpart, dam, fire ? 2 : 1, false);
+            veh->damage( vpart, force, fire ? 2 : 1, false );
         }
 
-        player *n = nullptr;
-        if( npc_hit != -1 ) {
-            n = active_npc[npc_hit];
-        } else if( u.pos() == t ) {
-            add_msg(m_bad, _("You're caught in the explosion!"));
-            n = &u;
+        Creature *critter = critter_at( pt );
+        if( critter == nullptr ) {
+            continue;
         }
-        if( n != nullptr ) {
-            n->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dam / 2, long( dam * 1.5 ) ) ) );
-            n->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-            n->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-            n->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-            n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
-            n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
+
+        player *pl = dynamic_cast<player*>( critter );
+        if( pl == nullptr ) {
+            // TODO: player's fault?
+            const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
+            critter->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 3 ) );
+            critter->check_dead_state();
+            continue;
         }
-        if (fire) {
-            m.add_field( t, fd_fire, dam / 10, 0 );
+
+        if( pl->is_player() ) {
+            add_msg( m_bad, _("You're caught in the explosion!") );
         }
+
+        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.5f ) );
+        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.5f ) );
+        // Hit limbs a bit harder so that it hurts more without being much more deadly
+        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
+        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
+        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
+        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
     }
-    */
 }
 
 void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
