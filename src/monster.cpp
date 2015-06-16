@@ -1134,7 +1134,7 @@ bool monster::move_effects(bool attacking)
     if (has_effect("downed")) {
         remove_effect("downed");
         if (u_see_me) {
-            add_msg(_("The %s climbs to it's feet!"), name().c_str());
+            add_msg(_("The %s climbs to its feet!"), name().c_str());
         }
         return false;
     }
