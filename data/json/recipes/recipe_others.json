@@ -6873,9 +6873,6 @@
       ["anvil", -1]
      ],
      [
-      ["swage", -1]
-     ],
-     [
       ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
      ]
     ],
