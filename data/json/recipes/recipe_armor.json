@@ -6890,6 +6890,66 @@
   ]
 },{
   "type" : "recipe",
+  "result": "chestwrap",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rag", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chestwrap_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "felt_patch", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chestwrap_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "leather", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chestwrap_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "fur", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "footrags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
