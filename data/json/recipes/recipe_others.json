@@ -6182,7 +6182,7 @@
   ],
   "components": [
      [ [ "copper", 90 ] ],
-     [ [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ]
+     [ [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ] ]
   ]
   },{
   "type" : "recipe",
