@@ -163,7 +163,7 @@ classes = {
             { name = "critter_at", rval = "Creature", args = { "tripoint" } },
             { name = "cycle_item_mode", rval = nil, args = { "bool" } },
             { name = "delete_world", rval = nil, args = { "string", "bool" } },
-            { name = "do_blast", rval = nil, args = { "tripoint", "int", "int", "bool" } },
+            { name = "do_blast", rval = nil, args = { "tripoint", "int", "bool" } },
             { name = "do_turn", rval = "bool", args = { } },
             { name = "draw", rval = nil, args = { } },
             { name = "draw_critter", rval = nil, args = { "Creature", "tripoint" } },

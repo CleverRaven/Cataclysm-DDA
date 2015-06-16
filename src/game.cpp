@@ -71,6 +71,7 @@
 
 #include <map>
 #include <set>
+#include <queue>
 #include <algorithm>
 #include <string>
 #include <fstream>
@@ -5968,8 +5969,76 @@ void game::monmove()
     cleanup_dead();
 }
 
-void game::do_blast( const tripoint &p, const int power, const int radius, const bool fire )
+void game::do_blast( const tripoint &p, const int power, const bool fire )
 {
+    // 7 3 5
+    // 1 . 2
+    // 6 4 8
+    // 9 and 10 are up and down
+    constexpr std::array<int, 10> x_offset = { -1,  1,  0,  0,  1, -1, -1, 1, 0,  0 };
+    constexpr std::array<int, 10> y_offset = {  0,  0, -1,  1, -1,  1, -1, 1, 0,  0 };
+    constexpr std::array<int, 10> z_offset = {  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 };
+    const size_t max_index = m.has_zlevels() ? 10 : 8;
+
+    std::queue<tripoint> open;
+    std::set<tripoint> closed;
+    open.push( p );
+    // Find all points to blast
+    while( !open.empty() ) {
+        tripoint pt = open.front();
+        open.pop();
+
+        if( closed.count( pt ) != 0 ) {
+            continue;
+        }
+
+        closed.insert( pt );
+
+        // Z-level distance counts extra
+        const float force = power / ( rl_dist( p, pt ) + abs( p.z - pt.z ) + 1 );
+        if( force <= 1 ) {
+            continue;
+        }
+
+        if( m.move_cost( pt ) == 0 ) {
+            // Will be handled after this loop ends
+            continue;
+        }
+
+        float sum_force = 0.0f;
+        for( size_t i = 0; i < max_index; i++ ) {
+            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            if( m.valid_move( pt, dest, false, true ) && closed.count( dest ) == 0 ) {
+                empty_neighbors++;
+            }
+        }
+
+        // Iterate over all x/y (but not z) neighbors. Bash all of them, propagate to some
+        for( size_t i = 0; i < 8; i++ ) {
+            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z );
+            m.bash( dest, force, false, false, nullptr, true );
+            if( closed.count( dest ) == 0 ) {
+                open.push( dest );
+            }
+        }
+
+        // TODO: Z propagation
+
+        if( open.size() > 900 ) {
+            debugmsg("OVER 900!");
+            break;
+        }
+    }
+
+    for( const tripoint &pt : closed ) {
+        const float force = power / ( rl_dist( p, pt ) + abs( p.z - pt.z ) + 1 );
+        m.bash( pt, force, false, false, nullptr, true );
+        (void)fire;
+        m.add_field( pt, fd_fire, 1 + (blasted[pt] > 10) + (blasted[pt] > 50), 0 );
+        add_msg("blasting %d,%d,%d with %f", pt.x, pt.y, pt.z, blasted[pt] );
+    }
+    return;
+    /*
     // TODO: Rewrite this to use some sort of a flood fill, to keep it from damaging stuff
     // on the other side of a wall and more importantly the other side of floor/ceiling
     int dam;
@@ -6021,6 +6090,7 @@ void game::do_blast( const tripoint &p, const int power, const int radius, const
             m.add_field( t, fd_fire, dam / 10, 0 );
         }
     }
+    */
 }
 
 void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
@@ -6037,7 +6107,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         sounds::sound( p, 3, _("a loud pop!"), false, "explosion", "small" );
     }
     if (blast) {
-        do_blast( p, power, radius, fire );
+        do_blast( p, power, fire );
         // Draw the explosion
         if( p.z == u.posz() ) {
             draw_explosion(p, radius, c_red);
