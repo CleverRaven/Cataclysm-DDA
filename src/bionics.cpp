@@ -189,73 +189,6 @@ nc_color get_bionic_text_color(bionic const &bio, bool const isHighlightedBionic
 
 void player::power_bionics()
 {
-    std::vector <bionic *> passive;
-    std::vector <bionic *> active;
-    for( auto &elem : my_bionics ) {
-        if( !bionics[elem.id].activated ) {
-            passive.push_back( &elem );
-        } else {
-            active.push_back( &elem );
-        }
-    }
-
-    // maximal number of rows in both columns
-    const int active_bionic_count = static_cast<int>(active.size());
-    const int passive_bionic_count = static_cast<int>(passive.size());
-    const int bionic_count = std::max(passive_bionic_count, active_bionic_count);
-
-    //added title_tab_height for the tabbed bionic display
-    int TITLE_HEIGHT = 2;
-    int TITLE_TAB_HEIGHT = 3;
-
-    // Main window
-    /** Total required height is:
-    * top frame line:                                         + 1
-    * height of title window:                                 + TITLE_HEIGHT
-    * height of tabs:                                         + TITLE_TAB_HEIGHT
-    * height of the biggest list of active/passive bionics:   + bionic_count
-    * bottom frame line:                                      + 1
-    * TOTAL: TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2
-    */
-    int HEIGHT = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
-                                          TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2));
-    int WIDTH = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 2;
-    int START_X = (TERMX - WIDTH) / 2;
-    int START_Y = (TERMY - HEIGHT) / 2;
-    //wBio is the entire bionic window
-    WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
-    WINDOW_PTR wBioptr( wBio );
-
-    int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
-
-    int DESCRIPTION_WIDTH = WIDTH - 2 - 40;
-    int DESCRIPTION_START_Y = START_Y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
-    int DESCRIPTION_START_X = START_X + 1 + 40;
-    //w_description is the description panel that is controlled with ! key
-    WINDOW *w_description = newwin(LIST_HEIGHT, DESCRIPTION_WIDTH,
-                                   DESCRIPTION_START_Y, DESCRIPTION_START_X);
-    WINDOW_PTR w_descriptionptr( w_description );
-
-    // Title window
-    int TITLE_START_Y = START_Y + 1;
-    int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1; // + lines with text in titlebar, local
-    WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
-    WINDOW_PTR w_titleptr( w_title );
-
-    int TAB_START_Y = TITLE_START_Y + 2;
-    //w_tabs is the tab bar for passive and active bionic groups
-    WINDOW *w_tabs = newwin(TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y, START_X + 1);
-    WINDOW_PTR w_tabsptr( w_tabs );
-
-    int scroll_position = 0;
-    int cursor = 0;
-
-    //have something to show on menu access
-    std::string tab_mode = "TAB_ACTIVE";
-    if(active_bionic_count == 0 && passive_bionic_count > 0){
-        tab_mode = "TAB_PASSIVE";
-    }
-
     input_context ctxt("BIONICS");
     ctxt.register_updown();
     ctxt.register_action("ANY_INPUT");
@@ -266,282 +199,347 @@ void player::power_bionics()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    bool redraw = true;
+    std::string tab_mode = "TAB_ACTIVE";
 
-    //generate the tab title string and a count of the bionics owned
-    std::string menu_mode = "activating";
-    std::ostringstream tabname;
-    tabname << _("ACTIVE");
-    if(active_bionic_count>0){
-        tabname << "(" << active_bionic_count << ")";
-    }
-    std::string active_tab_name = tabname.str();
-    tabname.str("");
-    tabname << _("PASSIVE");
-    if(passive_bionic_count > 0){
-        tabname << "(" << passive_bionic_count << ")";
-    }
-    std::string passive_tab_name = tabname.str();
-    const int tabs_start = 1;
-    const int tab_step = 3;
-
-    for (;;) {
-        // offset for display: bionic with index i is drawn at y=list_start_y+i
-        // drawing the bionics starts with bionic[scroll_position]
-        const int list_start_y = HEADER_LINE_Y;// - scroll_position;
-        int half_list_view_location = LIST_HEIGHT / 2;
-        int max_scroll_position = std::max(0, (tab_mode == "TAB_ACTIVE" ? active_bionic_count : passive_bionic_count) - LIST_HEIGHT);
-        //track which list we are looking at
-        std::vector<bionic*> *current_bionic_list = (tab_mode == "TAB_ACTIVE" ? &active : &passive);
-
-        if(redraw) {
-            redraw = false;
-
-            werase(wBio);
-            draw_border(wBio);
-            // Draw symbols to connect additional lines to border
-            mvwputch(wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-            mvwputch(wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
-
-            nc_color type;
-            if(tab_mode == "TAB_PASSIVE"){
-                if (passive.empty()) {
-                    mvwprintz(wBio, list_start_y + 1, 2, c_ltgray, _("No passive bionics installed."));
-                } else {
-                    for (size_t i = scroll_position; i < passive.size(); i++) {
-                        if (list_start_y + static_cast<int>(i) - scroll_position == HEIGHT - 1) {
-                            break;
-                        }
-
-                        bool isHighlighted = false;
-                        if(cursor == static_cast<int>(i)){
-                            isHighlighted = true;
-                        }
-                        type = get_bionic_text_color(*passive[i], isHighlighted);
-
-                        mvwprintz(wBio, list_start_y + i - scroll_position, 2, type, "%c %s", passive[i]->invlet,
-                                  bionics[passive[i]->id].name.c_str());
-                    }
-                }
-            }
-
-            if(tab_mode == "TAB_ACTIVE"){
-                if (active.empty()) {
-                    mvwprintz(wBio, list_start_y + 1, 2, c_ltgray, _("No activatable bionics installed."));
-                } else {
-                    for (size_t i = scroll_position; i < active.size(); i++) {
-                        if (list_start_y + static_cast<int>(i) - scroll_position == HEIGHT - 1) {
-                            break;
-                        }
-                        bool isHighlighted = false;
-                        if(cursor == static_cast<int>(i)){
-                            isHighlighted = true;
-                        }
-                        type = get_bionic_text_color(*active[i], isHighlighted);
-                        mvwputch(wBio, list_start_y + i - scroll_position, 2, type, active[i]->invlet);
-                        mvwputch(wBio, list_start_y + i - scroll_position, 3, type, ' ');
-
-                        std::string power_desc = build_bionic_powerdesc_string(*active[i]);
-                        std::string tmp = utf8_truncate(power_desc, WIDTH - 3);
-                        mvwprintz(wBio, list_start_y + i - scroll_position, 2 + 2, type, tmp.c_str());
-                    }
-                }
-            }
-
-            // Scrollbar
-            if(scroll_position > 0) {
-                mvwputch(wBio, HEADER_LINE_Y, 0, c_ltgreen, '^');
-            }
-            if(scroll_position < max_scroll_position && max_scroll_position > 0) {
-                mvwputch(wBio, HEIGHT - 1 - 1,
-                         0, c_ltgreen, 'v');
-            }
-        }
-        wrefresh(wBio);
-
-        //handle tab drawing after main window is refreshed
-        werase(w_tabs);
-        int width = getmaxx(w_tabs);
-        for (int i = 0; i < width; i++) {
-            mvwputch(w_tabs, 2, i, BORDER_COLOR, LINE_OXOX);
-        }
-        int tab_x = tabs_start;
-        draw_tab(w_tabs, tab_x, active_tab_name, tab_mode == "TAB_ACTIVE");
-        tab_x += tab_step + utf8_width(active_tab_name.c_str());
-        draw_tab(w_tabs, tab_x, passive_tab_name, tab_mode != "TAB_ACTIVE");
-        wrefresh(w_tabs);
-
-        show_bionics_titlebar(w_title, this, menu_mode);
-
-        // Description
-        if(menu_mode == "examining" && current_bionic_list->size() > 0){
-            werase(w_description);
-            std::ostringstream power_only_desc;
-            std::string poweronly_string;
-            std::string bionic_name;
-            if(tab_mode == "TAB_ACTIVE"){
-                bionic_name = bionics[active[cursor]->id].name;
-                poweronly_string = build_bionic_poweronly_string(*active[cursor]);
-            }else{
-                bionic_name = bionics[passive[cursor]->id].name;
-                poweronly_string = build_bionic_poweronly_string(*passive[cursor]);
-            }
-            int ypos = 0;
-            ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_white, bionic_name);
-            if(poweronly_string.length() > 0){
-                power_only_desc << _("Power usage: ") << poweronly_string;
-                ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray, power_only_desc.str());
-            }
-            ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue, bionics[(*current_bionic_list)[cursor]->id].description);
-            wrefresh(w_description);
-        }
-
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        bionic *tmp = NULL;
-        bool confirmCheck = false;
-        if (menu_mode == "reassigning") {
-            menu_mode = "activating";
-            tmp = bionic_by_invlet(ch);
-            if(tmp == 0) {
-                // Selected an non-existing bionic (or escape, or ...)
-                continue;
-            }
-            redraw = true;
-            const char newch = popup_getkey(_("%s; enter new letter."),
-                                            bionics[tmp->id].name.c_str());
-            wrefresh(wBio);
-            if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
-                continue;
-            }
-            bionic *otmp = bionic_by_invlet(newch);
-            // if there is already a bionic with the new invlet, the invlet
-            // is considered valid.
-            if(otmp == 0 && inv_chars.find(newch) == std::string::npos) {
-                // TODO separate list of letters for bionics
-                popup(_("%c is not a valid inventory letter."), newch);
-                continue;
-            }
-            if(otmp != 0) {
-                std::swap(tmp->invlet, otmp->invlet);
+    bool loop = true;
+    while (loop) {
+        std::vector <bionic *> passive;
+        std::vector <bionic *> active;
+        for( auto &elem : my_bionics ) {
+            if( !bionics[elem.id].activated ) {
+                passive.push_back( &elem );
             } else {
-                tmp->invlet = newch;
+                active.push_back( &elem );
             }
-            // TODO: show a message like when reassigning a key to an item?
-        } else if (action == "SWAP_BIONIC_TABS"){
-            redraw = true;
-            scroll_position = 0;
-            cursor = 0;
-            if(tab_mode == "TAB_ACTIVE"){
-                tab_mode = "TAB_PASSIVE";
-            }else{
-                tab_mode = "TAB_ACTIVE";
-            }
-        } else if (action == "DOWN") {
-            redraw = true;
-            if(static_cast<size_t>(cursor)<current_bionic_list->size()-1){
-                cursor++;
-            }
-            if(scroll_position < max_scroll_position && cursor - scroll_position > LIST_HEIGHT - half_list_view_location) {
-                scroll_position++;
-            }
-        } else if (action == "UP") {
-            redraw = true;
-            if(cursor>0){
-                cursor--;
-            }
-            if(scroll_position > 0 && cursor - scroll_position < half_list_view_location) {
-                scroll_position--;
-            }
-        } else if (action == "REASSIGN") {
-            menu_mode = "reassigning";
-        } else if (action == "TOGGLE_EXAMINE") { // switches between activation and examination
-            menu_mode = menu_mode == "activating" ? "examining" : "activating";
-            redraw = true;
-        } else if (action == "REMOVE") {
-            menu_mode = "removing";
-            redraw = true;
-        } else if (action == "HELP_KEYBINDINGS") {
-            redraw = true;
-        } else if (action == "CONFIRM"){
-            confirmCheck = true;
-        } else {
-            confirmCheck = true;
         }
-        //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
-        if(confirmCheck){
-            if(action == "CONFIRM" && current_bionic_list->size() > 0){
-                if(tab_mode == "TAB_ACTIVE"){
-                    tmp = active[cursor];
-                }else{
-                    tmp = passive[cursor];
-                }
-            }else{
-                tmp = bionic_by_invlet(ch);
-            }
-            if(tmp == 0) {
-                // entered a key that is not mapped to any bionic,
-                // -> leave screen
-                break;
-            }
-            const std::string &bio_id = tmp->id;
-            const bionic_data &bio_data = bionics[bio_id];
-            if (menu_mode == "removing") {
-                uninstall_bionic(bio_id);
-                break;
-            }
-            if (menu_mode == "activating") {
-                if (bio_data.activated) {
-                    int b = tmp - &my_bionics[0];
-                    if (tmp->powered) {
-                        deactivate_bionic(b);
+
+        // maximal number of rows in both columns
+        const int active_bionic_count = static_cast<int>(active.size());
+        const int passive_bionic_count = static_cast<int>(passive.size());
+        const int bionic_count = std::max(passive_bionic_count, active_bionic_count);
+
+        //added title_tab_height for the tabbed bionic display
+        int TITLE_HEIGHT = 2;
+        int TITLE_TAB_HEIGHT = 3;
+
+        // Main window
+        /** Total required height is:
+         * top frame line:                                         + 1
+         * height of title window:                                 + TITLE_HEIGHT
+         * height of tabs:                                         + TITLE_TAB_HEIGHT
+         * height of the biggest list of active/passive bionics:   + bionic_count
+         * bottom frame line:                                      + 1
+         * TOTAL: TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2
+         */
+        int HEIGHT = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
+                    TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2));
+        int WIDTH = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 2;
+        int START_X = (TERMX - WIDTH) / 2;
+        int START_Y = (TERMY - HEIGHT) / 2;
+        //wBio is the entire bionic window
+        WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+        WINDOW_PTR wBioptr( wBio );
+
+        int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
+
+        int DESCRIPTION_WIDTH = WIDTH - 2 - 40;
+        int DESCRIPTION_START_Y = START_Y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
+        int DESCRIPTION_START_X = START_X + 1 + 40;
+        //w_description is the description panel that is controlled with ! key
+        WINDOW *w_description = newwin(LIST_HEIGHT, DESCRIPTION_WIDTH,
+                DESCRIPTION_START_Y, DESCRIPTION_START_X);
+        WINDOW_PTR w_descriptionptr( w_description );
+
+        // Title window
+        int TITLE_START_Y = START_Y + 1;
+        int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1; // + lines with text in titlebar, local
+        WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
+        WINDOW_PTR w_titleptr( w_title );
+
+        int TAB_START_Y = TITLE_START_Y + 2;
+        //w_tabs is the tab bar for passive and active bionic groups
+        WINDOW *w_tabs = newwin(TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y, START_X + 1);
+        WINDOW_PTR w_tabsptr( w_tabs );
+
+        int scroll_position = 0;
+        int cursor = 0;
+
+        //have something to show on menu access
+        if(active_bionic_count == 0 && passive_bionic_count > 0){
+            tab_mode = "TAB_PASSIVE";
+        }
+
+        bool redraw = true;
+
+        //generate the tab title string and a count of the bionics owned
+        std::string menu_mode = "activating";
+        std::ostringstream tabname;
+        tabname << _("ACTIVE");
+        if(active_bionic_count>0){
+            tabname << "(" << active_bionic_count << ")";
+        }
+        std::string active_tab_name = tabname.str();
+        tabname.str("");
+        tabname << _("PASSIVE");
+        if(passive_bionic_count > 0){
+            tabname << "(" << passive_bionic_count << ")";
+        }
+        std::string passive_tab_name = tabname.str();
+        const int tabs_start = 1;
+        const int tab_step = 3;
+
+        for (;;) {
+            // offset for display: bionic with index i is drawn at y=list_start_y+i
+            // drawing the bionics starts with bionic[scroll_position]
+            const int list_start_y = HEADER_LINE_Y;// - scroll_position;
+            int half_list_view_location = LIST_HEIGHT / 2;
+            int max_scroll_position = std::max(0, (tab_mode == "TAB_ACTIVE" ? active_bionic_count : passive_bionic_count) - LIST_HEIGHT);
+            //track which list we are looking at
+            std::vector<bionic*> *current_bionic_list = (tab_mode == "TAB_ACTIVE" ? &active : &passive);
+
+            if(redraw) {
+                redraw = false;
+
+                werase(wBio);
+                draw_border(wBio);
+                // Draw symbols to connect additional lines to border
+                mvwputch(wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+                mvwputch(wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
+
+                nc_color type;
+                if(tab_mode == "TAB_PASSIVE"){
+                    if (passive.empty()) {
+                        mvwprintz(wBio, list_start_y + 1, 2, c_ltgray, _("No passive bionics installed."));
                     } else {
-                        // this will clear the bionics menu for targeting purposes
-                        g->draw();
-                        redraw = !activate_bionic(b);
+                        for (size_t i = scroll_position; i < passive.size(); i++) {
+                            if (list_start_y + static_cast<int>(i) - scroll_position == HEIGHT - 1) {
+                                break;
+                            }
+
+                            bool isHighlighted = false;
+                            if(cursor == static_cast<int>(i)){
+                                isHighlighted = true;
+                            }
+                            type = get_bionic_text_color(*passive[i], isHighlighted);
+
+                            mvwprintz(wBio, list_start_y + i - scroll_position, 2, type, "%c %s", passive[i]->invlet,
+                                    bionics[passive[i]->id].name.c_str());
+                        }
                     }
-                    if (redraw) {
-                        // To update message on the sidebar
+                }
+
+                if(tab_mode == "TAB_ACTIVE"){
+                    if (active.empty()) {
+                        mvwprintz(wBio, list_start_y + 1, 2, c_ltgray, _("No activatable bionics installed."));
+                    } else {
+                        for (size_t i = scroll_position; i < active.size(); i++) {
+                            if (list_start_y + static_cast<int>(i) - scroll_position == HEIGHT - 1) {
+                                break;
+                            }
+                            bool isHighlighted = false;
+                            if(cursor == static_cast<int>(i)){
+                                isHighlighted = true;
+                            }
+                            type = get_bionic_text_color(*active[i], isHighlighted);
+                            mvwputch(wBio, list_start_y + i - scroll_position, 2, type, active[i]->invlet);
+                            mvwputch(wBio, list_start_y + i - scroll_position, 3, type, ' ');
+
+                            std::string power_desc = build_bionic_powerdesc_string(*active[i]);
+                            std::string tmp = utf8_truncate(power_desc, WIDTH - 3);
+                            mvwprintz(wBio, list_start_y + i - scroll_position, 2 + 2, type, tmp.c_str());
+                        }
+                    }
+                }
+
+                // Scrollbar
+                if(scroll_position > 0) {
+                    mvwputch(wBio, HEADER_LINE_Y, 0, c_ltgreen, '^');
+                }
+                if(scroll_position < max_scroll_position && max_scroll_position > 0) {
+                    mvwputch(wBio, HEIGHT - 1 - 1,
+                            0, c_ltgreen, 'v');
+                }
+            }
+            wrefresh(wBio);
+
+            //handle tab drawing after main window is refreshed
+            werase(w_tabs);
+            int width = getmaxx(w_tabs);
+            for (int i = 0; i < width; i++) {
+                mvwputch(w_tabs, 2, i, BORDER_COLOR, LINE_OXOX);
+            }
+            int tab_x = tabs_start;
+            draw_tab(w_tabs, tab_x, active_tab_name, tab_mode == "TAB_ACTIVE");
+            tab_x += tab_step + utf8_width(active_tab_name.c_str());
+            draw_tab(w_tabs, tab_x, passive_tab_name, tab_mode != "TAB_ACTIVE");
+            wrefresh(w_tabs);
+
+            show_bionics_titlebar(w_title, this, menu_mode);
+
+            // Description
+            if(menu_mode == "examining" && current_bionic_list->size() > 0){
+                werase(w_description);
+                std::ostringstream power_only_desc;
+                std::string poweronly_string;
+                std::string bionic_name;
+                if(tab_mode == "TAB_ACTIVE"){
+                    bionic_name = bionics[active[cursor]->id].name;
+                    poweronly_string = build_bionic_poweronly_string(*active[cursor]);
+                }else{
+                    bionic_name = bionics[passive[cursor]->id].name;
+                    poweronly_string = build_bionic_poweronly_string(*passive[cursor]);
+                }
+                int ypos = 0;
+                ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_white, bionic_name);
+                if(poweronly_string.length() > 0){
+                    power_only_desc << _("Power usage: ") << poweronly_string;
+                    ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray, power_only_desc.str());
+                }
+                ypos += fold_and_print(w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue, bionics[(*current_bionic_list)[cursor]->id].description);
+                wrefresh(w_description);
+            }
+
+            const std::string action = ctxt.handle_input();
+            const long ch = ctxt.get_raw_input().get_first_input();
+            bionic *tmp = NULL;
+            bool confirmCheck = false;
+            if (menu_mode == "reassigning") {
+                menu_mode = "activating";
+                tmp = bionic_by_invlet(ch);
+                if(tmp == 0) {
+                    // Selected an non-existing bionic (or escape, or ...)
+                    continue;
+                }
+                redraw = true;
+                const char newch = popup_getkey(_("%s; enter new letter."),
+                        bionics[tmp->id].name.c_str());
+                wrefresh(wBio);
+                if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
+                    continue;
+                }
+                bionic *otmp = bionic_by_invlet(newch);
+                // if there is already a bionic with the new invlet, the invlet
+                // is considered valid.
+                if(otmp == 0 && inv_chars.find(newch) == std::string::npos) {
+                    // TODO separate list of letters for bionics
+                    popup(_("%c is not a valid inventory letter."), newch);
+                    continue;
+                }
+                if(otmp != 0) {
+                    std::swap(tmp->invlet, otmp->invlet);
+                } else {
+                    tmp->invlet = newch;
+                }
+                // TODO: show a message like when reassigning a key to an item?
+            } else if (action == "SWAP_BIONIC_TABS"){
+                redraw = true;
+                scroll_position = 0;
+                cursor = 0;
+                if(tab_mode == "TAB_ACTIVE"){
+                    tab_mode = "TAB_PASSIVE";
+                }else{
+                    tab_mode = "TAB_ACTIVE";
+                }
+            } else if (action == "DOWN") {
+                redraw = true;
+                if(static_cast<size_t>(cursor)<current_bionic_list->size()-1){
+                    cursor++;
+                }
+                if(scroll_position < max_scroll_position && cursor - scroll_position > LIST_HEIGHT - half_list_view_location) {
+                    scroll_position++;
+                }
+            } else if (action == "UP") {
+                redraw = true;
+                if(cursor>0){
+                    cursor--;
+                }
+                if(scroll_position > 0 && cursor - scroll_position < half_list_view_location) {
+                    scroll_position--;
+                }
+            } else if (action == "REASSIGN") {
+                menu_mode = "reassigning";
+            } else if (action == "TOGGLE_EXAMINE") { // switches between activation and examination
+                menu_mode = menu_mode == "activating" ? "examining" : "activating";
+                redraw = true;
+            } else if (action == "REMOVE") {
+                menu_mode = "removing";
+                redraw = true;
+            } else if (action == "HELP_KEYBINDINGS") {
+                redraw = true;
+            } else if (action == "CONFIRM"){
+                confirmCheck = true;
+            } else {
+                confirmCheck = true;
+            }
+            //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
+            if(confirmCheck){
+                if(action == "CONFIRM" && current_bionic_list->size() > 0){
+                    if(tab_mode == "TAB_ACTIVE"){
+                        tmp = active[cursor];
+                    }else{
+                        tmp = passive[cursor];
+                    }
+                }else{
+                    tmp = bionic_by_invlet(ch);
+                }
+                if(tmp == 0) {
+                    // entered a key that is not mapped to any bionic,
+                    // -> leave screen
+                    loop = false;
+                    break;
+                }
+                const std::string &bio_id = tmp->id;
+                const bionic_data &bio_data = bionics[bio_id];
+                if (menu_mode == "removing") {
+                    if (uninstall_bionic(bio_id)) {
+                        break; // update the whole damn menu
+                    }
+                }
+                if (menu_mode == "activating") {
+                    if (bio_data.activated) {
+                        int b = tmp - &my_bionics[0];
+                        if (tmp->powered) {
+                            deactivate_bionic(b);
+                        } else {
+                            activate_bionic(b);
+                        }
+                        // update message log and the menu
                         g->refresh_all();
+                        redraw = true;
                         continue;
                     } else {
-                        // Action done, leave screen
-                        return;
+                        popup(_("You can not activate %s!\n"
+                                "To read a description of %s, press '!', then '%c'."), bio_data.name.c_str(), bio_data.name.c_str(), tmp->invlet);
+                        redraw = true;
                     }
-                } else {
-                    popup(_("\
-You can not activate %s!  To read a description of \
-%s, press '!', then '%c'."), bio_data.name.c_str(), bio_data.name.c_str(), tmp->invlet);
+                } else if (menu_mode == "examining") { // Describing bionics, allow user to jump to description key
                     redraw = true;
-                }
-            }
-            if (menu_mode == "examining") { // Describing bionics, allow user to jump to description key
-                redraw = true;
-                if(action != "CONFIRM"){
-                    for(size_t i = 0; i < active.size(); i++){
-                        if(active[i] == tmp){
-                            tab_mode = "TAB_ACTIVE";
-                            cursor = static_cast<int>(i);
-                            int max_scroll_check = std::max(0, active_bionic_count - LIST_HEIGHT);
-                            if(static_cast<int>(i) > max_scroll_check){
-                                scroll_position = max_scroll_check;
-                            }else{
-                                scroll_position = i;
+                    if(action != "CONFIRM"){
+                        for(size_t i = 0; i < active.size(); i++){
+                            if(active[i] == tmp){
+                                tab_mode = "TAB_ACTIVE";
+                                cursor = static_cast<int>(i);
+                                int max_scroll_check = std::max(0, active_bionic_count - LIST_HEIGHT);
+                                if(static_cast<int>(i) > max_scroll_check){
+                                    scroll_position = max_scroll_check;
+                                }else{
+                                    scroll_position = i;
+                                }
+                                break;
                             }
-                            break;
                         }
-                    }
-                    for(size_t i = 0; i < passive.size(); i++){
-                        if(passive[i] == tmp){
-                            tab_mode = "TAB_PASSIVE";
-                            cursor = static_cast<int>(i);
-                            int max_scroll_check = std::max(0, passive_bionic_count - LIST_HEIGHT);
-                            if(static_cast<int>(i) > max_scroll_check){
-                                scroll_position = max_scroll_check;
-                            }else{
-                                scroll_position = i;
+                        for(size_t i = 0; i < passive.size(); i++){
+                            if(passive[i] == tmp){
+                                tab_mode = "TAB_PASSIVE";
+                                cursor = static_cast<int>(i);
+                                int max_scroll_check = std::max(0, passive_bionic_count - LIST_HEIGHT);
+                                if(static_cast<int>(i) > max_scroll_check){
+                                    scroll_position = max_scroll_check;
+                                }else{
+                                    scroll_position = i;
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
                 }
