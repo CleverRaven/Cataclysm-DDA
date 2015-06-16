@@ -229,7 +229,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "scrap", 1 ]
+      [ "copper", 30 ]
     ]
   ]
 },{
@@ -344,7 +344,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "scrap", 1 ]
+      [ "copper", 20 ]
     ]
   ]
   },{
