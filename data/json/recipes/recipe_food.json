@@ -5119,7 +5119,7 @@
   "result_mult": 2,
   "time": 8000,
   "reversible": false,
-  "autolearn": flase,
+  "autolearn": false,
   "book_learn": [["cookbook_italian", 2]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
