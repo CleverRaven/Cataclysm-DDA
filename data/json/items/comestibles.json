@@ -8691,6 +8691,7 @@
         "name_plural" : "garlic cloves",
         "symbol" : ".",
         "color" : "brown",
+        "addiction_type" : "none",
         "description" : "Cloves of garlic. Useful as a seasoning, or for planting.",
         "material" : "veggy",
         "comestible_type": "FOOD",
