@@ -7,6 +7,7 @@
 #include "iexamine.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "weighted_list.h"
 #include "rng.h"
 
 #include <bitset>
@@ -287,7 +288,11 @@ const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
 
 struct map_extras {
  unsigned int chance;
+ weighted_int_list<std::string> extras;
+
  int chances[num_map_extras + 1];
+map_extras() :chance(0) {}
+
  map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
             int sci = 0, int roadblock = 0, int drug = 0, int supply = 0,
             int portal = 0, int minefield = 0,
