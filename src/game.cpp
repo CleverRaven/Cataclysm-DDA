@@ -6098,6 +6098,9 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
         pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
     }
+
+    // Draw the explosion
+    draw_custom_explosion( u.pos(), closed, c_red );
 }
 
 void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
@@ -6113,12 +6116,8 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     } else {
         sounds::sound( p, 3, _("a loud pop!"), false, "explosion", "small" );
     }
-    if (blast) {
+    if( blast ) {
         do_blast( p, power, fire );
-        // Draw the explosion
-        if( p.z == u.posz() ) {
-            draw_explosion(p, radius, c_red);
-        }
     }
 
     // The rest of the function is shrapnel

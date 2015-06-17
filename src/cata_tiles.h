@@ -312,6 +312,10 @@ class cata_tiles
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
+        int exp_cus_pos_x, exp_cus_pos_y;
+        // Map of point to rotation
+        std::map<tripoint, int> custom_explosion;
+
         int bul_pos_x, bul_pos_y;
         std::string bul_id;
 

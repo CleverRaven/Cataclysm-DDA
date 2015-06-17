@@ -468,7 +468,7 @@ class game
 
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
-        void draw_custom_explosion( const tripoint &p, std::set<tripoint> area, nc_color col );
+        void draw_custom_explosion( const tripoint &p, const std::set<tripoint> &area, nc_color col );
         void draw_bullet( Creature const &p, const tripoint &pos, int i,
                           std::vector<tripoint> const &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);

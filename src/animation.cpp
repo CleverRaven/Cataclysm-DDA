@@ -62,6 +62,93 @@ void draw_explosion_curses(game &g, const tripoint &center, int const r, nc_colo
         draw_animation_delay(EXPLOSION_MULTIPLIER);
     }
 }
+
+enum explosion_neighbors {
+    N_NO_NEIGHBORS = 0,
+    N_NORTH = 1,
+
+    N_SOUTH = 2,
+    N_NS = 3,
+
+    N_WEST = 4,
+    N_NW = 5,
+    N_SW = 6,
+    N_NSW = 7,
+
+    N_EAST = 8,
+    N_NE = 9,
+    N_SE = 10,
+    N_NSE = 11,
+    N_WE = 12,
+    N_NWE = 13,
+    N_SWE = 14,
+    N_NSWE = 15
+};
+
+constexpr explosion_neighbors operator | ( explosion_neighbors lhs, explosion_neighbors rhs )
+{
+    return static_cast<explosion_neighbors>( static_cast< int >( lhs ) | static_cast< int >( rhs ) );
+}
+
+constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_neighbors rhs )
+{
+    return static_cast<explosion_neighbors>( static_cast< int >( lhs ) ^ static_cast< int >( rhs ) );
+}
+
+void draw_custom_explosion_curses( game &g,
+                                   const std::map<tripoint, explosion_neighbors> &layer,
+                                   nc_color const col)
+{
+
+    for( const auto &pr : layer ) {
+        const tripoint &p = pr.first;
+        const explosion_neighbors ngh = pr.second;
+
+        switch( ngh ) {
+        // '^', 'v', '<', '>'
+        case N_NORTH:
+            mvwputch( g.w_terrain, p.y, p.x, col, '^' );
+            break;
+        case N_SOUTH:
+            mvwputch( g.w_terrain, p.y, p.x, col, 'v' );
+            break;
+        case N_WEST:
+            mvwputch( g.w_terrain, p.y, p.x, col, '<' );
+            break;
+        case N_EAST:
+            mvwputch( g.w_terrain, p.y, p.x, col, '>' );
+            break;
+        // '|' and '-'
+        case N_NORTH | N_SOUTH:
+        case N_NORTH | N_SOUTH | N_WEST:
+        case N_NORTH | N_SOUTH | N_EAST:
+            mvwputch( g.w_terrain, p.y, p.x, col, '|' );
+            break;
+        case N_WEST | N_EAST:
+        case N_WEST | N_EAST | N_NORTH:
+        case N_WEST | N_EAST | N_SOUTH:
+            mvwputch( g.w_terrain, p.y, p.x, col, '-' );
+            break;
+        // '/' and '\'
+        case N_NORTH | N_WEST:
+        case N_SOUTH | N_EAST:
+            mvwputch( g.w_terrain, p.y, p.x, col, '/' );
+            break;
+        case N_SOUTH | N_WEST:
+        case N_NORTH | N_EAST:
+            mvwputch( g.w_terrain, p.y, p.x, col, '\\' );
+            break;
+        case N_WEST | N_EAST | N_NORTH | N_SOUTH:
+            mvwputch( g.w_terrain, p.y, p.x, col, '*' );
+            break;
+        default:
+            break;
+        }
+    }
+
+    wrefresh(g.w_terrain);
+    draw_animation_delay(EXPLOSION_MULTIPLIER);
+}
 } // namespace
 
 #if defined(SDLTILES)
@@ -89,6 +176,113 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
     draw_explosion_curses(*this, p, r, col);
 }
 #endif
+
+void game::draw_custom_explosion( const tripoint &p, const std::set<tripoint> &all_area, nc_color const col )
+{
+    constexpr explosion_neighbors all_neighbors = N_NORTH | N_SOUTH | N_WEST | N_EAST;
+    // We will "shell" the explosion area
+    // Each phase will strip a single layer of points
+    // A layer contains all points that have less than 4 neighbors in cardinal directions
+    // Layers will first be generated, then drawn in inverse order
+
+    // Start by getting rid of everything except current z-level
+    std::map<tripoint, explosion_neighbors> neighbors;
+    for( const tripoint &pt : all_area ) {
+        if( pt.z == p.z ) {
+            const tripoint relative_point = relative_view_pos( u, pt );
+            neighbors[relative_point] = N_NO_NEIGHBORS;
+        }
+    }
+
+    // Searches for a neighbor, sets the neighborhood flag on current point and on the neighbor
+    const auto set_neighbors = [&]( const tripoint &pos,
+                                    explosion_neighbors &ngh,
+                                    explosion_neighbors here,
+                                    explosion_neighbors there ) {
+        if( ( ngh & here ) == N_NO_NEIGHBORS ) {
+            auto other = neighbors.find( pos );
+            if( other != neighbors.end() ) {
+                ngh = ngh | here;
+                other->second = other->second | there;
+            }
+        }
+    };
+
+    // If the point we are about to remove has a neighbor in a given direction
+    // unset that neighbor's flag that our current point is its neighbor
+    const auto unset_neighbor = [&]( const tripoint &pos,
+                                      const explosion_neighbors &ngh,
+                                      explosion_neighbors here,
+                                      explosion_neighbors there ) {
+        if( ( ngh & here ) != N_NO_NEIGHBORS ) {
+            auto other = neighbors.find( pos );
+            if( other != neighbors.end() ) {
+                other->second = ( other->second | there ) ^ there;
+            }
+        }
+    };
+
+    // Find all neighborhoods
+    for( auto &pr : neighbors ) {
+        const tripoint &pt = pr.first;
+        explosion_neighbors &ngh = pr.second;
+
+        set_neighbors( tripoint( pt.x - 1, pt.y, pt.z ), ngh, N_WEST, N_EAST );
+        set_neighbors( tripoint( pt.x + 1, pt.y, pt.z ), ngh, N_EAST, N_WEST );
+        set_neighbors( tripoint( pt.x, pt.y - 1, pt.z ), ngh, N_NORTH, N_SOUTH );
+        set_neighbors( tripoint( pt.x, pt.y + 1, pt.z ), ngh, N_SOUTH, N_NORTH );
+    }
+
+    // We need to save the layers because we will draw them in reverse order
+    std::list< std::map<tripoint, explosion_neighbors> > layers;
+    bool changed = false;
+    while( !neighbors.empty() ) {
+        std::map<tripoint, explosion_neighbors> layer;
+        changed = false;
+        // Find a layer that can be drawn
+        for( const auto &pr : neighbors ) {
+            if( pr.second != all_neighbors ) {
+                changed = true;
+                layer.insert( pr );
+            }
+        }
+        if( !changed ) {
+draw_explosion_curses( *this, p, neighbors.size(), col );
+            return;
+        }
+        // Remove the layer from the area to process
+        for( const auto &pr : layer ) {
+            const tripoint &pt = pr.first;
+            const explosion_neighbors ngh = pr.second;
+
+            unset_neighbor( tripoint( pt.x - 1, pt.y, pt.z ), ngh, N_WEST, N_EAST );
+            unset_neighbor( tripoint( pt.x + 1, pt.y, pt.z ), ngh, N_EAST, N_WEST );
+            unset_neighbor( tripoint( pt.x, pt.y - 1, pt.z ), ngh, N_NORTH, N_SOUTH );
+            unset_neighbor( tripoint( pt.x, pt.y + 1, pt.z ), ngh, N_SOUTH, N_NORTH );
+            neighbors.erase( pr.first );
+        }
+
+        layers.push_front( layer );
+    }
+
+    for( const auto &layer : layers ) {
+#if defined(SDLTILES)
+        if( !use_tiles ) {
+            draw_custom_explosion_curses(*this, layer, col);
+            continue;
+        }
+
+        // TODO: Tiles drawing
+        //tilecontext->init_custom_explosion( p, layer );
+        wrefresh(w_terrain);
+        try_update();
+        draw_animation_delay(EXPLOSION_MULTIPLIER);
+        tilecontext->void_custom_explosion();
+#else
+        draw_custom_explosion_curses(*this, layer, col);
+#endif
+    }
+}
 
 namespace {
 void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
