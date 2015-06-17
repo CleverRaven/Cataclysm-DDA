@@ -5981,7 +5981,7 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
 {
     const float tile_dist = 1.0f;
     const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
-    const float zlev_dist = 8.0f; // Penalty for going up/down
+    const float zlev_dist = 2.0f; // Penalty for going up/down
     const float distance_factor = 0.8f;
     // 7 3 5
     // 1 . 2
@@ -6011,7 +6011,7 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         closed.insert( pt );
 
         const float force = power * std::pow( distance_factor, distance );
-        if( force <= 1 ) {
+        if( force <= 1.0f ) {
             continue;
         }
 
@@ -6040,7 +6040,18 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
 
             // Up to 200% bonus for shaped charge
             const float bash_force = force + ( 2 * force / empty_neighbors );
-            m.bash( dest, bash_force, false, false, nullptr, true );
+            if( z_offset[i] == 0 ) {
+                // Horizontal - no floor bashing
+                m.smash_items( dest, force );
+                m.bash( dest, bash_force, true, false, nullptr, false );
+            } else if( z_offset[i] > 0 ) {
+                // Should actually bash through the floor first, but that's not really possible yet
+                m.bash( dest, bash_force, true, false, nullptr, true );
+            } else if( !m.valid_move( pt, dest, false, true ) ) {
+                // Only bash through floor if it doesn't exist
+                // Bash the current tile's floor, not the one's below
+                m.bash( pt, bash_force, true, false, nullptr, true );
+            }
 
             float next_dist = distance;
             next_dist += ( x_offset[i] == 0 || y_offset[i] == 0 ) ? tile_dist : diag_dist;
@@ -6061,14 +6072,18 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
 
     for( const tripoint &pt : closed ) {
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
-        m.smash_items( pt, force );
+        if( force < 1.0f ) {
+            // Too weak to matter
+            continue;
+        }
+
         if( fire ) {
             m.add_field( pt, fd_fire, force / 10, 0 );
         }
 
         int vpart;
         vehicle *veh = m.veh_at( pt, vpart );
-        if( veh != nullptr) {
+        if( veh != nullptr ) {
             veh->damage( vpart, force, fire ? 2 : 1, false );
         }
 
