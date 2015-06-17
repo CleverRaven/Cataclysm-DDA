@@ -1103,7 +1103,7 @@ protected:
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
- void add_extra(map_extra type);
+
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );

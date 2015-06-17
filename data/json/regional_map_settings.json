@@ -35,7 +35,7 @@
           "boosted_other_percent": 50.0,    "//": "...accounts for this % of total coverage"
       },
       "map_extras": {                       "//": "mapping for weighted lists of extras",
-          "field": {                        "//": "% of plants that aren't default_ter",
+          "field": {
               "chance": 90,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_helicopter": 40,
@@ -52,7 +52,7 @@
                   "mx_anomaly": 3
               }
           },
-          "road": {                         "//": "% of plants that aren't default_ter",
+          "road": {
               "chance": 75,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_helicopter": 40,
@@ -70,7 +70,7 @@
                   "mx_anomaly": 3
               }
           },
-          "building": {                     "//": "% of plants that aren't default_ter",
+          "building": {
               "chance": 90,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_military": 5,
@@ -84,7 +84,7 @@
                   "mx_anomaly": 3
               }
           },
-          "subway": {                       "//": "% of plants that aren't default_ter",
+          "subway": {
               "chance": 75,                 "//": "one in # chance of spawning an extra",
               "extras": {                   "//": "weighted list",
                   "mx_military": 5,

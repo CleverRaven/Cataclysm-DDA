@@ -47,28 +47,6 @@ enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
 
-// Here are the global controls for map-extra spawning.
-// The %%% line is chance that a given map square will have an extra
-// (higher = less likely) and the individual numbers are the
-// relative frequencies of each (higher = more likely).
-// Adding or deleting map_extras will affect the amount
-// of others, so be careful.
-map_extras no_extras(0);
-    // Formatting deviates from standard to make the headers read reliably
-    // Careful with astyle here, please?
-map_extras road_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
-    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3, 50);
-map_extras field_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
-    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3, 25);
-map_extras subway_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
-    75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3, 15);
-map_extras build_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART KID
-    90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3, 15);
-
 std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
@@ -213,21 +191,6 @@ oter_id house(int dir, int chance_of_basement)
         return "";
     }
     return ( one_in( chance_of_basement) ? iid_house : iid_house_base ).t().directional_peers[dir];
-}
-
-map_extras &get_extras(const std::string &name)
-{
-    if (name == "field") {
-        return field_extras;
-    } else if (name == "road") {
-        return road_extras;
-    } else if (name == "subway") {
-        return subway_extras;
-    } else if (name == "build") {
-        return build_extras;
-    } else {
-        return no_extras;
-    }
 }
 
 // oter_t specific affirmatives to is_road, set at startup (todo; jsonize)
@@ -588,6 +551,10 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if(key != "//" ) {
+                            if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                                && classic_extras.count(key) == 0) {
+                                continue;
+                            }
                             extras.extras.add(key, exjo.get_int(key, 0));
                         }
                     }
@@ -772,6 +739,10 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
+                    if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                        && classic_extras.count(key) == 0) {
+                        continue;
+                    }
                     region.region_extras[zone].extras.add_or_replace(key, extrasjo.get_int(key));
                 }
             }

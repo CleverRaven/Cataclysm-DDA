@@ -10,6 +10,11 @@
 
 #include <unordered_map>
 
+const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
+"mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield",
+"mx_crater", "mx_collegekids"
+};
+
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
 
