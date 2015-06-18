@@ -4,7 +4,7 @@
 # As each test will have a main function we need to handle this file by file.
 # We're using the fairly typical convention that any file ending in _test.cpp
 # is a test executable.
-SOURCES = $(wildcard *_test.cpp)
+SOURCES = $(filter-out player_test.cpp,$(wildcard *_test.cpp))
 OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
 TESTS = $(SOURCES:.cpp=)
 
