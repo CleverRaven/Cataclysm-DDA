@@ -73,8 +73,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["river_straight"]   = &mapgen_river_straight;
     mapgen_cfunction_map["river_curved"]     = &mapgen_river_curved;
     mapgen_cfunction_map["parking_lot"]      = &mapgen_parking_lot;
-    mapgen_cfunction_map["park_playground"]             = &mapgen_park_playground;
-    mapgen_cfunction_map["park_basketball"]             = &mapgen_park_basketball;
     mapgen_cfunction_map["s_gas"]      = &mapgen_gas_station;
     mapgen_cfunction_map["house_generic_boxy"]      = &mapgen_generic_house_boxy;
     mapgen_cfunction_map["house_generic_big_livingroom"]      = &mapgen_generic_house_big_livingroom;
@@ -99,7 +97,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
-    mapgen_cfunction_map["cabin"] = &mapgen_cabin;
 //    mapgen_cfunction_map["farm"] = &mapgen_farm;
 //    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
     mapgen_cfunction_map["police"] = &mapgen_police;
@@ -1866,88 +1863,6 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             m->rotate(i);
         }
     }
-}
-
-void mapgen_park_playground(map *m, oter_id, mapgendata dat, int, float)
-{
-    (void)dat;
-        fill_background(m, t_grass);
-        mapf::formatted_set_simple(m, 0, 0,
-"\
-                        \n\
-                        \n\
-                        \n\
-                        \n\
-             t          \n\
-      t         ##      \n\
-                ##      \n\
-                        \n\
-    mmm                 \n\
-    mmm    s        t   \n\
-   tmmm    s            \n\
-           s            \n\
-           s            \n\
-                        \n\
-                        \n\
-      -            t    \n\
-     t-                 \n\
-               t        \n\
-         t              \n\
-                        \n\
-                        \n\
-                        \n\
-                        \n\
-                        \n",
-        mapf::basic_bind( "# m s t", t_sandbox, t_monkey_bars, t_slide, t_tree ),
-        mapf::basic_bind( "-", f_bench));
-        m->rotate(rng(0, 3));
-
-        int vx = one_in(2) ? 1 : 20;
-        int vy = one_in(2) ? 1 : 20;
-        if(one_in(3)) {
-            m->add_vehicle( vproto_id( "ice_cream_cart" ), vx, vy, 0, -1, -1);
-        } else if(one_in(2)) {
-            m->add_vehicle( vproto_id( "food_cart" ), vx, vy, one_in(2)? 90 : 180, -1, -1);
-        }
-        m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
-}
-
-void mapgen_park_basketball(map *m, oter_id, mapgendata dat, int, float)
-{
-    (void)dat;
-        fill_background(m, t_pavement);
-        mapf::formatted_set_simple(m, 0, 0,
-"\
-                        \n\
-|-+------------------+-|\n\
-|     .  . 7 .  .      |\n\
-|     .  .   .  .      |\n\
-|#    .  .....  .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#     .       .      #|\n\
-|#      .     .       #|\n\
-|......................|\n\
-|#      .     .       #|\n\
-|#     .       .      #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .         .     #|\n\
-|#    .  .....  .     #|\n\
-|     .  .   .  .      |\n\
-|     .  . 7 .  .      |\n\
-|-+------------------+-|\n\
-                        \n\
-                        \n",
-        mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
-        mapf::basic_bind("#", f_bench));
-        m->place_vending(22, 19, "vending_drink");
-        m->rotate(rng(0, 3));
-//    }
-    m->add_spawn("mon_zombie_child", rng(2, 8), SEEX, SEEY); // fixme; use density
 }
 
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float density)
@@ -3984,138 +3899,6 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 }
 
 
-void mapgen_cabin(map *m, oter_id, mapgendata dat, int, float)
-{
-   (void)dat;
-
-        fill_background(m, t_grass);
-
-        //Cabin design 1 Quad
-        if (one_in(2)) {
-            square(m, t_wall_log, 2, 3, 21, 20);
-            square(m, t_floor, 2, 17, 21, 20); //Front porch
-            line(m, t_fence_v, 2, 17, 2, 20);
-            line(m, t_fence_v, 21, 17, 21, 20);
-            line(m, t_fence_h, 2, 20, 21, 20);
-            m->ter_set(2, 17, t_column);
-            m->ter_set(2, 20, t_column);
-            m->ter_set(21, 17, t_column);
-            m->ter_set(21, 20, t_column);
-            m->ter_set(10, 20, t_column);
-            m->ter_set(13, 20, t_column);
-            line(m, t_fencegate_c, 11, 20, 12, 20);
-            line_furn(m, f_bench, 4, 17, 7, 17);
-            square_furn(m, f_rubble, 19, 18, 20, 19);
-            m->make_rubble( tripoint( 20,  17, m->get_abs_sub().z ), f_rubble, true);
-            m->make_rubble( tripoint( 18,  19, m->get_abs_sub().z ), f_rubble, true);
-            line(m, t_door_c, 11, 16, 12, 16); //Interior
-            square(m, t_floor, 3, 4, 9, 9);
-            square(m, t_floor, 3, 11, 9, 15);
-            square(m, t_floor, 11, 4, 12, 15);
-            square(m, t_floor, 14, 4, 20, 9);
-            square(m, t_floor, 14, 11, 20, 15);
-            line(m, t_wall_log, 7, 4, 7, 8);
-            square(m, t_wall_log, 8, 8, 9, 9);
-            line_furn(m, f_rack, 3, 4, 3, 9); //Pantry Racks
-            line(m, t_curtains, 2, 6, 2, 7); //Windows start
-            line(m, t_curtains, 2, 12, 2, 13);
-            line(m, t_window_domestic, 5, 16, 6, 16);
-            line(m, t_window_domestic, 17, 16, 18, 16);
-            line(m, t_curtains, 21, 12, 21, 13);
-            line(m, t_window_empty, 21, 6, 21, 7);
-            m->ter_set(8, 3, t_curtains); //Windows End
-            line(m, t_door_c, 11, 3, 12, 3); //Rear Doors
-            square_furn(m, f_rubble, 20, 3, 21, 4);
-            m->make_rubble( tripoint( 19,  3, m->get_abs_sub().z ), f_rubble, true);
-            m->make_rubble( tripoint( 21,  5, m->get_abs_sub().z ), f_rubble, true);
-            m->furn_set(6, 4, f_desk);
-            m->furn_set(6, 5, f_chair);
-            m->furn_set(7, 9, f_locker);
-            m->ter_set(6, 10, t_door_c);
-            m->ter_set(10, 6, t_door_c);
-            square_furn(m, f_table, 3, 11, 4, 12);
-            line_furn(m, f_bench, 5, 11, 5, 12);
-            line_furn(m, f_bench, 3, 13, 4, 13);
-            line_furn(m, f_cupboard, 3, 15, 7, 15);
-            m->furn_set(4, 15, f_fridge);
-            m->furn_set(5, 15, f_sink);
-            m->furn_set(6, 15, f_oven);
-            m->ter_set(10, 13, t_door_c);
-            m->ter_set(13, 13, t_door_c);
-            m->furn_set(14, 11, f_armchair);
-            line_furn(m, f_sofa, 16, 11, 18, 11);
-            square(m, t_rock_floor, 18, 13, 20, 15);
-            m->furn_set(19, 14, f_woodstove);
-            m->ter_set(19, 10, t_door_c);
-            line_furn(m, f_bookcase, 14, 9, 17, 9);
-            square_furn(m, f_bed, 17, 4, 18, 5);
-            m->furn_set(16, 4, f_dresser);
-            m->furn_set(19, 4, f_dresser);
-            m->ter_set(13, 6, t_door_c);
-            m->place_toilet(9, 4);
-            line_furn(m, f_bathtub, 8, 7, 9, 7);
-            m->furn_set(8, 5, f_sink);
-            m->place_items("fridge", 65, 4, 15, 4, 15, false, 0);
-            m->place_items("homeguns", 30, 7, 9, 7, 9, false, 0);
-            m->place_items("home_hw", 60, 7, 9, 7, 9, false, 0);
-            m->place_items("kitchen", 60, 3, 15, 3, 15, false, 0);
-            m->place_items("kitchen", 60, 7, 15, 7, 15, false, 0);
-            m->place_items("dining", 60, 3, 11, 4, 12, false, 0);
-            m->place_items("trash", 60, 0, 0, 23, 23, false, 0);
-            m->place_items("survival_tools", 30, 3, 4, 3, 9, false, 0);
-            m->place_items("cannedfood", 50, 3, 4, 3, 9, false, 0);
-            m->place_items("camping", 50, 4, 4, 6, 9, false, 0);
-            m->place_items("magazines", 60, 14, 9, 17, 9, false, 0);
-            m->place_items("manuals", 30, 14, 9, 17, 9, false, 0);
-            m->place_items("dresser", 50, 16, 4, 16, 4, false, 0);
-            m->place_items("dresser", 50, 19, 4, 19, 4, false, 0);
-            m->place_items("softdrugs", 60, 8, 4, 9, 7, false, 0);
-            m->place_items("livingroom", 50, 14, 12, 17, 15, false, 0);
-            m->place_items("bed", 60, 17, 4, 18, 5, false, 0);
-            m->add_spawn("mon_zombie", rng(1, 5), 11, 12);
-
-        } else {
-            square(m, t_wall_log, 4, 2, 10, 6);
-            square(m, t_floor, 5, 3, 9, 5);
-            square(m, t_wall_log, 3, 9, 20, 20);
-            square(m, t_floor, 4, 10, 19, 19);
-            line(m, t_fence_h, 0, 0, 23, 0);
-            line(m, t_fence_v, 0, 0, 0, 22);
-            line(m, t_fence_v, 23, 0, 23, 22);
-            line(m, t_fence_h, 0, 23, 23, 23);
-            line(m, t_fencegate_c, 11, 23, 12, 23);
-            line_furn(m, f_locker, 5, 3, 9, 3);
-            line_furn(m, f_counter, 6, 3, 8, 3);
-            m->ter_set(4, 4, t_window_boarded);
-            m->ter_set(10, 4, t_window_boarded);
-            m->ter_set(7, 6, t_door_c);
-            m->ter_set(9, 9, t_door_c);
-            line(m, t_window_domestic, 13, 9, 14, 9);
-            square(m, t_rock, 5, 10, 7, 11);
-            line(m, t_rock_floor, 5, 12, 7, 12);
-            m->set(6, 11, t_rock_floor, f_woodstove);
-            line_furn(m, f_dresser, 16, 10, 19, 10);
-            square_furn(m, f_bed, 17, 10, 18, 11);
-            line(m, t_window_domestic, 3, 14, 3, 15);
-            line_furn(m, f_sofa, 5, 16, 7, 16);
-            square_furn(m, f_chair, 10, 14, 13, 15);
-            square_furn(m, f_table, 11, 14, 12, 15);
-            line(m, t_window_domestic, 20, 14, 20, 15);
-            line(m, t_window_domestic, 7, 20, 8, 20);
-            line(m, t_window_domestic, 16, 20, 17, 20);
-            m->ter_set(12, 20, t_door_c);
-            m->place_items("livingroom", 60, 4, 13, 8, 18, false, 0);
-            m->place_items("dining", 60, 11, 14, 12, 15, false, 0);
-            m->place_items("camping", 70, 19, 16, 19, 19, false, 0);
-            m->place_items("dresser", 70, 16, 10, 16, 10, false, 0);
-            m->place_items("dresser", 70, 19, 10, 19, 10, false, 0);
-            m->place_items("tools", 70, 5, 3, 9, 3, false, 0);
-            m->place_items("bed", 60, 17, 10, 18, 11, false, 0);
-            m->add_spawn("mon_zombie", rng(1, 5), 7, 4);
-        }
-
-
-}
 
 
 void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)

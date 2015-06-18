@@ -1,0 +1,123 @@
+[
+    {
+        "type": "vehicle_group",
+        "id": "park_playground_vehicles",
+        "vehicles": [
+            [ "ice_cream_cart", 100 ],
+            [ "food_cart", 200 ]
+        ]
+    },{
+        "type": "monstergroup",
+        "name": "GROUP_PARK_PLAYGROUND",
+        "default": "mon_null",
+        "monsters": [
+            { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [5,12] }
+        ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 500,
+        "method": "json",
+        "object": {
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "             t          ",
+                "      t         ##      ",
+                "                ##      ",
+                "                        ",
+                "    mmm                 ",
+                "    mmm    s        t   ",
+                "   tmmm    s            ",
+                "           s            ",
+                "           s            ",
+                "                        ",
+                "                        ",
+                "      -            t    ",
+                "     t-                 ",
+                "               t        ",
+                "         t              ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                " ": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+                "#": "t_sandbox",
+                "m": "t_monkey_bars",
+                "s": "t_slide",
+                "t": "t_tree",
+                "-": "t_dirt"
+            },
+            "furniture": {
+                "-": "f_bench"
+            },
+            "place_vehicles": [
+                { "x": [0,23], "y": [0,23], "vehicle": "park_playground_vehicles" }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_PLAYGROUND", "chance": 1, "repeat": [1,3] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 1000,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+            "rows": [
+                "                        ",
+                "|-+------------------+-|",
+                "|     .  . 7 .  .      |",
+                "|     .  .   .  .      |",
+                "|#    .  .....  .     #|",
+                "|#    .         .     #|",
+                "|#    .         .     #|",
+                "|#    .         .     #|",
+                "|#    .         .     #|",
+                "|#     .       .      #|",
+                "|#      .     .       #|",
+                "|......................|",
+                "|#      .     .       #|",
+                "|#     .       .      #|",
+                "|#    .         .     #|",
+                "|#    .         .     #|",
+                "|#    .         .     #|",
+                "|#    .         .     #|",
+                "|#    .  .....  .     #|",
+                "|     .  .   .  .      |",
+                "|     .  . 7 .  .      |",
+                "|-+------------------+-|",
+                "                   V    ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_pavement_y",
+                "7": "t_backboard",
+                "|": "t_chainfence_v",
+                "-": "t_chainfence_h",
+                "+": "t_chaingate_l"
+            },
+            "furniture": {
+                "#": "f_bench"
+            },
+            "vendingmachines": {
+                "V": { "item_group": "vending_drink" }
+            },
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_PLAYGROUND", "chance": 1, "repeat": [1,3] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    }
+]

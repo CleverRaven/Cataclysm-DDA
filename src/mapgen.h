@@ -184,7 +184,7 @@ class mapgen_function_json : public virtual mapgen_function {
     virtual bool setup() override;
     virtual void generate(map*, oter_id, mapgendata, int, float) override;
 
-    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
+    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ), rotation( 0 ) {
         jdata = s;
         mapgensize = 24;
         fill_ter = t_null;
@@ -221,6 +221,7 @@ class mapgen_function_json : public virtual mapgen_function {
 
 private:
     jmapgen_objects objects;
+    jmapgen_int rotation;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
