@@ -113,7 +113,10 @@ void map::generate(const int x, const int y, const int z, const int turn)
         if(extra == NULL) {
             debugmsg("failed to pick extra for type %s", otermap[terrain_type].extras.c_str());
         } else {
-            MapExtras::get_function(*(ex.values.pick()))(*this, abs_sub);
+            auto func = MapExtras::get_function(*(ex.values.pick()));
+            if(func != NULL) {
+                func(*this, abs_sub);
+            }
         }
     }
 
