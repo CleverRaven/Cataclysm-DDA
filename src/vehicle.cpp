@@ -4970,7 +4970,7 @@ bool vehicle::shift_if_needed() {
     return false;
 }
 
-int vehicle::damage_direct (int p, int dmg, int type)
+int vehicle::damage_direct( int p, int dmg, damage_type type )
 {
     if (parts[p].hp <= 0) {
         /* Already-destroyed part - chance it could be torn off into pieces.
@@ -5034,7 +5034,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         tsh = 20;
     }
     int dres = dmg;
-    if( dmg >= tsh || type != 1 )
+    if( dmg >= tsh || type == DT_HEAT )
     {
         dres -= parts[p].hp;
         int last_hp = parts[p].hp;
@@ -5065,7 +5065,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 }
 
                 if( pow > 5 &&
-                    ( type == 2 || (one_in( explosion_chance )  && rng( 75, 150 ) < dmg) ) )
+                    ( type == DT_HEAT || (one_in( explosion_chance )  && rng( 75, 150 ) < dmg) ) )
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),

@@ -603,11 +603,11 @@ const vehicle *map::vehproceed()
                 }
                 epicenter1.x += veh->parts[parm1].mount.x;
                 epicenter1.y += veh->parts[parm1].mount.y;
-                veh->damage(parm1, dmg1_part, 1);
+                veh->damage( parm1, dmg1_part, DT_BASH );
 
                 epicenter2.x += veh2->parts[parm2].mount.x;
                 epicenter2.y += veh2->parts[parm2].mount.y;
-                veh2->damage(parm2, dmg2_part, 1);
+                veh2->damage( parm2, dmg2_part, DT_BASH );
             }
         }
         epicenter1.x /= coll_parts_cnt;
@@ -3041,7 +3041,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
     int vpart;
     vehicle *veh = veh_at( p, vpart );
     if( veh != nullptr && veh != bashing_vehicle ) {
-        veh->damage( vpart, str, 1 );
+        veh->damage( vpart, str, DT_BASH );
         if( !silent ) {
             sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
         }
@@ -3166,7 +3166,7 @@ void map::crush( const tripoint &p )
 
     vehicle *veh = veh_at(p, veh_part);
     if (veh) {
-        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), 1, false);
+        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), DT_BASH, false);
     }
 }
 
@@ -3190,7 +3190,7 @@ void map::shoot( const tripoint &p, int &dam,
     if (veh)
     {
         const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
-        dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
+        dam = veh->damage (vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items);
     }
 
     ter_id terrain = ter( p );

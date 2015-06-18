@@ -6098,7 +6098,8 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         int vpart;
         vehicle *veh = m.veh_at( pt, vpart );
         if( veh != nullptr ) {
-            veh->damage( vpart, force, fire ? 2 : 1, false );
+            // TODO: Make this weird unit used by vehicle::damage more sensible
+            veh->damage( vpart, force, fire ? DT_HEAT : DT_BASH, false );
         }
 
         Creature *critter = critter_at( pt );
