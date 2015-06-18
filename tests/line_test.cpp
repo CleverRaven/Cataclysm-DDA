@@ -131,7 +131,7 @@ TEST_CASE("Compare line_to() to canonical line_to()") {
      struct timespec start1;
      struct timespec end1;
      clock_gettime( CLOCK_REALTIME, &start1 );
-     #define PERFORMANCE_TEST_ITERATIONS 1000000
+     #define PERFORMANCE_TEST_ITERATIONS 10000
      while( count1 < PERFORMANCE_TEST_ITERATIONS ) {
          line_to( x1, y1, x2, y2, t1 );
          count1++;
