@@ -555,7 +555,7 @@ void load_region_settings( JsonObject &jo )
                                 && classic_extras.count(key) == 0) {
                                 continue;
                             }
-                            extras.extras.add(key, exjo.get_int(key, 0));
+                            extras.values.add(key, exjo.get_int(key, 0));
                         }
                     }
                 }
@@ -743,7 +743,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
                         && classic_extras.count(key) == 0) {
                         continue;
                     }
-                    region.region_extras[zone].extras.add_or_replace(key, extrasjo.get_int(key));
+                    region.region_extras[zone].values.add_or_replace(key, extrasjo.get_int(key));
                 }
             }
         }

@@ -109,11 +109,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[otermap[terrain_type].extras];
     if ( ex.chance > 0 && one_in( ex.chance )) {
-        std::string* extra = ex.extras.pick();
+        std::string* extra = ex.values.pick();
         if(extra == NULL) {
             debugmsg("failed to pick extra for type %s", otermap[terrain_type].extras.c_str());
         } else {
-            MapSpecials::get_function(*(ex.extras.pick()))(*this, abs_sub);
+            MapExtras::get_function(*(ex.values.pick()))(*this, abs_sub);
         }
     }
 
@@ -13284,7 +13284,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
     build_mansion_room(m, type, x1, y1, x2, y2, dat);
 }
 
-namespace MapSpecials {
+namespace MapExtras {
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 
 void mx_null(map &, const tripoint &)

@@ -319,34 +319,9 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
-
-class MapSpecialFunction {
-public:
-    virtual ~MapSpecialFunction() { }
-    virtual void apply(map& m, const tripoint &abs_sub) const = 0;
-};
-
 typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
 
-class MapSpecialFunction_builtin : public MapSpecialFunction {
-public:
-    MapSpecialFunction_builtin(const map_special_pointer &func) : func(func) {}
-    ~MapSpecialFunction_builtin() { }
-
-    /**
-     * This will invoke the map special
-     * @param m The map on which to add the special.
-     * @param abs_sub The absolute coordinates of first submap.
-     */
-    void apply(map& m, const tripoint &abs_sub) const override {
-        func(m, abs_sub);
-    }
-
-private:
-    map_special_pointer func;
-};
-
-namespace MapSpecials {
+namespace MapExtras {
     map_special_pointer get_function(std::string name);
 };
 
