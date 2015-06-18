@@ -5034,26 +5034,38 @@ int vehicle::damage_direct (int p, int dmg, int type)
         tsh = 20;
     }
     int dres = dmg;
-    if (dmg >= tsh || type != 1)
+    if( dmg >= tsh || type != 1 )
     {
         dres -= parts[p].hp;
         int last_hp = parts[p].hp;
         parts[p].hp -= dmg;
-        if (parts[p].hp < 0)
+        if( parts[p].hp < 0 ) {
             parts[p].hp = 0;
-        if (!parts[p].hp && last_hp > 0)
+        }
+
+        if( parts[p].hp == 0 && last_hp > 0) {
             insides_dirty = true;
-        if (part_flag(p, "FUEL_TANK"))
+        }
+
+        if( part_flag( p, "FUEL_TANK" ) )
         {
             const itype_id &ft = part_info(p).fuel_type;
-            if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
+            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma )
             {
-                int pow = parts[p].amount / 40;
-    //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
-                if (parts[p].hp <= 0)
-                    leak_fuel (p);
-                if (type == 2 ||
-                    (one_in ((ft == fuel_type_gasoline || ft == fuel_type_diesel) ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                // TODO: Move all the bools below to jsons
+                // Gasoline explodes way more readily than diesel
+                const bool bad_explosion = ft == fuel_type_gasoline;
+                // one_in chance of exploding
+                const bool explosion_chance = ft == fuel_type_diesel ? 10 : 2;
+                const bool fiery_explosion = ft == fuel_type_gasoline || ft == fuel_type_diesel;
+                const int pow = std::pow( parts[p].amount, bad_explosion ? 0.45f : 0.4f );
+                debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
+                if( parts[p].hp <= 0 ) {
+                    leak_fuel( p );
+                }
+
+                if( pow > 5 &&
+                    ( type == 2 || (one_in( explosion_chance )  && rng( 75, 150 ) < dmg) ) )
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
@@ -5061,8 +5073,9 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
                                             smz ),
-                                  pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
+                                  pow, 0, fiery_explosion );
                     parts[p].hp = 0;
+                    parts[p].amount = 0;
                 }
             }
         }

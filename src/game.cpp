@@ -6015,7 +6015,7 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             continue;
         }
 
-        if( m.move_cost( pt ) == 0 ) {
+        if( m.move_cost( pt ) == 0 && pt != p ) {
             // Don't propagate further
             continue;
         }
@@ -6039,7 +6039,10 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             }
 
             // Up to 200% bonus for shaped charge
-            const float bash_force = force + ( 2 * force / empty_neighbors );
+            // But not if the explosion is fiery, then only half the force and no bonus
+            const float bash_force = !fire ?
+                                        force + ( 2 * force / empty_neighbors ) :
+                                        force / 2;
             if( z_offset[i] == 0 ) {
                 // Horizontal - no floor bashing
                 m.smash_items( dest, force );
@@ -6078,7 +6081,18 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         }
 
         if( fire ) {
-            m.add_field( pt, fd_fire, force / 10, 0 );
+            int density = (force > 50.0f) + (force > 100.0f);
+            if( force > 10.0f || x_in_y( force, 10.0f ) ) {
+                density++;
+            }
+
+            if( !m.has_zlevels() && m.is_outside( pt ) && density == 2 ) {
+                // In 3D mode, it would have fire fields above, which would then fall
+                // and fuel the fire on this tile
+                density++;
+            }
+
+            m.add_field( pt, fd_fire, density, 0 );
         }
 
         int vpart;
@@ -6105,13 +6119,13 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             add_msg( m_bad, _("You're caught in the explosion!") );
         }
 
-        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.5f ) );
-        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.5f ) );
-        // Hit limbs a bit harder so that it hurts more without being much more deadly
-        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
-        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
-        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
-        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.5f ) );
+        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.3f ) );
+        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.3f ) );
+        // Hit limbs harder so that it hurts more without being much more deadly
+        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
     }
 
     // Draw the explosion
