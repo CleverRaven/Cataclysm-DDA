@@ -6184,14 +6184,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         if( sp != p ) {
             traj.insert( traj.begin(), p );
         }
-        for (size_t j = 0; j < traj.size(); j++) {
-            dam = rng(power / 2, power * 2);
 
-            if (do_animation) {
-                draw_bullet(u, traj[j], (int)j, traj, '`');
-            }
-
-            tripoint tp = traj[j];
+        dam = rng(power / 2, power * 2);
+        size_t j;
+        for( j = 0; j < traj.size() && dam > 0; j++ ) {
+            const tripoint &tp = traj[j];
             const int zid = mon_at( tp );
             const int npcdex = npc_at( tp );
             if (zid != -1) {
@@ -6200,12 +6197,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 critter.apply_damage( nullptr, bp_torso, dam );
             } else if( npcdex != -1 ) {
                 body_part hit = random_body_part();
-                // TODO: why is this different for NPC vs player character?
-                if (hit == bp_eyes || hit == bp_mouth || hit == bp_head) {
-                    dam = rng(2 * dam, 5 * dam);
-                } else if (hit == bp_torso) {
-                    dam = rng(long(1.5 * dam), 3 * dam);
-                }
                 active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
             } else if (tp == u.pos()) {
                 body_part hit = random_body_part();
@@ -6213,9 +6204,15 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
             } else {
-                std::set<std::string> shrapnel_effects;
+                static const std::set<std::string> shrapnel_effects;
                 m.shoot( tp, dam, j == traj.size() - 1, shrapnel_effects);
             }
+        }
+
+        if( do_animation && j > 0 ) {
+            traj.resize( j );
+            draw_line( traj[j - 1], traj );
+            draw_bullet(u, traj[j - 1], (int)j, traj, '`');
         }
     }
 }
