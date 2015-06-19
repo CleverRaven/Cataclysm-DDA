@@ -3694,7 +3694,7 @@ void game::debug()
                       _("Kill NPCs"),              // 8
                       _("Mutate"),                 // 9
                       _("Spawn a vehicle"),        // 10
-                      _("Increase all skills"),    // 11
+                      _("Change all skills"),      // 11
                       _("Learn all melee styles"), // 12
                       _("Unlock all recipes"),     // 13
                       _("Edit player/NPC"),        // 14
