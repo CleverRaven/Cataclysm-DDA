@@ -851,7 +851,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 wprintz(w_target, c_red, _("Firing ") );
                 wprintz(w_target, c_red, "%s", p.print_gun_mode().c_str() );
                 wprintz(w_target, c_red, "%s", " ");
-                p.print_recoil( w_target );
+                wprintz(w_target, c_red, "%s", p.print_recoil().c_str() );
             }
         } else if( mode == TARGET_MODE_THROW ) {
             trim_and_print(w_target, 0, 4, getmaxx(w_target) - 7, c_red, _("Throwing %s"), relevant->tname().c_str());

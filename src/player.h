@@ -159,8 +159,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
         /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
         std::string print_gun_mode();
-        /** Print just the colored recoil indicator. **/
-        void print_recoil( WINDOW *w ) const;
+        /** Returns the colored recoil indicator (contains color-tags). **/
+        std::string print_recoil() const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 
