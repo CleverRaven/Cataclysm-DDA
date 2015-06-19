@@ -450,7 +450,7 @@ class game
         void open_gate( const tripoint &p, const ter_id handle_type );
 
         // Helper because explosion was getting too big.
-        void do_blast( const tripoint &p, const int power, const int radius, const bool fire );
+        void do_blast( const tripoint &p, const int power, const bool fire );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -468,6 +468,7 @@ class game
 
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( Creature const &p, const tripoint &pos, int i,
                           std::vector<tripoint> const &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);

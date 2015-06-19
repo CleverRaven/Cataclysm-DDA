@@ -4,6 +4,7 @@
 #include "calendar.h"
 #include "tileray.h"
 #include "color.h"
+#include "damage.h"
 #include "item.h"
 #include "line.h"
 #include "item_stack.h"
@@ -285,7 +286,7 @@ private:
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
-    int damage_direct (int p, int dmg, int type = 1);
+    int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -673,18 +674,14 @@ public:
 
     void unboard_all ();
 
-    // damage types:
-    // 0 - piercing
-    // 1 - bashing (damage applied if it passes certain treshold)
-    // 2 - incendiary
-    // damage individual part. bash means damage
+    // Damage individual part. bash means damage
     // must exceed certain threshold to be substracted from hp
     // (a lot light collisions will not destroy parts)
-    // returns damage bypassed
-    int damage (int p, int dmg, int type = 1, bool aimed = true);
+    // Returns damage bypassed
+    int damage (int p, int dmg, damage_type type = DT_BASH, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type, const point &impact);
+    void damage_all (int dmg1, int dmg2, damage_type type, const point &impact);
 
     //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
     void shift_parts( point delta );
