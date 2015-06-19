@@ -6170,15 +6170,13 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
 
     bool const do_animation = p.z == u.posz() && OPTIONS["ANIMATIONS"];
 
-    int t1, t2;
     std::vector<tripoint> traj;
     for (int i = 0; i < shrapnel; i++) {
         // TODO: Z-level shrapnel, but not before z-level ranged attacks
         tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
-        m.sees( p, sp, 50, t1, t2 ); // To set bresenhams
-        traj = line_to( p, sp, t1, t2 );
+        traj = line_to( p, sp, 0, 0 );
         // If the randomly chosen spot is the origin, it already points there.
         // Otherwise line_to excludes the origin, so add it.
         if( sp != p ) {
