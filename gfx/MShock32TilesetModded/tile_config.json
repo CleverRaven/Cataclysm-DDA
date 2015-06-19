@@ -3144,7 +3144,25 @@
           "rotates": false
         },
         {
+          "id": "patchwork_scarf",
+          "fg": 2299,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "patchwork_scarf_loose",
+          "fg": 2299,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "scarf_fur",
+          "fg": 2300,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "scarf_fur_loose",
           "fg": 2300,
           "bg": 505,
           "rotates": false
@@ -18023,6 +18041,16 @@
           "rotates": false
         },
         {
+          "id": "knit_scarf_loose",
+          "fg": 2291,
+          "rotates": false
+        },
+        {
+          "id": "long_knit_scarf_loose",
+          "fg": 2292,
+          "rotates": false
+        },
+        {
           "id": "rad_monitor",
           "fg": 2297,
           "rotates": false
@@ -18042,7 +18070,27 @@
           "rotates": false
         },
         {
+          "id": "scarf_fur_long_loose",
+          "fg": 2301,
+          "rotates": false
+        },
+        {
           "id": "scarf_long",
+          "fg": 2302,
+          "rotates": false
+        },
+        {
+          "id": "scarf_long_loose",
+          "fg": 2302,
+          "rotates": false
+        },
+        {
+          "id": "long_patchwork_scarf",
+          "fg": 2302,
+          "rotates": false
+        },
+        {
+          "id": "long_patchwork_scarf_loose",
           "fg": 2302,
           "rotates": false
         },
@@ -20146,16 +20194,6 @@
           "rotates": false
         },
         {
-          "id": "m60",
-          "fg": 1297,
-          "rotates": false
-        },
-        {
-          "id": "m240",
-          "fg": 1297,
-          "rotates": false
-        },
-        {
           "id": "cutlass",
           "fg": 2623,
           "rotates": false
@@ -20166,9 +20204,38 @@
           "rotates": false
         },
         {
+          "id": "m60",
+          "fg": 2624,
+          "rotates": false
+        },
+        {
+          "id": "m240",
+          "fg": 2625,
+          "rotates": false
+        },
+        {
           "id": "holy_symbol",
-          "fg": 424,
-          "bg": 505,
+          "fg": 2626,
+          "rotates": false
+        },
+        {
+          "id": "iggaak",
+          "fg": 2627,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_grappler",
+          "fg": 2628,
+          "rotates": false
+        },
+        {
+          "id": "mon_fish_crayfish",
+          "fg": 2629,
+          "rotates": false
+        },
+        {
+          "id": "mon_fish_lobster",
+          "fg": 2630,
           "rotates": false
         }
       ]
