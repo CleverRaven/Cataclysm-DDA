@@ -9,43 +9,48 @@
 //! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compiletime mapping of (x, y, z) tuples to @ref direction enumerators.
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
-inline constexpr unsigned make_xyz(int const x, int const y, int const z) noexcept
+//! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
+//! For numbers outside that range, use make_xyz().
+inline constexpr unsigned make_xyz_unit(int const x, int const y, int const z) noexcept
 {
-    return ((x > 0) ? 2u : (x < 0) ? 1u : 0u) * 1u +
-           ((y > 0) ? 2u : (y < 0) ? 1u : 0u) * 3u +
-           ((z > 0) ? 2u : (z < 0) ? 1u : 0u) * 9u;
+  return ((x > 0) ? 2u : (x < 0) ? 1u : 0u) * 1u +
+         ((y > 0) ? 2u : (y < 0) ? 1u : 0u) * 3u +
+         ((z > 0) ? 2u : (z < 0) ? 1u : 0u) * 9u;
 }
 
+// This more general version of this function gives correct values for larger inputs.
+unsigned make_xyz(int const x, int const y, int const z);
+
 enum direction : int {
-    ABOVENORTHWEST = make_xyz(-1, -1, -1),
-    NORTHWEST      = make_xyz(-1, -1,  0),
-    BELOWNORTHWEST = make_xyz(-1, -1,  1),
-    ABOVENORTH     = make_xyz( 0, -1, -1),
-    NORTH          = make_xyz( 0, -1,  0),
-    BELOWNORTH     = make_xyz( 0, -1,  1),
-    ABOVENORTHEAST = make_xyz( 1, -1, -1),
-    NORTHEAST      = make_xyz( 1, -1,  0),
-    BELOWNORTHEAST = make_xyz( 1, -1,  1),
+    ABOVENORTHWEST = make_xyz_unit(-1, -1, -1),
+    NORTHWEST      = make_xyz_unit(-1, -1,  0),
+    BELOWNORTHWEST = make_xyz_unit(-1, -1,  1),
+    ABOVENORTH     = make_xyz_unit( 0, -1, -1),
+    NORTH          = make_xyz_unit( 0, -1,  0),
+    BELOWNORTH     = make_xyz_unit( 0, -1,  1),
+    ABOVENORTHEAST = make_xyz_unit( 1, -1, -1),
+    NORTHEAST      = make_xyz_unit( 1, -1,  0),
+    BELOWNORTHEAST = make_xyz_unit( 1, -1,  1),
 
-    ABOVEWEST      = make_xyz(-1,  0, -1),
-    WEST           = make_xyz(-1,  0,  0),
-    BELOWWEST      = make_xyz(-1,  0,  1),
-    ABOVECENTER    = make_xyz( 0,  0, -1),
-    CENTER         = make_xyz( 0,  0,  0),
-    BELOWCENTER    = make_xyz( 0,  0,  1),
-    ABOVEEAST      = make_xyz( 1,  0, -1),
-    EAST           = make_xyz( 1,  0,  0),
-    BELOWEAST      = make_xyz( 1,  0,  1),
+    ABOVEWEST      = make_xyz_unit(-1,  0, -1),
+    WEST           = make_xyz_unit(-1,  0,  0),
+    BELOWWEST      = make_xyz_unit(-1,  0,  1),
+    ABOVECENTER    = make_xyz_unit( 0,  0, -1),
+    CENTER         = make_xyz_unit( 0,  0,  0),
+    BELOWCENTER    = make_xyz_unit( 0,  0,  1),
+    ABOVEEAST      = make_xyz_unit( 1,  0, -1),
+    EAST           = make_xyz_unit( 1,  0,  0),
+    BELOWEAST      = make_xyz_unit( 1,  0,  1),
 
-    ABOVESOUTHWEST = make_xyz(-1,  1, -1),
-    SOUTHWEST      = make_xyz(-1,  1,  0),
-    BELOWSOUTHWEST = make_xyz(-1,  1,  1),
-    ABOVESOUTH     = make_xyz( 0,  1, -1),
-    SOUTH          = make_xyz( 0,  1,  0),
-    BELOWSOUTH     = make_xyz( 0,  1,  1),
-    ABOVESOUTHEAST = make_xyz( 1,  1, -1),
-    SOUTHEAST      = make_xyz( 1,  1,  0),
-    BELOWSOUTHEAST = make_xyz( 1,  1,  1),
+    ABOVESOUTHWEST = make_xyz_unit(-1,  1, -1),
+    SOUTHWEST      = make_xyz_unit(-1,  1,  0),
+    BELOWSOUTHWEST = make_xyz_unit(-1,  1,  1),
+    ABOVESOUTH     = make_xyz_unit( 0,  1, -1),
+    SOUTH          = make_xyz_unit( 0,  1,  0),
+    BELOWSOUTH     = make_xyz_unit( 0,  1,  1),
+    ABOVESOUTHEAST = make_xyz_unit( 1,  1, -1),
+    SOUTHEAST      = make_xyz_unit( 1,  1,  0),
+    BELOWSOUTHEAST = make_xyz_unit( 1,  1,  1),
 };
 
 direction direction_from(int x, int y, int z = 0) noexcept;
