@@ -157,10 +157,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_morale();
         /** Print the bars indicating how well the player is currently aiming.**/
         int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
-        /** Print just the gun mode indicator. **/
-        void print_gun_mode( WINDOW *w, nc_color c );
-        /** Print just the colored recoil indicator. **/
-        void print_recoil( WINDOW *w ) const;
+        /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
+        std::string print_gun_mode();
+        /** Returns the colored recoil indicator (contains color-tags). **/
+        std::string print_recoil() const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 

@@ -3412,7 +3412,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     return line_number;
 }
 
-void player::print_gun_mode( WINDOW *w, nc_color c )
+std::string player::print_gun_mode()
 {
     // Print current weapon, or attachment if active.
     item* gunmod = weapon.active_gunmod();
@@ -3424,35 +3424,36 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
                 attachment << " (" << mod.charges << ")";
             }
         }
-        wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
+        return string_format( _("%s (Mod)"), attachment.str().c_str() );
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
+            return string_format( _("%s (Burst)"), weapname().c_str() );
         } else if( weapon.get_gun_mode() == "MODE_REACH" ) {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Bayonet)"), weapname().c_str());
+            return string_format( _("%s (Bayonet)"), weapname().c_str() );
         } else {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
+            return string_format( _("%s"), weapname().c_str() );
         }
     }
 }
 
-void player::print_recoil( WINDOW *w ) const
+std::string player::print_recoil() const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
         if( adj_recoil > 150 ) {
             // 150 is the minimum when not actively aiming
-            nc_color c = c_ltgray;
+            const char *color_name = "c_ltgray";
             if( adj_recoil >= 690 ) {
-                c = c_red;
+                color_name = "c_red";
             } else if( adj_recoil >= 450 ) {
-                c = c_ltred;
+                color_name = "c_ltred";
             } else if( adj_recoil >= 210 ) {
-                c = c_yellow;
+                color_name = "c_yellow";
             }
-            wprintz(w, c, _("Recoil"));
+            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
         }
     }
+    return std::string();
 }
 
 int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
@@ -3489,8 +3490,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     {
         const int y = sideStyle ? 1 : 0;
-        wmove( weapwin, y, 0 );
-        print_gun_mode( weapwin, c_ltgray );
+        const int w = getmaxx( weapwin );
+        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode().c_str() );
     }
 
     // Print currently used style or weapon mode.

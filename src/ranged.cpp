@@ -838,27 +838,28 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     draw_border(w_target);
     // Draw the "title" of the window.
     mvwprintz(w_target, 0, 2, c_white, "< ");
+    std::string title;
     if (!relevant) { // currently targetting vehicle to refill with fuel
-        wprintz(w_target, c_red, _("Select a vehicle"));
+        title = _("Select a vehicle");
     } else {
         if( mode == TARGET_MODE_FIRE ) {
             if(relevant->has_flag("RELOAD_AND_SHOOT")) {
-                wprintz(w_target, c_red, _("Shooting %s from %s"),
+                title = string_format( _("Shooting %s from %s"),
                         p.weapon.get_curammo()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
-                wprintz(w_target, c_red, _("Firing %s"), p.weapon.tname().c_str());
+                title = string_format( _("Firing %s"), p.weapon.tname().c_str());
             } else {
-                wprintz(w_target, c_red, _("Firing ") );
-                p.print_gun_mode( w_target, c_red );
-                wprintz(w_target, c_red, "%s", " ");
-                p.print_recoil( w_target );
+                title = string_format( _("Firing %s"), p.print_gun_mode().c_str() );
             }
+            title += " ";
+            title += p.print_recoil();
         } else if( mode == TARGET_MODE_THROW ) {
-            trim_and_print(w_target, 0, 4, getmaxx(w_target) - 7, c_red, _("Throwing %s"), relevant->tname().c_str());
+            title = string_format( _("Throwing %s"), relevant->tname().c_str());
         } else {
-            wprintz(w_target, c_red, _("Setting target for %s"), relevant->tname().c_str());
+            title = string_format( _("Setting target for %s"), relevant->tname().c_str());
         }
     }
+    trim_and_print( w_target, 0, 4, getmaxx(w_target) - 7, c_red, "%s", title.c_str() );
     wprintz(w_target, c_white, " >");
 
     // Draw the help contents at the bottom of the window, leaving room for monster description
