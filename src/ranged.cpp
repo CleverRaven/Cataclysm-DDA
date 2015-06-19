@@ -849,11 +849,10 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
             } else if( relevant->has_flag("NO_AMMO") ) {
                 title = string_format( _("Firing %s"), p.weapon.tname().c_str());
             } else {
-                title = string_format( _("Firing ") );
-                title += string_format( "%s", p.print_gun_mode().c_str() );
-                title += string_format( "%s", " ");
-                title += string_format( "%s", p.print_recoil().c_str() );
+                title = string_format( _("Firing %s"), p.print_gun_mode().c_str() );
             }
+            title += " ";
+            title += p.print_recoil();
         } else if( mode == TARGET_MODE_THROW ) {
             title = string_format( _("Throwing %s"), relevant->tname().c_str());
         } else {
