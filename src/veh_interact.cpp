@@ -2225,7 +2225,7 @@ void complete_vehicle ()
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
             used_item = consume_vpart_item (veh->parts[vehicle_part].get_id());
-            veh->parts[vehicle_part].bigness = used_item.bigness;
+            veh->parts[vehicle_part].properties_from_item( used_item );
             dd = 0;
             veh->insides_dirty = true;
         } else {
