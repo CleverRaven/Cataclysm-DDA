@@ -2362,50 +2362,41 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
 
 // TOOLS below this point!
 
-int iuse::dogfood(player *p, item *, bool, const tripoint& )
+int petfood(player *p, item *it, bool is_dogfood)
 {
     tripoint dirp;
-    if (!choose_adjacent(_("Put the dog food where?"), dirp)) {
+    if (!choose_adjacent(string_format(_("Put the %s where?"), it->tname().c_str()), dirp)) {
         return 0;
     }
     p->moves -= 15;
     int mon_dex = g->mon_at(dirp);
     if (mon_dex != -1) {
-        if (g->zombie(mon_dex).type->id == "mon_dog") {
-            p->add_msg_if_player(m_good, _("The dog seems to like you!"));
+        if (g->zombie(mon_dex).type->id == (is_dogfood ? "mon_dog" : "mon_cat")) {
+            p->add_msg_if_player(m_good, is_dogfood
+              ? _("The dog seems to like you!")
+              : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
             g->zombie(mon_dex).friendly = -1;
-            g->zombie(mon_dex).add_effect("pet", 1, num_bp, true);
+            if (is_dogfood) {
+                g->zombie(mon_dex).add_effect("pet", 1, num_bp, true);
+            }
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
                                  g->zombie(mon_dex).name().c_str());
         }
     } else {
-        p->add_msg_if_player(m_bad, _("You spill the dog food all over the ground."));
+        p->add_msg_if_player(m_bad, _("You spill the %s all over the ground."), it->tname().c_str());
     }
     return 1;
 }
 
-int iuse::catfood(player *p, item *, bool, const tripoint& )
+int iuse::dogfood(player *p, item *it, bool, const tripoint& )
 {
-    tripoint dirp;
-    if (!choose_adjacent(_("Put the cat food where?"), dirp)) {
-        return 0;
-    }
-    p->moves -= 15;
-    int mon_dex = g->mon_at(dirp);
-    if (mon_dex != -1) {
-        if (g->zombie(mon_dex).type->id == "mon_cat") {
-            p->add_msg_if_player(m_good,
-                                 _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
-            g->zombie(mon_dex).friendly = -1;
-        } else {
-            p->add_msg_if_player(_("The %s seems quite unimpressed!"),
-                                 g->zombie(mon_dex).name().c_str());
-        }
-    } else {
-        p->add_msg_if_player(m_bad, _("You spill the cat food all over the ground."));
-    }
-    return 1;
+    return petfood(p, it, true);
+}
+
+int iuse::catfood(player *p, item *it, bool, const tripoint& )
+{
+    return petfood(p, it, false);
 }
 
 static int repair_clothing(player *p, item *it, item *fix, int pos) {
