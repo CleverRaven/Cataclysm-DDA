@@ -849,7 +849,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 wprintz(w_target, c_red, _("Firing %s"), p.weapon.tname().c_str());
             } else {
                 wprintz(w_target, c_red, _("Firing ") );
-                p.print_gun_mode( w_target, c_red );
+                wprintz(w_target, c_red, "%s", p.print_gun_mode().c_str() );
                 wprintz(w_target, c_red, "%s", " ");
                 p.print_recoil( w_target );
             }
