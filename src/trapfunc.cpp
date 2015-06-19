@@ -951,7 +951,7 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
             if( g->u.has_trait("WINGS_BIRD") || ( one_in( 2 ) && g->u.has_trait("WINGS_BUTTERFLY") ) ) {
-                g->u.add_msg_if_player( _("You flap your wings and flutter down gracefully.") );
+                add_msg( _("You flap your wings and flutter down gracefully.") );
             } else {
                 g->u.impact( 20, p );
             }
