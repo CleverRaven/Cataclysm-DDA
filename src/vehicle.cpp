@@ -3659,7 +3659,7 @@ void vehicle::do_engine_damage(size_t e, int strain) {
      if( is_engine_on(e) && !is_engine_type(e, fuel_type_muscle) &&
          fuel_left(part_info(engines[e]).fuel_type) &&  rng (1, 100) < strain ) {
         int dmg = rng(strain * 2, strain * 4);
-        damage_direct(engines[e], dmg, 0);
+        damage_direct( engines[e], dmg );
         if(one_in(2)) {
             add_msg(_("Your engine emits a high pitched whine."));
         } else {
@@ -4279,7 +4279,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         }
     }
 
-    damage( parm, part_dmg, 1 );
+    damage( parm, part_dmg, DT_BASH );
 
     veh_collision ret;
     ret.part = part;
@@ -4839,7 +4839,7 @@ void vehicle::unboard_all ()
     }
 }
 
-int vehicle::damage( int p, int dmg, int type, bool aimed )
+int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
 {
     if( dmg < 1 ) {
         return dmg;
@@ -4893,7 +4893,7 @@ int vehicle::damage( int p, int dmg, int type, bool aimed )
     return dres;
 }
 
-void vehicle::damage_all( int dmg1, int dmg2, int type, const point &impact )
+void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
 {
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
@@ -5034,7 +5034,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         tsh = 20;
     }
     int dres = dmg;
-    if( dmg >= tsh || type == DT_HEAT )
+    if( dmg >= tsh || type == DT_HEAT || type == DT_TRUE )
     {
         dres -= parts[p].hp;
         int last_hp = parts[p].hp;
@@ -5059,7 +5059,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 const bool explosion_chance = ft == fuel_type_diesel ? 10 : 2;
                 const bool fiery_explosion = ft == fuel_type_gasoline || ft == fuel_type_diesel;
                 const int pow = std::pow( parts[p].amount, bad_explosion ? 0.45f : 0.4f );
-                debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
+                //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
                 if( parts[p].hp <= 0 ) {
                     leak_fuel( p );
                 }

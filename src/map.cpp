@@ -618,7 +618,7 @@ const vehicle *map::vehproceed()
 
         if (dmg2_part > 100) {
             // shake veh because of collision
-            veh2->damage_all(dmg2_part / 2, dmg2_part, 1, epicenter2);
+            veh2->damage_all(dmg2_part / 2, dmg2_part, DT_BASH, epicenter2);
         }
 
         dmg_1 += dmg1_part;
@@ -647,7 +647,7 @@ const vehicle *map::vehproceed()
         const point collision_point = veh->parts[veh_misc_coll.part].mount;
         int coll_dmg = veh_misc_coll.imp;
         //Shock damage
-        veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
+        veh->damage_all(coll_dmg / 2, coll_dmg, DT_BASH, collision_point);
     }
 
     int coll_turn = 0;

@@ -5987,9 +5987,9 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
     // 1 . 2
     // 6 4 8
     // 9 and 10 are up and down
-    constexpr std::array<int, 10> x_offset{ -1,  1,  0,  0,  1, -1, -1, 1, 0,  0 };
-    constexpr std::array<int, 10> y_offset{  0,  0, -1,  1, -1,  1, -1, 1, 0,  0 };
-    constexpr std::array<int, 10> z_offset{  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 };
+    constexpr std::array<int, 10> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1, 0,  0 }};
+    constexpr std::array<int, 10> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1, 0,  0 }};
+    constexpr std::array<int, 10> z_offset{{  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 }};
     const size_t max_index = m.has_zlevels() ? 10 : 8;
 
     std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
@@ -6130,7 +6130,12 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
     }
 
     // Draw the explosion
-    draw_custom_explosion( u.pos(), closed, c_red );
+    std::map<tripoint, nc_color> explosion_colors;
+    for( auto &pt : closed ) {
+        explosion_colors[pt] = c_red;
+    }
+
+    draw_custom_explosion( u.pos(), explosion_colors );
 }
 
 void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )

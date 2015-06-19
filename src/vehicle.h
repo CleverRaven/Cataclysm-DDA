@@ -286,7 +286,7 @@ private:
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
-    int damage_direct( int p, int dmg, damage_type type = DT_BASH );
+    int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -681,7 +681,7 @@ public:
     int damage (int p, int dmg, damage_type type = DT_BASH, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type, const point &impact);
+    void damage_all (int dmg1, int dmg2, damage_type type, const point &impact);
 
     //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
     void shift_parts( point delta );
