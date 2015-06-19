@@ -121,6 +121,8 @@ struct regional_settings {
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
 
+    std::unordered_map<std::string, map_extras> region_extras;
+
     regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
     void setup();
     static void setup_oter(oter_weight &oter);
@@ -430,6 +432,5 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-map_extras& get_extras(const std::string &name);
 
 #endif

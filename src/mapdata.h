@@ -7,6 +7,7 @@
 #include "iexamine.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "weighted_list.h"
 #include "rng.h"
 
 #include <bitset>
@@ -261,56 +262,16 @@ furn_id furnfind(const std::string & id); // lookup, carp and return null on err
 enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
 */
-enum map_extra {
- mx_null = 0,
- mx_helicopter,
- mx_military,
- mx_science,
- mx_roadblock,
- mx_drugdeal,
- mx_supplydrop,
- mx_portal,
- mx_minefield,
- mx_crater,
- mx_fumarole,
- mx_portal_in,
- mx_anomaly,
- mx_collegekids,
- num_map_extras
-};
-
 //Classic Extras is for when you have special zombies turned off.
-const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
-  mfb(mx_roadblock) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
-  mfb(mx_crater) | mfb(mx_collegekids);
-
+extern const std::set<std::string> classic_extras;
 
 struct map_extras {
  unsigned int chance;
- int chances[num_map_extras + 1];
- map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
-            int sci = 0, int roadblock = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0,
-            int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0,
-            int collegekids = 0)
-            : chance(embellished)
- {
-  chances[ 0] = 0;
-  chances[ 1] = helicopter;
-  chances[ 2] = mili;
-  chances[ 3] = sci;
-  chances[ 4] = roadblock;
-  chances[ 5] = drug;
-  chances[ 6] = supply;
-  chances[ 7] = portal;
-  chances[ 8] = minefield;
-  chances[ 9] = crater;
-  chances[10] = lava;
-  chances[11] = marloss;
-  chances[12] = anomaly;
-  chances[13] = collegekids;
-  chances[14] = 0;
- }
+ weighted_int_list<std::string> values;
+
+ map_extras() : chance(0), values() {}
+ map_extras(const unsigned int embellished) : chance(embellished), values() {}
+
 };
 
 void load_furniture(JsonObject &jsobj);

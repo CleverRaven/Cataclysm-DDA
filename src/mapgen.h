@@ -320,4 +320,10 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
+typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
+
+namespace MapExtras {
+    map_special_pointer get_function(const std::string &name);
+};
+
 #endif
