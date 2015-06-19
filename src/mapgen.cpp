@@ -13814,7 +13814,7 @@ FunctionMap builtin_functions = {
     { "mx_anomaly", mx_anomaly }
 };
 
-map_special_pointer get_function(std::string name)
+map_special_pointer get_function(const std::string &name)
 {
     const auto iter = builtin_functions.find(name);
     if(iter == builtin_functions.end()) {

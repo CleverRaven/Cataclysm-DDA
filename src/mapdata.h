@@ -270,7 +270,7 @@ struct map_extras {
  weighted_int_list<std::string> values;
 
  map_extras() : chance(0), values() {}
- map_extras(unsigned int embellished) : chance(embellished), values() {}
+ map_extras(const unsigned int embellished) : chance(embellished), values() {}
 
 };
 
