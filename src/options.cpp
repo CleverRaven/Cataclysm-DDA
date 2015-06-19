@@ -763,7 +763,7 @@ void initOptions()
     //~ hide mouse cursor when keyboard is used
     optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
-                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
+                                  _("Show: Cursor is always shown. Hide: Cursor is hidden. HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
                                   "show,hide,hidekb", "show", COPT_CURSES_HIDE
                                  );
 
