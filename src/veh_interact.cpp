@@ -1973,6 +1973,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
         long quantity = 1;
         item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
     }
+    remove_ammo( item_used, g->u );
 
     return item_used.front();
 }
