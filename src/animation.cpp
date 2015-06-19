@@ -169,6 +169,7 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
 
     // Start by getting rid of everything except current z-level
     std::map<point, explosion_tile> neighbors;
+#if defined(SDLTILES)
     if( !use_tiles ) {
         for( const auto &pr : all_area ) {
             const tripoint relative_point = relative_view_pos( u, pr.first );
@@ -190,6 +191,15 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
             }
         }
     }
+#else
+    for( const auto &pr : all_area ) {
+        const tripoint relative_point = relative_view_pos( u, pr.first );
+        if( relative_point.z == 0 ) {
+            point flat_point{ relative_point.x, relative_point.y };
+            neighbors[flat_point] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+        }
+    }
+#endif
 
     // Searches for a neighbor, sets the neighborhood flag on current point and on the neighbor
     const auto set_neighbors = [&]( const point &pos,

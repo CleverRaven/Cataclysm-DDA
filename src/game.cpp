@@ -6073,6 +6073,22 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         }
     }
 
+    // Draw the explosion
+    std::map<tripoint, nc_color> explosion_colors;
+    for( auto &pt : closed ) {
+        const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
+        nc_color col = c_red;
+        if( force < 10 ) {
+            col = c_white;
+        } else if( force < 30 ) {
+            col = c_yellow;
+        }
+
+        explosion_colors[pt] = col;
+    }
+
+    draw_custom_explosion( u.pos(), explosion_colors );
+
     for( const tripoint &pt : closed ) {
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         if( force < 1.0f ) {
@@ -6128,14 +6144,6 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
         pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
     }
-
-    // Draw the explosion
-    std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
-        explosion_colors[pt] = c_red;
-    }
-
-    draw_custom_explosion( u.pos(), explosion_colors );
 }
 
 void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
