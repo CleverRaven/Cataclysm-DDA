@@ -516,7 +516,7 @@ void game::wishskill(player *p)
     uimenu skmenu;
     skmenu.text = _("Select a skill to modify");
     skmenu.return_invalid = true;
-    skmenu.addentry(0, true, '1', _("Set all skills to..."));
+    skmenu.addentry(0, true, '1', _("Modify all skills..."));
 
     std::vector<int> origskills;
     origskills.reserve(Skill::skills.size());
