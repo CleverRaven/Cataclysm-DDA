@@ -116,6 +116,8 @@ class computer
     private:
         // Difficulty of simply logging in
         int security;
+        // Date of next attempt
+        long next_attempt = 0;
         // Things we can do
         std::vector<computer_option> options;
         // Things that happen if we fail a hack

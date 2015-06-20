@@ -109,6 +109,12 @@ void computer::use()
     // Login
     print_line(_("Logging into %s..."), name.c_str());
     if (security > 0) {
+        if (int(calendar::turn) < next_attempt) {
+            print_error( _("Access is temporary blocked for security purposes.") );
+            query_any(_("Please contact the system administrator."));
+            reset_terminal();
+            return;
+        }
         print_error(_("ERROR!  Access denied!"));
         switch (query_ynq(_("Bypass security?"))) {
         case 'q':
@@ -212,9 +218,7 @@ bool computer::hack_attempt(player *p, int Security)
     }
 
     bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
-    if (successful_attempt) {
-        p->practice( "computer", 5 + Security * 2 );
-    }
+    p->practice( "computer", (successful_attempt ? (15 + Security * 3) : 7));
     return successful_attempt;
 }
 
@@ -1169,6 +1173,7 @@ It takes you forever to find the address on your map...\n"));
 
 void computer::activate_random_failure()
 {
+    next_attempt = int(calendar::turn) + 450;
     computer_failure fail = (failures.empty() ? COMPFAIL_SHUTDOWN :
                              failures[rng(0, failures.size() - 1)]);
     activate_failure(fail);
