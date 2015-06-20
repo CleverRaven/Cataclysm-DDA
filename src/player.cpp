@@ -11142,8 +11142,13 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
+        unsigned imodcount = 0;
+        for( auto &gm : mods ){
+            if( gm.has_flag("IRREMOVABLE") )
+                imodcount++;
+        }
         // Get weapon mod names.
-        if (mods.empty()) {
+        if (mods.empty() || mods.size() == imodcount ) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
@@ -11160,7 +11165,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.text = _("Remove which modification?");
         for (size_t i = 0; i < mods.size(); i++) {
             if( mods[i].has_flag("IRREMOVABLE") ){
-                kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
+                //kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
             }
             else
                 kmenu.addentry( i, true, -1, mods[i].tname() );
