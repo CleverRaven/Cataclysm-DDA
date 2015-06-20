@@ -2138,6 +2138,12 @@
           "rotates": false
         },
         {
+          "id": "winter_gloves_army",
+          "fg": 351,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "gloves_wool",
           "fg": 352,
           "bg": 505,
@@ -20236,6 +20242,21 @@
         {
           "id": "mon_fish_lobster",
           "fg": 2630,
+          "rotates": false
+        },
+        {
+          "id": "briefcase_smg",
+          "fg": 2631,
+          "rotates": false
+        },
+        {
+          "id": "oxy_torch",
+          "fg": 2632,
+          "rotates": false
+        },
+        {
+          "id": "f_mannequin",
+          "fg": 2633,
           "rotates": false
         }
       ]
