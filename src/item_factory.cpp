@@ -634,6 +634,17 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
                                              curr.get_int( 1 ) ) );
         }
     }
+
+    //Add any build-in mods.
+    if( jo.has_array( "built_in_mods" ) ) {
+    JsonArray jarr = jo.get_array( "built_in_mods" );
+        while( jarr.has_more() ) {
+            std::string temp = jarr.next_string();
+            slot.built_in_mods.push_back( temp );
+            DebugLog(D_INFO,D_MAIN) << "Built_in_mod:" << temp;
+        }
+    }
+
 }
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )
@@ -1318,7 +1329,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
-            
+
         }
     } else {
         if( jo.has_string( member ) ) {
@@ -1328,7 +1339,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
-        
+
     }
 }
 

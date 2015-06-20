@@ -94,6 +94,14 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
         charges = 0;
+        if( type->gun->built_in_mods.size() > 0 ){
+            for( unsigned int i = 0; i < type->gun->built_in_mods.size(); i++ ){
+                DebugLog(D_INFO,D_MAIN) << "built_in_mods-item:" << type->gun->built_in_mods.at(i);
+                if(type_is_defined( type->gun->built_in_mods.at(i) ) ){
+                    contents.push_back( item( type->gun->built_in_mods.at(i), turn, rand, handed ) );
+                }
+            }
+        }
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;

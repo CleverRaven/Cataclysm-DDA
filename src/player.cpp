@@ -11168,12 +11168,26 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
         if (choice < int(mods.size())) {
             const std::string mod = used->contents[choice].tname();
-            remove_gunmod(used, unsigned(choice));
-            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
-        } else if (choice == int(mods.size())) {
-            for (int i = used->contents.size() - 1; i >= 0; i--) {
-                remove_gunmod(used, i);
+
+            if( used->contents[choice].has_flag("IRREMOVABLE") ){
+                add_msg(_("You cannot remove integrated mods.") );
             }
+            else{
+                remove_gunmod(used, unsigned(choice));
+                add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
+            }
+        } else if (choice == int(mods.size())) {
+            bool irremovable = false;
+            for (int i = used->contents.size() - 1; i >= 0; i--) {
+                if( used->contents[i].has_flag("IRREMOVABLE") ){
+                    irremovable = true;
+                }
+                else{
+                    remove_gunmod(used, i);
+                }
+            }
+            if( irremovable )
+                add_msg(_("Some mods could not be removed due to being integrated.") );
             add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
         } else {
             add_msg(_("Never mind."));

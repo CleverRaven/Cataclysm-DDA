@@ -280,6 +280,10 @@ struct islot_gun : common_firing_data {
      * that the location can have. The value should be > 0.
      */
     std::map<std::string, int> valid_mod_locations;
+    /**
+    *Built in mods. string is id of mod.
+    */
+    std::vector<std::string> built_in_mods;
 };
 
 struct islot_gunmod : common_firing_data {
