@@ -11182,8 +11182,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
             if( used->contents[choice].has_flag("IRREMOVABLE") ){
                 add_msg(_("You cannot remove integrated mods.") );
-            }
-            else{
+            } else{
                 remove_gunmod(used, unsigned(choice));
                 add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
             }
