@@ -468,18 +468,14 @@ void Item_factory::check_definitions() const
             if( type->gun->skill_used == nullptr ) {
                 msg << string_format("uses no skill") << "\n";
             }
-            if( !type->gun->default_mods.empty() ){
-                for( auto &gm : type->gun->default_mods ){
-                    if( !has_template( gm ) )
-                        msg << string_format("invalid default mod.") << "\n";
-                }
+            for( auto &gm : type->gun->default_mods ){
+                if( !has_template( gm ) )
+                    msg << string_format("invalid default mod.") << "\n";
             }
-            if( !type->gun->built_in_mods.empty() ){
-                for( auto &gm : type->gun->built_in_mods ){
-                    if( !has_template( gm ) )
-                        msg << string_format("invalid built-in mod.") << "\n";
-                }
-            }
+            for( auto &gm : type->gun->built_in_mods ){
+                if( !has_template( gm ) )
+                    msg << string_format("invalid built-in mod.") << "\n";
+            }      
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
