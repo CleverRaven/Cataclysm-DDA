@@ -1813,7 +1813,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret.str("");
         ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
-            ret << "+";
+            if( !contents.at(i).has_flag("IRREMOVABLE") )
+                ret << "+";
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
