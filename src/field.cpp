@@ -2358,13 +2358,12 @@ void map::monster_in_field( monster &z )
 
         case fd_fungal_haze:
             if( !z.type->in_species("FUNGUS") &&
-                !z.type->has_flag("NO_BREATHE") ) {
-                if( !z.make_fungus() ) {
-                    // Don't insta-kill jabberwocks, that's silly
-                    const int density = cur->getFieldDensity();
-                    z.moves -= rng( 10 * density, 30 * density );
-                    dam += rng( 0, 10 * density );
-                }
+                !z.type->has_flag("NO_BREATHE") &&
+                !z.make_fungus() ) {
+                // Don't insta-kill jabberwocks, that's silly
+                const int density = cur->getFieldDensity();
+                z.moves -= rng( 10 * density, 30 * density );
+                dam += rng( 0, 10 * density );
             }
 
             break;

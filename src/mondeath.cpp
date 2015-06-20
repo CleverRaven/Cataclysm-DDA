@@ -215,7 +215,9 @@ void mdeath::fungus(monster *z)
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            g->m.fungalize( sporep, z, 0.25 );
+            // z is dead, don't credit it with the kill
+            // Maybe credit z's killer?
+            g->m.fungalize( sporep, nullptr, 0.25 );
         }
     }
 }

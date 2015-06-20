@@ -95,8 +95,6 @@ void tankgun            (monster *z, Creature *target); // Tankbot primary.
 void flame              (monster *z, Creature *target);
 
 bool dodge_check        (monster *z, Creature *target);
-
-bool fungalize          (Creature *origin, const tripoint &target, double spore_chance);
 } //namespace mattack
 
 #endif

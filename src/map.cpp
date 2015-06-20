@@ -2509,7 +2509,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
         if( hit ) {
             add_msg(m_warning, _("You're covered in tiny spores!"));
         }
-    } else if( g->num_zombies() < 250 && one_in_improved( spore_chance ) ) { // Spawn a spore
+    } else if( g->num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
         if( g->summon_mon( "mon_spore", sporep ) ) {
             monster *spore = g->monster_at(sporep);
             monster *origin_mon = dynamic_cast<monster*>( origin );
