@@ -8603,6 +8603,20 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "fuel_diesel",
+    "items":[
+      {"item": "diesel", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan"},
+      {"item": "diesel", "prob": 30, "charges-min": 3850, "charges-max": 20000, "container-item": "jerrycan_big"},
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fuel_gasoline",
+    "items":[
+      {"item": "gasoline", "prob": 80, "charges-min": 450, "charges-max": 8000, "container-item": "jerrycan"},
+      {"item": "gasoline", "prob": 20, "charges-min": 2650, "charges-max": 20000, "container-item": "jerrycan_big"}
+    ]
+  },{
+    "type" : "item_group",
     "id" : "npc_hacker",
     "items":[
       ["energy_drink", 55],
