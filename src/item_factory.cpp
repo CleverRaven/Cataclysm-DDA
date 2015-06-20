@@ -635,7 +635,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         }
     }
 
-    //Add any build-in mods.
+    //Add any built-in mods.
     if( jo.has_array( "built_in_mods" ) ) {
     JsonArray jarr = jo.get_array( "built_in_mods" );
         while( jarr.has_more() ) {
