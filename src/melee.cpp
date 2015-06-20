@@ -114,7 +114,7 @@ bool player::handle_melee_wear()
                                     weapon.tname().c_str());
             // Dump its contents on the ground
             for( auto &elem : weapon.contents ) {
-                    g->m.add_item_or_charges( pos3(), elem );
+                g->m.add_item_or_charges( pos3(), elem );
             }
             remove_weapon();
         }
