@@ -916,7 +916,6 @@
             {"x": -4, "y": -1, "part": "frame_sw"},
             {"x": -4, "y": -1, "part": "board_sw"},
             {"x": -4, "y": -1, "part": "wheel"},
-            {"x": -4, "y": -1, "part": "beeper"},
             {"x": -4, "y": -1, "part": "roof"},
             {"x": -4, "y": 0, "part": "frame_horizontal"},
             {"x": -4, "y": 0, "part": "door_trunk"},
@@ -1451,7 +1450,8 @@
             {"x": 0, "y": 0, "chance": 5, "items": ["choco_coffee_beans"]},
             {"x": 0, "y": 1, "chance": 5, "items": ["colamdew"]},
             {"x": -4, "y": 0, "chance": 12, "item_groups": ["tools"]},
-            {"x": -4, "y": 0, "chance": 10, "item_groups": ["tools"]}
+            {"x": -4, "y": 0, "chance": 5, "item_groups": ["fuel_diesel"]},
+            {"x": -4, "y": 3, "chance": 10, "item_groups": ["tools"]}
         ]
     },{
         "type" : "vehicle",
@@ -4253,6 +4253,7 @@
             {"x": -3, "y": -1, "part": "wheel_armor"}
         ],
         "items" : [
+            {"x": -2, "y": 2, "chance": 95, "item_groups": ["fuel_diesel"]},
             {"x": -1, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
             {"x": -1, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
             {"x": -1, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
@@ -4384,6 +4385,7 @@
             {"x": -3, "y": -1, "part": "wheel_armor"}
         ],
         "items" : [
+            {"x": -2, "y": 0, "chance": 5, "item_groups": ["fuel_diesel"]},
             {"x": -1, "y": 1, "chance": 20, "items": ["40mm_frag", "40mm_frag", "40mm_frag"]},
             {"x": -1, "y": 1, "chance": 10, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
             {"x": -1, "y": 1, "chance": 5, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
@@ -5221,6 +5223,7 @@
             {"x": -2, "y": 0, "chance": 5, "item_groups": "farming_tools"},
             {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
             {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]},
+            {"x": -3, "y": 0, "chance": 8, "item_groups": "fuel_gasoline"},
             {"x": -2, "y": 1, "chance": 3, "items": "ax"}
         ]
     },{
