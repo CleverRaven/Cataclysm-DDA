@@ -8396,7 +8396,7 @@
     "volume": 1,
     "bashing": 0,
     "cutting": 16,
-    "flags" : ["SHEATH_KNIFE"],
+    "flags" : ["SHEATH_KNIFE","STAB"],
     "to_hit": -1,
     "max_charges": 0,
     "initial_charges": 0,
