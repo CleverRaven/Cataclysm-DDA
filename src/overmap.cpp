@@ -23,6 +23,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "mapsharing.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "name.h"
@@ -3832,7 +3833,6 @@ void overmap::place_radios()
     }
 }
 
-
 void overmap::open()
 {
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
@@ -3840,9 +3840,14 @@ void overmap::open()
     std::ifstream fin;
 
     fin.open(terfilename.c_str());
-    if (fin.is_open()) {
-        unserialize(fin, plrfilename, terfilename);
+    if( fin.is_open() ) {
+        unserialize(fin);
         fin.close();
+        fin.open(plrfilename);
+        if( fin.is_open() ) {
+            unserialize_view(fin);
+            fin.close();
+        }
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap*> pointers;
         // Fetch south and north
@@ -3856,6 +3861,27 @@ void overmap::open()
         // pointers looks like (north, south, west, east)
         generate(pointers[0], pointers[3], pointers[1], pointers[2]);
     }
+}
+
+// Note: this may throw io errors from std::ofstream
+void overmap::save() const
+{
+    std::ofstream fout;
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
+    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
+
+    // Player specific data
+    fout.open(plrfilename.c_str());
+    serialize_view( fout );
+    fout.close();
+    // World terrain data
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
+        return;
+    }
+    serialize( fout );
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 #include "omdata.h"

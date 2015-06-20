@@ -332,9 +332,16 @@ public:
   // open existing overmap, or generate a new one
   void open();
   // parse data in an opened overmap file
-  void unserialize(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize(std::ifstream &fin);
+  // Parse per-player overmap view data.
+  void unserialize_view(std::ifstream &fin);
+  // Save data in an opened overmap file
+  void serialize(std::ofstream &fin) const;
+  // Save per-player overmap view data.
+  void serialize_view(std::ofstream &fin) const;
   // parse data in an old overmap file
-  bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize_legacy(std::ifstream &fin);
+  void unserialize_view_legacy(std::ifstream &fin);
 
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);

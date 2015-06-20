@@ -280,14 +280,13 @@ void game::load_weather(std::ifstream & fin) {
     }
 }
 
-void game::save_weather(std::ofstream & fout) {
+void game::save_weather(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     fout << "seed: " << weatherGen->get_seed();
 }
 ///// overmap
-void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
-                          std::string const & terfilename) {
+void overmap::unserialize( std::ifstream &fin ) {
     // DEBUG VARS
     int nummg = 0;
     char datatype;
@@ -297,18 +296,18 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
     std::list<item> npc_inventory;
 
     if ( fin.peek() == '#' ) {
+        // This was the last savegame version that produced the old format.
+        static int overmap_legacy_save_version = 24;
         std::string vline;
         getline(fin, vline);
         std::string tmphash, tmpver;
         int savedver=-1;
         std::stringstream vliness(vline);
         vliness >> tmphash >> tmpver >> savedver;
-        if ( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
+        if( savedver <= overmap_legacy_save_version  ) {
+            unserialize_legacy( fin );
+            return;
         }
-    }
-    if (savegame_loading_version != savegame_version) {
-        return;
     }
 
     int z = 0; // assumption
@@ -333,7 +332,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                                        otermap.count( tmp_ter + "_north" ) > 0 ) {
                                 tmp_otid = tmp_ter + "_north";
                             } else {
-                                debugmsg("Loaded bad ter!  %s; ter %s", terfilename.c_str(), tmp_ter.c_str());
+                                debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
                                 tmp_otid = 0;
                             }
                         }
@@ -481,81 +480,77 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
     if (!npc_inventory.empty() && !npcs.empty()) {
         npcs.back()->inv.add_stack(npc_inventory);
     }
+}
 
-    std::ifstream sfin;
-    // Private/per-character data
-    sfin.open(plrfilename.c_str());
-    if ( fin.peek() == '#' ) { // not handling muilti-version seen cache
+void overmap::unserialize_view(std::ifstream &fin)
+{
+    // Private/per-character view of the overmap.
+    if ( fin.peek() == '#' ) {
         std::string vline;
         getline(fin, vline);
+    } else {
+        // No version string means use legacy deserializer.
+        unserialize_view_legacy(fin);
+        return;
     }
-    if (sfin.is_open()) { // Load private seen data
-        int z = 0; // assumption
-        while (sfin >> datatype) {
-            if (datatype == 'L') {  // Load layer data, and switch to layer
-                sfin >> z;
 
-                std::string dataline;
-                getline(sfin, dataline); // Chomp endl
+    int z = 0; // assumption
+    char datatype;
+    while (fin >> datatype) {
+        if (datatype == 'L') {  // Load layer data, and switch to layer
+            fin >> z;
 
-                int count = 0;
-                int vis;
-                if (z >= 0 && z < OVERMAP_LAYERS) {
-                    for (int j = 0; j < OMAPY; j++) {
-                        for (int i = 0; i < OMAPX; i++) {
-                            if (count == 0) {
-                                sfin >> vis >> count;
-                            }
-                            count--;
-                            layer[z].visible[i][j] = (vis == 1);
+            std::string dataline;
+            getline(fin, dataline); // Chomp endl
+
+            int count = 0;
+            int vis;
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                for (int j = 0; j < OMAPY; j++) {
+                    for (int i = 0; i < OMAPX; i++) {
+                        if (count == 0) {
+                            fin >> vis >> count;
                         }
+                        count--;
+                        layer[z].visible[i][j] = (vis == 1);
                     }
-                }
-            } else if (datatype == 'E') { //Load explored areas
-                sfin >> z;
-
-                std::string dataline;
-                getline(sfin, dataline); // Chomp endl
-
-                int count = 0;
-                int explored;
-                if (z >= 0 && z < OVERMAP_LAYERS) {
-                    for (int j = 0; j < OMAPY; j++) {
-                        for (int i = 0; i < OMAPX; i++) {
-                            if (count == 0) {
-                                sfin >> explored >> count;
-                            }
-                            count--;
-                            layer[z].explored[i][j] = (explored == 1);
-                        }
-                    }
-                }
-            } else if (datatype == 'N') { // Load notes
-                om_note tmp;
-                sfin >> tmp.x >> tmp.y;
-                getline(sfin, tmp.text); // Chomp endl
-                getline(sfin, tmp.text);
-                if (z >= 0 && z < OVERMAP_LAYERS) {
-                    layer[z].notes.push_back(tmp);
                 }
             }
+        } else if (datatype == 'E') { //Load explored areas
+            fin >> z;
+
+            std::string dataline;
+            getline(fin, dataline); // Chomp endl
+
+            int count = 0;
+            int explored;
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                for (int j = 0; j < OMAPY; j++) {
+                    for (int i = 0; i < OMAPX; i++) {
+                        if (count == 0) {
+                            fin >> explored >> count;
+                        }
+                        count--;
+                        layer[z].explored[i][j] = (explored == 1);
+                    }
+                }
+            }
+        } else if (datatype == 'N') { // Load notes
+            om_note tmp;
+            fin >> tmp.x >> tmp.y;
+            getline(fin, tmp.text); // Chomp endl
+            getline(fin, tmp.text);
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                layer[z].notes.push_back(tmp);
+            }
         }
-        sfin.close();
     }
 }
 
-// Note: this may throw io errors from std::ofstream
-void overmap::save() const
+void overmap::serialize_view( std::ofstream &fout ) const
 {
-    std::ofstream fout;
-    fout.exceptions(std::ios::badbit | std::ios::failbit);
-    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
-    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
-
-    // Player specific data
-    fout.open(plrfilename.c_str());
-
-    fout << "# version " << savegame_version << std::endl;
+    static const int first_overmap_view_json_version = 1;
+    fout << "# version " << first_overmap_view_json_version << std::endl;
 
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
@@ -606,14 +601,12 @@ void overmap::save() const
             fout << "N " << i.x << " " << i.y << " " << std::endl << i.text << std::endl;
         }
     }
-    fout.close();
+}
 
-    // World terrain data
-    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
-    if(!fout.is_open()) {
-        return;
-    }
-    fout << "# version " << savegame_version << std::endl;
+void overmap::serialize( std::ofstream &fout ) const
+{
+    static const int first_overmap_json_version = 25;
+    fout << "# version " << first_overmap_json_version << std::endl;
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
         int count = 0;
@@ -678,8 +671,6 @@ void overmap::save() const
     //saving the npcs
     for (auto &i : npcs)
         fout << "n " << i->save_info() << std::endl;
-
-    fclose_exclusive(fout, terfilename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
