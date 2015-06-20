@@ -2214,7 +2214,6 @@
         "bashing": 12,
         "cutting": 4,
         "to_hit": 0,
-        "flags" : ["CHOP"],
         "techniques": ["WBLOCK_1"]
     },
     {
@@ -2231,7 +2230,7 @@
         "bashing": 6,
         "cutting": 14,
         "to_hit": -1,
-        "flags": ["SHEATH_SWORD","CHOP"],
+        "flags": ["SHEATH_SWORD"],
         "techniques": ["WBLOCK_1"]
     },
     {
