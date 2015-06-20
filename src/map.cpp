@@ -4023,7 +4023,7 @@ bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_rad
             }
         }
         if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
-            if( !new_item.has_flag("IRREMOVABLE") && new_item.type->gunmod )
+            if( !( new_item.has_flag("IRREMOVABLE") && new_item.is_gunmod() ) )
                 add_item( p_it, new_item );
             return true;
         }
