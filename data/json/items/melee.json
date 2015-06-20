@@ -2231,7 +2231,7 @@
         "bashing": 6,
         "cutting": 14,
         "to_hit": -1,
-        "flags": ["SHEATH_SWORD"],
+        "flags": ["SHEATH_SWORD","CHOP"],
         "techniques": ["WBLOCK_1"]
     },
     {
@@ -2248,7 +2248,7 @@
         "bashing": 4,
         "cutting": 14,
         "to_hit": 2,
-        "flags": ["SHEATH_SWORD"],
+        "flags": ["SHEATH_SWORD","CHOP"],
         "techniques": ["WBLOCK_2"]
     },
     {
@@ -4226,7 +4226,7 @@
     "rarity": 30,
     "price": 15000,
     "material": "aluminum",
-    "flags": ["SLICE", "SHEATH_SWORD"],
+    "flags": ["BASH", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE"],
     "weight": 1882,
     "volume": 17,
