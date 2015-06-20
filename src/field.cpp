@@ -1267,28 +1267,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_fungal_haze:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 33,  5);
-                        int mondex;
-                        mondex = g->mon_at( p );
-                        if( move_cost( p ) > 0 ) {
-                            if( mondex != -1 ) { // Haze'd!
-                                if( !g->zombie(mondex).type->in_species("FUNGUS") &&
-                                    !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
-                                    if( g->u.sees( p ) ) {
-                                        add_msg( m_info, _("The %s inhales thousands of live spores!"),
-                                                 g->zombie(mondex).name().c_str());
-                                    }
-
-                                    monster &critter = g->zombie( mondex );
-                                    if( !critter.make_fungus() ) {
-                                        critter.die(nullptr);
-                                    }
-                                }
-                            }
-
-                            if (one_in(5 - cur->getFieldDensity())) {
-                                g->spread_fungus( p ); //Haze'd terrain
-                            }
+                        if( one_in( 10 - 2 * cur->getFieldDensity() ) ) {
+                            g->spread_fungus( p ); //Haze'd terrain
                         }
+
                         break;
 
                     case fd_toxic_gas:
@@ -2374,12 +2356,26 @@ void map::monster_in_field( monster &z )
             }
             break;
 
+        case fd_fungal_haze:
+            if( !z.type->in_species("FUNGUS") &&
+                !z.type->has_flag("NO_BREATHE") ) {
+                if( !z.make_fungus() ) {
+                    // Don't insta-kill jabberwocks, that's silly
+                    const int density = cur->getFieldDensity();
+                    z.moves -= rng( 10 * density, 30 * density );
+                    dam += rng( 0, 10 * density );
+                }
+            }
+
+            break;
+
         default:
             //Suppress warnings
             break;
         }
     }
-    if (dam > 0) {
+
+    if( dam > 0 ) {
         z.apply_damage( nullptr, bp_torso, dam );
         z.check_dead_state();
     }

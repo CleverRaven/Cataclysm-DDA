@@ -31,7 +31,7 @@ void fungus_haze        (monster *z, int index); // Broadly scatter aerobics
 void fungus_big_blossom (monster *z, int index); // Aerobic & anaerobic, as needed
 void fungus_inject      (monster *z, int index); // Directly inject the spores
 void fungus_bristle     (monster *z, int index); // Fungal hedgrow rake & inject
-void fungus_growth      (monster *z, int index); // Sporeling -> fungaloid
+void fungus_growth      (monster *z, int index); // Sporeling -> fungal creature
 void fungus_sprout      (monster *z, int index); // Grow fungal walls
 void fungus_fortify     (monster *z, int index); // Grow fungal hedgerows
 void leap               (monster *z, int index);
@@ -95,6 +95,8 @@ void tankgun            (monster *z, Creature *target); // Tankbot primary.
 void flame              (monster *z, Creature *target);
 
 bool dodge_check        (monster *z, Creature *target);
+
+bool fungalize          (Creature *origin, const tripoint &target, double spore_chance);
 } //namespace mattack
 
 #endif

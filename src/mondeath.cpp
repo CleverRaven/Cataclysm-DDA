@@ -209,68 +209,13 @@ void mdeath::triffid_heart(monster *z)
 
 void mdeath::fungus(monster *z)
 {
-    bool fungal = false;
-    int mondex = -1;
     //~ the sound of a fungus dying
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            mondex = g->mon_at( sporep );
-            if (g->m.move_cost(sporep) > 0) {
-                if (mondex != -1) {
-                    // Spores hit a monster
-                    fungal = g->zombie(mondex).type->in_species("FUNGUS");
-                    if (g->u.sees(sporep) && !fungal) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( z ); // counts as kill by monster z
-                    }
-                } else if (g->u.pos() == sporep) {
-                    // Spores hit the player
-                    if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
-                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
-                        return;
-                    }
-                    bool hit = false;
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
-                        hit = true;
-                    }
-                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
-                        hit = true;
-                    }
-                    if (hit && (g->u.has_trait("TAIL_CATTLE") &&
-                                one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
-                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
-                        hit = false;
-                    }
-                    if (hit) {
-                        add_msg(m_warning, _("You're covered in tiny spores!"));
-                    }
-                } else if (one_in(2) && g->num_zombies() <= 1000) {
-                    // Spawn a spore
-                    if (g->summon_mon("mon_spore", sporep)) {
-                        monster *spore = g->monster_at(sporep);
-                        spore->make_ally(z);
-                    }
-                }
-            }
+            g->m.fungalize( sporep, z, 0.25 );
         }
     }
 }
