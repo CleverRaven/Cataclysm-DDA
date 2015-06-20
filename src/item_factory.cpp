@@ -641,7 +641,6 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         while( jarr.has_more() ) {
             std::string temp = jarr.next_string();
             slot.built_in_mods.push_back( temp );
-            DebugLog(D_INFO,D_MAIN) << "Built_in_mod:" << temp;
         }
     }
 
@@ -651,7 +650,6 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         while( jarr.has_more() ) {
             std::string temp = jarr.next_string();
             slot.default_mods.push_back( temp );
-            DebugLog(D_INFO,D_MAIN) << "default_mod:" << temp;
         }
     }
 
