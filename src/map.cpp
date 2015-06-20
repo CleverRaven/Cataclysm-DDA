@@ -25,6 +25,7 @@
 #include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 
 #include <cmath>
 #include <stdlib.h>

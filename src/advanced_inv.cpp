@@ -17,6 +17,7 @@
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 #include <map>
 #include <set>

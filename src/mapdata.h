@@ -136,7 +136,7 @@ struct map_deconstruct_info {
  * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
  * Order does not matter.
  */
-enum ter_bitflags {
+enum ter_bitflags : int {
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -259,7 +259,6 @@ furn_id furnfind(const std::string & id); // lookup, carp and return null on err
 
 
 /*
-enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
 */
 //Classic Extras is for when you have special zombies turned off.

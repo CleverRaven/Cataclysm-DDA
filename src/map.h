@@ -8,11 +8,11 @@
 #include <memory>
 
 #include "game_constants.h"
-#include "mapdata.h"
 #include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "int_id.h"
 #include "string_id.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -35,9 +35,14 @@ class computer;
 struct itype;
 struct mapgendata;
 struct trap;
+using trap_id = int_id<trap>;
 struct oter_id;
 struct regional_settings;
 struct mongroup;
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -57,6 +62,10 @@ class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+class map;
+enum ter_bitflags : int;
+struct id_or_id;
+struct map_bash_item_drop;
 
 class map_stack : public item_stack {
 private:

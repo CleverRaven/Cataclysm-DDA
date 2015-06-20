@@ -9,6 +9,7 @@
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";

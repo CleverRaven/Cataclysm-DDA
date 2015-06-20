@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "activity_handlers.h"
 #include "messages.h"
+#include "mapdata.h"
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();

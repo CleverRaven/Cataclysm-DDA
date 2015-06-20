@@ -18,6 +18,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "submap.h"
+#include "mapdata.h"
 
 #include <algorithm>
 #include <cassert>
