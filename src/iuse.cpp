@@ -4112,201 +4112,155 @@ int iuse::siphon(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::combatsaw_off(player *p, item *it, bool, const tripoint& )
+int toolweapon_off(player *p, item *it, bool fast_startup, bool condition, int volume, char *msg_success, char *msg_failure)
 {
-    p->moves -= 60;
-    if (it->charges > 0 && !p->is_underwater()) {
-        sounds::sound(p->pos(), 30,
-                      _("With a snarl, the combat chainsaw screams to life!"));
-        it->make("combatsaw_on");
+    p->moves -= fast_startup ? 60 : 80;
+    if (condition && it->charges > 0) {
+        sounds::sound(p->pos(), volume, msg_success);
+        it->make(
+            it->type->id.substr(0, it->type->id.size() - 4) +
+              // 4 is the length of "_off".
+            "_on");
         it->active = true;
     } else {
-        p->add_msg_if_player(_("You yank the cord, but nothing happens."));
+        p->add_msg_if_player(msg_failure);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::combatsaw_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        true,
+        !p->is_underwater(),
+        30, _("With a snarl, the combat chainsaw screams to life!"),
+        _("You yank the cord, but nothing happens."));
+}
+
+int iuse::chainsaw_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        false,
+        rng(0, 10) - it->damage > 5 && !p->is_underwater(),
+        20, _("With a roar, the chainsaw leaps to life!"),
+        _("You yank the cord, but nothing happens."));
+}
+
+int iuse::elec_chainsaw_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        false,
+        rng(0, 10) - it->damage > 5 && !p->is_underwater(),
+        20, _("With a roar, the electric chainsaw leaps to life!"),
+        _("You flip the switch, but nothing happens."));
+}
+
+int iuse::cs_lajatang_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        false,
+        rng(0, 10) - it->damage > 5 && it->charges > 1 && !p->is_underwater(),
+        40, _("With a roar, the chainsaws leap to life!"),
+        _("You yank the cords, but nothing happens."));
+}
+
+int iuse::carver_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        false,
+        true,
+        20, _("The electric carver's serrated blades start buzzing!"),
+        _("You pull the trigger, but nothing happens."));
+}
+
+int iuse::trimmer_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        false,
+        rng(0, 10) - it->damage > 3,
+        15, _("With a roar, the hedge trimmer leaps to life!"),
+        _("You yank the cord, but nothing happens."));
+}
+
+int toolweapon_on(player *p, item *it, bool t, const char *tname, bool works_underwater, int sound_chance, int volume, char *sound, bool double_charge_cost = false)
+{
+    std::string off_type =
+        it->type->id.substr(0, it->type->id.size() - 3) +
+          // 3 is the length of "_on".
+        "_off";
+    if (t) { // Effects while simply on
+        if (double_charge_cost && it->charges > 0) {
+            it->charges--;
+        }
+        if (!works_underwater && p->is_underwater()) {
+            p->add_msg_if_player(string_format(
+                _("Your %s gurgles in the water and stops."),
+                tname).c_str());
+            it->make(off_type);
+            it->active = false;
+        } else if (one_in(sound_chance)) {
+            sounds::ambient_sound(p->pos(), volume, sound);
+        }
+    } else { // Toggling
+        p->add_msg_if_player(string_format(
+            _("Your %s goes quiet."),
+            tname).c_str());
+        it->make(off_type);
+        it->active = false;
     }
     return it->type->charges_to_use();
 }
 
 int iuse::combatsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (t) { // Effects while simply on
-        if (p->is_underwater()) {
-            p->add_msg_if_player(_("Your chainsaw gurgles in the water and stops."));
-            it->make("combatsaw_off");
-            it->active = false;
-        } else if (one_in(12)) {
-            sounds::ambient_sound(p->pos(), 18, _("Your combat chainsaw growls."));
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your combat chainsaw goes quiet."));
-        it->make("combatsaw_off");
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::chainsaw_off(player *p, item *it, bool, const tripoint& )
-{
-    p->moves -= 80;
-    if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
-        sounds::sound( p->pos(), 20,
-                      _("With a roar, the chainsaw leaps to life!"));
-        it->make("chainsaw_on");
-        it->active = true;
-    } else {
-        p->add_msg_if_player(_("You yank the cord, but nothing happens."));
-    }
-    return it->type->charges_to_use();
+    return toolweapon_on(p, it, t, "combat chainsaw",
+        false,
+        12, 18, _("Your combat chainsaw growls."));
 }
 
 int iuse::chainsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (p->is_underwater()) {
-        p->add_msg_if_player(_("Your chainsaw gurgles in the water and stops."));
-        it->make("chainsaw_off");
-        it->active = false;
-    } else if (t) { // Effects while simply on
-        if (one_in(15)) {
-            sounds::ambient_sound( p->pos(), 12, _("Your chainsaw rumbles."));
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your chainsaw dies."));
-        it->make("chainsaw_off");
-        it->active = false;
-    }
-    return it->type->charges_to_use();
+    return toolweapon_on(p, it, t, "chainsaw",
+        false,
+        15, 12, _("Your chainsaw rumbles."));
 }
 
-int iuse::elec_chainsaw_off(player *p, item *it, bool, const tripoint& )
-{
-    p->moves -= 80;
-    if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
-        sounds::sound( p->pos(), 20,
-                      _("With a roar, the electric chainsaw leaps to life!"));
-        it->make("elec_chainsaw_on");
-        it->active = true;
-    } else {
-        p->add_msg_if_player(_("You flip the switch, but nothing happens."));
-    }
-    return it->type->charges_to_use();
-}
 int iuse::elec_chainsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (p->is_underwater()) {
-        p->add_msg_if_player(_("Your chainsaw gurgles in the water and stops."));
-        it->make("elec_chainsaw_off");
-        it->active = false;
-    } else if (t) { // Effects while simply on
-        if (one_in(15)) {
-            sounds::ambient_sound( p->pos(), 12, _("Your electric chainsaw rumbles."));
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your electric chainsaw dies."));
-        it->make("elec_chainsaw_off");
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::cs_lajatang_off(player *p, item *it, bool, const tripoint& )
-{
-    p->moves -= 80;
-    if (rng(0, 10) - it->damage > 5 && it->charges > 1) {
-        sounds::sound( p->pos(), 40,
-                      _("With a roar, the chainsaws leap to life!"));
-        it->make("cs_lajatang_on");
-        it->active = true;
-    } else {
-        p->add_msg_if_player(_("You yank the cords, but nothing happens."));
-    }
-    return it->type->charges_to_use();
+    return toolweapon_on(p, it, t, "electric chainsaw",
+        false,
+        15, 12, _("Your electric chainsaw rumbles."));
 }
 
 int iuse::cs_lajatang_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (t) { // Effects while simply on
-        if (one_in(15)) {
-            sounds::ambient_sound( p->pos(), 12, _("Your chainsaws rumble."));
-        }
-        //Deduct an additional charge (since there are two of them)
-        if (it->charges > 0) {
-            it->charges--;
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your chainsaws die."));
-        it->make("cs_lajatang_off");
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::carver_off(player *p, item *it, bool, const tripoint& )
-{
-    p->moves -= 80;
-    if (it->charges > 0) {
-        sounds::sound( p->pos(), 20,
-                      _("The electric carver's serrated blades start buzzing!"));
-        it->make("carver_on");
-        it->active = true;
-    } else {
-        p->add_msg_if_player(_("You pull the trigger but nothing happens."));
-    }
-    return it->type->charges_to_use();
+    return toolweapon_on(p, it, t, "chainsaw lajatang",
+        false,
+        15, 12, _("Your chainsaws rumble."),
+        true);
+          // The chainsaw lajatang drains 2 charges per turn, since
+          // there are two chainsaws.
 }
 
 int iuse::carver_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (t) { // Effects while simply on
-        if (one_in(10)) {
-            sounds::ambient_sound( p->pos(), 8, _("Your electric carver buzzes."));
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your electric carver dies."));
-        it->make("carver_off");
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::trimmer_off(player *p, item *it, bool, const tripoint& )
-{
-    p->moves -= 80;
-    if (rng(0, 10) - it->damage > 3 && it->charges > 0) {
-        sounds::sound( p->pos(), 15,
-                      _("With a roar, the hedge trimmer leaps to life!"));
-        it->make("trimmer_on");
-        it->active = true;
-    } else {
-        p->add_msg_if_player(_("You yank the cord, but nothing happens."));
-    }
-    return it->type->charges_to_use();
+    return toolweapon_on(p, it, t, "electric carver",
+        true,
+        10, 8, _("Your electric carver buzzes."));
 }
 
 int iuse::trimmer_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (t) { // Effects while simply on
-        if (one_in(15)) {
-            sounds::ambient_sound( p->pos(), 10, _("Your hedge trimmer rumbles."));
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your hedge trimmer dies."));
-        it->make("trimmer_off");
-        it->active = false;
-    }
-    return it->type->charges_to_use();
+    return toolweapon_on(p, it, t, "hedge trimmer",
+        true,
+        15, 10, _("Your hedge trimmer rumbles."));
 }
 
 int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    if (t) { // Effects while simply on
-        if (one_in(15)) {
-            sounds::ambient_sound( p->pos(), 7, _("Your circular saw buzzes."));
-        }
-    } else { // Toggling
-        p->add_msg_if_player(_("Your circular saw powers off."));
-        it->make("circsaw_off");
-        it->active = false;
-    }
-    return 0;
+    return toolweapon_on(p, it, t, "circular saw",
+        true,
+        15, 7, _("Your circular saw buzzes."));
 }
 
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
