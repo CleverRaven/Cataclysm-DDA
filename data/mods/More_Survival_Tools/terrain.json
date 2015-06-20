@@ -50,5 +50,61 @@
                 { "item": "plastic_chunk", "amount": 8, "minamount": 4 }
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_wattle_half",
+        "name": "half-built wattle-and-daub wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "bash": {
+            "str_min": 8, "str_max": 75,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "splinter", "amount": 6, "minamount": 6 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_wattle",
+        "name": "wattle-and-daub wall",
+        "symbol": "#",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "bash": {
+            "str_min": 10, "str_max": 140,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_wall_wattle_broken",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "splinter", "amount": 6, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_wattle_broken",
+        "name": "broken wattle-and-daub wall",
+        "symbol": "&",
+        "color": "ltred",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL"
+        ],
+        "bash": {
+            "str_min": 4, "str_max": 110,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "2x4", "amount": 3, "minamount": 0 },
+                { "item": "splinter", "amount": 6, "minamount": 3 }
+            ]
+        }
     }
  ]
