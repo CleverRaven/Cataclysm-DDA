@@ -662,7 +662,11 @@ bool player::activate_bionic(int b, bool eff_only)
     } else if (bio.id == "bio_tools") {
         invalidate_crafting_inventory();
     } else if (bio.id == "bio_cqb") {
-        pick_style();
+        if (!pick_style()) {
+            bio.powered = false;
+            add_msg(m_info, _("You change your mind and turn it off."));
+            return false;
+        }
     } else if (bio.id == "bio_nanobots") {
         remove_effect("bleed");
         healall(4);
