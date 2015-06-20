@@ -2515,7 +2515,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
             monster *origin_mon = dynamic_cast<monster*>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( origin_mon );
-            } else if( origin != nullptr && origin->is_player() ) {
+            } else if( origin != nullptr && origin->is_player() && g->u.has_trait("THRESH_MYCUS") ) {
                 spore->friendly = 1000;
             }
         }

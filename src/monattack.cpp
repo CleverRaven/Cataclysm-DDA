@@ -2029,15 +2029,10 @@ void mattack::dermatik_growth(monster *z, int index)
     z->poly(GetMType("mon_dermatik"));
 }
 
-void mattack::plant(monster *z, int index)
+void mattack::plant( monster *z, int /*index*/ )
 {
-    z->reset_special( index );
-    if( !one_in( 10 ) && !g->m.has_items( z->pos() ) ) {
-        return;
-    }
-
     // Spores taking seed and growing into a fungaloid
-    if( !g->spread_fungus( z->pos() ) && one_in( 5 + g->num_zombies() / 25 ) ) {
+    if( !g->spread_fungus( z->pos() ) && one_in( 10 + g->num_zombies() / 5 ) ) {
         if( g->u.sees( *z ) ) {
             add_msg(m_warning, _("The %s takes seed and becomes a young fungaloid!"),
                     z->name().c_str());

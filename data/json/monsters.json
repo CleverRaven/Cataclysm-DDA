@@ -3310,7 +3310,7 @@
     "upgrades_into": "mon_fungaloid",
     "half_life" : 1,
     "death_function":"DISINTEGRATE",
-    "special_attacks":[["PLANT", 10]],
+    "special_attacks":[["PLANT", 100]],
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
     "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB"]
     },{
