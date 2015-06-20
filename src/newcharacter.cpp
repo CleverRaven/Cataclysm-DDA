@@ -1626,7 +1626,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     WINDOW *w_name = newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
     WINDOW_PTR w_nameptr( w_name );
-    WINDOW *w_gender = newwin(2, 32, getbegy(w) + 5, getbegx(w) + 46);
+    WINDOW *w_gender = newwin(2, 33, getbegy(w) + 5, getbegx(w) + 46);
     WINDOW_PTR w_genderptr( w_gender );
     WINDOW *w_location = newwin(1, 76, getbegy(w) + 7, getbegx(w) + 2);
     WINDOW_PTR w_locationptr( w_location );
@@ -1634,11 +1634,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 9, getbegx(w) + 22);
     WINDOW_PTR w_traitsptr( w_traits );
-    WINDOW *w_scenario = newwin(1, 32, getbegy(w) + 9, getbegx(w) + 46);
+    WINDOW *w_scenario = newwin(1, 33, getbegy(w) + 9, getbegx(w) + 46);
     WINDOW_PTR w_scenarioptr( w_scenario );
-    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 46);
+    WINDOW *w_profession = newwin(1, 33, getbegy(w) + 10, getbegx(w) + 46);
     WINDOW_PTR w_professionptr( w_profession );
-    WINDOW *w_skills = newwin(9, 24, getbegy(w) + 11, getbegx(w) + 46);
+    WINDOW *w_skills = newwin(9, 33, getbegy(w) + 11, getbegx(w) + 46);
     WINDOW_PTR w_skillsptr( w_skills );
     WINDOW *w_guide = newwin(4, FULL_SCREEN_WIDTH - 3, getbegy(w) + 19, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
