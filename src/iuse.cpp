@@ -4213,28 +4213,28 @@ int toolweapon_on(player *p, item *it, bool t, const char *tname, bool works_und
 
 int iuse::combatsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "combat chainsaw",
+    return toolweapon_on(p, it, t, _("combat chainsaw"),
         false,
         12, 18, _("Your combat chainsaw growls."));
 }
 
 int iuse::chainsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "chainsaw",
+    return toolweapon_on(p, it, t, _("chainsaw"),
         false,
         15, 12, _("Your chainsaw rumbles."));
 }
 
 int iuse::elec_chainsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "electric chainsaw",
+    return toolweapon_on(p, it, t, _("electric chainsaw"),
         false,
         15, 12, _("Your electric chainsaw rumbles."));
 }
 
 int iuse::cs_lajatang_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "chainsaw lajatang",
+    return toolweapon_on(p, it, t, _("chainsaw lajatang"),
         false,
         15, 12, _("Your chainsaws rumble."),
         true);
@@ -4244,21 +4244,21 @@ int iuse::cs_lajatang_on(player *p, item *it, bool t, const tripoint& )
 
 int iuse::carver_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "electric carver",
+    return toolweapon_on(p, it, t, _("electric carver"),
         true,
         10, 8, _("Your electric carver buzzes."));
 }
 
 int iuse::trimmer_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "hedge trimmer",
+    return toolweapon_on(p, it, t, _("hedge trimmer"),
         true,
         15, 10, _("Your hedge trimmer rumbles."));
 }
 
 int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 {
-    return toolweapon_on(p, it, t, "circular saw",
+    return toolweapon_on(p, it, t, _("circular saw"),
         true,
         15, 7, _("Your circular saw buzzes."));
 }
