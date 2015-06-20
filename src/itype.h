@@ -281,9 +281,13 @@ struct islot_gun : common_firing_data {
      */
     std::map<std::string, int> valid_mod_locations;
     /**
-    *Built in mods. string is id of mod.
+    *Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set.
     */
     std::vector<std::string> built_in_mods;
+    /**
+    *Default mods, string is id of mod. These mods are removable but are default on the weapon.
+    */
+    std::vector<std::string> default_mods;
 };
 
 struct islot_gunmod : common_firing_data {

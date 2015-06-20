@@ -98,9 +98,19 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             for( unsigned int i = 0; i < type->gun->built_in_mods.size(); i++ ){
                 DebugLog(D_INFO,D_MAIN) << "built_in_mods-item:" << type->gun->built_in_mods.at(i);
                 if(type_is_defined( type->gun->built_in_mods.at(i) ) ){
-                    contents.push_back( item( type->gun->built_in_mods.at(i), turn, rand, handed ) );
+                    item temp( type->gun->built_in_mods.at(i), turn, rand, handed );
+                    temp.item_tags.insert("IRREMOVABLE");
+                    contents.push_back( temp );
                 }
             }
+        }
+        if( type->gun->default_mods.size() > 0 ){
+            for( unsigned int i = 0; i < type->gun->default_mods.size(); i++ ){
+                DebugLog(D_INFO,D_MAIN) << "default_mods-item:" << type->gun->default_mods.at(i);
+                if(type_is_defined( type->gun->default_mods.at(i) ) ){
+                    contents.push_back( item( type->gun->default_mods.at(i), turn, rand, handed ) );
+                }
+            }  
         }
     }
     if( type->ammo ) {
@@ -1501,6 +1511,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
+                    if( elem.has_flag("IRREMOVABLE") )
+                        temp1 << "[Integrated]";
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
                     dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );

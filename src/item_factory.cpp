@@ -645,6 +645,16 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         }
     }
 
+    //Add default
+    if( jo.has_array( "default_mods" ) ) {
+    JsonArray jarr = jo.get_array( "default_mods" );
+        while( jarr.has_more() ) {
+            std::string temp = jarr.next_string();
+            slot.default_mods.push_back( temp );
+            DebugLog(D_INFO,D_MAIN) << "default_mod:" << temp;
+        }
+    }
+
 }
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )

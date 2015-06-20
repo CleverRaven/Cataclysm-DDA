@@ -11159,7 +11159,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
         for (size_t i = 0; i < mods.size(); i++) {
-            kmenu.addentry( i, true, -1, mods[i].tname() );
+            if( mods[i].has_flag("IRREMOVABLE") ){
+                kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
+            }
+            else
+                kmenu.addentry( i, true, -1, mods[i].tname() );
         }
         kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
         kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
