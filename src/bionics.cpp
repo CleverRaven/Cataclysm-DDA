@@ -281,7 +281,8 @@ void player::power_bionics()
     ctxt.register_action("TOGGLE_EXAMINE");
     ctxt.register_action("REASSIGN");
     ctxt.register_action("REMOVE");
-    ctxt.register_action("SWAP_BIONIC_TABS");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
     ctxt.register_action("CONFIRM");
     ctxt.register_action("HELP_KEYBINDINGS");
 
@@ -457,7 +458,7 @@ void player::power_bionics()
                 tmp->invlet = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
-        } else if (action == "SWAP_BIONIC_TABS"){
+        } else if (action == "NEXT_TAB") {
             redraw = true;
             scroll_position = 0;
             cursor = 0;
@@ -465,6 +466,15 @@ void player::power_bionics()
                 tab_mode = "TAB_PASSIVE";
             }else{
                 tab_mode = "TAB_ACTIVE";
+            }
+        } else if (action == "PREV_TAB") {
+            redraw = true;
+            scroll_position = 0;
+            cursor = 0;
+            if(tab_mode == "TAB_PASSIVE"){
+                tab_mode = "TAB_ACTIVE";
+            }else{
+                tab_mode = "TAB_PASSIVE";
             }
         } else if (action == "DOWN") {
             redraw = true;

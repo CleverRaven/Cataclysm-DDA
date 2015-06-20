@@ -1313,18 +1313,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"SWAP_BIONIC_TABS",
-        "category":"BIONICS",
-        "name":"Swap bionic tab view",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"TAB"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"TOGGLE_EXAMINE",
         "category":"MUTATIONS",
         "name":"Toggle activate/examine",
