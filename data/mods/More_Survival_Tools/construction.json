@@ -38,7 +38,7 @@
         "skill" : "survival",
         "description" : "Build Wattle-and-Daub Wall", "//": "Step 1: half of a wall in an empty space",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "time" : 50,
         "qualities": [
             { "id": "CUT", "level": 1 },
@@ -58,7 +58,7 @@
         "skill" : "survival",
         "description" : "Build Wattle-and-Daub Wall", "//": "Step 2: complete the half made wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "difficulty" : 2,
         "time" : 50,
         "qualities": [
             { "id": "CUT", "level": 1 },
@@ -78,14 +78,14 @@
         "skill" : "survival",
         "description" : "Build Thatched Roof",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "difficulty" : 3,
         "time" : 120,
         "qualities": [
             { "id": "CUT", "level": 1 }
         ],
         "components" : [
             [ [ "2x4", 5 ], [ "stick", 10 ] ],
-            [ [ "straw_pile", 25 ], [ "pine_bough", 25 ] ]
+            [ [ "straw_pile", 15 ], [ "pine_bough", 15 ] ]
         ],
         "pre_special" : "check_support",
         "post_terrain" : "t_dirtfloor"
