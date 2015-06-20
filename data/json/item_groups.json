@@ -8617,6 +8617,45 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "car_kit",
+    "items":[
+      ["jack", 20],
+      ["wheel", 18],
+      ["jerrycan", 10],
+      ["jerrycan_big", 3],
+      ["hose", 8],
+      ["jumper_cable", 10],
+      ["sm_extinguisher", 8],
+      ["extinguisher", 2],
+      ["1st_aid", 7],
+      ["screwdriver", 10],
+      ["screwdriver_set", 3]
+      ["toolbox", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "car_misc",
+    "items":[
+      ["matches", 8],
+      ["lighter", 10],
+      ["ref_lighter", 2],
+      ["cig", 15],
+      ["cigar", 2],
+      ["ecig", 5],
+      ["advanced_ecig", 1],
+      ["gum", 13],
+      ["glowstick", 2],
+      ["flashlight", 5],
+      ["umbrella", 10],
+      ["teleumbrella", 3],
+      ["sunglasses", 12],
+      ["inhaler", 5],
+      ["knife_swissarmy", 5],
+      ["roadmap", 1],
+      ["touristmap", 1]
+      ]
+  },{
+    "type" : "item_group",
     "id" : "npc_hacker",
     "items":[
       ["energy_drink", 55],

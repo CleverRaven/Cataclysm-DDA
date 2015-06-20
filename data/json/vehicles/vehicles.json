@@ -291,22 +291,12 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ],
         "items" : [
-            {"x": 0, "y": 0, "chance": 16, "items": "cig"},
-            {"x": 0, "y": 0, "chance": 16, "items": "lighter"},
-            {"x": 0, "y": 1, "chance": 1, "items": "roadmap"},
-            {"x": 0, "y": 1, "chance": 10, "items": "flashlight"},
-            {"x": 0, "y": 1, "chance": 5, "items": "1st_aid"},
-            {"x": -1, "y": 0, "chance": 5, "item_groups": "snacks"},
-            {"x": -1, "y": 0, "chance": 5, "item_groups": "fast_food"},
-            {"x": -1, "y": 0, "chance": 2, "items": "umbrella"},
-            {"x": -1, "y": 0, "chance": 1, "items": "teleumbrella"},
-            {"x": -1, "y": 1, "chance": 5, "item_groups": "snacks"},
-            {"x": -1, "y": 1, "chance": 5, "item_groups": "fast_food"},
-            {"x": -2, "y": 1, "chance": 5, "items": "screwdriver"},
-            {"x": -2, "y": 1, "chance": 5, "items": "scissors"},
-            {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
-            {"x": -2, "y": 1, "chance": 5, "items": "jumper_cable"},
-            {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]}
+            {"x": 0, "y": 0, "chance": 14, "item_groups": "car_misc"},
+            {"x": 0, "y": 0, "chance": 5, "item_groups": "snacks"},
+            {"x": 0, "y": 1, "chance": 8, "item_groups": "car_misc"},
+            {"x": 0, "y": 1, "chance": 2, "item_groups": "fast_food"},
+            {"x": -2, "y": 0, "chance": 11, "item_groups": "car_kit"},
+            {"x": -2, "y": 1, "chance": 15, "item_groups": "car_kit"}
         ]
     },{
         "type" : "vehicle",
@@ -1032,6 +1022,7 @@
         "items" : [
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
             {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
+            {"x": -2, "y": 0, "chance": 7, "item_groups": "car_kit"},
             {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
         ]
     },{
@@ -1160,6 +1151,7 @@
             {"x": -2, "y": 0, "chance": 15, "items": ["2x4"]},
             {"x": -2, "y": 1, "chance": 12, "items": ["2x4"]},
             {"x": -2, "y": 1, "chance": 9, "items": ["2x4"]},
+            {"x": -3, "y": 0, "chance": 7, "item_groups": ["car_kit"]},
             {"x": -2, "y": 2, "chance": 14, "items": ["2x4"]},
             {"x": -2, "y": 0, "chance": 15, "items": ["2x4"]},
             {"x": -3, "y": 0, "chance": 2, "item_groups": ["bigtools"]},
@@ -1902,6 +1894,7 @@
             {"x": -1, "y": 2, "part": "wheel"}
         ],
          "items" : [
+            {"x": 0, "y": 0, "chance": 5, "item_groups": "car_misc"},
             {"x": -1, "y": 0, "chance": 5, "items": ["mag_glam"]}
         ]
     },{
@@ -1964,6 +1957,11 @@
             {"x": 2, "y": 2, "part": "halfboard_ne"},
             {"x": 2, "y": 2, "part": "headlight"},
             {"x": 2, "y": 2, "part": "wheel"}
+        ],
+         "items" : [
+            {"x": 0, "y": 0, "chance": 8, "item_groups": "car_misc"},
+            {"x": 2, "y": 0, "chance": 6, "item_groups": "car_kit"},
+            {"x": 2, "y": 1, "chance": 8, "item_groups": "car_kit"}
         ]
     },{
         "type" : "vehicle",
@@ -2039,6 +2037,9 @@
             {"x": -3, "y": 1, "part": "windshield"},
             {"x": -3, "y": -1, "part": "frame_sw"},
             {"x": -3, "y": -1, "part": "windshield"}
+        ],
+         "items" : [
+            {"x": -2, "y": 0, "chance": 3, "item_groups": "car_kit"}
         ]
     },{
         "type" : "vehicle",
@@ -5211,18 +5212,14 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ],
         "items" : [
-            {"x": 0, "y": 0, "chance": 16, "items": "cig"},
-            {"x": 0, "y": 0, "chance": 16, "items": "lighter"},
-            {"x": 0, "y": 1, "chance": 1, "items": "roadmap"},
-            {"x": 0, "y": 1, "chance": 10, "items": "flashlight"},
-            {"x": 0, "y": 1, "chance": 5, "items": "1st_aid"},
+            {"x": 0, "y": 0, "chance": 15, "item_groups": "car_misc"},
+            {"x": 0, "y": 0, "chance": 10, "item_groups": "car_misc"},
+            {"x": 0, "y": 1, "chance": 10, "item_groups": "car_misc"},
             {"x": 0, "y": 1, "chance": 5, "item_groups": "snacks"},
-            {"x": 0, "y": 1, "chance": 5, "item_groups": "fast_food"},
-            {"x": -2, "y": 1, "chance": 5, "items": "screwdriver"},
-            {"x": -2, "y": 0, "chance": 2, "items": "scissors"},
+            {"x": 0, "y": 0, "chance": 5, "item_groups": "fast_food"},
             {"x": -2, "y": 0, "chance": 5, "item_groups": "farming_tools"},
-            {"x": -2, "y": 1, "chance": 5, "items": "crowbar"},
-            {"x": -2, "y": 1, "chance": 15, "items": ["jack", "wheel"]},
+            {"x": -2, "y": 1, "chance": 12, "item_groups": "car_kit"},
+            {"x": -3, "y": 1, "chance": 10, "item_groups": "car_kit"},
             {"x": -3, "y": 0, "chance": 8, "item_groups": "fuel_gasoline"},
             {"x": -2, "y": 1, "chance": 3, "items": "ax"}
         ]
