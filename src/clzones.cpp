@@ -17,55 +17,55 @@ zone_manager::zone_manager()
     //Use: if (g->checkZone("ZONE_NAME", posx, posy)) {
     //to check for a zone
 
-    vZoneTypes.push_back( std::make_pair( _("No Auto Pickup"), "NO_AUTO_PICKUP" ) );
-    vZoneTypes.push_back( std::make_pair( _("No NPC Pickup"),  "NO_NPC_PICKUP" ) );
+    types.push_back( std::make_pair( _("No Auto Pickup"), "NO_AUTO_PICKUP" ) );
+    types.push_back( std::make_pair( _("No NPC Pickup"),  "NO_NPC_PICKUP" ) );
 }
 
-void zone_manager::clZoneData::setName()
+void zone_manager::zone_data::set_name()
 {
-    const std::string sName = string_input_popup(_("Zone name:"), 55, this->sName, "", "", 15);
+    const std::string name = string_input_popup( _( "Zone name:" ), 55, this->name, "", "", 15 );
 
-    this->sName = (sName == "") ? _("<no name>") : sName;
+    this->name = ( name == "" ) ? _( "<no name>" ) : name;
 }
 
-void zone_manager::clZoneData::setZoneType(
-    const std::vector<std::pair<std::string, std::string> > &vZoneTypes )
+void zone_manager::zone_data::set_zone_type(
+    const std::vector<std::pair<std::string, std::string> > &types )
 {
     uimenu as_m;
-    as_m.text = _("Select zone type:");
+    as_m.text = _( "Select zone type:" );
 
-    for (unsigned int i = 0; i < vZoneTypes.size(); ++i) {
-        as_m.entries.push_back(uimenu_entry(i + 1, true, (char)i + 1, vZoneTypes[i].first));
+    for( unsigned int i = 0; i < types.size(); ++i ) {
+        as_m.entries.push_back( uimenu_entry( i + 1, true, ( char )i + 1, types[i].first ) );
     }
     as_m.query();
 
-    this->sZoneType = vZoneTypes[((as_m.ret >= 1) ? as_m.ret : 1) - 1].second;
+    this->type = types[( ( as_m.ret >= 1 ) ? as_m.ret : 1 ) - 1].second;
 }
 
-void zone_manager::clZoneData::setEnabled(const bool p_bEnabled)
+void zone_manager::zone_data::set_enabled( const bool _enabled )
 {
-    this->bEnabled = p_bEnabled;
+    enabled = _enabled;
 }
 
-point zone_manager::clZoneData::getCenterPoint() const
+tripoint zone_manager::zone_data::get_center_point() const
 {
-    return point((pointStartXY.x + pointEndXY.x) / 2, (pointStartXY.y + pointEndXY.y) / 2);
+    return tripoint( ( start.x + end.x ) / 2, ( start.y + end.y ) / 2, ( start.z + end.z ) / 2 );
 }
 
-std::string zone_manager::getNameFromType( const std::string &type ) const
+std::string zone_manager::get_name_from_type( const std::string &type ) const
 {
-    for( auto &elem : vZoneTypes ) {
+    for( auto &elem : types ) {
         if( elem.second == type ) {
             return elem.first;
         }
     }
 
-    return "Unknown Type";
+    return _("Unknown Type");
 }
 
-bool zone_manager::hasType( const std::string &type ) const
+bool zone_manager::has_type( const std::string &type ) const
 {
-    for( auto &elem : vZoneTypes ) {
+    for( auto &elem : types ) {
         if( elem.second == type ) {
             return true;
         }
@@ -74,56 +74,60 @@ bool zone_manager::hasType( const std::string &type ) const
     return false;
 }
 
-void zone_manager::cacheZoneData()
+void zone_manager::cache_zone_data()
 {
-    mZones.clear();
+    area_cache.clear();
 
-    for( auto &elem : vZones ) {
-        if( elem.getEnabled() ) {
-            const std::string sType = elem.getZoneType();
+    for( auto &elem : zones ) {
+        if( elem.get_enabled() ) {
+            const std::string sType = elem.get_zone_type();
 
-            point pStart = elem.getStartPoint();
-            point pEnd = elem.getEndPoint();
+            tripoint start = elem.get_start_point();
+            tripoint end = elem.get_end_point();
 
             //draw marked area
-            for (int iY = pStart.y; iY <= pEnd.y; ++iY) {
-                for (int iX = pStart.x; iX <= pEnd.x; ++iX) {
-                    mZones[sType].insert( point{ iX, iY } );
+            for( int y = start.y; y <= end.y; ++y ) {
+                for( int x = start.x; x <= end.x; ++x ) {
+                    for( int z = start.z; z <= end.z; ++z ) {
+                        area_cache[sType].insert( tripoint{ x, y, z } );
+                    }
                 }
             }
         }
     }
 }
 
-bool zone_manager::hasZone( const std::string &type, const point point_input ) const
+bool zone_manager::has_zone( const std::string &type, const tripoint &where ) const
 {
-    const auto type_iter = mZones.find( type );
-    if( type_iter == mZones.end() ) {
+    const auto type_iter = area_cache.find( type );
+    if( type_iter == area_cache.end() ) {
         return false;
     }
 
     const auto &point_set = type_iter->second;
-    return point_set.find( point_input ) != point_set.end();
+    return point_set.find( where ) != point_set.end();
 }
 
-void zone_manager::serialize(JsonOut &json) const
+void zone_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
-    for( auto &elem : vZones ) {
+    for( auto &elem : zones ) {
         json.start_object();
 
-        json.member( "name", elem.getName() );
-        json.member( "type", elem.getZoneType() );
-        json.member( "invert", elem.getInvert() );
-        json.member( "enabled", elem.getEnabled() );
+        json.member( "name", elem.get_name() );
+        json.member( "type", elem.get_zone_type() );
+        json.member( "invert", elem.get_invert() );
+        json.member( "enabled", elem.get_enabled() );
 
-        point pointStart = elem.getStartPoint();
-        point pointEnd = elem.getEndPoint();
+        tripoint start = elem.get_start_point();
+        tripoint end = elem.get_end_point();
 
-        json.member("start_x", pointStart.x);
-        json.member("start_y", pointStart.y);
-        json.member("end_x", pointEnd.x);
-        json.member("end_y", pointEnd.y);
+        json.member( "start_x", start.x );
+        json.member( "start_y", start.y );
+        json.member( "start_z", start.z );
+        json.member( "end_x", end.x );
+        json.member( "end_y", end.y );
+        json.member( "end_z", end.z );
 
         json.end_object();
     }
@@ -131,56 +135,61 @@ void zone_manager::serialize(JsonOut &json) const
     json.end_array();
 }
 
-void zone_manager::deserialize(JsonIn &jsin)
+void zone_manager::deserialize( JsonIn &jsin )
 {
-    vZones.clear();
+    zones.clear();
 
     jsin.start_array();
-    while (!jsin.end_array()) {
-        JsonObject joZone = jsin.get_object();
+    while( !jsin.end_array() ) {
+        JsonObject jo_zone = jsin.get_object();
 
-        const std::string sName = joZone.get_string("name");
-        const std::string sType = joZone.get_string("type");
+        const std::string name = jo_zone.get_string( "name" );
+        const std::string type = jo_zone.get_string( "type" );
 
-        const bool bInvert = joZone.get_bool("invert");
-        const bool bEnabled = joZone.get_bool("enabled");
+        const bool invert = jo_zone.get_bool( "invert" );
+        const bool enabled = jo_zone.get_bool( "enabled" );
 
-        const int iStartX = joZone.get_int("start_x");
-        const int iStartY = joZone.get_int("start_y");
-        const int iEndX = joZone.get_int("end_x");
-        const int iEndY = joZone.get_int("end_y");
+        // Z coords need to have a default value - old saves won't have those
+        const int start_x = jo_zone.get_int( "start_x" );
+        const int start_y = jo_zone.get_int( "start_y" );
+        const int start_z = jo_zone.get_int( "start_z", 0 );
+        const int end_x = jo_zone.get_int( "end_x" );
+        const int end_y = jo_zone.get_int( "end_y" );
+        const int end_z = jo_zone.get_int( "end_z", 0 );
 
-        if (hasType(sType)) {
-            add(sName, sType, bInvert, bEnabled, point(iStartX, iStartY), point(iEndX, iEndY));
+        if( has_type( type ) ) {
+            add( name, type, invert, enabled,
+                 tripoint( start_x, start_y, start_z ),
+                 tripoint( end_x, end_y, end_z ) );
         }
     }
 
-    cacheZoneData();
+    cache_zone_data();
 }
 
 
 bool zone_manager::save_zones()
 {
-    cacheZoneData();
+    cache_zone_data();
 
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                               g->u.name) + ".zones.json";
+                               g->u.name ) + ".zones.json";
 
     try {
         std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
+        fout.exceptions( std::ios::badbit | std::ios::failbit );
 
-        fopen_exclusive(fout, savefile.c_str());
-        if(!fout.is_open()) {
+        fopen_exclusive( fout, savefile.c_str() );
+        if( !fout.is_open() ) {
             return true; //trick game into thinking it was saved
         }
 
         fout << serialize();
-        fclose_exclusive(fout, savefile.c_str());
+        fclose_exclusive( fout, savefile.c_str() );
         return true;
 
-    } catch(std::ios::failure &) {
-        popup(_("Failed to save zones to %s"), savefile.c_str());
+    } catch( std::ios::failure & ) {
+        popup( _( "Failed to save zones to %s" ), savefile.c_str() );
         return false;
     }
 }
@@ -188,20 +197,20 @@ bool zone_manager::save_zones()
 void zone_manager::load_zones()
 {
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
-                               g->u.name) + ".zones.json";
+                               g->u.name ) + ".zones.json";
 
     std::ifstream fin;
-    fin.open(savefile.c_str(), std::ifstream::in | std::ifstream::binary);
-    if(!fin.good()) {
+    fin.open( savefile.c_str(), std::ifstream::in | std::ifstream::binary );
+    if( !fin.good() ) {
         fin.close();
         return;
     }
 
     try {
-        JsonIn jsin(fin);
-        deserialize(jsin);
-    } catch (std::string e) {
-        DebugLog(D_ERROR, DC_ALL) << "load_zones: " << e;
+        JsonIn jsin( fin );
+        deserialize( jsin );
+    } catch( std::string e ) {
+        DebugLog( D_ERROR, DC_ALL ) << "load_zones: " << e;
     }
 
     fin.close();

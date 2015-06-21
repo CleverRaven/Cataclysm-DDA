@@ -8305,9 +8305,9 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
     begin_x = getbegx(w_messages);
 }
 
-bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
+bool game::check_zone( const std::string &type, const tripoint &where ) const
 {
-    return zone_manager::get_manager().hasZone(p_sType, m.getabs(p_iX, p_iY));
+    return zone_manager::get_manager().has_zone( type, m.getabs( where ) );
 }
 
 void game::zones_manager_shortcuts(WINDOW *w_info)
@@ -8424,30 +8424,34 @@ void game::zones_manager()
             mvwprintz(w_zones_info, 3, 2, c_white, _("Select first point."));
             wrefresh(w_zones_info);
 
-            tripoint pFirst = look_around( w_zones_info, u.pos3() + u.view_offset, false, true );
-            tripoint pSecond = tripoint( -1, -1, INT_MIN );
+            tripoint first = look_around( w_zones_info, u.pos3() + u.view_offset, false, true );
+            tripoint second = tripoint( -1, -1, INT_MIN );
 
-            if( pFirst != tripoint_min ) {
+            if( first != tripoint_min ) {
                 mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
                 wrefresh(w_zones_info);
 
-                pSecond = look_around( w_zones_info, pFirst, true, true );
+                second = look_around( w_zones_info, first, true, true );
             }
 
-            if( pSecond != tripoint_min ) {
+            if( second != tripoint_min ) {
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
-                zones.add("", "", false, true,
-                            m.getabs(std::min(pFirst.x, pSecond.x), std::min(pFirst.y, pSecond.y)),
-                            m.getabs(std::max(pFirst.x, pSecond.x), std::max(pFirst.y, pSecond.y))
+                zones.add( "", "", false, true,
+                            m.getabs( tripoint( std::min(first.x, second.x),
+                                                std::min(first.y, second.y),
+                                                std::min(first.z, second.z) ) ),
+                            m.getabs( tripoint( std::max(first.x, second.x),
+                                                std::max(first.y, second.y),
+                                                std::max(first.z, second.z) ) )
                            );
 
                 iZonesNum = zones.size();
                 iActive = iZonesNum - 1;
 
-                zones.vZones[iActive].setName();
-                zones.vZones[iActive].setZoneType(zones.getZoneTypes());
+                zones.zones[iActive].set_name();
+                zones.zones[iActive].set_zone_type(zones.get_zone_types());
             }
 
             draw_ter();
@@ -8506,11 +8510,11 @@ void game::zones_manager()
 
                 switch (as_m.ret) {
                 case 1:
-                    zones.vZones[iActive].setName();
+                    zones.zones[iActive].set_name();
                     bStuffChanged = true;
                     break;
                 case 2:
-                    zones.vZones[iActive].setZoneType(zones.getZoneTypes());
+                    zones.zones[iActive].set_zone_type(zones.get_zone_types());
                     bStuffChanged = true;
                     break;
                 case 3:
@@ -8535,8 +8539,8 @@ void game::zones_manager()
 
             } else if (action == "MOVE_ZONE_UP" && zones.size() > 1) {
                 if (iActive < (int)zones.size() - 1) {
-                    std::swap(zones.vZones[iActive],
-                              zones.vZones[iActive + 1]);
+                    std::swap(zones.zones[iActive],
+                              zones.zones[iActive + 1]);
                     iActive++;
                 }
                 bBlink = false;
@@ -8545,8 +8549,8 @@ void game::zones_manager()
 
             } else if (action == "MOVE_ZONE_DOWN" && zones.size() > 1) {
                 if (iActive > 0) {
-                    std::swap(zones.vZones[iActive],
-                              zones.vZones[iActive - 1]);
+                    std::swap(zones.zones[iActive],
+                              zones.zones[iActive - 1]);
                     iActive--;
                 }
                 bBlink = false;
@@ -8555,11 +8559,9 @@ void game::zones_manager()
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
-                point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx(), u.posy()));
-                point pOMZone = overmapbuffer::ms_to_omt_copy(zones.vZones[iActive].getCenterPoint());
-                overmap::draw_zones( tripoint( pOMPlayer.x, pOMPlayer.y, 0 ),
-                                     tripoint( pOMZone.x, pOMZone.y, 0 ),
-                                     iActive );
+                tripoint player_overmap_position = overmapbuffer::ms_to_omt_copy( m.getabs( u.pos() ) );
+                tripoint zone_overmap = overmapbuffer::ms_to_omt_copy( zones.zones[iActive].get_center_point() );
+                overmap::draw_zones( player_overmap_position, zone_overmap, iActive );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
                 zones_manager_shortcuts(w_zones_info);
@@ -8569,13 +8571,13 @@ void game::zones_manager()
                 bRedrawInfo = true;
 
             } else if (action == "ENABLE_ZONE") {
-                zones.vZones[iActive].setEnabled(true);
+                zones.zones[iActive].set_enabled(true);
 
                 bRedrawInfo = true;
                 bStuffChanged = true;
 
             } else if (action == "DISABLE_ZONE") {
-                zones.vZones[iActive].setEnabled(false);
+                zones.zones[iActive].set_enabled(false);
 
                 bRedrawInfo = true;
                 bStuffChanged = true;
@@ -8598,34 +8600,32 @@ void game::zones_manager()
 
             int iNum = 0;
 
-            point pointPlayer = m.getabs(u.posx(), u.posy());
+            tripoint player_absolute_pos = m.getabs( u.pos() );
 
             //Display saved zones
-            for (auto &i : zones.vZones) {
+            for (auto &i : zones.zones) {
                 if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
-                    nc_color colorLine = (i.getEnabled()) ? c_white : c_ltgray;
+                    nc_color colorLine = (i.get_enabled()) ? c_white : c_ltgray;
 
                     if (iNum == iActive) {
                         mvwprintz(w_zones, iNum - iStartPos, 0, c_yellow, "%s", ">>");
-                        colorLine = (i.getEnabled()) ? c_ltgreen : c_green;
+                        colorLine = (i.get_enabled()) ? c_ltgreen : c_green;
                     }
 
                     //Draw Zone name
                     mvwprintz(w_zones, iNum - iStartPos, 3, colorLine, "%s",
-                              zones.vZones[iNum].getName().c_str());
+                              zones.zones[iNum].get_name().c_str());
 
                     //Draw Type name
                     mvwprintz(w_zones, iNum - iStartPos, 20, colorLine, "%s",
-                              zones.getNameFromType(zones.vZones[iNum].getZoneType()).c_str());
+                              zones.get_name_from_type(zones.zones[iNum].get_zone_type()).c_str());
 
-                    point pCenter = i.getCenterPoint();
+                    tripoint center = i.get_center_point();
 
                     //Draw direction + distance
-                    mvwprintz(w_zones, iNum - iStartPos, 35, colorLine, "%*d %s",
-                              5, trig_dist(pCenter.x, pCenter.y,
-                                           pointPlayer.x, pointPlayer.y),
-                              direction_name_short(direction_from(pCenter.x, pCenter.y,
-                                                   pointPlayer.x, pointPlayer.y)).c_str()
+                    mvwprintz(w_zones, iNum - iStartPos, 32, colorLine, "%*d %s",
+                              5, trig_dist( player_absolute_pos, center ),
+                              direction_name_short( direction_from( player_absolute_pos, center ) ).c_str()
                              );
                 }
                 iNum++;
@@ -8635,28 +8635,28 @@ void game::zones_manager()
         if (iZonesNum > 0) {
             bBlink = !bBlink;
 
-            point pStart = m.getlocal(zones.vZones[iActive].getStartPoint());
-            point pEnd = m.getlocal(zones.vZones[iActive].getEndPoint());
+            tripoint start = m.getlocal(zones.zones[iActive].get_start_point());
+            tripoint end = m.getlocal(zones.zones[iActive].get_end_point());
 
-            if (bBlink) {
+            if( bBlink ) {
                 //draw marked area
-                point pOffset = point(offset_x, offset_y); //ASCII
+                tripoint offset = tripoint( offset_x, offset_y, 0 ); //ASCII
 #ifdef TILES
-                if (use_tiles) {
-                    pOffset = point(0, 0); //TILES
+                if( use_tiles ) {
+                    offset = tripoint( 0, 0, 0 ); //TILES
                 } else {
-                    pOffset = point(-offset_x, -offset_y); //SDL
+                    offset = tripoint( -offset_x, -offset_y, 0 ); //SDL
                 }
 #endif
 
-                draw_zones(pStart, pEnd, pOffset);
+                draw_zones( start, end, offset );
             } else {
                 //clear marked area
 #ifdef TILES
                 if (!use_tiles) {
 #endif
-                    for (int iY = pStart.y; iY <= pEnd.y; ++iY) {
-                        for (int iX = pStart.x; iX <= pEnd.x; ++iX) {
+                    for (int iY = start.y; iY <= end.y; ++iY) {
+                        for (int iX = start.x; iX <= end.x; ++iX) {
                             if (u.sees(iX, iY)) {
                                 m.drawsq(w_terrain, u,
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
@@ -8736,6 +8736,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     tripoint lp = u.pos3() + u.view_offset;
     int &lx = lp.x;
     int &ly = lp.y;
+    int &lz = lp.z;
 
     if( select_zone && has_first_point ) {
         lp = start_point;
@@ -8798,17 +8799,17 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 const int dy = start_point.y - offset_y + u.posy() - ly;
 
                 if (bBlink) {
-                    const point pStart = point(std::min(dx, POSX), std::min(dy, POSY));
-                    const point pEnd = point(std::max(dx, POSX), std::max(dy, POSY));
+                    const tripoint start = tripoint( std::min(dx, POSX), std::min(dy, POSY), lz );
+                    const tripoint end = tripoint( std::max(dx, POSX), std::max(dy, POSY), lz );
 
-                    point pOffset = point(0, 0); //ASCII/SDL
+                    tripoint offset = tripoint( 0, 0, 0 ); //ASCII/SDL
 #ifdef TILES
-                    if (use_tiles) {
-                        pOffset = point(offset_x + lx - u.posx(), offset_y + ly - u.posy()); //TILES
+                    if( use_tiles ) {
+                        offset = tripoint( offset_x + lx - u.posx(), offset_y + ly - u.posy(), 0 ); //TILES
                     }
 #endif
 
-                    draw_zones(pStart, pEnd, pOffset);
+                    draw_zones( start, end, offset );
 
                 } else {
 #ifdef TILES

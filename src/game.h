@@ -321,7 +321,7 @@ class game
         void peek( const tripoint &p );
         tripoint look_debug();
 
-        bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
+        bool check_zone( const std::string &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts(WINDOW *w_info);
         void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight,
@@ -477,7 +477,7 @@ class game
         void draw_line( const tripoint &p, std::vector<tripoint> const &ret);
         void draw_weather(weather_printable const &wPrint);
         void draw_sct();
-        void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones(const tripoint &start, const tripoint &end, const tripoint &offset);
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );

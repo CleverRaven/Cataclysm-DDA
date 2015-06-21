@@ -155,7 +155,7 @@ classes = {
         functions = {
             { name = "add_zombie", rval = "bool", args = { "monster" } },
             { name = "cancel_activity", rval = nil, args = { } },
-            { name = "checkZone", rval = "bool", args = { "string", "int", "int" } },
+            { name = "check_zone", rval = "bool", args = { "string", "tripoint" } },
             { name = "check_all_mod_data", rval = nil, args = { } },
             { name = "check_save_mode_allowed", rval = "bool", args = { } },
             { name = "cleanup_at_end", rval = "bool", args = { } },
@@ -179,7 +179,7 @@ classes = {
             { name = "draw_ter", rval = nil, args = { } },
             { name = "draw_trail_to_square", rval = nil, args = { "tripoint", "bool" } },
             { name = "draw_veh_dir_indicator", rval = nil, args = { nil } },
-            { name = "draw_zones", rval = nil, args = { "point", "point", "point" } },
+            { name = "draw_zones", rval = nil, args = { "tripoint", "tripoint", "tripoint" } },
             { name = "emp_blast", rval = nil, args = { "tripoint" } },
             { name = "explosion", rval = nil, args = { "tripoint", "int", "int", "bool" } },
             { name = "explosion", rval = nil, args = { "tripoint", "int", "int", "bool", "bool" } },
