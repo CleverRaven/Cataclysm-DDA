@@ -13,33 +13,30 @@
 
 zone_manager::zone_manager()
 {
-    //Add new zone types here
-    //Use: if (g->checkZone("ZONE_NAME", posx, posy)) {
-    //to check for a zone
-
     types.push_back( std::make_pair( _("No Auto Pickup"), "NO_AUTO_PICKUP" ) );
     types.push_back( std::make_pair( _("No NPC Pickup"),  "NO_NPC_PICKUP" ) );
 }
 
 void zone_manager::zone_data::set_name()
 {
-    const std::string name = string_input_popup( _( "Zone name:" ), 55, this->name, "", "", 15 );
+    const std::string new_name = string_input_popup( _( "Zone name:" ), 55, name, "", "", 15 );
 
-    this->name = ( name == "" ) ? _( "<no name>" ) : name;
+    name = ( new_name == "" ) ? _( "<no name>" ) : new_name;
 }
 
-void zone_manager::zone_data::set_zone_type(
-    const std::vector<std::pair<std::string, std::string> > &types )
+void zone_manager::zone_data::set_zone_type()
 {
+    const auto &types = get_manager().get_zone_types();
     uimenu as_m;
     as_m.text = _( "Select zone type:" );
 
-    for( unsigned int i = 0; i < types.size(); ++i ) {
+    for( size_t i = 0; i < types.size(); ++i ) {
         as_m.entries.push_back( uimenu_entry( i + 1, true, ( char )i + 1, types[i].first ) );
     }
+
     as_m.query();
 
-    this->type = types[( ( as_m.ret >= 1 ) ? as_m.ret : 1 ) - 1].second;
+    type = types[( ( as_m.ret >= 1 ) ? as_m.ret : 1 ) - 1].second;
 }
 
 void zone_manager::zone_data::set_enabled( const bool _enabled )
@@ -79,18 +76,21 @@ void zone_manager::cache_zone_data()
     area_cache.clear();
 
     for( auto &elem : zones ) {
-        if( elem.get_enabled() ) {
-            const std::string sType = elem.get_zone_type();
+        if( !elem.get_enabled() ) {
+            continue;
+        }
 
-            tripoint start = elem.get_start_point();
-            tripoint end = elem.get_end_point();
+        const std::string &type = elem.get_zone_type();
+        auto &cache = area_cache[type];
 
-            //draw marked area
+        tripoint start = elem.get_start_point();
+        tripoint end = elem.get_end_point();
+
+        // Draw marked area
+        for( int x = start.x; x <= end.x; ++x ) {
             for( int y = start.y; y <= end.y; ++y ) {
-                for( int x = start.x; x <= end.x; ++x ) {
-                    for( int z = start.z; z <= end.z; ++z ) {
-                        area_cache[sType].insert( tripoint{ x, y, z } );
-                    }
+                for( int z = start.z; z <= end.z; ++z ) {
+                    cache.insert( tripoint( x, y, z ) );
                 }
             }
         }
@@ -99,13 +99,21 @@ void zone_manager::cache_zone_data()
 
 bool zone_manager::has_zone( const std::string &type, const tripoint &where ) const
 {
-    const auto type_iter = area_cache.find( type );
+    const auto &type_iter = area_cache.find( type );
     if( type_iter == area_cache.end() ) {
         return false;
     }
 
-    const auto &point_set = type_iter->second;
+    const auto &point_set = type_iter->second;;
     return point_set.find( where ) != point_set.end();
+}
+
+void zone_manager::add( const std::string &name, const std::string &type,
+                        const bool invert, const bool enabled,
+                        const tripoint &start, const tripoint &end )
+{
+    zones.push_back( zone_data( name, type, invert, enabled, start, end ) );
+    cache_zone_data();
 }
 
 void zone_manager::serialize( JsonOut &json ) const
@@ -161,17 +169,15 @@ void zone_manager::deserialize( JsonIn &jsin )
             add( name, type, invert, enabled,
                  tripoint( start_x, start_y, start_z ),
                  tripoint( end_x, end_y, end_z ) );
+        } else {
+            debugmsg( "Invalid zone type: %s", type.c_str() );
         }
     }
-
-    cache_zone_data();
 }
 
 
 bool zone_manager::save_zones()
 {
-    cache_zone_data();
-
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
                                g->u.name ) + ".zones.json";
 
@@ -203,6 +209,7 @@ void zone_manager::load_zones()
     fin.open( savefile.c_str(), std::ifstream::in | std::ifstream::binary );
     if( !fin.good() ) {
         fin.close();
+        cache_zone_data();
         return;
     }
 
@@ -214,4 +221,6 @@ void zone_manager::load_zones()
     }
 
     fin.close();
+
+    cache_zone_data();
 }

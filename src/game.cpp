@@ -8451,7 +8451,7 @@ void game::zones_manager()
                 iActive = iZonesNum - 1;
 
                 zones.zones[iActive].set_name();
-                zones.zones[iActive].set_zone_type(zones.get_zone_types());
+                zones.zones[iActive].set_zone_type();
             }
 
             draw_ter();
@@ -8514,7 +8514,7 @@ void game::zones_manager()
                     bStuffChanged = true;
                     break;
                 case 2:
-                    zones.zones[iActive].set_zone_type(zones.get_zone_types());
+                    zones.zones[iActive].set_zone_type();
                     bStuffChanged = true;
                     break;
                 case 3:
@@ -8704,13 +8704,15 @@ void game::zones_manager()
     delwin(w_zones_info);
     delwin(w_zones_info_border);
 
-    if (bStuffChanged) {
-        auto zones = zone_manager::get_manager();
-        if (query_yn(_("Save changes?"))) {
+    if( bStuffChanged ) {
+        auto &zones = zone_manager::get_manager();
+        if( query_yn( _("Save changes?") ) ) {
             zones.save_zones();
         } else {
             zones.load_zones();
         }
+
+        zones.cache_zone_data();
     }
 
     u.view_offset = stored_view_offset;

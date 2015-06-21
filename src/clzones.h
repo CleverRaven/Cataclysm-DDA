@@ -46,10 +46,6 @@ public:
         tripoint end;
 
     public:
-        zone_data() :
-            zone_data( "", "", false, false, tripoint_min, tripoint_min )
-        {}
-
         zone_data( const std::string &_name, const std::string &_type,
                    const bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end )
@@ -65,7 +61,7 @@ public:
         ~zone_data() {};
 
         void set_name();
-        void set_zone_type( const std::vector<std::pair<std::string, std::string> > &zone_types );
+        void set_zone_type();
         void set_enabled( const bool enabled );
 
         std::string get_name() const
@@ -99,10 +95,7 @@ public:
 
     void add( const std::string &name, const std::string &type,
               const bool invert, const bool enabled,
-              const tripoint &start, const tripoint &end )
-    {
-        zones.push_back( zone_data( name, type, invert, enabled, start, end ) );
-    }
+              const tripoint &start, const tripoint &end );
 
     bool remove( const size_t index )
     {
@@ -124,7 +117,6 @@ public:
     }
     std::string get_name_from_type( const std::string &type ) const;
     bool has_type( const std::string &type ) const;
-    std::pair<tripoint, tripoint> bounding_box_type( const std::string &type ) const;
     void cache_zone_data();
     bool has_zone( const std::string &type, const tripoint &where ) const;
 
