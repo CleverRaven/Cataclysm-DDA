@@ -2,8 +2,8 @@
     {
         "type" : "GUNMOD",
         "id" : "30mmigl",
-        "name" : "30mm Integrated Grenade Launcher",
-        "name_plural" : "30mm Integrated Grenade Launchers",
+        "name" : "30mm IGL",
+        "name_plural" : "30mm IGLs",
         "location": "",
         "weight" : 0,
         "color" : "light_red",
