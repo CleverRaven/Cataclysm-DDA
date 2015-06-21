@@ -11,6 +11,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "input.h"
+#include "mapdata.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

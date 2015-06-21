@@ -136,7 +136,7 @@ struct map_deconstruct_info {
  * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
  * Order does not matter.
  */
-enum ter_bitflags {
+enum ter_bitflags : int {
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -259,7 +259,6 @@ furn_id furnfind(const std::string & id); // lookup, carp and return null on err
 
 
 /*
-enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
 */
 //Classic Extras is for when you have special zombies turned off.
@@ -280,32 +279,22 @@ void load_terrain(JsonObject &jsobj);
 void verify_furniture();
 void verify_terrain();
 
-
-/*
- * Temporary container id_or_id. Stores str for delayed lookup and conversion.
- */
-struct sid_or_sid {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
-};
-
 /*
  * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
  */
+template<typename T>
 struct id_or_id {
    int chance;                  // 8
-   short primary;               // 12
-   short secondary;             // 16
-   id_or_id(const int id1, const int i, const int id2) : chance(i), primary(id1), secondary(id2) { }
-   bool match( const int iid ) const {
+   int_id<T> primary;
+   int_id<T> secondary;
+   id_or_id(const int_id<T> id1, const int i, const int_id<T> id2) : chance(i), primary(id1), secondary(id2) { }
+   bool match( const int_id<T> iid ) const {
        if ( iid == primary || iid == secondary ) {
            return true;
        }
        return false;
    }
-   int get() const {
+   int_id<T> get() const {
        return ( one_in(chance) ? secondary : primary );
    }
 };

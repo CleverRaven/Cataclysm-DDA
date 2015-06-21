@@ -16,6 +16,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 #include <sstream>
 #include <algorithm>

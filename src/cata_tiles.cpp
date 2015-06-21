@@ -16,6 +16,8 @@
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "game.h"
+#include "mapdata.h"
 
 #include <algorithm>
 #include <fstream>

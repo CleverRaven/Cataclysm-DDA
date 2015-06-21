@@ -25,6 +25,7 @@
 #include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -2109,6 +2110,16 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 }
 
 // End of 3D bashable
+
+void map::make_rubble( const tripoint &p )
+{
+    make_rubble( p, f_rubble, false, t_dirt, false );
+}
+
+void map::make_rubble( const tripoint &p, const furn_id rubble_type, const bool items )
+{
+    make_rubble( p, rubble_type, items, t_dirt, false );
+}
 
 void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
@@ -6805,7 +6816,7 @@ void map::draw_fill_background(std::string type) {
 void map::draw_fill_background(ter_id (*f)()) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
-void map::draw_fill_background(const id_or_id & f) {
+void map::draw_fill_background(const id_or_id<ter_t> & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
 
@@ -6839,10 +6850,10 @@ void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
     }
 }
 
-void map::draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2) {
+void map::draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, ter_id( f.get() ) ); // TODO: make id_or_id templated on the identified type
+            ter_set(x, y, f.get() );
         }
     }
 }

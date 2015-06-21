@@ -5,7 +5,11 @@
 #include <string>
 #include <memory>
 #include "mapgenformat.h"
-#include "mapgen_functions.h"
+#include "mapdata.h"
+
+struct oter_id;
+struct mapgendata;
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -30,9 +34,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override {
-        (*fptr)(m, o, mgd, i, d);
-    }
+    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +58,7 @@ struct jmapgen_int {
      */
     jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
-  int get() const {
-      return ( val == valmax ? val : rng(val, valmax) );
-  }
+    int get() const;
 };
 
 enum jmapgen_setmap_op {
@@ -184,13 +184,7 @@ class mapgen_function_json : public virtual mapgen_function {
     virtual bool setup() override;
     virtual void generate(map*, oter_id, mapgendata, int, float) override;
 
-    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ), rotation( 0 ) {
-        jdata = s;
-        mapgensize = 24;
-        fill_ter = t_null;
-        is_ready = false;
-        do_format = false;
-    }
+    mapgen_function_json( std::string s, int w = 1000 );
     ~mapgen_function_json() {
     }
 

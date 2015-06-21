@@ -68,6 +68,7 @@
 #include "creature_tracker.h"
 #include "vehicle.h"
 #include "submap.h"
+#include "mapgen_functions.h"
 
 #include <map>
 #include <set>

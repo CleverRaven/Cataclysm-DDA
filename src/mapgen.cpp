@@ -18,6 +18,9 @@
 #include "translations.h"
 #include "trap.h"
 #include "submap.h"
+#include "mapdata.h"
+#include "overmap.h"
+#include "mapgen_functions.h"
 
 #include <algorithm>
 #include <cassert>
@@ -159,6 +162,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
             }
         }
     }
+}
+
+void mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
+{
+    (*fptr)( m, o, mgd, i, d );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -353,6 +361,21 @@ bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     }
     return true;
 }
+
+mapgen_function_json::mapgen_function_json( std::string s, int const w )
+: mapgen_function( w )
+, jdata( std::move( s ) )
+, mapgensize( 24 )
+, fill_ter( t_null )
+, format()
+, setmap_points()
+, do_format( false )
+, is_ready( false )
+, objects()
+, rotation( 0 )
+{
+}
+
 #define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
 
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
@@ -389,6 +412,11 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag, const short de
     } else if( jo.has_member( tag ) ) {
         val = valmax = jo.get_int( tag );
     }
+}
+
+int jmapgen_int::get() const
+{
+    return val == valmax ? val : rng( val, valmax );
 }
 
 /*
@@ -14016,7 +14044,7 @@ void fill_background(map *m, ter_id type) {
 void fill_background(map *m, ter_id (*f)()) {
     m->draw_fill_background(f);
 }
-void fill_background(map *m, const id_or_id & f) {
+void fill_background(map *m, const id_or_id<ter_t> & f) {
     m->draw_fill_background(f);
 }
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
@@ -14028,7 +14056,7 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
-void square(map *m, const id_or_id & f, int x1, int y1, int x2, int y2) {
+void square(map *m, const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {
