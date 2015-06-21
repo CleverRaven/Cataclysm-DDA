@@ -4198,18 +4198,14 @@ int toolweapon_on( player *p, item *it, bool t,
             it->charges--;
         }
         if (!works_underwater && p->is_underwater()) {
-            p->add_msg_if_player(string_format(
-                _("Your %s gurgles in the water and stops."),
-                tname).c_str());
+            p->add_msg_if_player(_("Your %s gurgles in the water and stops."), tname);
             it->make(off_type);
             it->active = false;
         } else if (one_in(sound_chance)) {
             sounds::ambient_sound(p->pos(), volume, sound);
         }
     } else { // Toggling
-        p->add_msg_if_player(string_format(
-            _("Your %s goes quiet."),
-            tname).c_str());
+        p->add_msg_if_player(_("Your %s goes quiet."), tname);
         it->make(off_type);
         it->active = false;
     }
