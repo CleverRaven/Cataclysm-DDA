@@ -1736,6 +1736,11 @@ void set_item_inventory(item &newit)
 std::list<item> player::consume_items(const std::vector<item_comp> &components, int batch)
 {
     std::list<item> ret;
+
+    if (g->u.has_trait("DEBUG_HS")) {
+        return ret;
+    }
+
     // For each set of components in the recipe, fill you_have with the list of all
     // matching ingredients the player has.
     std::vector<item_comp> player_has;
@@ -1876,6 +1881,10 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 
 void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
+    if (g->u.has_trait("DEBUG_HS")) {
+        return;
+    }
+
     bool found_nocharge = false;
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
