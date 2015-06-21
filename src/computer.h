@@ -40,6 +40,7 @@ enum computer_action {
     COMPACT_DISCONNECT,
     COMPACT_STEMCELL_TREATMENT,
     COMPACT_EMERG_MESS,
+    COMPACT_EMERG_REF_CENTER,   //Points to the refugee center
     COMPACT_TOWER_UNRESPONSIVE,
     COMPACT_SR1_MESS,           //Security Reminders for Hazardous Waste Sarcophagus (SRCF)
     COMPACT_SR2_MESS,
@@ -115,6 +116,8 @@ class computer
     private:
         // Difficulty of simply logging in
         int security;
+        // Date of next attempt
+        int next_attempt = 0;
         // Things we can do
         std::vector<computer_option> options;
         // Things that happen if we fail a hack

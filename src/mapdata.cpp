@@ -5,11 +5,15 @@
 #include "debug.h"
 #include "translations.h"
 #include "trap.h"
-#include "vehicle.h"
+#include "output.h"
+#include "item.h"
 
-#include <ostream>
 #include <unordered_map>
-#include <memory>
+
+const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
+"mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield",
+"mx_crater", "mx_collegekids"
+};
 
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
@@ -17,47 +21,26 @@ std::map<std::string, ter_t> termap;
 std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
 
-std::ostream & operator<<(std::ostream & out, const submap * sm)
+template<>
+const ter_t &int_id<ter_t>::obj() const
 {
- out << "submap(";
- if( !sm )
- {
-  out << "NULL)";
-  return out;
- }
-
- out << "\n\tter:";
- for(int x = 0; x < SEEX; ++x)
- {
-  out << "\n\t" << x << ": ";
-  for(int y = 0; y < SEEY; ++y)
-   out << sm->ter[x][y] << ", ";
- }
-
- out << "\n\titm:";
- for(int x = 0; x < SEEX; ++x)
- {
-  for(int y = 0; y < SEEY; ++y)
-  {
-   if( !sm->itm[x][y].empty() )
-   {
-    for( auto it = sm->itm[x][y].begin(), end = sm->itm[x][y].end(); it != end; ++it )
-    {
-     out << "\n\t("<<x<<","<<y<<") ";
-     out << *it << ", ";
+    if( static_cast<size_t>( _id ) >= terlist.size() ) {
+        debugmsg( "invalid terrain id %d", _id );
+        static const ter_t dummy{};
+        return dummy;
     }
-   }
-  }
- }
-
-   out << "\n\t)";
- return out;
+    return terlist[_id];
 }
 
-std::ostream & operator<<(std::ostream & out, const submap & sm)
+template<>
+const furn_t &int_id<furn_t>::obj() const
 {
- out << (&sm);
- return out;
+    if( static_cast<size_t>( _id ) >= furnlist.size() ) {
+        debugmsg( "invalid furniture id %d", _id );
+        static const furn_t dummy{};
+        return dummy;
+    }
+    return furnlist[_id];
 }
 
 static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
@@ -173,7 +156,7 @@ furn_t null_furniture_t() {
   new_furniture.transparent = true;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
-  new_furniture.loadid = 0;
+  new_furniture.loadid = furn_id( 0 );
   new_furniture.open = "";
   new_furniture.close = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
@@ -197,7 +180,7 @@ ter_t null_terrain_t() {
   new_terrain.harvestable = "";
   new_terrain.transforms_into = "t_null";
   new_terrain.roof = "t_null";
-  new_terrain.loadid = 0;
+  new_terrain.loadid = ter_id( 0 );
   new_terrain.open = "";
   new_terrain.close = "";
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
@@ -262,7 +245,7 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.bash.load(jsobj, "bash", true);
   new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
-  new_furniture.loadid = furnlist.size();
+  new_furniture.loadid = furn_id( furnlist.size() );
   furnmap[new_furniture.id] = new_furniture;
   furnlist.push_back(new_furniture);
 }
@@ -346,7 +329,7 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-  new_terrain.loadid=terlist.size();
+  new_terrain.loadid = ter_id( terlist.size() );
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
 }
@@ -751,12 +734,28 @@ void set_ter_ids() {
     t_sidewalk_bg_dp = terfind("t_sidewalk_bg_dp");
     t_guardrail_bg_dp = terfind("t_guardrail_bg_dp");
     t_improvised_shelter = terfind("t_improvised_shelter");
+
+    for( auto &elem : terlist ) {
+        if( elem.trap_id_str.empty() ) {
+            elem.trap = tr_null;
+        } else {
+            elem.trap = trap_str_id( elem.trap_id_str );
+        }
+    }
+}
+
+void reset_furn_ter()
+{
+    termap.clear();
+    terlist.clear();
+    furnmap.clear();
+    furnlist.clear();
 }
 
 furn_id furnfind(const std::string & id) {
     if( furnmap.find(id) == furnmap.end() ) {
          debugmsg("Can't find %s",id.c_str());
-         return 0;
+         return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }
@@ -942,8 +941,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
 
 void check_furniture_and_terrain()
 {
-    for(std::vector<furn_t>::const_iterator a = furnlist.begin(); a != furnlist.end(); ++a) {
-        const furn_t &f = *a;
+    for( const furn_t& f : furnlist ) {
         check_bash_items(f.bash, f.id, false);
         check_decon_items(f.deconstruct, f.id, false);
         if( !f.open.empty() && furnmap.count( f.open ) == 0 ) {
@@ -953,8 +951,7 @@ void check_furniture_and_terrain()
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }
-    for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
-        const ter_t &t = *a;
+    for( const ter_t& t : terlist ) {
         check_bash_items(t.bash, t.id, true);
         check_decon_items(t.deconstruct, t.id, true);
         if( !t.transforms_into.empty() && termap.count( t.transforms_into ) == 0 ) {
@@ -967,59 +964,4 @@ void check_furniture_and_terrain()
             debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
         }
     }
-}
-
-submap::submap()
-{
-    constexpr size_t elements = SEEX * SEEY;
-
-    std::uninitialized_fill_n(&ter[0][0], elements, t_null);
-    std::uninitialized_fill_n(&frn[0][0], elements, f_null);
-    std::uninitialized_fill_n(&lum[0][0], elements, 0);
-    std::uninitialized_fill_n(&trp[0][0], elements, tr_null);
-    std::uninitialized_fill_n(&rad[0][0], elements, 0);
-
-    is_uniform = false;
-}
-
-submap::~submap()
-{
-    delete_vehicles();
-}
-
-void submap::delete_vehicles()
-{
-    for(vehicle *veh : vehicles) {
-        delete veh;
-    }
-    vehicles.clear();
-}
-
-static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
-
-bool submap::has_graffiti( int x, int y ) const
-{
-    return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
-}
-
-const std::string &submap::get_graffiti( int x, int y ) const
-{
-    const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
-    if( it == cosmetics[x][y].end() ) {
-        static const std::string empty_string;
-        return empty_string;
-    }
-    return it->second;
-}
-
-void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
-{
-    is_uniform = false;
-    cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
-}
-
-void submap::delete_graffiti( int x, int y )
-{
-    is_uniform = false;
-    cosmetics[x][y].erase( COSMETICS_GRAFFITI );
 }

@@ -328,6 +328,7 @@
 		<Unit filename="src/messages.h" />
 		<Unit filename="src/mission.cpp" />
 		<Unit filename="src/mission.h" />
+		<Unit filename="src/mission_companion.cpp" />
 		<Unit filename="src/mission_end.cpp" />
 		<Unit filename="src/mission_fail.cpp" />
 		<Unit filename="src/mission_place.cpp" />
@@ -416,6 +417,8 @@
 		<Unit filename="src/speech.h" />
 		<Unit filename="src/start_location.cpp" />
 		<Unit filename="src/start_location.h" />
+		<Unit filename="src/submap.cpp" />
+		<Unit filename="src/submap.h" />
 		<Unit filename="src/text_snippets.cpp" />
 		<Unit filename="src/text_snippets.h" />
 		<Unit filename="src/tile_id_data.h" />

@@ -1,0 +1,52 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "abstorefront"
+        ],
+        "method": "json",
+        "object": {
+            "rows": [
+                "                        ",
+                " |-xxxxxxxxDDxxxxxxxx-| ",
+                " |...................B| ",
+                " |B..c........B..B...B| ",
+                " |B..c........B..B...B| ",
+                " |B..c..B..B..B..B...B| ",
+                " |cccc..B..B..B..B...B| ",
+                " |B.....B..B..B..B...B| ",
+                " |B..................B| ",
+                " |B..BBBB..BBBBBB.BB.B| ",
+                " |................BB.B| ",
+                " |B..BBBB..BBBBBB....B| ",
+                " |B...............--+-| ",
+                " |B...............|B..| ",
+                " |BBBBBBB..BBBBBB.|B..D ",
+                " |--------------------| ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                " ": "t_pavement",
+                ".": "t_floor",
+                "B": "t_floor",
+                "c": "t_floor",
+                "x": "t_window_boarded",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "D": "t_door_locked"
+            },
+            "furniture": {
+                "B": "f_rack",
+                "c": "f_counter"
+            }
+        }
+    }
+]

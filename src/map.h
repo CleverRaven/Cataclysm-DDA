@@ -1,23 +1,18 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "cursesdef.h"
-
-#include <stdlib.h>
 #include <vector>
 #include <string>
 #include <set>
 #include <map>
-#include <unordered_map>
-#include <unordered_set>
+#include <memory>
 
 #include "game_constants.h"
-#include "mapdata.h"
 #include "item.h"
-#include "json.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "int_id.h"
 #include "string_id.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -29,13 +24,25 @@ class monster;
 class item;
 class Creature;
 class tripoint_range;
+enum field_id : int;
+class field;
+class field_entry;
 class vehicle;
+struct submap;
+struct maptile;
+class basecamp;
+class computer;
 struct itype;
 struct mapgendata;
 struct trap;
+using trap_id = int_id<trap>;
 struct oter_id;
 struct regional_settings;
 struct mongroup;
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -55,6 +62,11 @@ class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+class map;
+enum ter_bitflags : int;
+template<typename T>
+struct id_or_id;
+struct map_bash_item_drop;
 
 class map_stack : public item_stack {
 private:
@@ -85,14 +97,10 @@ struct visibility_variables {
     bool variables_set; // Is this struct initialized for current z-level
     // cached values for map visibility calculations
     int g_light_level;
-    int natural_sight_range;
-    int light_sight_range;
-    int lowlight_sight_range;
-    int max_sight_range;
     int u_clairvoyance;
     bool u_sight_impaired;
-    bool bio_night_active;
     bool u_is_boomered;
+    float vision_threshold;
 };
 
 enum visibility_type {
@@ -118,7 +126,7 @@ struct level_cache {
     float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY];
     bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
-    bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    float seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
 
     bool veh_in_active_range;
@@ -200,7 +208,7 @@ class map
      *
      * @param x, y The tile on this map to draw.
      */
-    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache );
+    lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
 
@@ -470,7 +478,7 @@ public:
 
     furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
     std::string get_furn(const int x, const int y) const;
-    furn_t & furn_at(const int x, const int y) const;
+    const furn_t & furn_at(const int x, const int y) const;
 
     void furn_set(const int x, const int y, const furn_id new_furniture);
     void furn_set(const int x, const int y, const std::string new_furniture);
@@ -481,11 +489,12 @@ public:
     void set( const tripoint &p, const std::string new_terrain, const std::string new_furniture );
 
     std::string name( const tripoint &p );
+    std::string disp_name( const tripoint &p );
     bool has_furn( const tripoint &p ) const;
 
     furn_id furn( const tripoint &p ) const;
     std::string get_furn( const tripoint &p ) const;
-    furn_t & furn_at( const tripoint &p ) const;
+    const furn_t & furn_at( const tripoint &p ) const;
 
     void furn_set( const tripoint &p, const furn_id new_furniture );
     void furn_set( const tripoint &p, const std::string new_furniture );
@@ -498,7 +507,7 @@ public:
     std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
     ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
     int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
-    ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    const ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
     void ter_set(const int x, const int y, const ter_id new_terrain);
     void ter_set(const int x, const int y, const std::string new_terrain);
@@ -510,7 +519,7 @@ public:
     std::string get_ter_harvestable( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
     int get_ter_harvest_season( const tripoint &p ) const;
-    ter_t & ter_at( const tripoint &p ) const;
+    const ter_t & ter_at( const tripoint &p ) const;
 
     void ter_set( const tripoint &p, const ter_id new_terrain);
     void ter_set( const tripoint &p, const std::string new_terrain);
@@ -522,20 +531,24 @@ public:
     // a iuse function needs fire.
     bool has_nearby_fire( const tripoint &p, int radius = 1);
     /**
-     * Check if player can see some items at p. Includes:
-     * - check for items at this location (!i_at().empty())
+     * Check if creature can see some items at p. Includes:
+     * - check for items at this location (has_items(p))
      * - check for SEALED flag (sealed furniture/terrain makes
      * items not visible under any circumstances).
      * - check for CONTAINER flag (makes items only visible when
-     * the player is at p or at an adjacent square).
+     * the creature is at p or at an adjacent square).
      */
-    bool sees_some_items( const tripoint &p, const player &u );
+    bool sees_some_items( const tripoint &p, const Creature &who ) const;
     /**
-     * Check if the player could see items at p if there were
+     * Check if the creature could see items at p if there were
      * any items. This is similar to @ref sees_some_items, but it
      * does not check that there are actually any items.
      */
-    bool could_see_items( const tripoint &p, const player &u ) const;
+    bool could_see_items( const tripoint &p, const Creature &who ) const;
+    /**
+     * Checks for existence of items. Faster than i_at(p).empty
+     */
+    bool has_items( const tripoint &p ) const;
 
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -593,10 +606,12 @@ public:
 
     /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
      *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-    void make_rubble( const tripoint &p, furn_id rubble_type = f_rubble, bool items = false,
-                      ter_id floor_type = t_dirt, bool overwrite = false);
-    void make_rubble( int, int, furn_id rubble_type = f_rubble, bool items = false,
-                      ter_id floor_type = t_dirt, bool overwrite = false) = delete;
+    void make_rubble( const tripoint &p, furn_id rubble_type, bool items,
+                      ter_id floor_type, bool overwrite = false );
+    void make_rubble( const tripoint &p );
+    void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
+    void make_rubble( int, int, furn_id rubble_type, bool items,
+                      ter_id floor_type, bool overwrite = false) = delete;
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
@@ -621,14 +636,14 @@ void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
 void draw_fill_background(ter_id type);
 void draw_fill_background(std::string type);
 void draw_fill_background(ter_id (*f)());
-void draw_fill_background(const id_or_id & f);
+void draw_fill_background(const id_or_id<ter_t> & f);
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
 void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
-void draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2);
+void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle(ter_id type, int x, int y, int rad);
 void draw_rough_circle(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
@@ -933,6 +948,13 @@ void add_corpse( const tripoint &p );
     void set_graffiti( const tripoint &p, const std::string &contents);
     void delete_graffiti( const tripoint &p );
 
+// Climbing
+    /**
+     * Checks 3x3 block centered on p for terrain to climb.
+     * @return Difficulty of climbing check from point p.
+     */
+    int climb_difficulty( const tripoint &p ) const;
+
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
@@ -952,7 +974,7 @@ void add_corpse( const tripoint &p );
  vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- void build_map_cache( int zlev );
+    void build_map_cache( int zlev, bool skip_lightmap = false );
 
     vehicle *add_vehicle( const std::string &type, const tripoint &p, const int dir,
                           const int init_veh_fuel = -1, const int init_veh_status = -1,
@@ -960,13 +982,13 @@ void add_corpse( const tripoint &p );
 
 // Light/transparency: 2D
     float light_transparency(const int x, const int y) const;
-    lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
-    float ambient_light_at(int dx, int dy); // Raw values for tilesets
+    lit_level light_at(int dx, int dy) const; // Assumes 0,0 is light map center
+    float ambient_light_at(int dx, int dy) const; // Raw values for tilesets
     bool trans(const int x, const int y) const; // Transparent?
 // Light/transparency: 3D
     float light_transparency( const tripoint &p ) const;
-    lit_level light_at( const tripoint &p ); // Assumes 0,0 is light map center
-    float ambient_light_at( const tripoint &p ); // Raw values for tilesets
+    lit_level light_at( const tripoint &p ) const; // Assumes 0,0 is light map center
+    float ambient_light_at( const tripoint &p ) const; // Raw values for tilesets
     /**
      * Returns whether the tile at `p` is transparent(you can look past it).
      */
@@ -979,8 +1001,8 @@ void add_corpse( const tripoint &p );
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        bool pl_sees( int tx, int ty, int max_range );
-        bool pl_sees( const tripoint &t, int max_range );
+        bool pl_sees( int tx, int ty, int max_range ) const;
+        bool pl_sees( const tripoint &t, int max_range ) const;
     std::set<vehicle*> dirty_vehicle_list;
 
     /** return @ref abs_sub */
@@ -1093,13 +1115,13 @@ protected:
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
- void add_extra(map_extra type);
+
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );
- void build_seen_cache(const tripoint &origin);
 protected:
  void generate_lightmap( int zlev );
+ void build_seen_cache(const tripoint &origin);
  void apply_character_light( const player &p );
 
  int my_MAPSIZE;
@@ -1187,13 +1209,15 @@ private:
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
- void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
+ void apply_light_source(int x, int y, float luminance);
  // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
  // light rays from causing massive slowdowns, if there's a huge amount of light.
  void add_light_source(int x, int y, float luminance);
+ // Handle just cardinal directions and 45 deg angles.
+ void apply_directional_light( int x, int y, int direction, float luminance );
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                      int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+                      int sx, int sy, int ex, int ey, float luminance);
  void add_light_from_items( const int x, const int y, std::list<item>::iterator begin,
                             std::list<item>::iterator end );
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
@@ -1264,11 +1288,11 @@ private:
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
-    const level_cache &get_cache( const int zlev ) const {
+  public:
+    const level_cache &get_cache_ref( const int zlev ) const {
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
-  public:
     void update_visibility_cache( visibility_variables &cache, int zlev );
 
     // Clips the area to map bounds
@@ -1282,6 +1306,7 @@ std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
 // Does not build "piles" - does the same as above functions, except in tripoints
 std::vector<tripoint> closest_tripoints_first(int radius, const tripoint &p);
+bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags flag );
 class tinymap : public map
 {
 friend class editmap;
@@ -1289,11 +1314,26 @@ public:
  tinymap(int mapsize = 2, bool zlevels = false);
 };
 
-template<int xx, int xy, int yx, int yy>
-    void castLight( bool (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+// Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
+// Beer–Lambert law says attenuation is going to be equal to
+// 1 / (e^al) where a = coefficient of absorption and l = length.
+// Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
+// We merge all of the absorption values by taking their cumulative average.
+inline float sight_calc( const float &numerator, const float &transparency, const int &distance ) {
+    return numerator / (float)exp( transparency * distance );
+}
+inline bool sight_check( const float &transparency, const float &/*intensity*/ ) {
+    return transparency > LIGHT_TRANSPARENCY_SOLID;
+}
+
+template<int xx, int xy, int yx, int yy, float(*calc)(const float &, const float &, const int &),
+    bool(*check)(const float &, const float &)>
+    void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                     const int offsetX, const int offsetY, const int offsetDistance,
-                    const int row = 1, float start = 1.0f, const float end = 0.0f );
+                    const float numerator = 1.0, const int row = 1,
+                    float start = 1.0f, const float end = 0.0f,
+                    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 #endif
 

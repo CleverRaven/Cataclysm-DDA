@@ -536,6 +536,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "double_plutonium_core",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 7 ],
+  "difficulty": 7,
+  "time": 60000,
+  "reversible": false,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [[ "recipe_atomic_battery", 7 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [ [ "scrap", 9 ] ],
+    [ [ "cable", 6 ] ],
+    [ [ "alloy_plate", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "noise_emitter",
   "id_suffix": "radio-mod",
   "category": "CC_ELECTRONIC",
@@ -772,6 +797,30 @@
     [ [ "transponder", 1 ] ],
     [ [ "scrap", 5 ] ],
     [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "beeper",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 2,
+  "time": 11000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "mag_electronics", 2 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 6 ],
+      [ "toolset", 6 ]
+    ]
+  ],
+  "components": [
+    [ [ "amplifier", 1 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "cable", 4 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2475,6 +2524,37 @@
     [ [ "amplifier", 2 ] ],
     [ [ "cable", 1 ] ],
     [ [ "battery_truck", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "elec_hairtrimmer",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 1 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [["advanced_electronics", 4] , ["textbook_electronics", 3] , ["textbook_fabrication", 3] , ["manual_fabrication", 4]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+   "tools" : [
+    [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 10],
+      ["fire", -1]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components" : [
+    [ ["razor_blade", 1] ],
+    [ ["motor_small", 1] ],
+    [ ["power_supply", 1] ],
+    [ [ "plastic_chunk", 1 ] ]
   ]
 },{
   "type" : "recipe",

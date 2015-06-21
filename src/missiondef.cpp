@@ -424,7 +424,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("glass_sheet");
-  COUNT(20);
+  COUNT(30);
   FOLLOWUP(MISSION_RANCH_FOREMAN_17);
 
 //Commune nurse missions

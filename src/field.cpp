@@ -12,6 +12,8 @@
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "submap.h"
+#include "mapdata.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -487,8 +489,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
         const auto can_spread_to = [&]( const maptile &dst, field_id curtype ) {
             const field_entry* tmpfld = dst.get_field().findField( curtype );
-            const auto &ter = terlist[dst.get_ter()];
-            const auto &frn = furnlist[dst.get_furn()];
+            const auto &ter = dst.get_ter_t();
+            const auto &frn = dst.get_furn_t();
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
             return ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
                 ( tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity() );
@@ -659,8 +661,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_acid:
                     {
                         std::vector<item> contents;
-                        const auto &ter = terlist[map_tile.get_ter()];
-                        const auto &frn = furnlist[map_tile.get_furn()];
+                        const auto &ter = map_tile.get_ter_t();
+                        const auto &frn = map_tile.get_furn_t();
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
                             cur->setFieldAge( cur->getFieldAge() + 20 );
                         }
@@ -749,10 +751,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     {
                         // Entire objects for ter/frn for flags, but only id for trp
                         // because the only trap we're checking for is brazier
-                        const auto terid = map_tile.get_ter();
-                        const auto frnid = map_tile.get_furn();
-                        const auto &ter = terlist[terid];
-                        const auto &frn = furnlist[frnid];
+                        const auto &ter = map_tile.get_ter_t();
+                        const auto &frn = map_tile.get_furn_t();
                         
                         const auto &trp = map_tile.get_trap();
                         // We've got ter/furn cached, so let's use that
@@ -976,7 +976,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         //Get the part of the vehicle in the fire.
                         veh = veh_at_internal( p, part ); // _internal skips the boundary check
                         if( veh != nullptr ) {
-                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);
+                            veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, false);
                             //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained,
@@ -1064,7 +1064,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         auto neighs = get_neighbors( p );
 
                         // If the flames are in a pit, it can't spread to non-pit
-                        const bool in_pit = terid == t_pit;
+                        const bool in_pit = ter.loadid == t_pit;
 
                         // Count adjacent fires, to optimize out needless smoke and hot air
                         int adjacent_fires = 0;
@@ -1187,14 +1187,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 spread_chance = 50 + spread_chance / 2;
                             }
 
-                            const auto dsterid = dst.get_ter();
-                            const auto &dster = terlist[dsterid];
-                            const auto &dsfrn = furnlist[dst.get_furn()];
+                            const auto &dster = dst.get_ter_t();
+                            const auto &dsfrn = dst.get_furn_t();
                             // Allow weaker fires to spread occasionally
                             const int power = cur->getFieldDensity() + one_in( 5 );
                             if( rng(1, 100) < spread_chance && tr_brazier != trp &&
                                   !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) &&
-                                  (in_pit == (dsterid == t_pit)) &&
+                                  (in_pit == (dster.loadid == t_pit)) &&
                                   (
                                     (power >= 3 && cur->getFieldAge() < 0 && one_in( 20 ) ) ||
                                     (power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in(2) ) ) ||

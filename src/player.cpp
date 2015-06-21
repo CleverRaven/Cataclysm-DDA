@@ -36,6 +36,7 @@
 #include "ui.h"
 #include "trap.h"
 #include "map_iterator.h"
+#include "submap.h"
 #include <map>
 
 #ifdef SDLTILES
@@ -214,8 +215,6 @@ player::player() : Character()
  focus_pool = 100;
  last_item = itype_id("null");
  sight_max = 9999;
- sight_boost = 0;
- sight_boost_cap = 0;
  last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position = tripoint_min;
@@ -296,8 +295,6 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
-    Character::reset_stats();
-
     clear_miss_reasons();
 
     // Trait / mutation buffs
@@ -391,7 +388,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ((encumb(bp_leg_l) / 10) + encumb(bp_leg_r))/20 - (encumb(bp_torso) / 10) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb(bp_leg_l) + encumb(bp_leg_r) )/20 - (encumb(bp_torso) / 10) );
     // Whiskers don't work so well if they're covered
     if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
         mod_dodge_bonus(1);
@@ -426,6 +423,21 @@ void player::reset_stats()
 
     recalc_sight_limits();
     recalc_speed_bonus();
+
+    // Effects
+    for( auto maps : effects ) {
+        for( auto i : maps.second ) {
+            const auto &it = i.second;
+            bool reduced = has_trait(  it.get_resist_trait() ) ||
+                           has_effect( it.get_resist_effect() );
+            mod_str_bonus( it.get_mod( "STR", reduced ) );
+            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
+            mod_per_bonus( it.get_mod( "PER", reduced ) );
+            mod_int_bonus( it.get_mod( "INT", reduced ) );
+        }
+    }
+
+    Character::reset_stats();
 }
 
 void player::process_turn()
@@ -1913,21 +1925,11 @@ void player::load_info(std::string data)
     std::stringstream dump;
     dump << data;
 
-    char check = dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check = data[1];
-    }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad player json\n%s", jsonerr.c_str() );
-        }
-        return;
-    } else { // old save
-        load_legacy(dump);
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad player json\n%s", jsonerr.c_str() );
     }
 }
 
@@ -2607,77 +2609,32 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     nc_color status = c_white;
 
-    // Strength current and max
-    int stat_tmp = get_str();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < str_max / 2)
-        status = c_red;
-    else if (stat_tmp < str_max)
-        status = c_ltred;
-    else if (stat_tmp == str_max)
-        status = c_white;
-    else if (stat_tmp < str_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
-    mvwprintz(w_stats, 2, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 2, 21, c_ltgray, "(%2d)", str_max);
+    // Stats
+    const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line ) {
+        nc_color status = c_white;
+        if( cur <= 0 ) {
+            status = c_dkgray;
+        } else if( cur < max / 2 ) {
+            status = c_red;
+        } else if( cur < max ) {
+            status = c_ltred;
+        } else if( cur == max ) {
+            status = c_white;
+        } else if( cur < max * 1.5 ) {
+            status = c_ltgreen;
+        } else {
+            status = c_green;
+        }
 
-    // Dexterity current and max
-    stat_tmp = get_dex();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < dex_max / 2)
-        status = c_red;
-    else if (stat_tmp < dex_max)
-        status = c_ltred;
-    else if (stat_tmp == dex_max)
-        status = c_white;
-    else if (stat_tmp < dex_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
-    mvwprintz(w_stats, 3, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 3, 21, c_ltgray, "(%2d)", dex_max);
+        mvwprintz( w_stats, line, 1, c_ltgray, name );
+        mvwprintz( w_stats, line, 18, status, "%2d", cur );
+        mvwprintz( w_stats, line, 21, c_ltgray, "(%2d)", max );
+    };
 
-    // Intelligence current and max
-    stat_tmp = get_int();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < int_max / 2)
-        status = c_red;
-    else if (stat_tmp < int_max)
-        status = c_ltred;
-    else if (stat_tmp == int_max)
-        status = c_white;
-    else if (stat_tmp < int_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
-    mvwprintz(w_stats, 4, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 4, 21, c_ltgray, "(%2d)", int_max);
-
-    // Intelligence current and max
-    stat_tmp = get_per();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < per_max / 2)
-        status = c_red;
-    else if (stat_tmp < per_max)
-        status = c_ltred;
-    else if (stat_tmp == per_max)
-        status = c_white;
-    else if (stat_tmp < per_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
-    mvwprintz(w_stats, 5, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 5, 21, c_ltgray, "(%2d)", per_max);
+    display_stat( _("Strength:"),     str_cur, str_max, 2 );
+    display_stat( _("Dexterity:"),    dex_cur, dex_max, 3 );
+    display_stat( _("Intelligence:"), int_cur, int_max, 4 );
+    display_stat( _("Perception:"),   per_cur, per_max, 5 );
 
     wrefresh(w_stats);
 
@@ -3455,7 +3412,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     return line_number;
 }
 
-void player::print_gun_mode( WINDOW *w, nc_color c )
+std::string player::print_gun_mode()
 {
     // Print current weapon, or attachment if active.
     item* gunmod = weapon.active_gunmod();
@@ -3467,35 +3424,36 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
                 attachment << " (" << mod.charges << ")";
             }
         }
-        wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
+        return string_format( _("%s (Mod)"), attachment.str().c_str() );
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
+            return string_format( _("%s (Burst)"), weapname().c_str() );
         } else if( weapon.get_gun_mode() == "MODE_REACH" ) {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Bayonet)"), weapname().c_str());
+            return string_format( _("%s (Bayonet)"), weapname().c_str() );
         } else {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
+            return string_format( _("%s"), weapname().c_str() );
         }
     }
 }
 
-void player::print_recoil( WINDOW *w ) const
+std::string player::print_recoil() const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
         if( adj_recoil > 150 ) {
             // 150 is the minimum when not actively aiming
-            nc_color c = c_ltgray;
+            const char *color_name = "c_ltgray";
             if( adj_recoil >= 690 ) {
-                c = c_red;
+                color_name = "c_red";
             } else if( adj_recoil >= 450 ) {
-                c = c_ltred;
+                color_name = "c_ltred";
             } else if( adj_recoil >= 210 ) {
-                c = c_yellow;
+                color_name = "c_yellow";
             }
-            wprintz(w, c, _("Recoil"));
+            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
         }
     }
+    return std::string();
 }
 
 int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
@@ -3532,8 +3490,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     {
         const int y = sideStyle ? 1 : 0;
-        wmove( weapwin, y, 0 );
-        print_gun_mode( weapwin, c_ltgray );
+        const int w = getmaxx( weapwin );
+        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode().c_str() );
     }
 
     // Print currently used style or weapon mode.
@@ -3801,10 +3759,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     int y  = sideStyle ?  0 :  3;
     int dx = sideStyle ?  0 :  6;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), get_str());
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), get_dex());
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), get_int());
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), get_per());
+    mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), str_cur );
+    mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), dex_cur );
+    mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), int_cur );
+    mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), per_cur );
 
     int spdx = sideStyle ?  0 : x + dx * 4;
     int spdy = sideStyle ?  5 : y + dy * 4;
@@ -4114,7 +4072,7 @@ float player::active_light() const
 
     int maxlum = 0;
     has_item_with( [&maxlum]( const item &it ) {
-        const int lumit = it.active && it.charges > 0 ? it.getlight_emit() : 0;
+        const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
         }
@@ -4155,31 +4113,27 @@ const tripoint &player::pos() const
 
 int player::sight_range(int light_level) const
 {
-    // Apply the sight boost (night vision).
-    if (light_level < sight_boost_cap) {
-        light_level = std::min(light_level + sight_boost, sight_boost_cap);
-    }
+    /* Via Beer-Lambert we have:
+     * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
+     * Solving for distance:
+     * 1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) <= LIGHT_AMBIENT_LOW / light_level
+     * 1 <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW / light_level
+     * light_level <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW
+     * log(light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance + log(LIGHT_AMBIENT_LOW)
+     * log(light_level) - log(LIGHT_AMBIENT_LOW) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
+     * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
+     */
+    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos3()) ) / (float)light_level ) *
+        (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
+    // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
     // Clamp to sight_max.
-    return std::min(light_level, sight_max);
+    return std::min(range, sight_max);
 }
 
-int player::unimpaired_range()
-{
- int ret = DAYLIGHT_LEVEL;
- if (has_trait("PER_SLIME")) {
-    ret = 6;
- }
- if (has_active_mutation("SHELL2")) {
-    ret = 2;
- }
- if (has_effect("in_pit")) {
-    ret = 1;
-  }
- if (has_effect("blind") || worn_with_flag("BLIND")) {
-    ret = 0;
-  }
- return ret;
+int player::unimpaired_range() const {
+    return std::min(sight_max, 60);
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )
@@ -4710,6 +4664,30 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 }
 
+void player::on_hurt( Creature *source )
+{
+    if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
+        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
+        add_effect("adrenaline", 200);
+    }
+
+    if( in_sleep_state() ) {
+        wake_up();
+    }
+
+    if( !is_npc() ) {
+        if( source != nullptr ) {
+            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+        } else {
+            g->cancel_activity_query(_("You were hurt!"));
+        }
+    }
+
+    if( is_dead_state() ) {
+        set_killer( source );
+    }
+}
+
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const damage_instance& d)
 {
     if( has_trait( "DEBUG_NODMG" ) ) {
@@ -4718,19 +4696,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
-
-    if (in_sleep_state()) {
-        wake_up();
-    }
-
-    if (is_player()) {
-        if (source != nullptr) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            // TODO: Find the name of what the player is hurt by
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if(g->u.sees( pos() )) {
@@ -4799,34 +4764,27 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
-
-
-        //Acid blood effects.
-        bool u_see = g->u.sees(*this);
-        int cut_dam = dealt_dams.type_damage(DT_CUT);
-        if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
-            if (is_player()) {
-                add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
-                                source->disp_name().c_str());
-            } else if (u_see) {
-                add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
-                            disp_name().c_str(),
+    //Acid blood effects.
+    bool u_see = g->u.sees(*this);
+    int cut_dam = dealt_dams.type_damage(DT_CUT);
+    if (has_trait("ACIDBLOOD") && !one_in(3) && (dam >= 4 || cut_dam > 0) && (rl_dist(g->u.pos(), source->pos()) <= 1)) {
+        if (is_player()) {
+            add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
                             source->disp_name().c_str());
-            }
-            damage_instance acidblood_damage;
-            acidblood_damage.add_damage(DT_ACID, rng(4,16));
-            if (!one_in(4)) {
+        } else if (u_see) {
+            add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
+                        disp_name().c_str(),
+                        source->disp_name().c_str());
+        }
+        damage_instance acidblood_damage;
+        acidblood_damage.add_damage(DT_ACID, rng(4,16));
+        if (!one_in(4)) {
             source->deal_damage(this, bp_arm_l, acidblood_damage);
             source->deal_damage(this, bp_arm_r, acidblood_damage);
-            } else {
+        } else {
             source->deal_damage(this, bp_torso, acidblood_damage);
             source->deal_damage(this, bp_head, acidblood_damage);
-            }
         }
-
-    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_effect("adrenaline", 200);
     }
 
     switch (bp) {
@@ -4933,6 +4891,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
     }
 
+    on_hurt( source );
     return dealt_damage_instance(dealt_dams);
 }
 
@@ -4969,68 +4928,28 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         return;
     }
 
-    hp_part hurtpart;
-    switch (hurt) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
-        case bp_head:
-            hurtpart = hp_head;
-            break;
-        case bp_torso:
-            hurtpart = hp_torso;
-            break;
-        case bp_hand_l: // fall through to arms
-        case bp_arm_l:
-            hurtpart = hp_arm_l;
-            break;
-        case bp_hand_r: // but fall through to arms
-        case bp_arm_r:
-            hurtpart = hp_arm_r;
-            break;
-        case bp_foot_l: // but fall through to legs
-        case bp_leg_l:
-            hurtpart = hp_leg_l;
-            break;
-        case bp_foot_r: // but fall through to legs
-        case bp_leg_r:
-            hurtpart = hp_leg_r;
-            break;
-        default:
-            debugmsg("Wacky body part hurt!");
-            hurtpart = hp_torso;
-    }
-    if (in_sleep_state()) {
-        wake_up();
+    hp_part hurtpart = bp_to_hp( hurt );
+    if( hurtpart == num_hp_parts ) {
+        debugmsg("Wacky body part hurt!");
+        hurtpart = hp_torso;
     }
 
-    if (dam <= 0) {
+    if( dam <= 0 ) {
+        // Call on_hurt to wake player up etc.
+        on_hurt( source );
         return;
     }
 
-    if (!is_npc()) {
-        if (source != nullptr) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            // TODO: Find the name of what the player is hurt by
-            g->cancel_activity_query(_("You were hurt!"));
-        }
-    }
+    mod_pain( dam / 2 );
 
-    mod_pain( dam /2 );
-
-    if (has_trait("ADRENALINE") && !has_effect("adrenaline") &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15)) {
-        add_effect("adrenaline", 200);
-    }
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
         lifetime_stats()->damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
+
     lifetime_stats()->damage_taken += dam;
-    if( is_dead_state() ) {
-        set_killer( source );
-    }
+    on_hurt( source );
 }
 
 void player::heal(body_part healed, int dam)
@@ -5097,10 +5016,24 @@ void player::healall(int dam)
 
 void player::hurtall(int dam, Creature *source)
 {
-    for (int i = 0; i < num_hp_parts; i++) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        apply_damage( source, bp, dam );
+    if( is_dead_state() || has_trait( "DEBUG_NODMG" ) || dam <= 0 ) {
+        return;
     }
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const hp_part bp = static_cast<hp_part>( i );
+        // Don't use apply_damage here or it will annoy the player with 6 queries
+        hp_cur[bp] -= dam;
+        lifetime_stats()->damage_taken += dam;
+        if( hp_cur[bp] < 0 ) {
+            lifetime_stats()->damage_taken += hp_cur[bp];
+            hp_cur[bp] = 0;
+        }
+    }
+
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    mod_pain( dam );
+    on_hurt( source );
 }
 
 int player::hitall(int dam, int vary, Creature *source)
@@ -5114,6 +5047,148 @@ int player::hitall(int dam, int vary, Creature *source)
         damage_taken += deal_damage( source, bp, damage ).total_damage();
     }
     return damage_taken;
+}
+
+float player::fall_damage_mod() const
+{
+    float ret = 1.0f;
+
+    // Ability to land properly is 2x as important as dexterity itself
+    float dex_dodge = dex_cur / 2 + get_skill_level( "dodge" );
+    // Penalize for wearing heavy stuff
+    dex_dodge -= ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 20 ) + ( encumb(bp_torso) / 10 );
+    // But prevent it from increasing damage
+    dex_dodge = std::max( 0.0f, dex_dodge );
+    // 100% damage at 0, 75% at 10, 50% at 20 and so on
+    ret *= (100.0f - (dex_dodge * 4.0f)) / 100.0f;
+
+    if( has_trait("PARKOUR") ) {
+        ret *= 2.0f / 3.0f;
+    }
+
+    // TODO: Bonus for Judo, mutations. Penalty for heavy weight (including mutations)
+    return std::max( 0.0f, ret );
+}
+
+// force is maximum damage to hp before scaling
+int player::impact( const int force, const tripoint &p )
+{
+    // Falls over ~30m are fatal more often than not
+    // But that would be quite a lot considering 21 z-levels in game
+    // so let's assume 1 z-level is comparable to 30 force
+
+    if( force <= 0 ) {
+        return force;
+    }
+
+    // Damage modifier (post armor)
+    float mod = 1.0f;
+    int effective_force = force;
+    int cut = 0;
+    // Percentage arpen - armor won't help much here
+    // TODO: Make cushioned items like bike helmets help more
+    float armor_eff = 1.0f;
+
+    // Being slammed against things rather than landing means we can't
+    // control the impact as well
+    const bool slam = p != pos();
+    std::string target_name = "a swarm of bugs";
+    Creature *critter = g->critter_at( p );
+    int part_num = -1;
+    vehicle *veh = g->m.veh_at( p, part_num );
+    if( critter != this && critter != nullptr ) {
+        target_name = critter->disp_name();
+        // Slamming into creatures and NPCs
+        // TODO: Handle spikes/horns and hard materials
+        armor_eff = 0.5f; // 2x as much as with the ground
+        // TODO: Modify based on something?
+        mod = 1.0f;
+        effective_force = force;
+    } else if( veh != nullptr ) {
+        // Slamming into vehicles
+        // TODO: Integrate it with vehicle collision function somehow
+        target_name = veh->disp_name();
+        if( veh->part_with_feature( part_num, "SHARP" ) != -1 ) {
+            // Now we're actually getting impaled
+            cut = force; // Lots of fun
+        }
+
+        mod = slam ? 1.0f : fall_damage_mod();
+        armor_eff = 0.25f; // Not much
+        if( !slam && veh->part_with_feature( part_num, "ROOF" ) ) {
+            // Roof offers better landing than frame or pavement
+            effective_force /= 2; // TODO: Make this not happen with heavy duty/plated roof
+        }
+    } else {
+        // Slamming into terrain/furniture
+        target_name = g->m.disp_name( p );
+        int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        armor_eff = 0.25f; // Not much
+        // Get cut by stuff
+        // This isn't impalement on metal wreckage, more like flying through a closed window
+        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
+        effective_force = force + hard_ground;
+        mod = slam ? 1.0f : fall_damage_mod();
+        if( g->m.has_furn( p ) ) {
+            // TODO: Make furniture matter
+        } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
+            // TODO: Some formula of swimming
+            effective_force /= 4;
+        }
+    }
+
+    // Rescale for huge force
+    // At >30 force, proper landing is impossible and armor helps way less
+    if( effective_force > 30 ) {
+        // Armor simply helps way less
+        armor_eff *= 30.0f / effective_force;
+        if( mod < 1.0f ) {
+            // Everything past 30 damage gets a worse modifier
+            const float scaled_mod = std::pow( mod, 30.0f / effective_force );
+            const float scaled_damage = ( 30.0f * mod ) + scaled_mod * ( effective_force - 30.0f );
+            mod = scaled_damage / effective_force;
+        }
+    }
+
+    if( !slam && mod < 1.0f && mod * force < 5 ) {
+        // Perfect landing, no damage (regardless of armor)
+        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
+        return 0;
+    }
+
+    int total_dealt = 0;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        int bash = ( effective_force * rng(60, 100) / 100 );
+        damage_instance di;
+        di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+        // No good way to land on sharp stuff, so here modifier == 1.0f
+        di.add_damage( DT_CUT,  cut,  0, armor_eff, 1.0f );
+        total_dealt += deal_damage( nullptr, bp, di ).total_damage();
+    }
+
+    if( total_dealt > 0 && is_player() ) {
+        // "You slam against the dirt" is fine
+        add_msg( m_bad, _("You are slammed against %s for %d damage."),
+                 target_name.c_str(), total_dealt );
+    } else if( slam ) {
+        // Only print this line if it is a slam and not a landing
+        // Non-players should only get this one: player doesn't know how much damage was dealt
+        // and landing messages for each slammed creature would be too much
+        add_msg_player_or_npc( m_bad,
+                               _("You are slammed against %s."),
+                               _("<npcname> is slammed against %s."),
+                               target_name.c_str() );
+    } else {
+        // No landing message for NPCs
+        add_msg_if_player( m_warning, _("You land on %s."), target_name.c_str() );
+    }
+
+    if( x_in_y( mod, 1.0f ) ) {
+        add_effect( "downed", 1 + rng( 0, mod * 3 ) );
+    }
+
+    return total_dealt;
 }
 
 void player::knock_back_from( const tripoint &p )
@@ -5951,13 +6026,6 @@ void player::process_effects() {
                 }
             }
 
-            // Handle stat changes
-            mod_str_bonus(it.get_mod("STR", reduced));
-            mod_dex_bonus(it.get_mod("DEX", reduced));
-            mod_per_bonus(it.get_mod("PER", reduced));
-            mod_int_bonus(it.get_mod("INT", reduced));
-            // Speed is already added in recalc_speed_bonus
-
             // Handle Pain
             val = it.get_mod("PAIN", reduced);
             if (val != 0) {
@@ -6065,6 +6133,8 @@ void player::process_effects() {
                     }
                 }
             }
+
+            // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
         }
     }
 
@@ -7961,6 +8031,9 @@ void player::suffer()
             rads_max = static_cast<int>( rads );
             if( x_in_y( rads - rads_max, 1 ) ) {
                 rads_max++;
+            }
+            if( int(calendar::turn) % 30 == 0 && has_bionic("bio_geiger") && localRadiation > 0 ) {
+                add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
             }
         }
         radiation += rng( 0, rads_max );
@@ -10177,7 +10250,7 @@ public:
     virtual ~ma_style_callback() { }
 };
 
-void player::pick_style() // Style selection menu
+bool player::pick_style() // Style selection menu
 {
     //Create menu
     // Entries:
@@ -10218,6 +10291,8 @@ void player::pick_style() // Style selection menu
         }
         else if ( selection == 1 ) {
             keep_hands_free = !keep_hands_free;
+        } else {
+            return false;
         }
     }
     else {
@@ -10244,10 +10319,11 @@ void player::pick_style() // Style selection menu
             style_selected = matype_id( "style_none" );
         else if (selection == 1)
             keep_hands_free = !keep_hands_free;
-
-        //else
-        //all other means -> don't change, keep current.
+        else
+            return false;
     }
+
+    return true;
 }
 
 hint_rating player::rate_action_wear(item *it)
@@ -11142,8 +11218,14 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
+        unsigned imodcount = 0;
+        for( auto &gm : mods ){
+            if( gm.has_flag("IRREMOVABLE") ){
+                imodcount++;
+            }
+        }
         // Get weapon mod names.
-        if (mods.empty()) {
+        if (mods.empty() || mods.size() == imodcount ) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
@@ -11159,7 +11241,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
         for (size_t i = 0; i < mods.size(); i++) {
-            kmenu.addentry( i, true, -1, mods[i].tname() );
+            if( mods[i].has_flag("IRREMOVABLE") ){
+                //kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
+            } else {
+                kmenu.addentry( i, true, -1, mods[i].tname() );
+            }
         }
         kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
         kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
@@ -11168,11 +11254,18 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
         if (choice < int(mods.size())) {
             const std::string mod = used->contents[choice].tname();
-            remove_gunmod(used, unsigned(choice));
-            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
+
+            if( used->contents[choice].has_flag("IRREMOVABLE") ){
+                add_msg(_("You cannot remove integrated mods.") );
+            } else{
+                remove_gunmod(used, unsigned(choice));
+                add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
+            }
         } else if (choice == int(mods.size())) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
-                remove_gunmod(used, i);
+                if( !used->contents[i].has_flag("IRREMOVABLE") ){
+                    remove_gunmod(used, i);
+                }
             }
             add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
         } else {
@@ -11347,7 +11440,7 @@ void player::read(int inventory_position)
 
     // Check if reading is okay
     // check for light level
-    if (fine_detail_vision_mod() > 4) { //minimum LL_LOW or LL_DARK + (ELFA_NV or atomic_light)
+    if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
         return;
     }
@@ -11828,10 +11921,10 @@ void player::try_to_sleep()
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) ) {
         add_msg(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
-        add_msg( terlist[ter_at_pos].movecost <= 2 ?
+        add_msg( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
-                 terlist[ter_at_pos].name.c_str() );
+                 ter_at_pos.obj().name.c_str() );
     }
     add_effect("lying_down", 300);
 }
@@ -12029,51 +12122,25 @@ std::string player::is_snuggling()
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// 2.5 is enough light for detail work.
+// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
 float player::fine_detail_vision_mod()
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if ((has_effect("blind") || worn_with_flag("BLIND")) || ((has_effect("boomered")) &&
-    !(has_trait("PER_SLIME_OK"))))
-    {
-        return 5;
+    if( has_effect("blind") || worn_with_flag("BLIND") ||
+        (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
+        return 5.0;
     }
-    if ( has_nv() )
-    {
-        return 1.5;
-    }
-    // flashlight is handled by the light level check below
-    if (has_active_item("lightstrip"))
-    {
-        return 1;
-    }
-    if (LL_LIT <= g->m.light_at(posx(), posy()))
-    {
-        return 1;
-    }
+    // If we're actually a source of light, assume we can direct it where we need it.
+    // Scale linearly own_light approaches LIGHT_AMBIENT_LIT.
+    // but also enforce a monimum of 1.0, and drop by one as a bonus.
+    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() );
 
-    float vision_ii = 0;
-    if (g->m.light_at(posx(), posy()) == LL_LOW) { vision_ii = 4; }
-    else if (g->m.light_at(posx(), posy()) == LL_DARK) { vision_ii = 5; }
+    // Same calculation as above, but with a result 1 lower.
+    float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( pos() ) + 1.0 );
 
-    if (has_item_with_flag("LIGHT_2")){
-        vision_ii -= 2;
-    } else if (has_item_with_flag("LIGHT_1")){
-        vision_ii -= 1;
-    }
-
-    if (has_trait("NIGHTVISION")) { vision_ii -= .5; }
-    else if (has_trait("ELFA_NV")) { vision_ii -= 1; }
-    else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) { vision_ii -= 2; }
-    else if (has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on") ||
-      has_trait("CEPH_VISION")) {
-        vision_ii -= 3;
-    }
-
-    if (vision_ii < 1) { vision_ii = 1; }
-    return vision_ii;
+    return std::min( own_light, ambient_light );
 }
 
 int player::get_wind_resistance(body_part bp) const
@@ -12083,24 +12150,16 @@ int player::get_wind_resistance(body_part bp) const
     int totalCoverage = 0;
     int penalty = 100;
 
-    for (auto &i : worn)
-    {
-        if (i.covers(bp))
-        {
-            if (i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") || i.made_of("chitin") || i.made_of("nomex"))
-            {
+    for( auto &i : worn ) {
+        if( i.covers(bp) ) {
+            if( i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") ||
+                i.made_of("chitin") || i.made_of("nomex") ) {
                 penalty = 10; // 90% effective
-            }
-            else if (i.made_of("cotton"))
-            {
+            } else if( i.made_of("cotton") ) {
                 penalty = 30;
-            }
-            else if (i.made_of("wool"))
-            {
+            } else if( i.made_of("wool") ) {
                 penalty = 40;
-            }
-            else
-            {
+            } else {
                 penalty = 1; // 99% effective
             }
 
@@ -12228,17 +12287,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, worn[i].get_encumber() - 40);
             } else {
-                int newenc = worn[i].get_encumber();
-                // Fitted clothes will reduce either encumbrance or layering.
-                if( worn[i].has_flag( "FIT" ) ) {
-                    if( newenc > 0 ) {
-                        newenc = std::max( 0, newenc - 10 );
-                    } else if (layer[level] > 0) {
-                        layer[level] -= 5;
-                    }
-                }
-
-                armorenc += newenc;
+                armorenc += worn[i].get_encumber();
             }
         }
     }
@@ -13254,7 +13303,23 @@ tripoint player::adjacent_tile()
         return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
     }
 
-    return pos3(); // or return player position if no valid adjacent tiles
+    return pos(); // or return player position if no valid adjacent tiles
+}
+
+int player::climbing_cost( const tripoint &from, const tripoint &to ) const
+{
+    if( !g->m.valid_move( from, to, false, true ) ) {
+        return 0;
+    }
+
+    const int diff = g->m.climb_difficulty( from );
+
+    if( diff > 5 ) {
+        return 0;
+    }
+
+    return 50 + diff * 100;
+    // TODO: All sorts of mutations, equipment weight etc.
 }
 
 // --- Library functions ---
@@ -13510,10 +13575,14 @@ bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos3(), t );
-    bool can_see = Creature::sees( t, bresen1, bresen2 );
+    bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
+        Creature::sees( t, bresen1, bresen2 );;
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
+        can_see = false;
+    }
+    if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }
     // Clairvoyance is a really expensive check,
@@ -13716,6 +13785,26 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
     return vStart;
 }
 
+std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>pred )
+{
+    std::vector<Creature *> result;
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        auto &critter = g->zombie( i );
+        if( !critter.is_dead() && pred( critter ) ) {
+            result.push_back( &critter );
+        }
+    }
+    for( auto & n : g->active_npc ) {
+        if( pred( *n ) ) {
+            result.push_back( n );
+        }
+    }
+    if( pred( g->u ) ) {
+        result.push_back( &g->u );
+    }
+    return result;
+}
+
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
@@ -13723,22 +13812,18 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
-    std::vector<Creature *> result;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        auto &critter = g->zombie( i );
-        if( !critter.is_dead() && is_visible_in_range( critter, range ) ) {
-            result.push_back( &critter );
-        }
-    }
-    for( auto & n : g->active_npc ) {
-        if( n != this && is_visible_in_range( *n, range ) ) {
-            result.push_back( n );
-        }
-    }
-    if( this != &g->u && is_visible_in_range( g->u, range ) ) {
-        result.push_back( &g->u );
-    }
-    return result;
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && this->sees(critter) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
+}
+
+std::vector<Creature *> player::get_targetable_creatures( const int range ) const
+{
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && ( this->sees(critter) || this->sees_with_infrared(critter) ) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
 }
 
 void player::place_corpse()
@@ -13776,13 +13861,7 @@ bool player::sees_with_infrared( const Creature &critter ) const
     if( !has_ir || !critter.is_warm() ) {
         return false;
     }
-    const auto range = sight_range( DAYLIGHT_LEVEL );
-    if( is_player() ) {
-        return g->m.pl_sees(critter.posx(), critter.posy(), range );
-    } else {
-        int bresenham_slope;
-        return g->m.sees(critter.posx(), critter.posy(), range, bresenham_slope );
-    }
+    return g->m.sees(pos(), critter.pos(), sight_range(DAYLIGHT_LEVEL) );
 }
 
 std::vector<std::string> player::get_overlay_ids() const {

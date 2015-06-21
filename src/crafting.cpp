@@ -308,7 +308,6 @@ bool player::crafting_allowed()
 bool player::crafting_can_see()
 {
     if (fine_detail_vision_mod() > 4) {
-        //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
@@ -2032,6 +2031,12 @@ void player::disassemble(int dis_pos)
         return;
     }
     const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
+
+    //no disassembly without proper light
+    if (fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to craft!"));
+        return;
+    }
 
     //checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item->is_food() && dis_item->goes_bad()) ||

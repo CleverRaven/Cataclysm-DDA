@@ -30,8 +30,8 @@ public:
     int disinfectant        ( player*, item*, bool, const tripoint& );
     int caff                ( player*, item*, bool, const tripoint& );
     int atomic_caff         ( player*, item*, bool, const tripoint& );
-    int alcohol             ( player*, item*, bool, const tripoint& );
     int alcohol_weak        ( player*, item*, bool, const tripoint& );
+    int alcohol_medium      ( player*, item*, bool, const tripoint& );
     int alcohol_strong      ( player*, item*, bool, const tripoint& );
     int xanax               ( player*, item*, bool, const tripoint& );
     int smoking             ( player*, item*, bool, const tripoint& );
@@ -79,6 +79,7 @@ public:
     int sew                 ( player*, item*, bool, const tripoint& );
     int sew_advanced        ( player*, item*, bool, const tripoint& );
     int extra_battery       ( player*, item*, bool, const tripoint& );
+    int double_reactor      ( player*, item*, bool, const tripoint& );
     int rechargeable_battery( player*, item*, bool, const tripoint& );
     int scissors            ( player*, item*, bool, const tripoint& );
     int extinguisher        ( player*, item*, bool, const tripoint& );
@@ -202,8 +203,9 @@ public:
     int camera              ( player*, item*, bool, const tripoint& );
     int ehandcuffs          ( player*, item*, bool, const tripoint& );
     int cable_attach        ( player*, item*, bool, const tripoint& );
+    int shavekit            ( player*, item*, bool, const tripoint& );
+    int hairkit             ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );
-    int survivor_belt       ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
     int mcg_note            ( player*, item*, bool, const tripoint& );

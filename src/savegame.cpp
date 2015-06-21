@@ -33,7 +33,6 @@
 #include "monster.h"
 #include "overmap.h"
 
-#include "savegame.h"
 #include "tile_id_data.h"
 
 /*
@@ -41,7 +40,6 @@
  * load a legacy format loader.
  */
 const int savegame_version = 24;
-const int savegame_minver_game = 11;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -49,19 +47,6 @@ const int savegame_minver_game = 11;
  * support for backwards compatibility as well.
  */
 int savegame_loading_version = savegame_version;
-
-////////////////////////////////////////////////////////////////////////////////////////
-///// on runtime populate lookup tables.
-std::map<std::string, int> obj_type_id;
-
-void game::init_savedata_translation_tables() {
-    obj_type_id.clear();
-    for(int i = 0; i < NUM_OBJECTS; i++) {
-        obj_type_id[ obj_type_name[i] ] = i;
-    }
-}
-////////////////////////////////////////////////////////////////////////////////////////
-///// game.sav
 
 /*
  * Save to opened character.sav
@@ -179,16 +164,6 @@ void game::unserialize(std::ifstream & fin)
             savegame_loading_version = savedver;
         }
     }
-   if (savegame_loading_version != savegame_version &&
-            savegame_loading_version < savegame_minver_game ) {
-        if ( unserialize_legacy(fin) == true ) {
-            return;
-        } else {
-            popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
-        }
-    }
-    // Format version 12. After radical compatibility breaking changes, raise savegame_version, cut below and add to
-    // unserialize_legacy in savegame_legacy.cpp
     std::string linebuf;
     std::stringstream linein;
 
@@ -332,9 +307,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
         }
     }
     if (savegame_loading_version != savegame_version) {
-        if ( unserialize_legacy(fin, plrfilename, terfilename) == true ) {
-            return;
-        }
+        return;
     }
 
     int z = 0; // assumption
@@ -725,15 +698,11 @@ void mission::unserialize_all( JsonIn &jsin )
 }
 
 void game::unserialize_master(std::ifstream &fin) {
-   savegame_loading_version = 0;
-   chkversion(fin);
-   if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
-       if ( unserialize_master_legacy(fin) == true ) {
-            return;
-       } else {
-           popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
-       }
-   }
+    savegame_loading_version = 0;
+    chkversion(fin);
+    if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
+       popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
+    }
     try {
         // single-pass parsing example
         JsonIn jsin(fin);

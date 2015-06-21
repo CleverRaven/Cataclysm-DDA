@@ -387,6 +387,14 @@
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ],
+  "tools" : [
+    [
+      [ "fire", -1 ],
+      [ "hotplate", 3 ],
+      [ "char_smoker", 1],
+      [ "toolset", 3]
+    ]
+  ],
   "components" : [
     [ 
       [ "water", 1 ],
@@ -962,7 +970,8 @@
       [ "bb", 40 ]
     ],
     [
-      [ "gunpowder", 60 ]
+      [ "gunpowder", 60 ],
+      [ "chem_black_powder", 120 ]
     ]
   ]
 },{
@@ -1072,7 +1081,8 @@
         ["shotgun_primer", 1]
     ],
     [
-      [ "gunpowder", 20 ]
+      [ "gunpowder", 20 ],
+      [ "chem_black_powder", 40 ]
     ]
   ]
 },{
@@ -2669,7 +2679,8 @@
   ],
   "components": [
     [
-      [ "gunpowder", 16 ]
+      [ "gunpowder", 16 ],
+      [ "chem_black_powder", 32 ]
     ],
     [
       [ "scrap", 1 ],
@@ -2707,7 +2718,8 @@
     ]
   ],"components": [
     [
-      [ "gunpowder", 16 ]
+      [ "gunpowder", 16 ],
+      [ "chem_black_powder", 32 ]
     ],
     [
       [ "rebar", 1 ],
@@ -2740,7 +2752,8 @@
     ]
   ], "components":  [
     [
-      [ "gunpowder", 16 ]
+      [ "gunpowder", 16 ],
+      [ "chem_black_powder", 32 ]
     ],
     [
       [ "glass_shard", 1],
@@ -2821,40 +2834,6 @@
     ],
     [
       [ "rubber_slug", 25 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "gunpowder",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used": "fabrication",
-  "skills_required": [ "cooking", 1 ],
-  "difficulty": 4,
-  "time": 8000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
-  "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "oxy_powder", 200 ]
-    ],
-    [
-      [ "ammonia", 2 ],
-      [ "lye_powder", 200 ]
-    ],
-    [
-      [ "charcoal", 5 ]
     ]
   ]
 },{
@@ -3876,7 +3855,8 @@
     ],
     "components": [
       [
-        [ "gunpowder", 600 ]
+        [ "gunpowder", 600 ],
+        [ "chem_black_powder", 1200 ]
       ],
       [
         [ "lead", 400 ],
@@ -3910,7 +3890,8 @@
     ],
     "components": [
       [
-        [ "gunpowder", 100 ]
+        [ "gunpowder", 100 ],
+        [ "chem_black_powder", 200 ]
       ],
       [
         [ "lead", 30 ],
@@ -3945,7 +3926,8 @@
     ],
     "components": [
       [
-        [ "gunpowder", 160 ]
+        [ "gunpowder", 160 ],
+        [ "chem_black_powder", 320 ]
       ],
       [
         [ "lead", 45 ],

@@ -10,6 +10,7 @@
 #include "event.h"
 #include "npc.h"
 #include "monster.h"
+#include "mapdata.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
@@ -933,19 +934,73 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
     pit( c, p );
 }
 
-void trapfunc::ledge( Creature *c, const tripoint& )
+void trapfunc::ledge( Creature *c, const tripoint &p )
 {
-    if( c == &g->u ) {
+    if( c == nullptr ) {
+        return;
+    }
+
+    monster *m = dynamic_cast<monster*>( c );
+    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+        return;
+    }
+
+    if( !g->m.has_zlevels() ) {
+        if( c == &g->u ) {
+            add_msg( m_warning, _( "You fall down a level!" ) );
+            g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
+                                   pgettext( "memorial_female", "Fell down a ledge." ) );
+            g->vertical_move( -1, true );
+            if( g->u.has_trait("WINGS_BIRD") || ( one_in( 2 ) && g->u.has_trait("WINGS_BUTTERFLY") ) ) {
+                add_msg( _("You flap your wings and flutter down gracefully.") );
+            } else {
+                g->u.impact( 20, p );
+            }
+        } else {
+            c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+            c->die( nullptr );
+        }
+
+        return;
+    }
+
+    int height = 0;
+    tripoint where = p;
+    while( g->m.has_flag( TFLAG_NO_FLOOR, where ) ) {
+        where.z--;
+        if( g->critter_at( where ) != nullptr ) {
+            where.z++;
+            break;
+        }
+
+        height++;
+    }
+
+    if( height == 0 ) {
+        return;
+    }
+
+    c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+    player *pl = dynamic_cast<player*>( c );
+    if( pl == nullptr ) {
+        c->setpos( where );
+        c->impact( height * 10, where );
+        return;
+    }
+
+    if( pl->is_player() ) {
         add_msg( m_warning, _( "You fall down a level!" ) );
         g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                pgettext( "memorial_female", "Fell down a ledge." ) );
-        g->vertical_move( -1, true );
-        return;
+        g->vertical_move( -height, true );
+    } else {
+        pl->setpos( where );
     }
-    // TODO; port to Z-levels
-    if( c != nullptr ) {
-        c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-        c->die( nullptr );
+    if( pl->has_trait("WINGS_BIRD") || ( one_in( 2 ) && pl->has_trait("WINGS_BUTTERFLY") ) ) {
+        pl->add_msg_player_or_npc( _("You flap your wings and flutter down gracefully."),
+                                   _("<npcname> flaps their wings and flutters down gracefully.") );
+    } else {
+        pl->impact( height * 10, where );
     }
 }
 

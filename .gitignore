@@ -89,3 +89,6 @@ nbproject/
 # OSX
 Cataclysm.app
 data/osx/AppIcon.icns
+
+# Jetbrains CLion
+.idea/

@@ -393,7 +393,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion + used_weapon->gun_dispersion();
+    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion + used_weapon->gun_dispersion(false);
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
@@ -427,10 +427,10 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         const auto critter = g->critter_at( targ );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
             const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
-            auto new_targets = get_visible_creatures( weaponrange );
+            auto new_targets = get_targetable_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
-                if( attitude_to( z ) == A_FRIENDLY ) {
+                if( attitude_to( z ) != A_HOSTILE ) {
                     if( !trigger_happy ) {
                         it = new_targets.erase( it );
                         continue;
@@ -838,27 +838,28 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     draw_border(w_target);
     // Draw the "title" of the window.
     mvwprintz(w_target, 0, 2, c_white, "< ");
+    std::string title;
     if (!relevant) { // currently targetting vehicle to refill with fuel
-        wprintz(w_target, c_red, _("Select a vehicle"));
+        title = _("Select a vehicle");
     } else {
         if( mode == TARGET_MODE_FIRE ) {
             if(relevant->has_flag("RELOAD_AND_SHOOT")) {
-                wprintz(w_target, c_red, _("Shooting %s from %s"),
+                title = string_format( _("Shooting %s from %s"),
                         p.weapon.get_curammo()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
-                wprintz(w_target, c_red, _("Firing %s"), p.weapon.tname().c_str());
+                title = string_format( _("Firing %s"), p.weapon.tname().c_str());
             } else {
-                wprintz(w_target, c_red, _("Firing ") );
-                p.print_gun_mode( w_target, c_red );
-                wprintz(w_target, c_red, "%s", " ");
-                p.print_recoil( w_target );
+                title = string_format( _("Firing %s"), p.print_gun_mode().c_str() );
             }
+            title += " ";
+            title += p.print_recoil();
         } else if( mode == TARGET_MODE_THROW ) {
-            trim_and_print(w_target, 0, 4, getmaxx(w_target) - 7, c_red, _("Throwing %s"), relevant->tname().c_str());
+            title = string_format( _("Throwing %s"), relevant->tname().c_str());
         } else {
-            wprintz(w_target, c_red, _("Setting target for %s"), relevant->tname().c_str());
+            title = string_format( _("Setting target for %s"), relevant->tname().c_str());
         }
     }
+    trim_and_print( w_target, 0, 4, getmaxx(w_target) - 7, c_red, "%s", title.c_str() );
     wprintz(w_target, c_white, " >");
 
     // Draw the help contents at the bottom of the window, leaving room for monster description
@@ -1456,7 +1457,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
         dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);
     }
 
-    dispersion += rand_or_max( random, weapon->gun_dispersion() );
+    dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
     if( random ) {
         int adj_recoil = recoil + driving_recoil;
         dispersion += rng( int(adj_recoil / 4), adj_recoil );

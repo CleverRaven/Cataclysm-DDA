@@ -58,11 +58,19 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int last_inv_sel = -2;
         int list_item_mon = -1;
         int list_item_sort = 0;
+        std::string list_item_filter;
+        std::string list_item_downvote;
+        std::string list_item_priority;
+        bool list_item_filter_active = false;
+        bool list_item_downvote_active = false;
+        bool list_item_priority_active = false;
+        bool list_item_init = false;
+
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
 
-        std::map<std::string, std::vector<std::string>*> input_history;
+        std::map<std::string, std::vector<std::string>> input_history;
 
         std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
 
@@ -70,14 +78,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
         bool _really_testing_save = false; // internal: spammy
 
-        std::vector<std::string> *gethistory(std::string id)
+        std::vector<std::string>& gethistory(std::string id)
         {
-            std::map<std::string, std::vector<std::string>*>::iterator it = input_history.find(id);
-            if(it == input_history.end() || it->second == NULL ) {
-                input_history[id] = new std::vector<std::string>;
-                it = input_history.find(id);
-            }
-            return it->second;
+            return input_history[id];
         }
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
@@ -117,22 +120,23 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("overmap_blinking", overmap_blinking);
             json.member("overmap_show_overlays", overmap_show_overlays);
             json.member("list_item_mon", list_item_mon);
+            json.member("list_item_sort", list_item_sort);
+            json.member("list_item_filter_active", list_item_filter_active);
+            json.member("list_item_downvote_active", list_item_downvote_active);
+            json.member("list_item_priority_active", list_item_priority_active);
 
             json.member("input_history");
             json.start_object();
-            std::map<std::string, std::vector<std::string>*>::const_iterator it;
-            for (it = input_history.begin(); it != input_history.end(); ++it) {
-                if (it->second == NULL) {
-                    continue;
-                }
-                json.member(it->first);
+            for( auto& e : input_history ) {
+                json.member( e.first );
+                const std::vector<std::string>& history = e.second;
                 json.start_array();
                 int save_start = 0;
-                if (it->second->size() > input_history_save_max) {
-                    save_start = it->second->size() - input_history_save_max;
+                if ( history.size() > input_history_save_max) {
+                    save_start = history.size() - input_history_save_max;
                 }
-                for (std::vector<std::string>::const_iterator hit = it->second->begin() + save_start;
-                     hit != it->second->end(); ++hit ) {
+                for (std::vector<std::string>::const_iterator hit = history.begin() + save_start;
+                     hit != history.end(); ++hit ) {
                     json.write(*hit);
                 }
                 json.end_array();
@@ -192,17 +196,31 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
             jo.read("list_item_mon", list_item_mon);
+            jo.read("list_item_sort", list_item_sort);
+            jo.read("list_item_filter_active", list_item_filter_active);
+            jo.read("list_item_downvote_active", list_item_downvote_active);
+            jo.read("list_item_priority_active", list_item_priority_active);
 
             JsonObject inhist = jo.get_object("input_history");
             std::set<std::string> inhist_members = inhist.get_member_names();
             for (std::set<std::string>::iterator it = inhist_members.begin();
                  it != inhist_members.end(); ++it) {
                 JsonArray ja = inhist.get_array(*it);
-                std::vector<std::string> *v = gethistory(*it);
-                v->clear();
+                std::vector<std::string>& v = gethistory(*it);
+                v.clear();
                 while (ja.has_more()) {
-                    v->push_back(ja.next_string());
+                    v.push_back(ja.next_string());
                 }
+            }
+            // fetch list_item settings from input_history
+            if ( !gethistory("item_filter").empty() ) {
+                list_item_filter = gethistory("item_filter").back();
+            }
+            if ( !gethistory("list_item_downvote").empty() ) {
+                list_item_downvote = gethistory("list_item_downvote").back();
+            }
+            if ( !gethistory("list_item_priority").empty() ) {
+                list_item_priority = gethistory("list_item_priority").back();
             }
         };
 };

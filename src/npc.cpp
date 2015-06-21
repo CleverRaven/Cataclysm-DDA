@@ -61,6 +61,8 @@ npc::npc()
  myclass = NC_NONE;
  patience = 0;
  restock = -1;
+ companion_mission = "";
+ companion_mission_time = 0;
  for( auto &skill : Skill::skills ) {
      set_skill_level( skill, 0 );
  }
@@ -149,24 +151,14 @@ void npc::load_info(std::string data)
     std::stringstream dump;
     dump << data;
 
-    char check = dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check = data[1];
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad npc json\n%s", jsonerr.c_str() );
     }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
-        }
-        if (fac_id != ""){
-            set_fac(fac_id);
-        }
-        return;
-    } else {
-        load_legacy(dump);
+    if( fac_id != "" ) {
+        set_fac(fac_id);
     }
 }
 
@@ -981,31 +973,22 @@ void npc::place_on_map()
 const Skill* npc::best_skill() const
 {
     int highest = std::numeric_limits<int>::min();
-    int count   = 0;
 
     for (auto const &p : _skills) {
-        if (!p.first->is_combat_skill()) {
-            continue; // just combat skills.
+        if (p.first->is_combat_skill()) {
+            int const level = p.second;
+            if (level > highest) {
+                highest = level;
+            }
         }
-
-        int const level = p.second;
-        if (level < highest) {
-            continue; // no good.
-        } else if (level > highest) {
-            highest = level;
-            count   = 0;
-        }
-        
-        ++count;
     }
 
-    if (!count) {
+    if (highest == 0) {
         return nullptr; // no skills
     }
 
-    auto n = rng(0, count);
     for (auto const &p : _skills) {
-        if (p.second == highest && --n < 0) {
+        if (p.second == highest && p.first->is_combat_skill()) {
             return p.first;
         }
     }

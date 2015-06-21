@@ -16,6 +16,9 @@
 #include "translations.h"
 #include "martialarts.h"
 #include "input.h"
+#include "item_group.h"
+#include "compatibility.h"
+#include "basecamp.h"
 
 #include <vector>
 #include <string>
@@ -1230,6 +1233,9 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     } else if( topic == "TALK_RANCH_DOCTOR" ) {
              return _("I'm sorry, I don't have time to see you at the moment.");
 
+    } else if( topic == "TALK_RANCH_DOCTOR_BIONICS" ) {
+             return _("I imagine we might be able to work something out...");
+
     } else if( topic == "TALK_RANCH_SCRAPPER" ) {
              return _("Don't mind me.");
 
@@ -1841,6 +1847,10 @@ void dialogue::gen_responses( const std::string &topic )
         add_response( _("Is there any way I can join your group?"), "TALK_EVAC_MERCHANT_ASK_JOIN" );
         add_response( _("Can I do anything for the center?"), "TALK_MISSION_LIST" );
         add_response( _("Let's trade then."), "TALK_EVAC_MERCHANT", &talk_function::start_trade );
+        if (p->has_trait("NPC_MISSION_LEV_1")){
+            add_response( _("I figured you might be looking for some help..."), "TALK_EVAC_MERCHANT" );
+                SUCCESS_ACTION(&talk_function::companion_mission);
+        }
         add_response_done( _("Well, bye.") );
 
     } else if( topic == "TALK_EVAC_MERCHANT_NEW" ) {
@@ -2150,6 +2160,8 @@ void dialogue::gen_responses( const std::string &topic )
             } else if (p->chatbin.missions_assigned.size() >= 2) {
                 add_response( _("About one of those jobs..."), "TALK_MISSION_LIST_ASSIGNED" );
             }
+            add_response( _("I figured you might be looking for some help..."), "TALK_RANCH_FOREMAN" );
+                SUCCESS_ACTION(&talk_function::companion_mission);
             add_response( _("I've got to go..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
             popup(_("%s gives you a %s"), p->name.c_str(), item("commune_prospectus", 0).tname().c_str());
@@ -2222,7 +2234,9 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I'll talk with them then..."), "TALK_RANCH_FARMER_2" );
     } else if( topic == "TALK_RANCH_CROP_OVERSEER" ) {
             add_response( _("What are you doing here?"), "TALK_RANCH_CROP_OVERSEER_JOB" );
-            add_response( _("What do you need done?"), "TALK_MISSION_LIST" );
+            add_response( _("I'm interested in investing in agriculture..."), "TALK_RANCH_CROP_OVERSEER" );
+                SUCCESS_ACTION(&talk_function::companion_mission);
+            add_response( _("Can I help you with anything?"), "TALK_MISSION_LIST" );
             if (p->chatbin.missions_assigned.size() == 1) {
                 add_response( _("About that job..."), "TALK_MISSION_INQUIRE" );
             } else if (p->chatbin.missions_assigned.size() >= 2) {
@@ -2271,7 +2285,14 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_NURSE_AID_DONE" ) {
             add_response( _("..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_DOCTOR" ) {
+            add_response( _("For the right price could I borrow your services?"), "TALK_RANCH_DOCTOR_BIONICS" );
             add_response( _("..."), "TALK_DONE" );
+    } else if( topic == "TALK_RANCH_DOCTOR_BIONICS" ) {
+            add_response( _("I was wondering if you could install a cybernetic implant..."), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::bionic_install);
+            add_response( _("I need help removing an implant..."), "TALK_DONE" );
+                SUCCESS_ACTION(&talk_function::bionic_remove);
+            add_response( _("Nevermind."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_SCRAPPER" ) {
             add_response( _("What is your job here?"), "TALK_RANCH_SCRAPPER_JOB" );
             add_response( _("Do you need any help?"), "TALK_RANCH_SCRAPPER_HIRE" );
@@ -2289,6 +2310,8 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_SCAVENGER_1_JOB" ) {
             add_response( _("..."), "TALK_RANCH_SCAVENGER_1" );
     } else if( topic == "TALK_RANCH_SCAVENGER_1_HIRE" ) {
+            add_response( _("Tell me more about the scavenging runs..."), "TALK_RANCH_SCAVENGER_1" );
+                SUCCESS_ACTION(&talk_function::companion_mission);
             add_response( _("What kind of tasks do you have for me?"), "TALK_MISSION_LIST" );
             add_response( _("..."), "TALK_RANCH_SCAVENGER_1" );
     } else if( topic == "TALK_RANCH_BARKEEP" ) {

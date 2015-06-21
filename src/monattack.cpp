@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 #include <algorithm>
 
@@ -395,7 +396,10 @@ void mattack::acid_accurate(monster *z, int index)
         return;
     }
     if( g->u.sees( *target ) ) {
-        add_msg( msg_type, _("A bolt of acid hits %1$s's %2$s!"), target->disp_name().c_str(), body_part_name_accusative( bp ).c_str() );
+        target->add_msg_player_or_npc( msg_type,
+                                    _("A bolt of acid hits your %s!"),
+                                    _("A bolt of acid hits <npcname>'s %s!"),
+                                    body_part_name_accusative( bp ).c_str() );
     }
     target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
     if (bp == bp_eyes){

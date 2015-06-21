@@ -147,6 +147,12 @@
         "desc": ["AI tag used for bouncing ammo targeting.  This is a bug if you have it."]
     },
     {
+        "type": "effect_type",
+        "id": "pushed",
+        "name": ["Pushed"],
+        "desc": ["AI tag used for monsters pushing each other.  This is a bug if you have it."]
+    },
+    {
         "//": "ACTUAL PLAYER EFFECTS START HERE",
         "type": "effect_type",
         "id": "downed",

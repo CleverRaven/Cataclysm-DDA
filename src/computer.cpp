@@ -109,6 +109,12 @@ void computer::use()
     // Login
     print_line(_("Logging into %s..."), name.c_str());
     if (security > 0) {
+        if (int(calendar::turn) < next_attempt) {
+            print_error( _("Access is temporary blocked for security purposes.") );
+            query_any(_("Please contact the system administrator."));
+            reset_terminal();
+            return;
+        }
         print_error(_("ERROR!  Access denied!"));
         switch (query_ynq(_("Bypass security?"))) {
         case 'q':
@@ -204,7 +210,6 @@ bool computer::hack_attempt(player *p, int Security)
     }
 
     p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
-    p->practice( "computer", 5 + Security * 2 );
     int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
@@ -212,7 +217,9 @@ bool computer::hack_attempt(player *p, int Security)
         player_roll += rng(0, p->int_cur - 8);
     }
 
-    return (dice(player_roll, 6) >= dice(Security, 6));
+    bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
+    p->practice( "computer", (successful_attempt ? (15 + Security * 3) : 7));
+    return successful_attempt;
 }
 
 std::string computer::save_data()
@@ -502,7 +509,7 @@ void computer::activate_function(computer_action action, char ch)
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
             add_msg(m_info, _("Nuclear missile launched!"));
-            options.clear();//Remove the option to fire another missle.
+            options.clear();//Remove the option to fire another missile.
         } else {
             add_msg(m_info, _("Nuclear missile launch aborted."));
             return;
@@ -893,6 +900,23 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         query_any(_("Press any key to continue..."));
         break;
 
+    case COMPACT_EMERG_REF_CENTER:
+        reset_terminal();
+        print_line(_("\
+IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
+THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
+THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
+4PM AT 1-800-255-5678.                                      \n\
+\n\
+IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
+TO WRITE US A LETTER PLEASE SEND IT TO...\n\
+\n\
+It takes you forever to find the address on your map...\n"));
+        overmap_buffer.reveal(overmap_buffer.find_closest( g->u.global_omt_location(), "evac_center_13", 0, false ), 3);
+        query_any(_("You mark the refugee center..."));
+        reset_terminal();
+        break;
+
     case COMPACT_TOWER_UNRESPONSIVE:
         print_line(_("\
   WARNING, RADIO TOWER IS UNRESPONSIVE. \n\
@@ -1060,7 +1084,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   safe procedures and rig the sarcophagus with C-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
   and seal the sarcophagus or remove the charges.  It is of the\n\
-  utmost importance that the facility be sealed immediatly when\n\
+  utmost importance that the facility be sealed immediately when\n\
   the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
@@ -1149,6 +1173,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
 void computer::activate_random_failure()
 {
+    next_attempt = int(calendar::turn) + 450;
     computer_failure fail = (failures.empty() ? COMPFAIL_SHUTDOWN :
                              failures[rng(0, failures.size() - 1)]);
     activate_failure(fail);

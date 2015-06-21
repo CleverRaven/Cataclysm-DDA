@@ -134,8 +134,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns what color the player should be drawn as */
         virtual nc_color basic_symbol_color() const override;
 
-        /** Stringstream loader for old player data files */
-        virtual void load_legacy(std::stringstream &dump);
         /** Deserializes string data when loading files */
         virtual void load_info(std::string data);
         /** Outputs a serialized json string for saving */
@@ -159,10 +157,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_morale();
         /** Print the bars indicating how well the player is currently aiming.**/
         int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
-        /** Print just the gun mode indicator. **/
-        void print_gun_mode( WINDOW *w, nc_color c );
-        /** Print just the colored recoil indicator. **/
-        void print_recoil( WINDOW *w ) const;
+        /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
+        std::string print_gun_mode();
+        /** Returns the colored recoil indicator (contains color-tags). **/
+        std::string print_recoil() const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 
@@ -243,7 +241,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(std::string const &b_id);
+        bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -285,7 +283,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
-        int  unimpaired_range();
+        int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
         bool overmap_los( const tripoint &omt, int sight_points );
         /** Returns the distance the player can see on the overmap */
@@ -327,6 +325,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
+        /**
+	 * As above, but includes all creatures the player can detect well enough to target
+	 * with ranged weapons, e.g. with infared vision.
+         */
+        std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
@@ -431,7 +434,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void fire_gun( const tripoint &target, long burst_size );
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
-
+        
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -445,6 +448,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source );
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
@@ -486,6 +491,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
         int dodge_roll() override;
+        
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         int get_melee() const override;
         /**
@@ -506,8 +512,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
@@ -553,6 +567,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
         void knock_back_from( const tripoint &p ) override;
+
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -611,7 +630,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wields an item, returns false on failed wield */
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
-        void pick_style();
+        bool pick_style();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
@@ -643,7 +662,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
-        bool install_bionics(const itype &type);
+        bool install_bionics(const itype &type, int skill_level = -1);
         /** Handles reading effects */
         void read(int pos);
         /** Completes book reading action. **/
@@ -662,12 +681,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling();
-        /** Returns a value used for things like reading and sewing based on light level */
+        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
+         * for the time taken to perform tasks that require detail vision,
+         * above 4.0 means these activities cannot be performed. */
         float fine_detail_vision_mod();
 
-        /** Used to determine player feedback on item use for the inventory code */
-        hint_rating rate_action_use(const item *it)
-        const; //rates usability lower for non-tools (books, etc.)
+        /** Used to determine player feedback on item use for the inventory code.
+         *  rates usability lower for non-tools (books, etc.) */
+        hint_rating rate_action_use(const item *it) const;
         hint_rating rate_action_wear(item *it);
         hint_rating rate_action_eat(item *it);
         hint_rating rate_action_read(item *it);
@@ -909,7 +930,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         {
             position.z = z;
         }
-        inline void setpos( const tripoint &p )
+        inline void setpos( const tripoint &p ) override
         {
             position = p;
         }

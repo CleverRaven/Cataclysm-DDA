@@ -110,6 +110,10 @@ namespace talk_function {
     void give_equipment       (npc *);
     void give_aid             (npc *);
     void give_all_aid         (npc *);
+
+    void bionic_install       (npc *);
+    void bionic_remove        (npc *);
+
     void construction_tips    (npc *);
     void buy_beer             (npc *);
     void buy_brandy           (npc *);
@@ -161,6 +165,46 @@ namespace talk_function {
 
     void allow_sleep          (npc *);
     void wake_up              (npc *);
+
+/*mission_companion.cpp proves a set of functions that compress all the typical mission opperations into a set of hard-coded
+ *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
+ *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
+ */
+    //Identifies which mission set the NPC draws from
+    void companion_mission          (npc *);
+    //Primary Loop
+    bool outpost_missions           (npc *p, std::string id, std::string title);
+    //Send a companion on an individual mission or attaches them to a group to depart later
+    void individual_mission         (npc *p, std::string desc, std::string id, bool group = false);
+
+    void caravan_return             (npc *p, std::string dest, std::string id);
+    void caravan_depart             (npc *p, std::string dest, std::string id);
+    int caravan_dist                (std::string dest);
+    void field_build_1              (npc *p);
+    void field_build_2              (npc *p);
+    void field_plant                (npc *p, std::string place);
+    void field_harvest              (npc *p, std::string place);
+    bool scavenging_patrol_return   (npc *p);
+    bool scavenging_raid_return     (npc *p);
+    bool labor_return               (npc *p);
+    bool carpenter_return           (npc *p);
+    bool forage_return              (npc *p);
+
+    //Combat functions
+    void force_on_force(std::vector<npc *> defender, std::string def_desc,
+        std::vector<npc *> attacker, std::string att_desc, int advantage);
+    int combat_score    (std::vector<npc *> group);//Used to determine retreat
+    void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
+    npc *temp_npc       (std::string type);
+
+    //Utility functions
+    std::vector<npc *> companion_list   (std::string id);//List of NPCs found in game->mission_npc
+    npc *companion_choose               ();
+    npc *companion_choose_return        (std::string id, int deadline);
+    void companion_leave                (npc *comp);//Pulls the NPC from
+    void companion_return               (npc *comp);//Return NPC to your party
+    void companion_lost                 (npc *comp);//Kills the NPC off-screen
+    std::vector<item*> loot_building    (const tripoint site);//Smash stuff, steal valuables, and change map maker
 };
 
 enum talk_trial_type {

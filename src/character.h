@@ -8,6 +8,21 @@
 
 #include <map>
 
+enum vision_modes {
+    DEBUG_NIGHTVISION,
+    NV_GOGGLES,
+    NIGHTVISION_1,
+    NIGHTVISION_2,
+    NIGHTVISION_3,
+    FULL_ELFA_VISION,
+    ELFA_VISION,
+    CEPH_VISION,
+    FELINE_VISION,
+    BIRD_EYE,
+    URSINE_VISION,
+    NUM_VISION_MODES
+};
+
 class Character : public Creature
 {
     public:
@@ -37,7 +52,12 @@ class Character : public Creature
          * - clothes
          */
         void recalc_sight_limits();
-
+        /**
+         * Returns the apparent light level at which the player can see.
+         * This is adjusted by the light level at the *character's* position
+         * to simulate glare, etc, night vision only works if you are in the dark.
+         */
+        float get_vision_threshold(int light_level) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -312,6 +332,8 @@ class Character : public Creature
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
 
+        std::vector<bionic> my_bionics;
+
     protected:
         Character();
         Character(const Character &) = default;
@@ -346,7 +368,6 @@ class Character : public Creature
          * Contains mutation ids of the base traits.
          */
         std::unordered_set<std::string> my_traits;
-        std::vector<bionic> my_bionics;
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
@@ -354,9 +375,9 @@ class Character : public Creature
         // --------------- Values ---------------
         std::map<const Skill*, SkillLevel> _skills;
 
+        // Cached vision values.
+        std::bitset<NUM_VISION_MODES> vision_mode_cache;
         int sight_max;
-        int sight_boost;
-        int sight_boost_cap;
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;

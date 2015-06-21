@@ -1,3 +1,4 @@
+#include "iexamine.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -20,10 +21,14 @@
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
+#include "basecamp.h"
 
 #include <sstream>
 #include <algorithm>
 #include <cstdlib>
+
+static void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, ter_id new_ter,
+                        bool seeds = false );
 
 void iexamine::none(player *p, map *m, const tripoint &examp)
 {
@@ -560,7 +565,7 @@ void iexamine::controls_gate(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
-    g->open_gate( examp, (ter_id)m->ter( examp ) );
+    g->open_gate( examp, m->ter( examp ) );
 }
 
 void iexamine::cardreader(player *p, map *m, const tripoint &examp)
@@ -2127,11 +2132,11 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
     }
 }
 
-void iexamine::pick_plant(player *p, map *m, const tripoint &examp,
-                          std::string itemType, int new_ter, bool seeds)
+void pick_plant(player *p, map *m, const tripoint &examp,
+                std::string itemType, ter_id new_ter, bool seeds)
 {
     if (!query_yn(_("Harvest the %s?"), m->tername(examp).c_str())) {
-        none(p, m, examp);
+        iexamine::none(p, m, examp);
         return;
     }
 
@@ -2155,7 +2160,7 @@ void iexamine::pick_plant(player *p, map *m, const tripoint &examp,
                       rng(plantCount / 4, plantCount / 2), calendar::turn);
     }
 
-    m->ter_set(examp, (ter_id)new_ter);
+    m->ter_set(examp, new_ter);
 }
 
 void iexamine::harvest_tree_shrub(player *p, map *m, const tripoint &examp)

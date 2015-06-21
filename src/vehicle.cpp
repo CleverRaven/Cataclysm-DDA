@@ -22,6 +22,8 @@
 #include "veh_type.h"
 #include "trap.h"
 #include "itype.h"
+#include "submap.h"
+#include "mapdata.h"
 
 #include <fstream>
 #include <sstream>
@@ -270,17 +272,13 @@ void vehicle::load (std::ifstream &stin)
     getline(stin, type);
     this->type = vproto_id( type );
 
-    if ( type.size() > 1 && ( type[0] == '{' || type[1] == '{' ) ) {
-        std::stringstream derp;
-        derp << type;
-        JsonIn jsin(derp);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
-        }
-    } else {
-        load_legacy(stin);
+    std::stringstream derp;
+    derp << type;
+    JsonIn jsin(derp);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
     }
     refresh(); // part index lists are lost on save??
     shift_if_needed();
@@ -588,6 +586,11 @@ void vehicle::smash() {
     }
 }
 
+const std::string vehicle::disp_name()
+{
+    return string_format( _("the %s"), name.c_str() );
+}
+
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
@@ -762,7 +765,7 @@ bool vehicle::interact_vehicle_locked()
     if (is_locked){
         const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if( crafting_inv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+        if( crafting_inv.has_items_with_quality( "SCREW", 1, 1 ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
 
@@ -1428,6 +1431,31 @@ void vehicle::honk_horn()
 
     if( ! honked ) {
         add_msg( _("You honk the horn, but nothing happens.") );
+    }
+}
+
+void vehicle::beeper_sound()
+{
+    // No power = no sound
+    if( fuel_left( fuel_type_battery, true ) == 0 ) {
+        return;
+    }
+
+    const bool odd_turn = (calendar::turn % 2 == 0);
+    for( size_t p = 0; p < parts.size(); ++p ) {
+        if( !part_flag( p, "BEEPER" ) ) {
+            continue;
+        }
+        if( ( odd_turn && part_flag( p, VPFLAG_EVENTURN ) ) ||
+            ( !odd_turn && part_flag( p, VPFLAG_ODDTURN ) ) ) {
+            continue;
+        }
+
+        const vpart_info &beeper_type = part_info( p );
+        //Get global position of backup beeper
+        const tripoint beeper_pos = global_pos3() + parts[p].precalc[0];
+        //Determine sound
+        sounds::sound( beeper_pos, beeper_type.bonus, _("beep!") );
     }
 }
 
@@ -2949,8 +2977,8 @@ int vehicle::solar_epower( const tripoint &sm_loc ) const
                 continue;
             }
 
-            if( !(terlist[sm->ter[pg.x][pg.y]].has_flag(TFLAG_INDOORS) ||
-                  furnlist[sm->get_furn(pg.x, pg.y)].has_flag(TFLAG_INDOORS)) ) {
+            if( !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
+                  sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS)) ) {
                 epower += ( part_epower( elem ) * g->ground_natural_light_level() ) / DAYLIGHT_LEVEL;
             }
         }
@@ -3632,7 +3660,7 @@ void vehicle::do_engine_damage(size_t e, int strain) {
      if( is_engine_on(e) && !is_engine_type(e, fuel_type_muscle) &&
          fuel_left(part_info(engines[e]).fuel_type) &&  rng (1, 100) < strain ) {
         int dmg = rng(strain * 2, strain * 4);
-        damage_direct(engines[e], dmg, 0);
+        damage_direct( engines[e], dmg );
         if(one_in(2)) {
             add_msg(_("Your engine emits a high pitched whine."));
         } else {
@@ -4252,7 +4280,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         }
     }
 
-    damage( parm, part_dmg, 1 );
+    damage( parm, part_dmg, DT_BASH );
 
     veh_collision ret;
     ret.part = part;
@@ -4727,7 +4755,10 @@ void vehicle::remove_remote_part(int part_num) {
 }
 
 void vehicle::shed_loose_parts() {
-    for( auto &elem : loose_parts ) {
+    // remove_part rebuilds the loose_parts vector, when all of those parts have been removed,
+    // it will stay empty.
+    while( !loose_parts.empty() ) {
+        int const elem = loose_parts.front();
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
             remove_remote_part( elem );
         }
@@ -4739,7 +4770,6 @@ void vehicle::shed_loose_parts() {
 
         remove_part( elem );
     }
-    loose_parts.clear();
 }
 
 void vehicle::refresh_insides ()
@@ -4810,7 +4840,7 @@ void vehicle::unboard_all ()
     }
 }
 
-int vehicle::damage( int p, int dmg, int type, bool aimed )
+int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
 {
     if( dmg < 1 ) {
         return dmg;
@@ -4864,7 +4894,7 @@ int vehicle::damage( int p, int dmg, int type, bool aimed )
     return dres;
 }
 
-void vehicle::damage_all( int dmg1, int dmg2, int type, const point &impact )
+void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &impact )
 {
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
@@ -4941,7 +4971,7 @@ bool vehicle::shift_if_needed() {
     return false;
 }
 
-int vehicle::damage_direct (int p, int dmg, int type)
+int vehicle::damage_direct( int p, int dmg, damage_type type )
 {
     if (parts[p].hp <= 0) {
         /* Already-destroyed part - chance it could be torn off into pieces.
@@ -5005,26 +5035,38 @@ int vehicle::damage_direct (int p, int dmg, int type)
         tsh = 20;
     }
     int dres = dmg;
-    if (dmg >= tsh || type != 1)
+    if( dmg >= tsh || type == DT_HEAT || type == DT_TRUE )
     {
         dres -= parts[p].hp;
         int last_hp = parts[p].hp;
         parts[p].hp -= dmg;
-        if (parts[p].hp < 0)
+        if( parts[p].hp < 0 ) {
             parts[p].hp = 0;
-        if (!parts[p].hp && last_hp > 0)
+        }
+
+        if( parts[p].hp == 0 && last_hp > 0) {
             insides_dirty = true;
-        if (part_flag(p, "FUEL_TANK"))
+        }
+
+        if( part_flag( p, "FUEL_TANK" ) )
         {
             const itype_id &ft = part_info(p).fuel_type;
-            if (ft == fuel_type_gasoline  || ft == fuel_type_diesel || ft == fuel_type_plasma)
+            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma )
             {
-                int pow = parts[p].amount / 40;
-    //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
-                if (parts[p].hp <= 0)
-                    leak_fuel (p);
-                if (type == 2 ||
-                    (one_in ((ft == fuel_type_gasoline || ft == fuel_type_diesel) ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                // TODO: Move all the bools below to jsons
+                // Gasoline explodes way more readily than diesel
+                const bool bad_explosion = ft == fuel_type_gasoline;
+                // one_in chance of exploding
+                const bool explosion_chance = ft == fuel_type_diesel ? 10 : 2;
+                const bool fiery_explosion = ft == fuel_type_gasoline || ft == fuel_type_diesel;
+                const int pow = std::pow( parts[p].amount, bad_explosion ? 0.45f : 0.4f );
+                //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
+                if( parts[p].hp <= 0 ) {
+                    leak_fuel( p );
+                }
+
+                if( pow > 5 &&
+                    ( type == DT_HEAT || (one_in( explosion_chance )  && rng( 75, 150 ) < dmg) ) )
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
@@ -5032,8 +5074,9 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
                                             smz ),
-                                  pow, 0, (ft == fuel_type_gasoline || ft == fuel_type_diesel));
+                                  pow, 0, fiery_explosion );
                     parts[p].hp = 0;
+                    parts[p].amount = 0;
                 }
             }
         }
@@ -5322,15 +5365,16 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     vehicle_part &tr = parts[p];
+    const bool auto_only = gun.has_flag("BURST_ONLY");
     const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
     const bool was_auto = tr.mode > 0;
-    if( tr.mode < -1 ) {
+    if( tr.mode < -1 && !auto_only ) {
         tr.mode = -1;
     } else if( tr.mode < 0 && !only_manual_modes ) {
         tr.mode = 0;
-    } else if( tr.mode == 0 && !only_manual_modes ) {
+    } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
-    } else if( tr.mode == 1 && !only_manual_modes ) {
+    } else if( tr.mode <= 1 && !only_manual_modes ) {
         tr.mode = burst_or_charge ? 1000 : -1;
     } else {
         tr.mode = burst_or_charge ? -1000 : -1;

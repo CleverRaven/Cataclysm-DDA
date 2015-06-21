@@ -27,6 +27,8 @@ class Creature_tracker
         void clear();
         void rebuild_cache();
         const std::vector<monster> &list() const;
+        /** Swaps the positions of two monsters */
+        void swap_positions( monster &first, monster &second );
 
     private:
         std::vector<monster *> monsters_list;

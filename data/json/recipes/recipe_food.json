@@ -1021,7 +1021,8 @@
     [
       [ "meat", 3],
       [ "rehydrated_meat", 6 ],
-      [ "meat_canned", 6 ]
+      [ "meat_canned", 6 ],
+      [ "can_chicken", 6 ]
     ],
     [
       [ "fat", 3 ],
@@ -1682,11 +1683,14 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
+      [ "can_chicken", 2 ],
       [ "meat_canned", 2 ],
       [ "fish", 1 ],
       [ "dry_fish", 2],
       [ "rehydrated_fish", 2],
-      [ "fish_canned", 2]
+      [ "fish_canned", 2],
+      [ "can_salmon", 2],
+      [ "can_tuna", 2]
     ],
     [
       [ "cheese", 1 ],
@@ -1883,7 +1887,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "nachos", 3 ]
@@ -1916,7 +1921,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "cheese", 1 ],
@@ -3257,7 +3263,8 @@
       [ "meat", 2],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ]
   ]
 },{
@@ -3325,7 +3332,9 @@
       [ "fish_smoked", 2],
       [ "fish_pickled", 1 ],
       [ "fish_vac", 2 ],
-      [ "fish_canned", 1 ]
+      [ "fish_canned", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ]
     ]
   ]
 },{
@@ -3361,11 +3370,14 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "meat_canned", 1],
+      [ "can_chicken", 1],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "fish_canned", 1],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ],
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
@@ -3779,11 +3791,14 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "meat_canned", 1],
+      [ "can_chicken", 1],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "fish_canned", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ],
       [ "sausage", 2 ],
       [ "bacon", 2 ], 
       [ "powder_eggs", 10 ],
@@ -3911,11 +3926,14 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "fish_canned", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ],
       [ "sausage", 2 ],
       [ "bacon", 2 ], 
       [ "powder_eggs", 10 ],
@@ -4042,11 +4060,14 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "fish_canned", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ],
       [ "sausage", 2 ],
       [ "bacon", 2 ], 
       [ "powder_eggs", 10 ],
@@ -4461,6 +4482,7 @@
       [ "meat_pickled", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "fish_pickled", 1 ],
       [ "fish_vac", 1 ],
       [ "fish_canned", 1 ],
@@ -5087,6 +5109,45 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "seasoning_italian",
+  "override": true,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "result_mult": 2,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["cookbook_italian", 2]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt", 2 ]
+    ],
+    [
+      [ "garlic", 1 ],
+      [ "seed_garlic", 6 ]
+    ],
+    [
+      [ "thyme", 2 ]
+    ],
+    [
+      [ "wild_herbs", 200 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "pie",
   "category": "CC_FOOD",
@@ -5201,7 +5262,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -5281,7 +5343,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "sauce_red", 1 ],
@@ -5363,7 +5426,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "can_beans", 1],
@@ -5552,6 +5616,7 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "meat_vac", 2 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
@@ -5648,6 +5713,7 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ]
@@ -5692,6 +5758,7 @@
     [
       [ "meat", 2 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ]
     ]
@@ -6271,11 +6338,14 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "meat_canned", 1],
+      [ "can_chicken", 1 ],
       [ "fish", 1 ],
       [ "fish_smoked", 1 ],
       [ "dry_fish", 1 ],
       [ "rehydrated_fish", 1 ],
       [ "fish_canned", 1],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ],
       [ "sausage", 2 ],
       [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
@@ -6344,7 +6414,8 @@
       [ "meat", 2],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ]
   ]
 },{
@@ -6470,7 +6541,9 @@
       [ "fish_smoked", 2],
       [ "fish_pickled", 1 ],
       [ "fish_vac", 2 ],
-      [ "fish_canned", 1 ]
+      [ "fish_canned", 1 ],
+      [ "can_salmon", 1 ],
+      [ "can_tuna", 1 ]
     ]
   ]
 },{
@@ -7763,7 +7836,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "flour", 2 ],
@@ -8128,7 +8202,8 @@
       [ "meat", 1],
       [ "rehydrated_meat", 2 ],
       [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ]
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ]
   ]
 },{
@@ -9554,6 +9629,7 @@
       [ "rehydrated_meat", 1 ],
       [ "dry_meat", 1 ],
       [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ],
       [ "jerky", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_smoked", 1 ]
@@ -9692,6 +9768,24 @@
   "components": [
     [
       [ "thyme", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "seed_garlic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "garlic", 1 ]
     ]
   ]
 },{

@@ -2505,7 +2505,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
-  "difficulty": 6,
+  "difficulty": 3,
   "time": 45000,
   "reversible": false,
   "qualities" : [
@@ -2521,12 +2521,12 @@
     ],
   "components": [
     [
-     [ "tallow", 5 ],
-     [ "lard", 5 ],
+     [ "tallow", 2 ],
+     [ "lard", 2 ],
      [ "cooking_oil", 5 ]
     ],
     [
-     [ "lye_powder", 20 ]
+     [ "lye_powder", 10 ]
     ],
     [
      [ "water", 1 ],
@@ -2767,31 +2767,31 @@
 ]
 },
 {
-"type" : "recipe",
-"result": "chem_black_powder",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 4,
-"time": 20000,
-"reversible": false,
-"autolearn": false,
-"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
-"qualities" : 
-[
-{"id":"CONTAIN","level":1,"amount":1}
-],
-"components": [
-[
-[ "chem_saltpetre", 75 ]
-],
-[
-[ "chem_sulphur", 10 ]
-] ,
-[
-[ "charcoal", 15 ]
-]
-]
+  "type" : "recipe",
+  "result": "chem_black_powder",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
+  "qualities" : 
+    [
+      {"id":"CONTAIN","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "chem_saltpetre", 75 ]
+    ],
+    [
+      [ "chem_sulphur", 10 ]
+    ] ,
+    [
+      [ "charcoal", 15 ]
+    ]
+  ]
 },
 {
 "type" : "recipe",

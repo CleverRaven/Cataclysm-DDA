@@ -320,7 +320,7 @@
                 "picklocks"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "boxer_shorts"
@@ -359,7 +359,7 @@
 
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -1228,7 +1228,7 @@
                 "flashlight"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -1256,7 +1256,8 @@
                 "sneakers",
                 "portable_game",
                 "mbag",
-                "laptop"
+                "laptop",
+                "caffeine"
             ],
             "male": [
                 "briefs"

@@ -917,6 +917,22 @@
         "category" : "veh_parts",
         "price": 80000
     },
+   {
+        "type":"GENERIC",
+        "id": "beeper",
+        "name": "back-up beeper",
+        "description": "This is a safety device intended to warn passersby of a vehicle moving in reverse, but the usage of it now seems terribly unwise.",
+        "weight": 360,
+        "symbol": ";",
+        "color": "light_gray",
+        "material": ["plastic", "aluminum"],
+        "volume": 1,
+        "to_hit": -1,
+        "bashing": 2,
+        "cutting": 0,
+        "category": "veh_parts",
+        "price": 6000
+    },
     {
         "type":"GENERIC",
         "id": "light_emergency_red",

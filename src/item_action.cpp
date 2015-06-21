@@ -86,6 +86,11 @@ bool item_has_uses_recursive( const item &it )
 
 item_action_map item_action_generator::map_actions_to_items( player &p ) const
 {
+    return map_actions_to_items( p, std::vector<item*>() );
+}
+
+item_action_map item_action_generator::map_actions_to_items( player &p, const std::vector<item*> &pseudos ) const
+{
     std::set< item_action_id > unmapped_actions;
     for( auto &p : item_actions ) { // Get ids of wanted actions
         unmapped_actions.insert( p.first );
@@ -93,6 +98,8 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
 
     item_action_map candidates;
     std::vector< item* > items = p.inv_dump();
+    items.reserve( items.size() + pseudos.size() );
+    items.insert( items.end(), pseudos.begin(), pseudos.end() );
 
     std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
@@ -208,7 +215,15 @@ void game::item_action_menu()
 {
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
-    item_action_map iactions = gen.map_actions_to_items( u );
+
+    // A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
+    std::vector<item*> pseudos;
+    item toolset( "toolset", calendar::turn );
+    if( u.has_active_bionic( "bio_tools" ) ) {
+        pseudos.push_back( &toolset );
+    }
+
+    item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
         popup( _("You don't have any items with registered uses") );
     }

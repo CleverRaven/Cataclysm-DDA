@@ -352,6 +352,7 @@ void MonsterGenerator::init_flags()
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
+    flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
@@ -390,7 +391,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         }
         newmon->description = _(jo.get_string("description").c_str());
 
-        newmon->mat = jo.get_string("material");
+        // Have to overwrite the default { "hflesh" } here
+        newmon->mat = { jo.get_string("material") };
 
         newmon->species = jo.get_tags("species");
         newmon->categories = jo.get_tags("categories");

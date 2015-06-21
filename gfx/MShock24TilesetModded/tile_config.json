@@ -2138,6 +2138,12 @@
           "rotates": false
         },
         {
+          "id": "winter_gloves_army",
+          "fg": 351,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "gloves_wool",
           "fg": 352,
           "bg": 505,
@@ -3144,7 +3150,25 @@
           "rotates": false
         },
         {
+          "id": "patchwork_scarf",
+          "fg": 2299,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "patchwork_scarf_loose",
+          "fg": 2299,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "scarf_fur",
+          "fg": 2300,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "scarf_fur_loose",
           "fg": 2300,
           "bg": 505,
           "rotates": false
@@ -15053,7 +15077,7 @@
         },
         {
           "id": "t_shrub_season_winter",
-          "fg": 1944,
+          "fg": 2559,
           "bg": 543
         },
         {
@@ -18025,6 +18049,16 @@
           "rotates": false
         },
         {
+          "id": "knit_scarf_loose",
+          "fg": 2291,
+          "rotates": false
+        },
+        {
+          "id": "long_knit_scarf_loose",
+          "fg": 2292,
+          "rotates": false
+        },
+        {
           "id": "rad_monitor",
           "fg": 2297,
           "rotates": false
@@ -18044,7 +18078,27 @@
           "rotates": false
         },
         {
+          "id": "scarf_fur_long_loose",
+          "fg": 2301,
+          "rotates": false
+        },
+        {
           "id": "scarf_long",
+          "fg": 2302,
+          "rotates": false
+        },
+        {
+          "id": "scarf_long_loose",
+          "fg": 2302,
+          "rotates": false
+        },
+        {
+          "id": "long_patchwork_scarf",
+          "fg": 2302,
+          "rotates": false
+        },
+        {
+          "id": "long_patchwork_scarf_loose",
           "fg": 2302,
           "rotates": false
         },
@@ -18914,6 +18968,11 @@
           "rotates": false
         },
         {
+          "id": "mon_zhark",
+          "fg": 2472,
+          "rotates": false
+        },
+        {
           "id": "hat_hooded",
           "fg": 2473,
           "rotates": false
@@ -19519,37 +19578,31 @@
         {
           "id": "crude_picklock",
           "fg": 2548,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "tailors_kit",
           "fg": 2549,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "hygrometer",
           "fg": 2550,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "barometer",
           "fg": 2551,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "thermometer",
           "fg": 2552,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "kimono",
           "fg": 2553,
-          "bg": 515,
           "rotates": false
         },
         {
@@ -19567,37 +19620,35 @@
         {
           "id": "teleporter",
           "fg": 2554,
-          "bg": 515,
           "rotates": false
         },
         {
           "id": "telepad",
           "fg": 2555,
-          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_spring",
           "fg": 2557,
-          "bg": 515,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_summer",
           "fg": 2557,
-          "bg": 515,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_autumn",
           "fg": 2557,
-          "bg": 515,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_underbrush_harvested_winter",
           "fg": 2558,
-          "bg": 515,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -20104,6 +20155,135 @@
           "id": "vp_xlhalfboard_vertical_2",
           "fg": 2417,
           "rotates": true
+        },
+        {
+          "id": "mon_mutant_carp",
+          "fg": 2613,
+          "rotates": false
+        },
+        {
+          "id": "mon_mutant_salmon",
+          "fg": 2614,
+          "rotates": false
+        },
+        {
+          "id": "mon_boomer_huge",
+          "fg": 2615,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "pliers",
+          "fg": 2616,
+          "rotates": false
+        },
+        {
+          "id": "screwdriver_set",
+          "fg": 2617,
+          "rotates": false
+        },
+        {
+          "id": "sten",
+          "fg": 2618,
+          "rotates": false
+        },
+        {
+          "id": "tommygun",
+          "fg": 2619,
+          "rotates": false
+        },
+        {
+          "id": "m1903",
+          "fg": 2620,
+          "rotates": false
+        },
+        {
+          "id": "garand",
+          "fg": 2621,
+          "rotates": false
+        },
+        {
+          "id": "m1918",
+          "fg": 2622,
+          "rotates": false
+        },
+        {
+          "id": "cutlass",
+          "fg": 2623,
+          "rotates": false
+        },
+        {
+          "id": "cutlass_fake",
+          "fg": 2623,
+          "rotates": false
+        },
+        {
+          "id": "m60",
+          "fg": 2624,
+          "rotates": false
+        },
+        {
+          "id": "m240",
+          "fg": 2625,
+          "rotates": false
+        },
+        {
+          "id": "holy_symbol",
+          "fg": 2626,
+          "rotates": false
+        },
+        {
+          "id": "iggaak",
+          "fg": 2627,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_grappler",
+          "fg": 2628,
+          "rotates": false
+        },
+        {
+          "id": "mon_fish_crayfish",
+          "fg": 2629,
+          "rotates": false
+        },
+        {
+          "id": "mon_fish_lobster",
+          "fg": 2630,
+          "rotates": false
+        },
+        {
+          "id": "briefcase_smg",
+          "fg": 2631,
+          "rotates": false
+        },
+        {
+          "id": "oxy_torch",
+          "fg": 2632,
+          "rotates": false
+        },
+        {
+          "id": "f_mannequin",
+          "fg": 2633,
+          "rotates": false
+        },
+        {
+          "id": "t_wall_waddle_half",
+          "fg": 1954,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_wall_waddle",
+          "fg": 2006,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_wall_waddle_broken",
+          "fg": 2007,
+          "bg": 513,
+          "rotates": false
         }
       ]
     },

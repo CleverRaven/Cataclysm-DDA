@@ -738,6 +738,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
+- ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 
 ## Tools
 
@@ -951,6 +952,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
+- ```REDUCED_WEIGHT``` ... Gunmod flag; reduce's the item's base weight by 25%.
+- ```REDUCED_BASHING``` ... Gunmod flag; reduce's the item's bashing damage by 50%.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
 
 ## Skills

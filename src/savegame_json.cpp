@@ -30,7 +30,6 @@
 #include "vehicle.h"
 #include "mutation.h"
 
-#include "savegame.h"
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 #include <bitset>
@@ -39,6 +38,22 @@
 
 #include "debug.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
+    "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
+    "OBJECT_TERRAIN", "OBJECT_FURNITURE"
+};
+
+////////////////////////////////////////////////////////////////////////////////////////
+///// on runtime populate lookup tables.
+std::map<std::string, int> obj_type_id;
+
+void game::init_savedata_translation_tables() {
+  obj_type_id.clear();
+  for(int i = 0; i < NUM_OBJECTS; i++) {
+    obj_type_id[ obj_type_name[i] ] = i;
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h
@@ -797,8 +812,8 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, flagstmp, atttmp;
-    std::string facID;
+    int misstmp, classtmp, flagstmp, atttmp, comp_miss_t, stock;
+    std::string facID, comp_miss;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
@@ -857,6 +872,18 @@ void npc::load(JsonObject &data)
 
     if ( data.read( "attitude", atttmp) ) {
         attitude = npc_attitude(atttmp);
+    }
+
+    if ( data.read( "companion_mission", comp_miss) ) {
+        companion_mission = comp_miss;
+    }
+
+    if ( data.read( "companion_mission_time", comp_miss_t) ) {
+        companion_mission_time = comp_miss_t;
+    }
+
+    if ( data.read( "restock", stock) ) {
+        restock = stock;
     }
 
     data.read("op_of_u", op_of_u);
@@ -918,6 +945,11 @@ void npc::store(JsonOut &json) const
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
     json.member("combat_rules", combat_rules);
+
+    json.member("companion_mission", companion_mission);
+    json.member("companion_mission_time", companion_mission_time);
+    json.member("restock", restock);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1006,14 +1038,9 @@ void monster::load(JsonObject &data)
 {
     Creature::load( data );
 
-    int iidtmp;
     std::string sidtmp;
     // load->str->int
-    if ( ! data.read("typeid", sidtmp) ) {
-        // or load->int->str->possibly_shifted_int
-        data.read("typeid", iidtmp);
-        sidtmp = legacy_mon_id[ iidtmp ];
-    }
+    data.read("typeid", sidtmp);
     type = GetMType(sidtmp);
 
     data.read( "unique_name", unique_name );
@@ -1067,13 +1094,7 @@ void monster::load(JsonObject &data)
         data.read("ammo", ammo);
     }
 
-    mfaction_str_id monfac = mfaction_str_id( data.get_string( "faction", "" ) );
-    if( !monfac.is_valid() || monfac.id() == mfaction_id( 0 ) ) {
-        // Legacy saves
-        faction = type->default_faction;
-    } else {
-        faction = monfac;
-    }
+    faction = mfaction_str_id( data.get_string( "faction", "" ) );
 }
 
 /*
@@ -1154,15 +1175,7 @@ void item::deserialize(JsonObject &data)
     data.read( "mission_id", mission_id );
     data.read( "player_id", player_id );
 
-    if (!data.read( "corpse", corptmp )) {
-        int ctmp = -1;
-        data.read( "corpse", ctmp );
-        if (ctmp != -1) {
-            corptmp = legacy_mon_id[ctmp];
-        } else {
-            corptmp = "null";
-        }
-    }
+    data.read( "corpse", corptmp );
     if (corptmp != "null") {
         corpse = GetMType(corptmp);
     } else {
@@ -1370,13 +1383,8 @@ void item::serialize(JsonOut &json, bool save_contents) const
 void vehicle_part::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int intpid;
     vpart_str_id pid;
-    if ( data.read("id_enum", intpid) && intpid < 74 ) {
-        pid = legacy_vpart_id[intpid];
-    } else {
-        data.read("id", pid);
-    }
+    data.read("id", pid);
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {

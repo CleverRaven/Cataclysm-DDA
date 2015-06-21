@@ -245,16 +245,14 @@ bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
         return false;
     }
 
-    const int range_cur = sight_range( g->light_level() );
+    const int range_cur = sight_range( g->m.ambient_light_at(t) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );
     const int wanted_range = rl_dist( pos3(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
           g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
-        if( is_player() ) {
-            return g->m.pl_sees( t, wanted_range );
-        } else if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
+        if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
             return g->m.sees( pos3(), t, wanted_range, bresen1, bresen2 );
         } else {
             return g->m.sees( pos3(), t, range_min, bresen1, bresen2 );

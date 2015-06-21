@@ -9,6 +9,7 @@
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
@@ -489,7 +490,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             }
             // kludge that can probably be done better to check specifically for toilet water to use in
             // crafting
-            if (furnlist[g->m.furn(x, y)].examine == &iexamine::toilet) {
+            if (g->m.furn_at(x, y).examine == &iexamine::toilet) {
                 // get water charges at location
                 auto toilet = g->m.i_at(x, y);
                 auto water = toilet.end();
@@ -505,7 +506,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             }
 
             // keg-kludge
-            if (furnlist[g->m.furn(x, y)].examine == &iexamine::keg) {
+            if (g->m.furn_at(x, y).examine == &iexamine::keg) {
                 auto liq_contained = g->m.i_at(x, y);
                 for( auto &i : liq_contained ) {
                     if( i.made_of(LIQUID) ) {

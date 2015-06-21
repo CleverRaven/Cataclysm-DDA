@@ -228,8 +228,6 @@ void Character::recalc_hp()
 void Character::recalc_sight_limits()
 {
     sight_max = 9999;
-    sight_boost = 0;
-    sight_boost_cap = 0;
 
     // Set sight_max.
     if (has_effect("blind") || worn_with_flag("BLIND")) {
@@ -251,37 +249,97 @@ void Character::recalc_sight_limits()
         sight_max = 6;
     }
 
-    // Set sight_boost and sight_boost_cap, based on night vision.
-    // (A player will never have more than one night vision trait.)
-    sight_boost_cap = 12;
+    vision_mode_cache.reset();
     // Debug-only NV, by vache's request
-    if (has_trait("DEBUG_NIGHTVISION")) {
-        sight_boost = 59;
-        sight_boost_cap = 59;
-    } else if (has_nv() || is_wearing("rm13_armor_on") || has_active_mutation("NIGHTVISION3") ||
-        has_active_mutation("ELFA_FNV") || (has_active_mutation("CEPH_VISION")) ) {
-        // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
-        // BIRD_EYE represents excellent fine-detail vision so I think it works.
-        if (has_trait("BIRD_EYE")) {
-            sight_boost_cap = 13;
+    if( has_trait("DEBUG_NIGHTVISION") ) {
+        vision_mode_cache.set( DEBUG_NIGHTVISION );
+    }
+    if( has_nv() || is_wearing("rm13_armor_on") ) {
+        vision_mode_cache.set( NV_GOGGLES );
+    }
+    if( has_active_mutation("NIGHTVISION3") ) {
+        vision_mode_cache.set( NIGHTVISION_3 );
+    }
+    if( has_active_mutation("ELFA_FNV") ) {
+        vision_mode_cache.set( FULL_ELFA_VISION );
+    }
+    if( has_active_mutation("CEPH_VISION") ) {
+        vision_mode_cache.set( CEPH_VISION );
+    }
+    if (has_active_mutation("ELFA_NV")) {
+        vision_mode_cache.set( ELFA_VISION );
+    }
+    if( has_active_mutation("NIGHTVISION2") ) {
+        vision_mode_cache.set( NIGHTVISION_2 );
+    }
+    if( has_active_mutation("FEL_NV") ) {
+        vision_mode_cache.set( FELINE_VISION );
+    }
+    if( has_active_mutation("URSINE_EYE") ) {
+        vision_mode_cache.set( URSINE_VISION );
+    }
+    if (has_active_mutation("NIGHTVISION")) {
+        vision_mode_cache.set(NIGHTVISION_1);
+    }
+    if( has_trait("BIRD_EYE") ) {
+        vision_mode_cache.set( BIRD_EYE);
+    }
+}
+
+float Character::get_vision_threshold(int light_level) const {
+    // Bail out in extremely common case where character hs no special vision mode or
+    // it's too bright for nightvision to work.
+    if( vision_mode_cache.none() || light_level > LIGHT_AMBIENT_LIT ) {
+        return LIGHT_AMBIENT_LOW;
+    }
+    // As ligt_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
+    // dimming goes from 1.0 to 2.0.
+    const float dimming_from_light = 1.0 + (((float)light_level - LIGHT_AMBIENT_MINIMAL) /
+                                            (LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL));
+    float threshold = LIGHT_AMBIENT_LOW;
+
+    /**
+     * Consider vision modes in order of descending goodness until we get a hit.
+     * The values are based on expected sight distance in "total darkness", which is set to 3.7.
+     * The range is given by the formula distance = -log(threshold / light_level) / attenuation
+     * This is an upper limit, any smoke or similar should shorten the effective distance.
+     * The numbers here are hand-tuned to provide the desired ranges,
+     * would be nice to derive them with a constexpr function or similar instead.
+     */
+    if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
+        // Debug vision always works with absurdly little light.
+        threshold = 0.01;
+    } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
+               vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
+        if( vision_mode_cache[BIRD_EYE] ) {
+            // Bird eye adds one, so 13.
+            threshold = 1.9;
+        } else {
+            // Highest normal night vision is expected to provide sight out to 12 squares.
+            threshold = 1.99;
         }
-        sight_boost = sight_boost_cap;
-    } else if (has_active_mutation("ELFA_NV")) {
-        sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
-    } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
-        has_active_mutation("URSINE_EYE")) {
-        if (has_trait("BIRD_EYE")) {
-            sight_boost = 5;
+    } else if( vision_mode_cache[ELFA_VISION] ) {
+        // Range 7.
+        threshold = 2.65;
+    } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
+               vision_mode_cache[URSINE_VISION] ) {
+        if( vision_mode_cache[BIRD_EYE] ) {
+            // Range 5.
+            threshold = 2.78;
         } else {
-            sight_boost = 4;
-         }
-    } else if (has_active_mutation("NIGHTVISION")) {
-        if (has_trait("BIRD_EYE")) {
-            sight_boost = 2;
+            // Range 4.
+            threshold = 2.9;
+        }
+    } else if( vision_mode_cache[NIGHTVISION_1] ) {
+        if( vision_mode_cache[BIRD_EYE] ) {
+            // Range 3.
+            threshold = 3.2;
         } else {
-            sight_boost = 1;
+            // Range 2.
+            threshold = 3.35;
         }
     }
+    return std::min( (float)LIGHT_AMBIENT_LOW, threshold * dimming_from_light );
 }
 
 bool Character::has_bionic(const std::string & b) const
@@ -373,7 +431,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
         }
         if (drop) {
             retval &= g->m.add_item_or_charges(posx(), posy(), it);
-        } else {
+        } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
             i_add(it);
         }
     }
@@ -624,8 +682,6 @@ void Character::die(Creature* nkiller)
 
 void Character::reset_stats()
 {
-    Creature::reset_stats();
-
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
@@ -692,6 +748,9 @@ void Character::reset_stats()
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
+
+    // Has to be at the end because it applies the bonuses
+    Creature::reset_stats();
 }
 
 bool Character::has_nv()

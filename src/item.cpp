@@ -94,6 +94,19 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
         charges = 0;
+        for( auto &gm : type->gun->built_in_mods ){
+            if(type_is_defined( gm) ){
+                item temp( gm, turn, rand, handed );
+                temp.item_tags.insert("IRREMOVABLE");
+                contents.push_back( temp );
+            }
+        }
+
+        for( auto &gm : type->gun->default_mods ){
+            if(type_is_defined( gm ) ){
+                contents.push_back( item( gm, turn, rand, handed ) );
+            }
+        } 
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -942,7 +955,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, get_encumber() - 10), true, "", true, true));
+                                     get_encumber(), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
                                      get_encumber(), true, "", true, true));
@@ -1182,13 +1195,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            if( get_encumber() > 0 ) {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
-            } else {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly and layers easily.")));
-            }
+	    dump->push_back(iteminfo("DESCRIPTION", "--"));
+	    dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
@@ -1493,6 +1501,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
+                    if( elem.has_flag("IRREMOVABLE") ){
+                        temp1 << _("[Integrated]");
+                    }
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
                     dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
@@ -1805,7 +1816,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret.str("");
         ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
-            ret << "+";
+            if( !contents.at(i).has_flag("IRREMOVABLE") ){
+                ret << "+";
+            }
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
@@ -2027,6 +2040,10 @@ int item::weight() const
     int ret = type->weight;
     ret = get_var( "weight", ret );
 
+    if (has_flag("REDUCED_WEIGHT")) {
+        ret *= 0.75;
+    }
+
     if (count_by_charges()) {
         ret *= charges;
     } else if (type->gun && charges >= 1 && has_curammo() ) {
@@ -2173,6 +2190,9 @@ int item::damage_bash() const
         return 0;
     }
     total -= total * (damage * 0.1);
+    if(has_flag("REDUCED_BASHING")) {
+        total *= 0.5;
+    }
     if (total > 0) {
         return total;
     } else {
@@ -2415,6 +2435,10 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
+    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
+    if( item::item_tags.count("FIT") ) {
+        encumber = std::max( encumber / 2, encumber - 10 );
+    }
     // Good items to test this stuff on:
     // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
     // Nomes socks (2 thickness, 0 encumbrance)
@@ -2730,21 +2754,16 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-std::vector<std::string> item::made_of() const
+const std::vector<std::string> &item::made_of() const
 {
-    std::vector<std::string> materials_composed_of;
-    if (is_null()) {
+    const static std::vector<std::string> null_material = {"null"};
+    if( is_null() ) {
         // pass, we're not made of anything at the moment.
-        materials_composed_of.push_back("null");
-    } else if (is_corpse()) {
-        // Corpses are only made of one type of material.
-        materials_composed_of.push_back(corpse->mat);
-    } else {
-        // Defensive copy of materials.
-        // More idiomatic to return a const reference?
-        materials_composed_of = type->materials;
+        return null_material;
+    } else if( is_corpse() ) {
+        return corpse->mat;
     }
-    return materials_composed_of;
+    return type->materials;
 }
 
 std::vector<material_type*> item::made_of_types() const
@@ -2791,17 +2810,12 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 
 bool item::made_of( const std::string &mat_ident ) const
 {
-    if (is_null()) {
+    if( is_null() ) {
         return false;
     }
 
-    std::vector<std::string> mat_composed_of = made_of();
-    for (auto m : mat_composed_of) {
-        if (m == mat_ident) {
-            return true;
-        }
-    }
-    return false;
+    const auto &materials = made_of();
+    return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
 
 bool item::made_of(phase_id phase) const
@@ -4022,10 +4036,7 @@ bool item::getlight(float & luminance, int & width, int & direction ) const {
 }
 
 int item::getlight_emit() const {
-    const int mult = 10; // woo intmath
-    const int chargedrop = 5 * mult; // start dimming at 1/5th charge.
-
-    int lumint = type->light_emission * mult;
+    float lumint = type->light_emission;
 
     if ( lumint == 0 ) {
         return 0;
@@ -4033,14 +4044,12 @@ int item::getlight_emit() const {
     if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
         it_tool * tool = dynamic_cast<it_tool *>(type);
         int maxcharge = tool->max_charges;
-        if ( maxcharge > 0 ) {
-            lumint = ( type->light_emission * chargedrop * charges ) / maxcharge;
+        // Falloff starts at 1/5 total charge and scales linearly from there to 0.
+        if( maxcharge > 0 && charges < maxcharge / 5 ) {
+            lumint *= (float)charges * 5.0 / (float)maxcharge;
         }
     }
-    if ( lumint > 4 && lumint < 10 ) {
-        lumint = 10;
-    }
-    return lumint / 10;
+    return lumint;
 }
 
 long item::get_remaining_capacity_for_liquid(const item &liquid) const

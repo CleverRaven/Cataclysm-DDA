@@ -97,11 +97,11 @@ void Item_factory::finialize_item_blacklist()
             return c.requirements.remove_item(itm);
         });
 
-        for( auto &elem : terlist ) {
-            remove_item( itm, elem.bash.items );
+        for( auto &elem : termap ) {
+            remove_item( itm, elem.second.bash.items );
         }
-        for( auto &elem : furnlist ) {
-            remove_item( itm, elem.bash.items );
+        for( auto &elem : furnmap ) {
+            remove_item( itm, elem.second.bash.items );
         }
     }
 }
@@ -151,7 +151,7 @@ void Item_factory::init()
     iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
-    iuse_function_list["ALCOHOL"] = &iuse::alcohol;
+    iuse_function_list["ALCOHOL"] = &iuse::alcohol_medium;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
     iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["XANAX"] = &iuse::xanax;
@@ -201,6 +201,7 @@ void Item_factory::init()
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
+    iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
@@ -232,7 +233,6 @@ void Item_factory::init()
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
-    iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
     iuse_function_list["SET_TRAP"] = &iuse::set_trap;
     iuse_function_list["GEIGER"] = &iuse::geiger;
@@ -314,7 +314,8 @@ void Item_factory::init()
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
-    iuse_function_list["SURVIVOR_BELT"]  = &iuse::survivor_belt;
+    iuse_function_list["SHAVEKIT"]  = &iuse::shavekit;
+    iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
 
@@ -468,6 +469,16 @@ void Item_factory::check_definitions() const
             if( type->gun->skill_used == nullptr ) {
                 msg << string_format("uses no skill") << "\n";
             }
+            for( auto &gm : type->gun->default_mods ){
+                if( !has_template( gm ) ){
+                    msg << string_format("invalid default mod.") << "\n";
+                }
+            }
+            for( auto &gm : type->gun->built_in_mods ){
+                if( !has_template( gm ) ){
+                    msg << string_format("invalid built-in mod.") << "\n";
+                }
+            }      
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
@@ -634,6 +645,25 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
                                              curr.get_int( 1 ) ) );
         }
     }
+
+    //Add any built-in mods.
+    if( jo.has_array( "built_in_mods" ) ) {
+    JsonArray jarr = jo.get_array( "built_in_mods" );
+        while( jarr.has_more() ) {
+            std::string temp = jarr.next_string();
+            slot.built_in_mods.push_back( temp );
+        }
+    }
+
+    //Add default
+    if( jo.has_array( "default_mods" ) ) {
+    JsonArray jarr = jo.get_array( "default_mods" );
+        while( jarr.has_more() ) {
+            std::string temp = jarr.next_string();
+            slot.default_mods.push_back( temp );
+        }
+    }
+
 }
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )
@@ -1318,7 +1348,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
-            
+
         }
     } else {
         if( jo.has_string( member ) ) {
@@ -1328,7 +1358,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
-        
+
     }
 }
 

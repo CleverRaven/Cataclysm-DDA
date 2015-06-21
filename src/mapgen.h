@@ -5,7 +5,11 @@
 #include <string>
 #include <memory>
 #include "mapgenformat.h"
-#include "mapgen_functions.h"
+#include "mapdata.h"
+
+struct oter_id;
+struct mapgendata;
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -30,9 +34,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override {
-        (*fptr)(m, o, mgd, i, d);
-    }
+    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +58,7 @@ struct jmapgen_int {
      */
     jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
-  int get() const {
-      return ( val == valmax ? val : rng(val, valmax) );
-  }
+    int get() const;
 };
 
 enum jmapgen_setmap_op {
@@ -184,13 +184,7 @@ class mapgen_function_json : public virtual mapgen_function {
     virtual bool setup() override;
     virtual void generate(map*, oter_id, mapgendata, int, float) override;
 
-    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
-        jdata = s;
-        mapgensize = 24;
-        fill_ter = -1;
-        is_ready = false;
-        do_format = false;
-    }
+    mapgen_function_json( std::string s, int w = 1000 );
     ~mapgen_function_json() {
     }
 
@@ -198,7 +192,7 @@ class mapgen_function_json : public virtual mapgen_function {
 
     std::string jdata;
     size_t mapgensize;
-    int fill_ter;
+    ter_id fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
 
@@ -221,6 +215,7 @@ class mapgen_function_json : public virtual mapgen_function {
 
 private:
     jmapgen_objects objects;
+    jmapgen_int rotation;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -318,5 +313,11 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
+
+typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
+
+namespace MapExtras {
+    map_special_pointer get_function(const std::string &name);
+};
 
 #endif

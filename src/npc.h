@@ -233,8 +233,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
-
- void load_legacy(std::stringstream &info);
 };
 
 enum combat_engagement {
@@ -259,8 +257,6 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
   use_grenades = true;
   use_silent = false;
  };
-
- void load_legacy(std::istream &data);
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -548,8 +544,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
-
- void load_legacy(std::stringstream &info);
 };
 
 class npc;
@@ -607,7 +601,6 @@ public:
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_legacy(std::stringstream & dump) override;// Overloaded from player
  virtual void load_info(std::string data) override;// Overloaded from player
  virtual std::string save_info() override;
 
@@ -717,6 +710,10 @@ public:
 
 // Helper functions for ranged combat
  int  confident_range(int position = -1); // >= 50% chance to hit
+ /**
+  * Check if this NPC is blocking movement from the given position
+  */
+ bool is_blocking_position( const tripoint &p );
  bool wont_hit_friend(  const tripoint &p , int position = -1 );
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
@@ -832,6 +829,8 @@ public:
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
+ std::string companion_mission;
+ int companion_mission_time;
  npc_mission mission;
  npc_personality personality;
  npc_opinion op_of_u;

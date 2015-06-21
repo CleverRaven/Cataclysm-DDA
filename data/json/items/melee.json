@@ -2214,7 +2214,6 @@
         "bashing": 12,
         "cutting": 4,
         "to_hit": 0,
-        "flags" : ["CHOP"],
         "techniques": ["WBLOCK_1"]
     },
     {
@@ -2248,7 +2247,7 @@
         "bashing": 4,
         "cutting": 14,
         "to_hit": 2,
-        "flags": ["SHEATH_SWORD"],
+        "flags": ["SHEATH_SWORD","CHOP"],
         "techniques": ["WBLOCK_2"]
     },
     {
@@ -3385,7 +3384,7 @@
         "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.",
         "price": 125000,
         "material": ["plastic", "aluminum"],
-        "flags": ["LIGHT_2", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+        "flags": ["LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
         "weight": 3714,
         "volume": 1,
         "bashing": 4,
@@ -3438,7 +3437,7 @@
         "to_hit" : -1,
         "color" : "light_red",
         "symbol" : "/",
-        "material" : ["steel", "null"],
+        "material" : ["copper", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 2,
         "bashing" : 5,
@@ -3512,15 +3511,16 @@
         "flags": ["SHEATH_KNIFE"],
         "qualities": [["BUTCHER", -18]]
     },{
+        "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
         "type":"GENERIC",
         "id" : "glass_macuahuitl",
         "name" : "makeshift macuahuitl",
-        "description" : "A flat wooden club with sharp glass shards sticking to both of its sides.",
+        "description" : "A flat wooden club with sharpened pieces of stone sticking to both of its sides.",
         "weight" : 955,
         "to_hit" : 1,
-        "color" : "light_cyan",
+        "color" : "dark_gray",
         "symbol" : "/",
-        "material" : ["wood", "glass"],
+        "material" : ["wood", "stone"],
         "volume" : 9,
         "bashing" : 7,
         "cutting" : 14,
@@ -4225,7 +4225,7 @@
     "rarity": 30,
     "price": 15000,
     "material": "aluminum",
-    "flags": ["SLICE", "SHEATH_SWORD"],
+    "flags": ["BASH", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE"],
     "weight": 1882,
     "volume": 17,
