@@ -92,7 +92,6 @@ void Character::apply_mods(const std::string &mut, bool add_remove)
 
 void Character::mutation_effect(std::string mut)
 {
-    bool is_u = is_player();
     bool destroy = false;
     std::vector<body_part> bps;
 
@@ -210,31 +209,31 @@ void Character::mutation_effect(std::string mut)
         apply_mods(mut, true);
     }
 
-    std::string mutation_safe = "OVERSIZE";
-    for (size_t i = 0; i < worn.size(); i++) {
+    const auto covers_any = [&bps]( const item& armor ) {
         for( auto &bp : bps ) {
-            if( ( worn[i].covers( bp ) ) && ( !( worn[i].has_flag( mutation_safe ) ) ) ) {
-                if (destroy) {
-                    if (is_u) {
-                        add_msg(m_bad, _("Your %s is destroyed!"), worn[i].tname().c_str());
-                    }
-
-                    worn.erase(worn.begin() + i);
-
-                } else {
-                    if (is_u) {
-                        add_msg(m_bad, _("Your %s is pushed off."), worn[i].tname().c_str());
-                    }
-
-                    int pos = player::worn_position_to_index(i);
-                    g->m.add_item_or_charges(posx(), posy(), worn[i]);
-                    i_rem(pos);
-                }
-                // Reset to the start of the vector
-                i = 0;
+            if( armor.covers( bp ) ) {
+                return true;
             }
         }
-    }
+        return false;
+    };
+
+    remove_worn_items_with( [&]( item& armor ) {
+        static const std::string mutation_safe = "OVERSIZE";
+        if( armor.has_flag( mutation_safe ) ) {
+            return false;
+        }
+        if( !covers_any( armor ) ) {
+            return false;
+        }
+        if( destroy ) {
+            add_msg_if_player( m_bad, _("Your %s is destroyed!"), armor.tname().c_str() );
+        } else {
+            add_msg_if_player( m_bad, _("Your %s is pushed off."), armor.tname().c_str() );
+            g->m.add_item_or_charges( pos(), armor );
+        }
+        return true;
+    } );
 }
 
 void Character::mutation_loss_effect(std::string mut)
