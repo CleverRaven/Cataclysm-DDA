@@ -1428,7 +1428,7 @@ void mattack::fungus(monster *z, int index)
 
     // Use less laggy methods of reproduction when there is a lot of mons around
     double spore_chance = 0.25;
-    int range = 1;
+    int radius = 1;
     if( g->num_zombies() > 25 ) {
         // Number of monsters in the bubble and the resulting average number of spores per "Pouf!":
         // 0-25: 2
@@ -1442,17 +1442,17 @@ void mattack::fungus(monster *z, int index)
         // 100 : 13
         spore_chance *= ( 25.0 / g->num_zombies() ) * ( 25.0 / g->num_zombies() );
         if( x_in_y( g->num_zombies(), 100 ) ) {
-            range++;
-            // Don't make the increased range spawn more spores
-            const double old_area = ( ( range - 1 ) * ( range - 1 ) ) - 1;
-            const double new_area = ( range * range ) - 1;
+            // Don't make the increased radius spawn more spores
+            const double old_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+            radius++;
+            const double new_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
             spore_chance *= old_area / new_area;
         }
     }
 
     int bres1 = 0, bres2 = 0;
-    for (int i = -range; i <= range; i++) {
-        for (int j = -range; j <= range; j++) {
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
             if( i == 0 && j == 0 ) {
                 continue;
             }
