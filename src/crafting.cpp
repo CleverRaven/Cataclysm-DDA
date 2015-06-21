@@ -461,12 +461,20 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make(const recipe *r, int batch_size)
 {
+    if (has_trait( "DEBUG_HS" )) {
+        return true;
+    }
+
     const inventory &crafting_inv = crafting_inventory();
     return r->can_make_with_inventory( crafting_inv, batch_size );
 }
 
 bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) const
 {
+    if (g->u.has_trait( "DEBUG_HS" )) {
+        return true;
+    }
+
     if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv) ) {
         return false;
     }
@@ -1728,6 +1736,11 @@ void set_item_inventory(item &newit)
 std::list<item> player::consume_items(const std::vector<item_comp> &components, int batch)
 {
     std::list<item> ret;
+
+    if (has_trait("DEBUG_HS")) {
+        return ret;
+    }
+
     // For each set of components in the recipe, fill you_have with the list of all
     // matching ingredients the player has.
     std::vector<item_comp> player_has;
@@ -1868,6 +1881,10 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 
 void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
+    if (has_trait("DEBUG_HS")) {
+        return;
+    }
+
     bool found_nocharge = false;
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
