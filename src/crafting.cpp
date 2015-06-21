@@ -461,12 +461,20 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make(const recipe *r, int batch_size)
 {
+    if (g->u.has_trait( "DEBUG_HS" )) {
+        return true;
+    }
+
     const inventory &crafting_inv = crafting_inventory();
     return r->can_make_with_inventory( crafting_inv, batch_size );
 }
 
 bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) const
 {
+    if (g->u.has_trait( "DEBUG_HS" )) {
+        return true;
+    }
+
     if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv) ) {
         return false;
     }
