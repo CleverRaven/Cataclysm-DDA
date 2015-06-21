@@ -20266,6 +20266,24 @@
           "id": "f_mannequin",
           "fg": 2633,
           "rotates": false
+        },
+        {
+          "id": "t_wall_waddle_half",
+          "fg": 1954,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_wall_waddle",
+          "fg": 2006,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_wall_waddle_broken",
+          "fg": 2007,
+          "bg": 513,
+          "rotates": false
         }
       ]
     },
