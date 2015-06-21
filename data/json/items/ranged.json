@@ -5350,7 +5350,7 @@
     "color": "red",
     "name": "testgun",
     "name_plural": "testguns",
-    "description": "A test gun for trying out built-in and default mods, This should NEVER spawn.",
+    "description": "A test gun for trying out built-in and default mods, This should NEVER spawn. If you see this spawn, report it as a bug",
     "price": 666,
     "material": ["plastic"],
     "skill": "pistol",
