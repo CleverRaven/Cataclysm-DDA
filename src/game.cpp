@@ -69,6 +69,7 @@
 #include "vehicle.h"
 #include "submap.h"
 #include "mapgen_functions.h"
+#include "clzones.h"
 
 #include <map>
 #include <set>
@@ -3336,7 +3337,7 @@ void game::load(std::string worldname, std::string name)
 
     init_autosave();
     load_auto_pickup(true); // Load character auto pickup rules
-    u.load_zones(); // Load character world zones
+    zone_manager::get_manager().load_zones(); // Load character world zones
     load_uistate(worldname);
 
     load_mission_npcs(); // Pull mission_npcs back out of the overmap before update_map
@@ -8306,7 +8307,7 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
 
 bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
 {
-    return u.Zones.hasZone(p_sType, m.getabs(p_iX, p_iY));
+    return zone_manager::get_manager().hasZone(p_sType, m.getabs(p_iX, p_iY));
 }
 
 void game::zones_manager_shortcuts(WINDOW *w_info)
@@ -8372,9 +8373,7 @@ void game::zones_manager()
 {
     const tripoint stored_view_offset = u.view_offset;
 
-    u.view_offset.x = 0;
-    u.view_offset.y = 0;
-    u.view_offset.z = 0;
+    u.view_offset = {0, 0, 0};
 
     const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
@@ -8408,7 +8407,8 @@ void game::zones_manager()
     ctxt.register_action("ENABLE_ZONE");
     ctxt.register_action("DISABLE_ZONE");
 
-    int iZonesNum = u.Zones.size();
+    auto &zones = zone_manager::get_manager();
+    int iZonesNum = zones.size();
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2;
     int iStartPos = 0;
     int iActive = 0;
@@ -8438,16 +8438,16 @@ void game::zones_manager()
                 werase(w_zones_info);
                 wrefresh(w_zones_info);
 
-                u.Zones.add("", "", false, true,
+                zones.add("", "", false, true,
                             m.getabs(std::min(pFirst.x, pSecond.x), std::min(pFirst.y, pSecond.y)),
                             m.getabs(std::max(pFirst.x, pSecond.x), std::max(pFirst.y, pSecond.y))
                            );
 
-                iZonesNum = u.Zones.size();
+                iZonesNum = zones.size();
                 iActive = iZonesNum - 1;
 
-                u.Zones.vZones[iActive].setName();
-                u.Zones.vZones[iActive].setZoneType(u.Zones.getZoneTypes());
+                zones.vZones[iActive].setName();
+                zones.vZones[iActive].setZoneType(zones.getZoneTypes());
             }
 
             draw_ter();
@@ -8457,7 +8457,7 @@ void game::zones_manager()
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
             zones_manager_shortcuts(w_zones_info);
 
-        } else if (u.Zones.size() > 0) {
+        } else if (zones.size() > 0) {
             if (action == "UP") {
                 iActive--;
                 if (iActive < 0) {
@@ -8477,15 +8477,15 @@ void game::zones_manager()
                 bRedrawInfo = true;
 
             } else if (action == "REMOVE_ZONE") {
-                if (iActive < (int)u.Zones.size()) {
-                    u.Zones.remove(iActive);
+                if (iActive < (int)zones.size()) {
+                    zones.remove(iActive);
                     iActive--;
 
                     if (iActive < 0) {
                         iActive = 0;
                     }
 
-                    iZonesNum = u.Zones.size();
+                    iZonesNum = zones.size();
 
                     draw_ter();
                     wrefresh(w_terrain);
@@ -8506,11 +8506,11 @@ void game::zones_manager()
 
                 switch (as_m.ret) {
                 case 1:
-                    u.Zones.vZones[iActive].setName();
+                    zones.vZones[iActive].setName();
                     bStuffChanged = true;
                     break;
                 case 2:
-                    u.Zones.vZones[iActive].setZoneType(u.Zones.getZoneTypes());
+                    zones.vZones[iActive].setZoneType(zones.getZoneTypes());
                     bStuffChanged = true;
                     break;
                 case 3:
@@ -8533,20 +8533,20 @@ void game::zones_manager()
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
                 zones_manager_shortcuts(w_zones_info);
 
-            } else if (action == "MOVE_ZONE_UP" && u.Zones.size() > 1) {
-                if (iActive < (int)u.Zones.size() - 1) {
-                    std::swap(u.Zones.vZones[iActive],
-                              u.Zones.vZones[iActive + 1]);
+            } else if (action == "MOVE_ZONE_UP" && zones.size() > 1) {
+                if (iActive < (int)zones.size() - 1) {
+                    std::swap(zones.vZones[iActive],
+                              zones.vZones[iActive + 1]);
                     iActive++;
                 }
                 bBlink = false;
                 bRedrawInfo = true;
                 bStuffChanged = true;
 
-            } else if (action == "MOVE_ZONE_DOWN" && u.Zones.size() > 1) {
+            } else if (action == "MOVE_ZONE_DOWN" && zones.size() > 1) {
                 if (iActive > 0) {
-                    std::swap(u.Zones.vZones[iActive],
-                              u.Zones.vZones[iActive - 1]);
+                    std::swap(zones.vZones[iActive],
+                              zones.vZones[iActive - 1]);
                     iActive--;
                 }
                 bBlink = false;
@@ -8556,7 +8556,7 @@ void game::zones_manager()
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
                 point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx(), u.posy()));
-                point pOMZone = overmapbuffer::ms_to_omt_copy(u.Zones.vZones[iActive].getCenterPoint());
+                point pOMZone = overmapbuffer::ms_to_omt_copy(zones.vZones[iActive].getCenterPoint());
                 overmap::draw_zones( tripoint( pOMPlayer.x, pOMPlayer.y, 0 ),
                                      tripoint( pOMZone.x, pOMZone.y, 0 ),
                                      iActive );
@@ -8569,13 +8569,13 @@ void game::zones_manager()
                 bRedrawInfo = true;
 
             } else if (action == "ENABLE_ZONE") {
-                u.Zones.vZones[iActive].setEnabled(true);
+                zones.vZones[iActive].setEnabled(true);
 
                 bRedrawInfo = true;
                 bStuffChanged = true;
 
             } else if (action == "DISABLE_ZONE") {
-                u.Zones.vZones[iActive].setEnabled(false);
+                zones.vZones[iActive].setEnabled(false);
 
                 bRedrawInfo = true;
                 bStuffChanged = true;
@@ -8601,7 +8601,7 @@ void game::zones_manager()
             point pointPlayer = m.getabs(u.posx(), u.posy());
 
             //Display saved zones
-            for (auto &i : u.Zones.vZones) {
+            for (auto &i : zones.vZones) {
                 if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
                     nc_color colorLine = (i.getEnabled()) ? c_white : c_ltgray;
 
@@ -8612,11 +8612,11 @@ void game::zones_manager()
 
                     //Draw Zone name
                     mvwprintz(w_zones, iNum - iStartPos, 3, colorLine, "%s",
-                              u.Zones.vZones[iNum].getName().c_str());
+                              zones.vZones[iNum].getName().c_str());
 
                     //Draw Type name
                     mvwprintz(w_zones, iNum - iStartPos, 20, colorLine, "%s",
-                              u.Zones.getNameFromType(u.Zones.vZones[iNum].getZoneType()).c_str());
+                              zones.getNameFromType(zones.vZones[iNum].getZoneType()).c_str());
 
                     point pCenter = i.getCenterPoint();
 
@@ -8635,8 +8635,8 @@ void game::zones_manager()
         if (iZonesNum > 0) {
             bBlink = !bBlink;
 
-            point pStart = m.getlocal(u.Zones.vZones[iActive].getStartPoint());
-            point pEnd = m.getlocal(u.Zones.vZones[iActive].getEndPoint());
+            point pStart = m.getlocal(zones.vZones[iActive].getStartPoint());
+            point pEnd = m.getlocal(zones.vZones[iActive].getEndPoint());
 
             if (bBlink) {
                 //draw marked area
@@ -8705,10 +8705,11 @@ void game::zones_manager()
     delwin(w_zones_info_border);
 
     if (bStuffChanged) {
+        auto zones = zone_manager::get_manager();
         if (query_yn(_("Save changes?"))) {
-            u.save_zones();
+            zones.save_zones();
         } else {
-            u.load_zones();
+            zones.load_zones();
         }
     }
 

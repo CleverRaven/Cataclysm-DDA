@@ -4,7 +4,6 @@
 #include "character.h"
 #include "item.h"
 #include "player_activity.h"
-#include "clzones.h"
 #include "weighted_list.h"
 
 #include <unordered_set>
@@ -29,6 +28,7 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct it_comest;
+class clZones;
 
 struct special_attack {
     std::string text;
@@ -1053,13 +1053,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-
-        // zone related stuff
-        // (zones as in the zones designated by players)
-        clZones Zones;
-
-        bool save_zones();
-        void load_zones();
 
         // drawing related stuff
         /**

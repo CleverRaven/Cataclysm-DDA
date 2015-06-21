@@ -13,21 +13,26 @@
  * These are zones the player can designate.
  *
  * They currently don't serve much use, other than to designate
- * where to auto-pickup and where not to.
+ * where to auto-pickup and where not to and restricting friendly npc pickup.
  */
-class clZones : public JsonSerializer, public JsonDeserializer
+class zone_manager : public JsonSerializer, public JsonDeserializer
 {
     private:
-        std::unordered_map<std::string, std::unordered_set<int> > mZones;
+        std::unordered_map<std::string, std::unordered_set<point> > mZones;
         std::vector<std::pair<std::string, std::string> > vZoneTypes;
 
     public:
-        clZones();
-        ~clZones() {};
-        clZones(clZones &&) = default;
-        clZones(const clZones &) = default;
-        clZones &operator=(clZones &&) = default;
-        clZones &operator=(const clZones &) = default;
+        zone_manager();
+        ~zone_manager() {};
+        zone_manager(zone_manager &&) = default;
+        zone_manager(const zone_manager &) = default;
+        zone_manager &operator=(zone_manager &&) = default;
+        zone_manager &operator=(const zone_manager &) = default;
+
+        static zone_manager &get_manager() {
+            static zone_manager manager;
+            return manager;
+        }
 
         class clZoneData
         {
@@ -65,7 +70,7 @@ class clZones : public JsonSerializer, public JsonDeserializer
                 ~clZoneData() {};
 
                 void setName();
-                void setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes);
+                void setZoneType( const std::vector<std::pair<std::string, std::string> > &vZoneTypes );
                 void setEnabled(const bool p_bEnabled);
 
                 std::string getName() const
@@ -92,7 +97,7 @@ class clZones : public JsonSerializer, public JsonDeserializer
                 {
                     return pointEndXY;
                 }
-                point getCenterPoint();
+                point getCenterPoint() const;
         };
 
         std::vector<clZoneData> vZones;
@@ -118,18 +123,22 @@ class clZones : public JsonSerializer, public JsonDeserializer
             return false;
         }
 
-        unsigned int size()
+        unsigned int size() const
         {
             return vZones.size();
         }
-        std::vector<std::pair<std::string, std::string> > getZoneTypes()
+        std::vector<std::pair<std::string, std::string> > getZoneTypes() const
         {
             return vZoneTypes;
         }
-        std::string getNameFromType(const std::string p_sType);
-        bool hasType(const std::string p_sType);
+        std::string getNameFromType( const std::string &p_sType ) const;
+        bool hasType( const std::string &p_sType ) const;
+        std::pair<point, point> bounding_box_type( const std::string &type ) const;
         void cacheZoneData();
-        bool hasZone(const std::string p_sType, const point p_pointInput);
+        bool hasZone( const std::string &p_sType, const point p_pointInput ) const;
+
+        bool save_zones();
+        void load_zones();
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
         void deserialize(JsonIn &jsin) override;

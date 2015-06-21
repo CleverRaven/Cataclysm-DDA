@@ -1,4 +1,5 @@
 #include "player.h"
+#include "clzones.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
