@@ -2015,8 +2015,8 @@
         "name" : "Subterranean Fortitude",
         "points" : 2,
         "description" : "The aches and pains of living underground don't bother you as much.",
-        "prereq" : ["PAINRESIST"],
-        "prereq2" : ["STOCKY_TROGLO"],
+        "prereqs" : ["PAINRESIST"],
+        "prereqs2" : ["STOCKY_TROGLO"],
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLOBITE"]
     },{
