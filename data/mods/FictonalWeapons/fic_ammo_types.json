@@ -1,8 +1,0 @@
-[
-	{
-        "type" : "ammunition_type",
-        "id" : "30mm",
-        "name" : "30mm grenade",
-        "default" : "30mm_frag"
-    }
-]
