@@ -16,6 +16,7 @@
 #include "monfaction.h"
 #include "translations.h"
 #include "npc.h"
+#include "mapdata.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions

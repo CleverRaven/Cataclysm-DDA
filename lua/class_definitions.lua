@@ -1043,7 +1043,6 @@ classes = {
             { name = "light_transparency", rval = "float", args = { "tripoint" } },
             { name = "load", rval = nil, args = { "int", "int", "int", "bool" } },
             { name = "make_rubble", rval = nil, args = { "tripoint" } },
-            { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id" } },
             { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool" } },
             { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool", "ter_id" } },
             { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool", "ter_id", "bool" } },

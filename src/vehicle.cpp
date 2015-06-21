@@ -23,6 +23,7 @@
 #include "trap.h"
 #include "itype.h"
 #include "submap.h"
+#include "mapdata.h"
 
 #include <fstream>
 #include <sstream>

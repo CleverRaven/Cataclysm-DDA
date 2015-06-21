@@ -1,8 +1,8 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
-#include "mapdata.h"
-#include "overmap.h"
+#include "enums.h"
+#include "game_constants.h"
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this

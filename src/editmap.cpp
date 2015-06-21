@@ -22,6 +22,8 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "submap.h"
+#include "monster.h"
+#include "overmap.h"
 
 #include <fstream>
 #include <sstream>
