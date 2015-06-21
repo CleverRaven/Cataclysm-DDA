@@ -671,14 +671,14 @@ void inventory_selector::set_to_drop(int it_pos, int count)
         // because it must get a direct reference to weapon.
         set_drop_count(it_pos, count, u.weapon);
     } else if (it_pos < -1) { // worn
-        const size_t wpos = player::worn_position_to_index(it_pos);
-        if (wpos >= u.worn.size()) {
+        item& armor = u.i_at( it_pos );
+        if( armor.is_null() ) {
             return; // invalid it_pos -> ignore
         }
         if (count > 0) {
             count = -1; // can only drop a whole worn item
         }
-        set_drop_count(it_pos, count, u.worn[wpos]);
+        set_drop_count(it_pos, count, armor);
     } else { // inventory
         const std::list<item> &stack = u.inv.const_stack(it_pos);
         if (stack.empty()) {
@@ -972,8 +972,8 @@ int game::inv_for_unequipped(std::string const &title, const item_filter filter)
 int inventory::num_items_at_position( int const position )
 {
     if( position < -1 ) {
-        return g->u.worn[ player::worn_position_to_index(position) ].count_by_charges() ?
-            g->u.worn[ player::worn_position_to_index(position) ].charges : 1;
+        const item& armor = g->u.i_at( position );
+        return armor.count_by_charges() ? armor.charges : 1;
     } else if( position == -1 ) {
         return g->u.weapon.count_by_charges() ? g->u.weapon.charges : 1;
     } else {

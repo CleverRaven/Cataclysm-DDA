@@ -75,9 +75,9 @@ static tripoint get_item_pointers_from_activity(
         const bool is_worn = position < -1;
         const bool is_weapon = position == -1;
         if( is_worn ) {
-            size_t idx = player::worn_position_to_index(position);
-            assert(idx < g->u.worn.size());
-            selected_worn_items.push_back( &g->u.worn[idx] );
+            item& armor = g->u.i_at( position );
+            assert( !armor.is_null() );
+            selected_worn_items.push_back( &armor );
             worn_item_quantities.push_back( quantity );
         } else  if( is_weapon ) {
             selected_items.push_back( &g->u.weapon );
