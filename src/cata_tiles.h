@@ -10,6 +10,7 @@
 #include "SDL2/SDL_ttf.h"
 
 #include "animation.h"
+#include "game.h"
 #include "map.h"
 #include "weather.h"
 #include "tile_id_data.h"
