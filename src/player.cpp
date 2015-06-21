@@ -8837,7 +8837,9 @@ item& player::i_at(int position)
     if (position < -1) {
         int worn_index = worn_position_to_index(position);
         if (size_t(worn_index) < worn.size()) {
-            return worn[worn_index];
+            auto iter = worn.begin();
+            std::advance( iter, worn_index );
+            return *iter;
         }
     }
     return inv.find_item(position);
@@ -8851,8 +8853,9 @@ int player::invlet_to_position( char invlet ) const
     if( weapon.invlet == invlet ) {
         return -1;
     }
-    for( size_t i = 0; i < worn.size(); i++ ) {
-        if( worn[i].invlet == invlet ) {
+    auto iter = worn.begin();
+    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
+        if( iter->invlet == invlet ) {
             return worn_position_to_index( i );
         }
     }
@@ -8867,8 +8870,9 @@ int player::get_item_position( const item *it ) const
     if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    for( size_t i = 0; i < worn.size(); i++ ) {
-        if( inventory::has_item_with_recursive( worn[i], filter ) ) {
+    auto iter = worn.begin();
+    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
+        if( inventory::has_item_with_recursive( *iter, filter ) ) {
             return worn_position_to_index( i );
         }
     }
@@ -10798,33 +10802,33 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
     bool taken_off = false;
 
-    item &w = worn[worn_index];
+    auto first_iter = worn.begin();
+    std::advance( first_iter, worn_index );
+    item &w = *first_iter;
 
     // Handle power armor.
     if (w.is_power_armor() && w.covers(bp_torso)) {
         // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-        for (int j = worn.size() - 1; j >= 0; j--) {
-            if (worn[j].is_power_armor() &&
-                    j != worn_index) {
-                if( autodrop || items != nullptr ) {
-                    if( items != nullptr ) {
-                        items->push_back( worn[j] );
-                    } else {
-                        g->m.add_item_or_charges( posx(), posy(), worn[j] );
-                    }
-                    add_msg(_("You take off your %s."), worn[j].tname().c_str());
-                    worn.erase(worn.begin() + j);
-                    // If we are before worn_index, erasing this element shifted its position by 1.
-                    if (worn_index > j) {
-                        worn_index -= 1;
-                        w = worn[worn_index];
-                    }
-                    taken_off = true;
-                } else {
-                    add_msg(m_info, _("You can't take off power armor while wearing other power armor components."));
-                    return false;
-                }
+        for( auto iter = worn.begin(); iter != worn.end(); ) {
+            item& other_armor = *iter;
+
+            if( &other_armor == &w || !other_armor.is_power_armor() ) {
+                ++iter;
+                continue;
             }
+            if( !autodrop && items == nullptr ) {
+                add_msg( m_info, _("You can't take off power armor while wearing other power armor components.") );
+                return false;
+            }
+
+            if( items != nullptr ) {
+                items->push_back( other_armor );
+            } else {
+                g->m.add_item_or_charges( posx(), posy(), other_armor );
+            }
+            add_msg( _("You take off your %s."), other_armor.tname().c_str() );
+            iter = worn.erase( iter );
+            taken_off = true;
         }
     }
 
@@ -10844,7 +10848,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     if( taken_off ) {
         moves -= 250;    // TODO: Make this variable
         add_msg(_("You take off your %s."), w.tname().c_str());
-        worn.erase(worn.begin() + worn_index);
+        worn.erase( first_iter );
     }
 
     recalc_sight_limits();
@@ -12172,7 +12176,7 @@ int player::warmth(body_part bp) const
     return ret;
 }
 
-int bestwarmth( const std::vector< item > &its, const std::string &flag )
+int bestwarmth( const std::list< item > &its, const std::string &flag )
 {
     int best = 0;
     for( auto &w : its ) {

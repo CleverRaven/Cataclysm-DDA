@@ -393,8 +393,7 @@ std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> f
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
-            result.push_back( *iter );
-            iter = worn.erase( iter );
+            result.splice( result.begin(), worn, iter++ );
         } else {
             ++iter;
         }
@@ -410,8 +409,10 @@ item Character::i_rem(int pos)
      weapon = ret_null;
      return tmp;
  } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
-     tmp = worn[worn_position_to_index(pos)];
-     worn.erase(worn.begin() + worn_position_to_index(pos));
+     auto iter = worn.begin();
+     std::advance( iter, worn_position_to_index( pos ) );
+     tmp = *iter;
+     worn.erase( iter );
      return tmp;
  }
  return inv.remove_item(pos);

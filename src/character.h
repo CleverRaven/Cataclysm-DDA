@@ -201,14 +201,15 @@ class Character : public Creature
         {
             // player usually interacts with items in the inventory the most (?)
             std::list<item> result = inv.remove_items_with( filter );
-            for( auto &article : worn ) {
+            for( auto iter = worn.begin(); iter != worn.end(); ) {
+                item &article = *iter;
                 if( filter( article ) ) {
-                    result.push_back( article );
+                    result.splice( result.begin(), worn, iter++ );
                 } else {
                     result.splice( result.begin(), article.remove_items_with( filter ) );
+                    ++iter;
                 }
             }
-            worn.erase( std::remove_if( worn.begin(), worn.end(), filter ), worn.end() );
             if( !weapon.is_null() ) {
                 if( filter( weapon ) ) {
                     result.push_back( remove_weapon() );
@@ -328,7 +329,7 @@ class Character : public Creature
         std::string name;
         bool male;
 
-        std::vector<item> worn;
+        std::list<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max;
         bool nv_cached;
 

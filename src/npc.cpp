@@ -25,7 +25,7 @@
 #include <algorithm>
 #include <string>
 
-std::vector<item> starting_clothes(npc_class type, bool male);
+std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
@@ -790,9 +790,9 @@ item get_clothing_item( npc_class type, const std::string &what, bool male )
     }
 }
 
-std::vector<item> starting_clothes( npc_class type, bool male )
+std::list<item> starting_clothes( npc_class type, bool male )
 {
-    std::vector<item> ret;
+    std::list<item> ret;
 
     item pants = get_clothing_item( type, "pants", male);
     item shirt = get_clothing_item( type, "shirt", male );

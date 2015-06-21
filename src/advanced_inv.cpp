@@ -825,8 +825,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             items.push_back( it );
         }
     } else if( square.id == AIM_WORN ) {
-        for( size_t i = 0; i < g->u.worn.size(); ++i ) {
-            advanced_inv_listitem it( &g->u.worn[i], i, 1, square.id, false );
+        auto iter = g->u.worn.begin();
+        for( size_t i = 0; i < g->u.worn.size(); ++i, ++iter ) {
+            advanced_inv_listitem it( &*iter, i, 1, square.id, false );
             if( is_filtered( it.it ) ) {
                 continue;
             }
@@ -1134,9 +1135,10 @@ bool advanced_inventory::move_all_items()
         }
     } else if( spane.get_area() == AIM_WORN ) {
         // do this in reverse, to account for vector item removal messing with future indices
-        for( size_t idx = 0; idx < g->u.worn.size(); ++idx ) {
+        auto iter = g->u.worn.rbegin();
+        for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
             size_t index = ( g->u.worn.size() - idx - 1 );
-            auto &elem = g->u.worn[index];
+            auto &elem = *iter;
             if( spane.is_filtered( &elem ) ) {
                 continue;
             }
@@ -1986,19 +1988,22 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            auto worn = g->u.worn;
+            auto& worn = g->u.worn;
             size_t idx = ( size_t )uistate.adv_inv_container_index;
             if( worn.size() > idx ) {
-                if( is_container_valid( &worn[idx] ) ) {
-                    container = &worn[idx];
+                auto iter = worn.begin();
+                std::advance( iter, idx );
+                if( is_container_valid( &*iter ) ) {
+                    container = &*iter;
                 }
             }
 
             // no need to reinvent the wheel
             if( container == nullptr ) {
-                for( size_t i = 0; i < worn.size(); ++i ) {
-                    if( is_container_valid( &worn[i] ) ) {
-                        container = &worn[i];
+                auto iter = worn.begin();
+                for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
+                    if( is_container_valid( &*iter ) ) {
+                        container = &*iter;
                         uistate.adv_inv_container_index = i;
                         break;
                     }

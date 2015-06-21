@@ -361,13 +361,14 @@ void inventory_selector::print_right_column() const
         trim_and_print(w_inv, drp_line, right_column_width - 2, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
-    for (size_t k = 0; k < u.worn.size(); k++) {
+    auto iter = u.worn.begin();
+    for (size_t k = 0; k < u.worn.size(); k++, ++iter) {
         // worn items can not be dropped partially
         if (dropping.count(player::worn_position_to_index(k)) == 0) {
             continue;
         }
-        const char invlet = invlet_or_space(u.worn[k]);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, u.worn[k].display_name().c_str());
+        const char invlet = invlet_or_space(*iter);
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -507,8 +508,9 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     if (!u.worn.empty()) {
         worn.push_back(itemstack_or_category(&worn_cat));
     }
-    for (size_t i = 0; i < u.worn.size(); i++) {
-        worn.push_back(itemstack_or_category(&u.worn[i], player::worn_position_to_index(i)));
+    auto iter = u.worn.begin();
+    for (size_t i = 0; i < u.worn.size(); i++, ++iter) {
+        worn.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
     }
 }
 
