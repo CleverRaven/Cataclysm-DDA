@@ -690,8 +690,9 @@ void add_corpse( const tripoint &p );
     bool hit_with_acid( const tripoint &p );
     bool hit_with_fire( const tripoint &p );
     bool marlossify( const tripoint &p );
-    /** Makes spores at the respective x and y. source is used for kill counting */
+    /** Makes spores at p. source is used for kill counting */
     void create_spores( const tripoint &p, Creature* source = nullptr );
+    void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
 
     bool has_adjacent_furniture( const tripoint &p );
     void mop_spills( const tripoint &p );

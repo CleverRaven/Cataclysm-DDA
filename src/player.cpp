@@ -6224,31 +6224,14 @@ void player::hardcoded_effects(effect &it)
                                               _("<npcname> vomits thousands of live spores!") );
 
                 moves = -500;
-                int sporex, sporey;
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (i == 0 && j == 0) {
                             continue;
                         }
-                        sporex = posx() + i;
-                        sporey = posy() + j;
-                        tripoint sporep( sporex, sporey, posz() );
-                        if (g->m.move_cost(sporex, sporey) > 0) {
-                            const int zid = g->mon_at( sporep );
-                            if (zid >= 0) {  // Spores hit a monster
-                                if (g->u.sees(sporex, sporey) &&
-                                      !g->zombie(zid).type->in_species("FUNGUS")) {
-                                    add_msg(_("The %s is covered in tiny spores!"),
-                                               g->zombie(zid).name().c_str());
-                                }
-                                monster &critter = g->zombie( zid );
-                                if( !critter.make_fungus() ) {
-                                    critter.die( this ); // Counts as kill by player
-                                }
-                            } else if (one_in(4) && g->num_zombies() <= 1000){
-                                g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()));
-                            }
-                        }
+
+                        tripoint sporep( posx() + i, posy() + j, posz() );
+                        g->m.fungalize( sporep, this, 0.25 );
                     }
                 }
             // We're fucked
@@ -13889,35 +13872,14 @@ std::vector<std::string> player::get_overlay_ids() const {
 void player::spores()
 {
     sounds::sound( pos(), 10, _("Pouf!")); //~spore-release sound
-    int sporex, sporey;
-    int mondex;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             if (i == 0 && j == 0) {
                 continue;
             }
-            sporex = posx() + i;
-            sporey = posy() + j;
-            tripoint sporep( sporex, sporey, posz() );
-            mondex = g->mon_at( sporep );
-            if (g->m.move_cost(sporex, sporey) > 0) {
-                if (mondex != -1) { // Spores hit a monster
-                    if (g->u.sees(sporex, sporey) &&
-                        !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( this );
-                    }
-                } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
-                    if (g->summon_mon( "mon_spore", sporep )) {
-                        monster *spore = g->monster_at( sporep );
-                        spore->friendly = -1;
-                    }
-                }
-            }
+
+            tripoint sporep( posx() + i, posy() + j, posz() );
+            g->m.fungalize( sporep, this, 0.25 );
         }
     }
 }

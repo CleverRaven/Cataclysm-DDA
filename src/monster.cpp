@@ -1728,14 +1728,19 @@ bool monster::make_fungus()
     }
     char polypick = 0;
     std::string tid = type->id;
-    if (type->in_species("FUNGUS")) { // No friendly-fungalizing ;-)
+    if( type->in_species("FUNGUS") ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" ||
-      tid == "mon_bee" || tid == "mon_dermatik") {
+    if( !type->has_material("flesh") && !type->has_material("hflesh") &&
+        !type->has_material("veggy") && !type->has_material("iflesh") &&
+        !type->has_material("bone") ) {
+        // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
+        return true;
+    }
+    if( tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" ) {
         polypick = 1;
     } else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" ||
-      tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" || tid == "mon_zombie_brute" ||
+      tid == "mon_zombie_spitter" || tid == "mon_zombie_brute" ||
       tid == "mon_zombie_hulk" || tid == "mon_zombie_soldier" || tid == "mon_zombie_tough" ||
       tid == "mon_zombie_scientist" || tid == "mon_zombie_hunter" || tid == "mon_zombie_child"||
       tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
@@ -1743,32 +1748,42 @@ bool monster::make_fungus()
       tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
       tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
       tid == "mon_zombie_grenadier_elite") {
-        polypick = 2; // Necro and Master have enough Goo to resist conversion.
-        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
+        polypick = 2;
     } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
       tid == "mon_zombie_hazmat" || tid == "mon_beekeeper") {
+        // Necro and Master have enough Goo to resist conversion.
+        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
         return true;
     } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag" || tid == "mon_zombie_smoker") {
         polypick = 3;
     } else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen") {
         polypick = 4;
     }
+
+    const std::string old_name = name();
     switch (polypick) {
-        case 1: // bugs, why do they all turn into fungal ants?
+        case 1:
             poly(GetMType("mon_ant_fungus"));
-            return true;
+            break;
         case 2: // zombies, non-boomer
             poly(GetMType("mon_zombie_fungus"));
-            return true;
+            break;
         case 3:
             poly(GetMType("mon_boomer_fungus"));
-            return true;
+            break;
         case 4:
             poly(GetMType("mon_fungaloid"));
-            return true;
+            break;
         default:
             return false;
     }
+
+    if( g->u.sees( pos() ) ) {
+        add_msg( m_info, _("The spores transform %s into a %s!"),
+                         old_name.c_str(), name().c_str() );
+    }
+
+    return true;
 }
 
 void monster::make_friendly()
