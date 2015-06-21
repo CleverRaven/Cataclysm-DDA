@@ -4643,5 +4643,13 @@
         "valid" : false,
         "description" : "Bug repellent forcefield.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_HS",
+        "name" : "Debug Hammerspace",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
+        "threshold" : true
     }
 ]
