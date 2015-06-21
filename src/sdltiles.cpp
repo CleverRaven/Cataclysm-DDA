@@ -19,6 +19,7 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "map.h"
+#include "game.h"
 #include "lightmap.h"
 
 //TODO replace these includes with filesystem.h
