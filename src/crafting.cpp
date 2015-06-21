@@ -461,7 +461,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make(const recipe *r, int batch_size)
 {
-    if (g->u.has_trait( "DEBUG_HS" )) {
+    if (has_trait( "DEBUG_HS" )) {
         return true;
     }
 
@@ -1737,7 +1737,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 {
     std::list<item> ret;
 
-    if (g->u.has_trait("DEBUG_HS")) {
+    if (has_trait("DEBUG_HS")) {
         return ret;
     }
 
@@ -1881,7 +1881,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 
 void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
-    if (g->u.has_trait("DEBUG_HS")) {
+    if (has_trait("DEBUG_HS")) {
         return;
     }
 

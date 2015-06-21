@@ -554,7 +554,7 @@ bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
 
 bool player_can_build(player &p, const inventory &pinv, construction const *con)
 {
-    if (g->u.has_trait("DEBUG_HS")) {
+    if (p.has_trait("DEBUG_HS")) {
         return true;
     }
 
