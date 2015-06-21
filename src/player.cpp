@@ -12487,9 +12487,9 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
     }
 }
 
-void player::armor_absorb(damage_unit& du, item& armor) {
+bool player::armor_absorb(damage_unit& du, item& armor) {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
-        return;
+        return false;
     }
 
     // TODO: add some check for power armor
@@ -12505,7 +12505,7 @@ void player::armor_absorb(damage_unit& du, item& armor) {
     // before becoming inneffective or being destroyed.
     const int num_parts_covered = armor.get_covered_body_parts().count();
     if( !one_in( num_parts_covered ) ) {
-        return;
+        return false;
     }
 
     // Don't damage armor as much when bypassed by armor piercing
@@ -12545,8 +12545,10 @@ void player::armor_absorb(damage_unit& du, item& armor) {
             add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
                                    _("<npcname>'s %s is completely destroyed!"),
                                    pre_damage_name.c_str() );
+            return true;
         }
     }
+    return false;
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
@@ -12582,11 +12584,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             const int index = *armor_it;
 
-            armor_absorb( elem, worn[index] );
-
-            // now check if armor was completely destroyed and display relevant messages
-            // TODO: use something less janky than the old code for this check
-            if( worn[index].damage >= 5 ) {
+            if( armor_absorb( elem, worn[index] ) ) {
                 worn.erase(worn.begin() + index);
             }
         }

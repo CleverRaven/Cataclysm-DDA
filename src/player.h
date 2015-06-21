@@ -439,8 +439,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) override;
-        /** Reduces and mutates du, prints messages about armor taking damage. */
-        void armor_absorb(damage_unit &du, item &armor);
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb(damage_unit &du, item &armor);
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Handles dodged attacks (training dodge) and ma_ondodge */
