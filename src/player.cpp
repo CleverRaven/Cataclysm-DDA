@@ -10805,54 +10805,54 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
     bool taken_off = false;
 
-            item &w = worn[worn_index];
+    item &w = worn[worn_index];
 
-            // Handle power armor.
-            if (w.is_power_armor() && w.covers(bp_torso)) {
-                // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-                for (int j = worn.size() - 1; j >= 0; j--) {
-                    if (worn[j].is_power_armor() &&
-                            j != worn_index) {
-                        if( autodrop || items != nullptr ) {
-                            if( items != nullptr ) {
-                                items->push_back( worn[j] );
-                            } else {
-                                g->m.add_item_or_charges( posx(), posy(), worn[j] );
-                            }
-                            add_msg(_("You take off your %s."), worn[j].tname().c_str());
-                            worn.erase(worn.begin() + j);
-                            // If we are before worn_index, erasing this element shifted its position by 1.
-                            if (worn_index > j) {
-                                worn_index -= 1;
-                                w = worn[worn_index];
-                            }
-                            taken_off = true;
-                        } else {
-                            add_msg(m_info, _("You can't take off power armor while wearing other power armor components."));
-                            return false;
-                        }
+    // Handle power armor.
+    if (w.is_power_armor() && w.covers(bp_torso)) {
+        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
+        for (int j = worn.size() - 1; j >= 0; j--) {
+            if (worn[j].is_power_armor() &&
+                    j != worn_index) {
+                if( autodrop || items != nullptr ) {
+                    if( items != nullptr ) {
+                        items->push_back( worn[j] );
+                    } else {
+                        g->m.add_item_or_charges( posx(), posy(), worn[j] );
                     }
+                    add_msg(_("You take off your %s."), worn[j].tname().c_str());
+                    worn.erase(worn.begin() + j);
+                    // If we are before worn_index, erasing this element shifted its position by 1.
+                    if (worn_index > j) {
+                        worn_index -= 1;
+                        w = worn[worn_index];
+                    }
+                    taken_off = true;
+                } else {
+                    add_msg(m_info, _("You can't take off power armor while wearing other power armor components."));
+                    return false;
                 }
             }
+        }
+    }
 
-            if( items != nullptr ) {
-                items->push_back( w );
-                taken_off = true;
-            } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
-                inv.add_item_keep_invlet(w);
-                taken_off = true;
-            } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-                    w.tname().c_str())) {
-                g->m.add_item_or_charges(posx(), posy(), w);
-                taken_off = true;
-            } else {
-                taken_off = false;
-            }
-            if( taken_off ) {
-                moves -= 250;    // TODO: Make this variable
-                add_msg(_("You take off your %s."), w.tname().c_str());
-                worn.erase(worn.begin() + worn_index);
-            }
+    if( items != nullptr ) {
+        items->push_back( w );
+        taken_off = true;
+    } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
+        inv.add_item_keep_invlet(w);
+        taken_off = true;
+    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
+            w.tname().c_str())) {
+        g->m.add_item_or_charges(posx(), posy(), w);
+        taken_off = true;
+    } else {
+        taken_off = false;
+    }
+    if( taken_off ) {
+        moves -= 250;    // TODO: Make this variable
+        add_msg(_("You take off your %s."), w.tname().c_str());
+        worn.erase(worn.begin() + worn_index);
+    }
 
     recalc_sight_limits();
 
