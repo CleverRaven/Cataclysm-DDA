@@ -1,0 +1,33 @@
+[
+  {
+    "id": "ficrico",
+    "type": "GUN",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": "Rico's 454",
+    "name_plural": "Rico's 454",
+    "description": "Customised by The Agency and adapted for Rico's shooting style, this deadly accurate and powerful pistol packs a punch with precision, power and flair.",
+    "price": 450000,
+    "material": ["steel", "plastic"],
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "454",
+    "weight": 2500,
+    "volume": 6,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -1,
+    "dispersion": 75,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": -75,
+    "durability": 9,
+    "burst": 12,
+    "clip_size": 30,
+    "reload": 475,
+    "built_in_mods": ["30mmigl"],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  }
+]
+
+

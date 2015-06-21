@@ -1,0 +1,34 @@
+[
+    {
+        "type" : "GUNMOD",
+        "id" : "30mmigl",
+        "name" : "30mm Integrated Grenade Launcher",
+        "name_plural" : "30mm Integrated Grenade Launchers",
+        "location": "",
+        "weight" : 0,
+        "color" : "light_red",
+        "to_hit" : -1,
+        "dispersion_modifier" : 30,
+        "price" : 0,
+        "description" : "The 30mm IGL is a tailor made grenade launcher for Rico's 454 revolver.",
+        "symbol" : ":",
+        "material" : ["steel", "plastic"],
+        "volume" : 2,
+        "cutting" : 0,
+        "mod_targets" : [],
+        "bashing" : 2,
+        "gun_data" : {
+            "skill": "launcher",
+            "ammo" : "30mm",
+            "clip_size" : 1,
+            "dispersion" : 300,
+            "aim_speed" : -1, "//" : "just a place holder, TODO: fill in the correct value",
+            "sight_dispersion" : -1, "//" : "just a place holder, TODO: fill in the correct value",
+            "recoil" : 0, "//" : "just a place holder, TODO: fill in the correct value",
+            "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
+            "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
+        },
+        "skill_required": 1,
+        "skill": "launcher"
+    }
+]
