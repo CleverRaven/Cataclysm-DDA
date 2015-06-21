@@ -10793,12 +10793,18 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
 
 bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
-    bool taken_off = false;
     if (inventory_position == -1) {
-        taken_off = wield(NULL, autodrop);
-    } else {
-        int worn_index = worn_position_to_index(inventory_position);
-        if (worn_index >= 0 && size_t(worn_index) < worn.size()) {
+        // TODO: is this case even used anymore?
+        return wield( nullptr, autodrop );
+    }
+
+    int worn_index = worn_position_to_index( inventory_position );
+    if( static_cast<size_t>( worn_index ) >= worn.size() ) {
+        add_msg( m_info, _("You are not wearing that item.") );
+        return false;
+    }
+    bool taken_off = false;
+
             item &w = worn[worn_index];
 
             // Handle power armor.
@@ -10847,10 +10853,6 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
                 add_msg(_("You take off your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
             }
-        } else {
-            add_msg(m_info, _("You are not wearing that item."));
-        }
-    }
 
     recalc_sight_limits();
 
