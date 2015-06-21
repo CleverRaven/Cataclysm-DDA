@@ -12517,7 +12517,6 @@ void player::armor_absorb(damage_unit& du, item& armor) {
         (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
          !armor.is_power_armor() && one_in(200)) ) {
 
-        armor.damage++;
         auto &material = armor.get_random_material();
         std::string damage_verb = ( du.type == DT_BASH ) ?
             material.bash_dmg_verb() : material.cut_dmg_verb();
@@ -12537,6 +12536,7 @@ void player::armor_absorb(damage_unit& du, item& armor) {
                     m_neutral, damage_verb, m_info);
         }
 
+        armor.damage++;
         if( armor.damage >= 5 ) {
             //~ %s is armor name
             add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
