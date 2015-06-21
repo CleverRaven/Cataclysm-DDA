@@ -11215,8 +11215,14 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
+        unsigned imodcount = 0;
+        for( auto &gm : mods ){
+            if( gm.has_flag("IRREMOVABLE") ){
+                imodcount++;
+            }
+        }
         // Get weapon mod names.
-        if (mods.empty()) {
+        if (mods.empty() || mods.size() == imodcount ) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
@@ -11232,7 +11238,11 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
         for (size_t i = 0; i < mods.size(); i++) {
-            kmenu.addentry( i, true, -1, mods[i].tname() );
+            if( mods[i].has_flag("IRREMOVABLE") ){
+                //kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
+            } else {
+                kmenu.addentry( i, true, -1, mods[i].tname() );
+            }
         }
         kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
         kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
@@ -11241,11 +11251,18 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
         if (choice < int(mods.size())) {
             const std::string mod = used->contents[choice].tname();
-            remove_gunmod(used, unsigned(choice));
-            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
+
+            if( used->contents[choice].has_flag("IRREMOVABLE") ){
+                add_msg(_("You cannot remove integrated mods.") );
+            } else{
+                remove_gunmod(used, unsigned(choice));
+                add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
+            }
         } else if (choice == int(mods.size())) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
-                remove_gunmod(used, i);
+                if( !used->contents[i].has_flag("IRREMOVABLE") ){
+                    remove_gunmod(used, i);
+                }
             }
             add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
         } else {
