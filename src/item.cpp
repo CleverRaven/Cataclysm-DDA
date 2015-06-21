@@ -94,6 +94,19 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
         charges = 0;
+        for( auto &gm : type->gun->built_in_mods ){
+            if(type_is_defined( gm) ){
+                item temp( gm, turn, rand, handed );
+                temp.item_tags.insert("IRREMOVABLE");
+                contents.push_back( temp );
+            }
+        }
+
+        for( auto &gm : type->gun->default_mods ){
+            if(type_is_defined( gm ) ){
+                contents.push_back( item( gm, turn, rand, handed ) );
+            }
+        } 
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -1488,6 +1501,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
+                    if( elem.has_flag("IRREMOVABLE") ){
+                        temp1 << _("[Integrated]");
+                    }
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
                     dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
@@ -1800,7 +1816,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret.str("");
         ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
-            ret << "+";
+            if( !contents.at(i).has_flag("IRREMOVABLE") ){
+                ret << "+";
+            }
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +

@@ -469,6 +469,16 @@ void Item_factory::check_definitions() const
             if( type->gun->skill_used == nullptr ) {
                 msg << string_format("uses no skill") << "\n";
             }
+            for( auto &gm : type->gun->default_mods ){
+                if( !has_template( gm ) ){
+                    msg << string_format("invalid default mod.") << "\n";
+                }
+            }
+            for( auto &gm : type->gun->built_in_mods ){
+                if( !has_template( gm ) ){
+                    msg << string_format("invalid built-in mod.") << "\n";
+                }
+            }      
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
@@ -635,6 +645,25 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
                                              curr.get_int( 1 ) ) );
         }
     }
+
+    //Add any built-in mods.
+    if( jo.has_array( "built_in_mods" ) ) {
+    JsonArray jarr = jo.get_array( "built_in_mods" );
+        while( jarr.has_more() ) {
+            std::string temp = jarr.next_string();
+            slot.built_in_mods.push_back( temp );
+        }
+    }
+
+    //Add default
+    if( jo.has_array( "default_mods" ) ) {
+    JsonArray jarr = jo.get_array( "default_mods" );
+        while( jarr.has_more() ) {
+            std::string temp = jarr.next_string();
+            slot.default_mods.push_back( temp );
+        }
+    }
+
 }
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )
@@ -1319,7 +1348,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
-            
+
         }
     } else {
         if( jo.has_string( member ) ) {
@@ -1329,7 +1358,7 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
-        
+
     }
 }
 
