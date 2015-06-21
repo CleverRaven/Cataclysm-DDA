@@ -4112,7 +4112,9 @@ int iuse::siphon(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int toolweapon_off(player *p, item *it, bool fast_startup, bool condition, int volume, char *msg_success, char *msg_failure)
+int toolweapon_off( player *p, item *it, bool fast_startup,
+                    bool condition, int volume,
+                    const char *msg_success, const char *msg_failure )
 {
     p->moves -= fast_startup ? 60 : 80;
     if (condition && it->charges > 0) {
@@ -4182,7 +4184,10 @@ int iuse::trimmer_off(player *p, item *it, bool, const tripoint& )
         _("You yank the cord, but nothing happens."));
 }
 
-int toolweapon_on(player *p, item *it, bool t, const char *tname, bool works_underwater, int sound_chance, int volume, char *sound, bool double_charge_cost = false)
+int toolweapon_on( player *p, item *it, bool t,
+                   const char *tname, bool works_underwater,
+                   int sound_chance, int volume,
+                   const char *sound, bool double_charge_cost = false )
 {
     std::string off_type =
         it->type->id.substr(0, it->type->id.size() - 3) +
