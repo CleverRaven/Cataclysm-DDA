@@ -9174,7 +9174,7 @@ bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts
 {
     std::bitset<num_bp> covered = 0;
 
-    for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
+    for (auto armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
         std::bitset<num_bp> cover = armorPiece->get_covered_body_parts() & parts;
 
         if (cover.none()) {
@@ -10324,12 +10324,12 @@ hint_rating player::rate_action_wear(item *it)
     if (it->is_power_armor() && worn.size()) {
         if (it->covers(bp_torso)) {
             return HINT_IFFY;
-        } else if (it->covers(bp_head) && !worn[0].is_power_armor()) {
+        } else if (it->covers(bp_head) && !worn.front().is_power_armor()) {
             return HINT_IFFY;
         }
     }
     // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
-    if (worn.size() && worn[0].is_power_armor() && !(it->covers(bp_head))) {
+    if (worn.size() && worn.front().is_power_armor() && !(it->covers(bp_head))) {
         if (!(it->covers(bp_torso) && it->color() == c_green)) {
             return HINT_IFFY;
         }
@@ -12250,25 +12250,25 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         }
     }
 
-    for (size_t i = 0; i < worn.size(); ++i) {
-        if( worn[i].covers(bp) ) {
-            if( worn[i].has_flag( "SKINTIGHT" ) ) {
+    for( auto& w : worn ) {
+        if( w.covers(bp) ) {
+            if( w.has_flag( "SKINTIGHT" ) ) {
                 level = UNDERWEAR;
-            } else if ( worn[i].has_flag( "WAIST" ) ) {
+            } else if ( w.has_flag( "WAIST" ) ) {
                 level = WAIST_LAYER;
-            } else if ( worn[i].has_flag( "OUTER" ) ) {
+            } else if ( w.has_flag( "OUTER" ) ) {
                 level = OUTER_LAYER;
-            } else if ( worn[i].has_flag( "BELTED") ) {
+            } else if ( w.has_flag( "BELTED") ) {
                 level = BELTED_LAYER;
             } else {
                 level = REGULAR_LAYER;
             }
 
             layer[level] += 10;
-            if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, worn[i].get_encumber() - 40);
+            if( w.is_power_armor() && is_wearing_active_power_armor ) {
+                armorenc += std::max( 0, w.get_encumber() - 40);
             } else {
-                armorenc += worn[i].get_encumber();
+                armorenc += w.get_encumber();
             }
         }
     }
@@ -13611,8 +13611,8 @@ bool player::has_container_for(const item &newit)
     }
     unsigned charges = newit.charges;
     charges -= weapon.get_remaining_capacity_for_liquid(newit);
-    for (size_t i = 0; i < worn.size() && charges > 0; i++) {
-        charges -= worn[i].get_remaining_capacity_for_liquid(newit);
+    for( auto& w : worn ) {
+        charges -= w.get_remaining_capacity_for_liquid(newit);
     }
     for (size_t i = 0; i < inv.size() && charges > 0; i++) {
         const std::list<item>&items = inv.const_stack(i);
