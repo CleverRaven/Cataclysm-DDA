@@ -435,7 +435,7 @@ void inventory_selector::display(bool show_worn) const
             } else if( elem.first == -1 && elem.second != -1 ) {
                 tmp.weapon.charges -= elem.second;
             } else if( elem.first < 0 ) {
-                tmp.worn.erase( tmp.worn.begin() + player::worn_position_to_index( elem.first ) );
+                tmp.i_rem( elem.first );
             }
         }
         remove_dropping_items(tmp);
