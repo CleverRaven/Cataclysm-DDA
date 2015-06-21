@@ -373,7 +373,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
         }
         if (drop) {
             retval &= g->m.add_item_or_charges(posx(), posy(), it);
-        } else if( !( it.has_flag("IRREMOVEABLE") && it.is_gunmod() ) ){
+        } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
             i_add(it);
         }
     }

@@ -1506,8 +1506,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
-                    if( elem.has_flag("IRREMOVABLE") )
+                    if( elem.has_flag("IRREMOVABLE") ){
                         temp1 << _("[Integrated]");
+                    }
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
                     dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
@@ -1820,8 +1821,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret.str("");
         ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
-            if( !contents.at(i).has_flag("IRREMOVABLE") )
+            if( !contents.at(i).has_flag("IRREMOVABLE") ){
                 ret << "+";
+            }
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +

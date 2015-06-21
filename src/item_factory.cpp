@@ -469,12 +469,14 @@ void Item_factory::check_definitions() const
                 msg << string_format("uses no skill") << "\n";
             }
             for( auto &gm : type->gun->default_mods ){
-                if( !has_template( gm ) )
+                if( !has_template( gm ) ){
                     msg << string_format("invalid default mod.") << "\n";
+                }
             }
             for( auto &gm : type->gun->built_in_mods ){
-                if( !has_template( gm ) )
+                if( !has_template( gm ) ){
                     msg << string_format("invalid built-in mod.") << "\n";
+                }
             }      
         }
         if( type->gunmod ) {

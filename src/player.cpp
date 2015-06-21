@@ -11167,8 +11167,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         for (size_t i = 0; i < mods.size(); i++) {
             if( mods[i].has_flag("IRREMOVABLE") ){
                 //kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
-            }
-            else{
+            } else {
                 kmenu.addentry( i, true, -1, mods[i].tname() );
             }
         }
