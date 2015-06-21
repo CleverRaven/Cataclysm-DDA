@@ -12536,6 +12536,16 @@ void player::armor_absorb(damage_unit& du, item& armor) {
             SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
                     m_neutral, damage_verb, m_info);
         }
+
+        if( armor.damage >= 5 ) {
+            //~ %s is armor name
+            add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
+                              pgettext("memorial_female", "Worn %s was completely destroyed."),
+                              pre_damage_name.c_str() );
+            add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
+                                   _("<npcname>'s %s is completely destroyed!"),
+                                   pre_damage_name.c_str() );
+        }
     }
 }
 
@@ -12577,13 +12587,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             // now check if armor was completely destroyed and display relevant messages
             // TODO: use something less janky than the old code for this check
             if( worn[index].damage >= 5 ) {
-                //~ %s is armor name
-                add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
-                                 pgettext("memorial_female", "Worn %s was completely destroyed."),
-                                 worn[index].tname( 1, false ).c_str());
-                add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
-                                              _("<npcname>'s %s is completely destroyed!"),
-                                              worn[index].tname( 1, false ).c_str() );
                 worn.erase(worn.begin() + index);
             }
         }
