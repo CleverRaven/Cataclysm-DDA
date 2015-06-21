@@ -23,7 +23,7 @@ struct furn_t;
 
 using trap_id = int_id<trap>;
 using ter_id = int_id<ter_t>;
-using furn_id = int_id<furn_t>;
+typedef int_id<furn_t> furn_id;
 
 // TODO: use string_id and string_id::id to get the id
 extern furn_id furnfind(const std::string & id);
