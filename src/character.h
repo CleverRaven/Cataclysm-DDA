@@ -218,6 +218,12 @@ class Character : public Creature
             }
             return result;
         }
+        /**
+         * Similar to @ref remove_items_with, but considers only worn items and not their
+         * content (@ref item::contents is not checked).
+         * If the filter function returns true, the item is removed.
+         */
+        std::list<item> remove_worn_items_with( std::function<bool(item &)> filter );
 
         item &i_add(item it);
         /**

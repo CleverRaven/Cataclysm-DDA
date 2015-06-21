@@ -6165,18 +6165,12 @@ void player::hardcoded_effects(effect &it)
         if (!has_trait("M_SKIN2")) {
             hurtall(3, nullptr);
         }
-        for (size_t i = 0; i < worn.size(); i++) {
-            item tmp = worn[i];
+        remove_worn_items_with( []( item &tmp ) {
             bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
             bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10));
             bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50));
-            if (burnVeggy || burnFabric || burnPlastic) {
-                worn.erase(worn.begin() + i);
-                if (i != 0) {
-                    i--;
-                }
-            }
-        }
+            return burnVeggy || burnFabric || burnPlastic;
+        } );
     } else if (id == "spores") {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
@@ -8716,12 +8710,9 @@ void player::process_active_items()
     }
 
     // worn items
-    for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].needs_processing() && worn[i].process( this, pos3(), false ) ) {
-            worn.erase(worn.begin() + i);
-            i--;
-        }
-    }
+    remove_worn_items_with( [this]( item &itm ) {
+        return itm.needs_processing() && itm.process( this, pos3(), false );
+    } );
 
     long ch_UPS = charges_of( "UPS" );
     item *cloak = nullptr;
@@ -8790,17 +8781,19 @@ void player::process_active_items()
         weapon.charges++;
     }
 
-    for( size_t i = 0; i < worn.size() && ch_UPS_used < ch_UPS; ++i ) {
-        item& worn_item = worn[i];
-
+    remove_worn_items_with( [this, &ch_UPS, &ch_UPS_used]( item& worn_item ) {
+        if( ch_UPS_used >= ch_UPS ) {
+            return false;
+        }
         if( !worn_item.has_flag( "USE_UPS" ) ) {
-            continue;
+            return false;
         }
         if( worn_item.charges < worn_item.type->maximum_charges() ) {
             ch_UPS_used++;
             worn_item.charges++;
         }
-    }
+        return false;
+    } );
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
     }

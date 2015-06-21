@@ -388,6 +388,20 @@ item& Character::i_add(item it)
     return item_in_inv;
 }
 
+std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> filter )
+{
+    std::list<item> result;
+    for( auto iter = worn.begin(); iter != worn.end(); ) {
+        if( filter( *iter ) ) {
+            result.push_back( *iter );
+            iter = worn.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+    return result;
+}
+
 item Character::i_rem(int pos)
 {
  item tmp;
