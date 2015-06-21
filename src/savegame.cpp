@@ -682,18 +682,29 @@ void mongroup::serialize(JsonOut &json) const
 
 void mongroup::deserialize(JsonIn &json)
 {
-    JsonObject jo = json.get_object();
-    std::string group_type;
-    jo.read("type", group_type);
-    type = mongroup_id(group_type);
-    jo.read("pos", pos);
-    jo.read("radius", radius);
-    jo.read("population", population);
-    jo.read("diffuse", diffuse);
-    jo.read("dying", dying);
-    jo.read("horde", horde);
-    jo.read("target", target);
-    jo.read("interest", interest);
+    json.start_object();
+    while( !json.end_object() ) {
+        std::string name = json.get_member_name();
+        if( name == "type" ) {
+            type = mongroup_id(json.get_string());
+        } else if( name == "pos" ) {
+            pos.deserialize(json);
+        } else if( name == "radius" ) {
+            radius = json.get_int();
+        } else if( name == "population" ) {
+            population = json.get_int();
+        } else if( name == "diffuse" ) {
+            diffuse = json.get_bool();
+        } else if( name == "dying" ) {
+            dying = json.get_bool();
+        } else if( name == "horde" ) {
+            horde = json.get_bool();
+        } else if( name == "target" ) {
+            target.deserialize(json);
+        } else if( name == "interest" ) {
+            interest = json.get_int();
+        }
+    }
 }
 
 
