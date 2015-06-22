@@ -11392,7 +11392,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A sleeveless tunic with the upper part looking like a tank top.",
+        "description" : "A sleeveless cloth garment that covers the torso and legs.",
         "price" : 4000,
         "material" : ["cotton", "null"],
         "volume" : 4,
