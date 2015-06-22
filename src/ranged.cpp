@@ -361,19 +361,11 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         debugmsg("game::fire() - num_shots = 0!");
     }
 
-    bool mod_ups = false;
-    int mod_ups_drain = 0;
-    for( auto &mod : used_weapon->contents ){
-        if( mod.type->gunmod->ups_charges > 0 ){
-            mod_ups = true;
-            mod_ups_drain += mod.type->gunmod->ups_charges;
-        }
-    }
     int ups_drain = 0;
     int adv_ups_drain = 0;
     int bio_power_drain = 0;
-    if( used_weapon->type->gun->ups_charges > 0 || mod_ups ) {
-        ups_drain = used_weapon->type->gun->ups_charges + mod_ups_drain;
+    if( used_weapon->get_gun_ups_drain() > 0 ) {
+        ups_drain = used_weapon->get_gun_ups_drain();
         adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
         bio_power_drain = std::max( 1, ups_drain / 5 );
     }

@@ -10903,18 +10903,8 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
         const auto gun = u.weapon.type->gun.get();
 
-        bool mod_ups = false;
-        int mod_ups_drain = 0;
-        if( gun != nullptr ){
-            for( auto &mod : u.weapon.contents ){
-                if( mod.type->gunmod->ups_charges > 0 ){
-                    mod_ups = true;
-                    mod_ups_drain += mod.type->gunmod->ups_charges;
-                }
-            }
-        }
-        if( gun != nullptr && ( gun->ups_charges > 0 || mod_ups ) ) {
-            const int ups_drain = gun->ups_charges + mod_ups_drain;
+        if( gun != nullptr && ( u.weapon.get_gun_ups_drain() > 0 ) ) {
+            const int ups_drain = u.weapon.get_gun_ups_drain();
             const int adv_ups_drain = std::min( 1, ups_drain * 3 / 5 );
             const int bio_power_drain = std::min( 1, ups_drain / 5 );
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
