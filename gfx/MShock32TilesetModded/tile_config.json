@@ -11638,7 +11638,7 @@
         },
         {
           "id": "t_dirtfloor",
-          "fg": 513,
+          "fg": 2637,
           "rotates": false
         },
         {
@@ -20260,21 +20260,74 @@
           "rotates": false
         },
         {
-          "id": "t_wall_waddle_half",
-          "fg": 1954,
+          "id": "t_wall_wattle_half",
+          "fg": 2634,
           "bg": 513,
           "rotates": false
         },
         {
-          "id": "t_wall_waddle",
-          "fg": 2006,
+          "id": "t_wall_wattle",
+          "fg": 2635,
           "bg": 513,
           "rotates": false
         },
         {
-          "id": "t_wall_waddle_broken",
-          "fg": 2007,
+          "id": "t_wall_wattle_broken",
+          "fg": 2636,
           "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "bio_reactor",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_advreactor",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_reactor_upgrade",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_plut_filter",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_remote",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_ups",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_meteorologist",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "bio_cqb",
+          "fg": 552,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "f_firering",
+          "fg": 2638,
           "rotates": false
         }
       ]
