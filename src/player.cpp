@@ -3726,7 +3726,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
   if( sideStyle ) {
       // Make sure this is left-aligned.
-      mvwprintz(w, speedoy, getmaxx(w) - 9, c_white, "%s", "Stm ");
+      mvwprintz(w, speedoy, getmaxx(w) - 9, c_white, "%s", _("Stm "));
       print_stamina_bar(w);
   }
  } else {  // Not in vehicle
@@ -3782,9 +3782,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %d", movecounter);
 
-    wprintz(w, c_white, " %s", _(move_mode == "walk" ? "W" : "R"));
+    wprintz(w, c_white, " %s", move_mode == "walk" ? _("W") : _("R"));
     if( sideStyle ) {
-        mvwprintz(w, spdy, x + dx * 4 - 3, c_white, "Stm ");
+        mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
         print_stamina_bar(w);
     }
  }
