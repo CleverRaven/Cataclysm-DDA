@@ -6,7 +6,8 @@
           ["ficrico", 2],
           ["gunsword", 3],
           ["gunknife", 3],
-          ["50pistol", 2]
+          ["50pistol", 2],
+          ["hk_mp5eod", 3]
         ]
     },
     {
@@ -29,13 +30,28 @@
         ]
     },
     {
-    "type" : "item_group",
-    "id" : "pistols",
-    "items":[
-      ["ficrico", 2],
-      ["gunsword", 2],
-      ["gunknife", 2],
-      ["50pistol", 2],
+      "type" : "item_group",
+      "id" : "pistols",
+      "items":[
+        ["ficrico", 2],
+        ["gunsword", 2],
+        ["gunknife", 2],
+        ["50pistol", 2],
     ]
-  }
+    },
+    {
+      "type" : "item_group",
+      "id" : "smg",
+      "items":[
+        ["hk_mp5eod", 2]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "lmoe_guns",
+      "items":[
+        ["hk_mp5eod", 2],
+        ["50pistol", 2]
+      ]
+    }
 ]

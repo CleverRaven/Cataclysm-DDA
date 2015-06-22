@@ -119,6 +119,36 @@
     "reload": 520,
     "loudness" : 250,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+  },
+  {
+    "id": "hk_mp5eod",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "H&K MP5A5 EOD",
+    "name_plural": "H&K MP5",
+    "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  This one has been modified with an integrated m203 allowing you to survive the end of days.",
+    "price": 280000,
+    "material": ["steel", "plastic"],
+    "flags": "MODE_BURST",
+    "skill": "smg",
+    "ammo": "9mm",
+    "weight": 3100,
+    "volume": 7,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 1,
+    "dispersion": 150,
+    "sight_dispersion": 75,
+    "aim_speed" : 5,
+    "recoil": -45,
+    "durability": 7,
+    "burst": 8,
+    "clip_size": 30,
+    "reload": 400,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   }
 ]
 
