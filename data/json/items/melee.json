@@ -2990,7 +2990,7 @@
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
         "price" : 0,
-        "qualities": [["CUT", 1], ["BUTCHER", 12]],
+        "qualities": [["CUT", 1], ["BUTCHER", 12]]
     },
     {
         "type":"GENERIC",
