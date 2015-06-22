@@ -340,6 +340,10 @@ struct islot_gunmod : common_firing_data {
      * TODO: document me
      */
     bool used_on_launcher = false;
+    /**
+    *Allowing a mod to add UPS charge requirement to a gun.
+    */
+    int ups_charges = 0;
 };
 
 struct islot_ammo : common_ranged_data {
