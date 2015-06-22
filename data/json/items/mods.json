@@ -1342,5 +1342,27 @@
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "bashing" : 0,
         "flags" : ["STAB"]
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "emas",
+        "name" : "E.M.A.S.",
+        "dispersion_modifier" : 45,
+        "damage_modifier" : 4,
+        "description" : "ElectroMagnetic Acceleration System is an array of electromagnets attached to the front of the barrel, accelerating any projectile fired to even higher velocities, increasing damage, recoil and reducing accuracy. It does however drain UPS charges when firing and due to extensive modifications the gun can no longer operate without a UPS.",
+        "location": "barrel",
+        "weight" : 450,
+        "to_hit" : 0,
+        "color" : "light_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["smg", "rifle", "shotgun", "pistol"],
+        "volume" : 2,
+        "bashing" : 5,
+        "cutting" : 0,
+        "recoil_modifier" : 75,
+        "price" : 20000,
+        "skill_required": 5,
+        "ups_charges": 5
     }
 ]
