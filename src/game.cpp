@@ -10905,8 +10905,8 @@ void game::plfire( bool burst, const tripoint &default_target )
 
         if( gun != nullptr && ( u.weapon.get_gun_ups_drain() > 0 ) ) {
             const int ups_drain = u.weapon.get_gun_ups_drain();
-            const int adv_ups_drain = std::min( 1, ups_drain * 3 / 5 );
-            const int bio_power_drain = std::min( 1, ups_drain / 5 );
+            const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+            const int bio_power_drain = std::max( 1, ups_drain / 5 );
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
                    (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
