@@ -3241,7 +3241,7 @@ void item::set_gun_mode( const std::string &mode )
 
 void item::next_mode()
 {
-    const auto mode = get_gun_mode();
+    auto mode = get_gun_mode();
     if( mode == "NULL" && has_flag("MODE_BURST") ) {
         set_gun_mode("MODE_BURST");
     } else if( mode == "NULL" || mode == "MODE_BURST" ) {
@@ -3283,6 +3283,11 @@ void item::next_mode()
         }
     } else if( mode == "MODE_REACH" ) {
         set_gun_mode( "NULL" );
+    }
+    // ensure MODE_BURST for BURST_ONLY weapons
+    mode = get_gun_mode();
+    if( mode == "NULL" && has_flag( "BURST_ONLY" ) ) {
+        set_gun_mode( "MODE_BURST" );
     }
 }
 
