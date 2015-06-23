@@ -86,5 +86,35 @@
         ["arccan", 5],
         ["ltcarb", 5]
       ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "mil_rifles",
+      "items":[
+        ["emas", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "military",
+      "items":[
+        ["emas", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "gunxtras",
+      "items":[
+        ["emas", 5],
+        ["retool_flaregun",7]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "gunsmith_gunparts",
+      "items":[
+        ["emas", 5],
+        ["retool_flaregun",7]
+      ]
     }
 ]
