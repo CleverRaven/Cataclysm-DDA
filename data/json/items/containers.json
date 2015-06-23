@@ -243,7 +243,7 @@
         "rigid": true,
         "watertight": true,
         "seals": true,
-        "flags": ["BELTED"]
+        "flags": ["BELTED", "VARSIZE"]
     },
     {
         "id": "jerrycan",
