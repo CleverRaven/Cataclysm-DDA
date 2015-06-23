@@ -3382,7 +3382,7 @@ void map::shoot( const tripoint &p, int &dam,
         add_field(p, fd_fire, rng(1, 2), 0 );
     }
 
-    if (ammo_effects.count("STREAM_GAS") && !one_in(3)) {
+    if (ammo_effects.count("STREAM_GAS_FUNGICIDAL") && !one_in(3)) {
         add_field(p, fd_fungicidal_gas, rng(1, 2), 0 );
     }
 

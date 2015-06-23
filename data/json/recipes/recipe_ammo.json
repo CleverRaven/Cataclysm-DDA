@@ -4452,9 +4452,9 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "toolset", 3 ],
+      [ "hotplate", 3 ],
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [

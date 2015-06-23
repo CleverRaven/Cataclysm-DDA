@@ -6740,8 +6740,8 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "mechanics",
-  "skills_required": [[ "gun", 3 ], [ "cooking", 3]],
-  "difficulty": 7,
+  "skills_required": [ "launcher", 2 ],
+  "difficulty": 5,
   "time": 12000,
   "reversible": true,
   "autolearn": true,
@@ -6763,13 +6763,13 @@
     ],
   ], "components": [
     [
-      [ "pilot_light", 1 ]
+	  [ "pilot_light", 1 ]
     ],
 	[
-	  [ "wrench", 1]
+	  [ "metal_tank_little", 1]
 	],
     [
-      [ "pipe", 1 ]
+      [ "pipe", 2 ]
     ],
     [
       [ "hose", 2 ]

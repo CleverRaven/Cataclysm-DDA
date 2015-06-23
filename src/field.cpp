@@ -1670,7 +1670,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
 					case fd_fungicidal_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 50, 30 );
+                        spread_gas( cur, p, curtype, 66, 40 );
+                        const auto &ter = map_tile.get_ter_t();
+                        const auto &frn = map_tile.get_furn_t();
+                        if( ter.has_flag( TFLAG_FUNGUS ) ) {
+                            cur->setFieldType( t_dirt );
+                        }
                         break;
 
                     default:
@@ -2403,10 +2408,6 @@ void map::monster_in_field( monster &z )
 				z.moves -= rng( 10 * density, 30 * density );
 				dam += rng( 10, 15 * density );
 			}
-/*			const auto &ter = maptile.get_ter_t();
-			if( ter == t_fungus ) {
-				submap.set_ter = t_dirt;
-			}*/
 			break;
 
         default:
