@@ -13,30 +13,35 @@
 
 zone_manager::zone_manager()
 {
-    types.push_back( std::make_pair( _("No Auto Pickup"), "NO_AUTO_PICKUP" ) );
-    types.push_back( std::make_pair( _("No NPC Pickup"),  "NO_NPC_PICKUP" ) );
+    types["NO_AUTO_PICKUP"] = _("No Auto Pickup");
+    types["NO_NPC_PICKUP"] = _("No NPC Pickup");
 }
 
 void zone_manager::zone_data::set_name()
 {
     const std::string new_name = string_input_popup( _( "Zone name:" ), 55, name, "", "", 15 );
 
-    name = ( new_name == "" ) ? _( "<no name>" ) : new_name;
+    name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
 }
 
-void zone_manager::zone_data::set_zone_type()
+void zone_manager::zone_data::set_type()
 {
-    const auto &types = get_manager().get_zone_types();
+    const auto &types = get_manager().get_types();
     uimenu as_m;
     as_m.text = _( "Select zone type:" );
 
-    for( size_t i = 0; i < types.size(); ++i ) {
-        as_m.entries.push_back( uimenu_entry( i + 1, true, ( char )i + 1, types[i].first ) );
+    size_t i = 0;
+    for( const auto &type : types ) {
+        const auto &name = type.second;
+        as_m.addentry( i++, true, MENU_AUTOASSIGN, name );
     }
 
     as_m.query();
+    size_t index = as_m.ret;
 
-    type = types[( ( as_m.ret >= 1 ) ? as_m.ret : 1 ) - 1].second;
+    std::map<std::string, std::string>::const_iterator iter = types.begin();
+    std::advance( iter, index );
+    type = iter->first;
 }
 
 void zone_manager::zone_data::set_enabled( const bool _enabled )
@@ -51,27 +56,20 @@ tripoint zone_manager::zone_data::get_center_point() const
 
 std::string zone_manager::get_name_from_type( const std::string &type ) const
 {
-    for( auto &elem : types ) {
-        if( elem.second == type ) {
-            return elem.first;
-        }
+    const auto &iter = types.find( type );
+    if( iter != types.end() ) {
+        return iter->second;
     }
 
-    return _("Unknown Type");
+    return "Unknown Type";
 }
 
 bool zone_manager::has_type( const std::string &type ) const
 {
-    for( auto &elem : types ) {
-        if( elem.second == type ) {
-            return true;
-        }
-    }
-
-    return false;
+    return types.count( type ) > 0;
 }
 
-void zone_manager::cache_zone_data()
+void zone_manager::cache_data()
 {
     area_cache.clear();
 
@@ -80,7 +78,7 @@ void zone_manager::cache_zone_data()
             continue;
         }
 
-        const std::string &type = elem.get_zone_type();
+        const std::string &type = elem.get_type();
         auto &cache = area_cache[type];
 
         tripoint start = elem.get_start_point();
@@ -97,7 +95,7 @@ void zone_manager::cache_zone_data()
     }
 }
 
-bool zone_manager::has_zone( const std::string &type, const tripoint &where ) const
+bool zone_manager::has( const std::string &type, const tripoint &where ) const
 {
     const auto &type_iter = area_cache.find( type );
     if( type_iter == area_cache.end() ) {
@@ -113,7 +111,7 @@ void zone_manager::add( const std::string &name, const std::string &type,
                         const tripoint &start, const tripoint &end )
 {
     zones.push_back( zone_data( name, type, invert, enabled, start, end ) );
-    cache_zone_data();
+    cache_data();
 }
 
 void zone_manager::serialize( JsonOut &json ) const
@@ -123,7 +121,7 @@ void zone_manager::serialize( JsonOut &json ) const
         json.start_object();
 
         json.member( "name", elem.get_name() );
-        json.member( "type", elem.get_zone_type() );
+        json.member( "type", elem.get_type() );
         json.member( "invert", elem.get_invert() );
         json.member( "enabled", elem.get_enabled() );
 
@@ -209,7 +207,7 @@ void zone_manager::load_zones()
     fin.open( savefile.c_str(), std::ifstream::in | std::ifstream::binary );
     if( !fin.good() ) {
         fin.close();
-        cache_zone_data();
+        cache_data();
         return;
     }
 
@@ -222,5 +220,5 @@ void zone_manager::load_zones()
 
     fin.close();
 
-    cache_zone_data();
+    cache_data();
 }

@@ -28,7 +28,6 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct it_comest;
-class clZones;
 
 struct special_attack {
     std::string text;

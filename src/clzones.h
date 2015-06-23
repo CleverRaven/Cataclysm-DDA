@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "enums.h"
+#include "translations.h"
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -18,8 +19,8 @@
 class zone_manager : public JsonSerializer, public JsonDeserializer
 {
 private:
+    std::map<std::string, std::string> types;
     std::unordered_map<std::string, std::unordered_set<tripoint> > area_cache;
-    std::vector<std::pair<std::string, std::string> > types;
 
 public:
     zone_manager();
@@ -61,14 +62,14 @@ public:
         ~zone_data() {};
 
         void set_name();
-        void set_zone_type();
+        void set_type();
         void set_enabled( const bool enabled );
 
         std::string get_name() const
         {
             return name;
         }
-        std::string get_zone_type() const
+        std::string get_type() const
         {
             return type;
         }
@@ -111,14 +112,14 @@ public:
     {
         return zones.size();
     }
-    std::vector<std::pair<std::string, std::string> > get_zone_types() const
+    std::map<std::string, std::string> get_types() const
     {
         return types;
     }
     std::string get_name_from_type( const std::string &type ) const;
     bool has_type( const std::string &type ) const;
-    void cache_zone_data();
-    bool has_zone( const std::string &type, const tripoint &where ) const;
+    void cache_data();
+    bool has( const std::string &type, const tripoint &where ) const;
 
     bool save_zones();
     void load_zones();
