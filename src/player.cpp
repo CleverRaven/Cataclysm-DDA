@@ -12115,12 +12115,12 @@ float player::fine_detail_vision_mod()
         (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
         return 5.0;
     }
+    // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
-    // Scale linearly own_light approaches LIGHT_AMBIENT_LIT.
-    // but also enforce a monimum of 1.0, and drop by one as a bonus.
-    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() );
+    // Therefore give a hefty bonus relative to ambient light.
+    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() - 2 );
 
-    // Same calculation as above, but with a result 1 lower.
+    // Same calculation as above, but with a result 3 lower.
     float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( pos() ) + 1.0 );
 
     return std::min( own_light, ambient_light );
