@@ -216,6 +216,36 @@
         "flags": ["WAIST"]
     },
     {
+        "id": "camelbak",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "dark_gray",
+        "name": "hydration pack",
+        "category": "other",
+        "description": "A slim and lightweight insulated plastic bladder worn on the back.  It has a large pocket and a capped mouth for filling with liquid with a hose that allows the wearer to drink hands-free.",
+        "price": 10000,
+        "weight": 286,
+        "volume": 10,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": -1,
+        "material" : ["cotton", "plastic"],
+        "contains": 8,
+        "armor_data" : {
+        "covers" : ["TORSO"],
+        "coverage" : 15,
+        "material_thickness" : 1,
+        "encumbrance" : 0,
+        "environmental_protection" : 0,
+        "warmth" : 0,
+        "storage" : 4
+        },
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "flags": ["BELTED"]
+    },
+    {
         "id": "jerrycan",
         "type": "CONTAINER",
         "symbol": ")",
