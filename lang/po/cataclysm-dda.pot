@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-16 12:09+0300\n"
+"POT-Creation-Date: 2015-06-22 10:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10742,10 +10742,11 @@ msgid_plural "Integrated Dosimeter CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lang/json/BIONIC_ITEM_from_json.py
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small radiation sensors have been implanted throughout your body, allowing "
-"you to analyze your level of absorbed radiation."
+"you to analyze your level of absorbed radiation.  They will also alert you "
+"whenever exposed to environmental radiation."
 msgstr ""
 
 #: lang/json/BIONIC_ITEM_from_json.py
@@ -30132,6 +30133,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "testgun"
+msgid_plural "testguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A test gun for trying out built-in and default mods, This should NEVER "
+"spawn. If you see this spawn, report it as a bug"
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "SVS-24"
 msgid_plural "SVS-24"
 msgstr[0] ""
@@ -31236,6 +31249,16 @@ msgid "Halves zombie speed."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "StatsThoughSkills"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Allows stats to raise naturally via skill progression. Changes to starting "
+"stats will be disregarded"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Zombie Nightvision"
 msgstr ""
 
@@ -31276,7 +31299,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "An eel."
+msgid ""
+"An American eel. Used to be quite common in these parts until the dams were "
+"built.  Guess they'll get a second chance now that they aren't running."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31286,7 +31311,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A bowfin."
+msgid ""
+"A Bowfin. These fish are related to gar but without the huge teeth, skin "
+"rending scales, and aggression."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31296,7 +31323,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A bullhead."
+msgid "A bullhead, a type of catfish.  Delicious battered and fried."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31306,7 +31333,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A trout."
+msgid ""
+"A trout is a trout, without a doubt.  A fish made popular by father-son "
+"fishing trips, Except for the part where you have to gut it."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31316,7 +31345,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A golden-yellow common carp."
+msgid ""
+"A golden-yellow common carp.  Some people think they don't taste great, but "
+"you can't afford to be choosy in the cataclysm."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31326,7 +31357,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A pike."
+msgid ""
+"A pike.  Pike can be a pretty aggressive fish, careful around those teeth."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31336,7 +31368,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A bluegill."
+msgid ""
+"A bluegill, An invasive species in Japan.  Commonly gutted and cooked whole."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31346,7 +31379,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A smallmouth bass."
+msgid ""
+"A Smallmouth Bass.  Being intolerant to polution in the water, smallmouth "
+"bass are a good indicator of how clean it is.  Just becuase you see them "
+"though, doesnt mean you can drink the water without boiling it first."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31356,7 +31392,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A largemouth bass."
+msgid "A largemouth bass.  Very popular with sports fishermen."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31366,7 +31402,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A striped bass."
+msgid ""
+"A striped bass.  Mostly a salt water fish, they migrate to fresher water to "
+"spawn."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31376,7 +31414,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A small spritely perch."
+msgid ""
+"A small spritely perch.  A very bony fish, still got some tasty meat on it "
+"though."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31386,7 +31426,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A salmon."
+msgid "A salmon. A very fatty, nutricious fish. Tastes great smoked."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31396,7 +31436,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A sunfish."
+msgid ""
+"A sunfish. No, not the giant tropical thing.  This one is a small fish "
+"related to bass or bluegill."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31406,7 +31448,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A whitefish."
+msgid ""
+"A whitefish, closely related to salmon.  One can assume they are just as "
+"nice when cooked with smoke."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31416,7 +31460,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "A pickerel."
+msgid "A pickerel.  It looks like a pike, but much smaller."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -31453,6 +31497,31 @@ msgstr[1] ""
 msgid ""
 "A mutated salmon, the same size as a large dog and quite dangerous to the "
 "inexperienced angler."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "Lobster"
+msgid_plural "Lobsters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"These things were once considered pests not worth eating, then some "
+"marketing genius started selling them to people as a delicacy and they took "
+"off in popularity...  and price."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "Crayfish"
+msgid_plural "Crayfishs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"If you could get ahold of a bunch more of these, a hefty pot of boiling "
+"water, and some spicy seasonings..."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -34083,7 +34152,10 @@ msgid ""
 "The foulest stench is in the air, \n"
 "The funk of forty thousand years, \n"
 "And grisly ghouls from every tomb, \n"
-"Are closing in to seal your doom!"
+"Are closing in to seal your doom!\n"
+"\n"
+"The dancer doens't even notice you, it seems like something nearby is "
+"controlling it."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41734,13 +41806,6 @@ msgid "Integrated Dosimeter"
 msgstr ""
 
 #: lang/json/bionic_from_json.py
-msgid ""
-"Small radiation sensors have been implanted throughout your body, allowing "
-"you to analyze your level of absorbed radiation. They will also alert you "
-"whenever exposed to environmental radiation."
-msgstr ""
-
-#: lang/json/bionic_from_json.py
 msgid "Radiation Scrubber System"
 msgstr ""
 
@@ -42474,6 +42539,22 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Tarp Lean-To"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Wattle-and-Daub Wall"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Thatched Roof"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Repair Wattle-and-Daub Wall"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Fire Ring"
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -44608,12 +44689,14 @@ msgid "fireplace"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 #: src/map.cpp
 msgid "crash!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "whump!"
 msgstr ""
@@ -45005,6 +45088,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "tatami mat"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "fire ring"
 msgstr ""
 
 #: lang/json/hint_from_json.py
@@ -46109,10 +46196,6 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle activate/examine"
-msgstr ""
-
-#: lang/json/keybinding_from_json.py
-msgid "Swap bionic tab view"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/npcmove.cpp
@@ -62430,6 +62513,18 @@ msgstr ""
 msgid "tarp lean-to"
 msgstr ""
 
+#: lang/json/terrain_from_json.py
+msgid "half-built wattle-and-daub wall"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "wattle-and-daub wall"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "broken wattle-and-daub wall"
+msgstr ""
+
 #: lang/json/tool_quality_from_json.py
 msgid "cutting"
 msgstr ""
@@ -65735,7 +65830,8 @@ msgstr ""
 #: src/bionics.cpp
 #, c-format
 msgid ""
-"You can not activate %s!  To read a description of %s, press '!', then '%c'."
+"You can not activate %s!\n"
+"To read a description of %s, press '!', then '%c'."
 msgstr ""
 
 #: src/bionics.cpp
@@ -65756,6 +65852,10 @@ msgstr ""
 #: src/bionics.cpp
 #, c-format
 msgid "Your %s automatically turns off."
+msgstr ""
+
+#: src/bionics.cpp
+msgid "You change your mind and turn it off."
 msgstr ""
 
 #. ~Sound of a bionic sonic-resonator shaking the area
@@ -66696,6 +66796,14 @@ msgid "Logging into %s..."
 msgstr ""
 
 #: src/computer.cpp
+msgid "Access is temporary blocked for security purposes."
+msgstr ""
+
+#: src/computer.cpp
+msgid "Please contact the system administrator."
+msgstr ""
+
+#: src/computer.cpp
 msgid "ERROR!  Access denied!"
 msgstr ""
 
@@ -67317,7 +67425,7 @@ msgid ""
 "  safe procedures and rig the sarcophagus with C-4 as outlined\n"
 "  in Publication 4423.  We will send you orders to either detonate\n"
 "  and seal the sarcophagus or remove the charges.  It is of the\n"
-"  utmost importance that the facility be sealed immediatly when\n"
+"  utmost importance that the facility be sealed immediately when\n"
 "  the orders are given.  We have been alerted by Homeland Security\n"
 "  that there are potential terrorist suspects that are being\n"
 "  detained in connection with the recent national crisis.\n"
@@ -71035,11 +71143,6 @@ msgid "thick fungal haze"
 msgstr ""
 
 #: src/field.cpp
-#, c-format
-msgid "The %s inhales thousands of live spores!"
-msgstr ""
-
-#: src/field.cpp
 msgid "Man, that smells like some good shit!"
 msgstr ""
 
@@ -71734,7 +71837,7 @@ msgid "Spawn a vehicle"
 msgstr ""
 
 #: src/game.cpp
-msgid "Increase all skills"
+msgid "Change all skills"
 msgstr ""
 
 #: src/game.cpp
@@ -77657,6 +77760,10 @@ msgid "Note: "
 msgstr ""
 
 #: src/item.cpp
+msgid "[Integrated]"
+msgstr ""
+
+#: src/item.cpp
 msgid "You know dozens of things you could craft with it."
 msgstr ""
 
@@ -78318,8 +78425,7 @@ msgstr ""
 msgid "Your skin grows warm for a moment."
 msgstr ""
 
-#: src/iuse.cpp src/map.cpp src/monattack.cpp
-#: src/mondeath.cpp src/player.cpp
+#: src/iuse.cpp src/map.cpp
 #, c-format
 msgid "The %s is covered in tiny spores!"
 msgstr ""
@@ -78940,24 +79046,12 @@ msgid "This apple tastes really weird!  You're not sure it's good for you..."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Put the dog food where?"
+#, c-format
+msgid "Put the %s where?"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "The dog seems to like you!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "The %s seems quite unimpressed!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You spill the dog food all over the ground."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Put the cat food where?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -78967,7 +79061,13 @@ msgid ""
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You spill the cat food all over the ground."
+#, c-format
+msgid "The %s seems quite unimpressed!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You spill the %s all over the ground."
 msgstr ""
 
 #: src/iuse.cpp
@@ -79740,27 +79840,7 @@ msgid "You yank the cord, but nothing happens."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Your chainsaw gurgles in the water and stops."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your combat chainsaw growls."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your combat chainsaw goes quiet."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "With a roar, the chainsaw leaps to life!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your chainsaw rumbles."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your chainsaw dies."
 msgstr ""
 
 #: src/iuse.cpp
@@ -79772,14 +79852,6 @@ msgid "You flip the switch, but nothing happens."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Your electric chainsaw rumbles."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your electric chainsaw dies."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "With a roar, the chainsaws leap to life!"
 msgstr ""
 
@@ -79788,27 +79860,11 @@ msgid "You yank the cords, but nothing happens."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Your chainsaws rumble."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your chainsaws die."
-msgstr ""
-
-#: src/iuse.cpp
 msgid "The electric carver's serrated blades start buzzing!"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You pull the trigger but nothing happens."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your electric carver buzzes."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your electric carver dies."
+msgid "You pull the trigger, but nothing happens."
 msgstr ""
 
 #: src/iuse.cpp
@@ -79816,19 +79872,69 @@ msgid "With a roar, the hedge trimmer leaps to life!"
 msgstr ""
 
 #: src/iuse.cpp
+#, c-format
+msgid "Your %s gurgles in the water and stops."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s goes quiet."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "combat chainsaw"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your combat chainsaw growls."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "chainsaw"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your chainsaw rumbles."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "electric chainsaw"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your electric chainsaw rumbles."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "chainsaw lajatang"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your chainsaws rumble."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "electric carver"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your electric carver buzzes."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "hedge trimmer"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Your hedge trimmer rumbles."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Your hedge trimmer dies."
+msgid "circular saw"
 msgstr ""
 
 #: src/iuse.cpp
 msgid "Your circular saw buzzes."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Your circular saw powers off."
 msgstr ""
 
 #. ~ (jacqueshammer) "You can't do that while underwater."
@@ -83641,7 +83747,11 @@ msgstr ""
 msgid "Flat. "
 msgstr ""
 
-#: src/map.cpp src/monattack.cpp src/mondeath.cpp
+#: src/map.cpp
+msgid "The spores land on you, but you quickly swat them off with your tail!"
+msgstr ""
+
+#: src/map.cpp
 msgid "You're covered in tiny spores!"
 msgstr ""
 
@@ -87936,11 +88046,6 @@ msgstr ""
 msgid "Spores are released from the %s!"
 msgstr ""
 
-#: src/monattack.cpp src/mondeath.cpp
-#: src/mondeath.cpp
-msgid "The spores land on you, but you quickly swat them off with your tail!"
-msgstr ""
-
 #: src/monattack.cpp
 #, c-format
 msgid "The %s pulses, and fresh fungal material bursts forth."
@@ -89408,7 +89513,7 @@ msgstr ""
 
 #: src/monster.cpp
 #, c-format
-msgid "The %s climbs to it's feet!"
+msgid "The %s climbs to its feet!"
 msgstr ""
 
 #: src/monster.cpp
@@ -89471,6 +89576,11 @@ msgstr ""
 #: src/monster.cpp
 #, c-format
 msgid "The %s burns horribly in the sunlight!"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "The spores transform %s into a %s!"
 msgstr ""
 
 #: src/mutation.cpp
@@ -95049,8 +95159,8 @@ msgstr ""
 
 #: src/options.cpp
 msgid ""
-"Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor "
-"is hidden on keyboard input and unhidden on mouse movement."
+"Show: Cursor is always shown. Hide: Cursor is hidden. HideKB: Cursor is "
+"hidden on keyboard input and unhidden on mouse movement."
 msgstr ""
 
 #: src/options.cpp
@@ -98854,6 +98964,10 @@ msgid "Remove all"
 msgstr ""
 
 #: src/player.cpp
+msgid "You cannot remove integrated mods."
+msgstr ""
+
+#: src/player.cpp
 #, c-format
 msgid "You remove your %s from your %s."
 msgstr ""
@@ -99434,10 +99548,6 @@ msgstr ""
 #: src/ranged.cpp
 #, c-format
 msgid "Firing %s"
-msgstr ""
-
-#: src/ranged.cpp
-msgid "Firing "
 msgstr ""
 
 #: src/ranged.cpp
@@ -101883,7 +101993,7 @@ msgid "Select a skill to modify"
 msgstr ""
 
 #: src/wish.cpp
-msgid "Set all skills to..."
+msgid "Modify all skills..."
 msgstr ""
 
 #: src/wish.cpp
