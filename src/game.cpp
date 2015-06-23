@@ -8425,7 +8425,7 @@ void game::zones_manager()
             wrefresh(w_zones_info);
 
             tripoint first = look_around( w_zones_info, u.pos3() + u.view_offset, false, true );
-            tripoint second = tripoint( -1, -1, INT_MIN );
+            tripoint second = tripoint_min;
 
             if( first != tripoint_min ) {
                 mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
@@ -8452,12 +8452,12 @@ void game::zones_manager()
 
                 zones.zones[active_index].set_name();
                 zones.zones[active_index].set_type();
+                stuff_changed = true;
             }
 
             draw_ter();
             blink = false;
             redraw_info = true;
-            stuff_changed = true;
 
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
             zones_manager_shortcuts(w_zones_info);
