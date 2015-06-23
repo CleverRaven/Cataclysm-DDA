@@ -44,3 +44,5 @@ $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean check tests
+
+.SECONDARY: $(OBJS)
