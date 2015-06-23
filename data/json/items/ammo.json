@@ -4410,6 +4410,31 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 1
+    },
+    {   "type" : "AMMO",
+        "id" : "gas_fungicidal",
+        "category" : "chems",
+        "price" : 1200,
+        "name" : "sprayable fungicide",
+        "symbol" : "=",
+        "color" : "yellow",
+        "description" : "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.",
+        "material" : "hydrocarbons",
+        "volume" : 1,
+        "weight" : 1,
+        "phase" : "liquid",
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "gas_fungicidal",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 4,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 100,
+        "effects" : [ "GAS_FUNGICIDAL", "STREAM_GAS", "NEVER_MISFIRES"]
     }
 
 ]

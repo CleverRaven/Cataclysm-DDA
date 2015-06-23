@@ -431,5 +431,11 @@
         "name" : "semi-charred fuel",
         "default" : "unfinished_charcoal"
     }
+	{
+		"type" : "ammunition_type",
+		"id" : "gas_fungicidal",
+		"name" : "fungicidal gas",
+		"default" : "gas_fungicidal"
+	}
 
 ]
