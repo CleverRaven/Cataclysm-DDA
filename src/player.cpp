@@ -11227,9 +11227,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
         for (size_t i = 0; i < mods.size(); i++) {
-            if( mods[i].has_flag("IRREMOVABLE") ){
-                //kmenu.addentry( i, true, -1, "[i]"+mods[i].tname() );
-            } else {
+            if( !mods[i].has_flag("IRREMOVABLE") ){
                 kmenu.addentry( i, true, -1, mods[i].tname() );
             }
         }
@@ -11240,13 +11238,8 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
         if (choice < int(mods.size())) {
             const std::string mod = used->contents[choice].tname();
-
-            if( used->contents[choice].has_flag("IRREMOVABLE") ){
-                add_msg(_("You cannot remove integrated mods.") );
-            } else{
-                remove_gunmod(used, unsigned(choice));
-                add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
-            }
+            remove_gunmod(used, unsigned(choice));
+            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
         } else if (choice == int(mods.size())) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
                 if( !used->contents[i].has_flag("IRREMOVABLE") ){
