@@ -5122,17 +5122,19 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref(p.z);
+    bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
     const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
+
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
     if( dist > g->u.unimpaired_range() ) {
-        if( map_cache.sm[p.x][p.y] > 0.0 ) {
+        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0) {
             return LL_BRIGHT_ONLY;
         } else {
             return LL_DARK;
         }
     }
-    if( map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+    if( obstructed ) {
         if( apparent_light > LIGHT_AMBIENT_LIT ) {
             if( apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
