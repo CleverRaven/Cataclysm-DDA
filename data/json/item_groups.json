@@ -3026,8 +3026,7 @@
       ["large_repairkit", 1],
       ["improve_sights", 20],
       ["survnote", 1],
-      ["shoulder_strap", 24],
-      ["emas",1]
+      ["shoulder_strap", 24]
     ]
   },{
     "type" : "item_group",
@@ -3145,8 +3144,7 @@
       ["tuned_mechanism", 10],
       ["match_trigger", 15],
       ["recoil_stock", 15],
-      ["improve_sights", 40],
-      ["emas",3]
+      ["improve_sights", 40]
     ]
   },{
     "type" : "item_group",
@@ -5091,8 +5089,7 @@
       ["rail_laser_sight", 10],
       ["rifle_scope", 17],
       ["pistol_scope", 14],
-      ["improve_sights", 20],
-      ["emas",3]
+      ["improve_sights", 20]
     ]
   },{
     "type" : "item_group",
@@ -6655,8 +6652,7 @@
       ["20x66_flechette", 3],
       ["waterproof_gunmod", 2],
       ["improve_sights", 5],
-      ["rm11b_sniper_rifle", 1],
-      ["emas", 2]
+      ["rm11b_sniper_rifle", 1]
     ]
   },{
     "type" : "item_group",
@@ -8147,8 +8143,7 @@
       ["rm11b_sniper_rifle", 1],
       ["shoulder_strap", 16],
       ["bot_manhack", 1],
-      ["bot_grenade_hack", 1],
-      ["emas",1]
+      ["bot_grenade_hack", 1]
     ]
   },{
     "type" : "item_group",
