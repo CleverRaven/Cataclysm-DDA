@@ -3221,7 +3221,9 @@ void item::set_auxiliary_mode()
 
 std::string item::get_gun_mode() const
 {
-    return get_var( GUN_MODE_VAR_NAME, "NULL" );
+    // has_flag() calls get_gun_mode(), so this:
+    const std::string default_mode = type->item_tags.count( "BURST_ONLY" ) ? "MODE_BURST" : "NULL";
+    return get_var( GUN_MODE_VAR_NAME, default_mode );
 }
 
 void item::set_gun_mode( const std::string &mode )
