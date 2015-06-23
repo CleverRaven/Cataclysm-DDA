@@ -1214,7 +1214,7 @@ public:
 
  int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
- int get_gun_ups_drain(); 
+ int get_gun_ups_drain() const; 
 };
 
 bool item_compare_by_charges( const item& left, const item& right);

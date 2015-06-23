@@ -5130,7 +5130,7 @@ itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
 }
-int item::get_gun_ups_drain()
+int item::get_gun_ups_drain() const
 {
     int draincount = 0;
     if( type->gun.get() != nullptr ){
