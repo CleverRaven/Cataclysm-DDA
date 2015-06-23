@@ -2325,12 +2325,11 @@ void mattack::tentacle(monster *z, int index)
 
 void mattack::ranged_pull(monster *z, int index)
 {
-    int t;
+    int t = 0;
     int t2 = 0;
     Creature *target = z->attack_target();
-    monster *zz = dynamic_cast<monster*>(target);
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
-            || rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees(*target, t)) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
+        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target, t ) ) {
         return;
     }
 
@@ -2338,63 +2337,61 @@ void mattack::ranged_pull(monster *z, int index)
     std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, t2 );
     bool seen = g->u.sees( *z );
 
-    z->reset_special(index); // Reset timer
-    z->moves -= 150;
-
-    for (auto &i : line){
-        const ter_t &terrain = g->m.ter_at(i);
-        //Player can't be pulled though bars
-        if (terrain.movecost == 0 ){
-            add_msg( _("The %s flings its arms at you, but they bounce off the %s"), z->name().c_str(), terrain.name.c_str() );
+    for( auto &i : line ) {
+        // Player can't be pulled though bars, furniture, cars or creatures
+        // TODO: Add bashing? Currently a window is enough to prevent grabbing
+        if( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) {
             return;
         }
     }
-    bool uncanny = target->uncanny_dodge();
 
+    z->reset_special(index); // Reset timer
+    z->moves -= 150;
+
+    const bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check(z, target) ) {
-        z->moves -=200;
+        z->moves -= 200;
         auto msg_type = foe == &g->u ? m_warning : m_info;
-        if( foe != nullptr ) {
-            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
-                                                    _("The %s's arms fly out at <npcname>, but they dodge!"),
-                                        z->name().c_str() );
+        target->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
+                                                 _("The %s's arms fly out at <npcname>, but they dodge!"),
+                                       z->name().c_str() );
 
-        }
-        else if( !uncanny ) {
+        if( !uncanny ) {
             target->on_dodge( z, z->type->melee_skill * 2 );
         }
-        else {
-            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but them miss you!"),
-                                        _("The %s's arms fly out at <npcname>, but they miss!"),
-                                z->name().c_str() );
-        }
+
         return;
     }
 
-    const int dir = g->m.coord_to_angle( z->posx(), z->posy(), target->posx(), target->posy() ); //Orientation of where you'll end up
-    tileray tdir(dir);
-    int range = (z->type->melee_sides * z->type->melee_dice) / 10;
+    // Limit the range in case some weird math thing would cause the target to fly past us
+    int range = std::min( (z->type->melee_sides * z->type->melee_dice) / 10,
+                          rl_dist( z->pos(), target->pos() ) + 1 );
     tripoint pt = target->pos();
-    while (range > 0) {
-        if( foe != nullptr ) {
+    while( range > 0 ) {
+        // Recalculate the ray each step
+        // We can't depend on either the target position being constant (obviously),
+        // but neither on z pos staying constant, because we may want to shift the map mid-pull
+        const int dir = g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() );
+        tileray tdir(dir);
         tdir.advance();
-        pt.x = z->posx() + tdir.dx();
-        pt.y = z->posy() + tdir.dy();
-        if (!g->is_empty(pt)){ //Cancel the grab if the space is occupied by something
+        pt.x = target->posx() + tdir.dx();
+        pt.y = target->posy() + tdir.dy();
+        if( !g->is_empty( pt ) ) { //Cancel the grab if the space is occupied by something
             break;
         }
-        if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
-            pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-            g->update_map( pt.x, pt.y );
+
+        if( foe != nullptr ) {
+            if( foe->in_vehicle ) {
+                g->m.unboard_vehicle( foe->pos() );
+            }
+
+            if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
+                pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                g->update_map( pt.x, pt.y );
+            }
         }
-        if (foe->in_vehicle) {
-            g->m.unboard_vehicle(foe->pos());
-        }
-        foe->setpos( pt );
-    }
-    else {
-        zz->setpos( pt );
-    }
+
+        target->setpos( pt );
         range--;
         if( target->is_player() && seen ) {
             g->draw();
@@ -2403,7 +2400,8 @@ void mattack::ranged_pull(monster *z, int index)
     if( seen ) {
         add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
-    int prev_effect = target->get_effect_int("grabbed");
+
+    const int prev_effect = target->get_effect_int("grabbed");
     target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
 }
 
@@ -2419,8 +2417,8 @@ void mattack::grab(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     z->moves -= 80;
-    bool uncanny = target->uncanny_dodge();
-    auto msg_type = target == &g->u ? m_warning : m_info;
+    const bool uncanny = target->uncanny_dodge();
+    const auto msg_type = target == &g->u ? m_warning : m_info;
     if( uncanny || dodge_check(z, target) ){
         target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
                                             _("The %s gropes at <npcname>, but they dodge!"),
@@ -2429,7 +2427,8 @@ void mattack::grab(monster *z, int index)
         if( !uncanny ) {
             target->on_dodge( z, z->type->melee_skill * 2 );
         }
-    return;
+
+        return;
     }
 
     if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
@@ -2443,10 +2442,11 @@ void mattack::grab(monster *z, int index)
         }
         return;
     }
-    int prev_effect = target->get_effect_int("grabbed");
+
+    const int prev_effect = target->get_effect_int("grabbed");
     target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 1);
-    target->add_msg_player_or_npc(m_bad, _("The %s grabs you!"), _("The %s grabs <npcname>!"),
-                                z->name().c_str());
+    target->add_msg_player_or_npc( m_bad, _("The %s grabs you!"), _("The %s grabs <npcname>!"),
+                                   z->name().c_str() );
 }
 
 void mattack::grab_drag(monster *z, int index)
