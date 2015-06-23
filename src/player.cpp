@@ -3658,7 +3658,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (morale_cur > -100) morale_str = "):";
     else if (morale_cur > -200) morale_str = "D:";
     else                        morale_str = "D8";
-    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
+    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str);
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -3712,18 +3712,21 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
 
   if (veh->velocity != 0) {
-   const int offset_from_screen_edge = sideStyle ? 11 : 3;
+   const int offset_from_screen_edge = sideStyle ? 13 : 8;
    nc_color col_indc = veh->skidding? c_red : c_green;
    int dfm = veh->face.dir() - veh->move.dir();
-   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - offset_from_screen_edge);
-   wprintz(w, col_indc, dfm <  0 ? "L" : ".");
-   wprintz(w, col_indc, dfm == 0 ? "0" : ".");
-   wprintz(w, col_indc, dfm >  0 ? "R" : ".");
+   wmove(w, sideStyle ? 4 : 3, getmaxx(w) - offset_from_screen_edge);
+   if (dfm == 0)
+     wprintz(w, col_indc, "^");
+   else if (dfm < 0)
+     wprintz(w, col_indc, "<");
+   else
+     wprintz(w, col_indc, ">");
   }
 
   if( sideStyle ) {
       // Make sure this is left-aligned.
-      mvwprintz(w, speedoy, getmaxx(w) - 7, c_white, "%s", "St");
+      mvwprintz(w, speedoy, getmaxx(w) - 9, c_white, "%s", _("Stm "));
       print_stamina_bar(w);
   }
  } else {  // Not in vehicle
@@ -3755,18 +3758,18 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
   if (spd_bonus > 0)
    col_spd = c_green;
 
-    int x  = sideStyle ? 19 : 13;
+    int x  = sideStyle ? 18 : 12;
     int y  = sideStyle ?  0 :  3;
-    int dx = sideStyle ?  0 :  6;
+    int dx = sideStyle ?  0 :  7;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), str_cur );
-    mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), dex_cur );
-    mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), int_cur );
-    mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), per_cur );
+    mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _("Str %d"), str_cur );
+    mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _("Dex %d"), dex_cur );
+    mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _("Int %d"), int_cur );
+    mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _("Per %d"), per_cur );
 
-    int spdx = sideStyle ?  0 : x + dx * 4;
+    int spdx = sideStyle ?  0 : x + dx * 4 + 1;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd%3d"), get_speed());
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd %d"), get_speed());
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
@@ -3777,11 +3780,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
             col_time = c_dkgray_red;
         }
     }
-    wprintz(w, col_time, " %3d", movecounter);
+    wprintz(w, col_time, " %d", movecounter);
 
-    wprintz(w, c_white, " %5s", _(move_mode.c_str()));
+    wprintz(w, c_white, " %s", move_mode == "walk" ? _("W") : _("R"));
     if( sideStyle ) {
-        wprintz(w, c_white, " St");
+        mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
         print_stamina_bar(w);
     }
  }
