@@ -7398,7 +7398,7 @@ void player::hardcoded_effects(effect &it)
                     woke_up = true;
                 }
             } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-                add_msg(_("It's too bright to sleep."));
+                add_msg_if_player(_("It's too bright to sleep."));
                 // Set ourselves up for removal
                 it.set_duration(0);
                 woke_up = true;
