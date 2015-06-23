@@ -1422,13 +1422,15 @@ void cata_tiles::draw_custom_explosion_frame()
 {
     // TODO: Make the drawing code handle all the missing tiles: <^>v and *
     // TODO: Add more explosion tiles, like "strong explosion", so that it displays more info
-    std::string exp_name = "explosion";
+    static const std::string exp_strong = "explosion";
+    static const std::string exp_medium = "explosion_medium";
+    static const std::string exp_weak = "explosion_weak";
     int subtile = 0;
     int rotation = 0;
     for( const auto &pr : custom_explosion_layer ) {
         const point &p = pr.first;
         const explosion_neighbors ngh = pr.second.neighborhood;
-        // const nc_color col = pr.second.color;
+        const nc_color col = pr.second.color;
 
         switch( ngh ) {
         case N_NORTH:
@@ -1478,7 +1480,13 @@ void cata_tiles::draw_custom_explosion_frame()
             break;
         }
 
-        draw_from_id_string( exp_name, p.x, p.y, subtile, rotation );
+        if( col == c_red ) {
+            draw_from_id_string( exp_strong, p.x, p.y, subtile, rotation );
+        } else if( col == c_yellow ) {
+            draw_from_id_string( exp_medium, p.x, p.y, subtile, rotation );
+        } else {
+            draw_from_id_string( exp_weak, p.x, p.y, subtile, rotation );
+        }
     }
 }
 void cata_tiles::draw_bullet_frame()
