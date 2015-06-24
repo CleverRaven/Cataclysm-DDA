@@ -6760,7 +6760,7 @@
       ["welder", 400],
       ["welder_crude", 550],
       ["toolset", 550]
-    ],
+    ]
   ],
   "components": [
     [
@@ -6779,7 +6779,7 @@
       [ "steel_lump", 1],
       [ "steel_chunk", 4],
       [ "scrap", 12]
-    ],
+    ]
   ]
 }
 ]
