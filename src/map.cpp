@@ -2375,6 +2375,7 @@ void map::decay_fields_and_scent( const int amount )
                                 break;
                             case fd_smoke:
                             case fd_toxic_gas:
+                            case fd_fungicidal_gas:
                             case fd_tear_gas:
                             case fd_nuke_gas:
                             case fd_cigsmoke:

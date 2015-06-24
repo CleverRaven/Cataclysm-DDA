@@ -325,7 +325,7 @@ void game::init_fields()
             {0,0,0}
         },
 
-		{
+        {
             "fd_fungicidal_gas",
             {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(30),
@@ -1670,14 +1670,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
                     case fd_fungicidal_gas:
-                        dirty_transparency_cache = true;
-                        //spread the chemical agent as fast as air would
-                        spread_gas( cur, p, curtype, 60, 40 );
-                        //check the terrain and replace it accordingly to simulate the fungus dieing off
-                        const auto &ter = map_tile.get_ter_t();
-                        if( ter.has_flag( "FUNGUS" ) ) {
-                            ter_set( p, t_dirt );
-                            furn_set( p, f_null );
+                        {
+                            dirty_transparency_cache = true;
+                            //spread the chemical agent as fast as smoke would
+                            spread_gas( cur, p, curtype, 80, 40 );
+                            //check the terrain and replace it accordingly to simulate the fungus dieing off
+                            const auto &ter = map_tile.get_ter_t();
+                            if( ter.has_flag( "FUNGUS" ) ) {
+                                ter_set( p, t_dirt );
+                                furn_set( p, f_null );
+                            }
                         }
                         break;
 
@@ -2091,14 +2093,14 @@ void map::player_in_field( player &u )
             }
             break;
 
-		case fd_fungicidal_gas:
-			// Fungicidal gas makes you cough.
+        case fd_fungicidal_gas:
+            // Fungicidal gas makes you cough.
             // Thick fungicidal gas has a chance to poison you.
             {
                 bool inhaled = false;
                 if( cur->getFieldDensity() == 3 && !inside ) {
                     inhaled = u.add_env_effect("poison", bp_mouth, 5, 30);
-				} else if( cur->getFieldDensity() == 2 && !inside ) {
+                } else if( cur->getFieldDensity() == 2 && !inside ) {
                     inhaled = u.add_env_effect("smoke", bp_mouth, 2, 7);
                 }
                 if( inhaled ) {
@@ -2405,13 +2407,13 @@ void map::monster_in_field( monster &z )
             }
             break;
 
-		case fd_fungicidal_gas:
-			if( z.type->in_species("FUNGUS") ) {
-				const int density = cur->getFieldDensity();
-				z.moves -= rng( 10 * density, 30 * density );
-				dam += rng( 10, 15 * density );
-			}
-			break;
+        case fd_fungicidal_gas:
+            if( z.type->in_species("FUNGUS") ) {
+                const int density = cur->getFieldDensity();
+                z.moves -= rng( 10 * density, 30 * density );
+                dam += rng( 10, 15 * density );
+            }
+            break;
 
         default:
             //Suppress warnings
