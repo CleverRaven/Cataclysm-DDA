@@ -497,6 +497,10 @@ bool veh_interact::can_install_part(int msg_width){
         return false;
     }
 
+    if( g->u.has_trait("DEBUG_HS") ) {
+        return true;
+    }
+
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     //count current engines, muscle engines don't require higher skill
@@ -1023,6 +1027,9 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         }
         wrefresh (w_msg);
+        if (g->u.has_trait("DEBUG_HS")) {
+            return true;
+        }
         //check if have all necessary materials
         if (has_skill && ((is_wheel && has_wrench && has_jack) ||
                             (is_wrenchable && has_wrench) ||
@@ -1264,6 +1271,9 @@ int veh_interact::part_at (int dx, int dy)
  */
 bool veh_interact::can_currently_install(const vpart_info &vpart)
 {
+    if (g->u.has_trait("DEBUG_HS")) {
+        return true;
+    }
     bool has_comps = crafting_inv.has_components(vpart.item, 1);
     bool has_skill = g->u.skillLevel("mechanics") >= vpart.difficulty;
     bool is_wheel = vpart.has_flag("WHEEL");
@@ -1929,6 +1939,11 @@ item consume_vpart_item( const vpart_str_id &vpid )
 {
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
+
+    if(g->u.has_trait("DEBUG_HS")) {
+        return item(itid, calendar::turn);
+    }
+
     inventory map_inv;
     map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
 
@@ -1973,6 +1988,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
         long quantity = 1;
         item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
     }
+    remove_ammo( item_used, g->u );
 
     return item_used.front();
 }
@@ -2224,7 +2240,7 @@ void complete_vehicle ()
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
             used_item = consume_vpart_item (veh->parts[vehicle_part].get_id());
-            veh->parts[vehicle_part].bigness = used_item.bigness;
+            veh->parts[vehicle_part].properties_from_item( used_item );
             dd = 0;
             veh->insides_dirty = true;
         } else {

@@ -25,6 +25,7 @@
 #include "omdata.h"
 #include "submap.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -322,6 +323,9 @@ void map::vehmove()
             vehicle *veh = vehs_v.v;
             veh->gain_moves();
             veh->slow_leak();
+            if ( veh->velocity < 0) {
+                veh->beeper_sound();
+            }
         }
     }
 
@@ -600,11 +604,11 @@ const vehicle *map::vehproceed()
                 }
                 epicenter1.x += veh->parts[parm1].mount.x;
                 epicenter1.y += veh->parts[parm1].mount.y;
-                veh->damage(parm1, dmg1_part, 1);
+                veh->damage( parm1, dmg1_part, DT_BASH );
 
                 epicenter2.x += veh2->parts[parm2].mount.x;
                 epicenter2.y += veh2->parts[parm2].mount.y;
-                veh2->damage(parm2, dmg2_part, 1);
+                veh2->damage( parm2, dmg2_part, DT_BASH );
             }
         }
         epicenter1.x /= coll_parts_cnt;
@@ -615,7 +619,7 @@ const vehicle *map::vehproceed()
 
         if (dmg2_part > 100) {
             // shake veh because of collision
-            veh2->damage_all(dmg2_part / 2, dmg2_part, 1, epicenter2);
+            veh2->damage_all(dmg2_part / 2, dmg2_part, DT_BASH, epicenter2);
         }
 
         dmg_1 += dmg1_part;
@@ -644,7 +648,7 @@ const vehicle *map::vehproceed()
         const point collision_point = veh->parts[veh_misc_coll.part].mount;
         int coll_dmg = veh_misc_coll.imp;
         //Shock damage
-        veh->damage_all(coll_dmg / 2, coll_dmg, 1, collision_point);
+        veh->damage_all(coll_dmg / 2, coll_dmg, DT_BASH, collision_point);
     }
 
     int coll_turn = 0;
@@ -720,7 +724,7 @@ const vehicle *map::vehproceed()
 
     // now we're gonna handle traps we're standing on (if we're still moving).
     // this is done here before displacement because
-    // after displacement veh reference would be invdalid.
+    // after displacement veh reference would be invalid.
     // damn references!
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
@@ -1708,6 +1712,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( from.z == to.z ) {
         return bash || move_cost( to ) > 0;
+    } else if( !zlevels ) {
+        return false;
     }
 
     const bool going_up = from.z < to.z;
@@ -1728,9 +1734,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return false;
     }
 
-    if( ( !flying || down_ter.has_flag( TFLAG_INDOORS ) ) &&
-        !down_ter.has_flag( TFLAG_GOES_UP ) ) {
-        // Can't safely (or at all - because ceiling) reach the lower tile
+    if( !flying && !down_ter.has_flag( TFLAG_GOES_UP ) ) {
+        // Can't safely reach the lower tile
         return false;
     }
 
@@ -1744,6 +1749,31 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 }
 
 // End of move cost
+
+int map::climb_difficulty( const tripoint &p ) const
+{
+    if( p.z > OVERMAP_HEIGHT || p.z < -OVERMAP_DEPTH ) {
+        debugmsg( "climb_difficulty on out of bounds point: %d, %d, %d", p.x, p.y, p.z );
+        return INT_MAX;
+    }
+
+    int best_difficulty = INT_MAX;
+    int blocks_movement = 0;
+    for( const auto &pt : points_in_radius( p, 1 ) ) {
+        if( move_cost( pt ) == 0 ) {
+            // TODO: Non-hardcoded climbability
+            best_difficulty = std::min( best_difficulty, 10 );
+            blocks_movement++;
+        }
+
+        if( has_flag( "CLIMBABLE", pt ) ) {
+            best_difficulty = std::min( best_difficulty, 5 );
+        }
+    }
+
+    // TODO: Make this more sensible - check opposite sides, not just movement blocker count
+    return best_difficulty - blocks_movement;
+}
 
 // 2D flags
 
@@ -2080,6 +2110,16 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 }
 
 // End of 3D bashable
+
+void map::make_rubble( const tripoint &p )
+{
+    make_rubble( p, f_rubble, false, t_dirt, false );
+}
+
+void map::make_rubble( const tripoint &p, const furn_id rubble_type, const bool items )
+{
+    make_rubble( p, rubble_type, items, t_dirt, false );
+}
 
 void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
@@ -2447,60 +2487,62 @@ void map::mop_spills( const tripoint &p ) {
     }
 }
 
+void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
+{
+    int mondex = g->mon_at( sporep );
+    if( mondex != -1 ) { // Spores hit a monster
+        if( g->u.sees(sporep) &&
+            !g->zombie(mondex).type->in_species("FUNGUS")) {
+            add_msg(_("The %s is covered in tiny spores!"),
+                    g->zombie(mondex).name().c_str());
+        }
+        monster &critter = g->zombie( mondex );
+        if( !critter.make_fungus() ) {
+            // Don't insta-kill non-fungables. Jabberwocks, for example
+            critter.add_effect( "stunned", rng( 1, 3 ) );
+            critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
+        }
+    } else if( g->u.pos() == sporep ) {
+        player &pl = g->u; // TODO: Make this accept NPCs when they understand fungals
+        if( pl.has_trait("TAIL_CATTLE") &&
+            one_in( 20 - pl.dex_cur - pl.skillLevel("melee") ) ) {
+            pl.add_msg_if_player( _("The spores land on you, but you quickly swat them off with your tail!" ) );
+            return;
+        }
+        // Spores hit the player--is there any hope?
+        bool hit = false;
+        hit |= one_in(4) && pl.add_env_effect("spores", bp_head, 3, 90, bp_head);
+        hit |= one_in(2) && pl.add_env_effect("spores", bp_torso, 3, 90, bp_torso);
+        hit |= one_in(4) && pl.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l);
+        hit |= one_in(4) && pl.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r);
+        hit |= one_in(4) && pl.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l);
+        hit |= one_in(4) && pl.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r);
+        if( hit ) {
+            add_msg(m_warning, _("You're covered in tiny spores!"));
+        }
+    } else if( g->num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
+        if( g->summon_mon( "mon_spore", sporep ) ) {
+            monster *spore = g->monster_at(sporep);
+            monster *origin_mon = dynamic_cast<monster*>( origin );
+            if( origin_mon != nullptr ) {
+                spore->make_ally( origin_mon );
+            } else if( origin != nullptr && origin->is_player() && g->u.has_trait("THRESH_MYCUS") ) {
+                spore->friendly = 1000;
+            }
+        }
+    } else {
+        g->spread_fungus( sporep );
+    }
+}
+
 void map::create_spores( const tripoint &p, Creature* source )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
-    // TODO: Infect NPCs?
-    monster spore(GetMType("mon_spore"));
-    int mondex;
     tripoint tmp = p;
     int &i = tmp.x;
     int &j = tmp.y;
-    for( i = x - 1; i <= x + 1; i++ ) {
-        for( j = y - 1; j <= y + 1; j++ ) {
-            mondex = g->mon_at( tmp );
-            if (move_cost( tmp ) > 0 || (i == x && j == y)) {
-                if (mondex != -1) { // Spores hit a monster
-                    if (g->u.sees( tmp ) &&
-                        !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( source ); // counts as kill by player
-                    }
-                } else if (g->u.posx() == i && g->u.posy() == j) {
-                    // Spores hit the player
-                    bool hit = false;
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
-                        hit = true;
-                    }
-                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
-                        hit = true;
-                    }
-                    if (hit) {
-                        add_msg(m_warning, _("You're covered in tiny spores!"));
-                    }
-                } else if (((i == x && j == y) || one_in(4)) &&
-                           g->num_zombies() <= 1000) { // Spawn a spore
-                    g->summon_mon("mon_spore", tripoint(i, j, p.z));
-                }
-            }
+    for( i = p.x - 1; i <= p.x + 1; i++ ) {
+        for( j = p.y - 1; j <= p.y + 1; j++ ) {
+            fungalize( tmp, source, 0.25 );
         }
     }
 }
@@ -3012,7 +3054,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
     int vpart;
     vehicle *veh = veh_at( p, vpart );
     if( veh != nullptr && veh != bashing_vehicle ) {
-        veh->damage( vpart, str, 1 );
+        veh->damage( vpart, str, DT_BASH );
         if( !silent ) {
             sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
         }
@@ -3137,7 +3179,7 @@ void map::crush( const tripoint &p )
 
     vehicle *veh = veh_at(p, veh_part);
     if (veh) {
-        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), 1, false);
+        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), DT_BASH, false);
     }
 }
 
@@ -3161,7 +3203,7 @@ void map::shoot( const tripoint &p, int &dam,
     if (veh)
     {
         const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
-        dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
+        dam = veh->damage (vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items);
     }
 
     ter_id terrain = ter( p );
@@ -4029,7 +4071,9 @@ bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_rad
             }
         }
         if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
-            add_item( p_it, new_item );
+            if( !( new_item.has_flag("IRREMOVABLE") && !new_item.is_gun() ) ){
+                add_item( p_it, new_item );
+            }
             return true;
         }
     }
@@ -5078,17 +5122,19 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref(p.z);
+    bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
     const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
+
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
     if( dist > g->u.unimpaired_range() ) {
-        if( map_cache.sm[p.x][p.y] > 0.0 ) {
+        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0) {
             return LL_BRIGHT_ONLY;
         } else {
             return LL_DARK;
         }
     }
-    if( map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+    if( obstructed ) {
         if( apparent_light > LIGHT_AMBIENT_LIT ) {
             if( apparent_light > cache.g_light_level ) {
                 // This represents too hazy to see detail,
@@ -6774,7 +6820,7 @@ void map::draw_fill_background(std::string type) {
 void map::draw_fill_background(ter_id (*f)()) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
-void map::draw_fill_background(const id_or_id & f) {
+void map::draw_fill_background(const id_or_id<ter_t> & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
 
@@ -6808,10 +6854,10 @@ void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
     }
 }
 
-void map::draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2) {
+void map::draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
     for (int x = x1; x <= x2; x++) {
         for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, ter_id( f.get() ) ); // TODO: make id_or_id templated on the identified type
+            ter_set(x, y, f.get() );
         }
     }
 }

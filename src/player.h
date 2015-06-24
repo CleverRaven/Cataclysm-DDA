@@ -157,10 +157,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_morale();
         /** Print the bars indicating how well the player is currently aiming.**/
         int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
-        /** Print just the gun mode indicator. **/
-        void print_gun_mode( WINDOW *w, nc_color c );
-        /** Print just the colored recoil indicator. **/
-        void print_recoil( WINDOW *w ) const;
+        /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
+        std::string print_gun_mode();
+        /** Returns the colored recoil indicator (contains color-tags). **/
+        std::string print_recoil() const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 
@@ -326,6 +326,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
+	 * As above, but includes all creatures the player can detect well enough to target
+	 * with ranged weapons, e.g. with infared vision.
+         */
+        std::vector<Creature*> get_targetable_creatures( int range ) const;
+        /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
          * And of course a line of sight exists.
@@ -486,6 +491,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
         int dodge_roll() override;
+        
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         int get_melee() const override;
         /**
@@ -506,8 +512,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
@@ -616,7 +630,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wields an item, returns false on failed wield */
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
-        void pick_style();
+        bool pick_style();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */

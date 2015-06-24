@@ -16,6 +16,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1092,8 +1093,8 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         int amount = salvaged.second;
         item result( mat_name, int(calendar::turn) );
         if (amount > 0) {
-            add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
-                     amount, result.display_name().c_str() );
+            add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount),
+                     amount, result.display_name( amount ).c_str() );
             if( pos != INT_MIN ) {
                 p->i_add_or_drop(result, amount);
             } else {

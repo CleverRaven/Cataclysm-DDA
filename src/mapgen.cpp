@@ -18,6 +18,9 @@
 #include "translations.h"
 #include "trap.h"
 #include "submap.h"
+#include "mapdata.h"
+#include "overmap.h"
+#include "mapgen_functions.h"
 
 #include <algorithm>
 #include <cassert>
@@ -45,7 +48,6 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
-map_extra random_map_extra(map_extras);
 
 room_type pick_mansion_room(int x1, int y1, int x2, int y2);
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
@@ -107,9 +109,18 @@ void map::generate(const int x, const int y, const int z, const int turn)
     draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
              t_above, turn, density, z, rsettings);
 
-    map_extras ex = get_extras(otermap[terrain_type].extras);
-    if ( one_in( ex.chance )) {
-        add_extra( random_map_extra( ex ));
+    // At some point, we should add region information so we can grab the appropriate extras
+    map_extras ex = region_settings_map["default"].region_extras[otermap[terrain_type].extras];
+    if ( ex.chance > 0 && one_in( ex.chance )) {
+        std::string* extra = ex.values.pick();
+        if(extra == NULL) {
+            debugmsg("failed to pick extra for type %s", otermap[terrain_type].extras.c_str());
+        } else {
+            auto func = MapExtras::get_function(*(ex.values.pick()));
+            if(func != NULL) {
+                func(*this, abs_sub);
+            }
+        }
     }
 
     const overmap_spawns &spawns = terrain_type.t().static_spawns;
@@ -151,6 +162,11 @@ void map::generate(const int x, const int y, const int z, const int turn)
             }
         }
     }
+}
+
+void mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
+{
+    (*fptr)( m, o, mgd, i, d );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -345,6 +361,21 @@ bool mapgen_function_json::check_inbounds( const jmapgen_int & var ) const {
     }
     return true;
 }
+
+mapgen_function_json::mapgen_function_json( std::string s, int const w )
+: mapgen_function( w )
+, jdata( std::move( s ) )
+, mapgensize( 24 )
+, fill_ter( t_null )
+, format()
+, setmap_points()
+, do_format( false )
+, is_ready( false )
+, objects()
+, rotation( 0 )
+{
+}
+
 #define inboundchk(v,j) if (! check_inbounds(v) ) { j.throw_error(string_format("Value must be between 0 and %d",mapgensize)); }
 
 jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
@@ -381,6 +412,11 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag, const short de
     } else if( jo.has_member( tag ) ) {
         val = valmax = jo.get_int( tag );
     }
+}
+
+int jmapgen_int::get() const
+{
+    return val == valmax ? val : rng( val, valmax );
 }
 
 /*
@@ -879,6 +915,40 @@ public:
         m.ter_set( x, y, id );
     }
 };
+/**
+ * Calls @ref map::make_rubble to create rubble and destroy the existing terrain/furniture.
+ * See map::make_rubble for explanation of the parameters.
+ */
+class jmapgen_make_rubble : public jmapgen_piece {
+public:
+    furn_id rubble_type = f_rubble;
+    bool items = false;
+    ter_id floor_type = t_dirt;
+    bool overwrite = false;
+    jmapgen_make_rubble( JsonObject &jsi ) : jmapgen_piece()
+    {
+        if( jsi.has_string( "rubble_type" ) ) {
+            const auto iter = furnmap.find( jsi.get_string( "rubble_type" ) );
+            if( iter == furnmap.end() ) {
+                jsi.throw_error( "unknown furniture type", "rubble_type" );
+            }
+            rubble_type = iter->second.loadid;
+        }
+        jsi.read( "items", items );
+        if( jsi.has_string( "floor_type" ) ) {
+            const auto iter = termap.find( jsi.get_string( "floor_type" ) );
+            if( iter == termap.end() ) {
+                jsi.throw_error( "unknown terrain type", "floor_type" );
+            }
+            floor_type = iter->second.loadid;
+        }
+        jsi.read( "overwrite", overwrite );
+    }
+    void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
+    {
+        m.make_rubble( tripoint( x, y, m.get_abs_sub().z ), rubble_type, items, floor_type, overwrite );
+    }
+};
 
 void jmapgen_objects::add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece)
 {
@@ -1154,6 +1224,7 @@ bool mapgen_function_json::setup() {
             load_place_mapings<jmapgen_monster>( jo, "monster", format_placings );
             load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
             load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
+            load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
             // manditory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
             // unless fill_ter is set
             // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
@@ -1203,6 +1274,9 @@ bool mapgen_function_json::setup() {
                 throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
             }
        }
+        if( jo.has_member( "rotation" ) ) {
+            rotation = jmapgen_int( jo, "rotation" );
+        }
         // this is for backwards compatibility, it should better be named place_items
         objects.load_objects<jmapgen_spawn_item>( jo, "add" );
         objects.load_objects<jmapgen_field>( jo, "place_fields" );
@@ -1218,6 +1292,7 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_furniture>( jo, "place_furniture" );
         objects.load_objects<jmapgen_terrain>( jo, "place_terrain" );
         objects.load_objects<jmapgen_monster>( jo, "place_monster" );
+        objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
 
 #ifdef LUA
        // silently ignore if unsupported in build
@@ -1363,6 +1438,8 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
 #endif
 
     objects.apply(m, d);
+
+    m->rotate( rotation.get() );
 
     if( terrain_type.t().has_flag(rotates) ) {
         mapgen_rotate(m, terrain_type, false );
@@ -12778,27 +12855,6 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, map
     }
 }
 
-map_extra random_map_extra(map_extras embellishments)
-{
-    int pick = 0;
-    // Set pick to the total of all the chances for map extras
-    for (int i = 0; i < num_map_extras; i++) {
-        if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] || mfb(i) & classic_extras) {
-            pick += embellishments.chances[i];
-        }
-    }
-    // Set pick to a number between 0 and the total
-    pick = rng(0, pick - 1);
-    int choice = -1;
-    while (pick >= 0) {
-        choice++;
-        if(!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] || mfb(choice) & classic_extras) {
-            pick -= embellishments.chances[choice];
-        }
-    }
-    return map_extra(choice);
-}
-
 room_type pick_mansion_room(int x1, int y1, int x2, int y2)
 {
     int dx = abs(x1 - x2), dy = abs(y1 - y2), area = dx * dy;
@@ -13300,134 +13356,171 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
     build_mansion_room(m, type, x1, y1, x2, y2, dat);
 }
 
-void map::add_extra(map_extra type)
+namespace MapExtras {
+static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
+
+void mx_null(map &, const tripoint &)
 {
-    static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
-    item body;
-    body.make_corpse();
+    debugmsg("Tried to generate null map extra.");
+}
 
-    switch (type) {
+void mx_helicopter(map &m, const tripoint &abs_sub)
+{
+    int cx = rng(4, SEEX * 2 - 5), cy = rng(4, SEEY * 2 - 5);
+    for (int x = 0; x < SEEX * 2; x++) {
+        for (int y = 0; y < SEEY * 2; y++) {
+            if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
+                if (!one_in(5)) {
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
+                } else if (m.is_bashable(x, y)) {
+                    m.destroy( tripoint( x,  y, abs_sub.z ), true );
+                }
+            } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
+                m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
+            }
+        }
+    }
 
-    case mx_null:
-        debugmsg("Tried to generate null map extra.");
+    m.spawn_item(rng(5, 18), rng(5, 18), "black_box");
+    m.place_items("helicopter", 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
+    m.place_items("helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    items_location extra_items = "helicopter";
+    switch (rng(1, 4)) {
+    case 1:
+        extra_items = "military";
         break;
-
-    case mx_helicopter: {
-        int cx = rng(4, SEEX * 2 - 5), cy = rng(4, SEEY * 2 - 5);
-        for (int x = 0; x < SEEX * 2; x++) {
-            for (int y = 0; y < SEEY * 2; y++) {
-                if (x >= cx - 4 && x <= cx + 4 && y >= cy - 4 && y <= cy + 4) {
-                    if (!one_in(5)) {
-                        make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
-                    } else if (is_bashable(x, y)) {
-                        destroy( tripoint( x,  y, abs_sub.z ), true );
-                    }
-                } else if (one_in(10)) { // 1 in 10 chance of being wreckage anyway
-                    make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true);
-                }
-            }
-        }
-
-        spawn_item(rng(5, 18), rng(5, 18), "black_box");
-        place_items("helicopter", 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
-        place_items("helicopter", 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-        items_location extra_items = "helicopter";
-        switch (rng(1, 4)) {
-        case 1:
-            extra_items = "military";
-            break;
-        case 2:
-            extra_items = "science";
-            break;
-        case 3:
-            extra_items = "allguns";
-            break;
-        case 4:
-            extra_items = "bionics";
-            break;
-        }
-        place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
-        place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
+    case 2:
+        extra_items = "science";
+        break;
+    case 3:
+        extra_items = "allguns";
+        break;
+    case 4:
+        extra_items = "bionics";
+        break;
     }
-    break;
+    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
+    m.place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
+}
 
-    case mx_military: {
-        int num_bodies = dice(2, 6);
-        for (int i = 0; i < num_bodies; i++) {
-            int x, y, tries = 0;;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                x = rng(0, SEEX * 2 - 1);
-                y = rng(0, SEEY * 2 - 1);
-                tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
+void mx_military(map &m, const tripoint &)
+{
+    int num_bodies = dice(2, 6);
+    for (int i = 0; i < num_bodies; i++) {
+        int x, y, tries = 0;;
+        do { // Loop until we find a valid spot to dump a body, or we give up
+            x = rng(0, SEEX * 2 - 1);
+            y = rng(0, SEEY * 2 - 1);
+            tries++;
+        } while (tries < 10 && m.move_cost(x, y) == 0);
 
-            if (tries < 10) { // We found a valid spot!
-                if (one_in(10)) {
-                    add_spawn("mon_zombie_soldier", 1, x, y);
-                } else if (one_in(25)) {
-                    if (one_in(2)) {
-                        add_spawn("mon_zombie_bio_op", 1, x, y);
-                    } else {
-                        add_spawn("mon_zombie_grenadier", 1, x, y);
-                    }
+        if (tries < 10) { // We found a valid spot!
+            if (one_in(10)) {
+                m.add_spawn("mon_zombie_soldier", 1, x, y);
+            } else if (one_in(25)) {
+                if (one_in(2)) {
+                    m.add_spawn("mon_zombie_bio_op", 1, x, y);
                 } else {
-                    place_items("map_extra_military", 100, x, y, x, y, true, 0);
+                    m.add_spawn("mon_zombie_grenadier", 1, x, y);
                 }
-            }
-
-        }
-        std::string netherspawns[4] = {"mon_gelatin", "mon_mi_go",
-                                         "mon_kreck", "mon_gracke"};
-        int num_monsters = rng(0, 3);
-        for (int i = 0; i < num_monsters; i++) {
-            std::string type = netherspawns[( rng(0, 3) )];
-            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            add_spawn(type, 1, mx, my);
-        }
-        place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
-                     0.1f);//0.1 = 1-5
-        place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    }
-    break;
-
-    case mx_science: {
-        int num_bodies = dice(2, 5);
-        for (int i = 0; i < num_bodies; i++) {
-            int x, y, tries = 0;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                x = rng(0, SEEX * 2 - 1);
-                y = rng(0, SEEY * 2 - 1);
-                tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
-
-            if (tries < 10) { // We found a valid spot!
-                if (one_in(10)) {
-                    add_spawn("mon_zombie_scientist", 1, x, y);
-                } else {
-                    place_items("map_extra_science", 100, x, y, x, y, true, 0);
-                }
+            } else {
+                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
             }
         }
-        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
-                                         "mon_kreck", "mon_gracke"};
-        int num_monsters = rng(0, 3);
-        for (int i = 0; i < num_monsters; i++) {
-            std::string type = spawncreatures[( rng(0, 3) )];
-            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            add_spawn(type, 1, mx, my);
-        }
-        place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    }
-    break;
 
-    case mx_roadblock: {
+    }
+    std::string netherspawns[4] = {"mon_gelatin", "mon_mi_go",
+                                     "mon_kreck", "mon_gracke"};
+    int num_monsters = rng(0, 3);
+    for (int i = 0; i < num_monsters; i++) {
+        std::string type = netherspawns[( rng(0, 3) )];
+        int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+        m.add_spawn(type, 1, mx, my);
+    }
+    m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
+                 0.1f);//0.1 = 1-5
+    m.place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+}
+
+void mx_science(map &m, const tripoint &)
+{
+    int num_bodies = dice(2, 5);
+    for (int i = 0; i < num_bodies; i++) {
+        int x, y, tries = 0;
+        do { // Loop until we find a valid spot to dump a body, or we give up
+            x = rng(0, SEEX * 2 - 1);
+            y = rng(0, SEEY * 2 - 1);
+            tries++;
+        } while (tries < 10 && m.move_cost(x, y) == 0);
+
+        if (tries < 10) { // We found a valid spot!
+            if (one_in(10)) {
+                m.add_spawn("mon_zombie_scientist", 1, x, y);
+            } else {
+                m.place_items("map_extra_science", 100, x, y, x, y, true, 0);
+            }
+        }
+    }
+    std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                     "mon_kreck", "mon_gracke"};
+    int num_monsters = rng(0, 3);
+    for (int i = 0; i < num_monsters; i++) {
+        std::string type = spawncreatures[( rng(0, 3) )];
+        int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+        m.add_spawn(type, 1, mx, my);
+    }
+    m.place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+}
+
+void mx_collegekids(map &m, const tripoint &)
+{   //college kids that got into trouble
+    int num_bodies = dice(2, 6);
+    int type = dice(1,10);
+
+    for (int i = 0; i < num_bodies; i++) {
+        int x, y, tries = 0;
+        do { // Loop until we find a valid spot to dump a body, or we give up
+            x = rng(0, SEEX * 2 - 1);
+            y = rng(0, SEEY * 2 - 1);
+            tries++;
+        } while (tries < 10 && m.move_cost(x, y) == 0);
+
+        if (tries < 10) { // We found a valid spot!
+            if (one_in(10)) {
+                m.add_spawn("mon_zombie_tough", 1, x, y);
+            }
+            else {
+                if(type < 6) { // kids going to a cabin in the woods
+                    m.place_items("map_extra_college_camping", 100, x, y, x, y, true, 0);
+                }
+                else if (type < 9) { // kids going to a sporting event
+                    m.place_items("map_extra_college_sports", 100, x, y, x, y, true, 0);
+                }
+                else { // kids going to a lake
+                    m.place_items("map_extra_college_lake", 100, x, y, x, y, true, 0);
+                }
+            }
+        }
+    }
+    std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                     "mon_kreck", "mon_gracke"};
+    int num_monsters = rng(0, 3);
+    for (int i = 0; i < num_monsters; i++) {
+        std::string type = spawncreatures[( rng(0, 3) )];
+        int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+        m.add_spawn(type, 1, mx, my);
+    }
+}
+
+void mx_roadblock(map &m, const tripoint &abs_sub)
+{
     // OK, if there's a way to get ajacent road tiles w/o bringing in
     // the overmap-scan I'm not seeing it.  So gonna make it Generic.
     // Barricades to E/W
-    line_furn(this, f_barricade_road, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
-    line_furn(this, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
-    line_furn(this, f_barricade_road, 3, 4, 3, 10);
-    line_furn(this, f_barricade_road, 1, 13, 1, 19);
+    line_furn(&m, f_barricade_road, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
+    line_furn(&m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
+    line_furn(&m, f_barricade_road, 3, 4, 3, 10);
+    line_furn(&m, f_barricade_road, 1, 13, 1, 19);
 
     // Vehicles to N/S
     bool mil = false;
@@ -13435,21 +13528,21 @@ void map::add_extra(map_extra type)
         mil = true;
     }
     if (mil) { //Military doesn't joke around with their barricades!
-        line(this, t_fence_barbed, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
-        line(this, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
-        line(this, t_fence_barbed, 3, 4, 3, 10);
-        line(this, t_fence_barbed, 1, 13, 1, 19);
+        line(&m, t_fence_barbed, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
+        line(&m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
+        line(&m, t_fence_barbed, 3, 4, 3, 10);
+        line(&m, t_fence_barbed, 1, 13, 1, 19);
         if (one_in(3)) {  // Chicken delivery truck
-            add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
-            add_spawn("mon_chickenbot", 1, 12, 12);
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
+            m.add_spawn("mon_chickenbot", 1, 12, 12);
         } else if (one_in(2)) {  // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
-            add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
-            add_spawn("mon_tankbot", 1, 12, 12);
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
+            m.add_spawn("mon_tankbot", 1, 12, 12);
         } else {  // Truck & turrets
-            add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
-            add_spawn("mon_turret_bmg", 1, 12, 12);
-            add_spawn("mon_turret_rifle", 1, 9, 12);
+            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
+            m.add_spawn("mon_turret_bmg", 1, 12, 12);
+            m.add_spawn("mon_turret_rifle", 1, 9, 12);
         }
 
         int num_bodies = dice(2, 5);
@@ -13459,321 +13552,348 @@ void map::add_extra(map_extra type)
                 x = rng(0, SEEX * 2 - 1);
                 y = rng(0, SEEY * 2 - 1);
                 tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
+            } while (tries < 10 && m.move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
                 if (one_in(8)) {
-                    add_spawn("mon_zombie_soldier", 1, x, y);
+                    m.add_spawn("mon_zombie_soldier", 1, x, y);
                 } else {
-                    place_items("map_extra_military", 100, x, y, x, y, true, 0);
-                } int splatter_range = rng(1, 3);
-                    for (int j = 0; j <= splatter_range; j++) {
-                        add_field( {x - (j * 1), y + (j * 1), abs_sub.z}, fd_blood, 1, 0);
-                    }
+                    m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
                 }
 
+                int splatter_range = rng(1, 3);
+                for (int j = 0; j <= splatter_range; j++) {
+                    m.add_field( {x - (j * 1), y + (j * 1), abs_sub.z}, fd_blood, 1, 0);
+                }
             }
-        } else { // Police roadblock
-            add_vehicle( vproto_id( "policecar" ), 8, 5, 20);
-            add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145);
-            add_spawn("mon_turret", 1, 1, 12);
-            add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
+        }
+    } else { // Police roadblock
+        m.add_vehicle( vproto_id( "policecar" ), 8, 5, 20);
+        m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145);
+        m.add_spawn("mon_turret", 1, 1, 12);
+        m.add_spawn("mon_turret", 1, SEEX * 2 - 1, 12);
 
-            int num_bodies = dice(1, 6);
+        int num_bodies = dice(1, 6);
         for (int i = 0; i < num_bodies; i++) {
             int x, y, tries = 0;;
             do { // Loop until we find a valid spot to dump a body, or we give up
                 x = rng(0, SEEX * 2 - 1);
                 y = rng(0, SEEY * 2 - 1);
                 tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
+            } while (tries < 10 && m.move_cost(x, y) == 0);
 
             if (tries < 10) { // We found a valid spot!
                 if (one_in(8)) {
-                    add_spawn("mon_zombie_cop", 1, x, y);
+                    m.add_spawn("mon_zombie_cop", 1, x, y);
                 } else {
-                    place_items("map_extra_police", 100, x, y, x, y, true, 0);
-                } int splatter_range = rng(1, 3);
-                    for (int j = 0; j <= splatter_range; j++) {
-                        add_field( {x +(j * 1), y - (j * 1), abs_sub.z}, fd_blood, 1, 0);
-                    }
+                    m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
+                }
+
+                int splatter_range = rng(1, 3);
+                for (int j = 0; j <= splatter_range; j++) {
+                    m.add_field( {x +(j * 1), y - (j * 1), abs_sub.z}, fd_blood, 1, 0);
                 }
             }
         }
     }
-    break;
+}
 
-    case mx_drugdeal: {
-        // Decide on a drug type
-        int num_drugs = 0;
-        itype_id drugtype;
-        switch (rng(1, 10)) {
-        case 1: // Weed
-            num_drugs = rng(20, 30);
-            drugtype = "weed";
-            break;
-        case 2:
-        case 3:
-        case 4:
-        case 5: // Cocaine
-            num_drugs = rng(10, 20);
-            drugtype = "coke";
-            break;
-        case 6:
-        case 7:
-        case 8: // Meth
-            num_drugs = rng(8, 14);
-            drugtype = "meth";
-            break;
-        case 9:
-        case 10: // Heroin
-            num_drugs = rng(6, 12);
-            drugtype = "heroin";
-            break;
+void mx_drugdeal(map &m, const tripoint &abs_sub)
+{
+    // Decide on a drug type
+    int num_drugs = 0;
+    itype_id drugtype;
+    switch (rng(1, 10)) {
+    case 1: // Weed
+        num_drugs = rng(20, 30);
+        drugtype = "weed";
+        break;
+    case 2:
+    case 3:
+    case 4:
+    case 5: // Cocaine
+        num_drugs = rng(10, 20);
+        drugtype = "coke";
+        break;
+    case 6:
+    case 7:
+    case 8: // Meth
+        num_drugs = rng(8, 14);
+        drugtype = "meth";
+        break;
+    case 9:
+    case 10: // Heroin
+        num_drugs = rng(6, 12);
+        drugtype = "heroin";
+        break;
+    }
+    int num_bodies_a = dice(3, 3);
+    int num_bodies_b = dice(3, 3);
+    bool north_south = one_in(2);
+    bool a_has_drugs = one_in(2);
+
+    for (int i = 0; i < num_bodies_a; i++) {
+        int x, y, x_offset, y_offset, tries = 0;
+        do { // Loop until we find a valid spot to dump a body, or we give up
+            if (north_south) {
+                x = rng(0, SEEX * 2 - 1);
+                y = rng(0, SEEY - 4);
+                x_offset = 0;
+                y_offset = -1;
+            } else {
+                x = rng(0, SEEX - 4);
+                y = rng(0, SEEY * 2 - 1);
+                x_offset = -1;
+                y_offset = 0;
+            }
+            tries++;
+        } while (tries < 10 && m.move_cost(x, y) == 0);
+
+        if (tries < 10) { // We found a valid spot!
+            if (one_in(10)) {
+                m.add_spawn("mon_zombie_spitter", 1, x, y);
+            } else {
+                m.place_items("map_extra_drugdeal", 100, x, y, x, y, true, 0);
+                int splatter_range = rng(1, 3);
+                for (int j = 0; j <= splatter_range; j++) {
+                    m.add_field({x + (j * x_offset), y + (j * y_offset), abs_sub.z},
+                              fd_blood, 1, 0);
+                }
+            }
+            if (a_has_drugs && num_drugs > 0) {
+                int drugs_placed = rng(2, 6);
+                if (drugs_placed > num_drugs) {
+                    drugs_placed = num_drugs;
+                    num_drugs = 0;
+                }
+                m.spawn_item(x, y, drugtype, 0, drugs_placed);
+            }
         }
-        int num_bodies_a = dice(3, 3);
-        int num_bodies_b = dice(3, 3);
-        bool north_south = one_in(2);
-        bool a_has_drugs = one_in(2);
+    }
+    for (int i = 0; i < num_bodies_b; i++) {
+        int x, y, x_offset, y_offset, tries = 0;
+        do { // Loop until we find a valid spot to dump a body, or we give up
+            if (north_south) {
+                x = rng(0, SEEX * 2 - 1);
+                y = rng(SEEY + 3, SEEY * 2 - 1);
+                x_offset = 0;
+                y_offset = 1;
+            } else {
+                x = rng(SEEX + 3, SEEX * 2 - 1);
+                y = rng(0, SEEY * 2 - 1);
+                x_offset = 1;
+                y_offset = 0;
+            }
+            tries++;
+        } while (tries < 10 && m.move_cost(x, y) == 0);
 
-        for (int i = 0; i < num_bodies_a; i++) {
-            int x, y, x_offset, y_offset, tries = 0;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                if (north_south) {
-                    x = rng(0, SEEX * 2 - 1);
-                    y = rng(0, SEEY - 4);
-                    x_offset = 0;
-                    y_offset = -1;
-                } else {
-                    x = rng(0, SEEX - 4);
-                    y = rng(0, SEEY * 2 - 1);
-                    x_offset = -1;
-                    y_offset = 0;
+        if (tries < 10) { // We found a valid spot!
+            if (one_in(20)) {
+                m.add_spawn("mon_zombie_smoker", 1, x, y);
+            } else {
+                m.place_items("map_extra_drugdeal", 100, x, y, x, y, true, 0);
+                int splatter_range = rng(1, 3);
+                for (int j = 0; j <= splatter_range; j++) {
+                    m.add_field( {x + (j * x_offset), y + (j * y_offset), abs_sub.z},
+                               fd_blood, 1, 0 );
                 }
-                tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
-
-            if (tries < 10) { // We found a valid spot!
-                if (one_in(10)) {
-                    add_spawn("mon_zombie_spitter", 1, x, y);
-                } else {
-                    place_items("map_extra_drugdeal", 100, x, y, x, y, true, 0);
-                    int splatter_range = rng(1, 3);
-                    for (int j = 0; j <= splatter_range; j++) {
-                        add_field({x + (j * x_offset), y + (j * y_offset), abs_sub.z},
-                                  fd_blood, 1, 0);
-                    }
-                }
-                if (a_has_drugs && num_drugs > 0) {
+                if (!a_has_drugs && num_drugs > 0) {
                     int drugs_placed = rng(2, 6);
                     if (drugs_placed > num_drugs) {
                         drugs_placed = num_drugs;
                         num_drugs = 0;
                     }
-                    spawn_item(x, y, drugtype, 0, drugs_placed);
-                }
-            }
-        }
-        for (int i = 0; i < num_bodies_b; i++) {
-            int x, y, x_offset, y_offset, tries = 0;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                if (north_south) {
-                    x = rng(0, SEEX * 2 - 1);
-                    y = rng(SEEY + 3, SEEY * 2 - 1);
-                    x_offset = 0;
-                    y_offset = 1;
-                } else {
-                    x = rng(SEEX + 3, SEEX * 2 - 1);
-                    y = rng(0, SEEY * 2 - 1);
-                    x_offset = 1;
-                    y_offset = 0;
-                }
-                tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
-
-            if (tries < 10) { // We found a valid spot!
-                if (one_in(20)) {
-                    add_spawn("mon_zombie_smoker", 1, x, y);
-                } else {
-                    place_items("map_extra_drugdeal", 100, x, y, x, y, true, 0);
-                    int splatter_range = rng(1, 3);
-                    for (int j = 0; j <= splatter_range; j++) {
-                        add_field( {x + (j * x_offset), y + (j * y_offset), abs_sub.z},
-                                   fd_blood, 1, 0 );
-                    }
-                    if (!a_has_drugs && num_drugs > 0) {
-                        int drugs_placed = rng(2, 6);
-                        if (drugs_placed > num_drugs) {
-                            drugs_placed = num_drugs;
-                            num_drugs = 0;
-                        }
-                        spawn_item(x, y, drugtype, 0, drugs_placed);
-                    }
-                }
-            }
-        }
-        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
-                                         "mon_kreck", "mon_gracke"};
-        int num_monsters = rng(0, 3);
-        for (int i = 0; i < num_monsters; i++) {
-            std::string type = spawncreatures[( rng(0, 3) )];
-            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            add_spawn(type, 1, mx, my);
-        }
-    }
-    break;
-
-    case mx_supplydrop: {
-        int num_crates = rng(1, 5);
-        for (int i = 0; i < num_crates; i++) {
-            int x, y, tries = 0;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                x = rng(0, SEEX * 2 - 1);
-                y = rng(0, SEEY * 2 - 1);
-                tries++;
-            } while (tries < 10 && move_cost(x, y) == 0);
-            furn_set(x, y, f_crate_c);
-            std::string item_group;
-            switch (rng(1, 10)) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                item_group = "mil_food";
-                break;
-            case 5:
-            case 6:
-            case 7:
-                item_group = "grenades";
-                break;
-            case 8:
-            case 9:
-                item_group = "mil_armor";
-                break;
-            case 10:
-                item_group = "mil_rifles";
-                break;
-            }
-            int items_created = 0;
-            for(int i = 0; i < 10 && items_created < 2; i++) {
-                items_created += place_items(item_group, 80, x, y, x, y, true, 0);
-            }
-            if (i_at(x, y).empty()) {
-                destroy( tripoint( x,  y, abs_sub.z ), true );
-            }
-        }
-    }
-    break;
-
-    case mx_portal: {
-        std::string spawncreatures[5] = {"mon_gelatin", "mon_flaming_eye",
-                                         "mon_kreck", "mon_gracke", "mon_blank"};
-        int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
-                make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true);
-            }
-        }
-        madd_trap( this, x, y, tr_portal);
-        int num_monsters = rng(0, 4);
-        for (int i = 0; i < num_monsters; i++) {
-            std::string type = spawncreatures[( rng(0, 4) )];
-            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
-            make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true);
-            add_spawn(type, 1, mx, my);
-        }
-    }
-    break;
-
-    case mx_minefield: {
-        int num_mines = rng(6, 20);
-        for (int x = 0; x < SEEX * 2; x++) {
-            for (int y = 0; y < SEEY * 2; y++) {
-                if (one_in(3)) {
-                    ter_set(x, y, t_dirt);
-                }
-            }
-        }
-        for (int i = 0; i < num_mines; i++) {
-            // No mines at the extreme edges: safe to walk on a sign tile
-            int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
-            if (!has_flag("DIGGABLE", x, y) || one_in(8)) {
-                ter_set(x, y, t_dirtmound);
-            }
-            madd_trap( this, x, y, tr_landmine_buried);
-        }
-        int x1 = 0;
-        int y1 = 0;
-        int x2 = (SEEX * 2 - 1);
-        int y2 = (SEEY * 2 - 1);
-        furn_set(x1, y1, "f_sign");
-        set_signage( tripoint( x1,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
-        furn_set(x1, y2, "f_sign");
-        set_signage( tripoint( x1,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
-        furn_set(x2, y1, "f_sign");
-        set_signage( tripoint( x2,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
-        furn_set(x2, y2, "f_sign");
-        set_signage( tripoint( x2,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
-    }
-    break;
-
-    case mx_crater: {
-        int size = rng(2, 6);
-        int size_squared = size * size;
-        int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
-        for (int i = x - size; i <= x + size; i++) {
-            for (int j = y - size; j <= y + size; j++) {
-                //If we're using circular distances, make circular craters
-                //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
-                if(!trigdist || (((i - x) * (i - x) + (j - y) * (j - y)) <= size_squared)) {
-                    destroy( tripoint( i,  j, abs_sub.z ), true);
-                    adjust_radiation(i, j, rng(20, 40));
+                    m.spawn_item(x, y, drugtype, 0, drugs_placed);
                 }
             }
         }
     }
-    break;
-
-    case mx_fumarole: {
-        int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
-            x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
-        std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
-        for (auto &i : fumarole) {
-            ter_set(i.x, i.y, t_lava);
-        }
-    }
-    break;
-
-    case mx_portal_in: {
-        std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
-        int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
-        add_field({x, y, abs_sub.z}, fd_fatigue, 3, 0);
-        for (int i = x - 5; i <= x + 5; i++) {
-            for (int j = y - 5; j <= y + 5; j++) {
-                if (rng(1, 9) >= trig_dist(x, y, i, j)) {
-                    marlossify( tripoint( i, j, abs_sub.z ) );
-                    if (one_in(15)) {
-                        add_spawn( monids[rng( 0, 4 )], 1, i, j );
-                    }
-                }
-            }
-        }
-    }
-    break;
-
-    case mx_anomaly: {
-        tripoint center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7), abs_sub.z );
-        artifact_natural_property prop =
-            artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
-        create_anomaly( center, prop );
-        spawn_natural_artifact( center, prop );
-    }
-    break;
-
-    default:
-        break;
+    std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                     "mon_kreck", "mon_gracke"};
+    int num_monsters = rng(0, 3);
+    for (int i = 0; i < num_monsters; i++) {
+        std::string type = spawncreatures[( rng(0, 3) )];
+        int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+        m.add_spawn(type, 1, mx, my);
     }
 }
+
+void mx_supplydrop(map &m, const tripoint &abs_sub)
+{
+    int num_crates = rng(1, 5);
+    for (int i = 0; i < num_crates; i++) {
+        int x, y, tries = 0;
+        do { // Loop until we find a valid spot to dump a body, or we give up
+            x = rng(0, SEEX * 2 - 1);
+            y = rng(0, SEEY * 2 - 1);
+            tries++;
+        } while (tries < 10 && m.move_cost(x, y) == 0);
+        m.furn_set(x, y, f_crate_c);
+        std::string item_group;
+        switch (rng(1, 10)) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            item_group = "mil_food";
+            break;
+        case 5:
+        case 6:
+        case 7:
+            item_group = "grenades";
+            break;
+        case 8:
+        case 9:
+            item_group = "mil_armor";
+            break;
+        case 10:
+            item_group = "mil_rifles";
+            break;
+        }
+        int items_created = 0;
+        for(int i = 0; i < 10 && items_created < 2; i++) {
+            items_created += m.place_items(item_group, 80, x, y, x, y, true, 0);
+        }
+        if (m.i_at(x, y).empty()) {
+            m.destroy( tripoint( x,  y, abs_sub.z ), true );
+        }
+    }
+}
+
+void mx_portal(map &m, const tripoint &abs_sub)
+{
+    std::string spawncreatures[5] = {"mon_gelatin", "mon_flaming_eye",
+                                     "mon_kreck", "mon_gracke", "mon_blank"};
+    int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            m.make_rubble( tripoint( i,  j, abs_sub.z ), f_rubble_rock, true);
+        }
+    }
+    madd_trap(&m, x, y, tr_portal);
+    int num_monsters = rng(0, 4);
+    for (int i = 0; i < num_monsters; i++) {
+        std::string type = spawncreatures[( rng(0, 4) )];
+        int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+        m.make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true);
+        m.add_spawn(type, 1, mx, my);
+    }
+}
+
+void mx_minefield(map &m, const tripoint &abs_sub)
+{
+    int num_mines = rng(6, 20);
+    for (int x = 0; x < SEEX * 2; x++) {
+        for (int y = 0; y < SEEY * 2; y++) {
+            if (one_in(3)) {
+                m.ter_set(x, y, t_dirt);
+            }
+        }
+    }
+    for (int i = 0; i < num_mines; i++) {
+        // No mines at the extreme edges: safe to walk on a sign tile
+        int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
+        if (!m.has_flag("DIGGABLE", x, y) || one_in(8)) {
+            m.ter_set(x, y, t_dirtmound);
+        }
+        madd_trap(&m, x, y, tr_landmine_buried);
+    }
+    int x1 = 0;
+    int y1 = 0;
+    int x2 = (SEEX * 2 - 1);
+    int y2 = (SEEY * 2 - 1);
+    m.furn_set(x1, y1, "f_sign");
+    m.set_signage( tripoint( x1,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.furn_set(x1, y2, "f_sign");
+    m.set_signage( tripoint( x1,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.furn_set(x2, y1, "f_sign");
+    m.set_signage( tripoint( x2,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.furn_set(x2, y2, "f_sign");
+    m.set_signage( tripoint( x2,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
+}
+
+void mx_crater(map &m, const tripoint &abs_sub)
+{
+    int size = rng(2, 6);
+    int size_squared = size * size;
+    int x = rng(size, SEEX * 2 - 1 - size), y = rng(size, SEEY * 2 - 1 - size);
+    for (int i = x - size; i <= x + size; i++) {
+        for (int j = y - size; j <= y + size; j++) {
+            //If we're using circular distances, make circular craters
+            //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
+            if(!trigdist || (((i - x) * (i - x) + (j - y) * (j - y)) <= size_squared)) {
+                m.destroy( tripoint( i,  j, abs_sub.z ), true);
+                m.adjust_radiation(i, j, rng(20, 40));
+            }
+        }
+    }
+}
+
+void mx_fumarole(map &m, const tripoint &)
+{
+    int x1 = rng(0,    SEEX     - 1), y1 = rng(0,    SEEY     - 1),
+        x2 = rng(SEEX, SEEX * 2 - 1), y2 = rng(SEEY, SEEY * 2 - 1);
+    std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
+    for (auto &i : fumarole) {
+        m.ter_set(i.x, i.y, t_lava);
+    }
+}
+
+void mx_portal_in(map &m, const tripoint &abs_sub)
+{
+    std::string monids[5] = {"mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank"};
+    int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
+    m.add_field({x, y, abs_sub.z}, fd_fatigue, 3, 0);
+    for (int i = x - 5; i <= x + 5; i++) {
+        for (int j = y - 5; j <= y + 5; j++) {
+            if (rng(1, 9) >= trig_dist(x, y, i, j)) {
+                m.marlossify( tripoint( i, j, abs_sub.z ) );
+                if (one_in(15)) {
+                    m.add_spawn( monids[rng( 0, 4 )], 1, i, j );
+                }
+            }
+        }
+    }
+}
+
+void mx_anomaly(map &m, const tripoint &abs_sub)
+{
+    tripoint center( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7), abs_sub.z );
+    artifact_natural_property prop =
+        artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
+    m.create_anomaly( center, prop );
+    m.spawn_natural_artifact( center, prop );
+}
+
+typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
+FunctionMap builtin_functions = {
+    { "mx_null", mx_null },
+    { "mx_helicopter", mx_helicopter },
+    { "mx_military", mx_military },
+    { "mx_science", mx_science },
+    { "mx_collegekids", mx_collegekids },
+    { "mx_roadblock", mx_roadblock },
+    { "mx_drugdeal", mx_drugdeal },
+    { "mx_supplydrop", mx_supplydrop },
+    { "mx_portal", mx_portal },
+    { "mx_minefield", mx_minefield },
+    { "mx_crater", mx_crater },
+    { "mx_fumarole", mx_fumarole },
+    { "mx_portal_in", mx_portal_in },
+    { "mx_anomaly", mx_anomaly }
+};
+
+map_special_pointer get_function(const std::string &name)
+{
+    const auto iter = builtin_functions.find(name);
+    if(iter == builtin_functions.end()) {
+        debugmsg( "no map special with name %s", name.c_str() );
+        return NULL;
+    }
+    return iter->second;
+}
+
+};
 
 void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
 {
@@ -13924,7 +14044,7 @@ void fill_background(map *m, ter_id type) {
 void fill_background(map *m, ter_id (*f)()) {
     m->draw_fill_background(f);
 }
-void fill_background(map *m, const id_or_id & f) {
+void fill_background(map *m, const id_or_id<ter_t> & f) {
     m->draw_fill_background(f);
 }
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
@@ -13936,7 +14056,7 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
 void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
-void square(map *m, const id_or_id & f, int x1, int y1, int x2, int y2) {
+void square(map *m, const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
     m->draw_square_ter(f, x1, y1, x2, y2);
 }
 void rough_circle(map *m, ter_id type, int x, int y, int rad) {

@@ -649,7 +649,8 @@
       [ "string_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
-      [ "plant_fibre", 40 ]
+      [ "plant_fibre", 40 ],
+      [ "withered", 2 ]
     ]
   ]
 },{
@@ -791,7 +792,8 @@
       [ "string_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
-      [ "plant_fibre", 40 ]
+      [ "plant_fibre", 40 ],
+      [ "withered", 2 ]
     ]
   ]
 },{
@@ -822,7 +824,8 @@
       [ "string_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
-      [ "plant_fibre", 40 ]
+      [ "plant_fibre", 40 ],
+      [ "withered", 1 ]
     ]
   ]
 },{
@@ -854,7 +857,8 @@
         [ "string_6", 2 ],
         [ "sinew", 40 ],
         [ "thread", 40 ],
-        [ "plant_fibre", 40 ]
+        [ "plant_fibre", 40 ],
+        [ "withered", 2 ]
       ]
     ]
 },{
@@ -3726,7 +3730,7 @@
       ["soldering_iron", 1]
     ],
     [
-      ["screwdriver", 1]
+      ["screwdriver_set", 1]
     ],
     [
       ["wrench", 1]
@@ -6177,9 +6181,8 @@
     [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
   ],
   "components": [
-     [ [ "scrap", 7 ] ],
-     [ [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ],
-       [ "bismuth", 70 ], [ "tin", 70 ], [ "gold_small", 70 ] ]
+     [ [ "copper", 90 ] ],
+     [ [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ] ]
   ]
   },{
   "type" : "recipe",
@@ -6871,9 +6874,6 @@
      ],
      [
       ["anvil", -1]
-     ],
-     [
-      ["swage", -1]
      ],
      [
       ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]

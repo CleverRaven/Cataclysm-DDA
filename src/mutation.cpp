@@ -11,6 +11,7 @@
 #include "options.h"
 #include "catacharset.h"
 #include "input.h"
+#include "mapdata.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -1259,7 +1260,7 @@ void player::remove_mutation( const std::string &mut )
                 std::vector<std::string> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
                     for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
-                        if (traitcheck[j] == mut) {
+                        if (traitcheck[j] == mut && (iter.first) != replacing) {
                             replacing2 = (iter.first);
                         }
                     }
@@ -1269,6 +1270,11 @@ void player::remove_mutation( const std::string &mut )
                 break;
             }
         }
+    }
+
+    // make sure we don't toggle a mutation or trait twice, or it will cancel itself out.
+    if(replacing == replacing2) {
+        replacing2 = "";
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation

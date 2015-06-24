@@ -98,6 +98,7 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct sid_or_sid;
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
@@ -106,7 +107,7 @@ struct regional_settings {
     std::string id;           //
     std::string default_oter; // 'field'
 
-    id_or_id    default_groundcover; // ie, 'grass_or_dirt'
+    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     sid_or_sid *default_groundcover_str = nullptr;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
@@ -121,7 +122,9 @@ struct regional_settings {
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
 
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
+    std::unordered_map<std::string, map_extras> region_extras;
+
+    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
     static void setup_oter(oter_weight &oter);
 };
@@ -430,6 +433,5 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-map_extras& get_extras(const std::string &name);
 
 #endif

@@ -1,33 +1,35 @@
 # Make any tests, and possibly run them.
-# A selection of variables are exported from the master Makefile
-# libtap.so and tap.h must be in the local directory or on the system path.
+# A selection of variables are exported from the master Makefile.
 
-# ODIR is realative, so we can use the one from the main Makefile
+# As each test will have a main function we need to handle this file by file.
+# We're using the fairly typical convention that any file ending in _test.cpp
+# is a test executable.
+SOURCES = $(filter-out player_test.cpp,$(wildcard *_test.cpp))
+OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
+TESTS = $(SOURCES:.cpp=)
 
-# As each test will have a main function we need to handle this file by file
-TEST_SOURCES = $(wildcard *_test.cpp)
-TEST_OBJS = $(TEST_SOURCES:%.cpp=$(ODIR)/%.o)
-TESTS = $(TEST_SOURCES:.cpp=)
-
-# Brute force solution, relative paths to EVERY .o file
-SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
+CATA_LIB=../cataclysm.a
 
 ODIR := obj
 
+DDIR := .deps
+
 LDFLAGS += -L. -lrt
 
-# Catch sections throw unused variable warnings
+# Allow use of any header files from cataclysm.
+# Catch sections throw unused variable warnings.
 CXXFLAGS += -I../src -Wno-unused-variable
 
 LD := $(CROSS)g++
 
 tests: $(TESTS)
 
-%_test: $(ODIR) $(DDIR) $(SOURCE_OBJS) $(TEST_OBJS)
-	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(SOURCE_OBJS) $(CXXFLAGS) $(LDFLAGS)
+%_test: $(ODIR) $(DDIR) $(OBJS)
+	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
+# Iterate over all the individual tests.
 check: $(TESTS)
-	LD_LIBRARY_PATH=/usr/local/lib ./$?
+	$(foreach exe,$(TESTS),./$(exe);)
 
 clean:
 	rm -f $(TESTS) *.d $(ODIR)/*.o $(ODIR)/*.d
@@ -41,4 +43,6 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
+.PHONY: clean check tests
+
+.SECONDARY: $(OBJS)

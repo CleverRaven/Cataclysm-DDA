@@ -22,6 +22,8 @@
 #include "mongroup.h"
 #include "itype.h"
 #include "morale.h"
+#include "trap.h"
+#include "overmap.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -182,12 +184,14 @@ private:
      * reinterpret_cast, but that is evil).
      * We need a simple pointer (not a pointer-to-pointer).
      *
-     * We get the simple pointer by removing the pointer from T via the std thingy.
-     * A `Type*` is of not much use if we can't convert it back to a `T&`, after all the caller
-     * wants a `T&`. Converting it back uses the two cast functions:
-     * If T is not a pointer at all (Type == T), the first overload is chosen, because it's
-     * actually the same as `Type& cast(Type*)`.
-     * If T is a pointer (Type* == T), the second overload is chosen: `Type*& cast(Type*&)`
+     * We get the simple pointer by removing the pointer from T via the std thingy, which gives us
+     * @ref Type. A reference to that is returned by @ref get.
+     *
+     * Reading user data from Lua gives a T*, so it must be converted to Type&, which may either
+     * be just one dereferencing (if T*==Type*) or two (if T*==Type**).
+     * One dereferencing is always done int @ref get, the (conditional) second is done in @ref cast.
+     * The two overloads match either a Type* (which dereferences the parameter) or a Type&
+     * (which just returns the reference without any changes).
      *
      * Maybe an example will help:
      * For T = monster* the function monster::die(Creature*) needs a Creature as parameter.
@@ -201,7 +205,7 @@ private:
      * If so, a pointer the those objects (converted to `Creature*`) is returned. `cast()` will
      * simply pass that pointer through and the caller can return the `Creature*`.
      *
-     * No assume T = point (and assume tripoint inherit from point, why not?)
+     * Now assume T = point (and assume tripoint inherit from point, why not?)
      * A function calls for a `point`, the input is a tripoint, so the metatables don't match.
      * `get_subclass` is called and successfully extract a tripoint from the userdata. It
      * returns a pointer to the tripoint (converted to `point*`). The caller needs a point (or
@@ -210,11 +214,13 @@ private:
      */
     using Type = typename std::remove_pointer<T>::type;
     static Type* get_subclass( lua_State* S, int stack_index );
-    static T& cast( T* ptr )
+    template<typename P>
+    static Type& cast( P* ptr )
     {
         return *ptr;
     }
-    static T& cast( T& ptr )
+    template<typename P>
+    static Type& cast( P& ptr )
     {
         return ptr;
     }
@@ -352,7 +358,7 @@ public:
         push( L, value );
         return luah_store_in_registry( L, -1 );
     }
-    static T& get( lua_State* const L, int const stack_index )
+    static Type& get( lua_State* const L, int const stack_index )
     {
         luaL_checktype( L, stack_index, LUA_TUSERDATA );
         T* user_data = static_cast<T*>( lua_touserdata( L, stack_index ) );
@@ -361,19 +367,14 @@ public:
             luaL_error( L, "First argument to function is not a class" );
         }
         if( has_matching_metatable( L, stack_index ) ) {
-            return *user_data;
+            return cast( *user_data );
         }
-        Type* subobject = get_subclass( L, stack_index );
+        Type* const subobject = get_subclass( L, stack_index );
         if( subobject == nullptr ) {
             // luaL_argerror does not return at all.
             luaL_argerror( L, stack_index, METATABLE_NAME );
         }
-        return cast( subobject );
-    }
-    /** Compatibility with the function in @ref LuaReference. But this *always* returns a reference. */
-    static T &get_proxy( lua_State * const L, int const stack_position )
-    {
-        return get( L, stack_position );
+        return *subobject;
     }
     /** Checks whether the value at stack_index is of the type T. If so, @ref get can be used to get it. */
     static bool has( lua_State* const L, int const stack_index )
@@ -399,7 +400,7 @@ public:
 
 /**
  * This is special wrapper (an extension) for references to objects which are not stored in Lua,
- * but are kept in the memory managed by C++. This class only stored are retrieves the pointers,
+ * but are kept in the memory managed by C++. This class only stores and retrieves the pointers,
  * you have to make sure those pointers stay valid.
  *
  * Example (an @ref itype is loaded when a world is loaded and stays valid until the game ends):
@@ -407,12 +408,12 @@ public:
  * itype *it = type::find_type( "water" );
  * LuaReference<itype>::push( L, it ); // copies the pointer it
  * ... // give control back to Lua, wait for a callback from it,
- * itype &it = LuaReference<itype>::get( L, 1 ); // get the first argument of the callback
+ * itype &it = LuaValue<itype*>::get( L, 1 ); // get the first argument of the callback
  * assert(it.id == "water");
  * \endcode
  *
  * This class extends LuaValue by some pointer specific behavior:
- * - @ref @push is overloaded to accept a reference to T (which will be converted to a pointer
+ * - @ref push is overloaded to accept a reference to T (which will be converted to a pointer
  *   and stored). Additionally, if the pointer passed to @ref push is nullptr, nil will be pushed
  *   (this obviously does not work for references).
  *   \code
@@ -420,22 +421,31 @@ public:
  *   LuaReference<Foo>::push( L, x );
  *   LuaReference<Foo>::push( L, *x ); // both push calls do exactly the same.
  *   \endcode
- * - @ref get returns a reference to T, not a pointer! This is often more convenient, but see next:
- * - @ref get_proxy is the same as @ref get, but returns a proxy object. The proxy contains the
- *   reference returned by @ref get and it has two operators that allow implicit conversion to
- *   T& and to T* - this allows it to be used for function that accept either.
+ *   push is also overloaded to accept const and non-const references / pointers. The templated
+ *   third parameter there makes sure that this is only done when T is not const. Otherwise we
+ *   would end up with 2 identical push functions, both taking a const references.
+ * - @ref get returns a proxy object. It contains the pointer to T. It will automatically convert
+ *   to a reference / a pointer to T:
  *   \code
- *   void f1(Foo *foo);
- *   void f2(Foo &foo)
- *   auto && ref = LuaReference<Foo>::get_proxy( L, 1 );
- *   f1(ref); // works: ref is implicit converted to Foo*
- *   f2(ref); // works, too: ref is converted to Foo&
+ *   void f_ptr( itype* );
+ *   void f_ref( itype& );
+ *   auto proxy = LuaReference<itype>::get( L, 1 );
+ *   f_ptr( proxy ); // proxy converts to itype*
+ *   f_ref( proxy ); // proxy converts to itype&
+ *   itype *it = proxy;
+ *   \endcode
+ *   If you only need a reference (e.g. to call member functions or access members), use
+ *   @ref LuaValue<T*>::get instead:
+ *   \code
+ *   itype &it = LuaValue<itype*>::get( L, 1 );
+ *   std::string name = it.nname();
  *   \endcode
  */
 template<typename T>
 class LuaReference : private LuaValue<T*> {
 public:
-    static void push( lua_State* const L, T* const value )
+    template<typename U = T>
+    static void push( lua_State* const L, T* const value, typename std::enable_if<!std::is_const<U>::value>::value_type* = nullptr )
     {
         if( value == nullptr ) {
             lua_pushnil( L );
@@ -446,16 +456,21 @@ public:
     // HACK: because Lua does not known what const is.
     static void push( lua_State* const L, const T* const value )
     {
-        push( L, const_cast<T*>( value ) );
+        if( value == nullptr ) {
+            lua_pushnil( L );
+            return;
+        }
+        LuaValue<T*>::push( L, const_cast<T*>( value ) );
     }
-    static void push( lua_State* const L, T& value )
+    template<typename U = T>
+    static void push( lua_State* const L, T& value, typename std::enable_if<!std::is_const<U>::value>::value_type* = nullptr )
     {
         LuaValue<T*>::push( L, &value );
     }
     // HACK: because Lua does not known what const is.
     static void push( lua_State* const L, const T& value )
     {
-        push( L, const_cast<T&>( value ) );
+        LuaValue<T*>::push( L, const_cast<T*>( &value ) );
     }
     static int push_reg( lua_State* const L, T* const value )
     {
@@ -466,10 +481,6 @@ public:
     {
         return LuaValue<T*>::push_reg( L, &value );
     }
-    static T &get( lua_State* const L, int const stack_position )
-    {
-        return *LuaValue<T*>::get( L, stack_position );
-    }
     /** A proxy object that allows to convert the reference to a pointer on-demand. The proxy object can
      * be used as argument to functions that expect either a pointer and to functions expecting a
      * reference. */
@@ -477,11 +488,12 @@ public:
         T *ref;
         operator T*() { return ref; }
         operator T&() { return *ref; }
+        T* operator &() { return ref; }
     };
     /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
-    static proxy get_proxy( lua_State* const L, int const stack_position )
+    static proxy get( lua_State* const L, int const stack_position )
     {
-        return proxy{ LuaValue<T*>::get( L, stack_position ) };
+        return proxy{ &LuaValue<T*>::get( L, stack_position ) };
     }
     using LuaValue<T*>::has;
     using LuaValue<T*>::check;
@@ -492,6 +504,13 @@ public:
  * Instead of "if type is string, call lua_isstring, if it's int, call lua_isnumber, ...", the
  * generator can just call "LuaType<"..type..">::has".
  * The C++ classes do the actual separation based on the type through the template parameter.
+ *
+ * Each implementation contains function like the LuaValue has:
+ * - @ref has checks whether the object at given stack index is of the requested type.
+ * - @ref check calls @ref has and issues a Lua error if the types is not as requested.
+ * - @ref get returns the value at given stack_index. This is like @ref LuaValue::get.
+ *   If you need to store the value, use \code auto && val = LuaType<X>::get(...); \endcode
+ * - @ref push puts the value on the stack, like @ref LuaValue::push
  */
 template<typename T>
 struct LuaType;
@@ -506,7 +525,7 @@ struct LuaType<int> {
     {
         luaL_checktype( L, stack_index, LUA_TNUMBER );
     }
-    static int get_proxy( lua_State* const L, int const stack_index )
+    static int get( lua_State* const L, int const stack_index )
     {
         return lua_tonumber( L, stack_index );
     }
@@ -525,7 +544,7 @@ struct LuaType<bool> {
     {
         luaL_checktype( L, stack_index, LUA_TBOOLEAN );
     }
-    static bool get_proxy( lua_State* const L, int const stack_index )
+    static bool get( lua_State* const L, int const stack_index )
     {
         return lua_toboolean( L, stack_index );
     }
@@ -544,7 +563,7 @@ struct LuaType<std::string> {
     {
         luaL_checktype( L, stack_index, LUA_TSTRING );
     }
-    static std::string get_proxy( lua_State* const L, int const stack_index )
+    static std::string get( lua_State* const L, int const stack_index )
     {
         return lua_tostring_wrapper( L, stack_index );
     }
@@ -561,7 +580,7 @@ struct LuaType<std::string> {
 };
 template<>
 struct LuaType<float> : public LuaType<int> { // inherit checking because it's all the same to Lua
-    static float get_proxy( lua_State* const L, int const stack_index )
+    static float get( lua_State* const L, int const stack_index )
     {
         return lua_tonumber( L, stack_index );
     }
@@ -629,18 +648,18 @@ private:
 public:
     static bool has( lua_State* const L, int const stack_index )
     {
-        return Parent::has( L, stack_index ) && has( Parent::get_proxy( L, stack_index ) );
+        return Parent::has( L, stack_index ) && has( Parent::get( L, stack_index ) );
     }
     static void check( lua_State* const L, int const stack_index )
     {
         Parent::check( L, stack_index );
-        if( !has( Parent::get_proxy( L, stack_index ) ) ) {
+        if( !has( Parent::get( L, stack_index ) ) ) {
             luaL_argerror( L, stack_index, "invalid value for enum" );
         }
     }
-    static E get_proxy( lua_State* const L, int const stack_index )
+    static E get( lua_State* const L, int const stack_index )
     {
-        return from_string( Parent::get_proxy( L, stack_index ) );
+        return from_string( Parent::get( L, stack_index ) );
     }
     static void push( lua_State* const L, E const value )
     {

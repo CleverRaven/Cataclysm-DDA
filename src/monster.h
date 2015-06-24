@@ -123,7 +123,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool wander(); // Returns true if we have no plans
 
         /**
-         * Checks whether we can move to/through (x, y). This does not account for bashing.
+         * Checks whether we can move to/through p. This does not account for bashing.
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
@@ -133,11 +133,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
         int  turns_to_reach(int x, int y); // How long will it take?
 
-        void set_dest( const tripoint &p, int &t ); // Go in a straight line to (x, y)
+        void set_dest( const tripoint &p, int &t ); // Go in a straight line to p
         // t determines WHICH Bresenham line
 
         /**
-         * Set (x, y) as wander destination.
+         * Set p as wander destination.
          *
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.
@@ -160,6 +160,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint scent_move();
         tripoint wander_next();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
+        int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
         /**
          * Attempt to move to p.

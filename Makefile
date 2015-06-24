@@ -431,6 +431,9 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) \
           $(OBJS) $(LDFLAGS)
 
+cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
+	ar rcs cataclysm.a $(filter-out $(ODIR)/main.o,$(OBJS))
+
 .PHONY: version json-verify
 version:
 	@( VERSION_STRING=$(VERSION) ; \
@@ -470,7 +473,7 @@ json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
 clean: clean-tests
-	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
+	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET) cataclysm.a
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
@@ -617,10 +620,10 @@ etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-tests: $(ODIR) $(DDIR) $(OBJS)
+tests: cataclysm.a
 	$(MAKE) -C tests
 
-check: tests
+check: cataclysm.a
 	$(MAKE) -C tests check
 
 clean-tests:

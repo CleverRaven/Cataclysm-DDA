@@ -228,6 +228,48 @@ int rl_dist(const tripoint &loc1, const tripoint &loc2)
     return square_dist(loc1, loc2);
 }
 
+// This more general version of this function gives correct values for larger values.
+unsigned make_xyz(int const x, int const y, int const z)
+{
+    static const double sixteenth_arc = 0.392699082;
+    int vertical_position = ((z > 0) ? 2u : (z < 0) ? 1u : 0u) * 9u;
+    if( x == 0 && y == 0 ) {
+        return vertical_position;
+    }
+    // Get the arctan of the angle and divide by approximately 22.5 deg to get the octant.
+    // the angle is in, then truncate it and map to the right direction.
+    // You can read 'octant' as being "number of 22.5 degree sections away from due south".
+    int octant = atan2( x, y ) / sixteenth_arc;
+    switch(octant) {
+    case 0:
+      return SOUTH + vertical_position;
+    case 1:
+    case 2:
+      return SOUTHEAST + vertical_position;
+    case 3:
+    case 4:
+      return EAST + vertical_position;
+    case 5:
+    case 6:
+      return NORTHEAST + vertical_position;
+    case -1:
+    case -2:
+      return SOUTHWEST + vertical_position;
+    case -3:
+    case -4:
+      return WEST + vertical_position;
+    case -5:
+    case -6:
+      return NORTHWEST + vertical_position;
+    case 7:
+    case 8:
+    case -7:
+    case -8:
+    default:
+      return NORTH + vertical_position;
+   }
+}
+
 // returns normalized dx and dy for the current line vector.
 std::pair<double, double> slope_of(const std::vector<point> &line)
 {

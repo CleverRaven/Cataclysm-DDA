@@ -1624,23 +1624,23 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     draw_tabs(w, _("DESCRIPTION"));
 
-    WINDOW *w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW *w_name = newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
     WINDOW_PTR w_nameptr( w_name );
-    WINDOW *w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW *w_gender = newwin(2, 33, getbegy(w) + 5, getbegx(w) + 46);
     WINDOW_PTR w_genderptr( w_gender );
-    WINDOW *w_location = newwin(1, 76, getbegy(w) + 8, getbegx(w) + 2);
+    WINDOW *w_location = newwin(1, 76, getbegy(w) + 7, getbegx(w) + 2);
     WINDOW_PTR w_locationptr( w_location );
-    WINDOW *w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW *w_stats = newwin(6, 16, getbegy(w) + 9, getbegx(w) + 2);
     WINDOW_PTR w_statstptr( w_stats );
-    WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
+    WINDOW *w_traits = newwin(13, 24, getbegy(w) + 9, getbegx(w) + 22);
     WINDOW_PTR w_traitsptr( w_traits );
-    WINDOW *w_scenario = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_scenario = newwin(1, 33, getbegy(w) + 9, getbegx(w) + 46);
     WINDOW_PTR w_scenarioptr( w_scenario );
-    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 11, getbegx(w) + 47);
+    WINDOW *w_profession = newwin(1, 33, getbegy(w) + 10, getbegx(w) + 46);
     WINDOW_PTR w_professionptr( w_profession );
-    WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW *w_skills = newwin(9, 33, getbegy(w) + 11, getbegx(w) + 46);
     WINDOW_PTR w_skillsptr( w_skills );
-    WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
+    WINDOW *w_guide = newwin(4, FULL_SCREEN_WIDTH - 3, getbegy(w) + 19, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
 
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -1684,7 +1684,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             //Draw the line between editable and non-editable stuff.
             for (int i = 0; i < getmaxx(w); ++i) {
                 if (i == 0) {
-                    mvwputch(w, 9, i, BORDER_COLOR, LINE_XXXO);
+                    mvwputch(w, 8, i, BORDER_COLOR, LINE_XXXO);
                 } else if (i == getmaxx(w) - 1) {
                     wputch(w, BORDER_COLOR, LINE_XOXX);
                 } else {
@@ -1749,7 +1749,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 if (level > 0) {
                     mvwprintz( w_skills, line, 0, c_ltgray, "%s",
                                ( ( elem )->name() + ":" ).c_str() );
-                    mvwprintz(w_skills, line, 17, c_ltgray, "%-2d", (int)level);
+                    mvwprintz(w_skills, line, 23, c_ltgray, "%-2d", (int)level);
                     line++;
                     has_skills = true;
                 }
@@ -1761,16 +1761,18 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
             wrefresh(w_skills);
 
-            mvwprintz(w_guide, 0, 0, c_green,
+            mvwprintz(w_guide, 2, 0, c_green,
                       _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
             if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
-                    mvwprintz( w_guide, 1, 0, c_green, _("Press %s to save character template, %s to re-roll or %s for random scenario."),
-                               ctxt.get_desc("SAVE_TEMPLATE").c_str(), ctxt.get_desc("REROLL_CHARACTER").c_str(),
+                    mvwprintz( w_guide, 0, 0, c_green,
+                               _("Press %s to save character template, %s to re-roll or %s for random scenario."),
+                               ctxt.get_desc("SAVE_TEMPLATE").c_str(),
+                               ctxt.get_desc("REROLL_CHARACTER").c_str(),
                                ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
-            }else {
-                    mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
+            } else {
+                    mvwprintz(w_guide, 0, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
             }
             wrefresh(w_guide);
@@ -1781,7 +1783,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         //We draw this stuff every loop because this is user-editable
         mvwprintz(w_name, 0, 0, c_ltgray, _("Name:"));
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
-        mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
+        mvwprintz(w_name, 0, namebar_pos, c_white, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
 
         if(!MAP_SHARING::isSharing()) { // no random names when sharing maps

@@ -348,11 +348,7 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true,
-        "mapgen": [
-            { "method": "builtin", "name": "park_playground", "weight": 500 },
-            { "method": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
-        ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "pool",

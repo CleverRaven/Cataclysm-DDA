@@ -16,6 +16,8 @@
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "game.h"
+#include "mapdata.h"
 
 #include <algorithm>
 #include <fstream>
@@ -59,6 +61,7 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 
     in_animation = false;
     do_draw_explosion = false;
+    do_draw_custom_explosion = false;
     do_draw_bullet = false;
     do_draw_hit = false;
     do_draw_line = false;
@@ -621,14 +624,18 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
-                   do_draw_line || do_draw_weather || do_draw_sct ||
+    in_animation = do_draw_explosion || do_draw_custom_explosion ||
+                   do_draw_bullet || do_draw_hit || do_draw_line ||
+                   do_draw_weather || do_draw_sct ||
                    do_draw_zones;
 
     draw_footsteps_frame();
     if (in_animation) {
         if (do_draw_explosion) {
             draw_explosion_frame();
+        }
+        if (do_draw_custom_explosion) {
+            draw_custom_explosion_frame();
         }
         if (do_draw_bullet) {
             draw_bullet_frame();
@@ -1286,6 +1293,11 @@ void cata_tiles::init_explosion( const tripoint &p, int radius )
     exp_pos_y = p.y;
     exp_rad = radius;
 }
+void cata_tiles::init_custom_explosion_layer( const std::map<point, explosion_tile> &layer )
+{
+    do_draw_custom_explosion = true;
+    custom_explosion_layer = layer;
+}
 void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
     do_draw_bullet = true;
@@ -1334,6 +1346,11 @@ void cata_tiles::void_explosion()
     exp_pos_x = -1;
     exp_pos_y = -1;
     exp_rad = -1;
+}
+void cata_tiles::void_custom_explosion()
+{
+    do_draw_custom_explosion = false;
+    custom_explosion_layer.clear();
 }
 void cata_tiles::void_bullet()
 {
@@ -1398,6 +1415,70 @@ void cata_tiles::draw_explosion_frame()
             draw_from_id_string(exp_name, mx - i, my + j, subtile, rotation);
             draw_from_id_string(exp_name, mx + i, my + j, subtile, rotation);
         }
+    }
+}
+#include "debug.h"
+void cata_tiles::draw_custom_explosion_frame()
+{
+    // TODO: Make the drawing code handle all the missing tiles: <^>v and *
+    // TODO: Add more explosion tiles, like "strong explosion", so that it displays more info
+    std::string exp_name = "explosion";
+    int subtile = 0;
+    int rotation = 0;
+    for( const auto &pr : custom_explosion_layer ) {
+        const point &p = pr.first;
+        const explosion_neighbors ngh = pr.second.neighborhood;
+        // const nc_color col = pr.second.color;
+
+        switch( ngh ) {
+        case N_NORTH:
+        case N_SOUTH:
+            subtile = edge;
+            rotation = 1;
+            break;
+        case N_WEST:
+        case N_EAST:
+            subtile = edge;
+            rotation = 0;
+            break;
+        case N_NORTH | N_SOUTH:
+        case N_NORTH | N_SOUTH | N_WEST:
+        case N_NORTH | N_SOUTH | N_EAST:
+            subtile = edge;
+            rotation = 1;
+            break;
+        case N_WEST | N_EAST:
+        case N_WEST | N_EAST | N_NORTH:
+        case N_WEST | N_EAST | N_SOUTH:
+            subtile = edge;
+            rotation = 0;
+            break;
+        case N_SOUTH | N_EAST:
+            subtile = corner;
+            rotation = 0;
+            break;
+        case N_NORTH | N_EAST:
+            subtile = corner;
+            rotation = 1;
+            break;
+        case N_NORTH | N_WEST:
+            subtile = corner;
+            rotation = 2;
+            break;
+        case N_SOUTH | N_WEST:
+            subtile = corner;
+            rotation = 3;
+            break;
+        case N_NO_NEIGHBORS:
+            subtile = edge;
+            break;
+        case N_WEST | N_EAST | N_NORTH | N_SOUTH:
+            // Needs some special tile
+            subtile = edge;
+            break;
+        }
+
+        draw_from_id_string( exp_name, p.x, p.y, subtile, rotation );
     }
 }
 void cata_tiles::draw_bullet_frame()

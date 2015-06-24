@@ -295,8 +295,6 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
-    Character::reset_stats();
-
     clear_miss_reasons();
 
     // Trait / mutation buffs
@@ -425,6 +423,21 @@ void player::reset_stats()
 
     recalc_sight_limits();
     recalc_speed_bonus();
+
+    // Effects
+    for( auto maps : effects ) {
+        for( auto i : maps.second ) {
+            const auto &it = i.second;
+            bool reduced = has_trait(  it.get_resist_trait() ) ||
+                           has_effect( it.get_resist_effect() );
+            mod_str_bonus( it.get_mod( "STR", reduced ) );
+            mod_dex_bonus( it.get_mod( "DEX", reduced ) );
+            mod_per_bonus( it.get_mod( "PER", reduced ) );
+            mod_int_bonus( it.get_mod( "INT", reduced ) );
+        }
+    }
+
+    Character::reset_stats();
 }
 
 void player::process_turn()
@@ -2596,77 +2609,32 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     nc_color status = c_white;
 
-    // Strength current and max
-    int stat_tmp = get_str();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < str_max / 2)
-        status = c_red;
-    else if (stat_tmp < str_max)
-        status = c_ltred;
-    else if (stat_tmp == str_max)
-        status = c_white;
-    else if (stat_tmp < str_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
-    mvwprintz(w_stats, 2, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 2, 21, c_ltgray, "(%2d)", str_max);
+    // Stats
+    const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line ) {
+        nc_color status = c_white;
+        if( cur <= 0 ) {
+            status = c_dkgray;
+        } else if( cur < max / 2 ) {
+            status = c_red;
+        } else if( cur < max ) {
+            status = c_ltred;
+        } else if( cur == max ) {
+            status = c_white;
+        } else if( cur < max * 1.5 ) {
+            status = c_ltgreen;
+        } else {
+            status = c_green;
+        }
 
-    // Dexterity current and max
-    stat_tmp = get_dex();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < dex_max / 2)
-        status = c_red;
-    else if (stat_tmp < dex_max)
-        status = c_ltred;
-    else if (stat_tmp == dex_max)
-        status = c_white;
-    else if (stat_tmp < dex_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 3, 1, c_ltgray, _("Dexterity:"));
-    mvwprintz(w_stats, 3, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 3, 21, c_ltgray, "(%2d)", dex_max);
+        mvwprintz( w_stats, line, 1, c_ltgray, name );
+        mvwprintz( w_stats, line, 18, status, "%2d", cur );
+        mvwprintz( w_stats, line, 21, c_ltgray, "(%2d)", max );
+    };
 
-    // Intelligence current and max
-    stat_tmp = get_int();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < int_max / 2)
-        status = c_red;
-    else if (stat_tmp < int_max)
-        status = c_ltred;
-    else if (stat_tmp == int_max)
-        status = c_white;
-    else if (stat_tmp < int_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 4, 1, c_ltgray, _("Intelligence:"));
-    mvwprintz(w_stats, 4, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 4, 21, c_ltgray, "(%2d)", int_max);
-
-    // Intelligence current and max
-    stat_tmp = get_per();
-    if (stat_tmp <= 0)
-        status = c_dkgray;
-    else if (stat_tmp < per_max / 2)
-        status = c_red;
-    else if (stat_tmp < per_max)
-        status = c_ltred;
-    else if (stat_tmp == per_max)
-        status = c_white;
-    else if (stat_tmp < per_max * 1.5)
-        status = c_ltgreen;
-    else
-        status = c_green;
-    mvwprintz(w_stats, 5, 1, c_ltgray, _("Perception:"));
-    mvwprintz(w_stats, 5, 18, status, "%2d", stat_tmp);
-    mvwprintz(w_stats, 5, 21, c_ltgray, "(%2d)", per_max);
+    display_stat( _("Strength:"),     str_cur, str_max, 2 );
+    display_stat( _("Dexterity:"),    dex_cur, dex_max, 3 );
+    display_stat( _("Intelligence:"), int_cur, int_max, 4 );
+    display_stat( _("Perception:"),   per_cur, per_max, 5 );
 
     wrefresh(w_stats);
 
@@ -3444,7 +3412,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     return line_number;
 }
 
-void player::print_gun_mode( WINDOW *w, nc_color c )
+std::string player::print_gun_mode()
 {
     // Print current weapon, or attachment if active.
     item* gunmod = weapon.active_gunmod();
@@ -3456,35 +3424,36 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
                 attachment << " (" << mod.charges << ")";
             }
         }
-        wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
+        return string_format( _("%s (Mod)"), attachment.str().c_str() );
     } else {
         if (weapon.get_gun_mode() == "MODE_BURST") {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Burst)"), weapname().c_str());
+            return string_format( _("%s (Burst)"), weapname().c_str() );
         } else if( weapon.get_gun_mode() == "MODE_REACH" ) {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s (Bayonet)"), weapname().c_str());
+            return string_format( _("%s (Bayonet)"), weapname().c_str() );
         } else {
-            trim_and_print(w, getcury(w), getcurx(w), getmaxx(w) - 2, c, _("%s"), weapname().c_str());
+            return string_format( _("%s"), weapname().c_str() );
         }
     }
 }
 
-void player::print_recoil( WINDOW *w ) const
+std::string player::print_recoil() const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
         if( adj_recoil > 150 ) {
             // 150 is the minimum when not actively aiming
-            nc_color c = c_ltgray;
+            const char *color_name = "c_ltgray";
             if( adj_recoil >= 690 ) {
-                c = c_red;
+                color_name = "c_red";
             } else if( adj_recoil >= 450 ) {
-                c = c_ltred;
+                color_name = "c_ltred";
             } else if( adj_recoil >= 210 ) {
-                c = c_yellow;
+                color_name = "c_yellow";
             }
-            wprintz(w, c, _("Recoil"));
+            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
         }
     }
+    return std::string();
 }
 
 int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
@@ -3521,8 +3490,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     {
         const int y = sideStyle ? 1 : 0;
-        wmove( weapwin, y, 0 );
-        print_gun_mode( weapwin, c_ltgray );
+        const int w = getmaxx( weapwin );
+        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode().c_str() );
     }
 
     // Print currently used style or weapon mode.
@@ -3689,7 +3658,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (morale_cur > -100) morale_str = "):";
     else if (morale_cur > -200) morale_str = "D:";
     else                        morale_str = "D8";
-    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
+    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str);
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -3743,18 +3712,21 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
 
   if (veh->velocity != 0) {
-   const int offset_from_screen_edge = sideStyle ? 11 : 3;
+   const int offset_from_screen_edge = sideStyle ? 13 : 8;
    nc_color col_indc = veh->skidding? c_red : c_green;
    int dfm = veh->face.dir() - veh->move.dir();
-   wmove(w, sideStyle ? 5 : 3, getmaxx(w) - offset_from_screen_edge);
-   wprintz(w, col_indc, dfm <  0 ? "L" : ".");
-   wprintz(w, col_indc, dfm == 0 ? "0" : ".");
-   wprintz(w, col_indc, dfm >  0 ? "R" : ".");
+   wmove(w, sideStyle ? 4 : 3, getmaxx(w) - offset_from_screen_edge);
+   if (dfm == 0)
+     wprintz(w, col_indc, "^");
+   else if (dfm < 0)
+     wprintz(w, col_indc, "<");
+   else
+     wprintz(w, col_indc, ">");
   }
 
   if( sideStyle ) {
       // Make sure this is left-aligned.
-      mvwprintz(w, speedoy, getmaxx(w) - 7, c_white, "%s", "St");
+      mvwprintz(w, speedoy, getmaxx(w) - 9, c_white, "%s", _("Stm "));
       print_stamina_bar(w);
   }
  } else {  // Not in vehicle
@@ -3786,18 +3758,18 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
   if (spd_bonus > 0)
    col_spd = c_green;
 
-    int x  = sideStyle ? 19 : 13;
+    int x  = sideStyle ? 18 : 12;
     int y  = sideStyle ?  0 :  3;
-    int dx = sideStyle ?  0 :  6;
+    int dx = sideStyle ?  0 :  7;
     int dy = sideStyle ?  1 :  0;
-    mvwprintz(w, y + dy * 0, x + dx * 0, col_str, _("Str%2d"), get_str());
-    mvwprintz(w, y + dy * 1, x + dx * 1, col_dex, _("Dex%2d"), get_dex());
-    mvwprintz(w, y + dy * 2, x + dx * 2, col_int, _("Int%2d"), get_int());
-    mvwprintz(w, y + dy * 3, x + dx * 3, col_per, _("Per%2d"), get_per());
+    mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _("Str %d"), str_cur );
+    mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _("Dex %d"), dex_cur );
+    mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _("Int %d"), int_cur );
+    mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _("Per %d"), per_cur );
 
-    int spdx = sideStyle ?  0 : x + dx * 4;
+    int spdx = sideStyle ?  0 : x + dx * 4 + 1;
     int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd%3d"), get_speed());
+    mvwprintz(w, spdy, spdx, col_spd, _("Spd %d"), get_speed());
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
@@ -3808,11 +3780,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
             col_time = c_dkgray_red;
         }
     }
-    wprintz(w, col_time, " %3d", movecounter);
+    wprintz(w, col_time, " %d", movecounter);
 
-    wprintz(w, c_white, " %5s", _(move_mode.c_str()));
+    wprintz(w, c_white, " %s", move_mode == "walk" ? _("W") : _("R"));
     if( sideStyle ) {
-        wprintz(w, c_white, " St");
+        mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
         print_stamina_bar(w);
     }
  }
@@ -5174,8 +5146,9 @@ int player::impact( const int force, const tripoint &p )
         // Armor simply helps way less
         armor_eff *= 30.0f / effective_force;
         if( mod < 1.0f ) {
-            // Landing helps only with the last 30 damage
-            const float scaled_damage = ( 30.0f * mod ) + effective_force - 30.0f;
+            // Everything past 30 damage gets a worse modifier
+            const float scaled_mod = std::pow( mod, 30.0f / effective_force );
+            const float scaled_damage = ( 30.0f * mod ) + scaled_mod * ( effective_force - 30.0f );
             mod = scaled_damage / effective_force;
         }
     }
@@ -6056,13 +6029,6 @@ void player::process_effects() {
                 }
             }
 
-            // Handle stat changes
-            mod_str_bonus(it.get_mod("STR", reduced));
-            mod_dex_bonus(it.get_mod("DEX", reduced));
-            mod_per_bonus(it.get_mod("PER", reduced));
-            mod_int_bonus(it.get_mod("INT", reduced));
-            // Speed is already added in recalc_speed_bonus
-
             // Handle Pain
             val = it.get_mod("PAIN", reduced);
             if (val != 0) {
@@ -6170,6 +6136,8 @@ void player::process_effects() {
                     }
                 }
             }
+
+            // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
         }
     }
 
@@ -6259,31 +6227,14 @@ void player::hardcoded_effects(effect &it)
                                               _("<npcname> vomits thousands of live spores!") );
 
                 moves = -500;
-                int sporex, sporey;
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (i == 0 && j == 0) {
                             continue;
                         }
-                        sporex = posx() + i;
-                        sporey = posy() + j;
-                        tripoint sporep( sporex, sporey, posz() );
-                        if (g->m.move_cost(sporex, sporey) > 0) {
-                            const int zid = g->mon_at( sporep );
-                            if (zid >= 0) {  // Spores hit a monster
-                                if (g->u.sees(sporex, sporey) &&
-                                      !g->zombie(zid).type->in_species("FUNGUS")) {
-                                    add_msg(_("The %s is covered in tiny spores!"),
-                                               g->zombie(zid).name().c_str());
-                                }
-                                monster &critter = g->zombie( zid );
-                                if( !critter.make_fungus() ) {
-                                    critter.die( this ); // Counts as kill by player
-                                }
-                            } else if (one_in(4) && g->num_zombies() <= 1000){
-                                g->summon_mon("mon_spore", tripoint(sporex, sporey, posz()));
-                            }
-                        }
+
+                        tripoint sporep( posx() + i, posy() + j, posz() );
+                        g->m.fungalize( sporep, this, 0.25 );
                     }
                 }
             // We're fucked
@@ -7447,7 +7398,7 @@ void player::hardcoded_effects(effect &it)
                     woke_up = true;
                 }
             } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
-                add_msg(_("It's too bright to sleep."));
+                add_msg_if_player(_("It's too bright to sleep."));
                 // Set ourselves up for removal
                 it.set_duration(0);
                 woke_up = true;
@@ -8066,6 +8017,9 @@ void player::suffer()
             rads_max = static_cast<int>( rads );
             if( x_in_y( rads - rads_max, 1 ) ) {
                 rads_max++;
+            }
+            if( int(calendar::turn) % 30 == 0 && has_bionic("bio_geiger") && localRadiation > 0 ) {
+                add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
             }
         }
         radiation += rng( 0, rads_max );
@@ -10282,7 +10236,7 @@ public:
     virtual ~ma_style_callback() { }
 };
 
-void player::pick_style() // Style selection menu
+bool player::pick_style() // Style selection menu
 {
     //Create menu
     // Entries:
@@ -10323,6 +10277,8 @@ void player::pick_style() // Style selection menu
         }
         else if ( selection == 1 ) {
             keep_hands_free = !keep_hands_free;
+        } else {
+            return false;
         }
     }
     else {
@@ -10349,10 +10305,11 @@ void player::pick_style() // Style selection menu
             style_selected = matype_id( "style_none" );
         else if (selection == 1)
             keep_hands_free = !keep_hands_free;
-
-        //else
-        //all other means -> don't change, keep current.
+        else
+            return false;
     }
+
+    return true;
 }
 
 hint_rating player::rate_action_wear(item *it)
@@ -11247,8 +11204,14 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
+        unsigned imodcount = 0;
+        for( auto &gm : mods ){
+            if( gm.has_flag("IRREMOVABLE") ){
+                imodcount++;
+            }
+        }
         // Get weapon mod names.
-        if (mods.empty()) {
+        if (mods.empty() || mods.size() == imodcount ) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
@@ -11264,7 +11227,9 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         kmenu.selected = 0;
         kmenu.text = _("Remove which modification?");
         for (size_t i = 0; i < mods.size(); i++) {
-            kmenu.addentry( i, true, -1, mods[i].tname() );
+            if( !mods[i].has_flag("IRREMOVABLE") ){
+                kmenu.addentry( i, true, -1, mods[i].tname() );
+            }
         }
         kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
         kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
@@ -11277,7 +11242,9 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
         } else if (choice == int(mods.size())) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
-                remove_gunmod(used, i);
+                if( !used->contents[i].has_flag("IRREMOVABLE") ){
+                    remove_gunmod(used, i);
+                }
             }
             add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
         } else {
@@ -12144,12 +12111,12 @@ float player::fine_detail_vision_mod()
         (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
         return 5.0;
     }
+    // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
-    // Scale linearly own_light approaches LIGHT_AMBIENT_LIT.
-    // but also enforce a monimum of 1.0, and drop by one as a bonus.
-    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() );
+    // Therefore give a hefty bonus relative to ambient light.
+    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() - 2 );
 
-    // Same calculation as above, but with a result 1 lower.
+    // Same calculation as above, but with a result 3 lower.
     float ambient_light = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( pos() ) + 1.0 );
 
     return std::min( own_light, ambient_light );
@@ -12299,17 +12266,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
             if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
                 armorenc += std::max( 0, worn[i].get_encumber() - 40);
             } else {
-                int newenc = worn[i].get_encumber();
-                // Fitted clothes will reduce either encumbrance or layering.
-                if( worn[i].has_flag( "FIT" ) ) {
-                    if( newenc > 0 ) {
-                        newenc = std::max( 0, newenc - 10 );
-                    } else if (layer[level] > 0) {
-                        layer[level] -= 5;
-                    }
-                }
-
-                armorenc += newenc;
+                armorenc += worn[i].get_encumber();
             }
         }
     }
@@ -13325,7 +13282,23 @@ tripoint player::adjacent_tile()
         return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
     }
 
-    return pos3(); // or return player position if no valid adjacent tiles
+    return pos(); // or return player position if no valid adjacent tiles
+}
+
+int player::climbing_cost( const tripoint &from, const tripoint &to ) const
+{
+    if( !g->m.valid_move( from, to, false, true ) ) {
+        return 0;
+    }
+
+    const int diff = g->m.climb_difficulty( from );
+
+    if( diff > 5 ) {
+        return 0;
+    }
+
+    return 50 + diff * 100;
+    // TODO: All sorts of mutations, equipment weight etc.
 }
 
 // --- Library functions ---
@@ -13791,6 +13764,26 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
     return vStart;
 }
 
+std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>pred )
+{
+    std::vector<Creature *> result;
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        auto &critter = g->zombie( i );
+        if( !critter.is_dead() && pred( critter ) ) {
+            result.push_back( &critter );
+        }
+    }
+    for( auto & n : g->active_npc ) {
+        if( pred( *n ) ) {
+            result.push_back( n );
+        }
+    }
+    if( pred( g->u ) ) {
+        result.push_back( &g->u );
+    }
+    return result;
+}
+
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
@@ -13798,22 +13791,18 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
-    std::vector<Creature *> result;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        auto &critter = g->zombie( i );
-        if( !critter.is_dead() && is_visible_in_range( critter, range ) ) {
-            result.push_back( &critter );
-        }
-    }
-    for( auto & n : g->active_npc ) {
-        if( n != this && is_visible_in_range( *n, range ) ) {
-            result.push_back( n );
-        }
-    }
-    if( this != &g->u && is_visible_in_range( g->u, range ) ) {
-        result.push_back( &g->u );
-    }
-    return result;
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && this->sees(critter) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
+}
+
+std::vector<Creature *> player::get_targetable_creatures( const int range ) const
+{
+    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+        return this != &critter && ( this->sees(critter) || this->sees_with_infrared(critter) ) &&
+          rl_dist( this->pos(), critter.pos() ) <= range;
+    } );
 }
 
 void player::place_corpse()
@@ -13851,8 +13840,7 @@ bool player::sees_with_infrared( const Creature &critter ) const
     if( !has_ir || !critter.is_warm() ) {
         return false;
     }
-    int bresenham_slope;
-    return g->m.sees(critter.posx(), critter.posy(), sight_range(DAYLIGHT_LEVEL), bresenham_slope );
+    return g->m.sees(pos(), critter.pos(), sight_range(DAYLIGHT_LEVEL) );
 }
 
 std::vector<std::string> player::get_overlay_ids() const {
@@ -13880,35 +13868,14 @@ std::vector<std::string> player::get_overlay_ids() const {
 void player::spores()
 {
     sounds::sound( pos(), 10, _("Pouf!")); //~spore-release sound
-    int sporex, sporey;
-    int mondex;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             if (i == 0 && j == 0) {
                 continue;
             }
-            sporex = posx() + i;
-            sporey = posy() + j;
-            tripoint sporep( sporex, sporey, posz() );
-            mondex = g->mon_at( sporep );
-            if (g->m.move_cost(sporex, sporey) > 0) {
-                if (mondex != -1) { // Spores hit a monster
-                    if (g->u.sees(sporex, sporey) &&
-                        !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( this );
-                    }
-                } else if (one_in(3) && g->num_zombies() <= 1000) { // Spawn a spore
-                    if (g->summon_mon( "mon_spore", sporep )) {
-                        monster *spore = g->monster_at( sporep );
-                        spore->friendly = -1;
-                    }
-                }
-            }
+
+            tripoint sporep( posx() + i, posy() + j, posz() );
+            g->m.fungalize( sporep, this, 0.25 );
         }
     }
 }

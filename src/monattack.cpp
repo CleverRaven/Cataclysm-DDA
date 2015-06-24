@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 #include <algorithm>
 
@@ -396,9 +397,8 @@ void mattack::acid_accurate(monster *z, int index)
     }
     if( g->u.sees( *target ) ) {
         target->add_msg_player_or_npc( msg_type,
-                                    _("A bolt of acid hits your %2$s!"),
-                                    _("A bolt of acid hits %1$s's %2$s!"),
-                                    target->disp_name().c_str(),
+                                    _("A bolt of acid hits your %s!"),
+                                    _("A bolt of acid hits <npcname>'s %s!"),
                                     body_part_name_accusative( bp ).c_str() );
     }
     target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
@@ -1419,74 +1419,54 @@ void mattack::fungus(monster *z, int index)
     z->moves -= 200;   // It takes a while
     z->reset_special(index); // Reset timer
     if (g->u.has_trait("THRESH_MYCUS")) {
-        z->friendly = 1;
+        z->friendly = 100;
     }
-    monster spore(GetMType("mon_spore"));
-    int mondex;
     //~ the sound of a fungus releasing spores
     sounds::sound(z->pos(), 10, _("Pouf!"));
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("Spores are released from the %s!"), z->name().c_str());
     }
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            if (i == 0 && j == 0) {
+
+    // Use less laggy methods of reproduction when there is a lot of mons around
+    double spore_chance = 0.25;
+    int radius = 1;
+    if( g->num_zombies() > 25 ) {
+        // Number of monsters in the bubble and the resulting average number of spores per "Pouf!":
+        // 0-25: 2
+        // 50  : 0.5
+        // 75  : 0.22
+        // 100 : 0.125
+        // Assuming all monsters in the bubble were fungaloids (unlikely), the average number of spores per generation:
+        // 25  : 50
+        // 50  : 25
+        // 75  : 17
+        // 100 : 13
+        spore_chance *= ( 25.0 / g->num_zombies() ) * ( 25.0 / g->num_zombies() );
+        if( x_in_y( g->num_zombies(), 100 ) ) {
+            // Don't make the increased radius spawn more spores
+            const double old_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+            radius++;
+            const double new_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+            spore_chance *= old_area / new_area;
+        }
+    }
+
+    int bres1 = 0, bres2 = 0;
+    for (int i = -radius; i <= radius; i++) {
+        for (int j = -radius; j <= radius; j++) {
+            if( i == 0 && j == 0 ) {
                 continue;
             }
 
             tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            mondex = g->mon_at(sporep);
-            if (g->m.move_cost(sporep) > 0) {
-                if (mondex != -1) { // Spores hit a monster
-                    if (g->u.sees(sporep) &&
-                        !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( z ); // counts as kill by monster z
-                    }
-                } else if (g->u.pos() == sporep) {
-                    // Spores hit the player--is there any hope?
-                    if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
-                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
-                        return;
-                    }
-                    bool hit = false;
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
-                        hit = true;
-                    }
-                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
-                        hit = true;
-                    }
-                    if ((hit) && (g->u.has_trait("TAIL_CATTLE") &&
-                                  one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
-                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
-                        hit = false;
-                    }
-                    if (hit) {
-                        add_msg(m_warning, _("You're covered in tiny spores!"));
-                    }
-                } else if (one_in(4) && g->num_zombies() <= 1000) { // Spawn a spore
-                    if (g->summon_mon("mon_spore", sporep)) {
-                        monster *spore = g->monster_at(sporep);
-                        spore->make_ally(z);
-                    }
-                }
+            const int dist = rl_dist( z->pos(), sporep );
+            if( !one_in( dist ) ||
+                g->m.move_cost(sporep) <= 0 ||
+                ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10, bres1, bres2 ) ) ) {
+                continue;
             }
+
+            g->m.fungalize( sporep, z, spore_chance );
         }
     }
 }
@@ -1678,6 +1658,7 @@ void mattack::fungus_growth(monster *z, int index)
         add_msg(m_warning, _("The %s grows into an adult!"),
                 z->name().c_str());
     }
+
     z->poly(GetMType("mon_fungaloid"));
 }
 
@@ -2049,15 +2030,15 @@ void mattack::dermatik_growth(monster *z, int index)
     z->poly(GetMType("mon_dermatik"));
 }
 
-void mattack::plant(monster *z, int index)
+void mattack::plant( monster *z, int /*index*/ )
 {
-    (void)index; //unused
     // Spores taking seed and growing into a fungaloid
-    if (!g->spread_fungus( z->pos() ) && one_in(20)) {
-        if (g->u.sees( *z )) {
+    if( !g->spread_fungus( z->pos() ) && one_in( 10 + g->num_zombies() / 5 ) ) {
+        if( g->u.sees( *z ) ) {
             add_msg(m_warning, _("The %s takes seed and becomes a young fungaloid!"),
                     z->name().c_str());
         }
+
         z->poly(GetMType("mon_fungaloid_young"));
         z->moves -= 1000; // It takes a while
     } else {
@@ -2066,6 +2047,8 @@ void mattack::plant(monster *z, int index)
                     z->name().c_str());
         }
         z->set_hp( 0 );
+        // Try fungifying once again
+        g->spread_fungus( z->pos() );
     }
 }
 
@@ -2342,12 +2325,11 @@ void mattack::tentacle(monster *z, int index)
 
 void mattack::ranged_pull(monster *z, int index)
 {
-    int t;
+    int t = 0;
     int t2 = 0;
     Creature *target = z->attack_target();
-    monster *zz = dynamic_cast<monster*>(target);
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
-            || rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees(*target, t)) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
+        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target, t ) ) {
         return;
     }
 
@@ -2355,63 +2337,61 @@ void mattack::ranged_pull(monster *z, int index)
     std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, t2 );
     bool seen = g->u.sees( *z );
 
-    z->reset_special(index); // Reset timer
-    z->moves -= 150;
-
-    for (auto &i : line){
-        const ter_t &terrain = g->m.ter_at(i);
-        //Player can't be pulled though bars
-        if (terrain.movecost == 0 ){
-            add_msg( _("The %s flings its arms at you, but they bounce off the %s"), z->name().c_str(), terrain.name.c_str() );
+    for( auto &i : line ) {
+        // Player can't be pulled though bars, furniture, cars or creatures
+        // TODO: Add bashing? Currently a window is enough to prevent grabbing
+        if( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) {
             return;
         }
     }
-    bool uncanny = target->uncanny_dodge();
 
+    z->reset_special(index); // Reset timer
+    z->moves -= 150;
+
+    const bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check(z, target) ) {
-        z->moves -=200;
+        z->moves -= 200;
         auto msg_type = foe == &g->u ? m_warning : m_info;
-        if( foe != nullptr ) {
-            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
-                                                    _("The %s's arms fly out at <npcname>, but they dodge!"),
-                                        z->name().c_str() );
+        target->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but you dodge!"),
+                                                 _("The %s's arms fly out at <npcname>, but they dodge!"),
+                                       z->name().c_str() );
 
-        }
-        else if( !uncanny ) {
+        if( !uncanny ) {
             target->on_dodge( z, z->type->melee_skill * 2 );
         }
-        else {
-            foe->add_msg_player_or_npc( msg_type, _("The %s's arms fly out at you, but them miss you!"),
-                                        _("The %s's arms fly out at <npcname>, but they miss!"),
-                                z->name().c_str() );
-        }
+
         return;
     }
 
-    const int dir = g->m.coord_to_angle( z->posx(), z->posy(), target->posx(), target->posy() ); //Orientation of where you'll end up
-    tileray tdir(dir);
-    int range = (z->type->melee_sides * z->type->melee_dice) / 10;
+    // Limit the range in case some weird math thing would cause the target to fly past us
+    int range = std::min( (z->type->melee_sides * z->type->melee_dice) / 10,
+                          rl_dist( z->pos(), target->pos() ) + 1 );
     tripoint pt = target->pos();
-    while (range > 0) {
-        if( foe != nullptr ) {
+    while( range > 0 ) {
+        // Recalculate the ray each step
+        // We can't depend on either the target position being constant (obviously),
+        // but neither on z pos staying constant, because we may want to shift the map mid-pull
+        const int dir = g->m.coord_to_angle( target->posx(), target->posy(), z->posx(), z->posy() );
+        tileray tdir(dir);
         tdir.advance();
-        pt.x = z->posx() + tdir.dx();
-        pt.y = z->posy() + tdir.dy();
-        if (!g->is_empty(pt)){ //Cancel the grab if the space is occupied by something
+        pt.x = target->posx() + tdir.dx();
+        pt.y = target->posy() + tdir.dy();
+        if( !g->is_empty( pt ) ) { //Cancel the grab if the space is occupied by something
             break;
         }
-        if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
-            pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
-            g->update_map( pt.x, pt.y );
+
+        if( foe != nullptr ) {
+            if( foe->in_vehicle ) {
+                g->m.unboard_vehicle( foe->pos() );
+            }
+
+            if( target->is_player() && ( pt.x < SEEX * int(MAPSIZE / 2) || pt.y < SEEY * int(MAPSIZE / 2) ||
+                pt.x >= SEEX * (1 + int(MAPSIZE / 2)) || pt.y >= SEEY * (1 + int(MAPSIZE / 2)) ) ) {
+                g->update_map( pt.x, pt.y );
+            }
         }
-        if (foe->in_vehicle) {
-            g->m.unboard_vehicle(foe->pos());
-        }
-        foe->setpos( pt );
-    }
-    else {
-        zz->setpos( pt );
-    }
+
+        target->setpos( pt );
         range--;
         if( target->is_player() && seen ) {
             g->draw();
@@ -2420,7 +2400,8 @@ void mattack::ranged_pull(monster *z, int index)
     if( seen ) {
         add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
     }
-    int prev_effect = target->get_effect_int("grabbed");
+
+    const int prev_effect = target->get_effect_int("grabbed");
     target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 4); //Duration needs to be at least 2, or grab will imediately be removed
 }
 
@@ -2436,8 +2417,8 @@ void mattack::grab(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     z->moves -= 80;
-    bool uncanny = target->uncanny_dodge();
-    auto msg_type = target == &g->u ? m_warning : m_info;
+    const bool uncanny = target->uncanny_dodge();
+    const auto msg_type = target == &g->u ? m_warning : m_info;
     if( uncanny || dodge_check(z, target) ){
         target->add_msg_player_or_npc( msg_type, _("The %s gropes at you, but you dodge!"),
                                             _("The %s gropes at <npcname>, but they dodge!"),
@@ -2446,7 +2427,8 @@ void mattack::grab(monster *z, int index)
         if( !uncanny ) {
             target->on_dodge( z, z->type->melee_skill * 2 );
         }
-    return;
+
+        return;
     }
 
     if ( target->has_grab_break_tec() && target->get_grab_resist() > 0 && target->get_dex() > target->get_str() ?
@@ -2460,10 +2442,11 @@ void mattack::grab(monster *z, int index)
         }
         return;
     }
-    int prev_effect = target->get_effect_int("grabbed");
+
+    const int prev_effect = target->get_effect_int("grabbed");
     target->add_effect("grabbed", 2, bp_torso, false, prev_effect + 1);
-    target->add_msg_player_or_npc(m_bad, _("The %s grabs you!"), _("The %s grabs <npcname>!"),
-                                z->name().c_str());
+    target->add_msg_player_or_npc( m_bad, _("The %s grabs you!"), _("The %s grabs <npcname>!"),
+                                   z->name().c_str() );
 }
 
 void mattack::grab_drag(monster *z, int index)

@@ -237,6 +237,7 @@
       ["gloves_liner", 25],
       ["gloves_leather", 45],
       ["gloves_fingerless", 20],
+      ["gloves_work", 2],
       ["bandana", 35],
       ["scarf", 45],
       ["knit_scarf", 35],
@@ -716,6 +717,7 @@
       ["hacksaw", 17],
       ["xacto", 10],
       ["gloves_leather", 45],
+      ["gloves_work", 45],
       ["cordless_drill", 10],
       ["mask_dust", 65],
       ["glasses_safety", 40],
@@ -1125,6 +1127,7 @@
       ["undershirt", 70],
       ["boxer_shorts", 50],
       ["briefs", 40],
+      ["boxer_briefs", 45],
       ["panties", 70],
       ["boy_shorts", 25],
       ["veil_wedding", 1],
@@ -1779,6 +1782,7 @@
       ["celery", 5],
       ["wheat", 3],
       ["onion", 3],
+      ["garlic", 3],
       ["pine_nuts", 2],
       ["carrot", 3]
     ]
@@ -3429,7 +3433,8 @@
     "id" : "male_underwear_bottom",
     "items":[
       ["boxer_shorts", 70],
-      ["briefs", 30]
+      ["briefs", 30],
+      ["boxer_briefs", 50]
     ]
   },{
     "type" : "item_group",
@@ -3463,6 +3468,7 @@
       ["undershirt", 30],
       ["boxer_shorts", 30],
       ["briefs", 15],
+      ["boxer_briefs", 20],
       ["panties", 30],
       ["boy_shorts", 25],
       ["sweatshirt", 75],
@@ -3485,6 +3491,7 @@
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
+      ["gloves_work", 5],
       ["scarf", 45],
       ["knit_scarf", 35],
       ["long_knit_scarf", 5],
@@ -3516,6 +3523,7 @@
       ["sleeveless_duster_leather", 2],
       ["sleeveless_duster_fur", 1],
       ["cloak", 5],
+      ["cloak_wool", 5],
       ["house_coat", 25],
       ["flotation_vest", 1],
       ["fishing_waders", 5],
@@ -3532,6 +3540,7 @@
       ["bondage_suit", 1],
       ["bondage_mask", 1],
       ["corset", 10],
+      ["chestwrap", 5],
       ["boots_combat", 10],
       ["pants_army", 10],
       ["jacket_army", 10],
@@ -3600,6 +3609,7 @@
       ["undershirt", 30],
       ["boxer_shorts", 30],
       ["briefs", 15],
+      ["boxer_briefs", 20],
       ["panties", 30],
       ["boy_shorts", 25],
       ["sweatshirt", 75],
@@ -4328,6 +4338,7 @@
       ["shotgun_s", 6],
       ["shotgun_d", 6],
       ["trex_gun", 1],
+      ["combination_gun", 1],
       ["700nx", 2],
       ["moss_brownie", 7],
       ["cop_38", 7],
@@ -5194,6 +5205,7 @@
     "items":[
       ["polisher", 6],
       ["trex_gun", 1],
+      ["combination_gun", 1],
       ["700nx", 1],
       ["700nx_casing", 1],
       ["moss_brownie", 5],
@@ -6078,6 +6090,7 @@
       ["seed_corn", 1],
       ["seed_hops", 1],
       ["raw_beans", 1],
+      ["seed_garlic", 1],
       ["tomato", 9],
       ["broccoli", 9],
       ["cucumber", 10],
@@ -6086,6 +6099,7 @@
       ["corn", 7],
       ["celery", 4],
       ["onion", 3],
+      ["garlic", 3],
       ["carrot", 3],
       ["withered", 40],
       ["straw_pile", 20],
@@ -7069,6 +7083,7 @@
       ["flotation_vest", 1],
       ["fishing_waders", 2],
       ["cloak", 5],
+      ["cloak_wool", 5],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
       ["apron_leather", 2],
@@ -7206,6 +7221,7 @@
       ["jumpsuit", 20],
       ["gloves_rubber", 20],
       ["gloves_leather", 45],
+      ["gloves_work", 45],
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
@@ -8589,6 +8605,60 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "fuel_diesel",
+    "items":[
+      {"item": "diesel", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan"},
+      {"item": "diesel", "prob": 30, "charges-min": 3850, "charges-max": 20000, "container-item": "jerrycan_big"}
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fuel_gasoline",
+    "items":[
+      {"item": "gasoline", "prob": 80, "charges-min": 450, "charges-max": 8000, "container-item": "jerrycan"},
+      {"item": "gasoline", "prob": 20, "charges-min": 2650, "charges-max": 20000, "container-item": "jerrycan_big"}
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "car_kit",
+    "items":[
+      ["jack", 18],
+      ["wheel", 14],
+      ["jerrycan", 10],
+      ["jerrycan_big", 3],
+      ["hose", 7],
+      ["jumper_cable", 10],
+      ["sm_extinguisher", 7],
+      ["extinguisher", 2],
+      ["1st_aid", 5],
+      {"item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200},
+      ["screwdriver", 8],
+      ["screwdriver_set", 2],
+      ["toolbox", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "car_misc",
+    "items":[
+      ["matches", 8],
+      ["lighter", 10],
+      ["ref_lighter", 2],
+      ["cig", 15],
+      ["cigar", 2],
+      ["ecig", 5],
+      ["advanced_ecig", 1],
+      ["gum", 13],
+      ["glowstick", 2],
+      ["flashlight", 5],
+      ["umbrella", 10],
+      ["teleumbrella", 3],
+      ["sunglasses", 12],
+      ["inhaler", 5],
+      ["knife_swissarmy", 5],
+      ["roadmap", 1],
+      ["touristmap", 1]
+      ]
+  },{
+    "type" : "item_group",
     "id" : "npc_hacker",
     "items":[
       ["energy_drink", 55],
@@ -8754,6 +8824,7 @@
       ["bio_blade_weapon", 0],
       ["v_table", 0],
       ["survnote", 5],
+      ["combination_gun_shotgun", 0],
       ["raw_leather", 0],
       ["raw_fur", 0],
       ["straw_pile", 0]
@@ -8776,6 +8847,7 @@
     "id" : "loincloth",
     "items":[
       ["loincloth", 2],
+      ["loincloth_wool", 1],
       ["loincloth_fur", 1],
       ["loincloth_leather", 1]
     ]
@@ -9057,6 +9129,7 @@
       ["gauntlets_bone", 12],
       ["gloves_fur", 4],
       ["gloves_leather", 22],
+      ["gloves_work", 22],
       ["gloves_plate", 2],
       ["gloves_wraps", 1]
     ]
@@ -9692,6 +9765,8 @@
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "wild_herbs", "prob": 10 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
@@ -9710,6 +9785,8 @@
       { "item": "blackberries", "prob": 20, "count-min": 2, "count-max": 5 },
       { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
       { "item": "canola", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
       { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
@@ -9725,6 +9802,8 @@
       { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },      
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
       { "item": "canola", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
@@ -9998,6 +10077,124 @@
       ["scissors", 20],
       ["emergency_book", 20],
       ["survnote", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "college_camping",
+    "guns_with_ammo" : true,
+    "items":[
+      ["rope_30", 10],
+      ["hatchet", 50],
+      ["mess_kit", 100],
+      ["teapot", 50],
+      ["binoculars", 30],
+      ["firecracker_pack", 20],
+      ["tin_plate", 50],
+      ["knife_hunting", 50],
+      ["glock_19", 5],
+      ["backpack", 100],
+      ["backpack_leather", 50],
+      ["lighter", 100],
+      ["ref_lighter", 20],
+      ["matches", 50],
+      ["flashlight", 100],
+      ["radio", 20],
+      ["rollmat", 60],
+      ["tent_kit", 10],
+      ["large_tent_kit", 5],
+      ["canteen", 100],
+      ["2lcanteen", 50],
+      ["heatpack", 100],
+      ["glowstick", 100],
+      ["handflare", 30],
+      ["emer_blanket", 30],
+      ["sleeping_bag", 80],
+      ["gasoline_lantern", 40],
+      ["oil_lamp", 40],
+      ["pur_tablets", 10],
+      ["water_clean", 50],
+      ["granola", 60],
+      ["fruit_leather", 50],
+      ["jerky", 70],
+      ["porkstick", 60],
+      ["aspirin", 80],
+      ["inhaler", 30],
+      ["vodka", 60],
+      ["beer", 80],
+      ["cig", 20],
+      ["crackpipe", 10],
+      ["weed", 10],
+      ["joint", 10],
+      ["cell_phone", 20],
+      ["camera", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "college_sports",
+    "items":[
+      ["bat", 80],
+      ["bat_metal", 80],
+      ["boxing_gloves", 20],
+      ["football_armor", 20],
+      ["helmet_football", 20],
+      ["jersey", 100],
+      ["basketball", 100],
+      ["armguard_soft", 50],
+      ["armguard_hard", 20],
+      ["legguard_hard", 50],
+      ["hat_ball", 100],
+      ["helmet_ball", 80],
+      ["baseball", 100],
+      ["football", 100],
+      ["radio", 20],
+      ["elbow_pads", 80],
+      ["knee_pads", 80],
+      ["roller_blades", 40],
+      ["rollerskates", 10],
+      ["aspirin", 80],
+      ["inhaler", 30],
+      ["beer", 80],
+      ["pale_ale", 40],
+      ["stout", 40],
+      ["sports_drink", 80],
+      ["energy_drink", 30],
+      ["cig", 20],
+      ["weed", 10],
+      ["joint", 10],
+      ["cell_phone", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "college_lake",
+    "items":[
+      ["bikini_top", 100],
+      ["trunks", 100],
+      ["towel", 100],
+      ["goggles_swim", 30],
+      ["swim_fins", 20],
+      ["flotation_vest", 50],
+      ["diving_watch", 10],
+      ["sunglasses", 60],
+      ["fitover_sunglasses", 20],
+      ["fancy_sunglasses", 10],
+      ["flip_flops", 50],
+      ["wetsuit_spring", 10],
+      ["fishing_rod_professional", 30],
+      ["straw_hat", 80],
+      ["straw_fedora", 80],
+      ["silver_ear", 20],
+      ["necklace", 20],
+      ["silver_bracelet", 20],
+      ["radio", 20],
+      ["aspirin", 80],
+      ["inhaler", 30],
+      ["beer", 80],
+      ["drink_boozeberry", 40],
+      ["drink_strawberry_surprise", 40],
+      ["cig", 20],
+      ["weed", 10],
+      ["joint", 10],
+      ["cell_phone", 50]
     ]
   }
 ]

@@ -1,0 +1,191 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "cabin"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "|----------------------|",
+                "|......................|",
+                "|...#######............|",
+                "|...#LCCCL#............|",
+                "|...W     W............|",
+                "|...#     #............|",
+                "|...###+###............|",
+                "|......................|",
+                "|......................|",
+                "|..######+###ww######..|",
+                "|..# RRR        DBBD#..|",
+                "|..# RSR         BB #..|",
+                "|..# rrr            #..|",
+                "|..#                #..|",
+                "|..w      cttc      w..|",
+                "|..w      cttc      w..|",
+                "|..# OOO            #..|",
+                "|..#                #..|",
+                "|..#                #..|",
+                "|..#                #..|",
+                "|..####ww###+###ww###..|",
+                "|......................|",
+                "|......................|",
+                "-----------GG-----------"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                "#": "t_wall_log",
+                "-": "t_fence_h",
+                "|": "t_fence_v",
+                "G": "t_fencegate_c",
+                "W": "t_window_boarded",
+                "w": "t_window_domestic",
+                "+": "t_door_c",
+                "R": "t_rock",
+                "r": "t_rock_floor"
+            },
+            "furniture": {
+                "L": "f_locker",
+                "C": "f_counter",
+                "D": "f_dresser",
+                "B": "f_bed",
+                "O": "f_sofa",
+                "c": "f_chair",
+                "t": "f_table"
+            },
+            "mapping": {
+                "S": {
+                    "terrain": "t_rock_floor",
+                    "furniture": "f_woodstove"
+                }
+            },
+            "place_items": [
+                { "item": "livingroom", "chance": 60, "x": [4,8], "y": [13,18] },
+                { "item": "dining", "chance": 60, "x": [11,12], "y": [14,15] },
+                { "item": "camping", "chance": 70, "x": 19, "y": [16,19] },
+                { "item": "dresser", "chance": 70, "x": 16, "y": 10 },
+                { "item": "dresser", "chance": 70, "x": 19, "y": 10 },
+                { "item": "tools", "chance": 70, "x": [5,9], "y": 3 },
+                { "item": "bed", "chance": 60, "x": [17,18], "y": [10,11] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "cabin"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "........................",
+                "........................",
+                "........................",
+                "..######w##++#########..",
+                "..#R  d# T#  #  DBBD #..",
+                "..#R  c#4 #  #   BB  #..",
+                "..wR   #  +  +       0..",
+                "..wR   #~~#  #       0..",
+                "..#R   ####  #       #..",
+                "..#R   L###  #AAAA   #..",
+                "..####+####  ######+##..",
+                "..#ttb    #  #6 OOO  #..",
+                "..wttb    #  #       w..",
+                "..wbb     +  +    rrrw..",
+                "..#       #  #    rSr#..",
+                "..#23452  #  #    rrr#..",
+                "..###WW####++####WW###..",
+                "..1 bbbb             1..",
+                "..|                  |..",
+                "..|                  |..",
+                "..1-------1GG1-------1..",
+                "........................",
+                "........................",
+                "........................"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                "#": "t_wall_log",
+                "1": "t_column",
+                "-": "t_fence_h",
+                "|": "t_fence_v",
+                "G": "t_fencegate_c",
+                "+": "t_door_c",
+                "W": "t_window_domestic",
+                "w": "t_curtains",
+                "0": "t_window_empty",
+                "r": "t_rock_floor"
+            },
+            "furniture": {
+                "L": "f_locker",
+                "R": "f_rack",
+                "d": "f_desk",
+                "c": "f_chair",
+                "t": "f_table",
+                "b": "f_bench",
+                "2": "f_cupboard",
+                "3": "f_fridge",
+                "4": "f_sink",
+                "5": "f_oven",
+                "6": "f_armchair",
+                "O": "f_sofa",
+                "A": "f_bookcase",
+                "~": "f_bathtub",
+                "D": "f_dresser",
+                "B": "f_bed"
+            },
+            "mapping": {
+                "S": {
+                    "terrain": "t_rock_floor",
+                    "furniture": "f_woodstove"
+                }
+            },
+            "toilets": {
+                "T": { }
+            },
+            "place_rubble": [
+                { "x": 20, "y": 17, "items": true },
+                { "x": 19, "y": 18, "items": true },
+                { "x": 20, "y": 18, "items": true },
+                { "x": 18, "y": 19, "items": true },
+                { "x": 19, "y": 19, "items": true },
+                { "x": 20, "y": 19, "items": true },
+                { "x": 19, "y": 3, "items": true },
+                { "x": 20, "y": 3, "items": true },
+                { "x": 21, "y": 3, "items": true },
+                { "x": 20, "y": 4, "items": true },
+                { "x": 21, "y": 4, "items": true },
+                { "x": 21, "y": 5, "items": true }
+            ],
+            "place_items": [
+                { "item": "fridge", "chance": 65, "x": 4, "y": 15 },
+                { "item": "homeguns", "chance": 30, "x": 7, "y": 9 },
+                { "item": "home_hw", "chance": 60, "x": 7, "y": 9 },
+                { "item": "kitchen", "chance": 60, "x": 3, "y": 15 },
+                { "item": "kitchen", "chance": 60, "x": 7, "y": 15 },
+                { "item": "dining", "chance": 60, "x": [3,4], "y": [11,12] },
+                { "item": "trash", "chance": 60, "x": [0,23], "y": [0,23] },
+                { "item": "survival_tools", "chance": 30, "x": 3, "y": [4,9] },
+                { "item": "cannedfood", "chance": 50, "x": 3, "y": [4,9] },
+                { "item": "camping", "chance": 50, "x": [4,6], "y": [4,9] },
+                { "item": "magazines", "chance": 60, "x": [14,17], "y": 9 },
+                { "item": "manuals", "chance": 30, "x": [14,17], "y": 9 },
+                { "item": "dresser", "chance": 50, "x": 16, "y": 4 },
+                { "item": "dresser", "chance": 50, "x": 19, "y": 4 },
+                { "item": "softdrugs", "chance": 60, "x": [8,9], "y": [4,7] },
+                { "item": "livingroom", "chance": 50, "x": [14,17], "y": [12,15] },
+                { "item": "bed", "chance": 60, "x": [17,18], "y": [4,5] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": 11, "y": 12 }
+            ]
+        }
+    }
+]

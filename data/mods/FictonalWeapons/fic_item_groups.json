@@ -1,0 +1,41 @@
+[
+    {
+        "type": "item_group",
+        "id": "allguns",
+        "items": [
+          ["ficrico", 2],
+          ["gunsword", 3],
+          ["gunknife", 3],
+          ["50pistol", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "mansion_guns",
+        "items": [
+          ["50pistol", 2],
+          ["ficrico", 2],
+          ["gunknife", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "rare",
+        "items": [
+          ["ficrico", 3],
+          ["gunsword", 3],
+          ["gunknife", 4],
+          ["50pistol", 2]
+        ]
+    },
+    {
+    "type" : "item_group",
+    "id" : "pistols",
+    "items":[
+      ["ficrico", 2],
+      ["gunsword", 2],
+      ["gunknife", 2],
+      ["50pistol", 2],
+    ]
+  }
+]

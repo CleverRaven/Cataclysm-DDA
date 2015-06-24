@@ -27,6 +27,8 @@
 #include "mongroup.h"
 #include "name.h"
 #include "translations.h"
+#include "mapgen_functions.h"
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define STREETCHANCE 2
@@ -47,28 +49,6 @@ enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
 
-// Here are the global controls for map-extra spawning.
-// The %%% line is chance that a given map square will have an extra
-// (higher = less likely) and the individual numbers are the
-// relative frequencies of each (higher = more likely).
-// Adding or deleting map_extras will affect the amount
-// of others, so be careful.
-map_extras no_extras(0);
-    // Formatting deviates from standard to make the headers read reliably
-    // Careful with astyle here, please?
-map_extras road_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75, 40, 25, 40, 100, 30, 10, 5, 80, 10,  8,  2,  3);
-map_extras field_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    90, 40, 8, 20,  0, 20, 10,  3, 50,  10,  8,  1,  3);
-map_extras subway_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    75,  0,  5, 12,  0,  0,  0,  7,  0,  0, 20,  1,  3);
-map_extras build_extras(
-// %%% HEL MIL SCI BLK DRG SUP PRT MIN CRT FUM 1WY ART
-    90,  0,  5, 12,  0, 0,  0,  5,  5, 60,  8,  1,  3);
-
 std::unordered_map<std::string, oter_t> otermap;
 std::vector<oter_t> oterlist;
 
@@ -77,6 +57,16 @@ std::unordered_map<std::string, oter_t> obasetermap;
 t_regional_settings_map region_settings_map;
 
 std::vector<overmap_special> overmap_specials;
+
+/*
+ * Temporary container id_or_id. Stores str for delayed lookup and conversion.
+ */
+struct sid_or_sid {
+   std::string primary_str;   // 32
+   std::string secondary_str; // 64
+   int chance;                // 68
+   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
+};
 
 city::city( int const X, int const Y, int const S)
 : x (X)
@@ -213,21 +203,6 @@ oter_id house(int dir, int chance_of_basement)
         return "";
     }
     return ( one_in( chance_of_basement) ? iid_house : iid_house_base ).t().directional_peers[dir];
-}
-
-map_extras &get_extras(const std::string &name)
-{
-    if (name == "field") {
-        return field_extras;
-    } else if (name == "road") {
-        return road_extras;
-    } else if (name == "subway") {
-        return subway_extras;
-    } else if (name == "build") {
-        return build_extras;
-    } else {
-        return no_extras;
-    }
 }
 
 // oter_t specific affirmatives to is_road, set at startup (todo; jsonize)
@@ -561,6 +536,47 @@ void load_region_settings( JsonObject &jo )
         }
     }
 
+    if ( ! jo.has_object("map_extras") ) {
+        if ( strict ) {
+            jo.throw_error("\"map_extras\": { ... } required for default");
+        }
+    } else {
+        JsonObject pjo = jo.get_object("map_extras");
+
+        std::set<std::string> zones = pjo.get_member_names();
+        for( const auto &zone : zones ) {
+            if( zone != "//" ) {
+                JsonObject zjo = pjo.get_object(zone);
+                map_extras extras(0);
+
+                if ( ! zjo.read("chance", extras.chance) && strict ) {
+                    zjo.throw_error("chance required for default");
+                }
+
+                if ( ! zjo.has_object("extras") ) {
+                    if ( strict ) {
+                        zjo.throw_error("\"extras\": { ... } required for default");
+                    }
+                } else {
+                    JsonObject exjo = zjo.get_object("extras");
+
+                    std::set<std::string> keys = exjo.get_member_names();
+                    for( const auto &key : keys ) {
+                        if(key != "//" ) {
+                            if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                                && classic_extras.count(key) == 0) {
+                                continue;
+                            }
+                            extras.values.add(key, exjo.get_int(key, 0));
+                        }
+                    }
+                }
+
+                new_region.region_extras[zone] = extras;
+            }
+        }
+    }
+
     if ( ! jo.has_object("city") ) {
         if ( strict ) {
             jo.throw_error("\"city\": { ... } required for default");
@@ -718,6 +734,31 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
     if(region.field_coverage.boost_chance > 0.0f && region.field_coverage.boosted_percent_str.size() == 0) {
         fieldjo.throw_error("boost_chance > 0 requires boosted_other { ... }");
+    }
+
+    JsonObject mapextrajo = jo.get_object("map_extras");
+    std::set<std::string> extrazones = mapextrajo.get_member_names();
+    for( const auto &zone : extrazones ) {
+        if( zone != "//" ) {
+            JsonObject zonejo = mapextrajo.get_object(zone);
+
+            int tmpval = 0;
+            if (zonejo.read("chance", tmpval)) {
+                region.region_extras[zone].chance = tmpval;
+            }
+
+            JsonObject extrasjo = zonejo.get_object("extras");
+            std::set<std::string> extrakeys = extrasjo.get_member_names();
+            for( const auto &key : extrakeys ) {
+                if( key != "//" ) {
+                    if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]
+                        && classic_extras.count(key) == 0) {
+                        continue;
+                    }
+                    region.region_extras[zone].values.add_or_replace(key, extrasjo.get_int(key));
+                }
+            }
+        }
     }
 
     JsonObject cityjo = jo.get_object("city");

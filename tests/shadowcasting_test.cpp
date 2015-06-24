@@ -139,7 +139,7 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     struct timespec start1;
     struct timespec end1;
     clock_gettime( CLOCK_REALTIME, &start1 );
-#define PERFORMANCE_TEST_ITERATIONS 10000000
+#define PERFORMANCE_TEST_ITERATIONS 100000
     for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
         // First the control algorithm.
         oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );

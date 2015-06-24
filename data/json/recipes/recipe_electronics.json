@@ -800,6 +800,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "beeper",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 2,
+  "time": 11000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "mag_electronics", 2 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 6 ],
+      [ "toolset", 6 ]
+    ]
+  ],
+  "components": [
+    [ [ "amplifier", 1 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "cable", 4 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "two_way_radio",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",

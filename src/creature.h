@@ -60,9 +60,10 @@ class Creature
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
-        /** Should always be overwritten by the appropriate player/NPC/monster version, return 0 just in case. */
+        /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
+        virtual int stability_roll() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -321,9 +322,6 @@ class Creature
         virtual void set_moves(int nmoves);
 
         virtual bool in_sleep_state() const;
-
-        virtual int stability_roll() const = 0;
-        //Returns true if the target will be moved
 
         /*
          * Get/set our killer, this is currently used exclusively to allow

@@ -8,11 +8,11 @@
 #include <memory>
 
 #include "game_constants.h"
-#include "mapdata.h"
 #include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "int_id.h"
 #include "string_id.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -35,9 +35,14 @@ class computer;
 struct itype;
 struct mapgendata;
 struct trap;
+using trap_id = int_id<trap>;
 struct oter_id;
 struct regional_settings;
 struct mongroup;
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -57,6 +62,11 @@ class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+class map;
+enum ter_bitflags : int;
+template<typename T>
+struct id_or_id;
+struct map_bash_item_drop;
 
 class map_stack : public item_stack {
 private:
@@ -596,10 +606,12 @@ public:
 
     /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
      *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-    void make_rubble( const tripoint &p, furn_id rubble_type = f_rubble, bool items = false,
-                      ter_id floor_type = t_dirt, bool overwrite = false);
-    void make_rubble( int, int, furn_id rubble_type = f_rubble, bool items = false,
-                      ter_id floor_type = t_dirt, bool overwrite = false) = delete;
+    void make_rubble( const tripoint &p, furn_id rubble_type, bool items,
+                      ter_id floor_type, bool overwrite = false );
+    void make_rubble( const tripoint &p );
+    void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
+    void make_rubble( int, int, furn_id rubble_type, bool items,
+                      ter_id floor_type, bool overwrite = false) = delete;
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
@@ -624,14 +636,14 @@ void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
 void draw_fill_background(ter_id type);
 void draw_fill_background(std::string type);
 void draw_fill_background(ter_id (*f)());
-void draw_fill_background(const id_or_id & f);
+void draw_fill_background(const id_or_id<ter_t> & f);
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
 void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
-void draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2);
+void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle(ter_id type, int x, int y, int rad);
 void draw_rough_circle(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
@@ -678,8 +690,9 @@ void add_corpse( const tripoint &p );
     bool hit_with_acid( const tripoint &p );
     bool hit_with_fire( const tripoint &p );
     bool marlossify( const tripoint &p );
-    /** Makes spores at the respective x and y. source is used for kill counting */
+    /** Makes spores at p. source is used for kill counting */
     void create_spores( const tripoint &p, Creature* source = nullptr );
+    void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
 
     bool has_adjacent_furniture( const tripoint &p );
     void mop_spills( const tripoint &p );
@@ -936,6 +949,13 @@ void add_corpse( const tripoint &p );
     void set_graffiti( const tripoint &p, const std::string &contents);
     void delete_graffiti( const tripoint &p );
 
+// Climbing
+    /**
+     * Checks 3x3 block centered on p for terrain to climb.
+     * @return Difficulty of climbing check from point p.
+     */
+    int climb_difficulty( const tripoint &p ) const;
+
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
@@ -1096,7 +1116,7 @@ protected:
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
- void add_extra(map_extra type);
+
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );

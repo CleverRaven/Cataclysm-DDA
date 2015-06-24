@@ -2015,8 +2015,8 @@
         "name" : "Subterranean Fortitude",
         "points" : 2,
         "description" : "The aches and pains of living underground don't bother you as much.",
-        "prereq" : ["PAINRESIST"],
-        "prereq2" : ["STOCKY_TROGLO"],
+        "prereqs" : ["PAINRESIST"],
+        "prereqs2" : ["STOCKY_TROGLO"],
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLOBITE"]
     },{
@@ -4642,6 +4642,14 @@
         "points" : 99,
         "valid" : false,
         "description" : "Bug repellent forcefield.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_HS",
+        "name" : "Debug Hammerspace",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "threshold" : true
     }
 ]
