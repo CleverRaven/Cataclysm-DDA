@@ -1602,6 +1602,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_relax_gas ) ||
                             curfield.findField( fd_nuke_gas ) ||
                             curfield.findField( fd_gas_vent ) ||
+                            curfield.findField( fd_fungicidal_gas ) ||
                             curfield.findField( fd_fire_vent ) ||
                             curfield.findField( fd_flame_burst ) ||
                             curfield.findField( fd_electricity ) ||
@@ -1668,13 +1669,27 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         make_rubble( p );
                         break;
 
-					case fd_fungicidal_gas:
+                    case fd_fungicidal_gas:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 66, 40 );
-                        const auto &ter = map_tile.get_ter_t();
-                        const auto &frn = map_tile.get_furn_t();
-                        if( ter.has_flag( TFLAG_FUNGUS ) ) {
-                            cur->setFieldType( t_dirt );
+                        //spread the chemical agent as fast as air would
+                        spread_gas( cur, p, curtype, 60, 40 );
+                        //check the terrain and replace it accordingly to simulate the fungus dieing off
+                        auto ter = map_tile.get_ter_t();
+                        auto frn = map_tile.get_furn_t();
+                        if(  ) {
+                            ter_set( p, t_dirt );
+                        } else if (  ) {
+                            ter_set( p, t_dirtmound );
+                        } else if (  ) {
+                            ter_set( p, t_floor );
+                        } else if (  ) {
+                            ter_set( p, t_tree_deadpine );
+                        //leaving marloss bushes standing would be too op, there have to be drawbacks using the sprayer
+                        } else if (  ) {
+                            ter_set( p, t_dirt );
+                        }
+                        if(  ) {
+                            furn_set( p, f_null);
                         }
                         break;
 

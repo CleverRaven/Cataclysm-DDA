@@ -5435,6 +5435,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "chemical thrower",
+	"name_plural": "chemical throwers",
     "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
     "price": 15000,
     "material": ["steel", "plastic"],
