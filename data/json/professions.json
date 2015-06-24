@@ -174,7 +174,7 @@
         "type": "profession",
         "ident": "chef",
         "name": "Chef",
-        "description": "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+        "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
         "points": 1,
         "skills": [
             {
@@ -1299,7 +1299,7 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
         "points": -1,
         "items": {
             "both": [
@@ -2129,7 +2129,7 @@
         "type": "profession",
         "ident": "senior",
         "name": "Senior Citizen",
-        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
+        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
         "points": 0,
         "items": {
             "both": [
@@ -2922,7 +2922,7 @@
         "type": "profession",
         "ident": "blackbelt_intermediate",
         "name": "Martial Artist",
-        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them! SHOW THEM ALL!",
+        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
         "points": 3,
         "traits": [
             "PROF_MA_ORANGE"
