@@ -191,6 +191,7 @@ void player::power_bionics()
 {
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
+    bionic *bio_last = NULL;
     std::string tab_mode = "TAB_ACTIVE";
 
     for( auto &elem : my_bionics ) {
@@ -509,20 +510,30 @@ void player::power_bionics()
         }
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if(confirmCheck){
+            auto& bio_list = tab_mode == "TAB_ACTIVE" ? active : passive;
             if(action == "CONFIRM" && current_bionic_list->size() > 0){
-                if(tab_mode == "TAB_ACTIVE"){
-                    tmp = active[cursor];
-                }else{
-                    tmp = passive[cursor];
-                }
+                tmp = bio_list[cursor];
             }else{
                 tmp = bionic_by_invlet(ch);
+                if(tmp != NULL && tmp != bio_last) {
+                    // new bionic selected, update cursor and scroll position
+                    for(cursor = 0; cursor < bio_list.size(); cursor++) {
+                        if(bio_list[cursor] == tmp) {
+                            break;
+                        }
+                    }
+                    scroll_position = 0;
+                    while(scroll_position < max_scroll_position && cursor - scroll_position > LIST_HEIGHT - half_list_view_location) {
+                        scroll_position++;
+                    }
+                }
             }
             if(tmp == 0) {
                 // entered a key that is not mapped to any bionic,
                 // -> leave screen
                 break;
             }
+            bio_last = tmp;
             const std::string &bio_id = tmp->id;
             const bionic_data &bio_data = bionics[bio_id];
             if (menu_mode == "removing") {
