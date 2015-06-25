@@ -804,6 +804,24 @@
     ]
   ]
 },{
+    "type" : "recipe",
+    "result": "boots_hiking",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": 800,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"CUT","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "components": [
+        [ [ "leather", 8 ] ],
+        [ [ "scrap", 2 ] ],
+    ]
+},{
   "type" : "recipe",
   "result": "lightstrip_dead",
   "id_suffix": "uncraft",
