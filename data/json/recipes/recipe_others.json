@@ -1471,6 +1471,45 @@
   ]
 },{
   "type" : "recipe",
+  "result": "v_curtain_item",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["mechanics",1],
+  "difficulty": 2,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1}
+  ],  
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "sewing_kit", 15 ],
+      [ "tailors_kit", 15 ]
+    ]
+  ],
+  "components": [
+	[
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "sheet", 2 ]
+    ],
+    [
+      [ "wire", 4 ]
+    ],
+	[
+	  [ "string_36", 2 ]
+	]
+  ]
+},{
+  "type" : "recipe",
   "result": "w_table",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
