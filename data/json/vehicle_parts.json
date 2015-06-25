@@ -3384,7 +3384,7 @@
         "difficulty": 1,
         "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
         "breaks_into": []
-    }{
+    },{
         "type" : "vehicle_part",
         "id"   : "aisle_curtain",
         "name" : "aisle curtain",
@@ -3399,8 +3399,8 @@
         "location": "on_ceiling",
         "difficulty": 1,
         "flags": ["OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE"],
-        "breaks_into": []		
-	},{
+        "breaks_into": []
+    },{
         "type" : "vehicle_part",
         "id" : "solar_panel",
         "name" : "solar panel",
