@@ -805,13 +805,13 @@
   ]
 },{
     "type" : "recipe",
-    "result": "boots_hiking",
+    "result": "boots_steel",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "tailor",
     "difficulty": 0,
-    "time": 800,
+    "time": 1000,
     "reversible": true,
     "autolearn": false,
     "qualities" : [
