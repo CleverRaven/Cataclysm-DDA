@@ -4327,7 +4327,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 10,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 3
     },
@@ -4353,7 +4353,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 4
     },
@@ -4379,7 +4379,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 25,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4405,7 +4405,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 40,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4431,7 +4431,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 25,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4457,7 +4457,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 17,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4483,7 +4483,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 55,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "STURDY", "BELTED"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 4
     },
