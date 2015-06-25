@@ -13595,7 +13595,7 @@ bool player::can_pickup(bool print_msg) const
     return true;
 }
 
-bool player::has_container_for(const item &newit)
+bool player::has_container_for(const item &newit) const
 {
     if (!newit.made_of(LIQUID)) {
         // Currently only liquids need a container
