@@ -771,6 +771,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
             }
         } else {
+            if (has_flag("BURST_ONLY")) {
+                dump->push_back(iteminfo("GUN", _("Fully-automatic (burst only).")));
+            }
             dump->push_back(iteminfo("GUN", _("Burst size: "), "", mod->burst_size()));
         }
 
@@ -3221,7 +3224,9 @@ void item::set_auxiliary_mode()
 
 std::string item::get_gun_mode() const
 {
-    return get_var( GUN_MODE_VAR_NAME, "NULL" );
+    // has_flag() calls get_gun_mode(), so this:
+    const std::string default_mode = type->item_tags.count( "BURST_ONLY" ) ? "MODE_BURST" : "NULL";
+    return get_var( GUN_MODE_VAR_NAME, default_mode );
 }
 
 void item::set_gun_mode( const std::string &mode )
@@ -3239,7 +3244,7 @@ void item::set_gun_mode( const std::string &mode )
 
 void item::next_mode()
 {
-    const auto mode = get_gun_mode();
+    auto mode = get_gun_mode();
     if( mode == "NULL" && has_flag("MODE_BURST") ) {
         set_gun_mode("MODE_BURST");
     } else if( mode == "NULL" || mode == "MODE_BURST" ) {
@@ -3281,6 +3286,11 @@ void item::next_mode()
         }
     } else if( mode == "MODE_REACH" ) {
         set_gun_mode( "NULL" );
+    }
+    // ensure MODE_BURST for BURST_ONLY weapons
+    mode = get_gun_mode();
+    if( mode == "NULL" && has_flag( "BURST_ONLY" ) ) {
+        set_gun_mode( "MODE_BURST" );
     }
 }
 
