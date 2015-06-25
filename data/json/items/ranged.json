@@ -5441,7 +5441,7 @@
     "material": ["steel", "plastic"],
     "flags": ["FIRE_100", "NEVER_JAMS"],
     "skill": "launcher",
-    "ammo": "gas_fungicidal",
+    "ammo": "chemical_spray",
     "weight": 1150,
     "volume": 25,
     "bashing": 9,
