@@ -4443,7 +4443,7 @@
   "skill_used": "cooking",
   "skills_required": [ "survival", 2 ],
   "difficulty": 4,
-  "time": 2500,
+  "time": 8000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_gaswarfare", 4 ] , ["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
@@ -4452,14 +4452,14 @@
   ], "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 3 ],
-      [ "hotplate", 3 ],
-      [ "char_smoker", 2 ]
+      [ "toolset", 5 ],
+      [ "hotplate", 5 ],
+      [ "char_smoker", 4 ]
     ]
   ],
   "components": [
     [
-      [ "fungicide", 100 ]
+      [ "fungicide", 50 ]
     ],
     [
       [ "chem_sulphur", 10 ]

@@ -4436,7 +4436,7 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 100,
-        "effects" : [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES"]
+        "effects" : [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES" , "JET"]
     }
 
 ]

@@ -328,7 +328,7 @@ void game::init_fields()
         {
             "fd_fungicidal_gas",
             {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(30),
+            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(70),
             {0,0,0}
         }
 
