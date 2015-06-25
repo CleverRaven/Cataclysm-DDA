@@ -30149,7 +30149,54 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }
+      },
+	  { 
+         "id" : "chemical_thrower", 
+         "fg" : 2012, 
+         "bg" : -1, 
+         "rotates" : false, 
+         "multitile" : false
+      },
+	  {
+		"id":"fd_fungicidal_gas",
+		"fg":2018,
+		"multitile":true,
+		"additional_tiles":
+		[
+			{
+				"id": "center",
+				"fg": 2013
+			},
+			{
+				"id": "corner",
+				"fg": 2014
+			},
+			{
+				"id": "edge",
+			    "fg": 2015
+			},
+			{
+				"id": "t_connection",
+			    "fg": 2016
+			},
+			{
+				"id": "end_piece",
+			    "fg": 2017
+			},
+			{
+				"id": "unconnected",
+			    "fg": 2018
+			}
+		],
+	   "rotates" : false
+	  },
+	  {
+	    "id" : "gas_fungicidal",
+		"fg" : 952,
+		"bg" : -1,
+		"rotates" : false,
+		"multitile" : false
+	  }
     ],
 	"ascii":
 		[
