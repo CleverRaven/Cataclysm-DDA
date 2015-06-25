@@ -8781,19 +8781,18 @@ void player::process_active_items()
         weapon.charges++;
     }
 
-    remove_worn_items_with( [this, &ch_UPS, &ch_UPS_used]( item& worn_item ) {
+    for( item& worn_item : worn ) {
         if( ch_UPS_used >= ch_UPS ) {
-            return false;
+            break;
         }
         if( !worn_item.has_flag( "USE_UPS" ) ) {
-            return false;
+            continue;
         }
         if( worn_item.charges < worn_item.type->maximum_charges() ) {
             ch_UPS_used++;
             worn_item.charges++;
         }
-        return false;
-    } );
+    }
     if( ch_UPS_used > 0 ) {
         use_charges( "UPS", ch_UPS_used );
     }
