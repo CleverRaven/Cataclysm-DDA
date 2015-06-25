@@ -815,11 +815,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-        {"id":"CUT","level":1,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
+        {"id":"CUT","level":1,"amount":1}
     ], "components": [
         [ [ "leather", 8 ] ],
-        [ [ "scrap", 2 ] ],
+        [ [ "scrap", 2 ] ]
     ]
 },{
   "type" : "recipe",
