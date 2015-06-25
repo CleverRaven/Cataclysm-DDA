@@ -361,13 +361,14 @@ void inventory_selector::print_right_column() const
         trim_and_print(w_inv, drp_line, right_column_width - 2, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
-    for (size_t k = 0; k < u.worn.size(); k++) {
+    auto iter = u.worn.begin();
+    for (size_t k = 0; k < u.worn.size(); k++, ++iter) {
         // worn items can not be dropped partially
         if (dropping.count(player::worn_position_to_index(k)) == 0) {
             continue;
         }
-        const char invlet = invlet_or_space(u.worn[k]);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, u.worn[k].display_name().c_str());
+        const char invlet = invlet_or_space(*iter);
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -435,7 +436,7 @@ void inventory_selector::display(bool show_worn) const
             } else if( elem.first == -1 && elem.second != -1 ) {
                 tmp.weapon.charges -= elem.second;
             } else if( elem.first < 0 ) {
-                tmp.worn.erase( tmp.worn.begin() + player::worn_position_to_index( elem.first ) );
+                tmp.i_rem( elem.first );
             }
         }
         remove_dropping_items(tmp);
@@ -507,8 +508,9 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     if (!u.worn.empty()) {
         worn.push_back(itemstack_or_category(&worn_cat));
     }
-    for (size_t i = 0; i < u.worn.size(); i++) {
-        worn.push_back(itemstack_or_category(&u.worn[i], player::worn_position_to_index(i)));
+    auto iter = u.worn.begin();
+    for (size_t i = 0; i < u.worn.size(); i++, ++iter) {
+        worn.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
     }
 }
 
@@ -671,14 +673,14 @@ void inventory_selector::set_to_drop(int it_pos, int count)
         // because it must get a direct reference to weapon.
         set_drop_count(it_pos, count, u.weapon);
     } else if (it_pos < -1) { // worn
-        const size_t wpos = player::worn_position_to_index(it_pos);
-        if (wpos >= u.worn.size()) {
+        item& armor = u.i_at( it_pos );
+        if( armor.is_null() ) {
             return; // invalid it_pos -> ignore
         }
         if (count > 0) {
             count = -1; // can only drop a whole worn item
         }
-        set_drop_count(it_pos, count, u.worn[wpos]);
+        set_drop_count(it_pos, count, armor);
     } else { // inventory
         const std::list<item> &stack = u.inv.const_stack(it_pos);
         if (stack.empty()) {
@@ -972,8 +974,8 @@ int game::inv_for_unequipped(std::string const &title, const item_filter filter)
 int inventory::num_items_at_position( int const position )
 {
     if( position < -1 ) {
-        return g->u.worn[ player::worn_position_to_index(position) ].count_by_charges() ?
-            g->u.worn[ player::worn_position_to_index(position) ].charges : 1;
+        const item& armor = g->u.i_at( position );
+        return armor.count_by_charges() ? armor.charges : 1;
     } else if( position == -1 ) {
         return g->u.weapon.count_by_charges() ? g->u.weapon.charges : 1;
     } else {

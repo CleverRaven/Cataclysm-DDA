@@ -377,9 +377,8 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const auto tmp_item = *tmp_worn[selected];
-                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
-                    worn.erase( it_selected );
+                    const item tmp_item = *tmp_worn[selected];
+                    i_rem( tmp_worn[selected] );
                     worn.insert( worn.end(), tmp_item );
                 }
 
@@ -399,9 +398,8 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const auto tmp_item = *tmp_worn[selected];
-                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
-                    worn.erase( it_selected );
+                    const item tmp_item = *tmp_worn[selected];
+                    i_rem( tmp_worn[selected] );
                     worn.insert( worn.begin(), tmp_item );
                 }
 
@@ -469,19 +467,19 @@ void player::sort_armor()
             // prompt first before doing this (yes yes, more popups...)
             if(query_yn(_("Reassign invlets for armor?"))) {
                 // Start with last armor (the most unimportant one?)
-                int worn_index = worn.size() - 1;
-                int invlet_index = inv_chars.size() - 1;
-                while (invlet_index >= 0 && worn_index >= 0) {
-                    const char invlet = inv_chars[invlet_index];
-                    item &w = worn[worn_index];
+                auto iiter = inv_chars.rbegin();
+                auto witer = worn.rbegin();
+                while( witer != worn.rend() && iiter != inv_chars.rend() ) {
+                    const char invlet = *iiter;
+                    item &w = *witer;
                     if (invlet == w.invlet) {
-                        worn_index--;
+                        ++witer;
                     } else if (invlet_to_position(invlet) != INT_MIN) {
-                        invlet_index--;
+                        ++iiter;
                     } else {
                         w.invlet = invlet;
-                        worn_index--;
-                        invlet_index--;
+                        ++witer;
+                        ++iiter;
                     }
                 }
             }

@@ -25,7 +25,7 @@
 #include <algorithm>
 #include <string>
 
-std::vector<item> starting_clothes(npc_class type, bool male);
+std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
@@ -790,9 +790,9 @@ item get_clothing_item( npc_class type, const std::string &what, bool male )
     }
 }
 
-std::vector<item> starting_clothes( npc_class type, bool male )
+std::list<item> starting_clothes( npc_class type, bool male )
 {
-    std::vector<item> ret;
+    std::list<item> ret;
 
     item pants = get_clothing_item( type, "pants", male);
     item shirt = get_clothing_item( type, "shirt", male );
@@ -1058,20 +1058,19 @@ bool npc::wear_if_wanted(item it)
         return true;
     }
     // Otherwise, maybe we should take off one or more items and replace them
-    std::vector<int> removal;
-    for (size_t i = 0; i < worn.size(); i++) {
-        for (int j = 0; j < num_bp; j++) {
-            const auto bp = static_cast<body_part>( j );
-            if (it.covers(bp) && worn[i].covers(bp)) {
-                removal.push_back(i);
-                j = num_bp;
-            }
+    for( int j = 0; j < num_bp; j++ ) {
+        const body_part bp = static_cast<body_part>( j );
+        if( !it.covers( bp ) ) {
+            continue;
         }
-    }
-    for (auto &i : removal) {
-        if (true) {
-            inv.push_back(worn[i]);
-            worn.push_back(it);
+        // Find an item that covers the same body part as the new item
+        auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item& armor ) {
+            return armor.covers( bp );
+        } );
+        if( iter != worn.end() ) {
+            inv.push_back( *iter );
+            worn.erase( iter );
+            worn.push_back( it );
             return true;
         }
     }

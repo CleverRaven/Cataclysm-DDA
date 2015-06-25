@@ -6165,18 +6165,12 @@ void player::hardcoded_effects(effect &it)
         if (!has_trait("M_SKIN2")) {
             hurtall(3, nullptr);
         }
-        for (size_t i = 0; i < worn.size(); i++) {
-            item tmp = worn[i];
+        remove_worn_items_with( []( item &tmp ) {
             bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
             bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10));
             bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50));
-            if (burnVeggy || burnFabric || burnPlastic) {
-                worn.erase(worn.begin() + i);
-                if (i != 0) {
-                    i--;
-                }
-            }
-        }
+            return burnVeggy || burnFabric || burnPlastic;
+        } );
     } else if (id == "spores") {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
@@ -8716,12 +8710,9 @@ void player::process_active_items()
     }
 
     // worn items
-    for (size_t i = 0; i < worn.size(); i++) {
-        if( worn[i].needs_processing() && worn[i].process( this, pos3(), false ) ) {
-            worn.erase(worn.begin() + i);
-            i--;
-        }
-    }
+    remove_worn_items_with( [this]( item &itm ) {
+        return itm.needs_processing() && itm.process( this, pos3(), false );
+    } );
 
     long ch_UPS = charges_of( "UPS" );
     item *cloak = nullptr;
@@ -8790,9 +8781,10 @@ void player::process_active_items()
         weapon.charges++;
     }
 
-    for( size_t i = 0; i < worn.size() && ch_UPS_used < ch_UPS; ++i ) {
-        item& worn_item = worn[i];
-
+    for( item& worn_item : worn ) {
+        if( ch_UPS_used >= ch_UPS ) {
+            break;
+        }
         if( !worn_item.has_flag( "USE_UPS" ) ) {
             continue;
         }
@@ -8844,7 +8836,9 @@ item& player::i_at(int position)
     if (position < -1) {
         int worn_index = worn_position_to_index(position);
         if (size_t(worn_index) < worn.size()) {
-            return worn[worn_index];
+            auto iter = worn.begin();
+            std::advance( iter, worn_index );
+            return *iter;
         }
     }
     return inv.find_item(position);
@@ -8858,8 +8852,9 @@ int player::invlet_to_position( char invlet ) const
     if( weapon.invlet == invlet ) {
         return -1;
     }
-    for( size_t i = 0; i < worn.size(); i++ ) {
-        if( worn[i].invlet == invlet ) {
+    auto iter = worn.begin();
+    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
+        if( iter->invlet == invlet ) {
             return worn_position_to_index( i );
         }
     }
@@ -8874,8 +8869,9 @@ int player::get_item_position( const item *it ) const
     if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    for( size_t i = 0; i < worn.size(); i++ ) {
-        if( inventory::has_item_with_recursive( worn[i], filter ) ) {
+    auto iter = worn.begin();
+    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
+        if( inventory::has_item_with_recursive( *iter, filter ) ) {
             return worn_position_to_index( i );
         }
     }
@@ -9174,7 +9170,7 @@ bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts
 {
     std::bitset<num_bp> covered = 0;
 
-    for (std::vector<item>::const_reverse_iterator armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
+    for (auto armorPiece = worn.rbegin(); armorPiece != worn.rend(); ++armorPiece) {
         std::bitset<num_bp> cover = armorPiece->get_covered_body_parts() & parts;
 
         if (cover.none()) {
@@ -10324,12 +10320,12 @@ hint_rating player::rate_action_wear(item *it)
     if (it->is_power_armor() && worn.size()) {
         if (it->covers(bp_torso)) {
             return HINT_IFFY;
-        } else if (it->covers(bp_head) && !worn[0].is_power_armor()) {
+        } else if (it->covers(bp_head) && !worn.front().is_power_armor()) {
             return HINT_IFFY;
         }
     }
     // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
-    if (worn.size() && worn[0].is_power_armor() && !(it->covers(bp_head))) {
+    if (worn.size() && worn.front().is_power_armor() && !(it->covers(bp_head))) {
         if (!(it->covers(bp_torso) && it->color() == c_green)) {
             return HINT_IFFY;
         }
@@ -10793,63 +10789,64 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
 
 bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
-    bool taken_off = false;
     if (inventory_position == -1) {
-        taken_off = wield(NULL, autodrop);
-    } else {
-        int worn_index = worn_position_to_index(inventory_position);
-        if (worn_index >= 0 && size_t(worn_index) < worn.size()) {
-            item &w = worn[worn_index];
+        return wield( nullptr, autodrop );
+    }
 
-            // Handle power armor.
-            if (w.is_power_armor() && w.covers(bp_torso)) {
-                // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-                for (int j = worn.size() - 1; j >= 0; j--) {
-                    if (worn[j].is_power_armor() &&
-                            j != worn_index) {
-                        if( autodrop || items != nullptr ) {
-                            if( items != nullptr ) {
-                                items->push_back( worn[j] );
-                            } else {
-                                g->m.add_item_or_charges( posx(), posy(), worn[j] );
-                            }
-                            add_msg(_("You take off your %s."), worn[j].tname().c_str());
-                            worn.erase(worn.begin() + j);
-                            // If we are before worn_index, erasing this element shifted its position by 1.
-                            if (worn_index > j) {
-                                worn_index -= 1;
-                                w = worn[worn_index];
-                            }
-                            taken_off = true;
-                        } else {
-                            add_msg(m_info, _("You can't take off power armor while wearing other power armor components."));
-                            return false;
-                        }
-                    }
-                }
+    int worn_index = worn_position_to_index( inventory_position );
+    if( static_cast<size_t>( worn_index ) >= worn.size() ) {
+        add_msg( m_info, _("You are not wearing that item.") );
+        return false;
+    }
+    bool taken_off = false;
+
+    auto first_iter = worn.begin();
+    std::advance( first_iter, worn_index );
+    item &w = *first_iter;
+
+    // Handle power armor.
+    if (w.is_power_armor() && w.covers(bp_torso)) {
+        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
+        for( auto iter = worn.begin(); iter != worn.end(); ) {
+            item& other_armor = *iter;
+
+            if( &other_armor == &w || !other_armor.is_power_armor() ) {
+                ++iter;
+                continue;
+            }
+            if( !autodrop && items == nullptr ) {
+                add_msg( m_info, _("You can't take off power armor while wearing other power armor components.") );
+                return false;
             }
 
             if( items != nullptr ) {
-                items->push_back( w );
-                taken_off = true;
-            } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
-                inv.add_item_keep_invlet(w);
-                taken_off = true;
-            } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-                    w.tname().c_str())) {
-                g->m.add_item_or_charges(posx(), posy(), w);
-                taken_off = true;
+                items->push_back( other_armor );
             } else {
-                taken_off = false;
+                g->m.add_item_or_charges( pos(), other_armor );
             }
-            if( taken_off ) {
-                moves -= 250;    // TODO: Make this variable
-                add_msg(_("You take off your %s."), w.tname().c_str());
-                worn.erase(worn.begin() + worn_index);
-            }
-        } else {
-            add_msg(m_info, _("You are not wearing that item."));
+            add_msg( _("You take off your %s."), other_armor.tname().c_str() );
+            iter = worn.erase( iter );
+            taken_off = true;
         }
+    }
+
+    if( items != nullptr ) {
+        items->push_back( w );
+        taken_off = true;
+    } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
+        inv.add_item_keep_invlet(w);
+        taken_off = true;
+    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
+            w.tname().c_str())) {
+        g->m.add_item_or_charges( pos(), w );
+        taken_off = true;
+    } else {
+        taken_off = false;
+    }
+    if( taken_off ) {
+        moves -= 250;    // TODO: Make this variable
+        add_msg(_("You take off your %s."), w.tname().c_str());
+        worn.erase( first_iter );
     }
 
     recalc_sight_limits();
@@ -12177,7 +12174,7 @@ int player::warmth(body_part bp) const
     return ret;
 }
 
-int bestwarmth( const std::vector< item > &its, const std::string &flag )
+int bestwarmth( const std::list< item > &its, const std::string &flag )
 {
     int best = 0;
     for( auto &w : its ) {
@@ -12248,26 +12245,28 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         }
     }
 
-    for (size_t i = 0; i < worn.size(); ++i) {
-        if( worn[i].covers(bp) ) {
-            if( worn[i].has_flag( "SKINTIGHT" ) ) {
-                level = UNDERWEAR;
-            } else if ( worn[i].has_flag( "WAIST" ) ) {
-                level = WAIST_LAYER;
-            } else if ( worn[i].has_flag( "OUTER" ) ) {
-                level = OUTER_LAYER;
-            } else if ( worn[i].has_flag( "BELTED") ) {
-                level = BELTED_LAYER;
-            } else {
-                level = REGULAR_LAYER;
-            }
+    for( auto& w : worn ) {
+        if( !w.covers(bp) ) {
+            continue;
+        }
 
-            layer[level] += 10;
-            if( worn[i].is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, worn[i].get_encumber() - 40);
-            } else {
-                armorenc += worn[i].get_encumber();
-            }
+        if( w.has_flag( "SKINTIGHT" ) ) {
+            level = UNDERWEAR;
+        } else if ( w.has_flag( "WAIST" ) ) {
+            level = WAIST_LAYER;
+        } else if ( w.has_flag( "OUTER" ) ) {
+            level = OUTER_LAYER;
+        } else if ( w.has_flag( "BELTED") ) {
+            level = BELTED_LAYER;
+        } else {
+            level = REGULAR_LAYER;
+        }
+
+        layer[level] += 10;
+        if( w.is_power_armor() && is_wearing_active_power_armor ) {
+            armorenc += std::max( 0, w.get_encumber() - 40);
+        } else {
+            armorenc += w.get_encumber();
         }
     }
     armorenc = std::max(0, armorenc);
@@ -12479,17 +12478,9 @@ int player::get_armor_cut_base(body_part bp) const
     return ret;
 }
 
-void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
-    for (size_t i = 0; i < p->worn.size(); i++) {
-        if (p->worn[i].covers(bp)) {
-            armor_indices.push_back(i);
-        }
-    }
-}
-
-void player::armor_absorb(damage_unit& du, item& armor) {
+bool player::armor_absorb(damage_unit& du, item& armor) {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
-        return;
+        return false;
     }
 
     // TODO: add some check for power armor
@@ -12505,7 +12496,7 @@ void player::armor_absorb(damage_unit& du, item& armor) {
     // before becoming inneffective or being destroyed.
     const int num_parts_covered = armor.get_covered_body_parts().count();
     if( !one_in( num_parts_covered ) ) {
-        return;
+        return false;
     }
 
     // Don't damage armor as much when bypassed by armor piercing
@@ -12517,7 +12508,6 @@ void player::armor_absorb(damage_unit& du, item& armor) {
         (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
          !armor.is_power_armor() && one_in(200)) ) {
 
-        armor.damage++;
         auto &material = armor.get_random_material();
         std::string damage_verb = ( du.type == DT_BASH ) ?
             material.bash_dmg_verb() : material.cut_dmg_verb();
@@ -12536,17 +12526,26 @@ void player::armor_absorb(damage_unit& du, item& armor) {
             SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
                     m_neutral, damage_verb, m_info);
         }
+
+        armor.damage++;
+        if( armor.damage >= 5 ) {
+            //~ %s is armor name
+            add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
+                              pgettext("memorial_female", "Worn %s was completely destroyed."),
+                              pre_damage_name.c_str() );
+            add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
+                                   _("<npcname>'s %s is completely destroyed!"),
+                                   pre_damage_name.c_str() );
+            return true;
+        }
     }
+    return false;
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
+    std::list<item> worn_remains;
+
     for( auto &elem : dam.damage_units ) {
-
-        // Recompute the armor indices for every damage unit because we may have
-        // destroyed armor earlier in the loop.
-        std::vector<int> armor_indices;
-
-        get_armor_on( this,bp,armor_indices );
 
         // CBMs absorb damage first before hitting armor
         if( has_active_bionic("bio_ads") ) {
@@ -12567,24 +12566,22 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
         // The worn vector has the innermost item first, so
         // iterate reverse to damage the outermost (last in worn vector) first.
-        for( std::vector<int>::reverse_iterator armor_it = armor_indices.rbegin();
-             armor_it != armor_indices.rend(); ++armor_it ) {
+        for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
+            item& armor = *iter;
 
-            const int index = *armor_it;
+            if( !armor.covers( bp ) ) {
+                ++iter;
+                continue;
+            }
 
-            armor_absorb( elem, worn[index] );
-
-            // now check if armor was completely destroyed and display relevant messages
-            // TODO: use something less janky than the old code for this check
-            if( worn[index].damage >= 5 ) {
-                //~ %s is armor name
-                add_memorial_log(pgettext("memorial_male", "Worn %s was completely destroyed."),
-                                 pgettext("memorial_female", "Worn %s was completely destroyed."),
-                                 worn[index].tname( 1, false ).c_str());
-                add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
-                                              _("<npcname>'s %s is completely destroyed!"),
-                                              worn[index].tname( 1, false ).c_str() );
-                worn.erase(worn.begin() + index);
+            if( armor_absorb( elem, armor ) ) {
+                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
+                // iterator to the next element, not the one the revers_iterator points to.
+                // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
+                iter = decltype(iter)( worn.erase( --iter.base() ) );
+            } else {
+                ++iter;
             }
         }
 
@@ -12741,6 +12738,9 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         if( elem.amount < 0 ) {
             elem.amount = 0;
         }
+    }
+    for( item& remain : worn_remains ) {
+        g->m.add_item_or_charges( pos(), remain );
     }
 }
 
@@ -13600,7 +13600,7 @@ bool player::can_pickup(bool print_msg) const
     return true;
 }
 
-bool player::has_container_for(const item &newit)
+bool player::has_container_for(const item &newit) const
 {
     if (!newit.made_of(LIQUID)) {
         // Currently only liquids need a container
@@ -13608,8 +13608,8 @@ bool player::has_container_for(const item &newit)
     }
     unsigned charges = newit.charges;
     charges -= weapon.get_remaining_capacity_for_liquid(newit);
-    for (size_t i = 0; i < worn.size() && charges > 0; i++) {
-        charges -= worn[i].get_remaining_capacity_for_liquid(newit);
+    for( auto& w : worn ) {
+        charges -= w.get_remaining_capacity_for_liquid(newit);
     }
     for (size_t i = 0; i < inv.size() && charges > 0; i++) {
         const std::list<item>&items = inv.const_stack(i);
