@@ -517,7 +517,7 @@ void player::power_bionics()
                 tmp = bionic_by_invlet(ch);
                 if(tmp != NULL && tmp != bio_last) {
                     // new bionic selected, update cursor and scroll position
-                    for(cursor = 0; cursor < bio_list.size(); cursor++) {
+                    for(cursor = 0; cursor < (int)bio_list.size(); cursor++) {
                         if(bio_list[cursor] == tmp) {
                             break;
                         }
