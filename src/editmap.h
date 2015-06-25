@@ -2,6 +2,7 @@
 #define EDITMAP_H
 
 #include "game.h"
+#include "field.h"
 #include "map.h"
 #include "line.h"
 #include "omdata.h"

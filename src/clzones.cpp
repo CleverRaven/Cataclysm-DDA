@@ -1,6 +1,7 @@
 #include "clzones.h"
 #include "map.h"
 #include "game.h"
+#include "player.h"
 #include "debug.h"
 #include "output.h"
 #include "mapsharing.h"

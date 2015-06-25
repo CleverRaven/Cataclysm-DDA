@@ -1,4 +1,5 @@
 #include "game.h"
+#include "player.h"
 #include "gamemode.h"
 #include "debug.h"
 #include "input.h"

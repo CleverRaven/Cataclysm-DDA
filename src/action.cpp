@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "player.h"
 #include "options.h"
 #include "messages.h"
 #include "translations.h"
