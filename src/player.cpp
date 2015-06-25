@@ -10822,7 +10822,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             if( items != nullptr ) {
                 items->push_back( other_armor );
             } else {
-                g->m.add_item_or_charges( posx(), posy(), other_armor );
+                g->m.add_item_or_charges( pos(), other_armor );
             }
             add_msg( _("You take off your %s."), other_armor.tname().c_str() );
             iter = worn.erase( iter );
@@ -10838,7 +10838,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         taken_off = true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
             w.tname().c_str())) {
-        g->m.add_item_or_charges(posx(), posy(), w);
+        g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
         taken_off = false;
