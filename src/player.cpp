@@ -12474,14 +12474,6 @@ int player::get_armor_cut_base(body_part bp) const
     return ret;
 }
 
-void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
-    for (size_t i = 0; i < p->worn.size(); i++) {
-        if (p->worn[i].covers(bp)) {
-            armor_indices.push_back(i);
-        }
-    }
-}
-
 bool player::armor_absorb(damage_unit& du, item& armor) {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
@@ -12549,12 +12541,6 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
 void player::absorb_hit(body_part bp, damage_instance &dam) {
     for( auto &elem : dam.damage_units ) {
 
-        // Recompute the armor indices for every damage unit because we may have
-        // destroyed armor earlier in the loop.
-        std::vector<int> armor_indices;
-
-        get_armor_on( this,bp,armor_indices );
-
         // CBMs absorb damage first before hitting armor
         if( has_active_bionic("bio_ads") ) {
             if( elem.amount > 0 && power_level > 24 ) {
@@ -12574,13 +12560,18 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
         // The worn vector has the innermost item first, so
         // iterate reverse to damage the outermost (last in worn vector) first.
-        for( std::vector<int>::reverse_iterator armor_it = armor_indices.rbegin();
-             armor_it != armor_indices.rend(); ++armor_it ) {
+        for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
+            item& armor = *iter;
 
-            const int index = *armor_it;
+            if( !armor.covers( bp ) ) {
+                ++iter;
+                continue;
+            }
 
-            if( armor_absorb( elem, worn[index] ) ) {
-                worn.erase(worn.begin() + index);
+            if( armor_absorb( elem, armor ) ) {
+                iter = decltype(iter)( worn.erase( --iter.base() ) );
+            } else {
+                ++iter;
             }
         }
 
