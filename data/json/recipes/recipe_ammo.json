@@ -4436,17 +4436,17 @@
     ]
   ]
 },{
-  "type" : "recipe",
+   "type" : "recipe",
   "result": "gas_fungicidal",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
   "skill_used": "cooking",
   "skills_required": [ "survival", 2 ],
   "difficulty": 4,
-  "time": 5000,
+  "time": 2500,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
+  "book_learn": [[ "textbook_gaswarfare", 4 ] , ["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
   "qualities":[
     {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
@@ -4462,11 +4462,8 @@
       [ "fungicide", 100 ]
     ],
     [
-      [ "sulfur", 10 ]
+      [ "chem_sulphur", 10 ]
     ]
   ]
 }
-
-
-
 ]

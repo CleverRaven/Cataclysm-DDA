@@ -433,8 +433,8 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "chemical_spray",
-        "name" : "sprayable chemical",
+        "id" : "gas_fungicidal",
+        "name" : "fungicidal gas",
         "default" : "gas_fungicidal"
     }
 
