@@ -5140,7 +5140,19 @@ itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
 }
-
+int item::get_gun_ups_drain() const
+{
+    int draincount = 0;
+    if( type->gun.get() != nullptr ){
+        draincount += type->gun->ups_charges;
+        for( auto &mod : contents ){
+            if( mod.type->gunmod->ups_charges > 0 ){
+                draincount += mod.type->gunmod->ups_charges;
+            }
+        }
+    }
+    return draincount;
+}
 item_category::item_category() : id(), name(), sort_rank( 0 )
 {
 }
