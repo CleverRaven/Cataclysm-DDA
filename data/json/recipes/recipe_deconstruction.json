@@ -804,6 +804,23 @@
     ]
   ]
 },{
+    "type" : "recipe",
+    "result": "boots_steel",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"CUT","level":1,"amount":1}
+    ], "components": [
+        [ [ "leather", 8 ] ],
+        [ [ "scrap", 2 ] ]
+    ]
+},{
   "type" : "recipe",
   "result": "lightstrip_dead",
   "id_suffix": "uncraft",
