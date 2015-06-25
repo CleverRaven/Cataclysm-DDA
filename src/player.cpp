@@ -12543,6 +12543,8 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
+    std::list<item> worn_remains;
+
     for( auto &elem : dam.damage_units ) {
 
         // CBMs absorb damage first before hitting armor
@@ -12573,6 +12575,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
 
             if( armor_absorb( elem, armor ) ) {
+                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
                 iter = decltype(iter)( worn.erase( --iter.base() ) );
             } else {
                 ++iter;
@@ -12732,6 +12735,9 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         if( elem.amount < 0 ) {
             elem.amount = 0;
         }
+    }
+    for( item& remain : worn_remains ) {
+        g->m.add_item_or_charges( pos(), remain );
     }
 }
 
