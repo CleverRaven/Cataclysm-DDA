@@ -228,6 +228,9 @@ void Character::mutation_effect(std::string mut)
         }
         if( destroy ) {
             add_msg_if_player( m_bad, _("Your %s is destroyed!"), armor.tname().c_str() );
+            for( item& remain : armor.contents ) {
+                g->m.add_item_or_charges( pos(), remain );
+            }
         } else {
             add_msg_if_player( m_bad, _("Your %s is pushed off."), armor.tname().c_str() );
             g->m.add_item_or_charges( pos(), armor );
