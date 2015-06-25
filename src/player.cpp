@@ -10790,7 +10790,6 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
 bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
     if (inventory_position == -1) {
-        // TODO: is this case even used anymore?
         return wield( nullptr, autodrop );
     }
 
