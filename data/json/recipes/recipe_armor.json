@@ -367,34 +367,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "boots_hiking",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 2,
-  "time": 35000,
-  "reversible": false,
-  "autolearn": false,
-  "tools": [
-    [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
-      [ "sewing_kit", 10 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "leather", 10 ],
-      [ "tanned_hide", 2 ]
-    ],
-    [
-      [ "scrap", 3 ],
-      [ "steel_chunk", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "boots_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
