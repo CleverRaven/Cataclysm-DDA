@@ -771,6 +771,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
             }
         } else {
+            if (has_flag("BURST_ONLY")) {
+                dump->push_back(iteminfo("GUN", _("Fully-automatic (burst only).")));
+            }
             dump->push_back(iteminfo("GUN", _("Burst size: "), "", mod->burst_size()));
         }
 
