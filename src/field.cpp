@@ -1676,8 +1676,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             spread_gas( cur, p, curtype, 80, 40 );
                             //check the terrain and replace it accordingly to simulate the fungus dieing off
                             const auto &ter = map_tile.get_ter_t();
+                            const auto &frn = map_tile.get_furn_t();
                             if( ter.has_flag( "FUNGUS" ) ) {
                                 ter_set( p, t_dirt );
+                            }
+                            if( frn.has_flag( "FUNGUS" ) ) {
                                 furn_set( p, f_null );
                             }
                         }
@@ -2098,10 +2101,18 @@ void map::player_in_field( player &u )
             // Thick fungicidal gas has a chance to poison you.
             {
                 bool inhaled = false;
-                if( cur->getFieldDensity() == 3 && !inside ) {
+                if( cur->getFieldDensity() == 3 ) {
                     inhaled = u.add_env_effect("poison", bp_mouth, 5, 30);
-                } else if( cur->getFieldDensity() == 2 && !inside ) {
+                } else if( cur->getFieldDensity() == 2 ) {
                     inhaled = u.add_env_effect("smoke", bp_mouth, 2, 7);
+                } else if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS" ) ) {
+                    if( cur->getFieldDensity() == 3 ||
+                        cur->getFieldDensity() == 2 ||
+                        cur->getFieldDensity() == 1 ) {
+                          inhaled = u.add_env_effect( "badpoison", bp_mouth, 5, 30 );
+                          u.hurtall( rng(1,5), nullptr);
+                          u.add_msg_if_player(m_bad, _("The %s burns your skin"), cur->name().c_str());
+                    }
                 }
                 if( inhaled ) {
                     // player does not know how the npc feels, so no message.

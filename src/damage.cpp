@@ -192,7 +192,7 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
     if( effects.count( "GAS_FUNGICIDAL" ) > 0 ) {
         for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_fungicidal_gas, 3, 0 );
+            g->m.add_field( pt, fd_fungicidal_gas, 4, 0 );
         }
     }
     if( effects.count( "SMOKE" ) > 0 ) {

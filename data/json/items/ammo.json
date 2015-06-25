@@ -4416,7 +4416,7 @@
 	    "type" : "AMMO",
         "id" : "gas_fungicidal",
         "category" : "chems",
-        "price" : 1200,
+        "price" : 3500,
         "name" : "sprayable fungicide",
         "symbol" : "=",
         "color" : "yellow",
