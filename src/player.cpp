@@ -12576,6 +12576,9 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             if( armor_absorb( elem, armor ) ) {
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
+                // iterator to the next element, not the one the revers_iterator points to.
+                // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
                 iter = decltype(iter)( worn.erase( --iter.base() ) );
             } else {
                 ++iter;
