@@ -12246,25 +12246,27 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     }
 
     for( auto& w : worn ) {
-        if( w.covers(bp) ) {
-            if( w.has_flag( "SKINTIGHT" ) ) {
-                level = UNDERWEAR;
-            } else if ( w.has_flag( "WAIST" ) ) {
-                level = WAIST_LAYER;
-            } else if ( w.has_flag( "OUTER" ) ) {
-                level = OUTER_LAYER;
-            } else if ( w.has_flag( "BELTED") ) {
-                level = BELTED_LAYER;
-            } else {
-                level = REGULAR_LAYER;
-            }
+        if( !w.covers(bp) ) {
+            continue;
+        }
 
-            layer[level] += 10;
-            if( w.is_power_armor() && is_wearing_active_power_armor ) {
-                armorenc += std::max( 0, w.get_encumber() - 40);
-            } else {
-                armorenc += w.get_encumber();
-            }
+        if( w.has_flag( "SKINTIGHT" ) ) {
+            level = UNDERWEAR;
+        } else if ( w.has_flag( "WAIST" ) ) {
+            level = WAIST_LAYER;
+        } else if ( w.has_flag( "OUTER" ) ) {
+            level = OUTER_LAYER;
+        } else if ( w.has_flag( "BELTED") ) {
+            level = BELTED_LAYER;
+        } else {
+            level = REGULAR_LAYER;
+        }
+
+        layer[level] += 10;
+        if( w.is_power_armor() && is_wearing_active_power_armor ) {
+            armorenc += std::max( 0, w.get_encumber() - 40);
+        } else {
+            armorenc += w.get_encumber();
         }
     }
     armorenc = std::max(0, armorenc);
