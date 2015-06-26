@@ -7,7 +7,7 @@
 #include <climits>
 #include <vector>
 
-enum activity_type {    // expanded this enum for readability
+enum activity_type : int {    // expanded this enum for readability
     ACT_NULL = 0,
     ACT_RELOAD,
     ACT_READ,

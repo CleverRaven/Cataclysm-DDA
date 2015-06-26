@@ -115,9 +115,11 @@ bool is_valid_in_w_terrain(int x, int y)
 // This is the main game set-up process.
 game::game() :
     map_ptr( new map() ),
+    u_ptr( new player() ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
+    u( *u_ptr ),
     critter_tracker( new Creature_tracker() ),
     w_terrain(NULL),
     w_overmap(NULL),
@@ -579,7 +581,6 @@ void game::setup()
     mission_npc.clear();
     factions.clear();
     mission::clear_all();
-    items_dragged.clear();
     Messages::clear_messages();
     events.clear();
 

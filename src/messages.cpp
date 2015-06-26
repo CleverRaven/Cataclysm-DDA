@@ -1,6 +1,7 @@
 #include "messages.h"
 #include "input.h"
 #include "game.h"
+#include "player.h" // Only u.is_dead
 #include "debug.h"
 #include "compatibility.h" //to_string
 #include "json.h"

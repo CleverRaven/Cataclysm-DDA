@@ -11,6 +11,7 @@
 #include "uistate.h"
 #include "options.h"
 #include "game.h"
+#include "player.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
