@@ -2974,7 +2974,7 @@
         "environmental_protection" : 20,
         "encumbrance" : 37,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF","ELECTRIC_IMMUNE", "OUTER"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -2999,7 +2999,7 @@
         "environmental_protection" : 20,
         "encumbrance" : 45,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -6601,7 +6601,7 @@
         "environmental_protection" : 20,
         "encumbrance" : 50,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 5
     },

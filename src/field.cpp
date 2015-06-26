@@ -2103,7 +2103,7 @@ void map::player_in_field( player &u )
                 // The gas won't harm you inside a vehicle.
                 bool inhaled = false;
                 // Full body suits protect you from the effects of the gas.
-                if( !u.is_wearing("hazmat_suit") && !u.is_wearing("anbc_suit") && !u.is_wearing("entry_suit") ) {
+                if( !u.worn_with_flag("GAS_PROOF") ) {
                     if( cur->getFieldDensity() == 3 ) {
                         inhaled = u.add_env_effect("poison", bp_mouth, 5, 30);
                         if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
