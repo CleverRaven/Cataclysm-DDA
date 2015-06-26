@@ -2,6 +2,7 @@
 
 #include "auto_pickup.h"
 #include "game.h"
+#include "player.h"
 #include "map.h"
 #include "messages.h"
 #include "translations.h"
@@ -503,7 +504,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     if (min == -1) {
-        if (g->checkZone("NO_AUTO_PICKUP", pos.x, pos.y)) {
+        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
             here.clear();
         }
 
@@ -519,7 +520,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 if( g->m.has_flag( "SEALED", apos ) ) {
                     continue;
                 }
-                if( g->checkZone( "NO_AUTO_PICKUP", apos.x, apos.y ) ) {
+                if( g->check_zone( "NO_AUTO_PICKUP", apos ) ) {
                     continue;
                 }
                 pick_up( apos, min );

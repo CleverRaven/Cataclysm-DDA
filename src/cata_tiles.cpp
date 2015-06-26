@@ -1332,12 +1332,12 @@ void cata_tiles::init_draw_sct()
 {
     do_draw_sct = true;
 }
-void cata_tiles::init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+void cata_tiles::init_draw_zones(const tripoint &_start, const tripoint &_end, const tripoint &_offset)
 {
     do_draw_zones = true;
-    pStartZone = p_pointStart;
-    pEndZone = p_pointEnd;
-    pZoneOffset = p_pointOffset;
+    zone_start = _start;
+    zone_end = _end;
+    zone_offset = _offset;
 }
 /* -- Void Animators */
 void cata_tiles::void_explosion()
@@ -1559,9 +1559,9 @@ void cata_tiles::draw_zones_frame()
         item_highlight_available = true;
     }
 
-    for (int iY=pStartZone.y; iY <= pEndZone.y; ++iY) {
-        for (int iX=pStartZone.x; iX <= pEndZone.x; ++iX) {
-            draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, iX + pZoneOffset.x, iY + pZoneOffset.y, 0, 0);
+    for (int iY=zone_start.y; iY <= zone_end.y; ++iY) {
+        for (int iX=zone_start.x; iX <= zone_end.x; ++iX) {
+            draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, iX + zone_offset.x, iY + zone_offset.y, 0, 0);
         }
     }
 

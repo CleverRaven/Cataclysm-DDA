@@ -1,6 +1,7 @@
 #include <fstream>
 #include <vector>
 
+#include "rng.h"
 #include "mongroup.h"
 #include "game.h"
 #include "map.h"

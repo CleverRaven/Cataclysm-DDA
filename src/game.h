@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "enums.h"
 #include "game_constants.h"
-#include "player.h"
 #include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
@@ -64,19 +64,26 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
+enum activity_type : int;
+enum body_part : int;
+
 struct special_game;
 struct mtype;
 class mission;
 class map;
+class Creature;
+class Character;
 class player;
 class npc;
 class monster;
+class vehicle;
 class Creature_tracker;
 class calendar;
 class scenario;
 class DynamicDataLoader;
 class salvage_actor;
 class input_context;
+class map_item_stack;
 struct WORLD;
 typedef WORLD *WORLDPTR;
 class overmap;
@@ -85,6 +92,14 @@ enum event_type : int;
 struct vehicle_part;
 struct ter_t;
 using ter_id = int_id<ter_t>;
+
+// Note: this is copied from inventory.h
+// Entire inventory.h would also bring item.h here
+typedef std::list< std::list<item> > invstack;
+typedef std::vector< std::list<item>* > invslice;
+typedef std::vector< const std::list<item>* > const_invslice;
+typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
+typedef std::function<bool(const item &)> item_filter;
 
 class game
 {
@@ -109,6 +124,7 @@ class game
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
+        std::unique_ptr<player> u_ptr;
     public:
 
         /** Initializes the UI. */
@@ -149,6 +165,7 @@ class game
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+        player &u;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
         /**
@@ -321,7 +338,7 @@ class game
         void peek( const tripoint &p );
         tripoint look_debug();
 
-        bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
+        bool check_zone( const std::string &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts(WINDOW *w_info);
         void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight,
@@ -404,15 +421,12 @@ class game
          * The overmap which is at the top left corner of the reality bubble.
          */
         overmap &get_cur_om() const;
-        player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
         std::vector<npc *> active_npc;
         std::vector<npc *> mission_npc;
         std::vector<faction> factions;
-        // NEW: Dragging a piece of furniture, with a list of items contained
-        std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
@@ -477,7 +491,7 @@ class game
         void draw_line( const tripoint &p, std::vector<tripoint> const &ret);
         void draw_weather(weather_printable const &wPrint);
         void draw_sct();
-        void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones(const tripoint &start, const tripoint &end, const tripoint &offset);
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );

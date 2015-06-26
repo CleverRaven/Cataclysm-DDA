@@ -605,34 +605,34 @@ void game::draw_sct()
 #endif
 
 namespace {
-void draw_zones_curses(WINDOW *const w, point const &beg, point const &end, point const &off)
+void draw_zones_curses( WINDOW *const w, const tripoint &start, const tripoint &end, const tripoint &offset )
 {
-    if( end.x < beg.x || end.y < beg.y ) {
+    if( end.x < start.x || end.y < start.y || end.z < start.z ) {
         return;
     }
 
-    nc_color    const col = invert_color(c_ltgreen);
-    std::string const line(end.x - beg.x + 1, '~');
-    int         const x = beg.x - off.x;
+    nc_color    const col = invert_color( c_ltgreen );
+    std::string const line( end.x - start.x + 1, '~' );
+    int         const x = start.x - offset.x;
 
-    for (int y = beg.y; y <= end.y; ++y) {
-        mvwprintz(w, y - off.y, x, col, line.c_str());
+    for( int y = start.y; y <= end.y; ++y ) {
+        mvwprintz( w, y - offset.y, x, col, line.c_str() );
     }
 }
 } //namespace
 
 #if defined(SDLTILES)
-void game::draw_zones(point const &beg, point const &end, point const &off)
+void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
 {
-    if (use_tiles) {
-        tilecontext->init_draw_zones(beg, end, off);
+    if( use_tiles ) {
+        tilecontext->init_draw_zones( start, end, offset );
     } else {
-        draw_zones_curses(w_terrain, beg, end, off);
+        draw_zones_curses( w_terrain, start, end, offset );
     }
 }
 #else
-void game::draw_zones(point const &beg, point const &end, point const &off)
+void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
 {
-    draw_zones_curses(w_terrain, beg, end, off);
+    draw_zones_curses( w_terrain, start, end, offset );
 }
 #endif

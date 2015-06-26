@@ -1,4 +1,5 @@
 #include "game.h"
+#include "player.h"
 #include "auto_pickup.h"
 #include "output.h"
 #include "debug.h"

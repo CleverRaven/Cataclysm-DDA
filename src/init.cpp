@@ -45,6 +45,7 @@
 #include "monfaction.h"
 #include "martialarts.h"
 #include "veh_type.h"
+#include "clzones.h"
 
 #include <string>
 #include <vector>
