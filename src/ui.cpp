@@ -33,6 +33,23 @@ ui_base::~ui_base()
     delete ctxt;
 }
 
+void ui_base::modify_border(int do_border, nc_color border_color)
+{
+    this->do_border = do_border;
+    this->border_color = border_color;
+}
+
+void ui_base::draw_border()
+{
+    auto *w = window.get();
+    wattron(w, border_color);
+    wborder(w, LINE_XOXO, LINE_XOXO, 
+               LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, 
+               LINE_XXOO, LINE_XOOX);
+    wattroff(w, border_color);
+}
+
 void ui_base::set_error(int code, const std::string &msg)
 {
     error_code = code;
@@ -59,6 +76,7 @@ int ui_base::run()
     while(true) {
         draw();
         finish();
+        draw_border();
         auto code = handle_input(get_input());
         switch(code) {
             case ui_error: // ran into an issue
@@ -114,45 +132,9 @@ void ui_functor::mod_function(const ui_callback &uc)
 }
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_element /////////////////////////////////////////////////////////// {{{1
-void ui_element::finish()
-{
-    if(do_border) {
-        draw_border();
-    }
-}
-
 void ui_element::draw()
 {
     finish();
-}
-
-void ui_element::draw_border()
-{
-    auto *w = window.get();
-    wattron(w, border_color);
-    wborder(w, LINE_XOXO, LINE_XOXO, 
-               LINE_OXOX, LINE_OXOX,
-               LINE_OXXO, LINE_OOXX, 
-               LINE_XXOO, LINE_XOOX);
-    wattroff(w, border_color);
-}
-
-void ui_element::set_border(int should_draw)
-{
-//    const auto &pos = get_size();
-    switch(should_draw) {
-        case -1:    // draw the window with no offset for borders calculated in
-            // negate the padding for the border
-            pos.x += 2; 
-            pos.y += 2;
-        case false: // do not draw the border, but keep the offset padding
-        case true:  // draw the border, default behaviour for new class!
-            do_border = should_draw;
-            break;
-        default:
-            // TODO: write debug message!
-            break;
-    }
 }
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_scrollbar ///////////////////////////////////////////////////////// {{{1
@@ -406,6 +388,151 @@ void ui_list::clear()
 
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_container ///////////////////////////////////////////////////////// {{{1
+ui_container::ui_container()
+{
+}
+
+ui_container::ui_container(const point &pos, const point &size)
+{
+    this->pos = pos;
+    this->size = size;
+    set_region_size(size);
+}
+
+ui_container::ui_container(const std::vector<ui_children> &children)
+{
+    auto size = calculate_size(children);
+    set_size(size);
+    set_region_size(size);
+    for(auto &child : children) {
+        add_element(child.name, child.element);
+    }
+}
+
+void ui_container::set_region_size(const point &size)
+{
+    region.resize(size.x * size.y);
+}
+
+bool ui_container::add_region(const point &pos, const point &size)
+{
+    // check to see if any part of the region overlaps before setting anything
+    if(!does_region_overlap(pos, size)) {
+        // region is safe, set bits
+        for(int y = pos.y; y < pos.y + size.y; ++y) {
+            for(int x = pos.x; x < pos.x + size.x; ++x) {
+                region[this->size.x * y + x] = true;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+void ui_container::rem_region(const point &pos, const point &size)
+{
+}
+
+bool ui_container::does_region_overlap(const point &pos, const point &size)
+{
+    // points for each of the element's 4 corners
+    const std::array<point, 4> c = {
+        {pos.x, pos.y},
+        {pos.x + size.x, pos.y},
+        {pos.x, pos.y + size.y},
+        {pos.x + size.x, pos.y + size.y}
+    };
+    auto is_inside = [&c](const quad &q) {
+        bool ul = 
+        return (q.x >= 
+    };
+    for(auto &q : region) {
+    }
+}
+
+//bool ui_container::does_region_overlap(const point &pos, const point &size)
+//{
+//    // check the midpoint first, for any overlaps, to save on calculations
+//    const int midpoint = ((pos.y + (size.y / 2)) * this->size.x) + (pos.x + (size.x / 2));
+//    if(region[midpoint] == true) {
+//        return true;
+//    }
+//    // calculate the points for each of the 4 corners
+//    const std::array<int, 4> corners = {
+//        pos.y * this->size.x,                                   // upper left
+//        pos.y * this->size.x + pos.x + size.x,                  // upper right
+//        (pos.y + size.y) * this->size.x,                        // lower left
+//        (pos.y + size.y) * this->size.x + pos.x + size.x        // lower right
+//    };
+//    // verify that the 4 corners are not taken
+//    for(auto &corner : corners) {
+//        if(region[corner] == true) {
+//            return true;
+//        }
+//    }
+//    // defer calculation of quadrant midpoints and fourths to post corner check
+//    const point one_fourth = {size.x / 4, size.y / 4};
+//    const std::array<int, 4> quadrants = {
+//        // quadrant 1
+//        corners[0] + (one_fourth.y * this->size.x) + one_fourth.x,
+//        // quadrant 2
+//        corners[1] + (one_fourth.y * this->size.x) - one_fourth.x,
+//        // quadrant 4
+//        corners[2] - (one_fourth.y * this->size.x) + one_fourth.x,
+//        // quadrant 3
+//        corners[3] - (one_fourth.y * this->size.x) - one_fourth.x
+//    };
+//    // check each quadrant midpoint for a possible region
+//    for(auto &quadrant : quadrants) {
+//        if(region[quadrant] == true) {
+//            return true;
+//        }
+//    }
+//    // fallback to manually check each individual bit in the quadrant
+//    for(int y = pos.y; y < pos.y + size.y; ++y) {
+//        for(int x = pos.x; x < pos.x + size.x; ++x) {
+//            if(region[this->size.x * y + x] == true) {
+//                return true;
+//            }
+//        }
+//    }
+//    return false;
+//}
+
+point ui_container::calculate_size(const std::vector<ui_children> &children)
+{
+    // stores the calculated size
+    point calc = {0, 0};
+    for(auto &child : children) {
+        if(child.element == nullptr) {
+            continue;
+        }
+        auto p = child.element->get_position();
+        auto s = child.element->get_size();
+        // position + size
+        point n(p.x + s.x, p.y + s.y);
+        if(n.x > calc.x) {
+            calc.x = n.x;
+        }
+        if(n.y > calc.y) {
+            calc.y = n.y;
+        }
+    }
+    return calc;
+}
+
+void ui_container::refresh()
+{
+}
+
+void ui_container::add_element(const std::string &name, ui_element *element)
+{
+    children[name] = element;
+}
+
+void ui_container::rem_element(const std::string &name)
+{
+}
 /////////////////////////////////////////////////////////////////////////// }}}1
 
 

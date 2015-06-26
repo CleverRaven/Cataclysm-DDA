@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <unordered_map>
+#include <forward_list>
 #include <memory>
 
 //// ui_base ////////////////////////////////////////////////////////////// {{{1
@@ -24,6 +25,13 @@ enum ui_input_code {
 
 class ui_base
 {
+    private:
+        // whether to draw the border or not
+        bool do_border = true;
+        // border color to draw
+        nc_color border_color = BORDER_COLOR;
+        // draw the element's border
+        virtual void draw_border() final;
     protected:
         // basic window properties, needed for all classes in UI!
         WINDOW_PTR window = nullptr;
@@ -38,8 +46,12 @@ class ui_base
         // code to be returned on good exit
         int return_code = 0;
 
+        // enable/disable the border for the window 
+        // (offset will take it into account unless false)
+        virtual void modify_border(int should_draw = true, 
+                nc_color border_color = BORDER_COLOR) final;
         // set the error code and message
-        void set_error(int code, const std::string &msg);
+        virtual void set_error(int code, const std::string &msg) final;
         // register input actions for the above context
         virtual void register_input_actions();
         /*  handle_input() is to be overridden per derived class for one to deal with
@@ -116,24 +128,10 @@ class ui_functor
  */
 class ui_element : public ui_base
 {
-    private:
-        // whether to draw the border or not
-        int do_border = true;
-        // border color to draw
-        nc_color border_color = BORDER_COLOR;
-        // draw the element's border
-        virtual void draw_border() final;
-        // enable/disable the border for the window 
-        // (offset will still calculate if there is one, unless do_border == -1)
-        void set_border(int should_draw = true);
     public:
         ui_element();
-        virtual ~ui_element();
+        ~ui_element();
 
-        void set_border_color(nc_color c)
-        {
-            border_color = c;
-        }
         void draw() override;
         void finish() override;
 };
@@ -245,13 +243,51 @@ class ui_text : public ui_element, public ui_scrollbar
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 //// ui_container ///////////////////////////////////////////////////////// {{{1
+struct ui_children {
+    std::string name;
+    ui_element *element;
+};
+
+struct quad {
+    point ul;     // upper left
+    point ur;     // upper right
+    point ll;     // lower left
+    point lr;     // lower right
+};
+
 class ui_container : public ui_base
 {
     private:
-        ui_base *child;
-    public:
-        ui_container(ui_base *like) : child(like) /* innocence! :-) */ {};
+        // children, referrable by name
+        std::unordered_map<std::string, ui_element*> children;
+        // used to determine which areas of a ui_container is being occupied
+        std::forward_list<quad> region;
+
+        void set_region_size(const point &size);
+        // mark the pos and size as "occupied" in regions
+        // returns false if region is already occupied
+        bool add_region(const point &pos, const point &size);
+        // frees up the region marked by pos and size
+        void rem_region(const point &pos, const point &size);
+        // determines if the region overlaps any set areas
+        bool does_region_overlap(const point &pos, const point &size);
+
+        // calculates the needed container size for the given children
+        point calculate_size(const std::vector<ui_children> &children);
+
+        // refresh the contents of the container
         void refresh();
+    public:
+        ui_container();
+        // start an empty container with given position and size
+        ui_container(const point &pos, const point &size);
+        // derive position and size from children's requests
+        ui_container(const std::vector<ui_children> &children);
+
+        int run() override;
+
+        void add_element(const std::string &name, ui_element *element);
+        void rem_element(const std::string &name);
 };
 /////////////////////////////////////////////////////////////////////////// }}}1
 ////             ////////////////////////////////////////////////////////// {{{1
