@@ -80,6 +80,9 @@ city::city( int const X, int const Y, int const S)
 {
 }
 
+std::map<enum radio_type, std::string> radio_type_names =
+{{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
+
 void load_overmap_specials(JsonObject &jo)
 {
     overmap_special spec;

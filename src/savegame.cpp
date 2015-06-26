@@ -287,12 +287,6 @@ void game::save_weather(std::ofstream &fout) {
 }
 ///// overmap
 void overmap::unserialize( std::ifstream &fin ) {
-    // DEBUG VARS
-    char datatype;
-    int cx, cy, cs;
-    std::string cstr;
-    city tmp;
-    std::list<item> npc_inventory;
 
     if ( fin.peek() == '#' ) {
         // This was the last savegame version that produced the old format.
@@ -300,7 +294,7 @@ void overmap::unserialize( std::ifstream &fin ) {
         std::string vline;
         getline(fin, vline);
         std::string tmphash, tmpver;
-        int savedver=-1;
+        int savedver = -1;
         std::stringstream vliness(vline);
         vliness >> tmphash >> tmpver >> savedver;
         if( savedver <= overmap_legacy_save_version  ) {
@@ -309,159 +303,158 @@ void overmap::unserialize( std::ifstream &fin ) {
         }
     }
 
-    int z = 0; // assumption
-    while (fin >> datatype) {
-        if (datatype == 'L') { // Load layer data, and switch to layer
-            fin >> z;
-
-            std::string tmp_ter;
-            oter_id tmp_otid(0);
-            if (z >= 0 && z < OVERMAP_LAYERS) {
+    JsonIn jsin( fin );
+    jsin.start_object();
+    while( !jsin.end_object() ) {
+        const std::string name = jsin.get_member_name();
+        if( name == "layers" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
                 int count = 0;
+                std::string tmp_ter;
+                oter_id tmp_otid(0);
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
-                            fin >> tmp_ter >> count;
-                            if( otermap.count( tmp_ter ) > 0 ) {
+                            jsin.start_array();
+                            jsin.read( tmp_ter );
+                            jsin.read( count );
+                            jsin.end_array();
+                            if( otermap.find( tmp_ter ) != otermap.end() ) {
                                 tmp_otid = tmp_ter;
-                            } else if( tmp_ter.compare( 0, 7, "mall_a_" ) == 0 &&
-                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
-                                tmp_otid = tmp_ter + "_north";
-                            } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
-                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
-                                tmp_otid = tmp_ter + "_north";
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
                                 tmp_otid = 0;
                             }
                         }
                         count--;
-                        layer[z].terrain[i][j] = tmp_otid; //otermap[tmp_ter].loadid;
-                        layer[z].visible[i][j] = false;
+                        layer[z].terrain[i][j] = tmp_otid;
                     }
                 }
-            } else {
-                debugmsg("Loaded z level out of range (z: %d)", z);
+                jsin.end_array();
             }
-        } else if (datatype == 'Z') { // Monster group
-            JsonIn jsin(fin);
+            jsin.end_array();
+        } else if( name == "region_id" ) {
+            std::string new_region_id;
+            jsin.read( new_region_id );
+            if ( settings.id != new_region_id ) {
+                t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
+                if ( rit != region_settings_map.end() ) {
+                    settings = rit->second; // todo optimize
+                }
+            }
+        } else if( name == "mongroups" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
                 mongroup new_group;
-                new_group.deserialize(jsin);
+                new_group.deserialize( jsin );
                 add_mon_group( new_group );
             }
-            jsin.end_array();
-        } else if( datatype == 'M' ) {
-            tripoint mon_loc;
-            monster new_monster;
-            fin >> mon_loc.x >> mon_loc.y >> mon_loc.z;
-            std::string data;
-            getline( fin, data );
-            new_monster.deserialize( data );
-            monster_map.insert( std::make_pair( std::move(mon_loc),
-                                                std::move(new_monster) ) );
-        } else if (datatype == 't') { // City
-            fin >> cx >> cy >> cs;
-            tmp.x = cx; tmp.y = cy; tmp.s = cs;
-            cities.push_back(tmp);
-        } else if (datatype == 'R') { // Road leading out
-            fin >> cx >> cy;
-            tmp.x = cx; tmp.y = cy; tmp.s = 0;
-            roads_out.push_back(tmp);
-        } else if (datatype == 'T') { // Radio tower
-            radio_tower tmp;
-            int tmp_type;
-            fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
-            tmp.type = (radio_type)tmp_type;
-            getline(fin, tmp.message); // Chomp endl
-            getline(fin, tmp.message);
-            radios.push_back(tmp);
-        } else if ( datatype == 'v' ) {
-            om_vehicle v;
-            int id;
-            fin >> id >> v.name >> v.x >> v.y;
-            vehicles[id]=v;
-        } else if (datatype == 'n') { // NPC
-// When we start loading a new NPC, check to see if we've accumulated items for
-//   assignment to an NPC.
-
-            if (!npc_inventory.empty() && !npcs.empty()) {
-                npcs.back()->inv.add_stack(npc_inventory);
-                npc_inventory.clear();
-            }
-            std::string npcdata;
-            getline(fin, npcdata);
-            npc * tmp = new npc();
-            tmp->load_info(npcdata);
-            npcs.push_back(tmp);
-        } else if (datatype == 'P') {
-            // Chomp the invlet_cache, since the npc doesn't use it.
-            std::string itemdata;
-            getline(fin, itemdata);
-        } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
-                   datatype == 'w' || datatype == 'c') {
-            std::string itemdata;
-            getline(fin, itemdata);
-            if (npcs.empty()) {
-                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
-                         loc.x, loc.y, itemdata.c_str());
-            } else {
-                item tmp;
-                tmp.load_info(itemdata);
-                npc* last = npcs.back();
-                switch (datatype) {
-                case 'I': npc_inventory.push_back(tmp);                 break;
-                case 'C': npc_inventory.back().contents.push_back(tmp); break;
-                case 'W': last->worn.push_back(tmp);                    break;
-                case 'w': last->weapon = tmp;                           break;
-                case 'c': last->weapon.contents.push_back(tmp);         break;
-                }
-            }
-        } else if ( datatype == '!' ) { // temporary holder for future sanity
-            std::string tmpstr;
-            getline(fin, tmpstr);
-            if ( tmpstr.size() > 1 && ( tmpstr[0] == '{' || tmpstr[1] == '{' ) ) {
-                std::stringstream derp;
-                derp << tmpstr;
-                JsonIn jsin(derp);
-                try {
-                    JsonObject data = jsin.get_object();
-
-                    if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
-                        if ( settings.id != tmpstr ) {
-                            t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
-                            if ( rit != region_settings_map.end() ) {
-                                // temporary; user changed option, this overmap should remain whatever it was set to.
-                                settings = rit->second; // todo optimize
-                            } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
-                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
-                                rit = region_settings_map.find( tmpopt );
-                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
-                                    debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
-                ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
-                ....... good luck.                 \n",
-                                              tmpstr.c_str(), tmpopt.c_str() );
-                                    // fallback means we already loaded default and got a warning earlier.
-                                } else {
-                                    debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
-                                              tmpstr.c_str(), tmpopt.c_str() );
-                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
-                                }
-                            }
-                        }
+        } else if( name == "cities" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                city new_city;
+                while( !jsin.end_object() ) {
+                    std::string city_member_name = jsin.get_member_name();
+                    if( city_member_name == "name" ) {
+                        jsin.read( new_city.name );
+                    } else if( city_member_name == "x" ) {
+                        jsin.read( new_city.x );
+                    } else if( city_member_name == "y" ) {
+                        jsin.read( new_city.y );
+                    } else if( city_member_name == "size" ) {
+                        jsin.read( new_city.s );
                     }
-                } catch(std::string jsonerr) {
-                    debugmsg("load overmap: json error\n%s", jsonerr.c_str() );
-                    // just continue with default region
                 }
+                cities.push_back( new_city );
+            }
+        } else if( name == "roads_out" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                city new_road;
+                while( !jsin.end_object() ) {
+                    std::string road_member_name = jsin.get_member_name();
+                    if( road_member_name == "x" ) {
+                        jsin.read( new_road.x );
+                    } else if( road_member_name == "y" ) {
+                        jsin.read( new_road.y );
+                    }
+                }
+                roads_out.push_back( new_road );
+            }
+        } else if( name == "radios" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                radio_tower new_radio;
+                while( !jsin.end_object() ) {
+                    const std::string radio_member_name = jsin.get_member_name();
+                    if( radio_member_name == "type" ) {
+                        const std::string radio_name = jsin.get_string();
+                        const auto mapping =
+                            find_if(radio_type_names.begin(), radio_type_names.end(),
+                                    [radio_name](const std::pair<int, std::string> &p) {
+                                        return p.second == radio_name;
+                                    });
+                        if( mapping != radio_type_names.end() ) {
+                            new_radio.type = mapping->first;
+                        }
+                    } else if( radio_member_name == "x" ) {
+                        jsin.read( new_radio.x );
+                    } else if( radio_member_name == "y" ) {
+                        jsin.read( new_radio.y );
+                    } else if( radio_member_name == "strength" ) {
+                        jsin.read( new_radio.strength );
+                    } else if( radio_member_name == "message" ) {
+                        jsin.read( new_radio.message );
+                    }
+                }
+                radios.push_back( new_radio );
+            }
+        } else if( name == "monster_map" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                tripoint monster_location;
+                monster new_monster;
+                monster_location.deserialize( jsin );
+                new_monster.deserialize( jsin );
+                monster_map.insert( std::make_pair( std::move( monster_location ),
+                                                    std::move(new_monster) ) );
+            }
+        } else if( name == "tracked_vehicles" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                om_vehicle new_tracker;
+                int id;
+                while( !jsin.end_object() ) {
+                    std::string tracker_member_name = jsin.get_member_name();
+                    if( tracker_member_name == "id" ) {
+                        jsin.read( id );
+                    } else if( tracker_member_name == "x" ) {
+                        jsin.read( new_tracker.x );
+                    } else if( tracker_member_name == "y" ) {
+                        jsin.read( new_tracker.y );
+                    } else if( tracker_member_name == "name" ) {
+                        jsin.read( new_tracker.name );
+                    }
+                }
+                vehicles[id] = new_tracker;
+            }
+        } else if( name == "npcs" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                npc *new_npc = new npc();
+                new_npc->deserialize( jsin );
+                if( !new_npc->fac_id.empty() ) {
+                    new_npc->set_fac( new_npc->fac_id );
+                }
+                npcs.push_back( new_npc );
             }
         }
-    }
-
-// If we accrued an npc_inventory, assign it now
-    if (!npc_inventory.empty() && !npcs.empty()) {
-        npcs.back()->inv.add_stack(npc_inventory);
     }
 }
 
@@ -590,77 +583,125 @@ void overmap::serialize( std::ofstream &fout ) const
 {
     static const int first_overmap_json_version = 25;
     fout << "# version " << first_overmap_json_version << std::endl;
+
+    JsonOut json(fout, false);
+    json.start_object();
+
+    json.member("layers");
+    json.start_array();
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-        fout << "L " << z << std::endl;
         int count = 0;
         oter_id last_tertype(-1);
+        json.start_array();
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
                 oter_id t = layer[z].terrain[i][j];
                 if (t != last_tertype) {
                     if (count) {
-                        fout << count << " ";
+                        json.write(count);
+                        json.end_array();
                     }
                     last_tertype = t;
-                    fout << std::string(t) << " ";
+                    json.start_array();
+                    json.write( (std::string)t );
                     count = 1;
                 } else {
                     count++;
                 }
             }
         }
-        fout << count;
-        fout << std::endl;
-    }
-
-    try {
-        fout << "! ";
-        JsonOut json(fout, false);
-        json.start_object();
-        json.member("region_id", settings.id); // temporary, to allow user to manually switch regions during play until regionmap is done.
-        json.end_object();
-        fout << std::endl;
-    } catch (std::string e) {
-        //debugmsg("error saving overmap: %s", e.c_str());
-    }
-
-    try {
-        fout << "Z ";
-        JsonOut json(fout, false);
-        json.start_array();
-        for( const auto &group : zg ) {
-            json.write(group.second);
-        }
+        json.write(count);
+        // End the last entry for a z-level.
         json.end_array();
-        // Current code wants there to be a comma and newline here.
-        fout << ',' << std::endl;
-    } catch( std::string e ) {
-        debugmsg("error saving overmap mongroups : %s", e.c_str());
+        // End the z-level
+        json.end_array();
+        // Insert a newline occasionally so the file isn't totally unreadable.
+        fout << std::endl;
     }
+    json.end_array();
 
-    for (auto &i : cities)
-        fout << "t " << i.x << " " << i.y << " " << i.s << std::endl;
-    for (auto &i : roads_out)
-        fout << "R " << i.x << " " << i.y << std::endl;
-    for (auto &i : radios)
-        fout << "T " << i.x << " " << i.y << " " << i.strength <<
-            " " << i.type << " " << std::endl << i.message << std::endl;
+    // temporary, to allow user to manually switch regions during play until regionmap is done.
+    json.member("region_id", settings.id);
+    fout << std::endl;
 
-    for( const auto &mdata : monster_map ) {
-        fout << "M " << mdata.first.x << " " << mdata.first.y << " " << mdata.first.z <<
-            " " << mdata.second.serialize() << std::endl;
+    json.member("mongroups");
+    json.start_array();
+    for( const auto &group : zg ) {
+        json.write(group.second);
     }
+    json.end_array();
+    fout << std::endl;
 
-    // store tracked vehicle locations and names
-    for( const auto &elem : vehicles ) {
-        int id = elem.first;
-        om_vehicle v = elem.second;
-        fout << "v " << id << " " << v.name << " " << v.x << " " << v.y << std::endl;
+    json.member("cities");
+    json.start_array();
+    for( auto &i : cities ) {
+        json.start_object();
+        json.member("name", i.name);
+        json.member("x", i.x);
+        json.member("y", i.y);
+        json.member("size", i.s);
+        json.end_object();
     }
+    json.end_array();
+    fout << std::endl;
 
-    //saving the npcs
-    for (auto &i : npcs)
-        fout << "n " << i->save_info() << std::endl;
+    json.member("roads_out");
+    json.start_array();
+    for( auto &i : roads_out ) {
+        json.start_object();
+        json.member("x", i.x);
+        json.member("y", i.y);
+        json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member("radios");
+    json.start_array();
+    for( auto &i : radios ) {
+        json.start_object();
+        json.member("x", i.x);
+        json.member("y", i.y);
+        json.member("strength", i.strength);
+        json.member("type", radio_type_names[i.type]);
+        json.member("message", i.message);
+        json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member("monster_map");
+    json.start_array();
+    for( auto &i : monster_map ) {
+        i.first.serialize(json);
+        i.second.serialize(json);
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member("tracked_vehicles");
+    json.start_array();
+    for( const auto &i : vehicles ) {
+        json.start_object();
+        json.member("id", i.first);
+        json.member("name", i.second.name);
+        json.member("x", i.second.x);
+        json.member("y", i.second.y);
+        json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member("npcs");
+    json.start_array();
+    for (auto &i : npcs) {
+        json.write( i->save_info() );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.end_object();
+    fout << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
