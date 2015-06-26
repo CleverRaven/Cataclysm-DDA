@@ -12173,11 +12173,12 @@ bool game::plmove(int dx, int dy)
                         std::vector<int> wheel_indices =
                             grabbed_vehicle->all_parts_with_feature( "WHEEL", false );
                         for( auto p : wheel_indices ) {
-
                             if( one_in(2) ) {
-                                grabbed_vehicle->handle_trap(
+                                tripoint wheel_p(
                                     gx + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
-                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh, p );
+                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh,
+                                    grabbed_vehicle->smz );
+                                grabbed_vehicle->handle_trap( wheel_p, p );
                             }
                         }
                         m.displace_vehicle(gx, gy, dxVeh, dyVeh);

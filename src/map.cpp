@@ -330,7 +330,8 @@ void map::vehmove()
     }
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
-    for( int count = 0; count < 15; count++ ) {
+    // But 15 is too low for V12 deathbikes, let's put 100 here
+    for( int count = 0; count < 100; count++ ) {
         const vehicle *veh = vehproceed();
         if( veh == nullptr ) {
             break;
@@ -364,16 +365,43 @@ const vehicle *map::vehproceed()
         return nullptr;
     }
 
-    if (!inbounds( pt )) {
+    if( !inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z << ")";
         veh->stop();
         veh->of_turn = 0;
         return veh;
     }
 
+    // Falling first
+    if( zlevels && veh->falling ) {
+        // TODO: Make it bash the relevant parts
+        // TODO: Scan all parts for support, starting with just wheels, bash the supporting parts only
+        bool supported = false;
+        for( const int i : veh->parts ) {
+            const tripoint pp = pt + veh->parts[i].precalc[0];
+            if( !has_flag( TFLAG_NO_FLOOR, pp ) ) {
+                supported = true;
+                break;
+            }
+
+            const tripoint below( pp.x, pp.y, pp.z );
+            if( veh_at( below ) != nullptr || move_cost( below ) == 0 ) {
+                supported = true;
+                break;
+            }
+        }
+
+        if( !supported ) {
+            veh->smz--;
+            return veh;
+        }
+
+        veh->falling = false;
+    }
+
     bool pl_ctrl = veh->player_in_control(g->u);
 
-    // k slowdown first.
+    // k slowdown second.
     int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
     float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
     slowdown = (int) ceil(kslw * slowdown);
@@ -386,17 +414,18 @@ const vehicle *map::vehproceed()
     }
 
     //low enough for bicycles to go in reverse.
-    if (veh->velocity && abs(veh->velocity) < 20) {
+    if( veh->velocity != 0 && abs( veh->velocity ) < 20 ) {
         veh->stop();
     }
 
-    if(veh->velocity == 0) {
+    if( veh->velocity == 0 ) {
         veh->of_turn -= .321f;
         return veh;
     }
 
+    // TODO: Handle wheels in the air
     std::vector<int> float_indices = veh->all_parts_with_feature(VPFLAG_FLOATS, false);
-    if (float_indices.empty()) {
+    if( float_indices.empty() ) {
         // sink in water?
         std::vector<int> wheel_indices = veh->all_parts_with_feature(VPFLAG_WHEEL, false);
         int num_wheels = wheel_indices.size(), submerged_wheels = 0;
@@ -729,24 +758,18 @@ const vehicle *map::vehproceed()
     if (can_move) {
         std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
         for (auto &w : wheel_indices) {
-            const int wheel_x = pt.x + veh->parts[w].precalc[0].x;
-            const int wheel_y = pt.y + veh->parts[w].precalc[0].y;
+            const tripoint wheel_p( pt.x + veh->parts[w].precalc[0].x,
+                                    pt.y + veh->parts[w].precalc[0].y,
+                                    veh->smz );
             if (one_in(2)) {
-                if( displace_water( wheel_x, wheel_y) && pl_ctrl ) {
+                if( displace_water( wheel_p ) && pl_ctrl ) {
                     add_msg(m_warning, _("You hear a splash!"));
                 }
             }
-            veh->handle_trap( wheel_x, wheel_y, w );
-            if( !has_flag( "SEALED", wheel_x, wheel_y ) ) {
-            auto item_vec = i_at( wheel_x, wheel_y );
-            for( auto it = item_vec.begin(); it != item_vec.end(); ) {
-                it->damage += rng( 0, 3 );
-                if( it->damage > 4 ) {
-                    it = item_vec.erase(it);
-                } else {
-                    ++it;
-                }
-            }
+            veh->handle_trap( wheel_p, w );
+            if( !has_flag( "SEALED", wheel_p ) ) {
+                // TODO: Make this value depend on the wheel
+                smash_items( wheel_p, 5 );
             }
         }
     }
@@ -1506,30 +1529,45 @@ const ter_t & map::ter_at( const tripoint &p ) const
  * set terrain via string; this works for -any- terrain id
  */
 void map::ter_set( const tripoint &p, const std::string new_terrain) {
-    if(  termap.find(new_terrain) == termap.end() ) {
+    if( termap.find(new_terrain) == termap.end() ) {
         return;
     }
 
     ter_set( p, termap[ new_terrain ].loadid );
 }
 
-/*
- * set terrain via builtin t_keyword; only if defined, and will not work
- * for mods
- */
-void map::ter_set( const tripoint &p, const ter_id new_terrain) {
+void map::ter_set( const tripoint &p, const ter_id new_terrain )
+{
     if( !inbounds( p ) ) {
         return;
     }
 
-    // set the dirty flags
-    // TODO: consider checking if the transparency value actually changes
-    set_transparency_cache_dirty( p.z );
-    set_outside_cache_dirty( p.z );
-
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
+    const ter_id old_id = current_submap->get_ter( lx, ly );
+    if( old_id == new_terrain ) {
+        // Nothing changed
+        return;
+    }
+
     current_submap->set_ter( lx, ly, new_terrain );
+
+    // Set the dirty flags
+    const ter_t &old_t = old_id.get();
+    const ter_t &new_t = new_terrain.get();
+
+    if( old_t.transparent != new_t.transparent ) {
+        set_transparency_cache_dirty( p.z );
+    }
+
+    if( old_t.has_flag( TFLAG_INDOORS ) != new_t.has_flag( TFLAG_INDOORS ) ) {
+        set_outside_cache_dirty( p.z );
+    }
+
+    if( new_t.has_flag( TFLAG_NO_FLOOR ) && !old_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        // It's a set, not a flag
+        support_cache_dirty.insert( p );
+    }
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -1780,7 +1818,7 @@ bool map::has_floor( const tripoint &p ) const
     return !zlevels || p.z < -OVERMAP_DEPTH + 1 || !has_flag( TFLAG_NO_FLOOR, p );
 }
 
-bool map::has_support_furniture( const tripoint &p ) const
+bool map::furniture_supported( const tripoint &p ) const
 {
     if( has_floor( p ) ) {
         return true;
@@ -1792,16 +1830,71 @@ bool map::has_support_furniture( const tripoint &p ) const
     return has_furn( below ) || move_cost( below ) == 0;
 }
 
-bool map::has_support_vehicle( const tripoint &p ) const
+bool map::drop_everything( const tripoint &p )
 {
-    if( has_floor( p ) ) {
-        return true;
+    bool dropped = false;
+    dropped |= drop_furniture( p );
+    dropped |= drop_items( p );
+    dropped |= drop_vehicle( p );
+}
+
+bool map::drop_furniture( const tripoint &p )
+{
+    const furn_id frn = furn( p );
+    if( frn == f_null ) {
+        return false;
     }
 
-    tripoint below( p.x, p.y, p.z - 1 );
-    // Anything unpassable is considered a support here
-    // Could allow driving on treetops, but for now just allow it
-    return veh_at( below ) != nullptr || move_cost( below ) == 0;
+    tripoint below( p );
+    while( !furniture_supported( below ) ) {
+        below.z--;
+    }
+
+    if( below == p ) {
+        // Nothing happened
+        return false;
+    }
+
+    furn_set( p, f_null );
+    furn_set( below, frn );
+    // TODO: Balance this. Currently just for bashing sounds
+    // TODO: Make it bash through floor if we drop something big and heavy
+    bash( below, ( p.z - below.z ) * 10, false, false, nullptr, false );
+}
+bool map::drop_items( const tripoint &p )
+{
+    if( !has_items( p ) || has_floor( p ) ) {
+        return false;
+    }
+
+    auto items = i_at( p );
+    // TODO: Make items check the volume tile below can accept
+    // rather than disappearing if it would be overloaded
+
+    tripoint below( p );
+    while( !has_floor( below ) ) {
+        below.z--;
+    }
+
+    for( const auto &i : items ) {
+        // TODO: Bash the item up before adding it
+        // TODO: Bash the creature, terrain, furniture and vehicles on the tile
+        add_item_or_charges( below, i );
+    }
+}
+bool map::drop_vehicle( const tripoint &p )
+{
+    if( has_floor( p ) ) {
+        return false;
+    }
+
+    vehicle *veh = veh_at( p );
+    if( veh == nullptr ) {
+        return false;
+    }
+
+    veh.falling = true;
+    return true;
 }
 
 // 2D flags
@@ -2632,6 +2725,10 @@ void map::collapse_at( const tripoint &p )
 
 void map::smash_items(const tripoint &p, const int power)
 {
+    if( !has_items( p ) ) {
+        return;
+    }
+
     auto items = g->m.i_at(p);
     for (auto i = items.begin(); i != items.end();) {
         if (i->active == true) {

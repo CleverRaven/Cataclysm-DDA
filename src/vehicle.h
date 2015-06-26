@@ -638,7 +638,7 @@ public:
     veh_collision part_collision (int part, int x, int y, bool just_detect);
 
     // Process the trap beneath
-    void handle_trap (int x, int y, int part);
+    void handle_trap( const tripoint &p, int part );
 
     int max_volume(int part) const; // stub for per-vpart limit
     int free_volume(int part) const;
@@ -864,7 +864,6 @@ public:
     std::string music_id;    // what music storage device is in the stereo
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move
-    int vertical_velocity = 0; // Velocity for falling/rising. +/-10 is 1 z-lever per turn
 
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
@@ -901,6 +900,7 @@ public:
     bool skidding                   = false; // skidding mode
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
+    bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
 };
 
 #endif

@@ -434,7 +434,6 @@ public:
     void board_vehicle(int x, int y, player *p);
     void unboard_vehicle(const int x, const int y);
     bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
-    bool displace_water (const int x, const int y);
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
     /**
@@ -957,20 +956,18 @@ void add_corpse( const tripoint &p );
     int climb_difficulty( const tripoint &p ) const;
 
 // Support
+    // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
+    // if we're not in zlevels mode or if we're at lowest level
     bool has_floor( const tripoint &p ) const;
-    /**
-     * has_support_* returns false if object of a given type should fall, true otherwise
-     */
-    /*@{*/
-    bool has_support_furniture( const tripoint &p ) const;
-    bool has_support_vehicle( const tripoint &p ) const;
-    /*@}*/
+    // Should furniture at p stay there or fall down
+    bool furniture_supported( const tripoint &p ) const;
 
     /**
      * Handles map objects of given type (not creatures) falling down.
-     * Returns false if the object was supported while at p, true otherwise.
+     * Returns true if anything changed.
      */
     /*@{*/
+    bool drop_everything( const tripoint &p );
     bool drop_furniture( const tripoint &p );
     bool drop_items( const tripoint &p );
     bool drop_vehicle( const tripoint &p );
@@ -1315,6 +1312,9 @@ private:
     }
 
     void update_visibility_cache( visibility_variables &cache, int zlev );
+
+    // Tiles whose ability to support things was removed
+    std::set<tripoint> support_cache_dirty;
 
     // Clips the area to map bounds
     tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
