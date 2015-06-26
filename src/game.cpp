@@ -6204,7 +6204,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                 add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
                 u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
             } else {
-                static const std::set<std::string> shrapnel_effects;
+                static const std::set<std::string> shrapnel_effects{};
                 m.shoot( tp, dam, j == traj.size() - 1, shrapnel_effects);
             }
         }
