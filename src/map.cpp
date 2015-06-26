@@ -1775,6 +1775,35 @@ int map::climb_difficulty( const tripoint &p ) const
     return best_difficulty - blocks_movement;
 }
 
+bool map::has_floor( const tripoint &p ) const
+{
+    return !zlevels || p.z < -OVERMAP_DEPTH + 1 || !has_flag( TFLAG_NO_FLOOR, p );
+}
+
+bool map::has_support_furniture( const tripoint &p ) const
+{
+    if( has_floor( p ) ) {
+        return true;
+    }
+
+    tripoint below( p.x, p.y, p.z - 1 );
+    // Not 100% correct, but better have floating chairs
+    // than chairs teleporting into vehicles, nailing them down
+    return has_furn( below ) || move_cost( below ) == 0;
+}
+
+bool map::has_support_vehicle( const tripoint &p ) const
+{
+    if( has_floor( p ) ) {
+        return true;
+    }
+
+    tripoint below( p.x, p.y, p.z - 1 );
+    // Anything unpassable is considered a support here
+    // Could allow driving on treetops, but for now just allow it
+    return veh_at( below ) != nullptr || move_cost( below ) == 0;
+}
+
 // 2D flags
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const

@@ -956,6 +956,26 @@ void add_corpse( const tripoint &p );
      */
     int climb_difficulty( const tripoint &p ) const;
 
+// Support
+    bool has_floor( const tripoint &p ) const;
+    /**
+     * has_support_* returns false if object of a given type should fall, true otherwise
+     */
+    /*@{*/
+    bool has_support_furniture( const tripoint &p ) const;
+    bool has_support_vehicle( const tripoint &p ) const;
+    /*@}*/
+
+    /**
+     * Handles map objects of given type (not creatures) falling down.
+     * Returns false if the object was supported while at p, true otherwise.
+     */
+    /*@{*/
+    bool drop_furniture( const tripoint &p );
+    bool drop_items( const tripoint &p );
+    bool drop_vehicle( const tripoint &p );
+    /*@}*/
+
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
