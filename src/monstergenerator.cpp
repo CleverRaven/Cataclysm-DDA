@@ -12,6 +12,7 @@
 #include "mondeath.h"
 #include "monfaction.h"
 #include "mongroup.h"
+#include "options.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -454,7 +455,23 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->dies = get_death_functions(jo, "death_function");
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
+
         newmon->upgrade_min = jo.get_int("upgrade_min", -1);
+        // recalc upgrade_min if given
+        if (newmon->upgrade_min > 0) {
+            const int season_scale = ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14;
+            int season_offset = 0;
+            if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"] == "summer") {
+                season_offset = 1;
+            } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"] == "autumn") {
+                season_offset = 2;
+            } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"] == "winter") {
+                season_offset = 3;
+            }
+            season_offset *= ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"];
+            newmon->upgrade_min = (season_offset + (newmon->upgrade_min * season_scale))
+                                   / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+        }
         newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
         newmon->upgrade_group = mongroup_id( jo.get_string("upgrade_group", "GROUP_NULL") );
