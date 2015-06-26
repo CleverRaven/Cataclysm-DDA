@@ -751,5 +751,28 @@
         "category" : "tools",
         "to_hit": 2,
         "qualities": [["COOK", 2], ["BOIL", 1]]
-    }
+    },
+  {
+    "id": "makeshift_hammer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "makeshift hammer",
+    "description": "This is a crude hammer make from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
+    "price": 0,
+    "material": ["steel", "wood"],
+    "weight": 1020,
+    "volume": 2,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAMMER",
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+  }
 ]

@@ -1156,5 +1156,34 @@
       [ "hat_hard", 1 ]
      ]
   ]
+},{
+  "type" : "recipe",
+  "result": "makeshift_hammer",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "steel_chunk", 1 ],
+      [ "steel_lump", 1 ]
+    ],
+    [
+      [ "string_6", 2 ],
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "withered", 2 ]
+    ]
+  ]
 }
 ]
