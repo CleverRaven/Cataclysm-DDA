@@ -28,6 +28,7 @@
 #include "name.h"
 #include "translations.h"
 #include "mapgen_functions.h"
+#include "clzones.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1545,11 +1546,11 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
+    const auto &zones = zone_manager::get_manager();
 
-    if (data.iZoneIndex != -1) {
-        sZoneName = g->u.Zones.vZones[data.iZoneIndex].getName();
-        point pOMZone = overmapbuffer::ms_to_omt_copy(g->u.Zones.vZones[data.iZoneIndex].getCenterPoint());
-        tripointZone = tripoint( pOMZone, 0 );
+    if( data.iZoneIndex != -1 ) {
+        sZoneName = zones.zones[data.iZoneIndex].get_name();
+        tripointZone = overmapbuffer::ms_to_omt_copy(zones.zones[data.iZoneIndex].get_center_point());
     }
 
     // If we're debugging monster groups, find the monster group we've selected

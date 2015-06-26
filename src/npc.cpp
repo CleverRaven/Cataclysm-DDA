@@ -94,7 +94,7 @@ void npc::load_npc(JsonObject &jsobj)
     } else {
         guy.miss_id = 0;
     }
-    _all_npc[guy.idz] = guy;
+    _all_npc[guy.idz] = std::move( guy );
 }
 
 npc* npc::find_npc(std::string ident)

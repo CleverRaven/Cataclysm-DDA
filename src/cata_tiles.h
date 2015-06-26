@@ -266,7 +266,7 @@ class cata_tiles
         void draw_sct_frame();
         void void_sct();
 
-        void init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         void draw_zones_frame();
         void void_zones();
 
@@ -335,9 +335,9 @@ class cata_tiles
         weather_printable anim_weather;
         std::string weather_name;
 
-        point pStartZone;
-        point pEndZone;
-        point pZoneOffset;
+        tripoint zone_start;
+        tripoint zone_end;
+        tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
         int o_x, o_y;
