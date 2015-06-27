@@ -657,7 +657,7 @@ void talk_function::field_build_1(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->toggle_mutation( "NPC_CONSTRUCTION_LEV_1" );
+    p->set_mutation( "NPC_CONSTRUCTION_LEV_1" );
     g->u.cash += -100000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -679,7 +679,7 @@ void talk_function::field_build_2(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->toggle_mutation( "NPC_CONSTRUCTION_LEV_2" );
+    p->set_mutation( "NPC_CONSTRUCTION_LEV_2" );
     g->u.cash += -550000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -985,7 +985,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
         g->u.cash += 10000;
     }
     if (one_in(10) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->toggle_mutation( "NPC_MISSION_LEV_1" );
+        p->set_mutation( "NPC_MISSION_LEV_1" );
         popup(_("%s feels more confident in your abilities and is willing to let you participate in daring raids."), p->name.c_str());
     }
     companion_return(comp);
@@ -1110,7 +1110,7 @@ bool talk_function::labor_return(npc *p)
     popup(_("%s returns from working as a laborer having earned $%d and a bit of experience..."), comp->name.c_str(),money);
     companion_return(comp);
     if (turns >= 8 && one_in(8) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->toggle_mutation( "NPC_MISSION_LEV_1" );
+        p->set_mutation( "NPC_MISSION_LEV_1" );
         popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
     }
 
@@ -1260,7 +1260,7 @@ bool talk_function::forage_return(npc *p)
                 g->u.i_add( result );
         }
         if (one_in(6) && !p->has_trait("NPC_MISSION_LEV_1")){
-            p->toggle_mutation( "NPC_MISSION_LEV_1" );
+            p->set_mutation( "NPC_MISSION_LEV_1" );
             popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
         }
 

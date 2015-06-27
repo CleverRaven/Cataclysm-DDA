@@ -1481,7 +1481,7 @@ static int marloss_reject_mutagen( player *p, item *it )
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->fall_asleep((3000 - p->int_cur * 10));
         // Marloss is too thoroughly into your body to be dislodged by orals.
-        p->toggle_mutation("MUTAGEN_AVOID");
+        p->set_mutation("MUTAGEN_AVOID");
         p->add_msg_if_player(m_warning, _("That was some toxic %s!  Let's stick with Marloss next time, that's safe."), it->tname().c_str());
         p->add_memorial_log(pgettext("memorial_male", "Suffered a toxic marloss/mutagen reaction."),
                             pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
@@ -1520,8 +1520,8 @@ static int marloss_reject_mut_iv( player *p, item *it )
          // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->fall_asleep((4000 - p->int_cur * 10));
         // Injection does the trick.  Burn the fungus out.
-        p->toggle_mutation("THRESH_MARLOSS");
-        p->toggle_mutation("MUTAGEN_AVOID");
+        p->unset_mutation("THRESH_MARLOSS");
+        p->set_mutation("MUTAGEN_AVOID");
         //~ Recall that Marloss mutations made you feel warmth spreading throughout your body.  That's gone.
         p->add_msg_if_player(m_warning, _("You feel a cold burn inside, as though everything warm has left you."));
         if( it->type->can_use("PURIFY_IV") ) {
@@ -1789,13 +1789,13 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                 if (x_in_y(breacher, total)) {
                     p->add_msg_if_player(m_good,
                                      _("Something strains mightily for a moment...and then..you're...FREE!"));
-                    p->toggle_mutation(mutation_thresh);
+                    p->set_mutation(mutation_thresh);
                     p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
                                         pgettext("memorial_female", m_category.memorial_message.c_str()));
                     if (mutation_category == "MUTCAT_URSINE") {
                         // Manually removing Carnivore, since it tends to creep in
                         if (p->has_trait("CARNIVORE")) {
-                            p->toggle_mutation("CARNIVORE");
+                            p->unset_mutation("CARNIVORE");
                             p->add_msg_if_player(_("Your appetite for blood fades."));
                         }
                     }
@@ -2020,18 +2020,18 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         p->mod_pain(90);
         p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->toggle_mutation("MARLOSS_BLUE");
-        p->toggle_mutation("MARLOSS");
-        p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->unset_mutation("MARLOSS_BLUE");
+        p->unset_mutation("MARLOSS");
+        p->set_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
-        p->toggle_mutation("MARLOSS_BLUE");
-        p->toggle_mutation("MARLOSS_YELLOW");
-        p->toggle_mutation("THRESH_MARLOSS");
+        p->unset_mutation("MARLOSS_BLUE");
+        p->unset_mutation("MARLOSS_YELLOW");
+        p->set_mutation("THRESH_MARLOSS");
         p->rem_addiction(ADD_MARLOSS_R);
         g->m.ter_set(p->posx(), p->posy(), t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
@@ -2041,7 +2041,7 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("unity.  together we have reached the door.  we provide the final key.  now to pass through..."));
     } else if (!p->has_trait("MARLOSS")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->toggle_mutation("MARLOSS");
+        p->set_mutation("MARLOSS");
         p->add_addiction(ADD_MARLOSS_B, 60);
         p->add_addiction(ADD_MARLOSS_Y, 60);
         p->rem_addiction(ADD_MARLOSS_R);
@@ -2146,18 +2146,18 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         p->mod_pain(90);
         p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->toggle_mutation("MARLOSS_BLUE");
-        p->toggle_mutation("MARLOSS");
-        p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->unset_mutation("MARLOSS_BLUE");
+        p->unset_mutation("MARLOSS");
+        p->set_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS_BLUE")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
-        p->toggle_mutation("MARLOSS");
-        p->toggle_mutation("MARLOSS_YELLOW");
-        p->toggle_mutation("THRESH_MARLOSS");
+        p->unset_mutation("MARLOSS");
+        p->unset_mutation("MARLOSS_YELLOW");
+        p->set_mutation("THRESH_MARLOSS");
         p->rem_addiction(ADD_MARLOSS_B);
         g->m.ter_set(p->posx(), p->posy(), t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
@@ -2167,7 +2167,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("unity.  together we have reached the door.  we provide the final key.  now to pass through..."));
     } else if (!p->has_trait("MARLOSS_BLUE")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->toggle_mutation("MARLOSS_BLUE");
+        p->set_mutation("MARLOSS_BLUE");
         p->add_addiction(ADD_MARLOSS_R, 60);
         p->add_addiction(ADD_MARLOSS_Y, 60);
         p->rem_addiction(ADD_MARLOSS_B);
@@ -2268,19 +2268,19 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         p->mod_pain(90);
         p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->toggle_mutation("MARLOSS_BLUE");
-        p->toggle_mutation("MARLOSS");
-        p->toggle_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
+        p->unset_mutation("MARLOSS_BLUE");
+        p->unset_mutation("MARLOSS");
+        p->set_mutation("MARLOSS_AVOID"); // And if you survive it's etched in your RNA, so you're unlikely to repeat the experiment.
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
         p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS")) && (!p->has_trait("MARLOSS_YELLOW")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
         p->fall_asleep((400 - p->int_cur * 5));
-        p->toggle_mutation("MARLOSS_BLUE");
-        p->toggle_mutation("MARLOSS");
+        p->unset_mutation("MARLOSS_BLUE");
+        p->unset_mutation("MARLOSS");
         p->rem_addiction(ADD_MARLOSS_Y);
-        p->toggle_mutation("THRESH_MARLOSS");
+        p->set_mutation("THRESH_MARLOSS");
         g->m.ter_set(p->posx(), p->posy(), t_marloss);
         p->add_memorial_log(pgettext("memorial_male", "Opened the Marloss Gateway."),
                         pgettext("memorial_female", "Opened the Marloss Gateway."));
@@ -2289,7 +2289,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("unity.  together we have reached the door.  we provide the final key.  now to pass through..."));
     } else if (!p->has_trait("MARLOSS_YELLOW")) {
         p->add_msg_if_player(_("You feel a strange warmth spreading throughout your body..."));
-        p->toggle_mutation("MARLOSS_YELLOW");
+        p->set_mutation("MARLOSS_YELLOW");
         p->add_addiction(ADD_MARLOSS_R, 60);
         p->add_addiction(ADD_MARLOSS_B, 60);
         p->rem_addiction(ADD_MARLOSS_Y);
@@ -2316,8 +2316,8 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
         p->fall_asleep((3000 - p->int_cur * 10));
-        p->toggle_mutation("THRESH_MARLOSS");
-        p->toggle_mutation("THRESH_MYCUS");
+        p->unset_mutation("THRESH_MARLOSS");
+        p->set_mutation("THRESH_MYCUS");
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
