@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "game.h"
+#include "player.h"
 #include "item_factory.h"
 #include "item.h"
 #include "pldata.h"
