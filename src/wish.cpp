@@ -48,9 +48,10 @@ class wish_mutate_callback: public uimenu_callback
             if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
-                    p->toggle_mutation( vTraits[ entnum ] );
+                    p->unset_mutation( vTraits[ entnum ] );
+
                 } else {
-                    p->toggle_mutation( vTraits[ entnum ] );
+                    p->set_mutation( vTraits[ entnum ] );
                     p->toggle_trait( vTraits[ entnum ] );
                 }
                 menu->entries[ entnum ].text_color = ( p->has_trait( vTraits[ entnum ] ) ? c_green :
@@ -215,7 +216,7 @@ void game::wishmutate( player *p )
                     } while (p->has_trait( mstr ) && rc < 10);
                 } else {
                     do {
-                        p->toggle_mutation(mstr );
+                        p->set_mutation(mstr );
                         rc++;
                     } while (!p->has_trait( mstr ) && rc < 10);
                 }

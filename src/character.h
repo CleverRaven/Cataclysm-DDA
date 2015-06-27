@@ -75,8 +75,9 @@ class Character : public Creature
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
-        /** Toggles a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void toggle_mutation(const std::string &flag);
+        /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
+        void set_mutation(const std::string &flag);
+        void unset_mutation(const std::string &flag);
 
  private:
         /** Retrieves a stat mod of a mutation. */

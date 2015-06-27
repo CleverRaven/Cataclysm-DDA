@@ -12,6 +12,7 @@
 #include "catacharset.h"
 #include "input.h"
 #include "mapdata.h"
+#include "debug.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -47,11 +48,22 @@ void Character::toggle_trait(const std::string &flag)
     recalc_sight_limits();
 }
 
-void Character::toggle_mutation(const std::string &flag)
+void Character::set_mutation(const std::string &flag)
 {
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
         my_mutations[flag]; // Creates a new entry with default values
+    } else {
+        debugmsg("Trying to set %s mutation, but the character already has it.", flag.c_str());
+    }
+    recalc_sight_limits();
+}
+
+void Character::unset_mutation(const std::string &flag)
+{
+    const auto iter = my_mutations.find( flag );
+    if( iter == my_mutations.end() ) {
+        debugmsg("Trying to unset %s mutation, but the character does not have it.", flag.c_str());
     } else {
         my_mutations.erase( iter );
     }
@@ -1108,7 +1120,7 @@ void player::mutate_towards( const std::string &mut )
         }
     }
 
-    toggle_mutation(mut);
+    set_mutation(mut);
 
     bool mutation_replaced = false;
 
@@ -1130,7 +1142,7 @@ void player::mutate_towards( const std::string &mut )
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
-        toggle_mutation(replacing);
+        unset_mutation(replacing);
         mutation_loss_effect(replacing);
         mutation_effect(mut);
         mutation_replaced = true;
@@ -1151,7 +1163,7 @@ void player::mutate_towards( const std::string &mut )
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
-        toggle_mutation(replacing2);
+        unset_mutation(replacing2);
         mutation_loss_effect(replacing2);
         mutation_effect(mut);
         mutation_replaced = true;
@@ -1175,7 +1187,7 @@ void player::mutate_towards( const std::string &mut )
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                         cancel_mdata.name.c_str(), mdata.name.c_str());
-        toggle_mutation(canceltrait[i]);
+        unset_mutation(canceltrait[i]);
         mutation_loss_effect(canceltrait[i]);
         mutation_effect(mut);
         mutation_replaced = true;
@@ -1280,7 +1292,7 @@ void player::remove_mutation( const std::string &mut )
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation
-    toggle_mutation(mut);
+    unset_mutation(mut);
 
     bool mutation_replaced = false;
 
@@ -1299,7 +1311,7 @@ void player::remove_mutation( const std::string &mut )
         }
         add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
-        toggle_mutation(replacing);
+        set_mutation(replacing);
         mutation_loss_effect(mut);
         mutation_effect(replacing);
         mutation_replaced = true;
@@ -1317,7 +1329,7 @@ void player::remove_mutation( const std::string &mut )
         }
         add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
-        toggle_mutation(replacing2);
+        set_mutation(replacing2);
         mutation_loss_effect(mut);
         mutation_effect(replacing2);
         mutation_replaced = true;

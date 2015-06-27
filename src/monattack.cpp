@@ -1708,9 +1708,9 @@ void mattack::fungus_fortify(monster *z, int index)
                 add_msg(m_warning, _("The %s works several tendrils into your arms, legs, torso, and even neck..."), z->name().c_str());
                 g->u.hurtall(1, z);
                 add_msg(m_warning, _("You see a clear golden liquid pump through the tendrils--and then lose consciousness."));
-                g->u.toggle_mutation("MARLOSS");
-                g->u.toggle_mutation("MARLOSS_BLUE");
-                g->u.toggle_mutation("THRESH_MARLOSS");
+                g->u.unset_mutation("MARLOSS");
+                g->u.unset_mutation("MARLOSS_BLUE");
+                g->u.set_mutation("THRESH_MARLOSS");
                 g->m.ter_set(g->u.pos(), t_marloss); // We only show you the door.  You walk through it on your own.
                 g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gatweay."),
                     pgettext("memorial_female", "Was shown to the Marloss Gateway."));
