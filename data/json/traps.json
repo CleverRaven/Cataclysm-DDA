@@ -436,8 +436,8 @@
         "color" : "i_cyan",
         "symbol" : " ",
         "visibility" : 0,
-        "avoidance" : 99,
-        "difficulty" : 99,
+        "avoidance" : 99999,
+        "difficulty" : 99999,
         "action" : "ledge"
     },
     {

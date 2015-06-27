@@ -11927,10 +11927,9 @@ bool game::plmove(int dx, int dy)
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
     bool pushing_vehicle = false;
-    int movecost_modifier =
-        0;       // pulling moves furniture into our origin square, so this changes to subtract it.
+    int movecost_modifier = 0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
-    if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
+    if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
         if (u.grab_type == OBJECT_VEHICLE) { // default; assume OBJECT_VEHICLE
             vehicle *grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
             // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
@@ -12042,7 +12041,7 @@ bool game::plmove(int dx, int dy)
 
         float drag_multiplier = 1.0;
         vehicle *grabbed_vehicle = NULL;
-        if (u.grab_point.x != 0 || u.grab_point.y != 0) {
+        if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
             // vehicle: pulling, pushing, or moving around the grabbed object.
             if (u.grab_type == OBJECT_VEHICLE) {
                 grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
@@ -12249,7 +12248,7 @@ bool game::plmove(int dx, int dy)
                         u.moves -= 100;
                         u.mod_pain(1); // Hurt ourself.
                         return false; // furniture and or obstacle wins.
-                    } else if ( ! src_item_ok && dst_items > 0 ) {
+                    } else if ( !src_item_ok && dst_items > 0 ) {
                         add_msg( _("There's stuff in the way.") );
                         u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
                         return false;

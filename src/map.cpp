@@ -67,7 +67,7 @@ std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
 
 void map_stack::push_back( const item &newitem )
 {
-    myorigin->add_item_or_charges(location.x, location.y, newitem);
+    myorigin->add_item_or_charges( location, newitem );
 }
 
 void map_stack::insert_at( std::list<item>::iterator index,
@@ -1872,9 +1872,21 @@ void map::drop_furniture( const tripoint &p )
 
     furn_set( p, f_null );
     furn_set( below, frn );
-    // TODO: Balance this. Currently just for bashing sounds
+
+    // If it's sealed, we need to drop items with it
+    if( frn.obj().has_flag( TFLAG_SEALED ) && has_items( p ) ) {
+        auto old_items = i_at( p );
+        auto new_items = i_at( below );
+        for( const auto &it : old_items ) {
+            new_items.push_back( it );
+        }
+
+        i_clear( p );
+    }
+
+    // TODO: Balance this. Currently just for bashing glass and sound of bashing
     // TODO: Make it bash through floor if we drop something big and heavy
-    bash( below, ( p.z - below.z ) * 10, false, false, nullptr, false );
+    bash( below, ( p.z - below.z ) * 10, false, false, nullptr, true );
 }
 
 void map::drop_items( const tripoint &p )
@@ -1926,6 +1938,11 @@ void map::support_dirty( const tripoint &p )
 
 void map::process_falling()
 {
+    if( !zlevels ) {
+        support_cache_dirty.clear();
+        return;
+    }
+
     // We want the cache to stay constant, but falling can change it
     std::set<tripoint> last_cache = std::move( support_cache_dirty );
     support_cache_dirty.clear();
