@@ -129,6 +129,15 @@
     "flags" : ["SUR_START"]
   },{
     "type": "scenario",
+    "ident": "schools_out",
+    "name": "School",
+    "points" : -1,
+    "description": "You were at school when the principal shambled in and ate one of the students, and before you knew it the entire campus was overrun by monsters.  Guess school's out forever.",
+    "allowed_locs" : ["school"],
+    "professions" : ["student", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "jr_survivalist", "bionic_student", "poor_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher"],
+    "start_name": "School"
+  },{
+    "type": "scenario",
     "ident": "wilderness",
     "name": "Wilderness",
     "points" : 0,

@@ -122,5 +122,10 @@
     "ident" : "police",
     "name" : "Police Station",
     "target" : "police"
+  },{
+    "type" : "start_location",
+    "ident" : "school",
+    "name" : "School",
+    "target" : "school_5"
   }
 ]
