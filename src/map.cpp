@@ -1366,19 +1366,36 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( lx, ly );
 }
 
-void map::furn_set( const tripoint &p, const furn_id new_furniture)
+void map::furn_set( const tripoint &p, const furn_id new_furniture )
 {
-    if (!inbounds( p )) {
+    if( !inbounds( p ) ) {
         return;
     }
 
     int lx, ly;
     submap *const current_submap = get_submap_at( p, lx, ly );
+    const furn_id old_id = current_submap->get_furn( lx, ly );
+    if( old_id == new_furniture ) {
+        // Nothing changed
+        return;
+    }
 
-    // set the dirty flags
-    // TODO: consider checking if the transparency value actually changes
-    set_transparency_cache_dirty( p.z );
     current_submap->set_furn( lx, ly, new_furniture );
+
+    // Set the dirty flags
+    const furn_t &old_t = old_id.obj();
+    const furn_t &new_t = new_furniture.obj();
+
+    if( old_t.transparent != new_t.transparent ) {
+        set_transparency_cache_dirty( p.z );
+    }
+
+    if( old_t.has_flag( TFLAG_INDOORS ) != new_t.has_flag( TFLAG_INDOORS ) ) {
+        set_outside_cache_dirty( p.z );
+    }
+
+    // Make sure the furniture falls if it needs to
+    support_dirty( p );
 }
 
 void map::furn_set( const tripoint &p, const std::string new_furniture) {

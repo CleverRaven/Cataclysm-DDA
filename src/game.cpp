@@ -12206,25 +12206,27 @@ bool game::plmove(int dx, int dy)
                     u.grab_type = OBJECT_NONE;
                 } else {
                     tripoint fdest( fpos.x + dx, fpos.y + dy, u.posz() ); // intended destination of furniture.
+                    // Check floor: floorless tiles don't need to be flat and have no traps
+                    const bool has_floor = m.has_floor( fdest );
                     // Unfortunately, game::is_empty fails for tiles we're standing on,
                     // which will forbid pulling, so:
-                    bool canmove = (
+                    const bool canmove = (
                         m.move_cost(fdest) > 0 &&
                         npc_at(fdest) == -1 &&
                         mon_at(fdest) == -1 &&
-                        m.has_flag("FLAT", fdest) &&
-                        !m.has_furn(fdest) &&
-                        m.veh_at(fdest) == NULL &&
-                        m.tr_at(fdest).is_null()
+                        ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
+                        !m.has_furn( fdest ) &&
+                        m.veh_at( fdest ) == nullptr &&
+                        ( !has_floor || m.tr_at( fdest ).is_null() )
                         );
 
                     const furn_t furntype = m.furn_at(fpos);
                     int furncost = furntype.movecost;
                     const int src_items = m.i_at(fpos).size();
                     const int dst_items = m.i_at(fdest).size();
-                    bool dst_item_ok = ( ! m.has_flag("NOITEM", fdest) &&
-                                         ! m.has_flag("SWIMMABLE", fdest) &&
-                                         ! m.has_flag("DESTROY_ITEM", fdest) );
+                    bool dst_item_ok = ( !m.has_flag("NOITEM", fdest) &&
+                                         !m.has_flag("SWIMMABLE", fdest) &&
+                                         !m.has_flag("DESTROY_ITEM", fdest) );
                     bool src_item_ok = ( m.furn_at(fpos).has_flag("CONTAINER") ||
                                          m.furn_at(fpos).has_flag("SEALED") );
 
@@ -12236,7 +12238,7 @@ bool game::plmove(int dx, int dy)
                     }
                     str_req += furniture_contents_weight / 4000;
 
-                    if ( ! canmove ) {
+                    if ( !canmove ) {
                         add_msg( _("The %s collides with something."), furntype.name.c_str() );
                         u.moves -= 50; // "oh was that your foot? Sorry :-O"
                         return false;
