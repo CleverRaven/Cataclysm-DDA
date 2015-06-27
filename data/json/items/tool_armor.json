@@ -2221,7 +2221,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["STRAPPED"],
+        "flags" : ["BELTED"],
         "coverage" : 0,
         "material_thickness" : 1
     },
@@ -2266,7 +2266,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 27,
         "bashing" : 8,
-        "flags" : ["STRAPPED"],
+        "flags" : ["BELTED"],
         "coverage" : 10,
         "material_thickness" : 2
     },
@@ -2311,7 +2311,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : 4,
-        "flags" : ["STRAPPED"],
+        "flags" : ["BELTED"],
         "coverage" : 10,
         "material_thickness" : 2
     },

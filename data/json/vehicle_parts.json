@@ -3386,6 +3386,22 @@
         "breaks_into": []
     },{
         "type" : "vehicle_part",
+        "id"   : "aisle_curtain",
+        "name" : "aisle curtain",
+        "symbol": "\"",
+        "color": "dark_gray",
+        "broken_symbol": "0",
+        "broken_color": "light_gray",
+        "damage_modifier": 1,
+        "durability": 200,
+        "bonus": 25,
+        "item": "v_curtain_item",
+        "location": "on_ceiling",
+        "difficulty": 1,
+        "flags": ["OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE"],
+        "breaks_into": []
+    },{
+        "type" : "vehicle_part",
         "id" : "solar_panel",
         "name" : "solar panel",
         "symbol" : "#",
