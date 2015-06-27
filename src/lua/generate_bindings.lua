@@ -14,11 +14,14 @@ local tab = "    "
 ---------------------------------------------------------------------------------
 
 -- Convert a given type such as "string" to the corresponding C++
--- type string, e.g. "std::string"
+-- type string, e.g. "std::string". For types wrapped in LuaReference/LuaValue/LuaEnum, it
+-- returns the wrapped type, e.g. "LuaValue<ter_t>"
 function member_type_to_cpp_type(member_type)
     if member_type == "bool" then return "bool"
     elseif member_type == "cstring" then return "const char*"
     elseif member_type == "string" then return "std::string"
+    elseif member_type == "int" then return "int"
+    elseif member_type == "float" then return "float"
     else
         for class_name, class in pairs(classes) do
             if class_name == member_type then
@@ -34,14 +37,18 @@ function member_type_to_cpp_type(member_type)
                 return "LuaEnum<" .. member_type .. ">"
             end
         end
+
+        error("'"..member_type.."' is not a build-in type and is not defined in class_definitions.lua")
     end
-    
-    return member_type
 end
 
 -- Loads an instance of class_name (which must be the first thing on the stack) into a local
 -- variable, named "<class_name>_instance". Only use for classes (not enums/primitives).
 function load_instance(class_name)
+    if not classes[class_name] then
+        error("'"..class_name.."' is not defined in class_definitions.lua")
+    end
+
     local instance_name = class_name .. "_instance"
     local wrapper_type = ""
     if classes[class_name].by_value then
