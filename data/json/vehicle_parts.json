@@ -359,6 +359,24 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "folding_wooden_frame",
+        "name" : "foldable wooden frame",
+        "symbol" : "h",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 15,
+        "folded_volume": 15,
+        "difficulty" : 2,
+        "item" : "foldwoodframe",
+        "location" : "structure",
+        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 0, "max": 6},
+            {"item": "nail", "min": 1, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "xlframe_vertical",
         "name" : "extra light frame",
         "symbol" : "j",
@@ -3182,6 +3200,45 @@
         "breaks_into" : [
             {"item": "splinter", "min": 3, "max": 5},
             {"item": "string_36", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "wood box",
+        "name" : "wood box",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 70,
+        "size" : 150,
+        "item" : "frame_wood",
+        "difficulty" : 0,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "nail", "min": 10, "max": 15}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "folding wood box",
+        "name" : "folding wood box",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 65,
+        "folded_volume": 6,
+        "size" : 120,
+        "item" : "foldwoodframe",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "min": 3, "max": 5},
+            {"item": "nail", "min": 10, "max": 15}
         ]
     },{
         "type" : "vehicle_part",

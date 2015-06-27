@@ -2306,6 +2306,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "foldwoodframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 9000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 5 ]
+    ],
+    [
+      [ "stick", 2]
+    ],
+    [
+      [ "nail", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "wheel_wheelchair",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
