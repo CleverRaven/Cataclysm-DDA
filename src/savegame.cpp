@@ -462,121 +462,171 @@ void overmap::unserialize_view(std::ifstream &fin)
 {
     // Private/per-character view of the overmap.
     if ( fin.peek() == '#' ) {
+        // This was the last savegame version that produced the old format.
+        static int overmap_legacy_save_version = 24;
         std::string vline;
         getline(fin, vline);
-    } else {
-        // No version string means use legacy deserializer.
-        unserialize_view_legacy(fin);
-        return;
+        std::string tmphash, tmpver;
+        int savedver = -1;
+        std::stringstream vliness(vline);
+        vliness >> tmphash >> tmpver >> savedver;
+        if( savedver <= overmap_legacy_save_version  ) {
+            unserialize_view_legacy( fin );
+            return;
+        }
     }
 
-    int z = 0; // assumption
-    char datatype;
-    while (fin >> datatype) {
-        if (datatype == 'L') {  // Load layer data, and switch to layer
-            fin >> z;
-
-            std::string dataline;
-            getline(fin, dataline); // Chomp endl
-
-            int count = 0;
-            int vis;
-            if (z >= 0 && z < OVERMAP_LAYERS) {
+    JsonIn jsin( fin );
+    jsin.start_object();
+    while( !jsin.end_object() ) {
+        const std::string name = jsin.get_member_name();
+        if( name == "visible" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                int count = 0;
+                bool visibility = false;
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
-                            fin >> vis >> count;
+                            jsin.start_array();
+                            jsin.read(visibility);
+                            jsin.read(count);
+                            jsin.end_array();
                         }
                         count--;
-                        layer[z].visible[i][j] = (vis == 1);
+                        layer[z].visible[i][j] = visibility;
                     }
                 }
+                jsin.end_array();
             }
-        } else if (datatype == 'E') { //Load explored areas
-            fin >> z;
-
-            std::string dataline;
-            getline(fin, dataline); // Chomp endl
-
-            int count = 0;
-            int explored;
-            if (z >= 0 && z < OVERMAP_LAYERS) {
+            jsin.end_array();
+        } else if( name == "explored") {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                int count = 0;
+                bool explored = false;
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
-                            fin >> explored >> count;
+                            jsin.start_array();
+                            jsin.read(explored);
+                            jsin.read(count);
+                            jsin.end_array();
                         }
                         count--;
-                        layer[z].explored[i][j] = (explored == 1);
+                        layer[z].explored[i][j] = explored;
                     }
                 }
+                jsin.end_array();
             }
-        } else if (datatype == 'N') { // Load notes
-            om_note tmp;
-            fin >> tmp.x >> tmp.y;
-            getline(fin, tmp.text); // Chomp endl
-            getline(fin, tmp.text);
-            if (z >= 0 && z < OVERMAP_LAYERS) {
-                layer[z].notes.push_back(tmp);
+            jsin.end_array();
+        } else if( name == "notes") {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                while( !jsin.end_array() ) {
+                    om_note tmp;
+                    jsin.start_array();
+                    jsin.read(tmp.x);
+                    jsin.read(tmp.y);
+                    jsin.read(tmp.text);
+                    jsin.end_array();
+
+                    layer[z].notes.push_back(tmp);
+                }
             }
+            jsin.end_array();
         }
     }
 }
 
 void overmap::serialize_view( std::ofstream &fout ) const
 {
-    static const int first_overmap_view_json_version = 1;
+    static const int first_overmap_view_json_version = 25;
     fout << "# version " << first_overmap_view_json_version << std::endl;
 
+    JsonOut json(fout, false);
+    json.start_object();
+
+    json.member("visible");
+    json.start_array();
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-        fout << "L " << z << std::endl;
         int count = 0;
         int lastvis = -1;
-        int lastexp = -1;
+        json.start_array();
         for (int j = 0; j < OMAPY; j++) {
             for (int i = 0; i < OMAPX; i++) {
-                int v = (layer[z].visible[i][j] ? 1 : 0);
-                if (v != lastvis) {
+                int visibility = layer[z].visible[i][j];
+                if (visibility != lastvis) {
                     if (count) {
-                        fout << count << " ";
+                        json.write(count);
+                        json.end_array();
                     }
-                    lastvis = v;
-                    fout << v << " ";
+                    lastvis = visibility;
+                    json.start_array();
+                    json.write( (bool)visibility );
                     count = 1;
                 } else {
                     count++;
                 }
             }
         }
-        fout << count;
+        json.write(count);
+        json.end_array();
+        json.end_array();
         fout << std::endl;
-
-        //So we don't break saves that don't have this data, we add a new type.
-        fout << "E " << z << std::endl;
-        count = 0;
-
-        for (int j = 0; j < OMAPY; j++) {
-            for (int i = 0; i < OMAPX; i++) {
-                int e = (layer[z].explored[i][j] ? 1 : 0);
-                if (e != lastexp) {
-                    if (count) {
-                        fout << count << " ";
-                    }
-                    lastexp = e;
-                    fout << e << " ";
-                    count = 1;
-                } else {
-                    count++;
-                }
-            }
-        }
-        fout << count;
-        fout << std::endl;
-
-        for (auto &i : layer[z].notes) {
-            fout << "N " << i.x << " " << i.y << " " << std::endl << i.text << std::endl;
-        }
     }
+    json.end_array();
+
+    json.member("explored");
+    json.start_array();
+    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+        int count = 0;
+        bool lastexp = -1;
+        json.start_array();
+        for (int j = 0; j < OMAPY; j++) {
+            for (int i = 0; i < OMAPX; i++) {
+                int is_explored = layer[z].explored[i][j];
+                if (is_explored != lastexp) {
+                    if (count) {
+                        json.write(count);
+                        json.end_array();
+                    }
+                    lastexp = is_explored;
+                    json.start_array();
+                    json.write( (bool)is_explored );
+                    count = 1;
+                } else {
+                    count++;
+                }
+            }
+        }
+        json.write(count);
+        json.end_array();
+        json.end_array();
+        fout << std::endl;
+    }
+    json.end_array();
+
+    json.member("notes");
+    json.start_array();
+    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+        json.start_array();
+        for (auto &i : layer[z].notes) {
+            json.start_array();
+            json.write(i.x);
+            json.write(i.y);
+            json.write(i.text);
+            json.end_array();
+            fout << std::endl;
+        }
+        json.end_array();
+    }
+    json.end_array();
+
+    json.end_object();
 }
 
 void overmap::serialize( std::ofstream &fout ) const
