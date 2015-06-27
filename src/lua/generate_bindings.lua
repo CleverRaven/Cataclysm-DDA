@@ -105,7 +105,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     return text
 end
 
--- Generates a function wrapper fora  global function. "function_to_call" can be any string
+-- Generates a function wrapper for a global function. "function_to_call" can be any string
 -- that works as a "function", including expressions like "g->add_msg"
 function generate_global_function_wrapper(function_name, function_to_call, args, rval)
     local text = "static int "..function_name.."(lua_State *L) {"..br
