@@ -117,7 +117,7 @@ classes = {
             { name = "set_turn_died", rval = nil, args = { "int" } },
             { name = "symbol", rval = "string", args = { } },
             { name = "set_mutation", rval = nil, args = { "string" } },
-	    { name = "unset_mutation", rval = nil, args = { "string" } },
+            { name = "unset_mutation", rval = nil, args = { "string" } },
             { name = "toggle_trait", rval = nil, args = { "string" } },
             { name = "trait_by_invlet", rval = "string", args = { "int" } },
             { name = "volume_capacity", rval = "int", args = { } },
