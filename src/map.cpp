@@ -1884,6 +1884,10 @@ void map::drop_items( const tripoint &p )
         // TODO: Bash the creature, terrain, furniture and vehicles on the tile
         add_item_or_charges( below, i );
     }
+
+    // Just to make a sound for now
+    bash( below, 1 );
+    i_clear( p );
 }
 
 void map::drop_vehicle( const tripoint &p )
@@ -4215,6 +4219,7 @@ bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_rad
         if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
             if( !( new_item.has_flag("IRREMOVABLE") && !new_item.is_gun() ) ){
                 add_item( p_it, new_item );
+                support_dirty( p_it );
             }
             return true;
         }
