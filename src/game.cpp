@@ -1260,6 +1260,7 @@ bool game::do_turn()
     }
     update_scent();
 
+    m.process_falling();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.

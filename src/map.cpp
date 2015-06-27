@@ -377,8 +377,8 @@ const vehicle *map::vehproceed()
         // TODO: Make it bash the relevant parts
         // TODO: Scan all parts for support, starting with just wheels, bash the supporting parts only
         bool supported = false;
-        for( const int i : veh->parts ) {
-            const tripoint pp = pt + veh->parts[i].precalc[0];
+        for( const auto &part : veh->parts ) {
+            const tripoint pp = pt + part.precalc[0];
             if( !has_flag( TFLAG_NO_FLOOR, pp ) ) {
                 supported = true;
                 break;
@@ -882,11 +882,6 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
     return ret;
 }
 
-bool map::displace_water (const int x, const int y)
-{
-    return displace_water( tripoint( x, y, abs_sub.z ) );
-}
-
 // 3D vehicle functions
 
 VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
@@ -1217,7 +1212,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
     return (src_submap != dst_submap) || was_update;
 }
 
-bool map::displace_water ( const tripoint &p )
+bool map::displace_water( const tripoint &p )
 {
     // Check for shallow water
     if( has_flag( "SWIMMABLE", p ) && !has_flag( TFLAG_DEEP_WATER, p ) ) {
@@ -1553,8 +1548,8 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     current_submap->set_ter( lx, ly, new_terrain );
 
     // Set the dirty flags
-    const ter_t &old_t = old_id.get();
-    const ter_t &new_t = new_terrain.get();
+    const ter_t &old_t = old_id.obj();
+    const ter_t &new_t = new_terrain.obj();
 
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
@@ -1830,19 +1825,22 @@ bool map::furniture_supported( const tripoint &p ) const
     return has_furn( below ) || move_cost( below ) == 0;
 }
 
-bool map::drop_everything( const tripoint &p )
+void map::drop_everything( const tripoint &p )
 {
-    bool dropped = false;
-    dropped |= drop_furniture( p );
-    dropped |= drop_items( p );
-    dropped |= drop_vehicle( p );
+    if( has_floor( p ) ) {
+        return;
+    }
+
+    drop_furniture( p );
+    drop_items( p );
+    drop_vehicle( p );
 }
 
-bool map::drop_furniture( const tripoint &p )
+void map::drop_furniture( const tripoint &p )
 {
     const furn_id frn = furn( p );
     if( frn == f_null ) {
-        return false;
+        return;
     }
 
     tripoint below( p );
@@ -1852,7 +1850,7 @@ bool map::drop_furniture( const tripoint &p )
 
     if( below == p ) {
         // Nothing happened
-        return false;
+        return;
     }
 
     furn_set( p, f_null );
@@ -1861,10 +1859,11 @@ bool map::drop_furniture( const tripoint &p )
     // TODO: Make it bash through floor if we drop something big and heavy
     bash( below, ( p.z - below.z ) * 10, false, false, nullptr, false );
 }
-bool map::drop_items( const tripoint &p )
+
+void map::drop_items( const tripoint &p )
 {
-    if( !has_items( p ) || has_floor( p ) ) {
-        return false;
+    if( !has_items( p ) ) {
+        return;
     }
 
     auto items = i_at( p );
@@ -1876,25 +1875,42 @@ bool map::drop_items( const tripoint &p )
         below.z--;
     }
 
+    if( below == p ) {
+        return;
+    }
+
     for( const auto &i : items ) {
         // TODO: Bash the item up before adding it
         // TODO: Bash the creature, terrain, furniture and vehicles on the tile
         add_item_or_charges( below, i );
     }
 }
-bool map::drop_vehicle( const tripoint &p )
-{
-    if( has_floor( p ) ) {
-        return false;
-    }
 
+void map::drop_vehicle( const tripoint &p )
+{
     vehicle *veh = veh_at( p );
     if( veh == nullptr ) {
-        return false;
+        return;
     }
 
-    veh.falling = true;
-    return true;
+    veh->falling = true;
+}
+
+void map::support_dirty( const tripoint &p )
+{
+    if( !has_floor( p ) ) {
+        support_cache_dirty.insert( p );
+    }
+}
+
+void map::process_falling()
+{
+    // We want the cache to stay constant, but falling can change it
+    std::set<tripoint> last_cache = std::move( support_cache_dirty );
+    support_cache_dirty.clear();
+    for( const tripoint &p : last_cache ) {
+        drop_everything( p );
+    }
 }
 
 // 2D flags

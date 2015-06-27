@@ -4690,7 +4690,7 @@
         "color": "i_cyan",
         "move_cost": 2,
         "trap": "tr_ledge",
-        "flags": ["TRANSPARENT", "NOITEM", "NO_FLOOR"]
+        "flags": ["TRANSPARENT", "NO_FLOOR"]
     },{
         "type" : "terrain",
         "id" : "t_flat_roof",
