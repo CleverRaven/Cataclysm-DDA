@@ -42,7 +42,7 @@ struct mongroup;
 struct ter_t;
 using ter_id = int_id<ter_t>;
 struct furn_t;
-using furn_id = int_id<furn_t>;
+typedef int_id<furn_t> furn_id;
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
