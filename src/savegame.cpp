@@ -458,6 +458,24 @@ void overmap::unserialize( std::ifstream &fin ) {
     }
 }
 
+static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&array)[OMAPX][OMAPY] )
+{
+    int count = 0;
+    bool value = false;
+    for (int j = 0; j < OMAPY; j++) {
+        for (int i = 0; i < OMAPX; i++) {
+            if (count == 0) {
+                jsin.start_array();
+                jsin.read(value);
+                jsin.read(count);
+                jsin.end_array();
+            }
+            count--;
+            array[i][j] = value;
+        }
+    }
+}
+
 void overmap::unserialize_view(std::ifstream &fin)
 {
     // Private/per-character view of the overmap.
@@ -484,20 +502,7 @@ void overmap::unserialize_view(std::ifstream &fin)
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
-                int count = 0;
-                bool visibility = false;
-                for (int j = 0; j < OMAPY; j++) {
-                    for (int i = 0; i < OMAPX; i++) {
-                        if (count == 0) {
-                            jsin.start_array();
-                            jsin.read(visibility);
-                            jsin.read(count);
-                            jsin.end_array();
-                        }
-                        count--;
-                        layer[z].visible[i][j] = visibility;
-                    }
-                }
+                unserialize_array_from_compacted_sequence( jsin, layer[z].visible );
                 jsin.end_array();
             }
             jsin.end_array();
@@ -505,20 +510,7 @@ void overmap::unserialize_view(std::ifstream &fin)
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
-                int count = 0;
-                bool explored = false;
-                for (int j = 0; j < OMAPY; j++) {
-                    for (int i = 0; i < OMAPX; i++) {
-                        if (count == 0) {
-                            jsin.start_array();
-                            jsin.read(explored);
-                            jsin.read(count);
-                            jsin.end_array();
-                        }
-                        count--;
-                        layer[z].explored[i][j] = explored;
-                    }
-                }
+                unserialize_array_from_compacted_sequence( jsin, layer[z].explored );
                 jsin.end_array();
             }
             jsin.end_array();
@@ -542,6 +534,30 @@ void overmap::unserialize_view(std::ifstream &fin)
     }
 }
 
+static void serialize_array_to_compacted_sequence( JsonOut &json, const bool (&array)[OMAPX][OMAPY] ) {
+    int count = 0;
+    int lastval = -1;
+    for( int j = 0; j < OMAPY; j++ ) {
+        for( int i = 0; i < OMAPX; i++ ) {
+            int value = array[i][j];
+            if( value != lastval ) {
+                if (count) {
+                    json.write(count);
+                    json.end_array();
+                }
+                lastval = value;
+                json.start_array();
+                json.write( (bool)value );
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+    }
+    json.write(count);
+    json.end_array();
+}
+
 void overmap::serialize_view( std::ofstream &fout ) const
 {
     static const int first_overmap_view_json_version = 25;
@@ -553,28 +569,8 @@ void overmap::serialize_view( std::ofstream &fout ) const
     json.member("visible");
     json.start_array();
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-        int count = 0;
-        int lastvis = -1;
         json.start_array();
-        for (int j = 0; j < OMAPY; j++) {
-            for (int i = 0; i < OMAPX; i++) {
-                int visibility = layer[z].visible[i][j];
-                if (visibility != lastvis) {
-                    if (count) {
-                        json.write(count);
-                        json.end_array();
-                    }
-                    lastvis = visibility;
-                    json.start_array();
-                    json.write( (bool)visibility );
-                    count = 1;
-                } else {
-                    count++;
-                }
-            }
-        }
-        json.write(count);
-        json.end_array();
+        serialize_array_to_compacted_sequence( json, layer[z].visible );
         json.end_array();
         fout << std::endl;
     }
@@ -583,28 +579,8 @@ void overmap::serialize_view( std::ofstream &fout ) const
     json.member("explored");
     json.start_array();
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
-        int count = 0;
-        bool lastexp = -1;
         json.start_array();
-        for (int j = 0; j < OMAPY; j++) {
-            for (int i = 0; i < OMAPX; i++) {
-                int is_explored = layer[z].explored[i][j];
-                if (is_explored != lastexp) {
-                    if (count) {
-                        json.write(count);
-                        json.end_array();
-                    }
-                    lastexp = is_explored;
-                    json.start_array();
-                    json.write( (bool)is_explored );
-                    count = 1;
-                } else {
-                    count++;
-                }
-            }
-        }
-        json.write(count);
-        json.end_array();
+        serialize_array_to_compacted_sequence( json, layer[z].explored );
         json.end_array();
         fout << std::endl;
     }
