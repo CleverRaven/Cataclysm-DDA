@@ -1970,6 +1970,7 @@ end
 -- All int_id<T>s have the same interface, so we only need to add some mark to T, that this class
 -- T has an int_id of some name.
 -- In the class definition: add "int_id" = "XXX" (XXX is the typedef id that is used by C++).
+new_classes = {}
 for name, value in pairs(classes) do
     if value.int_id then
         -- This is the common int_id<T> interface:
@@ -1991,7 +1992,7 @@ for name, value in pairs(classes) do
             -- And creation of an int_id from a string_id
             t.new = { value.string_id }
         end
-        classes[value.int_id] = t
+        new_classes[value.int_id] = t
     end
     -- Very similar to int_id above
     if value.string_id then
@@ -2009,6 +2010,10 @@ for name, value in pairs(classes) do
         if value.int_id then
             t.functions[#t.functions] = { name = "id", rval = value.int_id, args = { } }
         end
-        classes[value.string_id] = t
+        new_classes[value.string_id] = t
     end
 end
+for name, value in pairs(new_classes) do
+    classes[name] = value
+end
+new_classes = nil
