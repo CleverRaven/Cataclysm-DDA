@@ -123,7 +123,7 @@ void mapbuffer::save( bool delete_after_save )
         // Whatever the coordinates of the current submap are,
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
-        // we have the rest of it, if that assumtion is broken we have REAL problems.
+        // we have the rest of it, if that assumption is broken we have REAL problems.
         const tripoint om_addr = overmapbuffer::sm_to_omt_copy( elem.first );
         if( saved_submaps.count( om_addr ) != 0 ) {
             // Already handled this one.
@@ -180,7 +180,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
             all_uniform = false;
         }
     }
-    
+
     if( all_uniform ) {
         // Nothing to save - this quad will be regenerated faster than it would be re-read
         if( delete_after_save ) {
@@ -246,7 +246,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         int count = 0;
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save radiation, re-examine this because it doesnt look like it works right
+                // Save radiation, re-examine this because it doesn't look like it works right
                 int r = sm->get_radiation(i, j);
                 if (r == lastrad) {
                     count++;
@@ -598,7 +598,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             }
         }
         if( !add_submap( submap_coordinates, sm ) ) {
-            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y,
+            debugmsg( "submap %d,%d,%d was already loaded", submap_coordinates.x, submap_coordinates.y,
                       submap_coordinates.z );
         }
     }

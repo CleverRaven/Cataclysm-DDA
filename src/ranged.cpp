@@ -879,7 +879,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         }
     }
 
-    // The -1 is the -2 from above, but adjustted since this is a total, not an index.
+    // The -1 is the -2 from above, but adjusted since this is a total, not an index.
     int lines_used = getmaxy(w_target) - 1 - text_y;
     mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
     if( relevant ) {
@@ -995,7 +995,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
 
     input_context ctxt("TARGET");
     // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be writen on window border.
+    // Or strings will be written on window border.
     ctxt.register_action("ANY_INPUT");
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
@@ -1500,7 +1500,7 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
         const monster *mon = dynamic_cast<const monster *>(target);
         if (mon->is_hallucination() || mon->get_material() != "flesh" ||
             mon->has_flag( MF_VERMIN)) {
-            // If it is a hallucanation, not made of flesh, or a vermin creature,
+            // If it is a hallucination, not made of flesh, or a vermin creature,
             // don't splatter the blood.
             return;
         }

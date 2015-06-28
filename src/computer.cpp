@@ -656,7 +656,7 @@ for 50 years, and hasn't even been up for termination despite the fact that\n\
 these mining operations are the backbone of our economy.\n\
 \n\
 ENTRY 52:\n\
-Still waiting on the archaeologists.  We've done a little light insepction of\n\
+Still waiting on the archaeologists.  We've done a little light inspection of\n\
 the faultline; our sounding equipment is insufficient to measure the depth of\n\
 the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
 for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
