@@ -1098,7 +1098,6 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 if(squares[loc].can_store_in_vehicle()) {
                     // either do the inverse of the pane (if it is the one we are transferring to),
                     // or just transfer the contents (if it is not the one we are transferring to)
-                    /**///bool do_vehicle = !(dpane.get_area() == loc && !dpane.in_vehicle());
                     spane.set_area(squares[loc], (dpane.get_area() == loc) ? !dpane.in_vehicle() : true);
                     // add items, calculate weights and volumes... the fun stuff
                     recalc_pane(src);
@@ -1517,10 +1516,6 @@ void advanced_inventory::display()
                     new_item.charges = amount_to_move;
                     // `amount_to_move' will be `true' if the item needs to be removed
                     amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
-//                    if(amount_to_move < charges) {
-//                        charges -= amount_to_move;
-//                    }
-//                    amount_to_move = amount_to_move == charges;
                 }
                 need_to_redraw = !add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
                 remove_item(*sitem, amount_to_move);
