@@ -25,6 +25,18 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "construction_worker",
+    "items":[
+      ["hat_hard_hooded", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_head",
+    "items":[
+      ["hat_hard_hooded", 3]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "medieval",
     "items":[
       ["tinderbox", 4],

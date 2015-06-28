@@ -1,7 +1,6 @@
 [
   {
     "id": "hobo_stove",
-    "sub": "hotplate",
     "type": "TOOL",
     "symbol": ",",
     "color": "light_gray",
@@ -20,8 +19,48 @@
     "turns_per_charge": 0,
     "ammo": "tinder",
     "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "msg": "You light the tinder.",
+        "target": "hobo_stove_on",
+        "active": true,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this."
+    }
+  },
+  {
+    "id": "hobo_stove_on",
+    "sub": "hotplate",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "hobo stove (lit)",
+    "description": "This is a small improvised wood stove, made from a metal can or similiar container of the right size.  Useful for cooking, uses simple tinder.",
+    "price": 0,
+    "material": "steel",
+    "weight": 1366,
+    "volume": 6,
+    "bashing": 2,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 50,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 300,
+    "ammo": "tinder",
+    "revert_to": "hobo_stove",
+    "flags": "LIGHT_3",
     "qualities": [["COOK", 1]],
-    "use_action": "HOTPLATE"
+    "use_action": [
+        {
+            "type": "auto_transform",
+            "msg": "The ember is extinguished.",
+            "when_underwater": "The hobo stove is snuffed out.",
+            "target": "hobo_stove",
+            "active": false,
+            "menu_option_text": "Extinguish"
+        }
+    ]
   },
   {
     "id": "flint_steel",
@@ -713,5 +752,28 @@
         "category" : "tools",
         "to_hit": 2,
         "qualities": [["COOK", 2], ["BOIL", 1]]
-    }
+    },
+  {
+    "id": "makeshift_hammer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "makeshift hammer",
+    "description": "This is a crude hammer make from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
+    "price": 0,
+    "material": ["steel", "wood"],
+    "weight": 1020,
+    "volume": 2,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAMMER",
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+  }
 ]

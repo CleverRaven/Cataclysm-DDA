@@ -97,5 +97,30 @@
         "flags" : ["SUN_GLASSES"],
         "qualities" : [["GLARE", 1]],
         "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "hat_hard_hooded",
+        "name" : "hooded hard hat",
+        "weight" : 838,
+        "color" : "yellow",
+        "covers" : ["HEAD"],
+        "techniques" : ["WBLOCK_1"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A hard plastic hat worn in construction sites, with a cloth tucked in under it to serve as a makeshift hood. Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+        "price" : 1200,
+        "material" : ["plastic", "cotton"],
+        "volume" : 10,
+        "cutting" : 0,
+        "warmth" : 4,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 13,
+        "bashing" : 6,
+        "flags" : ["WATERPROOF"],
+        "coverage" : 95,
+        "material_thickness" : 5
     }
 ]
