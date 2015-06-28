@@ -1,6 +1,6 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flint_steel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -11,20 +11,14 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 2], ["mag_survival", 3]],
-  "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
+  "qualities" : [{"id":"HAMMER","level":1,"amount":1}],
   "components": [
-    [
-      [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "steel_chunk", 1 ]
-    ]
+    [[ "sharp_rock", 1 ]],
+    [[ "steel_chunk", 1 ]]
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tinderbox",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -35,19 +29,15 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 1] , ["textbook_survival", 1]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
-      [ "scrap", 2 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "can_drink", 1 ],
+    [ "can_food", 1 ],
+    [ "scrap", 2 ]
+  ]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hobo_stove",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -58,19 +48,15 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1] , ["cookbook", 2]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
-      [ "scrap", 4 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "can_drink", 2 ],
+    [ "can_food", 2 ],
+    [ "scrap", 4 ]
+  ]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tinder",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -79,27 +65,23 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ],
-      [ "skewer", 4 ],
-      [ "splinter", 2 ],
-      [ "pine_bough", 1 ],
-      [ "rag", 1 ],
-      [ "paper", 5 ],
-      [ "rolling_paper", 30 ],
-      [ "wrapper", 5 ],
-      [ "withered", 2 ],
-      [ "cattail_stalk", 1 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "stick", 1 ],
+    [ "2x4", 1 ],
+    [ "skewer", 4 ],
+    [ "splinter", 2 ],
+    [ "pine_bough", 1 ],
+    [ "rag", 1 ],
+    [ "paper", 5 ],
+    [ "rolling_paper", 30 ],
+    [ "wrapper", 5 ],
+    [ "withered", 2 ],
+    [ "cattail_stalk", 1 ]
+  ]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "torch",
   "id_suffix": "pine",
   "category": "CC_WEAPON",
@@ -113,14 +95,12 @@
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [[
+    [ "hotplate", 7 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 7 ],
+    [ "fire", -1 ]
+  ]],
   "components": [
     [
       [ "stick", 1 ],
@@ -130,12 +110,12 @@
       [ "torch_done", 1 ]
     ],
     [
-      [ "pine_bough", 2 ]
+	  [ "pine_bough", 2 ]
     ]
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bottle_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -144,25 +124,21 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ], "tools": [
-      [ ["tongs", -1] ],
-      [ ["chisel", -1]],
-      [ ["anvil", -1] ],
-      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
-     ]
-    ]
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+  ],
+  "components": [[
+   [ "steel_lump", 1 ],
+   [ "steel_chunk", 2 ],
+   [ "scrap", 6 ]
+ ]]
 },
-  {
-        "type" : "recipe",
+{
+  "type" : "recipe",
   "result": "cured_hide",
   "id_suffix": "drying",
   "category": "CC_OTHER",
@@ -174,25 +150,17 @@
   "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 5],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "raw_leather", 1 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "tools": [[
+    [ "hotplate", 10 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
+  ]],
+  "components": [[[ "raw_leather", 1 ]]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cured_pelt",
   "id_suffix": "drying",
   "category": "CC_OTHER",
@@ -204,24 +172,16 @@
   "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 5],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "raw_fur", 1 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "tools": [[
+    [ "hotplate", 10 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
+  ]],
+  "components": [[[ "raw_fur", 1 ]]]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "resin_cord",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -236,14 +196,13 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [[
+    [ "hotplate", 5 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 5 ],
+    [ "fire", -1 ]
+  ]],
   "components": [
     [
       [ "bone", 10 ],
@@ -274,20 +233,16 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ]
-    ]
-  ]
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "stick", 1 ],
+    [ "broom", 1 ],
+    [ "mop", 1 ],
+    [ "2x4", 1 ],
+    [ "pool_cue", 1 ]
+  ]]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hand_axe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -297,15 +252,12 @@
   "time": 54000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "sharp_rock", 1 ]
-    ]
-  ]
+  "qualities":[{"id":"HAMMER","level":1,"amount":1}],
+  "components": [[
+    [ "rock", 1 ],
+    [ "ceramic_shard", 1 ],
+    [ "sharp_rock", 1 ]
+  ]]
 },{
   "type" : "recipe",
   "result": "atlatl",
@@ -317,20 +269,16 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ]
-    ]
-  ]
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "stick", 1 ],
+    [ "broom", 1 ],
+    [ "mop", 1 ],
+    [ "2x4", 1 ],
+    [ "pool_cue", 1 ]
+  ]]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spear_stone",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -375,7 +323,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spear_copper",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
