@@ -49,6 +49,7 @@
     "turns_per_charge": 300,
     "ammo": "tinder",
     "revert_to": "hobo_stove",
+    "flags": "LIGHT_3",
     "qualities": [["COOK", 1]],
     "use_action": [
         {
