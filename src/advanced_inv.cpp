@@ -78,7 +78,10 @@ advanced_inventory::advanced_inventory()
 advanced_inventory::~advanced_inventory()
 {
     save_settings(false);
-    uistate.adv_inv_exit_code = exit_okay;
+    auto &aim_code = uistate.adv_inv_exit_code;
+    if(aim_code != exit_re_entry) {
+        aim_code = exit_okay;
+    }
     // Only refresh if we exited manually, otherwise we're going to be right back
     if( exit ) {
         werase( head );
@@ -118,19 +121,14 @@ void advanced_inventory::load_settings()
     for(int i = 0; i < NUM_PANES; ++i) {
         auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
         auto square = squares[location];
-        bool show_vehicle = false;
-        // restore if we were moving items or haven't moved
-        if(aim_code == exit_re_entry) {
-            show_vehicle = uistate.adv_inv_in_vehicle[i];
-        // however, do some heuristics otherwise
-        } else {
-            // determine the square's veh/map item presence
-            bool has_veh_items = (square.can_store_in_vehicle()) ?
-                !square.veh->get_items(square.vstor).empty() : false;
-            bool has_map_items = !g->m.i_at(square.pos).empty();
-            // determine based on map items and settings to show cargo
-            show_vehicle = (has_veh_items) ? true : (has_map_items) ? false : true;
-        }
+        // determine the square's veh/map item presence
+        bool has_veh_items = (square.can_store_in_vehicle()) ?
+            !square.veh->get_items(square.vstor).empty() : false;
+        bool has_map_items = !g->m.i_at(square.pos).empty();
+        // determine based on map items and settings to show cargo
+        bool show_vehicle = (aim_code == exit_re_entry) ? 
+            uistate.adv_inv_in_vehicle[i] : (has_veh_items) ?
+            true : (has_map_items) ? false : square.can_store_in_vehicle();
         panes[i].set_area(square, show_vehicle);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         panes[i].index = uistate.adv_inv_index[i];
@@ -857,7 +855,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
         auto iter = g->u.worn.begin();
         for( size_t i = 0; i < g->u.worn.size(); ++i, ++iter ) {
             advanced_inv_listitem it( &*iter, i, 1, square.id, false );
-            if( is_filtered( it.it ) ) {
+            if( is_filtered( it.items.front() ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -994,6 +992,10 @@ void advanced_inventory_pane::fix_index()
 
 void advanced_inventory::redraw_pane( side p )
 {
+    // don't update ui if processing demands
+    if(is_processing()) {
+        return;
+    }
     auto &pane = panes[p];
     if( recalc || pane.recalc ) {
         recalc_pane( p );
@@ -1065,48 +1067,77 @@ void advanced_inventory::redraw_pane( side p )
     wrefresh( w );
 }
 
-bool advanced_inventory::move_all_items()
+// be explicit with the values
+enum aim_entry {
+    ENTRY_START     = -1,
+    ENTRY_VEHICLE   =  0,
+    ENTRY_MAP       =  1,
+    ENTRY_RESET     =  2
+};
+
+bool advanced_inventory::move_all_items(bool nested_call)
 {
     auto &spane = panes[src];
     auto &dpane = panes[dest];
 
     // AIM_ALL source area routine
     if(spane.get_area() == AIM_ALL) {
-        // future feature :-)
-        popup(_("You can't do that (yet!)"));
-        return false;
-        // make a copy of the current pane for below loop
+        bool done = false;
+        // copy the current pane, to be restored after the move is queued
         auto shadow = panes[src];
         // here we recursively call this function with each area in order to 
         // put all items in the proper destination area, with minimal fuss
         auto &loc = uistate.adv_inv_aim_all_location;
-        // vehicle items for said square
-        if(squares[loc].can_store_in_vehicle()) {
-            // either do the inverse of the pane (if it is the one we are transferring to),
-            // or just transfer the contents (if it is not the one we are transferring to)
-            spane.set_area(squares[loc], (dpane.get_area() == loc) ? !dpane.in_vehicle() : true);
-            // add items, calculate weights and volumes... the fun stuff
-            recalc_pane(src);
-            // then move the items to the destination area
-            move_all_items();
-        }
-        // same as above, but for map items
-        spane.set_area(squares[loc++], false);
-        recalc_pane(src);
-        move_all_items();
-        if(loc > AIM_NORTHEAST) {
-            loc = 0;
+        // re-entry nonsense
+        auto &entry = uistate.adv_inv_re_enter_move_all;
+        // if we are just starting out, set entry to initial value
+        switch(static_cast<aim_entry>(entry++)) {
+            case ENTRY_START:
+                ++entry;
+            case ENTRY_VEHICLE:
+                if(squares[loc].can_store_in_vehicle()) {
+                    // either do the inverse of the pane (if it is the one we are transferring to),
+                    // or just transfer the contents (if it is not the one we are transferring to)
+                    /**///bool do_vehicle = !(dpane.get_area() == loc && !dpane.in_vehicle());
+                    spane.set_area(squares[loc], (dpane.get_area() == loc) ? !dpane.in_vehicle() : true);
+                    // add items, calculate weights and volumes... the fun stuff
+                    recalc_pane(src);
+                    // then move the items to the destination area
+                    move_all_items(true);
+                }
+                break;
+            case ENTRY_MAP:
+                spane.set_area(squares[loc++], false);
+                recalc_pane(src);
+                move_all_items(true);
+                break;
+            case ENTRY_RESET:
+                if(loc > AIM_NORTHEAST) {
+                    loc = done = true;
+                    entry = -1;
+                } else {
+                    entry = 0;
+                }
+                break;
+            default:
+                debugmsg("Invalid `aim_entry' [%d] reached!", entry - 1);
+                entry = -1;
+                loc = 1;
+                return false;
         }
         // restore the pane to its former glory
         panes[src] = shadow;
-        // done! that was easy!
+        // make it auto loop back, if not already doing so
+        if(!done && g->u.has_activity(ACT_NULL)) {
+            do_return_entry();
+        }
+        return true;
     }
 
     // Check some preconditions to quickly leave the function.
     if( spane.items.empty() ) {
         return false;
     }
-
 
     if( dpane.get_area() == AIM_ALL ) {
         auto loc = dpane.get_area();
@@ -1130,7 +1161,7 @@ bool advanced_inventory::move_all_items()
     auto &sarea = squares[spane.get_area()];
     auto &darea = squares[dpane.get_area()];
 
-    if( !OPTIONS["CLOSE_ADV_INV"] ) {
+    if( nested_call || !OPTIONS["CLOSE_ADV_INV"] ) {
         // Why is this here? It's because the activity backlog can act
         // like a stack instead of a single deferred activity in order to
         // accomplish some UI shenanigans. The inventory menu activity is
@@ -1141,8 +1172,7 @@ bool advanced_inventory::move_all_items()
         // the player to the menu. If the activity is interrupted instead of
         // completing, both activities are cancelled.
         // Thanks to kevingranade for the explanation.
-        g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
-        g->u.activity.auto_resume = true;
+        do_return_entry();
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
@@ -1296,7 +1326,7 @@ void advanced_inventory::display()
         redraw_pane( left );
         redraw_pane( right );
 
-        if( redraw ) {
+        if( redraw && !is_processing()) {
             werase( head );
             werase( minimap );
             werase( mm_border );
@@ -1323,7 +1353,7 @@ void advanced_inventory::display()
         advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
         aim_location changeSquare;
 
-        const std::string action = ctxt.handle_input();
+        const std::string action = (is_processing()) ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
@@ -1480,22 +1510,22 @@ void advanced_inventory::display()
                 bool need_to_redraw = false;
                 // from map/vehicle: add the item to the destination, if that worked,
                 // remove it from the source, else continue.
-                // TODO: move partial stack with items that are not counted by charges
-                item new_item( *sitem->items.front() );
-                if( by_charges ) {
+                // create a new copy of the old item being manipulated
+                item new_item(*sitem->items.front());
+                if(by_charges) {
+                    // set the new item's charge amount
                     new_item.charges = amount_to_move;
-                    need_to_redraw = !add_item(destarea, new_item);
-                    if(amount_to_move < sitem->items.front()->charges) {
-                        sitem->items.front()->charges -= amount_to_move;
-                    }
-                } else {
-                    need_to_redraw = !add_item(destarea, new_item, amount_to_move);
+                    // `amount_to_move' will be `true' if the item needs to be removed
+                    amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
+//                    if(amount_to_move < charges) {
+//                        charges -= amount_to_move;
+//                    }
+//                    amount_to_move = amount_to_move == charges;
                 }
-                remove_item( *sitem, amount_to_move );
+                need_to_redraw = !add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
+                remove_item(*sitem, amount_to_move);
                 // redraw the screen if moving to AIM_WORN, so we can see that it didn't work
-                if(destarea == AIM_WORN) {
-                    redraw = need_to_redraw;
-                }
+                redraw = destarea == AIM_WORN && need_to_redraw;
             }
             // This is only reached when at least one item has been moved.
             g->u.moves -= 100; // In pickup/move functions this depends on item stats
@@ -1557,6 +1587,7 @@ void advanced_inventory::display()
                                               w_width / 2, ( src == right ? 0 : -1 ) );
                 // if player has started an activity, leave the screen and process it
                 if( !g->u.has_activity( ACT_NULL ) ) {
+                    do_return_entry();
                     exit = true;
                 }
                 // Might have changed a stack (activated an item, repaired an item, etc.)
@@ -1760,7 +1791,6 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-// TODO: change `*.front()' to loop index based on `count'
 void advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
 {
     assert( sitem.area != AIM_ALL );        // should be a specific location instead
@@ -2174,6 +2204,10 @@ void advanced_inv()
 
 void advanced_inventory::refresh_minimap()
 {
+    // don't update ui if processing demands
+    if(is_processing()) {
+        return;
+    }
     // redraw border around minimap
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
@@ -2278,8 +2312,13 @@ void advanced_inventory::do_return_entry()
 {
     // only save pane settings
     save_settings(true);
-    g->u.assign_activity( ACT_ADV_INVENTORY, 0 );
+    g->u.assign_activity(ACT_ADV_INVENTORY, -1);
     g->u.activity.auto_resume = true;
     uistate.adv_inv_exit_code = exit_re_entry;
 }
 
+bool advanced_inventory::is_processing() const
+{
+    auto &entry = uistate.adv_inv_re_enter_move_all;
+    return entry >= 0 && entry <= 2;
+}

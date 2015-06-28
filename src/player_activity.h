@@ -67,6 +67,18 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         /** An activity specific value. */
         std::string name;
         bool ignore_trivial;
+        /** 
+         * An activity that doesn't finish. (see `ACT_ADV_INVENTORY' and `advanced_inv.cpp')
+         * 
+         * By setting `never_finish', we are signaling that this should not finish,
+         * thus assuring we are sent back here afterwards. If an activity is completed,
+         * by the time it reaches the logic to process the activity, it is already done
+         * and AIM will not re-enter, leaving the processing for this function partially
+         * complete. This is a bit of a hacky approach, but should work for now. 
+         * NOTE: The on finish code will NOT be called if this is set! For `ACT_ADV_INVENTORY'
+         *       this is of no concern, but for ones that it does, this could be unwanted!
+         */
+        bool never_finish;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
@@ -95,6 +107,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
          */
         bool is_abortable() const;
+        /**
+         * If this returns true, the activity does not finish. This is
+         * the type of activities that use UI trickery, but must be cancelled
+         * manually!
+         */
+        bool never_completes() const;
         int get_value(size_t index, int def = 0) const;
         std::string get_str_value(size_t index, const std::string def = "") const;
         /**

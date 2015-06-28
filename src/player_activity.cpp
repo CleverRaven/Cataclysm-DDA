@@ -90,10 +90,19 @@ bool player_activity::is_abortable() const
     }
 }
 
+bool player_activity::never_completes() const
+{
+    switch(type) {
+        case ACT_ADV_INVENTORY:
+            return true;
+        default:
+            return false;
+    }
+}
 
 bool player_activity::is_complete() const
 {
-    return moves_left <= 0;
+    return (never_completes()) ? false : moves_left <= 0;
 }
 
 

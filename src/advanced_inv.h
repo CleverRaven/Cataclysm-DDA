@@ -362,10 +362,14 @@ class advanced_inventory
         // store/load settings (such as index, filter, etc)
         void save_settings(bool only_panes);
         void load_settings();
+        // used to return back to AIM when other activities queued are finished
         void do_return_entry();
+        // returns true if currently processing a routine 
+        // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
+        bool is_processing() const;
 
         static std::string get_sortname(advanced_inv_sortby sortby);
-        bool move_all_items();
+        bool move_all_items(bool nested_call = false);
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
         void redraw_pane(side p);

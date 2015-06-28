@@ -44,8 +44,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
-        bool adv_inv_re_enter_move_all = false;
-        int adv_inv_aim_all_location = 0;
+        int adv_inv_re_enter_move_all = -1;
+        int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
 
         int ags_pay_gas_selected_pump = 0;
