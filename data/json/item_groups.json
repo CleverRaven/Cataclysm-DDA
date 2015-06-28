@@ -7229,6 +7229,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["hat_hard_hooded", 25],
       ["wearable_light", 5],
       ["ear_plugs", 50],
       ["battery", 50],
@@ -8907,6 +8908,7 @@
       ["hat_knit", 10],
       ["nomex_hood", 40],
       ["hat_hard", 5],
+      ["hat_hard_hooded", 3],
       ["hat_noise_cancelling", 5]
     ]
   },{
