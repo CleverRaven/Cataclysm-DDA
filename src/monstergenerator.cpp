@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "debug.h"
 #include "item_group.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "item.h"
 #include "output.h"
@@ -460,15 +461,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         // recalc upgrade_min if given
         if (newmon->upgrade_min > 0) {
             const int season_scale = ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14;
-            int season_offset = 0;
-            if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"] == "summer") {
-                season_offset = 1;
-            } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"] == "autumn") {
-                season_offset = 2;
-            } else if (ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"] == "winter") {
-                season_offset = 3;
-            }
-            season_offset *= ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"];
+            const int season_offset = calendar::start.days();
             newmon->upgrade_min = (season_offset + (newmon->upgrade_min * season_scale))
                                    / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
         }
