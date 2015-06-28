@@ -184,5 +184,4 @@ void weather_generator::test_weather() const
         w_point w = get_weather(point(0, 0), i);
         testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure << std::endl;
     }
-    //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }
