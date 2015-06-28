@@ -146,8 +146,8 @@ void monster::poly(mtype *t)
 
 bool monster::can_upgrade() const
 {
-    // Turned off means turned off
-    if (!ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) {
+    // No upgrade_min, no upgrades ever
+    if (type->upgrade_min <= 0) {
         return false;
     }
     // Hallucinations don't upgrade!
@@ -157,6 +157,10 @@ bool monster::can_upgrade() const
     // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
         (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
+        return false;
+    }
+    // Turned off means turned off
+    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
         return false;
     }
     // Or we aren't allowed to yet
