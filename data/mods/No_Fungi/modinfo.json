@@ -1,0 +1,34 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "No_Fungi",
+    "name": "No Fungal Monsters",
+    "author": "Chaosvolt",
+    "description": "Removes fungal monsters from the game.",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "categories": [
+	"GROUP_FUNGI",
+	"GROUP_FUNGI_TOWER",
+	"GROUP_FUNGI_FLOWERS"
+	]
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+	"mon_spore",
+	"mon_fungaloid",
+	"mon_fungaloid_young",
+	"mon_zombie_fungus",
+	"mon_boomer_fungus",
+	"mon_fungal_wall",
+	"mon_fungaloid_queen",
+	"mon_fungal_tendril",
+	"mon_fungal_hedgerow",
+	"mon_fungaloid_tower",
+	"mon_fungal_blossom",
+	"mon_fungaloid_seeder"
+    ]
+}
+]
