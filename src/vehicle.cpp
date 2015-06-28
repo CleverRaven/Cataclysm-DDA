@@ -4356,8 +4356,11 @@ void vehicle::handle_trap( const tripoint &p, int part )
         noise = 10;
         snd = _("BRZZZAP!");
         part_damage = 500;
-    } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
+    } else if( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_glass_pit ) {
         part_damage = 500;
+    } else if( t == tr_ledge ) {
+        falling = true;
+        return;
     } else {
         return;
     }

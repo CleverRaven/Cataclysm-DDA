@@ -384,7 +384,7 @@ const vehicle *map::vehproceed()
                 break;
             }
 
-            const tripoint below( pp.x, pp.y, pp.z );
+            const tripoint below( pp.x, pp.y, pp.z - 1 );
             if( veh_at( below ) != nullptr || move_cost( below ) == 0 ) {
                 supported = true;
                 break;
@@ -392,7 +392,7 @@ const vehicle *map::vehproceed()
         }
 
         if( !supported ) {
-            veh->smz--;
+            displace_vehicle( pt, tripoint( 0, 0, -1 ), false );
             return veh;
         }
 
@@ -1095,7 +1095,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
     int our_i = -1;
     for( size_t i = 0; i < src_submap->vehicles.size(); i++ ) {
         if( src_submap->vehicles[i]->posx == src_offset_x &&
-              src_submap->vehicles[i]->posy == src_offset_y ) {
+            src_submap->vehicles[i]->posy == src_offset_y ) {
             our_i = i;
             break;
         }
@@ -1127,6 +1127,9 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
         return false;
     }
 
+    // Need old coords to check for remote control
+    const bool remote = veh->remote_controlled( g->u );
+
     // record every passenger inside
     std::vector<int> psg_parts = veh->boarded_parts();
     std::vector<player *> psgs;
@@ -1142,7 +1145,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
     for( size_t i = 0; i < psg_parts.size(); i++ ) {
         player *psg = psgs[i];
         const int prt = psg_parts[i];
-        if( !psg ) {
+        if( psg == nullptr ) {
             debugmsg( "empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
                          prt,
                          veh->global_x() + veh->parts[prt].precalc[0].x,
@@ -1157,8 +1160,10 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
         // displace passenger taking in account vehicle movement (dx, dy)
         // and turning: precalc[0] contains previous frame direction,
         // and precalc[1] should contain next direction
-        psg->setx( psg->posx() + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x );
-        psg->sety( psg->posy() + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y );
+        tripoint psgp( psg->posx() + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
+                       psg->posy() + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
+                       psg->posz() + dp.z );
+        psg->setpos( psgp );
         if( psg == &g->u ) { // if passenger is you, we need to update the map
             need_update = true;
             upd_x = psg->posx();
@@ -1173,21 +1178,19 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
 
     veh->posx = dst_offset_x;
     veh->posy = dst_offset_y;
-    if (src_submap != dst_submap) {
+    veh->smz = p2.z;
+    if( src_submap != dst_submap ) {
         veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
         dst_submap->vehicles.push_back( veh );
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
     }
 
-    // Need old coords to check for remote control
-    bool remote = veh->remote_controlled( g->u );
-
-    p += dp;
+    p = p2;
 
     update_vehicle_cache(veh);
 
     bool was_update = false;
-    if (need_update &&
+    if( need_update &&
           (upd_x < SEEX * int(my_MAPSIZE / 2) || upd_y < SEEY *int(my_MAPSIZE / 2) ||
           upd_x >= SEEX * (1+int(my_MAPSIZE / 2)) ||
           upd_y >= SEEY * (1+int(my_MAPSIZE / 2)))) {
