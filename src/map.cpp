@@ -1946,11 +1946,16 @@ void map::process_falling()
         return;
     }
 
-    // We want the cache to stay constant, but falling can change it
-    std::set<tripoint> last_cache = std::move( support_cache_dirty );
-    support_cache_dirty.clear();
-    for( const tripoint &p : last_cache ) {
-        drop_everything( p );
+    size_t tries = 10;
+    while( !support_cache_dirty.empty() && tries > 0 ) {
+        // We want the cache to stay constant, but falling can change it
+        std::set<tripoint> last_cache = std::move( support_cache_dirty );
+        support_cache_dirty.clear();
+        for( const tripoint &p : last_cache ) {
+            drop_everything( p );
+        }
+
+        tries--;
     }
 }
 
