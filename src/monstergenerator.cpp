@@ -4,7 +4,6 @@
 #include "rng.h"
 #include "debug.h"
 #include "item_group.h"
-#include "calendar.h"
 #include "catacharset.h"
 #include "item.h"
 #include "output.h"
@@ -13,7 +12,6 @@
 #include "mondeath.h"
 #include "monfaction.h"
 #include "mongroup.h"
-#include "options.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -458,13 +456,6 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         load_special_attacks(newmon, jo, "special_attacks");
 
         newmon->upgrade_min = jo.get_int("upgrade_min", -1);
-        // recalc upgrade_min if given
-        if (newmon->upgrade_min > 0) {
-            const int season_scale = ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14;
-            const int season_offset = calendar::start.days();
-            newmon->upgrade_min = (season_offset + (newmon->upgrade_min * season_scale))
-                                   / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-        }
         newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
         newmon->upgrade_group = mongroup_id( jo.get_string("upgrade_group", "GROUP_NULL") );

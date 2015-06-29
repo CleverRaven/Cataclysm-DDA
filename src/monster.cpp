@@ -163,28 +163,32 @@ bool monster::can_upgrade() const
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
         return false;
     }
-    // Or we aren't allowed to yet
-    if ((calendar::turn.get_turn() / DAYS(1)) < type->upgrade_min) {
-        return false;
-    }
     return true;
 }
 
 void monster::update_check() {
+    // General checks
     if (!can_upgrade()) {
         return;
     }
 
     const int current_day = calendar::turn.get_turn() / DAYS(1);
-    add_msg(m_debug, "Today: %d, upgrade_min: %d", current_day, type->upgrade_min);
+    const int upgrade_time = (calendar::start / DAYS(1)) +
+                            (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
+    //debugmsg("update_check: upgrade_min: %d, upgrade_time: %d, current_day: %d, last_loaded: %d",
+    //         type->upgrade_min, upgrade_time, current_day, last_loaded);
 
+    // Are we allowed to yet?
+    if (current_day < upgrade_time) {
+        return;
+    }
     // Already tried today?
     if (current_day == last_loaded) {
         return;
     }
 
     // We don't start counting until the minimum upgrade time
-    const int time_passed = current_day - std::max(last_loaded, type->upgrade_min);
+    const int time_passed = current_day - std::max(last_loaded, upgrade_time);
     add_msg(m_debug, "Time passed: %d", time_passed);
 
     float upgrade_chance = 0;
@@ -201,7 +205,7 @@ void monster::update_check() {
         // (1 - (1 - base%)^days) = percentage that has upgraded
         upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
     }
-    add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
+    //debugmsg("update_check: upgrade_chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
         // Try to upgrade to a single monster first
         if (type->upgrades_into != "NULL"){
