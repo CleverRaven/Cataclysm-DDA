@@ -6,7 +6,7 @@
     "name": "No Fungal Monsters",
     "author": "Chaosvolt",
     "description": "Removes fungal monsters from the game.",
-    "path": "modinfo.json"
+    "path": ""
 },{
     "type": "MONSTER_BLACKLIST",
     "categories": [
