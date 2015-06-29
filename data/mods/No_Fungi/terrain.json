@@ -6,162 +6,10 @@
         "symbol": "#",
         "color": "dkgray",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "FUNGUS", "SHORT"],
         "bash": {
             "str_min": 4, "str_max": 60,
             "sound": "crunch.",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus",
-        "name": "fungal bed",
-        "symbol": ".",
-        "color": "ltgray",
-        "move_cost": 3,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE"],
-        "bash": {
-            "sound": "smash", "//": "muffled because fungus",
-            "ter_set": "t_null",
-            "str_min": 20,
-            "str_max": 400,
-            "str_min_supported": 50
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus_floor_in",
-        "name": "fungal floor",
-        "comment": "roofed",
-        "symbol": ".",
-        "color": "ltgray",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
-        ],
-        "bash": {
-            "sound": "smash",
-            "ter_set": "t_null",
-            "str_min": 20,
-            "str_max": 400,
-            "str_min_supported": 50
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus_floor_sup",
-        "name": "fungal floor",
-        "comment": "supports",
-        "symbol": ".",
-        "color": "ltgray",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "FLAT"],
-        "bash": {
-            "sound": "smash",
-            "ter_set": "t_null",
-            "str_min": 20,
-            "str_max": 400,
-            "str_min_supported": 50
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus_floor_out",
-        "name": "fungal floor",
-        "comment": "outside",
-        "symbol": ".",
-        "color": "ltgray",
-        "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "FLAT"],
-        "bash": {
-            "sound": "SMASH!!",
-            "ter_set": "t_null",
-            "str_min": 20,
-            "str_max": 400,
-            "str_min_supported": 50
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus_wall",
-        "name": "fungal wall",
-        "symbol": "O",
-        "color": "dkgray",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"],
-        "bash": {
-            "str_min": 30, "str_max": 180,
-            "sound": "crunch!",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus_wall_transformed",
-        "name": "fungal wall",
-        "symbol": "LINE_OXOX",
-        "color": "dkgray",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
-        "bash": {
-            "str_min": 30, "str_max": 180,
-            "sound": "crunch!",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_fungus_mound",
-        "name": "fungal mound",
-        "symbol": "#",
-        "color": "ltgray",
-        "move_cost": 4,
-        "flags": ["TRANSPARENT", "THIN_OBSTACLE", "FLAMMABLE_ASH", "MOUNTABLE"],
-        "bash": {
-            "str_min": 10, "str_max": 70,
-            "sound": "crunch!",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_shrub_fungal",
-        "name": "fungal shrub",
-        "symbol": "#",
-        "color": "dkgray",
-        "move_cost": 8,
-        "flags": [
-            "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB",
-            "SHORT"
-        ],
-        "bash": {
-            "str_min": 4, "str_max": 60,
-            "sound": "crunch.",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_tree_fungal",
-        "name": "fungal tree",
-        "symbol": "7",
-        "color": "dkgray",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "TREE", "REDUCE_SCENT"],
-        "bash": {
-            "str_min": 40, "str_max": 180,
-            "sound": "crunch!",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_tree_fungal_young",
-        "name": "young fungal tree",
-        "symbol": "1",
-        "color": "dkgray",
-        "move_cost": 4,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT"],
-        "bash": {
-            "str_min": 4, "str_max": 50,
-            "sound": "crunch!",
             "sound_fail": "poof!",
             "ter_set": "t_fungus"
         }
@@ -172,7 +20,7 @@
         "symbol": "7",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "TREE", "REDUCE_SCENT"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
         "bash": {
             "str_min": 40, "str_max": 180,
             "sound": "crunch!",
