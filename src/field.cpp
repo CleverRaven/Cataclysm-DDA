@@ -1672,7 +1672,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_fungicidal_gas:
                         {
                             dirty_transparency_cache = true;
-                            spread_gas( cur, p, curtype, 100, 70 );
+                            spread_gas( cur, p, curtype, 120, 10 );
                             //check the terrain and replace it accordingly to simulate the fungus dieing off
                             const auto &ter = map_tile.get_ter_t();
                             const auto &frn = map_tile.get_furn_t();
@@ -2097,39 +2097,23 @@ void map::player_in_field( player &u )
             break;
 
         case fd_fungicidal_gas:
-            // Fungicidal gas is unhealthyand becomes deadly if you cross a related threshold.
+            // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
             {
-                if (inside) break;
                 // The gas won't harm you inside a vehicle.
-                bool inhaled = false;
-                // Full body suits protect you from the effects of the gas.
-                if( !u.worn_with_flag("GAS_PROOF") ) {
-                    if( cur->getFieldDensity() == 3 ) {
-                        inhaled = u.add_env_effect("poison", bp_mouth, 5, 30);
-                        if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
-                            inhaled = u.add_env_effect( "badpoison", bp_mouth, 5, 30 );
-                            u.hurtall( rng(2,5), nullptr);
-                            u.add_msg_if_player(m_bad, _("The %s heavily burns your skin"), cur->name().c_str());
-                        }
-                    } else if( cur->getFieldDensity() == 2 ) {
-                        inhaled = u.add_env_effect("poison", bp_mouth, 5, 15);
-                        if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
-                            inhaled = u.add_env_effect( "badpoison", bp_mouth, 5, 20 );
-                            u.hurtall( rng(1,4), nullptr);
-                            u.add_msg_if_player(m_bad, _("The %s burns your skin"), cur->name().c_str());
-                        }
-                    } else if( cur->getFieldDensity() == 1 ) {
-                        inhaled = u.add_env_effect("poison", bp_mouth, 5, 5);
-                        if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
-                            inhaled = u.add_env_effect( "badpoison", bp_mouth, 5, 10 );
-                            u.hurtall( rng(1,2), nullptr);
-                            u.add_msg_if_player(m_bad, _("The %s lightly burns your skin"), cur->name().c_str());
-                        }
-                    }
+                if (inside) {
+                    break;
                 }
-                if( inhaled ) {
-                    // player does not know how the npc feels, so no message.
-                    u.add_msg_if_player(m_bad, _("You feel sick from inhaling the %s"), cur->name().c_str());
+                // Full body suits protect you from the effects of the gas.
+                if ( u.worn_with_flag("GAS_PROOF") ) {
+                    break;
+                }
+                bool inhaled = false;
+                const int density = cur->getFieldDensity();
+                inhaled = u.add_env_effect( "poison", bp_mouth, 5, density * 10 );
+                if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
+                    inhaled |= u.add_env_effect( "badpoison", bp_mouth, 5, density * 10 );
+                    u.hurtall( rng( density, density * 2 ), nullptr );
+                    u.add_msg_if_player( m_bad, _("The %s makes you feel sick."), cur->name().c_str() );
                 }
             }
             break;
@@ -2435,7 +2419,7 @@ void map::monster_in_field( monster &z )
             if( z.type->in_species("FUNGUS") ) {
                 const int density = cur->getFieldDensity();
                 z.moves -= rng( 10 * density, 30 * density );
-                dam += rng( 5, 10 * density );
+                dam += rng( 4, 7 * density );
             }
             break;
 
