@@ -4223,7 +4223,7 @@
             {"x": -1, "y": 1, "part": "hdframe_horizontal_2"},
             {"x": -1, "y": 1, "part": "aisle_horizontal"},
             {"x": -1, "y": 1, "part": "roof"},
-            {"x": -1, "y": 1, "part": "mounted_browning"},
+            {"x": -1, "y": 1, "part": "mounted_m60"},
             {"x": -1, "y": 2, "part": "hdframe_horizontal_2"},
             {"x": -1, "y": 2, "part": "seat"},
             {"x": -1, "y": 2, "part": "seatbelt"},
@@ -4270,12 +4270,12 @@
             {"x": -3, "y": -1, "part": "wheel_armor"}
         ],
         "items" : [
-            {"x": -2, "y": 2, "chance": 95, "item_groups": ["fuel_diesel"]},
-            {"x": -1, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
-            {"x": -1, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": -1, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": -1, "y": 1, "chance": 2, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": -1, "y": 1, "chance": 1, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
+            {"x": -2, "y": 2, "chance": 15, "item_groups": ["fuel_diesel"]},
+            {"x": -1, "y": 1, "chance": 20, "items": ["308", "308", "308"]},
+            {"x": -1, "y": 1, "chance": 10, "items": ["308", "308", "308", "308"]},
+            {"x": -1, "y": 1, "chance": 5, "items": ["308", "308", "308", "308", "308"]},
+            {"x": -1, "y": 1, "chance": 2, "items": ["308", "308", "308", "308", "308", "308", "308"]},
+            {"x": -1, "y": 1, "chance": 1, "items": ["308", "308", "308", "308", "308", "308", "308", "308", "308"]}
         ]
     },{
         "type" : "vehicle",
