@@ -1,0 +1,61 @@
+[
+	{
+        "type" : "vehicle_part",
+        "id" : "mounted_generic_machine_gun",
+        "name" : "mounted machine gun",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "generic_machine_gun",
+		"size" : 1000,
+		"difficulty" : 3,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "generic_machine_gun", "min": 0, "max": 1}
+        ]
+    },
+	{
+        "type" : "vehicle_part",
+        "id" : "mounted_generic_minigun",
+        "name" : "mounted minigun",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "generic_minigun",
+		"size" : 1000,
+		"difficulty" : 3,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "generic_minigun", "min": 0, "max": 1}
+        ]
+    },
+	{
+        "type" : "vehicle_part",
+        "id" : "mounted_generic_heavy_machine_gun",
+        "name" : "mounted heavy machine gun",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "generic_heavy_machine_gun",
+		"size" : 1600,
+		"difficulty" : 3,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "generic_heavy_machine_gun", "min": 0, "max": 1}
+        ]
+    }
+]
+
+
