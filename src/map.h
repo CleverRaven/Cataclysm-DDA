@@ -966,8 +966,8 @@ public:
     // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
     // if we're not in zlevels mode or if we're at lowest level
     bool has_floor( const tripoint &p ) const;
-    // Should furniture at p stay there or fall down
-    bool furniture_supported( const tripoint &p ) const;
+    /** Does this tile support vehicles and furniture above it */
+    bool supports_above( const tripoint &p ) const;
 
     /**
      * Handles map objects of given type (not creatures) falling down.

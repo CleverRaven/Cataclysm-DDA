@@ -376,27 +376,36 @@ const vehicle *map::vehproceed()
     if( zlevels && veh->falling ) {
         // TODO: Make it bash the relevant parts
         // TODO: Scan all parts for support, starting with just wheels, bash the supporting parts only
+        // Support from floor is "solid" and easy to check for
+        // Support from vehicles and furniture requires checking below our current tile
         bool supported = false;
-        for( const auto &part : veh->parts ) {
-            const tripoint pp = pt + part.precalc[0];
-            if( !has_flag( TFLAG_NO_FLOOR, pp ) ) {
-                supported = true;
-                break;
+        bool supported_floor = false;
+        size_t distance = 0;
+        while( !supported ) {
+            for( const auto &part : veh->parts ) {
+                const tripoint pp = pt + part.precalc[0];
+                if( !has_flag( TFLAG_NO_FLOOR, pp ) ) {
+                    supported = true;
+                    supported_floor = true;
+                    break;
+                }
+
+                const tripoint below( pp.x, pp.y, pp.z - 1 );
+                if( veh_at( below ) != nullptr || has_furn( below ) ) {
+                    supported = true;
+                    break;
+                }
             }
 
-            const tripoint below( pp.x, pp.y, pp.z - 1 );
-            if( veh_at( below ) != nullptr || move_cost( below ) == 0 ) {
-                supported = true;
-                break;
+            if( !supported ) {
+                distance++;
+                displace_vehicle( pt, tripoint( 0, 0, -1 ), false );
             }
         }
 
-        if( !supported ) {
-            displace_vehicle( pt, tripoint( 0, 0, -1 ), false );
-            return veh;
+        if( supported_floor ) {
+            veh->falling = false;
         }
-
-        veh->falling = false;
     }
 
     bool pl_ctrl = veh->player_in_control(g->u);
@@ -1833,16 +1842,27 @@ bool map::has_floor( const tripoint &p ) const
     return !zlevels || p.z < -OVERMAP_DEPTH + 1 || !has_flag( TFLAG_NO_FLOOR, p );
 }
 
-bool map::furniture_supported( const tripoint &p ) const
+bool map::supports_above( const tripoint &p ) const
 {
-    if( has_floor( p ) ) {
+    const maptile tile = maptile_at( p );
+    const ter_t &ter = tile.get_ter_t();
+    if( ter.movecost == 0 ) {
         return true;
     }
 
-    tripoint below( p.x, p.y, p.z - 1 );
-    // Not 100% correct, but better have floating chairs
-    // than chairs teleporting into vehicles, nailing them down
-    return has_furn( below ) || move_cost( below ) == 0;
+    const furn_id frn_id = tile.get_furn();
+    if( frn_id != f_null ) {
+        const furn_t &frn = frn_id.obj();
+        if( frn.movecost == 0 ) {
+            return true;
+        }
+    }
+
+    if( veh_at( p ) != nullptr ) {
+        return true;
+    }
+
+    return false;
 }
 
 void map::drop_everything( const tripoint &p )
@@ -1863,23 +1883,66 @@ void map::drop_furniture( const tripoint &p )
         return;
     }
 
-    tripoint below( p );
-    while( !furniture_supported( below ) ) {
-        below.z--;
+    enum support_state {
+        SS_NO_SUPPORT,
+        SS_GOOD_SUPPORT,
+        SS_BAD_SUPPORT
+    };
+
+    // Checks if the tile:
+    // has floor (supports unconditionally)
+    // has support below
+    // has unsupporting furniture below (bad support, things should "slide" if possible)
+    // has no support and thus allows things to fall through
+    const auto check_tile = [this]( tripoint &pt, const int dx, const int dy ) {
+        tripoint dest( pt.x + dx, pt.y + dy, pt.z );
+        if( has_floor( dest ) ) {
+            pt = dest;
+            return SS_GOOD_SUPPORT;
+        }
+
+        tripoint below_dest( pt.x + dx, pt.y + dy, pt.z - 1 );
+        if( supports_above( below_dest ) ) {
+            pt = dest;
+            return SS_GOOD_SUPPORT;
+        }
+
+        if( furn( below_dest ) != t_null ) {
+            return SS_BAD_SUPPORT;
+        }
+
+        pt = dest;
+        return SS_NO_SUPPORT;
+    };
+
+    constexpr std::array<int, 8> dx = {{ 1, 0, -1, 0, 1, -1, -1, 1 }};
+    constexpr std::array<int, 8> dy = {{ 0, 1, 0, -1, 1, -1, 1, -1 }};
+
+    tripoint current( p.x, p.y, p.z + 1 ); // Because we do z-- in loop
+    support_state last_state = SS_NO_SUPPORT;
+    while( last_state == SS_NO_SUPPORT ) {
+        current.z--;
+        // Check current tile
+        last_state = check_tile( current, 0, 0 );
+        // Check neighbors, but only if current tile is bad support
+        // Bad support means that we need a 3x3 "pile" below not to "slide" to a side
+        for( size_t i = 0; i < dx.size() && last_state == SS_BAD_SUPPORT; i++ ) {
+            last_state = check_tile( current, dx[i], dy[i] );
+        }
     }
 
-    if( below == p ) {
+    if( current == p ) {
         // Nothing happened
         return;
     }
 
     furn_set( p, f_null );
-    furn_set( below, frn );
+    furn_set( current, frn );
 
     // If it's sealed, we need to drop items with it
     if( frn.obj().has_flag( TFLAG_SEALED ) && has_items( p ) ) {
         auto old_items = i_at( p );
-        auto new_items = i_at( below );
+        auto new_items = i_at( current );
         for( const auto &it : old_items ) {
             new_items.push_back( it );
         }
@@ -1889,7 +1952,7 @@ void map::drop_furniture( const tripoint &p )
 
     // TODO: Balance this. Currently just for bashing glass and sound of bashing
     // TODO: Make it bash through floor if we drop something big and heavy
-    bash( below, ( p.z - below.z ) * 10, false, false, nullptr, true );
+    bash( current, ( p.z - current.z ) * 10, false, false, nullptr, true );
 }
 
 void map::drop_items( const tripoint &p )
