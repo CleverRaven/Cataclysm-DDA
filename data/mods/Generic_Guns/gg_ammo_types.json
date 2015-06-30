@@ -1,0 +1,26 @@
+[
+    {
+        "type" : "ammunition_type",
+        "id" : "generic_pistol_ammo",
+        "name" : "pistol ammo",
+        "default" : "generic_pistol_ammo"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "generic_revolver_ammo",
+        "name" : "revolver ammo",
+        "default" : "generic_revolver_ammo"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "generic_rifle_ammo",
+        "name" : "rifle ammo",
+        "default" : "generic_rifle_ammo"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "generic_mil_ammo",
+        "name" : "rifle ammo",
+        "default" : "generic_mil_ammo"
+    }
+]

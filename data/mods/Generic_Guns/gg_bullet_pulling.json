@@ -1,0 +1,87 @@
+[
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_pistol_ammo",
+        "items": [
+            ["lead", 4],
+            ["generic_pistol_ammo_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_pistol_ammo_super",
+        "items": [
+            ["lead", 4],
+            ["generic_pistol_ammo_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 6]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_pistol_ammo_fmj",
+        "items": [
+            ["lead", 4],
+            ["generic_pistol_ammo_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 6],
+            ["copper", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_revolver_ammo",
+        "items": [
+            ["lead", 10],
+            ["generic_revolver_ammo_casing", 1],
+            ["lgpistol_primer", 1],
+            ["gunpowder", 10]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_revolver_ammo_fmj",
+        "items": [
+            ["lead", 7],
+            ["generic_revolver_ammo_casing", 1],
+            ["lgpistol_primer", 1],
+            ["gunpowder", 10],
+            ["copper", 7]
+                ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_rifle_ammo",
+        "items": [
+            ["lead", 6],
+            ["generic_rifle_ammo_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 10],
+            ["copper", 6]
+        ]
+    },
+	{
+        "type": "BULLET_PULLING",
+        "bullet": "generic_rifle_ammo_fmj",
+        "items": [
+            ["lead", 6],
+            ["generic_rifle_ammo_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 10],
+            ["copper", 8]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "generic_rifle_ammo_incendiary",
+        "items": [
+            ["incendiary", 6],
+            ["generic_rifle_ammo_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 10],
+             ["copper", 6]
+        ]
+    }
+]
