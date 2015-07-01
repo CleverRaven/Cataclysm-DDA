@@ -1,0 +1,34 @@
+[
+    {
+        "type" : "overmap_terrain",
+        "id" : "fungal_bloom",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 2,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "fungal_tower",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 2,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
+        "allow_road" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "fungal_flowers",
+        "name" : "field",
+        "sym" : 46,
+        "color" : "brown",
+        "see_cost" : 2,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
+        "allow_road" : true
+    }
+]
+
