@@ -3635,7 +3635,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
             this->ter(location.x, location.y, location.z) = rotate(terrain.terrain, rotation);
         }
 
-        if(terrain.connect.size() > 0) {
+        if( !terrain.connect.empty() ) {
             //connections[terrain.connect] = location;
             std::pair<std::string, tripoint> connection;
             connection.first = terrain.connect;
