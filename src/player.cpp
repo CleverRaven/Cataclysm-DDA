@@ -7377,7 +7377,7 @@ void player::hardcoded_effects(effect &it)
         if (!has_effect("blind") && !worn_with_flag("BLIND")) {
             if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
                 // So you can too sleep through noon
-                if ((tirednessVal * 1.25) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
                     add_msg_if_player(_("It's too bright to sleep."));
                     // Set ourselves up for removal
                     it.set_duration(0);
@@ -7385,13 +7385,13 @@ void player::hardcoded_effects(effect &it)
                 }
              // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
             } else if (has_trait("HIBERNATE")) {
-                if ((tirednessVal * 5) < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+                if ((tirednessVal * 5) < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
                     add_msg_if_player(_("It's too bright to sleep."));
                     // Set ourselves up for removal
                     it.set_duration(0);
                     woke_up = true;
                 }
-            } else if (tirednessVal < g->light_level() && (fatigue < 10 || one_in(fatigue / 2))) {
+            } else if (tirednessVal < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
                 add_msg_if_player(_("It's too bright to sleep."));
                 // Set ourselves up for removal
                 it.set_duration(0);
@@ -11353,34 +11353,34 @@ void player::remove_gunmod(item *weapon, unsigned id)
 
 hint_rating player::rate_action_read(item *it)
 {
- if (!it->is_book()) {
-  return HINT_CANT;
- }
+    if (!it->is_book()) {
+        return HINT_CANT;
+    }
 
-//Check for NPCs to read for you, negates Illiterate and Far Sighted
-//The NPC gets a slight boost to int requirement since they wouldn't need to
-//understand what they are reading necessarily
-  int assistants = 0;
-  for( auto &elem : g->active_npc ) {
-        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
-            if ((elem->int_cur+1) >= it->type->book->intel)
+    //Check for NPCs to read for you, negates Illiterate and Far Sighted
+    //The NPC gets a slight boost to int requirement since they wouldn't need to
+    //understand what they are reading necessarily
+    int assistants = 0;
+    for( auto &elem : g->active_npc ) {
+        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()) {
+            if ((elem->int_cur+1) >= it->type->book->intel) {
                 assistants++;
-        }
-  }
+            }
+       }
+    }
 
+    if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(posx(), posy())) {
+        return HINT_IFFY;
+    } else if (morale_level() < MIN_MORALE_READ && it->type->book->fun <= 0) {
+        return HINT_IFFY; //won't read non-fun books when sad
+    } else if (it->type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
+        return HINT_IFFY;
+    } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
+               !is_wearing("glasses_bifocal") && !has_effect("contacts") && assistants == 0) {
+        return HINT_IFFY;
+    }
 
- if (g && g->light_level() < 8 && LL_LIT > g->m.light_at(posx(), posy())) {
-  return HINT_IFFY;
- } else if (morale_level() < MIN_MORALE_READ && it->type->book->fun <= 0) {
-  return HINT_IFFY; //won't read non-fun books when sad
- } else if (it->type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
-  return HINT_IFFY;
- } else if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-            && !is_wearing("glasses_bifocal") && !has_effect("contacts") && assistants == 0) {
-  return HINT_IFFY;
- }
-
- return HINT_GOOD;
+    return HINT_GOOD;
 }
 
 void player::read(int inventory_position)
