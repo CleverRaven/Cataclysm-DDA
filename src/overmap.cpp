@@ -3356,7 +3356,7 @@ bool overmap::allowed_terrain(const tripoint& p, const std::list<tripoint>& toch
             }
         }
         // if we are only checking against disallowed types, we don't want this to fail us
-        if(!passed && allowed.size() > 0) {
+        if( !passed && !allowed.empty() ) {
             return false;
         }
 
