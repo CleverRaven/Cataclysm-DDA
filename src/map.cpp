@@ -1905,14 +1905,14 @@ void map::drop_furniture( const tripoint &p )
     // has support below
     // has unsupporting furniture below (bad support, things should "slide" if possible)
     // has no support and thus allows things to fall through
-    const auto check_tile = [this]( tripoint &pt, const int dx, const int dy ) {
-        tripoint dest( pt.x + dx, pt.y + dy, pt.z );
+    const auto check_tile = [this]( tripoint &pt ) {
+        tripoint dest( pt );
         if( has_floor( dest ) ) {
             pt = dest;
             return SS_FLOOR;
         }
 
-        tripoint below_dest( pt.x + dx, pt.y + dy, pt.z - 1 );
+        tripoint below_dest( pt.x, pt.y, pt.z - 1 );
         if( supports_above( below_dest ) ) {
             pt = dest;
             return SS_GOOD_SUPPORT;
@@ -1936,21 +1936,18 @@ void map::drop_furniture( const tripoint &p )
         return SS_NO_SUPPORT;
     };
 
-    /*
-    constexpr std::array<int, 8> dx = {{ 1, 0, -1, 0, 1, -1, -1, 1 }};
-    constexpr std::array<int, 8> dy = {{ 0, 1, 0, -1, 1, -1, 1, -1 }};
-    */
-
-    tripoint current( p );
+    tripoint current( p.x, p.y, p.z + 1 );
     support_state last_state = SS_NO_SUPPORT;
     while( last_state == SS_NO_SUPPORT ) {
         current.z--;
         // Check current tile
-        last_state = check_tile( current, 0, 0 );
+        last_state = check_tile( current );
     }
 
     if( current == p ) {
         // Nothing happened
+        // TODO: Keep checking in case support is removed from below,
+        // but only once checks also happen on map load
         return;
     }
 
