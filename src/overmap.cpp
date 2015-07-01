@@ -3623,11 +3623,11 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     std::vector<std::pair<std::string, tripoint> > connections;
 
     for( const overmap_special_terrain& terrain : special.terrains ) {
-        oter_id id = (oter_id) terrain.terrain;
-        oter_t t = (oter_t) id;
+        const oter_id id = (oter_id) terrain.terrain;
+        const oter_t& t = id.t();
 
-        tripoint rp = rotate_tripoint(terrain.p, rotation);
-        tripoint location = tripoint(p.x + rp.x, p.y + rp.y, p.z + rp.z);
+        const tripoint rp = rotate_tripoint(terrain.p, rotation);
+        const tripoint location = tripoint(p.x + rp.x, p.y + rp.y, p.z + rp.z);
 
         if(!t.has_flag(rotates)) {
             this->ter(location.x, location.y, location.z) = terrain.terrain;
@@ -3654,12 +3654,12 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
         }
     }
 
-    for( auto connection : connections ) {
+    for( const auto& connection : connections ) {
 
         if(connection.first == "road") {
             city closest;
             int distance = 999;
-            for( auto c : cities ) {
+            for( const city& c : cities ) {
 
                 int dist = rl_dist(connection.second.x, connection.second.y, c.x, c.y);
                 if (dist < distance) {
@@ -3699,9 +3699,9 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
 
     // place spawns
     if(special.spawns.group != mongroup_id( "GROUP_NULL" ) ) {
-        overmap_special_spawns spawns = special.spawns;
-        int pop = rng(spawns.min_population, spawns.max_population);
-        int rad = rng(spawns.min_radius, spawns.max_radius);
+        const overmap_special_spawns& spawns = special.spawns;
+        const int pop = rng(spawns.min_population, spawns.max_population);
+        const int rad = rng(spawns.min_radius, spawns.max_radius);
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
 }
