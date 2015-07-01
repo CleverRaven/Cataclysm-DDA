@@ -1156,6 +1156,7 @@ protected:
 
  int my_MAPSIZE;
  bool zlevels;
+ bool in_mapgen = false;
 
     /**
      * Absolute coordinates of first submap (get_submap_at(0,0))

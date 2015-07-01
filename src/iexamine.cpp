@@ -2421,7 +2421,7 @@ void iexamine::trap(player *p, map *m, const tripoint &examp)
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, *p );
-    if( seen && possible == 99 ) {
+    if( seen && possible >= 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
             tr.name.c_str());
         return;

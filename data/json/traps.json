@@ -437,7 +437,7 @@
         "symbol" : " ",
         "visibility" : 0,
         "avoidance" : 99999,
-        "difficulty" : 99999,
+        "difficulty" : 99,
         "action" : "ledge"
     },
     {

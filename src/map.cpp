@@ -1408,6 +1408,9 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
 
     // Make sure the furniture falls if it needs to
     support_dirty( p );
+    tripoint above( p.x, p.y, p.z + 1 );
+    // Make sure that if we supported something and no longer do so, it falls down
+    support_dirty( above );
 }
 
 void map::furn_set( const tripoint &p, const std::string new_furniture) {
@@ -1592,6 +1595,10 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
+
+    tripoint above( p.x, p.y, p.z + 1 );
+    // Make sure that if we supported something and no longer do so, it falls down
+    support_dirty( above );
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -1839,7 +1846,9 @@ int map::climb_difficulty( const tripoint &p ) const
 
 bool map::has_floor( const tripoint &p ) const
 {
-    return !zlevels || p.z < -OVERMAP_DEPTH + 1 || !has_flag( TFLAG_NO_FLOOR, p );
+    return !zlevels ||
+           p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ||
+           !has_flag( TFLAG_NO_FLOOR, p );
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -1853,7 +1862,7 @@ bool map::supports_above( const tripoint &p ) const
     const furn_id frn_id = tile.get_furn();
     if( frn_id != f_null ) {
         const furn_t &frn = frn_id.obj();
-        if( frn.movecost == 0 ) {
+        if( frn.movecost < 0 ) {
             return true;
         }
     }
@@ -1884,9 +1893,11 @@ void map::drop_furniture( const tripoint &p )
     }
 
     enum support_state {
-        SS_NO_SUPPORT,
+        SS_NO_SUPPORT = 0,
+        SS_BAD_SUPPORT, // TODO: Implement bad, shaky support
         SS_GOOD_SUPPORT,
-        SS_BAD_SUPPORT
+        SS_FLOOR, // Like good support, but bash floor instead of tile below
+        SS_CREATURE
     };
 
     // Checks if the tile:
@@ -1898,7 +1909,7 @@ void map::drop_furniture( const tripoint &p )
         tripoint dest( pt.x + dx, pt.y + dy, pt.z );
         if( has_floor( dest ) ) {
             pt = dest;
-            return SS_GOOD_SUPPORT;
+            return SS_FLOOR;
         }
 
         tripoint below_dest( pt.x + dx, pt.y + dy, pt.z - 1 );
@@ -1907,28 +1918,35 @@ void map::drop_furniture( const tripoint &p )
             return SS_GOOD_SUPPORT;
         }
 
-        if( furn( below_dest ) != t_null ) {
-            return SS_BAD_SUPPORT;
+        const furn_id frn_id = furn( below_dest );
+        if( frn_id != f_null ) {
+            const furn_t &frn = frn_id.obj();
+            // Allow crushing tiny/nocollide furniture
+            if( !frn.has_flag( "TINY" ) && !frn.has_flag( "NOCOLLIDE" ) ) {
+                return SS_BAD_SUPPORT;
+            }
+        }
+
+        if( g->critter_at( below_dest ) != nullptr ) {
+            // Smash a critter
+            return SS_CREATURE;
         }
 
         pt = dest;
         return SS_NO_SUPPORT;
     };
 
+    /*
     constexpr std::array<int, 8> dx = {{ 1, 0, -1, 0, 1, -1, -1, 1 }};
     constexpr std::array<int, 8> dy = {{ 0, 1, 0, -1, 1, -1, 1, -1 }};
+    */
 
-    tripoint current( p.x, p.y, p.z + 1 ); // Because we do z-- in loop
+    tripoint current( p );
     support_state last_state = SS_NO_SUPPORT;
     while( last_state == SS_NO_SUPPORT ) {
         current.z--;
         // Check current tile
         last_state = check_tile( current, 0, 0 );
-        // Check neighbors, but only if current tile is bad support
-        // Bad support means that we need a 3x3 "pile" below not to "slide" to a side
-        for( size_t i = 0; i < dx.size() && last_state == SS_BAD_SUPPORT; i++ ) {
-            last_state = check_tile( current, dx[i], dy[i] );
-        }
     }
 
     if( current == p ) {
@@ -1940,7 +1958,8 @@ void map::drop_furniture( const tripoint &p )
     furn_set( current, frn );
 
     // If it's sealed, we need to drop items with it
-    if( frn.obj().has_flag( TFLAG_SEALED ) && has_items( p ) ) {
+    const auto &frn_obj = frn.obj();
+    if( frn_obj.has_flag( TFLAG_SEALED ) && has_items( p ) ) {
         auto old_items = i_at( p );
         auto new_items = i_at( current );
         for( const auto &it : old_items ) {
@@ -1950,9 +1969,61 @@ void map::drop_furniture( const tripoint &p )
         i_clear( p );
     }
 
-    // TODO: Balance this. Currently just for bashing glass and sound of bashing
-    // TODO: Make it bash through floor if we drop something big and heavy
-    bash( current, ( p.z - current.z ) * 10, false, false, nullptr, true );
+    // Approximate weight/"bulkiness" based on strength to drag
+    int weight;
+    if( frn_obj.has_flag( "TINY" ) || frn_obj.has_flag( "NOCOLLIDE" ) ) {
+        weight = 5;
+    } else {
+        weight = frn_obj.move_str_req >= 0 ? frn_obj.move_str_req : 20;
+    }
+
+    if( frn_obj.has_flag( "ROUGH" ) || frn_obj.has_flag( "SHARP" ) ) {
+        weight += 5;
+    }
+
+    // TODO: Balance this.
+    int dmg = weight * ( p.z - current.z );
+
+    if( last_state == SS_FLOOR ) {
+        // Bash the same tile twice - once for furniture, once for the floor
+        bash( current, dmg, false, false, nullptr, true );
+        bash( current, dmg, false, false, nullptr, true );
+    } else if( last_state == SS_BAD_SUPPORT || last_state == SS_GOOD_SUPPORT ) {
+        bash( current, dmg, false, false, nullptr, false );
+        tripoint below( current.x, current.y, current.z - 1 );
+        bash( below, dmg, false, false, nullptr, false );
+    } else if( last_state == SS_CREATURE ) {
+        const std::string &furn_name = frn_obj.name;
+        bash( current, dmg, false, false, nullptr, false );
+        tripoint below( current.x, current.y, current.z - 1 );
+        Creature *critter = g->critter_at( below );
+        if( critter == nullptr ) {
+            debugmsg( "drop_furniture couldn't find creature at %d,%d,%d",
+                      below.x, below.y, below.z );
+            return;
+        }
+
+        critter->add_msg_player_or_npc( m_bad, _("Falling %s hits you!"),
+                                               _("Falling %s hits <npcname>"),
+                                        furn_name.c_str() );
+        // TODO: A chance to dodge/uncanny dodge
+        player *pl = dynamic_cast<player*>( critter );
+        monster *mon = dynamic_cast<monster*>( critter );
+        if( pl != nullptr ) {
+            pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
+            pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0, 0.5f ) );
+            pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+            pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0, 0.4f ) );
+        } else if( mon != nullptr ) {
+            // TODO: Monster's armor and size - don't crush hulks with chairs
+            mon->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 2 ) );
+        }
+    }
+
+    // Re-queue for another check, in case bash destroyed something
+    support_dirty( current );
 }
 
 void map::drop_items( const tripoint &p )
@@ -1997,7 +2068,7 @@ void map::drop_vehicle( const tripoint &p )
 
 void map::support_dirty( const tripoint &p )
 {
-    if( !has_floor( p ) ) {
+    if( !in_mapgen && zlevels && !has_floor( p ) ) {
         support_cache_dirty.insert( p );
     }
 }
@@ -2011,6 +2082,8 @@ void map::process_falling()
 
     size_t tries = 10;
     while( !support_cache_dirty.empty() && tries > 0 ) {
+        add_msg( m_debug, "Checking %d tiles for falling objects",
+                 support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
         std::set<tripoint> last_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
@@ -3109,7 +3182,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 ter_set( p, t_open_air );
             }
 
-            if( ter( p ) == t_open_air ) {
+            if( smash_ter && ter( p ) == t_open_air ) {
                 if( !zlevels ) {
                     // We destroyed something, so we aren't just "plugging" air with dirt here
                     ter_set( p, t_dirt );
@@ -6086,6 +6159,14 @@ void map::shift( const int sx, const int sy )
     }
 
     g->setremoteveh( remoteveh );
+
+    if( !support_cache_dirty.empty() ) {
+        std::set<tripoint> old_cache = std::move( support_cache_dirty );
+        support_cache_dirty.clear();
+        for( const auto &pt : old_cache ) {
+            support_cache_dirty.insert( tripoint( pt.x - sx * SEEX, pt.y - sy * SEEY, pt.z ) );
+        }
+    }
 }
 
 void map::vertical_shift( const int newz )
@@ -6228,9 +6309,12 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         overmapbuffer::sm_to_omt( overx, overy );
         oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
         if( terrain_type == rock || terrain_type == air ) {
+            in_mapgen = true;
             generate_uniform( newmapx, newmapy, gridz, terrain_type );
+            in_mapgen = false;
         } else {
             tinymap tmp_map;
+            tmp_map.in_mapgen = true;
             tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
         }
 
