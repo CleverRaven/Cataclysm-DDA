@@ -3540,7 +3540,7 @@ void overmap::place_specials()
     }
 
     while( !sectors.empty() ) {
-        int pick = rng( 0, sectors.size() - 1 );
+        const size_t pick = rng( 0, sectors.size() - 1 );
         int x = sectors.at( pick ).x;
         int y = sectors.at( pick ).y;
 
@@ -3580,7 +3580,7 @@ void overmap::place_specials()
                 }
             }
             if( must_place.empty() ) {
-                int selection = rng( 0, valid_specials.size() - 1 );
+                const size_t selection = rng( 0, valid_specials.size() - 1 );
                 const auto &place = valid_specials[selection];
                 const overmap_special * const special = place.first;
                 if( num_placed[special] == -1 ) {
@@ -3590,7 +3590,7 @@ void overmap::place_specials()
                 num_placed[special]++;
                 place_special( *special, p, place.second );
             } else {
-                int selection = rng( 0, must_place.size() - 1 );
+                const size_t selection = rng( 0, must_place.size() - 1 );
                 const auto &place = must_place[selection];
                 const overmap_special * const special = place.first;
                 if( num_placed[special] == -1 ) {
