@@ -3627,7 +3627,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
         const oter_t& t = id.t();
 
         const tripoint rp = rotate_tripoint(terrain.p, rotation);
-        const tripoint location = tripoint(p.x + rp.x, p.y + rp.y, p.z + rp.z);
+        const tripoint location = p + rp;
 
         if(!t.has_flag(rotates)) {
             this->ter(location.x, location.y, location.z) = terrain.terrain;
