@@ -3564,13 +3564,11 @@ void overmap::place_specials()
         } while( valid_specials.empty() && tries < 20 );
 
         // selection & placement happens here
-        std::pair<overmap_special, int> place;
         if( !valid_specials.empty() ) {
             // Place the MUST HAVE ones first, to try and guarantee that they appear
             //std::vector<overmap_special> must_place;
             std::map<overmap_special, int> must_place;
-            for( auto & valid_special : valid_specials ) {
-                place = valid_special;
+            for( const std::pair<overmap_special, int> & place : valid_specials ) {
                 if( num_placed[place.first] < place.first.min_occurrences ) {
                     must_place.insert( place );
                 }
@@ -3580,8 +3578,8 @@ void overmap::place_specials()
                 //overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
                 std::map<overmap_special, int>::iterator it = valid_specials.begin();
                 std::advance( it, selection );
-                place = *it;
-                overmap_special special = place.first;
+                const std::pair<overmap_special, int> &place = *it;
+                const overmap_special &special = place.first;
                 if( num_placed[special] == -1 ) {
                     //if you build one, never build another.  For [x:100] spawn % chance
                     num_placed[special] = 999;
@@ -3593,8 +3591,8 @@ void overmap::place_specials()
                 //overmap_special special = must_place.at(must_place.begin() + selection).first;
                 std::map<overmap_special, int>::iterator it = must_place.begin();
                 std::advance( it, selection );
-                place = *it;
-                overmap_special special = place.first;
+                const std::pair<overmap_special, int> &place = *it;
+                const overmap_special &special = place.first;
                 if( num_placed[special] == -1 ) {
                     //if you build one, never build another.  For [x:100] spawn % chance
                     num_placed[special] = 999;
