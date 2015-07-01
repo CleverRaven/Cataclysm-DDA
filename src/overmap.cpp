@@ -3636,11 +3636,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
         }
 
         if( !terrain.connect.empty() ) {
-            //connections[terrain.connect] = location;
-            std::pair<std::string, tripoint> connection;
-            connection.first = terrain.connect;
-            connection.second = location;
-            connections.push_back(connection);
+            connections.emplace_back( terrain.connect, location );
         }
 
         if(special.flags.count("BLOB") > 0) {
