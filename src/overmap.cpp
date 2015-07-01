@@ -3557,9 +3557,6 @@ void overmap::place_specials()
             p = tripoint( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
             // don't need to check for edges yet
             for( const overmap_special & special : overmap_specials ) {
-                std::list<std::string> allowed_terrains;
-                allowed_terrains.push_back( "forest" );
-
                 if( CLASSIC_ZOMBIES && special.flags.count( "CLASSIC" ) < 1 ) {
                     continue;
                 }
