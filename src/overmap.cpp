@@ -3506,6 +3506,7 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 
 void overmap::place_specials()
 {
+    const bool CLASSIC_ZOMBIES = ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"];
     /*
     This function uses pointers in to the @ref overmap_specials container.
     The pointers are assumed to be stable (overmap_specials should not be change during this
@@ -3559,7 +3560,7 @@ void overmap::place_specials()
                 std::list<std::string> allowed_terrains;
                 allowed_terrains.push_back( "forest" );
 
-                if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && ( special.flags.count( "CLASSIC" ) < 1 ) ) {
+                if( CLASSIC_ZOMBIES && special.flags.count( "CLASSIC" ) < 1 ) {
                     continue;
                 }
                 if( ( num_placed[&special] < special.max_occurrences || special.max_occurrences <= 0 ) &&
