@@ -136,6 +136,11 @@ void load_overmap_specials(JsonObject &jo)
         spec.flags.insert(flag_array.next_string());
     }
 
+    // Remove any existing definition, so mods can override them.
+    const auto iter = overmap_specials.find( spec );
+    if( iter != overmap_specials.end() ) {
+        overmap_specials.erase( iter );
+    }
     overmap_specials.insert(spec);
 }
 
