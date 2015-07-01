@@ -3428,9 +3428,9 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
 
     // do bounds & connection checking
     std::list<tripoint> rotated_points;
-    for( auto t : special.terrains ) {
+    for( const auto& t : special.terrains ) {
 
-        tripoint rotated_point = rotate_tripoint(t.p, rotate);
+        const tripoint rotated_point = rotate_tripoint(t.p, rotate);
         rotated_points.push_back(rotated_point);
 
         tripoint testpoint = tripoint(rotated_point.x + p.x, rotated_point.y + p.y, p.z);
@@ -3471,7 +3471,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     }
     // then check location flags
     bool passed = false;
-    for( auto location : special.locations ) {
+    for( const auto& location : special.locations ) {
         // check each location, if one returns true, then return true, else return false
         // never, always, water, land, forest, wilderness, by_hiway
         // false, true,   river, !river, forest, forest/field, special
