@@ -3508,19 +3508,18 @@ void overmap::place_specials()
 {
     std::map<overmap_special, int> num_placed;
 
-    for( auto & overmap_specials_it : overmap_specials ) {
-        overmap_special special = overmap_specials_it;
+    for( const overmap_special & special : overmap_specials ) {
         if( special.max_occurrences != 100 ) {
             // normal circumstances
-            num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it, 0 ) );
+            num_placed.insert( std::pair<overmap_special, int>( special, 0 ) );
         } else {
             // occurrence is actually a % chance, so less than 1
             if( rand() % 100 <= special.min_occurrences ) {
                 // Priority add one in this map
-                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it, -1 ) );
+                num_placed.insert( std::pair<overmap_special, int>( special, -1 ) );
             } else {
                 // Don't add one in this map
-                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it, 999 ) );
+                num_placed.insert( std::pair<overmap_special, int>( special, 999 ) );
             }
         }
     }
@@ -3549,7 +3548,7 @@ void overmap::place_specials()
         do {
             p = tripoint( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
             // don't need to check for edges yet
-            for( auto special : overmap_specials ) {
+            for( const overmap_special & special : overmap_specials ) {
                 std::list<std::string> allowed_terrains;
                 allowed_terrains.push_back( "forest" );
 
