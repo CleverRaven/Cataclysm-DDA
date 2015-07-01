@@ -3506,20 +3506,28 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 
 void overmap::place_specials()
 {
-    std::map<overmap_special, int> num_placed;
+    /*
+    This function uses pointers in to the @ref overmap_specials container.
+    The pointers are assumed to be stable (overmap_specials should not be change during this
+    function). Using pointers here is faster and has the same behavior as using the id of
+    the special (which is supposed to be unique, like the pointers are).
+    However, make sure to never copy the overmap_special object and to use the address of the copy,
+    as this won't work as desired.
+    */
+    std::unordered_map<const overmap_special *, int> num_placed;
 
     for( const overmap_special & special : overmap_specials ) {
         if( special.max_occurrences != 100 ) {
             // normal circumstances
-            num_placed.insert( std::pair<overmap_special, int>( special, 0 ) );
+            num_placed.emplace( &special, 0 );
         } else {
             // occurrence is actually a % chance, so less than 1
             if( rand() % 100 <= special.min_occurrences ) {
                 // Priority add one in this map
-                num_placed.insert( std::pair<overmap_special, int>( special, -1 ) );
+                num_placed.emplace( &special, -1 );
             } else {
                 // Don't add one in this map
-                num_placed.insert( std::pair<overmap_special, int>( special, 999 ) );
+                num_placed.emplace( &special, 999 );
             }
         }
     }
@@ -3538,9 +3546,8 @@ void overmap::place_specials()
 
         sectors.erase( sectors.begin() + pick );
 
-        //std::vector<overmap_special> valid_specials;
-        // second parameter is rotation
-        std::map<overmap_special, int> valid_specials;
+        using special_with_rotation = std::pair<const overmap_special *, int>;
+        std::vector<special_with_rotation> valid_specials;
         int tries = 0;
         tripoint p;
         int rotation = 0;
@@ -3555,9 +3562,9 @@ void overmap::place_specials()
                 if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && ( special.flags.count( "CLASSIC" ) < 1 ) ) {
                     continue;
                 }
-                if( ( num_placed[special] < special.max_occurrences || special.max_occurrences <= 0 ) &&
+                if( ( num_placed[&special] < special.max_occurrences || special.max_occurrences <= 0 ) &&
                     allow_special( p, special, rotation ) ) {
-                    valid_specials[special] = rotation;
+                    valid_specials.emplace_back( &special, rotation );
                 }
             }
             ++tries;
@@ -3566,39 +3573,32 @@ void overmap::place_specials()
         // selection & placement happens here
         if( !valid_specials.empty() ) {
             // Place the MUST HAVE ones first, to try and guarantee that they appear
-            //std::vector<overmap_special> must_place;
-            std::map<overmap_special, int> must_place;
-            for( const std::pair<overmap_special, int> & place : valid_specials ) {
-                if( num_placed[place.first] < place.first.min_occurrences ) {
-                    must_place.insert( place );
+            std::vector<special_with_rotation> must_place;
+            for( const special_with_rotation & place : valid_specials ) {
+                if( num_placed[place.first] < place.first->min_occurrences ) {
+                    must_place.emplace_back( place );
                 }
             }
             if( must_place.empty() ) {
                 int selection = rng( 0, valid_specials.size() - 1 );
-                //overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
-                std::map<overmap_special, int>::iterator it = valid_specials.begin();
-                std::advance( it, selection );
-                const std::pair<overmap_special, int> &place = *it;
-                const overmap_special &special = place.first;
+                const auto &place = valid_specials[selection];
+                const overmap_special * const special = place.first;
                 if( num_placed[special] == -1 ) {
                     //if you build one, never build another.  For [x:100] spawn % chance
                     num_placed[special] = 999;
                 }
                 num_placed[special]++;
-                place_special( special, p, place.second );
+                place_special( *special, p, place.second );
             } else {
                 int selection = rng( 0, must_place.size() - 1 );
-                //overmap_special special = must_place.at(must_place.begin() + selection).first;
-                std::map<overmap_special, int>::iterator it = must_place.begin();
-                std::advance( it, selection );
-                const std::pair<overmap_special, int> &place = *it;
-                const overmap_special &special = place.first;
+                const auto &place = must_place[selection];
+                const overmap_special * const special = place.first;
                 if( num_placed[special] == -1 ) {
                     //if you build one, never build another.  For [x:100] spawn % chance
                     num_placed[special] = 999;
                 }
                 num_placed[special]++;
-                place_special( special, p, place.second );
+                place_special( *special, p, place.second );
             }
         }
     }
