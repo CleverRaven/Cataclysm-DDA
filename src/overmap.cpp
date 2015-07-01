@@ -3396,7 +3396,7 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
 }
 
 // checks around the selected point to see if the special can be placed there
-bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
+bool overmap::allow_special(const tripoint& p, const overmap_special& special, int &rotate)
 {
     // check if rotation is allowed, and if necessary
     rotate = 0;
@@ -3617,15 +3617,12 @@ void overmap::place_specials()
     (0,1)(1,1)(2,1) -> (-1,0)(-1,1)(-1,2) -> (-2,1)(-1,1)(0,1)
     (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
 */
-void overmap::place_special(overmap_special special, tripoint p, int rotation)
+void overmap::place_special(const overmap_special& special, const tripoint& p, int rotation)
 {
     //std::map<std::string, tripoint> connections;
     std::vector<std::pair<std::string, tripoint> > connections;
 
-    for(std::list<overmap_special_terrain>::iterator it = special.terrains.begin();
-        it != special.terrains.end(); ++it) {
-        overmap_special_terrain terrain = *it;
-
+    for( const overmap_special_terrain& terrain : special.terrains ) {
         oter_id id = (oter_id) terrain.terrain;
         oter_t t = (oter_t) id;
 
