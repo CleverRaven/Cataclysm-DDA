@@ -3396,7 +3396,7 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
 }
 
 // checks around the selected point to see if the special can be placed there
-bool overmap::allow_special(const tripoint& p, const overmap_special& special, int &rotate)
+bool overmap::allow_special(const overmap_special& special, const tripoint& p, int &rotate)
 {
     // check if rotation is allowed, and if necessary
     rotate = 0;
@@ -3566,7 +3566,7 @@ void overmap::place_specials()
                     continue;
                 }
                 if( ( num_placed[&special] < special.max_occurrences || special.max_occurrences <= 0 ) &&
-                    allow_special( p, special, rotation ) ) {
+                    allow_special( special, p, rotation ) ) {
                     valid_specials.emplace_back( &special, rotation );
                 }
             }

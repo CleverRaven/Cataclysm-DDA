@@ -398,7 +398,7 @@ public:
   oter_id rotate(const oter_id &oter, int dir);
   bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
   bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
-  bool allow_special(const tripoint& p, const overmap_special& special, int &rotate);
+  bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
   void place_special(const overmap_special& special, const tripoint& p, int rotation);
