@@ -57,7 +57,7 @@ std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
 
-std::vector<overmap_special> overmap_specials;
+std::set<overmap_special> overmap_specials;
 
 /*
  * Temporary container id_or_id. Stores str for delayed lookup and conversion.
@@ -136,7 +136,7 @@ void load_overmap_specials(JsonObject &jo)
         spec.flags.insert(flag_array.next_string());
     }
 
-    overmap_specials.push_back(spec);
+    overmap_specials.insert(spec);
 }
 
 void clear_overmap_specials()
