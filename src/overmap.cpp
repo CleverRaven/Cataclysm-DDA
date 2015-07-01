@@ -3327,7 +3327,7 @@ void overmap::good_river(int x, int y, int z)
 
 }
 
-bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed)
+bool overmap::allowed_terrain(const tripoint& p, int width, int height, const std::list<std::string>& allowed)
 {
     for(int h = 0; h < height; ++h) {
         for(int w = 0; w < width; ++w) {
@@ -3343,8 +3343,8 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
 }
 
 // checks the area around the selected point to ensure terrain is valid for special
-bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
-                              std::list<std::string> allowed, std::list<std::string> disallowed)
+bool overmap::allowed_terrain(const tripoint& p, const std::list<tripoint>& tocheck,
+                              const std::list<std::string>& allowed, const std::list<std::string>& disallowed)
 {
     for( auto t : tocheck ) {
 

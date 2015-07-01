@@ -396,8 +396,9 @@ public:
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
   oter_id rotate(const oter_id &oter, int dir);
-  bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
-  bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
+  bool allowed_terrain( const tripoint& p, int width, int height, const std::list<std::string>& allowed );
+  bool allowed_terrain( const tripoint& p, const std::list<tripoint>& rotated_points,
+                        const std::list<std::string>& allowed, const std::list<std::string>& disallowed );
   bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
