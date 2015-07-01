@@ -756,7 +756,16 @@
             "speed_mod": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [-7]
+            "speed_mod": [-7],
+            "int_mod": [-0.5],
+            "dex_mod": [-0.5],
+            "hurt_min": [1],
+            "hurt_chance": [200],
+            "pkill_tick": [10],
+            "pkill_min": [1],
+            "pkill_max_val": [30],
+            "stamina_chance": [2],
+            "stamina_min": [-2]
         }
     },
     {
