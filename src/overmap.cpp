@@ -3332,7 +3332,7 @@ bool overmap::allowed_terrain(const tripoint& p, int width, int height, const st
     for(int h = 0; h < height; ++h) {
         for(int w = 0; w < width; ++w) {
             for( auto &elem : allowed ) {
-                oter_id oter = this->ter(p.x + w, p.y + h, p.z);
+                const oter_id& oter = this->ter(p.x + w, p.y + h, p.z);
                 if( !is_ot_type( elem, oter ) ) {
                     return false;
                 }
@@ -3346,11 +3346,11 @@ bool overmap::allowed_terrain(const tripoint& p, int width, int height, const st
 bool overmap::allowed_terrain(const tripoint& p, const std::list<tripoint>& tocheck,
                               const std::list<std::string>& allowed, const std::list<std::string>& disallowed)
 {
-    for( auto t : tocheck ) {
+    for( const tripoint& t : tocheck ) {
 
         bool passed = false;
         for( auto &elem : allowed ) {
-            oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
+            const oter_id& oter = this->ter(p.x + t.x, p.y + t.y, p.z);
             if( is_ot_type( elem, oter ) ) {
                 passed = true;
             }
@@ -3361,7 +3361,7 @@ bool overmap::allowed_terrain(const tripoint& p, const std::list<tripoint>& toch
         }
 
         for( auto &elem : disallowed ) {
-            oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
+            const oter_id& oter = this->ter(p.x + t.x, p.y + t.y, p.z);
             if( is_ot_type( elem, oter ) ) {
                 return false;
             }
