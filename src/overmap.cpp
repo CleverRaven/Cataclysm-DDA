@@ -3623,7 +3623,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     std::vector<std::pair<std::string, tripoint> > connections;
 
     for( const overmap_special_terrain& terrain : special.terrains ) {
-        const oter_id id = (oter_id) terrain.terrain;
+        const oter_id id( terrain.terrain );
         const oter_t& t = id.t();
 
         const tripoint rp = rotate_tripoint(terrain.p, rotation);
