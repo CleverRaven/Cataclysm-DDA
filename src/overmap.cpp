@@ -3508,36 +3508,36 @@ void overmap::place_specials()
 {
     std::map<overmap_special, int> num_placed;
 
-    for( auto &overmap_specials_it : overmap_specials ) {
+    for( auto & overmap_specials_it : overmap_specials ) {
         overmap_special special = overmap_specials_it;
-            if (special.max_occurrences != 100){
-                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it,
-                                                                    0 ) ); // normal circumstances
+        if( special.max_occurrences != 100 ) {
+            // normal circumstances
+            num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it, 0 ) );
+        } else {
+            // occurrence is actually a % chance, so less than 1
+            if( rand() % 100 <= special.min_occurrences ) {
+                // Priority add one in this map
+                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it, -1 ) );
+            } else {
+                // Don't add one in this map
+                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it, 999 ) );
             }
-            else{
-                if (rand() % 100 <= special.min_occurrences){ //occurance is actually a % chance, so less than 1
-                    num_placed.insert( std::pair<overmap_special, int>(
-                        overmap_specials_it, -1 ) ); // Priority add one in this map
-                }
-                else
-                    num_placed.insert( std::pair<overmap_special, int>(
-                        overmap_specials_it, 999 ) ); // Don't add one in this map
-            }
-    }
-
-    std::vector<point> sectors;
-    for (int x = 0; x < OMAPX; x += OMSPEC_FREQ) {
-        for (int y = 0; y < OMAPY; y += OMSPEC_FREQ) {
-            sectors.push_back(point(x, y));
         }
     }
 
-    while(!sectors.empty()) {
-        int pick = rng(0, sectors.size() - 1);
-        int x = sectors.at(pick).x;
-        int y = sectors.at(pick).y;
+    std::vector<point> sectors;
+    for( int x = 0; x < OMAPX; x += OMSPEC_FREQ ) {
+        for( int y = 0; y < OMAPY; y += OMSPEC_FREQ ) {
+            sectors.push_back( point( x, y ) );
+        }
+    }
 
-        sectors.erase(sectors.begin() + pick);
+    while( !sectors.empty() ) {
+        int pick = rng( 0, sectors.size() - 1 );
+        int x = sectors.at( pick ).x;
+        int y = sectors.at( pick ).y;
+
+        sectors.erase( sectors.begin() + pick );
 
         //std::vector<overmap_special> valid_specials;
         // second parameter is rotation
@@ -3547,57 +3547,61 @@ void overmap::place_specials()
         int rotation = 0;
 
         do {
-            p = tripoint(rng(x, x + OMSPEC_FREQ - 1), rng(y, y + OMSPEC_FREQ - 1), 0);
-            // dont need to check for edges yet
+            p = tripoint( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
+            // don't need to check for edges yet
             for( auto special : overmap_specials ) {
                 std::list<std::string> allowed_terrains;
-                allowed_terrains.push_back("forest");
+                allowed_terrains.push_back( "forest" );
 
-                if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && (special.flags.count("CLASSIC") < 1)) {
+                if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && ( special.flags.count( "CLASSIC" ) < 1 ) ) {
                     continue;
                 }
-                if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
-                    allow_special(p, special, rotation)) {
+                if( ( num_placed[special] < special.max_occurrences || special.max_occurrences <= 0 ) &&
+                    allow_special( p, special, rotation ) ) {
                     valid_specials[special] = rotation;
                 }
             }
             ++tries;
-        } while(valid_specials.empty() && tries < 20);
+        } while( valid_specials.empty() && tries < 20 );
 
         // selection & placement happens here
         std::pair<overmap_special, int> place;
-        if(!valid_specials.empty()) {
+        if( !valid_specials.empty() ) {
             // Place the MUST HAVE ones first, to try and guarantee that they appear
             //std::vector<overmap_special> must_place;
             std::map<overmap_special, int> must_place;
-            for( auto &valid_special : valid_specials ) {
+            for( auto & valid_special : valid_specials ) {
                 place = valid_special;
-                if(num_placed[place.first] < place.first.min_occurrences) {
-                    must_place.insert(place);
+                if( num_placed[place.first] < place.first.min_occurrences ) {
+                    must_place.insert( place );
                 }
             }
-            if (must_place.empty()) {
-                int selection = rng(0, valid_specials.size() - 1);
+            if( must_place.empty() ) {
+                int selection = rng( 0, valid_specials.size() - 1 );
                 //overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
                 std::map<overmap_special, int>::iterator it = valid_specials.begin();
-                std::advance(it, selection);
+                std::advance( it, selection );
                 place = *it;
                 overmap_special special = place.first;
-                if (num_placed[special] == -1)
-                    num_placed[special] = 999;//if you build one, never build another.  For [x:100] spawn % chance
+                if( num_placed[special] == -1 ) {
+                    //if you build one, never build another.  For [x:100] spawn % chance
+                    num_placed[special] = 999;
+                }
                 num_placed[special]++;
-                place_special(special, p, place.second);
+                place_special( special, p, place.second );
             } else {
-                int selection = rng(0, must_place.size() - 1);
+                int selection = rng( 0, must_place.size() - 1 );
                 //overmap_special special = must_place.at(must_place.begin() + selection).first;
                 std::map<overmap_special, int>::iterator it = must_place.begin();
-                std::advance(it, selection);
+                std::advance( it, selection );
                 place = *it;
                 overmap_special special = place.first;
-                if (num_placed[special] == -1)
-                    num_placed[special] = 999;//if you build one, never build another.  For [x:100] spawn % chance
+                if( num_placed[special] == -1 ) {
+                    //if you build one, never build another.  For [x:100] spawn % chance
+                    num_placed[special] = 999;
+                }
                 num_placed[special]++;
-                place_special(special, p, place.second);
+                place_special( special, p, place.second );
             }
         }
     }
