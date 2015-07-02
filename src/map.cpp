@@ -372,51 +372,6 @@ const vehicle *map::vehproceed()
         return veh;
     }
 
-    // Falling first
-    if( zlevels && veh->falling ) {
-        // TODO: Make it bash the relevant parts
-        // TODO: Scan all parts for support, starting with just wheels, bash the supporting parts only
-        // Support from floor is "solid" and easy to check for
-        // Support from vehicles and furniture requires checking below our current tile
-        bool supported = false;
-        bool supported_floor = false;
-        size_t distance = 0;
-        while( !supported ) {
-            for( const auto &part : veh->parts ) {
-                const tripoint pp = pt + part.precalc[0];
-                if( !has_flag( TFLAG_NO_FLOOR, pp ) ) {
-                    supported = true;
-                    supported_floor = true;
-                    break;
-                }
-
-                const tripoint below( pp.x, pp.y, pp.z - 1 );
-                if( veh_at( below ) != nullptr ) {
-                    supported = true;
-                    break;
-                }
-
-                const furn_id &frn_id = furn( below );
-                if( frn_id != f_null ) {
-                    const furn_t &frn = frn_id.obj();
-                    if( !frn.has_flag( "TINY" ) && !frn.has_flag( "NOCOLLIDE" ) ) {
-                        supported = true;
-                        break;
-                    }
-                }
-            }
-
-            if( !supported ) {
-                distance++;
-                displace_vehicle( pt, tripoint( 0, 0, -1 ), false );
-            }
-        }
-
-        if( supported_floor ) {
-            veh->falling = false;
-        }
-    }
-
     bool pl_ctrl = veh->player_in_control(g->u);
 
     // k slowdown second.
