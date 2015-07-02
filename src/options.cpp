@@ -899,8 +899,8 @@ void initOptions()
                                     _("A scaling factor that determines density of dynamic NPC spawns."),
                                     0.0, 100.0, 1.0, 0.01
                                    );
-    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster difficulty"),
-                                    _("A scaling factor that determines the rate of monster advancement. A value of 100 makes monsters upgrade 100x faster, while zero stops upgrading completely."),
+    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster upgrade factor"),
+                                    _("Controls how soon monsters will start upgrading. Values above 1.0 will make monsters upgrade sooner, values below 1.0 later. Set to 0.0 to turn off monster upgrades completely."),
                                     0.0, 100, 1.0, 0.01
                                    );
 

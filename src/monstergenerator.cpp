@@ -454,6 +454,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->dies = get_death_functions(jo, "death_function");
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
+
         newmon->upgrade_min = jo.get_int("upgrade_min", -1);
         newmon->half_life = jo.get_int("half_life", -1);
         newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
