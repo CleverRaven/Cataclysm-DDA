@@ -4360,7 +4360,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         part_damage = 500;
     } else if( t == tr_ledge ) {
         falling = true;
-        return;
+        part_damage = 500;
     } else {
         return;
     }
