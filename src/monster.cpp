@@ -146,54 +146,49 @@ void monster::poly(mtype *t)
 
 bool monster::can_upgrade() const
 {
-    // If we don't upgrade
+    // No upgrade_min, no upgrades ever
+    if (type->upgrade_min <= 0) {
+        return false;
+    }
+    // Hallucinations don't upgrade!
+    if (is_hallucination()) {
+        return false;
+    }
+    // No chance of upgrading, abort
     if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
         (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
         return false;
     }
-    // Or we aren't allowed to yet
+    // Turned off means turned off
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
         return false;
-    } else {
-        if ((calendar::turn.get_turn() / DAYS(1)) <
-             (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"])) {
-            return false;
-        }
     }
     return true;
 }
 
 void monster::update_check() {
-    // Hallucinations don't upgrade!
-    if (is_hallucination()) {
+    // General checks
+    if (!can_upgrade()) {
         return;
     }
 
-    // No chance of upgrading, abort
-    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
+    const int current_day = calendar::turn.get_turn() / DAYS(1);
+    const int upgrade_time = (calendar::start / DAYS(1)) +
+                            (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
+    //debugmsg("update_check: upgrade_min: %d, upgrade_time: %d, current_day: %d, last_loaded: %d",
+    //         type->upgrade_min, upgrade_time, current_day, last_loaded);
+
+    // Are we allowed to yet?
+    if (current_day < upgrade_time) {
         return;
     }
-    int current_day = calendar::turn.get_turn()/ DAYS(1);
-    int upgrade_time = 0;
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-    } else {
-        // Should ensure that the monsters never upgrade
-        upgrade_time = current_day + 1;
-    }
-    add_msg(m_debug, "Current:day: %d", current_day);
-    add_msg(m_debug, "Upgrade time : %d", upgrade_time);
-    add_msg(m_debug, "Last loaded: %d", last_loaded);
-
-    if (current_day == last_loaded || current_day < upgrade_time) {
-        add_msg(m_debug, "Upgrade time less");
-        last_loaded = current_day;
+    // Already tried today?
+    if (current_day == last_loaded) {
         return;
     }
 
     // We don't start counting until the minimum upgrade time
-    int time_passed = current_day - std::max(last_loaded, upgrade_time);
+    const int time_passed = current_day - std::max(last_loaded, upgrade_time);
     add_msg(m_debug, "Time passed: %d", time_passed);
 
     float upgrade_chance = 0;
@@ -210,7 +205,7 @@ void monster::update_check() {
         // (1 - (1 - base%)^days) = percentage that has upgraded
         upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
     }
-    add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
+    //debugmsg("update_check: upgrade_chance: %f", upgrade_chance);
     if (upgrade_chance > rng(0, 999)){
         // Try to upgrade to a single monster first
         if (type->upgrades_into != "NULL"){
