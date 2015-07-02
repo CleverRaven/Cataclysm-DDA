@@ -2375,6 +2375,7 @@ void map::decay_fields_and_scent( const int amount )
                                 break;
                             case fd_smoke:
                             case fd_toxic_gas:
+                            case fd_fungicidal_gas:
                             case fd_tear_gas:
                             case fd_nuke_gas:
                             case fd_cigsmoke:
@@ -3011,7 +3012,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
     if( !sound.empty() && !silent ) {
         sounds::sound( p, sound_volume, sound, false, "bash", sound );
     }
-    
+
     return std::pair<bool, bool>( smashed_something, success );
 }
 
@@ -3380,6 +3381,10 @@ void map::shoot( const tripoint &p, int &dam,
 
     if (ammo_effects.count("STREAM") && !one_in(3)) {
         add_field(p, fd_fire, rng(1, 2), 0 );
+    }
+
+    if (ammo_effects.count("STREAM_GAS_FUNGICIDAL") && !one_in(3)) {
+        add_field(p, fd_fungicidal_gas, rng(1, 2), 0 );
     }
 
     if (ammo_effects.count("STREAM_BIG") && !one_in(4)) {

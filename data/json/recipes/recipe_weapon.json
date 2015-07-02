@@ -6733,5 +6733,53 @@
     ["steel_chunk", 4],
     ["scrap", 12]]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "chemical_thrower",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "launcher", 2 ],
+  "difficulty": 6,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": 
+  [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 80],
+      ["welder", 400],
+      ["welder_crude", 550],
+      ["toolset", 550]
+    ]
+  ],
+  "components": [
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "metal_tank_little", 1]
+    ],
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "steel_lump", 1],
+      [ "steel_chunk", 4],
+      [ "scrap", 12]
+    ]
+  ]
 }
 ]

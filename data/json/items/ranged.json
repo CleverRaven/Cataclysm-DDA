@@ -5437,5 +5437,32 @@
     "built_in_mods": ["m203", "rifle_scope", "muzzle_brake"],
     "default_mods": ["pistol_grip", "rail_laser_sight"],
     "valid_mod_locations": [[ "accessories", 10 ],[ "barrel", 10 ],[ "bore", 10 ],[ "conversion", 10 ],[ "grip", 10 ],[ "magazine", 10 ],[ "mechanism", 10 ],[ "muzzle", 10 ],[ "rail", 10 ],[ "sights", 10 ],[ "stock", 10 ],[ "underbarrel", 10 ]]
+  },
+  {
+    "id": "chemical_thrower",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "chemical thrower",
+    "name_plural": "chemical throwers",
+    "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
+    "price": 15000,
+    "material": ["steel", "plastic"],
+    "flags": ["FIRE_50", "NEVER_JAMS"],
+    "skill": "launcher",
+    "ammo": "chemical_spray",
+    "weight": 1150,
+    "volume": 25,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": -5,
+    "dispersion": 300,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 6,
+    "clip_size": 1000,
+    "reload": 900
   }
 ]
