@@ -57,7 +57,7 @@ std::unordered_map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 t_regional_settings_map region_settings_map;
 
-std::vector<overmap_special> overmap_specials;
+std::set<overmap_special> overmap_specials;
 
 /*
  * Temporary container id_or_id. Stores str for delayed lookup and conversion.
@@ -136,7 +136,12 @@ void load_overmap_specials(JsonObject &jo)
         spec.flags.insert(flag_array.next_string());
     }
 
-    overmap_specials.push_back(spec);
+    // Remove any existing definition, so mods can override them.
+    const auto iter = overmap_specials.find( spec );
+    if( iter != overmap_specials.end() ) {
+        overmap_specials.erase( iter );
+    }
+    overmap_specials.insert(spec);
 }
 
 void clear_overmap_specials()
@@ -3322,12 +3327,12 @@ void overmap::good_river(int x, int y, int z)
 
 }
 
-bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed)
+bool overmap::allowed_terrain(const tripoint& p, int width, int height, const std::list<std::string>& allowed)
 {
     for(int h = 0; h < height; ++h) {
         for(int w = 0; w < width; ++w) {
             for( auto &elem : allowed ) {
-                oter_id oter = this->ter(p.x + w, p.y + h, p.z);
+                const oter_id& oter = this->ter(p.x + w, p.y + h, p.z);
                 if( !is_ot_type( elem, oter ) ) {
                     return false;
                 }
@@ -3338,25 +3343,25 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
 }
 
 // checks the area around the selected point to ensure terrain is valid for special
-bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
-                              std::list<std::string> allowed, std::list<std::string> disallowed)
+bool overmap::allowed_terrain(const tripoint& p, const std::list<tripoint>& tocheck,
+                              const std::list<std::string>& allowed, const std::list<std::string>& disallowed)
 {
-    for( auto t : tocheck ) {
+    for( const tripoint& t : tocheck ) {
 
         bool passed = false;
         for( auto &elem : allowed ) {
-            oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
+            const oter_id& oter = this->ter(p.x + t.x, p.y + t.y, p.z);
             if( is_ot_type( elem, oter ) ) {
                 passed = true;
             }
         }
         // if we are only checking against disallowed types, we don't want this to fail us
-        if(!passed && allowed.size() > 0) {
+        if( !passed && !allowed.empty() ) {
             return false;
         }
 
         for( auto &elem : disallowed ) {
-            oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
+            const oter_id& oter = this->ter(p.x + t.x, p.y + t.y, p.z);
             if( is_ot_type( elem, oter ) ) {
                 return false;
             }
@@ -3391,7 +3396,7 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
 }
 
 // checks around the selected point to see if the special can be placed there
-bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
+bool overmap::allow_special(const overmap_special& special, const tripoint& p, int &rotate)
 {
     // check if rotation is allowed, and if necessary
     rotate = 0;
@@ -3423,9 +3428,9 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 
     // do bounds & connection checking
     std::list<tripoint> rotated_points;
-    for( auto t : special.terrains ) {
+    for( const auto& t : special.terrains ) {
 
-        tripoint rotated_point = rotate_tripoint(t.p, rotate);
+        const tripoint rotated_point = rotate_tripoint(t.p, rotate);
         rotated_points.push_back(rotated_point);
 
         tripoint testpoint = tripoint(rotated_point.x + p.x, rotated_point.y + p.y, p.z);
@@ -3466,7 +3471,7 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
     }
     // then check location flags
     bool passed = false;
-    for( auto location : special.locations ) {
+    for( const auto& location : special.locations ) {
         // check each location, if one returns true, then return true, else return false
         // never, always, water, land, forest, wilderness, by_hiway
         // false, true,   river, !river, forest, forest/field, special
@@ -3506,98 +3511,97 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 
 void overmap::place_specials()
 {
-    std::map<overmap_special, int> num_placed;
+    const bool CLASSIC_ZOMBIES = ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"];
+    /*
+    This function uses pointers in to the @ref overmap_specials container.
+    The pointers are assumed to be stable (overmap_specials should not be change during this
+    function). Using pointers here is faster and has the same behavior as using the id of
+    the special (which is supposed to be unique, like the pointers are).
+    However, make sure to never copy the overmap_special object and to use the address of the copy,
+    as this won't work as desired.
+    */
+    std::unordered_map<const overmap_special *, int> num_placed;
 
-    for( auto &overmap_specials_it : overmap_specials ) {
-        overmap_special special = overmap_specials_it;
-            if (special.max_occurrences != 100){
-                num_placed.insert( std::pair<overmap_special, int>( overmap_specials_it,
-                                                                    0 ) ); // normal circumstances
+    for( const overmap_special & special : overmap_specials ) {
+        if( special.max_occurrences != 100 ) {
+            // normal circumstances
+            num_placed.emplace( &special, 0 );
+        } else {
+            // occurrence is actually a % chance, so less than 1
+            if( rand() % 100 <= special.min_occurrences ) {
+                // Priority add one in this map
+                num_placed.emplace( &special, -1 );
+            } else {
+                // Don't add one in this map
+                num_placed.emplace( &special, 999 );
             }
-            else{
-                if (rand() % 100 <= special.min_occurrences){ //occurance is actually a % chance, so less than 1
-                    num_placed.insert( std::pair<overmap_special, int>(
-                        overmap_specials_it, -1 ) ); // Priority add one in this map
-                }
-                else
-                    num_placed.insert( std::pair<overmap_special, int>(
-                        overmap_specials_it, 999 ) ); // Don't add one in this map
-            }
-    }
-
-    std::vector<point> sectors;
-    for (int x = 0; x < OMAPX; x += OMSPEC_FREQ) {
-        for (int y = 0; y < OMAPY; y += OMSPEC_FREQ) {
-            sectors.push_back(point(x, y));
         }
     }
 
-    while(!sectors.empty()) {
-        int pick = rng(0, sectors.size() - 1);
-        int x = sectors.at(pick).x;
-        int y = sectors.at(pick).y;
+    std::vector<point> sectors;
+    for( int x = 0; x < OMAPX; x += OMSPEC_FREQ ) {
+        for( int y = 0; y < OMAPY; y += OMSPEC_FREQ ) {
+            sectors.push_back( point( x, y ) );
+        }
+    }
 
-        sectors.erase(sectors.begin() + pick);
+    while( !sectors.empty() ) {
+        const size_t pick = rng( 0, sectors.size() - 1 );
+        int x = sectors.at( pick ).x;
+        int y = sectors.at( pick ).y;
 
-        //std::vector<overmap_special> valid_specials;
-        // second parameter is rotation
-        std::map<overmap_special, int> valid_specials;
+        sectors.erase( sectors.begin() + pick );
+
+        using special_with_rotation = std::pair<const overmap_special *, int>;
+        std::vector<special_with_rotation> valid_specials;
         int tries = 0;
         tripoint p;
         int rotation = 0;
 
         do {
-            p = tripoint(rng(x, x + OMSPEC_FREQ - 1), rng(y, y + OMSPEC_FREQ - 1), 0);
-            // dont need to check for edges yet
-            for( auto special : overmap_specials ) {
-                std::list<std::string> allowed_terrains;
-                allowed_terrains.push_back("forest");
-
-                if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && (special.flags.count("CLASSIC") < 1)) {
+            p = tripoint( rng( x, x + OMSPEC_FREQ - 1 ), rng( y, y + OMSPEC_FREQ - 1 ), 0 );
+            // don't need to check for edges yet
+            for( const overmap_special & special : overmap_specials ) {
+                if( CLASSIC_ZOMBIES && special.flags.count( "CLASSIC" ) < 1 ) {
                     continue;
                 }
-                if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
-                    allow_special(p, special, rotation)) {
-                    valid_specials[special] = rotation;
+                if( ( num_placed[&special] < special.max_occurrences || special.max_occurrences <= 0 ) &&
+                    allow_special( special, p, rotation ) ) {
+                    valid_specials.emplace_back( &special, rotation );
                 }
             }
             ++tries;
-        } while(valid_specials.empty() && tries < 20);
+        } while( valid_specials.empty() && tries < 20 );
 
         // selection & placement happens here
-        std::pair<overmap_special, int> place;
-        if(!valid_specials.empty()) {
+        if( !valid_specials.empty() ) {
             // Place the MUST HAVE ones first, to try and guarantee that they appear
-            //std::vector<overmap_special> must_place;
-            std::map<overmap_special, int> must_place;
-            for( auto &valid_special : valid_specials ) {
-                place = valid_special;
-                if(num_placed[place.first] < place.first.min_occurrences) {
-                    must_place.insert(place);
+            std::vector<special_with_rotation> must_place;
+            for( const special_with_rotation & place : valid_specials ) {
+                if( num_placed[place.first] < place.first->min_occurrences ) {
+                    must_place.emplace_back( place );
                 }
             }
-            if (must_place.empty()) {
-                int selection = rng(0, valid_specials.size() - 1);
-                //overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
-                std::map<overmap_special, int>::iterator it = valid_specials.begin();
-                std::advance(it, selection);
-                place = *it;
-                overmap_special special = place.first;
-                if (num_placed[special] == -1)
-                    num_placed[special] = 999;//if you build one, never build another.  For [x:100] spawn % chance
+            if( must_place.empty() ) {
+                const size_t selection = rng( 0, valid_specials.size() - 1 );
+                const auto &place = valid_specials[selection];
+                const overmap_special * const special = place.first;
+                if( num_placed[special] == -1 ) {
+                    //if you build one, never build another.  For [x:100] spawn % chance
+                    num_placed[special] = 999;
+                }
                 num_placed[special]++;
-                place_special(special, p, place.second);
+                place_special( *special, p, place.second );
             } else {
-                int selection = rng(0, must_place.size() - 1);
-                //overmap_special special = must_place.at(must_place.begin() + selection).first;
-                std::map<overmap_special, int>::iterator it = must_place.begin();
-                std::advance(it, selection);
-                place = *it;
-                overmap_special special = place.first;
-                if (num_placed[special] == -1)
-                    num_placed[special] = 999;//if you build one, never build another.  For [x:100] spawn % chance
+                const size_t selection = rng( 0, must_place.size() - 1 );
+                const auto &place = must_place[selection];
+                const overmap_special * const special = place.first;
+                if( num_placed[special] == -1 ) {
+                    //if you build one, never build another.  For [x:100] spawn % chance
+                    num_placed[special] = 999;
+                }
                 num_placed[special]++;
-                place_special(special, p, place.second);
+                place_special( *special, p, place.second );
             }
         }
     }
@@ -3613,20 +3617,17 @@ void overmap::place_specials()
     (0,1)(1,1)(2,1) -> (-1,0)(-1,1)(-1,2) -> (-2,1)(-1,1)(0,1)
     (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
 */
-void overmap::place_special(overmap_special special, tripoint p, int rotation)
+void overmap::place_special(const overmap_special& special, const tripoint& p, int rotation)
 {
     //std::map<std::string, tripoint> connections;
     std::vector<std::pair<std::string, tripoint> > connections;
 
-    for(std::list<overmap_special_terrain>::iterator it = special.terrains.begin();
-        it != special.terrains.end(); ++it) {
-        overmap_special_terrain terrain = *it;
+    for( const overmap_special_terrain& terrain : special.terrains ) {
+        const oter_id id( terrain.terrain );
+        const oter_t& t = id.t();
 
-        oter_id id = (oter_id) terrain.terrain;
-        oter_t t = (oter_t) id;
-
-        tripoint rp = rotate_tripoint(terrain.p, rotation);
-        tripoint location = tripoint(p.x + rp.x, p.y + rp.y, p.z + rp.z);
+        const tripoint rp = rotate_tripoint(terrain.p, rotation);
+        const tripoint location = p + rp;
 
         if(!t.has_flag(rotates)) {
             this->ter(location.x, location.y, location.z) = terrain.terrain;
@@ -3634,12 +3635,8 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             this->ter(location.x, location.y, location.z) = rotate(terrain.terrain, rotation);
         }
 
-        if(terrain.connect.size() > 0) {
-            //connections[terrain.connect] = location;
-            std::pair<std::string, tripoint> connection;
-            connection.first = terrain.connect;
-            connection.second = location;
-            connections.push_back(connection);
+        if( !terrain.connect.empty() ) {
+            connections.emplace_back( terrain.connect, location );
         }
 
         if(special.flags.count("BLOB") > 0) {
@@ -3653,12 +3650,12 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
         }
     }
 
-    for( auto connection : connections ) {
+    for( const auto& connection : connections ) {
 
         if(connection.first == "road") {
             city closest;
             int distance = 999;
-            for( auto c : cities ) {
+            for( const city& c : cities ) {
 
                 int dist = rl_dist(connection.second.x, connection.second.y, c.x, c.y);
                 if (dist < distance) {
@@ -3698,9 +3695,9 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
 
     // place spawns
     if(special.spawns.group != mongroup_id( "GROUP_NULL" ) ) {
-        overmap_special_spawns spawns = special.spawns;
-        int pop = rng(spawns.min_population, spawns.max_population);
-        int rad = rng(spawns.min_radius, spawns.max_radius);
+        const overmap_special_spawns& spawns = special.spawns;
+        const int pop = rng(spawns.min_population, spawns.max_population);
+        const int rad = rng(spawns.min_radius, spawns.max_radius);
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
 }

@@ -176,8 +176,6 @@ class overmap_special
         std::set<std::string> flags;
 };
 
-extern std::vector<overmap_special> overmap_specials;
-
 void load_overmap_specials(JsonObject &jo);
 
 void clear_overmap_specials();
