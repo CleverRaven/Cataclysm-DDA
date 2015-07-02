@@ -1924,8 +1924,10 @@ void map::drop_furniture( const tripoint &p )
 
     if( current == p ) {
         // Nothing happened
-        // TODO: Keep checking in case support is removed from below,
-        // but only once checks also happen on map load
+        if( last_state != SS_FLOOR ) {
+            support_dirty( current );
+        }
+
         return;
     }
 
@@ -2043,7 +2045,7 @@ void map::drop_vehicle( const tripoint &p )
 
 void map::support_dirty( const tripoint &p )
 {
-    if( zlevels && !has_floor( p ) ) {
+    if( zlevels ) {
         support_cache_dirty.insert( p );
     }
 }
@@ -2055,8 +2057,7 @@ void map::process_falling()
         return;
     }
 
-    size_t tries = 10;
-    while( !support_cache_dirty.empty() && tries > 0 ) {
+    if( !support_cache_dirty.empty() ) {
         add_msg( m_debug, "Checking %d tiles for falling objects",
                  support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
@@ -2065,8 +2066,6 @@ void map::process_falling()
         for( const tripoint &p : last_cache ) {
             drop_everything( p );
         }
-
-        tries--;
     }
 }
 
