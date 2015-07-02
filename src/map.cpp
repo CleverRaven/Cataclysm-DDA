@@ -391,9 +391,18 @@ const vehicle *map::vehproceed()
                 }
 
                 const tripoint below( pp.x, pp.y, pp.z - 1 );
-                if( veh_at( below ) != nullptr || has_furn( below ) ) {
+                if( veh_at( below ) != nullptr ) {
                     supported = true;
                     break;
+                }
+
+                const furn_id &frn_id = furn( below );
+                if( frn_id != f_null ) {
+                    const furn_t &frn = frn_id.obj();
+                    if( !frn.has_flag( "TINY" ) && !frn.has_flag( "NOCOLLIDE" ) ) {
+                        supported = true;
+                        break;
+                    }
                 }
             }
 
@@ -414,12 +423,12 @@ const vehicle *map::vehproceed()
     int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
     float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
     slowdown = (int) ceil(kslw * slowdown);
-    if (abs(slowdown) > abs(veh->velocity)) {
+    if( abs(slowdown) > abs(veh->velocity) ) {
         veh->stop();
     } else if (veh->velocity < 0) {
-      veh->velocity += slowdown;
+        veh->velocity += slowdown;
     } else {
-      veh->velocity -= slowdown;
+        veh->velocity -= slowdown;
     }
 
     //low enough for bicycles to go in reverse.
@@ -1149,7 +1158,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
     const int rec = abs( veh->velocity ) / 5 / 100;
 
     bool need_update = false;
-    int upd_x, upd_y;
+    int upd_x, upd_y, z_change = 0;
     // move passengers
     for( size_t i = 0; i < psg_parts.size(); i++ ) {
         player *psg = psgs[i];
@@ -1164,6 +1173,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
+
         // add recoil
         psg->driving_recoil = rec;
         // displace passenger taking in account vehicle movement (dx, dy)
@@ -1171,12 +1181,17 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
         // and precalc[1] should contain next direction
         tripoint psgp( psg->posx() + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
                        psg->posy() + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
-                       psg->posz() + dp.z );
-        psg->setpos( psgp );
+                       psg->posz() );
         if( psg == &g->u ) { // if passenger is you, we need to update the map
+            psg->setpos( psgp );
             need_update = true;
-            upd_x = psg->posx();
-            upd_y = psg->posy();
+            upd_x = psgp.x;
+            upd_y = psgp.y;
+            z_change = dp.z;
+        } else {
+            // Player gets z position changed by g->vertical_move()
+            psgp.z += dp.z;
+            psg->setpos( psgp );
         }
     }
 
@@ -1209,14 +1224,22 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
         } else if (upd_x >= SEEX * (1+int(my_MAPSIZE / 2))) {
             p.x -= SEEX;
         }
+
         if (upd_y < SEEY * int(my_MAPSIZE / 2)) {
             p.y += SEEY;
         } else if (upd_y >= SEEY * (1+int(my_MAPSIZE / 2))) {
             p.y -= SEEY;
         }
+
         g->update_map(upd_x, upd_y);
         was_update = true;
     }
+
+    if( z_change != 0 ) {
+        was_update = true;
+        g->vertical_move( z_change, true );
+    }
+
     if( remote ) { // Has to be after update_map or coords won't be valid
         g->setremoteveh( veh );
     }

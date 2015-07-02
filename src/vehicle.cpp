@@ -4587,7 +4587,7 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    if( velocity != 0 || !falling ) {
+    if( velocity != 0 || falling ) {
         if( loose_parts.size() > 0 ) {
             shed_loose_parts();
         }
