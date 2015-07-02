@@ -5,7 +5,7 @@
     "ident": "No_Fungi",
     "name": "No Fungal Monsters",
     "author": "Chaosvolt",
-    "description": "Removes fungal monsters from the game.",
+    "description": "Removes fungal monsters and regions from the game.",
     "path": ""
 },{
     "type": "MONSTER_BLACKLIST",
