@@ -9,6 +9,7 @@
 #include "morale.h"
 #include "input.h"
 #include "catacharset.h"
+#include "item_location.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -831,13 +832,15 @@ int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
     return display_slice(reduced_inv, title);
 }
 
-std::pair< int, item* > game::inv_map_splice( item_filter filter, const std::string &title )
+std::unique_ptr<item_location> game::inv_map_splice( item_filter filter, const std::string &title )
 {
-    return inv_map_splice( filter, filter, title );
+    return inv_map_splice( filter, filter, filter, title );
 }
 
-std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filter ground_filter, const std::string &title )
+std::unique_ptr<item_location> game::inv_map_splice(
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
 {
+    (void)vehicle_filter;
     constexpr char first_invlet = '0';
     constexpr char last_invlet = '9';
 
@@ -893,7 +896,7 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
     inv_s.prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
-    while (true) {
+    while( true ) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
@@ -902,32 +905,36 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
         if( item_pos != INT_MIN ) {
             inv_s.set_to_drop(item_pos, 0);
             // In the inventory
-            return std::make_pair( item_pos, inv_s.first_item );
+            return std::unique_ptr<item_location>(
+                new item_on_person( u, inv_s.first_item ) );
         } else if( ch >= first_invlet && ch <= last_invlet && 
                    (size_t)(ch - first_invlet) < grounditems_slice.size() ) {
             const int ip = ch - first_invlet;
             // One of the (indexed) ground items
-            return std::make_pair( INT_MIN, ground_selectables[ip] );
-        } else if (inv_s.handle_movement(action)) {
+            return std::unique_ptr<item_location>(
+                new item_on_map( u.pos(), ground_selectables[ip] ) );
+        } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
-        } else if (action == "QUIT") {
-            return std::make_pair( INT_MIN, nullptr );
-        } else if (action == "RIGHT" || action == "CONFIRM") {
+        } else if( action == "QUIT" ) {
+            return std::unique_ptr<item_location>( new item_is_null() );
+        } else if( action == "RIGHT" || action == "CONFIRM" ) {
             inv_s.set_selected_to_drop(0);
 
             for( size_t i = 0; i < grounditems_slice.size(); i++) {
                 if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
                     // Ground item, may be unindexed
-                    return std::make_pair( INT_MIN, ground_selectables[i] );
+                    return std::unique_ptr<item_location>(
+                        new item_on_map( u.pos(), ground_selectables[i] ) );
                 }
             }
 
             // Inventory item or possibly nothing
             int inv_pos = inv_s.get_selected_item_position();
             if( inv_pos == INT_MIN ) {
-                return std::make_pair( INT_MIN, nullptr );
+                return std::unique_ptr<item_location>( new item_is_null() );
             } else {
-                return std::make_pair( inv_pos, inv_s.first_item );
+                return std::unique_ptr<item_location>(
+                    new item_on_person( u, inv_s.first_item ) );
             }
         }
     }
@@ -939,7 +946,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    return inv_map_splice( filter, filter, title ).second;
+    return inv_map_splice( filter, title )->get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
