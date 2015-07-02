@@ -2043,7 +2043,7 @@ void map::drop_vehicle( const tripoint &p )
 
 void map::support_dirty( const tripoint &p )
 {
-    if( !in_mapgen && zlevels && !has_floor( p ) ) {
+    if( zlevels && !has_floor( p ) ) {
         support_cache_dirty.insert( p );
     }
 }
@@ -6284,12 +6284,9 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         overmapbuffer::sm_to_omt( overx, overy );
         oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
         if( terrain_type == rock || terrain_type == air ) {
-            in_mapgen = true;
             generate_uniform( newmapx, newmapy, gridz, terrain_type );
-            in_mapgen = false;
         } else {
             tinymap tmp_map;
-            tmp_map.in_mapgen = true;
             tmp_map.generate( newmapx, newmapy, gridz, calendar::turn );
         }
 
