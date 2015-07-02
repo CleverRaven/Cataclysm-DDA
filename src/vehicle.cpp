@@ -4481,7 +4481,7 @@ bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
     return true;
 }
 
-bool vehicle::remove_item (int part, int itemdex)
+bool vehicle::remove_item( int part, int itemdex )
 {
     if( itemdex < 0 || itemdex >= (int)parts[part].items.size() ) {
         return false;
@@ -4491,7 +4491,7 @@ bool vehicle::remove_item (int part, int itemdex)
     return true;
 }
 
-bool vehicle::remove_item (int part, item *it)
+bool vehicle::remove_item( int part, const item *it )
 {
     bool rc = false;
     std::list<item>& veh_items = parts[part].items;
