@@ -2100,11 +2100,11 @@ void map::player_in_field( player &u )
             // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
             {
                 // The gas won't harm you inside a vehicle.
-                if (inside) {
+                if( inside ) {
                     break;
                 }
                 // Full body suits protect you from the effects of the gas.
-                if ( u.worn_with_flag("GAS_PROOF") ) {
+                if( u.worn_with_flag("GAS_PROOF") ) {
                     break;
                 }
                 bool inhaled = false;
@@ -2113,6 +2113,10 @@ void map::player_in_field( player &u )
                 if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
                     inhaled |= u.add_env_effect( "badpoison", bp_mouth, 5, density * 10 );
                     u.hurtall( rng( density, density * 2 ), nullptr );
+                    u.add_msg_if_player( m_bad, _("The %s burns your skin."), cur->name().c_str() );
+                }
+
+                if( inhaled ) {
                     u.add_msg_if_player( m_bad, _("The %s makes you feel sick."), cur->name().c_str() );
                 }
             }
