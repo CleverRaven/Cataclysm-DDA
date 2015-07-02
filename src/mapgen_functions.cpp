@@ -12,7 +12,7 @@
 #include "translations.h"
 #include "trap.h"
 #include <array>
-#include "vehicle_factory.h"
+#include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
 

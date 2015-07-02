@@ -12,7 +12,7 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "item_factory.h"
-#include "vehicle_factory.h"
+#include "vehicle_group.h"
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"

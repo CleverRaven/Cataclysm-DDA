@@ -88,7 +88,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/martialarts.cpp
     ${CMAKE_SOURCE_DIR}/src/mod_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/vehicle.cpp
-    ${CMAKE_SOURCE_DIR}/src/vehicle_factory.cpp
+    ${CMAKE_SOURCE_DIR}/src/vehicle_group.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
     ${CMAKE_SOURCE_DIR}/src/material.cpp
     ${CMAKE_SOURCE_DIR}/src/veh_typedef.cpp
@@ -196,7 +196,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/effect.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
-    ${CMAKE_SOURCE_DIR}/src/vehicle_factory.h
+    ${CMAKE_SOURCE_DIR}/src/vehicle_group.h
     ${CMAKE_SOURCE_DIR}/src/clzones.h
     ${CMAKE_SOURCE_DIR}/src/translations.h
     ${CMAKE_SOURCE_DIR}/src/skill.h
