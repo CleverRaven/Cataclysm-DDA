@@ -153,11 +153,11 @@ void monster::poly(mtype *t)
 }
 
 bool monster::can_upgrade() {
-    return upgrades;
+    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
 }
 
 void monster::hasten_upgrade() {
-    if (!upgrades || upgrade_time < 1) {
+    if (!can_upgrade() || upgrade_time < 1) {
         return;
     }
 
@@ -180,12 +180,13 @@ int monster::next_upgrade_time() {
         }
     }
     // didn't manage to upgrade, shouldn't ever then
+    debugmsg("hit never_upgrade");
     upgrades = false;
     return -1;
 }
 
 void monster::try_upgrade() {
-    if (!upgrades) {
+    if (!can_upgrade()) {
         return;
     }
 
