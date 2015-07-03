@@ -394,7 +394,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     }
 
     const int melee = get_skill_level("melee");
-    const int weight_cost = weapon.weight() / ( 12 * str_cur );
+    const int weight_cost = weapon.weight() / ( 12 * std::max( 1, str_cur ) );
     const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5;
     const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
     mod_stat("stamina", mod_sta);
