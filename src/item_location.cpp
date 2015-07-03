@@ -47,6 +47,7 @@ void item_on_map::remove_item()
     }
 
     g->m.i_rem( location, what );
+    what = nullptr;
 }
 
 item *item_on_map::get_item()
@@ -89,6 +90,8 @@ void item_on_person::remove_item()
     who->remove_items_with( [this]( const item &it ) {
         return &it == what;
     } );
+
+    what = nullptr;
 }
 
 item *item_on_person::get_item()
@@ -104,6 +107,7 @@ item *item_on_person::get_item()
     if( !items.empty() ) {
         return items[0];
     } else {
+        what = nullptr;
         return nullptr;
     }
 }
@@ -137,6 +141,8 @@ item_on_vehicle::item_on_vehicle( vehicle &v, const point &where, const item *wh
             }
         }
     }
+
+    what = nullptr;
 }
 
 void item_on_vehicle::remove_item()
@@ -149,6 +155,7 @@ void item_on_vehicle::remove_item()
     for( const int i : parts ) {
         for( item &it : veh->get_items( i ) ) {
             if( veh->remove_item( i, what ) ) {
+                what = nullptr;
                 return;
             }
         }
@@ -170,5 +177,6 @@ item *item_on_vehicle::get_item()
         }
     }
 
+    what = nullptr;
     return nullptr;
 }
