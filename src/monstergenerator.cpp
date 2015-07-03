@@ -455,11 +455,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
 
-        newmon->upgrade_min = jo.get_int("upgrade_min", -1);
-        newmon->half_life = jo.get_int("half_life", -1);
-        newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
-        newmon->upgrade_group = mongroup_id( jo.get_string("upgrade_group", "GROUP_NULL") );
-        newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
+        if (jo->has_member("upgrades")) {
+            JsonObject &jou = jo->get_object("upgrades");
+            newmon->half_life = jou.get_int("half_life", -1);
+            newmon->upgrade_group = mongroup_id( jou.get_string("upgrade_group", "GROUP_NULL") );
+            newmon->upgrade_into = jou.get_string("upgrade_into", "NULL");
+        }
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
