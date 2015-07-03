@@ -118,13 +118,12 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "9mmfmj",
+        "bullet": "9mmjhp",
         "items": [
             ["lead", 4],
             ["9mm_casing", 1],
             ["smpistol_primer", 1],
-            ["gunpowder", 6],
-            ["copper", 4]
+            ["gunpowder", 6]
         ]
     },
     {
