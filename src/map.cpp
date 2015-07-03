@@ -1883,16 +1883,13 @@ void map::drop_furniture( const tripoint &p )
     // has support below
     // has unsupporting furniture below (bad support, things should "slide" if possible)
     // has no support and thus allows things to fall through
-    const auto check_tile = [this]( tripoint &pt ) {
-        tripoint dest( pt );
-        if( has_floor( dest ) ) {
-            pt = dest;
+    const auto check_tile = [this]( const tripoint &pt ) {
+        if( has_floor( pt ) ) {
             return SS_FLOOR;
         }
 
         tripoint below_dest( pt.x, pt.y, pt.z - 1 );
         if( supports_above( below_dest ) ) {
-            pt = dest;
             return SS_GOOD_SUPPORT;
         }
 
@@ -1910,7 +1907,6 @@ void map::drop_furniture( const tripoint &p )
             return SS_CREATURE;
         }
 
-        pt = dest;
         return SS_NO_SUPPORT;
     };
 
