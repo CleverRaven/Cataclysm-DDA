@@ -4289,11 +4289,10 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     return ret;
 }
 
-void vehicle::handle_trap( int x, int y, int part )
+void vehicle::handle_trap( const tripoint &p, int part )
 {
-    tripoint p( x, y, smz );
-    int pwh = part_with_feature (part, VPFLAG_WHEEL);
-    if (pwh < 0) {
+    int pwh = part_with_feature( part, VPFLAG_WHEEL );
+    if( pwh < 0 ) {
         return;
     }
     const trap &tr = g->m.tr_at(p);
@@ -4357,7 +4356,10 @@ void vehicle::handle_trap( int x, int y, int part )
         noise = 10;
         snd = _("BRZZZAP!");
         part_damage = 500;
-    } else if ( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_ledge || t == tr_glass_pit ) {
+    } else if( t == tr_sinkhole || t == tr_pit || t == tr_spike_pit || t == tr_glass_pit ) {
+        part_damage = 500;
+    } else if( t == tr_ledge ) {
+        falling = true;
         part_damage = 500;
     } else {
         return;
@@ -4585,8 +4587,8 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
-    if (velocity) {
-        if (loose_parts.size() > 0) {
+    if( velocity != 0 || falling ) {
+        if( loose_parts.size() > 0 ) {
             shed_loose_parts();
         }
         of_turn = 1 + of_turn_carry;

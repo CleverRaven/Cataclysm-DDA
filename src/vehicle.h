@@ -638,7 +638,7 @@ public:
     veh_collision part_collision (int part, int x, int y, bool just_detect);
 
     // Process the trap beneath
-    void handle_trap (int x, int y, int part);
+    void handle_trap( const tripoint &p, int part );
 
     int max_volume(int part) const; // stub for per-vpart limit
     int free_volume(int part) const;
@@ -868,6 +868,7 @@ public:
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
+
     int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
 
     int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
@@ -899,6 +900,7 @@ public:
     bool skidding                   = false; // skidding mode
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
+    bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
 };
 
 #endif

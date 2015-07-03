@@ -1260,6 +1260,7 @@ bool game::do_turn()
     }
     update_scent();
 
+    m.process_falling();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.
@@ -11926,10 +11927,9 @@ bool game::plmove(int dx, int dy)
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
     bool pushing_vehicle = false;
-    int movecost_modifier =
-        0;       // pulling moves furniture into our origin square, so this changes to subtract it.
+    int movecost_modifier = 0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
-    if( u.grab_point.x != 0 || u.grab_point.y != 0 ) {
+    if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
         if (u.grab_type == OBJECT_VEHICLE) { // default; assume OBJECT_VEHICLE
             vehicle *grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
             // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
@@ -12041,7 +12041,7 @@ bool game::plmove(int dx, int dy)
 
         float drag_multiplier = 1.0;
         vehicle *grabbed_vehicle = NULL;
-        if (u.grab_point.x != 0 || u.grab_point.y != 0) {
+        if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
             // vehicle: pulling, pushing, or moving around the grabbed object.
             if (u.grab_type == OBJECT_VEHICLE) {
                 grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
@@ -12173,11 +12173,12 @@ bool game::plmove(int dx, int dy)
                         std::vector<int> wheel_indices =
                             grabbed_vehicle->all_parts_with_feature( "WHEEL", false );
                         for( auto p : wheel_indices ) {
-
                             if( one_in(2) ) {
-                                grabbed_vehicle->handle_trap(
+                                tripoint wheel_p(
                                     gx + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
-                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh, p );
+                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh,
+                                    grabbed_vehicle->smz );
+                                grabbed_vehicle->handle_trap( wheel_p, p );
                             }
                         }
                         m.displace_vehicle(gx, gy, dxVeh, dyVeh);
@@ -12204,25 +12205,27 @@ bool game::plmove(int dx, int dy)
                     u.grab_type = OBJECT_NONE;
                 } else {
                     tripoint fdest( fpos.x + dx, fpos.y + dy, u.posz() ); // intended destination of furniture.
+                    // Check floor: floorless tiles don't need to be flat and have no traps
+                    const bool has_floor = m.has_floor( fdest );
                     // Unfortunately, game::is_empty fails for tiles we're standing on,
                     // which will forbid pulling, so:
-                    bool canmove = (
+                    const bool canmove = (
                         m.move_cost(fdest) > 0 &&
                         npc_at(fdest) == -1 &&
                         mon_at(fdest) == -1 &&
-                        m.has_flag("FLAT", fdest) &&
-                        !m.has_furn(fdest) &&
-                        m.veh_at(fdest) == NULL &&
-                        m.tr_at(fdest).is_null()
+                        ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
+                        !m.has_furn( fdest ) &&
+                        m.veh_at( fdest ) == nullptr &&
+                        ( !has_floor || m.tr_at( fdest ).is_null() )
                         );
 
                     const furn_t furntype = m.furn_at(fpos);
                     int furncost = furntype.movecost;
                     const int src_items = m.i_at(fpos).size();
                     const int dst_items = m.i_at(fdest).size();
-                    bool dst_item_ok = ( ! m.has_flag("NOITEM", fdest) &&
-                                         ! m.has_flag("SWIMMABLE", fdest) &&
-                                         ! m.has_flag("DESTROY_ITEM", fdest) );
+                    bool dst_item_ok = ( !m.has_flag("NOITEM", fdest) &&
+                                         !m.has_flag("SWIMMABLE", fdest) &&
+                                         !m.has_flag("DESTROY_ITEM", fdest) );
                     bool src_item_ok = ( m.furn_at(fpos).has_flag("CONTAINER") ||
                                          m.furn_at(fpos).has_flag("SEALED") );
 
@@ -12234,7 +12237,7 @@ bool game::plmove(int dx, int dy)
                     }
                     str_req += furniture_contents_weight / 4000;
 
-                    if ( ! canmove ) {
+                    if ( !canmove ) {
                         add_msg( _("The %s collides with something."), furntype.name.c_str() );
                         u.moves -= 50; // "oh was that your foot? Sorry :-O"
                         return false;
@@ -12245,7 +12248,7 @@ bool game::plmove(int dx, int dy)
                         u.moves -= 100;
                         u.mod_pain(1); // Hurt ourself.
                         return false; // furniture and or obstacle wins.
-                    } else if ( ! src_item_ok && dst_items > 0 ) {
+                    } else if ( !src_item_ok && dst_items > 0 ) {
                         add_msg( _("There's stuff in the way.") );
                         u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
                         return false;

@@ -434,7 +434,6 @@ public:
     void board_vehicle(int x, int y, player *p);
     void unboard_vehicle(const int x, const int y);
     bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
-    bool displace_water (const int x, const int y);
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
     /**
@@ -955,6 +954,36 @@ void add_corpse( const tripoint &p );
      * @return Difficulty of climbing check from point p.
      */
     int climb_difficulty( const tripoint &p ) const;
+
+// Support (of weight, structures etc.)
+private:
+    // Tiles whose ability to support things was removed in the last turn
+    std::set<tripoint> support_cache_dirty;
+    // Checks if the tile is supported and adds it to support_cache_dirty if it isn't
+    void support_dirty( const tripoint &p );
+public:
+
+    // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
+    // if we're not in zlevels mode or if we're at lowest level
+    bool has_floor( const tripoint &p ) const;
+    /** Does this tile support vehicles and furniture above it */
+    bool supports_above( const tripoint &p ) const;
+
+    /**
+     * Handles map objects of given type (not creatures) falling down.
+     * Returns true if anything changed.
+     */
+    /*@{*/
+    void drop_everything( const tripoint &p );
+    void drop_furniture( const tripoint &p );
+    void drop_items( const tripoint &p );
+    void drop_vehicle( const tripoint &p );
+    /*@}*/
+
+    /**
+     * Invoked @ref drop_everything on cached dirty tiles.
+     */
+    void process_falling();
 
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
