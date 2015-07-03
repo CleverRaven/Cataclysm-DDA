@@ -1009,18 +1009,27 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     } while (true);
 }
 
-inline bool profession_display_sort(const profession *a, const profession *b)
-{
-    // The generic ("Unemployed") profession should be listed first.
-    const profession *gen = profession::generic();
-    if (b == gen) {
-        return false;
-    } else if (a == gen) {
-        return true;
-    }
+struct {
+    bool sort_by_points = true;
+    bool male;
+    bool operator() (const profession *a, const profession *b)
+    {
+        // The generic ("Unemployed") profession should be listed first.
+        const profession *gen = profession::generic();
+        if (b == gen) {
+            return false;
+        } else if (a == gen) {
+            return true;
+        }
 
-    return a->point_cost() < b->point_cost();
-}
+        if (sort_by_points) {
+            return a->point_cost() < b->point_cost();
+        } else {
+            return a->gender_appropriate_name(male) <
+                   b->gender_appropriate_name(male);
+        }
+    }
+} profession_sorter;
 
 int set_profession(WINDOW *w, player *u, int &points)
 {
@@ -1045,9 +1054,10 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
     }
 
-    // Sort professions by name.
+    // Sort professions by points.
     // profession_display_sort() keeps "unemployed" at the top.
-    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_display_sort);
+    profession_sorter.male = u->male;
+    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
 
     // Select the current profession, if possible.
     for (size_t i = 0; i < sorted_profs.size(); ++i) {
@@ -1062,6 +1072,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("CHANGE_GENDER");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
@@ -1248,10 +1259,17 @@ int set_profession(WINDOW *w, player *u, int &points)
             points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
+            profession_sorter.male = u->male;
+            if (!profession_sorter.sort_by_points) {
+                std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+            }
         } else if (action == "PREV_TAB") {
             retval = -1;
         } else if (action == "NEXT_TAB") {
             retval = 1;
+        } else if (action == "SORT") {
+            profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
+            std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
         }
     } while (retval == 0);
 
@@ -1387,18 +1405,27 @@ int set_skills(WINDOW *w, player *u, int &points)
     } while (true);
 }
 
-inline bool scenario_display_sort(const scenario *a, const scenario *b)
-{
-    // The generic ("Unemployed") profession should be listed first.
-    const scenario *gen = scenario::generic();
-    if (b == gen) {
-        return false;
-    } else if (a == gen) {
-        return true;
-    }
+struct {
+    bool sort_by_points = true;
+    bool male;
+    bool operator() (const scenario *a, const scenario *b)
+    {
+        // The generic ("Unemployed") profession should be listed first.
+        const scenario *gen = scenario::generic();
+        if (b == gen) {
+            return false;
+        } else if (a == gen) {
+            return true;
+        }
 
-    return a->point_cost() < b->point_cost();
-}
+        if (sort_by_points) {
+            return a->point_cost() < b->point_cost();
+        } else {
+            return a->gender_appropriate_name(male) <
+                   b->gender_appropriate_name(male);
+        }
+    }
+} scenario_sorter;
 
 int set_scenario(WINDOW *w, player *u, int &points)
 {
@@ -1432,9 +1459,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
         sorted_scens.push_back(&(iter->second));
     }
 
-    // Sort scenarios by name.
+    // Sort scenarios by points.
     // scenario_display_sort() keeps "Evacuee" at the top.
-    std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_display_sort);
+    scenario_sorter.male = u->male;
+    std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
 
     // Select the current scenario, if possible.
     for (size_t i = 0; i < sorted_scens.size(); ++i) {
@@ -1449,6 +1477,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("CONFIRM");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
 
     do {
@@ -1610,6 +1639,9 @@ int set_scenario(WINDOW *w, player *u, int &points)
             return -1;
         } else if (action == "NEXT_TAB") {
             retval = 1;
+        } else if (action == "SORT") {
+            scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
+            std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
         }
     } while (retval == 0);
 
