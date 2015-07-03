@@ -60,24 +60,6 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "22_ratshot",
-        "items": [
-            ["lead", 2],
-            ["22_casing_new", 1],
-            ["gunpowder", 2]
-        ]
-    },
-    {
-        "type": "BULLET_PULLING",
-        "bullet": "22_cb",
-        "items": [
-            ["lead", 2],
-            ["22_casing_new", 1],
-            ["gunpowder", 1]
-        ]
-    },
-    {
-        "type": "BULLET_PULLING",
         "bullet": "9mm",
         "items": [
             ["lead", 4],
