@@ -82,10 +82,8 @@ monster::monster(mtype *t)
  hallucination = false;
  ignoring = 0;
  ammo = t->starting_ammo;
+ upgrades = t->upgrades;
  upgrade_time = -1;
- if( t->upgrades ) {
-     upgrades = true;
- }
 }
 
 monster::monster(mtype *t, const tripoint &p )
@@ -113,10 +111,8 @@ monster::monster(mtype *t, const tripoint &p )
  hallucination = false;
  ignoring = 0;
  ammo = t->starting_ammo;
+ upgrades = t->upgrades;
  upgrade_time = -1;
- if( t->upgrades ) {
-     upgrades = true;
- }
 }
 
 monster::~monster()

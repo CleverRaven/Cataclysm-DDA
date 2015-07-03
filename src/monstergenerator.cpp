@@ -458,8 +458,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         if (jo.has_member("upgrades")) {
             JsonObject upgrades = jo.get_object("upgrades");
             newmon->half_life = upgrades.get_int("half_life", -1);
-            newmon->upgrade_group = mongroup_id( upgrades.get_string("upgrade_group", "GROUP_NULL") );
-            newmon->upgrade_into = upgrades.get_string("upgrade_into", "NULL");
+            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", "GROUP_NULL") );
+            newmon->upgrade_into = upgrades.get_string("into", "NULL");
+            newmon->upgrades = true;
         }
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
@@ -687,10 +688,6 @@ void MonsterGenerator::check_monster_definitions() const
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
             }
-        }
-        if( !mon->upgrade_group.is_valid() ) {
-            debugmsg( "upgrade_group %s of monster %s is not a valid monster group",
-                      mon->upgrade_group.c_str(), mon->id.c_str() );
         }
         if( mon->upgrades ) {
             if( mon->half_life <= 0 ) {
