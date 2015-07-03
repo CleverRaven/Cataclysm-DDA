@@ -70,6 +70,16 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "9mmjhp",
+        "items": [
+            ["lead", 4],
+            ["9mm_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "9mmP",
         "items": [
             ["lead", 4],
