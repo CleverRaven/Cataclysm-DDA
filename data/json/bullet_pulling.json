@@ -78,16 +78,6 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "22_fmj",
-        "items": [
-            ["lead", 2],
-            ["22_casing_new", 1],
-            ["gunpowder", 1],
-            ["copper", 2]
-        ]
-    },
-    {
-        "type": "BULLET_PULLING",
         "bullet": "9mm",
         "items": [
             ["lead", 4],
