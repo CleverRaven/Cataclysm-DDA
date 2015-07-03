@@ -1426,7 +1426,7 @@
         "ammo_type" : "308",
         "casing" : "308_casing",
         "damage" : 57,
-        "pierce" : 8,
+        "pierce" : 16,
         "range" : 75,
         "dispersion" : 0,
         "recoil" : 510,
