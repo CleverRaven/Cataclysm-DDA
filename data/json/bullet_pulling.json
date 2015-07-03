@@ -348,7 +348,7 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "545",
+        "bullet": "545_5n7",
         "items": [
             ["lead", 2],
             ["545_casing", 1],
