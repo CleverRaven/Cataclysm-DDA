@@ -1362,7 +1362,7 @@
     },
     {
         "type" : "AMMO",
-        "id" : "545_5n7",
+        "id" : "545_5n7", "//" : "Mainlined from Icecoon's Weapons Pack, though renamed due to debug errors",
         "price" : 2900,
         "name" : "5.45x39mm 5N7",
         "name_plural" : "5.45x39mm 5N7",
