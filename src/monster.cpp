@@ -152,6 +152,7 @@ void monster::poly(mtype *t)
     }
     def_chance = type->def_chance;
     faction = t->default_faction;
+    upgrades = t->upgrades;
 }
 
 bool monster::can_upgrade() const
