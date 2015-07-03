@@ -850,7 +850,7 @@
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
-        "id" : "9mmjhp",
+        "id" : "9mmfmj",
         "price" : 2400,
         "name" : "9x19mm JHP",
         "name_plural" : "9x19mm JHP",
