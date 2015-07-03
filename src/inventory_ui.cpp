@@ -891,36 +891,41 @@ std::unique_ptr<item_location> game::inv_map_splice(
     pseudo_inventory vehicle_items;
 
     std::vector<item *> ground_selectables;
-    //std::vector<item *> vehicle_selectables;
+    std::vector<item *> vehicle_selectables;
+
     indexed_invslice ground_items_slice;
+    indexed_invslice veh_items_slice;
 
     pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
                          ground_items, ground_items_slice,
                          ground_selectables, cur_invlet );
-/*    indexed_invslice vehitems_slice;
+
 
     int part = -1;
     vehicle *veh = m.veh_at( g->u.pos(), part );
+    point veh_pt( INT_MIN, INT_MIN );
     if( veh != nullptr && part >= 0 ) {
         part = veh->part_with_feature( part, "CARGO" );
         if( part != -1 ) {
-            vehitems_slice = pseudo_inv_to_slice( veh->get_items( part ), vehicle_filter,
-                                                  vehicle_selectables, cur_invlet );
+            veh_pt = veh->parts[part].mount;
+            pseudo_inv_to_slice( veh->get_items( part ), vehicle_filter,
+                                 vehicle_items, veh_items_slice,
+                                 vehicle_selectables, cur_invlet );
         }
     }
-*/
+
     static const item_category category_on_ground(
         "GROUND:",
         _("GROUND:"),
         -1000
     );
-/*
+
     static const item_category category_on_veh(
         "VEHICLE:",
         _("VEHICLE:"),
         -2000
     );
-*/
+
     u.inv.restack(&u);
     u.inv.sort();
     const indexed_invslice stacks = u.inv.slice_filter_by( inv_filter );
@@ -928,7 +933,7 @@ std::unique_ptr<item_location> game::inv_map_splice(
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(stacks);
     inv_s.make_item_list(ground_items_slice, &category_on_ground);
-    //inv_s.make_item_list(vehitems_slice, &category_on_veh);
+    inv_s.make_item_list(veh_items_slice, &category_on_veh);
     inv_s.prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
@@ -943,12 +948,18 @@ std::unique_ptr<item_location> game::inv_map_splice(
             // In the inventory
             return std::unique_ptr<item_location>(
                 new item_on_person( u, inv_s.first_item ) );
-        } else if( ch >= first_invlet && ch <= last_invlet && 
-                   (size_t)(ch - first_invlet) < ground_items_slice.size() ) {
-            const int ip = ch - first_invlet;
-            // One of the (indexed) ground items
-            return std::unique_ptr<item_location>(
-                new item_on_map( u.pos(), ground_selectables[ip] ) );
+        } else if( ch >= first_invlet && ch <= last_invlet ) {
+            // Indexed results on the ground or vehicle
+            const size_t index = (size_t)(ch - first_invlet);
+            if( index < ground_items_slice.size() ) {
+                // Ground item
+                return std::unique_ptr<item_location>(
+                    new item_on_map( u.pos(), ground_selectables[index] ) );
+            } else if( index < ground_items_slice.size() + veh_items_slice.size() ) {
+                // Vehicle item
+                return std::unique_ptr<item_location>(
+                        new item_on_vehicle( *veh, veh_pt, vehicle_selectables[index] ) );
+            }
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
         } else if( action == "QUIT" ) {
@@ -961,6 +972,14 @@ std::unique_ptr<item_location> game::inv_map_splice(
                     // Ground item, may be unindexed
                     return std::unique_ptr<item_location>(
                         new item_on_map( u.pos(), ground_selectables[i] ) );
+                }
+            }
+
+            for( size_t i = 0; i < veh_items_slice.size(); i++) {
+                if( &veh_items_slice[i].first->front() == inv_s.first_item ) {
+                    // Vehicle item
+                    return std::unique_ptr<item_location>(
+                        new item_on_vehicle( *veh, veh_pt, vehicle_selectables[i] ) );
                 }
             }
 
