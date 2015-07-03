@@ -218,13 +218,12 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
-        int upgrade_min; // First day upon which this monster can upgrade
-        int half_life;  // Radioactive decay based upgrade chance half life length
-        // Modifier of the chance of upgrading per half life, i.e. 10 would mean an additional 10% chance to upgrade per half life,
-        // or -10 would mean a -10% chance to upgrade per half life.
-        float base_upgrade_chance;
+        // Monster upgrade variables
+        bool upgrades;
+        int upgrade_time;
+        int half_life;
+        std::string upgrade_into;
         mongroup_id upgrade_group;
-        std::string upgrades_into;
         // Default constructor
         mtype ();
         /**
