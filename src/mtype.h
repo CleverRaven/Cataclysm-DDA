@@ -220,7 +220,6 @@ struct mtype {
 
         // Monster upgrade variables
         bool upgrades;
-        int upgrade_time;
         int half_life;
         std::string upgrade_into;
         mongroup_id upgrade_group;

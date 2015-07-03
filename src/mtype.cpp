@@ -28,7 +28,6 @@ mtype::mtype ()
     hp = 0;
     def_chance = 0;
     upgrades = false;
-    upgrade_time = -1;
     half_life = -1;
     upgrade_into = "NULL";
     upgrade_group = mongroup_id( "GROUP_NULL" );

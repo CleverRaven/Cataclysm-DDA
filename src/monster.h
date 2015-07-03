@@ -393,6 +393,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void hit_monster(monster &other);
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );
+        /** Upgrade variables **/
+        bool upgrades;
+        int upgrade_time;
 
     protected:
         void store(JsonOut &jsout) const;
