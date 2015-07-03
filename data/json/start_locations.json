@@ -63,6 +63,11 @@
     "target" : "s_library"
   },{
     "type" : "start_location",
+    "ident" : "s_bookstore",
+    "name" : "Bookstore",
+    "target" : "s_bookstore"
+  },{
+    "type" : "start_location",
     "ident" : "cabin",
     "name" : "Cabin",
     "target" : "cabin"
