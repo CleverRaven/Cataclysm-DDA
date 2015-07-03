@@ -692,9 +692,25 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "upgrade_group %s of monster %s is not a valid monster group",
                       mon->upgrade_group.c_str(), mon->id.c_str() );
         }
-        if( mon->upgrades_into != "NULL" && !has_mtype( mon->upgrades_into ) ) {
-            debugmsg( "upgrades_into %s of monster %s is not a valid monster id",
-                      mon->upgrades_into.c_str(), mon->id.c_str() );
+        if( mon->upgrades ) {
+            if( mon->half_life <= 0 ) {
+                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
+            }
+            if( mon->upgrade_into == "NULL" && mon->upgrade_group == mongroup_id( "GROUP_NULL" ) ) {
+                debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
+            }
+            if( mon->upgrade_into != "NULL" && mon->upgrade_group != mongroup_id( "GROUP_NULL" ) ) {
+                debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
+            }
+            if( mon->upgrade_into != "NULL" && !has_mtype( mon->upgrades_into ) ) {
+                debugmsg( "upgrades_into %s of monster %s is not a valid monster id",
+                           mon->upgrades_into.c_str(), mon->id.c_str() );
+            }
+            if( mon->upgrade_group != mongroup_id( "GROUP_NULL" ) &&
+                !mongroup.isValidMonsterGroup( mon->upgrade_group ) ) {
+                debugmsg( "upgrades_group %s of monster %s is not a valid monster group id",
+                           mon->upgrades_group.c_str(), mon->id.c_str() );
+            }
         }
     }
 }
