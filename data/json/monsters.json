@@ -1503,7 +1503,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
         "into_group": "GROUP_ZOMBIE_UPGRADE",
-        "half_life": 14
+        "half_life": 28
     },
     "hp":80,
     "death_function":"NORMAL",
@@ -1537,7 +1537,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
         "into_group": "GROUP_ZOMBIE_FAT",
-        "half_life": 5
+        "half_life": 10
     },
     "hp":95,
     "death_function":["NORMAL"],
@@ -1809,7 +1809,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into": "mon_zombie_spitter",
-      "half_life": 4
+      "half_life": 10
     },
     "hp":65,
     "special_attacks":[["ACID_BARF", 10]],
@@ -1842,7 +1842,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into": "mon_zombie_corrosive",
-      "half_life": 14
+      "half_life": 28
     },
     "hp":70,
     "death_function":["ACID", "NORMAL"],
@@ -2201,7 +2201,7 @@
     "death_drops": "default_zombie_items",
     "upgrades":{
       "into": "mon_boomer_huge",
-      "half_life": 10
+      "half_life": 14
     },
     "hp":40,
     "death_function":["BOOMER"],
@@ -2512,7 +2512,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into": "mon_zombie_grappler",
-      "half_life": 7
+      "half_life": 14
     },
     "hp":95,
     "death_function":["NORMAL"],
@@ -2640,7 +2640,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into": "mon_zombie_hunter",
-      "half_life": 1
+      "half_life": 10
     },
     "hp":70,
     "death_function":["NORMAL"],
@@ -2673,7 +2673,7 @@
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
       "into": "mon_zombie_predator",
-      "half_life": 14
+      "half_life": 28
     },
     "hp":90,
     "death_function":["NORMAL"],
@@ -3309,7 +3309,7 @@
     "hp":4,
     "upgrades":{
       "into": "mon_fungaloid",
-      "half_life": 1
+      "half_life": 10
     },
     "death_function":"DISINTEGRATE",
     "special_attacks":[["PLANT", 100]],
