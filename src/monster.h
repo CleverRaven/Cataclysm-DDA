@@ -47,6 +47,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void poly(mtype *t);
         bool can_upgrade();
+        void hasten_upgrade();
         void try_upgrade();
         void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;

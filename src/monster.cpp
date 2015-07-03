@@ -160,6 +160,18 @@ bool monster::can_upgrade() {
     return upgrades;
 }
 
+void monster::hasten_upgrade() {
+    if (!upgrades || upgrade_time < 1) {
+        return;
+    }
+
+    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    upgrade_time -= rng(1, scaled_half_life);
+    if (upgrade_time < 0) {
+        upgrade_time = 0;
+    }
+}
+
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
     int day = 0;
