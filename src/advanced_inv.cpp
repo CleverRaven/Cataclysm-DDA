@@ -815,9 +815,11 @@ static itemstack i_stacked(T items)
         bool got_stacked = false;
         // no cache entry found
         if(iter != cache.end()) {
-            if(stacks[cache[id]].front()->stacks_with(elem)) {
-                stacks[cache[id]].push_back(&elem);
-                got_stacked = true;
+            for(auto &stack : stacks[iter->second]) {
+                if((got_stacked = stack->stacks_with(elem))) {
+                    stacks[iter->second].push_back(&elem);
+                    break;
+                }
             }
         }
         if(!got_stacked) {
@@ -1069,10 +1071,10 @@ void advanced_inventory::redraw_pane( side p )
 
 // be explicit with the values
 enum aim_entry {
-    ENTRY_START     = -1,
-    ENTRY_VEHICLE   =  0,
-    ENTRY_MAP       =  1,
-    ENTRY_RESET     =  2
+    ENTRY_START     = 0,
+    ENTRY_VEHICLE   = 1,
+    ENTRY_MAP       = 2,
+    ENTRY_RESET     = 3
 };
 
 bool advanced_inventory::move_all_items(bool nested_call)
@@ -1111,17 +1113,18 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 move_all_items(true);
                 break;
             case ENTRY_RESET:
-                if(loc > AIM_NORTHEAST) {
-                    loc = done = true;
-                    entry = -1;
+                if(loc > AIM_AROUND_END) {
+                    loc = AIM_AROUND_BEGIN;
+                    entry = ENTRY_START;
+                    done = true;
                 } else {
-                    entry = 0;
+                    entry = ENTRY_VEHICLE;
                 }
                 break;
             default:
                 debugmsg("Invalid `aim_entry' [%d] reached!", entry - 1);
-                entry = -1;
-                loc = 1;
+                entry = ENTRY_START;
+                loc = AIM_AROUND_BEGIN;
                 return false;
         }
         // restore the pane to its former glory
@@ -1408,7 +1411,8 @@ void advanced_inventory::display()
                 popup( _( "You can't put items there" ) );
                 redraw = true; // to clear the popup
             }
-        } else if( action == "MOVE_SINGLE_ITEM" || action == "MOVE_VARIABLE_ITEM" || 
+        } else if( action == "MOVE_SINGLE_ITEM" || 
+                   action == "MOVE_VARIABLE_ITEM" || 
                    action == "MOVE_ITEM_STACK" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
@@ -1423,7 +1427,8 @@ void advanced_inventory::display()
             // This is a workaround around the lack of vehicle location info in
             // either aim_location or advanced_inv_listitem.
             if( squares[srcarea].is_same( squares[destarea] ) && 
-                spane.get_area() != AIM_ALL && spane.in_vehicle() == dpane.in_vehicle() ) {
+                    spane.get_area() != AIM_ALL && 
+                    spane.in_vehicle() == dpane.in_vehicle() ) {
                 popup( _( "Source area is the same as destination (%s)." ), squares[destarea].name.c_str() );
                 redraw = true; // popup has messed up the screen
                 continue;
@@ -1435,7 +1440,7 @@ void advanced_inventory::display()
                 continue;
             }
             // This makes sure that all item references in the advanced_inventory_pane::items vector
-            // are recalculated, even when they might not have change, but they could (e.g. items
+            // are recalculated, even when they might not have changed, but they could (e.g. items
             // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
             // but are potentially at a different place).
             recalc = true;
@@ -1446,7 +1451,7 @@ void advanced_inventory::display()
                     continue;
                 }
             } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
-                // from inventory: remove all items first, than try to put them
+                // from inventory: remove all items first, then try to put them
                 // onto the map/vehicle, if it fails, put them back into the inventory.
                 // If no item has actually been moved, continue.
 
@@ -1506,21 +1511,33 @@ void advanced_inventory::display()
                     }
                 }
             } else {
-                bool need_to_redraw = false;
                 // from map/vehicle: add the item to the destination, if that worked,
                 // remove it from the source, else continue.
                 // create a new copy of the old item being manipulated
                 item new_item(*sitem->items.front());
-                if(by_charges) {
-                    // set the new item's charge amount
-                    new_item.charges = amount_to_move;
-                    // `amount_to_move' will be `true' if the item needs to be removed
-                    amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
+                int amt = (by_charges) ? 1 : amount_to_move;
+                // only remove item or charges if the add succeeded
+                if(add_item(destarea, new_item, &amt)) {
+                    if(by_charges) {
+                        // set the new item's charge amount
+                        new_item.charges = amount_to_move;
+                        // `amount_to_move' will be `true' if the item needs to be removed
+                        amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
+                    }
+                    remove_item(*sitem, amount_to_move);
+                } else {
+                    const char *msg = nullptr;
+                    if(by_charges) {
+                        msg = _("Only moved %d of %d charges.");
+                    } else {
+                        msg = _("Only moved %d of %d items.");
+                        remove_item(*sitem, amt);
+                    }
+                    assert(msg != nullptr);
+                    g->u.add_msg_if_player(msg, amt, amount_to_move);
+                    // redraw the screen if moving to AIM_WORN, so we can see that it didn't work
+                    redraw = (destarea == AIM_WORN);
                 }
-                need_to_redraw = !add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
-                remove_item(*sitem, amount_to_move);
-                // redraw the screen if moving to AIM_WORN, so we can see that it didn't work
-                redraw = destarea == AIM_WORN && need_to_redraw;
             }
             // This is only reached when at least one item has been moved.
             g->u.moves -= 100; // In pickup/move functions this depends on item stats
@@ -1786,14 +1803,21 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-void advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
+bool advanced_inventory::remove_item( advanced_inv_listitem &sitem, const int count)
+{
+    int amount = count;
+    return remove_item(sitem, &amount);
+}
+
+bool advanced_inventory::remove_item( advanced_inv_listitem &sitem, int *count )
 {
     assert( sitem.area != AIM_ALL );        // should be a specific location instead
     assert( sitem.area != AIM_INVENTORY );  // does not work for inventory
     assert( !sitem.items.empty() );
     bool rc = true;
+    int amount_moved = 0;
 
-    while(count > 0) {
+    while(amount_moved < *count) {
         auto &s = squares[sitem.area];
         if( s.id == AIM_CONTAINER ) {
             const auto cont = s.get_container( panes[src].in_vehicle() );
@@ -1812,20 +1836,28 @@ void advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
             break;
         }
         sitem.items.erase(sitem.items.begin());
-        --count;
+        ++amount_moved;
     }
+    *count = (rc == false) ? (*count - amount_moved) : 0;
+    return rc;
 }
 
-bool advanced_inventory::add_item( aim_location destarea, item &new_item, int count )
+bool advanced_inventory::add_item( aim_location destarea, item &new_item, const int count )
+{
+    int amount = count;
+    return add_item(destarea, new_item, &amount);
+}
+
+bool advanced_inventory::add_item( aim_location destarea, item &new_item, int *count )
 {
     assert( destarea != AIM_ALL ); // should be a specific location instead
+    int amount_moved = 0;
     bool rc = true;
 
-    while(count > 0) {
+    while(amount_moved < *count) {
         if( destarea == AIM_INVENTORY ) {
-            auto it = g->u.i_add( new_item );
+            g->u.i_add( new_item );
             g->u.moves -= 100;
-            rc = it.type->id == new_item.type->id;
         } else if( destarea == AIM_WORN ) {
             rc = g->u.wear_item(&new_item);
         } else {
@@ -1841,8 +1873,9 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item, int co
             popup( _( "Destination area is full.  Remove some items first" ) );
             break;
         }
-        --count;
+        ++amount_moved;
     }
+    *count = (rc == false) ? (*count - amount_moved) : 0;
     return rc;
 }
 
@@ -1996,7 +2029,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
     switch( id ) {
         case AIM_CONTAINER:
             if( advitem != nullptr && advitem->is_item_entry() ) {
-                it = (!advitem->items.empty()) ? advitem->items.front() : nullptr;
+                it = advitem->items.front();
                 from_vehicle = advitem->from_vehicle;
             }
             if(get_container(from_vehicle) != nullptr) {
@@ -2314,6 +2347,5 @@ void advanced_inventory::do_return_entry()
 
 bool advanced_inventory::is_processing() const
 {
-    auto &entry = uistate.adv_inv_re_enter_move_all;
-    return entry >= 0 && entry <= 2;
+    return !(uistate.adv_inv_re_enter_move_all == ENTRY_START);
 }

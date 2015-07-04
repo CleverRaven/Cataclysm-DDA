@@ -26,7 +26,10 @@ enum aim_location {
     AIM_ALL,
     AIM_CONTAINER,
     AIM_WORN,
-    NUM_AIM_LOCATIONS
+    NUM_AIM_LOCATIONS,
+    // only useful for AIM_ALL
+    AIM_AROUND_BEGIN = AIM_SOUTHWEST,
+    AIM_AROUND_END   = AIM_NORTHEAST
 };
 
 enum advanced_inv_sortby {
@@ -403,10 +406,12 @@ class advanced_inventory
          * Add the item to the destination area.
          * @param destarea Where add the item to. This must not be AIM_ALL.
          * @param new_item The item to add.
-         * @parama count The amount of @ref new_item to add.
-         * @return true if adding has been done, false if adding the item failed.
+         * @parama count The amount of @ref new_item to add, by pointer.
+         *      This will return the amount of items that are leftover if unable to add them all.
+         * @return Returns false if unable to add all items (`count' will then contain the amount left).
          */
-        bool add_item( aim_location destarea, item &new_item , int count = 1);
+        bool add_item( aim_location destarea, item &new_item, int *count);
+        bool add_item( aim_location destarea, item &new_item, const int count = 1);
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
@@ -418,21 +423,23 @@ class advanced_inventory
          * @param destarea Where to move to. This must not be AIM_ALL.
          * @param sitem The source item, it must contain a valid reference to an item!
          * @param amount The input value is ignored, contains the amount that should
-         * be moved. Only valid if this returns true.
+         *      be moved. Only valid if this returns true.
          * @return false if nothing should/can be moved. True only if there can and
-         * should be moved. A return value of true indicates that amount now contains
-         * a valid item count to be moved.
+         *      should be moved. A return value of true indicates that amount now contains
+         *      a valid item count to be moved.
          */
         bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, 
                 const std::string &action, long &amount);
         /**
          * Remove the item from source area. Must not be used on items with area
-         * AIM_ALL or AIM_INVENTORY! (but is... and seems to work)
-         * @param sitem The item reference that should be removed, along with the
-         * source area.
-         * @param count The amount to move, of said item.
+         *      AIM_ALL or AIM_INVENTORY! (but is... and seems to work)
+         * @param sitem The item reference that should be removed, along with the source area.
+         * @param count The amount to move of said item, by pointer.
+         * @return Returns false if unable remove all items, `count' will have amount leftover.
          */
-        void remove_item(advanced_inv_listitem &sitem, int count = 1);
+        bool remove_item(advanced_inv_listitem &sitem, int *count);
+        bool remove_item(advanced_inv_listitem &sitem, const int count = 1);
+
         void menu_square(uimenu *menu);
 
         static char get_location_key( aim_location area );
