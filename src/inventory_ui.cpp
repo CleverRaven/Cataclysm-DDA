@@ -884,7 +884,6 @@ std::unique_ptr<item_location> game::inv_map_splice( item_filter filter, const s
 std::unique_ptr<item_location> game::inv_map_splice(
     item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
 {
-    (void)vehicle_filter;
     char cur_invlet = '0';
 
     pseudo_inventory ground_items;

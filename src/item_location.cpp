@@ -1,12 +1,12 @@
 #include "item_location.h"
 
 #include "enums.h"
+#include "debug.h"
 #include "game.h"
 #include "map.h"
-#include "Character.h"
+#include "character.h"
 #include "player.h"
 #include "vehicle.h"
-#include <map>
 
 int item_location::get_inventory_position()
 {
@@ -36,8 +36,12 @@ item_on_map::item_on_map( const tripoint &p, const item *which )
     for( auto &i : items ) {
         if( &i == which ) {
             what = &i;
+            return;
         }
     }
+
+    debugmsg( "Tried to get an item from point %d,%d,%d, but it wasn't there",
+              location.x, location.y, location.z );
 }
 
 void item_on_map::remove_item()
@@ -48,6 +52,7 @@ void item_on_map::remove_item()
 
     g->m.i_rem( location, what );
     what = nullptr;
+    // Can't do a sanity check here: i_rem is void
 }
 
 item *item_on_map::get_item()
@@ -63,6 +68,8 @@ item *item_on_map::get_item()
         }
     }
 
+    debugmsg( "Tried to get an item from point %d,%d,%d, but it wasn't there",
+              location.x, location.y, location.z );
     return nullptr;
 }
 
@@ -77,6 +84,7 @@ item_on_person::item_on_person( Character &ch, const item *which )
     if( !the_item.empty() ) {
         what = the_item[0];
     } else {
+        debugmsg( "Tried to get an item from a character who doesn't have it" );
         what = nullptr;
     }
 }
@@ -87,11 +95,14 @@ void item_on_person::remove_item()
         return;
     }
 
-    who->remove_items_with( [this]( const item &it ) {
+    const auto removed = who->remove_items_with( [this]( const item &it ) {
         return &it == what;
     } );
 
     what = nullptr;
+    if( removed.empty() ) {
+        debugmsg( "Tried to remove an item from a character who doesn't have it" );
+    }
 }
 
 item *item_on_person::get_item()
@@ -108,6 +119,7 @@ item *item_on_person::get_item()
         return items[0];
     } else {
         what = nullptr;
+        debugmsg( "Tried to get an item from a character who doesn't have it" );
         return nullptr;
     }
 }
@@ -120,11 +132,13 @@ int item_on_person::get_inventory_position()
 
     // Most of the relevant methods are in Character, just not this one...
     player *pl = dynamic_cast<player*>( who );
-    if( pl == nullptr ) {
-        return INT_MIN;
+
+    const int inv_pos = pl != nullptr ? pl->get_item_position( what ) : INT_MIN;
+    if( inv_pos == INT_MIN ) {
+        debugmsg( "Tried to get inventory position of item not on character" );
     }
 
-    return pl->get_item_position( what );
+    return inv_pos;
 }
 
 
@@ -142,6 +156,8 @@ item_on_vehicle::item_on_vehicle( vehicle &v, const point &where, const item *wh
         }
     }
 
+    debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
+              veh->name.c_str(), local_coords.x, local_coords.y );
     what = nullptr;
 }
 
@@ -153,13 +169,14 @@ void item_on_vehicle::remove_item()
 
     const auto parts = veh->parts_at_relative( local_coords.x, local_coords.y );
     for( const int i : parts ) {
-        for( item &it : veh->get_items( i ) ) {
-            if( veh->remove_item( i, what ) ) {
-                what = nullptr;
-                return;
-            }
+        if( veh->remove_item( i, what ) ) {
+            what = nullptr;
+            return;
         }
     }
+
+    debugmsg( "Tried to remove an item from vehicle %s, tile %d:%d, but it wasn't there",
+              veh->name.c_str(), local_coords.x, local_coords.y );
 }
 
 item *item_on_vehicle::get_item()
@@ -177,6 +194,8 @@ item *item_on_vehicle::get_item()
         }
     }
 
+    debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
+              veh->name.c_str(), local_coords.x, local_coords.y );
     what = nullptr;
     return nullptr;
 }

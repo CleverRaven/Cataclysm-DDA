@@ -16,6 +16,7 @@ class item_location {
 protected:
     const item *what;
 public:
+    virtual ~item_location() = default;
     /** Removes the selected item from the game */
     virtual void remove_item() = 0;
     /** Gets the selected item or nullptr */
