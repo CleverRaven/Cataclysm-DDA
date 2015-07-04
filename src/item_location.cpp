@@ -7,6 +7,24 @@
 #include "character.h"
 #include "player.h"
 #include "vehicle.h"
+#include <climits>
+
+class impl
+{
+protected:
+    const item *what;
+public:
+    virtual ~impl() = default;
+    /** Removes the selected item from the game */
+    virtual void remove_item() = 0;
+    /** Gets the selected item or nullptr */
+    virtual item *get_item() = 0;
+    /** Gets the position of item in character's inventory or INT_MIN */
+    virtual int get_inventory_position()
+    {
+        return INT_MIN;
+    }
+};
 
 class item_is_null : public impl {
 public:
@@ -211,6 +229,14 @@ public:
     }
 };
 
+item_location::item_location( item_location &&other )
+{
+    ptr = std::move( other.ptr );
+}
+
+item_location::~item_location()
+{
+}
 
 void item_location::remove_item()
 {

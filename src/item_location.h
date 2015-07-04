@@ -9,23 +9,7 @@ class item;
 class Character;
 class vehicle;
 class item_location;
-
-class impl
-{
-protected:
-    const item *what;
-public:
-    virtual ~impl() = default;
-    /** Removes the selected item from the game */
-    virtual void remove_item() = 0;
-    /** Gets the selected item or nullptr */
-    virtual item *get_item() = 0;
-    /** Gets the position of item in character's inventory or INT_MIN */
-    virtual int get_inventory_position()
-    {
-        return INT_MIN;
-    }
-};
+class impl;
 
 /**
  * A class for easy removal of used items.
@@ -38,7 +22,8 @@ private:
     std::unique_ptr<impl> ptr;
     item_location( impl* );
 public:
-    item_location( item_location&& ) = default;
+    item_location( item_location&& );
+    ~item_location();
     /** Factory functions for readability */
     /*@{*/
     static item_location nowhere();
