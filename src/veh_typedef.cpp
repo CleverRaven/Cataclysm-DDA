@@ -7,7 +7,7 @@
 #include "translations.h"
 #include "color.h"
 #include "itype.h"
-#include "vehicle_factory.h"
+#include "vehicle_group.h"
 
 #include <unordered_map>
 #include <unordered_set>

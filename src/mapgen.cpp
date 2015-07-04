@@ -30,7 +30,7 @@
 #include "coordinates.h"
 #include "npc.h"
 #include "vehicle.h"
-#include "vehicle_factory.h"
+#include "vehicle_group.h"
 #ifdef LUA
 #include "catalua.h"
 #endif

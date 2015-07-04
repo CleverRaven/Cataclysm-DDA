@@ -1,4 +1,4 @@
-#include "vehicle_factory.h"
+#include "vehicle_group.h"
 #include "debug.h"
 #include "translations.h"
 #include "vehicle.h"
