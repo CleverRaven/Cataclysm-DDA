@@ -11208,13 +11208,13 @@ void game::eat(int pos)
 
     auto item_loc = inv_map_splice( filter, _("Consume item:") );
 
-    const int inv_pos = item_loc->get_inventory_position();
+    const int inv_pos = item_loc.get_inventory_position();
     if( inv_pos != INT_MIN ) {
         u.consume( inv_pos );
         return;
     }
 
-    item *it = item_loc->get_item();
+    item *it = item_loc.get_item();
     if( it == nullptr ) {
         add_msg(_("Never mind."));
         return;
@@ -11225,7 +11225,7 @@ void game::eat(int pos)
             it->contents.erase( it->contents.begin() );
             add_msg( _("You leave the empty %s."), it->tname().c_str() );
         } else {
-            item_loc->remove_item();
+            item_loc.remove_item();
         }
     }
 }
@@ -11385,13 +11385,13 @@ void game::unload(int pos)
         };
 
         auto item_loc = inv_map_splice( filter, _("Unload item:") );
-        const int inv_pos = item_loc->get_inventory_position();
+        const int inv_pos = item_loc.get_inventory_position();
         if( inv_pos != INT_MIN ) {
             unload( inv_pos );
             return;
         }
 
-        item *it = item_loc->get_item();
+        item *it = item_loc.get_item();
         if( it == nullptr ) {
             add_msg(_("Never mind."));
             return;

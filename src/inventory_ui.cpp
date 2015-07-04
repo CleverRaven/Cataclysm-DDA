@@ -876,12 +876,12 @@ void pseudo_inv_to_slice( Collection here, Filter filter,
     }
 }
 
-std::unique_ptr<item_location> game::inv_map_splice( item_filter filter, const std::string &title )
+item_location game::inv_map_splice( item_filter filter, const std::string &title )
 {
     return inv_map_splice( filter, filter, filter, title );
 }
 
-std::unique_ptr<item_location> game::inv_map_splice(
+item_location game::inv_map_splice(
     item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
 {
     char cur_invlet = '0';
@@ -940,55 +940,49 @@ std::unique_ptr<item_location> game::inv_map_splice(
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        const int item_pos = g->u.invlet_to_position( static_cast<char>( ch ) );
 
         if( item_pos != INT_MIN ) {
             inv_s.set_to_drop(item_pos, 0);
             // In the inventory
-            return std::unique_ptr<item_location>(
-                new item_on_person( u, inv_s.first_item ) );
+            return item_location::on_character( u, inv_s.first_item );
         } else if( ch >= first_invlet && ch <= last_invlet ) {
             // Indexed results on the ground or vehicle
             const size_t index = (size_t)(ch - first_invlet);
             if( index < ground_items_slice.size() ) {
                 // Ground item
-                return std::unique_ptr<item_location>(
-                    new item_on_map( u.pos(), ground_selectables[index] ) );
+                return item_location::on_map( u.pos(), ground_selectables[index] );
             } else if( index < ground_items_slice.size() + veh_items_slice.size() ) {
                 // Vehicle item
-                return std::unique_ptr<item_location>(
-                        new item_on_vehicle( *veh, veh_pt, vehicle_selectables[index] ) );
+                return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[index] );
             }
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
         } else if( action == "QUIT" ) {
-            return std::unique_ptr<item_location>( new item_is_null() );
+            return item_location::nowhere();
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
             inv_s.set_selected_to_drop(0);
 
             for( size_t i = 0; i < ground_items_slice.size(); i++) {
                 if( &ground_items_slice[i].first->front() == inv_s.first_item ) {
                     // Ground item, may be unindexed
-                    return std::unique_ptr<item_location>(
-                        new item_on_map( u.pos(), ground_selectables[i] ) );
+                    return item_location::on_map( u.pos(), ground_selectables[i] );
                 }
             }
 
             for( size_t i = 0; i < veh_items_slice.size(); i++) {
                 if( &veh_items_slice[i].first->front() == inv_s.first_item ) {
                     // Vehicle item
-                    return std::unique_ptr<item_location>(
-                        new item_on_vehicle( *veh, veh_pt, vehicle_selectables[i] ) );
+                    return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[i] );
                 }
             }
 
             // Inventory item or possibly nothing
             int inv_pos = inv_s.get_selected_item_position();
             if( inv_pos == INT_MIN ) {
-                return std::unique_ptr<item_location>( new item_is_null() );
+                return item_location::nowhere();
             } else {
-                return std::unique_ptr<item_location>(
-                    new item_on_person( u, inv_s.first_item ) );
+                return item_location::on_character( u, inv_s.first_item );
             }
         }
     }
@@ -1000,7 +994,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    return inv_map_splice( filter, title )->get_item();
+    return inv_map_splice( filter, title ).get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)

@@ -1,68 +1,58 @@
 #ifndef ITEM_LOCATION_H
 #define ITEM_LOCATION_H
 
-#include "enums.h"
+#include <memory>
 
+struct point;
+struct tripoint;
 class item;
 class Character;
 class vehicle;
+class item_location;
+
+class impl
+{
+protected:
+    const item *what;
+public:
+    virtual ~impl() = default;
+    /** Removes the selected item from the game */
+    virtual void remove_item() = 0;
+    /** Gets the selected item or nullptr */
+    virtual item *get_item() = 0;
+    /** Gets the position of item in character's inventory or INT_MIN */
+    virtual int get_inventory_position()
+    {
+        return INT_MIN;
+    }
+};
 
 /**
  * A class for easy removal of used items.
  * Ensures the item exists, but not that the character/vehicle does.
  * Should not be kept, but removed before the end of turn.
  */
-class item_location {
-protected:
-    const item *what;
+class item_location
+{
+private:
+    std::unique_ptr<impl> ptr;
+    item_location( impl* );
 public:
-    virtual ~item_location() = default;
+    item_location( item_location&& ) = default;
+    /** Factory functions for readability */
+    /*@{*/
+    static item_location nowhere();
+    static item_location on_map( const tripoint &p, const item *which );
+    static item_location on_character( Character &ch, const item *which );
+    static item_location on_vehicle( vehicle &v, const point &where, const item *which );
+    /*@}*/
+
     /** Removes the selected item from the game */
-    virtual void remove_item() = 0;
+    void remove_item();
     /** Gets the selected item or nullptr */
-    virtual item *get_item() = 0;
+    item *get_item();
     /** Gets the position of item in character's inventory or INT_MIN */
-    virtual int get_inventory_position();
-};
-
-class item_is_null : public item_location {
-public:
-    item_is_null();
-
-    void remove_item() override;
-    item *get_item() override;
-};
-
-class item_on_map : public item_location {
-private:
-    tripoint location;
-public:
-    item_on_map( const tripoint &p, const item *which );
-
-    void remove_item() override;
-    item *get_item() override;
-};
-
-class item_on_person : public item_location {
-private:
-    Character *who;
-public:
-    item_on_person( Character &ch, const item *which );
-    int get_inventory_position() override;
-
-    void remove_item() override;
-    item *get_item() override;
-};
-
-class item_on_vehicle : public item_location {
-private:
-    vehicle *veh;
-    point local_coords;
-public:
-    item_on_vehicle( vehicle &v, const point &where, const item *which );
-
-    void remove_item() override;
-    item *get_item() override;
+    int get_inventory_position();
 };
 
 #endif
