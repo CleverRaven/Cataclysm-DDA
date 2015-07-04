@@ -107,6 +107,11 @@ DDIR = .deps
 
 OS  = $(shell uname -s)
 
+# if $(OS) contains 'BSD'
+ifneq ($(findstring BSD,$(OS)),)
+  BSD = 1
+endif
+
 # Expand at reference time to avoid recursive reference
 OS_COMPILER := $(CXX)
 # Appears that the default value of $LD is unsuitable on most systems
@@ -354,8 +359,12 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
+          ifeq ($(BSD), 1)
+            LDFLAGS += -lncurses -lintl -liconv
+          else
             LDFLAGS += $(shell ncursesw5-config --libs)
             CXXFLAGS += $(shell ncursesw5-config --cflags)
+          endif
         endif
       endif
     else
@@ -372,6 +381,11 @@ else
       LDFLAGS += -lintl -liconv
     endif
   endif
+endif
+
+# BSDs have backtrace() and friends in a separate library
+ifeq ($(BSD), 1)
+  LDFLAGS += -lexecinfo
 endif
 
 # Global settings for Windows targets (at end)
