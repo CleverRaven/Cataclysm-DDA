@@ -9286,6 +9286,17 @@ int player::amount_of(const itype_id &it) const
     return quantity;
 }
 
+int player::amount_worn(const itype_id &id) const
+{
+    int amount = 0;
+    for(auto &elem : g->u.worn) {
+        if(elem.typeId() == id) {
+            ++amount;
+        }
+    }
+    return amount;
+}
+
 bool player::has_charges(const itype_id &it, long quantity) const
 {
     if (it == "fire" || it == "apparatus") {
