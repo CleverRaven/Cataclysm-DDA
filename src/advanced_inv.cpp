@@ -813,15 +813,17 @@ static itemstack i_stacked(T items)
         const auto &id = elem.type->id;
         auto iter = cache.find(id);
         bool got_stacked = false;
-        // no cache entry found
+        // cache entry exists
         if(iter != cache.end()) {
-            for(auto &stack : stacks[iter->second]) {
-                if((got_stacked = stack->stacks_with(elem))) {
+            // check to see if it stacks with each item in a stack, not just front()
+            for(auto &it : stacks[iter->second]) {
+                if((got_stacked = it->stacks_with(elem))) {
                     stacks[iter->second].push_back(&elem);
                     break;
                 }
             }
         }
+        // if the item didn't stack, add its index to cache and start the list
         if(!got_stacked) {
             cache[id] = stacks.size();
             stacks.push_back({&elem});
