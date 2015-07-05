@@ -8,8 +8,6 @@ struct tripoint;
 class item;
 class Character;
 class vehicle;
-class item_location;
-class impl;
 
 /**
  * A class for easy removal of used items.
@@ -19,6 +17,11 @@ class impl;
 class item_location
 {
 private:
+    class impl;
+    class item_is_null;
+    class item_on_map;
+    class item_on_person;
+    class item_on_vehicle;
     std::unique_ptr<impl> ptr;
     item_location( impl* );
 public:

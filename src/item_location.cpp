@@ -9,7 +9,7 @@
 #include "vehicle.h"
 #include <climits>
 
-class impl
+class item_location::impl
 {
 protected:
     const item *what;
@@ -26,7 +26,7 @@ public:
     }
 };
 
-class item_is_null : public impl {
+class item_location::item_is_null : public item_location::impl {
 public:
     item_is_null()
     {
@@ -42,7 +42,7 @@ public:
     }
 };
 
-class item_on_map : public impl {
+class item_location::item_on_map : public item_location::impl {
 private:
     tripoint location;
 public:
@@ -93,7 +93,7 @@ public:
     }
 };
 
-class item_on_person : public impl {
+class item_location::item_on_person : public item_location::impl {
 private:
     Character *who;
 public:
@@ -165,7 +165,7 @@ public:
     }
 };
 
-class item_on_vehicle : public impl {
+class item_location::item_on_vehicle : public item_location::impl {
 private:
     vehicle *veh;
     point local_coords;
