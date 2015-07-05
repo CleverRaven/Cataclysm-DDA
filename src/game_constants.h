@@ -26,6 +26,7 @@
 #define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
 #define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
+#define MAX_WORN_PER_TYPE 2 // only can wear a maximum of two of any type of clothing
 
 #define MAPSIZE 11
 
