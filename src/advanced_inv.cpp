@@ -1450,64 +1450,44 @@ void advanced_inventory::display()
                     redraw = true;
                     continue;
                 }
-            } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
+            } else if(srcarea == AIM_INVENTORY || srcarea == AIM_WORN) {
                 // from inventory: remove all items first, then try to put them
                 // onto the map/vehicle, if it fails, put them back into the inventory.
                 // If no item has actually been moved, continue.
 
                 // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
-                int idx = ( srcarea == AIM_INVENTORY ) ? sitem->idx : player::worn_position_to_index( sitem->idx );
-                if( by_charges ) {
-                    item moving_item = g->u.reduce_charges( idx, amount_to_move );
-                    assert( !moving_item.is_null() );
-                    if( !add_item( destarea, moving_item ) ) {
-                        if( srcarea == AIM_INVENTORY ) {
-                            g->u.i_add( moving_item );
-                        } else if( srcarea == AIM_WORN ) {
-                            g->u.wear_item(&moving_item);
-                        }
+                int idx = (srcarea == AIM_INVENTORY) ? sitem->idx : player::worn_position_to_index(sitem->idx);
+                if(by_charges) {
+                    item moving_item = g->u.reduce_charges(idx, amount_to_move);
+                    assert(!moving_item.is_null());
+                    int items_left = add_item(destarea, moving_item);
+                    // take care of charging back any items as well
+                    if(items_left > 0) {
+                        add_item(srcarea, moving_item, items_left);
                         continue;
                     }
                 } else {
-                    if( srcarea == AIM_INVENTORY ) {
-                        std::list<item> moving_items = g->u.inv.reduce_stack( idx, amount_to_move );
-                        int moved = 0;
-                        bool chargeback = false;
-                        for( auto &elem : moving_items ) {
-                            assert( !elem.is_null() );
-                            item *thing = nullptr;
-                            if( chargeback ) {
-                                thing = &g->u.i_add( elem );
-                            } else if( add_item( destarea, elem ) ) {
-                                ++moved;
-                            } else {
-                                thing = &g->u.i_add( elem );
-                                chargeback = true;
-                            }
-                            (void)thing;
+                    std::list<item> moving_items;
+                    if(srcarea == AIM_INVENTORY) {
+                        moving_items = g->u.inv.reduce_stack(idx, amount_to_move);
+                    } else if(srcarea == AIM_WORN) {
+                        std::vector<item> mv;
+                        g->u.takeoff(idx, false, &mv);
+                        std::copy(mv.begin(), mv.end(), std::back_inserter(moving_items));
+                    }
+                    int items_left = 0, moved = 0;
+                    for(auto &elem : moving_items) {
+                        assert(!elem.is_null());
+                        items_left = add_item(destarea, elem);
+                        if(items_left > 0) {
+                            // chargeback the items if adding them failed
+                            add_item(srcarea, elem, items_left);
+                        } else {
+                            ++moved;
                         }
-                        if( moved == 0 ) {
-                            continue;
-                        }
-                    } else if( srcarea == AIM_WORN ) {
-                        std::vector<item> moving_items;
-                        g->u.takeoff( idx, false, &moving_items );
-                        int moved = 0;
-                        bool chargeback = false;
-                        for( auto &elem : moving_items ) {
-                            assert( !elem.is_null() );
-                            if( chargeback ) {
-                                g->u.i_add( elem );
-                            } else if( add_item( destarea, elem ) ) {
-                                ++moved;
-                            } else {
-                                g->u.i_add( elem );
-                                chargeback = true;
-                            }
-                        }
-                        if( moved == 0 ) {
-                            continue;
-                        }
+                    }
+                    if(moved == 0) {
+                        continue;
                     }
                 }
             } else {
@@ -1515,26 +1495,29 @@ void advanced_inventory::display()
                 // remove it from the source, else continue.
                 // create a new copy of the old item being manipulated
                 item new_item(*sitem->items.front());
-                int amt = (by_charges) ? 1 : amount_to_move;
+                // add the item, and note any items that might be leftover
+                int items_left = add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
                 // only remove item or charges if the add succeeded
-                if(add_item(destarea, new_item, &amt)) {
+                if(items_left == 0) {
                     if(by_charges) {
                         // set the new item's charge amount
                         new_item.charges = amount_to_move;
                         // `amount_to_move' will be `true' if the item needs to be removed
                         amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
                     }
-                    remove_item(*sitem, amount_to_move);
-                } else {
+                    // take into account only the items _left over_ from transaction
+                    items_left -= remove_item(*sitem, amount_to_move);
+                }
+                if(items_left > 0) {
                     const char *msg = nullptr;
                     if(by_charges) {
                         msg = _("Only moved %d of %d charges.");
                     } else {
                         msg = _("Only moved %d of %d items.");
-                        remove_item(*sitem, amt);
+                        remove_item(*sitem, items_left);
                     }
                     assert(msg != nullptr);
-                    g->u.add_msg_if_player(msg, amt, amount_to_move);
+                    g->u.add_msg_if_player(msg, items_left, amount_to_move);
                     // redraw the screen if moving to AIM_WORN, so we can see that it didn't work
                     redraw = (destarea == AIM_WORN);
                 }
@@ -1803,21 +1786,19 @@ bool advanced_inventory::query_destination( aim_location &def )
     return false;
 }
 
-bool advanced_inventory::remove_item( advanced_inv_listitem &sitem, const int count)
+int advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
 {
-    int amount = count;
-    return remove_item(sitem, &amount);
-}
+    // quick bail for no count
+    if(count <= 0) {
+        return 0;
+    }
 
-bool advanced_inventory::remove_item( advanced_inv_listitem &sitem, int *count )
-{
     assert( sitem.area != AIM_ALL );        // should be a specific location instead
     assert( sitem.area != AIM_INVENTORY );  // does not work for inventory
     assert( !sitem.items.empty() );
     bool rc = true;
-    int amount_moved = 0;
 
-    while(amount_moved < *count) {
+    while(count > 0) {
         auto &s = squares[sitem.area];
         if( s.id == AIM_CONTAINER ) {
             const auto cont = s.get_container( panes[src].in_vehicle() );
@@ -1836,25 +1817,22 @@ bool advanced_inventory::remove_item( advanced_inv_listitem &sitem, int *count )
             break;
         }
         sitem.items.erase(sitem.items.begin());
-        ++amount_moved;
+        --count;
     }
-    *count = (rc == false) ? (*count - amount_moved) : 0;
-    return rc;
+    return count;
 }
 
-bool advanced_inventory::add_item( aim_location destarea, item &new_item, const int count )
+int advanced_inventory::add_item( aim_location destarea, item &new_item, int count )
 {
-    int amount = count;
-    return add_item(destarea, new_item, &amount);
-}
+    // quick bail for no count
+    if(count <= 0) {
+        return 0;
+    }
 
-bool advanced_inventory::add_item( aim_location destarea, item &new_item, int *count )
-{
     assert( destarea != AIM_ALL ); // should be a specific location instead
-    int amount_moved = 0;
     bool rc = true;
 
-    while(amount_moved < *count) {
+    while(count > 0) {
         if( destarea == AIM_INVENTORY ) {
             g->u.i_add( new_item );
             g->u.moves -= 100;
@@ -1873,10 +1851,9 @@ bool advanced_inventory::add_item( aim_location destarea, item &new_item, int *c
             popup( _( "Destination area is full.  Remove some items first" ) );
             break;
         }
-        ++amount_moved;
+        --count;
     }
-    *count = (rc == false) ? (*count - amount_moved) : 0;
-    return rc;
+    return count;
 }
 
 bool advanced_inventory::move_content( item &src_container, item &dest_container )
@@ -1932,12 +1909,14 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
     const long input_amount = by_charges ? it.charges : 
-        (destarea != AIM_WORN && action == "MOVE_ITEM_STACK") ?  sitem.stacks : 1;
+        (action == "MOVE_SINGLE_ITEM") ? 1 : 
+        (destarea == AIM_WORN) ? MAX_WORN_PER_TYPE : sitem.stacks;
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
     // Picking up stuff might not be possible at all
     if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN ) && !g->u.can_pickup( true ) ) {
+        redraw = true;
         return false;
     }
     // Includes moving from/to inventory and around on the map.
@@ -1947,7 +1926,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         return false;
     }
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    if( squares[destarea].id != AIM_WORN && unitvolume > 0 && ( unitvolume * amount ) > free_volume ) {
+    if( unitvolume > 0 && ( unitvolume * amount ) > free_volume && squares[destarea].id != AIM_WORN ) {
         const long volmax = free_volume / unitvolume;
         if( volmax <= 0 ) {
             popup( _( "Destination area is full.  Remove some items first." ) );
@@ -1985,19 +1964,30 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             amount = std::min( weightmax, amount );
         }
     }
+    // handle how many of armour type we can equip (max of 2 per type)
+    if(destarea == AIM_WORN) {
+        const auto &id = sitem.items.front()->typeId();
+        amount = MAX_WORN_PER_TYPE - g->u.amount_worn(id);
+    }
 
     // Now we have the final amount. Query if needed (either requested, or when
     // the destination can not hold all items).
     if( action == "MOVE_VARIABLE_ITEM" || amount < input_amount ) {
-        std::string popupmsg = _( "How many do you want to move? (0 to cancel)" );
+        const char *msg = _("How many do you want to move? [Have %d] (0 to cancel)");
+        std::string popupmsg = string_format(msg, sitem.stacks);
         // At this point amount contains the maximal amount that the destination can hold.
         if( amount < input_amount ) {
-            popupmsg = string_format( _( "Destination can only hold %d! Move how many? (0 to cancel) " ),
-                                      amount );
+            msg = _("Destination can only hold %d! Move how many? [Have %d] (0 to cancel)");
+            popupmsg = string_format(msg, amount, sitem.stacks);
         }
         const long possible_max = std::min( input_amount, amount );
-        amount = std::atoi( string_input_popup( popupmsg, 20, "", "", "", -1, true ).c_str() );
+        if(amount <= 0) {
+           popup(_("The destination is already full!"));
+        } else {
+            amount = std::atoi(string_input_popup(popupmsg, 20, "", "", "", -1, true).c_str());
+        }
         if( amount <= 0 ) {
+            redraw = true;
             return false;
         }
         if( amount > possible_max ) {
