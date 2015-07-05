@@ -3,9 +3,6 @@
 
 #include <climits>
 #include <cassert>
-#include <vector>
-#include <list>
-#include <algorithm>
 
 #include "json.h" // (de)serialization for points
 
@@ -356,16 +353,5 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 }
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-
-// turns a vector, into an array, via MAGIC(tm)
-template <typename T, std::size_t N>
-std::array<T, N> vec_to_array(const std::vector<T> &vec)
-{
-    std::array<T, N> array;
-    for(size_t i = 0; i < N; ++i) {
-        array[i] = vec[i];
-    }
-    return array;
-}
 
 #endif

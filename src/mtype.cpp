@@ -4,6 +4,8 @@
 #include "mondeath.h"
 #include "field.h"
 
+#include <algorithm>
+
 mtype::mtype ()
 {
     id = "mon_null";
