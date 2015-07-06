@@ -20567,6 +20567,51 @@
           "id": "vp_mounted_m134",
           "fg": 2671,
           "rotates": true
+        },
+        {
+          "id": "primitive_hammer",
+          "fg": 2672,
+          "rotates": false
+        },
+        {
+          "id": "makeshift_hammer",
+          "fg": 2673,
+          "rotates": false
+        },
+        {
+          "id": "hat_hard_hooded",
+          "fg": 2674,
+          "rotates": false
+        },
+        {
+          "id": "vp_ram_military_horizontal",
+          "fg": 2675,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_steel",
+          "fg": 2676,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_wood",
+          "fg": 2677,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_hardsteel",
+          "fg": 2675,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_alloy",
+          "fg": 2677,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_spiked",
+          "fg": 2678,
+          "rotates": true
         }
       ]
     },
