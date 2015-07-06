@@ -1335,6 +1335,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
     if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
+    }
 
     // surgery is imminent, retract claws or blade if active
     if (has_bionic("bio_claws") && skill_level == -1 ) {
