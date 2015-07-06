@@ -118,6 +118,12 @@
           "rotates": false
         },
         {
+          "id": "22_casing_new",
+          "fg": 16,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "22_cb",
           "fg": 17,
           "bg": 505,
@@ -20612,6 +20618,26 @@
           "id": "vp_ram_spiked",
           "fg": 2678,
           "rotates": true
+        },
+        {
+          "id": "reloaded_22_lr",
+          "fg": 2679,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_22_fmj",
+          "fg": 2680,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_22_cb",
+          "fg": 2681,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_22_ratshot",
+          "fg": 2682,
+          "rotates": false
         }
       ]
     },
