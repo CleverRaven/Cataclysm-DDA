@@ -1335,6 +1335,20 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
     if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
+
+    // surgery is imminent, retract claws or blade if active
+    if (has_bionic("bio_claws") && skill_level == -1 ) {
+        if (weapon.type->id == "bio_claws_weapon") {
+            add_msg(m_neutral, _("You withdraw your claws."));
+            weapon = ret_null;
+          }
+    }
+
+    if (has_bionic("bio_blade") && skill_level == -1 ) {
+        if (weapon.type->id == "bio_blade_weapon") {
+            add_msg(m_neutral, _("You retract your blade."));
+            weapon = ret_null;
+        }
     }
 
     //If you are paying the doctor to do it, shouldn't use your supplies
