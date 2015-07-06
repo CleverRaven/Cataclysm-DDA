@@ -28,6 +28,10 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
+
+// Limit the number of iterations for next upgrade_time calculations.
+// This also sets the percentage of monsters that will never upgrade.
+// The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 #define UPGRADE_MAX_ITERS 5
 
 monster::monster()
@@ -156,6 +160,7 @@ bool monster::can_upgrade() {
     return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
 }
 
+// For master special attack.
 void monster::hasten_upgrade() {
     if (!can_upgrade() || upgrade_time < 1) {
         return;
@@ -168,6 +173,8 @@ void monster::hasten_upgrade() {
     }
 }
 
+// This will disable upgrades in case max iters have been reached.
+// Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
     int day = 0;
@@ -201,6 +208,9 @@ void monster::try_upgrade() {
     }
 
     const int current_day = calendar::turn.get_turn() / DAYS(1);
+    // Here we iterate until we either are before upgrade_time or can't upgrade any more.
+    // This is so that late into game new monsters can 'catch up' with all that half-life
+    // upgrades they'd get if we were simulating whole world.
     while (true) {
         debugmsg("upgrade_time: %d, current_day: %d", upgrade_time, current_day);
         if (upgrade_time > current_day) {
@@ -216,11 +226,13 @@ void monster::try_upgrade() {
             poly(GetMType(newtype));
         }
 
+        // upgraded into a non-upgradable monster
         if (!upgrades) {
             return;
         }
 
         const int next_upgrade = next_upgrade_time();
+        // hit never_upgrade
         if (next_upgrade < 0) {
             return;
         }
