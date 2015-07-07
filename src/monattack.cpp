@@ -1397,7 +1397,6 @@ void mattack::triffid_heartbeat(monster *z, int index)
 
     } else { // The player is close enough for a fight!
 
-        monster triffid(GetMType("mon_triffid"));
         for (int x = z->posx() - 1; x <= z->posx() + 1; x++) {
             for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
                 tripoint dest( x, y, z->posz() );
