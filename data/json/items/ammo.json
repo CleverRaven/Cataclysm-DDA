@@ -1293,7 +1293,7 @@
         "name_plural" : "5.56 NATO M855A1",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator. Its light weight, high accuracy, and managable recoil lead to its use by NATO countries and many more.  The round's fragmentation causes significant damage inside a target.",
+        "description" : "5.56x45mm ammunition with a 62gr FMJ bullet containing a steel penetrator.  Its light weight, high accuracy, and managable recoil lead to widespread use in the 20th century and it remains popular among militaries and civilians.",
         "material" : ["steel", "powder"],
         "volume" : 1,
         "weight" : 4,
