@@ -187,7 +187,6 @@ int monster::next_upgrade_time() {
         }
     }
     // didn't manage to upgrade, shouldn't ever then
-    debugmsg("hit never_upgrade");
     upgrades = false;
     return -1;
 }
@@ -204,7 +203,6 @@ void monster::try_upgrade() {
         }
         // offset by starting season
         upgrade_time += calendar::start / DAYS(1);
-        debugmsg("fresh upgrade_time: %d - half_life: %d", upgrade_time, type->half_life); 
     }
 
     const int current_day = calendar::turn.get_turn() / DAYS(1);
@@ -212,7 +210,6 @@ void monster::try_upgrade() {
     // This is so that late into game new monsters can 'catch up' with all that half-life
     // upgrades they'd get if we were simulating whole world.
     while (true) {
-        debugmsg("upgrade_time: %d, current_day: %d", upgrade_time, current_day);
         if (upgrade_time > current_day) {
             // not yet
             return;
@@ -226,18 +223,17 @@ void monster::try_upgrade() {
             poly(GetMType(newtype));
         }
 
-        // upgraded into a non-upgradable monster
         if (!upgrades) {
+            // upgraded into a non-upgradable monster
             return;
         }
 
         const int next_upgrade = next_upgrade_time();
-        // hit never_upgrade
         if (next_upgrade < 0) {
+            // hit never_upgrade
             return;
         }
         upgrade_time += next_upgrade;
-        debugmsg("new upgrade_time: %d", upgrade_time);
     }
 }
 
