@@ -1099,6 +1099,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // formats and prints encumbrance info to specified window
         void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
 
+        // Prints message(s) about current health
+        void print_health();
+
     protected:
         // The player's position on the local map.
         tripoint position;

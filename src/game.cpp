@@ -3942,12 +3942,13 @@ void game::debug()
                 nmenu.text = _("Player");
             }
 
-            enum { D_SKILLS, D_STATS, D_ITEMS, D_HP, D_PAIN, D_NEEDS, D_STATUS, D_MISSION, D_TELE };
+            enum { D_SKILLS, D_STATS, D_ITEMS, D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE };
             nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
             nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
             nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
+            nmenu.addentry( D_HEALTHY, true, 'e', "%s", _("Set h[e]alth") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
             nmenu.addentry( D_TELE, true, 't', "%s", _("[t]eleport") );
@@ -4080,6 +4081,26 @@ void game::debug()
                     int value = query_int( "Set the value to? Currently: %d", *bp_ptr );
                     // No cancelling here
                     *bp_ptr = value;
+                }
+            }
+                break;
+            case D_HEALTHY:
+            {
+                uimenu smenu;
+                smenu.addentry( 0, true, 'h', "%s: %d", _("Health"), p.get_healthy() );
+                smenu.addentry( 1, true, 'm', "%s: %d", _("Health modifier"), p.get_healthy_mod() );
+                smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
+                smenu.selected = 0;
+                smenu.query();
+                switch( smenu.ret ) {
+                case 0:
+                    p.set_healthy( query_int( "Set the value to? Currently: %d", p.get_healthy() ) );
+                    break;
+                case 1:
+                    p.set_healthy_mod( query_int( "Set the value to? Currently: %d", p.get_healthy_mod() ) );
+                    break;
+                default:
+                    break;
                 }
             }
                 break;

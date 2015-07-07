@@ -467,6 +467,10 @@ void player::activate_mutation( const std::string &mut )
         }
         tdata.powered = false;
         return;
+    } else if( mut == "SELFAWARE" ) {
+        print_health();
+        tdata.powered = false;
+        return;
     }
 }
 
