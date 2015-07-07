@@ -217,8 +217,6 @@ void tutorial_game::post_action(action_id act)
   else if (it.is_weap())
    add_message(LESSON_GOT_WEAPON);
 
-  if (g->u.volume_carried() > g->u.volume_capacity() - 2)
-   add_message(LESSON_OVERLOADED);
  } break;
 
  default: //TODO: add more actions here

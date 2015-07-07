@@ -839,7 +839,7 @@ std::list<item> starting_clothes( npc_class type, bool male )
 
 std::list<item> starting_inv(npc *me, npc_class type)
 {
- int total_space = me->volume_capacity() - 2;
+ int total_space = me->volume_capacity();
  std::list<item> ret;
  ret.push_back( item("lighter", 0, false) );
  itype_id tmp;
@@ -1550,7 +1550,7 @@ void npc::init_buying(inventory& you, std::vector<item*> &items, std::vector<int
 
 void npc::shop_restock(){
     items_location from = "NULL";
-    int total_space = volume_capacity() - 2;
+    int total_space = volume_capacity();
     std::list<item> ret;
     //list all merchant types here along with the item group they pull from and how much extra space they should have
     //guards and other fixed npcs may need a small supply of food daily...

@@ -3775,8 +3775,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
-    if (this->volume_carried() > this->volume_capacity() - 2) {
-        if (this->weight_carried() > this->weight_capacity()) {
+    if( this->volume_carried() > this->volume_capacity() ) {
+        if( this->weight_carried() > this->weight_capacity() ) {
             col_time = c_dkgray_magenta;
         } else {
             col_time = c_dkgray_red;
@@ -12292,7 +12292,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         ret += (layers);
     }
 
-    if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
+    if (volume_carried() > volume_capacity() && bp != bp_head) {
         ret += 30;
     }
 

@@ -539,7 +539,7 @@ int Character::weight_capacity() const
 
 int Character::volume_capacity() const
 {
-    int ret = 2; // A small bonus (the overflow)
+    int ret = 0;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -558,20 +558,15 @@ int Character::volume_capacity() const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    if (ret < 2) {
-        ret = 2;
-    }
+    ret = std::max(ret, 0);
     return ret;
 }
 
-bool Character::can_pickVolume( int volume, bool safe ) const
+bool Character::can_pickVolume( int volume, bool ) const
 {
-    if( !safe ) {
-        return volume_carried() + volume <= volume_capacity();
-    } else {
-        return volume_carried() + volume <= volume_capacity() - 2;
-    }
+   return volume_carried() + volume <= volume_capacity();
 }
+
 bool Character::can_pickWeight( int weight, bool safe ) const
 {
     if (!safe)
