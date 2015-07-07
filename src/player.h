@@ -642,6 +642,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
+        void drop_inventory_overflow();
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);

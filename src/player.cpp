@@ -10850,13 +10850,24 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         worn.erase( first_iter );
     }
 
+    drop_inventory_overflow();
     recalc_sight_limits();
 
     return taken_off;
 }
 
+void player::drop_inventory_overflow() {
+    if( volume_carried() > volume_capacity() ) {
+        for( auto &item_to_drop :
+               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
+            g->m.add_item_or_charges( pos(), item_to_drop );
+        }
+        add_msg_if_player( m_bad, _("Some items tumble to the ground.") );
+    }
+}
+
 void player::use_wielded() {
-  use(-1);
+    use(-1);
 }
 
 hint_rating player::rate_action_reload(item *it) {
@@ -12545,6 +12556,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
     std::list<item> worn_remains;
+    bool armor_destroyed = false;
 
     for( auto &elem : dam.damage_units ) {
 
@@ -12576,6 +12588,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
 
             if( armor_absorb( elem, armor ) ) {
+                armor_destroyed = true;
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
                 // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
@@ -12742,6 +12755,9 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
     }
     for( item& remain : worn_remains ) {
         g->m.add_item_or_charges( pos(), remain );
+    }
+    if( armor_destroyed ) {
+        drop_inventory_overflow();
     }
 }
 

@@ -84,6 +84,10 @@ class inventory
          */
         item remove_item(const item *it);
         item remove_item(int position);
+        /**
+         * Randomly select items until the volume quota is filled.
+         */
+	std::list<item> remove_randomly_by_volume(int volume);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
 
