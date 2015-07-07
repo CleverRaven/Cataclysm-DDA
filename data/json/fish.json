@@ -59,7 +59,7 @@
     "special_freq"    : [0],
     "death_function"  : "NORMAL",
     "special_attack"  : ["NONE"],
-    "description"     : "An American eel. Used to be quite common in these parts until the dams were built.  Guess they'll get a second chance now that they aren't running.",
+    "description"     : "An American eel.  Used to be quite common in these parts until the dams were built.  Guess they'll get a second chance now that they aren't running.",
     "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
@@ -91,7 +91,7 @@
     "special_freq"    : [0],
     "death_function"  : "NORMAL",
     "special_attack"  : ["NONE"],
-    "description"     : "A Bowfin. These fish are related to gar but without the huge teeth, skin rending scales, and aggression.",
+    "description"     : "A Bowfin.  These fish are related to gar but without the huge teeth, skin rending scales, and aggression.",
     "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
@@ -415,7 +415,7 @@
     "special_freq"    : [0],
     "death_function"  : "NORMAL",
     "special_attack"  : ["NONE"],
-    "description"     : "A salmon. A very fatty, nutricious fish. Tastes great smoked.",
+    "description"     : "A salmon.  A very fatty, nutricious fish.  Tastes great smoked.",
     "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
@@ -448,7 +448,7 @@
     "special_freq"    : [0],
     "death_function"  : "NORMAL",
     "special_attack"  : ["NONE"],
-    "description"     : "A sunfish. No, not the giant tropical thing.  This one is a small fish related to bass or bluegill.",
+    "description"     : "A sunfish.  No, not the giant tropical thing.  This one is a small fish related to bass or bluegill.",
     "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]
