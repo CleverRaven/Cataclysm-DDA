@@ -1646,6 +1646,7 @@
     ],
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1 ]
     ],
     [
@@ -1694,6 +1695,7 @@
     ],
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1 ]
     ],
     [
@@ -1735,6 +1737,7 @@
     ],
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1 ]
     ],
     [
@@ -1854,6 +1857,7 @@
   "components": [
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1]
     ],
     [
@@ -1926,6 +1930,7 @@
     ],
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1]
     ],
     [
@@ -1995,6 +2000,7 @@
     ],
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1]
     ],
     [
@@ -2025,6 +2031,7 @@
   "components": [
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1]
     ],
     [
@@ -3045,6 +3052,135 @@
     [
       [ "irradiated_zucchini", 2 ],
       [ "zucchini", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk_curdling",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin", 1 ]
+    ],
+    [
+      [ "milk", 5 ]
+    ],
+    [
+      [ "vinegar", 1 ]
+    ],
+    [
+      [ "wild_herbs", 40 ],
+      [ "stomach_large", 1 ],
+      [ "stomach", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk_curdling2",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin2", 1 ]
+    ],
+    [
+      [ "milk", 10 ]
+    ],
+    [
+      [ "vinegar", 2 ]
+    ],
+    [
+      [ "wild_herbs", 80 ],
+      [ "stomach_large", 2 ],
+      [ "stomach", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk_curdling3",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "components": [
+    [
+      [ "waterskin3", 1 ]
+    ],
+    [
+      [ "milk", 15 ]
+    ],
+    [
+      [ "vinegar", 3 ]
+    ],
+    [
+      [ "wild_herbs", 120 ],
+      [ "stomach_large", 3 ],
+      [ "stomach", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cheese_hard",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "skills_required": [ "survival", 4 ],
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[50, 5],
+  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
+  ["manual_survival", 3]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "rag", -1 ]
+    ]
+    ],
+  "components": [
+    [
+      [ "milk_curdled", 6 ]
+    ],
+    [
+      [ "salt_water", 1 ],
+      [ "saline", 5 ],
+      [ "salt", 1 ],
+      [ "seasoning_salt", 5 ]
     ]
   ]
 },{
@@ -7647,7 +7783,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "cheese", 2 ], [ "can_cheese", 1]
+      [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 1]
     ],
     [
       [ "pickle", 1],
@@ -7757,7 +7893,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "cheese", 2 ], [ "can_cheese", 1]
+      [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 1]
     ],
     [
       [ "pickle", 1],
@@ -9199,6 +9335,7 @@
     ],
     [
       [ "cheese", 1 ],
+      [ "cheese_hard", 1 ],
       [ "can_cheese", 1 ]
     ]
   ]
