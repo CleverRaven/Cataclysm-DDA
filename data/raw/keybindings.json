@@ -1051,6 +1051,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_PROFESSIONS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_SCENARIOS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "INSTALL",
         "category": "VEH_INTERACT",
         "name": "Install part",
