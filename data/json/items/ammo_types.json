@@ -85,6 +85,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "9x18",
+        "name" : "9x18mm",
+        "default" : "9x18mm"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "38",
         "name" : ".38",
         "default" : "38_special"
@@ -136,6 +142,12 @@
         "id" : "762",
         "name" : "7.62x39mm",
         "default" : "762_m43"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "545x39",
+        "name" : "5.45x39mm",
+        "default" : "545"
     },
     {
         "type" : "ammunition_type",
