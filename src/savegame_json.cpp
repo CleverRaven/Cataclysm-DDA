@@ -1170,7 +1170,7 @@ void item::io( Archive& archive )
         }
     };
 
-    archive.io<itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
+    archive.template io<itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
     archive.io( "charges", charges, -1l );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -1190,8 +1190,8 @@ void item::io( Archive& archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
-    archive.io<mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
+    archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
+    archive.template io<mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
