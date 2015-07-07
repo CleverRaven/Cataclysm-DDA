@@ -35,14 +35,14 @@ struct MonsterGroupEntry {
     MonsterGroupEntry(std::string new_name, int new_freq, int new_cost,
                       int new_pack_max, int new_pack_min, int new_starts,
                       int new_ends)
+    : name( new_name )
+    , frequency( new_freq )
+    , cost_multiplier( new_cost )
+    , pack_minimum( new_pack_min )
+    , pack_maximum( new_pack_max )
+    , starts( new_starts )
+    , ends( new_ends )
     {
-        name = new_name;
-        frequency = new_freq;
-        cost_multiplier = new_cost;
-        pack_minimum = new_pack_min;
-        pack_maximum = new_pack_max;
-        starts = new_starts;
-        ends = new_ends;
     }
 };
 
@@ -51,15 +51,15 @@ struct MonsterGroupResult {
     int pack_size;
 
     MonsterGroupResult()
+    : name( "mon_null" )
+    , pack_size( 0 )
     {
-        name = "mon_null";
-        pack_size = 0;
     }
 
     MonsterGroupResult(std::string new_name, int new_pack_size)
+    : name(new_name )
+    , pack_size( new_pack_size )
     {
-        name = new_name;
-        pack_size = new_pack_size;
     }
 };
 
@@ -87,15 +87,17 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
     bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id& ptype, int pposx, int pposy, int pposz,
-              unsigned int prad, unsigned int ppop ) : pos(pposx, pposy, pposz)
+              unsigned int prad, unsigned int ppop )
+    : type( ptype )
+    , pos( pposx, pposy, pposz )
+    , radius( prad )
+    , population( ppop )
+    , target()
+    , interest( 0 )
+    , dying( false )
+    , horde( false )
+    , diffuse( false )
     {
-        type = ptype;
-        radius = prad;
-        population = ppop;
-        interest = 0;
-        dying = false;
-        diffuse = false;
-        horde = false;
     }
     mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
