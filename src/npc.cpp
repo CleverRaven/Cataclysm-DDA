@@ -21,6 +21,7 @@
 #include "morale.h"
 #include "overmap.h"
 #include "vehicle.h"
+#include "mtype.h"
 
 #include <algorithm>
 #include <string>

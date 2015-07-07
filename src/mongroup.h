@@ -1,7 +1,6 @@
 #ifndef MONGROUP_H
 #define MONGROUP_H
 
-#include "mtype.h"
 #include <vector>
 #include <map>
 #include <set>
@@ -11,6 +10,8 @@
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+
+struct mtype;
 
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;

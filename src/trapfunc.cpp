@@ -11,6 +11,7 @@
 #include "npc.h"
 #include "monster.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )

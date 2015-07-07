@@ -7,7 +7,6 @@
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
-#include "mtype.h"
 #include "output.h"
 #include "cursesdef.h" // WINDOW
 
@@ -19,6 +18,9 @@ class game;
 class JsonObject;
 class JsonOut;
 struct trap;
+enum m_size : int;
+enum m_flag : int;
+enum field_id : int;
 
 class Creature
 {

@@ -24,6 +24,7 @@
 #include "submap.h"
 #include "monster.h"
 #include "overmap.h"
+#include "field.h"
 
 #include <fstream>
 #include <sstream>
@@ -194,7 +195,7 @@ editmap::editmap()
 
     tmaxx = getmaxx( g->w_terrain );
     tmaxy = getmaxy( g->w_terrain );
-    fids[0] = "-clear-";
+    fids[fd_null] = "-clear-";
     fids[fd_fire_vent] = "fire_vent";
     fids[fd_push_items] = "push_items";
     fids[fd_shock_vent] = "shock_vent";
@@ -1057,7 +1058,7 @@ int editmap::edit_ter()
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// field edit
 
-void editmap::update_fmenu_entry( uimenu *fmenu, field *field, int idx )
+void editmap::update_fmenu_entry( uimenu *fmenu, field *field, const field_id idx )
 {
     int fdens = 1;
     field_t ftype = fieldlist[idx];
@@ -1078,13 +1079,14 @@ void editmap::setup_fmenu( uimenu *fmenu )
     std::string fname;
     fmenu->entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
-        field_t ftype = fieldlist[i];
+        const field_id fid = static_cast<field_id>( i );
+        field_t ftype = fieldlist[fid];
         int fdens = 1;
-        fname = ( ftype.name[fdens - 1].empty() ? fids[i] : ftype.name[fdens - 1] );
-        fmenu->addentry( i, true, -2, "%s", fname.c_str() );
-        fmenu->entries[i].extratxt.left = 1;
-        fmenu->entries[i].extratxt.txt = string_format( "%c", ftype.sym );
-        update_fmenu_entry( fmenu, cur_field, i );
+        fname = ( ftype.name[fdens - 1].empty() ? fids[fid] : ftype.name[fdens - 1] );
+        fmenu->addentry( fid, true, -2, "%s", fname.c_str() );
+        fmenu->entries[fid].extratxt.left = 1;
+        fmenu->entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
+        update_fmenu_entry( fmenu, cur_field, fid );
     }
     if( sel_field >= 0 ) {
         fmenu->selected = sel_field;
@@ -1113,8 +1115,8 @@ int editmap::edit_fld()
             ( fmenu.keypress == '\n' || fmenu.keypress == KEY_LEFT || fmenu.keypress == KEY_RIGHT )
           ) {
             int fdens = 0;
-            int idx = fmenu.selected;
-            field_entry *fld = cur_field->findField( ( field_id )idx );
+            const field_id idx = static_cast<field_id>( fmenu.selected );
+            field_entry *fld = cur_field->findField( idx );
             if( fld != NULL ) {
                 fdens = fld->getFieldDensity();
             }
@@ -1181,7 +1183,7 @@ int editmap::edit_fld()
                     auto const rmid = t_field->begin()->first;
                     g->m.remove_field( elem, rmid );
                     if( elem == target ) {
-                        update_fmenu_entry( &fmenu, t_field, ( int )rmid );
+                        update_fmenu_entry( &fmenu, t_field, rmid );
                     }
                 }
             }

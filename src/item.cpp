@@ -24,6 +24,8 @@
 #include "npc.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "mtype.h"
+#include "field.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -2207,12 +2209,9 @@ int item::damage_cut() const
 {
     int total = type->melee_cut;
     if (is_gun()) {
-        std::string tmp_tp;
+        static const std::string FLAG_BAYONET( "BAYONET" );
         for( auto &elem : contents ) {
-            tmp_tp = elem.typeId();
-            if ( tmp_tp == "bayonet" || tmp_tp == "pistol_bayonet" ||
-                 tmp_tp == "sword_bayonet" || tmp_tp == "diamond_bayonet" ||
-                 tmp_tp == "diamond_pistol_bayonet" || tmp_tp == "diamond_sword_bayonet" ) {
+            if( elem.has_flag( FLAG_BAYONET ) ) {
                 return elem.type->melee_cut;
             }
         }

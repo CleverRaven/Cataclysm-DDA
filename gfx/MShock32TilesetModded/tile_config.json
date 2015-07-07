@@ -118,6 +118,12 @@
           "rotates": false
         },
         {
+          "id": "22_casing_new",
+          "fg": 16,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "22_cb",
           "fg": 17,
           "bg": 505,
@@ -18483,6 +18489,22 @@
           ]
         },
         {
+          "id": "vp_hdhatch",
+          "fg": 2380,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 2376
+            },
+            {
+              "id": "open",
+              "fg": 2381
+            }
+          ]
+        },
+        {
           "id": "vp_engine_electric",
           "fg": 2382,
           "rotates": true
@@ -18504,6 +18526,21 @@
         },
         {
           "id": "vp_flamethrower",
+          "fg": 2386,
+          "rotates": true
+        },
+        {
+          "id": "vp_flamethrower1",
+          "fg": 2386,
+          "rotates": true
+        },
+        {
+          "id": "vp_flamethrower2",
+          "fg": 2386,
+          "rotates": true
+        },
+        {
+          "id": "vp_flamethrower3",
           "fg": 2386,
           "rotates": true
         },
@@ -18748,6 +18785,26 @@
           "rotates": true
         },
         {
+          "id": "vp_laser_rifle",
+          "fg": 2430,
+          "rotates": true
+        },
+        {
+          "id": "vp_alaser_gunp",
+          "fg": 2430,
+          "rotates": true
+        },
+        {
+          "id": "vp_alasgun",
+          "fg": 2430,
+          "rotates": true
+        },
+        {
+          "id": "vp_alasgunp",
+          "fg": 2430,
+          "rotates": true
+        },
+        {
           "id": "vp_light_blue",
           "fg": 2431,
           "rotates": true
@@ -18763,6 +18820,11 @@
           "rotates": true
         },
         {
+          "id": "vp_am249",
+          "fg": 2433,
+          "rotates": true
+        },
+        {
           "id": "vp_minireactor",
           "fg": 2434,
           "rotates": true
@@ -18773,7 +18835,17 @@
           "rotates": true
         },
         {
+          "id": "vp_am2browning",
+          "fg": 2435,
+          "rotates": true
+        },
+        {
           "id": "vp_mounted_rm298",
+          "fg": 2435,
+          "rotates": true
+        },
+        {
+          "id": "vp_arm298",
           "fg": 2435,
           "rotates": true
         },
@@ -18784,6 +18856,16 @@
         },
         {
           "id": "vp_mounted_rm614",
+          "fg": 2437,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_m240",
+          "fg": 2437,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_m60",
           "fg": 2437,
           "rotates": true
         },
@@ -20328,6 +20410,241 @@
         {
           "id": "f_firering",
           "fg": 2638,
+          "rotates": false
+        },
+        {
+          "id": "t_marloss_tree",
+          "fg": 2639,
+          "bg": 514,
+          "rotates": false
+        },
+        {
+          "id": "f_smoking_rack",
+          "fg": 2640,
+          "rotates": false
+        },
+        {
+          "id": "f_floor_canvas",
+          "fg": 2641,
+          "rotates": false
+        },
+        {
+          "id": "f_pinball_machine",
+          "fg": 2642,
+          "rotates": false
+        },
+        {
+          "id": "f_ergometer",
+          "fg": 2643,
+          "rotates": false
+        },
+        {
+          "id": "f_flower_marloss",
+          "fg": 2644,
+          "rotates": false
+        },
+        {
+          "id": "f_gunsafe_ml",
+          "fg": 2645,
+          "rotates": false
+        },
+        {
+          "id": "f_gun_safe_el",
+          "fg": 2646,
+          "rotates": false
+        },
+        {
+          "id": "f_gunsafe_mj",
+          "fg": 2647,
+          "rotates": false
+        },
+        {
+          "id": "f_bigmirror",
+          "fg": 2648,
+          "rotates": false
+        },
+        {
+          "id": "f_lane",
+          "fg": 2649,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "unconnected",
+              "fg": 2649
+            },
+            {
+              "id": "corner",
+              "fg": 2650
+            },
+            {
+              "id": "edge",
+              "fg": 2651
+            },
+            {
+              "id": "end_piece",
+              "fg": 2652
+            }
+          ]
+        },
+        {
+          "id": "f_ball_mach",
+          "fg": 2653,
+          "rotates": false
+        },
+        {
+          "id": "f_robotic_arm",
+          "fg": 2654,
+          "rotates": false
+        },
+        {
+          "id": "f_straw_bed",
+          "fg": 2655,
+          "rotates": false
+        },
+        {
+          "id": "f_sandbag_half",
+          "fg": 2656,
+          "rotates": false
+        },
+        {
+          "id": "f_sandbag_wall",
+          "fg": 2657,
+          "rotates": false
+        },
+        {
+          "id": "chestwrap",
+          "fg": 2658,
+          "rotates": false
+        },
+        {
+          "id": "chestwrap_wool",
+          "fg": 2659,
+          "rotates": false
+        },
+        {
+          "id": "chestwrap_leather",
+          "fg": 2660,
+          "rotates": false
+        },
+        {
+          "id": "chestwrap_fur",
+          "fg": 2661,
+          "rotates": false
+        },
+        {
+          "id": "gloves_wraps",
+          "fg": 2662,
+          "rotates": false
+        },
+        {
+          "id": "gloves_wraps_wool",
+          "fg": 2663,
+          "rotates": false
+        },
+        {
+          "id": "gloves_wraps_leather",
+          "fg": 2664,
+          "rotates": false
+        },
+        {
+          "id": "gloves_wraps_fur",
+          "fg": 2665,
+          "rotates": false
+        },
+        {
+          "id": "footrags",
+          "fg": 2666,
+          "rotates": false
+        },
+        {
+          "id": "footrags_wool",
+          "fg": 2667,
+          "rotates": false
+        },
+        {
+          "id": "footrags_leather",
+          "fg": 2668,
+          "rotates": false
+        },
+        {
+          "id": "footrags_fur",
+          "fg": 2669,
+          "rotates": false
+        },
+        {
+          "id": "vp_mounted_abzats",
+          "fg": 2670,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_m134",
+          "fg": 2671,
+          "rotates": true
+        },
+        {
+          "id": "primitive_hammer",
+          "fg": 2672,
+          "rotates": false
+        },
+        {
+          "id": "makeshift_hammer",
+          "fg": 2673,
+          "rotates": false
+        },
+        {
+          "id": "hat_hard_hooded",
+          "fg": 2674,
+          "rotates": false
+        },
+        {
+          "id": "vp_ram_military_horizontal",
+          "fg": 2675,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_steel",
+          "fg": 2676,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_wood",
+          "fg": 2677,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_hardsteel",
+          "fg": 2675,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_alloy",
+          "fg": 2677,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_spiked",
+          "fg": 2678,
+          "rotates": true
+        },
+        {
+          "id": "reloaded_22_lr",
+          "fg": 2679,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_22_fmj",
+          "fg": 2680,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_22_cb",
+          "fg": 2681,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_22_ratshot",
+          "fg": 2682,
           "rotates": false
         }
       ]

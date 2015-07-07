@@ -18,6 +18,7 @@
 #include "overmap.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "field.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

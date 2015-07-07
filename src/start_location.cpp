@@ -8,6 +8,7 @@
 #include "enums.h"
 #include "json.h"
 #include "overmap.h"
+#include "field.h"
 
 static location_map _locations;
 

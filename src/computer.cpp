@@ -16,6 +16,8 @@
 #include "monster.h"
 #include "event.h"
 #include "trap.h"
+#include "mtype.h"
+#include "field.h"
 
 #include <fstream>
 #include <string>

@@ -37,6 +37,8 @@
 #include "trap.h"
 #include "map_iterator.h"
 #include "submap.h"
+#include "mtype.h"
+
 #include <map>
 
 #ifdef SDLTILES
@@ -4756,7 +4758,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
         int numslime = 1;
-        monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
             if (g->summon_mon("mon_player_blob", valid[index])) {

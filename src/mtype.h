@@ -5,7 +5,6 @@
 
 #include "enums.h"
 #include "color.h"
-#include "field.h"
 #include "int_id.h"
 #include "string_id.h"
 
@@ -19,6 +18,7 @@ class Creature;
 class monster;
 class monfaction;
 struct projectile;
+enum field_id : int;
 enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
@@ -31,7 +31,7 @@ using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
 
-enum m_size {
+enum m_size : int {
     MS_TINY = 0,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
@@ -41,7 +41,7 @@ enum m_size {
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum monster_trigger {
+enum monster_trigger : int {
     MTRIG_NULL = 0,
     MTRIG_STALK,  // Increases when following the player
     MTRIG_MEAT,  // Meat or a corpse nearby
@@ -61,7 +61,7 @@ enum monster_trigger {
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
-enum m_flag {
+enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_VIS50,               // Vision -10

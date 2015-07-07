@@ -4587,7 +4587,7 @@
         "name" : "sprayable fungicide",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower. Best be used with some kind of mask or mouth protection.",
+        "description" : "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best be used with some kind of mask or mouth protection.",
         "material" : "null",
         "volume" : 1,
         "weight" : 1,

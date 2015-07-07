@@ -24,6 +24,7 @@
 #include "itype.h"
 #include "submap.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 #include <fstream>
 #include <sstream>

@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "line.h"
+#include "mtype.h"
 
 struct sound_event {
     int volume;

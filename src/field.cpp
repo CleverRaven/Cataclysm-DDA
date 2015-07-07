@@ -14,6 +14,7 @@
 #include "vehicle.h"
 #include "submap.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)

@@ -12,6 +12,7 @@
 #include "mondeath.h"
 #include "monfaction.h"
 #include "mongroup.h"
+#include "mtype.h"
 
 MonsterGenerator::MonsterGenerator()
 {

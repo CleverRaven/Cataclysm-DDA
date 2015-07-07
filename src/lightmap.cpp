@@ -8,6 +8,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "submap.h"
+#include "mtype.h"
 
 #include <cmath>
 #include <cstring>

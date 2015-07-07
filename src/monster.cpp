@@ -25,6 +25,8 @@
 #include "trap.h"
 #include "line.h"
 #include "mapdata.h"
+#include "mtype.h"
+#include "field.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -1934,4 +1936,19 @@ void monster::on_hit( Creature *source, body_part,
 body_part monster::get_random_body_part( bool ) const
 {
     return bp_torso;
+}
+
+int monster::get_hp_max( hp_part ) const
+{
+    return type->hp;
+}
+
+int monster::get_hp_max() const
+{
+    return type->hp;
+}
+
+std::string monster::get_material() const
+{
+    return type->mat[0];
 }

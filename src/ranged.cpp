@@ -19,6 +19,8 @@
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "field.h"
+#include "mtype.h"
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);

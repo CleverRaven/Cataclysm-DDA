@@ -1814,7 +1814,7 @@
     "hp":65,
     "special_attacks":[["ACID_BARF", 10]],
     "death_function":["ACID", "NORMAL"],
-    "description":"A sickly-looking dead one. Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
+    "description":"A sickly-looking dead one.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -2547,7 +2547,7 @@
     "hp":110,
     "death_function":["NORMAL"],
     "special_attacks":[["RANGED_PULL", 20], ["GRAB_DRAG", 3], ["BITE", 5]],
-    "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
+    "description":"An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",

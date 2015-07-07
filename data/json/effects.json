@@ -245,7 +245,7 @@
         "desc": [
             "Your hearing is impaired.",
             "You can barely hear anything and your ears hurt.",
-            "You can't hear anything and your head aches from all the noise. You can't converse with NPCs."
+            "You can't hear anything and your head aches from all the noise.  You can't converse with NPCs."
         ],
         "apply_message": "Your ears ring!",
         "remove_message": "You can hear again!",

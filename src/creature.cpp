@@ -7,6 +7,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"

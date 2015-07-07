@@ -14,6 +14,8 @@
 #include "computer.h"
 // TODO: Remove this include once 2D wrappers are no longer needed
 #include "mapgen_functions.h"
+#include "field.h"
+
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.

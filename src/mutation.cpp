@@ -13,6 +13,7 @@
 #include "input.h"
 #include "mapdata.h"
 #include "debug.h"
+#include "field.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -409,7 +410,6 @@ void player::activate_mutation( const std::string &mut )
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
-        monster slime(GetMType("mon_player_blob"));
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
             if (g->summon_mon("mon_player_blob", valid[index])) {
