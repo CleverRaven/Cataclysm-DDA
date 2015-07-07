@@ -170,7 +170,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     if (id == "SCAVENGER"){
         col_missions["Assign Scavenging Patrol"] = "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
             "Assigning one of your allies to patrol the surrounding wilderness and isolated buildings presents "
-            "the opportunity to build survival skills while engaging in relativly safe combat against isolated "
+            "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
             "creatures.";
         keys.push_back("Assign Scavenging Patrol");
         npc_list = companion_list(p->name+"_scavenging_patrol");
@@ -940,7 +940,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
 		      monsters);
                 experience += rng ( 2, 10 );
             } else {
-                popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
+                popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
                 companion_lost(comp);
                 return false;
             }
@@ -1183,7 +1183,7 @@ bool talk_function::forage_return(npc *p)
         int skill_1 = comp->skillLevel( "survival" );
         int skill_2 = comp->skillLevel( "dodge" );
         if( skill_1 > rng( -2, 8 ) ){
-            popup(_("Alterted by a russle, %s fled to the safety of the outpost!"), comp->name.c_str());
+            popup(_("Alerted by a rustle, %s fled to the safety of the outpost!"), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("As soon as the cougar sprang %s darted to the safety of the outpost!"), comp->name.c_str());
         } else {
