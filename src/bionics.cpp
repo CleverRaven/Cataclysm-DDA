@@ -1337,6 +1337,21 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         return false;
     }
 
+    // surgery is imminent, retract claws or blade if active
+    if (has_bionic("bio_claws") && skill_level == -1 ) {
+        if (weapon.type->id == "bio_claws_weapon") {
+            add_msg(m_neutral, _("You withdraw your claws."));
+            weapon = ret_null;
+          }
+    }
+
+    if (has_bionic("bio_blade") && skill_level == -1 ) {
+        if (weapon.type->id == "bio_blade_weapon") {
+            add_msg(m_neutral, _("You retract your blade."));
+            weapon = ret_null;
+        }
+    }
+
     //If you are paying the doctor to do it, shouldn't use your supplies
     if (skill_level == -1)
         use_charges("1st_aid", 1);

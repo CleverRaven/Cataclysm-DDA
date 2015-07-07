@@ -39,6 +39,10 @@ struct light_emission {
 };
 extern light_emission nolight;
 
+namespace io {
+struct object_archive_tag;
+}
+
 struct iteminfo {
     public:
         std::string sType; //Itemtype
@@ -205,6 +209,10 @@ public:
     int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
  std::string skill() const;
+
+    template<typename Archive>
+    void io( Archive& );
+    using archive_type_tag = io::object_archive_tag;
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default

@@ -128,6 +128,37 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "9x18mm",
+        "items": [
+            ["lead", 4],
+            ["9x18mm_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 3]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mmP2",
+        "items": [
+            ["lead", 4],
+            ["9x18mm_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 5]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mmfmj",
+        "items": [
+            ["lead", 4],
+            ["9x18mm_casing", 1],
+            ["smpistol_primer", 1],
+            ["gunpowder", 5],
+            ["copper", 4]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "32_acp",
         "items": [
             ["lead", 5],
@@ -312,6 +343,28 @@
             ["lgrifle_primer", 1],
             ["gunpowder", 8],
             ["copper", 5]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "545",
+        "items": [
+            ["lead", 2],
+            ["545_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 5],
+            ["copper", 2]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "545_ap",
+        "items": [
+            ["lead", 3],
+            ["545_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 5],
+            ["copper", 3]
         ]
     },
     {

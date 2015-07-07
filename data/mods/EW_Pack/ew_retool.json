@@ -19,7 +19,7 @@
         "acceptable_ammo" : ["654"],
         "mod_targets" : ["rifle"],
         "bashing" : 4,
-        "ammo_modifier" : "545"
+        "ammo_modifier" : "545x39"
     },
     {
         "type" : "GUNMOD",
@@ -37,7 +37,7 @@
         "volume" : 2,
         "cutting" : 0,
         "recoil_modifier" : 2,
-        "acceptable_ammo" : ["545"],
+        "acceptable_ammo" : ["545x39"],
         "mod_targets" : ["rifle"],
         "bashing" : 4,
         "ammo_modifier" : "654"

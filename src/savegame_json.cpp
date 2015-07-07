@@ -29,6 +29,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "mutation.h"
+#include "io.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -1143,80 +1144,70 @@ void monster::store(JsonOut &json) const
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// item.h
 
-void item::deserialize(JsonObject &data)
+template<typename Archive>
+void item::io( Archive& archive )
 {
-    init();
-    unset_flags();
-    clear_vars();
-
-    std::string idtmp = "";
-    std::string ammotmp = "null";
-    int lettmp = 0;
-    std::string corptmp = "null";
-    int damtmp = 0;
-    std::bitset<num_bp> tmp_covers;
-
-    if ( ! data.read( "typeid", idtmp) ) {
-        debugmsg("Invalid item type: %s ", data.str().c_str() );
-        idtmp = "null";
-    }
-
-    data.read( "charges", charges );
-    data.read( "burnt", burnt );
-
-    data.read( "poison", poison );
-
-    data.read( "bday", bday );
-
-    std::string mode;
-    if( data.read( "mode", mode ) ) {
-        set_gun_mode( mode );
-    }
-    data.read( "mission_id", mission_id );
-    data.read( "player_id", player_id );
-
-    data.read( "corpse", corptmp );
-    if (corptmp != "null") {
-        corpse = GetMType(corptmp);
-    } else {
-        corpse = NULL;
-    }
-
-    JsonObject pvars = data.get_object("item_vars");
-    std::set<std::string> members = pvars.get_member_names();
-    for( const auto &member : members ) {
-        if( pvars.has_string( member ) ) {
-            item_vars[member] = pvars.get_string( member );
+    const auto load_type = [this]( const std::string& id ) {
+        init();
+        // only for backward compatibility (there are no "on" versions of those anymore)
+        if( id == "UPS_on" ) {
+            make( "UPS_off" );
+        } else if( id == "adv_UPS_on" ) {
+            make( "adv_UPS_off" );
+        } else {
+            make( id );
         }
-    }
+    };
+    const auto load_curammo = [this]( const std::string& id ) {
+        set_curammo( id );
+    };
+    const auto load_corpse = [this]( const std::string& id ) {
+        if( id == "null" ) {
+            // backwards compatibility, nullptr should not be stored at all
+            corpse = nullptr;
+        } else {
+            corpse = GetMType( id );
+        }
+    };
 
-    if( idtmp == "UPS_on" ) {
-        idtmp = "UPS_off";
-    } else if( idtmp == "adv_UPS_on" ) {
-        idtmp = "adv_UPS_off" ;
-    }
-    make(idtmp);
+    archive.io<itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
+    archive.io( "charges", charges, -1l );
+    archive.io( "burnt", burnt, 0 );
+    archive.io( "poison", poison, 0 );
+    archive.io( "bday", bday, 0 );
+    archive.io( "mission_id", mission_id, -1 );
+    archive.io( "player_id", player_id, -1 );
+    archive.io( "item_vars", item_vars, io::empty_default_tag() );
+    archive.io( "name", name, type_name( 1 ) ); // TODO: change default to empty string
+    archive.io( "invlet", invlet, '\0' );
+    archive.io( "damage", damage, static_cast<decltype(damage)>( 0 ) );
+    archive.io( "active", active, false );
+    archive.io( "item_counter", item_counter, static_cast<decltype(item_counter)>( 0 ) );
+    archive.io( "fridge", fridge, 0 );
+    archive.io( "rot", rot, 0 );
+    archive.io( "last_rot_check", last_rot_check, 0 );
+    archive.io( "techniques", techniques, io::empty_default_tag() );
+    archive.io( "item_tags", item_tags, io::empty_default_tag() );
+    archive.io( "contents", contents, io::empty_default_tag() );
+    archive.io( "components", components, io::empty_default_tag() );
+    archive.io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
+    archive.io<mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
+    archive.io( "covers", covered_bodyparts, io::default_tag() );
+    archive.io( "light", light.luminance, nolight.luminance );
+    archive.io( "light_width", light.width, nolight.width );
+    archive.io( "light_dir", light.direction, nolight.direction );
 
-    if ( ! data.read( "name", name ) ) {
-        name = type_name(1);
+    if( !Archive::is_input::value ) {
+        return;
     }
+    /* Loading has finished, following code is to ensure consistency and fixes bugs in saves. */
+
     // Compatiblity for item type changes: for example soap changed from being a generic item
     // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
     // charges == -1, this fixes the charges value to the default charges.
     if( count_by_charges() && charges < 0 ) {
         charges = item( type->id, 0 ).charges;
     }
-
-    data.read( "invlet", lettmp );
-    invlet = char(lettmp);
-
-    data.read( "damage", damtmp );
-    damage = damtmp; // todo: check why this is done after make(), using a tmp variable
-    data.read( "active", active );
-    data.read( "item_counter" , item_counter );
-    data.read( "fridge", fridge );
-    data.read( "rot", rot );
-    data.read( "last_rot_check", last_rot_check );
     if( !active && !rotten() && goes_bad() ) {
         // Rotting found *must* be active to trigger the rotting process,
         // if it's already rotten, no need to do this.
@@ -1226,152 +1217,39 @@ void item::deserialize(JsonObject &data)
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
-
-    data.read("techniques", techniques);
-    // We need item tags here to make sure HOT/COLD food is active
-    // and bugged WET towels get reactivated
-    data.read("item_tags", item_tags);
-
     if( !active &&
         (item_tags.count( "HOT" ) > 0 || item_tags.count( "COLD" ) > 0 ||
          item_tags.count( "WET" ) > 0) ) {
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
-
-    if( data.read( "curammo", ammotmp ) ) {
-        set_curammo( ammotmp );
+    std::string mode;
+    if( archive.read( "mode", mode ) ) {
+        // only for backward compatibility (nowadays mode is stored in item_vars)
+        set_gun_mode( mode );
     }
 
-    data.read( "covers", tmp_covers );
     const auto armor = type->armor.get();
-    if( armor != nullptr && tmp_covers.none() ) {
+    if( armor != nullptr && covered_bodyparts.none() ) {
+        // Fix armor that had no body_part covered, but its type definition says it should
         covered_bodyparts = armor->covers;
         if (armor->sided.any()) {
             make_handed( one_in( 2 ) ? LEFT : RIGHT );
         }
-    } else {
-        covered_bodyparts = tmp_covers;
     }
+}
 
-    int tmplum = 0;
-    if ( data.read("light", tmplum) ) {
-
-        light = nolight;
-        int tmpwidth = 0;
-        int tmpdir = 0;
-
-        data.read("light_width", tmpwidth);
-        data.read("light_dir", tmpdir);
-        light.luminance = tmplum;
-        light.width = (short)tmpwidth;
-        light.direction = (short)tmpdir;
-    }
-
-    data.read("contents", contents);
-    data.read("components", components);
+void item::deserialize(JsonObject &data)
+{
+    io::JsonObjectInputArchive archive( data );
+    io( archive );
 }
 
 void item::serialize(JsonOut &json, bool save_contents) const
 {
-    json.start_object();
-
-    /////
-    if (type == NULL) {
-        debugmsg("Tried to save an item with NULL type!");
-    }
-
-    /////
-    json.member( "invlet", int(invlet) );
-    json.member( "typeid", typeId() );
-    json.member( "bday", bday );
-
-    if ( charges != -1 ) {
-        json.member( "charges", long(charges) );
-    }
-    if ( damage != 0 ) {
-        json.member( "damage", int(damage) );
-    }
-    if ( burnt != 0 ) {
-        json.member( "burnt", burnt );
-    }
-    if ( covered_bodyparts.any() ) {
-        json.member( "covers", covered_bodyparts );
-    }
-    if ( poison != 0 ) {
-        json.member( "poison", poison );
-    }
-    if ( has_curammo() ) {
-        json.member( "curammo", get_curammo_id() );
-    }
-    if ( active == true ) {
-        json.member( "active", true );
-    }
-    if ( item_counter != 0) {
-        json.member( "item_counter", item_counter );
-    }
-    // bug? // if ( fridge == true )    json.member( "fridge", true );
-    if ( fridge != 0 ) {
-        json.member( "fridge", fridge );
-    }
-    if ( rot != 0 ) {
-        json.member( "rot", rot );
-    }
-    if ( last_rot_check != 0 ) {
-        json.member( "last_rot_check", last_rot_check );
-    }
-
-    if ( corpse != NULL ) {
-        json.member( "corpse", corpse->id );
-    }
-
-    if ( player_id != -1 ) {
-        json.member( "player_id", player_id );
-    }
-    if ( mission_id != -1 ) {
-        json.member( "mission_id", mission_id );
-    }
-
-    if ( ! techniques.empty() ) {
-        json.member( "techniques", techniques );
-    }
-
-    if ( ! item_tags.empty() ) {
-        json.member( "item_tags", item_tags );
-    }
-
-    if ( ! item_vars.empty() ) {
-        json.member( "item_vars", item_vars );
-    }
-
-    if ( name != type_name(1) ) {
-        json.member( "name", name );
-    }
-
-    if ( light.luminance != 0 ) {
-        json.member( "light", int(light.luminance) );
-        if ( light.width != 0 ) {
-            json.member( "light_width", int(light.width) );
-            json.member( "light_dir", int(light.direction) );
-        }
-    }
-
-    if ( save_contents && !contents.empty() ) {
-        json.member("contents");
-        json.start_array();
-        for( auto &elem : contents ) {
-            if( !( elem.contents.empty() ) && elem.contents[0].is_gunmod() ) {
-                elem.serialize( json, true ); // save gun mods of holstered pistol
-            } else {
-                elem.serialize( json, false ); // no matryoshka dolls
-            }
-        }
-        json.end_array();
-    }
-
-    json.member( "components", components );
-
-    json.end_object();
+    (void) save_contents;
+    io::JsonObjectOutputArchive archive( json );
+    const_cast<item*>(this)->io( archive );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -3663,7 +3663,8 @@ void map::shoot( const tripoint &p, int &dam,
         }
     } else {
         if (move_cost(p) == 0 && !trans(p)) {
-            dam = 0; // TODO: Bullets can go through some walls?
+            bash( p, dam, false );
+            dam = 0; // TODO: Preserve some residual damage when it makes sense.
         } else {
             dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
         }
