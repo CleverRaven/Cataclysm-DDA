@@ -4489,10 +4489,10 @@ ff.......|....|WWWWWWWW|\n\
             bool monsters_end = false;
             if (!one_in(4)) { // Trapped netherworld monsters
                 monsters_end = true;
-                std::string nethercreatures[11] = { mon_flying_polyp, mon_hunting_horror,
-                                                    mon_mi_go, mon_yugg, mon_gelatin,
-                                                    mon_flaming_eye, mon_kreck, mon_gracke,
-                                                    mon_blank, mon_gozu, mon_shoggoth };
+                static const std::array<mtype_id, 11> nethercreatures = { {
+                    mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
+                    mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shoggoth,
+                } };
                 tw = rng(SEEY + 3, SEEY + 5);
                 bw = tw + 4;
                 lw = rng(SEEX - 6, SEEX - 2);
@@ -4510,7 +4510,7 @@ ff.......|....|WWWWWWWW|\n\
                         } else if (j == tw + 2) {
                             ter_set(i, j, t_concrete_wall);
                         } else { // Empty space holds monsters!
-                            std::string type = nethercreatures[(rng(0, 10))];
+                            const mtype_id& type = random_entry( nethercreatures );
                             add_spawn(type, 1, i, j);
                         }
                     }
@@ -13475,11 +13475,12 @@ void mx_military(map &m, const tripoint &)
         }
 
     }
-    std::string netherspawns[4] = {mon_gelatin, mon_mi_go,
-                                     mon_kreck, mon_gracke};
+    static const std::array<mtype_id, 4> netherspawns = { {
+        mon_gelatin, mon_mi_go, mon_kreck, mon_gracke,
+    } };
     int num_monsters = rng(0, 3);
     for (int i = 0; i < num_monsters; i++) {
-        std::string type = netherspawns[( rng(0, 3) )];
+        const mtype_id& type = random_entry( netherspawns );
         int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
         m.add_spawn(type, 1, mx, my);
     }
@@ -13507,11 +13508,12 @@ void mx_science(map &m, const tripoint &)
             }
         }
     }
-    std::string spawncreatures[4] = {mon_gelatin, mon_mi_go,
-                                     mon_kreck, mon_gracke};
+    static const std::array<mtype_id, 4> spawncreatures = { {
+        mon_gelatin, mon_mi_go, mon_kreck, mon_gracke,
+    } };
     int num_monsters = rng(0, 3);
     for (int i = 0; i < num_monsters; i++) {
-        std::string type = spawncreatures[( rng(0, 3) )];
+        const mtype_id& type = random_entry( spawncreatures );
         int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
         m.add_spawn(type, 1, mx, my);
     }
@@ -13548,11 +13550,12 @@ void mx_collegekids(map &m, const tripoint &)
             }
         }
     }
-    std::string spawncreatures[4] = {mon_gelatin, mon_mi_go,
-                                     mon_kreck, mon_gracke};
+    static const std::array<mtype_id, 4> spawncreatures = { {
+        mon_gelatin, mon_mi_go, mon_kreck, mon_gracke,
+    } };
     int num_monsters = rng(0, 3);
     for (int i = 0; i < num_monsters; i++) {
-        std::string type = spawncreatures[( rng(0, 3) )];
+        const mtype_id& type = random_entry( spawncreatures );
         int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
         m.add_spawn(type, 1, mx, my);
     }
@@ -13754,11 +13757,12 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
             }
         }
     }
-    std::string spawncreatures[4] = {mon_gelatin, mon_mi_go,
-                                     mon_kreck, mon_gracke};
+    static const std::array<mtype_id, 4> spawncreatures = { {
+        mon_gelatin, mon_mi_go, mon_kreck, mon_gracke,
+    } };
     int num_monsters = rng(0, 3);
     for (int i = 0; i < num_monsters; i++) {
-        std::string type = spawncreatures[( rng(0, 3) )];
+        const mtype_id& type = random_entry( spawncreatures );
         int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
         m.add_spawn(type, 1, mx, my);
     }
@@ -13808,8 +13812,9 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
 
 void mx_portal(map &m, const tripoint &abs_sub)
 {
-    std::string spawncreatures[5] = {mon_gelatin, mon_flaming_eye,
-                                     mon_kreck, mon_gracke, mon_blank};
+    static const std::array<mtype_id, 5> spawncreatures = { {
+        mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
+    } };
     int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
     for (int i = x - 1; i <= x + 1; i++) {
         for (int j = y - 1; j <= y + 1; j++) {
@@ -13819,7 +13824,7 @@ void mx_portal(map &m, const tripoint &abs_sub)
     madd_trap(&m, x, y, tr_portal);
     int num_monsters = rng(0, 4);
     for (int i = 0; i < num_monsters; i++) {
-        std::string type = spawncreatures[( rng(0, 4) )];
+        const mtype_id& type = random_entry( spawncreatures );
         int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
         m.make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true);
         m.add_spawn(type, 1, mx, my);
@@ -13887,7 +13892,9 @@ void mx_fumarole(map &m, const tripoint &)
 
 void mx_portal_in(map &m, const tripoint &abs_sub)
 {
-    std::string monids[5] = {mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank};
+    static const std::array<mtype_id, 5> monids = { {
+        mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
+    } };
     int x = rng(5, SEEX * 2 - 6), y = rng(5, SEEY * 2 - 6);
     m.add_field({x, y, abs_sub.z}, fd_fatigue, 3, 0);
     for (int i = x - 5; i <= x + 5; i++) {
@@ -13895,7 +13902,7 @@ void mx_portal_in(map &m, const tripoint &abs_sub)
             if (rng(1, 9) >= trig_dist(x, y, i, j)) {
                 m.marlossify( tripoint( i, j, abs_sub.z ) );
                 if (one_in(15)) {
-                    m.add_spawn( monids[rng( 0, 4 )], 1, i, j );
+                    m.add_spawn( random_entry( monids ), 1, i, j );
                 }
             }
         }
