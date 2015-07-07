@@ -11,6 +11,7 @@
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+using mtype_id = std::string;
 
 struct mtype;
 
@@ -19,7 +20,7 @@ typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
 struct MonsterGroupEntry {
-    std::string name;
+    mtype_id name;
     int frequency;
     int cost_multiplier;
     int pack_minimum;
@@ -32,10 +33,10 @@ struct MonsterGroupEntry {
         return (ends <= 0);
     }
 
-    MonsterGroupEntry(std::string new_name, int new_freq, int new_cost,
+    MonsterGroupEntry( const mtype_id& id, int new_freq, int new_cost,
                       int new_pack_max, int new_pack_min, int new_starts,
                       int new_ends)
-    : name( new_name )
+    : name( id )
     , frequency( new_freq )
     , cost_multiplier( new_cost )
     , pack_minimum( new_pack_min )
@@ -47,7 +48,7 @@ struct MonsterGroupEntry {
 };
 
 struct MonsterGroupResult {
-    std::string name;
+    mtype_id name;
     int pack_size;
 
     MonsterGroupResult()
@@ -56,8 +57,8 @@ struct MonsterGroupResult {
     {
     }
 
-    MonsterGroupResult(std::string new_name, int new_pack_size)
-    : name(new_name )
+    MonsterGroupResult( const mtype_id& id, int new_pack_size)
+    : name( id )
     , pack_size( new_pack_size )
     {
     }
@@ -65,9 +66,9 @@ struct MonsterGroupResult {
 
 struct MonsterGroup {
     mongroup_id name;
-    std::string defaultMonster;
+    mtype_id defaultMonster;
     FreqDef  monsters;
-    bool IsMonsterInGroup(const std::string &mtypeid) const;
+    bool IsMonsterInGroup( const mtype_id& id ) const;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
@@ -151,10 +152,10 @@ class MonsterGroupManager
         static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup(const mongroup_id& group,
                 int *quantity = 0, int turn = -1);
-        static bool IsMonsterInGroup(const mongroup_id& group, const std::string& mtype_id);
+        static bool IsMonsterInGroup(const mongroup_id& group, const mtype_id& id );
         static bool isValidMonsterGroup(const mongroup_id& group);
-        static const mongroup_id& Monster2Group(std::string);
-        static std::vector<std::string> GetMonstersFromGroup(const mongroup_id& group);
+        static const mongroup_id& Monster2Group( const mtype_id& id );
+        static std::vector<mtype_id> GetMonstersFromGroup(const mongroup_id& group);
         static const MonsterGroup &GetMonsterGroup(const mongroup_id& group);
         static const MonsterGroup &GetUpgradedMonsterGroup(const mongroup_id& group);
 

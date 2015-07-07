@@ -971,7 +971,7 @@ bool game::cleanup_at_end()
 
         int iTotalKills = 0;
 
-        const std::map<std::string, mtype *> monids = MonsterGenerator::generator().get_all_mtypes();
+        const std::map<mtype_id, mtype *> monids = MonsterGenerator::generator().get_all_mtypes();
         for( const auto &monid : monids ) {
             if( kill_count( monid.first ) > 0 ) {
                 iTotalKills += kill_count( monid.first );
@@ -1515,7 +1515,7 @@ npc *game::find_npc(int id)
     return overmap_buffer.find_npc(id);
 }
 
-int game::kill_count(std::string mon)
+int game::kill_count( const mtype_id& mon )
 {
     if (kills.find(mon) != kills.end()) {
         return kills[mon];
@@ -1523,9 +1523,9 @@ int game::kill_count(std::string mon)
     return 0;
 }
 
-void game::increase_kill_count(const std::string &mtype_id)
+void game::increase_kill_count( const mtype_id& id )
 {
-    kills[mtype_id]++;
+    kills[id]++;
 }
 
 void game::handle_key_blocking_activity()
@@ -6806,7 +6806,7 @@ Creature const* game::critter_at( const tripoint &p, bool allow_hallucination ) 
     return const_cast<game*>(this)->critter_at( p, allow_hallucination );
 }
 
-bool game::summon_mon( const std::string id, const tripoint &p )
+bool game::summon_mon( const mtype_id& id, const tripoint &p )
 {
     monster mon( id );
     mon.spawn(p);

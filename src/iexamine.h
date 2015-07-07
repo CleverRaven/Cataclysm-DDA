@@ -15,6 +15,7 @@ class item;
 class player;
 class map;
 struct tripoint;
+using mtype_id = std::string;
 
 namespace iexamine
 {
@@ -24,7 +25,7 @@ namespace iexamine
     * Also spawns eggs.
     * @param montype The monster type of the created spiders.
     */
-void egg_sack_generic( player *p, map *m, const tripoint &examp, const std::string &montype );
+void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id& montype );
 
 void none( player *p, map *m, const tripoint &examp );
 

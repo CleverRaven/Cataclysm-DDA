@@ -355,7 +355,7 @@ class wish_monster_callback: public uimenu_callback
 
 void game::wishmonster( const tripoint &p )
 {
-    const std::map<std::string, mtype *> montypes = MonsterGenerator::generator().get_all_mtypes();
+    const std::map<mtype_id, mtype *> montypes = MonsterGenerator::generator().get_all_mtypes();
 
     uimenu wmenu;
     wmenu.w_x = 0;

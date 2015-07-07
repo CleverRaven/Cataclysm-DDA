@@ -1442,7 +1442,7 @@ void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
 }
 
 void iexamine::egg_sack_generic( player *p, map *m, const tripoint &examp,
-                                 const std::string &montype )
+                                 const mtype_id& montype )
 {
     const std::string old_furn_name = m->furnname( examp );
     if( !query_yn( _( "Harvest the %s?" ), old_furn_name.c_str() ) ) {

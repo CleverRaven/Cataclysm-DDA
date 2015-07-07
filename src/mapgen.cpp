@@ -737,7 +737,7 @@ public:
  */
 class jmapgen_monster : public jmapgen_piece {
 public:
-    std::string id;
+    mtype_id id;
     bool friendly;
     std::string name;
     jmapgen_monster( JsonObject &jsi ) : jmapgen_piece()
@@ -10555,7 +10555,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 if (furn(zx, zy) == f_bed || one_in(3)) {
                     add_item(zx, zy, body);
                 } else {
-                    std::string zom = "mon_zombie";
+                    mtype_id zom = "mon_zombie";
                     if (one_in(6)) {
                         zom = "mon_zombie_spitter";
                     } else if (!one_in(3)) {
@@ -11624,7 +11624,7 @@ int map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
     return items.size();
 }
 
-void map::add_spawn(std::string type, int count, int x, int y, bool friendly,
+void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly,
                     int faction_id, int mission_id, std::string name)
 {
     if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {

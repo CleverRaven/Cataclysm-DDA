@@ -156,7 +156,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse( const std::string& mt, unsigned int turn )
+void item::make_corpse( const mtype_id& mt, unsigned int turn )
 {
     if( !MonsterGenerator::generator().has_mtype( mt ) ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
@@ -172,7 +172,7 @@ void item::make_corpse( const std::string& mt, unsigned int turn )
     bday = turn;
 }
 
-void item::make_corpse( const std::string& mt, unsigned int turn, const std::string &name )
+void item::make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name )
 {
     make_corpse( mt, turn );
     this->name = name;

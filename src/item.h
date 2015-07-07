@@ -29,6 +29,7 @@ using ammotype = std::string;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+using mtype_id = std::string;
 
 std::string const& rad_badge_color(int rad);
 
@@ -114,8 +115,8 @@ public:
          * Without any parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( const std::string& mt, unsigned int turn );
-        void make_corpse( const std::string& mt, unsigned int turn, const std::string &name );
+        void make_corpse( const mtype_id& mt, unsigned int turn );
+        void make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name );
         void make_corpse();
         /*@}*/
         /**

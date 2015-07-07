@@ -69,6 +69,7 @@ enum weather_type : int;
 
 struct special_game;
 struct mtype;
+using mtype_id = std::string;
 class mission;
 class map;
 class Creature;
@@ -213,7 +214,7 @@ class game
         Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
-        bool summon_mon(const std::string id, const tripoint &p);
+        bool summon_mon( const mtype_id& id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
@@ -300,9 +301,9 @@ class game
         /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
         void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
-        int kill_count(std::string mon);
+        int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
-        void increase_kill_count(const std::string &mtype_id);
+        void increase_kill_count( const mtype_id& id );
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -747,7 +748,7 @@ class game
         int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
         int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
-        std::map<std::string, int> kills;         // Player's kill count
+        std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable float latest_lightlevel;

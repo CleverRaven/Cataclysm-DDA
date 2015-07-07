@@ -24,6 +24,7 @@ struct furn_t;
 using trap_id = int_id<trap>;
 using ter_id = int_id<ter_t>;
 using furn_id = int_id<furn_t>;
+using mtype_id = std::string;
 
 // TODO: use string_id and string_id::id to get the id
 extern furn_id furnfind(const std::string & id);
@@ -31,12 +32,12 @@ extern furn_id furnfind(const std::string & id);
 struct spawn_point {
  int posx, posy;
  int count;
- std::string type;
+ mtype_id type;
  int faction_id;
  int mission_id;
  bool friendly;
  std::string name;
- spawn_point(std::string T = "mon_null", int C = 0, int X = -1, int Y = -1,
+ spawn_point( const mtype_id& T = mtype_id( "mon_null" ), int C = 0, int X = -1, int Y = -1,
              int FAC = -1, int MIS = -1, bool F = false,
              std::string N = "NONE") :
              posx (X), posy (Y), count (C), type (T), faction_id (FAC),

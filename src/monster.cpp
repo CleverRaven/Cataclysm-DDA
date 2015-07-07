@@ -60,7 +60,7 @@ monster::monster()
  upgrade_time = -1;
 }
 
-monster::monster( const std::string& id )
+monster::monster( const mtype_id& id )
 {
  position.x = 20;
  position.y = 10;
@@ -90,7 +90,7 @@ monster::monster( const std::string& id )
  upgrade_time = -1;
 }
 
-monster::monster( const std::string& id, const tripoint &p )
+monster::monster( const mtype_id& id, const tripoint &p )
 {
  position = p;
  wandf = 0;
@@ -137,7 +137,7 @@ const tripoint &monster::pos() const
     return position;
 }
 
-void monster::poly( const std::string& id )
+void monster::poly( const mtype_id& id )
 {
     double hp_percentage = double(hp) / double(type->hp);
     type = GetMType( id );
@@ -223,7 +223,7 @@ void monster::try_upgrade(bool pin_time) {
         if (type->upgrade_into != "NULL"){
             poly( type->upgrade_into );
         } else {
-            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+            const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
             poly( random_entry( monsters ) );
         }
 
@@ -1743,7 +1743,7 @@ bool monster::make_fungus()
         return true;
     }
     char polypick = 0;
-    std::string tid = type->id;
+    const mtype_id& tid = type->id;
     if( type->in_species("FUNGUS") ) { // No friendly-fungalizing ;-)
         return true;
     }

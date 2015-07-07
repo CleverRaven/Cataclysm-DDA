@@ -15,6 +15,7 @@ struct mtype;
 enum monster_trigger : int;
 
 using mfaction_id = int_id<monfaction>;
+using mtype_id = std::string;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
 
@@ -35,8 +36,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster( const std::string& id );
-        monster( const std::string& id, const tripoint &pos );
+        monster( const mtype_id& id );
+        monster( const mtype_id& id, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
@@ -48,7 +49,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        void poly( const std::string& id );
+        void poly( const mtype_id& id );
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade(bool pin_time);

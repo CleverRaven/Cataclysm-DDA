@@ -43,6 +43,8 @@ struct ter_t;
 using ter_id = int_id<ter_t>;
 struct furn_t;
 using furn_id = int_id<furn_t>;
+using mtype_id = std::string;
+
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -1016,7 +1018,7 @@ public:
  void place_vending(int x, int y, std::string type);
  int place_npc(int x, int y, std::string type);
 
- void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
+ void add_spawn(const mtype_id& type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
  vehicle *add_vehicle(const vgroup_id & type, const point &p, const int dir,

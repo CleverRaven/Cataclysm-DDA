@@ -169,7 +169,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     return spawn_details;
 }
 
-bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
+bool MonsterGroup::IsMonsterInGroup( const mtype_id& mtypeid ) const
 {
     if( defaultMonster == mtypeid ) {
         return true;
@@ -182,12 +182,12 @@ bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
     return false;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const std::string& monster)
+bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const mtype_id& monster )
 {
     return group.obj().IsMonsterInGroup( monster );
 }
 
-const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
+const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
 {
     for( auto &g : monsterGroupMap ) {
         if( g.second.IsMonsterInGroup( monster ) ) {
@@ -198,11 +198,11 @@ const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
     return null;
 }
 
-std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
+std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
 {
     const MonsterGroup &g = group.obj();
 
-    std::vector<std::string> monsters;
+    std::vector<mtype_id> monsters;
 
     monsters.push_back(g.defaultMonster);
 

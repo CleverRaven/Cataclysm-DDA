@@ -508,7 +508,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
     }
 }
 
-mtype *MonsterGenerator::get_mtype( const std::string& id )
+mtype *MonsterGenerator::get_mtype( const mtype_id& id )
 {
     // first do the look-up as it is most likely to succeed
     const auto iter = mon_templates.find( id );
@@ -529,7 +529,7 @@ mtype *MonsterGenerator::get_mtype( const std::string& id )
     return mon_templates["mon_null"];
 }
 
-bool MonsterGenerator::has_mtype(const std::string &mon) const
+bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
 {
     return mon_templates.count(mon) > 0;
 }
@@ -549,13 +549,13 @@ mtype *MonsterGenerator::get_mtype(int mon)
     return mon_templates["mon_null"];
 }
 
-std::map<std::string, mtype *> MonsterGenerator::get_all_mtypes() const
+std::map<mtype_id, mtype *> MonsterGenerator::get_all_mtypes() const
 {
     return mon_templates;
 }
-std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
+std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
 {
-    std::vector<std::string> hold;
+    std::vector<mtype_id> hold;
     for( const auto &elem : mon_templates ) {
         hold.push_back( elem.first );
     }

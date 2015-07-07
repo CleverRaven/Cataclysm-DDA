@@ -18,6 +18,7 @@ struct projectile;
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+using mtype_id = std::string;
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 
@@ -72,12 +73,12 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
-        mtype *get_mtype( const std::string& id );
+        mtype *get_mtype( const mtype_id& id );
         mtype *get_mtype(int mon);
-        bool has_mtype(const std::string &mon) const;
+        bool has_mtype( const mtype_id &id ) const;
         bool has_species(const std::string &species) const;
-        std::map<std::string, mtype *> get_all_mtypes() const;
-        std::vector<std::string> get_all_mtype_ids() const;
+        std::map<mtype_id, mtype *> get_all_mtypes() const;
+        std::vector<mtype_id> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
         friend struct mtype;
     protected:
@@ -115,7 +116,7 @@ class MonsterGenerator
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
-        std::map<std::string, mtype *> mon_templates;
+        std::map<mtype_id, mtype *> mon_templates;
         std::map<std::string, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;

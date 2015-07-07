@@ -253,7 +253,7 @@ void event::actualize()
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
-        std::string montype = "mon_null";
+        mtype_id montype = "mon_null";
         switch (rng(1, 4)) {
         case 1: montype = "mon_sewer_snake";  break;
         case 2: montype = "mon_centipede";    break;
