@@ -642,7 +642,7 @@
         "material" : ["steel", "null"],
         "volume" : 2,
         "cutting" : 12,
-        "flags" : ["NON_STUCK", "SPEAR", "REACH_ATTACK"],
+        "flags" : ["NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET"],
         "recoil_modifier" : 45,
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
         "bashing" : 0
@@ -662,7 +662,7 @@
         "material" : ["steel", "null"],
         "volume" : 3,
         "cutting" : 18,
-        "flags" : ["NON_STUCK", "CHOP", "REACH_ATTACK"],
+        "flags" : ["NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
         "bashing" : 0
@@ -685,7 +685,7 @@
         "recoil_modifier" : 45,
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "bashing" : 0,
-        "flags" : ["STAB"]
+        "flags" : ["STAB", "BAYONET"]
     },
     {
         "type" : "GUNMOD",
@@ -1298,7 +1298,7 @@
         "material" : ["steel", "diamond", "null"],
         "volume" : 2,
         "cutting" : 22,
-        "flags" : ["NON_STUCK", "SPEAR"],
+        "flags" : ["NON_STUCK", "SPEAR", "BAYONET"],
         "recoil_modifier" : 45,
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
         "bashing" : 0
@@ -1318,7 +1318,7 @@
         "material" : ["steel", "diamond", "null"],
         "volume" : 3,
         "cutting" : 28,
-        "flags" : ["NON_STUCK", "CHOP"],
+        "flags" : ["NON_STUCK", "CHOP", "BAYONET"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
         "bashing" : 0
@@ -1341,7 +1341,7 @@
         "recoil_modifier" : 45,
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "bashing" : 0,
-        "flags" : ["STAB"]
+        "flags" : ["STAB", "BAYONET"]
     },
     {
         "type" : "GUNMOD",
