@@ -5828,6 +5828,23 @@ static int bound_mod_to_vals(int val, int mod, int max, int min)
     return mod;
 }
 
+void print_health_msg( const int health, const bool self_aware )
+{
+    if( health > 50 ) {
+        add_msg( m_good, _("You're very healthy, your wounds heal faster") );
+    } else if( health > -10 ) {
+        // No message
+    } else if( health > -30 ) {
+        add_msg( m_bad, _("You feel sickly, you should improve your diet") );
+    } else {
+        add_msg( m_bad, _("You feel horrid, something is messing with your body") );
+    }
+
+    if( self_aware ) {
+        add_msg( "Your health value is: %d", health );
+    }
+}
+
 void player::add_eff_effects(effect e, bool reduced)
 {
     body_part bp = e.get_bp();
@@ -7304,6 +7321,10 @@ void player::hardcoded_effects(effect &it)
                 fatigue = -25;
                 add_msg_if_player(m_good, _("You feel well rested."));
                 it.set_duration(dice(3, 100));
+            }
+
+            if( fatigue == -25 ) { // On "well rested"
+                print_health_msg( healthy, has_trait( "SELFAWARE" ) );
             }
         }
 
