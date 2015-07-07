@@ -6,6 +6,9 @@
 #include "rng.h"
 #include "debug.h"
 #include "map_iterator.h"
+#include "field.h"
+#include "mtype.h"
+
 #include <map>
 
 damage_instance::damage_instance() { }

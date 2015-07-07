@@ -22,6 +22,7 @@
 #include "trap.h"
 #include "itype.h"
 #include "basecamp.h"
+#include "mtype.h"
 
 #include <sstream>
 #include <algorithm>

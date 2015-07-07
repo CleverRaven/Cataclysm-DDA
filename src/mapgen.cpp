@@ -21,6 +21,7 @@
 #include "mapdata.h"
 #include "overmap.h"
 #include "mapgen_functions.h"
+#include "mtype.h"
 
 #include <algorithm>
 #include <cassert>

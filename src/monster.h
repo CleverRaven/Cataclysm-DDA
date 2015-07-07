@@ -4,12 +4,15 @@
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
+#include "int_id.h"
 #include <vector>
 
 class map;
 class game;
 class item;
 class monfaction;
+struct mtype;
+enum monster_trigger : int;
 
 using mfaction_id = int_id<monfaction>;
 

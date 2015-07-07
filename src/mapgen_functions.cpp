@@ -15,6 +15,7 @@
 #include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
+#include "field.h"
 
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :

@@ -25,6 +25,7 @@
 #include "morale.h"
 #include "trap.h"
 #include "overmap.h"
+#include "mtype.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"

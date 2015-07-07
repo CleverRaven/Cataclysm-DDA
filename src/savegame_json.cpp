@@ -30,6 +30,7 @@
 #include "vehicle.h"
 #include "mutation.h"
 #include "io.h"
+#include "mtype.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>

@@ -11,6 +11,7 @@
 #include "monster.h"
 #include "ui.h"
 #include "mutation.h"
+#include "mtype.h"
 
 #include <sstream>
 

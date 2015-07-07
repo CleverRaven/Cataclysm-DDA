@@ -17,6 +17,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 #include <sstream>
 

@@ -31,6 +31,7 @@
 #include "artifact.h"
 #include "overmap.h"
 #include "ui.h"
+#include "mtype.h"
 
 #include <vector>
 #include <sstream>

@@ -2,12 +2,22 @@
 #define MONSTER_GENERATOR_H
 
 #include "json.h"
-#include "mtype.h"
+#include "enums.h"
 
 #include <map>
 #include <set>
 
 class Creature;
+struct mtype;
+enum m_flag : int;
+enum monster_trigger : int;
+enum m_size : int;
+class monster;
+class Creature;
+struct projectile;
+using mon_action_death  = void (*)(monster*);
+using mon_action_attack = void (*)(monster*, int);
+using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
 

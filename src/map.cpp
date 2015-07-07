@@ -26,6 +26,7 @@
 #include "submap.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 #include <cmath>
 #include <stdlib.h>

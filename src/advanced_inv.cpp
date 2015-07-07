@@ -19,6 +19,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "mapdata.h"
+#include "field.h"
 
 #include <map>
 #include <set>

@@ -13,6 +13,8 @@
 #include "npc.h"
 #include "itype.h"
 #include "line.h"
+#include "mtype.h"
+#include "field.h"
 
 #include <sstream>
 #include <stdlib.h>

@@ -9,6 +9,7 @@
 #include "messages.h"
 #include "map.h"
 #include "translations.h"
+#include "field.h"
 
 void mdefense::none( monster *, Creature *, const projectile * )
 {

@@ -18,6 +18,7 @@
 #include "vehicle.h"
 #include "game.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 #include <algorithm>
 #include <fstream>

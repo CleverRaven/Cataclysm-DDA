@@ -13,6 +13,7 @@
 #include "morale.h"
 #include "event.h"
 #include "itype.h"
+#include "mtype.h"
 
 #include <math.h>  // rounding
 #include <sstream>

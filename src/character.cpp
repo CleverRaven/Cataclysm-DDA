@@ -6,6 +6,8 @@
 #include "translations.h"
 #include "options.h"
 #include "map_iterator.h"
+#include "field.h"
+
 #include <map>
 
 Character::Character()

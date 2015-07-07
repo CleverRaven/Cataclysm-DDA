@@ -13,6 +13,8 @@
 #include "monster.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mtype.h"
+#include "field.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN

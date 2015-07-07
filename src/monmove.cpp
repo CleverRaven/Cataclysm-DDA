@@ -17,6 +17,7 @@
 #include "translations.h"
 #include "npc.h"
 #include "mapdata.h"
+#include "mtype.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions

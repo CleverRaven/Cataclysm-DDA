@@ -24,6 +24,7 @@
 #include "npc.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "mtype.h"
 
 #include <cmath> // floor
 #include <sstream>
