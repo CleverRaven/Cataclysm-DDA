@@ -18491,6 +18491,22 @@
           ]
         },
         {
+          "id": "vp_hdhatch",
+          "fg": 2380,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 2376
+            },
+            {
+              "id": "open",
+              "fg": 2381
+            }
+          ]
+        },
+        {
           "id": "vp_engine_electric",
           "fg": 2382,
           "rotates": true
