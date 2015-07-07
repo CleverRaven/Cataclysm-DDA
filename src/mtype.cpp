@@ -2,6 +2,7 @@
 #include "translations.h"
 #include "monstergenerator.h"
 #include "mondeath.h"
+#include "field.h"
 
 mtype::mtype ()
 {

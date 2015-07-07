@@ -2,7 +2,6 @@
 #define EDITMAP_H
 
 #include "game.h"
-#include "field.h"
 #include "map.h"
 #include "line.h"
 #include "omdata.h"
@@ -14,6 +13,7 @@
 #include <stdarg.h>
 
 struct real_coords;
+enum field_id : int;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,

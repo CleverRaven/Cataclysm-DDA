@@ -26,6 +26,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "field.h"
 
 #include <algorithm>
 

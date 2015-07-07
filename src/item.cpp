@@ -25,6 +25,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "mtype.h"
+#include "field.h"
 
 #include <cmath> // floor
 #include <sstream>

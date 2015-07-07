@@ -5,7 +5,6 @@
 
 #include "enums.h"
 #include "color.h"
-#include "field.h"
 #include "int_id.h"
 #include "string_id.h"
 
@@ -19,6 +18,7 @@ class Creature;
 class monster;
 class monfaction;
 struct projectile;
+enum field_id : int;
 enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);

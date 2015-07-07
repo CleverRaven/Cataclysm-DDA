@@ -24,6 +24,7 @@
 #include "submap.h"
 #include "monster.h"
 #include "overmap.h"
+#include "field.h"
 
 #include <fstream>
 #include <sstream>

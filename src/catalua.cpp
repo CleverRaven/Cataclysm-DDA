@@ -26,6 +26,7 @@
 #include "trap.h"
 #include "overmap.h"
 #include "mtype.h"
+#include "field.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"

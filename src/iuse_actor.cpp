@@ -18,6 +18,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "mapdata.h"
+#include "field.h"
 
 #include <sstream>
 #include <algorithm>

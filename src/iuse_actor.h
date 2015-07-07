@@ -3,14 +3,13 @@
 
 #include "iuse.h"
 #include "color.h"
-#include "field.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include <limits.h>
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+enum field_id : int;
 class JsonObject;
 
 /**
@@ -147,7 +146,7 @@ class explosion_iuse : public iuse_actor
             , do_flashbang(false)
             , flashbang_player_immune(false) // false is the default in game.h
             , fields_radius(-1)
-            , fields_type(fd_null)
+            , fields_type()
             , fields_min_density(1)
             , fields_max_density(3)
             , emp_blast_radius(-1)
