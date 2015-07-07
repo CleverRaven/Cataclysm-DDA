@@ -4798,7 +4798,7 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-    if( g->summon_mon(actor->mtype_id, where ) ) {
+    if( g->summon_mon(actor->mtypeid, where ) ) {
         monster *hack = g->monster_at( where );
         hack->make_ally(z);
     }

@@ -260,7 +260,7 @@ class place_monster_iuse : public iuse_actor
 {
     public:
         /** The monster type id of the monster to create. */
-        std::string mtype_id;
+        std::string mtypeid;
         /** If true, place the monster at a random square around the player,
          * otherwise allow the player to select the target square. */
         bool place_randomly;
