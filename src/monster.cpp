@@ -1935,3 +1935,18 @@ body_part monster::get_random_body_part( bool ) const
 {
     return bp_torso;
 }
+
+int monster::get_hp_max( hp_part ) const
+{
+    return type->hp;
+}
+
+int monster::get_hp_max() const
+{
+    return type->hp;
+}
+
+std::string monster::get_material() const
+{
+    return type->mat[0];
+}

@@ -58,18 +58,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return hp;
         }
-        int get_hp_max( hp_part ) const override
-        {
-            return type->hp;
-        };
-        int get_hp_max() const
-        {
-            return type->hp;
-        }
-        std::string get_material() const override
-        {
-            return type->mat[0];
-        };
+        int get_hp_max( hp_part ) const override;
+        int get_hp_max() const;
+        std::string get_material() const override;
         int hp_percentage() const override;
 
         // Access
