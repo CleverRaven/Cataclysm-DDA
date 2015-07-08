@@ -1606,10 +1606,11 @@ void bionics_install_failure(player *u, int difficulty, int success)
             // TODO: What if we can't lose power capacity?  No penalty?
         } else {
             int index = rng(0, valid.size() - 1);
-            u->add_bionic(valid[index]);
+            const std::string& id = valid[index];
+            u->add_bionic( id );
             u->add_memorial_log(pgettext("memorial_male", "Installed bad bionic: %s."),
                                 pgettext("memorial_female", "Installed bad bionic: %s."),
-                                bionics[valid[index]].name.c_str());
+                                bionics[ id ].name.c_str());
         }
     }
     break;

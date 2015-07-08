@@ -3898,7 +3898,8 @@ C..C..C...|hhh|#########\n\
                         stair_points.push_back(point(SEEX    , int(SEEY / 2) + SEEY));
                         stair_points.push_back(point(SEEX + 2, int(SEEY / 2) + SEEY));
                         rn = rng(0, stair_points.size() - 1);
-                        ter_set(stair_points[rn].x, stair_points[rn].y, t_stairs_down);
+                        const point p = stair_points[rn];
+                        ter_set(p.x, p.y, t_stairs_down);
                     }
 
                     break;
@@ -5146,8 +5147,9 @@ ff.......|....|WWWWWWWW|\n\
                             break;
                         } else {
                             int index = rng(0, next.size() - 1);
-                            x = next[index].x;
-                            y = next[index].y;
+                            const point p = next[index];
+                            x = p.x;
+                            y = p.y;
                         }
                     }
                 }

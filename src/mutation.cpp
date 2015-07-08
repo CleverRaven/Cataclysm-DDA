@@ -412,8 +412,9 @@ void player::activate_mutation( const std::string &mut )
         int numslime = 1;
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            if (g->summon_mon("mon_player_blob", valid[index])) {
-                monster *slime = g->monster_at(valid[index]);
+            const tripoint target = valid[index];
+            if (g->summon_mon("mon_player_blob", target)) {
+                monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
             valid.erase(valid.begin() + index);

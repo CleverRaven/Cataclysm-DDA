@@ -1150,11 +1150,12 @@ void overmap::generate(const overmap *north, const overmap *east,
         std::vector<point> river_end_copy = river_end;
         while (!river_start.empty()) {
             int index = rng(0, river_start.size() - 1);
+            const point start = river_start[index];
             if (!river_end.empty()) {
-                place_river(river_start[index], river_end[0]);
+                place_river(start, river_end[0]);
                 river_end.erase(river_end.begin());
             } else
-                place_river(river_start[index],
+                place_river(start,
                             river_end_copy[rng(0, river_end_copy.size() - 1)]);
             river_start.erase(river_start.begin() + index);
         }
@@ -1162,12 +1163,13 @@ void overmap::generate(const overmap *north, const overmap *east,
         std::vector<point> river_start_copy = river_start;
         while (!river_end.empty()) {
             int index = rng(0, river_end.size() - 1);
+            const point end = river_end[index];
             if (!river_start.empty()) {
-                place_river(river_start[0], river_end[index]);
+                place_river(river_start[0], end);
                 river_start.erase(river_start.begin());
             } else
                 place_river(river_start_copy[rng(0, river_start_copy.size() - 1)],
-                            river_end[index]);
+                            end);
             river_end.erase(river_end.begin() + index);
         }
     } else if (!river_end.empty()) {
@@ -2694,7 +2696,8 @@ void overmap::build_anthill(int x, int y, int z, int s)
         }
     }
     int index = rng(0, queenpoints.size() - 1);
-    ter(queenpoints[index].x, queenpoints[index].y, z) = "ants_queen";
+    const point target = queenpoints[index];
+    ter(target.x, target.y, z) = "ants_queen";
 }
 
 void overmap::build_tunnel(int x, int y, int z, int s, int dir)
@@ -3547,8 +3550,9 @@ void overmap::place_specials()
 
     while( !sectors.empty() ) {
         const size_t pick = rng( 0, sectors.size() - 1 );
-        int x = sectors.at( pick ).x;
-        int y = sectors.at( pick ).y;
+        const point sector = sectors[pick];
+        int x = sector.x;
+        int y = sector.y;
 
         sectors.erase( sectors.begin() + pick );
 

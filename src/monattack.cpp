@@ -1262,8 +1262,9 @@ void mattack::vine(monster *z, int index)
         return;
     }
     int free_index = rng(0, grow.size() - 1);
-    if (g->summon_mon("mon_creeper_vine", grow[free_index])) {
-        monster *vine = g->monster_at(grow[free_index]);
+    const tripoint target = grow[free_index];
+    if (g->summon_mon("mon_creeper_vine", target)) {
+        monster *vine = g->monster_at( target );
         vine->make_ally(z);
         vine->reset_special(0);
     }
@@ -4154,8 +4155,9 @@ void mattack::darkman(monster *z, int index)
     if (!free.empty()) {
         int free_index = rng( 0, free.size() - 1 );
         z->moves -= 10;
-        if (g->summon_mon("mon_shadow", free[free_index])) {
-            monster *shadow = g->monster_at(free[free_index]);
+        const tripoint target = free[free_index];
+        if (g->summon_mon("mon_shadow", target)) {
+            monster *shadow = g->monster_at( target );
             shadow->make_ally(z);
         }
         if( g->u.sees( *z ) ) {
