@@ -412,7 +412,7 @@ class advanced_inventory
         int add_item( aim_location destarea, item &new_item, int count = 1);
         /**
          * Remove the item from source area. Must not be used on items with area
-         *      AIM_ALL or AIM_INVENTORY! (but is... and seems to work)
+         *      AIM_ALL or AIM_INVENTORY!
          * @param sitem The item reference that should be removed, along with the source area.
          * @param count The amount to move of said item.
          * @return Returns the amount of items that weren't removable, 0 if everything went fine.

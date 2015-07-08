@@ -1492,34 +1492,39 @@ void advanced_inventory::display()
                         continue;
                     }
                 }
+            // from map/vehicle: add the item to the destination.
+            // if that worked, remove it from the source, else continue.
             } else {
-                // from map/vehicle: add the item to the destination, if that worked,
-                // remove it from the source, else continue.
                 // create a new copy of the old item being manipulated
                 item new_item(*sitem->items.front());
+                if(by_charges) {
+                    // set the new item's charge amount
+                    new_item.charges = amount_to_move;
+                }
                 // add the item, and note any items that might be leftover
                 int items_left = add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
                 // only remove item or charges if the add succeeded
                 if(items_left == 0) {
                     if(by_charges) {
-                        // set the new item's charge amount
-                        new_item.charges = amount_to_move;
                         // `amount_to_move' will be `true' if the item needs to be removed
                         amount_to_move = sitem->items.front()->reduce_charges(amount_to_move);
                     }
-                    // take into account only the items _left over_ from transaction
-                    items_left -= remove_item(*sitem, amount_to_move);
-                }
-                if(items_left > 0) {
+                    remove_item(*sitem, amount_to_move);
+                // note to the player (and possibly debug) that the item transfer failed somehow
+                } else {
                     const char *msg = nullptr;
+                    int items_unmoved = amount_to_move - items_left;
                     if(by_charges) {
-                        msg = _("Only moved %d of %d charges.");
+                        msg = (items_unmoved > 0) ?
+                            _("Only moved %d of %d charges.") :
+                            _("Moved no charges.");
                     } else {
-                        msg = _("Only moved %d of %d items.");
-                        remove_item(*sitem, items_left);
+                        msg = (items_unmoved > 0) ? 
+                            _("Only moved %d of %d items.") :
+                            _("Moved no items.");
                     }
                     assert(msg != nullptr);
-                    g->u.add_msg_if_player(msg, items_left, amount_to_move);
+                    g->u.add_msg_if_player(msg, amount_to_move - items_left, amount_to_move);
                     // redraw the screen if moving to AIM_WORN, so we can see that it didn't work
                     redraw = (destarea == AIM_WORN);
                 }
@@ -1849,8 +1854,21 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             }
         }
         // show a message to why we can't add the item
-        if( rc == false  && destarea != AIM_WORN && destarea != AIM_INVENTORY) {
-            popup( _( "Destination area is full.  Remove some items first" ) );
+        if(rc == false) {
+            const char *msg = nullptr;
+            switch(destarea) {
+                case AIM_WORN:
+                    msg = _("You can't wear any more of that!");
+                    break;
+                case AIM_INVENTORY:
+                    msg = _("You don't have enough room for that!");
+                    break;
+                default:
+                    msg = _("Destination area is full.  Remove some items first");
+                    break;
+            }
+            assert(msg != nullptr);
+            popup(msg);
             break;
         }
         --count;
