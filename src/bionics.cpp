@@ -1458,24 +1458,17 @@ bool player::install_bionics(const itype &type, int skill_level)
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
 
-        int pow_up = bionics[bioid].capacity;
-        max_power_level += pow_up;
-        if ( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) {
-            add_msg_if_player(m_good, _("Increased storage capacity by %i"), pow_up);
-        } else {
-            add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
-            add_bionic(bioid);
+        add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
+        add_bionic(bioid);
 
-            if (bioid == "bio_ears") {
-                add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-            } else if (bioid == "bio_reactor_upgrade") {
-                remove_bionic("bio_reactor");
-                remove_bionic("bio_reactor_upgrade");
-                add_bionic("bio_advreactor");
-            } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-                add_bionic("bio_plutdump");
-            }
-
+        if (bioid == "bio_ears") {
+            add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+        } else if (bioid == "bio_reactor_upgrade") {
+            remove_bionic("bio_reactor");
+            remove_bionic("bio_reactor_upgrade");
+            add_bionic("bio_advreactor");
+        } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
+            add_bionic("bio_plutdump");
         }
     } else {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
@@ -1626,6 +1619,15 @@ void player::add_bionic( std::string const &b )
             break;
         }
     }
+
+    int pow_up = bionics[b].capacity;
+    max_power_level += pow_up;
+    if ( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+        add_msg_if_player(m_good, _("Increased storage capacity by %i."), pow_up);
+        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
+        return;
+    }
+
     my_bionics.push_back( bionic( b, newinv ) );
     if ( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic(my_bionics.size() -1);

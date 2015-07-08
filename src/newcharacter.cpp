@@ -442,16 +442,10 @@ int player::create(character_type type, std::string tempname)
     std::vector<std::string> prof_CBMs = g->u.prof->CBMs();
     for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
          iter != prof_CBMs.end(); ++iter) {
-        if (*iter == "bio_power_storage") {
-            max_power_level += 100;
-            power_level += 100;
-        } else if (*iter == "bio_power_storage_mkII") {
-            max_power_level += 250;
-            power_level += 250;
-        } else {
-            add_bionic(*iter);
-        }
+        add_bionic(*iter);
     }
+    // Adjust current energy level to maximum
+    power_level = max_power_level;
 
     // Get traits
     std::vector<std::string> prof_traits = g->u.prof->traits();
@@ -480,7 +474,7 @@ int player::create(character_type type, std::string tempname)
     } else if( has_trait( "URSINE_EYE" ) ) {
         my_mutations["URSINE_EYE"].powered = true;
     }
-    
+
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item("inhaler", 0, false);
