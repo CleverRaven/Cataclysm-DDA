@@ -519,7 +519,6 @@ void mdeath::ratking(monster *z)
             }
         }
     }
-    monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
         g->summon_mon("mon_sewer_rat", random_entry_removed( ratspots ) );
     }
