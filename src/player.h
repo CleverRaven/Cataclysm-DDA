@@ -325,8 +325,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
-	 * As above, but includes all creatures the player can detect well enough to target
-	 * with ranged weapons, e.g. with infared vision.
+         * As above, but includes all creatures the player can detect well enough to target
+         * with ranged weapons, e.g. with infared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**

@@ -10561,8 +10561,8 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
-	    (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-	     has_trait("ARM_TENTACLES_8")) ) {
+            (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+             has_trait("ARM_TENTACLES_8")) ) {
             if( interactive ) {
                 add_msg(m_info, _("You cannot put %s over your tentacles."), to_wear->type_name().c_str());
             }
@@ -10577,7 +10577,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
-	    (has_trait("PAWS") || has_trait("PAWS_LARGE")) ) {
+            (has_trait("PAWS") || has_trait("PAWS_LARGE")) ) {
             if(interactive) {
                 add_msg(m_info, _("You cannot get %s to stay on your paws."), to_wear->type_name().c_str());
             }
@@ -10585,7 +10585,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if( to_wear->covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
-					  has_trait("BEAK_HUM")) ) {
+                                          has_trait("BEAK_HUM")) ) {
             if( interactive ) {
                 add_msg(m_info, _("You cannot put a %s over your beak."), to_wear->type_name().c_str());
             }
@@ -10594,7 +10594,7 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         if( to_wear->covers(bp_mouth) &&
             (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
-	     has_trait("MUZZLE_RAT")) ) {
+             has_trait("MUZZLE_RAT")) ) {
             if( interactive ) {
                 add_msg(m_info, _("You cannot fit the %s over your muzzle."), to_wear->type_name().c_str());
             }
@@ -10665,7 +10665,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if( to_wear->covers(bp_torso) &&
-	    ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) ) {
+            ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) ) {
             if( interactive ) {
                 add_msg(m_info, _("Your new limbs are too wriggly to fit under that."));
             }

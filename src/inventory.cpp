@@ -697,7 +697,7 @@ std::list<item> inventory::remove_randomly_by_volume(int volume)
                 }
             }
         }
-	volume_dropped += chosen_item->volume();
+        volume_dropped += chosen_item->volume();
         result.push_back( std::move( *chosen_item ) );
         chosen_item = chosen_stack->erase( chosen_item );
         if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {
