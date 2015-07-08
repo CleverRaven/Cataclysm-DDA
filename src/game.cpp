@@ -6131,7 +6131,7 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         if( pl == nullptr ) {
             // TODO: player's fault?
             const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            critter->apply_damage( nullptr, bp_torso, rng( dmg, dmg * 3 ) );
+            critter->apply_damage( nullptr, bp_torso, rng( dmg * 2, dmg * 4 ) );
             critter->check_dead_state();
             continue;
         }
@@ -6140,13 +6140,13 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             add_msg( m_bad, _("You're caught in the explosion!") );
         }
 
-        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.3f ) );
-        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force / 3, force ), 0, 0.3f ) );
+        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force, force * 1.5f ), 0, 0.3f ) );
+        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force, force * 1.5f ), 0, 0.3f ) );
         // Hit limbs harder so that it hurts more without being much more deadly
-        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
-        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
-        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
-        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force / 2, force ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force, force * 2.0f ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force, force * 2.0f ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force, force * 2.0f ), 0, 0.2f ) );
+        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force, force * 2.0f ), 0, 0.2f ) );
     }
 }
 
