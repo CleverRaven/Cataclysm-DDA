@@ -3893,7 +3893,6 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
 {
     std::string message;
     std::vector<dream> valid_dreams;
-    dream selected_dream;
     //Pull the list of dreams
     for (auto &i : dreams) {
         //Pick only the ones matching our desired category and strength
@@ -3905,11 +3904,8 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
     if( valid_dreams.empty() ) {
         return "";
     }
-    int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
-    selected_dream = valid_dreams[index];
-    index = rng(0, selected_dream.messages.size() - 1); // Randomly selected a message from the chosen dream
-    message = selected_dream.messages[index];
-    return message;
+    const dream& selected_dream = random_entry( valid_dreams );
+    return random_entry( selected_dream.messages );
 }
 
 bool player::in_climate_control()
@@ -4736,13 +4732,11 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_msg(m_warning, _("Some snakes sprout from your body!"));
         }
         for (int i = 0; i < snakes && !valid.empty(); i++) {
-            int index = rng(0, valid.size() - 1);
-            const tripoint target = valid[index];
+            const tripoint target = random_entry_removed( valid );
             if (g->summon_mon("mon_shadow_snake", target)) {
                 monster *snake = g->monster_at( target );
                 snake->friendly = -1;
             }
-            valid.erase(valid.begin() + index);
         }
     }
 
@@ -4760,13 +4754,11 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
-            int index = rng(0, valid.size() - 1);
-            const tripoint target = valid[index];
+            const tripoint target = random_entry_removed( valid );
             if (g->summon_mon("mon_player_blob", target)) {
                 monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
-            valid.erase(valid.begin() + index);
         }
     }
 
@@ -9662,13 +9654,11 @@ bool player::eat(item *eaten, it_comest *comest)
             }
             int numslime = 1;
             for (int i = 0; i < numslime && !valid.empty(); i++) {
-                int index = rng(0, valid.size() - 1);
-                const tripoint target = valid[index];
+                const tripoint target = random_entry_removed( valid );
                 if (g->summon_mon("mon_player_blob", target)) {
                     monster *slime = g->monster_at( target );
                     slime->friendly = -1;
                 }
-                valid.erase(valid.begin() + index);
             }
             hunger += 40;
             thirst += 40;
@@ -13282,11 +13272,7 @@ tripoint player::adjacent_tile()
         }
     }
 
-    if( !ret.empty() ) {
-        return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
-    }
-
-    return pos(); // or return player position if no valid adjacent tiles
+    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }
 
 int player::climbing_cost( const tripoint &from, const tripoint &to ) const

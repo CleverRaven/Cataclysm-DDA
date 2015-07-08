@@ -1147,9 +1147,5 @@ void clear_hints()
 
 std::string get_hint()
 {
-    if (hints.empty()) {
-        return "???";
-    } else {
-        return hints[rng(0, hints.size() - 1)];
-    }
+    return random_entry( hints, "???" );
 }

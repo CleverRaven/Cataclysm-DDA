@@ -42,10 +42,7 @@ static tripoint random_house_in_city( const city_reference &cref )
             }
         }
     }
-    if( valid.empty() ) {
-        return city_center_omt; // center of the city is a good fallback
-    }
-    return valid[ rng( 0, valid.size() - 1 ) ];
+    return random_entry( valid, city_center_omt ); // center of the city is a good fallback
 }
 
 static tripoint random_house_in_closest_city()
@@ -93,7 +90,7 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
         }
     }
 
-    const tripoint place = places_om[rng( 0, places_om.size() - 1 )];
+    const tripoint place = random_entry( places_om );
     if( reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
@@ -415,11 +412,8 @@ void mission_start::place_npc_software( mission *miss )
                 }
             }
         }
-        if( valid.empty() ) {
-            comppoint = tripoint( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
-        } else {
-            comppoint = valid[rng( 0, valid.size() - 1 )];
-        }
+        const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
+        comppoint = random_entry( valid, fallback );
     }
 
     compmap.ter_set( comppoint, t_console );
@@ -436,7 +430,6 @@ void mission_start::place_priest_diary( mission *miss )
     overmap_buffer.reveal( place, 2 );
     tinymap compmap;
     compmap.load( place.x * 2, place.y * 2, place.z, false );
-    tripoint comppoint;
 
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
@@ -447,11 +440,8 @@ void mission_start::place_priest_diary( mission *miss )
             }
         }
     }
-    if( valid.empty() ) {
-        comppoint = tripoint( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
-    } else {
-        comppoint = valid[rng( 0, valid.size() - 1 )];
-    }
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
+    const tripoint comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "priest_diary" );
     compmap.save();
 }
@@ -475,7 +465,6 @@ void mission_start::place_deposit_box( mission *miss )
 
     tinymap compmap;
     compmap.load( site.x * 2, site.y * 2, site.z, false );
-    tripoint comppoint;
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
@@ -492,11 +481,8 @@ void mission_start::place_deposit_box( mission *miss )
             }
         }
     }
-    if( valid.empty() ) {
-        comppoint = tripoint( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z );
-    } else {
-        comppoint = valid[rng( 0, valid.size() - 1 )];
-    }
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z );
+    const tripoint comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "safe_box" );
     compmap.save();
 }

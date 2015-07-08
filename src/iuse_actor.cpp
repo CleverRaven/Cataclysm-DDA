@@ -473,7 +473,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
                                   newmon.name().c_str() );
             return 0;
         }
-        target = valid[rng( 0, valid.size() - 1 )];
+        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
         if( !choose_adjacent( query, target ) ) {
@@ -1593,8 +1593,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
-        const size_t desc_index = rng( 0, descriptions.size() - 1 );
-        desc = _(descriptions[ desc_index ].c_str());
+        desc = _( random_entry( descriptions ).c_str() );
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         desc = _("You produce an annoying sound");

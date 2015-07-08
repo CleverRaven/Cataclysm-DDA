@@ -411,13 +411,11 @@ void player::activate_mutation( const std::string &mut )
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
-            int index = rng(0, valid.size() - 1);
-            const tripoint target = valid[index];
+            const tripoint target = random_entry_removed( valid );
             if (g->summon_mon("mon_player_blob", target)) {
                 monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
-            valid.erase(valid.begin() + index);
         }
         //~ Usual enthusiastic slimespring small voices! :D
         if (one_in(3)) {
@@ -951,8 +949,7 @@ void player::mutate()
         return;
     }
 
-    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-    mutate_towards(selection);
+    mutate_towards( random_entry( valid ) );
 }
 
 void player::mutate_category( const std::string &cat )
@@ -984,10 +981,7 @@ void player::mutate_category( const std::string &cat )
         return;
     }
 
-    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-    mutate_towards(selection);
-
-    return;
+    mutate_towards( random_entry( valid ) );
 }
 
 void player::mutate_towards( const std::string &mut )
@@ -1049,12 +1043,10 @@ void player::mutate_towards( const std::string &mut )
 
     if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
         if (!prereq1 && !prereq.empty()) {
-            std::string devel = prereq[ rng(0, prereq.size() - 1) ];
-            mutate_towards(devel);
+            mutate_towards( random_entry( prereq ) );
             return;
         } else if (!prereq2 && !prereqs2.empty()) {
-            std::string devel = prereqs2[ rng(0, prereqs2.size() - 1) ];
-            mutate_towards(devel);
+            mutate_towards( random_entry( prereqs2 ) );
             return;
         }
     }

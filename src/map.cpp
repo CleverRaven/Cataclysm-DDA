@@ -2708,10 +2708,7 @@ point map::random_outdoor_tile()
     options.push_back(point(x, y));
   }
  }
- if (options.empty()) // Nowhere is outdoors!
-  return point(-1, -1);
-
- return options[rng(0, options.size() - 1)];
+ return random_entry( options, point( -1, -1 ) );
 }
 
 bool map::has_adjacent_furniture( const tripoint &p )
@@ -6563,14 +6560,12 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         monster tmp( GetMType( spawn_details.name ) );
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
-                const size_t index = rng( 0, locations.size() - 1 );
-                const tripoint &p = locations[index];
+                const tripoint p = random_entry_removed( locations );
                 if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
                 tmp.spawn( p );
                 g->add_zombie( tmp );
-                locations.erase( locations.begin() + index );
                 break;
             }
         }

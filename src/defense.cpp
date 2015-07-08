@@ -310,8 +310,7 @@ void defense_game::init_map()
         }
     }
     if (!valid.empty()) {
-        tripoint p = valid[rng(0, valid.size() - 1)];
-        generator.spawn( p );
+        generator.spawn( random_entry( valid ) );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1340,8 +1339,7 @@ void defense_game::spawn_wave()
             add_msg(m_info, "********");
             return;
         }
-        int rn = rng(0, valid.size() - 1);
-        mtype *type = GetMType(valid[rn]);
+        mtype *type = GetMType( random_entry( valid ) );
         if (themed_wave) {
             int num = diff / type->difficulty;
             if (num >= SPECIAL_WAVE_MIN) {
@@ -1391,7 +1389,7 @@ std::vector<std::string> defense_game::pick_monster_wave()
     if (valid.empty()) {
         debugmsg("Couldn't find a valid monster group for defense!");
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup(valid[rng(0, valid.size() - 1)]);
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
     }
 
     return ret;
