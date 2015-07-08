@@ -25,7 +25,6 @@
 #include <sstream>
 
 namespace {
-constexpr int BATTERY_AMOUNT = 100; // How much batteries increase your power
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 } //namespace
@@ -44,16 +43,16 @@ bionic_data const& bionic_info(std::string const &id)
 
     debugmsg("bad bionic id");
 
-    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, "bad_bionic", false};
+    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false};
     return null_value;
 }
 
 void bionics_install_failure(player *u, int difficulty, int success);
 
 bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                         int ct, std::string desc, bool fault
+                         int ct, int cap, std::string desc, bool fault
 ) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
-    power_deactivate(pad), power_over_time(pot), charge_time(ct), faulty(fault),
+    power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap), faulty(fault),
     power_source(ps), activated(tog || pac || ct), toggled(tog)
 {
 }
@@ -1447,12 +1446,6 @@ bool player::install_bionics(const itype &type, int skill_level)
             100 - chance_of_success)) {
         return false;
     }
-    int pow_up = 0;
-    if( bioid == "bio_power_storage" ) {
-        pow_up = BATTERY_AMOUNT;
-    } else if( bioid == "bio_power_storage_mkII" ) {
-        pow_up = 250;
-    }
 
     practice( "electronics", int((100 - chance_of_success) * 1.5) );
     practice( "firstaid", int((100 - chance_of_success) * 1.0) );
@@ -1462,7 +1455,8 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
-        if (pow_up) {
+        int pow_up = bionics[bioid].capacity;
+        if (pow_up > 0) {
             max_power_level += pow_up;
             add_msg_if_player(m_good, _("Increased storage capacity by %i"), pow_up);
         } else {
@@ -1637,6 +1631,8 @@ void load_bionic(JsonObject &jsobj)
     // Requires a non-zero time
     int react_cost = jsobj.get_int("react_cost", 0);
 
+    int capacity = jsobj.get_int("capacity", 0);
+
     bool faulty = jsobj.get_bool("faulty", false);
     bool power_source = jsobj.get_bool("power_source", false);
 
@@ -1646,7 +1642,7 @@ void load_bionic(JsonObject &jsobj)
 
     auto const result = bionics.insert(std::make_pair(std::move(id),
         bionic_data(std::move(name), power_source, toggled, on_cost, off_cost, react_cost, time,
-                    std::move(description), faulty)));
+                    capacity, std::move(description), faulty)));
 
     if (!result.second) {
         debugmsg("duplicate bionic id");
