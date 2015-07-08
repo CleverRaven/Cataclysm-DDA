@@ -6275,7 +6275,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
     }
 
     std::vector<art_effect_active> effects = art->effects_activated;
-    for (size_t i = 0; i < num_used; i++) {
+    for (size_t i = 0; i < num_used && !effects.empty(); i++) {
         int index = rng(0, effects.size() - 1);
         art_effect_active used = effects[index];
         effects.erase(effects.begin() + index);

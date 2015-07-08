@@ -410,7 +410,7 @@ void player::activate_mutation( const std::string &mut )
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
-        for (int i = 0; i < numslime; i++) {
+        for (int i = 0; i < numslime && !valid.empty(); i++) {
             int index = rng(0, valid.size() - 1);
             const tripoint target = valid[index];
             if (g->summon_mon("mon_player_blob", target)) {

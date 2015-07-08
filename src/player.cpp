@@ -4735,7 +4735,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         } else if (snakes >= 2) {
             add_msg(m_warning, _("Some snakes sprout from your body!"));
         }
-        for (int i = 0; i < snakes; i++) {
+        for (int i = 0; i < snakes && !valid.empty(); i++) {
             int index = rng(0, valid.size() - 1);
             const tripoint target = valid[index];
             if (g->summon_mon("mon_shadow_snake", target)) {
@@ -4759,7 +4759,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
         int numslime = 1;
-        for (int i = 0; i < numslime; i++) {
+        for (int i = 0; i < numslime && !valid.empty(); i++) {
             int index = rng(0, valid.size() - 1);
             const tripoint target = valid[index];
             if (g->summon_mon("mon_player_blob", target)) {
@@ -9661,7 +9661,7 @@ bool player::eat(item *eaten, it_comest *comest)
                 }
             }
             int numslime = 1;
-            for (int i = 0; i < numslime; i++) {
+            for (int i = 0; i < numslime && !valid.empty(); i++) {
                 int index = rng(0, valid.size() - 1);
                 const tripoint target = valid[index];
                 if (g->summon_mon("mon_player_blob", target)) {
