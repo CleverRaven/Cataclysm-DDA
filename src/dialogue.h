@@ -141,7 +141,7 @@ namespace talk_function {
     void deny_personal_info   (npc *); // p gets "asked_personal_info"
     void hostile              (npc *); // p turns hostile to u
     void flee                 (npc *);
-    void leave                (npc *); // p becomes indifferant
+    void leave                (npc *); // p becomes indifferent
     void stranger_neutral     (npc *); // p is now neutral towards you
 
     void start_mugging        (npc *);
@@ -166,7 +166,7 @@ namespace talk_function {
     void allow_sleep          (npc *);
     void wake_up              (npc *);
 
-/*mission_companion.cpp proves a set of functions that compress all the typical mission opperations into a set of hard-coded
+/*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
  *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
  */
