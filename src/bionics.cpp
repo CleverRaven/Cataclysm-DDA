@@ -1660,6 +1660,38 @@ int player::num_bionics() const
     return my_bionics.size();
 }
 
+std::pair<int, int> player::amount_of_storage_bionics() {
+    int lvl = max_power_level;
+
+    // exclude amount of power capacity obtained via non-power-storage CBMs
+    for (auto it : my_bionics) {
+        lvl -= bionics[it.id].capacity;
+    }
+
+    std::pair<int, int> results (0, 0);
+    if (lvl <= 0) {
+        return results;
+    }
+
+    int pow_mkI = bionics["bio_power_storage"].capacity;
+    int pow_mkII = bionics["bio_power_storage_mkII"].capacity;
+
+    while (lvl >= std::min(pow_mkI, pow_mkII)) {
+        if ( one_in(2) ) {
+            if (lvl >= pow_mkI) {
+                results.first++;
+                lvl -= pow_mkI;
+            }
+        } else {
+            if (lvl >= pow_mkII) {
+                results.second++;
+                lvl -= pow_mkII;
+            }
+        }
+    }
+    return results;
+}
+
 bionic& player::bionic_at_index(int i)
 {
     return my_bionics[i];

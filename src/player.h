@@ -256,6 +256,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
+        /** Returns amount of Storage CBMs in the corpse **/
+        std::pair<int, int> amount_of_storage_bionics();
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
@@ -433,7 +435,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void fire_gun( const tripoint &target, long burst_size );
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
-        
+
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -493,7 +495,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
         int dodge_roll() override;
-        
+
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         int get_melee() const override;
         /**
