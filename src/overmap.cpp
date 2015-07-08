@@ -1154,9 +1154,9 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (!river_end.empty()) {
                 place_river(start, river_end[0]);
                 river_end.erase(river_end.begin());
-            } else
-                place_river(start,
-                            river_end_copy[rng(0, river_end_copy.size() - 1)]);
+            } else {
+                place_river(start, river_end_copy[rng(0, river_end_copy.size() - 1)]);
+            }
             river_start.erase(river_start.begin() + index);
         }
     } else if (river_end.size() > river_start.size() && !river_start.empty()) {
@@ -1167,9 +1167,9 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (!river_start.empty()) {
                 place_river(river_start[0], end);
                 river_start.erase(river_start.begin());
-            } else
-                place_river(river_start_copy[rng(0, river_start_copy.size() - 1)],
-                            end);
+            } else {
+                place_river(river_start_copy[rng(0, river_start_copy.size() - 1)], end);
+            }
             river_end.erase(river_end.begin() + index);
         }
     } else if (!river_end.empty()) {
