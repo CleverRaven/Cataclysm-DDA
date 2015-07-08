@@ -164,6 +164,12 @@ void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
 }
 
+void Character::process_turn()
+{
+    Creature::process_turn();
+    drop_inventory_overflow();
+}
+
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
@@ -577,6 +583,16 @@ bool Character::can_pickWeight( int weight, bool safe ) const
     else
     {
         return (weight_carried() + weight <= weight_capacity());
+    }
+}
+
+void Character::drop_inventory_overflow() {
+    if( volume_carried() > volume_capacity() ) {
+        for( auto &item_to_drop :
+               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
+            g->m.add_item_or_charges( pos(), item_to_drop );
+        }
+        add_msg_if_player( m_bad, _("Some items tumble to the ground.") );
     }
 }
 

@@ -444,7 +444,7 @@ void player::reset_stats()
 
 void player::process_turn()
 {
-    Creature::process_turn();
+    Character::process_turn();
 
     // Didn't just pick something up
     last_item = itype_id("null");
@@ -10811,20 +10811,9 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         worn.erase( first_iter );
     }
 
-    drop_inventory_overflow();
     recalc_sight_limits();
 
     return taken_off;
-}
-
-void player::drop_inventory_overflow() {
-    if( volume_carried() > volume_capacity() ) {
-        for( auto &item_to_drop :
-               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
-            g->m.add_item_or_charges( pos(), item_to_drop );
-        }
-        add_msg_if_player( m_bad, _("Some items tumble to the ground.") );
-    }
 }
 
 void player::use_wielded() {
