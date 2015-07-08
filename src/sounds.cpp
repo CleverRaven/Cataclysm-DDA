@@ -330,9 +330,8 @@ void sounds::process_sound_markers( player *p )
         }
         // Then place the sound marker in a random one.
         if( !unseen_points.empty() ) {
-            sound_markers.emplace(
-                std::make_pair( unseen_points[rng(0, unseen_points.size() - 1)],
-                                sound_event_pair.second ) );
+            sound_markers.emplace( random_entry( unseen_points ),
+                                   sound_event_pair.second );
         }
     }
     sounds_since_last_turn.clear();

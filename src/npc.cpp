@@ -921,8 +921,7 @@ void npc::spawn_at_random_city(overmap *o)
         x = rng(0, OMAPX * 2 - 1);
         y = rng(0, OMAPY * 2 - 1);
     } else {
-        int city_index = rng(0, o->cities.size() - 1);
-        const city& c = o->cities[city_index];
+        const city& c = random_entry( o->cities );
         x = c.x + rng(-c.s, +c.s);
         y = c.y + rng(-c.s, +c.s);
     }
@@ -2431,7 +2430,7 @@ void epilogue::random_by_group(std::string group, std::string name)
     }
     if (v.size() == 0)
         return;
-    epilogue epi = v.at(rng(0,v.size()-1));
+    epilogue epi = random_entry( v );
     id = epi.id;
     group = epi.group;
     is_unique = epi.is_unique;

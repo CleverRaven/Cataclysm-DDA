@@ -445,12 +445,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
             }
         }
-        if (cascade_points.empty()) {
-            g->resonance_cascade( g->u.pos3() );
-        } else {
-            const tripoint &p = cascade_points[rng(0, cascade_points.size() - 1)];
-            g->resonance_cascade( p );
-        }
+        g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
     }
     break;
 
@@ -1176,8 +1171,7 @@ It takes you forever to find the address on your map...\n"));
 void computer::activate_random_failure()
 {
     next_attempt = int(calendar::turn) + 450;
-    computer_failure fail = (failures.empty() ? COMPFAIL_SHUTDOWN :
-                             failures[rng(0, failures.size() - 1)]);
+    computer_failure fail = random_entry( failures, COMPFAIL_SHUTDOWN );
     activate_failure(fail);
 }
 
@@ -1306,7 +1300,7 @@ void computer::activate_failure(computer_failure fail)
                         if (next_move.empty()) {
                             i = leak_size;
                         } else {
-                            p = next_move[rng(0, next_move.size() - 1)];
+                            p = random_entry( next_move );
                             g->m.ter_set(p.x, p.y, t_sewage);
                         }
                     }

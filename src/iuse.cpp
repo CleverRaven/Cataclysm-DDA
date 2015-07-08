@@ -1866,14 +1866,12 @@ int iuse::purifier(player *p, item *it, bool, const tripoint& )
         num_cured = 4;
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        int index = rng(0, valid.size() - 1);
-        const std::string id = valid[index];
+        const std::string id = random_entry_removed( valid );
         if (p->purifiable( id )) {
             p->remove_mutation( id );
         } else {
             p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
         }
-        valid.erase(valid.begin() + index);
     }
     return it->type->charges_to_use();
 }
@@ -1912,14 +1910,12 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
         num_cured = 8;
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        int index = rng(0, valid.size() - 1);
-        const std::string id = valid[index];
+        const std::string id = random_entry_removed( valid );
         if (p->purifiable( id )) {
             p->remove_mutation( id );
         } else {
             p->add_msg_if_player(m_warning, _("You feel a distinct burning inside, but it passes."));
         }
-        valid.erase(valid.begin() + index);
         if (!(p->has_trait("NOPAIN"))) {
             p->mod_pain(2 * num_cured); //Hurts worse as it fixes more
             p->add_msg_if_player(m_warning, _("Feels like you're on fire, but you're OK."));
@@ -3703,7 +3699,7 @@ int iuse::two_way_radio(player *p, item *it, bool, const tripoint& )
             }
         }
         if (!in_range.empty()) {
-            npc *coming = in_range[rng(0, in_range.size() - 1)];
+            npc *coming = random_entry( in_range );
             popup(ngettext("A reply!  %s says, \"I'm on my way; give me %d minute!\"",
                            "A reply!  %s says, \"I'm on my way; give me %d minutes!\"", coming->minutes_to_u()),
                   coming->name.c_str(), coming->minutes_to_u());
@@ -5697,10 +5693,9 @@ int iuse::vortex(player *p, item *it, bool, const tripoint& )
     }
 
     p->add_msg_if_player(m_warning, _("Air swirls all over..."));
-    int index = rng(0, spawn.size() - 1);
     p->moves -= 100;
     it->make("spiral_stone");
-    monster mvortex(GetMType("mon_vortex"), spawn[index] );
+    monster mvortex(GetMType("mon_vortex"), random_entry( spawn ) );
     mvortex.friendly = -1;
     g->add_zombie(mvortex);
     return it->type->charges_to_use();
@@ -6276,9 +6271,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
     std::vector<art_effect_active> effects = art->effects_activated;
     for (size_t i = 0; i < num_used && !effects.empty(); i++) {
-        int index = rng(0, effects.size() - 1);
-        art_effect_active used = effects[index];
-        effects.erase(effects.begin() + index);
+        const art_effect_active used = random_entry_removed( effects );
 
         switch (used) {
             case AEA_STORM: {
@@ -6448,9 +6441,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 }
                 if (bug != "mon_null") {
                     for (int j = 0; j < num && !empty.empty(); j++) {
-                        int index_inner = rng(0, empty.size() - 1);
-                        tripoint spawnp = empty[index_inner];
-                        empty.erase(empty.begin() + index_inner);
+                        const tripoint spawnp = random_entry_removed( empty );
                         if (g->summon_mon(bug, spawnp)) {
                             monster *b = g->monster_at(spawnp);
                             b->friendly = -1;
@@ -7789,7 +7780,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         if (candidates.size() > 0) {
 
-            const recipe *r = candidates[rng(0, candidates.size() - 1)];
+            const recipe *r = random_entry( candidates );
             const std::string rident = r->ident;
 
             const item dummy(r->result, 0);
@@ -9009,7 +9000,7 @@ bool multicooker_hallu(player *p)
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
-                const tripoint random_point = points[rng(0, points.size() - 1)];
+                const tripoint random_point = random_entry( points );
                 if (g->summon_mon("mon_hallu_multicooker", random_point)) {
                     monster *m = g->monster_at(random_point);
                     m->hallucination = true;

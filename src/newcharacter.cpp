@@ -75,7 +75,7 @@ void Character::pick_name()
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
     if( type == PLTYPE_NOW ) {
-        return styles[rng( 0, styles.size() - 1 )];
+        return random_entry( styles );
     }
     if( styles.size() == 1 ) {
         return styles.front();
@@ -142,7 +142,7 @@ int player::create(character_type type, std::string tempname)
                         scenarios.emplace_back(scenario::scen((iter->second).ident()));
                     }
                 }
-                g->scen = scenarios[rng(0,scenarios.size() - 1)];
+                g->scen = random_entry( scenarios );
                 if (g->scen->profsize() > 0) {
                     g->u.prof = g->scen->random_profession();
                 } else {
@@ -1984,7 +1984,7 @@ std::string Character::random_good_trait()
         }
     }
 
-    return vTraitsGood[rng(0, vTraitsGood.size() - 1)];
+    return random_entry( vTraitsGood );
 }
 
 std::string Character::random_bad_trait()
@@ -1997,7 +1997,7 @@ std::string Character::random_bad_trait()
         }
     }
 
-    return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
+    return random_entry( vTraitsBad );
 }
 
 const Skill* random_skill()

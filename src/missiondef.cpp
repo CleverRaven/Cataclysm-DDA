@@ -626,10 +626,7 @@ mission_type_id mission_type::get_random_id( const mission_origin origin, const 
             valid.push_back( t.id );
         }
     }
-    if( valid.empty() ) {
-        return MISSION_NULL;
-    }
-    return valid[rng( 0, valid.size() - 1 )];
+    return random_entry( valid, MISSION_NULL );
 }
 
 void mission_type::reset() {

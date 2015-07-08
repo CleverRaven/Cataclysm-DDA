@@ -215,8 +215,7 @@ void monster::update_check() {
         // Else upgrade to the desired group
         } else {
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-            poly(GetMType(newtype));
+            poly( GetMType( random_entry( monsters ) ) );
         }
     }
 

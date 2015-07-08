@@ -4870,7 +4870,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         }
     }
     int parm = part_with_feature( p, "ARMOR" );
-    int pdm = pl[rng( 0, pl.size() - 1 )];
+    int pdm = random_entry( pl );
     int dres;
     if( parm < 0 ) {
         // not covered by armor -- damage part

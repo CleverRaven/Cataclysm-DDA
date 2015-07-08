@@ -283,11 +283,7 @@ std::string scenario::start_location() const
 }
 std::string scenario::random_start_location() const
 {
-   std::vector<std::string> allowed_locs(_allowed_locs.begin(), _allowed_locs.end());
-   if (allowed_locs.size() == 0) {
-       return start_location();
-   }
-   return allowed_locs[rng(0, allowed_locs.size()-1)];
+   return random_entry( _allowed_locs, start_location() );
 }
 profession* scenario::get_profession() const
 {

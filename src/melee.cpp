@@ -1053,11 +1053,7 @@ matec_id player::pick_technique(Creature &t,
         }
     }
 
-    if (possible.empty()) {
-        return tec_none;
-    }
-
-    return possible[ rng(0, possible.size() - 1) ];
+    return random_entry( possible, tec_none );
 }
 
 bool player::valid_aoe_technique( Creature &t, const ma_technique &technique )

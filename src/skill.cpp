@@ -89,7 +89,7 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
         debugmsg( "could not find a skill with the %s tag", tag.c_str() );
         return &skills.front();
     }
-    return valid[rng( 0, valid.size() - 1 )];
+    return random_entry( valid );
 }
 
 size_t Skill::skill_count()

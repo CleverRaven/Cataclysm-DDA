@@ -12940,7 +12940,7 @@ void game::vertical_move(int movez, bool force)
             climbing = true;
             move_cost = cost;
             // TODO: Allow picking this instead of forcing a random one
-            stairs = pts[rng( 0, pts.size() - 1 )];
+            stairs = random_entry( pts );
         } else {
             add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
             return;

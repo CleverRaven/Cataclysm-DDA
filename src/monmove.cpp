@@ -569,12 +569,7 @@ tripoint monster::scent_move()
         }
     }
 
-    if( !smoves.empty() ) {
-        int nextsq = rng( 0, smoves.size() - 1 );
-        return smoves[nextsq];
-    }
-
-    return next;
+    return random_entry( smoves, next );
 }
 
 tripoint monster::wander_next()
@@ -1251,8 +1246,7 @@ void monster::stumble( bool moved )
         return;
     }
 
-    int choice = rng( 0, valid_stumbles.size() - 1 );
-    move_to( valid_stumbles[choice], false );
+    move_to( random_entry( valid_stumbles ), false );
 
     // Here we have to fix our plans[] list,
     // acquiring a new path to the previous target.

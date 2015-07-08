@@ -453,8 +453,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 /* 1 victim list unless wildly spraying */
-                int target_picked = rng(0, new_targets.size() - 1);
-                targ = new_targets[target_picked]->pos();
+                targ = random_entry( new_targets )->pos();
             } else if( ( !trigger_happy || one_in(3) ) &&
                        ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
