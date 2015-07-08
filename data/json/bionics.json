@@ -15,6 +15,7 @@
         "type": "bionic",
         "id": "bio_batteries",
         "name": "Battery System",
+        "capacity": 10,
         "power_source": true,
         "toggled": true,
         "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will."
