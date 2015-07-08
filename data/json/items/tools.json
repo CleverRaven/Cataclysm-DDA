@@ -1893,8 +1893,8 @@
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "carver_off",
-    "use_action": [ "CARVER_ON", { "type": "knife" } ],
-    "qualities": [["CUT", 1], ["BUTCHER", 25]]
+    "use_action": "CARVER_ON",
+    "qualities": [["BUTCHER", 25]]
   },{
     "id": "trimmer_off",
     "type": "TOOL",
@@ -1939,8 +1939,7 @@
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
-    "use_action": [ "TRIMMER_ON", { "type": "knife" } ],
-    "qualities": [["CUT", 1]]
+    "use_action": "TRIMMER_ON"
   },{
     "id": "circsaw_off",
     "type": "TOOL",
@@ -1990,8 +1989,8 @@
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "circsaw_off",
-    "use_action": [ "CIRCSAW_ON", { "type": "knife" } ],
-    "qualities": [["CUT", 1], ["SAW_W", 2], ["BUTCHER", 60]]
+    "use_action": "CIRCSAW_ON",
+    "qualities": [["SAW_W", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -9078,11 +9077,11 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "use_action": { "type": "knife" },
+    "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["DIG", 1], ["BUTCHER", -4]]
+    "qualities": [["DIG", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",

@@ -2991,8 +2991,7 @@
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0,
-        "use_action": { "type": "knife" },
-        "qualities": [["CUT", 1], ["BUTCHER", 12]]
+        "qualities": [["BUTCHER", 12]]
     },
     {
         "type":"GENERIC",
@@ -3047,8 +3046,7 @@
         "cutting" : 6,
         "flags" : ["SLICE", "UNARMED_WEAPON", "DURABLE_MELEE"],
         "price" : 20000,
-        "use_action": { "type": "knife" },
-        "qualities": [["CUT", 1], ["BUTCHER", 14]]
+        "qualities": [["BUTCHER", 14]]
     },
     {
         "type":"GENERIC",
