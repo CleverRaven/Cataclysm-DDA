@@ -1369,6 +1369,8 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         // until bionics can be flagged as non-removable
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id].name.c_str());
+        // remove power bank provided by bionic
+        max_power_level -= bionics[b_id].capacity;
         remove_bionic(b_id);
         if (b_id == "bio_reactor" || b_id == "bio_advreactor") {
             remove_bionic("bio_plutdump");
@@ -1455,9 +1457,10 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
+
         int pow_up = bionics[bioid].capacity;
-        if (pow_up > 0) {
-            max_power_level += pow_up;
+        max_power_level += pow_up;
+        if ( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) {
             add_msg_if_player(m_good, _("Increased storage capacity by %i"), pow_up);
         } else {
             add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
