@@ -1867,8 +1867,9 @@ int iuse::purifier(player *p, item *it, bool, const tripoint& )
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
-        if (p->purifiable(valid[index])) {
-            p->remove_mutation(valid[index]);
+        const std::string id = valid[index];
+        if (p->purifiable( id )) {
+            p->remove_mutation( id );
         } else {
             p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
         }
@@ -1912,8 +1913,9 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
-        if (p->purifiable(valid[index])) {
-            p->remove_mutation(valid[index]);
+        const std::string id = valid[index];
+        if (p->purifiable( id )) {
+            p->remove_mutation( id );
         } else {
             p->add_msg_if_player(m_warning, _("You feel a distinct burning inside, but it passes."));
         }

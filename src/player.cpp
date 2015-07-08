@@ -4737,8 +4737,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         for (int i = 0; i < snakes; i++) {
             int index = rng(0, valid.size() - 1);
-            if (g->summon_mon("mon_shadow_snake", valid[index])) {
-                monster *snake = g->monster_at(valid[index]);
+            const tripoint target = valid[index];
+            if (g->summon_mon("mon_shadow_snake", target)) {
+                monster *snake = g->monster_at( target );
                 snake->friendly = -1;
             }
             valid.erase(valid.begin() + index);
@@ -4760,8 +4761,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         int numslime = 1;
         for (int i = 0; i < numslime; i++) {
             int index = rng(0, valid.size() - 1);
-            if (g->summon_mon("mon_player_blob", valid[index])) {
-                monster *slime = g->monster_at(valid[index]);
+            const tripoint target = valid[index];
+            if (g->summon_mon("mon_player_blob", target)) {
+                monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
             valid.erase(valid.begin() + index);
@@ -9661,8 +9663,9 @@ bool player::eat(item *eaten, it_comest *comest)
             int numslime = 1;
             for (int i = 0; i < numslime; i++) {
                 int index = rng(0, valid.size() - 1);
-                if (g->summon_mon("mon_player_blob", valid[index])) {
-                    monster *slime = g->monster_at(valid[index]);
+                const tripoint target = valid[index];
+                if (g->summon_mon("mon_player_blob", target)) {
+                    monster *slime = g->monster_at( target );
                     slime->friendly = -1;
                 }
                 valid.erase(valid.begin() + index);

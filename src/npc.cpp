@@ -922,9 +922,9 @@ void npc::spawn_at_random_city(overmap *o)
         y = rng(0, OMAPY * 2 - 1);
     } else {
         int city_index = rng(0, o->cities.size() - 1);
-        int s = o->cities[city_index].s;
-        x = o->cities[city_index].x + rng(-s, +s);
-        y = o->cities[city_index].y + rng(-s, +s);
+        const city& c = o->cities[city_index];
+        x = c.x + rng(-c.s, +c.s);
+        y = c.y + rng(-c.s, +c.s);
     }
     x += o->pos().x * OMAPX * 2;
     y += o->pos().y * OMAPY * 2;
