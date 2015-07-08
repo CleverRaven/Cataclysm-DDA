@@ -1613,6 +1613,77 @@ void bionics_install_failure(player *u, int difficulty, int success)
     }
 }
 
+void player::add_bionic( std::string const &b )
+{
+    if( has_bionic( b ) ) {
+        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        return;
+    }
+    char newinv = ' ';
+    for( auto &inv_char : inv_chars ) {
+        if( bionic_by_invlet( inv_char ) == nullptr ) {
+            newinv = inv_char;
+            break;
+        }
+    }
+    my_bionics.push_back( bionic( b, newinv ) );
+    if ( b == "bio_tools" || b == "bio_ears" ) {
+        activate_bionic(my_bionics.size() -1);
+    }
+    recalc_sight_limits();
+}
+
+void player::remove_bionic(std::string const &b) {
+    std::vector<bionic> new_my_bionics;
+    for(auto &i : my_bionics) {
+        if (b == i.id) {
+            continue;
+        }
+
+        // Ears and earplugs go together like peanut butter and jelly.
+        // Therefore, removing one, should remove the other.
+        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
+            (b == "bio_earplugs" && i.id == "bio_ears")) {
+            continue;
+        }
+
+        new_my_bionics.push_back(bionic(i.id, i.invlet));
+    }
+    my_bionics = new_my_bionics;
+    recalc_sight_limits();
+}
+
+int player::num_bionics() const
+{
+    return my_bionics.size();
+}
+
+bionic& player::bionic_at_index(int i)
+{
+    return my_bionics[i];
+}
+
+bionic* player::bionic_by_invlet(char ch) {
+    for( auto &elem : my_bionics ) {
+        if( elem.invlet == ch ) {
+            return &elem;
+        }
+    }
+    return 0;
+}
+
+// Returns true if a bionic was removed.
+bool player::remove_random_bionic() {
+    const int numb = num_bionics();
+    if (numb) {
+        int rem = rng(0, num_bionics() - 1);
+        const auto bionic = my_bionics[rem];
+        remove_bionic(bionic.id);
+        recalc_sight_limits();
+    }
+    return numb;
+}
+
 void reset_bionics()
 {
     bionics.clear();
