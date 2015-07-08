@@ -5841,7 +5841,7 @@ void player::print_health()
     } else if( healthy > -30 ) {
         add_msg( m_bad, _("You feel sickly, you should improve your diet") );
     } else {
-        add_msg( m_bad, _("You feel horrid, something is messing with your body") );
+        add_msg( m_bad, _("You feel horrible, something is messing with your body") );
         add_msg( m_bad, _("Your wounds will heal much slower or not at all until your health improves") );
     }
 
