@@ -1088,6 +1088,9 @@ void monster::load(JsonObject &data)
 
     data.read("plans", plans);
 
+    data.read("upgrades", upgrades);
+    data.read("upgrade_time", upgrade_time);
+
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
         // Legacy loading for ammo.
@@ -1138,6 +1141,8 @@ void monster::store(JsonOut &json) const
     json.member("plans", plans);
     json.member("ammo", ammo);
     json.member( "underwater", underwater );
+    json.member("upgrades", upgrades);
+    json.member("upgrade_time", upgrade_time);
 
     json.member( "inv", inv );
 }

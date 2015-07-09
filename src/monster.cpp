@@ -31,6 +31,11 @@
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
 
+// Limit the number of iterations for next upgrade_time calculations.
+// This also sets the percentage of monsters that will never upgrade.
+// The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
+#define UPGRADE_MAX_ITERS 5
+
 monster::monster()
 {
  position.x = 20;
@@ -52,6 +57,8 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
+ upgrades = false;
+ upgrade_time = -1;
 }
 
 monster::monster(mtype *t)
@@ -81,6 +88,8 @@ monster::monster(mtype *t)
  hallucination = false;
  ignoring = 0;
  ammo = t->starting_ammo;
+ upgrades = t->upgrades;
+ upgrade_time = -1;
 }
 
 monster::monster(mtype *t, const tripoint &p )
@@ -108,6 +117,8 @@ monster::monster(mtype *t, const tripoint &p )
  hallucination = false;
  ignoring = 0;
  ammo = t->starting_ammo;
+ upgrades = t->upgrades;
+ upgrade_time = -1;
 }
 
 monster::~monster()
@@ -144,83 +155,88 @@ void monster::poly(mtype *t)
     }
     def_chance = type->def_chance;
     faction = t->default_faction;
+    upgrades = t->upgrades;
 }
 
-bool monster::can_upgrade() const
-{
-    // No upgrade_min, no upgrades ever
-    if (type->upgrade_min <= 0) {
-        return false;
-    }
-    // Hallucinations don't upgrade!
-    if (is_hallucination()) {
-        return false;
-    }
-    // No chance of upgrading, abort
-    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
-        return false;
-    }
-    // Turned off means turned off
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
-        return false;
-    }
-    return true;
+bool monster::can_upgrade() {
+    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
 }
 
-void monster::update_check() {
-    // General checks
+// For master special attack.
+void monster::hasten_upgrade() {
+    if (!can_upgrade() || upgrade_time < 1) {
+        return;
+    }
+
+    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    upgrade_time -= rng(1, scaled_half_life);
+    if (upgrade_time < 0) {
+        upgrade_time = 0;
+    }
+}
+
+// This will disable upgrades in case max iters have been reached.
+// Checking for return value of -1 is necessary.
+int monster::next_upgrade_time() {
+    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    int day = 0;
+    for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
+        if (one_in(2)) {
+            day += rng(0, scaled_half_life);
+            return day;
+        } else {
+            day += scaled_half_life;
+        }
+    }
+    // didn't manage to upgrade, shouldn't ever then
+    upgrades = false;
+    return -1;
+}
+
+void monster::try_upgrade() {
     if (!can_upgrade()) {
         return;
     }
 
+    if (upgrade_time < 0) {
+        upgrade_time = next_upgrade_time();
+        if (upgrade_time < 0) {
+            return;
+        }
+        // offset by starting season
+        upgrade_time += calendar::start / DAYS(1);
+    }
+
     const int current_day = calendar::turn.get_turn() / DAYS(1);
-    const int upgrade_time = (calendar::start / DAYS(1)) +
-                            (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
-    //debugmsg("update_check: upgrade_min: %d, upgrade_time: %d, current_day: %d, last_loaded: %d",
-    //         type->upgrade_min, upgrade_time, current_day, last_loaded);
+    // Here we iterate until we either are before upgrade_time or can't upgrade any more.
+    // This is so that late into game new monsters can 'catch up' with all that half-life
+    // upgrades they'd get if we were simulating whole world.
+    while (true) {
+        if (upgrade_time > current_day) {
+            // not yet
+            return;
+        }
 
-    // Are we allowed to yet?
-    if (current_day < upgrade_time) {
-        return;
-    }
-    // Already tried today?
-    if (current_day == last_loaded) {
-        return;
-    }
-
-    // We don't start counting until the minimum upgrade time
-    const int time_passed = current_day - std::max(last_loaded, upgrade_time);
-    add_msg(m_debug, "Time passed: %d", time_passed);
-
-    float upgrade_chance = 0;
-    // If we have a valid half life use a radioactive decay function. This will become
-    // rapidly inaccurate when half_life > 700, if longer half lives are needed increase
-    // the 1000 here, the 10 in the else, and the rng() range by factors of 10 as necessary.
-    if (type->half_life > 0) {
-        float elapsed_lives = float(time_passed) / float(type->half_life);
-        // (1- (.5 - base%)^lives) = percentage that have upgraded
-        upgrade_chance = 1000 * (1 - pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 ),
-                                               elapsed_lives));
-    } else {
-        // Not a valid half life, so just do base_upgrade_chance percent per day
-        // (1 - (1 - base%)^days) = percentage that has upgraded
-        upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
-    }
-    //debugmsg("update_check: upgrade_chance: %f", upgrade_chance);
-    if (upgrade_chance > rng(0, 999)){
-        // Try to upgrade to a single monster first
-        if (type->upgrades_into != "NULL"){
-            poly(GetMType(type->upgrades_into));
-        // Else upgrade to the desired group
+        if (type->upgrade_into != "NULL"){
+            poly(GetMType(type->upgrade_into));
         } else {
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
             const std::string newtype = monsters[rng(0, monsters.size() - 1)];
             poly(GetMType(newtype));
         }
-    }
 
-    last_loaded = current_day;
+        if (!upgrades) {
+            // upgraded into a non-upgradable monster
+            return;
+        }
+
+        const int next_upgrade = next_upgrade_time();
+        if (next_upgrade < 0) {
+            // hit never_upgrade
+            return;
+        }
+        upgrade_time += next_upgrade;
+    }
 }
 
 void monster::spawn(const tripoint &p)
