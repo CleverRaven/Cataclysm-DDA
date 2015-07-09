@@ -3951,7 +3951,7 @@ void game::debug()
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
-            nmenu.addentry( D_TELE, true, 't', "%s", _("[t]eleport") );
+            nmenu.addentry( D_TELE, true, 'e', "%s", _("t[e]leport") );
             if( p.is_npc() ) {
                 nmenu.addentry( D_MISSION, true, 'm', "%s", _("Add [m]ission") );
             }
@@ -12938,7 +12938,7 @@ void game::vertical_move(int movez, bool force)
             climbing = true;
             move_cost = cost;
             // TODO: Allow picking this instead of forcing a random one
-            stairs = pts[rng( 0, pts.size() - 1 )];
+            stairs = random_entry( pts );
         } else {
             add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
             return;

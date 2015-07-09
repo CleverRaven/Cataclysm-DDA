@@ -793,7 +793,7 @@ public:
         if( !x_in_y( chance.get(), 100 ) ) {
             return;
         }
-        m.add_vehicle( type, point(x, y), rotation[rng(0, rotation.size()-1)], fuel, status );
+        m.add_vehicle( type, point(x, y), random_entry( rotation ), fuel, status );
     }
 };
 /**
@@ -3897,8 +3897,8 @@ C..C..C...|hhh|#########\n\
                         stair_points.push_back(point(SEEX + 2, int(SEEY / 2)       ));
                         stair_points.push_back(point(SEEX    , int(SEEY / 2) + SEEY));
                         stair_points.push_back(point(SEEX + 2, int(SEEY / 2) + SEEY));
-                        rn = rng(0, stair_points.size() - 1);
-                        ter_set(stair_points[rn].x, stair_points[rn].y, t_stairs_down);
+                        const point p = random_entry( stair_points );
+                        ter_set(p.x, p.y, t_stairs_down);
                     }
 
                     break;
@@ -4769,7 +4769,7 @@ ff.......|....|WWWWWWWW|\n\
                     doorsides.push_back(SOUTH);
                 }
                 int doorx = 0, doory = 0;
-                switch (doorsides[rng(0, doorsides.size() - 1)]) {
+                switch( random_entry( doorsides ) ) {
                 case WEST:
                     doorx = bx1;
                     doory = rng(by1 + 1, by2 - 1);
@@ -5052,9 +5052,7 @@ ff.......|....|WWWWWWWW|\n\
                 actions.push_back(4);
                 actions.push_back(rng(1, 3));
                 while (!actions.empty()) {
-                    int index = rng(0, actions.size() - 1);
-                    int action = actions[index];
-                    actions.erase(actions.begin() + index);
+                    const int action = random_entry_removed( actions );
                     for (int y = 1; y < 7; y++) {
                         for (int x = SEEX; x <= SEEX + 1; x++) {
                             switch (action) {
@@ -5145,9 +5143,9 @@ ff.......|....|WWWWWWWW|\n\
                         if(next.empty()) {
                             break;
                         } else {
-                            int index = rng(0, next.size() - 1);
-                            x = next[index].x;
-                            y = next[index].y;
+                            const point p = random_entry( next );
+                            x = p.x;
+                            y = p.y;
                         }
                     }
                 }
@@ -5656,9 +5654,8 @@ ff.......|....|WWWWWWWW|\n\
                         add_spawn("mon_dark_wyrm", 1, SEEX, SEEY);
                         i = num_worms;
                     } else {
-                        direction side = sides[rng(0, sides.size() - 1)];
                         point p;
-                        switch (side) {
+                        switch( random_entry( sides ) ) {
                         case NORTH:
                             p = point(rng(1, SEEX * 2 - 2), rng(1, 5)           );
                             break;
@@ -5739,8 +5736,7 @@ ff.......|....|WWWWWWWW|\n\
                 square(this, t_slope_down, p.x + 1, p.y + 1, p.x + 2, p.y + 2);
 
             } else { // We can build against a wall
-                direction side = open[rng(0, open.size() - 1)];
-                switch (side) {
+                switch( random_entry( open ) ) {
                 case NORTH:
                     square(this, t_rock_floor, SEEX - 3, 6, SEEX + 2, SEEY);
                     line(this, t_slope_down, SEEX - 2, 6, SEEX + 1, 6);
@@ -5803,8 +5799,7 @@ ff.......|....|WWWWWWWW|\n\
                 square(this, t_slope_up, p.x + 1, p.y + 1, p.x + 2, p.y + 2);
 
             } else { // We can build against a wall
-                direction side = open[rng(0, open.size() - 1)];
-                switch (side) {
+                switch( random_entry( open ) ) {
                 case NORTH:
                     line(this, t_slope_up, SEEX - 2, 6, SEEX + 1, 6);
                     break;
@@ -5911,9 +5906,8 @@ ff.......|....|WWWWWWWW|\n\
         break;
 
         case 4: { // Amigara fault
-            direction fault = face[rng(0, face.size() - 1)];
             // Construct the fault on the appropriate face
-            switch (fault) {
+            switch( random_entry( face ) ) {
             case NORTH:
                 square(this, t_rock, 0, 0, SEEX * 2 - 1, 4);
                 line(this, t_fault, 4, 4, SEEX * 2 - 5, 4);
@@ -5985,11 +5979,9 @@ ff.......|....|WWWWWWWW|\n\
 
         // Randomly place from 1 - 4 of the spirals at the chosen offsets.
         for (int i = 0; i < num_spiral; i++) {
-            std::list<point>::iterator chosen_point = offsets.begin();
-            std::advance( chosen_point, rng(0, offsets.size() - 1) );
-            const int orx = chosen_point->x;
-            const int ory = chosen_point->y;
-            offsets.erase( chosen_point );
+            const point chosen_point = random_entry_removed( offsets );
+            const int orx = chosen_point.x;
+            const int ory = chosen_point.y;
 
             line(this, t_rock, orx    , ory    , orx + 5, ory    );
             line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
@@ -11213,8 +11205,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 square(this, t_slope_down, nodex + 1, nodey + 1, nodex + 2, nodey + 2);
                 done = true;
             } else {
-                int index = rng(0, move.size() - 1);
-                switch (move[index]) {
+                switch( random_entry( move ) ) {
                 case NORTH:
                     square(this, t_dirt, nodex + 1, nodey - 2, nodex + 2, nodey - 1);
                     node -= 4;
@@ -12175,10 +12166,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         }
     }
 
-    room_type chosen = valid_rooms[rng(0, valid_rooms.size() - 1)];
     int trapx = rng(x1 + 1, x2 - 1);
     int trapy = rng(y1 + 1, y2 - 1);
-    switch (chosen) {
+    switch( random_entry( valid_rooms ) ) {
     case room_closet:
         m->place_items("cleaning", 80, x1, y1, x2, y2, false, 0);
         break;
@@ -12689,7 +12679,6 @@ void silo_rooms(map *m)
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat)
 {
     (void)dat;
-    direction door_side;
     std::vector<direction> possibilities;
     int midx = int( (x1 + x2) / 2), midy = int( (y1 + y2) / 2);
     if (x2 < SEEX) {
@@ -12718,7 +12707,7 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, map
         }
     }
 
-    door_side = possibilities[rng(0, possibilities.size() - 1)];
+    const direction door_side = random_entry( possibilities );
     point door_point;
     switch (door_side) {
     case NORTH:
@@ -12899,7 +12888,7 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
         return room_null;
     }
 
-    return valid[ rng(0, valid.size() - 1) ];
+    return random_entry( valid );
 }
 
 void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat)

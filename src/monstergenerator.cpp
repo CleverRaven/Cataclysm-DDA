@@ -567,7 +567,7 @@ mtype *MonsterGenerator::get_valid_hallucination()
         }
     }
 
-    return potentials[rng(0, potentials.size() - 1)];
+    return random_entry( potentials );
 }
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const

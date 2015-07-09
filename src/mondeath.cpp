@@ -252,12 +252,11 @@ void mdeath::worm(monster *z)
     }
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
-        int rn = rng(0, wormspots.size() - 1);
-        if(-1 == g->mon_at(wormspots[rn])) {
-            g->summon_mon("mon_halfworm", wormspots[rn]);
+        const tripoint target = random_entry_removed( wormspots );
+        if(-1 == g->mon_at( target )) {
+            g->summon_mon("mon_halfworm", target);
             worms++;
         }
-        wormspots.erase(wormspots.begin() + rn);
     }
 }
 
@@ -366,16 +365,14 @@ void mdeath::blobsplit(monster *z)
         }
     }
 
-    int rn;
     for (int s = 0; s < 2 && !valid.empty(); s++) {
-        rn = rng(0, valid.size() - 1);
-        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", valid[rn])) {
-            monster *blob = g->monster_at(valid[rn]);
+        const tripoint target = random_entry_removed( valid );
+        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", target)) {
+            monster *blob = g->monster_at( target );
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);
         }
-        valid.erase(valid.begin() + rn);
     }
 }
 
@@ -522,11 +519,8 @@ void mdeath::ratking(monster *z)
             }
         }
     }
-    monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
-        int rn = rng(0, ratspots.size() - 1);
-        g->summon_mon("mon_sewer_rat", ratspots[rn]);
-        ratspots.erase(ratspots.begin() + rn);
+        g->summon_mon("mon_sewer_rat", random_entry_removed( ratspots ) );
     }
 }
 

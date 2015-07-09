@@ -609,8 +609,8 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     if (attacker.size() == 0 || defender.size() ==0){
             return;
     }
-    npc* att = attacker[rng( 0, attacker.size() - 1 )];
-    npc* def = defender[rng( 0, defender.size() - 1 )];
+    npc* att = random_entry( attacker );
+    npc* def = random_entry( defender );
     const Skill* best = att->best_skill();
     int best_score = 1;
     if (best != nullptr){

@@ -75,7 +75,7 @@ void Character::pick_name()
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
     if( type == PLTYPE_NOW ) {
-        return styles[rng( 0, styles.size() - 1 )];
+        return random_entry( styles );
     }
     if( styles.size() == 1 ) {
         return styles.front();
@@ -142,7 +142,7 @@ int player::create(character_type type, std::string tempname)
                         scenarios.emplace_back(scenario::scen((iter->second).ident()));
                     }
                 }
-                g->scen = scenarios[rng(0,scenarios.size() - 1)];
+                g->scen = random_entry( scenarios );
                 if (g->scen->profsize() > 0) {
                     g->u.prof = g->scen->random_profession();
                 } else {
@@ -442,16 +442,10 @@ int player::create(character_type type, std::string tempname)
     std::vector<std::string> prof_CBMs = g->u.prof->CBMs();
     for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
          iter != prof_CBMs.end(); ++iter) {
-        if (*iter == "bio_power_storage") {
-            max_power_level += 100;
-            power_level += 100;
-        } else if (*iter == "bio_power_storage_mkII") {
-            max_power_level += 250;
-            power_level += 250;
-        } else {
-            add_bionic(*iter);
-        }
+        add_bionic(*iter);
     }
+    // Adjust current energy level to maximum
+    power_level = max_power_level;
 
     // Get traits
     std::vector<std::string> prof_traits = g->u.prof->traits();
@@ -480,7 +474,7 @@ int player::create(character_type type, std::string tempname)
     } else if( has_trait( "URSINE_EYE" ) ) {
         my_mutations["URSINE_EYE"].powered = true;
     }
-    
+
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
         tmp = item("inhaler", 0, false);
@@ -1984,7 +1978,7 @@ std::string Character::random_good_trait()
         }
     }
 
-    return vTraitsGood[rng(0, vTraitsGood.size() - 1)];
+    return random_entry( vTraitsGood );
 }
 
 std::string Character::random_bad_trait()
@@ -1997,7 +1991,7 @@ std::string Character::random_bad_trait()
         }
     }
 
-    return vTraitsBad[rng(0, vTraitsBad.size() - 1)];
+    return random_entry( vTraitsBad );
 }
 
 const Skill* random_skill()

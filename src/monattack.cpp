@@ -140,8 +140,7 @@ void mattack::antqueen(monster *z, int index)
 
     if (!ants.empty()) {
         z->moves -= 100; // It takes a while
-        int mondex = ants[ rng(0, ants.size() - 1) ];
-        monster *ant = &(g->zombie(mondex));
+        monster *ant = &(g->zombie( random_entry( ants ) ) );
         if (g->u.sees( *z ) && g->u.sees( *ant ))
             add_msg(m_warning, _("The %s feeds an %s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
@@ -684,7 +683,7 @@ void mattack::resurrect(monster *z, int index)
         return;
     }
 
-    std::pair<tripoint, item*> raised = corpses[rng(0, corpses.size() - 1)];
+    std::pair<tripoint, item*> raised = random_entry( corpses );
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
@@ -1261,9 +1260,9 @@ void mattack::vine(monster *z, int index)
         !one_in(dist_from_hub)) {
         return;
     }
-    int free_index = rng(0, grow.size() - 1);
-    if (g->summon_mon("mon_creeper_vine", grow[free_index])) {
-        monster *vine = g->monster_at(grow[free_index]);
+    const tripoint target = random_entry( grow );
+    if (g->summon_mon("mon_creeper_vine", target)) {
+        monster *vine = g->monster_at( target );
         vine->make_ally(z);
         vine->reset_special(0);
     }
@@ -1885,7 +1884,7 @@ void mattack::leap(monster *z, int index)
 
     z->moves -= 150;
     z->reset_special(index); // Reset timer
-    tripoint chosen = options[rng(0, options.size() - 1)];
+    const tripoint chosen = random_entry( options );
     bool seen = g->u.sees(*z); // We can see them jump...
     z->setpos(chosen);
     seen |= g->u.sees(*z); // ... or we can see them land
@@ -3720,7 +3719,7 @@ void mattack::upgrade(monster *z, int index)
     z->reset_special(index); // Reset timer
     z->moves -= z->type->speed; // Takes one turn
 
-    monster *target = &( g->zombie( targets[ rng(0, targets.size() - 1) ] ) );
+    monster *target = &( g->zombie( random_entry( targets ) ) );
 
     std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
@@ -3781,7 +3780,7 @@ void mattack::breathe(monster *z, int index)
     }
 
     if (!valid.empty()) {
-        tripoint pt = valid[rng(0, valid.size() - 1)];
+        const tripoint pt = random_entry( valid );
         if (g->summon_mon("mon_breather", pt)) {
             monster *spawned = g->monster_at(pt);
             spawned->reset_special(0);
@@ -4150,10 +4149,10 @@ void mattack::darkman(monster *z, int index)
         }
     }
     if (!free.empty()) {
-        int free_index = rng( 0, free.size() - 1 );
         z->moves -= 10;
-        if (g->summon_mon("mon_shadow", free[free_index])) {
-            monster *shadow = g->monster_at(free[free_index]);
+        const tripoint target = random_entry( free );
+        if (g->summon_mon("mon_shadow", target)) {
+            monster *shadow = g->monster_at( target );
             shadow->make_ally(z);
         }
         if( g->u.sees( *z ) ) {

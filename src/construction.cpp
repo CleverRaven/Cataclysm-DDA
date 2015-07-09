@@ -907,9 +907,9 @@ bool catch_with_rope( point const &center )
         return false;
     }
     add_msg( _( "You pull yourself to safety!" ) );
-    int const index = rng( 0, safe.size() - 1 );
-    u.setx( safe[index].x );
-    u.sety( safe[index].y );
+    const point p = random_entry( safe );
+    u.setx( p.x );
+    u.sety( p.y );
     g->update_map( &u );
     return true;
 }

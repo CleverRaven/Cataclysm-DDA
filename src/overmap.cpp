@@ -1129,7 +1129,7 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (west == NULL) {
                 new_rivers.push_back( point(0, rng(10, OMAPY - 11)) );
             }
-            river_start.push_back( new_rivers[rng(0, new_rivers.size() - 1)] );
+            river_start.push_back( random_entry( new_rivers ) );
         }
     }
     if (south == NULL || east == NULL) {
@@ -1141,7 +1141,7 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (east == NULL) {
                 new_rivers.push_back( point(OMAPX - 1, rng(10, OMAPY - 11)) );
             }
-            river_end.push_back( new_rivers[rng(0, new_rivers.size() - 1)] );
+            river_end.push_back( random_entry( new_rivers ) );
         }
     }
 
@@ -1149,26 +1149,24 @@ void overmap::generate(const overmap *north, const overmap *east,
     if (river_start.size() > river_end.size() && !river_end.empty()) {
         std::vector<point> river_end_copy = river_end;
         while (!river_start.empty()) {
-            int index = rng(0, river_start.size() - 1);
+            const point start = random_entry_removed( river_start );
             if (!river_end.empty()) {
-                place_river(river_start[index], river_end[0]);
+                place_river(start, river_end[0]);
                 river_end.erase(river_end.begin());
-            } else
-                place_river(river_start[index],
-                            river_end_copy[rng(0, river_end_copy.size() - 1)]);
-            river_start.erase(river_start.begin() + index);
+            } else {
+                place_river( start, random_entry( river_end_copy ) );
+            }
         }
     } else if (river_end.size() > river_start.size() && !river_start.empty()) {
         std::vector<point> river_start_copy = river_start;
         while (!river_end.empty()) {
-            int index = rng(0, river_end.size() - 1);
+            const point end = random_entry_removed( river_end );
             if (!river_start.empty()) {
-                place_river(river_start[0], river_end[index]);
+                place_river(river_start[0], end);
                 river_start.erase(river_start.begin());
-            } else
-                place_river(river_start_copy[rng(0, river_start_copy.size() - 1)],
-                            river_end[index]);
-            river_end.erase(river_end.begin() + index);
+            } else {
+                place_river( random_entry( river_start_copy ), end );
+            }
         }
     } else if (!river_end.empty()) {
         if (river_start.size() != river_end.size())
@@ -1220,9 +1218,7 @@ void overmap::generate(const overmap *north, const overmap *east,
             viable_roads.push_back(city(0, tmp, 0));
         }
         while (roads_out.size() < 2 && !viable_roads.empty()) {
-            tmp = rng(0, viable_roads.size() - 1);
-            roads_out.push_back(viable_roads[tmp]);
-            viable_roads.erase(viable_roads.begin() + tmp);
+            roads_out.push_back( random_entry_removed( viable_roads ) );
         }
     }
 
@@ -2114,10 +2110,7 @@ tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
             }
         }
     }
-    if( valid.empty() ) {
-        return invalid_tripoint;
-    }
-    return valid[rng( 0, valid.size() - 1 )];
+    return random_entry( valid, invalid_tripoint );
 }
 
 void overmap::process_mongroups()
@@ -2578,8 +2571,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
         }
     }
     if (generate_stairs && !generated_lab.empty()) {
-        int v = rng(0, generated_lab.size() - 1);
-        point p = generated_lab[v];
+        const point p = random_entry( generated_lab );
         ter(p.x, p.y, z + 1) = "lab_stairs";
     }
 
@@ -2642,8 +2634,7 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
         }
     }
     if (generate_stairs && !generated_ice_lab.empty()) {
-        int v = rng(0, generated_ice_lab.size() - 1);
-        point p = generated_ice_lab[v];
+        const point p = random_entry( generated_ice_lab );
         ter(p.x, p.y, z + 1) = "ice_lab_stairs";
     }
 
@@ -2693,8 +2684,8 @@ void overmap::build_anthill(int x, int y, int z, int s)
             }
         }
     }
-    int index = rng(0, queenpoints.size() - 1);
-    ter(queenpoints[index].x, queenpoints[index].y, z) = "ants_queen";
+    const point target = random_entry( queenpoints );
+    ter(target.x, target.y, z) = "ants_queen";
 }
 
 void overmap::build_tunnel(int x, int y, int z, int s, int dir)
@@ -2800,7 +2791,7 @@ void overmap::build_mine(int x, int y, int z, int s)
             ter(x, y, z) = (finale ? "mine_finale" : "mine_down");
             return;
         }
-        point p = next[ rng(0, next.size() - 1) ];
+        const point p = random_entry( next );
         x = p.x;
         y = p.y;
         built++;
@@ -3546,11 +3537,9 @@ void overmap::place_specials()
     }
 
     while( !sectors.empty() ) {
-        const size_t pick = rng( 0, sectors.size() - 1 );
-        int x = sectors.at( pick ).x;
-        int y = sectors.at( pick ).y;
-
-        sectors.erase( sectors.begin() + pick );
+        const point sector = random_entry_removed( sectors );
+        int x = sector.x;
+        int y = sector.y;
 
         using special_with_rotation = std::pair<const overmap_special *, int>;
         std::vector<special_with_rotation> valid_specials;
@@ -3583,8 +3572,7 @@ void overmap::place_specials()
                 }
             }
             if( must_place.empty() ) {
-                const size_t selection = rng( 0, valid_specials.size() - 1 );
-                const auto &place = valid_specials[selection];
+                const auto &place = random_entry( valid_specials );
                 const overmap_special * const special = place.first;
                 if( num_placed[special] == -1 ) {
                     //if you build one, never build another.  For [x:100] spawn % chance
@@ -3593,8 +3581,7 @@ void overmap::place_specials()
                 num_placed[special]++;
                 place_special( *special, p, place.second );
             } else {
-                const size_t selection = rng( 0, must_place.size() - 1 );
-                const auto &place = must_place[selection];
+                const auto &place = random_entry( must_place );
                 const overmap_special * const special = place.first;
                 if( num_placed[special] == -1 ) {
                     //if you build one, never build another.  For [x:100] spawn % chance

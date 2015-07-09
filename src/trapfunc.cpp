@@ -185,8 +185,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 }
             }
             if( !valid.empty() ) {
-                jk = valid[rng( 0, valid.size() - 1 )];
-                n->setpos( jk );
+                n->setpos( random_entry( valid ) );
             }
             n->moves -= 150;
             if( rng( 5, 20 ) > n->dex_cur ) {
@@ -900,8 +899,7 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         } else {
             pl->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
                                                _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-            int index = rng( 0, safe.size() - 1 );
-            pl->setpos( safe[index] );
+            pl->setpos( random_entry( safe ) );
             if( pl == &g->u ) {
                 g->update_map( &g->u );
             }
