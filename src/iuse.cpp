@@ -9481,3 +9481,21 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
 
     return 0;
 }
+
+int iuse::biodiesel_kiln(player *p, item *it, bool, const tripoint& )
+{
+	if(p->is_underwater())
+	{
+		p->add_msg_if_player(m_info, _("You can't do that while underwater."));
+		return 0;
+	}
+	item biodiesel("biodiesel", calendar::turn.get_turn());
+	biodiesel.charges = rng(2000, 6000);
+	add_msg(_("You harvested %d units of biodiesel."), biodiesel.charges);
+	g->handle_liquid(biodiesel, false, false);
+	add_msg(_("You squeeze the last drops of biodiesel from the kiln."));
+	item empty_kiln("biodiesel_kiln", calendar::turn.get_turn());
+	*it = empty_kiln;
+	return 0;
+}
+

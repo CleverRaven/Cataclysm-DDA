@@ -3297,6 +3297,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "biodiesel_kiln",
+        "symbol": ";",
+        "color": "dark_gray",
+        "name": "biodiesel kiln",
+        "category" : "tools",
+        "description": "A stout metal box used for producing biodiesel by heating biomass, (m)ethanol and catalyst to achieve the temprature for chemical reaction.", 
+        "price": 16000,
+        "material": "steel",
+        "weight": 6400,
+        "volume": 30,
+        "bashing": 10,
+        "cutting": 0,
+        "to_hit": -2
+    },
+    {
+        "type":"GENERIC",
         "id" : "tonfa",
         "name" : "tonfa",
         "description" : "A hard plastic truncheon commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",

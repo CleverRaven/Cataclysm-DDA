@@ -513,7 +513,7 @@
     "container" : "bag_plastic",
     "count" : 10
    },
-      {
+   {
     "type" : "AMMO",
     "id" : "chem_rocket_fuel",
     "category" : "spare_parts",
@@ -538,7 +538,59 @@
     "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 10
+   },
+   {
+    "type" : "AMMO",
+    "id" : "chem_ethanol",
+    "category" : "spare_parts",
+    "price" : 100,
+    "name" : "ethanol",
+    "name_plural" : "ethanol",
+    "symbol" : "=",
+    "color" : "white",
+    "description" : "The principal type of alcohol found in alcoholic beverages, produced by the fermentation of sugars by yeasts.",
+    "material" : "null",
+    "volume" : 1,
+    "weight" : 1,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "phase" : "liquid",
+    "container" : "bottle_glass",
+    "count" : 200
+   },
+   {
+    "type" : "AMMO",
+    "id" : "chem_methanol",
+    "category" : "spare_parts",
+    "price" : 100,
+    "name" : "methanol",
+    "name_plural" : "methanol",
+    "symbol" : "=",
+    "color" : "white",
+    "description" : "Methanol, as known as methyl alcohol or wood alcohol, because it was once produced chiefly as a byproduct of the destructive distillation of wood.",
+    "material" : "null",
+    "volume" : 1,
+    "weight" : 1,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "phase" : "liquid",
+    "container" : "bottle_glass",
+    "count" : 200
    }
-
-
 ]

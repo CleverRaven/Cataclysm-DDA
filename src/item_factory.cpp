@@ -317,6 +317,7 @@ void Item_factory::init()
     iuse_function_list["SHAVEKIT"]  = &iuse::shavekit;
     iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
+	iuse_function_list["BIODIESEL_KILN"] = &iuse::biodiesel_kiln;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
 
     // MACGUFFINS
