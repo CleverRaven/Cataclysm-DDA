@@ -518,7 +518,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("spear_knife");
-  COUNT(12);
+  COUNT(10);
   FOLLOWUP(MISSION_RANCH_SCAVENGER_2);
 
  MISSION(_("Make 5 Wearable Flashlights"), MGOAL_FIND_ITEM, 5, 50000, false,
