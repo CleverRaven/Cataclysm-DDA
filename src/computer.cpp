@@ -482,6 +482,7 @@ void computer::activate_function(computer_action action, char ch)
         const tripoint center = g->u.global_omt_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
+        remove_option( COMPACT_MAPS );
         alerts ++;
     }
     break;
@@ -498,6 +499,7 @@ void computer::activate_function(computer_action action, char ch)
             }
         }
         query_any(_("Sewage map data downloaded.  Press any key..."));
+        remove_option( COMPACT_MAP_SEWER );
     }
     break;
 
