@@ -4175,7 +4175,7 @@ int map::i_rem(const tripoint &p, const int index)
     return index;
 }
 
-void map::i_rem(const tripoint &p, item *it)
+void map::i_rem( const tripoint &p, const item *it )
 {
     auto map_items = i_at(p);
 

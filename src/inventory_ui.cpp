@@ -9,6 +9,8 @@
 #include "morale.h"
 #include "input.h"
 #include "catacharset.h"
+#include "item_location.h"
+#include "vehicle.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -831,27 +833,21 @@ int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
     return display_slice(reduced_inv, title);
 }
 
-std::pair< int, item* > game::inv_map_splice( item_filter filter, const std::string &title )
-{
-    return inv_map_splice( filter, filter, title );
-}
+constexpr char first_invlet = '0';
+constexpr char last_invlet = '9';
+typedef std::vector< std::list<item> > pseudo_inventory;
 
-std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filter ground_filter, const std::string &title )
+template<typename Collection, typename Filter>
+void pseudo_inv_to_slice( Collection here, Filter filter,
+                          pseudo_inventory &item_stacks, indexed_invslice &result_slice,
+                          std::vector<item *> &selectables, char &cur_invlet )
 {
-    constexpr char first_invlet = '0';
-    constexpr char last_invlet = '9';
-
-    auto here = m.i_at( g->u.pos3() );
-    typedef std::vector< std::list<item> > pseudo_inventory;
-    pseudo_inventory grounditems;
-    indexed_invslice grounditems_slice;
-    std::vector<item *> ground_selectables;
 
     for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
-        if( ground_filter( *candidate ) ) {
+        if( filter( *candidate ) ) {
             // Check if we can stack the item with an existing one
             bool stacks = false;
-            for( auto &elem : grounditems ) {
+            for( auto &elem : item_stacks ) {
                 if( candidate->stacks_with( elem.back() ) ) {
                     stacks = true;
                     elem.push_back( *candidate );
@@ -860,27 +856,73 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
             }
 
             if( !stacks ) {
-                grounditems.push_back( std::list<item>( 1, *candidate ) );
+                item_stacks.push_back( std::list<item>( 1, *candidate ) );
 
-                if( grounditems.size() <= last_invlet - first_invlet + 1 ) {
-                    grounditems.back().front().invlet = first_invlet + grounditems.size() - 1;
+                if( cur_invlet <= last_invlet ) {
+                    item_stacks.back().front().invlet = cur_invlet;
+                    cur_invlet++;
                 } else {
-                    grounditems.back().front().invlet = ' ';
+                    item_stacks.back().front().invlet = ' ';
                 }
 
-                ground_selectables.push_back( &*candidate );
+                selectables.push_back( &*candidate );
             }
         }
     }
 
-    for( size_t a = 0; a < grounditems.size(); a++ ) {
+    for( size_t a = 0; a < item_stacks.size(); a++ ) {
         // avoid INT_MIN, as it can be confused with "no item at all"
-        grounditems_slice.push_back( indexed_invslice::value_type( &grounditems[a], INT_MIN + a + 1) );
+        result_slice.push_back( indexed_invslice::value_type( &item_stacks[a], INT_MIN + a + 1 ) );
     }
+}
+
+item_location game::inv_map_splice( item_filter filter, const std::string &title )
+{
+    return inv_map_splice( filter, filter, filter, title );
+}
+
+item_location game::inv_map_splice(
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
+{
+    char cur_invlet = '0';
+
+    pseudo_inventory ground_items;
+    pseudo_inventory vehicle_items;
+
+    std::vector<item *> ground_selectables;
+    std::vector<item *> vehicle_selectables;
+
+    indexed_invslice ground_items_slice;
+    indexed_invslice veh_items_slice;
+
+    pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
+                         ground_items, ground_items_slice,
+                         ground_selectables, cur_invlet );
+
+
+    int part = -1;
+    vehicle *veh = m.veh_at( g->u.pos(), part );
+    point veh_pt( INT_MIN, INT_MIN );
+    if( veh != nullptr && part >= 0 ) {
+        part = veh->part_with_feature( part, "CARGO" );
+        if( part != -1 ) {
+            veh_pt = veh->parts[part].mount;
+            pseudo_inv_to_slice( veh->get_items( part ), vehicle_filter,
+                                 vehicle_items, veh_items_slice,
+                                 vehicle_selectables, cur_invlet );
+        }
+    }
+
     static const item_category category_on_ground(
         "GROUND:",
         _("GROUND:"),
         -1000
+    );
+
+    static const item_category category_on_veh(
+        "VEHICLE:",
+        _("VEHICLE:"),
+        -2000
     );
 
     u.inv.restack(&u);
@@ -889,45 +931,58 @@ std::pair< int, item* > game::inv_map_splice( item_filter inv_filter, item_filte
 
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(stacks);
-    inv_s.make_item_list(grounditems_slice, &category_on_ground);
+    inv_s.make_item_list(ground_items_slice, &category_on_ground);
+    inv_s.make_item_list(veh_items_slice, &category_on_veh);
     inv_s.prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
-    while (true) {
+    while( true ) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        const int item_pos = g->u.invlet_to_position( static_cast<char>( ch ) );
 
         if( item_pos != INT_MIN ) {
             inv_s.set_to_drop(item_pos, 0);
             // In the inventory
-            return std::make_pair( item_pos, inv_s.first_item );
-        } else if( ch >= first_invlet && ch <= last_invlet && 
-                   (size_t)(ch - first_invlet) < grounditems_slice.size() ) {
-            const int ip = ch - first_invlet;
-            // One of the (indexed) ground items
-            return std::make_pair( INT_MIN, ground_selectables[ip] );
-        } else if (inv_s.handle_movement(action)) {
+            return item_location::on_character( u, inv_s.first_item );
+        } else if( ch >= first_invlet && ch <= last_invlet ) {
+            // Indexed results on the ground or vehicle
+            const size_t index = (size_t)(ch - first_invlet);
+            if( index < ground_items_slice.size() ) {
+                // Ground item
+                return item_location::on_map( u.pos(), ground_selectables[index] );
+            } else if( index < ground_items_slice.size() + veh_items_slice.size() ) {
+                // Vehicle item
+                return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[index] );
+            }
+        } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
-        } else if (action == "QUIT") {
-            return std::make_pair( INT_MIN, nullptr );
-        } else if (action == "RIGHT" || action == "CONFIRM") {
+        } else if( action == "QUIT" ) {
+            return item_location::nowhere();
+        } else if( action == "RIGHT" || action == "CONFIRM" ) {
             inv_s.set_selected_to_drop(0);
 
-            for( size_t i = 0; i < grounditems_slice.size(); i++) {
-                if( &grounditems_slice[i].first->front() == inv_s.first_item ) {
+            for( size_t i = 0; i < ground_items_slice.size(); i++) {
+                if( &ground_items_slice[i].first->front() == inv_s.first_item ) {
                     // Ground item, may be unindexed
-                    return std::make_pair( INT_MIN, ground_selectables[i] );
+                    return item_location::on_map( u.pos(), ground_selectables[i] );
+                }
+            }
+
+            for( size_t i = 0; i < veh_items_slice.size(); i++) {
+                if( &veh_items_slice[i].first->front() == inv_s.first_item ) {
+                    // Vehicle item
+                    return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[i] );
                 }
             }
 
             // Inventory item or possibly nothing
             int inv_pos = inv_s.get_selected_item_position();
             if( inv_pos == INT_MIN ) {
-                return std::make_pair( INT_MIN, nullptr );
+                return item_location::nowhere();
             } else {
-                return std::make_pair( inv_pos, inv_s.first_item );
+                return item_location::on_character( u, inv_s.first_item );
             }
         }
     }
@@ -939,7 +994,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    return inv_map_splice( filter, filter, title ).second;
+    return inv_map_splice( filter, title ).get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)

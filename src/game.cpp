@@ -70,6 +70,7 @@
 #include "submap.h"
 #include "mapgen_functions.h"
 #include "clzones.h"
+#include "item_location.h"
 
 #include <map>
 #include <set>
@@ -11206,26 +11207,26 @@ void game::eat(int pos)
         return it.is_food( &u ) || it.is_food_container( &u );
     };
 
-    auto pr = inv_map_splice( filter, _("Consume item:") );
-    if( pr.second == nullptr ) {
+    auto item_loc = inv_map_splice( filter, _("Consume item:") );
+
+    const int inv_pos = item_loc.get_inventory_position();
+    if( inv_pos != INT_MIN ) {
+        u.consume( inv_pos );
+        return;
+    }
+
+    item *it = item_loc.get_item();
+    if( it == nullptr ) {
         add_msg(_("Never mind."));
         return;
     }
 
-    // TODO: Wrap it nicely into a player function
-    if( pr.first != INT_MIN ) {
-        // In the inventory
-        u.consume( pr.first );
-    } else {
-        // Off the ground
-        item &it = *pr.second;
-        if( u.consume_item( it ) ) {
-            if( it.is_food_container() ) {
-                it.contents.erase( it.contents.begin() );
-                add_msg( _("You leave the empty %s on the ground"), it.tname().c_str() );
-            } else {
-                m.i_rem( u.pos3(), pr.second );
-            }
+    if( u.consume_item( *it ) ) {
+        if( it->is_food_container() ) {
+            it->contents.erase( it->contents.begin() );
+            add_msg( _("You leave the empty %s."), it->tname().c_str() );
+        } else {
+            item_loc.remove_item();
         }
     }
 }
@@ -11384,23 +11385,20 @@ void game::unload(int pos)
             return u.rate_action_unload( it ) == HINT_GOOD;
         };
 
-        auto pr = inv_map_splice( filter, _("Unload item:") );
-        if( pr.second == nullptr ) {
-            add_msg( _("Never mind.") );
+        auto item_loc = inv_map_splice( filter, _("Unload item:") );
+        const int inv_pos = item_loc.get_inventory_position();
+        if( inv_pos != INT_MIN ) {
+            unload( inv_pos );
             return;
         }
 
-        // TODO: Wrap it nicely into a player function
-        if( pr.first == -1 ) {
-            // Shouldn't happen
+        item *it = item_loc.get_item();
+        if( it == nullptr ) {
+            add_msg(_("Never mind."));
             return;
-        } else if( pr.first != INT_MIN ) {
-            // In the inventory
-            unload( pr.first );
-        } else {
-            // Off the ground
-            unload( *pr.second );
         }
+
+        unload( *it );
     }
 }
 

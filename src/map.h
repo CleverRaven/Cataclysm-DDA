@@ -759,7 +759,7 @@ void add_corpse( const tripoint &p );
     // returning an iterator to the next item after removal.
     std::list<item>::iterator i_rem( const tripoint &p, std::list<item>::iterator it );
     int i_rem( const tripoint &p, const int index );
-    void i_rem( const tripoint &p, item* it );
+    void i_rem( const tripoint &p, const item* it );
     void spawn_artifact( const tripoint &p );
     void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
     // Note: Passing the first argument by value, because some compilers don't warn about
