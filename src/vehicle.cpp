@@ -39,6 +39,7 @@
  */
 static const itype_id fuel_type_gasoline("gasoline");
 static const itype_id fuel_type_diesel("diesel");
+static const itype_id fuel_type_biodiesel("biodiesel");
 static const itype_id fuel_type_battery("battery");
 static const itype_id fuel_type_plutonium("plut_cell");
 static const itype_id fuel_type_plasma("plasma");
@@ -46,12 +47,13 @@ static const itype_id fuel_type_water("water_clean");
 static const itype_id fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
-const std::array<fuel_type, 7> &get_fuel_types()
+const std::array<fuel_type, 8> &get_fuel_types()
 {
 
-    static const std::array<fuel_type, 7> fuel_types = {{
+    static const std::array<fuel_type, 8> fuel_types = {{
         fuel_type {fuel_type_gasoline,  c_ltred,   100, 1},
         fuel_type {fuel_type_diesel,    c_brown,   100, 1},
+        fuel_type {fuel_type_biodiesel, c_green,   100, 1},
         fuel_type {fuel_type_battery,   c_yellow,  1,   1},
         fuel_type {fuel_type_plutonium, c_ltgreen, 1,   1000},
         fuel_type {fuel_type_plasma,    c_ltblue,  100, 100},
@@ -1646,6 +1648,7 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
             if( part_info( elem ).has_flag( VPFLAG_ENGINE ) &&
                 ( part_info( elem ).fuel_type == fuel_type_gasoline ||
                   part_info( elem ).fuel_type == fuel_type_diesel ||
+                  part_info( elem ).fuel_type == fuel_type_biodiesel ||
                   part_info( elem ).fuel_type == fuel_type_muscle)) {
                 anchor_found = true;
             }

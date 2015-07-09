@@ -1530,6 +1530,60 @@
   ]
 },{
   "type" : "recipe",
+  "result": "i6_biodiesel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": ["mechanics", 8],
+  "difficulty": 10,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_biodiesel", 5 ]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
+	{"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ],  
+  "tools": [
+    [
+	  ["tongs", -1]
+	],
+	[
+	  ["chisel", -1]
+	],
+	[
+	  ["anvil", -1]
+	],
+	[
+	  ["crucible", -1],
+	  ["crucible_clay", -1]
+	],
+	[
+      [ "soldering_iron", 100 ]
+    ],
+	[
+      ["forge", 500], ["char_forge", 100], [ "oxy_torch", 100]
+	]
+  ],
+  "components": [
+	[
+      [ "pipe", 6 ],
+      [ "steel_lump", 4],
+	  [ "steel_chunk", 12],
+	  [ "scrap", 36]
+    ],
+    [
+      [ "wire", 8 ]
+    ],
+	[
+	  [ "i6_diesel", 1]
+	]
+  ]
+},{
+  "type" : "recipe",
   "result": "w_table",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
