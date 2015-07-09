@@ -1970,8 +1970,10 @@ bool vehicle::remove_part (int p)
         return false;
     }
     if (parts[p].removed) {
-        debugmsg("Part already removed!");
-        // Part already removed.
+        /* This happens only when we had to remove part, because it was depending on
+         * other part (using recursive remove_part() call) - currently curtain
+         * depending on presence of window and seatbelt depending on presence of seat.
+         */
         return false;
     }
     if (part_flag(p, "TRACK")) {
