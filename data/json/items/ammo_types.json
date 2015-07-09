@@ -209,6 +209,12 @@
         "name" : "diesel",
         "default" : "diesel"
     },
+	{
+        "type" : "ammunition_type",
+        "id" : "biodiesel",
+        "name" : "biodiesel",
+        "default" : "biodiesel"
+    },
     {
         "type" : "ammunition_type",
         "id" : "lamp_oil",

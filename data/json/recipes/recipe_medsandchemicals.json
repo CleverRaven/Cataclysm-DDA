@@ -2598,7 +2598,7 @@
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "gasoline",
   "byproducts": ["diesel", "lamp_oil"],
   "category": "CC_CHEM",
