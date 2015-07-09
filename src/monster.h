@@ -49,8 +49,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
 
         void poly(mtype *t);
-        bool can_upgrade() const;
-        void update_check();
+        bool can_upgrade();
+        void hasten_upgrade();
+        void try_upgrade();
         void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
         int get_hp( hp_part ) const override
@@ -387,6 +388,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void hit_monster(monster &other);
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );
+        /** Normal upgrades **/
+        int next_upgrade_time();
+        bool upgrades;
+        int upgrade_time;
 
     protected:
         void store(JsonOut &jsout) const;

@@ -6879,7 +6879,7 @@ bool game::add_zombie(monster &critter)
                        << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
-    critter.update_check();
+    critter.try_upgrade();
     return critter_tracker->add(critter);
 }
 

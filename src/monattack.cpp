@@ -3724,10 +3724,8 @@ void mattack::upgrade(monster *z, int index)
 
     std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
-    // Currently gives zombies the equivalent of a week of upgrade time
-    // Difficulty scaling happens in update_check()
-    target->set_last_load(target->get_last_load() - 7);
-    target->update_check();
+    target->hasten_upgrade();
+    target->try_upgrade();
     const auto can_see = g->u.sees( *target );
     if (g->u.sees( *z )) {
         if (could_see) {
