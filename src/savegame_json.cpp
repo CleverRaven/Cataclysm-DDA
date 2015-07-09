@@ -1088,8 +1088,8 @@ void monster::load(JsonObject &data)
 
     data.read("plans", plans);
 
-    data.read("upgrades", upgrades);
-    data.read("upgrade_time", upgrade_time);
+    upgrades = data.get_bool("upgrades", type->upgrades);
+    upgrade_time = data.get_int("upgrade_time", -1);
 
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
