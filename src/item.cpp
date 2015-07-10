@@ -1201,8 +1201,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-	    dump->push_back(iteminfo("DESCRIPTION", "--"));
-	    dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));

@@ -327,8 +327,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
-	 * As above, but includes all creatures the player can detect well enough to target
-	 * with ranged weapons, e.g. with infared vision.
+         * As above, but includes all creatures the player can detect well enough to target
+         * with ranged weapons, e.g. with infared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
@@ -643,7 +643,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
-        /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
+        /** Removes the first item in the container's contents and wields it,
+	 * taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);

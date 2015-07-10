@@ -68,7 +68,7 @@ std::vector<std::string> clothing_properties(item const &worn_item, int const wi
     props.push_back(name_and_value(space + _("Coverage:"),
                                    string_format("%3d", worn_item.get_coverage()), width));
     props.push_back(name_and_value(space + _("Encumbrance:"),
-				   string_format("%3d", worn_item.get_encumber()), width));
+                                   string_format("%3d", worn_item.get_encumber()), width));
     props.push_back(name_and_value(space + _("Warmth:"),
                                    string_format("%3d", worn_item.get_warmth()), width));
     props.push_back(name_and_value(space + _("Storage:"),
@@ -339,7 +339,7 @@ void player::sort_armor()
                         mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
                                    elem.type_name( 1 ).c_str() );
                         mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
-				   elem.get_encumber() );
+                                   elem.get_encumber() );
                         pos++;
                     }
                     rightListSize++;

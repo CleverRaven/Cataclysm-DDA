@@ -9470,8 +9470,8 @@ int game::list_items(const int iLastState)
         sort_radius = false;
         addcategory = true;
     } else { // default state after start
-	sort_radius = true;
-	addcategory = false;
+        sort_radius = true;
+        addcategory = false;
     }
 
     // reload filter/priority settings on the first invocation, if they were active

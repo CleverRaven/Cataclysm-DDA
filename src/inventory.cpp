@@ -680,6 +680,37 @@ item inventory::remove_item(int position)
     return remove_item_internal(position);
 }
 
+std::list<item> inventory::remove_randomly_by_volume(int volume)
+{
+    std::list<item> result;
+    int volume_dropped = 0;
+    while( volume_dropped < volume ) {
+        int cumulative_volume = 0;
+        auto chosen_stack = items.begin();
+        auto chosen_item = chosen_stack->begin();
+        for( auto stack = items.begin(); stack != items.end(); ++stack ) {
+            for( auto stack_it = stack->begin(); stack_it != stack->end(); ++stack_it ) {
+                cumulative_volume += stack_it->volume();
+                if( x_in_y( stack_it->volume(), cumulative_volume ) ) {
+                    chosen_item = stack_it;
+                    chosen_stack = stack;
+                }
+            }
+        }
+        volume_dropped += chosen_item->volume();
+        result.push_back( std::move( *chosen_item ) );
+        chosen_item = chosen_stack->erase( chosen_item );
+        if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {
+            // preserve the invlet when removing the first item of a stack
+            chosen_item->invlet = result.back().invlet;
+        }
+        if( chosen_stack->empty() ) {
+            items.erase( chosen_stack );
+        }
+    }
+    return result;
+}
+
 void inventory::dump(std::vector<item *> &dest)
 {
     for( auto &elem : items ) {
