@@ -60,6 +60,28 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "seat_nocargo",
+        "name" : "compact seat",
+        "symbol" : "#",
+        "color" : "red",
+        "broken_symbol" : "*",
+        "broken_color" : "red",
+        "damage_modifier" : 60,
+        "durability" : 250,
+        "item" : "seat",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : [
+            "SEAT", "BOARDABLE", "BELTABLE"
+        ],
+        "breaks_into" : [
+            {"item": "leather", "min": 1, "max": 5},
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "tracker",
         "name": "tracking device",
         "symbol": "*",
@@ -1524,6 +1546,150 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "hdhalfboard_horizontal",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "h",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_vertical",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "j",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_nw",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "y",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_ne",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "u",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_se",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "n",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_sw",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "b",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_horizontal_2",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "=",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_vertical_2",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "H",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "xlhalfboard_horizontal",
         "name" : "extra light quarterpanel",
         "symbol" : "h",
@@ -2780,6 +2946,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "gas_tank_large",
+        "name" : "gasoline tank (large)",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 90000,
+        "fuel_type" : "gasoline",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "napalm_tank",
         "name" : "napalm tank",
         "symbol" : "O",
@@ -2875,6 +3062,27 @@
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank_large",
+        "name" : "diesel tank (large)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 90000,
+        "fuel_type" : "diesel",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 5}
         ]
     },{
         "type" : "vehicle_part",
