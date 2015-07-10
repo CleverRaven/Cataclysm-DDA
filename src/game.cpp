@@ -14091,6 +14091,7 @@ void game::quicksave()
         return;
     }
     add_msg(m_info, _("Saving game, this may take a while"));
+    popup_nowait(_("Saving game, this may take a while"));
 
     time_t now = time(NULL);    //timestamp for start of saving procedure
 
