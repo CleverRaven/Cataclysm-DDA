@@ -542,17 +542,6 @@ bool MonsterGenerator::has_species(const std::string &species) const
 {
     return mon_species.count(species) > 0;
 }
-mtype *MonsterGenerator::get_mtype(int mon)
-{
-    int count = 0;
-    for( auto &elem : mon_templates ) {
-        if (count == mon) {
-            return elem.second;
-        }
-        ++count;
-    }
-    return mon_templates[mon_null];
-}
 
 std::map<mtype_id, mtype *> MonsterGenerator::get_all_mtypes() const
 {
