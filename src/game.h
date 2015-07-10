@@ -22,7 +22,6 @@ extern int save_loading_version;
 // The reference to the one and only game instance.
 extern game *g;
 
-#define PICKUP_RANGE 6
 extern bool trigdist;
 extern bool use_tiles;
 
