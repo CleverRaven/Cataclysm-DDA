@@ -2554,7 +2554,7 @@ void mattack::stare(monster *z, int index)
         if( g->u.sees(*z) ) {
             add_msg(m_bad, _("The %s stares at you, and you shudder."), z->name().c_str());
         } else {
-	    add_msg(m_bad, _("You feel like you're being watched, it makes you sick."));
+            add_msg(m_bad, _("You feel like you're being watched, it makes you sick."));
         }
         g->u.add_effect("teleglow", 800);
     }

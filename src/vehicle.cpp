@@ -25,6 +25,7 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "weather.h"
 
 #include <fstream>
 #include <sstream>

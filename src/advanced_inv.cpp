@@ -201,20 +201,20 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                         to_string( g->u.convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
                         to_string( g->u.convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
                         to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
-                        to_string( g->u.volume_capacity() - 2 ).length() - 1; //"xxx|"
+                        to_string( g->u.volume_capacity() ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
         }
         mvwprintz( window, 4, hrightcol, color, "%.1f", g->u.convert_weight( g->u.weight_carried() ) );
         wprintz( window, c_ltgray, "/%.1f ", g->u.convert_weight( g->u.weight_capacity() ) );
-        if( g->u.volume_carried() > g->u.volume_capacity() - 2 ) {
+        if( g->u.volume_carried() > g->u.volume_capacity() ) {
             color = c_red;
         } else {
             color = c_ltgreen;
         }
         wprintz( window, color, "%d", g->u.volume_carried() );
-        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
+        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {

@@ -29,6 +29,8 @@
 #include "translations.h"
 #include "mapgen_functions.h"
 #include "clzones.h"
+#include "weather_gen.h"
+#include "weather.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1478,7 +1480,7 @@ bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
         auto const abs_ms_pos =  point( pos.x * SEEX * 2, pos.y * SEEY * 2 );
-        auto const weather = g->weatherGen.get_weather_conditions( abs_ms_pos, calendar::turn );
+        auto const weather = g->weatherGen->get_weather_conditions( abs_ms_pos, calendar::turn );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     switch( iter->second ) {
