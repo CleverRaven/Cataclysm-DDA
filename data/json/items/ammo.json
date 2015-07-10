@@ -1425,7 +1425,7 @@
         "to_hit" : 0,
         "ammo_type" : "223",
         "casing" : "223_casing",
-        "damage" : 39,
+        "damage" : 44,
         "pierce" : 2,
         "range" : 36,
         "dispersion" : 80,
