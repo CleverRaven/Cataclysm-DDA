@@ -73,6 +73,7 @@
 #include "item_location.h"
 #include "weather.h"
 #include "faction.h"
+#include "live_view.h"
 
 #include <map>
 #include <set>
@@ -120,6 +121,8 @@ bool is_valid_in_w_terrain(int x, int y)
 game::game() :
     map_ptr( new map() ),
     u_ptr( new player() ),
+    liveview_ptr( new live_view() ),
+    liveview( *liveview_ptr ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
