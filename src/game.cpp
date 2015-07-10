@@ -5490,7 +5490,7 @@ int game::mon_info(WINDOW *w)
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
     std::vector<npc*> unique_types[9];
-    std::vector<std::string> unique_mons[9];
+    std::vector<const mtype*> unique_mons[9];
     // dangerous_types tracks whether we should print in red to warn the player
     bool dangerous[8];
     for( auto &dangerou : dangerous ) {
@@ -5595,8 +5595,8 @@ int game::mon_info(WINDOW *w)
             }
 
             auto &vec = unique_mons[index];
-            if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
-                vec.push_back(critter.type->id);
+            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
+                vec.push_back( critter.type );
             }
         } else if( p != nullptr ) {
             if (p->attitude == NPCATT_KILL)
@@ -5709,8 +5709,7 @@ int game::mon_info(WINDOW *w)
                 }
                 sym = "@";
             } else {
-                const mtype_id& sbuff = unique_mons[i][j - typeshere_npc];
-                const mtype& mt = *GetMType( sbuff );
+                const mtype& mt = *unique_mons[i][j - typeshere_npc];
                 c = mt.color;
                 sym = mt.sym;
             }
@@ -5722,7 +5721,7 @@ int game::mon_info(WINDOW *w)
 
     // Now we print their full names!
 
-    std::set<std::string> listed_mons;
+    std::set<const mtype*> listed_mons;
 
     // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
     // is blank.
@@ -5734,7 +5733,7 @@ int game::mon_info(WINDOW *w)
     for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = (j == 8 ? 2 : 1);
-        for( const mtype_id& type : unique_mons[j] ) {
+        for( const mtype* type : unique_mons[j] ) {
             if( pr.y >= maxheight ) {
                 // no space to print to anyway
                 break;
@@ -5745,7 +5744,7 @@ int game::mon_info(WINDOW *w)
             }
             listed_mons.insert( type );
 
-            const mtype& mt = *GetMType( type );
+            const mtype& mt = *type;
             const std::string name = mt.nname();
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
