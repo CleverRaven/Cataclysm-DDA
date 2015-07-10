@@ -303,8 +303,8 @@ class wish_monster_callback: public uimenu_callback
             } else if( key == 'h' ) {
                 hallucination = !hallucination;
                 return true;
-            } else if( key == 'd' ) {
-                group = std::max( 1, group - 1 );
+            } else if( key == 'd' && group !=0  ) {
+                group--;
                 return true;
             }
             return false;
