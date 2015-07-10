@@ -439,8 +439,11 @@
   "components": [
     [
       [ "lemon", 1 ],
+      [ "irradiated_lemon", 1 ],
       [ "orange", 1 ],
+      [ "irradiated_orange", 1 ],
       [ "grapefruit", 1 ],
+      [ "irradiated_grapefruit", 1 ],
       [ "acid", 1 ],
       [ "vinegar", 2 ]
     ],
