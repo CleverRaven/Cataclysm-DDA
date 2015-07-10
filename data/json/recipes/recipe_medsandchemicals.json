@@ -2668,21 +2668,18 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "qualities":
-   [
+  "qualities": [
       {"id":"BOIL","level":2,"amount":1},
       {"id":"BREW","level":2,"amount":1}
    ],
-    "tools":
-    [
+    "tools": [
         [
             [ "hotplate", 15 ],
             [ "char_smoker", 2 ],
             [ "toolset", 15 ]
         ]
     ],
-    "components":
-    [
+    "components": [
         [
             [ "vodka", 400 ],
             [ "whiskey", 400 ],
@@ -2696,60 +2693,43 @@
     ]
 },
 {
-"type" : "recipe",
-"result": "chem_hydrogen_peroxide_conc",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 7,
-"time": 25000,
-"reversible": false,
-"autolearn": false,
-"book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
-"qualities":[
-{"id":"BOIL","level":2,"amount":1}
-], "tools": [
-[
-[ "chemistry_set", 25 ]
-]
-],
-"components": [
-[
-[ "chem_hydrogen_peroxide", 5 ]
-]
-]
+  "type" : "recipe",
+  "result": "chem_hydrogen_peroxide_conc",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
+  "qualities":[ {"id":"BOIL","level":2,"amount":1} ],
+  "tools": [ [ [ "chemistry_set", 25 ] ] ],
+  "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
 },
 {
-"type" : "recipe",
-"result": "chem_sulphuric_acid",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 7,
-"time": 15000,
-"reversible": false,
-"autolearn": true,
-"qualities":[
-{"id":"BOIL","level":2,"amount":1}
-], "tools": [
-[
-[ "chemistry_set", 25 ]
-],
-[
+  "type" : "recipe",
+  "result": "chem_sulphuric_acid",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "tools": [
+    [[ "chemistry_set", 25 ]],
+    [
       [ "hotplate", 10 ],
       [ "toolset", 10 ],
       [ "char_smoker", 1],
       [ "fire", -1 ]
-]
-],
-"components": [
-[
-[ "chem_hydrogen_peroxide_conc", 1 ]
-],
-[
-[ "chem_sulphur", 25 ]
-]
-]
+    ]
+  ],
+  "components": [
+    [ [ "chem_hydrogen_peroxide_conc", 1 ] ],
+    [ [ "chem_sulphur", 25 ] ] ]
 },
 {
 "type" : "recipe",
