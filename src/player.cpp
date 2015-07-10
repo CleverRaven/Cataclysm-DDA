@@ -38,6 +38,7 @@
 #include "map_iterator.h"
 #include "submap.h"
 #include "mtype.h"
+#include "weather_gen.h"
 
 #include <map>
 
@@ -805,7 +806,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
-    w_point const weather = g->weatherGen.get_weather( global_square_location(), calendar::turn );
+    w_point const weather = g->weatherGen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
@@ -936,7 +937,7 @@ void player::update_bodytemp()
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to C.
-        int water_temperature = 100 * (g->weatherGen.get_water_temperature() - 32) * 5 / 9;
+        int water_temperature = 100 * (g->weatherGen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
              ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
               (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {

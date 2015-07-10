@@ -23,6 +23,7 @@
 #include "itype.h"
 #include "basecamp.h"
 #include "mtype.h"
+#include "weather.h"
 
 #include <sstream>
 #include <algorithm>

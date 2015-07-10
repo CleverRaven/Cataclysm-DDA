@@ -44,6 +44,10 @@
 #define OMAPX 180
 #define OMAPY 180
 
+// Items on the map with at most this distance to the player are considered available for crafting,
+// see inventory::form_from_map
+#define PICKUP_RANGE 6
+
 /** Number of z-levels below 0 (not including 0). */
 #define OVERMAP_DEPTH 10
 /** Number of z-levels above 0 (not including 0). */

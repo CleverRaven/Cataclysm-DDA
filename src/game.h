@@ -3,14 +3,12 @@
 
 #include "enums.h"
 #include "game_constants.h"
-#include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "weather.h"
-#include "weather_gen.h"
-#include "live_view.h"
 #include "int_id.h"
 #include "item_location.h"
+#include "cursesdef.h"
+
 #include <vector>
 #include <map>
 #include <list>
@@ -20,9 +18,9 @@ extern const int savegame_version;
 extern int save_loading_version;
 
 // The reference to the one and only game instance.
+class game;
 extern game *g;
 
-#define PICKUP_RANGE 6
 extern bool trigdist;
 extern bool use_tiles;
 
@@ -67,6 +65,7 @@ enum target_mode {
 
 enum activity_type : int;
 enum body_part : int;
+enum weather_type : int;
 
 struct special_game;
 struct mtype;
@@ -93,6 +92,11 @@ enum event_type : int;
 struct vehicle_part;
 struct ter_t;
 using ter_id = int_id<ter_t>;
+class weather_generator;
+struct weather_printable;
+class faction;
+class live_view;
+typedef int nc_color;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -126,6 +130,8 @@ class game
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
         std::unique_ptr<player> u_ptr;
+        std::unique_ptr<live_view> liveview_ptr;
+        live_view& liveview;
     public:
 
         /** Initializes the UI. */
@@ -401,7 +407,7 @@ class game
         void zoom_in();
         void zoom_out();
 
-        weather_generator weatherGen; //A weather engine.
+        std::unique_ptr<weather_generator> weatherGen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -442,7 +448,6 @@ class game
         WINDOW *w_status;
         WINDOW *w_status2;
         WINDOW *w_blackspace;
-        live_view liveview;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,

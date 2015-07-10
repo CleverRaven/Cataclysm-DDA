@@ -27,6 +27,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "weather.h"
 
 #include <cmath>
 #include <stdlib.h>

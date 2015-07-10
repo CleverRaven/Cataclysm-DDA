@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather.h"
 
 #include <algorithm>
 #include <fstream>

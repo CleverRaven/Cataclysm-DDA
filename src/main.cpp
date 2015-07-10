@@ -14,6 +14,7 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "output.h"
 
 #include <cstring>
 #include <ctime>
