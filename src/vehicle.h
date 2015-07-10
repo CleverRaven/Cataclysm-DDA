@@ -48,7 +48,7 @@ struct fuel_type {
     int charges_to_amount_factor;
 };
 
-const std::array<fuel_type, 8> &get_fuel_types();
+const std::array<fuel_type, 7> &get_fuel_types();
 int fuel_charges_to_amount_factor( const itype_id &ftype );
 
 enum veh_coll_type : int {

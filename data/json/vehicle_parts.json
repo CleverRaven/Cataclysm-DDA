@@ -2749,27 +2749,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "biodiesel_engine_i6",
-        "name" : "straight-6 biodiesel engine",
-        "symbol" : "*",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "epower" : -265,
-        "fuel_type" : "biodiesel",
-        "item" : "i6_biodiesel",
-        "difficulty" : 4,
-        "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 35, "max": 45},
-            {"item": "steel_chunk", "min": 35, "max": 45},
-            {"item": "scrap", "min": 35, "max": 45}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "engine_electric",
         "name" : "electric motor",
         "symbol" : "*",
@@ -3061,26 +3040,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "biodiesel_tank_small",
-        "name" : "biodiesel tank (small)",
-        "symbol" : "O",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 6000,
-        "fuel_type" : "biodiesel",
-        "item" : "metal_tank_small",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "diesel_tank",
         "name" : "diesel tank",
         "symbol" : "O",
@@ -3091,27 +3050,6 @@
         "durability" : 150,
         "size" : 30000,
         "fuel_type" : "diesel",
-        "item" : "metal_tank",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 1},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "biodiesel_tank",
-        "name" : "biodiesel tank",
-        "symbol" : "O",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 150,
-        "size" : 30000,
-        "fuel_type" : "biodiesel",
         "item" : "metal_tank",
         "difficulty" : 1,
         "location" : "fuel_source",
