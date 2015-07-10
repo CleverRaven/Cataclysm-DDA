@@ -12158,14 +12158,6 @@ int player::encumb( body_part bp ) const
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
-    bool is_wearing_active_power_armor = false;
-    for( auto &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            is_wearing_active_power_armor = true;
-            break;
-        }
-    }
-
     int layer[MAX_CLOTHING_LAYER] = { };
 
     for( auto& w : worn ) {
@@ -12175,7 +12167,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
         layer[w.get_layer()] += 10;
 
-        if( w.is_power_armor() && is_wearing_active_power_armor ) {
+        if (w.is_power_armor() && is_wearing_active_power_armor()) {
             armorenc += std::max( 0, w.get_encumber() - 40);
         } else {
             armorenc += w.get_encumber();
@@ -12761,6 +12753,14 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
     }
     return result;
+}
+
+bool player::is_wearing_active_power_armor() const
+{
+    for (auto &w : worn) {
+        if (w.is_power_armor() && w.active) return true;
+    }
+    return false;
 }
 
 int player::adjust_for_focus(int amount)
