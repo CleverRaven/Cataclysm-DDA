@@ -325,19 +325,18 @@ class wish_monster_callback: public uimenu_callback
             }
 
             werase(w_info);
-            tmp.print_info( w_info, 6, 5, 1 );
+            wrefresh(w_info);
+            tmp.print_info( w_info, 2, 5, 1 );
 
-            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
-            mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
+            std::string header = string_format("#%d: %s (%d)%s", entnum, GetMType(entnum)->nname().c_str(),
+                                 group, (hallucination ? _(" (hallucination)") : ""));
+            mvwprintz(w_info, 0, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
-            if( hallucination ) {
-                wprintw( w_info, _( " (hallucination)" ) );
-            }
 
             mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
             msg = padding;
             mvwprintw(w_info, getmaxy(w_info) - 2, 0,
-                      _("[/] find, [f]riendly, [h]allucination [i]ncrease group, [d]ecrease group, [q]uit"));
+                      _("[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
         virtual void refresh(uimenu *menu) override
