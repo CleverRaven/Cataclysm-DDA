@@ -42,7 +42,7 @@ template<typename C, typename V = typename C::value_type>
 inline const V& random_entry( const C& container )
 {
     if( container.empty() ) {
-        static const V default_value{};
+        static const V default_value = V();
         return default_value;
     }
     auto iter = container.begin();
