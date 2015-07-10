@@ -5710,8 +5710,9 @@ int game::mon_info(WINDOW *w)
                 sym = "@";
             } else {
                 const mtype_id& sbuff = unique_mons[i][j - typeshere_npc];
-                c = GetMType(sbuff)->color;
-                sym = GetMType(sbuff)->sym;
+                const mtype& mt = *GetMType( sbuff );
+                c = mt.color;
+                sym = mt.sym;
             }
             mvwprintz(w, pr.y, pr.x, c, "%s", sym.c_str());
 
@@ -5740,7 +5741,8 @@ int game::mon_info(WINDOW *w)
             if (listed_mons.find(sbuff) == listed_mons.end()) {
                 listed_mons.insert(sbuff);
 
-                std::string name = GetMType(sbuff)->nname();
+                const mtype& mt = *GetMType( sbuff );
+                const std::string name = mt.nname();
 
                 // Move to the next row if necessary. (The +2 is for the "Z ").
                 if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
@@ -5750,16 +5752,16 @@ int game::mon_info(WINDOW *w)
 
                 if (pr.y < maxheight) { // Don't print if we've overflowed
                     lastrowprinted = pr.y;
-                    mvwprintz(w, pr.y, pr.x, GetMType(sbuff)->color, "%s", GetMType(sbuff)->sym.c_str());
+                    mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
                     pr.x += 2; // symbol and space
                     nc_color danger = c_dkgray;
-                    if (GetMType(sbuff)->difficulty >= 30) {
+                    if (mt.difficulty >= 30) {
                         danger = c_red;
-                    } else if (GetMType(sbuff)->difficulty >= 16) {
+                    } else if (mt.difficulty >= 16) {
                         danger = c_ltred;
-                    } else if (GetMType(sbuff)->difficulty >= 8) {
+                    } else if (mt.difficulty >= 8) {
                         danger = c_white;
-                    } else if (GetMType(sbuff)->agro > 0) {
+                    } else if (mt.agro > 0) {
                         danger = c_ltgray;
                     }
                     mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
