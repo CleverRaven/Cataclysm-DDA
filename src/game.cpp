@@ -4245,7 +4245,7 @@ void game::disp_kills()
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
     for( auto &elem : kills ) {
-        const mtype *m = MonsterGenerator::generator().get_mtype( elem.first );
+        const mtype *m = GetMType( elem.first );
         std::ostringstream buffer;
         buffer << "<color_" << string_from_color(m->color) << ">";
         buffer << m->sym << " " << m->nname();

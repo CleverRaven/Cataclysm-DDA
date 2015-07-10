@@ -290,13 +290,13 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-            if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(c->name))) {
+            if(MonsterGroupManager::monster_is_blacklisted(GetMType(c->name))) {
                 c = mg.monsters.erase(c);
             } else {
                 ++c;
             }
         }
-        if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
+        if(MonsterGroupManager::monster_is_blacklisted(GetMType(mg.defaultMonster))) {
             mg.defaultMonster = mon_null;
         }
     }
