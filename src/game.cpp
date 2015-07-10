@@ -72,6 +72,7 @@
 #include "clzones.h"
 #include "item_location.h"
 #include "weather.h"
+#include "faction.h"
 
 #include <map>
 #include <set>

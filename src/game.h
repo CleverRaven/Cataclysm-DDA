@@ -3,7 +3,6 @@
 
 #include "enums.h"
 #include "game_constants.h"
-#include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
 #include "live_view.h"
@@ -18,6 +17,7 @@ extern const int savegame_version;
 extern int save_loading_version;
 
 // The reference to the one and only game instance.
+class game;
 extern game *g;
 
 extern bool trigdist;
@@ -93,6 +93,7 @@ struct ter_t;
 using ter_id = int_id<ter_t>;
 class weather_generator;
 struct weather_printable;
+class faction;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
