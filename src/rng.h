@@ -1,6 +1,8 @@
 #ifndef RNG_H
 #define RNG_H
 
+#include "compatibility.h"
+
 #include <functional>
 
 long rng(long val1, long val2);
