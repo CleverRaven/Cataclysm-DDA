@@ -10,6 +10,7 @@
 #include "monster.h"
 #include "line.h"
 #include "mtype.h"
+#include "weather.h"
 
 struct sound_event {
     int volume;

@@ -71,6 +71,7 @@
 #include "mapgen_functions.h"
 #include "clzones.h"
 #include "item_location.h"
+#include "weather.h"
 
 #include <map>
 #include <set>

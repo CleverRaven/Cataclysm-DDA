@@ -26,6 +26,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather.h"
 
 #include <cmath> // floor
 #include <sstream>

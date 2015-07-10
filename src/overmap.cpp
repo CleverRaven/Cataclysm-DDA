@@ -30,6 +30,7 @@
 #include "mapgen_functions.h"
 #include "clzones.h"
 #include "weather_gen.h"
+#include "weather.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

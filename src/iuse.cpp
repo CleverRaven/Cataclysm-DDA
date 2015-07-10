@@ -34,6 +34,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather_gen.h"
+#include "weather.h"
 
 #include <vector>
 #include <sstream>

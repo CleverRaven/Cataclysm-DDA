@@ -9,6 +9,7 @@
 #include "vehicle.h"
 #include "submap.h"
 #include "mtype.h"
+#include "weather.h"
 
 #include <cmath>
 #include <cstring>

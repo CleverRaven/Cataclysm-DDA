@@ -6,7 +6,6 @@
 #include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "weather.h"
 #include "live_view.h"
 #include "int_id.h"
 #include "item_location.h"
@@ -65,6 +64,7 @@ enum target_mode {
 
 enum activity_type : int;
 enum body_part : int;
+enum weather_type : int;
 
 struct special_game;
 struct mtype;
@@ -92,6 +92,7 @@ struct vehicle_part;
 struct ter_t;
 using ter_id = int_id<ter_t>;
 class weather_generator;
+struct weather_printable;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here

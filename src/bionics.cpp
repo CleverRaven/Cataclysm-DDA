@@ -20,6 +20,7 @@
 #include "vehicle.h"
 #include "field.h"
 #include "weather_gen.h"
+#include "weather.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
