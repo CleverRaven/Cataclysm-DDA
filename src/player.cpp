@@ -12163,7 +12163,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     for (auto w = worn.begin(); w != worn.end(); ++w) {
         if (! w->covers(bp)) continue;
 
-        layer[w->get_layer()] += 10;
+        if (! (w->has_flag("FIT") && w->get_encumber() == 0))
+            layer[w->get_layer()] += 10;
 
         if (w->is_power_armor() && is_wearing_active_power_armor()) {
             armorenc += std::max(0, w->get_encumber() - 40);
