@@ -12157,7 +12157,6 @@ int player::encumb( body_part bp ) const
  */
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
-    int ret = 0;
     int layer[MAX_CLOTHING_LAYER] = { };
 
     for (auto w = worn.begin(); w != worn.end(); ++w) {
@@ -12173,12 +12172,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         }
     }
     armorenc = std::max(0, armorenc);
-    ret += armorenc;
 
     for (auto &elem : layer)
        layers += std::max(0, elem - 10);
 
-    ret += layers;
+    int ret = armorenc + layers;
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 30;
