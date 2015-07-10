@@ -5484,7 +5484,6 @@ int game::mon_info(WINDOW *w)
     const int maxheight = 12;
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
-    std::string sbuff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     // 7 0 1    unique_types uses these indices;
@@ -5710,7 +5709,7 @@ int game::mon_info(WINDOW *w)
                 }
                 sym = "@";
             } else {
-                sbuff = unique_mons[i][j - typeshere_npc];
+                const mtype_id& sbuff = unique_mons[i][j - typeshere_npc];
                 c = GetMType(sbuff)->color;
                 sym = GetMType(sbuff)->sym;
             }
@@ -5736,7 +5735,7 @@ int game::mon_info(WINDOW *w)
         int namesep = (j == 8 ? 2 : 1);
         for (std::vector<std::string>::iterator it = unique_mons[j].begin();
              it != unique_mons[j].end() && pr.y < maxheight; ++it) {
-            sbuff = *it;
+            const mtype_id& sbuff = *it;
             // buff < 0 means an NPC!  Don't list those.
             if (listed_mons.find(sbuff) == listed_mons.end()) {
                 listed_mons.insert(sbuff);
