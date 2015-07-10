@@ -76,13 +76,13 @@ class wish_mutate_callback: public uimenu_callback
             auto &mdata = mutation_branch::get( vTraits[entnum] );
 
             int startx = menu->w_width - menu->pad_right;
-            for ( int i = 1; i < lastlen; i++ ) {
+            for ( int i = 2; i < lastlen; i++ ) {
                 mvwprintw(menu->window, i, startx, "%s", padding.c_str() );
             }
 
-            mvwprintw(menu->window, 1, startx,
+            mvwprintw(menu->window, 3, startx,
                       mdata.valid ? _("Valid") : _("Nonvalid"));
-            int line2 = 2;
+            int line2 = 4;
 
             if ( !mdata.prereqs.empty() ) {
                 line2++;
@@ -194,7 +194,7 @@ void game::wishmutate( player *p )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.pad_right = ( wmenu.w_width - 40 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback *cb = new wish_mutate_callback();
