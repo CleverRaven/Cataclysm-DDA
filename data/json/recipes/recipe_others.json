@@ -1504,7 +1504,7 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],  
   "tools": [
     [
@@ -1515,7 +1515,7 @@
     ]
   ],
   "components": [
-	[
+    [
       [ "pipe", 1 ]
     ],
     [
@@ -1524,9 +1524,9 @@
     [
       [ "wire", 4 ]
     ],
-	[
-	  [ "string_36", 2 ]
-	]
+    [
+      [ "string_36", 2 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -1536,7 +1536,7 @@
   "skill_used": "fabrication",
   "skills_required": ["mechanics", 8],
   "difficulty": 10,
-  "time": 120000,
+  "time": 30000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_biodiesel", 5 ]],
@@ -1544,43 +1544,43 @@
     {"id":"CUT","level":1,"amount":1},
     {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"SCREW","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ],  
   "tools": [
     [
-	  ["tongs", -1]
-	],
-	[
-	  ["chisel", -1]
-	],
-	[
-	  ["anvil", -1]
-	],
-	[
-	  ["crucible", -1],
-	  ["crucible_clay", -1]
-	],
-	[
+      ["tongs", -1]
+    ],
+    [
+      ["chisel", -1]
+    ],
+    [
+      ["anvil", -1]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
       [ "soldering_iron", 100 ]
     ],
-	[
+    [
       ["forge", 500], ["char_forge", 100], [ "oxy_torch", 100]
-	]
+    ]
   ],
   "components": [
-	[
+    [
       [ "pipe", 6 ],
       [ "steel_lump", 4],
-	  [ "steel_chunk", 12],
-	  [ "scrap", 36]
+      [ "steel_chunk", 12],
+      [ "scrap", 36]
     ],
     [
       [ "wire", 8 ]
     ],
-	[
-	  [ "i6_diesel", 1]
-	]
+    [
+      [ "i6_diesel", 1]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -5429,85 +5429,6 @@
       [ "log", 1 ]
     ],
     [[ "char_kiln", 1 ]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "biodiesel_kiln",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 100000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["textbook_biodiesel", 3]],
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
-  ],
-  "tools":
-  [
-    [
-      [ "welder", 150 ],
-      [ "welder_crude", 225 ],
-      [ "toolset", 225 ],
-      [ "soldering_iron", 225 ],
-      [ "oxy_torch", 15]
-    ]
-  ],
-  "components":
-    [
-      [[ "element", 5 ]],
-      [[ "amplifier", 1 ]],
-	  [[ "power_supply", 1 ]],
-	  [
-        [ "steel_lump", 1 ],
-        [ "steel_chunk", 4 ],
-        [ "scrap", 12 ],
-		[ "rebar", 2 ],
-		[ "pipe", 2 ]
-      ],
-      [
-         [ "metal_tank_small", 6 ],
-	     [ "metal_tank", 1]
-      ],
-      [["cable", 5]],
-	  [["chem_aluminium_sulphate", 1]]
-    ]
-},{
-  "type" : "recipe",
-  "result": "biodiesel_kiln_full",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 1000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["textbook_biodiesel", 3]],
-  "components": [
-    [
-      [ "tallow_tainted", 25 ],
-      [ "seed_canola", 30 ],
-      [ "lard", 50 ],
-      [ "tallow", 50 ],
-      [ "fat", 100 ],
-      [ "fat_tainted", 100 ],
-      [ "meat", 200 ],
-	  [ "meat_tainted", 200 ],
-	  [ "human_flesh", 200 ],
-	  [ "dry_meat", 200 ],
-	  [ "dry_hflesh", 200 ],
-	  [ "dry_meat_tainted", 200]
-    ],
-	[
-	  [ "chem_methanol", 2000 ],
-	  [ "chem_ethanol", 2000 ]
-	],
-	[[ "battery", 200 ]],
-    [[ "biodiesel_kiln", 1 ]]
   ]
 },{
   "type" : "recipe",

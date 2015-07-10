@@ -2630,41 +2630,42 @@
 },
 {
   "type" : "recipe",
-  "result": "chem_methanol",
-  "byproducts": ["chem_ethanol", "water_clean"],
+  "result": "chem_ethanol",
+  "byproducts": ["water_clean"],
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 30000,
+  "time": 20000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
   "qualities":
    [
-      {"id":"BOIL","level":2,"amount":1}
+      {"id":"BOIL","level":2,"amount":1},
+      {"id":"BREW","level":2,"amount":1}
    ],
-  "tools":
+    "tools":
     [
-		[
-		  [ "hotplate", 15 ],
-		  [ "char_smoker", 2 ],
-		  [ "toolset", 15 ]
-		]
-   ],
-  "components":
-  [
+        [
+            [ "hotplate", 15 ],
+            [ "char_smoker", 2 ],
+            [ "toolset", 15 ]
+        ]
+    ],
+    "components":
     [
-		[ "vodka", 600 ],
-		[ "whiskey", 600 ],
-		[ "single_malt_whiskey", 600 ],
-		[ "brandy", 600 ],
-		[ "rum", 600 ],
-		[ "gin", 600 ],
-		[ "tequila", 600 ],
-		[ "bum_wine", 1000 ]
-	]
-  ]
+        [
+            [ "vodka", 400 ],
+            [ "whiskey", 400 ],
+            [ "single_malt_whiskey", 400 ],
+            [ "brandy", 400 ],
+            [ "rum", 400 ],
+            [ "gin", 400 ],
+            [ "tequila", 400 ],
+            [ "bum_wine", 1200 ]
+        ]
+    ]
 },
 {
 "type" : "recipe",

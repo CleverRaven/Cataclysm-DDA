@@ -1505,9 +1505,9 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     } else { // example: foot crank
        pwr = part_info(index).power;
     }
-	
-	if(part_info(index).fuel_type == fuel_type_biodiesel)
-		pwr *= 0.88f;
+
+    if(part_info(index).fuel_type == fuel_type_biodiesel)
+        pwr *= 0.88f;
 
     if (part_info(index).fuel_type == fuel_type_muscle) {
         int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
