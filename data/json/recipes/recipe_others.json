@@ -5506,6 +5506,7 @@
 	  [ "chem_methanol", 2000 ],
 	  [ "chem_ethanol", 2000 ]
 	],
+	[[ "battery", 200 ]],
     [[ "biodiesel_kiln", 1 ]]
   ]
 },{

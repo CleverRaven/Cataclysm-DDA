@@ -9482,6 +9482,12 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+//Fix 'error: use of undefined identifier 'max'; did you mean 'fmax'?' compile error in iuse::biodiesel_kiln function
+inline int max(int a, int b)
+{
+	return a>b ? a : b;
+}
+
 int iuse::biodiesel_kiln(player *p, item *it, bool, const tripoint& )
 {
 	if(p->is_underwater())
@@ -9490,10 +9496,10 @@ int iuse::biodiesel_kiln(player *p, item *it, bool, const tripoint& )
 		return 0;
 	}
 	item biodiesel("biodiesel", calendar::turn.get_turn());
-	biodiesel.charges = rng(2000, 6000);
+	biodiesel.charges = rng(-500, 500) + 10000 - 250*(max(0, 20-p->skillLevel("carpentry")));
+	p->practice("carpentry", 2*max(0, 20-p->skillLevel("carpentry")));
 	add_msg(_("You harvested %d units of biodiesel."), biodiesel.charges);
 	g->handle_liquid(biodiesel, false, false);
-	add_msg(_("You squeeze the last drops of biodiesel from the kiln."));
 	item empty_kiln("biodiesel_kiln", calendar::turn.get_turn());
 	*it = empty_kiln;
 	return 0;
