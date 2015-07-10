@@ -23,6 +23,7 @@
 
 bool trigdist;
 bool use_tiles;
+bool log_from_top;
 
 bool used_tiles_changed;
 #ifdef SDLTILES
@@ -1403,6 +1404,7 @@ void load_options()
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
 }
 
 std::string options_header()
