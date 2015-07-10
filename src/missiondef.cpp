@@ -513,12 +513,12 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   COUNT(3);
   FOLLOWUP(MISSION_RANCH_NURSE_11);
 
- MISSION(_("Make 10 Knife Spears"), MGOAL_FIND_ITEM, 5, 50000, false,
+ MISSION(_("Make 12 Knife Spears"), MGOAL_FIND_ITEM, 5, 50000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("spear_knife");
-  COUNT(10);
+  COUNT(12);
   FOLLOWUP(MISSION_RANCH_SCAVENGER_2);
 
  MISSION(_("Make 5 Wearable Flashlights"), MGOAL_FIND_ITEM, 5, 50000, false,
