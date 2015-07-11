@@ -10495,8 +10495,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
         if (to_veh) {
             add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$ss in the %2$s's %3$s.",
-                             dropcount),
+                             "You put your %1$s in the %2$s's %3$s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
