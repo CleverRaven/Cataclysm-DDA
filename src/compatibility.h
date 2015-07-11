@@ -17,6 +17,8 @@
 #   define CATA_NO_CPP11_STRING_CONVERSIONS
 #elif defined(__MINGW64__) && (CATA_GCC_VER < 40800)
 #   define CATA_NO_CPP11_STRING_CONVERSIONS
+#elif defined(__GNUC__) && !defined(__clang__) && (CATA_GCC_VER < 40800)
+#   define CATA_NO_ADVANCE
 #endif
 // CATA_NO_CPP11_STRING_CONVERSIONS is also defined in Makefile for TARGETSYSTEM=CYGWIN
 
@@ -62,7 +64,16 @@ std::string to_string(T const n)
 {
     return std::to_string(n);
 }
-
 #endif //CATA_NO_CPP11_STRING_CONVERSIONS
+
+#if defined(CATA_NO_ADVANCE)
+template<typename I>
+inline void std::advance(I iter, int num)
+{
+    while( num-- > 0 ) {
+        iter++;
+    }
+}
+#endif //CATA_NO_ADVANCE
 
 #endif //CATA_COMPATIBILITY_H
