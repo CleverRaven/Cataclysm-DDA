@@ -378,3 +378,20 @@ Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1` and unless there are proble
 If you dont want tiles you can change `TILES` to 0.
 
 If you dont want localization you can change `LOCALIZE` to 0.
+
+# BSDs
+
+There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary.
+
+### Building on FreeBSD 9.3 with GCC 4.8.4 from ports
+
+For ncurses build add to `Makefile`, before `VERSION`:
+
+```Makefile
+OTHERS += -D_GLIBCXX_USE_C99
+CXX = g++48
+CXXFLAGS += -I/usr/local/lib/gcc48/include
+LDFLAGS += -rpath=/usr/local/lib/gcc48
+```
+
+And then build with `gmake LOCALIZE=0 RELEASE=1`.
