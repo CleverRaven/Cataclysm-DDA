@@ -712,7 +712,7 @@ void initOptions()
     optionNames["new_bottom"] = _("Bottom");
     OPTIONS["SIDEBAR_LOG_FLOW"] = cOpt("interface", _("Sidebar log flow"),
                                        _("Where new sidebar log messages should show. Requires restart."),
-                                       "new_top,new_bottom", "new_top"
+                                       "new_top,new_bottom", "new_bottom"
                                       );
 
     //~ style of vehicle interaction menu; vertical is old one.
