@@ -1459,6 +1459,8 @@ void save_options(bool ingame)
     }
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+
 }
 
 bool use_narrow_sidebar()
