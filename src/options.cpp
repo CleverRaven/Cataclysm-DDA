@@ -23,6 +23,7 @@
 
 bool trigdist;
 bool use_tiles;
+bool log_from_top;
 
 bool used_tiles_changed;
 #ifdef SDLTILES
@@ -705,6 +706,14 @@ void initOptions()
                                     _("Switch between a narrower or wider sidebar. Requires restart."),
                                     "wider,narrow", "narrow"
                                    );
+
+    //~ sidebar message log flow direction
+    optionNames["new_top"] = _("Top");
+    optionNames["new_bottom"] = _("Bottom");
+    OPTIONS["SIDEBAR_LOG_FLOW"] = cOpt("interface", _("Sidebar log flow"),
+                                       _("Where new sidebar log messages should show. Requires restart."),
+                                       "new_top,new_bottom", "new_top"
+                                      );
 
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
@@ -1395,6 +1404,7 @@ void load_options()
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
 }
 
 std::string options_header()

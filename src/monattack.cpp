@@ -2740,6 +2740,7 @@ void mattack::taze( monster *z, Creature *target )
         target->add_msg_player_or_npc( _("The %s unsuccessfully attempts to shock you."),
                                        _("The %s unsuccessfully attempts to shock <npcname>."),
                                        z->name().c_str() );
+        return;
     }
 
     if( foe != nullptr ) {
