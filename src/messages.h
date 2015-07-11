@@ -13,7 +13,6 @@ class JsonOut;
 class JsonObject;
 
 enum game_message_type : int;
-extern bool log_from_top;
 
 class Messages
 {

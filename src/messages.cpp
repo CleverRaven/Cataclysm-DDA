@@ -12,6 +12,9 @@
 #include <deque>
 #include <iterator>
 
+// sidebar messages flow direction
+extern bool log_from_top;
+
 namespace {
 
 // Messages object.
