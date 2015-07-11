@@ -648,7 +648,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                     SCT.removeCreatureHP();
                 }
 
-                add_msg(m_good, _("You hit the %s for %d damage."),
+                add_msg(m_good, _("You hit %s for %d damage."),
                         disp_name().c_str(), dealt_dam.total_damage());
 
             } else if(this->is_player()) {

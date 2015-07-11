@@ -263,12 +263,12 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
 
     // Print volume
     mvwprintw(w_inv, 0, 61, _("Volume: "));
-    if (vol_carried > vol_capacity - 2) {
+    if (vol_carried > vol_capacity) {
         wprintz(w_inv, c_red, "%3d", vol_carried);
     } else {
         wprintz(w_inv, c_ltgray, "%3d", vol_carried);
     }
-    wprintw(w_inv, "/%-3d", vol_capacity - 2);
+    wprintw(w_inv, "/%-3d", vol_capacity);
 }
 
 char invlet_or_space(const item &it)
