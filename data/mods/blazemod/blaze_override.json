@@ -94,6 +94,24 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "laser_rifle",
+        "name" : "mounted A7 laser rifle",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "laser_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "laser_rifle", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "mounted_browning",
         "name" : "mounted M2 Browning",
         "symbol" : "t",
@@ -113,6 +131,82 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "mounted_m240",
+        "name" : "mounted M240",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m240",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "m240", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m60",
+        "name" : "mounted M60",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m60",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "m60", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_abzats",
+        "name" : "mounted automatic shotgun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "abzats",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "abzats", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m134",
+        "name" : "mounted M134D-H Minigun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 2000,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "m134", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "mounted_mk19",
         "name" : "mounted Mark 19 GL",
         "symbol" : "t",
@@ -129,6 +223,44 @@
         "folded_volume": 16,
         "breaks_into" : [
             {"item": "mark19", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm614",
+        "name" : "mounted RM614 LMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "range" : 12,
+        "item" : "rm614_lmg",
+        "difficulty" : 6,
+        "size" : 600,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "rm614_lmg", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm298",
+        "name" : "mounted RM298 HMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "range" : 12,
+        "item" : "rm298",
+        "difficulty" : 6,
+        "size" : 1800,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "rm298", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",

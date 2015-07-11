@@ -19,47 +19,6 @@
     },
     {
         "type" : "vehicle_part",
-        "id" : "water_tank_small",
-        "name" : "water tank (small)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 180,
-        "fuel_type" : "water",
-        "item" : "metal_tank_small",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
-        ]
-    },
-    {
-        "type" : "vehicle_part",
-        "id" : "water_tank_little",
-        "name" : "water tank (little)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 75,
-        "size" : 20,
-        "fuel_type" : "water",
-        "item" : "metal_tank_little",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
-        ]
-    },
-    {
-        "type" : "vehicle_part",
         "id" : "drive_by_wire_controls",
         "name" : "drive by wire controls",
         "symbol" : "$",
