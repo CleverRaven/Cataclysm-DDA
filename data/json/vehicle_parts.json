@@ -3929,6 +3929,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "mounted_m1918",
+        "name" : "mounted Browning Automatic Rifle",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m1918",
+        "size" : 20,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "m1918", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "m249",
         "name" : "mounted M249",
         "symbol" : "t",
@@ -3939,7 +3958,7 @@
         "durability" : 400,
         "range" : 12,
         "item" : "m249",
-        "size" : 40,
+        "size" : 20, "//" : "Basing turret capacities off of how much volume a full magazine is, plus a bonus of 15 volume.",
         "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
@@ -3995,7 +4014,7 @@
         "range" : 12,
         "item" : "ftk93",
         "difficulty" : 8,
-        "size" : 10,
+        "size" : 15,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4050,7 +4069,7 @@
         "range" : 12,
         "item" : "m2browning",
         "difficulty" : 5,
-        "size" : 1600,
+        "size" : 30,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4069,7 +4088,7 @@
         "range" : 12,
         "item" : "m240",
         "difficulty" : 4,
-        "size" : 40,
+        "size" : 30,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4088,7 +4107,7 @@
         "range" : 12,
         "item" : "m60",
         "difficulty" : 4,
-        "size" : 40,
+        "size" : 30,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4107,7 +4126,7 @@
         "range" : 12,
         "item" : "abzats",
         "difficulty" : 5,
-        "size" : 40,
+        "size" : 15,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4126,7 +4145,7 @@
         "range" : 12,
         "item" : "m134",
         "difficulty" : 7,
-        "size" : 2000,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4145,7 +4164,7 @@
         "range" : 12,
         "item" : "mark19",
         "difficulty" : 5,
-        "size" : 480,
+        "size" : 35,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4969,7 +4988,7 @@
         "range" : 12,
         "item" : "rm614_lmg",
         "difficulty" : 6,
-        "size" : 600,
+        "size" : 20,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4989,7 +5008,7 @@
         "range" : 12,
         "item" : "rm298",
         "difficulty" : 6,
-        "size" : 1800,
+        "size" : 30,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
