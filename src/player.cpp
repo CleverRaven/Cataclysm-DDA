@@ -4847,12 +4847,6 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hurtpart = hp_torso;
     }
 
-    if( dam <= 0 ) {
-        // Call on_hurt to wake player up etc.
-        on_hurt( source );
-        return;
-    }
-
     mod_pain( dam / 2 );
 
     hp_cur[hurtpart] -= dam;
@@ -4862,7 +4856,9 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    on_hurt( source );
+    if( dam > pkill ) {
+        on_hurt( source );
+    }
 }
 
 void player::heal(body_part healed, int dam)
