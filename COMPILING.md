@@ -395,3 +395,15 @@ LDFLAGS += -rpath=/usr/local/lib/gcc48
 ```
 
 And then build with `gmake LOCALIZE=0 RELEASE=1`.
+
+### Building on OpenBSD with GCC 4.92 from ports/packages
+
+First, install g++ and gmake from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
+
+`pkg_add g++ gmake`
+
+Then you should  be able to build with:
+
+`CXX=eg++ gmake`
+
+Only an ncurses build is possible, as SDL2 is currently broken on OpenBSD.
