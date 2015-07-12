@@ -4266,6 +4266,8 @@
     "components": [
       [
         [ "corn", 1 ],
+        [ "irradiated_corn", 1 ],
+        [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ]
       ]
     ]
@@ -4287,6 +4289,7 @@
     "components": [
       [
         [ "bread", 1 ],
+        [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "macaroni_raw", 1 ],
         [ "spaghetti_raw", 1 ]
