@@ -191,7 +191,6 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/game_constants.h
     ${CMAKE_SOURCE_DIR}/src/mission.h
     ${CMAKE_SOURCE_DIR}/src/requirements.h
-    ${CMAKE_SOURCE_DIR}/src/savegame.h
     ${CMAKE_SOURCE_DIR}/src/sounds.h
     ${CMAKE_SOURCE_DIR}/src/worldfactory.h
     ${CMAKE_SOURCE_DIR}/src/editmap.h
