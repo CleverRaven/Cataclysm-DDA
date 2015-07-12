@@ -319,7 +319,6 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent( const tripoint &p );
-        float ground_natural_light_level() const;
         float natural_light_level() const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -529,7 +528,7 @@ class game
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, tripoint dir, 
+                  int freed_volume_capacity, tripoint dir,
                   bool to_vehicle = true); // emulate old behaviour normally
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry,

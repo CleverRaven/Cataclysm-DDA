@@ -3412,7 +3412,7 @@ bool game::save_factions_missions_npcs()
         elem->sety(u.posy() + 3);
         elem->setz( u.posz() );
     }
-    
+
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
     try {
         std::ofstream fout;
@@ -5389,48 +5389,60 @@ void game::hallucinate( const tripoint &center )
     wrefresh(w_terrain);
 }
 
-float game::ground_natural_light_level() const
+float game::natural_light_level() const
 {
     // Already found the light level for now?
     if( calendar::turn == latest_lightlevel_turn ) {
         return latest_lightlevel;
     }
+    // Should be completely overwritten next, thus no initialization value here.
+    float ret;
+    // Cache this for multiple uses
+    int lz = get_levz();
 
-    float ret = (float)calendar::turn.sunlight();
-    ret += weather_data(weather).light_modifier;
+    // Sunlight/moonlight related stuff, ignore while underground
+    if( lz >= 0 ) {
+        ret = (float)calendar::turn.sunlight();
+        ret += weather_data(weather).light_modifier;
+    }
 
+    // Artifact light level changes here. Even though some of these only have an effect
+    // aboveground it is cheaper performance wise to simply iterate through the entire
+    // list once instead of twice.
+    float mod_ret = -1;
+    // Each artifact change does std::max(mod_ret, new val) since a brighter end value
+    // will trump a lower one.
     for( const auto &e : events ) {
-        // The EVENT_DIM event slowly dims the sky, then relights it
-        // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it
+        // EVENT_DIM slowly dims the natural sky level, then relights it.
         if( e.type == EVENT_DIM ) {
-            int turns_left = e.turn - int(calendar::turn);
-            if (turns_left > 25) {
-                ret = (ret * (turns_left - 25)) / 25;
-            } else {
-                ret = (ret * (25 - turns_left)) / 25;
+            if (lz < 0) {
+                continue;
             }
-            break;
+            int turns_left = e.turn - int(calendar::turn);
+            // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
+            if (turns_left > 25) {
+                mod_ret = std::max(mod_ret, (ret * (turns_left - 25)) / 25);
+            // and the last 25 scale back towards normal.
+            } else {
+                mod_ret = std::max(mod_ret, (ret * (25 - turns_left)) / 25);
+            }
+        }
+        // EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
+        else if ( e.type == EVENT_ARTIFACT_LIGHT ) {
+            mod_ret = std::max(mod_ret, 100.0f);
         }
     }
-    // Check whether the light level is under the threshld first because
-    // event_queued() is relatively expensive.
-    if( ret < 5.15 && event_queued(EVENT_ARTIFACT_LIGHT) ) {
-        ret = 5.15;
+    // If we had a changed light level due to an artifact event then it overwrites
+    // the natural light level.
+    if (mod_ret > -1) {
+        ret = mod_ret;
     }
-
-    ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
 
     latest_lightlevel = ret;
     latest_lightlevel_turn = calendar::turn;
-    return ret;
-}
 
-float game::natural_light_level() const
-{
-    if( get_levz() >= 0 ) {
-        return ground_natural_light_level();
-    }
-    return LIGHT_AMBIENT_MINIMAL;
+    // Cap everything to our minimum light level
+    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
 }
 
 unsigned char game::light_level() const
@@ -9614,7 +9626,7 @@ int game::list_items(const int iLastState)
                 mSortCategory.clear();
                 refilter = true;
                 reset = true;
-                    
+
             }
 
             if ( uistate.list_item_sort == 1 ) {
@@ -9622,7 +9634,7 @@ int game::list_items(const int iLastState)
             } else if ( uistate.list_item_sort == 2 ) {
                 std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
             }
-                    
+
             if (refilter) {
                 refilter = false;
 
@@ -12957,7 +12969,7 @@ void game::vertical_move(int movez, bool force)
     } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         add_msg(m_info, _("You can't go up here!"));
         return;
-    }    
+    }
 
     if( force ) {
         // Let go of a grabbed cart.
