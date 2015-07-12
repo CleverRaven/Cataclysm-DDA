@@ -101,8 +101,7 @@ public:
 
         /**
          * Make this a corpse of the given monster type.
-         * The monster type must not be null, alternatively the monster type id must be a valid
-         * monster type (see @ref MonsterGenerator::get_mtype).
+         * The monster type id must be valid (see @ref MonsterGenerator::get_mtype).
          *
          * The turn parameter sets the birthday of the corpse, in other words: the turn when the
          * monster died. Because corpses are removed from the map when they reach a certain age,
@@ -115,9 +114,8 @@ public:
          * Without any parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( const mtype* mt, unsigned int turn );
-        void make_corpse( const mtype* mt, unsigned int turn, const std::string &name );
-        void make_corpse( const std::string &mtype_id, unsigned int turn );
+        void make_corpse( const std::string& mt, unsigned int turn );
+        void make_corpse( const std::string& mt, unsigned int turn, const std::string &name );
         void make_corpse();
         /*@}*/
         /**
