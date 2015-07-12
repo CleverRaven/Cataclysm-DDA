@@ -1,4 +1,5 @@
 #include "gamemode.h"
+#include "action.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"

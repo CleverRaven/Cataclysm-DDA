@@ -12,6 +12,8 @@
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+enum action_id : int;
+
 class monster;
 class game;
 struct trap;

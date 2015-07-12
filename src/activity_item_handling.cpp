@@ -2,6 +2,7 @@
 #include "map.h"
 #include "item.h"
 #include "player_activity.h"
+#include "action.h"
 #include "enums.h"
 #include "creature.h"
 #include "pickup.h"

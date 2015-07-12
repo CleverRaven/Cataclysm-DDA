@@ -1,4 +1,5 @@
 #include "iuse_actor.h"
+#include "action.h"
 #include "item.h"
 #include "game.h"
 #include "map.h"

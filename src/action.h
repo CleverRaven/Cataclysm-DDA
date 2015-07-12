@@ -8,7 +8,7 @@
 
 struct tripoint;
 
-enum action_id {
+enum action_id : int {
     ACTION_NULL = 0,
     // Movement
     ACTION_PAUSE,

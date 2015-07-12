@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "player.h"
+#include "action.h"
 #include "veh_interact.h"
 #include "debug.h"
 #include "translations.h"

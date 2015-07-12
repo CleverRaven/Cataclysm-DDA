@@ -3,9 +3,10 @@
 
 #include <vector>
 #include <string>
-#include "action.h"
 #include "enums.h"
 #include "itype.h"
+
+enum action_id : int;
 
 struct special_game;
 struct mtype;
