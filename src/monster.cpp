@@ -61,13 +61,13 @@ monster::monster()
  upgrade_time = -1;
 }
 
-monster::monster( const mtype *t )
+monster::monster( const std::string& id )
 {
  position.x = 20;
  position.y = 10;
  position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
- type = t;
+ type = GetMType( id );
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -76,10 +76,10 @@ monster::monster( const mtype *t )
  }
  def_chance = type->def_chance;
  friendly = 0;
- anger = t->agro;
- morale = t->morale;
+ anger = type->agro;
+ morale = type->morale;
  last_loaded = 0;
- faction = t->default_faction;
+ faction = type->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -87,16 +87,16 @@ monster::monster( const mtype *t )
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = t->starting_ammo;
- upgrades = t->upgrades;
+ ammo = type->starting_ammo;
+ upgrades = type->upgrades;
  upgrade_time = -1;
 }
 
-monster::monster( const mtype *t, const tripoint &p )
+monster::monster( const std::string& id, const tripoint &p )
 {
  position = p;
  wandf = 0;
- type = t;
+ type = GetMType( id );
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -107,7 +107,7 @@ monster::monster( const mtype *t, const tripoint &p )
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction = t->default_faction;
+ faction = type->default_faction;
  last_loaded = 0;
  mission_id = -1;
  no_extra_death_drops = false;
@@ -116,8 +116,8 @@ monster::monster( const mtype *t, const tripoint &p )
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = t->starting_ammo;
- upgrades = t->upgrades;
+ ammo = type->starting_ammo;
+ upgrades = type->upgrades;
  upgrade_time = -1;
 }
 

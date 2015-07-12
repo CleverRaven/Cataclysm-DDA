@@ -1405,7 +1405,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
     item fish;
-    fish.make_corpse( catchables[index]->type, calendar::turn + int(rng(0, catch_duration)) );
+    fish.make_corpse( catchables[index]->type->id, calendar::turn + int(rng(0, catch_duration)) );
     m.add_item_or_charges( pos, fish );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched
@@ -6704,7 +6704,7 @@ void game::resonance_cascade( const tripoint &p )
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
-                invader = monster( GetMType(spawn_details.name), dest );
+                invader = monster( spawn_details.name, dest );
                 add_zombie(invader);
                 break;
             case 16:
@@ -6871,7 +6871,7 @@ Creature const* game::critter_at( const tripoint &p ) const
 
 bool game::summon_mon( const std::string id, const tripoint &p )
 {
-    monster mon(GetMType(id));
+    monster mon( id );
     // Set their last upgrade check to the current day.
     mon.reset_last_load();
     mon.spawn(p);
@@ -6927,7 +6927,7 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination()
 {
-    monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
+    monster phantasm(MonsterGenerator::generator().get_valid_hallucination()->id);
     phantasm.hallucination = true;
     phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 
@@ -7051,7 +7051,7 @@ bool game::revive_corpse( const tripoint &p, const item &it )
         // Someone is in the way, try again later
         return false;
     }
-    monster critter( it.get_mtype(), p );
+    monster critter( it.get_mtype()->id, p );
     critter.init_from_item( it );
     critter.no_extra_death_drops = true;
 

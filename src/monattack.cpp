@@ -163,7 +163,7 @@ void mattack::antqueen(monster *z, int index)
             for (size_t j = 0; j < g->m.i_at(i.x, i.y).size(); j++) {
                 if (g->m.i_at(i.x, i.y)[j].type->id == "ant_egg") {
                     g->m.i_rem(i.x, i.y, j);
-                    monster tmp(GetMType("mon_ant_larva"), tripoint( i.x, i.y, z->posz() ) );
+                    monster tmp( "mon_ant_larva", tripoint( i.x, i.y, z->posz() ) );
                     tmp.faction = z->faction;
                     g->add_zombie(tmp);
                     break; // Max one hatch per tile

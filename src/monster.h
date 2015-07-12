@@ -35,8 +35,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster( const mtype *t );
-        monster( const mtype *t, const tripoint &pos );
+        monster( const std::string& id );
+        monster( const std::string& id, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;

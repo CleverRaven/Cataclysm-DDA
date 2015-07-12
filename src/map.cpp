@@ -6558,7 +6558,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         if( spawn_details.name == "mon_null" ) {
             continue;
         }
-        monster tmp( GetMType( spawn_details.name ) );
+        monster tmp( spawn_details.name );
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
                 const tripoint p = random_entry_removed( locations );
@@ -6588,7 +6588,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             int tries = 0;
             int mx = i.posx;
             int my = i.posy;
-            monster tmp(GetMType(i.type));
+            monster tmp( i.type );
             tmp.mission_id = i.mission_id;
             if (i.name != "NONE") {
                 tmp.unique_name = i.name;

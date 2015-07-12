@@ -318,7 +318,7 @@ class wish_monster_callback: public uimenu_callback
             }
             if (entnum != lastent) {
                 lastent = entnum;
-                tmp = monster(GetMType(entnum));
+                tmp = monster( GetMType(entnum)->id );
                 if (friendly) {
                     tmp.friendly = -1;
                 }
@@ -328,7 +328,7 @@ class wish_monster_callback: public uimenu_callback
             wrefresh(w_info);
             tmp.print_info( w_info, 2, 5, 1 );
 
-            std::string header = string_format("#%d: %s (%d)%s", entnum, GetMType(entnum)->nname().c_str(),
+            std::string header = string_format("#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
                                  group, (hallucination ? _(" (hallucination)") : ""));
             mvwprintz(w_info, 0, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
@@ -379,7 +379,7 @@ void game::wishmonster( const tripoint &p )
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            monster mon = monster(GetMType(wmenu.ret));
+            monster mon = monster( GetMType(wmenu.ret)->id );
             mon.reset_last_load();
             if (cb->friendly) {
                 mon.friendly = -1;
