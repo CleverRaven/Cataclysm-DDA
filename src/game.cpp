@@ -5734,39 +5734,42 @@ int game::mon_info(WINDOW *w)
     for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = (j == 8 ? 2 : 1);
-        for (std::vector<std::string>::iterator it = unique_mons[j].begin();
-             it != unique_mons[j].end() && pr.y < maxheight; ++it) {
-            const mtype_id& sbuff = *it;
-            // buff < 0 means an NPC!  Don't list those.
-            if (listed_mons.find(sbuff) == listed_mons.end()) {
-                listed_mons.insert(sbuff);
+        for( const mtype_id& type : unique_mons[j] ) {
+            if( pr.y >= maxheight ) {
+                // no space to print to anyway
+                break;
+            }
+            if( listed_mons.count( type ) > 0 ) {
+                // this type is already printed.
+                continue;
+            }
+            listed_mons.insert( type );
 
-                const mtype& mt = *GetMType( sbuff );
-                const std::string name = mt.nname();
+            const mtype& mt = *GetMType( type );
+            const std::string name = mt.nname();
 
-                // Move to the next row if necessary. (The +2 is for the "Z ").
-                if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
-                    pr.y++;
-                    pr.x = 0;
+            // Move to the next row if necessary. (The +2 is for the "Z ").
+            if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
+                pr.y++;
+                pr.x = 0;
+            }
+
+            if (pr.y < maxheight) { // Don't print if we've overflowed
+                lastrowprinted = pr.y;
+                mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
+                pr.x += 2; // symbol and space
+                nc_color danger = c_dkgray;
+                if (mt.difficulty >= 30) {
+                    danger = c_red;
+                } else if (mt.difficulty >= 16) {
+                    danger = c_ltred;
+                } else if (mt.difficulty >= 8) {
+                    danger = c_white;
+                } else if (mt.agro > 0) {
+                    danger = c_ltgray;
                 }
-
-                if (pr.y < maxheight) { // Don't print if we've overflowed
-                    lastrowprinted = pr.y;
-                    mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
-                    pr.x += 2; // symbol and space
-                    nc_color danger = c_dkgray;
-                    if (mt.difficulty >= 30) {
-                        danger = c_red;
-                    } else if (mt.difficulty >= 16) {
-                        danger = c_ltred;
-                    } else if (mt.difficulty >= 8) {
-                        danger = c_white;
-                    } else if (mt.agro > 0) {
-                        danger = c_ltgray;
-                    }
-                    mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
-                    pr.x += utf8_width(name.c_str()) + namesep;
-                }
+                mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
+                pr.x += utf8_width(name.c_str()) + namesep;
             }
         }
     }
