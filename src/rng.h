@@ -12,6 +12,9 @@ bool one_in_improved(double chance);
 bool x_in_y(double x, double y);
 int dice(int number, int sides);
 
+// Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
+int divide_roll_remainder( double dividend, double divisor );
+
 int djb2_hash(const unsigned char *input);
 
 /**

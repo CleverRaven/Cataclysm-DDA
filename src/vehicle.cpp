@@ -347,6 +347,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
     std::map<vpart_id, int> consistent_bignesses;
 
+    last_update_turn = calendar::turn;
+
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 1% to 7%
     int veh_fuel_mult = init_veh_fuel;
@@ -3707,6 +3709,10 @@ void vehicle::idle(bool on_map) {
     if (on_map && is_alarm_on) {
         alarm();
     }
+
+    if( on_map ) {
+        update_time();
+    }
 }
 
 void vehicle::alarm(){
@@ -4649,6 +4655,7 @@ void vehicle::refresh()
     engines.clear();
     reactors.clear();
     solar_panels.clear();
+    funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
     speciality.clear();
@@ -4715,6 +4722,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
             solar_panels.push_back( p );
+        }
+        if( vpi.has_flag("FUNNEL") ) {
+            funnels.push_back( p );
         }
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
@@ -6016,6 +6026,38 @@ std::set<tripoint> &vehicle::get_points()
     }
 
     return occupied_points;
+}
+
+void vehicle::update_time()
+{
+    tripoint veh_loc = global_pos3();
+    // Don't fill funnels every turn, because rainfall has 10 turn granularity
+    if( smz >= 0 && !funnels.empty() && ( calendar::turn - last_update_turn >= 10 || one_in( 10 ) ) ) {
+        double rain_amount = 0.0;
+        // TODO: double acid_amount = 0.0;
+        for( int fun : funnels ) {
+            tripoint location = veh_loc + parts[fun].precalc[0];
+            // Can't use g->is_sheltered
+            // TODO: Fix procing vehicles partially out of map
+            if( g->m.has_flag( TFLAG_INDOORS, location ) ) {
+                continue;
+            }
+
+            rainfall_data rainfall = get_rainfall( last_update_turn, calendar::turn, location );
+
+            const int part_size = part_info( fun ).size;
+            const double funnel_area_mm = M_PI * part_size * part_size;
+
+            rain_amount += funnel_charges_per_turn( funnel_area_mm, rainfall.rain_amount );
+        }
+
+        const int rain_val = divide_roll_remainder( rain_amount, 1.0 );
+        if( rain_val > 0 ) {
+            refill( "water", rain_val );
+        }
+    }
+
+    last_update_turn = calendar::turn;
 }
 
 /*-----------------------------------------------------------------------------

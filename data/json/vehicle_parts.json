@@ -4926,5 +4926,23 @@
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "funnel",
+        "name" : "funnel",
+        "symbol" : "V",
+        "color" : "yellow",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 5,
+        "durability" : 200,
+        "size" : 380,
+        "item" : "funnel",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["FUNNEL", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "min": 1, "max": 2}
+        ]
     }
 ]
