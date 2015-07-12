@@ -140,10 +140,10 @@ const tripoint &monster::pos() const
     return position;
 }
 
-void monster::poly(const mtype *t)
+void monster::poly( const std::string& id )
 {
     double hp_percentage = double(hp) / double(type->hp);
-    type = t;
+    type = GetMType( id );
     moves = 0;
     Creature::set_speed_base(type->speed);
     anger = type->agro;
@@ -154,8 +154,8 @@ void monster::poly(const mtype *t)
         sp_timeout.push_back( elem );
     }
     def_chance = type->def_chance;
-    faction = t->default_faction;
-    upgrades = t->upgrades;
+    faction = type->default_faction;
+    upgrades = type->upgrades;
 }
 
 bool monster::can_upgrade() {
@@ -218,10 +218,10 @@ void monster::try_upgrade() {
         }
 
         if (type->upgrade_into != "NULL"){
-            poly(GetMType(type->upgrade_into));
+            poly( type->upgrade_into );
         } else {
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            poly( GetMType( random_entry( monsters ) ) );
+            poly( random_entry( monsters ) );
         }
 
         if (!upgrades) {
@@ -1775,16 +1775,16 @@ bool monster::make_fungus()
     const std::string old_name = name();
     switch (polypick) {
         case 1:
-            poly(GetMType("mon_ant_fungus"));
+            poly( "mon_ant_fungus" );
             break;
         case 2: // zombies, non-boomer
-            poly(GetMType("mon_zombie_fungus"));
+            poly( "mon_zombie_fungus" );
             break;
         case 3:
-            poly(GetMType("mon_boomer_fungus"));
+            poly( "mon_boomer_fungus" );
             break;
         case 4:
-            poly(GetMType("mon_fungaloid"));
+            poly( "mon_fungaloid" );
             break;
         default:
             return false;

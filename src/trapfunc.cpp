@@ -577,7 +577,7 @@ void trapfunc::goo( Creature *c, const tripoint &p )
                 z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
             } else {
-                z->poly( GetMType( "mon_blob" ) );
+                z->poly( "mon_blob" );
                 z->set_speed_base( z->get_speed_base() - 15 );
                 z->set_hp( z->get_speed() );
             }

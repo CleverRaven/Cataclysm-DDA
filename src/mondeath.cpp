@@ -390,7 +390,7 @@ void mdeath::jackson(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
         if(candidate->type->id == "mon_zombie_dancer" ) {
-            candidate->poly(GetMType("mon_zombie_hulk"));
+            candidate->poly( "mon_zombie_hulk" );
             candidate->remove_effect("controlled");
         }
         if (g->u.sees( *z )) {

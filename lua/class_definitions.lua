@@ -1442,7 +1442,7 @@ classes = {
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part", "int" } },
-            { name = "poly", rval = nil, args = { "mtype" } },
+            { name = "poly", rval = nil, args = { "string" } },
             { name = "pos", rval = "tripoint", args = { } },
             { name = "posx", rval = "int", args = { } },
             { name = "posy", rval = "int", args = { } },

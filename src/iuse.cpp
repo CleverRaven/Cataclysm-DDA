@@ -4673,7 +4673,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     critter.name().c_str());
         }
-        critter.poly(GetMType("mon_blob"));
+        critter.poly( "mon_blob" );
 
         critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
         critter.set_hp( critter.get_speed() );

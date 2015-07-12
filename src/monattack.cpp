@@ -145,9 +145,9 @@ void mattack::antqueen(monster *z, int index)
             add_msg(m_warning, _("The %s feeds an %s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
         if (ant->type->id == "mon_ant_larva") {
-            ant->poly(GetMType("mon_ant"));
+            ant->poly( "mon_ant" );
         } else {
-            ant->poly(GetMType("mon_ant_soldier"));
+            ant->poly( "mon_ant_soldier" );
         }
     } else if (egg_points.empty()) { // There's no eggs nearby--lay one.
         if (g->u.sees( *z )) {
@@ -1659,7 +1659,7 @@ void mattack::fungus_growth(monster *z, int index)
                 z->name().c_str());
     }
 
-    z->poly(GetMType("mon_fungaloid"));
+    z->poly( "mon_fungaloid" );
 }
 
 void mattack::fungus_sprout(monster *z, int index)
@@ -2027,7 +2027,7 @@ void mattack::dermatik_growth(monster *z, int index)
         add_msg(m_warning, _("The %s dermatik larva grows into an adult!"),
                 z->name().c_str());
     }
-    z->poly(GetMType("mon_dermatik"));
+    z->poly( "mon_dermatik" );
 }
 
 void mattack::plant( monster *z, int /*index*/ )
@@ -2039,7 +2039,7 @@ void mattack::plant( monster *z, int /*index*/ )
                     z->name().c_str());
         }
 
-        z->poly(GetMType("mon_fungaloid_young"));
+        z->poly( "mon_fungaloid_young" );
         z->moves -= 1000; // It takes a while
     } else {
         if (g->u.sees( *z )) {
@@ -2092,16 +2092,16 @@ void mattack::formblob(monster *z, int index)
                     othermon.set_speed_base( othermon.get_speed_base() + 5 );
                     z->set_speed_base( z->get_speed_base() - 5 );
                     if (othermon.type->id == "mon_blob_small" && othermon.get_speed_base() >= 60) {
-                        othermon.poly(GetMType("mon_blob"));
+                        othermon.poly( "mon_blob" );
                     } else if ( othermon.type->id == "mon_blob" && othermon.get_speed_base() >= 80) {
-                        othermon.poly(GetMType("mon_blob_large"));
+                        othermon.poly( "mon_blob_large" );
                     }
                 } else if( (othermon.made_of("flesh") ||
                             othermon.made_of("veggy") ||
                             othermon.made_of("iflesh") ) &&
                            rng(0, z->get_hp()) > rng(0, othermon.get_hp())) { // Blobify!
                     didit = true;
-                    othermon.poly(GetMType("mon_blob"));
+                    othermon.poly( "mon_blob" );
                     othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
                     othermon.set_hp( othermon.get_speed_base() );
                 }
@@ -2119,9 +2119,9 @@ void mattack::formblob(monster *z, int index)
         }
         if (didit) { // We did SOMEthing.
             if (z->type->id == "mon_blob" && z->get_speed_base() <= 50) { // We shrank!
-                z->poly(GetMType("mon_blob_small"));
+                z->poly( "mon_blob_small" );
             } else if (z->type->id == "mon_blob_large" && z->get_speed_base() <= 70) { // We shrank!
-                z->poly(GetMType("mon_blob"));
+                z->poly( "mon_blob" );
             }
 
             z->moves = 0;
@@ -2199,7 +2199,7 @@ void mattack::jackson(monster *z, int index)
             post = nearby_points[ assigned_spot ];
         }
         if ((*ally)->type->id != "mon_zombie_dancer") {
-            (*ally)->poly(GetMType("mon_zombie_dancer"));
+            (*ally)->poly( "mon_zombie_dancer" );
             converted = true;
         }
         int trash = 0;
@@ -2278,7 +2278,7 @@ void mattack::dogthing(monster *z, int index)
     }
 
     z->friendly = 0;
-    z->poly(GetMType("mon_headless_dog_thing"));
+    z->poly( "mon_headless_dog_thing" );
 }
 
 void mattack::tentacle(monster *z, int index)
@@ -2540,7 +2540,7 @@ void mattack::triffid_growth(monster *z, int index)
         add_msg(m_warning, _("The %s young triffid grows into an adult!"),
                 z->name().c_str());
     }
-    z->poly(GetMType("mon_triffid"));
+    z->poly( "mon_triffid" );
 }
 
 void mattack::stare(monster *z, int index)
