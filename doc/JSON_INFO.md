@@ -804,5 +804,6 @@ The format also support snippet ids like above.
     "traits": [ "PROF_MED" ],        // Allowed starting traits (see mutations.json). The player still has to choose them if they like, only useful if the listed trait can actually be chosen at game start.
     "forced_traits": [ "PROF_MED" ], // Traits that are automatically added to the new character.
     "forbidden_traits": [ "PROF_MED" ], // Traits that can explicitly not be chosen at start.
+    "map_special": "mx_helicopter",  // (optional) Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 }
 ```
