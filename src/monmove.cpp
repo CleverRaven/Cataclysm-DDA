@@ -12,7 +12,6 @@
 #include "cursesdef.h"
 #include "sounds.h"
 #include "monattack.h"
-#include "monstergenerator.h"
 #include "monfaction.h"
 #include "translations.h"
 #include "npc.h"

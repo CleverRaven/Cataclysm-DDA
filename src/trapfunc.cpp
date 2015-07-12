@@ -3,7 +3,6 @@
 #include "debug.h"
 #include "trap.h"
 #include "rng.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "translations.h"

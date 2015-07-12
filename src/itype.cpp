@@ -2,7 +2,6 @@
 #include "itype.h"
 #include "ammo.h"
 #include "game.h"
-#include "monstergenerator.h"
 #include "item_factory.h"
 #include "translations.h"
 #include <fstream>

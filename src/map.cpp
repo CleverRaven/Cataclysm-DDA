@@ -8,7 +8,6 @@
 #include "item_factory.h"
 #include "mapbuffer.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "sounds.h"
 #include "debug.h"
 #include "trap.h"

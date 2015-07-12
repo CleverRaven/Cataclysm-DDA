@@ -4,7 +4,6 @@
 #include "map.h"
 #include "rng.h"
 #include "line.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"

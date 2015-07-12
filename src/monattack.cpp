@@ -8,7 +8,6 @@
 #include "bodypart.h"
 #include "material.h"
 #include "json.h"
-#include "monstergenerator.h"
 #include "speech.h"
 #include "messages.h"
 #include "sounds.h"
