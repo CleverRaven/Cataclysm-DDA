@@ -2,7 +2,6 @@
 #define CHARACTER_H
 
 #include "creature.h"
-#include "action.h"
 #include "inventory.h"
 #include "bionics.h"
 

@@ -1,5 +1,6 @@
 #include "game.h"
 #include "player.h"
+#include "action.h"
 #include "map.h"
 #include "output.h"
 #include "uistate.h"

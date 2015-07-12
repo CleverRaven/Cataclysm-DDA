@@ -5,6 +5,7 @@
 
 #include "game.h"
 #include "player.h"
+#include "action.h"
 #include "item_factory.h"
 #include "item.h"
 #include "pldata.h"
