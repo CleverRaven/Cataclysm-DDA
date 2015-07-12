@@ -4014,7 +4014,7 @@
         "range" : 12,
         "item" : "ftk93",
         "difficulty" : 8,
-        "size" : 15,
+        "size" : 10,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
