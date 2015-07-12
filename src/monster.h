@@ -35,8 +35,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster(mtype *t);
-        monster( mtype *t, const tripoint &pos );
+        monster( const mtype *t );
+        monster( const mtype *t, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
@@ -48,7 +48,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        void poly(mtype *t);
+        void poly(const mtype *t);
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade();
@@ -326,7 +326,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int anger, morale;
         mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
-        mtype *type;
+        const mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
         bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
         bool is_dead() const;

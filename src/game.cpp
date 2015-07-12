@@ -1405,7 +1405,8 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
     item fish;
-    fish.make_corpse( catchables[index]->type, calendar::turn + int(rng(0, catch_duration)) );
+    // TODO: get rid of the const cast, change item::make_corpse take a const mtype
+    fish.make_corpse( const_cast<mtype*>( catchables[index]->type ), calendar::turn + int(rng(0, catch_duration)) );
     m.add_item_or_charges( pos, fish );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched

@@ -61,7 +61,7 @@ monster::monster()
  upgrade_time = -1;
 }
 
-monster::monster(mtype *t)
+monster::monster( const mtype *t )
 {
  position.x = 20;
  position.y = 10;
@@ -92,7 +92,7 @@ monster::monster(mtype *t)
  upgrade_time = -1;
 }
 
-monster::monster(mtype *t, const tripoint &p )
+monster::monster( const mtype *t, const tripoint &p )
 {
  position = p;
  wandf = 0;
@@ -140,7 +140,7 @@ const tripoint &monster::pos() const
     return position;
 }
 
-void monster::poly(mtype *t)
+void monster::poly(const mtype *t)
 {
     double hp_percentage = double(hp) / double(type->hp);
     type = t;
