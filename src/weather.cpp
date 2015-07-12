@@ -69,24 +69,6 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
 }
 
 ////// Funnels.
-/**
- * mm/h of rain/acid for weather type (should move to weather_data)
- */
-std::pair<int, int> rain_or_acid_level( const int wt )
-{
-    if ( wt == WEATHER_ACID_RAIN || wt == WEATHER_ACID_DRIZZLE ) {
-        return std::make_pair(0, (wt == WEATHER_ACID_RAIN  ? 8 : 4 ));
-    } else if (wt == WEATHER_DRIZZLE ) {
-        return std::make_pair(4, 0);
-        // why isn't this in weather data. now we have multiple rain/turn scales =[
-    } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
-        return std::make_pair(8, 0);
-        /// @todo bucket of melted snow?
-    } else {
-        return std::make_pair(0, 0);
-    }
-}
-
 rainfall_data get_rainfall( const calendar &startturn,
                             const calendar &endturn,
                             const tripoint &location )
