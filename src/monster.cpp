@@ -193,21 +193,27 @@ int monster::next_upgrade_time() {
     return -1;
 }
 
-void monster::try_upgrade() {
+void monster::try_upgrade(bool pin_time) {
     if (!can_upgrade()) {
         return;
     }
+
+    const int current_day = calendar::turn.get_turn() / DAYS(1);
 
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
         if (upgrade_time < 0) {
             return;
         }
-        // offset by starting season
-        upgrade_time += calendar::start / DAYS(1);
+        if (pin_time) {
+            // offset by today
+            upgrade_time += current_day;
+        } else {
+            // offset by starting season
+            upgrade_time += calendar::start / DAYS(1);
+        }
     }
 
-    const int current_day = calendar::turn.get_turn() / DAYS(1);
     // Here we iterate until we either are before upgrade_time or can't upgrade any more.
     // This is so that late into game new monsters can 'catch up' with all that half-life
     // upgrades they'd get if we were simulating whole world.
