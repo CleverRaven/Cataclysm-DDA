@@ -6875,7 +6875,7 @@ bool game::summon_mon( const std::string id, const tripoint &p )
     // Set their last upgrade check to the current day.
     mon.reset_last_load();
     mon.spawn(p);
-    return add_zombie(mon);
+    return add_zombie(mon, true);
 }
 
 // By default don't pin upgrades to current day
