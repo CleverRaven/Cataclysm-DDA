@@ -3725,7 +3725,7 @@ void mattack::upgrade(monster *z, int index)
     std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
     target->hasten_upgrade();
-    target->try_upgrade();
+    target->try_upgrade(false);
     const auto can_see = g->u.sees( *target );
     if (g->u.sees( *z )) {
         if (could_see) {
