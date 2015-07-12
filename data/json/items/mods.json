@@ -711,7 +711,7 @@
             "clip_size" : 1,
             "dispersion" : 300, "//" : "same as the ashot",
             "damage" : 2,
-            "range" : -4,
+            "range" : -2,
             "aim_speed" : -1, "//" : "just a place holder, TODO: fill in the correct value",
             "sight_dispersion" : -1, "//" : "just a place holder, TODO: fill in the correct value",
             "recoil" : 375, "//" : "same as the ashot",
