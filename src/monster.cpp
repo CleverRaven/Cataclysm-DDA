@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "cursesdef.h"
-#include "monstergenerator.h"
 #include "json.h"
 #include "messages.h"
 #include "mondefense.h"
@@ -108,7 +107,7 @@ monster::monster( const mtype_id& id )
  position.y = 10;
  position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
- type = GetMType( id );
+ type = &id.obj();
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -136,7 +135,7 @@ monster::monster( const mtype_id& id, const tripoint &p )
 {
  position = p;
  wandf = 0;
- type = GetMType( id );
+ type = &id.obj();
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -182,7 +181,7 @@ const tripoint &monster::pos() const
 void monster::poly( const mtype_id& id )
 {
     double hp_percentage = double(hp) / double(type->hp);
-    type = GetMType( id );
+    type = &id.obj();
     moves = 0;
     Creature::set_speed_base(type->speed);
     anger = type->agro;

@@ -8,7 +8,6 @@
 #include "debug.h"
 #include "translations.h"
 #include "sounds.h"
-#include "monstergenerator.h"
 #include "iuse_actor.h"
 #include "rng.h"
 #include "mongroup.h"
@@ -456,7 +455,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
                 fish.make_corpse( fish_mon, calendar::turn );
                 g->m.add_item_or_charges(p->pos(), fish);
-                p->add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
+                p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
                 p->add_msg_if_player(_("You didn't catch anything."));
             }

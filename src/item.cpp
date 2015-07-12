@@ -17,7 +17,6 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "crafting.h"
 #include "martialarts.h"
@@ -89,7 +88,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     init();
     type = find_type( new_type );
     bday = turn;
-    corpse = type->id == "corpse" ? GetMType( mon_null ) : nullptr;
+    corpse = type->id == "corpse" ? &mon_null.obj() : nullptr;
     name = type_name(1);
     const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
     if( has_random_charges ) {
@@ -160,13 +159,13 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
 
 void item::make_corpse( const mtype_id& mt, unsigned int turn )
 {
-    if( !MonsterGenerator::generator().has_mtype( mt ) ) {
+    if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
     const bool isReviveSpecial = one_in( 20 );
     init();
     make( "corpse" );
-    corpse = GetMType( mt );
+    corpse = &mt.obj();
     active = corpse->has_flag( MF_REVIVES );
     if( active && isReviveSpecial ) {
         item_tags.insert( "REVIVE_SPECIAL" );

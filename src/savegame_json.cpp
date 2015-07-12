@@ -21,7 +21,6 @@
 #include "catacharset.h"
 #include "crafting.h"
 #include "get_version.h"
-#include "monstergenerator.h"
 #include "scenario.h"
 #include "monster.h"
 #include "monfaction.h"
@@ -1043,7 +1042,7 @@ void monster::load(JsonObject &data)
     std::string sidtmp;
     // load->str->int
     data.read("typeid", sidtmp);
-    type = GetMType( mtype_id( sidtmp ) );
+    type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
     data.read("posx", position.x);
@@ -1170,7 +1169,7 @@ void item::io( Archive& archive )
             // backwards compatibility, nullptr should not be stored at all
             corpse = nullptr;
         } else {
-            corpse = GetMType( mtype_id( id ) );
+            corpse = &mtype_id( id ).obj();
         }
     };
 
