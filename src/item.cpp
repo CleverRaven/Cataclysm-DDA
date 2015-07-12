@@ -156,7 +156,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse( mtype *mt, unsigned int turn )
+void item::make_corpse( const mtype *mt, unsigned int turn )
 {
     if( mt == nullptr ) {
         debugmsg( "tried to make a corpse with a null mtype pointer" );
@@ -182,7 +182,7 @@ void item::make_corpse()
     make_corpse( "mon_null", calendar::turn );
 }
 
-void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
+void item::make_corpse( const mtype *mt, unsigned int turn, const std::string &name )
 {
     make_corpse( mt, turn );
     this->name = name;
@@ -2928,12 +2928,12 @@ bool item::is_corpse() const
     return typeId() == "corpse" && corpse != nullptr;
 }
 
-mtype *item::get_mtype() const
+const mtype *item::get_mtype() const
 {
     return corpse;
 }
 
-void item::set_mtype( mtype * const m )
+void item::set_mtype( const mtype * const m )
 {
     // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
     if( m == nullptr ) {

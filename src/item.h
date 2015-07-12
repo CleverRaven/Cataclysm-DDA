@@ -115,8 +115,8 @@ public:
          * Without any parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( mtype* mt, unsigned int turn );
-        void make_corpse( mtype* mt, unsigned int turn, const std::string &name );
+        void make_corpse( const mtype* mt, unsigned int turn );
+        void make_corpse( const mtype* mt, unsigned int turn, const std::string &name );
         void make_corpse( const std::string &mtype_id, unsigned int turn );
         void make_corpse();
         /*@}*/
@@ -125,13 +125,13 @@ public:
          * type that this item is made of (e.g. corpse, meat or blood of the monster).
          * May return a null-pointer.
          */
-        mtype *get_mtype() const;
+        const mtype *get_mtype() const;
         /**
          * Sets the monster type associated with this item (@ref corpse). You must not pass a
          * null pointer.
          * TODO: change this to take a reference instead.
          */
-        void set_mtype( mtype *corpse );
+        void set_mtype( const mtype *corpse );
         /**
          * Whether this is a corpse item. Corpses always have valid monster type (@ref corpse)
          * associated (@ref get_mtype return a non-null pointer) and have been created
@@ -1195,8 +1195,7 @@ public:
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;
         std::map<std::string, std::string> item_vars;
-        // TODO: make a pointer to const
-        mtype* corpse;
+        const mtype* corpse;
         std::set<matec_id> techniques; // item specific techniques
         light_emission light;
 public:
