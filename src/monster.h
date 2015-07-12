@@ -215,7 +215,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
-        int trigger_sum(std::set<monster_trigger> *triggers) const;
+        int trigger_sum( const std::set<monster_trigger>& triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;

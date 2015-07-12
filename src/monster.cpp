@@ -690,9 +690,9 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
-    anger += trigger_sum( &(type->anger) );
-    anger -= trigger_sum( &(type->placate) );
-    morale -= trigger_sum( &(type->fear) );
+    anger += trigger_sum( type->anger );
+    anger -= trigger_sum( type->placate );
+    morale -= trigger_sum( type->fear );
     if( morale != type->morale && one_in( 10 ) ) {
         if( morale < type->morale ) {
             morale++;
@@ -729,11 +729,11 @@ void monster::process_trigger(monster_trigger trig, int amount)
 }
 
 
-int monster::trigger_sum(std::set<monster_trigger> *triggers) const
+int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
     int ret = 0;
     bool check_terrain = false, check_meat = false, check_fire = false;
-    for( const auto &trigger : *triggers ) {
+    for( const auto &trigger : triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
                 if( anger > 0 && one_in( 5 ) ) {
