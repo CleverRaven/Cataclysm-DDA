@@ -360,7 +360,7 @@ else
             LDFLAGS += -lncurses
         else
           ifeq ($(BSD), 1)
-            LDFLAGS += -lncurses -lintl -liconv
+            LDFLAGS += -lncurses
           else
             LDFLAGS += $(shell ncursesw5-config --libs)
             CXXFLAGS += $(shell ncursesw5-config --cflags)
@@ -386,6 +386,11 @@ endif
 # BSDs have backtrace() and friends in a separate library
 ifeq ($(BSD), 1)
   LDFLAGS += -lexecinfo
+
+  # And similarly, their libcs don't have gettext built in
+  ifeq ($(LOCALIZE),1)
+    LDFLAGS += -lintl -liconv
+    endif
 endif
 
 # Global settings for Windows targets (at end)
