@@ -1,4 +1,3 @@
-#include "map.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "output.h"
@@ -13,7 +12,6 @@
 #include "translations.h"
 #include "trap.h"
 #include <array>
-#include "vehicle.h"
 #include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
@@ -1793,7 +1791,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         if (roll <= 10) { //specials
             int ra = rng(1, 100);
             if (ra <= 3) {
-                veh_type = vgroup_id( "military_vehicles" );
+                veh_type = vproto_id( "military_cargo_truck" );
             } else if (ra <= 10) {
                 veh_type = vproto_id( "bubble_car" );
             } else if (ra <= 15) {
