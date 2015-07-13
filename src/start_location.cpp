@@ -9,6 +9,7 @@
 #include "json.h"
 #include "overmap.h"
 #include "field.h"
+#include "mapgen.h"
 
 static location_map _locations;
 
@@ -368,5 +369,16 @@ void start_location::burn( const tripoint &omtstart,
     for ( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
         m.add_field( valid[i], fd_fire, 3, 0 );
     }
+    m.save();
+}
+
+void start_location::add_map_special( const tripoint &omtstart, const std::string& map_special ) const {
+    const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
+    tinymap m;
+    m.load( player_location.x, player_location.y, player_location.z, false );
+
+    const auto ptr = MapExtras::get_function( map_special );
+    ptr( m, player_location );
+
     m.save();
 }

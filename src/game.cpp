@@ -652,6 +652,11 @@ void game::start_game(std::string worldname)
 
     const start_location &start_loc = *start_location::find( u.start_location );
     const tripoint omtstart = start_loc.setup();
+    if( scen->has_map_special() ) {
+        // Specials can add monster spawn points and similar and should be done before the main
+        // map is loaded.
+        start_loc.add_map_special( omtstart, scen->get_map_special() );
+    }
     tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= MAPSIZE / 2;

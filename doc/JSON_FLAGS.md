@@ -978,3 +978,20 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
 - `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
+
+## MAP SPECIALS
+
+- ```mx_null``` ... No special at all.
+- ```mx_helicopter``` ... Metal wreckage and some items.
+- ```mx_military``` ... Corpses and some military items.
+- ```mx_science``` ... Corpses and some scientist items.
+- ```mx_collegekids``` ... Corpses and items.
+- ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
+- ```mx_drugdeal``` ... Corpses and some drugs.
+- ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_portal``` ... Portal to neither space.
+- ```mx_minefield``` ... Landmines, a field of them.
+- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_fumarole``` ... A lava rift.
+- ```mx_portal_in``` ... Another portal to neither space.
+- ```mx_anomaly``` ...  Natural anomaly (crater + artifact).
