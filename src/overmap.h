@@ -306,7 +306,12 @@ class overmap
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
-  // TODO: make private
+    /** Unit test enablers to check if a given mongroup is present. */
+    bool mongroup_check(const mongroup &candidate) const;
+    int num_mongroups() const;
+    bool monster_check(const std::pair<tripoint, monster> &candidate) const;
+    int num_monsters() const;
+    // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;

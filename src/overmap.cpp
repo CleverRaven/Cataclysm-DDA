@@ -892,6 +892,43 @@ bool overmap::is_explored(int const x, int const y, int const z) const
     return layer[z + OVERMAP_DEPTH].explored[x][y];
 }
 
+bool overmap::mongroup_check(const mongroup &candidate) const
+{
+    const auto matching_range = zg.equal_range(candidate.pos);
+    return std::find_if( matching_range.first, matching_range.second,
+        [candidate](std::pair<tripoint, mongroup> match) {
+            // This is extra strict since we're using it to test serialization.
+            return candidate.type == match.second.type && candidate.pos == match.second.pos &&
+                candidate.radius == match.second.radius &&
+                candidate.population == match.second.population &&
+                candidate.target == match.second.target &&
+                candidate.interest == match.second.interest &&
+                candidate.dying == match.second.dying &&
+                candidate.horde == match.second.horde &&
+                candidate.diffuse == match.second.diffuse;
+        } ) != matching_range.second;
+}
+
+int overmap::num_mongroups() const
+{
+    return zg.size();
+}
+
+bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
+{
+    const auto matching_range = monster_map.equal_range(candidate.first);
+    return std::find_if( matching_range.first, matching_range.second,
+        [candidate](std::pair<tripoint, monster> match) {
+            return candidate.second.pos() == match.second.pos() &&
+                candidate.second.type == match.second.type;
+        } ) != matching_range.second;
+}
+
+int overmap::num_monsters() const
+{
+    return monster_map.size();
+}
+
 bool overmap::has_note(int const x, int const y, int const z) const
 {
     if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
