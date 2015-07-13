@@ -6,7 +6,6 @@
 #include "rng.h"
 #include "options.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"

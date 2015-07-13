@@ -3,7 +3,6 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "translations.h"
 #include "material.h"

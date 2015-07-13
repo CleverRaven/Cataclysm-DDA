@@ -7,7 +7,6 @@
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "morale.h"
 #include "messages.h"
@@ -458,7 +457,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
-    monster newmon( GetMType( mtype_id ) );
+    monster newmon( mtype_id );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;

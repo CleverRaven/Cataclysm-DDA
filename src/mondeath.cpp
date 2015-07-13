@@ -4,7 +4,6 @@
 #include "map.h"
 #include "rng.h"
 #include "line.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"
@@ -390,7 +389,7 @@ void mdeath::jackson(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
         if(candidate->type->id == "mon_zombie_dancer" ) {
-            candidate->poly(GetMType("mon_zombie_hulk"));
+            candidate->poly( "mon_zombie_hulk" );
             candidate->remove_effect("controlled");
         }
         if (g->u.sees( *z )) {
@@ -719,7 +718,7 @@ void make_mon_corpse(monster *z, int damageLvl)
 {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(z->type, calendar::turn);
+    corpse.make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.

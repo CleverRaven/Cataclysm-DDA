@@ -6,7 +6,6 @@
 #include "tutorial.h"
 #include "overmapbuffer.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "profession.h"
 #include "overmap.h"
 #include "trap.h"

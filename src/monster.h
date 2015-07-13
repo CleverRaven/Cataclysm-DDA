@@ -35,8 +35,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster(mtype *t);
-        monster( mtype *t, const tripoint &pos );
+        monster( const std::string& id );
+        monster( const std::string& id, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
@@ -48,7 +48,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        void poly(mtype *t);
+        void poly( const std::string& id );
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade();
@@ -215,7 +215,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
-        int trigger_sum(std::set<monster_trigger> *triggers) const;
+        int trigger_sum( const std::set<monster_trigger>& triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -326,7 +326,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int anger, morale;
         mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
-        mtype *type;
+        const mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
         bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
         bool is_dead() const;

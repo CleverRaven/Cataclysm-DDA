@@ -6,7 +6,6 @@
 #include "overmap.h"
 #include "output.h"
 #include "json.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"

@@ -4673,7 +4673,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     critter.name().c_str());
         }
-        critter.poly(GetMType("mon_blob"));
+        critter.poly( "mon_blob" );
 
         critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
         critter.set_hp( critter.get_speed() );
@@ -5697,7 +5697,7 @@ int iuse::vortex(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_warning, _("Air swirls all over..."));
     p->moves -= 100;
     it->make("spiral_stone");
-    monster mvortex(GetMType("mon_vortex"), random_entry( spawn ) );
+    monster mvortex( "mon_vortex", random_entry( spawn ) );
     mvortex.friendly = -1;
     g->add_zombie(mvortex);
     return it->type->charges_to_use();
@@ -6463,7 +6463,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid(GetMType("mon_null"), p->pos3() );
+                monster tmptriffid( "mon_null", p->pos3() );
                 mattack::growplants(&tmptriffid, -1);
             }
             break;
@@ -8103,7 +8103,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 }
                 monster_photos.push_back(s);
                 std::string menu_str;
-                const monster dummy(GetMType(s));
+                const monster dummy( s );
                 menu_str = dummy.name();
                 getline(f, s, ',');
                 char *chq = &s[0];
@@ -8121,7 +8121,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                     break;
                 }
 
-                const monster dummy(GetMType(monster_photos[choice - 1]));
+                const monster dummy( monster_photos[choice - 1] );
                 popup(dummy.type->description.c_str());
             } while (true);
             return it->type->charges_to_use();
@@ -8410,7 +8410,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
             std::string menu_str;
 
-            const monster dummy(GetMType(s));
+            const monster dummy( s );
             menu_str = dummy.name();
 
             getline(f, s, ',');
@@ -8431,7 +8431,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                 break;
             }
 
-            const monster dummy(GetMType(monster_photos[choice - 1]));
+            const monster dummy( monster_photos[choice - 1] );
             popup(dummy.type->description.c_str());
 
         } while (true);
