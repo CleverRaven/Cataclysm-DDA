@@ -62,27 +62,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "diesel_tank_large",
-        "name" : "diesel tank (large)",
-        "symbol" : "O",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 150,
-        "size" : 90000,
-        "fuel_type" : "diesel",
-        "item" : "30gal_drum",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 2, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 5}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "engine_turbine",
         "name" : "combustion turbine engine",
         "symbol" : "*",

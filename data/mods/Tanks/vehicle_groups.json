@@ -15,11 +15,5 @@
             ["tank_medium", 165],
             ["tank_atomic", 80]
         ]
-    },{
-        "type" : "vehicle_group",
-        "id" : "semi_truck",
-        "vehicles" : [
-            ["tank_light", 9001]
-        ]
     }
 ]
