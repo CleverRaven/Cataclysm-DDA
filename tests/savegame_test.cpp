@@ -6,6 +6,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale.h"
+#include "npc.h"
 #include "overmap.h"
 #include "path_info.h"
 #include "player.h"
@@ -206,5 +207,35 @@ TEST_CASE("Reading a legacy overmap save.") {
     };
     for( auto candidate_monster : expected_monsters ) {
         REQUIRE(test_map.monster_check(candidate_monster));
+    }
+    // Check NPCs.  They're complicated enough that I'm just going to spot-check some stats.
+    for( const npc *test_npc : test_map.npcs ) {
+        if( test_npc->disp_name() == "Felix Brandon" ) {
+            REQUIRE(test_npc->get_str() == 7);
+            REQUIRE(test_npc->get_dex() == 8);
+            REQUIRE(test_npc->get_int() == 7);
+            REQUIRE(test_npc->get_per() == 10);
+            REQUIRE(test_npc->get_skill_level("barter") == 4);
+            REQUIRE(test_npc->get_skill_level("driving") == 2);
+            REQUIRE(test_npc->get_skill_level("firstaid") == 7);
+            REQUIRE(test_npc->get_skill_level("mechanics") == 5);
+            REQUIRE(test_npc->get_skill_level("dodge") == 3);
+            REQUIRE(test_npc->get_skill_level("launcher") == 3);
+            REQUIRE(test_npc->pos() == tripoint(168, 66, 0));
+        } else if( test_npc->disp_name() == "Mariann Araujo" ) {
+            REQUIRE(test_npc->get_str() == 11);
+            REQUIRE(test_npc->get_dex() == 9);
+            REQUIRE(test_npc->get_int() == 10);
+            REQUIRE(test_npc->get_per() == 10);
+            REQUIRE(test_npc->get_skill_level("barter") == 4);
+            REQUIRE(test_npc->get_skill_level("driving") == 0);
+            REQUIRE(test_npc->get_skill_level("firstaid") == 5);
+            REQUIRE(test_npc->get_skill_level("bashing") == 5);
+            REQUIRE(test_npc->get_skill_level("dodge") == 4);
+            REQUIRE(test_npc->pos() == tripoint(72, 54, 0));
+        } else {
+            // Unrecognized NPC, fail.
+            REQUIRE(false);
+        }
     }
 }
