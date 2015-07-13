@@ -1,3 +1,4 @@
+#include "map.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "output.h"
