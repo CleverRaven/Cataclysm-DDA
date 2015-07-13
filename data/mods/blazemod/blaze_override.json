@@ -113,25 +113,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "laser_rifle",
-        "name" : "mounted A7 laser rifle",
-        "symbol" : "t",
-        "color" : "magenta",
-        "broken_symbol" : "#",
-        "broken_color" : "magenta",
-        "damage_modifier" : 80,
-        "durability" : 400,
-        "range" : 12,
-        "item" : "laser_rifle",
-        "difficulty" : 8,
-        "location" : "on_roof",
-        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
-        "folded_volume": 12,
-        "breaks_into" : [
-            {"item": "laser_rifle", "min": 0, "max": 1}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "mounted_browning",
         "name" : "mounted M2 Browning",
         "symbol" : "t",
