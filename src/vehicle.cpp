@@ -5074,7 +5074,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 } else if (ft == fuel_type_plasma) {
                     // Very likely to explode; real life tanks are armored to stop this.
                     explosion_chance = 2;
-                    fiery_explosion = false; // WOOF!!, but no lasting flames
+                    fiery_explosion = false; // WOOF!!; but no lasting flames
                     fuel_size_factor = 1;
                     explosion_factor = 1.4; // Higher energy density, but dampened by the explosion type
                 }
@@ -5083,8 +5083,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 if(parts[p].hp <= 0) {
                     leak_fuel( p );
                 }
-                (void)explosion_chance;
-                if (type == DT_HEAT || one_in(1)) {
+                if (type == DT_HEAT || one_in(explosion_chance)) {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
