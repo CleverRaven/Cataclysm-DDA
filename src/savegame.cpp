@@ -721,7 +721,7 @@ void overmap::serialize( std::ofstream &fout ) const
     json.member("npcs");
     json.start_array();
     for (auto &i : npcs) {
-        json.write( i->save_info() );
+        json.write( *i );
     }
     json.end_array();
     fout << std::endl;
