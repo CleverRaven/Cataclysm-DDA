@@ -13529,8 +13529,8 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
             m.add_spawn("mon_tankbot", 1, 12, 12);
-        } else {  // Truck & turrets
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
+        } else {  // Only result that might not need all that cargo space
+            m.add_vehicle( vgroup_id( "military_vehicles" ), 12, SEEY * 2 - 5, 0);
             m.add_spawn("mon_turret_bmg", 1, 12, 12);
             m.add_spawn("mon_turret_rifle", 1, 9, 12);
         }

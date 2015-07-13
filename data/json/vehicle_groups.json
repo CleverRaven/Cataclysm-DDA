@@ -83,5 +83,17 @@
             ["suv_electric", 200],
             ["pickup", 300]
         ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "military_vehicles",
+        "vehicles" : [
+            ["military_cargo_truck", 1000],
+            ["humvee", 500],
+            ["humvee_gl", 250],
+            ["apc", 500],
+            ["apc-gl", 250],
+            ["aapc-mg", 250],
+            ["apc-gl", 125]
+        ]
     }
 ]

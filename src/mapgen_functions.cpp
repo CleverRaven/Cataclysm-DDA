@@ -1791,7 +1791,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         if (roll <= 10) { //specials
             int ra = rng(1, 100);
             if (ra <= 3) {
-                veh_type = vproto_id( "military_cargo_truck" );
+                veh_type = vgroup_id( "military_vehicles" );
             } else if (ra <= 10) {
                 veh_type = vproto_id( "bubble_car" );
             } else if (ra <= 15) {
