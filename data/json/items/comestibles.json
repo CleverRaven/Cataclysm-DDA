@@ -14413,7 +14413,7 @@
         "type" : "COMESTIBLE",
         "id" : "chem_hydrogen_peroxide",
         "name" : "hydrogen peroxide",
-		"name_plural" : "hydrogen peroxide",
+        "name_plural" : "hydrogen peroxide",
         "weight" : 275,
         "color" : "white",
         "addiction_type" : "none",
