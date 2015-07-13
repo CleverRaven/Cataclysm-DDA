@@ -802,13 +802,8 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
 // *** BEGIN overmap FUNCTIONS ***
 
-overmap::overmap(int const x, int const y)
-    : loc(x, y)
-    , nullret("")
-    , nullbool(false)
+overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(false)
 {
-    // STUB: need region map:
-    // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
@@ -819,6 +814,17 @@ overmap::overmap(int const x, int const y)
 
     init_layers();
     open();
+}
+
+overmap::overmap(): loc(0, 0), nullret(""), nullbool(false)
+{
+    t_regional_settings_map_citr rsit = region_settings_map.find( "default" );
+
+    if ( rsit == region_settings_map.end() ) {
+        debugmsg("Test overmap: can't find region 'default'" );
+    }
+    settings = rsit->second;
+    init_layers();
 }
 
 overmap::~overmap()
