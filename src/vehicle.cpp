@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <set>
 #include <queue>
+#include <math.h>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -5054,26 +5055,36 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             insides_dirty = true;
         }
 
-        if( part_flag( p, "FUEL_TANK" ) )
-        {
+        if( part_flag( p, "FUEL_TANK" ) ) {
             const itype_id &ft = part_info(p).fuel_type;
-            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma )
-            {
-                // TODO: Move all the bools below to jsons
-                // Gasoline explodes way more readily than diesel
-                const bool bad_explosion = ft == fuel_type_gasoline;
-                // one_in chance of exploding
-                const bool explosion_chance = ft == fuel_type_diesel ? 10 : 2;
-                const bool fiery_explosion = ft == fuel_type_gasoline || ft == fuel_type_diesel;
-                const int pow = std::pow( parts[p].amount, bad_explosion ? 0.45f : 0.4f );
+            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma ) {
+                // TODO: Move the values below to jsons
+                // Gasoline
+                int explosion_chance = 5;
+                bool fiery_explosion = true; // Produces lasting flames
+                float fuel_size_factor = .1; // Smaller units than normal
+                float explosion_factor = 1;
+                // Diesel
+                if (ft == fuel_type_diesel) {
+                    explosion_chance = 10; // Much less likely to explode
+                    fiery_explosion = true; // Produces lasting flames
+                    fuel_size_factor = .1; // Smaller units than normal
+                    explosion_factor = 1.1; // Higher energy density
+                // Hydrogen
+                } else if (ft == fuel_type_plasma) {
+                    // Very likely to explode; real life tanks are armored to stop this.
+                    explosion_chance = 2;
+                    fiery_explosion = false; // WOOF!!, but no lasting flames
+                    fuel_size_factor = 1;
+                    explosion_factor = 1.4; // Higher energy density, but dampened by the explosion type
+                }
+                const int pow = 120 * (1 - exp(explosion_factor / -5000 * (parts[p].amount * fuel_size_factor)));
                 //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
-                if( parts[p].hp <= 0 ) {
+                if(parts[p].hp <= 0) {
                     leak_fuel( p );
                 }
-
-                if( pow > 5 &&
-                    ( type == DT_HEAT || (one_in( explosion_chance )  && rng( 75, 150 ) < dmg) ) )
-                {
+                (void)explosion_chance;
+                if (type == DT_HEAT || one_in(1)) {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
@@ -5103,19 +5114,17 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel (int p)
 {
-    if (!part_flag(p, "FUEL_TANK"))
+    if (!part_flag(p, "FUEL_TANK")) {
         return;
+    }
     const itype_id &ft = part_info(p).fuel_type;
-    if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
-    {
+    if (ft == fuel_type_gasoline || ft == fuel_type_diesel) {
         int x = global_x();
         int y = global_y();
-        for (int i = x - 2; i <= x + 2; i++)
-            for (int j = y - 2; j <= y + 2; j++)
-                if (g->m.move_cost(i, j) > 0 && one_in(2))
-                {
-                    if (parts[p].amount < 100)
-                    {
+        for (int i = x - 2; i <= x + 2; i++) {
+            for (int j = y - 2; j <= y + 2; j++) {
+                if (g->m.move_cost(i, j) > 0 && one_in(2)) {
+                    if (parts[p].amount < 100) {
                         parts[p].amount = 0;
                         return;
                     }
@@ -5124,6 +5133,8 @@ void vehicle::leak_fuel (int p)
                     g->m.spawn_item( dest, ft );
                     parts[p].amount -= 100;
                 }
+            }
+        }
     }
     parts[p].amount = 0;
 }
