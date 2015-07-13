@@ -240,6 +240,29 @@ TEST_CASE("Reading a legacy overmap save.") {
     if( fin.is_open() ) {
         test_map.unserialize(fin);
         fin.close();
+    } else {
+        REQUIRE(false);
     }
     check_test_overmap_data(test_map);
+
+    std::ofstream fout;
+
+    fout.open("tests/data/jsionized_overmap.sav");
+    if( fout.is_open() ) {
+        test_map.serialize(fout);
+        fout.close();
+    }
+
+    overmap test_map_2;
+
+    fin.open("tests/data/jsionized_overmap.sav");
+    if( fin.is_open() ) {
+        test_map_2.unserialize(fin);
+        fin.close();
+    } else {
+        REQUIRE(false);
+    }
+    check_test_overmap_data(test_map_2);
+    // Now clean up.
+    unlink("tests/data/jsionized_overmap.sav");
 }
