@@ -164,10 +164,20 @@ bool is_ot_type(const std::string &otype, const oter_id &oter)
     const size_t compare_size = otype.size();
     if (compare_size > oter.size()) {
         return false;
-    } else {
-        return std::string(oter).compare(0, compare_size, otype ) == 0;
     }
 
+    const auto oter_str = std::string(oter);
+    if (oter_str.compare(0, compare_size, otype) != 0) {
+        return false;
+    }
+
+    // check if it's a full match
+    if (compare_size == oter.size()) {
+        return true;
+    }
+
+    // only ok for partial if next char is an underscore
+    return oter_str[compare_size] == '_';
 }
 
 bool road_allowed(const oter_id &ter)
