@@ -158,7 +158,7 @@ void check_test_overmap_data( const overmap &test_map )
     }
     // Check all the roads too.
     // Roads are getting size set to 0, but I expect -1.
-    std::vector<city> expected_roads = {{179,126,0},{136,179,0}};
+    std::vector<city> expected_roads = {{179,126, -1},{136,179, -1}};
     REQUIRE(test_map.roads_out.size() == expected_roads.size());
     for( const auto &candidate_road : test_map.roads_out ) {
         REQUIRE(std::find(expected_roads.begin(), expected_roads.end(), candidate_road) != expected_roads.end() );

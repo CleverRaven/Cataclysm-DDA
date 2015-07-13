@@ -333,7 +333,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
             cities.push_back(tmp);
         } else if (datatype == 'R') { // Road leading out
             fin >> cx >> cy;
-            tmp.x = cx; tmp.y = cy; tmp.s = 0;
+            tmp.x = cx; tmp.y = cy; tmp.s = -1;
             roads_out.push_back(tmp);
         } else if (datatype == 'T') { // Radio tower
             radio_tower tmp;
