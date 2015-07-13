@@ -51,7 +51,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void poly( const std::string& id );
         bool can_upgrade();
         void hasten_upgrade();
-        void try_upgrade();
+        void try_upgrade(bool pin_time);
         void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
         int get_hp( hp_part ) const override

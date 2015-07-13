@@ -1467,7 +1467,7 @@ classes = {
             { name = "symbol", rval = "string", args = { } },
             { name = "symbol_color", rval = "int", args = { } },
             { name = "turns_to_reach", rval = "int", args = { "int", "int" } },
-            { name = "try_upgrade", rval = nil, args = { } },
+            { name = "try_upgrade", rval = nil, args = { "bool" } },
             { name = "hasten_upgrade", rval = nil, args = { } },
             { name = "wander", rval = "bool", args = { } },
             { name = "wander_next", rval = "tripoint", args = { } },

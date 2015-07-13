@@ -6880,17 +6880,23 @@ bool game::summon_mon( const std::string id, const tripoint &p )
     // Set their last upgrade check to the current day.
     mon.reset_last_load();
     mon.spawn(p);
-    return add_zombie(mon);
+    return add_zombie(mon, true);
 }
 
+// By default don't pin upgrades to current day
 bool game::add_zombie(monster &critter)
+{
+    return add_zombie(critter, false);
+}
+
+bool game::add_zombie(monster &critter, bool pin_upgrade)
 {
     if( !m.inbounds( critter.pos() ) ) {
         dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
                        << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
-    critter.try_upgrade();
+    critter.try_upgrade(pin_upgrade);
     return critter_tracker->add(critter);
 }
 
