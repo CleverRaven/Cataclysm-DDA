@@ -15249,7 +15249,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 6,
+        "charges" : 1,
         "bashing" : 0,
         "fun" : -12
     },
@@ -15277,7 +15277,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 6,
+        "charges" : 1,
         "bashing" : 0,
         "fun" : -12,
         "flags" : ["BREW"],

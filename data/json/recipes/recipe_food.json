@@ -3216,7 +3216,7 @@
 },{
   "type" : "recipe",
   "result": "brew_milk_curdled",
-  "result_mult" : 3,
+  "result_mult" : 18,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
