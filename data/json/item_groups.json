@@ -484,6 +484,7 @@
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
       ["cheese", 40],
+      ["cheese_hard", 5],
       ["can_cheese", 8],
       ["yoghurt", 8],
       ["pudding", 10],
@@ -621,6 +622,7 @@
       ["corndogs_frozen", 8],
       ["blt", 8],
       ["cheese", 10],
+      ["cheese_hard", 5],
       ["orange", 65],
       ["irradiated_orange", 32],
       ["banana", 40],
@@ -1718,6 +1720,7 @@
       ["sugar", 20],
       ["molasses", 10],
       ["can_cheese", 40],
+      ["cheese_hard", 5],
       ["salt", 20],
       ["pepper", 20],
       ["seasoning_salt", 25],
@@ -5216,6 +5219,7 @@
       ["sword_bayonet", 10],
       ["bagh_nakha", 5],
       ["kris", 5],
+      ["cheese_hard", 1],
       ["apron_leather", 1]
     ]
   },{
@@ -5656,6 +5660,7 @@
       ["neccowafers", 40],
       ["can_herring", 30],
       ["coffee_raw", 15],
+      ["cheese_hard", 5],
       ["bandages", 50],
       ["cotton_ball", 50],
       ["1st_aid", 35],
@@ -8368,6 +8373,7 @@
       ["salted_fish", 35],
       ["porkstick", 55],
       ["ravioli", 25],
+      ["cheese_hard", 15],
       ["can_beans", 40],
       ["can_corn", 35],
       ["can_spam", 30],
