@@ -60,6 +60,28 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "seat_nocargo",
+        "name" : "military seat",
+        "symbol" : "#",
+        "color" : "red",
+        "broken_symbol" : "*",
+        "broken_color" : "red",
+        "damage_modifier" : 60,
+        "durability" : 250,
+        "item" : "seat",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : [
+            "SEAT", "BOARDABLE", "BELTABLE"
+        ],
+        "breaks_into" : [
+            {"item": "leather", "min": 1, "max": 5},
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "tracker",
         "name": "tracking device",
         "symbol": "*",
@@ -1524,6 +1546,150 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "hdhalfboard_horizontal",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "h",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_vertical",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "j",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_nw",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "y",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_ne",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "u",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_se",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "n",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_sw",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "b",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_horizontal_2",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "=",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hdhalfboard_vertical_2",
+        "name" : "heavy duty quarterpanel",
+        "symbol" : "H",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 935,
+        "item" : "steel_plate",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 7},
+            {"item": "steel_chunk", "min": 5, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "xlhalfboard_horizontal",
         "name" : "extra light quarterpanel",
         "symbol" : "h",
@@ -2820,8 +2986,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "external_gas_tank_small",
+        "name" : "external gas tank (small)",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 155,
+        "size" : 90000,
+        "fuel_type" : "gasoline",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
         "id" : "external_gas_tank",
-        "name" : "externally mounted gas tank",
+        "name" : "external gas tank (large)",
         "symbol" : "O",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -2897,8 +3080,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "external_diesel_tank_small",
+        "name" : "external diesel tank (small)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 155,
+        "size" : 90000,
+        "fuel_type" : "diesel",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
         "id" : "external_diesel_tank",
-        "name" : "externally mounted diesel tank",
+        "name" : "external diesel tank (large)",
         "symbol" : "O",
         "color" : "green",
         "broken_symbol" : "#",
@@ -3059,17 +3259,56 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "water_tank_small",
+        "name" : "clean water tank (small)",
+        "symbol" : "O",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "size" : 45,
+        "fuel_type" : "water_clean",
+        "item" : "metal_tank_small",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "water_tank_little",
+        "name" : "clean water tank (little)",
+        "symbol" : "O",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 5,
+        "fuel_type" : "water_clean",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "water_tank",
-        "name" : "water tank",
+        "name" : "clean water tank",
         "symbol" : "O",
         "color" : "light_cyan",
         "broken_symbol" : "#",
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 150,
-        "size" : 450,
+        "size" : 225,
         "fuel_type" : "water_clean",
-        "item" : "30gal_drum",
+        "item" : "metal_tank",
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
@@ -3080,17 +3319,90 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "external_water_tank_small",
+        "name" : "external clean water tank (30 gal)",
+        "symbol" : "O",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 155,
+        "size" : 450,
+        "fuel_type" : "water_clean",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "external_water_tank",
+        "name" : "external clean water tank (55 gal)",
+        "symbol" : "O",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 160,
+        "size" : 825,
+        "fuel_type" : "water_clean",
+        "item" : "55gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "water_dirty_tank_small",
+        "name" : "dirty water tank (small)",
+        "symbol" : "O",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "size" : 45,
+        "fuel_type" : "water",
+        "item" : "metal_tank_small",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "water_dirty_tank_little",
+        "name" : "dirty water tank (little)",
+        "symbol" : "O",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 5,
+        "fuel_type" : "water",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "water_dirty_tank",
-        "name" : "water (dirty) tank",
+        "name" : "dirty water tank",
         "symbol" : "O",
         "color" : "light_cyan",
         "broken_symbol" : "#",
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 150,
-        "size" : 450,
+        "size" : 225,
         "fuel_type" : "water",
-        "item" : "30gal_drum",
+        "item" : "metal_tank",
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK"],
@@ -3099,6 +3411,40 @@
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 1, "max": 5}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "external_water_dirty_tank_small",
+        "name" : "external dirty water tank (30 gal)",
+        "symbol" : "O",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 155,
+        "size" : 450,
+        "fuel_type" : "water",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
+    },{
+        "type" : "vehicle_part",
+        "id" : "external_water_dirty_tank",
+        "name" : "external dirty water tank (55 gal)",
+        "symbol" : "O",
+        "color" : "light_cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 160,
+        "size" : 825,
+        "fuel_type" : "water",
+        "item" : "55gal_drum",
+        "difficulty" : 1,
+        "location" : "structure",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
+        "breaks_into" : []
     },{
         "type" : "vehicle_part",
         "id" : "water_tank_barrel",
@@ -3690,6 +4036,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "mounted_m1918",
+        "name" : "mounted Browning Automatic Rifle",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m1918",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "m1918", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "m249",
         "name" : "mounted M249",
         "symbol" : "t",
@@ -3811,7 +4176,7 @@
         "range" : 12,
         "item" : "m2browning",
         "difficulty" : 5,
-        "size" : 1600,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -3887,7 +4252,7 @@
         "range" : 12,
         "item" : "m134",
         "difficulty" : 7,
-        "size" : 2000,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -3906,7 +4271,7 @@
         "range" : 12,
         "item" : "mark19",
         "difficulty" : 5,
-        "size" : 480,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4730,7 +5095,7 @@
         "range" : 12,
         "item" : "rm614_lmg",
         "difficulty" : 6,
-        "size" : 600,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
@@ -4750,7 +5115,7 @@
         "range" : 12,
         "item" : "rm298",
         "difficulty" : 6,
-        "size" : 1800,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
