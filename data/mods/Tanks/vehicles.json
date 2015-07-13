@@ -1,0 +1,1342 @@
+[
+    {
+        "type" : "vehicle",
+        "id" : "tank_atomic",
+        "name" : "Atomic Mini-Tank",
+        "blueprint" : [
+            ["ooooooo"],
+            ["|x--|||"],
+            ["+x+#---"],
+            ["|x--t||"],
+            ["ooooooo"]
+        ],
+        "parts" : [
+            {"x": -3, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -2, "part": "hdboard_vertical"},
+            {"x": -3, "y": -2, "part": "omnicam"},
+            {"x": -3, "y": -2, "part": "plating_military"},
+
+            {"x": -2, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -2, "part": "hdboard_vertical"},
+            {"x": -2, "y": -2, "part": "tread3"},
+            {"x": -2, "y": -2, "part": "plating_military"},
+
+            {"x": -1, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -2, "part": "hdboard_vertical"},
+            {"x": -1, "y": -2, "part": "tread3"},
+            {"x": -1, "y": -2, "part": "plating_military"},
+
+            {"x": 0, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -2, "part": "hdboard_vertical"},
+            {"x": 0, "y": -2, "part": "tread3"},
+            {"x": 0, "y": -2, "part": "plating_military"},
+
+            {"x": 1, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -2, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": -2, "part": "tread3"},
+            {"x": 1, "y": -2, "part": "plating_military"},
+
+            {"x": 2, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -2, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": -2, "part": "tread3"},
+            {"x": 2, "y": -2, "part": "plating_military"},
+
+            {"x": 3, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -2, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": -2, "part": "plating_military"},
+
+
+            {"x": -3, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -1, "part": "hdboard_horizontal"},
+            {"x": -3, "y": -1, "part": "plating_military"},
+
+            {"x": -2, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -1, "part": "trunk_floor"},
+            {"x": -2, "y": -1, "part": "minireactor"},
+            {"x": -2, "y": -1, "part": "hdroof"},
+            {"x": -2, "y": -1, "part": "plating_military"},
+
+            {"x": -1, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -1, "part": "hdboard_sw"},
+            {"x": -1, "y": -1, "part": "minireactor"},
+            {"x": -1, "y": -1, "part": "plating_military"},
+
+            {"x": 0, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -1, "part": "hdboard_vertical"},
+            {"x": 0, "y": -1, "part": "plating_military"},
+
+            {"x": 1, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -1, "part": "hdhalfboard_nw"},
+            {"x": 1, "y": -1, "part": "plating_military"},
+
+            {"x": 2, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": -1, "part": "headlight_reinforced"},
+            {"x": 2, "y": -1, "part": "omnicam"},
+            {"x": 2, "y": -1, "part": "plating_military"},
+
+            {"x": 3, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": -1, "part": "plating_military"},
+
+
+            {"x": -3, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 0, "part": "door_opaque"},
+            {"x": -3, "y": 0, "part": "hdroof"},
+            {"x": -3, "y": 0, "part": "plating_military"},
+
+            {"x": -2, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 0, "part": "trunk_floor"},
+            {"x": -2, "y": 0, "part": "storage_battery"},
+            {"x": -2, "y": 0, "part": "hdroof"},
+            {"x": -2, "y": 0, "part": "plating_military"},
+
+            {"x": -1, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 0, "part": "hdhatch"},
+            {"x": -1, "y": 0, "part": "storage_battery"},
+            {"x": -1, "y": 0, "part": "hdroof"},
+            {"x": -1, "y": 0, "part": "plating_military"},
+
+            {"x": 0, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "seat_nocargo"},
+            {"x": 0, "y": 0, "part": "seatbelt_heavyduty"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "cam_control"},
+            {"x": 0, "y": 0, "part": "mounted_tank_auto"},
+            {"x": 0, "y": 0, "part": "vehicle_clock"},
+            {"x": 0, "y": 0, "part": "hdroof"},
+            {"x": 0, "y": 0, "part": "plating_military"},
+
+            {"x": 1, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": 0, "part": "plating_military"},
+
+            {"x": 2, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 0, "part": "engine_electric_super"},
+            {"x": 2, "y": 0, "part": "storage_battery"},
+            {"x": 2, "y": 0, "part": "plating_military"},
+
+            {"x": 3, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 0, "part": "plating_military"},
+
+
+            {"x": -3, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 1, "part": "hdboard_horizontal"},
+            {"x": -3, "y": 1, "part": "plating_military"},
+
+            {"x": -2, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 1, "part": "trunk_floor"},
+            {"x": -2, "y": 1, "part": "minireactor"},
+            {"x": -2, "y": 1, "part": "hdroof"},
+            {"x": -2, "y": 1, "part": "plating_military"},
+
+            {"x": -1, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 1, "part": "hdboard_se"},
+            {"x": -1, "y": 1, "part": "minireactor"},
+            {"x": -1, "y": 1, "part": "plating_military"},
+
+            {"x": 0, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 1, "part": "hdboard_vertical"},
+            {"x": 0, "y": 1, "part": "plating_military"},
+
+            {"x": 1, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 1, "part": "hdhalfboard_ne"},
+            {"x": 1, "y": 1, "part": "turretframe"},
+            {"x": 1, "y": 1, "part": "am2browning"},
+            {"x": 1, "y": 1, "part": "plating_military"},
+
+            {"x": 2, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": 1, "part": "headlight_reinforced"},
+            {"x": 2, "y": 1, "part": "omnicam"},
+            {"x": 2, "y": 1, "part": "plating_military"},
+
+            {"x": 3, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": 1, "part": "plating_military"},
+
+
+            {"x": -3, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 2, "part": "hdboard_vertical"},
+            {"x": -3, "y": 2, "part": "omnicam"},
+            {"x": -3, "y": 2, "part": "plating_military"},
+
+            {"x": -2, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 2, "part": "hdboard_vertical"},
+            {"x": -2, "y": 2, "part": "tread3"},
+            {"x": -2, "y": 2, "part": "plating_military"},
+
+            {"x": -1, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 2, "part": "hdboard_vertical"},
+            {"x": -1, "y": 2, "part": "tread3"},
+            {"x": -1, "y": 2, "part": "plating_military"},
+
+            {"x": 0, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 2, "part": "hdboard_vertical"},
+            {"x": 0, "y": 2, "part": "tread3"},
+            {"x": 0, "y": 2, "part": "plating_military"},
+
+            {"x": 1, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 2, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": 2, "part": "tread3"},
+            {"x": 1, "y": 2, "part": "plating_military"},
+
+            {"x": 2, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 2, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 2, "part": "tread3"},
+            {"x": 2, "y": 2, "part": "plating_military"},
+
+            {"x": 3, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 2, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 2, "part": "plating_military"}
+        ],
+        "items" : [
+            {"x": -2, "y": -1, "chance": 60, "items": ["120mm_HEAT"]},
+            {"x": -2, "y": -1, "chance": 40, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -2, "y": -1, "chance": 20, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -2, "y": -1, "chance": 10, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -2, "y": -1, "chance": 5, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": -3, "y": 0, "chance": 100, "items": ["ear_plugs"]},
+
+            {"x": -2, "y": 0, "chance": 40, "items": ["plut_cell"]},
+            {"x": -2, "y": 0, "chance": 20, "items": ["plut_cell", "plut_cell"]},
+            {"x": -2, "y": 0, "chance": 10, "items": ["plut_cell", "plut_cell"]},
+            {"x": -2, "y": 0, "chance": 5, "items": ["plut_cell", "plut_cell", "plut_cell"]},
+
+            {"x": -1, "y": 0, "chance": 50, "items": ["120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 25, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 12, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 6, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": 0, "y": 0, "chance": 60, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 40, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 20, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 10, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 5, "items": ["120mm_HEAT"]},
+
+            {"x": -2, "y": 1, "chance": 60, "items": ["50bmg"]},
+            {"x": -2, "y": 1, "chance": 40, "items": ["50bmg", "50bmg"]},
+            {"x": -2, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": -2, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": -2, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
+
+            {"x": 1, "y": 1, "chance": 50, "items": ["50bmg"]},
+            {"x": 1, "y": 1, "chance": 40, "items": ["50bmg", "50bmg"]},
+            {"x": 1, "y": 1, "chance": 30, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": 1, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": 1, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]}
+        ]
+    },
+
+    {
+        "type" : "vehicle",
+        "id" : "tank_light",
+        "name" : "Light Tank",
+        "blueprint" : [
+            ["ooooooooo"],
+            ["|=.+#'|||"],
+            ["|x.--||||"],
+            ["+..+#----"],
+            ["|x.--||||"],
+            ["|=...+#||"],
+            ["ooooooooo"]
+        ],
+        "parts" : [
+            {"x": -4, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -3, "part": "hdboard_vertical"},
+            {"x": -4, "y": -3, "part": "omnicam"},
+            {"x": -4, "y": -3, "part": "plating_military"},
+
+            {"x": -3, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -3, "part": "hdboard_vertical"},
+            {"x": -3, "y": -3, "part": "tread3"},
+            {"x": -3, "y": -3, "part": "plating_military"},
+
+            {"x": -2, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -3, "part": "hdboard_vertical"},
+            {"x": -2, "y": -3, "part": "tread3"},
+            {"x": -2, "y": -3, "part": "plating_military"},
+
+            {"x": -1, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -3, "part": "hdboard_vertical"},
+            {"x": -1, "y": -3, "part": "tread3"},
+            {"x": -1, "y": -3, "part": "plating_military"},
+
+            {"x": 0, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -3, "part": "hdboard_vertical"},
+            {"x": 0, "y": -3, "part": "tread3"},
+            {"x": 0, "y": -3, "part": "plating_military"},
+
+            {"x": 1, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -3, "part": "hdboard_vertical"},
+            {"x": 1, "y": -3, "part": "tread3"},
+            {"x": 1, "y": -3, "part": "plating_military"},
+
+            {"x": 2, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -3, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": -3, "part": "tread3"},
+            {"x": 2, "y": -3, "part": "plating_military"},
+
+            {"x": 3, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -3, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": -3, "part": "tread3"},
+            {"x": 3, "y": -3, "part": "plating_military"},
+
+            {"x": 4, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -3, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": -3, "part": "plating_military"},
+
+
+            {"x": -4, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -2, "part": "hdboard_horizontal"},
+            {"x": -4, "y": -2, "part": "plating_military"},
+
+            {"x": -3, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -2, "part": "trunk"},
+            {"x": -3, "y": -2, "part": "diesel_tank"},
+            {"x": -3, "y": -2, "part": "hdroof"},
+            {"x": -3, "y": -2, "part": "plating_military"},
+
+            {"x": -2, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -2, "part": "aisle_vertical"},
+            {"x": -2, "y": -2, "part": "diesel_tank"},
+            {"x": -2, "y": -2, "part": "hdroof"},
+            {"x": -2, "y": -2, "part": "plating_military"},
+
+            {"x": -1, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -2, "part": "hdhatch"},
+            {"x": -1, "y": -2, "part": "storage_battery"},
+            {"x": -1, "y": -2, "part": "hdroof"},
+            {"x": -1, "y": -2, "part": "plating_military"},
+
+            {"x": 0, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -2, "part": "seat_nocargo"},
+            {"x": 0, "y": -2, "part": "seatbelt_heavyduty"},
+            {"x": 0, "y": -2, "part": "mounted_m240"},
+            {"x": 0, "y": -2, "part": "controls"},
+            {"x": 0, "y": -2, "part": "cam_control"},
+            {"x": 0, "y": -2, "part": "vehicle_clock"},
+            {"x": 0, "y": -2, "part": "horn_big"},
+            {"x": 0, "y": -2, "part": "hdroof"},
+            {"x": 0, "y": -2, "part": "plating_military"},
+
+            {"x": 1, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -2, "part": "reinforced_windshield"},
+            {"x": 1, "y": -2, "part": "plating_military"},
+
+            {"x": 2, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": -2, "part": "plating_military"},
+
+            {"x": 3, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": -2, "part": "headlight_reinforced"},
+            {"x": 3, "y": -2, "part": "omnicam"},
+            {"x": 3, "y": -2, "part": "plating_military"},
+
+            {"x": 4, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": -2, "part": "plating_military"},
+
+
+            {"x": -4, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -1, "part": "hdboard_horizontal"},
+            {"x": -4, "y": -1, "part": "plating_military"},
+
+            {"x": -3, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -1, "part": "trunk_floor"},
+            {"x": -3, "y": -1, "part": "diesel_tank"},
+            {"x": -3, "y": -1, "part": "hdroof"},
+            {"x": -3, "y": -1, "part": "plating_military"},
+
+            {"x": -2, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -1, "part": "aisle_vertical"},
+            {"x": -2, "y": -1, "part": "diesel_tank"},
+            {"x": -2, "y": -1, "part": "hdroof"},
+            {"x": -2, "y": -1, "part": "plating_military"},
+
+            {"x": -1, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -1, "part": "hdboard_sw"},
+            {"x": -1, "y": -1, "part": "storage_battery"},
+            {"x": -1, "y": -1, "part": "plating_military"},
+
+            {"x": 0, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -1, "part": "hdboard_vertical"},
+            {"x": 0, "y": -1, "part": "plating_military"},
+
+            {"x": 1, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -1, "part": "hdboard_nw"},
+            {"x": 1, "y": -1, "part": "plating_military"},
+
+            {"x": 2, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": -1, "part": "plating_military"},
+
+            {"x": 3, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": -1, "part": "plating_military"},
+
+            {"x": 4, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": -1, "part": "plating_military"},
+
+
+            {"x": -4, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 0, "part": "door_opaque"},
+            {"x": -4, "y": 0, "part": "hdroof"},
+            {"x": -4, "y": 0, "part": "plating_military"},
+
+            {"x": -3, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 0, "part": "aisle_vertical"},
+            {"x": -3, "y": 0, "part": "hdroof"},
+            {"x": -3, "y": 0, "part": "plating_military"},
+
+            {"x": -2, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 0, "part": "aisle_vertical"},
+            {"x": -2, "y": 0, "part": "hdroof"},
+            {"x": -2, "y": 0, "part": "plating_military"},
+
+            {"x": -1, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 0, "part": "hdhatch"},
+            {"x": -1, "y": 0, "part": "hdroof"},
+            {"x": -1, "y": 0, "part": "plating_military"},
+
+            {"x": 0, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "seat_nocargo"},
+            {"x": 0, "y": 0, "part": "seatbelt_heavyduty"},
+            {"x": 0, "y": 0, "part": "cam_control"},
+            {"x": 0, "y": 0, "part": "mounted_tank_auto"},
+            {"x": 0, "y": 0, "part": "vehicle_clock"},
+            {"x": 0, "y": 0, "part": "hdroof"},
+            {"x": 0, "y": 0, "part": "plating_military"},
+
+            {"x": 1, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": 0, "part": "plating_military"},
+
+            {"x": 2, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 0, "part": "engine_turbine"},
+            {"x": 2, "y": 0, "part": "alternator_truck"},
+            {"x": 2, "y": 0, "part": "storage_battery"},
+            {"x": 2, "y": 0, "part": "plating_military"},
+
+            {"x": 3, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 0, "part": "plating_military"},
+
+            {"x": 4, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": 0, "part": "plating_military"},
+
+
+            {"x": -4, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 1, "part": "hdboard_horizontal"},
+            {"x": -4, "y": 1, "part": "plating_military"},
+
+            {"x": -3, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 1, "part": "trunk_floor"},
+            {"x": -3, "y": 1, "part": "diesel_tank"},
+            {"x": -3, "y": 1, "part": "hdroof"},
+            {"x": -3, "y": 1, "part": "plating_military"},
+
+            {"x": -2, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 1, "part": "aisle_vertical"},
+            {"x": -2, "y": 1, "part": "diesel_tank"},
+            {"x": -2, "y": 1, "part": "hdroof"},
+            {"x": -2, "y": 1, "part": "plating_military"},
+
+            {"x": -1, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 1, "part": "hdboard_se"},
+            {"x": -1, "y": 1, "part": "storage_battery"},
+            {"x": -1, "y": 1, "part": "plating_military"},
+
+            {"x": 0, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 1, "part": "hdboard_vertical"},
+            {"x": 0, "y": 1, "part": "plating_military"},
+
+            {"x": 1, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 1, "part": "hdboard_ne"},
+            {"x": 1, "y": 1, "part": "plating_military"},
+
+            {"x": 2, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": 1, "part": "plating_military"},
+
+            {"x": 3, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": 1, "part": "plating_military"},
+
+            {"x": 4, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": 1, "part": "plating_military"},
+
+
+            {"x": -4, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 2, "part": "hdboard_horizontal"},
+            {"x": -4, "y": 2, "part": "plating_military"},
+
+            {"x": -3, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 2, "part": "trunk"},
+            {"x": -3, "y": 2, "part": "diesel_tank"},
+            {"x": -3, "y": 2, "part": "hdroof"},
+            {"x": -3, "y": 2, "part": "plating_military"},
+
+            {"x": -2, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 2, "part": "aisle_vertical"},
+            {"x": -2, "y": 2, "part": "diesel_tank"},
+            {"x": -2, "y": 2, "part": "hdroof"},
+            {"x": -2, "y": 2, "part": "plating_military"},
+
+            {"x": -1, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 2, "part": "aisle_vertical"},
+            {"x": -1, "y": 2, "part": "storage_battery"},
+            {"x": -1, "y": 2, "part": "hdroof"},
+            {"x": -1, "y": 2, "part": "plating_military"},
+
+            {"x": 0, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 2, "part": "aisle_vertical"},
+            {"x": 0, "y": 2, "part": "hdroof"},
+            {"x": 0, "y": 2, "part": "plating_military"},
+
+            {"x": 1, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 2, "part": "hdhatch"},
+            {"x": 1, "y": 2, "part": "hdroof"},
+            {"x": 1, "y": 2, "part": "plating_military"},
+
+            {"x": 2, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 2, "part": "seat_nocargo"},
+            {"x": 2, "y": 2, "part": "seatbelt_heavyduty"},
+            {"x": 2, "y": 2, "part": "mounted_browning"},
+            {"x": 2, "y": 2, "part": "hdroof"},
+            {"x": 2, "y": 2, "part": "plating_military"},
+
+            {"x": 3, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": 2, "part": "headlight_reinforced"},
+            {"x": 3, "y": 2, "part": "omnicam"},
+            {"x": 3, "y": 2, "part": "plating_military"},
+
+            {"x": 4, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": 2, "part": "plating_military"},
+
+
+            {"x": -4, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 3, "part": "hdboard_vertical"},
+            {"x": -4, "y": 3, "part": "omnicam"},
+            {"x": -4, "y": 3, "part": "plating_military"},
+
+            {"x": -3, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 3, "part": "hdboard_vertical"},
+            {"x": -3, "y": 3, "part": "tread3"},
+            {"x": -3, "y": 3, "part": "plating_military"},
+
+            {"x": -2, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 3, "part": "hdboard_vertical"},
+            {"x": -2, "y": 3, "part": "tread3"},
+            {"x": -2, "y": 3, "part": "plating_military"},
+
+            {"x": -1, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 3, "part": "hdboard_vertical"},
+            {"x": -1, "y": 3, "part": "tread3"},
+            {"x": -1, "y": 3, "part": "plating_military"},
+
+            {"x": 0, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 3, "part": "hdboard_vertical"},
+            {"x": 0, "y": 3, "part": "tread3"},
+            {"x": 0, "y": 3, "part": "plating_military"},
+
+            {"x": 1, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 3, "part": "hdboard_vertical"},
+            {"x": 1, "y": 3, "part": "tread3"},
+            {"x": 1, "y": 3, "part": "plating_military"},
+
+            {"x": 2, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 3, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 3, "part": "tread3"},
+            {"x": 2, "y": 3, "part": "plating_military"},
+
+            {"x": 3, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 3, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 3, "part": "tread3"},
+            {"x": 3, "y": 3, "part": "plating_military"},
+
+            {"x": 4, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 3, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": 3, "part": "plating_military"}
+        ],
+        "items" : [
+            {"x": -3, "y": -2, "chance": 50, "item_groups": ["fuel_diesel"]},
+            {"x": -3, "y": -2, "chance": 25, "item_groups": ["fuel_diesel", "fuel_diesel"]},
+            {"x": -3, "y": -2, "chance": 12, "item_groups": ["fuel_diesel", "fuel_diesel"]},
+
+            {"x": -1, "y": -2, "chance": 50, "items": ["762_51"]},
+            {"x": -1, "y": -2, "chance": 25, "items": ["762_51", "762_51"]},
+            {"x": -1, "y": -2, "chance": 12, "items": ["762_51", "762_51", "762_51"]},
+            {"x": -1, "y": -2, "chance": 6, "items": ["762_51", "762_51", "762_51", "762_51"]},
+
+            {"x": 0, "y": -2, "chance": 70, "items": ["762_51"]},
+            {"x": 0, "y": -2, "chance": 50, "items": ["762_51", "762_51"]},
+            {"x": 0, "y": -2, "chance": 30, "items": ["762_51", "762_51", "762_51"]},
+            {"x": 0, "y": -2, "chance": 10, "items": ["762_51", "762_51", "762_51", "762_51"]},
+
+            {"x": -3, "y": -1, "chance": 60, "items": ["762_51"]},
+            {"x": -3, "y": -1, "chance": 40, "items": ["762_51", "762_51"]},
+            {"x": -3, "y": -1, "chance": 20, "items": ["762_51", "762_51", "762_51"]},
+            {"x": -3, "y": -1, "chance": 10, "items": ["762_51", "762_51", "762_51", "762_51"]},
+            {"x": -3, "y": -1, "chance": 5, "items": ["762_51", "762_51", "762_51", "762_51", "762_51"]},
+
+            {"x": -4, "y": 0, "chance": 100, "items": ["ear_plugs"]},
+            {"x": -4, "y": 0, "chance": 50, "items": ["ear_plugs"]},
+            {"x": -4, "y": 0, "chance": 25, "items": ["ear_plugs"]},
+
+            {"x": -1, "y": 0, "chance": 50, "items": ["120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 25, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 12, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 6, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": 0, "y": 0, "chance": 60, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 40, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 20, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 10, "items": ["120mm_HEAT"]},
+            {"x": 0, "y": 0, "chance": 5, "items": ["120mm_HEAT"]},
+
+            {"x": -3, "y": 1, "chance": 60, "items": ["50bmg"]},
+            {"x": -3, "y": 1, "chance": 40, "items": ["50bmg", "50bmg"]},
+            {"x": -3, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": -3, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": -3, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
+
+            {"x": -3, "y": 2, "chance": 60, "items": ["120mm_HEAT"]},
+            {"x": -3, "y": 2, "chance": 50, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -3, "y": 2, "chance": 40, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -3, "y": 2, "chance": 20, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -3, "y": 2, "chance": 10, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -3, "y": 2, "chance": 5, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": 1, "y": 2, "chance": 50, "items": ["50bmg"]},
+            {"x": 1, "y": 2, "chance": 25, "items": ["50bmg", "50bmg"]},
+            {"x": 1, "y": 2, "chance": 12, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": 1, "y": 2, "chance": 6, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+
+            {"x": 2, "y": 2, "chance": 50, "items": ["50bmg"]},
+            {"x": 2, "y": 2, "chance": 40, "items": ["50bmg", "50bmg"]},
+            {"x": 2, "y": 2, "chance": 30, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": 2, "y": 2, "chance": 20, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": 2, "y": 2, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
+        ]
+    },
+
+    {
+        "type" : "vehicle",
+        "id" : "tank_medium",
+        "name" : "Main Battle Tank",
+        "blueprint" : [
+            ["oooooooooooo"],
+            ["------------"],
+            ["||=..+#'||||"],
+            ["||..---|||||"],
+            ["|=.--.--||||"],
+            ["+..+.x#-----"],
+            ["|=.--#--||||"],
+            ["||..---|||||"],
+            ["||=....+#|||"],
+            ["------------"],
+            ["oooooooooooo"]
+        ],
+        "parts" : [
+            {"x": -6, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": -6, "y": -5, "part": "plating_military"},
+
+            {"x": -5, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": -5, "y": -5, "part": "tread3"},
+            {"x": -5, "y": -5, "part": "plating_military"},
+
+            {"x": -4, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": -4, "y": -5, "part": "tread3"},
+            {"x": -4, "y": -5, "part": "plating_military"},
+
+            {"x": -3, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": -3, "y": -5, "part": "tread3"},
+            {"x": -3, "y": -5, "part": "plating_military"},
+
+            {"x": -2, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": -2, "y": -5, "part": "tread3"},
+            {"x": -2, "y": -5, "part": "plating_military"},
+
+            {"x": -1, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": -1, "y": -5, "part": "tread3"},
+            {"x": -1, "y": -5, "part": "plating_military"},
+
+            {"x": 0, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": 0, "y": -5, "part": "tread3"},
+            {"x": 0, "y": -5, "part": "plating_military"},
+
+            {"x": 1, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": -5, "part": "tread3"},
+            {"x": 1, "y": -5, "part": "plating_military"},
+
+            {"x": 2, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": -5, "part": "tread3"},
+            {"x": 2, "y": -5, "part": "plating_military"},
+
+            {"x": 3, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": -5, "part": "tread3"},
+            {"x": 3, "y": -5, "part": "plating_military"},
+
+            {"x": 4, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": -5, "part": "tread3"},
+            {"x": 4, "y": -5, "part": "plating_military"},
+
+            {"x": 5, "y": -5, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": -5, "part": "hdhalfboard_vertical"},
+            {"x": 5, "y": -5, "part": "plating_military"},
+
+
+            {"x": -6, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": -4, "part": "hdhalfboard_vertical"},
+            {"x": -6, "y": -4, "part": "plating_military"},
+
+            {"x": -5, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": -4, "part": "hdboard_vertical"},
+            {"x": -5, "y": -4, "part": "omnicam"},
+            {"x": -5, "y": -4, "part": "plating_military"},
+
+            {"x": -4, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -4, "part": "hdboard_vertical"},
+            {"x": -4, "y": -4, "part": "plating_military"},
+
+            {"x": -3, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -4, "part": "hdboard_vertical"},
+            {"x": -3, "y": -4, "part": "plating_military"},
+
+            {"x": -2, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -4, "part": "hdboard_vertical"},
+            {"x": -2, "y": -4, "part": "plating_military"},
+
+            {"x": -1, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -4, "part": "hdboard_vertical"},
+            {"x": -1, "y": -4, "part": "plating_military"},
+
+            {"x": 0, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -4, "part": "hdboard_vertical"},
+            {"x": 0, "y": -4, "part": "plating_military"},
+
+            {"x": 1, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -4, "part": "hdboard_vertical"},
+            {"x": 1, "y": -4, "part": "plating_military"},
+
+            {"x": 2, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -4, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": -4, "part": "plating_military"},
+
+            {"x": 3, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -4, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": -4, "part": "plating_military"},
+
+            {"x": 4, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -4, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": -4, "part": "headlight_reinforced"},
+            {"x": 4, "y": -4, "part": "omnicam"},
+            {"x": 4, "y": -4, "part": "plating_military"},
+
+            {"x": 5, "y": -4, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": -4, "part": "hdhalfboard_vertical"},
+            {"x": 5, "y": -4, "part": "plating_military"},
+
+
+            {"x": -6, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": -3, "part": "hdhalfboard_horizontal"},
+            {"x": -6, "y": -3, "part": "plating_military"},
+
+            {"x": -5, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": -3, "part": "hdboard_horizontal"},
+            {"x": -5, "y": -3, "part": "hdroof"},
+            {"x": -5, "y": -3, "part": "plating_military"},
+
+            {"x": -4, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -3, "part": "trunk"},
+            {"x": -4, "y": -3, "part": "diesel_tank"},
+            {"x": -4, "y": -3, "part": "hdroof"},
+            {"x": -4, "y": -3, "part": "plating_military"},
+
+            {"x": -3, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -3, "part": "aisle_vertical"},
+            {"x": -3, "y": -3, "part": "diesel_tank"},
+            {"x": -3, "y": -3, "part": "hdroof"},
+            {"x": -3, "y": -3, "part": "plating_military"},
+
+            {"x": -2, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -3, "part": "aisle_vertical"},
+            {"x": -2, "y": -3, "part": "storage_battery"},
+            {"x": -2, "y": -3, "part": "hdroof"},
+            {"x": -2, "y": -3, "part": "plating_military"},
+
+            {"x": -1, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -3, "part": "hdhatch"},
+            {"x": -1, "y": -3, "part": "hdroof"},
+            {"x": -1, "y": -3, "part": "plating_military"},
+
+            {"x": 0, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -3, "part": "seat_nocargo"},
+            {"x": 0, "y": -3, "part": "seatbelt_heavyduty"},
+            {"x": 0, "y": -3, "part": "mounted_m240"},
+            {"x": 0, "y": -3, "part": "controls"},
+            {"x": 0, "y": -3, "part": "cam_control"},
+            {"x": 0, "y": -3, "part": "vehicle_clock"},
+            {"x": 0, "y": -3, "part": "horn_big"},
+            {"x": 0, "y": -3, "part": "hdroof"},
+            {"x": 0, "y": -3, "part": "plating_military"},
+
+            {"x": 1, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -3, "part": "reinforced_windshield"},
+            {"x": 1, "y": -3, "part": "plating_military"},
+
+            {"x": 2, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -3, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": -3, "part": "plating_military"},
+
+            {"x": 3, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -3, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": -3, "part": "plating_military"},
+
+            {"x": 4, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -3, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": -3, "part": "plating_military"},
+
+            {"x": 5, "y": -3, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": -3, "part": "hdhalfboard_horizontal"},
+            {"x": 5, "y": -3, "part": "plating_military"},
+
+
+            {"x": -6, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": -6, "y": -2, "part": "plating_military"},
+
+            {"x": -5, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": -2, "part": "hdboard_horizontal"},
+            {"x": -5, "y": -2, "part": "hdroof"},
+            {"x": -5, "y": -2, "part": "plating_military"},
+
+            {"x": -4, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -2, "part": "trunk_floor"},
+            {"x": -4, "y": -2, "part": "diesel_tank"},
+            {"x": -4, "y": -2, "part": "hdroof"},
+            {"x": -4, "y": -2, "part": "plating_military"},
+
+            {"x": -3, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -2, "part": "aisle_vertical"},
+            {"x": -3, "y": -2, "part": "diesel_tank"},
+            {"x": -3, "y": -2, "part": "hdroof"},
+            {"x": -3, "y": -2, "part": "plating_military"},
+
+            {"x": -2, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -2, "part": "hdboard_sw"},
+            {"x": -2, "y": -2, "part": "storage_battery"},
+            {"x": -2, "y": -2, "part": "plating_military"},
+
+            {"x": -1, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -2, "part": "hdboard_vertical"},
+            {"x": -1, "y": -2, "part": "plating_military"},
+
+            {"x": 0, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -2, "part": "hdboard_nw"},
+            {"x": 0, "y": -2, "part": "plating_military"},
+
+            {"x": 1, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -2, "part": "hdboard_horizontal"},
+            {"x": 1, "y": -2, "part": "plating_military"},
+
+            {"x": 2, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": -2, "part": "plating_military"},
+
+            {"x": 3, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": -2, "part": "plating_military"},
+
+            {"x": 4, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": -2, "part": "plating_military"},
+
+            {"x": 5, "y": -2, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": -2, "part": "hdhalfboard_horizontal"},
+            {"x": 5, "y": -2, "part": "plating_military"},
+
+
+            {"x": -6, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": -6, "y": -1, "part": "plating_military"},
+
+            {"x": -5, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": -1, "part": "hdboard_horizontal"},
+            {"x": -5, "y": -1, "part": "hdroof"},
+            {"x": -5, "y": -1, "part": "plating_military"},
+
+            {"x": -4, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": -1, "part": "aisle_vertical"},
+            {"x": -4, "y": -1, "part": "hdroof"},
+            {"x": -4, "y": -1, "part": "plating_military"},
+
+            {"x": -3, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": -1, "part": "hdboard_sw"},
+            {"x": -3, "y": -1, "part": "plating_military"},
+
+            {"x": -2, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": -1, "part": "hdboard_ne"},
+            {"x": -2, "y": -1, "part": "plating_military"},
+
+            {"x": -1, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": -1, "part": "aisle_vertical"},
+            {"x": -1, "y": -1, "part": "hdroof"},
+            {"x": -1, "y": -1, "part": "plating_military"},
+
+            {"x": 0, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": -1, "part": "hdboard_se"},
+            {"x": 0, "y": -1, "part": "plating_military"},
+
+            {"x": 1, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": -1, "part": "hdboard_nw"},
+            {"x": 1, "y": -1, "part": "plating_military"},
+
+            {"x": 2, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": -1, "part": "plating_military"},
+
+            {"x": 3, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": -1, "part": "plating_military"},
+
+            {"x": 4, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": -1, "part": "plating_military"},
+
+            {"x": 5, "y": -1, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": -1, "part": "hdhalfboard_horizontal"},
+            {"x": 5, "y": -1, "part": "plating_military"},
+
+
+            {"x": -6, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": 0, "part": "aisle_vertical"},
+            {"x": -6, "y": 0, "part": "hdroof"},
+            {"x": -6, "y": 0, "part": "plating_military"},
+
+            {"x": -5, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": 0, "part": "door_opaque"},
+            {"x": -5, "y": 0, "part": "hdroof"},
+            {"x": -5, "y": 0, "part": "plating_military"},
+
+            {"x": -4, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 0, "part": "aisle_vertical"},
+            {"x": -4, "y": 0, "part": "hdroof"},
+            {"x": -4, "y": 0, "part": "plating_military"},
+
+            {"x": -3, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 0, "part": "hdhatch"},
+            {"x": -3, "y": 0, "part": "hdroof"},
+            {"x": -3, "y": 0, "part": "plating_military"},
+
+            {"x": -2, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 0, "part": "aisle_vertical"},
+            {"x": -2, "y": 0, "part": "hdroof"},
+            {"x": -2, "y": 0, "part": "plating_military"},
+
+            {"x": -1, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 0, "part": "trunk_floor"},
+            {"x": -1, "y": 0, "part": "hdroof"},
+            {"x": -1, "y": 0, "part": "plating_military"},
+
+            {"x": 0, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "seat_nocargo"},
+            {"x": 0, "y": 0, "part": "seatbelt_heavyduty"},
+            {"x": 0, "y": 0, "part": "cam_control"},
+            {"x": 0, "y": 0, "part": "mounted_tank_manual"},
+            {"x": 0, "y": 0, "part": "vehicle_clock"},
+            {"x": 0, "y": 0, "part": "hdroof"},
+            {"x": 0, "y": 0, "part": "plating_military"},
+
+            {"x": 1, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": 0, "part": "plating_military"},
+
+            {"x": 2, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 0, "part": "engine_turbine"},
+            {"x": 2, "y": 0, "part": "alternator_truck"},
+            {"x": 2, "y": 0, "part": "storage_battery"},
+            {"x": 2, "y": 0, "part": "plating_military"},
+
+            {"x": 3, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 0, "part": "plating_military"},
+
+            {"x": 4, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": 0, "part": "plating_military"},
+
+            {"x": 5, "y": 0, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": 0, "part": "hdhalfboard_vertical"},
+            {"x": 5, "y": 0, "part": "plating_military"},
+
+
+            {"x": -6, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": -6, "y": 1, "part": "plating_military"},
+
+            {"x": -5, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": 1, "part": "hdboard_horizontal"},
+            {"x": -5, "y": 1, "part": "hdroof"},
+            {"x": -5, "y": 1, "part": "plating_military"},
+
+            {"x": -4, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 1, "part": "aisle_vertical"},
+            {"x": -4, "y": 1, "part": "hdroof"},
+            {"x": -4, "y": 1, "part": "plating_military"},
+
+            {"x": -3, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 1, "part": "hdboard_se"},
+            {"x": -3, "y": 1, "part": "plating_military"},
+
+            {"x": -2, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 1, "part": "hdboard_nw"},
+            {"x": -2, "y": 1, "part": "plating_military"},
+
+            {"x": -1, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 1, "part": "seat_nocargo"},
+            {"x": -1, "y": 1, "part": "seatbelt_heavyduty"},
+            {"x": -1, "y": 1, "part": "hdroof"},
+            {"x": -1, "y": 1, "part": "plating_military"},
+
+            {"x": 0, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 1, "part": "hdboard_sw"},
+            {"x": 0, "y": 1, "part": "plating_military"},
+
+            {"x": 1, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 1, "part": "hdboard_ne"},
+            {"x": 1, "y": 1, "part": "plating_military"},
+
+            {"x": 2, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": 1, "part": "plating_military"},
+
+            {"x": 3, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": 1, "part": "plating_military"},
+
+            {"x": 4, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": 1, "part": "plating_military"},
+
+            {"x": 5, "y": 1, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": 1, "part": "hdhalfboard_horizontal"},
+            {"x": 5, "y": 1, "part": "plating_military"},
+
+
+            {"x": -6, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": -6, "y": 2, "part": "plating_military"},
+
+            {"x": -5, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": 2, "part": "hdboard_horizontal"},
+            {"x": -5, "y": 2, "part": "hdroof"},
+            {"x": -5, "y": 2, "part": "plating_military"},
+
+            {"x": -4, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 2, "part": "trunk_floor"},
+            {"x": -4, "y": 2, "part": "diesel_tank"},
+            {"x": -4, "y": 2, "part": "hdroof"},
+            {"x": -4, "y": 2, "part": "plating_military"},
+
+            {"x": -3, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 2, "part": "aisle_vertical"},
+            {"x": -3, "y": 2, "part": "diesel_tank"},
+            {"x": -3, "y": 2, "part": "hdroof"},
+            {"x": -3, "y": 2, "part": "plating_military"},
+
+            {"x": -2, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 2, "part": "hdboard_se"},
+            {"x": -2, "y": 2, "part": "storage_battery"},
+            {"x": -2, "y": 2, "part": "plating_military"},
+
+            {"x": -1, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 2, "part": "hdboard_vertical"},
+            {"x": -1, "y": 2, "part": "plating_military"},
+
+            {"x": 0, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 2, "part": "hdboard_ne"},
+            {"x": 0, "y": 2, "part": "plating_military"},
+
+            {"x": 1, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 2, "part": "hdboard_horizontal"},
+            {"x": 1, "y": 2, "part": "plating_military"},
+
+            {"x": 2, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": 2, "y": 2, "part": "plating_military"},
+
+            {"x": 3, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": 2, "part": "plating_military"},
+
+            {"x": 4, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": 2, "part": "plating_military"},
+
+            {"x": 5, "y": 2, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": 2, "part": "hdhalfboard_horizontal"},
+            {"x": 5, "y": 2, "part": "plating_military"},
+
+
+            {"x": -6, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": 3, "part": "hdhalfboard_horizontal"},
+            {"x": -6, "y": 3, "part": "plating_military"},
+
+            {"x": -5, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": 3, "part": "hdboard_horizontal"},
+            {"x": -5, "y": 3, "part": "hdroof"},
+            {"x": -5, "y": 3, "part": "plating_military"},
+
+            {"x": -4, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 3, "part": "trunk"},
+            {"x": -4, "y": 3, "part": "diesel_tank"},
+            {"x": -4, "y": 3, "part": "hdroof"},
+            {"x": -4, "y": 3, "part": "plating_military"},
+
+            {"x": -3, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 3, "part": "aisle_vertical"},
+            {"x": -3, "y": 3, "part": "diesel_tank"},
+            {"x": -3, "y": 3, "part": "hdroof"},
+            {"x": -3, "y": 3, "part": "plating_military"},
+
+            {"x": -2, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 3, "part": "aisle_vertical"},
+            {"x": -2, "y": 3, "part": "storage_battery"},
+            {"x": -2, "y": 3, "part": "hdroof"},
+            {"x": -2, "y": 3, "part": "plating_military"},
+
+            {"x": -1, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 3, "part": "aisle_vertical"},
+            {"x": -1, "y": 3, "part": "hdroof"},
+            {"x": -1, "y": 3, "part": "plating_military"},
+
+            {"x": 0, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 3, "part": "aisle_vertical"},
+            {"x": 0, "y": 3, "part": "hdroof"},
+            {"x": 0, "y": 3, "part": "plating_military"},
+
+            {"x": 1, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 3, "part": "hdhatch"},
+            {"x": 1, "y": 3, "part": "hdroof"},
+            {"x": 1, "y": 3, "part": "plating_military"},
+
+            {"x": 2, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 3, "part": "seat_nocargo"},
+            {"x": 2, "y": 3, "part": "seatbelt_heavyduty"},
+            {"x": 2, "y": 3, "part": "mounted_browning"},
+            {"x": 2, "y": 3, "part": "hdroof"},
+            {"x": 2, "y": 3, "part": "plating_military"},
+
+            {"x": 3, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 3, "part": "hdhalfboard_horizontal"},
+            {"x": 3, "y": 3, "part": "plating_military"},
+
+            {"x": 4, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 3, "part": "hdhalfboard_horizontal"},
+            {"x": 4, "y": 3, "part": "plating_military"},
+
+            {"x": 5, "y": 3, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": 3, "part": "hdhalfboard_horizontal"},
+            {"x": 5, "y": 3, "part": "plating_military"},
+
+
+            {"x": -6, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": 4, "part": "hdhalfboard_vertical"},
+            {"x": -6, "y": 4, "part": "plating_military"},
+
+            {"x": -5, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": 4, "part": "omnicam"},
+            {"x": -5, "y": 4, "part": "hdboard_vertical"},
+            {"x": -5, "y": 4, "part": "plating_military"},
+
+            {"x": -4, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 4, "part": "hdboard_vertical"},
+            {"x": -4, "y": 4, "part": "plating_military"},
+
+            {"x": -3, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 4, "part": "hdboard_vertical"},
+            {"x": -3, "y": 4, "part": "plating_military"},
+
+            {"x": -2, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 4, "part": "hdboard_vertical"},
+            {"x": -2, "y": 4, "part": "plating_military"},
+
+            {"x": -1, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 4, "part": "hdboard_vertical"},
+            {"x": -1, "y": 4, "part": "plating_military"},
+
+            {"x": 0, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 4, "part": "hdboard_vertical"},
+            {"x": 0, "y": 4, "part": "plating_military"},
+
+            {"x": 1, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 4, "part": "hdboard_vertical"},
+            {"x": 1, "y": 4, "part": "plating_military"},
+
+            {"x": 2, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 4, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 4, "part": "plating_military"},
+
+            {"x": 3, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 4, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 4, "part": "plating_military"},
+
+            {"x": 4, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 4, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": 4, "part": "headlight_reinforced"},
+            {"x": 4, "y": 4, "part": "omnicam"},
+            {"x": 4, "y": 4, "part": "plating_military"},
+
+            {"x": 5, "y": 4, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": 4, "part": "hdhalfboard_vertical"},
+            {"x": 5, "y": 4, "part": "plating_military"},
+
+
+            {"x": -6, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": -6, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": -6, "y": 5, "part": "plating_military"},
+
+            {"x": -5, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": -5, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": -5, "y": 5, "part": "tread3"},
+            {"x": -5, "y": 5, "part": "plating_military"},
+
+            {"x": -4, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": -4, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": -4, "y": 5, "part": "tread3"},
+            {"x": -4, "y": 5, "part": "plating_military"},
+
+            {"x": -3, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": -3, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": -3, "y": 5, "part": "tread3"},
+            {"x": -3, "y": 5, "part": "plating_military"},
+
+            {"x": -2, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": -2, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": -2, "y": 5, "part": "tread3"},
+            {"x": -2, "y": 5, "part": "plating_military"},
+
+            {"x": -1, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": -1, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": -1, "y": 5, "part": "tread3"},
+            {"x": -1, "y": 5, "part": "plating_military"},
+
+            {"x": 0, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": 0, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": 0, "y": 5, "part": "tread3"},
+            {"x": 0, "y": 5, "part": "plating_military"},
+
+            {"x": 1, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": 1, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": 1, "y": 5, "part": "tread3"},
+            {"x": 1, "y": 5, "part": "plating_military"},
+
+            {"x": 2, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": 2, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": 2, "y": 5, "part": "tread3"},
+            {"x": 2, "y": 5, "part": "plating_military"},
+
+            {"x": 3, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": 3, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": 3, "y": 5, "part": "tread3"},
+            {"x": 3, "y": 5, "part": "plating_military"},
+
+            {"x": 4, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": 4, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": 4, "y": 5, "part": "tread3"},
+            {"x": 4, "y": 5, "part": "plating_military"},
+
+            {"x": 5, "y": 5, "part": "hdframe_vertical_2"},
+            {"x": 5, "y": 5, "part": "hdhalfboard_vertical"},
+            {"x": 5, "y": 5, "part": "plating_military"}
+        ],
+        "items" : [
+            {"x": -4, "y": -3, "chance": 50, "item_groups": ["fuel_diesel"]},
+            {"x": -4, "y": -3, "chance": 25, "item_groups": ["fuel_diesel", "fuel_diesel"]},
+            {"x": -4, "y": -3, "chance": 12, "item_groups": ["fuel_diesel", "fuel_diesel"]},
+
+
+            {"x": -1, "y": -3, "chance": 50, "items": ["762_51"]},
+            {"x": -1, "y": -3, "chance": 25, "items": ["762_51", "762_51"]},
+            {"x": -1, "y": -3, "chance": 12, "items": ["762_51", "762_51", "762_51"]},
+            {"x": -1, "y": -3, "chance": 6, "items": ["762_51", "762_51", "762_51", "762_51"]},
+
+            {"x": 0, "y": -3, "chance": 70, "items": ["762_51"]},
+            {"x": 0, "y": -3, "chance": 50, "items": ["762_51", "762_51"]},
+            {"x": 0, "y": -3, "chance": 30, "items": ["762_51", "762_51", "762_51"]},
+            {"x": 0, "y": -3, "chance": 10, "items": ["762_51", "762_51", "762_51", "762_51"]},
+
+            {"x": -4, "y": -2, "chance": 60, "items": ["762_51"]},
+            {"x": -4, "y": -2, "chance": 40, "items": ["762_51", "762_51"]},
+            {"x": -4, "y": -2, "chance": 20, "items": ["762_51", "762_51", "762_51"]},
+            {"x": -4, "y": -2, "chance": 10, "items": ["762_51", "762_51", "762_51", "762_51"]},
+            {"x": -4, "y": -2, "chance": 5, "items": ["762_51", "762_51", "762_51", "762_51", "762_51"]},
+
+            {"x": -5, "y": 0, "chance": 100, "items": ["ear_plugs"]},
+            {"x": -5, "y": 0, "chance": 50, "items": ["ear_plugs"]},
+            {"x": -5, "y": 0, "chance": 25, "items": ["ear_plugs"]},
+            {"x": -5, "y": 0, "chance": 12, "items": ["ear_plugs"]},
+
+            {"x": -3, "y": 0, "chance": 50, "items": ["120mm_HEAT"]},
+            {"x": -3, "y": 0, "chance": 25, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -3, "y": 0, "chance": 12, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -3, "y": 0, "chance": 6, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": -1, "y": 0, "chance": 60, "items": ["120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 40, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 20, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 10, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -1, "y": 0, "chance": 5, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": 0, "y": 0, "chance": 60, "items": ["120mm_HEAT"]},
+
+            {"x": -4, "y": 2, "chance": 60, "items": ["50bmg"]},
+            {"x": -4, "y": 2, "chance": 40, "items": ["50bmg", "50bmg"]},
+            {"x": -4, "y": 2, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": -4, "y": 2, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": -4, "y": 2, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
+
+            {"x": -4, "y": 3, "chance": 60, "items": ["120mm_HEAT"]},
+            {"x": -4, "y": 3, "chance": 50, "items": ["120mm_HEAT", "120mm_HEAT"]},
+            {"x": -4, "y": 3, "chance": 40, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -4, "y": 3, "chance": 30, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -4, "y": 3, "chance": 20, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+            {"x": -4, "y": 3, "chance": 10, "items": ["120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT", "120mm_HEAT"]},
+
+            {"x": 1, "y": 3, "chance": 50, "items": ["50bmg"]},
+            {"x": 1, "y": 3, "chance": 25, "items": ["50bmg", "50bmg"]},
+            {"x": 1, "y": 3, "chance": 12, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": 1, "y": 3, "chance": 6, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
+
+            {"x": 2, "y": 3, "chance": 50, "items": ["50bmg"]},
+            {"x": 2, "y": 3, "chance": 40, "items": ["50bmg", "50bmg"]},
+            {"x": 2, "y": 3, "chance": 30, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": 2, "y": 3, "chance": 20, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": 2, "y": 3, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
+        ]
+    }
+]

@@ -1,0 +1,108 @@
+[
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_manual",
+        "name" : "120mm tank gun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_manual",
+        "difficulty" : 8,
+        "size" : 10,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_manual", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_auto",
+        "name" : "120mm tank gun (AL)",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_auto",
+        "difficulty" : 8,
+        "size" : 50,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_auto", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_electric_super",
+        "name" : "supercharged electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 250,
+        "power" : 1200,
+        "epower" : -480000,
+        "fuel_type" : "battery",
+        "item" : "motor_enhanced",
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 6, "max": 10},
+            {"item": "steel_chunk", "min": 6, "max": 10},
+            {"item": "scrap", "min": 6, "max": 10},
+            {"item": "cable", "min": 15, "max": 20}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank_large",
+        "name" : "diesel tank (large)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "size" : 90000,
+        "fuel_type" : "diesel",
+        "item" : "30gal_drum",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 2, "max": 2},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 5}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_turbine",
+        "name" : "combustion turbine engine",
+        "symbol" : "*",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "epower" : -500,
+        "fuel_type" : "diesel",
+        "item" : "engine_turbine",
+        "difficulty" : 7,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 45, "max": 58},
+            {"item": "steel_chunk", "min": 45, "max": 58},
+            {"item": "scrap", "min": 45, "max": 58}
+        ]
+    }
+]
+
+

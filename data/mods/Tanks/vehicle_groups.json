@@ -1,0 +1,25 @@
+[
+    {
+        "type" : "vehicle_group",
+        "id" : "city_wrecks",
+        "vehicles" : [
+            ["tank_light", 100],
+            ["tank_medium", 50],
+            ["tank_atomic", 25]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "highway",
+        "vehicles" : [
+            ["tank_light", 330],
+            ["tank_medium", 165],
+            ["tank_atomic", 80]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "semi_truck",
+        "vehicles" : [
+            ["tank_light", 9001]
+        ]
+    }
+]
