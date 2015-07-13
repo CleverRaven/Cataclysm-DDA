@@ -47,19 +47,8 @@ bool operator==(const radio_tower &a, const radio_tower &b) {
     a.type == b.type && a.message == b.message;
 }
 
-TEST_CASE("Reading a legacy overmap save.") {
-
-    init_global_game_state();
-
-    overmap test_map;
-    std::ifstream fin;
-
-    fin.open("tests/data/legacy_0.C_overmap.sav");
-    if( fin.is_open() ) {
-        test_map.unserialize(fin);
-        fin.close();
-    }
-
+void check_test_overmap_data( const overmap &test_map )
+{
     // Spot-check a bunch of terrain values.
     // Bottom level, "L 0" in the save
     REQUIRE(std::string( test_map.get_ter(0, 0, -10) ) == "empty_rock");
@@ -238,4 +227,19 @@ TEST_CASE("Reading a legacy overmap save.") {
             REQUIRE(false);
         }
     }
+}
+
+TEST_CASE("Reading a legacy overmap save.") {
+
+    init_global_game_state();
+
+    overmap test_map;
+    std::ifstream fin;
+
+    fin.open("tests/data/legacy_0.C_overmap.sav");
+    if( fin.is_open() ) {
+        test_map.unserialize(fin);
+        fin.close();
+    }
+    check_test_overmap_data(test_map);
 }
