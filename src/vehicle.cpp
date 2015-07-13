@@ -5066,10 +5066,14 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 float explosion_factor = 1;
                 // Diesel
                 if (ft == fuel_type_diesel) {
-                    explosion_chance = 10; // Much less likely to explode
-                    fiery_explosion = true; // Produces lasting flames
+                    if (type == DT_HEAT) {
+                        explosion_chance = 20; // Still somewhat vulnerable to heat damage
+                    } else {
+                        explosion_chance = 1000; // Elsewise very unlikely to explode
+                    }
+                    fiery_explosion = false; // Doesn't produce lasting flames
                     fuel_size_factor = .1; // Smaller units than normal
-                    explosion_factor = 1.1; // Higher energy density
+                    explosion_factor = .2; // Only partial explosions
                 // Hydrogen
                 } else if (ft == fuel_type_plasma) {
                     // Very likely to explode; real life tanks are armored to stop this.
@@ -5095,10 +5099,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                     parts[p].amount = 0;
                 }
             }
-        }
-        else
-        if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE"))
-        {
+        } else if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE")) {
             tripoint dest( global_x() + parts[p].precalc[0].x,
                            global_y() + parts[p].precalc[0].y,
                            smz );
