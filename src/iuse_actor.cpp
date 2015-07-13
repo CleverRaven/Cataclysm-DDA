@@ -486,7 +486,6 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         }
     }
     p->moves -= moves;
-    newmon.reset_last_load();
     newmon.spawn( target );
     if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
         for( auto & amdef : newmon.ammo ) {

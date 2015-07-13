@@ -1060,7 +1060,6 @@ void monster::load(JsonObject &data)
     }
 
     data.read("hp", hp);
-    last_loaded = data.get_int("last_loaded", 0);
 
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
@@ -1132,7 +1131,6 @@ void monster::store(JsonOut &json) const
     json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
-    json.member("last_loaded", last_loaded);
     json.member("dead", dead);
     json.member("anger", anger);
     json.member("morale", morale);

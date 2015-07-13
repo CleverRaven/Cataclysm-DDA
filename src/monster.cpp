@@ -48,7 +48,6 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- last_loaded = 0;
  faction = mfaction_id( 0 );
  mission_id = -1;
  no_extra_death_drops = false;
@@ -78,7 +77,6 @@ monster::monster( const std::string& id )
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- last_loaded = 0;
  faction = type->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
@@ -108,7 +106,6 @@ monster::monster( const std::string& id, const tripoint &p )
  anger = type->agro;
  morale = type->morale;
  faction = type->default_faction;
- last_loaded = 0;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -1813,21 +1810,6 @@ void monster::make_friendly()
 void monster::make_ally(monster *z) {
     friendly = z->friendly;
     faction = z->faction;
-}
-
-int monster::get_last_load() const
-{
-    return last_loaded;
-}
-
-void monster::set_last_load(int day)
-{
-    last_loaded = day;
-}
-
-void monster::reset_last_load()
-{
-    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)

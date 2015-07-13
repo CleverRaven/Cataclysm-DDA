@@ -6877,8 +6877,6 @@ Creature const* game::critter_at( const tripoint &p ) const
 bool game::summon_mon( const std::string id, const tripoint &p )
 {
     monster mon( id );
-    // Set their last upgrade check to the current day.
-    mon.reset_last_load();
     mon.spawn(p);
     return add_zombie(mon, true);
 }

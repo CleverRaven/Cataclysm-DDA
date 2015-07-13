@@ -380,7 +380,6 @@ void game::wishmonster( const tripoint &p )
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
             monster mon = monster( GetMType(wmenu.ret)->id );
-            mon.reset_last_load();
             if (cb->friendly) {
                 mon.friendly = -1;
             }
