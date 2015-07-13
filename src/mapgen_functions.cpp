@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "trap.h"
 #include <array>
+#include "vehicle.h"
 #include "vehicle_group.h"
 #include "computer.h"
 #include "mapdata.h"
