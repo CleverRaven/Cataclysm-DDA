@@ -193,7 +193,6 @@ classes = {
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
             { name = "get_temperature", rval = "int", args = { } },
-            { name = "ground_natural_light_level", rval = "float", args = { } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool" } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool", "item" } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool", "item", "item" } },
