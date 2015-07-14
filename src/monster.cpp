@@ -576,7 +576,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
-        if( m->is_hallucination() && !is_player() ) {
+        if( m->is_hallucination() && !is_hallucination() && !is_player() ) {
             // Let monsters "trample" hallucinations of friendly monsters
             return A_HOSTILE;
         }
