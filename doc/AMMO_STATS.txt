@@ -23,3 +23,7 @@ The damage of ammunition is the square root of a round's muzzle energy in joules
 .308 Winchester:
 168gr hollow point bullet
 3570J muzzle energy - √3570=60
+
+.270 Winchester:
+130gr soft point bullet
+3663J muzzle energy - √3663=61
