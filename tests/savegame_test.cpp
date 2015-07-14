@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch/catch.hpp"
 
+#include "filesystem.h"
 #include "game.h"
 #include "init.h"
 #include "mongroup.h"
@@ -231,38 +232,35 @@ void check_test_overmap_data( const overmap &test_map )
 
 TEST_CASE("Reading a legacy overmap save.") {
 
+    std::string legacy_save_name = "data/legacy_0.C_overmap.sav";
+    std::string new_save_name = "data/jsionized_overmap.sav";
+
     init_global_game_state();
 
     overmap test_map;
     std::ifstream fin;
 
-    fin.open("tests/data/legacy_0.C_overmap.sav");
-    if( fin.is_open() ) {
-        test_map.unserialize(fin);
-        fin.close();
-    } else {
-        REQUIRE(false);
-    }
-    check_test_overmap_data(test_map);
+    fin.open( legacy_save_name.c_str() );
+    REQUIRE( fin.is_open() );
+    test_map.unserialize( fin );
+    fin.close();
+    check_test_overmap_data( test_map );
 
     std::ofstream fout;
 
-    fout.open("tests/data/jsionized_overmap.sav");
-    if( fout.is_open() ) {
-        test_map.serialize(fout);
-        fout.close();
-    }
+    fout.open( new_save_name.c_str() );
+    REQUIRE( fout.is_open() );
+    test_map.serialize(fout);
+    fout.close();
 
     overmap test_map_2;
 
-    fin.open("tests/data/jsionized_overmap.sav");
-    if( fin.is_open() ) {
-        test_map_2.unserialize(fin);
-        fin.close();
-    } else {
-        REQUIRE(false);
-    }
-    check_test_overmap_data(test_map_2);
+    fin.open( new_save_name.c_str() );
+    REQUIRE( fin.is_open() );
+    test_map_2.unserialize( fin );
+    fin.close();
+
+    check_test_overmap_data( test_map_2 );
     // Now clean up.
-    unlink("tests/data/jsionized_overmap.sav");
+    remove_file( new_save_name.c_str() );
 }
