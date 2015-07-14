@@ -322,7 +322,7 @@ void monster::move()
 
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
-    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( "SEALED", pos() ) ) {
+    if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) ) {
         if( !g->m.i_at( pos3() ).empty() ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name().c_str() );
@@ -333,7 +333,8 @@ void monster::move()
         }
     }
 
-    const bool pacified = has_effect( "pacified" );
+    static const std::string pacified_string = "pacified";
+    const bool pacified = has_effect( pacified_string );
 
     // First, use the special attack, if we can!
     for( size_t i = 0; i < sp_timeout.size(); ++i ) {
