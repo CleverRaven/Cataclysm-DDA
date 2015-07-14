@@ -639,10 +639,10 @@ etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-tests: cataclysm.a
+tests: version cataclysm.a
 	$(MAKE) -C tests
 
-check: cataclysm.a
+check: version cataclysm.a
 	$(MAKE) -C tests check
 
 clean-tests:
