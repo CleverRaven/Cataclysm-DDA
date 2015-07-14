@@ -41,8 +41,8 @@ struct real_coords {
 
     void fromabs(const int absx, const int absy)
     {
-        const int normx = abs(absx);
-        const int normy = abs(absy);
+        const int normx = std::abs(absx);
+        const int normy = std::abs(absy);
         abs_pos = point(absx, absy);
 
         if ( absx < 0 ) {
