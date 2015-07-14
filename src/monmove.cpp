@@ -964,7 +964,7 @@ bool monster::move_to( const tripoint &p, bool force )
         // Destroy hallucinations if we aren't one
         if( critter->is_hallucination() && !is_hallucination() ) {
             critter->die( nullptr );
-        } else {
+        } else if( !force ) {
             return false;
         }
     }

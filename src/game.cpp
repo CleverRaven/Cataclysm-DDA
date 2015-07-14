@@ -12455,7 +12455,7 @@ bool game::plmove(int dx, int dy)
         if (displace) { // We displaced a friendly monster!
             // Immobile monsters can't be displaced.
             monster &critter = zombie(mondex);
-            critter.move_to(u.pos3(), true); // Force the movement even though the player is there right now.
+            critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
             add_msg(_("You displace the %s."), critter.name().c_str());
         } // displace == true
 
