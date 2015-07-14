@@ -350,42 +350,34 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
-  # Link to ncurses if we're using a non-tiles, Linux build
-  ifeq ($(TARGETSYSTEM),LINUX)
-    ifeq ($(LOCALIZE),1)
-      ifeq ($(OS), Darwin)
-        LDFLAGS += -lncurses
-      else
-        ifeq ($(NATIVE), osx)
-            LDFLAGS += -lncurses
-        else
-          ifeq ($(BSD), 1)
-            LDFLAGS += -lncurses -lintl -liconv
-          else
-            LDFLAGS += $(shell ncursesw5-config --libs)
-            CXXFLAGS += $(shell ncursesw5-config --cflags)
-          endif
-        endif
-      endif
-    else
-      LDFLAGS += -lncurses
-    endif
+  ifneq ($(shell which ncursesw5-config 2>/dev/null),)
+    HAVE_NCURSESW5CONFIG = 1
   endif
-  
-  ifeq ($(TARGETSYSTEM),CYGWIN)
-    ifeq ($(LOCALIZE),1)
-      LDFLAGS += $(shell ncursesw5-config --libs)
-      CXXFLAGS += $(shell ncursesw5-config --cflags)
-      
-      # Work around Cygwin not including gettext support in glibc
-      LDFLAGS += -lintl -liconv
-    endif
+
+  # Link to ncurses if we're using a non-tiles, Linux build
+  ifeq ($(HAVE_NCURSESW5CONFIG),1)
+    CXXFLAGS += $(shell ncursesw5-config --cflags)
+    LDFLAGS += $(shell ncursesw5-config --libs)
+  else
+    LDFLAGS += -lncurses
+  endif
+endif
+
+ifeq ($(TARGETSYSTEM),CYGWIN)
+  ifeq ($(LOCALIZE),1)
+    # Work around Cygwin not including gettext support in glibc
+    LDFLAGS += -lintl -liconv
   endif
 endif
 
 # BSDs have backtrace() and friends in a separate library
 ifeq ($(BSD), 1)
   LDFLAGS += -lexecinfo
+
+ # And similarly, their libcs don't have gettext built in
+  ifeq ($(LOCALIZE),1)
+    LDFLAGS += -lintl -liconv
+  endif
 endif
 
 # Global settings for Windows targets (at end)
