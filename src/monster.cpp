@@ -576,6 +576,11 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
+        if( m->is_hallucination() && !is_player() ) {
+            // Let monsters "trample" hallucinations of friendly monsters
+            return A_HOSTILE;
+        }
+
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
@@ -1931,7 +1936,10 @@ void monster::on_dodge( Creature*, int )
 void monster::on_hit( Creature *source, body_part,
                       int, projectile const* const proj )
 {
-    type->sp_defense( this, source, proj );
+    if( !is_hallucination() ) {
+        type->sp_defense( this, source, proj );
+    }
+
     check_dead_state();
     // TODO: Faction relations
 }

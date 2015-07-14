@@ -333,19 +333,22 @@ void monster::move()
         }
     }
 
+    const bool pacified = has_effect( "pacified" );
+
     // First, use the special attack, if we can!
     for( size_t i = 0; i < sp_timeout.size(); ++i ) {
         if( sp_timeout[i] > 0 ) {
             sp_timeout[i]--;
         }
 
-        if( sp_timeout[i] == 0 && !has_effect( "pacified" ) && !is_hallucination() ) {
+        if( sp_timeout[i] == 0 && !pacified && !is_hallucination() ) {
             type->sp_attack[i]( this, i );
         }
     }
 
     // The monster can sometimes hang in air due to last fall being blocked
-    if( has_flag( MF_FLIES ) && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
+    const bool can_fly = has_flag( MF_FLIES );
+    if( !can_fly && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
         g->m.creature_on_trap( *this, false );
     }
 
@@ -353,6 +356,7 @@ void monster::move()
         return;
     }
 
+    // TODO: Move this to attack_at/move_to/etc. functions
     bool attacking = false;
     if( !move_effects(attacking) ) {
         moves = 0;
@@ -362,7 +366,8 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( has_effect( "stunned" ) ) {
+    static const std::string stun_string = "stunned";
+    if( has_effect( stun_string ) ) {
         stumble( false );
         moves = 0;
         return;
@@ -404,7 +409,6 @@ void monster::move()
     // Don't do it in plan(), because the mon can still use ranged special attacks using
     // the plans that are not valid for travel/melee.
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
-    const bool can_fly = has_flag( MF_FLIES );
     if( !plans.empty() &&
         !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) {
         plans.clear();
@@ -445,8 +449,11 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         // Note: The below works because C++ in A() || B() won't call B() if A() is true
-        bool did_something = attack_at( next ) || bash_at( next ) ||
-                             push_to( next, 0, 0 ) || move_to( next );
+        const bool did_something =
+            ( !pacified && attack_at( next ) ) ||
+            ( !pacified && bash_at( next ) ) ||
+            ( !pacified && push_to( next, 0, 0 ) ) ||
+            move_to( next );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
@@ -520,7 +527,11 @@ void monster::friendly_move()
         stumble( moved );
     }
     if( moved ) {
-        bool did_something = attack_at( p ) || bash_at( p ) || move_to( p );
+        const bool pacified = has_effect( "pacified" );
+        const bool did_something =
+            ( !pacified && attack_at( p ) ) ||
+            ( !pacified && bash_at( p ) ) ||
+            move_to( p );
 
         //If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
         if( !did_something ) {
@@ -554,9 +565,7 @@ tripoint monster::scent_move()
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
         int smell = g->scent( dest );
-        int mon = g->mon_at( dest );
-        if( ( mon == -1 || g->zombie( mon ).friendly != 0 || has_flag( MF_ATTACKMON ) ) &&
-            ( can_move_to( dest ) || ( dest == g->u.pos3() ) ||
+        if( ( can_move_to( dest ) || ( dest == g->u.pos3() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) >= 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
@@ -784,10 +793,6 @@ bool monster::bash_at( const tripoint &p )
         return false; // TODO: Remove this
     }
 
-    if( has_effect( "pacified" ) ) {
-        return false;
-    }
-
     //Hallucinations can't bash stuff.
     if( is_hallucination() ) {
         return false;
@@ -873,9 +878,6 @@ bool monster::attack_at( const tripoint &p )
     if( p.z != posz() ) {
         return false; // TODO: Remove this
     }
-    if( has_effect( "pacified" ) ) {
-        return false;
-    }
 
     if( p == g->u.pos3() ) {
         melee_attack( g->u, true );
@@ -891,8 +893,8 @@ bool monster::attack_at( const tripoint &p )
             return false;
         }
 
-        // Special case: Target is hallucination
-        if( mon.is_hallucination() ) {
+        // Special case: Target is hallucination, but we are not
+        if( mon.is_hallucination() && !is_hallucination() ) {
             mon.die( nullptr );
 
             // We haven't actually attacked anything, i.e. we can still do things.
@@ -935,9 +937,10 @@ bool monster::move_to( const tripoint &p, bool force )
     const bool flies = has_flag( MF_FLIES );
     const bool on_ground = !digs && !flies;
     const bool climbs = has_flag( MF_CLIMBS ) && g->m.has_flag( TFLAG_NO_FLOOR, p );
-    //Allows climbing monsters to move on terrain with movecost <= 0
+    // Allows climbing monsters to move on terrain with movecost <= 0
+    Creature *critter = g->critter_at( p );
     if( g->m.has_flag( "CLIMBABLE", p ) ) {
-        if( g->m.move_cost( p ) == 0 && g->critter_at( p ) == nullptr ) {
+        if( g->m.move_cost( p ) == 0 && critter == nullptr ) {
             if( flies ) {
                 moves -= 100;
                 force = true;
@@ -955,8 +958,18 @@ bool monster::move_to( const tripoint &p, bool force )
             }
         }
     }
+
+    if( critter != nullptr ) {
+        // Destroy hallucinations if we aren't one
+        if( critter->is_hallucination() && !is_hallucination() ) {
+            critter->die( nullptr );
+        } else {
+            return false;
+        }
+    }
+
     // Make sure that we can move there, unless force is true.
-    if( !force && ( !g->is_empty( p ) || !can_move_to( p ) ) ) {
+    if( !force && !can_move_to( p ) ) {
         return false;
     }
 
@@ -1068,6 +1081,11 @@ bool monster::move_to( const tripoint &p, bool force )
 
 bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 {
+    if( is_hallucination() ) {
+        // Don't let hallucinations push, not even other hallucinations
+        return false;
+    }
+
     if( !has_flag( MF_PUSH_MON ) || depth > 2 || has_effect( "pushed" ) ) {
         return false;
     }
@@ -1084,6 +1102,12 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     if( !can_move_to( p ) ) {
+        return false;
+    }
+
+    if( critter->is_hallucination() ) {
+        // Kill the hallu, but return false so that the regular move_to is uses instead
+        critter->die( nullptr );
         return false;
     }
 
@@ -1130,7 +1154,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         Creature *critter_recur = g->critter_at( dest );
-        if( critter_recur != nullptr ) {
+        if( critter_recur == nullptr || critter_recur->is_hallucination() ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster* >( critter_recur );
             if( mon_recur == nullptr ) {
@@ -1156,8 +1180,13 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             }
         }
 
-        if( g->mon_at( dest ) != -1 ) {
-            return false;
+        critter_recur = g->critter_at( dest );
+        if( critter_recur != nullptr ) {
+            if( critter_recur->is_hallucination() ) {
+                critter_recur->die( nullptr );
+            } else {
+                return false;
+            }
         }
 
         critter->setpos( dest );
@@ -1219,9 +1248,9 @@ void monster::stumble( bool moved )
                 //(Unless they can swim/are aquatic)
                 //But let them wander OUT of water if they are there.
                 !( avoid_water &&
-                   g->m.has_flag( "SWIMMABLE", dest ) &&
-                   !g->m.has_flag( "SWIMMABLE", pos3() ) ) &&
-                g->critter_at( dest ) == nullptr ) {
+                   g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
+                   !g->m.has_flag( TFLAG_SWIMMABLE, pos3() ) ) &&
+                ( g->critter_at( dest ) == nullptr || g->critter_at( dest )->is_hallucination() ) ) {
                 valid_stumbles.push_back( dest );
             }
         }
@@ -1290,8 +1319,8 @@ void monster::knock_back_from( const tripoint &p )
     // First, see if we hit another monster
     int mondex = g->mon_at( to );
     if( mondex != -1 && g->zombie( mondex ).is_hallucination() ) {
-        // hallucinations should not affect real monsters. If they interfer, just remove them.
-        g->zombie( mondex ).die( this );
+        // Hallucinations should not affect real monsters. If they interfere, just remove them.
+        g->zombie( mondex ).die( nullptr );
         mondex = -1;
     }
     if( mondex != -1 ) {
