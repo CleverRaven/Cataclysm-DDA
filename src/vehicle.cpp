@@ -351,7 +351,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
     int veh_fuel_mult = init_veh_fuel;
     if (init_veh_fuel == - 1) {
-        veh_fuel_mult = rng (7,35);
+        veh_fuel_mult = rng (1,7);
     }
     if (init_veh_fuel > 100) {
         veh_fuel_mult = 100;
@@ -373,12 +373,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             destroySeats = true;
         } else if( rand <= 15 ) {  // controls are destroyed 10%
             destroyControls = true;
+            veh_fuel_mult += rng (0, 7);    // add 0-7% more fuel if controls are destroyed
         } else if( rand <= 23 ) {  // battery, minireactor or gasoline tank are destroyed 8%
             destroyTank = true;
         } else if( rand <= 29 ) {  // engine are destroyed 6%
             destroyEngine = true;
+            veh_fuel_mult += rng (3, 12);   // add 3-12% more fuel if engine is destroyed
         } else if( rand <= 66 ) {  // tires are destroyed 37%
             destroyTires = true;
+            veh_fuel_mult += rng (0, 18);   // add 0-18% more fuel if tires are destroyed
         } else {                   // vehicle locked 34%
             has_no_key = true;
         }
