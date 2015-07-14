@@ -348,10 +348,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     std::map<vpart_id, int> consistent_bignesses;
 
     // veh_fuel_multiplier is percentage of fuel
-    // 0 is empty, 100 is full tank, -1 is random 1% to 7%
+    // 0 is empty, 100 is full tank, -1 is random 7% to 35%
     int veh_fuel_mult = init_veh_fuel;
     if (init_veh_fuel == - 1) {
-        veh_fuel_mult = rng (1,7);
+        veh_fuel_mult = rng (7,35);
     }
     if (init_veh_fuel > 100) {
         veh_fuel_mult = 100;
