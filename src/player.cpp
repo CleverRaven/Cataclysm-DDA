@@ -4795,7 +4795,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_effect("bleed", 60, bp);
         }
 
-        if ( source->has_flag(MF_GRABS)) {
+        if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
                 rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 if (has_effect("grabbed")){
