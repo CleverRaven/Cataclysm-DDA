@@ -81,6 +81,25 @@
             {"item": "steel_chunk", "min": 45, "max": 58},
             {"item": "scrap", "min": 45, "max": 58}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_howitzer",
+        "name" : "155mm howitzer",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 50,
+        "item" : "howitzer_gun",
+        "difficulty" : 8,
+        "size" : 12,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "howitzer_gun", "min": 0, "max": 1}
+        ]
     }
 ]
 

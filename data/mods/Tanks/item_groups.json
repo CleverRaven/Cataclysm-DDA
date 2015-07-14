@@ -3,19 +3,22 @@
     "type" : "item_group",
     "id" : "mil_hw",
     "items":[
-      ["120mm_HEAT", 1]
+      ["120mm_HEAT", 2],
+      ["155mm_HEAT", 1]
     ]
   },{
     "type" : "item_group",
     "id" : "military",
     "items":[
-      ["120mm_HEAT", 1]
+      ["120mm_HEAT", 2],
+      ["155mm_HEAT", 1]
     ]
   },{
     "type" : "item_group",
     "id" : "rare",
     "items":[
-      ["120mm_HEAT", 1]
+      ["120mm_HEAT", 2],
+      ["155mm_HEAT", 1]
     ]
   }
 ]
