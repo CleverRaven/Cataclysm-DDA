@@ -3109,7 +3109,8 @@
       [ "brandy", 7 ],
       [ "disinfectant", 1 ],
       [ "saline", 5 ],
-      [ "thyme_oil", 1 ]
+      [ "thyme_oil", 1 ],
+      [ "chem_hydrogen_peroxide", 1 ]
     ]
   ]
 },{
@@ -3518,7 +3519,8 @@
     [
       [ "disinfectant", 1 ],
       [ "saline", 10 ],
-      [ "thyme_oil", 1 ]
+      [ "thyme_oil", 1 ],
+      [ "chem_hydrogen_peroxide", 1 ]
     ],
     [
       [ "bandages", 2 ],
