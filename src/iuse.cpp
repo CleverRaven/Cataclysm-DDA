@@ -2371,7 +2371,7 @@ int petfood(player *p, item *it, bool is_dogfood)
         return 0;
     }
     p->moves -= 15;
-    int mon_dex = g->mon_at(dirp);
+    int mon_dex = g->mon_at( dirp, true );
     if (mon_dex != -1) {
         if (g->zombie(mon_dex).type->id == (is_dogfood ? "mon_dog" : "mon_cat")) {
             p->add_msg_if_player(m_good, is_dogfood
@@ -3242,7 +3242,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(2, 3));
 
     // Also spray monsters in that tile.
-    int mondex = g->mon_at(dest);
+    int mondex = g->mon_at( dest, true );
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
         bool blind = false;
@@ -4788,7 +4788,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int zid = g->mon_at(dest);
+                        const int zid = g->mon_at( dest, true );
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
@@ -5207,7 +5207,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             tripoint dest( x, y, pos.z );
-            int mondex = g->mon_at( dest );
+            int mondex = g->mon_at( dest, true );
             if( mondex == -1 ) {
                 continue;
             }
@@ -5256,7 +5256,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("Umm.  No."));
         return 0;
     }
-    int mondex = g->mon_at(dirp);
+    int mondex = g->mon_at( dirp, true );
     int npcdex = g->npc_at(dirp);
     if (mondex == -1 && npcdex == -1) {
         p->add_msg_if_player(_("Electricity crackles in the air."));
@@ -5331,7 +5331,7 @@ int iuse::tazer2(player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player(m_info, _("Umm.  No."));
             return 0;
         }
-        int mondex = g->mon_at(dirp);
+        int mondex = g->mon_at( dirp, true );
         int npcdex = g->npc_at(dirp);
 
         if (mondex == -1 && npcdex == -1) {
@@ -6393,7 +6393,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at(dest);
+                        int mondex = g->mon_at( dest, true );
                         if (mondex != -1) {
                             g->zombie(mondex).add_effect("stunned", rng(5, 15));
                         }
@@ -6404,7 +6404,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at(dest);
+                        int mondex = g->mon_at( dest, true );
                         if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
                             rng(0, 600) > g->zombie(mondex).get_hp()) {
                             g->zombie(mondex).make_friendly();
@@ -6990,7 +6990,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         tripoint dest( p->posx() + i, p->posy() + j, p->posz() );
-                        mon_num = g->mon_at(dest);
+                        mon_num = g->mon_at( dest, true );
                         if (mon_num != -1) {
                             break; // break at first found enemy
                         }
@@ -7005,7 +7005,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                 if (mon_num != -1) {
                     tripoint slashp;
                     if (choose_adjacent(_("Slash where?"), slashp)) {
-                        const int mon_hit = g->mon_at(slashp);
+                        const int mon_hit = g->mon_at( slashp, true );
                         if (mon_hit != -1) {
                             mon_num = mon_hit;
                         }
@@ -8244,7 +8244,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        const int sel_zid = g->mon_at( aim_point );
+        const int sel_zid = g->mon_at( aim_point, true );
         const int sel_npcID = g->npc_at( aim_point );
 
         if (sel_zid == -1 && sel_npcID == -1) {
@@ -8260,7 +8260,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         for (auto &i : trajectory) {
 
-            int zid = g->mon_at(i);
+            int zid = g->mon_at( i, true );
             int npcID = g->npc_at(i);
 
             if (zid != -1 || npcID != -1) {
