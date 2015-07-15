@@ -5060,7 +5060,11 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma ) {
                 // TODO: Move the values below to jsons
                 // Gasoline
-                int explosion_chance = 5;
+                if (type == DT_HEAT) {
+                    explosion_chance = 2;
+                } else {
+                    explosion_chance = 5;
+                }
                 bool fiery_explosion = true; // Produces lasting flames
                 float fuel_size_factor = .1; // Smaller units than normal
                 float explosion_factor = 1;
@@ -5077,7 +5081,11 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 // Hydrogen
                 } else if (ft == fuel_type_plasma) {
                     // Very likely to explode; real life tanks are armored to stop this.
-                    explosion_chance = 2;
+                    if (type == DT_HEAT) {
+                        explosion_chance = 1;
+                    } else {
+                        explosion_chance = 2;
+                    }
                     fiery_explosion = false; // WOOF!!; but no lasting flames
                     fuel_size_factor = 1;
                     explosion_factor = 1.4; // Higher energy density, but dampened by the explosion type
@@ -5087,7 +5095,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 if(parts[p].hp <= 0) {
                     leak_fuel( p );
                 }
-                if (type == DT_HEAT || one_in(explosion_chance)) {
+                if (one_in(explosion_chance)) {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
