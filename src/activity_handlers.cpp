@@ -171,7 +171,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
 
     int practice = std::max( 0, 4 + pieces + roll_butchery());
-    
+
     p->practice("survival", practice);
 
     // Lose some meat, skins, etc if the rolls are low
@@ -517,9 +517,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         next_ter = terfind("t_underbrush_harvested_winter");
         break;
     }
-    
+
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
-    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {                
+    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {
         // Returns zero if location has no defined items.
         int cnt = g->m.put_items_from_loc( loc, p->pos3(), calendar::turn );
         if( cnt > 0 ) {
@@ -1111,6 +1111,10 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
 
 void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
 {
+    // The main limiting factor here is how fast we can cut through the metal,
+    // thus cutting things up takes time, not speed.
+    act->moves_left -= 100;
+
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
     const int charges_used = std::min( act->values[0], it.type->charges_to_use() );
@@ -1121,17 +1125,21 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     if( calendar::turn % 2 ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
     }
+
+    p->rooted();
+    p->pause();
 }
 
 void activity_handlers::oxytorch_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
     const ter_id ter = g->m.ter( pos );
+    const furn_id furn = g->m.furn( pos );
 
-    // fast players might still have some charges left to be consumed
+    // Make sure we've used the full amount of charges
     p->i_at( act->position ).charges -= act->values[0];
 
-    if( g->m.furn( pos ) == f_rack ) {
+    if( furn == f_rack ) {
         g->m.furn_set( pos, f_null );
         g->m.spawn_item( p->pos(), "steel_chunk", rng(2, 6) );
     } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
@@ -1144,9 +1152,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "pipe", rng(1, 4) );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
-        g->m.ter_set( pos, t_mdoor_frame );
-        g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
-        g->m.spawn_item( pos, "steel_chunk", rng(3, 8) );
+        if (one_in(2)) {
+            g->m.ter_set( pos, t_mdoor_frame );
+            g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
+            g->m.spawn_item( pos, "steel_chunk", rng(3, 8) );
+        } else {
+            p->add_msg_if_player( m_bad, _("The door still resists your cutting!"));
+        }
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         g->m.ter_set( pos, t_window_empty  );
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
@@ -1163,5 +1175,12 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_bars_alarm ) {
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
+    } else if ( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
+                furn == f_gun_safe_el ) {
+        if (one_in(3)) {
+            g->m.furn_set( pos, f_safe_o );
+        } else {
+            p->add_msg_if_player( m_bad, _("The safe still resists your cutting!"));
+        }
     }
 }
