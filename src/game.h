@@ -209,8 +209,8 @@ class game
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         int  npc_by_id(const int id) const;
         /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p );
-        Creature const* critter_at( const tripoint &p ) const;
+        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
+        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon(const std::string id, const tripoint &p);
@@ -232,9 +232,9 @@ class game
         bool swap_critters( Creature &first, Creature &second );
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p ) const;
+        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
         /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p);
+        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if the value of test is between down and up. */

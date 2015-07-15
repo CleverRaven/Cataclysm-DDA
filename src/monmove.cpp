@@ -415,7 +415,7 @@ void monster::move()
         plans.clear();
     }
 
-    int mondex = !plans.empty() ? g->mon_at( plans[0] ) : -1;
+    int mondex = !plans.empty() ? g->mon_at( plans[0], is_hallucination() ) : -1;
     auto mon_att = mondex != -1 ? attitude_to( g->zombie( mondex ) ) : A_HOSTILE;
 
     if( !plans.empty() &&
@@ -885,21 +885,12 @@ bool monster::attack_at( const tripoint &p )
         return true;
     }
 
-    const int mondex = g->mon_at( p );
+    const int mondex = g->mon_at( p, is_hallucination() );
     if( mondex != -1 ) {
         monster &mon = g->zombie( mondex );
 
         // Don't attack yourself.
         if( &mon == this ) {
-            return false;
-        }
-
-        // Special case: Target is hallucination, but we are not
-        if( mon.is_hallucination() && !is_hallucination() ) {
-            mon.die( nullptr );
-
-            // We haven't actually attacked anything, i.e. we can still do things.
-            // Hallucinations(obviously) shouldn't affect the way real monsters act.
             return false;
         }
 
@@ -939,7 +930,7 @@ bool monster::move_to( const tripoint &p, bool force )
     const bool on_ground = !digs && !flies;
     const bool climbs = has_flag( MF_CLIMBS ) && g->m.has_flag( TFLAG_NO_FLOOR, p );
     // Allows climbing monsters to move on terrain with movecost <= 0
-    Creature *critter = g->critter_at( p );
+    Creature *critter = g->critter_at( p, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", p ) ) {
         if( g->m.move_cost( p ) == 0 && critter == nullptr ) {
             if( flies ) {
@@ -960,13 +951,8 @@ bool monster::move_to( const tripoint &p, bool force )
         }
     }
 
-    if( critter != nullptr ) {
-        // Destroy hallucinations if we aren't one
-        if( critter->is_hallucination() && !is_hallucination() ) {
-            critter->die( nullptr );
-        } else if( !force ) {
-            return false;
-        }
+    if( critter != nullptr && !force ) {
+        return false;
     }
 
     // Make sure that we can move there, unless force is true.
@@ -1251,7 +1237,7 @@ void monster::stumble( bool moved )
                 !( avoid_water &&
                    g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
                    !g->m.has_flag( TFLAG_SWIMMABLE, pos3() ) ) &&
-                ( g->critter_at( dest ) == nullptr || g->critter_at( dest )->is_hallucination() ) ) {
+                ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
                 valid_stumbles.push_back( dest );
             }
         }
@@ -1319,11 +1305,6 @@ void monster::knock_back_from( const tripoint &p )
 
     // First, see if we hit another monster
     int mondex = g->mon_at( to );
-    if( mondex != -1 && g->zombie( mondex ).is_hallucination() ) {
-        // Hallucinations should not affect real monsters. If they interfere, just remove them.
-        g->zombie( mondex ).die( nullptr );
-        mondex = -1;
-    }
     if( mondex != -1 ) {
         monster *z = &( g->zombie( mondex ) );
         apply_damage( z, bp_torso, z->type->size );

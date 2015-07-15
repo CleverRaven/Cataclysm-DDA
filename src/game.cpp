@@ -2026,7 +2026,7 @@ input_context game::get_player_input(std::string &action)
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
 
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
-                        !critter_at(mapp) ) {
+                        !critter_at( mapp, true ) ) {
                         // Supress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
                     }
@@ -2064,7 +2064,7 @@ input_context game::get_player_input(std::string &action)
 
                     for (int i = 0; i < (int)iter->getText().length(); ++i) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
-                        const Creature *critter = critter_at( tmp );
+                        const Creature *critter = critter_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
                             i = -1;
@@ -5622,7 +5622,7 @@ int game::mon_info(WINDOW *w)
                         }
                     }
                     if (!passmon) {
-                        int news = mon_at( critter.pos3() );
+                        int news = mon_at( critter.pos(), true );
                         if( news != -1 ) {
                             newseen++;
                             new_seen_mon.push_back( news );
@@ -6203,7 +6203,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         size_t j;
         for( j = 0; j < traj.size() && dam > 0; j++ ) {
             const tripoint &tp = traj[j];
-            const int zid = mon_at( tp );
+            const int zid = mon_at( tp, true );
             const int npcdex = npc_at( tp );
             if (zid != -1) {
                 monster &critter = critter_tracker->find(zid);
@@ -6330,8 +6330,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
     tripoint tp = traj.front();
-    const int zid = mon_at( tp );
-    if( zid == -1 && npc_at( tp ) == -1 && u.pos3() != tp ) {
+    const int zid = mon_at( tp, true );
+    if( zid == -1 && npc_at( tp ) == -1 && u.pos() != tp ) {
         debugmsg(_("Nothing at (%d,%d) to knockback!"), tp.x, tp.y, tp.z );
         return;
     }
@@ -6853,11 +6853,11 @@ int game::npc_by_id(const int id) const
     return -1;
 }
 
-Creature *game::critter_at( const tripoint &p )
+Creature *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
-    const int mindex = mon_at( p );
+    const int mindex = mon_at( p, allow_hallucination );
     if( mindex != -1 ) {
-        return &zombie(mindex);
+        return &zombie( mindex );
     }
     if( p == u.pos3() ) {
         return &u;
@@ -6869,9 +6869,9 @@ Creature *game::critter_at( const tripoint &p )
     return nullptr;
 }
 
-Creature const* game::critter_at( const tripoint &p ) const
+Creature const* game::critter_at( const tripoint &p, bool allow_hallucination ) const
 {
-    return const_cast<game*>(this)->critter_at( p );
+    return const_cast<game*>(this)->critter_at( p, allow_hallucination );
 }
 
 bool game::summon_mon( const std::string id, const tripoint &p )
@@ -6941,21 +6941,27 @@ bool game::spawn_hallucination()
     phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 
     //Don't attempt to place phantasms inside of other monsters
-    if (mon_at(phantasm.pos()) == -1) {
+    if( mon_at( phantasm.pos(), true ) == -1 ) {
         return critter_tracker->add(phantasm);
     } else {
         return false;
     }
 }
 
-int game::mon_at( const tripoint &p ) const
+int game::mon_at( const tripoint &p, bool allow_hallucination ) const
 {
-    return critter_tracker->mon_at( p );
+    const int mon_index = critter_tracker->mon_at( p );
+    if( mon_index == -1 ||
+        allow_hallucination || !critter_tracker->find( mon_index ).is_hallucination() ) {
+        return mon_index;
+    }
+
+    return -1;
 }
 
-monster *game::monster_at(const tripoint &p)
+monster *game::monster_at( const tripoint &p, bool allow_hallucination )
 {
-    return &zombie(critter_tracker->mon_at(p));
+    return &zombie( mon_at( p, allow_hallucination ) );
 }
 
 void game::rebuild_mon_at_cache()
@@ -8277,7 +8283,7 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
 {
     int veh_part = 0;
     vehicle *veh = m.veh_at( lp, veh_part);
-    const Creature *critter = critter_at( lp );
+    const Creature *critter = critter_at( lp, true );
     if( critter != nullptr && ( u.sees( *critter ) || critter == &u ) ) {
         if( !mouse_hover ) {
             critter->draw( w_terrain, lp, true );
@@ -9963,7 +9969,7 @@ int game::list_monsters(const int iLastState)
             } else if (action == "fire") {
                 if( cCurMon != nullptr &&
                     rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
-                    last_target = mon_at( cCurMon->pos3() );
+                    last_target = mon_at( cCurMon->pos(), true );
                     u.view_offset = stored_view_offset;
                     return 2;
                 }
@@ -10752,7 +10758,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
             }
             active_npc[id]->make_angry();
         } else {
-            id = mon_at( p );
+            id = mon_at( p, true );
             if (id >= 0) {
                 last_target = id;
                 last_target_was_npc = false;
@@ -11853,7 +11859,7 @@ bool game::plmove(int dx, int dy)
     }
 
     // Check if our movement is actually an attack on a monster or npc
-    int mondex = mon_at(dest_loc);
+    int mondex = mon_at( dest_loc, true );
     int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?  If it's vermin, always.
 

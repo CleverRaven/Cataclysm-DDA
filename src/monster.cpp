@@ -576,10 +576,6 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
-        if( m->is_hallucination() && !is_hallucination() && !is_player() ) {
-            // Let monsters "trample" hallucinations of friendly monsters
-            return A_HOSTILE;
-        }
 
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||

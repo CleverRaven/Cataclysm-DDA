@@ -12433,6 +12433,11 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
     bool armor_destroyed = false;
 
     for( auto &elem : dam.damage_units ) {
+        if( elem.amount < 0 ) {
+            // Prevents 0 damage hits (like from hallucinations) from ripping armor
+            elem.amount = 0;
+            continue;
+        }
 
         // CBMs absorb damage first before hitting armor
         if( has_active_bionic("bio_ads") ) {
