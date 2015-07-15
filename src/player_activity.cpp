@@ -83,6 +83,7 @@ bool player_activity::is_abortable() const
         case ACT_FILL_LIQUID:
         case ACT_START_ENGINES:
         case ACT_OXYTORCH:
+        case ACT_CRACKING:
             return true;
         default:
             return false;
@@ -142,14 +143,24 @@ void player_activity::do_turn( player *p )
             break;
         case ACT_PICKAXE:
             // Based on speed, not time
-            moves_left -= p->moves;
-            p->moves = 0;
+            if (p->moves <= moves_left) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
             activity_handlers::pickaxe_do_turn( this, p );
             break;
         case ACT_BURROW:
             // Based on speed, not time
-            moves_left -= p->moves;
-            p->moves = 0;
+            if (p->moves <= moves_left) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
             activity_handlers::burrow_do_turn( this, p );
             break;
         case ACT_AIM:
@@ -235,20 +246,19 @@ void player_activity::do_turn( player *p )
             p->pause();
             break;
         case ACT_OXYTORCH:
-            if( p->moves <= moves_left ) {
-                moves_left -= p->moves;
-                p->moves = 0;
-            } else {
-                p->moves -= moves_left;
-                moves_left = 0;
+            activity_handlers::oxytorch_do_turn( this, p );
+            break;
+        case ACT_CRACKING:
+            if (!p->has_amount("stethoscope", 1)) {
+                // We lost our stethoscope somehow, bail out.
+                type = ACT_NULL;
+                break;
             }
-            if( values[0] > 0 ) {
-                activity_handlers::oxytorch_do_turn( this, p );
-            }
+            activity_handlers::cracking_do_turn( this, p);
             break;
         default:
             // Based on speed, not time
-            if( p->moves <= moves_left ) {
+            if (p->moves <= moves_left) {
                 moves_left -= p->moves;
                 p->moves = 0;
             } else {
@@ -375,6 +385,10 @@ void player_activity::finish( player *p )
             break;
         case ACT_OXYTORCH:
             activity_handlers::oxytorch_finish( this, p );
+            type = ACT_NULL;
+            break;
+        case ACT_CRACKING:
+            activity_handlers::cracking_finish( this, p);
             type = ACT_NULL;
             break;
         default:
