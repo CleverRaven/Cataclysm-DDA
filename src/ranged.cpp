@@ -426,7 +426,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
-        const auto critter = g->critter_at( targ );
+        const auto critter = g->critter_at( targ, true );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
             const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
             auto new_targets = get_targetable_creatures( weaponrange );
@@ -1113,7 +1113,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                           rl_dist(from, p), range, enemiesmsg.c_str());
             }
 
-            const Creature *critter = critter_at( p );
+            const Creature *critter = critter_at( p, true );
             if( critter != nullptr && u.sees( *critter ) ) {
                 // The 4 is 2 for the border and 2 for aim bars.
                 int available_lines = height - num_instruction_lines - line_number - 4;
@@ -1125,8 +1125,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
         }
 
-        if( mode == TARGET_MODE_FIRE && critter_at( p ) ) {
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( p ) );
+        if( mode == TARGET_MODE_FIRE && critter_at( p, true ) ) {
+            line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( p, true ) );
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = u.draw_turret_aim( w_target, line_number, p );
         }
@@ -1168,7 +1168,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         /* More drawing to terrain */
         // TODO: Allow aiming up/down
         if (targ.x != 0 || targ.y != 0) {
-            const Creature *critter = critter_at( p );
+            const Creature *critter = critter_at( p, true );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
             } else if (m.sees(u.pos(), p, -1, tart1, tart2)) {
