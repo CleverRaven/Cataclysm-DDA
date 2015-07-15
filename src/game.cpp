@@ -5395,8 +5395,7 @@ float game::natural_light_level() const
     if( calendar::turn == latest_lightlevel_turn ) {
         return latest_lightlevel;
     }
-    // Should be completely overwritten next, thus no initialization value here.
-    float ret;
+    float ret = LIGHT_AMBIENT_MINIMAL;
     // Cache this for multiple uses
     int lz = get_levz();
 
