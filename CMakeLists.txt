@@ -21,6 +21,9 @@ option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW depen
 option(LUA_BINARY   "Lua binary name or path. You can try use luajit for extra speed"		"")
 option(GIT_BINARY   "Git binary name or path."							"")
 
+include(GetGitRevisionDescription)
+git_describe(GIT_VERSION)
+
 IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
@@ -29,13 +32,20 @@ MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | / 
 MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
-MESSAGE("                               --= Dark Days Ahead =--") 
+MESSAGE("                               --= Dark Days Ahead =--")
 MESSAGE("\n * http://en.cataclysmdda.com/\n")
 ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
 MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
+
+if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
+    MESSAGE(STATUS "${PROJECT} build version is: ${GIT_VERSION}\n")
+    ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
+ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 
 #OS Check Placeholders. Will be used for BINDIST
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
