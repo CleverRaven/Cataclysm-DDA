@@ -23,6 +23,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "mapsharing.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "name.h"
@@ -78,6 +79,9 @@ city::city( int const X, int const Y, int const S)
 , name( Name::get( nameIsTownName ) )
 {
 }
+
+std::map<enum radio_type, std::string> radio_type_names =
+{{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
 void load_overmap_specials(JsonObject &jo)
 {
@@ -808,13 +812,8 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 
 // *** BEGIN overmap FUNCTIONS ***
 
-overmap::overmap(int const x, int const y)
-    : loc(x, y)
-    , nullret("")
-    , nullbool(false)
+overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(false)
 {
-    // STUB: need region map:
-    // settings = regionmap->calculate_settings( loc );
     const std::string rsettings_id = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
@@ -825,6 +824,17 @@ overmap::overmap(int const x, int const y)
 
     init_layers();
     open();
+}
+
+overmap::overmap(): loc(0, 0), nullret(""), nullbool(false)
+{
+    t_regional_settings_map_citr rsit = region_settings_map.find( "default" );
+
+    if ( rsit == region_settings_map.end() ) {
+        debugmsg("Test overmap: can't find region 'default'" );
+    }
+    settings = rsit->second;
+    init_layers();
 }
 
 overmap::~overmap()
@@ -890,6 +900,43 @@ bool overmap::is_explored(int const x, int const y, int const z) const
         return false;
     }
     return layer[z + OVERMAP_DEPTH].explored[x][y];
+}
+
+bool overmap::mongroup_check(const mongroup &candidate) const
+{
+    const auto matching_range = zg.equal_range(candidate.pos);
+    return std::find_if( matching_range.first, matching_range.second,
+        [candidate](std::pair<tripoint, mongroup> match) {
+            // This is extra strict since we're using it to test serialization.
+            return candidate.type == match.second.type && candidate.pos == match.second.pos &&
+                candidate.radius == match.second.radius &&
+                candidate.population == match.second.population &&
+                candidate.target == match.second.target &&
+                candidate.interest == match.second.interest &&
+                candidate.dying == match.second.dying &&
+                candidate.horde == match.second.horde &&
+                candidate.diffuse == match.second.diffuse;
+        } ) != matching_range.second;
+}
+
+int overmap::num_mongroups() const
+{
+    return zg.size();
+}
+
+bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
+{
+    const auto matching_range = monster_map.equal_range(candidate.first);
+    return std::find_if( matching_range.first, matching_range.second,
+        [candidate](std::pair<tripoint, monster> match) {
+            return candidate.second.pos() == match.second.pos() &&
+                candidate.second.type == match.second.type;
+        } ) != matching_range.second;
+}
+
+int overmap::num_monsters() const
+{
+    return monster_map.size();
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const
@@ -1678,7 +1725,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             // Are we debugging monster groups?
             if(blink && data.debug_mongroup) {
                 // Check if this tile is the target of the currently selected group
-                if(mgroup && mgroup->tx / 2 == omx && mgroup->ty / 2 == omy) {
+                if(mgroup && mgroup->target.x / 2 == omx && mgroup->target.y / 2 == omy) {
                     ter_color = c_red;
                     ter_sym = 'x';
                 } else {
@@ -1832,7 +1879,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 mvwprintz(wbar, line_number++, 3,
                           c_blue, "  Interest: %d", mgroup->interest);
                 mvwprintz(wbar, line_number, 3,
-                          c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
+                          c_blue, "  Target: %d, %d", mgroup->target.x, mgroup->target.y);
                 mvwprintz(wbar, line_number++, 3,
                           c_red, "x");
             }
@@ -2150,8 +2197,8 @@ void mongroup::wander()
 {
     // TODO: More interesting stuff possible, like looking for nearby shelter.
     // What a monster thinks of as shelter is another matter...
-    tx += rng( -10, 10 );
-    ty += rng( -10, 10 );
+    target.x += rng( -10, 10 );
+    target.y += rng( -10, 10 );
     interest = 30;
 }
 
@@ -2169,26 +2216,26 @@ void overmap::move_hordes()
         if( rng(0, 100) < mg.interest ) {
             // TODO: Adjust for monster speed.
             // TODO: Handle moving to adjacent overmaps.
-            if( mg.posx > mg.tx) {
-                mg.posx--;
+            if( mg.pos.x > mg.target.x) {
+                mg.pos.x--;
             }
-            if( mg.posx < mg.tx) {
-                mg.posx++;
+            if( mg.pos.x < mg.target.x) {
+                mg.pos.x++;
             }
-            if( mg.posy > mg.ty) {
-                mg.posy--;
+            if( mg.pos.y > mg.target.y) {
+                mg.pos.y--;
             }
-            if( mg.posy < mg.ty) {
-                mg.posy++;
+            if( mg.pos.y < mg.target.y) {
+                mg.pos.y++;
             }
 
-            if( mg.posx == mg.tx && mg.posy == mg.ty ) {
+            if( mg.pos.x == mg.target.x && mg.pos.y == mg.target.y ) {
                 mg.wander();
             } else {
                 mg.dec_interest( 1 );
             }
             // Erase the group at it's old location, add the group with the new location
-            tmpzg.insert( std::pair<tripoint, mongroup>( tripoint(mg.posx, mg.posy, mg.posz ), mg ) );
+            tmpzg.insert( std::pair<tripoint, mongroup>( mg.pos, mg ) );
             zg.erase( it++ );
         }
     }
@@ -2206,7 +2253,7 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
         if( !mg.horde ) {
             continue;
         }
-            const int dist = rl_dist( p, { mg.posx, mg.posy, mg.posz } );
+            const int dist = rl_dist( p, mg.pos );
             if( sig_power <= dist ) {
                 continue;
             }
@@ -2215,10 +2262,10 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power)
             const int roll = rng( 0, mg.interest );
             if( roll < d_inter ) {
                 // TODO: Z coord for mongroup targets
-                const int targ_dist = rl_dist( p, { mg.tx, mg.ty, mg.posz } );
+                const int targ_dist = rl_dist( p, mg.target );
                 // TODO: Base this on targ_dist:dist ratio.
                 if (targ_dist < 5) {
-                    mg.set_target( (mg.tx + p.x) / 2, (mg.ty + p.y) / 2 );
+                    mg.set_target( (mg.target.x + p.x) / 2, (mg.target.y + p.y) / 2 );
                     mg.inc_interest( d_inter );
                 } else {
                     mg.set_target( p.x, p.y );
@@ -3842,7 +3889,6 @@ void overmap::place_radios()
     }
 }
 
-
 void overmap::open()
 {
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
@@ -3850,9 +3896,14 @@ void overmap::open()
     std::ifstream fin;
 
     fin.open(terfilename.c_str());
-    if (fin.is_open()) {
-        unserialize(fin, plrfilename, terfilename);
+    if( fin.is_open() ) {
+        unserialize(fin);
         fin.close();
+        fin.open(plrfilename);
+        if( fin.is_open() ) {
+            unserialize_view(fin);
+            fin.close();
+        }
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap*> pointers;
         // Fetch south and north
@@ -3866,6 +3917,27 @@ void overmap::open()
         // pointers looks like (north, south, west, east)
         generate(pointers[0], pointers[3], pointers[1], pointers[2]);
     }
+}
+
+// Note: this may throw io errors from std::ofstream
+void overmap::save() const
+{
+    std::ofstream fout;
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
+    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
+
+    // Player specific data
+    fout.open(plrfilename.c_str());
+    serialize_view( fout );
+    fout.close();
+    // World terrain data
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
+        return;
+    }
+    serialize( fout );
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 #include "omdata.h"
@@ -4127,7 +4199,7 @@ void overmap::add_mon_group(const mongroup &group)
     // makes the diffuse setting obsolete (as it only controls how the radius
     // is interpreted) - it's only used when adding monster groups with function.
     if( group.radius == 1 ) {
-        zg.insert(std::pair<tripoint, mongroup>( tripoint( group.posx, group.posy, group.posz ), group ) );
+        zg.insert(std::pair<tripoint, mongroup>( group.pos, group ) );
         return;
     }
     // diffuse groups use a circular area, non-diffuse groups use a rectangular area
@@ -4171,8 +4243,8 @@ void overmap::add_mon_group(const mongroup &group)
             // for a single-submap group.
             mongroup tmp( group );
             tmp.radius = 1;
-            tmp.posx += x;
-            tmp.posy += y;
+            tmp.pos.x += x;
+            tmp.pos.y += y;
             tmp.population = p;
             // This *can* create groups outside of the area of this overmap.
             // As this function is called during generating the overmap, the

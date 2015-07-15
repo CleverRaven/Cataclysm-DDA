@@ -1,11 +1,15 @@
 #include "debug.h"
 // for legacy classdata loaders
 #include "item.h"
+#include "mongroup.h"
 #include "npc.h"
+#include "options.h"
+#include "overmap.h"
 
 #include <unordered_map>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 namespace std {
     template <>
@@ -238,4 +242,247 @@ void item::load_info( const std::string &data )
         active = true;
     }
     set_curammo( ammotmp );
+}
+
+///// overmap legacy deserialization, replaced with json serialization June 2015
+void overmap::unserialize_legacy(std::ifstream & fin) {
+    // DEBUG VARS
+    int nummg = 0;
+    char datatype;
+    int cx, cy, cz, cs, cp, cd, cdying, horde, tx, ty, intr;
+    std::string cstr;
+    city tmp;
+    std::list<item> npc_inventory;
+
+    if ( fin.peek() == '#' ) {
+        std::string vline;
+        getline(fin, vline);
+    }
+
+    int z = 0; // assumption
+    while (fin >> datatype) {
+        if (datatype == 'L') { // Load layer data, and switch to layer
+            fin >> z;
+
+            std::string tmp_ter;
+            oter_id tmp_otid(0);
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                int count = 0;
+                for (int j = 0; j < OMAPY; j++) {
+                    for (int i = 0; i < OMAPX; i++) {
+                        if (count == 0) {
+                            fin >> tmp_ter >> count;
+                            if( otermap.count( tmp_ter ) > 0 ) {
+                                tmp_otid = tmp_ter;
+                            } else if( tmp_ter.compare( 0, 7, "mall_a_" ) == 0 &&
+                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
+                                tmp_otid = tmp_ter + "_north";
+                            } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
+                                       otermap.count( tmp_ter + "_north" ) > 0 ) {
+                                tmp_otid = tmp_ter + "_north";
+                            } else {
+                                debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
+                                tmp_otid = 0;
+                            }
+                        }
+                        count--;
+                        layer[z].terrain[i][j] = tmp_otid; //otermap[tmp_ter].loadid;
+                        layer[z].visible[i][j] = false;
+                    }
+                }
+            } else {
+                debugmsg("Loaded z level out of range (z: %d)", z);
+            }
+        } else if (datatype == 'Z') { // Monster group
+            // save compatiblity hack: read the line, initialze new members to 0,
+            // "parse" line,
+            std::string tmp;
+            getline(fin, tmp);
+            std::istringstream buffer(tmp);
+            horde = 0;
+            tx = 0;
+            ty = 0;
+            intr = 0;
+            buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
+            mongroup mg( mongroup_id( cstr ), cx, cy, cz, cs, cp );
+            // Bugfix for old saves: population of 2147483647 is far too much and will
+            // crash the game. This specific number was caused by a bug in
+            // overmap::add_mon_group.
+            if( mg.population == 2147483647ul ) {
+                mg.population = rng( 1, 10 );
+            }
+            mg.diffuse = cd;
+            mg.dying = cdying;
+            mg.horde = horde;
+            mg.set_target( tx, ty );
+            mg.interest = intr;
+            add_mon_group( mg );
+            nummg++;
+        } else if( datatype == 'M' ) {
+            tripoint mon_loc;
+            monster new_monster;
+            fin >> mon_loc.x >> mon_loc.y >> mon_loc.z;
+            std::string data;
+            getline( fin, data );
+            new_monster.deserialize( data );
+            monster_map.insert( std::make_pair( std::move(mon_loc),
+                                                std::move(new_monster) ) );
+        } else if (datatype == 't') { // City
+            fin >> cx >> cy >> cs;
+            tmp.x = cx; tmp.y = cy; tmp.s = cs;
+            cities.push_back(tmp);
+        } else if (datatype == 'R') { // Road leading out
+            fin >> cx >> cy;
+            tmp.x = cx; tmp.y = cy; tmp.s = -1;
+            roads_out.push_back(tmp);
+        } else if (datatype == 'T') { // Radio tower
+            radio_tower tmp;
+            int tmp_type;
+            fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
+            tmp.type = (radio_type)tmp_type;
+            getline(fin, tmp.message); // Chomp endl
+            getline(fin, tmp.message);
+            radios.push_back(tmp);
+        } else if ( datatype == 'v' ) {
+            om_vehicle v;
+            int id;
+            fin >> id >> v.name >> v.x >> v.y;
+            vehicles[id]=v;
+        } else if (datatype == 'n') { // NPC
+// When we start loading a new NPC, check to see if we've accumulated items for
+//   assignment to an NPC.
+
+            if (!npc_inventory.empty() && !npcs.empty()) {
+                npcs.back()->inv.add_stack(npc_inventory);
+                npc_inventory.clear();
+            }
+            std::string npcdata;
+            getline(fin, npcdata);
+            npc * tmp = new npc();
+            tmp->load_info(npcdata);
+            npcs.push_back(tmp);
+        } else if (datatype == 'P') {
+            // Chomp the invlet_cache, since the npc doesn't use it.
+            std::string itemdata;
+            getline(fin, itemdata);
+        } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
+                   datatype == 'w' || datatype == 'c') {
+            std::string itemdata;
+            getline(fin, itemdata);
+            if (npcs.empty()) {
+                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                         loc.x, loc.y, itemdata.c_str());
+            } else {
+                item tmp;
+                tmp.load_info(itemdata);
+                npc* last = npcs.back();
+                switch (datatype) {
+                case 'I': npc_inventory.push_back(tmp);                 break;
+                case 'C': npc_inventory.back().contents.push_back(tmp); break;
+                case 'W': last->worn.push_back(tmp);                    break;
+                case 'w': last->weapon = tmp;                           break;
+                case 'c': last->weapon.contents.push_back(tmp);         break;
+                }
+            }
+        } else if ( datatype == '!' ) { // temporary holder for future sanity
+            std::string tmpstr;
+            getline(fin, tmpstr);
+            if ( tmpstr.size() > 1 && ( tmpstr[0] == '{' || tmpstr[1] == '{' ) ) {
+                std::stringstream derp;
+                derp << tmpstr;
+                JsonIn jsin(derp);
+                try {
+                    JsonObject data = jsin.get_object();
+
+                    if ( data.read("region_id",tmpstr) ) { // temporary, until option DEFAULT_REGION becomes start_scenario.region_id
+                        if ( settings.id != tmpstr ) {
+                            t_regional_settings_map_citr rit = region_settings_map.find( tmpstr );
+                            if ( rit != region_settings_map.end() ) {
+                                // temporary; user changed option, this overmap should remain whatever it was set to.
+                                settings = rit->second; // todo optimize
+                            } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
+                                std::string tmpopt = ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"].getValue();
+                                rit = region_settings_map.find( tmpopt );
+                                if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
+                                    debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
+                ERROR, 'default_region' option uses missing region settings '%s'. Falling back to 'default'               \n\
+                ....... good luck.                 \n",
+                                              tmpstr.c_str(), tmpopt.c_str() );
+                                    // fallback means we already loaded default and got a warning earlier.
+                                } else {
+                                    debugmsg("               WARNING: overmap uses missing region settings '%s', falling back to '%s'                \n",
+                                              tmpstr.c_str(), tmpopt.c_str() );
+                                    // fallback means we already loaded ACTIVE_WORLD_OPTIONS["DEFAULT_REGION"]
+                                }
+                            }
+                        }
+                    }
+                } catch(std::string jsonerr) {
+                    debugmsg("load overmap: json error\n%s", jsonerr.c_str() );
+                    // just continue with default region
+                }
+            }
+        }
+    }
+
+// If we accrued an npc_inventory, assign it now
+    if (!npc_inventory.empty() && !npcs.empty()) {
+        npcs.back()->inv.add_stack(npc_inventory);
+    }
+}
+
+void overmap::unserialize_view_legacy( std::ifstream &fin )
+{
+    // Private/per-character data
+    int z = 0; // assumption
+    char datatype;
+    while (fin >> datatype) {
+        if (datatype == 'L') {  // Load layer data, and switch to layer
+            fin >> z;
+
+            std::string dataline;
+            getline(fin, dataline); // Chomp endl
+
+            int count = 0;
+            int vis;
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                for (int j = 0; j < OMAPY; j++) {
+                    for (int i = 0; i < OMAPX; i++) {
+                        if (count == 0) {
+                            fin >> vis >> count;
+                        }
+                        count--;
+                        layer[z].visible[i][j] = (vis == 1);
+                    }
+                }
+            }
+        } else if (datatype == 'E') { //Load explored areas
+            fin >> z;
+
+            std::string dataline;
+            getline(fin, dataline); // Chomp endl
+
+            int count = 0;
+            int explored;
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                for (int j = 0; j < OMAPY; j++) {
+                    for (int i = 0; i < OMAPX; i++) {
+                        if (count == 0) {
+                            fin >> explored >> count;
+                        }
+                        count--;
+                        layer[z].explored[i][j] = (explored == 1);
+                    }
+                }
+            }
+        } else if (datatype == 'N') { // Load notes
+            om_note tmp;
+            fin >> tmp.x >> tmp.y;
+            getline(fin, tmp.text); // Chomp endl
+            getline(fin, tmp.text);
+            if (z >= 0 && z < OVERMAP_LAYERS) {
+                layer[z].notes.push_back(tmp);
+            }
+        }
+    }
 }

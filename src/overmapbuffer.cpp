@@ -69,7 +69,7 @@ overmap &overmapbuffer::get( const int x, const int y )
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
     fix_mongroups( result );
-    
+
     last_requested_overmap = &result;
     return result;
 }
@@ -85,12 +85,12 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
             continue;
         }
         // Inside the bounds of the overmap?
-        if( mg.posx >= 0 && mg.posy >= 0 && mg.posx < OMAPX * 2 && mg.posy < OMAPY * 2 ) {
+        if( mg.pos.x >= 0 && mg.pos.y >= 0 && mg.pos.x < OMAPX * 2 && mg.pos.y < OMAPY * 2 ) {
             ++it;
             continue;
         }
-        point smabs( mg.posx + new_overmap.pos().x * OMAPX * 2,
-                     mg.posy + new_overmap.pos().y * OMAPY * 2 );
+        point smabs( mg.pos.x + new_overmap.pos().x * OMAPX * 2,
+                     mg.pos.y + new_overmap.pos().y * OMAPY * 2 );
         point omp = sm_to_om_remain( smabs );
         if( !has( omp.x, omp.y ) ) {
             // Don't generate new overmaps, as this can be called from the
@@ -99,8 +99,8 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
             continue;
         }
         overmap &om = get( omp.x, omp.y );
-        mg.posx = smabs.x;
-        mg.posy = smabs.y;
+        mg.pos.x = smabs.x;
+        mg.pos.y = smabs.y;
         om.add_mon_group( mg );
         new_overmap.zg.erase( it++ );
     }

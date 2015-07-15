@@ -1515,46 +1515,13 @@ classes = {
     },
     mongroup = {
         attributes = {
-            posx = {
-                type = "int",
-                writable = true
-            },
-            posy = {
-                type = "int",
-                writable = true
-            },
-            posz = {
-                type = "int",
-                writable = true
-            },
-            tx = {
-                type = "int",
-                writable = false
-            },
-            ty = {
-                type = "int",
-                writable = false
-            },
-            dying = {
-                type = "bool",
-                writable = true
-            },
-            horde = {
-                type = "bool",
-                writable = true
-            },
-            diffuse = {
-                type = "bool",
-                writable = true
-            },
-            radius = {
-                type = "int",
-                writable = true
-            },
-            population = {
-                type = "int",
-                writable = true
-            }
+            pos = { type = "tripoint", writable = false },
+            target = { type = "tripoint", writable = true },
+            dying = { type = "bool", writable = true },
+            horde = { type = "bool", writable = true },
+            diffuse = { type = "bool", writable = true },
+            radius = { type = "int", writable = true },
+            population = { type = "int", writable = true }
         },
         functions = {
             { name = "set_target", rval = nil, args = { "int", "int" } },
