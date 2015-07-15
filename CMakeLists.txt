@@ -24,7 +24,6 @@ option(GIT_BINARY   "Git binary name or path."							"")
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-
 IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
@@ -45,6 +44,7 @@ if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
     MESSAGE(STATUS "${PROJECT} build version is: ${GIT_VERSION}\n")
+    ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
 ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 
 #OS Check Placeholders. Will be used for BINDIST
