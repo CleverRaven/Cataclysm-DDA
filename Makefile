@@ -350,8 +350,10 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
-  ifneq ($(shell which ncursesw5-config 2>/dev/null),)
-    HAVE_NCURSESW5CONFIG = 1
+  ifeq ($(TARGETSYSTEM),LINUX)
+    ifneq ($(shell which ncursesw5-config 2>/dev/null),)
+      HAVE_NCURSESW5CONFIG = 1
+    endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
