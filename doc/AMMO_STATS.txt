@@ -24,6 +24,27 @@ The damage of ammunition is the square root of a round's muzzle energy in joules
 168gr hollow point bullet
 3570J muzzle energy - √3570=60
 
+7.62 NATO M80:
+147gr FMJ bullet
+3304J muzzle energy - √3304=57
+
+7.62 NATO M62:
+Belt with 1/5 tracer rounds
+147gr FMJ bullet
+3304J muzzle energy - √3304=57
+
 .270 Winchester:
 130gr soft point bullet
 3663J muzzle energy - √3663=61
+
+.30-06 Springfield:
+165gr soft point bullet - damage increased by 4
+3894J muzzle energy - √3894=62
+
+.30-06 M2:
+165gr FMJ bullet - damage reduced by 10
+3894J muzzle energy - √3894=62
+
+.30-06 M14A1:
+Incendiary ammunition - damage reduced by 10
+3894J muzzle energy - √3894=62
