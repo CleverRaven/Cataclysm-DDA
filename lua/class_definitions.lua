@@ -1516,7 +1516,7 @@ classes = {
     mongroup = {
         attributes = {
             pos = { type = "tripoint", writable = false },
-            target = { type = "tripoint", writable = true },
+            target = { type = "tripoint", writable = false },
             dying = { type = "bool", writable = true },
             horde = { type = "bool", writable = true },
             diffuse = { type = "bool", writable = true },
