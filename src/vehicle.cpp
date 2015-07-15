@@ -5059,17 +5059,25 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             const itype_id &ft = part_info(p).fuel_type;
             if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma ) {
                 // TODO: Move the values below to jsons
+                // Defaults
+                int explosion_chance = 0;
+                float explosion_factor = 0;
+                bool fiery_explosion = false;
+                float fuel_size_factor = 0;
+
                 // Gasoline
-                if (type == DT_HEAT) {
-                    explosion_chance = 2;
-                } else {
-                    explosion_chance = 5;
-                }
-                bool fiery_explosion = true; // Produces lasting flames
-                float fuel_size_factor = .1; // Smaller units than normal
-                float explosion_factor = 1;
+                if (ft == fuel_type_gasoline) {
+                    if (type == DT_HEAT) {
+                        explosion_chance = 2;
+                    } else {
+                        explosion_chance = 5;
+                    }
+                    fiery_explosion = true; // Produces lasting flames
+                    fuel_size_factor = .1; // Smaller units than normal
+                    explosion_factor = 1;
+
                 // Diesel
-                if (ft == fuel_type_diesel) {
+                } else if (ft == fuel_type_diesel) {
                     if (type == DT_HEAT) {
                         explosion_chance = 20; // Still somewhat vulnerable to heat damage
                     } else {
@@ -5078,6 +5086,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                     fiery_explosion = false; // Doesn't produce lasting flames
                     fuel_size_factor = .1; // Smaller units than normal
                     explosion_factor = .2; // Only partial explosions
+
                 // Hydrogen
                 } else if (ft == fuel_type_plasma) {
                     // Very likely to explode; real life tanks are armored to stop this.
