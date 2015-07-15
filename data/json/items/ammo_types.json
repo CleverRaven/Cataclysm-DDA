@@ -283,6 +283,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "acetylene",
+        "name" : "acetylene",
+        "default" : "acetylene"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "water",
         "name" : "clean water",
         "default" : "water_clean"
