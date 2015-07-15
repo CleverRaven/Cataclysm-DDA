@@ -321,6 +321,11 @@ int player::create(character_type type, std::string tempname)
     }
 
     do {
+        if( w == nullptr ) {
+            // assert( type == PLTYPE_NOW );
+            // no window is created because "Play now"  does not require any configuration
+            break;
+        }
         werase(w);
         wrefresh(w);
         switch (tab) {
