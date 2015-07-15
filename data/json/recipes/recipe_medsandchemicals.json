@@ -2609,28 +2609,17 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
-    [
-      [ "chemistry_set", 50 ]
-    ]
-  ],
+  "tools": [ [ [ "chemistry_set", 50 ] ] ],
   "components": [
-    [
-      [ "water_clean", 1 ],
-      [ "water", 1 ]
-    ],
-    [
-      [ "plant_sac", 10 ],
-      [ "veggy", 6 ]
-    ],
-    [
-      [ "lye_powder", 5 ]
-    ]
+    [ [ "water_clean", 1 ], [ "water", 1 ] ],
+    [ [ "plant_sac", 10 ], [ "veggy", 6 ] ],
+    [ [ "lye_powder", 5 ] ]
   ]
 },
 {
     "type": "recipe",
     "result": "diesel",
+    "result_mult": 20,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
@@ -2641,9 +2630,10 @@
     "book_learn": [["textbook_biodiesel", 5]],
     "tools": [[[ "chemistry_set", 10 ]]],
     "components": [
-        [[ "chem_ethanol", 50 ]],
-        [[ "tallow_tainted", 10 ],
-         [ "seed_canola", 15 ],
+        [[ "water_clean", 1 ], [ "water", 1 ]],
+        [[ "chem_ethanol", 10 ]],
+        [[ "tallow_tainted", 20 ],
+         [ "seed_canola", 30 ],
          [ "lard", 20 ],
          [ "tallow", 20 ],
          [ "fat", 40 ],
@@ -2653,7 +2643,9 @@
          [ "human_flesh", 80 ],
          [ "dry_meat", 80 ],
          [ "dry_hflesh", 80 ],
-         [ "dry_meat_tainted", 80 ]]
+         [ "dry_meat_tainted", 80 ]],
+        [[ "lye_powder", 1 ]]
+
     ]
 },
 {
@@ -2672,25 +2664,21 @@
       {"id":"BOIL","level":2,"amount":1},
       {"id":"BREW","level":2,"amount":1}
    ],
-    "tools": [
-        [
-            [ "hotplate", 15 ],
-            [ "char_smoker", 2 ],
-            [ "toolset", 15 ]
-        ]
-    ],
-    "components": [
-        [
-            [ "vodka", 400 ],
-            [ "whiskey", 400 ],
-            [ "single_malt_whiskey", 400 ],
-            [ "brandy", 400 ],
-            [ "rum", 400 ],
-            [ "gin", 400 ],
-            [ "tequila", 400 ],
-            [ "bum_wine", 1200 ]
-        ]
-    ]
+    "tools": [ [
+        [ "hotplate", 15 ],
+        [ "char_smoker", 2 ],
+        [ "toolset", 15 ]
+    ] ],
+    "components": [ [
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
+        [ "bum_wine", 56 ]
+    ] ]
 },
 {
   "type" : "recipe",
