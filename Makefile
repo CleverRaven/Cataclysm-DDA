@@ -350,7 +350,7 @@ ifdef TILES
     ODIR = $(ODIRTILES)
   endif
 else
-  ifeq ($(TARGETSYSTEM),LINUX)
+  ifeq ($(CROSS),)
     ifneq ($(shell which ncursesw5-config 2>/dev/null),)
       HAVE_NCURSESW5CONFIG = 1
     endif
