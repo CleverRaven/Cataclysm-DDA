@@ -1945,9 +1945,184 @@
   ]
 },{
   "type" : "recipe",
+  "result": "bot_eyebot",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 4 ], [ "computer", 2 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "omnicamera", 1 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_skitterbot",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 6,
+  "time": 8000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "tazer", 2 ]
+    ],
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "RAM", 1 ]
+    ],
+    [
+      [ "power_supply", 2 ],
+      [ "plut_cell", 2 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_secubot",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 6 ], [ "computer", 6 ], [ "gun", 3 ]],
+  "difficulty": 8,
+  "time": 32000,
+  "reversible": true,
+  "decomp_learn": 8,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "textbook_robots", 10 ]],
+  "qualities" : [ 
+   {"id":"SCREW","level":1,"amount":1},
+   {"id":"WHENCH","level":1,"amount":1},
+   {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 14 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 20 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ],
+      [ "oxy_torch", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "uzi", 1 ],
+      [ "tec9", 1 ],
+      [ "calico", 1 ],
+      [ "hk_mp5", 1 ]
+    ],
+    [ [ "processor", 2 ] ],
+    [ [ "RAM", 2 ] ],
+    [
+      [ "power_supply", 3 ],
+      [ "plut_cell", 3 ]
+    ],
+    [
+      [ "motor_small", 1 ]
+    ],
+    [ [ "scrap", 12 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_copbot",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+  "difficulty": 8,
+  "time": 32000,
+  "reversible": true,
+  "decomp_learn": 8,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "textbook_robots", 10 ]],
+  "qualities" : [ 
+   {"id":"SCREW","level":1,"amount":1},
+   {"id":"WHENCH","level":1,"amount":1},
+   {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 14 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 40 ],
+      [ "welder_crude", 60 ],
+      [ "toolset", 60 ],
+      [ "oxy_torch", 4 ]
+    ]
+  ],
+  "components": [
+    [ [ "processor", 2 ] ],
+    [ [ "RAM", 2 ] ],
+    [ [ "solar_cell", 2 ] ],
+    [
+      [ "power_supply", 4 ],
+      [ "plut_cell", 4 ]
+    ],
+    [
+      [ "motor", 1 ],
+      [ "motor_small", 2 ]
+    ],
+    [ [ "tazer", 1 ] ],
+    [ [ "steel_chunk", 12 ], [ "steel_lump", 3 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bot_turret",
   "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
   "difficulty": 7,
@@ -1982,7 +2157,7 @@
   "type" : "recipe",
   "result": "bot_laserturret",
   "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 8 ], [ "computer", 5 ], [ "gun", 3 ]],
   "difficulty": 8,
@@ -2022,7 +2197,7 @@
   "type" : "recipe",
   "result": "bot_rifleturret",
   "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
   "difficulty": 8,
@@ -2047,6 +2222,52 @@
       [ "plut_cell", 1 ]
     ],
     [ [ "scrap", 15 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bot_turret_bmg",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_OTHER",
+  "skill_used": "mechanics",
+  "skills_required": [[ "electronics", 6 ], [ "computer", 6 ], [ "gun", 3 ]],
+  "difficulty": 9,
+  "time": 24000,
+  "reversible": true,
+  "decomp_learn": 9,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 8 ] , [ "textbook_robots", 10 ]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WHENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 14 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "oxy_torch", 5 ],
+      [ "toolset", 75 ]
+    ] 
+  ],
+  "components": [
+    [ [ "m107a1", 1 ], [ "m2browning_sawn", 1 ] ],
+    [ [ "processor", 2 ] ],
+    [ [ "RAM", 2 ] ],
+    [
+      [ "power_supply", 1 ],
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 36 ],
+      [ "steel_chunk", 12 ],
+      [ "steel_lump", 4 ]
+    ]
   ]
 },{
   "type" : "recipe",
