@@ -13522,15 +13522,15 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
         line(&m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
         line(&m, t_fence_barbed, 3, 4, 3, 10);
         line(&m, t_fence_barbed, 1, 13, 1, 19);
-        if (one_in(3)) {  // Chicken delivery truck
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
+        if (one_in(3)) {  // Chicken delivery
+            m.add_vehicle( vgroup_id( "military_vehicles" ), 12, SEEY * 2 - 5, 0);
             m.add_spawn("mon_chickenbot", 1, 12, 12);
         } else if (one_in(2)) {  // TAAANK
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
             m.add_spawn("mon_tankbot", 1, 12, 12);
-        } else {  // Truck & turrets
-            m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0);
+        } else {  // Vehicle & turrets
+            m.add_vehicle( vgroup_id( "military_vehicles" ), 12, SEEY * 2 - 5, 0);
             m.add_spawn("mon_turret_bmg", 1, 12, 12);
             m.add_spawn("mon_turret_rifle", 1, 9, 12);
         }
