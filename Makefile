@@ -320,20 +320,22 @@ ifdef TILES
       CXXFLAGS += $(shell sdl2-config --cflags) \
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
-      ifdef TILES
-        LDFLAGS += -lSDL2_image
-      endif
-    endif
-  else # not osx
-    LDFLAGS += -lSDL2 -lSDL2_ttf
-    ifdef TILES
       LDFLAGS += -lSDL2_image
     endif
+  else # not osx
+    CXXFLAGS += $(shell sdl2-config --cflags)
+
+    ifdef STATIC
+      LDFLAGS += $(shell sdl2-config --static-libs)
+    else
+      LDFLAGS += $(shell sdl2-config --libs)
+    endif
+
+    LDFLAGS += -lSDL2_ttf -lSDL2_image
   endif
-  ifdef TILES
-    DEFINES += -DSDLTILES
-  endif
-  DEFINES += -DTILES
+
+  DEFINES += -DSDLTILES -DTILES
+
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
       # These differ depending on what SDL2 is configured to use.
