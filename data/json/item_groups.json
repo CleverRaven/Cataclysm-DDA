@@ -1052,7 +1052,7 @@
       ["match_trigger",      3],
       ["minispeargun",       2],
       ["moss_brownie",       2],
-      ["mossberg_500",       ],
+      ["mossberg_500",       6],
       ["needlepistol",       1],
       ["pistol_bayonet",     2],
       ["pistol_grip",       12],
@@ -1183,7 +1183,7 @@
       ["shorts_denim",       50],
       ["skirt",              75],
       ["sleeveless_duster",   2],
-      ["sleeveless_trenchcoat"2],
+      ["sleeveless_trenchcoat",  2],
       ["sleeveless_tunic",    5],
       ["snuggie",             5],
       ["socks",              70],
@@ -3031,7 +3031,7 @@
       ["retool_308",          2],
       ["retool_45",           3],
       ["retool_46",           1],
-      ["retool_57",           ],
+      ["retool_57",           1],
       ["retool_9mm",          3],
       ["rifle_scope",        16],
       ["shot_hull",          10],
@@ -4601,7 +4601,7 @@
       ["stethoscope",        20],
       ["story_book",          5],
       ["sunglasses",         30],
-      ["survnote",            1]
+      ["survnote",            1],
       ["tailor_portfolio",    3],
       ["tall_tales",         10],
       ["vaccine_shot",        5],
@@ -8916,7 +8916,7 @@
     "items":[
       ["bunker_pants",       80],
       ["nomex_suit",         40],
-      ["pants_cargo",        10],
+      ["pants_cargo",        10]
     ]
   },{
     "type" : "item_group",
@@ -10243,7 +10243,7 @@
       ["towel",             100],
       ["trunks",            100],
       ["weed",               10],
-      ["wetsuit_spring",     10],
+      ["wetsuit_spring",     10]
     ]
   },{
     "type" : "item_group",
