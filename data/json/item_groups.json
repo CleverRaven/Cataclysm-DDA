@@ -74,6 +74,7 @@
   },{
     "type" : "item_group",
     "id" : "forest",
+    "items":[
       ["acorns",             15],
       ["bottle_glass",        1],
       ["bottle_plastic",      1],
@@ -87,7 +88,6 @@
       ["stick",              95],
       ["syringe",             1],
       ["weeks_old_newspaper", 4]
-    "items":[
     ]
   },{
     "type" : "item_group",
