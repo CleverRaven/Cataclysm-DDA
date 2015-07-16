@@ -2632,20 +2632,13 @@
     "components": [
         [[ "water_clean", 1 ], [ "water", 1 ]],
         [[ "chem_ethanol", 1 ]],
-        [[ "tallow_tainted", 2 ],
-         [ "seed_canola", 3 ],
+        [[ "cooking_oil", 2 ],
          [ "lard", 2 ],
          [ "tallow", 2 ],
+         [ "tallow_tainted", 4 ],
          [ "fat", 4 ],
-         [ "fat_tainted", 4 ],
-         [ "meat", 8 ],
-         [ "meat_tainted", 8 ],
-         [ "human_flesh", 8 ],
-         [ "dry_meat", 8 ],
-         [ "dry_hflesh", 8 ],
-         [ "dry_meat_tainted", 8 ]],
+         [ "fat_tainted", 8 ]],
         [[ "lye_powder", 1 ]]
-
     ]
 },
 {
