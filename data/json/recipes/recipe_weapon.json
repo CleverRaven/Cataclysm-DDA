@@ -1368,6 +1368,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "pipe_combination_gun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "byproducts": { "id" : "scrap", "amount" : 3 },
   "category": "CC_WEAPON",
