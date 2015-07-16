@@ -57,7 +57,7 @@
   },{
     "type" : "item_group",
     "id" : "gas_charging_rack",
-    "note" : "Not sure about the duplicate entries in this stanza."
+    "note" : "Not sure about the duplicate entries in this stanza.",
     "items":[
       { "item": "medium_storage_battery", "prob": 15, "charges-min":     0, "charges-max":  10000 },
       { "item": "medium_storage_battery", "prob": 40, "charges-min":     0, "charges-max":   2000 },
