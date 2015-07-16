@@ -4795,7 +4795,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_effect("bleed", 60, bp);
         }
 
-        if ( source->has_flag(MF_GRABS)) {
+        if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
                 rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 if (has_effect("grabbed")){
@@ -12433,6 +12433,11 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
     bool armor_destroyed = false;
 
     for( auto &elem : dam.damage_units ) {
+        if( elem.amount < 0 ) {
+            // Prevents 0 damage hits (like from hallucinations) from ripping armor
+            elem.amount = 0;
+            continue;
+        }
 
         // CBMs absorb damage first before hitting armor
         if( has_active_bionic("bio_ads") ) {

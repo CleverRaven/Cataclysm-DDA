@@ -209,8 +209,8 @@ class game
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         int  npc_by_id(const int id) const;
         /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p );
-        Creature const* critter_at( const tripoint &p ) const;
+        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
+        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon(const std::string id, const tripoint &p);
@@ -232,9 +232,9 @@ class game
         bool swap_critters( Creature &first, Creature &second );
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p ) const;
+        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
         /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p);
+        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if the value of test is between down and up. */
@@ -320,7 +320,6 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent( const tripoint &p );
-        float ground_natural_light_level() const;
         float natural_light_level() const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -530,7 +529,7 @@ class game
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, tripoint dir, 
+                  int freed_volume_capacity, tripoint dir,
                   bool to_vehicle = true); // emulate old behaviour normally
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry,

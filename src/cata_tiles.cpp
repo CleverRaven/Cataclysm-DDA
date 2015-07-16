@@ -556,7 +556,7 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
 void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
                                    const visibility_variables &cache ) {
     if( apply_vision_effects( p.x, p.y, g->m.get_visibility( ll, cache ) ) ) {
-        const auto critter = g->critter_at( p );
+        const auto critter = g->critter_at( p, true );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
             draw_from_id_string( "infrared_creature", C_NONE, empty_string, p.x, p.y, 0, 0 );
         }
@@ -571,7 +571,7 @@ void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
     draw_trap( p );
     draw_field_or_item( p );
     draw_vpart( p );
-    const auto critter = g->critter_at( p );
+    const auto critter = g->critter_at( p, true );
     if( critter != nullptr ) {
         draw_entity( *critter, p );
     }
