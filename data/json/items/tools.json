@@ -3806,7 +3806,7 @@
     }
   },
   {
-    "id": "bot_riotbot",
+    "id": "bot_copbot",
     "type": "TOOL",
     "symbol": ";",
     "color": "light_green",

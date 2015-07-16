@@ -2036,7 +2036,7 @@
   "book_learn": [[ "recipe_lab_elec", 8 ] , [ "textbook_robots", 10 ]],
   "qualities" : [ 
    {"id":"SCREW","level":1,"amount":1},
-   {"id":"WHENCH","level":1,"amount":1},
+   {"id":"WRENCH","level":1,"amount":1},
    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
@@ -2060,8 +2060,12 @@
       [ "calico", 1 ],
       [ "hk_mp5", 1 ]
     ],
-    [ [ "processor", 2 ] ],
-    [ [ "RAM", 2 ] ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
     [
       [ "power_supply", 3 ],
       [ "plut_cell", 3 ]
@@ -2069,7 +2073,9 @@
     [
       [ "motor_small", 1 ]
     ],
-    [ [ "scrap", 12 ] ]
+    [
+      [ "scrap", 12 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -2086,7 +2092,7 @@
   "book_learn": [[ "recipe_lab_elec", 8 ] , [ "textbook_robots", 10 ]],
   "qualities" : [ 
    {"id":"SCREW","level":1,"amount":1},
-   {"id":"WHENCH","level":1,"amount":1},
+   {"id":"WRENCH","level":1,"amount":1},
    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
@@ -2104,9 +2110,15 @@
     ]
   ],
   "components": [
-    [ [ "processor", 2 ] ],
-    [ [ "RAM", 2 ] ],
-    [ [ "solar_cell", 2 ] ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
+    [
+      [ "solar_cell", 2 ]
+    ],
     [
       [ "power_supply", 4 ],
       [ "plut_cell", 4 ]
@@ -2115,8 +2127,13 @@
       [ "motor", 1 ],
       [ "motor_small", 2 ]
     ],
-    [ [ "tazer", 1 ] ],
-    [ [ "steel_chunk", 12 ], [ "steel_lump", 3 ] ]
+    [
+      [ "tazer", 1 ]
+    ],
+    [ 
+      [ "steel_chunk", 12 ],
+      [ "steel_lump", 3 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -2238,7 +2255,7 @@
   "book_learn": [[ "recipe_lab_elec", 8 ] , [ "textbook_robots", 10 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
-    {"id":"WHENCH","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
@@ -2256,9 +2273,16 @@
     ] 
   ],
   "components": [
-    [ [ "m107a1", 1 ], [ "m2browning_sawn", 1 ] ],
-    [ [ "processor", 2 ] ],
-    [ [ "RAM", 2 ] ],
+    [
+      [ "m107a1", 1 ],
+      [ "m2browning_sawn", 1 ]
+    ],
+    [
+      [ "processor", 2 ]
+    ],
+    [
+      [ "RAM", 2 ]
+    ],
     [
       [ "power_supply", 1 ],
       [ "plut_cell", 1 ]
