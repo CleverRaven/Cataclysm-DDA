@@ -1,6 +1,12 @@
 [
     {
         "type" : "ammunition_type",
+        "id" : "105mm",
+        "name" : "105mm High Explosive Anti Tank warhead",
+        "default" : "105mm_HEAT"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "155mm",
         "name" : "155mm High Explosive Anti Tank warhead",
         "default" : "155mm_HEAT"

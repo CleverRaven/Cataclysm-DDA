@@ -1,6 +1,44 @@
 [
     {
         "type" : "vehicle_part",
+        "id" : "mounted_tank_105",
+        "name" : "105mm tank gun (AL)",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 20,
+        "item" : "tank_gun_105",
+        "difficulty" : 8,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_105", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_rws",
+        "name" : "105mm RWS",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_auto",
+        "difficulty" : 8,
+        "size" : 80,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "tank_gun_rws", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "mounted_tank_manual",
         "name" : "120mm tank gun",
         "symbol" : "t",
