@@ -12,6 +12,17 @@
         ]
     },{
         "type" : "vehicle_group",
+        "id" : "city_vehicles",
+        "vehicles" : [
+            ["tank_light", 100],
+            ["tank_medium", 60],
+            ["sp_howitizer", 40],
+            ["mobile_gun_system", 50],
+            ["pickup_technical", 40],
+            ["tank_atomic", 25]
+        ]
+    },{
+        "type" : "vehicle_group",
         "id" : "highway",
         "vehicles" : [
             ["tank_light", 330],
