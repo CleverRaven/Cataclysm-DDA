@@ -5442,11 +5442,13 @@ float game::natural_light_level() const
         ret = mod_ret;
     }
 
+    // Cap everything to our minimum light level
+    ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
+
     latest_lightlevel = ret;
     latest_lightlevel_turn = calendar::turn;
 
-    // Cap everything to our minimum light level
-    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
+    return ret;
 }
 
 unsigned char game::light_level() const
@@ -8099,24 +8101,12 @@ void game::examine( const tripoint &p )
 
     veh = m.veh_at(examp, veh_part);
     if (veh) {
-        int vpcargo = veh->part_with_feature(veh_part, "CARGO", false);
-        int vpkitchen = veh->part_with_feature(veh_part, "KITCHEN", true);
-        int vpfaucet = veh->part_with_feature(veh_part, "FAUCET", true);
-        int vpweldrig = veh->part_with_feature(veh_part, "WELDRIG", true);
-        int vpcraftrig = veh->part_with_feature(veh_part, "CRAFTRIG", true);
-        int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
-        int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
-        auto here_ground = m.i_at(examp);
-        if( (vpcargo >= 0 && !veh->get_items(vpcargo).empty()) || vpkitchen >= 0 ||
-            vpfaucet >= 0 || vpweldrig >= 0 || vpcraftrig >= 0 || vpchemlab >= 0 ||
-            vpcontrols >= 0 || !here_ground.empty() ) {
-            Pickup::pick_up( examp, 0);
-        } else if (u.controlling_vehicle) {
+        if (u.controlling_vehicle) {
             add_msg(m_info, _("You can't do that while driving."));
         } else if (abs(veh->velocity) > 0) {
             add_msg(m_info, _("You can't do that on a moving vehicle."));
         } else {
-            exam_vehicle(*veh, examp );
+            Pickup::pick_up( examp, 0);
         }
         return;
     }

@@ -1012,6 +1012,7 @@
       ["marlin_9a", 10],
       ["remington_870", 8],
       ["mossberg_500", 6],
+      ["ksg", 2],
       ["rm120c", 1],
       ["shotgun_sawn", 1],
       ["suppressor", 15],
@@ -2759,7 +2760,8 @@
       ["rm120c", 1],
       ["l_def_12", 6],
       ["remington_870", 8],
-      ["mossberg_500", 4]
+      ["mossberg_500", 4],
+      ["ksg", 2]
     ]
   },{
     "type" : "item_group",
@@ -2867,6 +2869,7 @@
       ["l_def_12", 6],
       ["remington_870", 8],
       ["mossberg_500", 4],
+      ["ksg", 2],
       ["rm120c", 2],
       ["saiga_12", 3],
       ["rm20", 1],

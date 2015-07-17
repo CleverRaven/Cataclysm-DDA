@@ -464,14 +464,8 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
         int vy = rng(0, 16) + 4;
         int vx = rng(0, 16) + 4;
         int theta = rng(0,3)*180 + one_in(3)*rng(0,89);
-        vproto_id veh_type;
-        if (one_in(4)) {
-            veh_type = vproto_id( "quad_bike" );
-        } else {
-            veh_type = vproto_id( "pickup" );
-        }
         if (!m->veh_at(vx,vy)) {
-            m->add_vehicle (veh_type, vx, vy, theta, -1, -1);
+            m->add_vehicle (vgroup_id("dirtlot"), {vx, vy}, theta, -1, -1);
         }
     }}
 // todo: more region_settings for forest biome
@@ -1614,23 +1608,9 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
             }
         }
     }
+
     // spawn regular road out of fuel vehicles
-    if (one_in(2)) {
-        int vx = rng (10, 12);
-        int vy = rng (10, 12);
-        int rc = rng(1, 10);
-        if (rc <= 3) {
-            m->add_vehicle( vproto_id( "car" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else if (rc <= 6) {
-            m->add_vehicle( vproto_id( "pickup" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else if (rc <= 8) {
-            m->add_vehicle( vproto_id( "flatbed_truck" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else if (rc <= 9) {
-            m->add_vehicle( vproto_id( "semi_truck" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else {
-            m->add_vehicle( vproto_id( "armored_car" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        }
-    }
+    VehicleSpawn::apply(vspawn_id("default_bridge"), *m, "bridge");
 
     if (terrain_type == "bridge_ew") {
         m->rotate(1);
@@ -1655,28 +1635,14 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
             }
         }
     }
+
+    // spawn regular road out of fuel vehicles
+    VehicleSpawn::apply(vspawn_id("default_highway"), *m, "highway");
+
     if (terrain_type == "hiway_ew") {
         m->rotate(1);
     }
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-
-    // spawn regular road out of fuel vehicles
-    if (one_in(2)) {
-        int vx = rng (10, 12);
-        int vy = rng (10, 12);
-        int rc = rng(1, 10);
-        if (rc <= 3) {
-            m->add_vehicle( vproto_id( "car" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else if (rc <= 6) {
-            m->add_vehicle( vproto_id( "pickup" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else if (rc <= 8) {
-            m->add_vehicle( vproto_id( "flatbed_truck" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else if (rc <= 9) {
-            m->add_vehicle( vproto_id( "semi_truck" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        } else {
-            m->add_vehicle( vproto_id( "armored_car" ), vx, vy, one_in(2)? 90 : 180, 0, -1);
-        }
-    }
 }
 
 void mapgen_river_center(map *m, oter_id, mapgendata dat, int, float)
@@ -1783,80 +1749,8 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
                 m->ter_set(i, j, dat.groundcover());
         }
     }
-    for(int v = 0; v < rng(1,4); v++) {
-        int vy = rng(0, 4) * 4 + rng(2,4);
-        int vx = rng(0, 1) * 15 + rng(4,5);
-        vproto_id veh_type;
-        int roll = rng(1, 100);
-        if (roll <= 10) { //specials
-            int ra = rng(1, 100);
-            if (ra <= 3) {
-                veh_type = vproto_id( "military_cargo_truck" );
-            } else if (ra <= 10) {
-                veh_type = vproto_id( "bubble_car" );
-            } else if (ra <= 15) {
-                veh_type = vproto_id( "rv" );
-            } else if (ra <= 20) {
-                veh_type = vproto_id( "schoolbus" );
-            } else if (ra <= 40) {
-                veh_type = vproto_id( "fire_truck" );
-            }else if (ra <= 60) {
-                veh_type = vproto_id( "policecar" );
-            }else if (ra <=90) {
-                veh_type = vproto_id( "car_sports_electric" );
-            }else {
-                veh_type = vproto_id( "quad_bike" );
-            }
-        } else if (roll <= 25) { //commercial
-            int rb = rng(1, 100);
-            if (rb <= 25) {
-                veh_type = vproto_id( "truck_trailer" );
-            } else if (rb <= 35) {
-                veh_type = vproto_id( "semi_truck" );
-            } else if (rb <= 50) {
-                veh_type = vproto_id( "cube_van" );
-            } else {
-                veh_type = vproto_id( "flatbed_truck" );
-            }
-        } else if (roll < 90) { //commons
-            int rc = rng(1, 100);
-            if (rc <= 4) {
-                veh_type = vproto_id( "golf_cart" );
-            } else if (rc <= 11) {
-                veh_type = vproto_id( "scooter" );
-            } else if (rc <= 21) {
-                int rd = rng(1, 100);
-                if(rd <= 50) {
-                    veh_type = vproto_id( "car_mini" );
-                } else {
-                    veh_type = vproto_id( "beetle" );
-                }
-            } else if (rc <= 50) {
-                veh_type = vproto_id( "car" );
-            } else if (rc <= 60) {
-                veh_type = vproto_id( "electric_car" );
-            } else if (rc <= 65) {
-                veh_type = vproto_id( "hippie_van" );
-            } else if (rc <= 73) {
-                veh_type = vproto_id( "bicycle" );
-            } else if (rc <= 75) {
-                veh_type = vproto_id( "rara_x" ); //The Solar Car Toyota RaRa X
-            } else if (rc <= 77) {
-                veh_type = vproto_id( "unicycle" );
-            } else if (rc <= 82) {
-                veh_type = vproto_id( "bicycle_electric" );
-            } else if (rc <= 90) {
-                veh_type = vproto_id( "motorcycle" );
-            } else {
-                veh_type = vproto_id( "motorcycle_sidecart" );
-            }
-        } else {
-            veh_type = vproto_id( "shopping_cart" );
-        }
-        if (!m->veh_at(vx,vy)) {
-            m->add_vehicle (veh_type, vx, vy, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
-        }
-    }
+
+    VehicleSpawn::apply(vspawn_id("default_parkinglot"), *m, "parkinglot");
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {
@@ -3880,27 +3774,10 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         // place vehicles, if any
         for (int v=0; v<=1; v++) {
             if (one_in(4)) {
-                vproto_id vt;
-                int vehicle_type = rng(1, 8);
-                if(vehicle_type <= 3) {
-                    vt = one_in(2) ? vproto_id( "car" ) : vproto_id( "car_chassis" );
-                } else if(vehicle_type <= 5) {
-                    vt = one_in(2) ? vproto_id( "quad_bike" ) : vproto_id( "quad_bike_chassis" );
-                } else if(vehicle_type <= 7) {
-                    vt = one_in(2) ? vproto_id( "motorcycle" ) : vproto_id( "motorcycle_chassis" );
-                } else {
-                    vt = vproto_id( "welding_cart" );
-                }
-                m->add_vehicle(vt, vx + v * tdx, vy + v * tdy, theta + one_in(3)*rng(-1,1)*30, -1, -1);
+                m->add_vehicle(vgroup_id("garage"), {vx + v * tdx, vy + v * tdy}, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
         }
-
-
-
 }
-
-
-
 
 void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
