@@ -1711,7 +1711,7 @@ void finalize_crafted_item( item &newit, float used_age_tally, int used_age_coun
 
 void set_item_inventory(item &newit)
 {
-    if (newit.made_of(LIQUID)) {
+    if (newit.made_of(LIQUID) || newit.made_of(GAS)) {
         while(!g->handle_liquid_gas(newit, false, false)) {
             ;
         }
