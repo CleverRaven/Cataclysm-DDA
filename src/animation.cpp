@@ -447,7 +447,7 @@ void draw_line_curses(game &g, const tripoint &pos, tripoint const &center,
     (void)pos; // unused
 
     for( tripoint const &p : ret ) {
-        auto const critter = g.critter_at( p );
+        auto const critter = g.critter_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
         if( critter && g.u.sees( *critter ) ) {

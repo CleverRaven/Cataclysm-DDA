@@ -13,7 +13,8 @@ class Creature_tracker
         Creature_tracker();
         ~Creature_tracker();
         /** Returns the monster at the given index. */
-        monster &find(int index);
+        monster &find( int index );
+        const monster &find( int index ) const;
         /** Returns the monster index of the monster at the given tripoint. */
         int mon_at( const tripoint &coords ) const;
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */

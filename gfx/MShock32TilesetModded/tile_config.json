@@ -15385,6 +15385,12 @@
           "rotates": true
         },
         {
+          "id": "vp_seat",
+          "fg": 1187,
+          "bg": 551,
+          "rotates": true
+        },
+        {
           "id": "vp_veh_table",
           "fg": 1235,
           "bg": 551,
@@ -18705,6 +18711,51 @@
           "rotates": true
         },
         {
+          "id": "vp_hdhalfboard_cover",
+          "fg": 2409,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_horizontal",
+          "fg": 2410,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_horizontal_2",
+          "fg": 2411,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_ne",
+          "fg": 2412,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_nw",
+          "fg": 2413,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_se",
+          "fg": 2414,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_sw",
+          "fg": 2415,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_vertical",
+          "fg": 2416,
+          "rotates": true
+        },
+        {
+          "id": "vp_hdhalfboard_vertical_2",
+          "fg": 2417,
+          "rotates": true
+        },
+        {
           "id": "vp_hdframe_horizontal",
           "fg": 2418,
           "rotates": true
@@ -20619,33 +20670,159 @@
         },
         {
           "id": "vp_ram_alloy",
-          "fg": 2677,
-          "rotates": true
-        },
-        {
-          "id": "vp_ram_spiked",
           "fg": 2678,
           "rotates": true
         },
         {
-          "id": "reloaded_22_lr",
+          "id": "vp_ram_spiked",
           "fg": 2679,
-          "rotates": false
+          "rotates": true
         },
         {
-          "id": "reloaded_22_fmj",
+          "id": "reloaded_22_lr",
           "fg": 2680,
           "rotates": false
         },
         {
-          "id": "reloaded_22_cb",
+          "id": "reloaded_22_fmj",
           "fg": 2681,
           "rotates": false
         },
         {
-          "id": "reloaded_22_ratshot",
+          "id": "reloaded_22_cb",
           "fg": 2682,
           "rotates": false
+        },
+        {
+          "id": "reloaded_22_ratshot",
+          "fg": 2683,
+          "rotates": false
+        },
+        {
+          "id": "9x18mm",
+          "fg": 98,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "9x18mmfmj",
+          "fg": 99,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "9x18mmP2",
+          "fg": 101,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_9x18mm",
+          "fg": 199,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_9x18mmfmj",
+          "fg": 200,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_9x18mmP2",
+          "fg": 202,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_545",
+          "fg": 2684,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_545_ap",
+          "fg": 2685,
+          "rotates": false
+        },
+        {
+          "id": "ak74",
+          "fg": 2686,
+          "rotates": false
+        },
+        {
+          "id": "an94",
+          "fg": 2687,
+          "rotates": false
+        },
+        {
+          "id": "skorpion_61",
+          "fg": 2688,
+          "rotates": false
+        },
+        {
+          "id": "skorpion_82",
+          "fg": 2688,
+          "rotates": false
+        },
+        {
+          "id": "makarov",
+          "fg": 2689,
+          "rotates": false
+        },
+        {
+          "id": "walther_ppk",
+          "fg": 2689,
+          "rotates": false
+        },
+        {
+          "id": "vp_mounted_m1918",
+          "fg": 2690,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_manual",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_auto",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_howitzer",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_105",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_rws",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_tread1",
+          "fg": 2692,
+          "rotates": true
+        },
+        {
+          "id": "vp_tread2",
+          "fg": 2692,
+          "rotates": true
+        },
+        {
+          "id": "vp_tread3",
+          "fg": 2692,
+          "rotates": true
+        },
+        {
+          "id": "vp_omnicam",
+          "fg": 2693,
+          "rotates": true
         }
       ]
     },

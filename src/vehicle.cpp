@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <set>
 #include <queue>
+#include <math.h>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -346,6 +347,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool destroyAlarm = false;
 
     std::map<vpart_id, int> consistent_bignesses;
+
+    last_update_turn = calendar::turn;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -2986,7 +2989,7 @@ int vehicle::solar_epower( const tripoint &sm_loc ) const
 
             if( !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
                   sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS)) ) {
-                epower += ( part_epower( elem ) * g->ground_natural_light_level() ) / DAYLIGHT_LEVEL;
+                epower += ( part_epower( elem ) * g->natural_light_level() ) / DAYLIGHT_LEVEL;
             }
         }
     }
@@ -3709,6 +3712,10 @@ void vehicle::idle(bool on_map) {
 
     if (on_map && is_alarm_on) {
         alarm();
+    }
+
+    if( on_map ) {
+        update_time();
     }
 }
 
@@ -4652,6 +4659,7 @@ void vehicle::refresh()
     engines.clear();
     reactors.clear();
     solar_panels.clear();
+    funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
     speciality.clear();
@@ -4718,6 +4726,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
             solar_panels.push_back( p );
+        }
+        if( vpi.has_flag("FUNNEL") ) {
+            funnels.push_back( p );
         }
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
@@ -5057,26 +5068,56 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             insides_dirty = true;
         }
 
-        if( part_flag( p, "FUEL_TANK" ) )
-        {
+        if( part_flag( p, "FUEL_TANK" ) ) {
             const itype_id &ft = part_info(p).fuel_type;
-            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma )
-            {
-                // TODO: Move all the bools below to jsons
-                // Gasoline explodes way more readily than diesel
-                const bool bad_explosion = ft == fuel_type_gasoline;
-                // one_in chance of exploding
-                const bool explosion_chance = ft == fuel_type_diesel ? 10 : 2;
-                const bool fiery_explosion = ft == fuel_type_gasoline || ft == fuel_type_diesel;
-                const int pow = std::pow( parts[p].amount, bad_explosion ? 0.45f : 0.4f );
+            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma ) {
+                // TODO: Move the values below to jsons
+                // Defaults
+                int explosion_chance = 0;
+                float explosion_factor = 0;
+                bool fiery_explosion = false;
+                float fuel_size_factor = 0;
+
+                // Gasoline
+                if (ft == fuel_type_gasoline) {
+                    if (type == DT_HEAT) {
+                        explosion_chance = 2;
+                    } else {
+                        explosion_chance = 5;
+                    }
+                    fiery_explosion = true; // Produces lasting flames
+                    fuel_size_factor = .1; // Smaller units than normal
+                    explosion_factor = 1;
+
+                // Diesel
+                } else if (ft == fuel_type_diesel) {
+                    if (type == DT_HEAT) {
+                        explosion_chance = 20; // Still somewhat vulnerable to heat damage
+                    } else {
+                        explosion_chance = 1000; // Elsewise very unlikely to explode
+                    }
+                    fiery_explosion = false; // Doesn't produce lasting flames
+                    fuel_size_factor = .1; // Smaller units than normal
+                    explosion_factor = .2; // Only partial explosions
+
+                // Hydrogen
+                } else if (ft == fuel_type_plasma) {
+                    // Very likely to explode; real life tanks are armored to stop this.
+                    if (type == DT_HEAT) {
+                        explosion_chance = 1;
+                    } else {
+                        explosion_chance = 2;
+                    }
+                    fiery_explosion = false; // WOOF!!; but no lasting flames
+                    fuel_size_factor = 1;
+                    explosion_factor = 1.4; // Higher energy density, but dampened by the explosion type
+                }
+                const int pow = 120 * (1 - exp(explosion_factor / -5000 * (parts[p].amount * fuel_size_factor)));
                 //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
-                if( parts[p].hp <= 0 ) {
+                if(parts[p].hp <= 0) {
                     leak_fuel( p );
                 }
-
-                if( pow > 5 &&
-                    ( type == DT_HEAT || (one_in( explosion_chance )  && rng( 75, 150 ) < dmg) ) )
-                {
+                if (one_in(explosion_chance)) {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
                         pgettext("memorial_female", "The fuel tank of the %s exploded!"),
                         name.c_str());
@@ -5088,10 +5129,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                     parts[p].amount = 0;
                 }
             }
-        }
-        else
-        if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE"))
-        {
+        } else if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE")) {
             tripoint dest( global_x() + parts[p].precalc[0].x,
                            global_y() + parts[p].precalc[0].y,
                            smz );
@@ -5106,19 +5144,17 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel (int p)
 {
-    if (!part_flag(p, "FUEL_TANK"))
+    if (!part_flag(p, "FUEL_TANK")) {
         return;
+    }
     const itype_id &ft = part_info(p).fuel_type;
-    if (ft == fuel_type_gasoline || ft == fuel_type_diesel)
-    {
+    if (ft == fuel_type_gasoline || ft == fuel_type_diesel) {
         int x = global_x();
         int y = global_y();
-        for (int i = x - 2; i <= x + 2; i++)
-            for (int j = y - 2; j <= y + 2; j++)
-                if (g->m.move_cost(i, j) > 0 && one_in(2))
-                {
-                    if (parts[p].amount < 100)
-                    {
+        for (int i = x - 2; i <= x + 2; i++) {
+            for (int j = y - 2; j <= y + 2; j++) {
+                if (g->m.move_cost(i, j) > 0 && one_in(2)) {
+                    if (parts[p].amount < 100) {
                         parts[p].amount = 0;
                         return;
                     }
@@ -5127,6 +5163,8 @@ void vehicle::leak_fuel (int p)
                     g->m.spawn_item( dest, ft );
                     parts[p].amount -= 100;
                 }
+            }
+        }
     }
     parts[p].amount = 0;
 }
@@ -6019,6 +6057,38 @@ std::set<tripoint> &vehicle::get_points()
     }
 
     return occupied_points;
+}
+
+void vehicle::update_time()
+{
+    tripoint veh_loc = global_pos3();
+    // Don't fill funnels every turn, because rainfall has 10 turn granularity
+    if( smz >= 0 && !funnels.empty() && ( calendar::turn - last_update_turn >= 10 || one_in( 10 ) ) ) {
+        double rain_amount = 0.0;
+        // TODO: double acid_amount = 0.0;
+        for( int fun : funnels ) {
+            tripoint location = veh_loc + parts[fun].precalc[0];
+            // Can't use g->is_sheltered
+            // TODO: Fix procing vehicles partially out of map
+            if( g->m.has_flag( TFLAG_INDOORS, location ) ) {
+                continue;
+            }
+
+            rainfall_data rainfall = get_rainfall( last_update_turn, calendar::turn, location );
+
+            const int part_size = part_info( fun ).size;
+            const double funnel_area_mm = M_PI * part_size * part_size;
+
+            rain_amount += funnel_charges_per_turn( funnel_area_mm, rainfall.rain_amount );
+        }
+
+        const int rain_val = divide_roll_remainder( rain_amount, 1.0 );
+        if( rain_val > 0 ) {
+            refill( "water", rain_val );
+        }
+    }
+
+    last_update_turn = calendar::turn;
 }
 
 /*-----------------------------------------------------------------------------
