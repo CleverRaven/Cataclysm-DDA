@@ -1156,6 +1156,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
             g->m.ter_set( pos, t_mdoor_frame );
             g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
             g->m.spawn_item( pos, "steel_chunk", rng(3, 8) );
+            p->add_msg_if_player( m_bad, _("The door comes apart!"));
         } else {
             p->add_msg_if_player( m_bad, _("The door still resists your cutting!"));
         }
@@ -1179,6 +1180,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
                 furn == f_gun_safe_el ) {
         if (one_in(10)) {
             g->m.furn_set( pos, f_safe_o );
+            p->add_msg_if_player( m_bad, _("The safe comes open!"));
         } else {
             p->add_msg_if_player( m_bad, _("The safe still resists your cutting!"));
         }
