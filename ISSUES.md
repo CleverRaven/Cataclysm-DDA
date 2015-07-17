@@ -36,7 +36,9 @@ The OS and CDDA version are very important - with the pace of changes here it is
 
 ### Enhancements and addition ideas
 
-We have hundreds of issues open - most of them are ideas and suggestions. Please search first if maybe something like what you have on mind has been already proposed. If so feel free to join the discussion! If you think your idea is related but sufficiently different - open a new issue and perhaps refer to the older discussion (use GitHub's `#issue_number` reference system).
+We have hundreds of issues open - most of them are ideas and suggestions. If you have a general idea or anything that can't be easily described in terms of *current* code changes you'd be better off suggesting it in appropriate section of the forum. You'll also get much broader exposure for your idea there. And getting a polished idea from the forum to GitHub issue should be a smooth move.
+
+Otherwise please search first if maybe something like what you have on mind has been already proposed. If so feel free to join the discussion! If you think your idea is related but sufficiently different - open a new issue and perhaps refer to the older discussion (use GitHub's `#issue_number` reference system).
 
 Remember to take part in the discussion of your suggestions.
 
