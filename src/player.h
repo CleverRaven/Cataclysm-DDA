@@ -459,9 +459,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
-        /** Returns the base to hit chance the player has based on their stats */
-        int base_to_hit(bool real_life = true, int stat = -999);
-        /** Returns Creature::get_hit_base() modified by clothing and weapon skill */
+        /** Returns Creature::get_hit_base() modified by weapon skill */
         int get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         int hit_roll() const override;
