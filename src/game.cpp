@@ -5442,11 +5442,13 @@ float game::natural_light_level() const
         ret = mod_ret;
     }
 
+    // Cap everything to our minimum light level
+    ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
+
     latest_lightlevel = ret;
     latest_lightlevel_turn = calendar::turn;
 
-    // Cap everything to our minimum light level
-    return std::max(LIGHT_AMBIENT_MINIMAL, ret);
+    return ret;
 }
 
 unsigned char game::light_level() const
