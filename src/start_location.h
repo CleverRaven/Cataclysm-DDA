@@ -47,6 +47,10 @@ class start_location
          */
         void burn( const tripoint &omtstart,
                    const size_t count, const int rad ) const;
+        /**
+         * Adds a map special, see mapgen.h and mapgen.cpp. Look at the namespace MapExtras.
+         */
+        void add_map_special( const tripoint &omtstart, const std::string& map_special ) const;
 
     private:
         std::string _ident;

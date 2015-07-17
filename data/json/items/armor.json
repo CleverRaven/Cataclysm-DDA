@@ -6058,7 +6058,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE"],
+        "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 90,
         "material_thickness" : 1

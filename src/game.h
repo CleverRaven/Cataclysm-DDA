@@ -119,9 +119,9 @@ class game
         void load_static_data();
         /** Loads core data and all mods. */
         void check_all_mod_data();
-    protected:
         /** Loads core dynamic data. */
         void load_core_data();
+    protected:
         /** Loads dynamic data from the given directory. */
         void load_data_from_dir(const std::string &path);
         /** Loads core data and mods from the given world. */
@@ -216,6 +216,7 @@ class game
         bool summon_mon(const std::string id, const tripoint &p);
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
+        bool add_zombie(monster &critter, bool pin_upgrade);
         /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */

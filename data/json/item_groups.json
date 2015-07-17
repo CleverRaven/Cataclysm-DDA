@@ -427,6 +427,7 @@
       ["chips3", 65],
       ["pizza_veggy", 8],
       ["pizza_meat", 8],
+      ["pizza_cheese", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
       ["fish_fried", 8],
@@ -484,6 +485,7 @@
       ["jar_glass", 50],
       ["jar_3l_glass", 40],
       ["cheese", 40],
+      ["cheese_hard", 5],
       ["can_cheese", 8],
       ["yoghurt", 8],
       ["pudding", 10],
@@ -612,6 +614,7 @@
       ["beer", 60],
       ["pizza_meat", 8],
       ["pizza_veggy", 8],
+      ["pizza_cheese", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
       ["fish_fried", 8],
@@ -621,6 +624,7 @@
       ["corndogs_frozen", 8],
       ["blt", 8],
       ["cheese", 10],
+      ["cheese_hard", 5],
       ["orange", 65],
       ["irradiated_orange", 32],
       ["banana", 40],
@@ -1354,6 +1358,7 @@
       ["frozen_burrito", 60],
       ["dried_salad", 6],
       ["pizza_veggy", 8],
+      ["pizza_cheese", 8],
       ["pizza_meat", 8],
       ["cheeseburger", 8],
       ["hamburger", 8],
@@ -1370,6 +1375,7 @@
       ["fruit_leather", 15],
       ["protein_shake", 10],
       ["pie", 20],
+      ["pie_veggy", 18],
       ["pie_meat", 18]
     ]
   },{
@@ -1391,9 +1397,11 @@
       ["sandwich_pbj", 30],
       ["sandwich_pbh", 30],
       ["pizza_veggy", 8],
+      ["pizza_cheese", 8],
       ["pizza_meat", 8],
       ["pie", 20],
       ["pie_meat", 20],
+      ["pie_veggy", 20],
       ["chips", 65],
       ["candy", 80],
       ["candy2", 80],
@@ -1455,6 +1463,7 @@
       ["sandwich_pbj", 30],
       ["sandwich_pbh", 30],
       ["pizza_veggy", 8],
+      ["pizza_cheese", 8],
       ["pizza_meat", 8],
       ["hamburger", 40],
       ["fish_fried", 8],
@@ -1479,6 +1488,7 @@
       ["tea_raw", 10],
       ["pie", 20],
       ["pie_meat", 20],
+      ["pie_veggy", 20],
       ["chips", 65],
       ["chips2", 50],
       ["chips3", 45],
@@ -1718,6 +1728,7 @@
       ["sugar", 20],
       ["molasses", 10],
       ["can_cheese", 40],
+      ["cheese_hard", 5],
       ["salt", 20],
       ["pepper", 20],
       ["seasoning_salt", 25],
@@ -5216,6 +5227,7 @@
       ["sword_bayonet", 10],
       ["bagh_nakha", 5],
       ["kris", 5],
+      ["cheese_hard", 1],
       ["apron_leather", 1]
     ]
   },{
@@ -5656,6 +5668,7 @@
       ["neccowafers", 40],
       ["can_herring", 30],
       ["coffee_raw", 15],
+      ["cheese_hard", 5],
       ["bandages", 50],
       ["cotton_ball", 50],
       ["1st_aid", 35],
@@ -8368,6 +8381,7 @@
       ["salted_fish", 35],
       ["porkstick", 55],
       ["ravioli", 25],
+      ["cheese_hard", 15],
       ["can_beans", 40],
       ["can_corn", 35],
       ["can_spam", 30],
@@ -10281,6 +10295,7 @@
       ["juice",       31],
       ["pie",         40],
       ["pie_meat",    28],
+      ["pie_veggy",   15],
       ["yoghurt",     30]
     ]
   },{

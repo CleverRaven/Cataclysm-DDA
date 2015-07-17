@@ -156,6 +156,8 @@ enum radio_type {
     WEATHER_RADIO
 };
 
+extern std::map<enum radio_type, std::string> radio_type_names;
+
 #define RADIO_MIN_STRENGTH 80
 #define RADIO_MAX_STRENGTH 200
 
@@ -196,6 +198,8 @@ class overmap
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
     overmap(int x, int y);
+    // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
+    overmap();
     ~overmap();
 
     overmap& operator=(overmap const&) = default;
@@ -302,7 +306,12 @@ class overmap
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
-  // TODO: make private
+    /** Unit test enablers to check if a given mongroup is present. */
+    bool mongroup_check(const mongroup &candidate) const;
+    int num_mongroups() const;
+    bool monster_check(const std::pair<tripoint, monster> &candidate) const;
+    int num_monsters() const;
+    // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -331,11 +340,19 @@ public:
   void init_layers();
   // open existing overmap, or generate a new one
   void open();
+ public:
   // parse data in an opened overmap file
-  void unserialize(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize(std::ifstream &fin);
+  // Parse per-player overmap view data.
+  void unserialize_view(std::ifstream &fin);
+  // Save data in an opened overmap file
+  void serialize(std::ofstream &fin) const;
+  // Save per-player overmap view data.
+  void serialize_view(std::ofstream &fin) const;
   // parse data in an old overmap file
-  bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
-
+  void unserialize_legacy(std::ifstream &fin);
+  void unserialize_view_legacy(std::ifstream &fin);
+ private:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
@@ -407,8 +424,6 @@ public:
   void place_radios();
 
     void add_mon_group(const mongroup &group);
-    // not available because *every* overmap needs location, so use the other constructor.
-    overmap() = delete;
 };
 
 // TODO: readd the stream operators

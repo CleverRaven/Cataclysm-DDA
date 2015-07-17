@@ -8,7 +8,6 @@
 #include "line.h"
 #include "player.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "uistate.h"
 #include "messages.h"
 #include "compatibility.h"

@@ -652,6 +652,11 @@ void game::start_game(std::string worldname)
 
     const start_location &start_loc = *start_location::find( u.start_location );
     const tripoint omtstart = start_loc.setup();
+    if( scen->has_map_special() ) {
+        // Specials can add monster spawn points and similar and should be done before the main
+        // map is loaded.
+        start_loc.add_map_special( omtstart, scen->get_map_special() );
+    }
     tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= MAPSIZE / 2;
@@ -1405,7 +1410,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
     item fish;
-    fish.make_corpse( catchables[index]->type, calendar::turn + int(rng(0, catch_duration)) );
+    fish.make_corpse( catchables[index]->type->id, calendar::turn + int(rng(0, catch_duration)) );
     m.add_item_or_charges( pos, fish );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched
@@ -6704,7 +6709,7 @@ void game::resonance_cascade( const tripoint &p )
             case 14:
             case 15:
                 spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
-                invader = monster( GetMType(spawn_details.name), dest );
+                invader = monster( spawn_details.name, dest );
                 add_zombie(invader);
                 break;
             case 16:
@@ -6871,21 +6876,25 @@ Creature const* game::critter_at( const tripoint &p ) const
 
 bool game::summon_mon( const std::string id, const tripoint &p )
 {
-    monster mon(GetMType(id));
-    // Set their last upgrade check to the current day.
-    mon.reset_last_load();
+    monster mon( id );
     mon.spawn(p);
-    return add_zombie(mon);
+    return add_zombie(mon, true);
 }
 
+// By default don't pin upgrades to current day
 bool game::add_zombie(monster &critter)
+{
+    return add_zombie(critter, false);
+}
+
+bool game::add_zombie(monster &critter, bool pin_upgrade)
 {
     if( !m.inbounds( critter.pos() ) ) {
         dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
                        << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
-    critter.try_upgrade();
+    critter.try_upgrade(pin_upgrade);
     return critter_tracker->add(critter);
 }
 
@@ -6927,7 +6936,7 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination()
 {
-    monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
+    monster phantasm(MonsterGenerator::generator().get_valid_hallucination()->id);
     phantasm.hallucination = true;
     phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 
@@ -7051,7 +7060,7 @@ bool game::revive_corpse( const tripoint &p, const item &it )
         // Someone is in the way, try again later
         return false;
     }
-    monster critter( it.get_mtype(), p );
+    monster critter( it.get_mtype()->id, p );
     critter.init_from_item( it );
     critter.no_extra_death_drops = true;
 
@@ -11152,7 +11161,7 @@ void game::butcher()
         salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
         return;
     }
-    mtype *corpse = dis_item.get_mtype();
+    const mtype *corpse = dis_item.get_mtype();
     int time_to_cut = 0;
     switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
     case MS_TINY:

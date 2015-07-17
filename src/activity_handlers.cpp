@@ -102,7 +102,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
-    mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
+    const mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
     std::vector<item> contents = g->m.i_at(p->pos())[act->index].contents;
     int age = g->m.i_at(p->pos())[act->index].bday;
     g->m.i_rem(p->pos(), act->index);

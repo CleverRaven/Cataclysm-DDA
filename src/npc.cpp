@@ -12,7 +12,6 @@
 #include "line.h"
 #include "item_group.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"

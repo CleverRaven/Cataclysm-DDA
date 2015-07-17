@@ -156,36 +156,31 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse( mtype *mt, unsigned int turn )
+void item::make_corpse( const std::string& mt, unsigned int turn )
 {
-    if( mt == nullptr ) {
-        debugmsg( "tried to make a corpse with a null mtype pointer" );
+    if( !MonsterGenerator::generator().has_mtype( mt ) ) {
+        debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
     const bool isReviveSpecial = one_in( 20 );
     init();
     make( "corpse" );
-    active = mt->has_flag( MF_REVIVES );
+    corpse = GetMType( mt );
+    active = corpse->has_flag( MF_REVIVES );
     if( active && isReviveSpecial ) {
         item_tags.insert( "REVIVE_SPECIAL" );
     }
-    corpse = mt;
     bday = turn;
 }
 
-void item::make_corpse( const std::string &mtype_id, unsigned int turn )
+void item::make_corpse( const std::string& mt, unsigned int turn, const std::string &name )
 {
-    make_corpse( MonsterGenerator::generator().get_mtype( mtype_id ), turn );
+    make_corpse( mt, turn );
+    this->name = name;
 }
 
 void item::make_corpse()
 {
     make_corpse( "mon_null", calendar::turn );
-}
-
-void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
-{
-    make_corpse( mt, turn );
-    this->name = name;
 }
 
 item::item(JsonObject &jo)
@@ -2928,12 +2923,12 @@ bool item::is_corpse() const
     return typeId() == "corpse" && corpse != nullptr;
 }
 
-mtype *item::get_mtype() const
+const mtype *item::get_mtype() const
 {
     return corpse;
 }
 
-void item::set_mtype( mtype * const m )
+void item::set_mtype( const mtype * const m )
 {
     // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
     if( m == nullptr ) {

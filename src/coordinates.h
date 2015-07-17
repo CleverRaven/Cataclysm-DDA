@@ -4,6 +4,8 @@
 #include "enums.h"
 #include "game_constants.h"
 
+#include <cstdlib>
+
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
  * was created to give a definitive answer.
@@ -39,8 +41,8 @@ struct real_coords {
 
     void fromabs(const int absx, const int absy)
     {
-        const int normx = abs(absx);
-        const int normy = abs(absy);
+        const int normx = std::abs(absx);
+        const int normy = std::abs(absy);
         abs_pos = point(absx, absy);
 
         if ( absx < 0 ) {

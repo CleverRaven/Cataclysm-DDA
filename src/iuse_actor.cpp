@@ -7,7 +7,6 @@
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "morale.h"
 #include "messages.h"
@@ -458,7 +457,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
-    monster newmon( GetMType( mtype_id ) );
+    monster newmon( mtype_id );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
@@ -487,7 +486,6 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         }
     }
     p->moves -= moves;
-    newmon.reset_last_load();
     newmon.spawn( target );
     if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
         for( auto & amdef : newmon.ammo ) {
@@ -533,7 +531,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon );
+    g->add_zombie( newmon, true );
     return 1;
 }
 

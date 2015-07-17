@@ -2040,6 +2040,15 @@
         "post_terrain" : "t_claymound"
     },{
         "type" : "construction",
+        "description" : "Extract Sand Mound",
+        "category" : "OTHER",
+        "difficulty" : 0,
+        "time" : 30,
+        "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+        "pre_terrain" : "t_water_sh",
+        "post_terrain" : "t_sandmound"
+    },{
+        "type" : "construction",
         "description" : "Build Charcoal Kiln",
         "category" : "FURN",
         "difficulty" : 3,

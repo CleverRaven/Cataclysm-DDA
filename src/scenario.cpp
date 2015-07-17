@@ -17,6 +17,7 @@
 #include "skill.h"
 #include "profession.h"
 #include "mutation.h"
+#include "mapgen.h"
 
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
@@ -112,6 +113,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     while (jsarr.has_more()) {
         scen.flags.insert(jsarr.next_string());
     }
+    scen._map_special = jsobj.get_string( "map_special", "mx_null" );
 
     _all_scens[scen._ident] = scen;
     DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen._ident;
@@ -219,6 +221,7 @@ void scenario::check_definition() const
     check_traits( _allowed_traits, _ident );
     check_traits( _forced_traits, _ident );
     check_traits( _forbidden_traits, _ident );
+    MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
 }
 
 bool scenario::has_initialized()
@@ -354,5 +357,13 @@ bool scenario::can_pick(int points) const
     }
 
     return true;
+}
+bool scenario::has_map_special() const
+{
+    return _map_special != "mx_null";
+}
+const std::string& scenario::get_map_special() const
+{
+    return _map_special;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:

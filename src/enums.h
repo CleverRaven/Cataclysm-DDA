@@ -13,7 +13,7 @@
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
-// Function has to live in the std namespace 
+// Function has to live in the std namespace
 // so that it is picked up by argument-dependent name lookup (ADL).
 namespace std{
     namespace
@@ -53,15 +53,15 @@ namespace std{
     }
 
     template <typename ... TT>
-    struct hash<std::tuple<TT...>> 
+    struct hash<std::tuple<TT...>>
     {
         size_t
         operator()(std::tuple<TT...> const& tt) const
-        {                                              
-            size_t seed = 0;                             
-            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);    
-            return seed;                                 
-        }                                              
+        {
+            size_t seed = 0;
+            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);
+            return seed;
+        }
 
     };
 

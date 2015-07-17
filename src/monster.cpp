@@ -48,7 +48,6 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- last_loaded = 0;
  faction = mfaction_id( 0 );
  mission_id = -1;
  no_extra_death_drops = false;
@@ -61,13 +60,13 @@ monster::monster()
  upgrade_time = -1;
 }
 
-monster::monster(mtype *t)
+monster::monster( const std::string& id )
 {
  position.x = 20;
  position.y = 10;
  position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
- type = t;
+ type = GetMType( id );
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -76,10 +75,9 @@ monster::monster(mtype *t)
  }
  def_chance = type->def_chance;
  friendly = 0;
- anger = t->agro;
- morale = t->morale;
- last_loaded = 0;
- faction = t->default_faction;
+ anger = type->agro;
+ morale = type->morale;
+ faction = type->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -87,16 +85,16 @@ monster::monster(mtype *t)
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = t->starting_ammo;
- upgrades = t->upgrades;
+ ammo = type->starting_ammo;
+ upgrades = type->upgrades;
  upgrade_time = -1;
 }
 
-monster::monster(mtype *t, const tripoint &p )
+monster::monster( const std::string& id, const tripoint &p )
 {
  position = p;
  wandf = 0;
- type = t;
+ type = GetMType( id );
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -107,8 +105,7 @@ monster::monster(mtype *t, const tripoint &p )
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction = t->default_faction;
- last_loaded = 0;
+ faction = type->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -116,8 +113,8 @@ monster::monster(mtype *t, const tripoint &p )
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = t->starting_ammo;
- upgrades = t->upgrades;
+ ammo = type->starting_ammo;
+ upgrades = type->upgrades;
  upgrade_time = -1;
 }
 
@@ -140,10 +137,10 @@ const tripoint &monster::pos() const
     return position;
 }
 
-void monster::poly(mtype *t)
+void monster::poly( const std::string& id )
 {
     double hp_percentage = double(hp) / double(type->hp);
-    type = t;
+    type = GetMType( id );
     moves = 0;
     Creature::set_speed_base(type->speed);
     anger = type->agro;
@@ -154,8 +151,8 @@ void monster::poly(mtype *t)
         sp_timeout.push_back( elem );
     }
     def_chance = type->def_chance;
-    faction = t->default_faction;
-    upgrades = t->upgrades;
+    faction = type->default_faction;
+    upgrades = type->upgrades;
 }
 
 bool monster::can_upgrade() {
@@ -193,21 +190,27 @@ int monster::next_upgrade_time() {
     return -1;
 }
 
-void monster::try_upgrade() {
+void monster::try_upgrade(bool pin_time) {
     if (!can_upgrade()) {
         return;
     }
+
+    const int current_day = calendar::turn.get_turn() / DAYS(1);
 
     if (upgrade_time < 0) {
         upgrade_time = next_upgrade_time();
         if (upgrade_time < 0) {
             return;
         }
-        // offset by starting season
-        upgrade_time += calendar::start / DAYS(1);
+        if (pin_time) {
+            // offset by today
+            upgrade_time += current_day;
+        } else {
+            // offset by starting season
+            upgrade_time += calendar::start / DAYS(1);
+        }
     }
 
-    const int current_day = calendar::turn.get_turn() / DAYS(1);
     // Here we iterate until we either are before upgrade_time or can't upgrade any more.
     // This is so that late into game new monsters can 'catch up' with all that half-life
     // upgrades they'd get if we were simulating whole world.
@@ -218,10 +221,10 @@ void monster::try_upgrade() {
         }
 
         if (type->upgrade_into != "NULL"){
-            poly(GetMType(type->upgrade_into));
+            poly( type->upgrade_into );
         } else {
             const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            poly( GetMType( random_entry( monsters ) ) );
+            poly( random_entry( monsters ) );
         }
 
         if (!upgrades) {
@@ -690,9 +693,9 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
-    anger += trigger_sum( &(type->anger) );
-    anger -= trigger_sum( &(type->placate) );
-    morale -= trigger_sum( &(type->fear) );
+    anger += trigger_sum( type->anger );
+    anger -= trigger_sum( type->placate );
+    morale -= trigger_sum( type->fear );
     if( morale != type->morale && one_in( 10 ) ) {
         if( morale < type->morale ) {
             morale++;
@@ -729,11 +732,11 @@ void monster::process_trigger(monster_trigger trig, int amount)
 }
 
 
-int monster::trigger_sum(std::set<monster_trigger> *triggers) const
+int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
     int ret = 0;
     bool check_terrain = false, check_meat = false, check_fire = false;
-    for( const auto &trigger : *triggers ) {
+    for( const auto &trigger : triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
                 if( anger > 0 && one_in( 5 ) ) {
@@ -1775,16 +1778,16 @@ bool monster::make_fungus()
     const std::string old_name = name();
     switch (polypick) {
         case 1:
-            poly(GetMType("mon_ant_fungus"));
+            poly( "mon_ant_fungus" );
             break;
         case 2: // zombies, non-boomer
-            poly(GetMType("mon_zombie_fungus"));
+            poly( "mon_zombie_fungus" );
             break;
         case 3:
-            poly(GetMType("mon_boomer_fungus"));
+            poly( "mon_boomer_fungus" );
             break;
         case 4:
-            poly(GetMType("mon_fungaloid"));
+            poly( "mon_fungaloid" );
             break;
         default:
             return false;
@@ -1807,21 +1810,6 @@ void monster::make_friendly()
 void monster::make_ally(monster *z) {
     friendly = z->friendly;
     faction = z->faction;
-}
-
-int monster::get_last_load() const
-{
-    return last_loaded;
-}
-
-void monster::set_last_load(int day)
-{
-    last_loaded = day;
-}
-
-void monster::reset_last_load()
-{
-    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)
