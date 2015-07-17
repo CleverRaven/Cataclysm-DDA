@@ -138,6 +138,26 @@
         "breaks_into" : [
             {"item": "howitzer_gun", "min": 0, "max": 1}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "forklift_fork",
+        "name" : "forklift arm",
+        "symbol" : "|",
+        "color" : "light_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 200,
+        "durability" : 300,
+        "size" : 50,
+        "item" : "frame",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["CARGO", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
     }
 ]
 
