@@ -2654,6 +2654,32 @@
 },
 {
 "type" : "recipe",
+"result": "plasma",
+"//": "Hydrogen gas, not direct plasma",
+"category": "CC_CHEM",
+"subcategory": "CSC_CHEM_CHEMICALS",
+"skill_used": "cooking",
+"difficulty": 3,
+"time": 25000,
+"reversible": false,
+"autolearn": false,
+"book_learn": [["textbook_chemistry", 3]],
+"qualities":[
+{"id":"CONTAIN","level":1,"amount":1}
+], 
+"tools": [
+[
+[ "chemistry_set", 100 ]
+]
+],
+"components": [
+[
+[ "water_clean", 10 ]
+]
+]
+},
+{
+"type" : "recipe",
 "result": "chem_sulphuric_acid",
 "category": "CC_CHEM",
 "subcategory": "CSC_CHEM_CHEMICALS",
