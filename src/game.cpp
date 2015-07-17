@@ -10336,7 +10336,7 @@ bool game::handle_liquid_gas(item &liquid, bool from_ground, bool infinite, item
 //One-use, strictly for liquid transactions. Not intended for use with while loops.
 int game::move_liquid_gas(item &liquid)
 {
-    if (!liquid.made_of(LIQUID)) {
+    if (!liquid.made_of(LIQUID) && !liquid.made_of(GAS)) {
         dbg(D_ERROR) << "game:move_liquid_gas: Tried to move_liquid_gas a non-liquid or gas!";
         debugmsg("Tried to move_liquid_gas a non-liquid or gas!");
         return -1;

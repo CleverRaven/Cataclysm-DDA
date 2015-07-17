@@ -5665,7 +5665,7 @@ bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
         veh->refill( desired_liquid, used_item.charges * fuel_per_charge );
         return false;
     }
-    int siphoned = liquid_amount - extra;
+    int siphoned = (liquid_amount - extra) / fuel_per_charge;
     veh->refill( desired_liquid, extra );
     if( siphoned > 0 ) {
         add_msg(ngettext("Siphoned %d unit of %s from the %s.",
