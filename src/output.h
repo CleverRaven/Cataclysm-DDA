@@ -343,3 +343,5 @@ void play_music(std::string playlist);
 void play_sound_effect(std::string id, std::string variant, int volume);
 
 #endif
+
+void force_refresh();

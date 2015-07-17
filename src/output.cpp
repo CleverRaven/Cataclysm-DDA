@@ -1968,3 +1968,11 @@ void play_sound_effect(std::string, std::string, int)
 }
 #endif
 
+void force_refresh()
+{
+#if defined(TILES)
+    wrefresh(mainwin);
+#else
+    wrefresh(curscr);
+#endif
+}
