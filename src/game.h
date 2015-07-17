@@ -462,7 +462,7 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset(vehicle *veh = NULL);
 
-        bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
+        bool handle_liquid_gas(item &liquid, bool from_ground, bool infinite, item *source = NULL,
                            item *cont = NULL);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
@@ -530,7 +530,7 @@ class game
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, tripoint dir, 
+                  int freed_volume_capacity, tripoint dir,
                   bool to_vehicle = true); // emulate old behaviour normally
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry,

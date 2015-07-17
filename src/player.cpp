@@ -11221,7 +11221,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
         }
         ammo.charges = gunmod->charges;
         if (ammo.made_of(LIQUID)) {
-            while(!g->handle_liquid(ammo, false, false)) {
+            while(!g->handle_liquid_gas(ammo, false, false)) {
                 // handled only part of it, retry
             }
         } else {
@@ -13489,7 +13489,7 @@ bool player::can_pickup(bool print_msg) const
 
 bool player::has_container_for(const item &newit) const
 {
-    if (!newit.made_of(LIQUID)) {
+    if (!newit.made_of(LIQUID) && !newit.made_of(GAS)) {
         // Currently only liquids need a container
         return true;
     }

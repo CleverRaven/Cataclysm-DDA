@@ -109,7 +109,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             if(type_is_defined( gm ) ){
                 contents.push_back( item( gm, turn, rand, handed ) );
             }
-        } 
+        }
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -1129,7 +1129,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
     for( const auto &quality : type->qualities ){
         const auto desc = string_format( _("Has level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name(quality.first).c_str() );
         dump->push_back( iteminfo( "QUALITIES", "", desc ) );
     }
@@ -1142,7 +1142,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
 
             const auto desc = string_format( _("  Level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name( quality.first ).c_str() );
             dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
@@ -3006,6 +3006,11 @@ bool item::is_container() const
 bool item::is_watertight_container() const
 {
     return type->container && type->container->watertight && type->container->seals;
+}
+
+bool item::is_airtight_container() const
+{
+    return type->container && type->container->airtight && type->container->seals;
 }
 
 bool item::is_container_empty() const

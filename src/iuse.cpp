@@ -5861,9 +5861,9 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         moves = 1000;
     } else if ( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
                 furn == f_gun_safe_el ) {
-        // one_in(3) chance in finish_activity() means an average time of 4 hours to
-        // cut through a safe.
-        moves = 80000;
+        // one_in(10) chance in finish_activity() means an average time of 4 hours and 10 min
+        // to cut through a safe.
+        moves = 25000;
     } else {
         add_msg( m_info, _("You can't cut that.") );
         return 0;

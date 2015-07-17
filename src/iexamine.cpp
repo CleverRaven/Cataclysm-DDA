@@ -60,7 +60,7 @@ void iexamine::gaspump(player *p, map *m, const tripoint &examp)
                 }
             } else {
                 p->moves -= 300;
-                if( g->handle_liquid( *item_it, true, false ) ) {
+                if( g->handle_liquid_gas( *item_it, true, false ) ) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."),
                             item_it->type_name(1).c_str());
                     items.erase( item_it );
@@ -532,9 +532,9 @@ void iexamine::toilet(player *p, map *m, const tripoint &examp)
 
         // First try handling/bottling, then try drinking, but only try
         // drinking if we don't handle or bottle.
-        bool drained = g->handle_liquid( *water, true, false );
+        bool drained = g->handle_liquid_gas( *water, true, false );
         if( drained || initial_charges != water->charges ) {
-            // The bottling happens in handle_liquid, but delay of action
+            // The bottling happens in handle_liquid_gas, but delay of action
             // does not.
             p->moves -= 100;
         } else if( !drained && initial_charges == water->charges ){
@@ -1969,7 +1969,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
         }
     } else { //Booze is done, so bottle it!
         item &booze = m->i_at(examp).front();
-        if( g->handle_liquid( booze, true, false) ) {
+        if( g->handle_liquid_gas( booze, true, false) ) {
             m->furn_set(examp, f_fvat_empty);
             add_msg(_("You squeeze the last drops of %s from the vat."), booze.tname().c_str());
             m->i_clear( examp );
@@ -2081,7 +2081,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
 
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
-            if( g->handle_liquid(*drink, true, false) ) {
+            if( g->handle_liquid_gas(*drink, true, false) ) {
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
                         m->name(examp).c_str());
                 m->i_clear( examp );

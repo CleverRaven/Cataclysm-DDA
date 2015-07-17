@@ -1712,7 +1712,7 @@ void finalize_crafted_item( item &newit, float used_age_tally, int used_age_coun
 void set_item_inventory(item &newit)
 {
     if (newit.made_of(LIQUID)) {
-        while(!g->handle_liquid(newit, false, false)) {
+        while(!g->handle_liquid_gas(newit, false, false)) {
             ;
         }
     } else {
@@ -2194,7 +2194,7 @@ void player::complete_disassemble()
             continue;
         }
         // Compress liquids and counted-by-charges items into one item,
-        // they are added together on the map anyway and handle_liquid
+        // they are added together on the map anyway and handle_liquid_gas
         // should only be called once to put it all into a container at once.
         if (newit.count_by_charges() || newit.made_of(LIQUID)) {
             newit.charges = compcount;
@@ -2230,7 +2230,7 @@ void player::complete_disassemble()
                 }
             }
             if (act_item.made_of(LIQUID)) {
-                while (!g->handle_liquid(act_item, false, false)) {
+                while (!g->handle_liquid_gas(act_item, false, false)) {
                     // Try again, maybe use another container.
                 }
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
@@ -2312,7 +2312,7 @@ void remove_ammo(item *dis_item, player &p)
         item tmp = dis_item->contents.front();
         dis_item->contents.erase( dis_item->contents.begin() );
         if( tmp.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( tmp, false, false ) ) {
+            while( !g->handle_liquid_gas( tmp, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {
@@ -2326,7 +2326,7 @@ void remove_ammo(item *dis_item, player &p)
         item ammodrop( dis_item->get_curammo_id(), calendar::turn );
         ammodrop.charges = dis_item->charges;
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
+            while( !g->handle_liquid_gas( ammodrop, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {
@@ -2341,7 +2341,7 @@ void remove_ammo(item *dis_item, player &p)
             ammodrop.charges /= 500;
         }
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
+            while( !g->handle_liquid_gas( ammodrop, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {

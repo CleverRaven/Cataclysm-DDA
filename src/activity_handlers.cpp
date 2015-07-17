@@ -411,7 +411,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     // Fill up 10 charges per time
     water.charges = 10;
 
-    if( g->handle_liquid(water, true, true, NULL, container) == false ) {
+    if( g->handle_liquid_gas(water, true, true, NULL, container) == false ) {
         act->moves_left = 0;
     }
 
@@ -1177,7 +1177,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
     } else if ( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
                 furn == f_gun_safe_el ) {
-        if (one_in(3)) {
+        if (one_in(10)) {
             g->m.furn_set( pos, f_safe_o );
         } else {
             p->add_msg_if_player( m_bad, _("The safe still resists your cutting!"));

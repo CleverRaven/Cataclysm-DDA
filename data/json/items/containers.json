@@ -468,6 +468,7 @@
         "material" : ["steel", "null"],
         "rigid": true,
         "watertight": true,
+        "airtight": true,
         "seals": true
     },
     {
@@ -488,6 +489,7 @@
         "material" : ["aluminum", "null"],
         "rigid": true,
         "watertight": true,
+        "airtight": true,
         "seals": true
     },
     {
@@ -508,6 +510,7 @@
         "material" : ["aluminum", "null"],
         "rigid": true,
         "watertight": true,
+        "airtight": true,
         "seals": true
     },
     {

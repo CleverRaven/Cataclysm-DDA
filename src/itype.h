@@ -60,6 +60,10 @@ struct islot_container {
      */
     bool watertight = false;
     /**
+     * Can hold gases.
+     */
+    bool airtight = false;
+    /**
      * Contents do not spoil.
      */
     bool preserves = false;

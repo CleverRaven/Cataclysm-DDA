@@ -481,7 +481,7 @@ void Item_factory::check_definitions() const
                 if( !has_template( gm ) ){
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
-            }      
+            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
@@ -828,6 +828,7 @@ void Item_factory::load( islot_container &slot, JsonObject &jo )
     slot.contains = jo.get_int( "contains" );
     slot.seals = jo.get_bool( "seals", false );
     slot.watertight = jo.get_bool( "watertight", false );
+    slot.watertight = jo.get_bool( "airtight", false );
     slot.preserves = jo.get_bool( "preserves", false );
     slot.rigid = jo.get_bool( "rigid", false );
 }

@@ -3417,7 +3417,7 @@ bool game::save_factions_missions_npcs()
         elem->sety(u.posy() + 3);
         elem->setz( u.posz() );
     }
-    
+
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
     try {
         std::ofstream fout;
@@ -9623,7 +9623,7 @@ int game::list_items(const int iLastState)
                 mSortCategory.clear();
                 refilter = true;
                 reset = true;
-                    
+
             }
 
             if ( uistate.list_item_sort == 1 ) {
@@ -9631,7 +9631,7 @@ int game::list_items(const int iLastState)
             } else if ( uistate.list_item_sort == 2 ) {
                 std::sort( ground_items.begin(), ground_items.end(), map_item_stack::map_item_stack_sort );
             }
-                    
+
             if (refilter) {
                 refilter = false;
 
@@ -10144,13 +10144,13 @@ bool vehicle_near( const itype_id &ft )
     return false;
 }
 
-// Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
+// handle_liquid_gas_gas returns false if we didn't handle all the liquid.
+bool game::handle_liquid_gas(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
 {
     if( !liquid.made_of(LIQUID) ) {
-        dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
-        debugmsg("Tried to handle_liquid a non-liquid!");
+        dbg(D_ERROR) << "game:handle_liquid_gas: Tried to handle_liquid_gas a non-liquid!";
+        debugmsg("Tried to handle_liquid_gas a non-liquid!");
         return false;
     }
 
@@ -11419,7 +11419,7 @@ void game::unload(int pos)
 bool add_or_drop_with_msg( player &u, item &it )
 {
     if( it.made_of( LIQUID ) ) {
-        return g->handle_liquid( it, false, false, nullptr );
+        return g->handle_liquid_gas( it, false, false, nullptr );
     }
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
@@ -12966,7 +12966,7 @@ void game::vertical_move(int movez, bool force)
     } else if( !climbing && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         add_msg(m_info, _("You can't go up here!"));
         return;
-    }    
+    }
 
     if( force ) {
         // Let go of a grabbed cart.
