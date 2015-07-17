@@ -5659,7 +5659,7 @@ bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
         veh->refill( desired_liquid, liquid_amount );
         return false;
     }
-    int extra = g->move_liquid( used_item );
+    int extra = g->move_liquid_gas( used_item );
     if( extra == -1 ) {
         // Failed somehow, put the liquid back and bail out.
         veh->refill( desired_liquid, used_item.charges * fuel_per_charge );
@@ -11220,7 +11220,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
         ammo.charges = gunmod->charges;
-        if (ammo.made_of(LIQUID)) {
+        if (ammo.made_of(LIQUID) || ammo.made_of(GAS)) {
             while(!g->handle_liquid_gas(ammo, false, false)) {
                 // handled only part of it, retry
             }

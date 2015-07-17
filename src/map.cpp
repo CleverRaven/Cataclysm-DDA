@@ -4209,6 +4209,9 @@ void map::spawn_an_item(const tripoint &p, item new_item,
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container();
+    if (new_item.made_of(GAS)) {
+        return;
+    }
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
         has_flag("DESTROY_ITEM", p) ) {
         return;
@@ -4231,7 +4234,9 @@ void map::spawn_items(const tripoint &p, const std::vector<item> &new_items)
     }
     const bool swimmable = has_flag("SWIMMABLE", p);
     for( auto new_item : new_items ) {
-
+        if (new_item.made_of(GAS)) {
+            continue;
+        }
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
@@ -4347,7 +4352,8 @@ bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_rad
         return false;
     }
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
-            has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ) {
+            new_item.made_of(GAS) || has_flag("DESTROY_ITEM", p) ||
+            new_item.has_flag("NO_DROP") ) {
         // Silently fail on mundane things that prevent item spawn.
         return false;
     }
@@ -4401,6 +4407,9 @@ void map::add_item(const tripoint &p, item new_item)
 void map::add_item_at( const tripoint &p,
                        std::list<item>::iterator index, item new_item )
 {
+    if (new_item.made_of(GAS)) {
+        return;
+    }
     if (new_item.made_of(LIQUID) && has_flag( "SWIMMABLE", p )) {
         return;
     }

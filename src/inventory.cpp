@@ -459,7 +459,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
                 continue;
             }
             for (auto &i : g->m.i_at(x, y)) {
-                if (!i.made_of(LIQUID)) {
+                if (!i.made_of(LIQUID) && !i.made_of(GAS)) {
                     add_item(i, false, assign_invlet);
                 }
             }
@@ -1110,7 +1110,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
         return;
     }
-    
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();

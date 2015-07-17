@@ -9606,7 +9606,6 @@
     "turns_per_charge": 0,
     "ammo": "acetylene",
     "revert_to": "null",
-    "flags": ["NO_UNLOAD"],
     "use_action": "OXYTORCH",
     "qualities": [["WELD", 2]]
   },

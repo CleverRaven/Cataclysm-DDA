@@ -41,7 +41,7 @@ static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
 enum item::LIQUID_FILL_ERROR : int {
-    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
+    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_TIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL
 };
 
@@ -297,7 +297,7 @@ item item::in_its_container()
 {
     if( type->spawn && type->spawn->default_container != "null" ) {
         item ret( type->spawn->default_container, bday );
-        if( made_of( LIQUID ) && ret.is_container() ) {
+        if( (made_of( LIQUID ) || made_of(GAS)) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
             charges = liquid_charges( ret.type->container->contains );
@@ -1066,6 +1066,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if( c.watertight ) {
             dump->push_back( iteminfo( "CONTAINER", _( "This container is watertight." ) ) );
         }
+        if( c.airtight ) {
+            dump->push_back( iteminfo( "CONTAINER", _( "This container is airtight." ) ) );
+        }
         if( c.preserves ) {
             dump->push_back( iteminfo( "CONTAINER", _( "This container preserves its contents from spoiling." ) ) );
         }
@@ -1780,7 +1783,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string burntext = "";
-    if (with_prefix && !made_of(LIQUID)) {
+    if (with_prefix && !made_of(LIQUID) && !made_of(GAS)) {
         if (volume() >= 4 && burnt >= volume() * 2) {
             burntext = rm_prefix(_("<burnt_adj>badly burnt "));
         } else if (burnt > 0) {
@@ -1829,7 +1832,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << "+";
         maintext = ret.str();
     } else if (contents.size() == 1) {
-        if(contents[0].made_of(LIQUID)) {
+        if(contents[0].made_of(LIQUID) || contents[0].made_of(GAS)) {
             maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         } else if (contents[0].is_food()) {
             maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
@@ -1982,7 +1985,7 @@ int item::price() const
     }
     // The price from the json data is for the default-sized stack, like the volume
     // calculation.
-    if( count_by_charges() || made_of( LIQUID ) ) {
+    if( count_by_charges() || made_of( LIQUID ) || made_of(GAS) ) {
         ret = ret * charges / static_cast<double>( type->stack_size);
     }
     const it_tool* ttype = dynamic_cast<const it_tool*>( type );
@@ -2145,7 +2148,7 @@ int item::volume(bool unit_value, bool precise_value ) const
         ret += tmpvol;
     }
 
-    if (count_by_charges() || made_of(LIQUID)) {
+    if (count_by_charges() || made_of(LIQUID) || made_of(GAS)) {
         if ( unit_value == false ) {
             ret *= charges;
         }
@@ -4124,8 +4127,9 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
     }
 
     if (contents.empty()) {
-        if ( !type->container->watertight ) {
-            return L_ERR_NOT_WATERTIGHT;
+        if ( (liquid.made_of(GAS) && !type->container->airtight) ||
+             (liquid.made_of(LIQUID) && !type->container->watertight) ) {
+            return L_ERR_NOT_TIGHT;
         } else if( !type->container->seals) {
             return L_ERR_NOT_SEALED;
         }
@@ -4197,8 +4201,8 @@ bool item::fill_with( item &liquid, std::string &err )
         case L_ERR_NOT_CONTAINER:
             err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
             return false;
-        case L_ERR_NOT_WATERTIGHT:
-            err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
+        case L_ERR_NOT_TIGHT:
+            err = string_format( _( "That %s isn't tight enough to contain %s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         case L_ERR_NOT_SEALED:
             err = string_format( _( "You can't seal that %s!" ), tname().c_str());

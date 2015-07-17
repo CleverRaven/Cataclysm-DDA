@@ -131,7 +131,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
             item fill_water( "water_clean", calendar::turn );
             fill_water.charges = amt;
-            int back = g->move_liquid(fill_water);
+            int back = g->move_liquid_gas(fill_water);
             if (back >= 0) {
                 veh->refill("water_clean", back);
             } else {

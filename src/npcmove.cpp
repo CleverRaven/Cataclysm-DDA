@@ -1459,8 +1459,8 @@ void npc::find_item()
         if( g->m.sees_some_items( p, *this ) && sees( p ) &&
             ( !is_following() || !g->check_zone( no_pickup, p ) ) ) {
             for( auto &elem : g->m.i_at( p ) ) {
-                if( elem.made_of( LIQUID ) ) {
-                    // Don't even consider liquids.
+                if( elem.made_of( LIQUID ) || elem.made_of(GAS) ) {
+                    // Don't even consider liquids or gases.
                     continue;
                 }
                 int itval = value( elem );
@@ -1541,7 +1541,7 @@ void npc::pick_up_item()
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
              ( can_pickVolume( total_volume + vol, true ) &&
                can_pickWeight( total_weight + wgt, true ) ) &&
-             !item.made_of( LIQUID ) ) {
+             !item.made_of( LIQUID ) && !item.made_of(GAS)) {
             pickup.push_back( i );
             total_volume += vol;
             total_weight += wgt;

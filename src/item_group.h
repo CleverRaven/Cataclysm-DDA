@@ -141,7 +141,7 @@ class Item_modifier
         /**
          * Item should spawn inside this container, can be NULL,
          * if item should not spawn in a container.
-         * If the created item is a liquid and it uses the default
+         * If the created item is a liquid or gas and it uses the default
          * charges, it will expand/shrink to fill the container completely.
          * If it is created with to much charges, they are reduced.
          * If it is created with the non-default charges, but it still fits
