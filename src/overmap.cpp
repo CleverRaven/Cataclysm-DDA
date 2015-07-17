@@ -3895,11 +3895,11 @@ void overmap::open()
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
     std::ifstream fin;
 
-    fin.open(terfilename.c_str());
+    fin.open(terfilename.c_str(), std::ifstream::binary);
     if( fin.is_open() ) {
         unserialize(fin);
         fin.close();
-        fin.open(plrfilename);
+        fin.open(plrfilename, std::ifstream::binary);
         if( fin.is_open() ) {
             unserialize_view(fin);
             fin.close();
