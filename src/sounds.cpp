@@ -228,8 +228,11 @@ void sounds::process_sound_markers( player *p )
         if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
             int duration = (max_volume - dist - 130) / 4;
             p->add_effect("deaf", duration);
-            is_deaf = true;
-            continue;
+            if( p->is_deaf() ) {
+                // Need to check for actual deafness
+                is_deaf = true;
+                continue;
+            }
         }
 
         // At this point we are dealing with attention (as opposed to physical effects)

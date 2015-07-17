@@ -820,6 +820,7 @@ public:
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
@@ -847,6 +848,12 @@ public:
     // Points occupied by the vehicle
     std::set<tripoint> occupied_points;
     calendar occupied_cache_turn = -1; // Turn occupied points were calculated
+
+    // The below is currently used only for funnels
+    // Turn the vehicle was last processed
+    calendar last_update_turn = -1;
+    // Retroactively pass time spent outside bubble
+    void update_time();
 
     // save values
     /**

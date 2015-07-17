@@ -1375,6 +1375,10 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("aisle_lights_on", aisle_lights_on);
     data.read("has_atomic_lights", has_atomic_lights);
 
+    int last_updated = calendar::turn;
+    data.read( "last_update_turn", last_updated );
+    last_update_turn = last_updated;
+
     face.init (fdir);
     move.init (mdir);
     data.read("name", name);
@@ -1451,6 +1455,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "dome_lights_on", dome_lights_on );
     json.member( "aisle_lights_on", aisle_lights_on );
     json.member( "has_atomic_lights", has_atomic_lights );
+    json.member( "last_update_turn", last_update_turn.get_turn() );
     json.end_object();
 }
 
