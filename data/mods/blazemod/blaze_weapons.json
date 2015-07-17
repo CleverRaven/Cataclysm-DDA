@@ -468,7 +468,7 @@
     "symbol": "(",
     "color": "magenta",
     "name": "mountable hypervelocity driver",
-    "description": "A single-shot, electrically propelled, steel rail launcher.  The powerful, and frankly dangerous, improvements made to the power systems of this weapon is capable imbueing a massive charge into a single-rail; so much that it often shatters into deadly fragments on impact.  It's capabilities are limited by its prodigious power requirements however, and its large size necessitates a specially made turret mount be installed first.",
+    "description": "A single-shot, electrically propelled, steel rail launcher.  The powerful, and frankly dangerous, improvements made to the power systems of this weapon is capable imbueing a massive charge into a single-rail; so much that it often shatters into deadly fragments on impact.  Its capabilities are limited by its prodigious power requirements however, and its large size necessitates a specially made turret mount be installed first.",
     "price": 550000,
     "material": ["steel", "wood"],
     "ammo_effects": ["FRAG", "TRAIL"],
