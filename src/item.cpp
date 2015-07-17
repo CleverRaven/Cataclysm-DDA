@@ -2462,10 +2462,15 @@ int item::get_encumber() const
 
 int item::get_layer() const
 {
-    if      (has_flag("SKINTIGHT")) return UNDERWEAR;
-    else if (has_flag("WAIST"))     return WAIST_LAYER;
-    else if (has_flag("OUTER"))     return OUTER_LAYER;
-    else if (has_flag("BELTED"))    return BELTED_LAYER;
+    if( has_flag("SKINTIGHT") ) {
+        return UNDERWEAR;
+    } else if( has_flag("WAIST") ) {
+        return WAIST_LAYER;
+    } else if( has_flag("OUTER") ) {
+        return OUTER_LAYER;
+    } else if( has_flag("BELTED") ) {
+        return BELTED_LAYER;
+    }
     return REGULAR_LAYER;
 }
 

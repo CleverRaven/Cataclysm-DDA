@@ -12130,8 +12130,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
         layer[w.get_layer()] += 10;
 
-        if (w.is_power_armor() && is_wearing_active_power_armor()) {
-            armorenc += std::max( 0, w.get_encumber() - 40);
+        if( w.is_power_armor() && is_wearing_active_power_armor() ) {
+            armorenc += std::max( 0, w.get_encumber() - 40 );
         } else {
             armorenc += w.get_encumber();
         }
@@ -12139,8 +12139,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     armorenc = std::max(0, armorenc);
     ret += armorenc;
 
-    for (auto &elem : layer)
+    for( const auto &elem : layer ) {
        layers += std::max(0, elem - 10);
+    }
 
     ret += layers;
 
@@ -12730,8 +12731,10 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
 
 bool player::is_wearing_active_power_armor() const
 {
-    for (auto &w : worn) {
-        if (w.is_power_armor() && w.active) return true;
+    for( const auto &w : worn ) {
+        if( w.is_power_armor() && w.active ) {
+            return true;
+        }
     }
     return false;
 }

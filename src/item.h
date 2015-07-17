@@ -870,14 +870,14 @@ public:
          */
         int get_thickness() const;
         /**
+         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         */
+        int get_layer() const;
+        /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
          * 100 (covering the whole body part). Items that cover more are more likely to absorb
          * damage from attacks.
-         */
-        int get_layer() const;
-        /**
-         * Returns clothing layer for item which will always be 0 for non-wearable items
          */
         int get_coverage() const;
         /**
