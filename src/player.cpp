@@ -5659,13 +5659,13 @@ bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
         veh->refill( desired_liquid, liquid_amount );
         return false;
     }
-    int extra = g->move_liquid( used_item );
+    int extra = g->move_liquid_gas( used_item );
     if( extra == -1 ) {
         // Failed somehow, put the liquid back and bail out.
         veh->refill( desired_liquid, used_item.charges * fuel_per_charge );
         return false;
     }
-    int siphoned = liquid_amount - extra;
+    int siphoned = (liquid_amount - extra) / fuel_per_charge;
     veh->refill( desired_liquid, extra );
     if( siphoned > 0 ) {
         add_msg(ngettext("Siphoned %d unit of %s from the %s.",
@@ -11220,8 +11220,8 @@ void player::remove_gunmod(item *weapon, unsigned id)
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
         ammo.charges = gunmod->charges;
-        if (ammo.made_of(LIQUID)) {
-            while(!g->handle_liquid(ammo, false, false)) {
+        if (ammo.made_of(LIQUID) || ammo.made_of(GAS)) {
+            while(!g->handle_liquid_gas(ammo, false, false)) {
                 // handled only part of it, retry
             }
         } else {
@@ -13483,7 +13483,7 @@ bool player::can_pickup(bool print_msg) const
 
 bool player::has_container_for(const item &newit) const
 {
-    if (!newit.made_of(LIQUID)) {
+    if (!newit.made_of(LIQUID) && !newit.made_of(GAS)) {
         // Currently only liquids need a container
         return true;
     }

@@ -60,6 +60,10 @@ struct islot_container {
      */
     bool watertight = false;
     /**
+     * Can hold gases.
+     */
+    bool airtight = false;
+    /**
      * Contents do not spoil.
      */
     bool preserves = false;
@@ -624,7 +628,7 @@ struct it_comest : itype {
 
     bool count_by_charges() const override
     {
-        if (phase == LIQUID) {
+        if (phase == LIQUID || phase == GAS) {
             return true;
         } else {
             return def_charges > 1 ;

@@ -55,7 +55,7 @@ const std::array<fuel_type, 7> &get_fuel_types()
         fuel_type {fuel_type_diesel,    c_brown,   100, 1},
         fuel_type {fuel_type_battery,   c_yellow,  1,   1},
         fuel_type {fuel_type_plutonium, c_ltgreen, 1,   1000},
-        fuel_type {fuel_type_plasma,    c_ltblue,  100, 100},
+        fuel_type {fuel_type_plasma,    c_ltblue,  100, 10},
         fuel_type {fuel_type_water,     c_ltcyan,  1,   1},
         fuel_type {fuel_type_muscle,    c_white,   0,   1}
     }};

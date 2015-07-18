@@ -391,7 +391,7 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
     all.insert(all.end(), bps.begin(), bps.end());
 
     for(const item & prod : all) {
-        if( !prod.made_of(LIQUID)) {
+        if( !prod.made_of(LIQUID) && !prod.made_of(GAS)) {
             continue;
         }
 
@@ -1711,8 +1711,8 @@ void finalize_crafted_item( item &newit, float used_age_tally, int used_age_coun
 
 void set_item_inventory(item &newit)
 {
-    if (newit.made_of(LIQUID)) {
-        while(!g->handle_liquid(newit, false, false)) {
+    if (newit.made_of(LIQUID) || newit.made_of(GAS)) {
+        while(!g->handle_liquid_gas(newit, false, false)) {
             ;
         }
     } else {
@@ -2193,10 +2193,10 @@ void player::complete_disassemble()
         if( !comp.recoverable || newit.has_flag( "UNRECOVERABLE" ) ) {
             continue;
         }
-        // Compress liquids and counted-by-charges items into one item,
-        // they are added together on the map anyway and handle_liquid
+        // Compress liquids, gases, and counted-by-charges items into one item,
+        // they are added together on the map anyway and handle_liquid_gas
         // should only be called once to put it all into a container at once.
-        if (newit.count_by_charges() || newit.made_of(LIQUID)) {
+        if (newit.count_by_charges() || newit.made_of(LIQUID) || newit.made_of(GAS)) {
             newit.charges = compcount;
             compcount = 1;
         } else if (!newit.craft_has_charges() && newit.charges > 0) {
@@ -2229,8 +2229,8 @@ void player::complete_disassemble()
                     break;
                 }
             }
-            if (act_item.made_of(LIQUID)) {
-                while (!g->handle_liquid(act_item, false, false)) {
+            if (act_item.made_of(LIQUID) || act_item.made_of(GAS)) {
+                while (!g->handle_liquid_gas(act_item, false, false)) {
                     // Try again, maybe use another container.
                 }
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
@@ -2311,8 +2311,8 @@ void remove_ammo(item *dis_item, player &p)
     while( !dis_item->contents.empty() ) {
         item tmp = dis_item->contents.front();
         dis_item->contents.erase( dis_item->contents.begin() );
-        if( tmp.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( tmp, false, false ) ) {
+        if( (tmp.made_of( LIQUID ) || tmp.made_of(GAS)) && &p == &g->u ) {
+            while( !g->handle_liquid_gas( tmp, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {
@@ -2325,8 +2325,8 @@ void remove_ammo(item *dis_item, player &p)
     if( dis_item->is_gun() && dis_item->has_curammo() && dis_item->ammo_type() != "NULL" ) {
         item ammodrop( dis_item->get_curammo_id(), calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
+        if( (ammodrop.made_of( LIQUID ) || ammodrop.made_of(GAS)) && &p == &g->u ) {
+            while( !g->handle_liquid_gas( ammodrop, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {
@@ -2340,8 +2340,8 @@ void remove_ammo(item *dis_item, player &p)
         if( dis_item->ammo_type() == "plutonium" ) {
             ammodrop.charges /= 500;
         }
-        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
+        if( (ammodrop.made_of( LIQUID ) || ammodrop.made_of(GAS)) && &p == &g->u ) {
+            while( !g->handle_liquid_gas( ammodrop, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {

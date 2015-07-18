@@ -858,7 +858,7 @@ bool player::activate_bionic(int b, bool eff_only)
         water.charges = water_charges;
         if (water_charges == 0) {
             add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
-        } else if (g->handle_liquid(water, true, false)) {
+        } else if (g->handle_liquid_gas(water, true, false)) {
             moves -= 100;
         } else {
             water.charges -= drink_from_hands( water );
@@ -935,7 +935,7 @@ bool player::activate_bionic(int b, bool eff_only)
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water = item("water_clean", 0);
                     water.charges = avail;
-                    if (g->handle_liquid(water, true, false)) {
+                    if (g->handle_liquid_gas(water, true, false)) {
                         moves -= 100;
                     } else {
                         water.charges -= drink_from_hands( water );

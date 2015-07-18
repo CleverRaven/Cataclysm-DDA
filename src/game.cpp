@@ -7602,8 +7602,8 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
     }
     if(bash_dmg == 0) {
         for( auto &elem : m.i_at( x, y ) ) {
-            if( elem.made_of( LIQUID ) ) {
-                // Liquids are OK, will be destroyed later
+            if( elem.made_of( LIQUID ) || elem.made_of(GAS)) {
+                // Liquids and gases are OK, will be destroyed later
                 continue;
             } else if( elem.volume() <= 0 ) {
                 // Dito for small items, will be moved away
@@ -7618,7 +7618,7 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
     if (m.has_flag("NOITEM", x, y)) {
         auto items = m.i_at(x, y);
         while (!items.empty()) {
-            if (items[0].made_of(LIQUID)) {
+            if (items[0].made_of(LIQUID) || items[0].made_of(GAS)) {
                 m.i_rem( x, y, 0 );
                 continue;
             }
@@ -10151,13 +10151,13 @@ bool vehicle_near( const itype_id &ft )
     return false;
 }
 
-// Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
+// handle_liquid_gas_gas returns false if we didn't handle all the liquid.
+bool game::handle_liquid_gas(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont)
 {
-    if( !liquid.made_of(LIQUID) ) {
-        dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
-        debugmsg("Tried to handle_liquid a non-liquid!");
+    if( !liquid.made_of(LIQUID) && !liquid.made_of(GAS)) {
+        dbg(D_ERROR) << "game:handle_liquid_gas: Tried to handle_liquid_gas a non-liquid or gas!";
+        debugmsg("Tried to handle_liquid_gas a non-liquid or gas!");
         return false;
     }
 
@@ -10208,6 +10208,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     refresh_all();
     if (!from_ground && liquid.rotten() &&
         choose_adjacent(liqstr, dirx, diry)) {
+        if (liquid.made_of(GAS) && !query_yn(_("The gas will escape! Are you sure?"))) {
+            return false;
+        }
 
         if (!m.can_put_items(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
@@ -10227,6 +10230,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
                 choose_adjacent(liqstr, dirx, diry)) {
+
+                if (liquid.made_of(GAS) && !query_yn(_("The gas will escape! Are you sure?"))) {
+                    return false;
+                }
 
                 if (!m.can_put_items(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
@@ -10302,7 +10309,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
 
         u.inv.unsort();
-        add_msg( _( "You pour %s into the %s." ), liquid.tname().c_str(), cont->tname().c_str() );
+        if (liquid.made_of(GAS)) {
+            add_msg( _( "You pump %s into the %s." ), liquid.tname().c_str(), cont->tname().c_str() );
+        } else {
+            add_msg( _( "You pour %s into the %s." ), liquid.tname().c_str(), cont->tname().c_str() );
+        }
         if( !infinite && liquid.charges > 0 ) {
             add_msg( _( "There's some left over!" ) );
         }
@@ -10311,13 +10322,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     return false;
 }
 
-//Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
+//move_liquid_gas returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
 //One-use, strictly for liquid transactions. Not intended for use with while loops.
-int game::move_liquid(item &liquid)
+int game::move_liquid_gas(item &liquid)
 {
-    if (!liquid.made_of(LIQUID)) {
-        dbg(D_ERROR) << "game:move_liquid: Tried to move_liquid a non-liquid!";
-        debugmsg("Tried to move_liquid a non-liquid!");
+    if (!liquid.made_of(LIQUID) && !liquid.made_of(GAS)) {
+        dbg(D_ERROR) << "game:move_liquid_gas: Tried to move_liquid_gas a non-liquid or gas!";
+        debugmsg("Tried to move_liquid_gas a non-liquid or gas!");
         return -1;
     }
 
@@ -10384,7 +10395,11 @@ int game::move_liquid(item &liquid)
             }
             u.inv.unsort();
             if( tmp_liquid.charges == 0 ) {
-                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(), cont->type_name().c_str());
+                if (tmp_liquid.made_of(GAS)) {
+                    add_msg(_("You pump %s into your %s."), liquid.tname().c_str(), cont->type_name().c_str());
+                } else {
+                    add_msg(_("You pour %s into your %s."), liquid.tname().c_str(), cont->type_name().c_str());
+                }
             } else {
                 add_msg(_("You fill your %s with some of the %s."), cont->type_name().c_str(), liquid.tname().c_str());
                 add_msg(_("There's some left over!"));
@@ -11425,8 +11440,8 @@ void game::unload(int pos)
 
 bool add_or_drop_with_msg( player &u, item &it )
 {
-    if( it.made_of( LIQUID ) ) {
-        return g->handle_liquid( it, false, false, nullptr );
+    if( it.made_of( LIQUID ) || it.made_of(GAS) ) {
+        return g->handle_liquid_gas( it, false, false, nullptr );
     }
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),

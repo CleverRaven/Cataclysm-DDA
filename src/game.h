@@ -461,12 +461,12 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset(vehicle *veh = NULL);
 
-        bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
+        bool handle_liquid_gas(item &liquid, bool from_ground, bool infinite, item *source = NULL,
                            item *cont = NULL);
 
-        //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
+        //move_liquid_gas returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.
-        int move_liquid(item &liquid);
+        int move_liquid_gas(item &liquid);
 
         void open_gate( const tripoint &p, const ter_id handle_type );
 
@@ -612,7 +612,6 @@ class game
 
         // Establish a grab on something.
         void grab();
-        // Pick where to put liquid; false if it's left where it was
 
         void compare(); // Compare two Items 'I'
         void compare( const tripoint &offset ); // Offset is added to player's position

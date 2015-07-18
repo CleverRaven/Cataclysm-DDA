@@ -438,7 +438,8 @@ task_reason veh_interact::cant_do (char mode)
     case 's': // siphon mode
         valid_target = false;
         for( auto & e : veh->fuels_left() ) {
-            if( item::find_type( e.first )->phase == LIQUID ) {
+            if( item::find_type( e.first )->phase == LIQUID ||
+                item::find_type( e.first )->phase == GAS ) {
                 valid_target = true;
                 break;
             }
@@ -2031,14 +2032,14 @@ void act_vehicle_siphon(vehicle* veh) {
     std::vector<itype_id> fuels;
     for( auto & e : veh->fuels_left() ) {
         const itype *type = item::find_type( e.first );
-        if( type->phase != LIQUID ) {
+        if( type->phase != LIQUID && type->phase != GAS) {
             // This skips battery and plutonium cells
             continue;
         }
         fuels.push_back( e.first );
     }
     if( fuels.empty() ) {
-        add_msg(m_info, _("The vehicle has no liquid fuel left to siphon."));
+        add_msg(m_info, _("The vehicle has no liquid or gas fuel left to siphon."));
         return;
     }
     itype_id fuel;

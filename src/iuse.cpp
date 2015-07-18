@@ -5845,9 +5845,10 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     }
 
     const ter_id ter = g->m.ter( dirx, diry );
+    const furn_id furn = g->m.furn( dirx, diry );
     int moves;
 
-    if( g->m.furn(dirx, diry) == f_rack || ter == t_chainfence_posts ) {
+    if( furn == f_rack || ter == t_chainfence_posts ) {
         moves = 200;
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 500;
@@ -5856,7 +5857,13 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         moves = 1000;
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
-        moves = 1500;
+        // one_in(2) chance in finish_activity() means an average time of 3.3 minutes
+        moves = 1000;
+    } else if ( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
+                furn == f_gun_safe_el ) {
+        // one_in(10) chance in finish_activity() means an average time of 4 hours and 10 min
+        // to cut through a safe.
+        moves = 25000;
     } else {
         add_msg( m_info, _("You can't cut that.") );
         return 0;

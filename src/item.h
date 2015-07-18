@@ -339,8 +339,9 @@ public:
     /**
      * @name Containers
      *
-     * Containers come in two flavors:
+     * Containers come in three flavors:
      * - suitable for liquids (@ref is_watertight_container),
+     * - suitable for gases (@ref is_airtight_container),
      * - and the remaining one (they are for currently only for flavor).
      */
     /*@{*/
@@ -349,6 +350,8 @@ public:
     bool is_container() const;
     /** Whether this is a container which can be used to store liquids. */
     bool is_watertight_container() const;
+    /** Whether this is a container which can be used to store gases. */
+    bool is_airtight_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
     /** Whether this item has no more free capacity for its current content. */
@@ -1223,7 +1226,7 @@ public:
 
  int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
- int get_gun_ups_drain() const; 
+ int get_gun_ups_drain() const;
 };
 
 bool item_compare_by_charges( const item& left, const item& right);

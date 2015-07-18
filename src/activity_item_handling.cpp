@@ -250,7 +250,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
         return;
     }
     // If we make it here load anything left into a new activity.
-    make_drop_activity( act, drop_target, selected_items, item_quantities, selected_worn_items, 
+    make_drop_activity( act, drop_target, selected_items, item_quantities, selected_worn_items,
             worn_item_quantities, ignoring_interruptions, to_vehicle );
 }
 
@@ -308,7 +308,7 @@ void activity_on_turn_pickup()
 
 // I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
 // but I don't see a clean way to do that.
-static void move_items( const tripoint &src, bool from_vehicle, 
+static void move_items( const tripoint &src, bool from_vehicle,
                         const tripoint &dest, bool to_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
@@ -366,7 +366,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
         }
 
         // Check that we can pick it up.
-        if( !temp_item->made_of(LIQUID) ) {
+        if( !temp_item->made_of(LIQUID) && !temp_item->made_of(GAS)) {
             // Is it too bulky? We'll have to use our hands, then.
             if( !g->u.can_pickVolume(temp_item->volume()) && g->u.is_armed() ) {
                 g->u.moves -= 20; // Pretend to be unwielding our gun.

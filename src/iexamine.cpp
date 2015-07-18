@@ -60,7 +60,7 @@ void iexamine::gaspump(player *p, map *m, const tripoint &examp)
                 }
             } else {
                 p->moves -= 300;
-                if( g->handle_liquid( *item_it, true, false ) ) {
+                if( g->handle_liquid_gas( *item_it, true, false ) ) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."),
                             item_it->type_name(1).c_str());
                     items.erase( item_it );
@@ -532,9 +532,9 @@ void iexamine::toilet(player *p, map *m, const tripoint &examp)
 
         // First try handling/bottling, then try drinking, but only try
         // drinking if we don't handle or bottle.
-        bool drained = g->handle_liquid( *water, true, false );
+        bool drained = g->handle_liquid_gas( *water, true, false );
         if( drained || initial_charges != water->charges ) {
-            // The bottling happens in handle_liquid, but delay of action
+            // The bottling happens in handle_liquid_gas, but delay of action
             // does not.
             p->moves -= 100;
         } else if( !drained && initial_charges == water->charges ){
@@ -974,23 +974,35 @@ void iexamine::slot_machine(player *p, map*, const tripoint&)
 void iexamine::safe(player *p, map *m, const tripoint &examp)
 {
     if (!p->has_amount("stethoscope", 1)) {
-        add_msg(m_info, _("You need a stethoscope for safecracking."));
-        return;
+        if (query_yn(_("The safe is locked. Input a random combination?"))) {
+            // one_in(30 ^ 3), chance of guessing
+            if (one_in(27000)) {
+                add_msg(m_good, _("The safe opens!"));
+                m->furn_set(examp, f_safe_o);
+                return;
+            } else {
+                add_msg(m_info, _("The safe remains locked."));
+                return;
+            }
+        } else {
+            p->add_msg_if_player(m_info, _("Never mind."));
+            return;
+        }
     }
 
     if (query_yn(_("Attempt to crack the safe?"))) {
-        bool success = true;
         if (p->is_deaf()) {
             add_msg(m_info, _("You can't crack a safe while deaf!"));
             return;
         }
 
-        if (success) {
-            m->furn_set(examp, f_safe_o);
-            add_msg(m_good, _("You successfully crack the safe!"));
-        } else {
-            add_msg(_("The safe resists your attempt at cracking it."));
-        }
+        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum.
+        int moves = std::max(150000 + (p->skillLevel("mechanics") - 3) * -20000 +
+                (p->get_per() - 8) * -10000, 30000);
+
+        p->assign_activity( ACT_CRACKING, moves );
+        p->activity.placement = examp;
     }
 }
 
@@ -1957,7 +1969,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
         }
     } else { //Booze is done, so bottle it!
         item &booze = m->i_at(examp).front();
-        if( g->handle_liquid( booze, true, false) ) {
+        if( g->handle_liquid_gas( booze, true, false) ) {
             m->furn_set(examp, f_fvat_empty);
             add_msg(_("You squeeze the last drops of %s from the vat."), booze.tname().c_str());
             m->i_clear( examp );
@@ -2069,7 +2081,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
 
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
-            if( g->handle_liquid(*drink, true, false) ) {
+            if( g->handle_liquid_gas(*drink, true, false) ) {
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
                         m->name(examp).c_str());
                 m->i_clear( examp );
