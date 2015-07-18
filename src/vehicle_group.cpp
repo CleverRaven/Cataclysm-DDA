@@ -152,7 +152,8 @@ VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
     { "no_vehicles", builtin_no_vehicles },
     { "jack-knifed_semi", builtin_jackknifed_semi },
     { "vehicle_pileup", builtin_pileup },
-    { "policecar_pileup", builtin_policepileup }
+    { "policecar_pileup", builtin_policepileup },
+    { "parkinglot", builtin_parkinglot }
 };
 
 void VehicleSpawn::load(JsonObject &jo)
@@ -270,5 +271,18 @@ void VehicleSpawn::builtin_policepileup(map& m, const std::string&)
 
     if (last_added_car != NULL) {
         last_added_car->name = _("policecar pile-up");
+    }
+}
+
+void VehicleSpawn::builtin_parkinglot(map& m, const std::string&)
+{
+    for(int v = 0; v < rng(1,4); v++) {
+        point pos_p;
+        pos_p.x = rng(0, 1) * 15 + rng(4,5);
+        pos_p.y = rng(0, 4) * 4 + rng(2,4);
+
+        if (!m.veh_at(pos_p.x,pos_p.y)) {
+            m.add_vehicle(vgroup_id("parkinglot"), pos_p, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
+        }
     }
 }

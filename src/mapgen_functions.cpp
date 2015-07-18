@@ -1750,13 +1750,7 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
         }
     }
 
-    for(int v = 0; v < rng(1,4); v++) {
-        int vy = rng(0, 4) * 4 + rng(2,4);
-        int vx = rng(0, 1) * 15 + rng(4,5);
-        if (!m->veh_at(vx,vy)) {
-            m->add_vehicle (vgroup_id("parkinglot"), {vx, vy}, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
-        }
-    }
+    VehicleSpawn::apply(vspawn_id("default_parkinglot"), *m, "parkinglot");
 
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
     for (int i = 1; i < 4; i++) {

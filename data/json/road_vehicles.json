@@ -229,5 +229,15 @@
                 }
             }
         ]
+    },{
+        "type" : "vehicle_spawn",
+        "id" : "default_parkinglot",
+        "spawn_types" : [
+            {
+                "description" : "Parking lot with vehicles",
+                "weight" : 100,
+                "vehicle_function" : "parkinglot"
+            }
+        ]
     }
 ]
