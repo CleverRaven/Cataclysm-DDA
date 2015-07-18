@@ -771,8 +771,7 @@
   "components": [
     [
       [ "paper", 5 ],
-      [ "rolling_paper", 30],
-      [ "wrapper", 5]
+      [ "rolling_paper", 32]
     ],
     [
       [ "acid", 2 ]
@@ -1721,6 +1720,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
@@ -6152,7 +6152,7 @@
     ],
     [
       [ "paper", 1 ],
-      [ "rolling_paper", 5 ]
+      [ "rolling_paper", 6 ]
     ],
     [
       [ "gunpowder", 5 ],
