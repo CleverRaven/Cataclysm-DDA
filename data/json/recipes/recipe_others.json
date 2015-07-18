@@ -2930,6 +2930,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_bird", 30 ],
       [ "shot_00", 15 ],
       [ "shot_slug", 12 ],
