@@ -12120,51 +12120,26 @@ int player::encumb( body_part bp ) const
  */
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
-    int ret = 0;
-    double layer[MAX_CLOTHING_LAYER] = { };
-    int level = 0;
-    bool is_wearing_active_power_armor = false;
-    for( auto &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            is_wearing_active_power_armor = true;
-            break;
-        }
-    }
+    int layer[MAX_CLOTHING_LAYER] = { };
 
-    for( auto& w : worn ) {
-        if( !w.covers(bp) ) {
-            continue;
-        }
+    for (auto w = worn.begin(); w != worn.end(); ++w) {
+        if (! w->covers(bp)) continue;
 
-        if( w.has_flag( "SKINTIGHT" ) ) {
-            level = UNDERWEAR;
-        } else if ( w.has_flag( "WAIST" ) ) {
-            level = WAIST_LAYER;
-        } else if ( w.has_flag( "OUTER" ) ) {
-            level = OUTER_LAYER;
-        } else if ( w.has_flag( "BELTED") ) {
-            level = BELTED_LAYER;
+        if (! (w->has_flag("FIT") && w->get_encumber() == 0))
+            layer[w->get_layer()] += 10;
+
+        if (w->is_power_armor() && is_wearing_active_power_armor()) {
+            armorenc += std::max(0, w->get_encumber() - 40);
         } else {
-            level = REGULAR_LAYER;
-        }
-
-        layer[level] += 10;
-        if( w.is_power_armor() && is_wearing_active_power_armor ) {
-            armorenc += std::max( 0, w.get_encumber() - 40);
-        } else {
-            armorenc += w.get_encumber();
+            armorenc += w->get_encumber();
         }
     }
     armorenc = std::max(0, armorenc);
-    ret += armorenc;
 
-    for( auto &elem : layer ) {
-        layers += std::max( 0.0, elem - 10.0 );
-    }
+    for (auto &elem : layer)
+       layers += std::max(0, elem - 10);
 
-    if (layers > 5.0) {
-        ret += (layers);
-    }
+    int ret = armorenc + layers;
 
     if (volume_carried() > volume_capacity() && bp != bp_head) {
         ret += 30;
@@ -12748,6 +12723,14 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
     }
     return result;
+}
+
+bool player::is_wearing_active_power_armor() const
+{
+    for (auto &w : worn) {
+        if (w.is_power_armor() && w.active) return true;
+    }
+    return false;
 }
 
 int player::adjust_for_focus(int amount)

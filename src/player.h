@@ -732,6 +732,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        /** Returns true if the player is wearing active power */
+        bool is_wearing_active_power_armor() const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
 
