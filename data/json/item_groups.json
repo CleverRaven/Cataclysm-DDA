@@ -365,6 +365,7 @@
       ["cookbook", 35],
       ["rag", 1],
       ["hotplate", 10],
+      ["trangia_stove", 5],
       ["flashlight", 40],
       ["extinguisher", 20],
       ["whiskey", 16],
@@ -598,6 +599,7 @@
       ["yeast", 10],
       ["molasses", 5],
       ["vodka", 20],
+      ["conc_ethanol", 2],
       ["apple_cider", 50],
       ["fruit_wine", 7],
       ["brandy", 5],
@@ -772,7 +774,9 @@
       ["magnifying_glass", 5],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+      ["denat_alcohol", 10],
+      ["trangia_stove", 5]
     ]
   },{
     "type" : "item_group",
@@ -1899,7 +1903,8 @@
       ["peephole", 25],
       ["magnifying_glass", 5],
       ["chem_chromium_oxide", 5],
-      ["chem_thermite", 10]
+      ["chem_thermite", 10],
+      ["denat_alcohol", 25]
     ]
   },{
     "type"  : "item_group",
@@ -2039,7 +2044,8 @@
       ["tool_belt", 30],
       ["knitting_needles", 1],
       ["survnote", 1],
-      ["material_quicklime", 10]
+      ["material_quicklime", 10],
+      ["denat_alcohol", 25]
     ]
   },{
     "type" : "item_group",
@@ -2224,6 +2230,7 @@
       ["binoculars", 20],
       ["firecracker_pack", 5],
       ["hotplate", 10],
+      ["trangia_stove", 10],
       ["coffeemaker", 5],
       ["tin_plate", 10],
       ["knife_combat", 14],
@@ -2403,6 +2410,7 @@
       ["rope_30", 35],
       ["hatchet", 10],
       ["mess_kit", 10],
+      ["trangia_stove", 10],
       ["pot", 20],
       ["bowl_pewter", 25],
       ["teapot", 15],
@@ -2549,6 +2557,7 @@
       ["gin", 20],
       ["rum", 14],
       ["tequila", 12],
+      ["conc_ethanol", 10],
       ["triple_sec", 12],
       ["bum_wine", 20],
       ["fruit_wine", 12],
@@ -5622,6 +5631,8 @@
       ["recipe_arrows", 7],
       ["flashlight", 40],
       ["mess_kit", 9],
+      ["trangia_stove", 2],
+      ["denat_alcohol", 2],
       ["mil_mess_kit", 1],
       ["water_purifier", 5],
       ["radio", 20],
@@ -5743,6 +5754,8 @@
       ["flashlight", 40],
       ["mess_kit", 10],
       ["hotplate", 10],
+      ["trangia_stove", 5],
+      ["denat_alcohol", 5],
       ["water_purifier", 5],
       ["radio", 20],
       ["rollmat", 40],
@@ -5890,7 +5903,9 @@
       ["chem_aluminium_powder", 5],
       ["chem_zinc_powder", 10],
       ["chem_saltpetre", 10],
-      ["chem_carbide", 10]
+      ["chem_carbide", 10],
+      ["denat_alcohol", 10],
+      ["chem_methanol", 10]
     ]
   },{
     "type" : "item_group",
@@ -5928,7 +5943,9 @@
       ["eyedrops", 25],
       ["charcoal", 15],
       ["chem_hydrogen_peroxide", 15],
-      ["chem_carbide", 10]
+      ["chem_carbide", 10],
+      ["denat_alcohol", 10],
+      ["chem_methanol", 10]
     ]
   },{
     "type" : "item_group",
@@ -5978,7 +5995,9 @@
       ["chem_hexamine", 10],
       ["chem_saltpetre", 15],
       ["chem_nitric_acid", 15],
-      ["chem_chromium_oxide", 10]
+      ["chem_chromium_oxide", 10],
+      ["denat_alcohol", 10],
+      ["chem_methanol", 10]
     ]
   },{
     "type" : "item_group",
@@ -6098,7 +6117,9 @@
       ["subsuit_xl", 4],
       ["rag_bloody", 1],
       ["chem_nitric_acid", 10],
-      ["chem_hydrogen_peroxide_conc", 10]
+      ["chem_hydrogen_peroxide_conc", 10],
+      ["chem_methanol", 10],
+      ["denat_alcohol", 10]
     ]
   },{
     "type" : "item_group",
@@ -7170,6 +7191,7 @@
       ["EMPbomb", 2],
       ["mess_kit", 10],
       ["hotplate", 10],
+      ["trangia_stove", 10],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["canteen", 15],
@@ -8297,6 +8319,8 @@
       ["chem_nitric_acid", 1],
       ["chem_sulphuric_acid", 1],
       ["chem_hexamine", 2],
+      ["chem_methanol", 1],
+      ["denat_alcohol", 1],
       ["remotevehcontrol", 5]
     ]
   },{
@@ -8503,6 +8527,7 @@
       ["mag_melee", 30],
       ["whiskey", 16],
       ["bum_wine", 10],
+      ["conc_ethanol", 12],
       ["jerky", 55],
       ["cracklins", 25],
       ["porkstick", 55],
@@ -8758,7 +8783,8 @@
       ["brew_moonshine", 5],
       ["cornbread", 35],
       ["yeast", 25],
-      ["sugar", 20]
+      ["sugar", 20],
+      ["conc_ethanol", 5]
     ]
   },{
     "type" : "item_group",
@@ -10167,6 +10193,8 @@
       ["sleeping_bag", 80],
       ["gasoline_lantern", 40],
       ["oil_lamp", 40],
+      ["trangia_stove", 10],
+      ["denat_alcohol", 10],
       ["pur_tablets", 10],
       ["water_clean", 50],
       ["granola", 60],

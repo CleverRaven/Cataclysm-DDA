@@ -565,6 +565,34 @@
     "phase" : "liquid",
     "container" : "bottle_glass",
     "count" : 1
-   }
+   },
+   {
+    "type" : "AMMO",
+    "id" : "chem_methanol",
+    "category" : "chems",
+    "price" : 2000,
+    "name" : "methanol",
+    "name_plural" : "methanol",
+    "symbol" : "~",
+    "color" : "white",
+    "description" : "The simplest alcohol, methanol contains one carbon atom per molecule as opposed to two in 'drinking alcohol' or ethanol. Like ethanol, it is a flammable, volatile liquid and acts as a CNS depressant. Unlike ethanol, it is extremely poisonous and a single sip can cause permanent blindness; methanol impurities are responsible for many of the dangers of bootleg liquor. You could use it as fuel for an alcohol-burning stove.",
+    "material" : "alcohol",
+    "volume" : 1,
+    "weight" : 35,
+    "bashing" : 0,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "conc_alcohol",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "container" : "bottle_plastic",
+    "phase" : "liquid",
+    "charges" : 17,
+    "count" : 1
+    }
 ]
 

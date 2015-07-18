@@ -2067,6 +2067,7 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "conc_ethanol", 7],
       [ "bleach", 1 ]
     ],
     [
@@ -2224,6 +2225,42 @@
     [
       [ "charcoal", 1 ],
       [ "lye_powder", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "conc_ethanol",
+  "category": "CC_CHEM",
+  "subcategory": "CC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BREW","level":1,"amount":1}
+  ],"tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "vodka", 1],
+      [ "whiskey", 1],
+      [ "rum", 1],
+      [ "tequila", 1],
+      [ "triple_sec", 1],
+      [ "single_malt_whiskey", 1],
+      [ "bum_wine", 1],
+      [ "fruit_wine", 1],
+      [ "brandy", 1],
+      [ "moonshine", 1],
+      [ "beer", 2],
+      [ "hb_beer", 2]
     ]
   ]
 },{
