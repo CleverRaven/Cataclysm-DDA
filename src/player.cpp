@@ -12108,8 +12108,8 @@ int player::encumb( body_part bp ) const
  * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
  * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
  * they're intended to be worn that way, and don't impose a penalty.
- * The default is to assume that clothes do not fit, clothes that are "fitted" either
- * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
+ * The default is to assume that clothes do not fit, clothes that are "fitted" reduce the
+ * encumbrance penalty by the lesser of either 50% or 10 points (see item::get_encumber() )
  *
  * Use cases:
  * What would typically be considered normal "street clothes" should not be considered encumbering.
@@ -12124,8 +12124,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     for (auto w = worn.begin(); w != worn.end(); ++w) {
         if (! w->covers(bp)) continue;
 
-        if (! (w->has_flag("FIT") && w->get_encumber() == 0))
-            layer[w->get_layer()] += 10;
+        layer[w->get_layer()] += 10;
 
         if (w->is_power_armor() && is_wearing_active_power_armor()) {
             armorenc += std::max(0, w->get_encumber() - 40);
