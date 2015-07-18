@@ -2989,7 +2989,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             std::string s;
             if (line == 0) {
                 const int melee_roll_pen = std::max( -( encumb( bp_torso ) / 10 ) * 10, -80 );
-                s += string_format( _("Melee attack rolls %+d\%; "), melee_roll_pen );
+                s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
                 s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - skillLevel( "swimming" ) * 3 ) );
                 s += melee_cost_text( encumb( bp_torso ) );
