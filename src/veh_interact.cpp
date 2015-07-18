@@ -725,7 +725,7 @@ void veh_interact::do_install()
         }
         wrefresh(w_list);
 
-        sel_vpart_info = (tab_vparts.size() > 0) ? tab_vparts[pos] : NULL; // filtered list can be empty
+        sel_vpart_info = (!tab_vparts.empty()) ? tab_vparts[pos] : NULL; // filtered list can be empty
 
         display_details( sel_vpart_info );
 
