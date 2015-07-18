@@ -3180,22 +3180,34 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
-  "time": 8000,
+  "time": 150000,
   "reversible": true,
   "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
+   {"id":"HAMMER","level":3,"amount":1},
+   {"id":"SCREW","level":1,"amount":1},
+   {"id":"WRENCH","level":1,"amount":1},
+   {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
     [
-      [ "spike", 2 ]
+      [ "omnicamera", 1 ]
     ],
     [
       [ "processor", 1 ]
@@ -3204,11 +3216,23 @@
       [ "RAM", 1 ]
     ],
     [
-      [ "power_supply", 1 ],
-      [ "plut_cell", 1 ]
+      [ "motor_small", 1 ]
     ],
     [
-      [ "scrap", 2 ]
+      [ "antenna", 1 ]
+    ],
+    [
+      [ "power_supply", 1 ]
+    ],
+    [
+      [ "plut_cell", 2 ]
+    ],
+    [
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
+    ],
+    [
+      [ "spike", 2 ]
     ]
   ]
 },{
@@ -3219,22 +3243,37 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
-  "time": 8000,
+  "time": 150000,
   "reversible": true,
   "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
     [
       [ "grenade", 1 ]
+    ],
+    [
+      [ "omnicamera", 1 ]
     ],
     [
       [ "processor", 1 ]
@@ -3243,11 +3282,17 @@
       [ "RAM", 1 ]
     ],
     [
-      [ "power_supply", 1 ],
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "antenna", 1 ]
+    ],
+    [
       [ "plut_cell", 1 ]
     ],
     [
-      [ "scrap", 2 ]
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
     ]
   ]
 },{
@@ -3258,17 +3303,29 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 7,
-  "time": 16000,
+  "time": 180000,
   "reversible": true,
   "decomp_learn": 8,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 8]],
   "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "tools": [
     [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
@@ -3276,17 +3333,26 @@
       [ "mininuke", 1 ]
     ],
     [
-      [ "processor", 2 ]
+      [ "omnicamera", 1 ]
     ],
     [
-      [ "RAM", 2 ]
+      [ "processor", 1 ]
     ],
     [
-      [ "power_supply", 2 ],
-      [ "plut_cell", 2 ]
+      [ "RAM", 1 ]
     ],
     [
-      [ "scrap", 4 ]
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "antenna", 1 ]
+    ],
+    [
+      [ "plut_cell", 1 ]
+    ],
+    [
+      [ "scrap", 6 ],
+      [ "steel_chunk", 2 ]
     ]
   ]
 },{
@@ -3297,22 +3363,37 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
-  "time": 8000,
+  "time": 150000,
   "reversible": true,
   "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
     [
       [ "gasbomb", 1 ]
+    ],
+    [
+      [ "omnicamera", 1 ]
     ],
     [
       [ "processor", 1 ]
@@ -3321,11 +3402,17 @@
       [ "RAM", 1 ]
     ],
     [
-      [ "power_supply", 1 ],
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "antenna", 1 ]
+    ],
+    [
       [ "plut_cell", 1 ]
     ],
     [
-      [ "scrap", 2 ]
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
     ]
   ]
 },{
@@ -3336,22 +3423,37 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
-  "time": 8000,
+  "time": 150000,
   "reversible": true,
   "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
     [
       [ "EMPbomb", 1 ]
+    ],
+    [
+      [ "omnicamera", 1 ]
     ],
     [
       [ "processor", 1 ]
@@ -3360,11 +3462,17 @@
       [ "RAM", 1 ]
     ],
     [
-      [ "power_supply", 1 ],
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "antenna", 1 ]
+    ],
+    [
       [ "plut_cell", 1 ]
     ],
     [
-      [ "scrap", 2 ]
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
     ]
   ]
 },{
@@ -3375,22 +3483,37 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
-  "time": 8000,
+  "time": 150000,
   "reversible": true,
   "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
     [
       [ "flashbang", 1 ]
+    ],
+    [
+      [ "omnicamera", 1 ]
     ],
     [
       [ "processor", 1 ]
@@ -3399,11 +3522,17 @@
       [ "RAM", 1 ]
     ],
     [
-      [ "power_supply", 1 ],
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "antenna", 1 ]
+    ],
+    [
       [ "plut_cell", 1 ]
     ],
     [
-      [ "scrap", 2 ]
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
     ]
   ]
 },{
@@ -3414,22 +3543,37 @@
   "skill_used": "mechanics",
   "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
-  "time": 8000,
+  "time": 150000,
   "reversible": true,
   "decomp_learn": 7,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
   "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
+    ],
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 10 ],
+      [ "welder_crude", 15 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 1 ]
     ]
   ],
   "components": [
     [
       [ "c4", 1 ]
+    ],
+    [
+      [ "omnicamera", 1 ]
     ],
     [
       [ "processor", 1 ]
@@ -3438,11 +3582,17 @@
       [ "RAM", 1 ]
     ],
     [
-      [ "power_supply", 1 ],
+      [ "motor_small", 1 ]
+    ],
+    [
+      [ "antenna", 1 ]
+    ],
+    [
       [ "plut_cell", 1 ]
     ],
     [
-      [ "scrap", 2 ]
+      [ "scrap", 3 ],
+      [ "steel_chunk", 1 ]
     ]
   ]
 },{
