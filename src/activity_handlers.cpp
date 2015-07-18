@@ -1187,11 +1187,6 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::cracking_do_turn( player_activity *act, player *p )
-{
-    p->practice("mechanics", 1);
-}
-
 void activity_handlers::cracking_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _("The safe opens!"));

@@ -254,7 +254,15 @@ void player_activity::do_turn( player *p )
                 type = ACT_NULL;
                 break;
             }
-            activity_handlers::cracking_do_turn( this, p);
+            // Based on speed, not time
+            if (p->moves <= moves_left) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
+            p->practice("mechanics", 1);
             break;
         default:
             // Based on speed, not time
