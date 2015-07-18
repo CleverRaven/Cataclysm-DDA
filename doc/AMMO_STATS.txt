@@ -1,5 +1,29 @@
 The damage of ammunition is the square root of a round's muzzle energy in joules rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calulate stats and any other relevant information is as follows:
 
+.22LR:
+40gr unjacketed bullet
+141J muzzle energy - √141=12
+
+.22LR FMJ:
+30gr FMJ bullet
+277J muzzle energy - √277=17
+
+9x19mm FMJ:
+115gr FMJ bullet
+420J muzzle velocity - √420=24
+
+9x19mm +P:
+115gr JHP bullet
+632J muzzle energy - √632=25
+
+9x19mm +P+:
+115gr JHP bullet
+678J muzzle energy - √678=26
+
+9x19mm JHP:
+116gr JHP bullet - damage increased by 3
+533J muzzle energy - √533=23
+
 7.62x39mm M43:
 123gr steel core FMJ bullet - damage lowered by 15
 1607J muzzle energy - √1607=47
