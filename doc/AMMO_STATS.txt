@@ -24,6 +24,26 @@ The damage of ammunition is the square root of a round's muzzle energy in joules
 116gr JHP bullet - damage increased by 3
 533J muzzle energy - √533=23
 
+9x18mm 57-N-181S:
+93gr FMJ bullet
+251J muzzle energy - √251=16
+
+9x18mm SP-7:
+93gr bullet
+417J muzzle energy - √417=20
+
+9x18mm RG028:
+93gr hardened steel core bullet - damage reduced by 4
+317J muzzle energy - √317=18
+
+.38 Special:
+130gr FMJ bullet
+256J muzzle energy - √256=16
+
+.38 Super:
+90gr JHP bullet
+658J muzzle energy - √658=26
+
 7.62x39mm M43:
 123gr steel core FMJ bullet - damage lowered by 15
 1607J muzzle energy - √1607=47
