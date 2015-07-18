@@ -9200,8 +9200,8 @@
     	{"id" : "HAMMER", "level" : 3, "amount":1}
     ],
     "components" : [
-	[["rag" , 2]],
-	[["nail", 4]],
+	[["rag" , 6], ["leather", 6], ["string_6", 3]],
+	[["nail", 4], ["duct_tape", 30]],
 	[["jerrycan", 1]]
     ]
   }	
