@@ -169,13 +169,6 @@ public:
 private:
     weighted_float_list<std::shared_ptr<VehicleFunction>> types;
 
-    // builtin functions
-    static void builtin_no_vehicles(map& m, const std::string &terrainid);
-    static void builtin_jackknifed_semi(map& m, const std::string &terrainid);
-    static void builtin_pileup(map& m, const std::string &terrainid);
-    static void builtin_policepileup(map& m, const std::string &terrainid);
-    static void builtin_parkinglot(map& m, const std::string &terrainid);
-
     typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
     static FunctionMap builtin_functions;
 };
