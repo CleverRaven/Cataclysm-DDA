@@ -825,7 +825,10 @@ static itemstack i_stacked(T items)
         }
         // if the item didn't stack, add its index to cache and start the list
         if(!got_stacked) {
-            cache[id] = stacks.size();
+            // overwrite `cache[id]' position iff it has no other elements
+            if(cache[id] == 0) {
+                cache[id] = stacks.size();
+            }
             stacks.push_back({&elem});
         }
     }
@@ -1086,6 +1089,12 @@ bool advanced_inventory::move_all_items(bool nested_call)
 
     // AIM_ALL source area routine
     if(spane.get_area() == AIM_ALL) {
+        // if the source pane (AIM_ALL) is empty, then show a message and leave
+        if(spane.items.empty()) {
+            popup(_("There are no items to be moved!"));
+            return false;
+        }
+        // make sure that there are items to be moved
         bool done = false;
         // copy the current pane, to be restored after the move is queued
         auto shadow = panes[src];
@@ -1987,19 +1996,23 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // handle how many of armour type we can equip (max of 2 per type)
     if(destarea == AIM_WORN) {
         const auto &id = sitem.items.front()->typeId();
-        amount = MAX_WORN_PER_TYPE - g->u.amount_worn(id);
+        // how many slots are available for the item?
+        const int slots_available = input_amount - g->u.amount_worn(id);
+        // if something is going to the worn pane, there has to be at least 1
+        amount = std::min(slots_available, 1);
     }
 
     // Now we have the final amount. Query if needed (either requested, or when
     // the destination can not hold all items).
     if( action == "MOVE_VARIABLE_ITEM" || amount < input_amount ) {
-        const char *msg = _("How many do you want to move? [Have %d] (0 to cancel)");
-        std::string popupmsg = string_format(msg, sitem.stacks);
+        const int count = (by_charges) ? it.charges : sitem.stacks;
         // At this point amount contains the maximal amount that the destination can hold.
-        if( amount < input_amount ) {
-            msg = _("Destination can only hold %d! Move how many? [Have %d] (0 to cancel)");
-            popupmsg = string_format(msg, amount, sitem.stacks);
-        }
+        const char *msg = (amount < input_amount) ?
+            _("How many do you want to move? [Have %d] (0 to cancel)") :
+            _("Destination can only hold %d! Move how many? [Have %d] (0 to cancel)");
+        std::string popupmsg = (amount < input_amount) ?
+            string_format(msg, count) :
+            string_format(msg, amount, count);
         const long possible_max = std::min( input_amount, amount );
         if(amount <= 0) {
            popup(_("The destination is already full!"));
