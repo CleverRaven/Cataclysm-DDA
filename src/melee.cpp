@@ -219,10 +219,10 @@ const char *player::get_miss_reason()
     // in one turn
     add_miss_reason(
         _("Your torso encumbrance throws you off-balance."),
-        encumb(bp_torso));
-    int farsightedness = 2 * (has_trait("HYPEROPIC")
-                              && !is_wearing("glasses_reading")
-                              && !is_wearing("glasses_bifocal"));
+        encumb(bp_torso) / 10 );
+    const int farsightedness = 2 * ( has_trait("HYPEROPIC") &&
+                               !is_wearing("glasses_reading") &&
+                               !is_wearing("glasses_bifocal") );
     add_miss_reason(
         _("You can't hit reliably without your glasses."),
         farsightedness);

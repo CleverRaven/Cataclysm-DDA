@@ -1236,11 +1236,11 @@ int Creature::get_speed_base() const
 }
 int Creature::get_dodge_base() const
 {
-    return (get_dex() / 2) + int(get_speed() / 150); //Faster = small dodge advantage
+    return (get_dex() / 2);
 }
 int Creature::get_hit_base() const
 {
-    return (get_dex() / 2) + 1;
+    return (get_dex() / 4) + 3;
 }
 int Creature::get_speed_bonus() const
 {
