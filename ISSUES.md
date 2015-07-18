@@ -48,9 +48,7 @@ You should direct your question to the forum or ask on IRC. You should also chec
 
 ## Bounties
 
-The bounty system is here to encourage work on ideas already discussed by the community and approved by the Core Devs. If you like a feature idea and would like to place a bounty on it please ask first if the idea has been validated. The point here is that we don't want the direction of the game to be bounty-driven - we want to keep it community-driven.
-
-As always use your best judgement and if in doubt: ask.
+We keep the development and direction of the game community-driven so placing a bounty *does not* necessarily mean that change will be incorporated into the main game. But it may be incorporated as a mod (or not). As such feel free to post bounties on what you like, but remember we don't do "bounty-driven" development. Good way of thinking about bounties is as encouragement for contributors to work on a particular issue, and certainly not as "paying for features".
 
 ## Issue resolution
 
