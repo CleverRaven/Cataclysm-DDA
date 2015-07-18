@@ -12722,7 +12722,9 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
 bool player::is_wearing_active_power_armor() const
 {
     for (auto &w : worn) {
-        if (w.is_power_armor() && w.active) return true;
+        if (w.is_power_armor() && w.active) {
+	    return true;
+        }
     }
     return false;
 }
