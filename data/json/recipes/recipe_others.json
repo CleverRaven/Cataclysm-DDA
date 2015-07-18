@@ -7346,6 +7346,27 @@
   ]
 },{
   "type" : "recipe",
+  "result": "charcoal_cooker",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "metal_tank_little", 1 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "oil_cooker",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -7596,6 +7617,21 @@
     ],
     [
       [ "string_6", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "small_charcoal",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "charcoal", 1 ]
     ]
   ]
 },{
