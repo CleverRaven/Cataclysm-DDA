@@ -2250,6 +2250,28 @@
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
+    "result": "money_bundle",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "paper", 2 ] ] ]
+},{
+    "type" : "recipe",
+    "result": "wrapper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [ [ [ "paper", 2 ] ] ]
+},{
+    "type" : "recipe",
     "result": "straw_basket",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",

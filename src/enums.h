@@ -177,7 +177,8 @@ enum object_type {
 struct point : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
-    point(int X = 0, int Y = 0) : x (X), y (Y) {}
+    point() : x(0), y(0) {}
+    point(int X, int Y) : x (X), y (Y) {}
     point(point &&) = default;
     point(const point &) = default;
     point &operator=(point &&) = default;

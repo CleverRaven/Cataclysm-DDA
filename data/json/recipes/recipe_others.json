@@ -1504,7 +1504,7 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],  
   "tools": [
     [
@@ -1515,7 +1515,7 @@
     ]
   ],
   "components": [
-	[
+    [
       [ "pipe", 1 ]
     ],
     [
@@ -1524,9 +1524,9 @@
     [
       [ "wire", 4 ]
     ],
-	[
-	  [ "string_36", 2 ]
-	]
+    [
+      [ "string_36", 2 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -2930,6 +2930,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_bird", 30 ],
       [ "shot_00", 15 ],
       [ "shot_slug", 12 ],

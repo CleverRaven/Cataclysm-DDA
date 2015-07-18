@@ -416,7 +416,7 @@
         "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
-   {
+    {
        "type":"VAR_VEH_PART",
        "id": "wheel_metal",
        "symbol": "]",
@@ -434,5 +434,5 @@
        "max-bigness": 20,
        "category": "veh_parts",
        "bigness-aspect": "WHEEL_DIAMETER"
-     }
+    }
 ]

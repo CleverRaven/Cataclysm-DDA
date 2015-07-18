@@ -4086,10 +4086,8 @@
         [ "solder_wire", 400 ]
       ],
       [
-        [ "money_bundle", 1 ],
-        [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 20 ]
+        [ "paper", 10 ]
       ]
     ]
   },{
@@ -4121,10 +4119,8 @@
         [ "solder_wire", 30 ]
       ],
       [
-        [ "money_bundle", 1 ],
-        [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 25 ]
+        [ "paper", 12 ]
       ]
     ]
   },
@@ -4157,10 +4153,8 @@
         [ "solder_wire", 45 ]
       ],
       [
-        [ "money_bundle", 1 ],
-        [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 25 ]
+        [ "paper", 12 ]
       ]
     ]
   },
