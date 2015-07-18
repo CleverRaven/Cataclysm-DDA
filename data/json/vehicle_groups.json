@@ -108,6 +108,62 @@
         ]
     },{
         "type" : "vehicle_group",
+        "id" : "dirtlot",
+        "vehicles" : [
+            ["quad_bike", 100],
+            ["pickup", 300]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "parkinglot",
+        "vehicles" : [
+            ["military_cargo_truck", 100],
+            ["humvee", 100],
+            ["humvee_gl", 50],
+            ["apc", 100],
+            ["apc-gl", 50],
+            ["aapc-mg", 50],
+            ["aapc-gl", 25],
+            ["bubble_car", 50],
+            ["rv", 200],
+            ["schoolbus", 200],
+            ["fire_truck", 200],
+            ["policecar", 200],
+            ["car_sports_electric", 100],
+            ["quad_bike", 100],
+            ["truck_trailer", 500],
+            ["semi_truck", 500],
+            ["cube_van", 1000],
+            ["flatbed_truck", 1000],
+            ["car_mini", 750],
+            ["beetle", 750],
+            ["car", 1000],
+            ["electric_car", 750],
+            ["hippie_van", 750],
+            ["golf_cart", 300],
+            ["scooter", 300],
+            ["bicycle", 500],
+            ["rara_x", 300],
+            ["unicycle", 100],
+            ["bicycle_electric", 200],
+            ["motorcycle", 500],
+            ["motorcycle_sidecart", 300],
+            ["shopping_cart", 1000]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "garage",
+        "vehicles" : [
+            ["car", 200],
+            ["quad_bike", 120],
+            ["motorcycle", 120],
+            ["welding_cart", 120],
+            ["car_chassis", 200],
+            ["quad_bike_chassis", 120],
+            ["motorcycle_chassis", 120]
+        ]
+    },{
+        "type" : "vehicle_group",
         "id" : "military_vehicles",
         "vehicles" : [
             ["military_cargo_truck", 1000],

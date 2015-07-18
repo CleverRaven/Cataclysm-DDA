@@ -20,6 +20,7 @@ option(LANGUAGES    "Compile localization files for specified languages."			""  
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
 option(LUA_BINARY   "Lua binary name or path. You can try use luajit for extra speed"		"")
 option(GIT_BINARY   "Git binary name or path."							"")
+OPTION(PREFIX       "Location of Data,GFX, & Lua directories"            "")
 
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
@@ -88,14 +89,7 @@ IF (NOT DYNAMIC_LINKING)
 ELSE (NOT DYNAMIC_LINKING)
 	IF(MINGW)
 		# Avoid depending on MinGW runtime DLLs
-		check_cxx_compiler_flag (-static-libgcc HAVE_STATIC_LIBGCC_FLAG)
-		IF(HAVE_STATIC_LIBGCC_FLAG)
-			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc")
-		ENDIF(HAVE_STATIC_LIBGCC_FLAG)
-		check_cxx_compiler_flag (-static-libstdc++ HAVE_STATIC_LIBSTDCXX_FLAG)
-		IF(HAVE_STATIC_LIBSTDCXX_FLAG)
-			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
-		ENDIF(HAVE_STATIC_LIBSTDCXX_FLAG)
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 	ENDIF(MINGW)
 ENDIF (NOT DYNAMIC_LINKING)
 
@@ -167,6 +161,10 @@ ELSE (GIT_BINARY)
 	ENDIF (NOT GIT_FOUND)
 ENDIF (GIT_BINARY)
 
+IF (PREFIX)
+	ADD_DEFINITIONS(-DPREFIX=${PREFIX})
+ENDIF (PREFIX)
+
 # Set build types and display info
 	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}\n")
 IF(RELEASE)
@@ -184,10 +182,10 @@ IF(RELEASE)
 		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
 		ADD_DEFINITIONS(-D__NO_INLINE__)
 	ENDIF(MINGW)
-	IF(NOT WIN32)
+	IF(NOT WIN32 AND NOT PREFIX)
 		# PREFIX has no sence in case of win32
-		ADD_DEFINITIONS(-DPREFIX=${CMAKE_INSTALL_PREFIX})
-	ENDIF(NOT WIN32)
+		ADD_DEFINITIONS(-DDATA_DIR_PREFIX=${CMAKE_INSTALL_PREFIX})
+	ENDIF(NOT WIN32 AND NOT PREFIX)
 	ADD_DEFINITIONS(-DRELEASE)
 ELSE (RELEASE)
 	MESSAGE("\n")
@@ -276,6 +274,7 @@ IF(TILES)
 			"This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT SDL2_IMAGE_FOUND)
+	ADD_DEFINITIONS(-DTILES -DSDLTILES)
 ENDIF(TILES)
 
 IF(CURSES)

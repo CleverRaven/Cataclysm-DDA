@@ -1031,6 +1031,7 @@
       ["gunpowder",         10],
       ["holster",           10],
       ["improve_sights",    20],
+      ["ksg",                2],
       ["l_enforcer_45",      6],
       ["l_long_45",          8],
       ["l_lookout_9mm",      5],
@@ -2753,6 +2754,7 @@
     "type" : "item_group",
     "id" : "shotguns",
     "items":[
+      ["ksg",                 2],
       ["l_def_12",            6],
       ["mossberg_500",        4],
       ["remington_870",       8],
@@ -2863,6 +2865,7 @@
       ["hk_mp7",              5],
       ["hk_ucp",              2],
       ["hk_ump45",           12],
+      ["ksg",                 2],
       ["l_bak_223",           6],
       ["l_car_223",           3],
       ["l_def_12",            6],
