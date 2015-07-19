@@ -414,13 +414,13 @@ endif
 
 ifeq ($(TARGETSYSTEM), LINUX)
   ifneq ($(PREFIX),)
-    DEFINES += -DPREFIX="$(PREFIX)"
+    DEFINES += -DPREFIX="$(PREFIX)" -DDATA_DIR_PREFIX
   endif
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
   ifneq ($(PREFIX),)
-    DEFINES += -DPREFIX="$(PREFIX)"
+    DEFINES += -DPREFIX="$(PREFIX)" -DDATA_DIR_PREFIX
   endif
 endif
 
