@@ -458,7 +458,7 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "50bgm",
+        "bullet": "50bmg",
         "items": [
             ["lead", 12],
             ["50_casing", 1],
@@ -466,7 +466,7 @@
             ["gunpowder", 33],
             ["copper", 9]
         ]
-    }
+    },
     {
         "type": "BULLET_PULLING",
         "bullet": "50ss",
@@ -474,17 +474,17 @@
             ["50_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 100],
-            ["copper", 27]
+            ["copper", 27],
             ["combatnail", 5]
         ],
         "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings, copper and powder felt wrong, and combatnails seemed like a reasonable approximation."
-    }
+    },
     {
         "type": "BULLET_PULLING",
         "bullet": "50_incendiary",
         "items": [
             ["lead", 20],
-            ["incendiary", 30]
+            ["incendiary", 30],
             ["50_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 100],
