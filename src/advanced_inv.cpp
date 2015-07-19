@@ -806,8 +806,10 @@ static itemstack i_stacked(T items)
 {
     //create a new container for our stacked items
     itemstack stacks;
-    // used to recall index we stored `itype_id' item at in itemstack
-    std::unordered_map<itype_id, int> cache;
+//    // make a list of the items first, so we can add non stacked items back on
+//    std::list<item> items(things.begin(), things.end());
+    // used to recall indices we stored `itype_id' item at in itemstack
+    std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
     for(auto &elem : items) {
         const auto &id = elem.type->id;
@@ -816,19 +818,20 @@ static itemstack i_stacked(T items)
         // cache entry exists
         if(iter != cache.end()) {
             // check to see if it stacks with each item in a stack, not just front()
-            for(auto &it : stacks[iter->second]) {
-                if((got_stacked = it->stacks_with(elem))) {
-                    stacks[iter->second].push_back(&elem);
+            for(auto &idx : iter->second) {
+                for(auto &it : stacks[idx]) {
+                    if((got_stacked = it->stacks_with(elem))) {
+                        stacks[idx].push_back(&elem);
+                        break;
+                    }
+                }
+                if(got_stacked) {
                     break;
                 }
             }
         }
-        // if the item didn't stack, add its index to cache and start the list
         if(!got_stacked) {
-            // overwrite `cache[id]' position iff it has no other elements
-            if(cache[id] == 0) {
-                cache[id] = stacks.size();
-            }
+            cache[id].insert(stacks.size());
             stacks.push_back({&elem});
         }
     }
@@ -844,10 +847,11 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
         return;
     }
     map &m = g->m;
+    player &u = g->u;
     // Existing items are *not* cleared on purpose, this might be called
-    // several time in case all surrounding squares are to be shown.
+    // several times in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
-        const invslice &stacks = g->u.inv.slice();
+        const invslice &stacks = u.inv.slice();
         for( size_t x = 0; x < stacks.size(); ++x ) {
             auto &an_item = stacks[x]->front();
             advanced_inv_listitem it( &an_item, x, stacks[x]->size(), square.id, false );
@@ -859,8 +863,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
             items.push_back( it );
         }
     } else if( square.id == AIM_WORN ) {
-        auto iter = g->u.worn.begin();
-        for( size_t i = 0; i < g->u.worn.size(); ++i, ++iter ) {
+        auto iter = u.worn.begin();
+        for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
             advanced_inv_listitem it( &*iter, i, 1, square.id, false );
             if( is_filtered( it.items.front() ) ) {
                 continue;
