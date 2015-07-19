@@ -47,6 +47,18 @@
     "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
   },{
     "type": "scenario",
+    "ident": "medieval",
+    "name": "Challenge-Medieval Peasant",
+    "points" : -5,
+    "description": "Som nigromancie hath brought yow hidder! Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God",
+    "start_name": "Forest",
+    "allowed_locs" : ["forest"],
+    "professions" : ["churl"],
+    "forced_traits" : ["ILLITERATE", "ANTIJUNK", "STRONGSTOMACH"],
+    "forbidden_traits" : ["FASTREADER", "SLOWREADER"],
+    "flags" : ["CHALLENGE"]
+  },{
+    "type": "scenario",
     "ident": "lab_chal",
     "name": "Challenge-Lab",
     "points" : -8,

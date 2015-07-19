@@ -4484,6 +4484,15 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_CHURL",
+        "name" : "Churl",
+        "points" : 0,
+        "description" : "Thou art a lewede man, a lowly cowherd, though where thi catel been thou hast not ynn certain.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "PROF_PD_DET",
         "name" : "Police Detective",
         "points" : 0,
