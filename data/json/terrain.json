@@ -5287,7 +5287,24 @@
                 { "item": "clay_lump", "amount": 10, "minamount": 5 }
             ]
         }
-},{
+    },{
+        "type" : "terrain",
+        "id" : "t_sandmound",
+        "name": "mound of sand",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT"],
+        "bash": {
+            "str_min": 2, "str_max": 4, "num_tests": 2,
+            "sound": "splosh!",
+            "sound_fail": "splosh!",
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "material_sand", "amount": 1200, "minamount": 800 }
+            ]
+        }
+    },{
         "type" : "terrain",
         "id" : "t_conveyor",
         "name": "conveyor belt",

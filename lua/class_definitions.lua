@@ -193,7 +193,6 @@ classes = {
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
             { name = "get_temperature", rval = "int", args = { } },
-            { name = "ground_natural_light_level", rval = "float", args = { } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool" } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool", "item" } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool", "item", "item" } },
@@ -775,9 +774,8 @@ classes = {
             { name = "made_of", rval = "bool", args = { "phase_id" } },
             { name = "made_of", rval = "bool", args = { "string" } },
             { name = "make", rval = nil, args = { "string" } },
-            { name = "make_corpse", rval = nil, args = { "mtype", "int" } },
-            { name = "make_corpse", rval = nil, args = { "mtype", "int", "string" } },
             { name = "make_corpse", rval = nil, args = { "string", "int" } },
+            { name = "make_corpse", rval = nil, args = { "string", "int", "string" } },
             { name = "make_corpse", rval = nil, args = { } },
             { name = "make_handed", rval = nil, args = { "handedness" } },
             { name = "mark_as_used_by_player", rval = nil, args = { "player" } },
@@ -1400,7 +1398,6 @@ classes = {
             { name = "get_dodge", rval = "int", args = { } },
             { name = "get_hp", rval = "int", args = { } },
             { name = "get_hp_max", rval = "int", args = { } },
-            { name = "get_last_load", rval = "int", args = { } },
             { name = "get_material", rval = "string", args = { } },
             { name = "get_melee", rval = "int", args = { } },
             { name = "get_random_body_part", rval = "body_part", args = { "bool" } },
@@ -1443,7 +1440,7 @@ classes = {
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part", "int" } },
-            { name = "poly", rval = nil, args = { "mtype" } },
+            { name = "poly", rval = nil, args = { "string" } },
             { name = "pos", rval = "tripoint", args = { } },
             { name = "posx", rval = "int", args = { } },
             { name = "posy", rval = "int", args = { } },
@@ -1451,12 +1448,10 @@ classes = {
             { name = "power_rating", rval = "float", args = { } },
             { name = "process_effects", rval = nil, args = { } },
             { name = "process_triggers", rval = nil, args = { } },
-            { name = "reset_last_load", rval = nil, args = { } },
             { name = "reset_special", rval = nil, args = { "int" } },
             { name = "reset_special_rng", rval = nil, args = { "int" } },
             { name = "scent_move", rval = "tripoint", args = { } },
             { name = "set_hp", rval = nil, args = { "int" } },
-            { name = "set_last_load", rval = nil, args = { "int" } },
             { name = "set_special", rval = nil, args = { "int", "int" } },
             { name = "setpos", rval = nil, args = { "tripoint" } },
             { name = "shift", rval = nil, args = { "int", "int" } },
@@ -1468,7 +1463,8 @@ classes = {
             { name = "symbol", rval = "string", args = { } },
             { name = "symbol_color", rval = "int", args = { } },
             { name = "turns_to_reach", rval = "int", args = { "int", "int" } },
-            { name = "update_check", rval = nil, args = { } },
+            { name = "try_upgrade", rval = nil, args = { "bool" } },
+            { name = "hasten_upgrade", rval = nil, args = { } },
             { name = "wander", rval = "bool", args = { } },
             { name = "wander_next", rval = "tripoint", args = { } },
             { name = "wander_to", rval = nil, args = { "tripoint", "int" } },
@@ -1480,13 +1476,11 @@ classes = {
             agro = { type = "int", writable = true },
             armor_bash = { type = "int", writable = true },
             armor_cut = { type = "int", writable = true },
-            base_upgrade_chance = { type = "float", writable = true },
             color = { type = "int", writable = true },
             death_drops = { type = "string", writable = true },
             def_chance = { type = "int", writable = true },
             description = { type = "string", writable = true },
             difficulty = { type = "int", writable = true },
-            half_life = { type = "int", writable = true },
             hp = { type = "int", writable = true },
             id = { type = "string" },
             luminance = { type = "float", writable = true },
@@ -1499,8 +1493,9 @@ classes = {
             sk_dodge = { type = "int", writable = true },
             speed = { type = "int", writable = true },
             sym = { type = "string", writable = true },
-            upgrade_min = { type = "int", writable = true },
-            upgrades_into = { type = "string", writable = true },
+            upgrades = { type = "bool", writable = true },
+            half_life = { type = "int", writable = true },
+            upgrade_into = { type = "string", writable = true },
             vision_day = { type = "int", writable = true },
             vision_night = { type = "int", writable = true },
         },
@@ -1519,46 +1514,13 @@ classes = {
     },
     mongroup = {
         attributes = {
-            posx = {
-                type = "int",
-                writable = true
-            },
-            posy = {
-                type = "int",
-                writable = true
-            },
-            posz = {
-                type = "int",
-                writable = true
-            },
-            tx = {
-                type = "int",
-                writable = false
-            },
-            ty = {
-                type = "int",
-                writable = false
-            },
-            dying = {
-                type = "bool",
-                writable = true
-            },
-            horde = {
-                type = "bool",
-                writable = true
-            },
-            diffuse = {
-                type = "bool",
-                writable = true
-            },
-            radius = {
-                type = "int",
-                writable = true
-            },
-            population = {
-                type = "int",
-                writable = true
-            }
+            pos = { type = "tripoint", writable = false },
+            target = { type = "tripoint", writable = false },
+            dying = { type = "bool", writable = true },
+            horde = { type = "bool", writable = true },
+            diffuse = { type = "bool", writable = true },
+            radius = { type = "int", writable = true },
+            population = { type = "int", writable = true }
         },
         functions = {
             { name = "set_target", rval = nil, args = { "int", "int" } },

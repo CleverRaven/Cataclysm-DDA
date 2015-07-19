@@ -12,7 +12,6 @@
 #include "line.h"
 #include "item_group.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
@@ -839,7 +838,7 @@ std::list<item> starting_clothes( npc_class type, bool male )
 
 std::list<item> starting_inv(npc *me, npc_class type)
 {
- int total_space = me->volume_capacity() - 2;
+ int total_space = me->volume_capacity();
  std::list<item> ret;
  ret.push_back( item("lighter", 0, false) );
  itype_id tmp;
@@ -921,10 +920,9 @@ void npc::spawn_at_random_city(overmap *o)
         x = rng(0, OMAPX * 2 - 1);
         y = rng(0, OMAPY * 2 - 1);
     } else {
-        int city_index = rng(0, o->cities.size() - 1);
-        int s = o->cities[city_index].s;
-        x = o->cities[city_index].x + rng(-s, +s);
-        y = o->cities[city_index].y + rng(-s, +s);
+        const city& c = random_entry( o->cities );
+        x = c.x + rng(-c.s, +c.s);
+        y = c.y + rng(-c.s, +c.s);
     }
     x += o->pos().x * OMAPX * 2;
     y += o->pos().y * OMAPY * 2;
@@ -1550,7 +1548,7 @@ void npc::init_buying(inventory& you, std::vector<item*> &items, std::vector<int
 
 void npc::shop_restock(){
     items_location from = "NULL";
-    int total_space = volume_capacity() - 2;
+    int total_space = volume_capacity();
     std::list<item> ret;
     //list all merchant types here along with the item group they pull from and how much extra space they should have
     //guards and other fixed npcs may need a small supply of food daily...
@@ -2431,7 +2429,7 @@ void epilogue::random_by_group(std::string group, std::string name)
     }
     if (v.size() == 0)
         return;
-    epilogue epi = v.at(rng(0,v.size()-1));
+    epilogue epi = random_entry( v );
     id = epi.id;
     group = epi.group;
     is_unique = epi.is_unique;

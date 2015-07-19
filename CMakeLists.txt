@@ -20,6 +20,10 @@ option(LANGUAGES    "Compile localization files for specified languages."			""  
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
 option(LUA_BINARY   "Lua binary name or path. You can try use luajit for extra speed"		"")
 option(GIT_BINARY   "Git binary name or path."							"")
+OPTION(PREFIX       "Location of Data,GFX, & Lua directories"            "")
+
+include(GetGitRevisionDescription)
+git_describe(GIT_VERSION)
 
 IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
@@ -29,13 +33,20 @@ MESSAGE("   /    \\  \\/ \\__  \\  \\   __\\\\__  \\  _/ ___\\ |  |  <   |  | / 
 MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\___ \\ |  Y Y  \\    ")
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
-MESSAGE("                               --= Dark Days Ahead =--") 
+MESSAGE("                               --= Dark Days Ahead =--")
 MESSAGE("\n * http://en.cataclysmdda.com/\n")
 ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
 MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
+
+if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+    string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
+    FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
+    MESSAGE(STATUS "${PROJECT} build version is: ${GIT_VERSION}\n")
+    ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
+ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 
 #OS Check Placeholders. Will be used for BINDIST
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux)
@@ -78,14 +89,7 @@ IF (NOT DYNAMIC_LINKING)
 ELSE (NOT DYNAMIC_LINKING)
 	IF(MINGW)
 		# Avoid depending on MinGW runtime DLLs
-		check_cxx_compiler_flag (-static-libgcc HAVE_STATIC_LIBGCC_FLAG)
-		IF(HAVE_STATIC_LIBGCC_FLAG)
-			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc")
-		ENDIF(HAVE_STATIC_LIBGCC_FLAG)
-		check_cxx_compiler_flag (-static-libstdc++ HAVE_STATIC_LIBSTDCXX_FLAG)
-		IF(HAVE_STATIC_LIBSTDCXX_FLAG)
-			SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
-		ENDIF(HAVE_STATIC_LIBSTDCXX_FLAG)
+		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 	ENDIF(MINGW)
 ENDIF (NOT DYNAMIC_LINKING)
 
@@ -157,6 +161,10 @@ ELSE (GIT_BINARY)
 	ENDIF (NOT GIT_FOUND)
 ENDIF (GIT_BINARY)
 
+IF (PREFIX)
+	ADD_DEFINITIONS(-DPREFIX=${PREFIX})
+ENDIF (PREFIX)
+
 # Set build types and display info
 	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}\n")
 IF(RELEASE)
@@ -174,10 +182,10 @@ IF(RELEASE)
 		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
 		ADD_DEFINITIONS(-D__NO_INLINE__)
 	ENDIF(MINGW)
-	IF(NOT WIN32)
+	IF(NOT WIN32 AND NOT PREFIX)
 		# PREFIX has no sence in case of win32
-		ADD_DEFINITIONS(-DPREFIX=${CMAKE_INSTALL_PREFIX})
-	ENDIF(NOT WIN32)
+		ADD_DEFINITIONS(-DDATA_DIR_PREFIX=${CMAKE_INSTALL_PREFIX})
+	ENDIF(NOT WIN32 AND NOT PREFIX)
 	ADD_DEFINITIONS(-DRELEASE)
 ELSE (RELEASE)
 	MESSAGE("\n")
@@ -266,6 +274,7 @@ IF(TILES)
 			"This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT SDL2_IMAGE_FOUND)
+	ADD_DEFINITIONS(-DTILES -DSDLTILES)
 ENDIF(TILES)
 
 IF(CURSES)
@@ -353,3 +362,8 @@ ADD_CUSTOM_TARGET(uninstall
 	-P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
 )
 
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+endif(CCACHE_FOUND)

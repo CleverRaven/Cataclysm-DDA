@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "player.h"
+#include "action.h"
 #include "veh_interact.h"
 #include "debug.h"
 #include "translations.h"
@@ -19,6 +20,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather.h"
 
 #include <sstream>
 
@@ -100,7 +102,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
-    mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
+    const mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
     std::vector<item> contents = g->m.i_at(p->pos())[act->index].contents;
     int age = g->m.i_at(p->pos())[act->index].bday;
     g->m.i_rem(p->pos(), act->index);

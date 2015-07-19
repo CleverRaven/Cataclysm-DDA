@@ -2,7 +2,6 @@
 #define CHARACTER_H
 
 #include "creature.h"
-#include "action.h"
 #include "inventory.h"
 #include "bionics.h"
 
@@ -39,6 +38,10 @@ class Character : public Creature
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
+        /**
+         * Handles end-of-turn processing.
+         */
+        void process_turn() override;
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
@@ -266,6 +269,8 @@ class Character : public Creature
         int volume_capacity() const;
         bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
+
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 

@@ -12,6 +12,8 @@
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
 
+enum action_id : int;
+
 class monster;
 class game;
 struct trap;
@@ -256,6 +258,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
+        /** Returns amount of Storage CBMs in the corpse **/
+        std::pair<int, int> amount_of_storage_bionics();
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
@@ -325,8 +329,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
         /**
-	 * As above, but includes all creatures the player can detect well enough to target
-	 * with ranged weapons, e.g. with infared vision.
+         * As above, but includes all creatures the player can detect well enough to target
+         * with ranged weapons, e.g. with infared vision.
          */
         std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
@@ -433,7 +437,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void fire_gun( const tripoint &target, long burst_size );
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
-        
+
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -493,7 +497,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
         int dodge_roll() override;
-        
+
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         int get_melee() const override;
         /**
@@ -641,7 +645,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
-        /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
+        /** Removes the first item in the container's contents and wields it,
+	 * taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);
@@ -727,6 +732,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        /** Returns true if the player is wearing active power */
+        bool is_wearing_active_power_armor() const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
 

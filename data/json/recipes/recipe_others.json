@@ -182,6 +182,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
   "components": [ [ ["chitin_piece", 1] ] ]
 },{
@@ -1503,7 +1504,7 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1}
   ],  
   "tools": [
     [
@@ -1514,7 +1515,7 @@
     ]
   ],
   "components": [
-	[
+    [
       [ "pipe", 1 ]
     ],
     [
@@ -1523,9 +1524,9 @@
     [
       [ "wire", 4 ]
     ],
-	[
-	  [ "string_36", 2 ]
-	]
+    [
+      [ "string_36", 2 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -2929,6 +2930,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_bird", 30 ],
       [ "shot_00", 15 ],
       [ "shot_slug", 12 ],
@@ -3108,7 +3110,8 @@
       [ "brandy", 7 ],
       [ "disinfectant", 1 ],
       [ "saline", 5 ],
-      [ "thyme_oil", 1 ]
+      [ "thyme_oil", 1 ],
+      [ "chem_hydrogen_peroxide", 1 ]
     ]
   ]
 },{
@@ -3517,7 +3520,8 @@
     [
       [ "disinfectant", 1 ],
       [ "saline", 10 ],
-      [ "thyme_oil", 1 ]
+      [ "thyme_oil", 1 ],
+      [ "chem_hydrogen_peroxide", 1 ]
     ],
     [
       [ "bandages", 2 ],
@@ -7343,6 +7347,27 @@
   ]
 },{
   "type" : "recipe",
+  "result": "charcoal_cooker",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "metal_tank_little", 1 ]
+    ],
+    [
+      [ "pilot_light", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "oil_cooker",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -7593,6 +7618,21 @@
     ],
     [
       [ "string_6", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "small_charcoal",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "charcoal", 1 ]
     ]
   ]
 },{

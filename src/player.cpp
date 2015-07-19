@@ -1,4 +1,5 @@
 #include "player.h"
+#include "action.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -38,6 +39,7 @@
 #include "map_iterator.h"
 #include "submap.h"
 #include "mtype.h"
+#include "weather_gen.h"
 
 #include <map>
 
@@ -444,7 +446,7 @@ void player::reset_stats()
 
 void player::process_turn()
 {
-    Creature::process_turn();
+    Character::process_turn();
 
     // Didn't just pick something up
     last_item = itype_id("null");
@@ -548,21 +550,16 @@ void player::apply_persistent_morale()
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if (has_trait("HOARDER"))
     {
-        int pen = int((volume_capacity()-volume_carried()) / 2);
-        if (pen > 70)
-        {
+        int pen = int((volume_capacity() - volume_carried()) / 2);
+        if (pen > 70) {
             pen = 70;
         }
-        if (pen <= 0)
-        {
+        if (pen <= 0) {
             pen = 0;
         }
-        if (has_effect("took_xanax"))
-        {
+        if (has_effect("took_xanax")) {
             pen = int(pen / 7);
-        }
-        else if (has_effect("took_prozac"))
-        {
+        } else if (has_effect("took_prozac")) {
             pen = int(pen / 2);
         }
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
@@ -570,8 +567,7 @@ void player::apply_persistent_morale()
 
     // The stylish get a morale bonus for each body part covered in an item
     // with the FANCY or SUPER_FANCY tag.
-    if (has_trait("STYLISH"))
-    {
+    if( has_trait("STYLISH") ) {
         int bonus = 0;
         std::string basic_flag = "FANCY";
         std::string bonus_flag = "SUPER_FANCY";
@@ -805,7 +801,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
-    w_point const weather = g->weatherGen.get_weather( global_square_location(), calendar::turn );
+    w_point const weather = g->weatherGen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
@@ -936,7 +932,7 @@ void player::update_bodytemp()
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to C.
-        int water_temperature = 100 * (g->weatherGen.get_water_temperature() - 32) * 5 / 9;
+        int water_temperature = 100 * (g->weatherGen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
              ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
               (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
@@ -3775,8 +3771,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     if (this->weight_carried() > this->weight_capacity()) {
         col_time = h_black;
     }
-    if (this->volume_carried() > this->volume_capacity() - 2) {
-        if (this->weight_carried() > this->weight_capacity()) {
+    if( this->volume_carried() > this->volume_capacity() ) {
+        if( this->weight_carried() > this->weight_capacity() ) {
             col_time = c_dkgray_magenta;
         } else {
             col_time = c_dkgray_red;
@@ -3893,7 +3889,6 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
 {
     std::string message;
     std::vector<dream> valid_dreams;
-    dream selected_dream;
     //Pull the list of dreams
     for (auto &i : dreams) {
         //Pick only the ones matching our desired category and strength
@@ -3905,11 +3900,8 @@ std::string player::get_category_dream(const std::string &cat, int strength) con
     if( valid_dreams.empty() ) {
         return "";
     }
-    int index = rng(0, valid_dreams.size() - 1); // Randomly select a dream from the valid list
-    selected_dream = valid_dreams[index];
-    index = rng(0, selected_dream.messages.size() - 1); // Randomly selected a message from the chosen dream
-    message = selected_dream.messages[index];
-    return message;
+    const dream& selected_dream = random_entry( valid_dreams );
+    return random_entry( selected_dream.messages );
 }
 
 bool player::in_climate_control()
@@ -3982,77 +3974,6 @@ bool player::has_active_optcloak() const
         }
     }
     return false;
-}
-
-void player::add_bionic( std::string const &b )
-{
-    if( has_bionic( b ) ) {
-        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
-        return;
-    }
-    char newinv = ' ';
-    for( auto &inv_char : inv_chars ) {
-        if( bionic_by_invlet( inv_char ) == nullptr ) {
-            newinv = inv_char;
-            break;
-        }
-    }
-    my_bionics.push_back( bionic( b, newinv ) );
-    if ( b == "bio_tools" || b == "bio_ears" ) {
-        activate_bionic(my_bionics.size() -1);
-    }
-    recalc_sight_limits();
-}
-
-void player::remove_bionic(std::string const &b) {
-    std::vector<bionic> new_my_bionics;
-    for(auto &i : my_bionics) {
-        if (b == i.id) {
-            continue;
-        }
-
-        // Ears and earplugs go together like peanut butter and jelly.
-        // Therefore, removing one, should remove the other.
-        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
-            (b == "bio_earplugs" && i.id == "bio_ears")) {
-            continue;
-        }
-
-        new_my_bionics.push_back(bionic(i.id, i.invlet));
-    }
-    my_bionics = new_my_bionics;
-    recalc_sight_limits();
-}
-
-int player::num_bionics() const
-{
-    return my_bionics.size();
-}
-
-bionic& player::bionic_at_index(int i)
-{
-    return my_bionics[i];
-}
-
-bionic* player::bionic_by_invlet(char ch) {
-    for( auto &elem : my_bionics ) {
-        if( elem.invlet == ch ) {
-            return &elem;
-        }
-    }
-    return 0;
-}
-
-// Returns true if a bionic was removed.
-bool player::remove_random_bionic() {
-    const int numb = num_bionics();
-    if (numb) {
-        int rem = rng(0, num_bionics() - 1);
-        const auto bionic = my_bionics[rem];
-        remove_bionic(bionic.id);
-        recalc_sight_limits();
-    }
-    return numb;
 }
 
 void player::charge_power(int amount)
@@ -4735,13 +4656,12 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         } else if (snakes >= 2) {
             add_msg(m_warning, _("Some snakes sprout from your body!"));
         }
-        for (int i = 0; i < snakes; i++) {
-            int index = rng(0, valid.size() - 1);
-            if (g->summon_mon("mon_shadow_snake", valid[index])) {
-                monster *snake = g->monster_at(valid[index]);
+        for (int i = 0; i < snakes && !valid.empty(); i++) {
+            const tripoint target = random_entry_removed( valid );
+            if (g->summon_mon("mon_shadow_snake", target)) {
+                monster *snake = g->monster_at( target );
                 snake->friendly = -1;
             }
-            valid.erase(valid.begin() + index);
         }
     }
 
@@ -4758,13 +4678,12 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         add_msg(m_warning, _("Slime is torn from you, and moves on its own!"));
         int numslime = 1;
-        for (int i = 0; i < numslime; i++) {
-            int index = rng(0, valid.size() - 1);
-            if (g->summon_mon("mon_player_blob", valid[index])) {
-                monster *slime = g->monster_at(valid[index]);
+        for (int i = 0; i < numslime && !valid.empty(); i++) {
+            const tripoint target = random_entry_removed( valid );
+            if (g->summon_mon("mon_player_blob", target)) {
+                monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
-            valid.erase(valid.begin() + index);
         }
     }
 
@@ -4876,7 +4795,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_effect("bleed", 60, bp);
         }
 
-        if ( source->has_flag(MF_GRABS)) {
+        if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
                 rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 if (has_effect("grabbed")){
@@ -9467,7 +9386,7 @@ bool player::consume(int target_position)
             }
             if (drop_it) {
                 add_msg(_("You drop the empty %s."), target.tname().c_str());
-                g->m.add_item_or_charges(posx(), posy(), inv.remove_item(&target));
+                g->m.add_item_or_charges( pos(), inv.remove_item(&target) );
             } else {
                 add_msg(m_info, _("%c - an empty %s"), (target.invlet ? target.invlet : ' '), target.tname().c_str());
             }
@@ -9659,13 +9578,12 @@ bool player::eat(item *eaten, it_comest *comest)
                 }
             }
             int numslime = 1;
-            for (int i = 0; i < numslime; i++) {
-                int index = rng(0, valid.size() - 1);
-                if (g->summon_mon("mon_player_blob", valid[index])) {
-                    monster *slime = g->monster_at(valid[index]);
+            for (int i = 0; i < numslime && !valid.empty(); i++) {
+                const tripoint target = random_entry_removed( valid );
+                if (g->summon_mon("mon_player_blob", target)) {
+                    monster *slime = g->monster_at( target );
                     slime->friendly = -1;
                 }
-                valid.erase(valid.begin() + index);
             }
             hunger += 40;
             thirst += 40;
@@ -10104,71 +10022,70 @@ void player::rooted()
 
 bool player::wield(item* it, bool autodrop)
 {
- if (weapon.has_flag("NO_UNWIELD")) {
-  add_msg(m_info, _("You cannot unwield your %s!  Withdraw them with 'p'."),
-             weapon.tname().c_str());
-  return false;
- }
- if (it == NULL || it->is_null()) {
-  if(weapon.is_null()) {
-   return false;
-  }
-  if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
-   inv.add_item_keep_invlet(remove_weapon());
-   inv.unsort();
-   moves -= 20;
-   recoil = MIN_RECOIL;
-   return true;
-  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                      weapon.tname().c_str())) {
-   g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-   recoil = MIN_RECOIL;
-   return true;
-  } else
-   return false;
- }
- if (&weapon == it) {
-  add_msg(m_info, _("You're already wielding that!"));
-  return false;
- } else if (it == NULL || it->is_null()) {
-  add_msg(m_info, _("You don't have that item."));
-  return false;
- }
+    if (weapon.has_flag("NO_UNWIELD")) {
+        add_msg(m_info, _("You cannot unwield your %s!  Withdraw them with 'p'."),
+                weapon.tname().c_str());
+        return false;
+    }
+    if (it == NULL || it->is_null()) {
+        if(weapon.is_null()) {
+            return false;
+        }
+        if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
+            inv.add_item_keep_invlet(remove_weapon());
+            inv.unsort();
+            moves -= 20;
+            recoil = MIN_RECOIL;
+            return true;
+        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
+                   weapon.tname().c_str())) {
+            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+            recoil = MIN_RECOIL;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (&weapon == it) {
+        add_msg(m_info, _("You're already wielding that!"));
+        return false;
+    } else if (it == NULL || it->is_null()) {
+        add_msg(m_info, _("You don't have that item."));
+        return false;
+    }
 
- if (it->is_two_handed(this) && !has_two_arms()) {
-  add_msg(m_info, _("You cannot wield a %s with only one arm."),
-             it->tname().c_str());
-  return false;
- }
- if (!is_armed()) {
-  weapon = i_rem(it);
-  moves -= 30;
-  weapon.on_wield( *this );
-  last_item = itype_id(weapon.type->id);
-  return true;
- } else if (volume_carried() + weapon.volume() - it->volume() <
-            volume_capacity()) {
-  item tmpweap = remove_weapon();
-  weapon = i_rem(it);
-  inv.add_item_keep_invlet(tmpweap);
-  inv.unsort();
-  moves -= 45;
-  weapon.on_wield( *this );
-  last_item = itype_id(weapon.type->id);
-  return true;
- } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                     weapon.tname().c_str())) {
-  g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-  weapon = i_rem(it);
-  inv.unsort();
-  moves -= 30;
-  weapon.on_wield( *this );
-  last_item = itype_id(weapon.type->id);
-  return true;
- }
+    if (it->is_two_handed(this) && !has_two_arms()) {
+        add_msg(m_info, _("You cannot wield a %s with only one arm."),
+                it->tname().c_str());
+        return false;
+    }
+    if (!is_armed()) {
+        weapon = i_rem(it);
+        moves -= 30;
+        weapon.on_wield( *this );
+        last_item = itype_id(weapon.type->id);
+        return true;
+    } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
+        item tmpweap = remove_weapon();
+        weapon = i_rem(it);
+        inv.add_item_keep_invlet(tmpweap);
+        inv.unsort();
+        moves -= 45;
+        weapon.on_wield( *this );
+        last_item = itype_id(weapon.type->id);
+        return true;
+    } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
+                        weapon.tname().c_str())) {
+        g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+        weapon = i_rem(it);
+        inv.unsort();
+        moves -= 30;
+        weapon.on_wield( *this );
+        last_item = itype_id(weapon.type->id);
+        return true;
+    }
 
- return false;
-
+    return false;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
@@ -10560,162 +10477,130 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("WEBBED"))
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("WEBBED") ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot put %s over your webbed hands."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
-             (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-              has_trait("ARM_TENTACLES_8")) )
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
+            (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
+             has_trait("ARM_TENTACLES_8")) ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot put %s over your tentacles."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("TALONS"))
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("TALONS") ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot put %s over your talons."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
+            (has_trait("PAWS") || has_trait("PAWS_LARGE")) ) {
+            if(interactive) {
                 add_msg(m_info, _("You cannot get %s to stay on your paws."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
-        has_trait("BEAK_HUM")) )
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
+                                          has_trait("BEAK_HUM")) ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot put a %s over your beak."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers(bp_mouth) &&
+        if( to_wear->covers(bp_mouth) &&
             (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
-            has_trait("MUZZLE_RAT")))
-        {
-            if(interactive)
-            {
+             has_trait("MUZZLE_RAT")) ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot fit the %s over your muzzle."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers(bp_mouth) && has_trait("MINOTAUR"))
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_mouth) && has_trait("MINOTAUR") ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot fit the %s over your snout."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers(bp_mouth) && has_trait("SABER_TEETH"))
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_mouth) && has_trait("SABER_TEETH") ) {
+            if( interactive ) {
                 add_msg(m_info, _("Your saber teeth are simply too large for %s to fit."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers(bp_mouth) && has_trait("MANDIBLES"))
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_mouth) && has_trait("MANDIBLES") ) {
+            if( interactive ) {
                 add_msg(_("Your mandibles are simply too large for %s to fit."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if (to_wear->covers(bp_mouth) && has_trait("PROBOSCIS"))
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_mouth) && has_trait("PROBOSCIS") ) {
+            if( interactive ) {
                 add_msg(m_info, _("Your proboscis is simply too large for %s to fit."), to_wear->type_name().c_str());
             }
             return false;
         }
 
-        if ((to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("HOOVES"))
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("HOOVES") ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot wear footwear on your hooves."));
             }
             return false;
         }
 
-        if ((to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("LEG_TENTACLES"))
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("LEG_TENTACLES") ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot wear footwear on your tentacles."));
             }
             return false;
         }
 
-        if ((to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("RAP_TALONS"))
-        {
-            if(interactive)
-            {
+        if( (to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("RAP_TALONS")) {
+            if( interactive ) {
                 add_msg(m_info, _("Your talons are much too large for footgear."));
             }
             return false;
         }
 
-        if (to_wear->covers(bp_head) && has_trait("HORNS_CURLED"))
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_head) && has_trait("HORNS_CURLED") ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot wear headgear over your horns."));
             }
             return false;
         }
 
-        if (to_wear->covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) )
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) ) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot fit that over your shell."));
             }
             return false;
         }
 
-        if (to_wear->covers(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
-        {
-            if(interactive)
-            {
+        if( to_wear->covers(bp_torso) &&
+            ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) ) {
+            if( interactive ) {
                 add_msg(m_info, _("Your new limbs are too wriggly to fit under that."));
             }
             return false;
         }
 
-        if (to_wear->covers(bp_head) &&
+        if( to_wear->covers(bp_head) &&
             !to_wear->made_of("wool") && !to_wear->made_of("cotton") &&
             !to_wear->made_of("nomex") && !to_wear->made_of("leather") &&
-            (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS")))
-        {
-            if(interactive)
-            {
+            (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
+            if( interactive ) {
                 add_msg(m_info, _("You cannot wear a helmet over your %s."),
                            (has_trait("HORNS_POINTED") ? _("horns") :
                             (has_trait("ANTENNAE") ? _("antennae") : _("antlers"))));
@@ -10856,7 +10741,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
 }
 
 void player::use_wielded() {
-  use(-1);
+    use(-1);
 }
 
 hint_rating player::rate_action_reload(item *it) {
@@ -12236,36 +12121,17 @@ int player::encumb( body_part bp ) const
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
-    double layer[MAX_CLOTHING_LAYER] = { };
-    int level = 0;
-    bool is_wearing_active_power_armor = false;
-    for( auto &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            is_wearing_active_power_armor = true;
-            break;
-        }
-    }
+    int layer[MAX_CLOTHING_LAYER] = { };
 
     for( auto& w : worn ) {
         if( !w.covers(bp) ) {
             continue;
         }
 
-        if( w.has_flag( "SKINTIGHT" ) ) {
-            level = UNDERWEAR;
-        } else if ( w.has_flag( "WAIST" ) ) {
-            level = WAIST_LAYER;
-        } else if ( w.has_flag( "OUTER" ) ) {
-            level = OUTER_LAYER;
-        } else if ( w.has_flag( "BELTED") ) {
-            level = BELTED_LAYER;
-        } else {
-            level = REGULAR_LAYER;
-        }
+        layer[w.get_layer()] += 10;
 
-        layer[level] += 10;
-        if( w.is_power_armor() && is_wearing_active_power_armor ) {
-            armorenc += std::max( 0, w.get_encumber() - 40);
+        if( w.is_power_armor() && is_wearing_active_power_armor() ) {
+            armorenc += std::max( 0, w.get_encumber() - 40 );
         } else {
             armorenc += w.get_encumber();
         }
@@ -12273,15 +12139,13 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     armorenc = std::max(0, armorenc);
     ret += armorenc;
 
-    for( auto &elem : layer ) {
-        layers += std::max( 0.0, elem - 10.0 );
+    for( const auto &elem : layer ) {
+       layers += std::max(0, elem - 10);
     }
 
-    if (layers > 5.0) {
-        ret += (layers);
-    }
+    ret += layers;
 
-    if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
+    if (volume_carried() > volume_capacity() && bp != bp_head) {
         ret += 30;
     }
 
@@ -12545,8 +12409,14 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
     std::list<item> worn_remains;
+    bool armor_destroyed = false;
 
     for( auto &elem : dam.damage_units ) {
+        if( elem.amount < 0 ) {
+            // Prevents 0 damage hits (like from hallucinations) from ripping armor
+            elem.amount = 0;
+            continue;
+        }
 
         // CBMs absorb damage first before hitting armor
         if( has_active_bionic("bio_ads") ) {
@@ -12576,6 +12446,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
 
             if( armor_absorb( elem, armor ) ) {
+                armor_destroyed = true;
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
                 // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
@@ -12743,6 +12614,9 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
     for( item& remain : worn_remains ) {
         g->m.add_item_or_charges( pos(), remain );
     }
+    if( armor_destroyed ) {
+        drop_inventory_overflow();
+    }
 }
 
 int player::get_env_resist(body_part bp) const
@@ -12853,6 +12727,16 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         }
     }
     return result;
+}
+
+bool player::is_wearing_active_power_armor() const
+{
+    for( const auto &w : worn ) {
+        if( w.is_power_armor() && w.active ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int player::adjust_for_focus(int amount)
@@ -13279,11 +13163,7 @@ tripoint player::adjacent_tile()
         }
     }
 
-    if( !ret.empty() ) {
-        return ret[ rng( 0, ret.size() - 1 ) ];   // return a random valid adjacent tile
-    }
-
-    return pos(); // or return player position if no valid adjacent tiles
+    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }
 
 int player::climbing_cost( const tripoint &from, const tripoint &to ) const
@@ -13810,7 +13690,7 @@ void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
     item body;
-    body.make_corpse( GetMType( "mon_null" ), calendar::turn, name );
+    body.make_corpse( "mon_null", calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
@@ -13819,15 +13699,14 @@ void player::place_corpse()
             body.put_in( item( bio.id, calendar::turn ) );
         }
     }
-    int pow = max_power_level;
-    while( pow >= 100 ) {
-        if( pow >= 250 ) {
-            pow -= 250;
-            body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
-        } else {
-            pow -= 100;
-            body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
-        }
+
+    // Restore amount of installed pseudo-modules of Power Storage Units
+    std::pair<int, int> storage_modules = amount_of_storage_bionics();
+    for (int i = 0; i <= storage_modules.first; ++i) {
+        body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
+    }
+    for (int i = 0; i <= storage_modules.second; ++i) {
+        body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
     }
     g->m.add_item_or_charges( pos(), body );
 }

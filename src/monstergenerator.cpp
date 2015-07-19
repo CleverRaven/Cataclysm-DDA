@@ -456,11 +456,13 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         load_special_defense(newmon, jo, "special_when_hit");
         load_special_attacks(newmon, jo, "special_attacks");
 
-        newmon->upgrade_min = jo.get_int("upgrade_min", -1);
-        newmon->half_life = jo.get_int("half_life", -1);
-        newmon->base_upgrade_chance = jo.get_float("base_upgrade_chance", 0);
-        newmon->upgrade_group = mongroup_id( jo.get_string("upgrade_group", "GROUP_NULL") );
-        newmon->upgrades_into = jo.get_string("upgrades_into", "NULL");
+        if (jo.has_member("upgrades")) {
+            JsonObject upgrades = jo.get_object("upgrades");
+            newmon->half_life = upgrades.get_int("half_life", -1);
+            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", "GROUP_NULL") );
+            newmon->upgrade_into = upgrades.get_string("into", "NULL");
+            newmon->upgrades = true;
+        }
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
         flags = jo.get_tags("flags");
@@ -565,7 +567,7 @@ mtype *MonsterGenerator::get_valid_hallucination()
         }
     }
 
-    return potentials[rng(0, potentials.size() - 1)];
+    return random_entry( potentials );
 }
 
 m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
@@ -688,13 +690,25 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
             }
         }
-        if( !mon->upgrade_group.is_valid() ) {
-            debugmsg( "upgrade_group %s of monster %s is not a valid monster group",
-                      mon->upgrade_group.c_str(), mon->id.c_str() );
-        }
-        if( mon->upgrades_into != "NULL" && !has_mtype( mon->upgrades_into ) ) {
-            debugmsg( "upgrades_into %s of monster %s is not a valid monster id",
-                      mon->upgrades_into.c_str(), mon->id.c_str() );
+        if( mon->upgrades ) {
+            if( mon->half_life <= 0 ) {
+                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
+            }
+            if( mon->upgrade_into == "NULL" && mon->upgrade_group == mongroup_id( "GROUP_NULL" ) ) {
+                debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
+            }
+            if( mon->upgrade_into != "NULL" && mon->upgrade_group != mongroup_id( "GROUP_NULL" ) ) {
+                debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
+            }
+            if( mon->upgrade_into != "NULL" && !has_mtype( mon->upgrade_into ) ) {
+                debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
+                           mon->upgrade_into.c_str(), mon->id.c_str() );
+            }
+            if( mon->upgrade_group != mongroup_id( "GROUP_NULL" ) &&
+                !MonsterGroupManager::isValidMonsterGroup( mon->upgrade_group ) ) {
+                debugmsg( "upgrade_group %s of monster %s is not a valid monster group id",
+                           mon->upgrade_group.c_str(), mon->id.c_str() );
+            }
         }
     }
 }

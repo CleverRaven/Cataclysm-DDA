@@ -4,7 +4,6 @@
 #include "map.h"
 #include "rng.h"
 #include "line.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"
@@ -252,12 +251,11 @@ void mdeath::worm(monster *z)
     }
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
-        int rn = rng(0, wormspots.size() - 1);
-        if(-1 == g->mon_at(wormspots[rn])) {
-            g->summon_mon("mon_halfworm", wormspots[rn]);
+        const tripoint target = random_entry_removed( wormspots );
+        if(-1 == g->mon_at( target )) {
+            g->summon_mon("mon_halfworm", target);
             worms++;
         }
-        wormspots.erase(wormspots.begin() + rn);
     }
 }
 
@@ -366,16 +364,14 @@ void mdeath::blobsplit(monster *z)
         }
     }
 
-    int rn;
     for (int s = 0; s < 2 && !valid.empty(); s++) {
-        rn = rng(0, valid.size() - 1);
-        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", valid[rn])) {
-            monster *blob = g->monster_at(valid[rn]);
+        const tripoint target = random_entry_removed( valid );
+        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", target)) {
+            monster *blob = g->monster_at( target );
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);
         }
-        valid.erase(valid.begin() + rn);
     }
 }
 
@@ -393,7 +389,7 @@ void mdeath::jackson(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
         if(candidate->type->id == "mon_zombie_dancer" ) {
-            candidate->poly(GetMType("mon_zombie_hulk"));
+            candidate->poly( "mon_zombie_hulk" );
             candidate->remove_effect("controlled");
         }
         if (g->u.sees( *z )) {
@@ -522,11 +518,8 @@ void mdeath::ratking(monster *z)
             }
         }
     }
-    monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
-        int rn = rng(0, ratspots.size() - 1);
-        g->summon_mon("mon_sewer_rat", ratspots[rn]);
-        ratspots.erase(ratspots.begin() + rn);
+        g->summon_mon("mon_sewer_rat", random_entry_removed( ratspots ) );
     }
 }
 
@@ -725,7 +718,7 @@ void make_mon_corpse(monster *z, int damageLvl)
 {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(z->type, calendar::turn);
+    corpse.make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.

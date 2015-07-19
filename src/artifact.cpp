@@ -711,14 +711,10 @@ std::string new_artifact()
                (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
                 one_in(num_bad + 1) || value > 1)) {
             if (value < 1 && one_in(2)) { // Good
-                int index = rng(0, good_effects.size() - 1);
-                passive_tmp = good_effects[index];
-                good_effects.erase(good_effects.begin() + index);
+                passive_tmp = random_entry_removed( good_effects );
                 num_good++;
             } else if (!bad_effects.empty()) { // Bad effect
-                int index = rng(0, bad_effects.size() - 1);
-                passive_tmp = bad_effects[index];
-                bad_effects.erase(bad_effects.begin() + index);
+                passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
             value += passive_effect_cost[passive_tmp];
@@ -735,14 +731,10 @@ std::string new_artifact()
                ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
                 one_in(num_bad + 1) || value > 1)) {
             if (value < 1 && one_in(3)) { // Good
-                int index = rng(0, good_effects.size() - 1);
-                passive_tmp = good_effects[index];
-                good_effects.erase(good_effects.begin() + index);
+                passive_tmp = random_entry_removed( good_effects );
                 num_good++;
             } else { // Bad effect
-                int index = rng(0, bad_effects.size() - 1);
-                passive_tmp = bad_effects[index];
-                bad_effects.erase(bad_effects.begin() + index);
+                passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
             value += passive_effect_cost[passive_tmp];
@@ -761,15 +753,11 @@ std::string new_artifact()
                (value > 3 || (num_bad > 0 && num_good == 0) ||
                 !one_in(3 - num_good) || !one_in(3 - num_bad))) {
             if (!one_in(3) && value <= 1) { // Good effect
-                int index = rng(0, good_a_effects.size() - 1);
-                active_tmp = good_a_effects[index];
-                good_a_effects.erase(good_a_effects.begin() + index);
+                active_tmp = random_entry_removed( good_a_effects );
                 num_good++;
                 value += active_effect_cost[active_tmp];
             } else { // Bad effect
-                int index = rng(0, bad_a_effects.size() - 1);
-                active_tmp = bad_a_effects[index];
-                bad_a_effects.erase(bad_a_effects.begin() + index);
+                active_tmp = random_entry_removed( bad_a_effects );
                 num_bad++;
                 value += active_effect_cost[active_tmp];
             }
@@ -879,14 +867,10 @@ std::string new_artifact()
                (num_good < 1 || one_in(num_good * 2) || value > 1 ||
                 (num_bad < 3 && !one_in(3 - num_bad)))) {
             if (value < 1 && one_in(2)) { // Good effect
-                int index = rng(0, good_effects.size() - 1);
-                passive_tmp = good_effects[index];
-                good_effects.erase(good_effects.begin() + index);
+                passive_tmp = random_entry_removed( good_effects );
                 num_good++;
             } else { // Bad effect
-                int index = rng(0, bad_effects.size() - 1);
-                passive_tmp = bad_effects[index];
-                bad_effects.erase(bad_effects.begin() + index);
+                passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
             value += passive_effect_cost[passive_tmp];

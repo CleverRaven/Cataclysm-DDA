@@ -33,6 +33,8 @@
 #include "ui.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather_gen.h"
+#include "weather.h"
 
 #include <vector>
 #include <sstream>
@@ -1866,13 +1868,12 @@ int iuse::purifier(player *p, item *it, bool, const tripoint& )
         num_cured = 4;
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        int index = rng(0, valid.size() - 1);
-        if (p->purifiable(valid[index])) {
-            p->remove_mutation(valid[index]);
+        const std::string id = random_entry_removed( valid );
+        if (p->purifiable( id )) {
+            p->remove_mutation( id );
         } else {
             p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
         }
-        valid.erase(valid.begin() + index);
     }
     return it->type->charges_to_use();
 }
@@ -1911,13 +1912,12 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
         num_cured = 8;
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        int index = rng(0, valid.size() - 1);
-        if (p->purifiable(valid[index])) {
-            p->remove_mutation(valid[index]);
+        const std::string id = random_entry_removed( valid );
+        if (p->purifiable( id )) {
+            p->remove_mutation( id );
         } else {
             p->add_msg_if_player(m_warning, _("You feel a distinct burning inside, but it passes."));
         }
-        valid.erase(valid.begin() + index);
         if (!(p->has_trait("NOPAIN"))) {
             p->mod_pain(2 * num_cured); //Hurts worse as it fixes more
             p->add_msg_if_player(m_warning, _("Feels like you're on fire, but you're OK."));
@@ -2371,7 +2371,7 @@ int petfood(player *p, item *it, bool is_dogfood)
         return 0;
     }
     p->moves -= 15;
-    int mon_dex = g->mon_at(dirp);
+    int mon_dex = g->mon_at( dirp, true );
     if (mon_dex != -1) {
         if (g->zombie(mon_dex).type->id == (is_dogfood ? "mon_dog" : "mon_cat")) {
             p->add_msg_if_player(m_good, is_dogfood
@@ -3242,7 +3242,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(2, 3));
 
     // Also spray monsters in that tile.
-    int mondex = g->mon_at(dest);
+    int mondex = g->mon_at( dest, true );
     if (mondex != -1) {
         g->zombie(mondex).moves -= 150;
         bool blind = false;
@@ -3701,7 +3701,7 @@ int iuse::two_way_radio(player *p, item *it, bool, const tripoint& )
             }
         }
         if (!in_range.empty()) {
-            npc *coming = in_range[rng(0, in_range.size() - 1)];
+            npc *coming = random_entry( in_range );
             popup(ngettext("A reply!  %s says, \"I'm on my way; give me %d minute!\"",
                            "A reply!  %s says, \"I'm on my way; give me %d minutes!\"", coming->minutes_to_u()),
                   coming->name.c_str(), coming->minutes_to_u());
@@ -4673,7 +4673,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     critter.name().c_str());
         }
-        critter.poly(GetMType("mon_blob"));
+        critter.poly( "mon_blob" );
 
         critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
         critter.set_hp( critter.get_speed() );
@@ -4788,7 +4788,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int zid = g->mon_at(dest);
+                        const int zid = g->mon_at( dest, true );
                         if (zid != -1 &&
                             (g->zombie(zid).type->in_species("INSECT") ||
                              g->zombie(zid).is_hallucination())) {
@@ -5207,7 +5207,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             tripoint dest( x, y, pos.z );
-            int mondex = g->mon_at( dest );
+            int mondex = g->mon_at( dest, true );
             if( mondex == -1 ) {
                 continue;
             }
@@ -5256,7 +5256,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("Umm.  No."));
         return 0;
     }
-    int mondex = g->mon_at(dirp);
+    int mondex = g->mon_at( dirp, true );
     int npcdex = g->npc_at(dirp);
     if (mondex == -1 && npcdex == -1) {
         p->add_msg_if_player(_("Electricity crackles in the air."));
@@ -5331,7 +5331,7 @@ int iuse::tazer2(player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player(m_info, _("Umm.  No."));
             return 0;
         }
-        int mondex = g->mon_at(dirp);
+        int mondex = g->mon_at( dirp, true );
         int npcdex = g->npc_at(dirp);
 
         if (mondex == -1 && npcdex == -1) {
@@ -5695,10 +5695,9 @@ int iuse::vortex(player *p, item *it, bool, const tripoint& )
     }
 
     p->add_msg_if_player(m_warning, _("Air swirls all over..."));
-    int index = rng(0, spawn.size() - 1);
     p->moves -= 100;
     it->make("spiral_stone");
-    monster mvortex(GetMType("mon_vortex"), spawn[index] );
+    monster mvortex( "mon_vortex", random_entry( spawn ) );
     mvortex.friendly = -1;
     g->add_zombie(mvortex);
     return it->type->charges_to_use();
@@ -6273,10 +6272,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
     }
 
     std::vector<art_effect_active> effects = art->effects_activated;
-    for (size_t i = 0; i < num_used; i++) {
-        int index = rng(0, effects.size() - 1);
-        art_effect_active used = effects[index];
-        effects.erase(effects.begin() + index);
+    for (size_t i = 0; i < num_used && !effects.empty(); i++) {
+        const art_effect_active used = random_entry_removed( effects );
 
         switch (used) {
             case AEA_STORM: {
@@ -6396,7 +6393,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at(dest);
+                        int mondex = g->mon_at( dest, true );
                         if (mondex != -1) {
                             g->zombie(mondex).add_effect("stunned", rng(5, 15));
                         }
@@ -6407,7 +6404,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at(dest);
+                        int mondex = g->mon_at( dest, true );
                         if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
                             rng(0, 600) > g->zombie(mondex).get_hp()) {
                             g->zombie(mondex).make_friendly();
@@ -6446,9 +6443,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 }
                 if (bug != "mon_null") {
                     for (int j = 0; j < num && !empty.empty(); j++) {
-                        int index_inner = rng(0, empty.size() - 1);
-                        tripoint spawnp = empty[index_inner];
-                        empty.erase(empty.begin() + index_inner);
+                        const tripoint spawnp = random_entry_removed( empty );
                         if (g->summon_mon(bug, spawnp)) {
                             monster *b = g->monster_at(spawnp);
                             b->friendly = -1;
@@ -6468,7 +6463,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid(GetMType("mon_null"), p->pos3() );
+                monster tmptriffid( "mon_null", p->pos3() );
                 mattack::growplants(&tmptriffid, -1);
             }
             break;
@@ -6995,7 +6990,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         tripoint dest( p->posx() + i, p->posy() + j, p->posz() );
-                        mon_num = g->mon_at(dest);
+                        mon_num = g->mon_at( dest, true );
                         if (mon_num != -1) {
                             break; // break at first found enemy
                         }
@@ -7010,7 +7005,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                 if (mon_num != -1) {
                     tripoint slashp;
                     if (choose_adjacent(_("Slash where?"), slashp)) {
-                        const int mon_hit = g->mon_at(slashp);
+                        const int mon_hit = g->mon_at( slashp, true );
                         if (mon_hit != -1) {
                             mon_num = mon_hit;
                         }
@@ -7787,7 +7782,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         if (candidates.size() > 0) {
 
-            const recipe *r = candidates[rng(0, candidates.size() - 1)];
+            const recipe *r = random_entry( candidates );
             const std::string rident = r->ident;
 
             const item dummy(r->result, 0);
@@ -8108,7 +8103,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 }
                 monster_photos.push_back(s);
                 std::string menu_str;
-                const monster dummy(GetMType(s));
+                const monster dummy( s );
                 menu_str = dummy.name();
                 getline(f, s, ',');
                 char *chq = &s[0];
@@ -8126,7 +8121,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                     break;
                 }
 
-                const monster dummy(GetMType(monster_photos[choice - 1]));
+                const monster dummy( monster_photos[choice - 1] );
                 popup(dummy.type->description.c_str());
             } while (true);
             return it->type->charges_to_use();
@@ -8249,7 +8244,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        const int sel_zid = g->mon_at( aim_point );
+        const int sel_zid = g->mon_at( aim_point, true );
         const int sel_npcID = g->npc_at( aim_point );
 
         if (sel_zid == -1 && sel_npcID == -1) {
@@ -8265,7 +8260,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         for (auto &i : trajectory) {
 
-            int zid = g->mon_at(i);
+            int zid = g->mon_at( i, true );
             int npcID = g->npc_at(i);
 
             if (zid != -1 || npcID != -1) {
@@ -8415,7 +8410,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
             std::string menu_str;
 
-            const monster dummy(GetMType(s));
+            const monster dummy( s );
             menu_str = dummy.name();
 
             getline(f, s, ',');
@@ -8436,7 +8431,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                 break;
             }
 
-            const monster dummy(GetMType(monster_photos[choice - 1]));
+            const monster dummy( monster_photos[choice - 1] );
             popup(dummy.type->description.c_str());
 
         } while (true);
@@ -9007,7 +9002,7 @@ bool multicooker_hallu(player *p)
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
-                const tripoint random_point = points[rng(0, points.size() - 1)];
+                const tripoint random_point = random_entry( points );
                 if (g->summon_mon("mon_hallu_multicooker", random_point)) {
                     monster *m = g->monster_at(random_point);
                     m->hallucination = true;
@@ -9442,7 +9437,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 
 int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
 {
-    w_point const weatherPoint = g->weatherGen.get_weather( p->global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weatherGen->get_weather( p->global_square_location(), calendar::turn );
 
     if (it->type->id == "weather_reader") {
         p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());
@@ -9486,3 +9481,4 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
 
     return 0;
 }
+

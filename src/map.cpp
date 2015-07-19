@@ -8,7 +8,6 @@
 #include "item_factory.h"
 #include "mapbuffer.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "sounds.h"
 #include "debug.h"
 #include "trap.h"
@@ -27,6 +26,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "weather.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -2708,10 +2708,7 @@ point map::random_outdoor_tile()
     options.push_back(point(x, y));
   }
  }
- if (options.empty()) // Nowhere is outdoors!
-  return point(-1, -1);
-
- return options[rng(0, options.size() - 1)];
+ return random_entry( options, point( -1, -1 ) );
 }
 
 bool map::has_adjacent_furniture( const tripoint &p )
@@ -4175,7 +4172,7 @@ int map::i_rem(const tripoint &p, const int index)
     return index;
 }
 
-void map::i_rem(const tripoint &p, item *it)
+void map::i_rem( const tripoint &p, const item *it )
 {
     auto map_items = i_at(p);
 
@@ -6560,17 +6557,15 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         if( spawn_details.name == "mon_null" ) {
             continue;
         }
-        monster tmp( GetMType( spawn_details.name ) );
+        monster tmp( spawn_details.name );
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
-                const size_t index = rng( 0, locations.size() - 1 );
-                const tripoint &p = locations[index];
+                const tripoint p = random_entry_removed( locations );
                 if( !tmp.can_move_to( p ) ) {
                     continue; // target can not contain the monster
                 }
                 tmp.spawn( p );
                 g->add_zombie( tmp );
-                locations.erase( locations.begin() + index );
                 break;
             }
         }
@@ -6592,7 +6587,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             int tries = 0;
             int mx = i.posx;
             int my = i.posy;
-            monster tmp(GetMType(i.type));
+            monster tmp( i.type );
             tmp.mission_id = i.mission_id;
             if (i.name != "NONE") {
                 tmp.unique_name = i.name;

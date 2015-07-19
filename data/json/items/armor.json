@@ -5096,7 +5096,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 10,
         "bashing" : -5,
-        "flags" : ["SKINTIGHT", "WATER_FRIENDLY"],
+        "flags" : ["BELTED", "WATER_FRIENDLY"],
         "coverage" : 70,
         "material_thickness" : 3
     },
@@ -6058,7 +6058,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE"],
+        "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 90,
         "material_thickness" : 1
@@ -8939,7 +8939,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 10,
         "bashing" : -5,
-        "flags" : ["SKINTIGHT", "WATER_FRIENDLY"],
+        "flags" : ["BELTED", "WATER_FRIENDLY"],
         "coverage" : 75,
         "material_thickness" : 4
   },
@@ -12351,6 +12351,7 @@
         "weight" : 360,
         "color" : "blue",
         "covers" : ["ARMS"],
+        "flags" : ["BELTED"],
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
@@ -12375,6 +12376,7 @@
         "weight" : 370,
         "color" : "blue",
         "covers" : ["LEGS"],
+        "flags" : ["BELTED"],
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",

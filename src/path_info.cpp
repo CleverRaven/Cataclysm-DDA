@@ -111,9 +111,15 @@ void PATH_INFO::set_standard_filenames(void)
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
+#ifdef DATA_DIR_PREFIX
         update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
         update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
         update_pathname("luadir", FILENAMES["datadir"] + "lua/");
+#else
+        update_pathname("datadir", FILENAMES["base_path"] + "data/");
+        update_pathname("gfxdir", FILENAMES["base_path"] + "gfx/");
+        update_pathname("luadir", FILENAMES["base_path"] +"lua/");
+#endif
     } else {
         update_pathname("datadir", "data/");
         update_pathname("gfxdir", "gfx/");

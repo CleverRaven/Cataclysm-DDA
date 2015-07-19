@@ -122,8 +122,7 @@ void npc::move()
         };
         targets.erase( std::remove_if( targets.begin(), targets.end(), filter ), targets.end() );
         if( !targets.empty() ) {
-            const auto tpos = targets[rng( 0, targets.size() - 1 )];
-            move_to( tpos );
+            move_to( random_entry( targets ) );
             return;
         }
     }
@@ -2287,8 +2286,7 @@ void npc::look_for_player(player &sought)
         if (one_in(6)) {
             say("<wait>");
         }
-        int index = rng(0, possibilities.size() - 1);
-        update_path( tripoint( possibilities[index], posz() ) );
+        update_path( tripoint( random_entry( possibilities ), posz() ) );
         move_to_next();
     }
     */
@@ -2394,7 +2392,7 @@ void npc::set_destination()
         options.push_back("s_library");
     }
 
-    std::string dest_type = options[rng(0, options.size() - 1)];
+    const std::string dest_type = random_entry( options );
 
     goal = overmap_buffer.find_closest(global_omt_location(), dest_type, 0, false);
 }

@@ -47,6 +47,18 @@
     "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
   },{
     "type": "scenario",
+    "ident": "medieval",
+    "name": "Challenge-Medieval Peasant",
+    "points" : -5,
+    "description": "Som nigromancie hath brought yow hidder! Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God",
+    "start_name": "Forest",
+    "allowed_locs" : ["forest"],
+    "professions" : ["churl"],
+    "forced_traits" : ["ILLITERATE", "ANTIJUNK", "STRONGSTOMACH"],
+    "forbidden_traits" : ["FASTREADER", "SLOWREADER"],
+    "flags" : ["CHALLENGE"]
+  },{
+    "type": "scenario",
     "ident": "lab_chal",
     "name": "Challenge-Lab",
     "points" : -8,
@@ -145,5 +157,15 @@
     "start_name": "Forest",
     "professions" : ["unemployed", "survivalist", "naturalist", "bow_hunter", "lumberjack", "jr_survivalist", "fisher"],
     "allowed_locs" : ["forest"]
+  },{
+    "type": "scenario",
+    "ident": "heli_crash",
+    "name": "Helicopter crash",
+    "points" : -8,
+    "description": "You've crashed your precious helicopter, it'll never fly again.  Monster don't bother you, life without your Loach is worthless anyway.",
+    "start_name": "Crash site",
+    "professions" : ["unemployed", "bio_soldier"],
+    "allowed_locs" : ["field"],
+    "map_special": "mx_helicopter"
     }
 ]

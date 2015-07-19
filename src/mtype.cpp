@@ -28,10 +28,9 @@ mtype::mtype ()
     armor_cut = 0;
     hp = 0;
     def_chance = 0;
-    upgrade_min = -1;
+    upgrades = false;
     half_life = -1;
-    base_upgrade_chance = 0;
-    upgrades_into = "NULL";
+    upgrade_into = "NULL";
     upgrade_group = mongroup_id( "GROUP_NULL" );
     dies.push_back(&mdeath::normal);
     sp_attack.push_back(nullptr);

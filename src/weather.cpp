@@ -8,6 +8,7 @@
 #include "trap.h"
 #include "math.h"
 #include "translations.h"
+#include "weather_gen.h"
 
 #include <vector>
 #include <sstream>
@@ -61,29 +62,44 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     // TODO: maybe have different rotting speed when underground?
     int ret = 0;
     for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weatherGen.get_weather(location, i);
+        w_point w = g->weatherGen->get_weather(location, i);
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
 }
 
 ////// Funnels.
-/**
- * mm/h of rain/acid for weather type (should move to weather_data)
- */
-std::pair<int, int> rain_or_acid_level( const int wt )
+rainfall_data get_rainfall( const calendar &startturn,
+                            const calendar &endturn,
+                            const tripoint &location )
 {
-    if ( wt == WEATHER_ACID_RAIN || wt == WEATHER_ACID_DRIZZLE ) {
-        return std::make_pair(0, (wt == WEATHER_ACID_RAIN  ? 8 : 4 ));
-    } else if (wt == WEATHER_DRIZZLE ) {
-        return std::make_pair(4, 0);
-        // why isn't this in weather data. now we have multiple rain/turn scales =[
-    } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
-        return std::make_pair(8, 0);
-        /// @todo bucket of melted snow?
-    } else {
-        return std::make_pair(0, 0);
+    rainfall_data rainfall;
+    for( calendar turn(startturn); turn < endturn; turn += 10 ) {
+        switch( g->weatherGen->get_weather_conditions( point( location.x, location.y ), turn ) ) {
+        case WEATHER_DRIZZLE:
+            rainfall.rain_amount += 4;
+            rainfall.rain_turns++;
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            rainfall.rain_amount += 8;
+            rainfall.rain_turns++;
+            break;
+        case WEATHER_ACID_DRIZZLE:
+            rainfall.acid_amount += 4;
+            rainfall.acid_turns++;
+            break;
+        case WEATHER_ACID_RAIN:
+            rainfall.acid_amount += 8;
+            rainfall.acid_turns++;
+            break;
+        default:
+            break;
+        }
     }
+
+    return rainfall;
 }
 
 /**
@@ -97,45 +113,21 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
     if ( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
+
     it.bday = endturn; // bday == last fill check
-    int rain_amount = 0;
-    int acid_amount = 0;
-    int rain_turns = 0;
-    int acid_turns = 0;
-    for( calendar turn(startturn); turn < endturn; turn += 10) {
-        // TODO: Z-level weather
-        switch(g->weatherGen.get_weather_conditions(point(location.x, location.y), turn)) {
-        case WEATHER_DRIZZLE:
-            rain_amount += 4;
-            rain_turns++;
-            break;
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            rain_amount += 8;
-            rain_turns++;
-            break;
-        case WEATHER_ACID_DRIZZLE:
-            acid_amount += 4;
-            acid_turns++;
-            break;
-        case WEATHER_ACID_RAIN:
-            acid_amount += 8;
-            acid_turns++;
-            break;
-        default:
-            break;
-        }
-    }
+    rainfall_data rainfall = get_rainfall( startturn, endturn, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
-    if( rain_amount > 0 ) {
-        int rain = rain_turns / tr.funnel_turns_per_charge( rain_amount );
+    if( rainfall.rain_amount > 0 ) {
+        // This is kinda weird: we're dumping a "block" of water all at once
+        // but the old formula ( rain_turns / turn_per_charge(total_amount) ) resulted in
+        // water being produced at quadratic rate rather than linear with time
+        const int rain = 1.0 / tr.funnel_turns_per_charge( rainfall.rain_amount );
         it.add_rain_to_container( false, rain );
     }
 
-    if( acid_amount > 0 ) {
-        int acid = acid_turns / tr.funnel_turns_per_charge( acid_amount );
+    if( rainfall.acid_amount > 0 ) {
+        const int acid = 1.0 / tr.funnel_turns_per_charge( rainfall.acid_amount );
         it.add_rain_to_container( true, acid );
     }
 }
@@ -201,6 +193,30 @@ void item::add_rain_to_container(bool acid, int charges)
     }
 }
 
+double funnel_charges_per_turn( const double surface_area_mm2, const double rain_depth_mm_per_hour )
+{
+    // 1mm rain on 1m^2 == 1 liter water == 1000ml
+    // 1 liter == 4 volume
+    // 1 volume == 250ml: containers
+    // 1 volume == 200ml: water
+    // How many charges of water can we collect in a turn (usually <1.0)?
+    if( rain_depth_mm_per_hour == 0.0 ) {
+        return 0.0;
+    }
+
+    // Calculate once, because that part is expensive
+    static const item water("water", 0);
+    static const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
+
+    const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
+    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
+
+    const double ml_to_mm3 = 1000;
+    const double charges_per_turn = vol_mm3_per_turn / (charge_ml * ml_to_mm3);
+
+    return charges_per_turn;
+}
+
 double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
 {
     // 1mm rain on 1m^2 == 1 liter water == 1000ml
@@ -209,21 +225,18 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
     // 1 volume == 200ml: water
     // How many turns should it take for us to collect 1 charge of rainwater?
     // "..."
-    if ( rain_depth_mm_per_hour == 0 ) {
-        return 0;
+    if ( rain_depth_mm_per_hour == 0.0 ) {
+        return 0.0;
     }
-    const item water("water", 0);
-    const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
-    const double PI = 3.14159265358979f;
 
-    const double surface_area_mm2 = PI * (funnel_radius_mm * funnel_radius_mm);
+    const double surface_area_mm2 = M_PI * (funnel_radius_mm * funnel_radius_mm);
+    const double charges_per_turn = funnel_charges_per_turn( surface_area_mm2, rain_depth_mm_per_hour );
 
-    const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
-    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
+    if( charges_per_turn > 0.0 ) {
+        return 1.0 / charges_per_turn;
+    }
 
-    const double ml_to_mm3 = 1000;
-    const double turns_per_charge = (charge_ml * ml_to_mm3) / vol_mm3_per_turn;
-    return turns_per_charge;// / rain_depth_mm_per_hour;
+    return 0.0;
 }
 
 /**
@@ -509,8 +522,8 @@ std::string weather_forecast( point const &abs_sm_pos )
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather( abs_ms_pos, i );
-            forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
+            w_point w = g->weatherGen->get_weather( abs_ms_pos, i );
+            forecast = std::max(forecast, g->weatherGen->get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }

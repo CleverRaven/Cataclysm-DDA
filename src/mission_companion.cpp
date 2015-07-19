@@ -488,7 +488,7 @@ void talk_function::caravan_depart(npc *p, std::string dest, std::string id)
         if (elem->companion_mission_time == -1){
             //Adds a 10% error in estimated travel time
             elem->companion_mission_time = time + int(time * rng_float(-.1,.1)) +
-	      calendar::turn.get_turn();
+              calendar::turn.get_turn();
         }
     }
 
@@ -609,8 +609,8 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     if (attacker.size() == 0 || defender.size() ==0){
             return;
     }
-    npc* att = attacker[rng( 0, attacker.size() - 1 )];
-    npc* def = defender[rng( 0, defender.size() - 1 )];
+    npc* att = random_entry( attacker );
+    npc* def = random_entry( defender );
     const Skill* best = att->best_skill();
     int best_score = 1;
     if (best != nullptr){
@@ -937,7 +937,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
             int monsters = rng( 8, 30 );
             if( skill * rng_float( .60, 1.4 ) > (.35 * monsters * rng_float( .6, 1.4 )) ) {
                 popup(_("Through brute force the party smashed through the group of %d undead!"),
-		      monsters);
+                      monsters);
                 experience += rng ( 2, 10 );
             } else {
                 popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));

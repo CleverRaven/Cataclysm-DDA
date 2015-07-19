@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather.h"
 
 #include <algorithm>
 #include <fstream>
@@ -177,7 +178,9 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 {
     std::string img_path = path;
 #ifdef PREFIX   // use the PREFIX path over the current directory
-    img_path = (FILENAMES["datadir"] + "/" + img_path);
+    img_path = (FILENAMES["base_path"] + "/" + img_path);
+#elif defined DATA_DIR_PREFIX // Used for linux release installs
+    img_path = (FILENAMES["datadir"] + "/" + img_path)
 #endif
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
@@ -555,7 +558,7 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
 void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
                                    const visibility_variables &cache ) {
     if( apply_vision_effects( p.x, p.y, g->m.get_visibility( ll, cache ) ) ) {
-        const auto critter = g->critter_at( p );
+        const auto critter = g->critter_at( p, true );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
             draw_from_id_string( "infrared_creature", C_NONE, empty_string, p.x, p.y, 0, 0 );
         }
@@ -570,7 +573,7 @@ void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
     draw_trap( p );
     draw_field_or_item( p );
     draw_vpart( p );
-    const auto critter = g->critter_at( p );
+    const auto critter = g->critter_at( p, true );
     if( critter != nullptr ) {
         draw_entity( *critter, p );
     }

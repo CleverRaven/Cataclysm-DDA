@@ -3,7 +3,6 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "translations.h"
 #include "material.h"
@@ -550,8 +549,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         // If not possible (or randomly), try to spread up
         if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
             // Construct the destination from offset and p
-            const int n_index = spread[ rng( 0, spread.size() - 1 ) ];
-            spread_to( neighs[ n_index ] );
+            spread_to( neighs[ random_entry( spread ) ] );
         } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
             tripoint up{p.x, p.y, p.z + 1};
             maptile up_tile = maptile_at_internal( up );
@@ -1445,10 +1443,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
                                 }
                                 while( !valid.empty() && cur->getFieldDensity() > 1 ) {
-                                    int index = rng(0, valid.size() - 1);
-                                    add_field(valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
+                                    const tripoint target = random_entry_removed( valid );
+                                    add_field(target, fd_electricity, 1, cur->getFieldAge() + 1);
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                    valid.erase(valid.begin() + index);
                                 }
                             }
                         }
@@ -1462,8 +1459,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            std::string type = monids[rng( 0, monids.size() - 1 )];
-                            g->summon_mon(type, p);
+                            g->summon_mon( random_entry( monids ), p);
                         }
                     }
                         break;
@@ -1491,7 +1487,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                                 if (!valid.empty()) {
-                                    tripoint newp = valid[rng(0, valid.size() - 1)];
+                                    tripoint newp = random_entry( valid );
                                     add_item_or_charges( newp, tmp );
                                     if( g->u.pos3() == newp ) {
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());

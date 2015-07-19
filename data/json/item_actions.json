@@ -115,6 +115,18 @@
         "type" : "item_action",
         "id" : "fireweapon_on",
         "name" : "Turn off"
+    },    {
+        "type" : "item_action",
+        "id" : "CARVER_ON",
+        "name" : "Turn off"
+    },    {
+        "type" : "item_action",
+        "id" : "TRIMMER_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "CIRCSAW_ON",
+        "name" : "Turn off"
     },{
         "type" : "item_action",
         "id" : "transform",

@@ -3,13 +3,12 @@
 
 #include "enums.h"
 #include "game_constants.h"
-#include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "weather.h"
-#include "weather_gen.h"
-#include "live_view.h"
 #include "int_id.h"
+#include "item_location.h"
+#include "cursesdef.h"
+
 #include <vector>
 #include <map>
 #include <list>
@@ -19,9 +18,9 @@ extern const int savegame_version;
 extern int save_loading_version;
 
 // The reference to the one and only game instance.
+class game;
 extern game *g;
 
-#define PICKUP_RANGE 6
 extern bool trigdist;
 extern bool use_tiles;
 
@@ -66,6 +65,7 @@ enum target_mode {
 
 enum activity_type : int;
 enum body_part : int;
+enum weather_type : int;
 
 struct special_game;
 struct mtype;
@@ -92,6 +92,11 @@ enum event_type : int;
 struct vehicle_part;
 struct ter_t;
 using ter_id = int_id<ter_t>;
+class weather_generator;
+struct weather_printable;
+class faction;
+class live_view;
+typedef int nc_color;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -114,9 +119,9 @@ class game
         void load_static_data();
         /** Loads core data and all mods. */
         void check_all_mod_data();
-    protected:
         /** Loads core dynamic data. */
         void load_core_data();
+    protected:
         /** Loads dynamic data from the given directory. */
         void load_data_from_dir(const std::string &path);
         /** Loads core data and mods from the given world. */
@@ -125,6 +130,8 @@ class game
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
         std::unique_ptr<player> u_ptr;
+        std::unique_ptr<live_view> liveview_ptr;
+        live_view& liveview;
     public:
 
         /** Initializes the UI. */
@@ -202,13 +209,14 @@ class game
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         int  npc_by_id(const int id) const;
         /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p );
-        Creature const* critter_at( const tripoint &p ) const;
+        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
+        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon(const std::string id, const tripoint &p);
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
+        bool add_zombie(monster &critter, bool pin_upgrade);
         /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
@@ -224,9 +232,9 @@ class game
         bool swap_critters( Creature &first, Creature &second );
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p ) const;
+        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
         /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p);
+        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if the value of test is between down and up. */
@@ -312,7 +320,6 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent( const tripoint &p );
-        float ground_natural_light_level() const;
         float natural_light_level() const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -379,11 +386,12 @@ class game
         int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
 
-        // Combines filtered player inventory with filtered ground items to create a pseudo-inventory.
-        // Then asks the player to select an item and returns a pair: ( item index, item pointer )
-        // If the item is outside player inventory, index is INT_MIN, but pointer is not null
-        std::pair< int, item* > inv_map_splice( item_filter inv_filter, item_filter ground_filter, const std::string &title );
-        std::pair< int, item* > inv_map_splice( item_filter filter, const std::string &title );
+        // Combines filtered player inventory with filtered ground and vehicle items to create a pseudo-inventory.
+        item_location inv_map_splice( item_filter inv_filter,
+                                      item_filter ground_filter,
+                                      item_filter vehicle_filter,
+                                      const std::string &title );
+        item_location inv_map_splice( item_filter filter, const std::string &title );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -399,7 +407,7 @@ class game
         void zoom_in();
         void zoom_out();
 
-        weather_generator weatherGen; //A weather engine.
+        std::unique_ptr<weather_generator> weatherGen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -440,7 +448,6 @@ class game
         WINDOW *w_status;
         WINDOW *w_status2;
         WINDOW *w_blackspace;
-        live_view liveview;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -522,7 +529,7 @@ class game
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, tripoint dir, 
+                  int freed_volume_capacity, tripoint dir,
                   bool to_vehicle = true); // emulate old behaviour normally
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, int dirx, int diry,

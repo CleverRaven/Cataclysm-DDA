@@ -378,3 +378,71 @@ Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1` and unless there are proble
 If you dont want tiles you can change `TILES` to 0.
 
 If you dont want localization you can change `LOCALIZE` to 0.
+
+# BSDs
+
+There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
+
+### Building on FreeBSD/amd64 10.1 with the system compiler
+
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++11 support out of the box. You will however need gmake (examples for binary packages):
+
+`pkg install gmake`
+
+Tiles builds will also require SDL2:
+
+`pkg install sdl2 sdl2_image sdl2_mixer sdl2_ttf`
+
+Then you should be able to build with something like this (you can of course set CXXFLAGS and LDFLAGS in your .profile or something):
+
+```
+export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
+gmake # ncurses builds
+gmake TILES=1 # tiles builds
+```
+
+The author has not tested tiles builds, as the build VM lacks X; they do at least compile/link successfully.
+
+### Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports
+
+For ncurses build add to `Makefile`, before `VERSION`:
+
+```Makefile
+OTHERS += -D_GLIBCXX_USE_C99
+CXX = g++48
+CXXFLAGS += -I/usr/local/lib/gcc48/include
+LDFLAGS += -rpath=/usr/local/lib/gcc48
+```
+Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
+
+And then build with `gmake LOCALIZE=0 RELEASE=1`.
+
+### Building on OpenBSD/amd64 5.7 with GCC 4.9.2 from ports/packages
+
+First, install g++ and gmake from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
+
+`pkg_add g++ gmake`
+
+Then you should  be able to build with something like:
+
+`CXX=eg++ gmake`
+
+Only an ncurses build is possible, as SDL2 is currently broken on OpenBSD.
+
+Note that testing effort has been focused on -current, and these instructions applied to it at the time of writing and will probably be maintained for it in the future.
+
+### Building on NetBSD/amd64 7.0RC1 with the system compiler
+
+NetBSD has (or will have) gcc 4.8.4 as of version 7.0, which is new enough to build cataclysm. You will need to install gmake and ncursesw:
+
+`pkgin install gmake ncursesw`
+
+Then you should be able to build with something like this (LDFLAGS for ncurses builds are taken care of by the ncurses configuration script; you can of course set CXXFLAGS/LDFLAGS in your .profile or something):
+
+```
+export CXXFLAGS="-I/usr/pkg/include"
+gmake # ncurses builds
+LDFLAGS="-L/usr/pkg/lib" gmake TILES=1 # tiles builds
+```
+
+SDL builds currently compile, but did not run in my testing - not only do they segfault, but gdb segfaults when reading the debug symbols! Perhaps your mileage will vary.

@@ -29,6 +29,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/mapgen_functions.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame_json.cpp
     ${CMAKE_SOURCE_DIR}/src/item_action.cpp
+    ${CMAKE_SOURCE_DIR}/src/item_location.cpp
     ${CMAKE_SOURCE_DIR}/src/inventory.cpp
     ${CMAKE_SOURCE_DIR}/src/npctalk.cpp
     ${CMAKE_SOURCE_DIR}/src/calendar.cpp
@@ -171,6 +172,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/mapbuffer.h
     ${CMAKE_SOURCE_DIR}/src/posix_time.h
     ${CMAKE_SOURCE_DIR}/src/item_action.h
+    ${CMAKE_SOURCE_DIR}/src/item_location.h
     ${CMAKE_SOURCE_DIR}/src/map.h
     ${CMAKE_SOURCE_DIR}/src/npc.h
     ${CMAKE_SOURCE_DIR}/src/rng.h
@@ -189,7 +191,6 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/game_constants.h
     ${CMAKE_SOURCE_DIR}/src/mission.h
     ${CMAKE_SOURCE_DIR}/src/requirements.h
-    ${CMAKE_SOURCE_DIR}/src/savegame.h
     ${CMAKE_SOURCE_DIR}/src/sounds.h
     ${CMAKE_SOURCE_DIR}/src/worldfactory.h
     ${CMAKE_SOURCE_DIR}/src/editmap.h

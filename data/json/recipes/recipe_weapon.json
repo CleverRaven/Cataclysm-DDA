@@ -771,8 +771,7 @@
   "components": [
     [
       [ "paper", 5 ],
-      [ "rolling_paper", 30],
-      [ "wrapper", 5]
+      [ "rolling_paper", 32]
     ],
     [
       [ "acid", 2 ]
@@ -1368,6 +1367,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "pipe_combination_gun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "nail", 2 ]
+    ],
+    [
+      [ "spring", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "byproducts": { "id" : "scrap", "amount" : 3 },
   "category": "CC_WEAPON",
@@ -1690,6 +1720,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
@@ -6121,7 +6152,7 @@
     ],
     [
       [ "paper", 1 ],
-      [ "rolling_paper", 5 ]
+      [ "rolling_paper", 6 ]
     ],
     [
       [ "gunpowder", 5 ],

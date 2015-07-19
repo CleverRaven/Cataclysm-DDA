@@ -1,4 +1,5 @@
 #include "gamemode.h"
+#include "action.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -297,7 +298,7 @@ void defense_game::init_map()
     g->update_map(x, y);
     g->u.setx(x);
     g->u.sety(y);
-    monster generator( GetMType("mon_generator"), 
+    monster generator( "mon_generator",
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
     std::vector<tripoint> valid;
@@ -310,8 +311,7 @@ void defense_game::init_map()
         }
     }
     if (!valid.empty()) {
-        tripoint p = valid[rng(0, valid.size() - 1)];
-        generator.spawn( p );
+        generator.spawn( random_entry( valid ) );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1340,8 +1340,7 @@ void defense_game::spawn_wave()
             add_msg(m_info, "********");
             return;
         }
-        int rn = rng(0, valid.size() - 1);
-        mtype *type = GetMType(valid[rn]);
+        mtype *type = GetMType( random_entry( valid ) );
         if (themed_wave) {
             int num = diff / type->difficulty;
             if (num >= SPECIAL_WAVE_MIN) {
@@ -1391,7 +1390,7 @@ std::vector<std::string> defense_game::pick_monster_wave()
     if (valid.empty()) {
         debugmsg("Couldn't find a valid monster group for defense!");
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup(valid[rng(0, valid.size() - 1)]);
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
     }
 
     return ret;
@@ -1424,7 +1423,7 @@ void defense_game::spawn_wave_monster(mtype *type)
             return;
         }
     }
-    monster tmp( type, tripoint( pnt, g->get_levz() ) );
+    monster tmp( type->id, tripoint( pnt, g->get_levz() ) );
     tmp.wander_pos = g->u.pos3();
     tmp.wandf = 150;
     // We wanna kill!

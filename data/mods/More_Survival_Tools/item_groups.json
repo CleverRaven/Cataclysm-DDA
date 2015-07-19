@@ -1,24 +1,6 @@
 [
   {
     "type" : "item_group",
-    "id" : "kitchen",
-    "items":[
-      ["cheese_hard", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "fridge",
-    "items":[
-      ["cheese_hard", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "cannedfood",
-    "items":[
-      ["cheese_hard", 5]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mischw",
     "items":[
       ["tarp", 15]
@@ -28,8 +10,7 @@
     "id" : "medieval",
     "items":[
       ["tinderbox", 4],
-      ["flint_steel", 7],
-      ["cheese_hard", 1]
+      ["flint_steel", 7]
     ]
   },{
     "type" : "item_group",
@@ -83,7 +64,6 @@
       ["tinder", 3],
       ["tinderbox", 2],
       ["bottle_metal", 2],
-      ["cheese_hard", 5],
       ["tarp", 15],
       ["chem_hexamine", 4],
       ["esbit_stove", 8],
@@ -133,12 +113,6 @@
     "id" : "survivorzed_extra",
     "items":[
       ["hat_hooded", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "stash_food",
-    "items":[
-      ["cheese_hard", 15]
     ]
   },{
     "type" : "item_group",

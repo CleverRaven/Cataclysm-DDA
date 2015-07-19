@@ -1,4 +1,5 @@
 #include "player.h"
+#include "action.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -19,13 +20,14 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "field.h"
+#include "weather_gen.h"
+#include "weather.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
 
 namespace {
-constexpr int BATTERY_AMOUNT = 100; // How much batteries increase your power
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 } //namespace
@@ -44,16 +46,16 @@ bionic_data const& bionic_info(std::string const &id)
 
     debugmsg("bad bionic id");
 
-    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, "bad_bionic", false};
+    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false};
     return null_value;
 }
 
 void bionics_install_failure(player *u, int difficulty, int success);
 
 bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                         int ct, std::string desc, bool fault
+                         int ct, int cap, std::string desc, bool fault
 ) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
-    power_deactivate(pad), power_over_time(pot), charge_time(ct), faulty(fault),
+    power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap), faulty(fault),
     power_source(ps), activated(tog || pac || ct), toggled(tog)
 {
 }
@@ -658,7 +660,7 @@ bool player::activate_bionic(int b, bool eff_only)
     int &dirx = dirp.x;
     int &diry = dirp.y;
     item tmp_item;
-    w_point const weatherPoint = g->weatherGen.get_weather( global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weatherGen->get_weather( global_square_location(), calendar::turn );
 
     // On activation effects go here
     if(bio.id == "bio_painkiller") {
@@ -1370,6 +1372,8 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         // until bionics can be flagged as non-removable
         add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
         add_msg(m_good, _("Successfully removed %s."), bionics[b_id].name.c_str());
+        // remove power bank provided by bionic
+        max_power_level -= bionics[b_id].capacity;
         remove_bionic(b_id);
         if (b_id == "bio_reactor" || b_id == "bio_advreactor") {
             remove_bionic("bio_plutdump");
@@ -1447,12 +1451,6 @@ bool player::install_bionics(const itype &type, int skill_level)
             100 - chance_of_success)) {
         return false;
     }
-    int pow_up = 0;
-    if( bioid == "bio_power_storage" ) {
-        pow_up = BATTERY_AMOUNT;
-    } else if( bioid == "bio_power_storage_mkII" ) {
-        pow_up = 250;
-    }
 
     practice( "electronics", int((100 - chance_of_success) * 1.5) );
     practice( "firstaid", int((100 - chance_of_success) * 1.0) );
@@ -1462,23 +1460,18 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
-        if (pow_up) {
-            max_power_level += pow_up;
-            add_msg_if_player(m_good, _("Increased storage capacity by %i"), pow_up);
-        } else {
-            add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
-            add_bionic(bioid);
 
-            if (bioid == "bio_ears") {
-                add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-            } else if (bioid == "bio_reactor_upgrade") {
-                remove_bionic("bio_reactor");
-                remove_bionic("bio_reactor_upgrade");
-                add_bionic("bio_advreactor");
-            } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-                add_bionic("bio_plutdump");
-            }
+        add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
+        add_bionic(bioid);
 
+        if (bioid == "bio_ears") {
+            add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+        } else if (bioid == "bio_reactor_upgrade") {
+            remove_bionic("bio_reactor");
+            remove_bionic("bio_reactor_upgrade");
+            add_bionic("bio_advreactor");
+        } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
+            add_bionic("bio_plutdump");
         }
     } else {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
@@ -1605,15 +1598,127 @@ void bionics_install_failure(player *u, int difficulty, int success)
             }
             // TODO: What if we can't lose power capacity?  No penalty?
         } else {
-            int index = rng(0, valid.size() - 1);
-            u->add_bionic(valid[index]);
+            const std::string& id = random_entry( valid );
+            u->add_bionic( id );
             u->add_memorial_log(pgettext("memorial_male", "Installed bad bionic: %s."),
                                 pgettext("memorial_female", "Installed bad bionic: %s."),
-                                bionics[valid[index]].name.c_str());
+                                bionics[ id ].name.c_str());
         }
     }
     break;
     }
+}
+
+void player::add_bionic( std::string const &b )
+{
+    if( has_bionic( b ) ) {
+        debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
+        return;
+    }
+    char newinv = ' ';
+    for( auto &inv_char : inv_chars ) {
+        if( bionic_by_invlet( inv_char ) == nullptr ) {
+            newinv = inv_char;
+            break;
+        }
+    }
+
+    int pow_up = bionics[b].capacity;
+    max_power_level += pow_up;
+    if ( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+        add_msg_if_player(m_good, _("Increased storage capacity by %i."), pow_up);
+        // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
+        return;
+    }
+
+    my_bionics.push_back( bionic( b, newinv ) );
+    if ( b == "bio_tools" || b == "bio_ears" ) {
+        activate_bionic(my_bionics.size() -1);
+    }
+    recalc_sight_limits();
+}
+
+void player::remove_bionic(std::string const &b) {
+    std::vector<bionic> new_my_bionics;
+    for(auto &i : my_bionics) {
+        if (b == i.id) {
+            continue;
+        }
+
+        // Ears and earplugs go together like peanut butter and jelly.
+        // Therefore, removing one, should remove the other.
+        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
+            (b == "bio_earplugs" && i.id == "bio_ears")) {
+            continue;
+        }
+
+        new_my_bionics.push_back(bionic(i.id, i.invlet));
+    }
+    my_bionics = new_my_bionics;
+    recalc_sight_limits();
+}
+
+int player::num_bionics() const
+{
+    return my_bionics.size();
+}
+
+std::pair<int, int> player::amount_of_storage_bionics() {
+    int lvl = max_power_level;
+
+    // exclude amount of power capacity obtained via non-power-storage CBMs
+    for (auto it : my_bionics) {
+        lvl -= bionics[it.id].capacity;
+    }
+
+    std::pair<int, int> results (0, 0);
+    if (lvl <= 0) {
+        return results;
+    }
+
+    int pow_mkI = bionics["bio_power_storage"].capacity;
+    int pow_mkII = bionics["bio_power_storage_mkII"].capacity;
+
+    while (lvl >= std::min(pow_mkI, pow_mkII)) {
+        if ( one_in(2) ) {
+            if (lvl >= pow_mkI) {
+                results.first++;
+                lvl -= pow_mkI;
+            }
+        } else {
+            if (lvl >= pow_mkII) {
+                results.second++;
+                lvl -= pow_mkII;
+            }
+        }
+    }
+    return results;
+}
+
+bionic& player::bionic_at_index(int i)
+{
+    return my_bionics[i];
+}
+
+bionic* player::bionic_by_invlet(char ch) {
+    for( auto &elem : my_bionics ) {
+        if( elem.invlet == ch ) {
+            return &elem;
+        }
+    }
+    return 0;
+}
+
+// Returns true if a bionic was removed.
+bool player::remove_random_bionic() {
+    const int numb = num_bionics();
+    if (numb) {
+        int rem = rng(0, num_bionics() - 1);
+        const auto bionic = my_bionics[rem];
+        remove_bionic(bionic.id);
+        recalc_sight_limits();
+    }
+    return numb;
 }
 
 void reset_bionics()
@@ -1637,6 +1742,8 @@ void load_bionic(JsonObject &jsobj)
     // Requires a non-zero time
     int react_cost = jsobj.get_int("react_cost", 0);
 
+    int capacity = jsobj.get_int("capacity", 0);
+
     bool faulty = jsobj.get_bool("faulty", false);
     bool power_source = jsobj.get_bool("power_source", false);
 
@@ -1646,7 +1753,7 @@ void load_bionic(JsonObject &jsobj)
 
     auto const result = bionics.insert(std::make_pair(std::move(id),
         bionic_data(std::move(name), power_source, toggled, on_cost, off_cost, react_cost, time,
-                    std::move(description), faulty)));
+                    capacity, std::move(description), faulty)));
 
     if (!result.second) {
         debugmsg("duplicate bionic id");

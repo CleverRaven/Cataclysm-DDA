@@ -166,34 +166,6 @@
    },
 {
     "type" : "AMMO",
-    "id" : "chem_hydrogen_peroxide",
-    "category" : "spare_parts",
-    "price" : 100,
-    "name" : "hydrogen peroxide",
-    "name_plural" : "hydrogen peroxide",
-    "symbol" : "~",
-    "color" : "white",
-    "description" : "A bottle of dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little, when in contact with organic matter, but otherwise harmless.",
-    "material" : "null",
-    "volume" : 1,
-    "weight" : 275,
-    "bashing" : 1,
-    "cutting" : 0,
-    "to_hit" : 0,
-    "ammo_type" : "components",
-    "casing" : "NULL",
-    "damage" : 0,
-    "pierce" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
-    "charges" : 1,
-    "phase" : "liquid",
-    "container" : "bottle_glass",
-    "count" : 1
-   },
-{
-    "type" : "AMMO",
     "id" : "chem_chromium_oxide",
     "category" : "spare_parts",
     "price" : 500,
@@ -541,7 +513,7 @@
     "container" : "bag_plastic",
     "count" : 10
    },
-      {
+   {
     "type" : "AMMO",
     "id" : "chem_rocket_fuel",
     "category" : "spare_parts",
@@ -566,7 +538,33 @@
     "recoil" : 0,
     "container" : "bag_plastic",
     "count" : 10
+   },
+   {
+    "type" : "AMMO",
+    "id" : "chem_ethanol",
+    "category" : "spare_parts",
+    "price" : 100,
+    "name" : "ethanol",
+    "name_plural" : "ethanol",
+    "symbol" : "=",
+    "color" : "white",
+    "description" : "Extremely pure alchohol suitable for use as a component in chemical reactions.",
+    "material" : "null",
+    "volume" : 1,
+    "weight" : 1,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "casing" : "NULL",
+    "damage" : 0,
+    "pierce" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0,
+    "phase" : "liquid",
+    "container" : "bottle_glass",
+    "count" : 1
    }
-
-
 ]
+

@@ -3,7 +3,6 @@
 #include "debug.h"
 #include "trap.h"
 #include "rng.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "translations.h"
@@ -185,8 +184,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 }
             }
             if( !valid.empty() ) {
-                jk = valid[rng( 0, valid.size() - 1 )];
-                n->setpos( jk );
+                n->setpos( random_entry( valid ) );
             }
             n->moves -= 150;
             if( rng( 5, 20 ) > n->dex_cur ) {
@@ -578,7 +576,7 @@ void trapfunc::goo( Creature *c, const tripoint &p )
                 z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
             } else {
-                z->poly( GetMType( "mon_blob" ) );
+                z->poly( "mon_blob" );
                 z->set_speed_base( z->get_speed_base() - 15 );
                 z->set_hp( z->get_speed() );
             }
@@ -900,8 +898,7 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         } else {
             pl->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
                                                _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-            int index = rng( 0, safe.size() - 1 );
-            pl->setpos( safe[index] );
+            pl->setpos( random_entry( safe ) );
             if( pl == &g->u ) {
                 g->update_map( &g->u );
             }

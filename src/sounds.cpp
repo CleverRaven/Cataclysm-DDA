@@ -10,6 +10,7 @@
 #include "monster.h"
 #include "line.h"
 #include "mtype.h"
+#include "weather.h"
 
 struct sound_event {
     int volume;
@@ -227,8 +228,11 @@ void sounds::process_sound_markers( player *p )
         if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
             int duration = (max_volume - dist - 130) / 4;
             p->add_effect("deaf", duration);
-            is_deaf = true;
-            continue;
+            if( p->is_deaf() ) {
+                // Need to check for actual deafness
+                is_deaf = true;
+                continue;
+            }
         }
 
         // At this point we are dealing with attention (as opposed to physical effects)
@@ -330,9 +334,8 @@ void sounds::process_sound_markers( player *p )
         }
         // Then place the sound marker in a random one.
         if( !unseen_points.empty() ) {
-            sound_markers.emplace(
-                std::make_pair( unseen_points[rng(0, unseen_points.size() - 1)],
-                                sound_event_pair.second ) );
+            sound_markers.emplace( random_entry( unseen_points ),
+                                   sound_event_pair.second );
         }
     }
     sounds_since_last_turn.clear();

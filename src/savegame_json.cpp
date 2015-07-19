@@ -1060,7 +1060,6 @@ void monster::load(JsonObject &data)
     }
 
     data.read("hp", hp);
-    last_loaded = data.get_int("last_loaded", 0);
 
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
@@ -1087,6 +1086,9 @@ void monster::load(JsonObject &data)
     data.read("stairscount", staircount); // really?
 
     data.read("plans", plans);
+
+    upgrades = data.get_bool("upgrades", type->upgrades);
+    upgrade_time = data.get_int("upgrade_time", -1);
 
     data.read("inv", inv);
     if( data.has_int("ammo") && !type->starting_ammo.empty() ) {
@@ -1129,7 +1131,6 @@ void monster::store(JsonOut &json) const
     json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
     json.member("no_extra_death_drops", no_extra_death_drops );
-    json.member("last_loaded", last_loaded);
     json.member("dead", dead);
     json.member("anger", anger);
     json.member("morale", morale);
@@ -1138,6 +1139,8 @@ void monster::store(JsonOut &json) const
     json.member("plans", plans);
     json.member("ammo", ammo);
     json.member( "underwater", underwater );
+    json.member("upgrades", upgrades);
+    json.member("upgrade_time", upgrade_time);
 
     json.member( "inv", inv );
 }
@@ -1192,7 +1195,7 @@ void item::io( Archive& archive )
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
     archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
-    archive.template io<mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
+    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
@@ -1372,6 +1375,10 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("aisle_lights_on", aisle_lights_on);
     data.read("has_atomic_lights", has_atomic_lights);
 
+    int last_updated = calendar::turn;
+    data.read( "last_update_turn", last_updated );
+    last_update_turn = last_updated;
+
     face.init (fdir);
     move.init (mdir);
     data.read("name", name);
@@ -1448,6 +1455,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "dome_lights_on", dome_lights_on );
     json.member( "aisle_lights_on", aisle_lights_on );
     json.member( "has_atomic_lights", has_atomic_lights );
+    json.member( "last_update_turn", last_update_turn.get_turn() );
     json.end_object();
 }
 

@@ -1,4 +1,5 @@
 #include "iuse_actor.h"
+#include "action.h"
 #include "item.h"
 #include "game.h"
 #include "map.h"
@@ -6,7 +7,6 @@
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "morale.h"
 #include "messages.h"
@@ -19,6 +19,7 @@
 #include "mtype.h"
 #include "mapdata.h"
 #include "field.h"
+#include "weather.h"
 
 #include <sstream>
 #include <algorithm>
@@ -456,7 +457,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
-    monster newmon( GetMType( mtype_id ) );
+    monster newmon( mtype_id );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
@@ -473,7 +474,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
                                   newmon.name().c_str() );
             return 0;
         }
-        target = valid[rng( 0, valid.size() - 1 )];
+        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
         if( !choose_adjacent( query, target ) ) {
@@ -485,7 +486,6 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         }
     }
     p->moves -= moves;
-    newmon.reset_last_load();
     newmon.spawn( target );
     if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
         for( auto & amdef : newmon.ammo ) {
@@ -531,7 +531,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon );
+    g->add_zombie( newmon, true );
     return 1;
 }
 
@@ -1593,8 +1593,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
-        const size_t desc_index = rng( 0, descriptions.size() - 1 );
-        desc = _(descriptions[ desc_index ].c_str());
+        desc = _( random_entry( descriptions ).c_str() );
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         desc = _("You produce an annoying sound");

@@ -395,6 +395,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
@@ -1025,6 +1026,29 @@
     "ammo": "battery",
     "revert_to": "null",
     "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
+    "use_action": "HOTPLATE"
+  },
+  {
+    "id": "charcoal_cooker",
+    "sub": "hotplate",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "charcoal cooker",
+    "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
+    "price": 5000,
+    "material": "steel",
+    "weight": 405,
+    "volume": 5,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "small_charcoal",
+    "revert_to": "null",
     "use_action": "HOTPLATE"
   },
   {
@@ -1893,7 +1917,7 @@
     "ammo": "battery",
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 25]]
+    "qualities": [["BUTCHER", 25]]
   },{
     "id": "trimmer_off",
     "type": "TOOL",
@@ -1938,8 +1962,7 @@
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
-    "use_action": "TRIMMER_ON",
-    "qualities": [["CUT", 1]]
+    "use_action": "TRIMMER_ON"
   },{
     "id": "circsaw_off",
     "type": "TOOL",
@@ -1990,7 +2013,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1], ["SAW_W", 2], ["BUTCHER", 60]]
+    "qualities": [["SAW_W", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -6568,7 +6591,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DIG",
+    "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
@@ -8152,7 +8175,6 @@
     "revert_to": "null",
     "category" : "tools"
   },
-
   {
     "id": "horn_bicycle",
     "type": "TOOL",
@@ -8584,6 +8606,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
 
@@ -8610,6 +8633,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 1]]
   },
 
@@ -8634,6 +8658,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
   {
@@ -8982,7 +9007,7 @@
     "turns_per_charge": 0,
     "ammo": "tape",
     "revert_to": "null",
-    "use_action": "MISC_REPAIR",
+    "use_action": [ "MISC_REPAIR", { "type": "knife" } ],
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
@@ -9078,7 +9103,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["DIG", 1], ["BUTCHER", -4]]
+    "qualities": [["DIG", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",
@@ -9859,7 +9884,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
-    "use_action": "DIG"
+    "use_action": { "type": "knife" }
   },
   {
     "id": "survivor_machete",

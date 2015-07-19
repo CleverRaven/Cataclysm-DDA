@@ -148,13 +148,6 @@ bool string_id<VehicleSpawn>::is_valid() const
     return vspawns.count( *this ) > 0;
 }
 
-VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
-    { "no_vehicles", builtin_no_vehicles },
-    { "jack-knifed_semi", builtin_jackknifed_semi },
-    { "vehicle_pileup", builtin_pileup },
-    { "policecar_pileup", builtin_policepileup }
-};
-
 void VehicleSpawn::load(JsonObject &jo)
 {
     VehicleSpawn &spawn = vspawns[vspawn_id(jo.get_string("id"))];
@@ -198,10 +191,13 @@ void VehicleSpawn::apply(const vspawn_id &id, map& m, const std::string &terrain
     id.obj().apply(m, terrain_name);
 }
 
-void VehicleSpawn::builtin_no_vehicles(map&, const std::string&)
+namespace VehicleSpawnFunction
+{
+
+void builtin_no_vehicles(map&, const std::string&)
 {}
 
-void VehicleSpawn::builtin_jackknifed_semi(map& m, const std::string &terrainid)
+void builtin_jackknifed_semi(map& m, const std::string &terrainid)
 {
     const VehicleLocation* loc = vplacement_id(terrainid+"_semi").obj().pick();
     if(! loc) {
@@ -231,7 +227,7 @@ void VehicleSpawn::builtin_jackknifed_semi(map& m, const std::string &terrainid)
     m.add_vehicle(vgroup_id("truck_trailer"), trailer_p, (facing + 90) % 360, -1, 1);
 }
 
-void VehicleSpawn::builtin_pileup(map& m, const std::string&)
+void builtin_pileup(map& m, const std::string&)
 {
     vehicle *last_added_car = NULL;
     int num_cars = rng(18, 22);
@@ -252,7 +248,7 @@ void VehicleSpawn::builtin_pileup(map& m, const std::string&)
     }
 }
 
-void VehicleSpawn::builtin_policepileup(map& m, const std::string&)
+void builtin_policepileup(map& m, const std::string&)
 {
     vehicle *last_added_car = NULL;
     int num_cars = rng(18, 22);
@@ -272,3 +268,26 @@ void VehicleSpawn::builtin_policepileup(map& m, const std::string&)
         last_added_car->name = _("policecar pile-up");
     }
 }
+
+void builtin_parkinglot(map& m, const std::string&)
+{
+    for(int v = 0; v < rng(1,4); v++) {
+        point pos_p;
+        pos_p.x = rng(0, 1) * 15 + rng(4,5);
+        pos_p.y = rng(0, 4) * 4 + rng(2,4);
+
+        if (!m.veh_at(pos_p.x,pos_p.y)) {
+            m.add_vehicle(vgroup_id("parkinglot"), pos_p, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
+        }
+    }
+}
+
+}// end of VehicleSpawnFunction namespace
+
+VehicleSpawn::FunctionMap VehicleSpawn::builtin_functions = {
+    { "no_vehicles", VehicleSpawnFunction::builtin_no_vehicles },
+    { "jack-knifed_semi", VehicleSpawnFunction::builtin_jackknifed_semi },
+    { "vehicle_pileup", VehicleSpawnFunction::builtin_pileup },
+    { "policecar_pileup", VehicleSpawnFunction::builtin_policepileup },
+    { "parkinglot", VehicleSpawnFunction::builtin_parkinglot }
+};

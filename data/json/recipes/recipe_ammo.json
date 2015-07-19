@@ -4086,10 +4086,8 @@
         [ "solder_wire", 400 ]
       ],
       [
-        [ "money_bundle", 1 ],
-        [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 20 ]
+        [ "paper", 10 ]
       ]
     ]
   },{
@@ -4121,10 +4119,8 @@
         [ "solder_wire", 30 ]
       ],
       [
-        [ "money_bundle", 1 ],
-        [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 25 ]
+        [ "paper", 12 ]
       ]
     ]
   },
@@ -4157,10 +4153,8 @@
         [ "solder_wire", 45 ]
       ],
       [
-        [ "money_bundle", 1 ],
-        [ "wrapper", 1],
         [ "bag_plastic", 1 ],
-        [ "paper", 25 ]
+        [ "paper", 12 ]
       ]
     ]
   },
@@ -4266,6 +4260,8 @@
     "components": [
       [
         [ "corn", 1 ],
+        [ "irradiated_corn", 1 ],
+        [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ]
       ]
     ]
@@ -4287,6 +4283,7 @@
     "components": [
       [
         [ "bread", 1 ],
+        [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "macaroni_raw", 1 ],
         [ "spaghetti_raw", 1 ]

@@ -280,6 +280,8 @@
 		<Unit filename="src/item_factory.h" />
 		<Unit filename="src/item_group.cpp" />
 		<Unit filename="src/item_group.h" />
+        <Unit filename="src/item_location.cpp" />
+		<Unit filename="src/item_location.h" />
 		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.h" />
 		<Unit filename="src/itype.cpp" />
@@ -401,7 +403,6 @@
 		<Unit filename="src/rng.cpp" />
 		<Unit filename="src/rng.h" />
 		<Unit filename="src/savegame.cpp" />
-		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
 		<Unit filename="src/scenario.cpp" />

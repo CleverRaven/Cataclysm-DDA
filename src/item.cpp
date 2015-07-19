@@ -26,6 +26,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
+#include "weather.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -155,36 +156,31 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse( mtype *mt, unsigned int turn )
+void item::make_corpse( const std::string& mt, unsigned int turn )
 {
-    if( mt == nullptr ) {
-        debugmsg( "tried to make a corpse with a null mtype pointer" );
+    if( !MonsterGenerator::generator().has_mtype( mt ) ) {
+        debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
     const bool isReviveSpecial = one_in( 20 );
     init();
     make( "corpse" );
-    active = mt->has_flag( MF_REVIVES );
+    corpse = GetMType( mt );
+    active = corpse->has_flag( MF_REVIVES );
     if( active && isReviveSpecial ) {
         item_tags.insert( "REVIVE_SPECIAL" );
     }
-    corpse = mt;
     bday = turn;
 }
 
-void item::make_corpse( const std::string &mtype_id, unsigned int turn )
+void item::make_corpse( const std::string& mt, unsigned int turn, const std::string &name )
 {
-    make_corpse( MonsterGenerator::generator().get_mtype( mtype_id ), turn );
+    make_corpse( mt, turn );
+    this->name = name;
 }
 
 void item::make_corpse()
 {
     make_corpse( "mon_null", calendar::turn );
-}
-
-void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
-{
-    make_corpse( mt, turn );
-    this->name = name;
 }
 
 item::item(JsonObject &jo)
@@ -1200,8 +1196,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-	    dump->push_back(iteminfo("DESCRIPTION", "--"));
-	    dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
@@ -2464,6 +2460,20 @@ int item::get_encumber() const
     return encumber;
 }
 
+int item::get_layer() const
+{
+    if( has_flag("SKINTIGHT") ) {
+        return UNDERWEAR;
+    } else if( has_flag("WAIST") ) {
+        return WAIST_LAYER;
+    } else if( has_flag("OUTER") ) {
+        return OUTER_LAYER;
+    } else if( has_flag("BELTED") ) {
+        return BELTED_LAYER;
+    }
+    return REGULAR_LAYER;
+}
+
 int item::get_coverage() const
 {
     const auto t = find_armor_data();
@@ -2927,12 +2937,12 @@ bool item::is_corpse() const
     return typeId() == "corpse" && corpse != nullptr;
 }
 
-mtype *item::get_mtype() const
+const mtype *item::get_mtype() const
 {
     return corpse;
 }
 
-void item::set_mtype( mtype * const m )
+void item::set_mtype( const mtype * const m )
 {
     // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
     if( m == nullptr ) {
@@ -3128,8 +3138,7 @@ const material_type &item::get_random_material() const
     if( type->materials.empty() ) {
         return *material_type::find_material( "null" );
     }
-    const auto chosen_mat_id = type->materials[rng( 0, type->materials.size() - 1 )];
-    return *material_type::find_material( chosen_mat_id );
+    return *material_type::find_material( random_entry( type->materials ) );
 }
 
 const material_type &item::get_base_material() const

@@ -203,6 +203,52 @@
     },
     {
         "type": "profession",
+        "ident": "churl",
+        "name": "Churl",
+        "description": "What the deuyl? Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder. Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
+        "points": 1,
+        "items": {
+            "both": [
+                "footrags",
+                "loincloth",
+                "cloak_wool",
+                "ragpouch",
+                "small_relic",
+                "gloves_wraps",
+                "tunic_rag",
+                "makeshift_knife",
+                "sheath"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "chestwrap",
+                "briefs"
+            ]
+        },
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            }
+        ],
+        "traits": [ "PROF_CHURL" ]
+    },
+    {
+        "type": "profession",
         "ident": "labtech",
         "name": "Lab Technician",
         "description": "Thanks to your time in the lab, you're familiar with the basics of conducting science.  You escaped along with the lucky civilians, but at least you kept your lab gear.",
