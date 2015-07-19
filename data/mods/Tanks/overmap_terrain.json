@@ -1,0 +1,69 @@
+[
+    {
+        "type" : "overmap_terrain",
+        "id" : "bandit_cabin_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_1_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_2_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_3_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_4_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_3_mod",
+        "name" : "mall - loading bay",
+        "rotate" : true,
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_backroom_mod",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ranch_camp_67_mod",
+        "name" : "garage",
+        "sym" : 79,
+        "color" : "white",
+        "see_cost" : 2
+    }
+]
+

@@ -2147,7 +2147,6 @@
             {"x": 0, "y": 0, "part": "seat"},
             {"x": 0, "y": 0, "part": "seatbelt"},
             {"x": 0, "y": 0, "part": "controls"},
-            {"x": 0, "y": 0, "part": "vehicle_alarm"},
             {"x": 0, "y": 0, "part": "stereo"},
             {"x": 0, "y": 0, "part": "horn_car"},
             {"x": 0, "y": 0, "part": "roof"},
@@ -2209,7 +2208,7 @@
             {"x": -2, "y": 0, "part": "muffler"},
             {"x": -2, "y": 0, "part": "roof"},
             {"x": -2, "y": 1, "part": "frame_vertical"},
-            {"x": -2, "y": 1, "part": "aisle_vertical"},
+            {"x": -2, "y": 1, "part": "seat_nocargo"},
             {"x": -2, "y": 1, "part": "mounted_m60"},
             {"x": -2, "y": 1, "part": "roof"},
             {"x": -2, "y": -1, "part": "frame_vertical"},
@@ -2217,6 +2216,7 @@
             {"x": -2, "y": -1, "part": "gas_tank"},
             {"x": -2, "y": 2, "part": "frame_vertical"},
             {"x": -2, "y": 2, "part": "halfboard_vertical"},
+            {"x": -2, "y": 2, "part": "gas_tank"},
             {"x": -3, "y": -1, "part": "frame_horizontal"},
             {"x": -3, "y": -1, "part": "halfboard_sw"},
             {"x": -3, "y": -1, "part": "wheel"},
@@ -2242,7 +2242,134 @@
 
             {"x": -2, "y": 1, "chance": 50, "items": ["308"]},
             {"x": -2, "y": 1, "chance": 30, "items": ["308", "308"]},
-            {"x": -2, "y": 0, "chance": 10, "items": ["308", "308", "308"]}
+            {"x": -2, "y": 1, "chance": 10, "items": ["308", "308", "308"]}
+        ]
+    },{
+          "type" : "vehicle",
+          "id" : "tractor_bandit",
+           "name" : "Bandit Bulldozer",
+           "blueprint" : [
+                ["ooooo x"],
+                ["|-+'||x"],
+                ["'=#'||x"],
+                ["|-+'||x"],
+                ["ooooo x"]
+                ],
+            "parts" : [
+            {"x": -2, "y": -2, "part": "frame_horizontal"},
+            {"x": -2, "y": -2, "part": "tread2"},
+
+            {"x": -1, "y": -2, "part": "frame_horizontal"},
+            {"x": -1, "y": -2, "part": "tread2"},
+
+            {"x": 0, "y": -2, "part": "frame_horizontal"},
+            {"x": 0, "y": -2, "part": "tread2"},
+
+            {"x": 1, "y": -2, "part": "frame_horizontal"},
+            {"x": 1, "y": -2, "part": "tread2"},
+
+            {"x": 2, "y": -2, "part": "wing_mirror"},
+
+
+            {"x": -2, "y": -1, "part": "frame_horizontal"},
+            {"x": -2, "y": -1, "part": "board_sw"},
+            {"x": -2, "y": -1, "part": "gas_tank"},
+
+            {"x": -1, "y": -1, "part": "frame_horizontal"},
+            {"x": -1, "y": -1, "part": "board_vertical"},
+
+            {"x": 0, "y": -1, "part": "frame_horizontal"},
+            {"x": 0, "y": -1, "part": "door"},
+            {"x": 0, "y": -1, "part": "roof"},
+
+            {"x": 1, "y": -1, "part": "frame_horizontal"},
+            {"x": 1, "y": -1, "part": "windshield"},
+            {"x": 1, "y": -1, "part": "rebar_plate"},
+
+            {"x": 2, "y": -1, "part": "frame_horizontal"},
+            {"x": 2, "y": -1, "part": "halfboard_vertical"},
+
+            {"x": 3, "y": -1, "part": "frame_horizontal"},
+            {"x": 3, "y": -1, "part": "halfboard_nw"},
+
+            {"x": 4, "y": -1, "part": "ram_spiked"},
+
+
+            {"x": -2, "y": 0, "part": "frame_horizontal"},
+            {"x": -2, "y": 0, "part": "windshield"},
+            {"x": -2, "y": 0, "part": "rebar_plate"},
+
+            {"x": -1, "y": 0, "part": "frame_horizontal"},
+            {"x": -1, "y": 0, "part": "seat"},
+            {"x": -1, "y": 0, "part": "flamethrower"},
+            {"x": -1, "y": 0, "part": "gas_tank"},
+            {"x": -1, "y": 0, "part": "roof"},
+
+            {"x": 0, "y": 0, "part": "frame_horizontal"},
+            {"x": 0, "y": 0, "part": "seat"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_big"},
+            {"x": 0, "y": 0, "part": "roof"},
+
+            {"x": 1, "y": 0, "part": "frame_horizontal"},
+            {"x": 1, "y": 0, "part": "windshield"},
+            {"x": 1, "y": 0, "part": "rebar_plate"},
+
+            {"x": 2, "y": 0, "part": "frame_horizontal"},
+            {"x": 2, "y": 0, "part": "halfboard_cover"},
+            {"x": 2, "y": 0, "part": "engine_v6"},
+            {"x": 2, "y": 0, "part": "battery_truck"},
+            {"x": 2, "y": 0, "part": "alternator_truck"},
+
+            {"x": 3, "y": 0, "part": "frame_horizontal"},
+            {"x": 3, "y": 0, "part": "halfboard_horizontal"},
+
+            {"x": 4, "y": 0, "part": "ram_spiked"},
+
+
+            {"x": -2, "y": 1, "part": "frame_horizontal"},
+            {"x": -2, "y": 1, "part": "board_se"},
+
+            {"x": -1, "y": 1, "part": "frame_horizontal"},
+            {"x": -1, "y": 1, "part": "board_vertical"},
+            {"x": -1, "y": 1, "part": "gas_tank"},
+
+            {"x": 0, "y": 1, "part": "frame_horizontal"},
+            {"x": 0, "y": 1, "part": "door"},
+            {"x": 0, "y": 1, "part": "roof"},
+
+            {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "windshield"},
+            {"x": 1, "y": 1, "part": "rebar_plate"},
+
+            {"x": 2, "y": 1, "part": "frame_horizontal"},
+            {"x": 2, "y": 1, "part": "halfboard_vertical"},
+
+            {"x": 3, "y": 1, "part": "frame_horizontal"},
+            {"x": 3, "y": 1, "part": "halfboard_ne"},
+
+            {"x": 4, "y": 1, "part": "ram_spiked"},
+
+
+            {"x": -2, "y": 2, "part": "frame_horizontal"},
+            {"x": -2, "y": 2, "part": "tread2"},
+
+            {"x": -1, "y": 2, "part": "frame_horizontal"},
+            {"x": -1, "y": 2, "part": "tread2"},
+
+            {"x": 0, "y": 2, "part": "frame_horizontal"},
+            {"x": 0, "y": 2, "part": "tread2"},
+
+            {"x": 1, "y": 2, "part": "frame_horizontal"},
+            {"x": 1, "y": 2, "part": "tread2"},
+
+            {"x": 2, "y": 2, "part": "wing_mirror"},
+
+            {"x": 3, "y": 2, "part": "ram_spiked"},
+            {"x": 3, "y": -2, "part": "ram_spiked"}
+        ],
+        "items" : [
+            {"x": -1, "y": 0, "chance": 25, "item_groups": "fuel_gasoline"}
         ]
     },{
           "type" : "vehicle",
