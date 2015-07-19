@@ -540,31 +540,45 @@
     "count" : 10
    },
    {
-    "type" : "AMMO",
+    "type" : "COMESTIBLE",
     "id" : "chem_ethanol",
-    "category" : "spare_parts",
-    "price" : 100,
+    "comestible_type" : "DRINK",
+    "use_action" : "ALCOHOL_STRONG",
+    "nutrition" : 0,
+    "quench" : -16,
+    "healthy" : -10,
+    "addiction_type" : "alcohol",
+    "addiction_potential" : 7,
+    "spoils_in" : 0,
+    "flags" : ["EATEN_COLD"],
+    "fun" : 2,
+    "charges": 17,
+    "category" : "chems",
+    "price" : 4000,
     "name" : "ethanol",
     "name_plural" : "ethanol",
-    "symbol" : "=",
+    "symbol" : "~",
     "color" : "white",
-    "description" : "Extremely pure alchohol suitable for use as a component in chemical reactions.",
-    "material" : "null",
+    "description" : "Extremely pure (about 95% by volume) alcohol suitable for use as a component in chemical reactions. You could also drink it, or use it as fuel in alcohol-burning stoves.", "//": "95.6% by volume is the maximum purity attainable by distillation from water",
+    "material" : "alcohol",
     "volume" : 1,
-    "weight" : 1,
+    "weight" : 35,
     "bashing" : 1,
     "cutting" : 0,
     "to_hit" : 0,
-    "ammo_type" : "components",
-    "casing" : "NULL",
-    "damage" : 0,
-    "pierce" : 0,
-    "range" : 0,
-    "dispersion" : 0,
-    "recoil" : 0,
     "phase" : "liquid",
     "container" : "bottle_glass",
-    "count" : 1
+    "count" : 1,
+    "ammo_data": {
+          "ammo_type" : "conc_alcohol",
+          "casing" : "NULL",
+          "damage" : 0,
+          "pierce" : 0,
+          "range" : 0,
+          "dispersion" : 0,
+          "recoil" : 0,
+          "count": 17
+          }
    },
    {
     "type" : "AMMO",
@@ -592,7 +606,7 @@
     "container" : "bottle_plastic",
     "phase" : "liquid",
     "charges" : 17,
-    "count" : 1
+    "count" : 17
     }
 ]
 

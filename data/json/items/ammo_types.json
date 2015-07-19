@@ -291,7 +291,7 @@
         "type" : "ammunition_type",
         "id" : "conc_alcohol",
         "name" : "concentrated alcohol",
-        "default" : "conc_ethanol"
+        "default" : "chem_ethanol"
     },
     {
         "type" : "ammunition_type",

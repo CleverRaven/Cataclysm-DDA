@@ -7701,7 +7701,7 @@
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ ["conc_ethanol", 1] ],
+    [ ["chem_ethanol", 1] ],
     [ ["water", 1], ["water_clean", 1] ] ]
 },{
   "type" : "recipe",
@@ -10021,7 +10021,7 @@
       [ "rum", 1 ],
       [ "tequila", 1 ],
       [ "gin", 1 ],
-      [ "conc_ethanol", 1]
+      [ "chem_ethanol", 1]
     ]
   ]
 },
@@ -10092,7 +10092,7 @@
       [ "tequila", 1 ],
       [ "gin", 1 ],
       [ "triple_sec", 1 ],
-      [ "conc_ethanol", 1]
+      [ "chem_ethanol", 1]
     ]
   ]
 },

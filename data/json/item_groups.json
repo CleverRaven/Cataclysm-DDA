@@ -599,7 +599,7 @@
       ["yeast", 10],
       ["molasses", 5],
       ["vodka", 20],
-      ["conc_ethanol", 2],
+      ["chem_ethanol", 2],
       ["apple_cider", 50],
       ["fruit_wine", 7],
       ["brandy", 5],
@@ -2557,7 +2557,7 @@
       ["gin", 20],
       ["rum", 14],
       ["tequila", 12],
-      ["conc_ethanol", 10],
+      ["chem_ethanol", 10],
       ["triple_sec", 12],
       ["bum_wine", 20],
       ["fruit_wine", 12],
@@ -8527,7 +8527,7 @@
       ["mag_melee", 30],
       ["whiskey", 16],
       ["bum_wine", 10],
-      ["conc_ethanol", 12],
+      ["chem_ethanol", 12],
       ["jerky", 55],
       ["cracklins", 25],
       ["porkstick", 55],
@@ -8784,7 +8784,7 @@
       ["cornbread", 35],
       ["yeast", 25],
       ["sugar", 20],
-      ["conc_ethanol", 5]
+      ["chem_ethanol", 5]
     ]
   },{
     "type" : "item_group",
