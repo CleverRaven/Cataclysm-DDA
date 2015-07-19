@@ -12968,7 +12968,7 @@
 	"warmth" : 5,
 	"environmental_protection" : 0,
 	"encumbrance" : 30,
-	"flags" : ["VARSIZE", "BELTED"],
+	"flags" : ["OVERSIZE", "BELTED"],
 	"coverage" : 30,
 	"material_thickness" : 2,
 	"container_data" : {
