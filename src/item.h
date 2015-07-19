@@ -1167,7 +1167,7 @@ public:
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
-         * Returns the item type of the given identifier. Never retruns null.
+         * Returns the item type of the given identifier. Never returns null.
          */
         static itype *find_type( const itype_id &id );
         /**
