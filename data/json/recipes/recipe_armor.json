@@ -9201,7 +9201,7 @@
     ],
     "components" : [
 	[["rag" , 6], ["leather", 6], ["string_6", 3]],
-	[["nail", 4], ["duct_tape", 30]],
+	[["duct_tape", 35], ["superglue", 5]],
 	[["jerrycan", 1]]
     ]
   }	

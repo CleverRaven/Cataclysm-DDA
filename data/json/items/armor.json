@@ -12959,7 +12959,7 @@
 	"to_hit" : -1,
 	"storage" : 0,
 	"symbol" : "[",
-	"description" : "A homemade container made by nailing some rags to the side of a jerrycan. It is useful in simplifying the hauling of liquids.",
+	"description" : "A jerrycan modified to be worn in a similar manner to a backpack.",
 	"price" : 1450,
 	"material" : ["plastic", "cotton"],
 	"volume" : 40,
@@ -12969,7 +12969,7 @@
 	"environmental_protection" : 0,
 	"encumbrance" : 30,
 	"flags" : ["OVERSIZE", "BELTED"],
-	"coverage" : 30,
+	"coverage" : 40,
 	"material_thickness" : 2,
 	"container_data" : {
 	    "contains" : 40,
