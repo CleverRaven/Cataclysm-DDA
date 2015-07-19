@@ -7192,7 +7192,7 @@ void player::hardcoded_effects(effect &it)
                     add_msg_if_player(_("You use your %s to keep warm."), item_name.c_str());
                 }
             }
-            if (has_trait("HIBERNATE") && (hunger < -60)) {
+            if( has_active_mutation("HIBERNATE") && hunger < -60 ) {
                 add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
                                    pgettext("memorial_female", "Entered hibernation."));
                 // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
@@ -7222,7 +7222,7 @@ void player::hardcoded_effects(effect &it)
         // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
         // life like that--but since there's much less fluid reserve than food reserve,
         // simply using the same numbers won't work.
-        const bool hibernating = !(hunger > -60) && !(thirst >= 80) && has_trait("HIBERNATE");
+        const bool hibernating = hunger <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
         if( ( !hibernating && int(calendar::turn) % 50 == 0 ) || int(calendar::turn) % 350 == 0 ) {
@@ -7283,7 +7283,6 @@ void player::hardcoded_effects(effect &it)
                 fatigue = -25;
                 add_msg_if_player(m_good, _("You feel well rested."));
                 it.set_duration(dice(3, 100));
-                print_health();
             }
         }
 
@@ -7410,6 +7409,14 @@ void player::hardcoded_effects(effect &it)
                     }
                 }
             }
+        }
+
+        // A bit of a hack: check if we are about to wake up for any reason,
+        // including regular timing out of sleep
+        if( it.get_duration() == 0 &&
+            fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
+            fell_asleep_turn = -1;
+            print_health();
         }
     } else if (id == "alarm_clock") {
         if (has_effect("sleep")) {
@@ -12019,22 +12026,28 @@ bool player::can_sleep()
 void player::fall_asleep(int duration)
 {
     add_effect("sleep", duration);
+    fell_asleep_turn = calendar::turn;
 }
 
 void player::wake_up()
 {
     remove_effect("sleep");
     remove_effect("lying_down");
+
+    if( fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
+        fell_asleep_turn = -1;
+        print_health();
+    }
 }
 
 std::string player::is_snuggling()
 {
-    auto begin = g->m.i_at( posx(), posy() ).begin();
-    auto end = g->m.i_at( posx(), posy() ).end();
+    auto begin = g->m.i_at( pos() ).begin();
+    auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
         int vpart;
-        vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
+        vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh != nullptr ) {
             int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
             if( cargo >= 0 ) {

@@ -1148,6 +1148,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_turn;
         tripoint cached_position;
 
+        int fell_asleep_turn;
+
         struct weighted_int_list<const char*> melee_miss_reasons;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.

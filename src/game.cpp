@@ -2780,7 +2780,7 @@ bool game::handle_action()
                 as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
                                                     'N' : 'n'), _("No.")));
 
-                if  ( u.has_alarm_clock() && (u.hunger < -60) ) {
+                if( u.has_alarm_clock() && u.hunger < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
                     as_m.text =
                         _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
                 }
@@ -2818,7 +2818,8 @@ bool game::handle_action()
                     }
                     as_m.text = data.str();
                 }
-                if  ( u.has_alarm_clock() && !(u.hunger < -60) ) {
+                if( u.has_alarm_clock() &&
+                    !( u.hunger < -60 && u.has_active_mutation( "HIBERNATE" ) ) ) {
                     as_m.entries.push_back(uimenu_entry(3, true, '3',
                                                         _("Set alarm to wake up in 3 hours.")));
                     as_m.entries.push_back(uimenu_entry(4, true, '4',
