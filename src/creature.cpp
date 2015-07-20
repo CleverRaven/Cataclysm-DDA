@@ -19,34 +19,34 @@
 
 static std::map<int, std::map<body_part, double> > default_hit_weights = {
     {
-        -1, /* attacker smaller */
+        -1, /* attacker smaller (100pts) */
         {   { bp_eyes, 0.f },
             { bp_head, 0.f },
-            { bp_torso, 55.f },
-            { bp_arm_l, 18.f },
-            { bp_arm_r, 18.f },
-            { bp_leg_l, 28.f },
-            { bp_leg_r, 28.f }
+            { bp_torso, 20.f },
+            { bp_arm_l, 15.f },
+            { bp_arm_r, 15.f },
+            { bp_leg_l, 25.f },
+            { bp_leg_r, 25.f }
         }
     },
     {
-        0, /* attacker equal size */
-        {   { bp_eyes, 10.f },
-            { bp_head, 20.f },
-            { bp_torso, 55.f },
-            { bp_arm_l, 28.f },
-            { bp_arm_r, 28.f },
+        0, /* attacker equal size (150pts) */
+        {   { bp_eyes, 0.5f },
+            { bp_head, 3.5f },
+            { bp_torso, 50.f },
+            { bp_arm_l, 30.f },
+            { bp_arm_r, 30.f },
             { bp_leg_l, 18.f },
             { bp_leg_r, 18.f }
         }
     },
     {
-        1, /* attacker larger */
-        {   { bp_eyes, 5.f },
-            { bp_head, 25.f },
-            { bp_torso, 55.f },
-            { bp_arm_l, 28.f },
-            { bp_arm_r, 28.f },
+        1, /* attacker larger (175pts)*/
+        {   { bp_eyes, 1.f },
+            { bp_head, 10.f },
+            { bp_torso, 64.f },
+            { bp_arm_l, 40.f },
+            { bp_arm_r, 40.f },
             { bp_leg_l, 10.f },
             { bp_leg_r, 10.f }
         }
@@ -1549,6 +1549,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
         szdif = 1;
     }
 
+    add_msg( m_debug, "hit roll = %d", hit_roll);
     add_msg( m_debug, "source size = %d", source->get_size() );
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
@@ -1559,8 +1560,8 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
     // Any hit modifiers to locations should go here. (Tags, attack style, etc)
     if(is_on_ground()) {
-        hit_weights[bp_eyes] += 10;
-        hit_weights[bp_head] += 20;
+        hit_weights[bp_eyes] += 1;
+        hit_weights[bp_head] += 5;
     }
 
     //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
@@ -1568,7 +1569,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     // pow() is unstable at 0, so don't apply any changes.
     if( hit_roll != 0 ) {
         hit_weights[bp_eyes] *= std::pow(hit_roll, 1.15);
-        hit_weights[bp_head] *= std::pow(hit_roll, 1.15);
+        hit_weights[bp_head] *= std::pow(hit_roll, 1.35);
         hit_weights[bp_torso] *= std::pow(hit_roll, 1);
         hit_weights[bp_arm_l] *= std::pow(hit_roll, 0.95);
         hit_weights[bp_arm_r] *= std::pow(hit_roll, 0.95);
@@ -1591,8 +1592,8 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     }
 
     double roll = rng_float(0, totalWeight);
-    body_part selected_part = bp_torso;
-
+    body_part selected_part;
+    do {
     for( const auto &hit_candidate : hit_weights) {
         roll -= hit_candidate.second;
         if(roll <= 0) {
@@ -1600,6 +1601,8 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
             break;
         }
     }
+
+    add_msg( m_debug, "selected part: %s", body_part_name(selected_part).c_str() );
 
     return selected_part;
 }
