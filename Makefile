@@ -1,3 +1,4 @@
+# vim: set expandtab tabstop=4 softtabstop=2 shiftwidth=2:
 # Platforms:
 # Linux/Cygwin native
 #   (don't need to do anything)
