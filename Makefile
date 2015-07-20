@@ -264,13 +264,16 @@ ifdef MAPSIZE
     CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
+PKG_CONFIG = $(CROSS)pkg-config
+SDL2_CONFIG = $(CROSS)sdl2-config
+
 ifdef SOUND
   ifndef TILES
     $(error "SOUND=1 only works with TILES=1")
   endif
-  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
+  CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
   CXXFLAGS += -DSDL_SOUND
-  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
+  LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
   LDFLAGS += -lvorbisfile -lvorbis -logg
 endif
 
@@ -280,12 +283,12 @@ ifdef LUA
     LDFLAGS += -llua
   else
     # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell pkg-config --silence-errors --libs lua5.2)
-    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua5.2)
-    LDFLAGS += $(shell pkg-config --silence-errors --libs lua-5.2)
-    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua-5.2)
-    LDFLAGS += $(shell pkg-config --silence-errors --libs lua)
-    CXXFLAGS += $(shell pkg-config --silence-errors --cflags lua)
+    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs lua5.2)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags lua5.2)
+    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs lua-5.2)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags lua-5.2)
+    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs lua)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags lua)
   endif
 
   CXXFLAGS += -DLUA
@@ -324,12 +327,12 @@ ifdef TILES
       LDFLAGS += -lSDL2_image
     endif
   else # not osx
-    CXXFLAGS += $(shell sdl2-config --cflags)
+    CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
 
     ifdef STATIC
-      LDFLAGS += $(shell sdl2-config --static-libs)
+      LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)
     else
-      LDFLAGS += $(shell sdl2-config --libs)
+      LDFLAGS += $(shell $(SDL2_CONFIG) --libs)
     endif
 
     LDFLAGS += -lSDL2_ttf -lSDL2_image
