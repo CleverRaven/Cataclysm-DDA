@@ -8153,6 +8153,16 @@ void game::examine( const tripoint &p )
         }
     }
 
+    // Sane UI is better than hiding black boxes.
+    if( !m.tr_at( examp ).is_null() ) {
+        iexamine::trap(&u, &m, examp);
+    }
+
+    // In case of teleport trap or somesuch
+    if( player_pos != u.pos() ) {
+        return;
+    }
+
     if (m.has_flag("SEALED", examp)) {
         if (none) {
             if (m.has_flag("UNSTABLE", examp)) {
@@ -8168,14 +8178,6 @@ void game::examine( const tripoint &p )
             add_msg(_("It is empty."));
         } else if (!veh) {
             Pickup::pick_up( examp, 0);
-        }
-    }
-
-    //check for disarming traps last to avoid disarming query black box issue.
-    if( !m.tr_at( examp ).is_null() ) {
-        iexamine::trap(&u, &m, examp);
-        if( m.tr_at( examp ).is_null() ) {
-            Pickup::pick_up( examp, 0);    // After disarming a trap, pick it up.
         }
     }
 }
