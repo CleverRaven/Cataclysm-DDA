@@ -19,7 +19,7 @@
 
 static std::map<int, std::map<body_part, double> > default_hit_weights = {
     {
-        -1, /* attacker smaller (100pts) */
+        -1, /* attacker smaller */
         {   { bp_eyes, 0.f },
             { bp_head, 0.f },
             { bp_torso, 20.f },
@@ -30,25 +30,25 @@ static std::map<int, std::map<body_part, double> > default_hit_weights = {
         }
     },
     {
-        0, /* attacker equal size (150pts) */
-        {   { bp_eyes, 0.5f },
-            { bp_head, 3.5f },
-            { bp_torso, 50.f },
-            { bp_arm_l, 30.f },
-            { bp_arm_r, 30.f },
-            { bp_leg_l, 18.f },
-            { bp_leg_r, 18.f }
+        0, /* attacker equal size */
+        {   { bp_eyes, 0.33f },
+            { bp_head, 2.33f },
+            { bp_torso, 33.33f },
+            { bp_arm_l, 20.f },
+            { bp_arm_r, 20.f },
+            { bp_leg_l, 12.f },
+            { bp_leg_r, 12.f }
         }
     },
     {
-        1, /* attacker larger (175pts)*/
-        {   { bp_eyes, 1.f },
-            { bp_head, 10.f },
-            { bp_torso, 64.f },
-            { bp_arm_l, 40.f },
-            { bp_arm_r, 40.f },
-            { bp_leg_l, 10.f },
-            { bp_leg_r, 10.f }
+        1, /* attacker larger */
+        {   { bp_eyes, 0.57f },
+            { bp_head, 5.71f },
+            { bp_torso, 36.57f },
+            { bp_arm_l, 22.86f },
+            { bp_arm_r, 22.86f },
+            { bp_leg_l, 5.71f },
+            { bp_leg_r, 5.71f }
         }
     }
 };
