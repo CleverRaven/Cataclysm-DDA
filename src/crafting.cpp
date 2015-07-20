@@ -2047,6 +2047,11 @@ void player::disassemble(int dis_pos)
         add_msg(m_info, _("You don't have that item!"), dis_pos);
         return;
     }
+    disassemble(dis_item, dis_pos, false);
+}
+
+void player::disassemble(item *dis_item, int dis_pos, bool ground)
+{
     const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
 
     //no disassembly without proper light
@@ -2074,6 +2079,9 @@ void player::disassemble(int dis_pos)
             }
             assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
             activity.values.push_back(dis_pos);
+            if( ground ) {
+                activity.values.push_back(1);
+            }
         }
         return; // recipe exists, but no tools, so do not start disassembly
     }

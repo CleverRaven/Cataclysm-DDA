@@ -879,6 +879,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_disassemble( const item *dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const;
         void disassemble(int pos = INT_MAX);
+        void disassemble(item *dis_item, int dis_pos, bool ground);
         void complete_disassemble();
 
         // yet more crafting.cpp
