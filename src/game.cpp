@@ -11069,7 +11069,7 @@ void game::butcher()
     for (size_t i = 0; i < items.size(); i++) {
         if( !items[i].is_corpse() ) {
             const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && u.can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+            if (cur_recipe != NULL && u.can_disassemble(items[i], cur_recipe, crafting_inv, false)) {
                 corpses.push_back(i);
                 has_item = true;
             }
@@ -11153,15 +11153,15 @@ void game::butcher()
         u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
         return;
     }
-    item *dis_item = &items[corpses[butcher_corpse_index]];
-    if( !dis_item->is_corpse() && butcher_corpse_index < (int)salvage_index) {
+    item &dis_item = items[corpses[butcher_corpse_index]];
+    if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
         u.disassemble(dis_item, corpses[butcher_corpse_index], true);
         return;
-    } else if( !dis_item->is_corpse() ) {
-        salvage_iuse->cut_up( &u, salvage_tool, dis_item );
+    } else if( !dis_item.is_corpse() ) {
+        salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
         return;
     }
-    const mtype *corpse = dis_item->get_mtype();
+    const mtype *corpse = dis_item.get_mtype();
     int time_to_cut = 0;
     switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
     case MS_TINY:

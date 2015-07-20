@@ -1957,13 +1957,13 @@ const recipe *get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
+bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const
 {
-    if (dis_item->count_by_charges()) {
+    if (dis_item.count_by_charges()) {
         // Create a new item to get the default charges
         const item tmp = cur_recipe->create_result();
-        if (dis_item->charges < tmp.charges) {
+        if (dis_item.charges < tmp.charges) {
             if (print_msg) {
                 popup(ngettext("You need at least %d charge of that item to disassemble it.",
                                "You need at least %d charges of that item to disassemble it.",
@@ -2042,7 +2042,7 @@ void player::disassemble(int dis_pos)
     if (dis_pos == INT_MAX) {
         dis_pos = g->inv(_("Disassemble item:"));
     }
-    item *dis_item = &i_at(dis_pos);
+    item &dis_item = i_at(dis_pos);
     if (!has_item(dis_pos)) {
         add_msg(m_info, _("You don't have that item!"), dis_pos);
         return;
@@ -2050,9 +2050,9 @@ void player::disassemble(int dis_pos)
     disassemble(dis_item, dis_pos, false);
 }
 
-void player::disassemble(item *dis_item, int dis_pos, bool ground)
+void player::disassemble(item &dis_item, int dis_pos, bool ground)
 {
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
+    const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
 
     //no disassembly without proper light
     if (fine_detail_vision_mod() > 4) {
@@ -2061,11 +2061,11 @@ void player::disassemble(item *dis_item, int dis_pos, bool ground)
     }
 
     //checks to see if you're disassembling rotten food, and will stop you if true
-    if( (dis_item->is_food() && dis_item->goes_bad()) ||
-        (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
-        dis_item->calc_rot( global_square_location() );
-        if( dis_item->rotten() ||
-            (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
+    if( (dis_item.is_food() && dis_item.goes_bad()) ||
+        (dis_item.is_food_container() && dis_item.contents[0].goes_bad()) ) {
+        dis_item.calc_rot( global_square_location() );
+        if( dis_item.rotten() ||
+            (dis_item.is_food_container() && dis_item.contents[0].rotten())) {
             add_msg(m_info, _("It's rotten, I'm not taking that apart."));
             return;
         }
@@ -2074,7 +2074,7 @@ void player::disassemble(item *dis_item, int dis_pos, bool ground)
     if (cur_recipe != NULL) {
         const inventory &crafting_inv = crafting_inventory();
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
-            if( !query_dissamble( *dis_item ) ) {
+            if( !query_dissamble( dis_item ) ) {
                 return;
             }
             assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
@@ -2086,13 +2086,13 @@ void player::disassemble(item *dis_item, int dis_pos, bool ground)
         return; // recipe exists, but no tools, so do not start disassembly
     }
     //if we're trying to disassemble a book or magazine
-    if( dis_item->is_book() ) {
+    if( dis_item.is_book() ) {
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
-            !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
+            !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
             return;
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
-            int num_pages = (dis_item->volume() * 2) * 10;
+            int num_pages = (dis_item.volume() * 2) * 10;
             g->m.spawn_item(posx(), posy(), "paper", 0, num_pages);
             i_rem(dis_pos);
         }
