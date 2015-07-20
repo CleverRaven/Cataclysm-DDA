@@ -12948,6 +12948,34 @@
         "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
         "coverage" : 75,
         "material_thickness" : 3
-    }
+    },
+    {
+	"type" : "ARMOR",
+	"id" : "jerrypack",
+	"name" : "jerrypack",
+	"weight" : 1763,
+	"color" : "green",
+	"covers" : ["TORSO"],
+	"to_hit" : -1,
+	"storage" : 0,
+	"symbol" : "[",
+	"description" : "A jerrycan modified to be worn in a similar manner to a backpack.",
+	"price" : 1450,
+	"material" : ["plastic", "cotton"],
+	"volume" : 40,
+	"cutting" : 0,
+	"bashing" : 0,
+	"warmth" : 5,
+	"environmental_protection" : 0,
+	"encumbrance" : 30,
+	"flags" : ["OVERSIZE", "BELTED"],
+	"coverage" : 40,
+	"material_thickness" : 2,
+	"container_data" : {
+	    "contains" : 40,
+	    "rigid" : true,
+	    "watertight" : true,
+	    "seals" : true
+	}
+   }
 ]
-
