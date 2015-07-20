@@ -64,6 +64,16 @@
         "sym" : 79,
         "color" : "white",
         "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "warehouse_mod",
+        "name" : "small warehouse",
+        "rotate" : true,
+        "sym" : 119,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]
 

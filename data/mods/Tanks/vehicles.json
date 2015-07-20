@@ -2268,7 +2268,10 @@
             {"x": 1, "y": -2, "part": "frame_horizontal"},
             {"x": 1, "y": -2, "part": "tread2"},
 
-            {"x": 2, "y": -2, "part": "wing_mirror"},
+            {"x": 2, "y": -2, "part": "frame_horizontal"},
+            {"x": 2, "y": -2, "part": "tread2"},
+
+            {"x": 3, "y": -2, "part": "frame_vertical"},
 
 
             {"x": -2, "y": -1, "part": "frame_horizontal"},
@@ -2363,10 +2366,13 @@
             {"x": 1, "y": 2, "part": "frame_horizontal"},
             {"x": 1, "y": 2, "part": "tread2"},
 
-            {"x": 2, "y": 2, "part": "wing_mirror"},
+            {"x": 2, "y": 2, "part": "frame_horizontal"},
+            {"x": 2, "y": 2, "part": "tread2"},
 
-            {"x": 3, "y": 2, "part": "ram_spiked"},
-            {"x": 3, "y": -2, "part": "ram_spiked"}
+            {"x": 3, "y": 2, "part": "frame_vertical"},
+
+            {"x": 4, "y": 2, "part": "ram_spiked"},
+            {"x": 4, "y": -2, "part": "ram_spiked"}
         ],
         "items" : [
             {"x": -1, "y": 0, "chance": 25, "item_groups": "fuel_gasoline"}

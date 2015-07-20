@@ -258,6 +258,18 @@
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "UNIQUE" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "warehouse",
+        "overmaps" : [ { "point":[0,0,0], "overmap": "warehouse_mod_north", "connect":"road"} ],
+        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
+        "city_distance" : [6, 20], "//":"how far from a city it should be",
+        "city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 2], "//":"how many per overmap",
+        "rotate" : true , "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     }
 ]
 
