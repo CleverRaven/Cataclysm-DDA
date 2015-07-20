@@ -1593,6 +1593,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
 
     double roll = rng_float(0, totalWeight);
     body_part selected_part = bp_torso;
+
     for( const auto &hit_candidate : hit_weights) {
         roll -= hit_candidate.second;
         if(roll <= 0) {
