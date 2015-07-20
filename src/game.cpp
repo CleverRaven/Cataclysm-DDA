@@ -11153,22 +11153,15 @@ void game::butcher()
         u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
         return;
     }
-    const item &dis_item = items[corpses[butcher_corpse_index]];
-    if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
-        const recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
-        assert(cur_recipe != NULL); // tested above
-        if( !query_dissamble( dis_item ) ) {
-            return;
-        }
-        u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
-        u.activity.values.push_back(corpses[butcher_corpse_index]);
-        u.activity.values.push_back(1);
+    item *dis_item = &items[corpses[butcher_corpse_index]];
+    if( !dis_item->is_corpse() && butcher_corpse_index < (int)salvage_index) {
+        u.disassemble(dis_item, corpses[butcher_corpse_index], true);
         return;
-    } else if( !dis_item.is_corpse() ) {
-        salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
+    } else if( !dis_item->is_corpse() ) {
+        salvage_iuse->cut_up( &u, salvage_tool, dis_item );
         return;
     }
-    const mtype *corpse = dis_item.get_mtype();
+    const mtype *corpse = dis_item->get_mtype();
     int time_to_cut = 0;
     switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
     case MS_TINY:
