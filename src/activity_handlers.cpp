@@ -171,7 +171,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     };
 
     int practice = std::max( 0, 4 + pieces + roll_butchery());
-    
+
     p->practice("survival", practice);
 
     // Lose some meat, skins, etc if the rolls are low
@@ -517,9 +517,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         next_ter = terfind("t_underbrush_harvested_winter");
         break;
     }
-    
+
     // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
-    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {                
+    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {
         // Returns zero if location has no defined items.
         int cnt = g->m.put_items_from_loc( loc, p->pos3(), calendar::turn );
         if( cnt > 0 ) {
@@ -1164,4 +1164,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
     }
+}
+
+void activity_handlers::cracking_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( m_good, _("The safe opens!"));
+    g->m.furn_set( act->placement, f_safe_o);
 }
