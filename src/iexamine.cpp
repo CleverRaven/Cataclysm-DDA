@@ -997,9 +997,9 @@ void iexamine::safe(player *p, map *m, const tripoint &examp)
             return;
         }
          // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum.
-        int moves = std::max(150000 + (p->skillLevel("mechanics") - 3) * -20000 +
-                             (p->get_per() - 8) * -10000, 30000);
+        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
+        int moves = std::max(MINUTES(150) + (p->skillLevel("mechanics") - 3) * MINUTES(-20) +
+                             (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
          p->assign_activity( ACT_CRACKING, moves );
          p->activity.placement = examp;
