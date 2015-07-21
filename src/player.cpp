@@ -7015,7 +7015,7 @@ void player::hardcoded_effects(effect &it)
                 recover_factor -= get_effect_dur("recover") / 600;
             }
             if (has_trait("INFRESIST")) {
-                recover_factor += 1000;
+                recover_factor += 200;
             }
             recover_factor += get_healthy() / 10;
 
@@ -7047,7 +7047,7 @@ void player::hardcoded_effects(effect &it)
                 recover_factor -= get_effect_dur("recover") / 600;
             }
             if (has_trait("INFRESIST")) {
-                recover_factor += 1000;
+                recover_factor += 200;
             }
             recover_factor += get_healthy() / 10;
 
