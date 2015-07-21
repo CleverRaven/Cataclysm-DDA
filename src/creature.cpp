@@ -1565,14 +1565,16 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
     //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
     //This should eventually be replaced with targeted attacks and this being miss chances.
-    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::pow(hit_roll, 1.15) * 10);
-    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::pow(hit_roll, 1.15) * 10);
-    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::pow(hit_roll, 1) * 10);
-    hit_weights[bp_arm_l] = floor(hit_weights[bp_arm_l] * std::pow(hit_roll, 0.95) * 10);
-    hit_weights[bp_arm_r] = floor(hit_weights[bp_arm_r] * std::pow(hit_roll, 0.95) * 10);
-    hit_weights[bp_leg_l] = floor(hit_weights[bp_leg_l] * std::pow(hit_roll, 0.975) * 10);
-    hit_weights[bp_leg_r] = floor(hit_weights[bp_leg_r] * std::pow(hit_roll, 0.975) * 10);
-
+    // pow() is unstable at 0, so don't apply any changes.
+    if( hit_roll != 0 ) {
+        hit_weights[bp_eyes] *= std::pow(hit_roll, 1.15);
+        hit_weights[bp_head] *= std::pow(hit_roll, 1.15);
+        hit_weights[bp_torso] *= std::pow(hit_roll, 1);
+        hit_weights[bp_arm_l] *= std::pow(hit_roll, 0.95);
+        hit_weights[bp_arm_r] *= std::pow(hit_roll, 0.95);
+        hit_weights[bp_leg_l] *= std::pow(hit_roll, 0.975);
+        hit_weights[bp_leg_r] *= std::pow(hit_roll, 0.975);
+    }
 
     // Debug for seeing weights.
     add_msg( m_debug, "eyes = %f", hit_weights.at( bp_eyes ) );
