@@ -3889,6 +3889,21 @@
     [ ["metal_tank_small", 1] ] ]
 },{
   "type" : "recipe",
+  "result": "popcan_stove",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["fun_survival", 1], ["manual_fabrication", 1]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [ [ [ "can_drink", 2 ] ],
+    [ [ "bottle_plastic", 1 ] ] ]
+},{
+  "type" : "recipe",
   "result": "forge",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
