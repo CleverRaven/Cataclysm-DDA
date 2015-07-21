@@ -4,9 +4,9 @@
 # As each test will have a main function we need to handle this file by file.
 # We're using the fairly typical convention that any file ending in _test.cpp
 # is a test executable.
-SOURCES = $(filter-out player_test.cpp,$(wildcard *_test.cpp))
+SOURCES = $(filter-out player_test.cpp,$(wildcard *.cpp))
 OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
-TESTS = $(SOURCES:.cpp=)
+TESTS = $(filter %_test,$(SOURCES:.cpp=))
 
 CATA_LIB=../cataclysm.a
 
@@ -25,7 +25,7 @@ LD := $(CROSS)g++
 tests: $(TESTS)
 
 %_test: $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(ODIR)/fake_messages.o $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
 check: $(TESTS)

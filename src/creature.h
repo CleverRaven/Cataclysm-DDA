@@ -548,8 +548,9 @@ class Creature
         Creature &operator=(const Creature &) = default;
         Creature &operator=(Creature &&) = default;
 
-        body_part select_body_part(Creature *source, int hit_roll);
-
+ public:
+        body_part select_body_part(Creature *source, int hit_roll) const;
+ protected:
         /**
          * This function replaces the "<npcname>" substring with the provided NPC name.
          *

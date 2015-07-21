@@ -1539,7 +1539,7 @@ const std::string &Creature::symbol() const
     return default_symbol;
 }
 
-body_part Creature::select_body_part(Creature *source, int hit_roll)
+body_part Creature::select_body_part(Creature *source, int hit_roll) const
 {
     // Get size difference (-1,0,1);
     int szdif = source->get_size() - get_size();
