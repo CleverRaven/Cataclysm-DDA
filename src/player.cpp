@@ -7009,8 +7009,8 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "bite") {
         bool recovered = false;
         /* Recovery chances, use binomial distributions if balancing here. Healing in the bite
-         * stage provides additional benefits, so both the bite stage along chance of healing
-         * and the cumulative chances for spontaneous healing are both given.
+         * stage provides additional benefits, so both the bite stage chance of healing and
+         * the cumulative chances for spontaneous healing are both given.
          * Cumulative heal chances for the bite + infection stages:
          * -200 health - 38.6%
          *    0 health - 46.8%
