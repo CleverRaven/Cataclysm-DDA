@@ -7008,7 +7008,29 @@ void player::hardcoded_effects(effect &it)
         it.set_duration(0);
     } else if (id == "bite") {
         bool recovered = false;
-        // Recovery chance, use binomial distributions if balancing here
+        /* Recovery chances, use binomial distributions if balancing here. Healing in the bite
+         * stage provides additional benefits, so both the bite stage along chance of healing
+         * and the cumulative chances for spontaneous healing are both given.
+         * Cumulative heal chances for the bite + infection stages:
+         * -200 health - 38.6%
+         *    0 health - 46.8%
+         *  200 health - 53.7%
+         *
+         * Heal chances in the bite stage:
+         * -200 health - 23.4%
+         *    0 health - 28.3%
+         *  200 health - 32.9%
+         *
+         * Cumulative heal chances the bite + infection stages with the resistant mutation:
+         * -200 health - 82.6%
+         *    0 health - 84.5%
+         *  200 health - 86.1%
+         *
+         * Heal chances in the bite stage with the resistant mutation:
+         * -200 health - 60.7%
+         *    0 health - 63.2%
+         *  200 health - 65.6%
+         */
         if (dur % 10 == 0)  {
             int recover_factor = 100;
             if (has_effect("recover")) {
@@ -7040,7 +7062,8 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "infected") {
         bool recovered = false;
-        // Recovery chance, use binomial distributions if balancing here
+        // Recovery chance, use binomial distributions if balancing here.
+        // See "bite" for balancing notes on this.
         if (dur % 10 == 0)  {
             int recover_factor = 100;
             if (has_effect("recover")) {
