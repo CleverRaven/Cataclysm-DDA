@@ -1586,20 +1586,17 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     add_msg( m_debug, "leg_r = %f", hit_weights.at( bp_leg_r ) );
 
     double totalWeight = 0;
-    std::set<std::pair<body_part, double>, weight_compare> adjusted_weights;
-    for(iter = hit_weights.begin(); iter != hit_weights.end(); ++iter) {
-        totalWeight += iter->second;
-        adjusted_weights.insert(*iter);
+    for( const auto &hit_weight : hit_weights ) {
+        totalWeight += hit_weight.second;
     }
 
-    double roll = rng_float(1, totalWeight);
+    double roll = rng_float(0, totalWeight);
     body_part selected_part = bp_torso;
 
-    std::set<std::pair<body_part, double>, weight_compare>::iterator adj_iter;
-    for(adj_iter = adjusted_weights.begin(); adj_iter != adjusted_weights.end(); ++adj_iter) {
-        roll -= adj_iter->second;
+    for( const auto &hit_candidate : hit_weights) {
+        roll -= hit_candidate.second;
         if(roll <= 0) {
-            selected_part = adj_iter->first;
+            selected_part = hit_candidate.first;
             break;
         }
     }
