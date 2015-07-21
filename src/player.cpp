@@ -7008,7 +7008,7 @@ void player::hardcoded_effects(effect &it)
         it.set_duration(0);
     } else if (id == "bite") {
         bool recovered = false;
-        // Recovery chance
+        // Recovery chance, use binomial distributions if balancing here
         if (dur % 10 == 0)  {
             int recover_factor = 100;
             if (has_effect("recover")) {
@@ -7040,7 +7040,7 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "infected") {
         bool recovered = false;
-        // Recovery chance
+        // Recovery chance, use binomial distributions if balancing here
         if (dur % 10 == 0)  {
             int recover_factor = 100;
             if (has_effect("recover")) {
