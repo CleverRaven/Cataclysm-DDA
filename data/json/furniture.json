@@ -1223,7 +1223,7 @@
             "sound": "rrrrip!",
             "sound_fail": "slap!",
             "sound_vol": 8,
-            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet", "f_center_groundsheet"]
         }
     },{
         "type" : "furniture",

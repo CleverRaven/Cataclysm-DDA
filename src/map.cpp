@@ -3072,9 +3072,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     int smax = bash->str_max;
     int sound_vol = bash->sound_vol;
     int sound_fail_vol = bash->sound_fail_vol;
-    if( params.destroy ) {
-        success = true;
-    } else {
+    if( !params.destroy ) {
         if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
             if( has_adjacent_furniture( p ) ) {
                 if ( bash->str_min_blocked != -1 ) {
@@ -3085,6 +3083,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 }
             }
         }
+
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
             tripoint below( p.x, p.y, p.z - 1 );
             if( !zlevels || has_flag( "SUPPORTS_ROOF", below ) ) {
@@ -3104,17 +3103,19 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( !params.destroy && !success ) {
-        if (sound_fail_vol == -1) {
+        if( sound_fail_vol == -1 ) {
             sound_volume = 12;
         } else {
             sound_volume = sound_fail_vol;
         }
+
         sound = _(bash->sound_fail.c_str());
         params.did_bash = true;
         if( !params.silent ) {
             sounds::sound( p, sound_volume, sound, false, "bash", sound );
-            return;
         }
+
+        return;
     }
 
     // Clear out any partially grown seeds
@@ -3165,7 +3166,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         } else {
             for( const tripoint &pt : points_in_radius( p, bash->collapse_radius ) ) {
                 const furn_id &f_at = furn( pt );
-                // Check if we found the center of current tent
+                // Check if we found the center of the current tent
                 if( centers.count( f_at ) > 0 ) {
                     tentp = pt;
                     center_type = f_at;
@@ -3173,13 +3174,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 }
             }
         }
-        // Never found tent center, wreck the current tile
+        // Didn't find any tent center, wreck the current tile
         if( center_type == f_null || tentp == tripoint_min ) {
             spawn_item_list( bash->items, p );
             furn_set( p, bash->furn_set );
         } else {
             // Take the tent down
-            for( const tripoint &pt : points_in_radius( tentp, bash->collapse_radius ) ) {
+            const int rad = center_type.obj().bash.collapse_radius;
+            for( const tripoint &pt : points_in_radius( tentp, rad ) ) {
                 const auto frn = furn( pt );
                 if( frn == f_null ) {
                     continue;
@@ -3261,7 +3263,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     params.did_bash = true;
-    params.success = true;
+    params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
         sounds::sound( p, sound_volume, sound, false, "bash", sound );
@@ -3390,6 +3392,16 @@ void map::destroy( const tripoint &p, const bool silent )
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
     while( count <= 25 && bash( p, 999, silent, true ).success ) {
+        count++;
+    }
+}
+
+void map::destroy_furn( const tripoint &p, const bool silent )
+{
+    // Break if it takes more than 25 destructions to remove to prevent infinite loops
+    // Example: A bashes to B, B bashes to A leads to A->B->A->...
+    int count = 0;
+    while( count <= 25 && furn( p ) != f_null && bash( p, 999, silent, true ).success ) {
         count++;
     }
 }
