@@ -4835,9 +4835,17 @@ void player::mod_pain(int npain) {
     if (!is_npc() && npain >= 2) {
         g->cancel_activity_query(_("Ouch, something hurts!"));
     }
-    // Only a heavy pain burst will actually wake the player while sleeping
-    if(in_sleep_state() && npain >= rng(5,10)) {
-        wake_up();
+    // Only a large pain burst will actually wake the player while sleeping.
+    if(in_sleep_state()) {
+        int pain_thresh = rng(3, 5);
+        if (has_trait("HEAVYSLEEPER")) {
+            pain_thresh += 2;
+        } else if (has_trait("HEAVYSLEEPER2")) {
+            pain_thresh += 5;
+        }
+        if (npain >= pain_thresh) {
+            wake_up();
+        }
     }
     Creature::mod_pain(npain);
 }
