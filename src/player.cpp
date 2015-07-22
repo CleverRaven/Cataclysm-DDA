@@ -4830,11 +4830,14 @@ void player::mod_pain(int npain) {
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
     }
-    if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
-        g->cancel_activity_query(_("Ouch, you were hurt!"));
-        if (in_sleep_state()) {
-            wake_up();
-        }
+    // Putting the threshold at 2 here to avoid most basic "ache" style
+    // effects from constantly asking you to stop crafting.
+    if (!is_npc() && npain >= 2) {
+        g->cancel_activity_query(_("Ouch, something hurts!"));
+    }
+    // Only a heavy pain burst will actually wake the player while sleeping
+    if(in_sleep_state() && npain >= rng(5,10)) {
+        wake_up();
     }
     Creature::mod_pain(npain);
 }
