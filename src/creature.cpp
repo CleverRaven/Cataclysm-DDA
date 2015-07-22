@@ -1539,7 +1539,7 @@ const std::string &Creature::symbol() const
     return default_symbol;
 }
 
-body_part Creature::select_body_part(Creature *source, int hit_roll)
+body_part Creature::select_body_part(Creature *source, int hit_roll) const
 {
     // Get size difference (-1,0,1);
     int szdif = source->get_size() - get_size();
@@ -1565,14 +1565,16 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
     //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
     //This should eventually be replaced with targeted attacks and this being miss chances.
-    hit_weights[bp_eyes] = floor(hit_weights[bp_eyes] * std::pow(hit_roll, 1.15) * 10);
-    hit_weights[bp_head] = floor(hit_weights[bp_head] * std::pow(hit_roll, 1.15) * 10);
-    hit_weights[bp_torso] = floor(hit_weights[bp_torso] * std::pow(hit_roll, 1) * 10);
-    hit_weights[bp_arm_l] = floor(hit_weights[bp_arm_l] * std::pow(hit_roll, 0.95) * 10);
-    hit_weights[bp_arm_r] = floor(hit_weights[bp_arm_r] * std::pow(hit_roll, 0.95) * 10);
-    hit_weights[bp_leg_l] = floor(hit_weights[bp_leg_l] * std::pow(hit_roll, 0.975) * 10);
-    hit_weights[bp_leg_r] = floor(hit_weights[bp_leg_r] * std::pow(hit_roll, 0.975) * 10);
-
+    // pow() is unstable at 0, so don't apply any changes.
+    if( hit_roll != 0 ) {
+        hit_weights[bp_eyes] *= std::pow(hit_roll, 1.15);
+        hit_weights[bp_head] *= std::pow(hit_roll, 1.15);
+        hit_weights[bp_torso] *= std::pow(hit_roll, 1);
+        hit_weights[bp_arm_l] *= std::pow(hit_roll, 0.95);
+        hit_weights[bp_arm_r] *= std::pow(hit_roll, 0.95);
+        hit_weights[bp_leg_l] *= std::pow(hit_roll, 0.975);
+        hit_weights[bp_leg_r] *= std::pow(hit_roll, 0.975);
+    }
 
     // Debug for seeing weights.
     add_msg( m_debug, "eyes = %f", hit_weights.at( bp_eyes ) );
@@ -1584,20 +1586,17 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     add_msg( m_debug, "leg_r = %f", hit_weights.at( bp_leg_r ) );
 
     double totalWeight = 0;
-    std::set<std::pair<body_part, double>, weight_compare> adjusted_weights;
-    for(iter = hit_weights.begin(); iter != hit_weights.end(); ++iter) {
-        totalWeight += iter->second;
-        adjusted_weights.insert(*iter);
+    for( const auto &hit_weight : hit_weights ) {
+        totalWeight += hit_weight.second;
     }
 
-    double roll = rng_float(1, totalWeight);
+    double roll = rng_float(0, totalWeight);
     body_part selected_part = bp_torso;
 
-    std::set<std::pair<body_part, double>, weight_compare>::iterator adj_iter;
-    for(adj_iter = adjusted_weights.begin(); adj_iter != adjusted_weights.end(); ++adj_iter) {
-        roll -= adj_iter->second;
+    for( const auto &hit_candidate : hit_weights) {
+        roll -= hit_candidate.second;
         if(roll <= 0) {
-            selected_part = adj_iter->first;
+            selected_part = hit_candidate.first;
             break;
         }
     }
