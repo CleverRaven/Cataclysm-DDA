@@ -11225,7 +11225,8 @@ void game::eat(int pos)
     }
 
     auto filter = [&]( const item &it ) {
-        return it.is_food( &u ) || it.is_food_container( &u );
+        return (it.is_food( &u ) || it.is_food_container( &u )) &&
+                it.type->id != "1st_aid"; // temporary "solution" to #12991
     };
 
     auto item_loc = inv_map_splice( filter, _("Consume item:") );
