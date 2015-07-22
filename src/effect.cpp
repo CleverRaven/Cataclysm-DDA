@@ -150,7 +150,7 @@ static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::st
         data[std::make_tuple(data_key, false, type_key, arg_key)] = val;
     }
     if (reduced_val != 0) {
-        data[std::make_tuple(data_key, true, type_key, arg_key)] = val;
+        data[std::make_tuple(data_key, true, type_key, arg_key)] = reduced_val;
     }
 }
 
