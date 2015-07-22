@@ -5755,19 +5755,123 @@ void player::print_health()
         return;
     }
     int current_health = get_healthy();
-    if( current_health > 50 ) {
-        add_msg( m_good, _("You're very healthy, your wounds heal faster") );
-    } else if( current_health > -10 ) {
-        // No message
-    } else if( current_health > -30 ) {
-        add_msg( m_bad, _("You feel sickly, you should improve your diet") );
-    } else {
-        add_msg( m_bad, _("You feel horrible, something is messing with your body") );
-        add_msg( m_bad, _("Your wounds will heal much slower or not at all until your health improves") );
-    }
-
     if( has_trait( "SELFAWARE" ) ) {
-        add_msg( "Your health value is: %d", current_health );
+        add_msg( "Your current health value is: %d", current_health );
+    }
+    int roll = rng(0,4);
+    std::string message = "";
+    if (current_health > 100) {
+        switch (roll) {
+        case 0:
+            message = _("You feel great! It doesn't seem like wounds could even slow you down for more than a day.");
+            break;
+        case 1:
+            message = _("Within moments you're ready and up. You don't feel like anything could stop you today!");
+            break;
+        case 2:
+            message = _("Your eyes open and your entire body feels like it is just bursting with energy to burn!");
+            break;
+        case 3:
+            message = _("You feel like a rubber ball; whatever hits you, you'll just bounce back!");
+            break;
+        case 4:
+            message = _("You're up and you feel fantastic. No sickness is going to keep you down today!");
+            break;
+        }
+    } else if (current_health > 50) {
+        switch (roll) {
+        case 0:
+            message = _("You're up and going rather quickly, and all the little aches from yesterday are gone.");
+            break;
+        case 1:
+            message = _("You get up feeling pretty good, as if all your little aches were fading faster.");
+            break;
+        case 2:
+            message = _("Getting up comes easy to you, your muscles revitalized after your rest.");
+            break;
+        case 3:
+            message = _("You're up and your little pains from before seem to have faded away rather quickly.");
+            break;
+        case 4:
+            message = _("Awareness comes fast, your body coming quickly to attention after your rest.");
+            break;
+        }
+    } else if (current_health > 10) {
+        switch (roll) {
+        case 0:
+            message = _("You feel good. Healthy living does seem to have some rewards.");
+            break;
+        case 1:
+            message = _("Getting out of bed doesn't seem too hard today. You could get used to this!");
+            break;
+        case 2:
+            message = _("Alertness comes somewhat fast, and your muscles stretch easier than before you went to bed.");
+            break;
+        case 3:
+            message = _("You feel extra alert, and your body feels ready to go.");
+            break;
+        case 4:
+            message = _("Your body stretches with ease, and you feel ready to take on the world.")
+            break;
+        }
+    } else if(current_health > -10) {
+        // No message from -10 to 10
+    } else if(current_health > -50) {
+        switch (roll) {
+        case 0:
+            message = _("You feel cruddy. Maybe you should consider eating a bit healthier.");
+            break;
+        case 1:
+            message = _("You get up with a bit of a scratch in your throat. Might be time for some vitamins.");
+            break;
+        case 2:
+            message = _("You stretch, but your muscles don't seem to be doing so good today.");
+            break;
+        case 3:
+            message = _("Your stomach gurgles. It's probably nothing, but maybe you should look into eating something healthy.");
+            break;
+        case 4:
+            message = _("You struggle to awareness. Being awake seems somewhat harder to reach today.");
+            break;
+        }
+    } else if (current_health > -100) {
+        switch (roll) {
+        case 0:
+            message = _("Getting out of bed only comes with great difficulty, and your muscles resist the movement.");
+            break;
+        case 1:
+            message = _("Getting up seems like it should be easy, but all you want to do is go back to bed.");
+            break;
+        case 2:
+            message = _("Tired hands rub at your eyes, the little aches of yesterday protesting your stretches.");
+            break;
+        case 3:
+            message = _("Alertness seems flighty today, and your body argues when you move towards it.");
+            break;
+        case 4:
+            message = _("You're up, but your body seems like it would rather stay in bed.")
+        }
+    } else {
+        switch (roll) {
+        case 0:
+            message = _("You get up feeling horrible, as if something was messing with your body.");
+            break;
+        case 1:
+            message = _("You feel awful, and every ache from yesterday is still there.");
+            break;
+        case 2:
+            message = _("Your eyes struggle to open, and your muscles ache like you didn't sleep at all.");
+            break;
+        case 3:
+            message = _("Bleary-eyed and half-asleep, you consider why you are doing this to yourself.");
+            break;
+        case 4:
+            message = _("Awareness seems to only come with a battle... and your body seem to be on its side.");
+            break;
+        }
+    }
+    if (message != "") {
+        add_msg((current_health > 0 ? m_good : m_bad), message.c_str());
     }
 }
 
