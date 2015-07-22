@@ -30,10 +30,9 @@ order to build CataclysmDDA:
    * `glibc`
    * `zlib`
    * `bzip2`
- * Optiotal
+ * Optional
    * `lua51`
    * `gettext`
-   * lintl`
  * Curses
    * `ncurses`
  * Tiles
@@ -251,7 +250,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  * CMAKE_BUILD_TYPE=`<build type>`
 
  Selects a specific build configuration when compiling. `release` produces
- the default, optimized (-O2) build for regular use. `debug` produces a
+ the default, optimized (-Os) build for regular use. `debug` produces a
  slower and larger unoptimized (-O0) build with full debug symbols, which is
  often needed for obtaining detailed backtraces when reporting bugs.
 
@@ -311,7 +310,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 
  * LUA_BINARY=`<str>`
 
- Override default Lua binary name or path. You can try use luajit for extra speed
+ Override default Lua binary name or path. You can try to use `luajit` for extra speed.
 
 
  * GIT_BINARY=`<str>`
