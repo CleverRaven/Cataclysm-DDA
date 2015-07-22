@@ -5811,12 +5811,12 @@ void player::print_health()
             message = _("You feel extra alert, and your body feels ready to go.");
             break;
         case 4:
-            message = _("Your body stretches with ease, and you feel ready to take on the world.")
+            message = _("Your body stretches with ease, and you feel ready to take on the world.");
             break;
         }
-    } else if(current_health > -10) {
+    } else if(current_health >= -10) {
         // No message from -10 to 10
-    } else if(current_health > -50) {
+    } else if(current_health >= -50) {
         switch (roll) {
         case 0:
             message = _("You feel cruddy. Maybe you should consider eating a bit healthier.");
@@ -5834,7 +5834,7 @@ void player::print_health()
             message = _("You struggle to awareness. Being awake seems somewhat harder to reach today.");
             break;
         }
-    } else if (current_health > -100) {
+    } else if (current_health >= -100) {
         switch (roll) {
         case 0:
             message = _("Getting out of bed only comes with great difficulty, and your muscles resist the movement.");
@@ -5849,7 +5849,8 @@ void player::print_health()
             message = _("Alertness seems flighty today, and your body argues when you move towards it.");
             break;
         case 4:
-            message = _("You're up, but your body seems like it would rather stay in bed.")
+            message = _("You're up, but your body seems like it would rather stay in bed.");
+            break;
         }
     } else {
         switch (roll) {
@@ -7438,7 +7439,7 @@ void player::hardcoded_effects(effect &it)
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( it.get_duration() == 1 &&
+        if( (it.get_duration() == 1 || woke_up) &&
             fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
             fell_asleep_turn = -1;
             print_health();
