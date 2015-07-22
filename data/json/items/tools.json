@@ -7890,7 +7890,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "use_action": { "type": "knife" },
+    "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
 
   {
