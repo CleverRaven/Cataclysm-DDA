@@ -124,7 +124,7 @@
                 "X": {
                     "traps": "tr_pit",
                     "item": { "item": "2x4" },
-                    "items": { "item": "survivorzed_boots", "chance": 30 },
+                    "items": { "item": "fireman_helmets", "chance": 30 },
                     "fields": { "field": "fd_fire" },
                     "terrain": "t_dirt"
                 }

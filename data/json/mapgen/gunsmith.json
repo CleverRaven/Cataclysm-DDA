@@ -115,11 +115,11 @@
         { "item": "gunxtras", "chance": 50, "x": [ 5, 10 ], "y": 13, "repeat": [ 1, 4 ] },
         { "item": "gunsmith_tools", "chance": 80, "x": [ 2, 8 ] , "y": 15 , "repeat": [ 4, 6 ] },
         { "item": "gunsmith_mat", "chance": 90, "x": [ 4, 6], "y": [ 19, 20 ], "repeat": [ 4, 8 ] },
-        { "item": "gunsmith_hazmat", "chance": 75, "x": 2, "y": [ 18, 21 ], "repeat": [ 2, 6 ] },
-        { "item": "gunsmith_hazmat", "chance": 75, "x": 8, "y": [ 18, 21 ], "repeat": [ 2, 6 ] },
-        { "item": "gunsmith_gunparts", "chance": 40, "x": [ 4, 6 ], "y": 18, "repeat": [ 3, 4 ] },
-        { "item": "gunsmith_casings", "chance": 75, "x": 2, "y": 16, "repeat": [ 3, 5 ] },
-        { "item": "gunsmith_casings", "chance": 75, "x": 8, "y": 16, "repeat": [ 3, 5 ] }
+        { "item": "bullet_parts", "chance": 75, "x": 2, "y": [ 18, 21 ], "repeat": [ 2, 6 ] },
+        { "item": "bullet_parts", "chance": 75, "x": 8, "y": [ 18, 21 ], "repeat": [ 2, 6 ] },
+        { "item": "gun_mods", "chance": 40, "x": [ 4, 6 ], "y": 18, "repeat": [ 3, 4 ] },
+        { "item": "ammo_casings", "chance": 75, "x": 2, "y": 16, "repeat": [ 3, 5 ] },
+        { "item": "ammo_casings", "chance": 75, "x": 8, "y": 16, "repeat": [ 3, 5 ] }
       ]
     },
     "comment": "end of mapgen entry ---v"
