@@ -29,10 +29,9 @@ void calculate_bodypart_distribution( monster &attacker, monster &defender, int 
         total_weight += w;
     }
 
-    printf("With hit roll = %d\n", hit_roll);
     for( auto weight : selected_part_histogram ) {
-        CHECK( Approx(expected[weight.first] / total_weight).epsilon(0.01) == weight.second / 150000.0 );
-        printf("Weight of %s is %i.\n", body_part_name(weight.first).c_str(), weight.second);
+        CHECK( Approx(expected[weight.first] / total_weight).epsilon(0.01) ==
+               weight.second / 150000.0 );
     }
 }
 
