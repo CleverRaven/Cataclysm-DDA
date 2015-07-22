@@ -5750,7 +5750,6 @@ static int bound_mod_to_vals(int val, int mod, int max, int min)
 
 void player::print_health()
 {
-    add_msg("check");
     if( !is_player() ) {
         return;
     }
