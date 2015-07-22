@@ -87,46 +87,48 @@ void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> 
 }
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
-    if( jsobj.has_object(member) ) {
-        JsonObject j = jsobj.get_object(member);
-        str_min = j.get_int("str_min", 0);
-        str_max = j.get_int("str_max", 0);
-
-        str_min_blocked = j.get_int("str_min_blocked", -1);
-        str_max_blocked = j.get_int("str_max_blocked", -1);
-
-        str_min_supported = j.get_int("str_min_supported", -1);
-        str_max_supported = j.get_int("str_max_supported", -1);
-
-        str_min_roll = j.get_int("str_min_roll", str_min);
-        str_max_roll = j.get_int("str_min_roll", str_max);
-
-        explosive = j.get_int("explosive", -1);
-
-        sound_vol = j.get_int("sound_vol", -1);
-        sound_fail_vol = j.get_int("sound_fail_vol", -1);
-
-        destroy_only = j.get_bool("destroy_only", false);
-
-        bash_below = j.get_bool("bash_below", false);
-
-        sound = j.get_string("sound", _("smash!"));
-        sound_fail = j.get_string("sound_fail", _("thump!"));
-
-        if (isfurniture) {
-            furn_set = j.get_string("furn_set", "f_null");
-        } else {
-            ter_set = j.get_string( "ter_set" );
-        }
-
-        if ( j.has_array("items") ) {
-            load_map_bash_item_drop_list(j.get_array("items"), items);
-        }
-
-        return true;
-    } else {
+    if( !jsobj.has_object(member) ) {
         return false;
     }
+
+    JsonObject j = jsobj.get_object(member);
+    str_min = j.get_int("str_min", 0);
+    str_max = j.get_int("str_max", 0);
+
+    str_min_blocked = j.get_int("str_min_blocked", -1);
+    str_max_blocked = j.get_int("str_max_blocked", -1);
+
+    str_min_supported = j.get_int("str_min_supported", -1);
+    str_max_supported = j.get_int("str_max_supported", -1);
+
+    str_min_roll = j.get_int("str_min_roll", str_min);
+    str_max_roll = j.get_int("str_min_roll", str_max);
+
+    explosive = j.get_int("explosive", -1);
+
+    sound_vol = j.get_int("sound_vol", -1);
+    sound_fail_vol = j.get_int("sound_fail_vol", -1);
+
+    destroy_only = j.get_bool("destroy_only", false);
+
+    bash_below = j.get_bool("bash_below", false);
+
+    sound = j.get_string("sound", _("smash!"));
+    sound_fail = j.get_string("sound_fail", _("thump!"));
+
+    if( isfurniture ) {
+        furn_set = j.get_string("furn_set", "f_null");
+    } else {
+        ter_set = j.get_string( "ter_set" );
+    }
+
+    if( j.has_array("items") ) {
+        load_map_bash_item_drop_list(j.get_array("items"), items);
+    }
+
+    tent_center = j.get_string( "tent_center", "" );
+
+    return true;
 }
 
 bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)

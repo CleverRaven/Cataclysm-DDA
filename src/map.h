@@ -103,6 +103,25 @@ struct visibility_variables {
     float vision_threshold;
 };
 
+struct bash_params {
+    bool did_bash; // Was anything hit?
+    bool success; // Was anything destroyed?
+
+    int strength; // Initial strength
+
+    bool silent; // Make a sound?
+    bool destroy; // Essentially infinite bash strength + some
+    /**
+     * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
+     * At 0.0, the bash is against str_min of targetted objects
+     * This is required for proper "piercing" bashing, so that one strong hit
+     * can destroy a wall and a floor under it rather than only one at a time.
+     */
+    float roll;
+
+    bool bashed_solid; // Did we bash furniture, terrain or vehicle
+};
+
 enum visibility_type {
   VIS_HIDDEN,
   VIS_CLEAR,
@@ -676,12 +695,13 @@ void add_corpse( const tripoint &p );
      *
      * @param silent Don't produce any sound
      * @param destroy Destroys some otherwise unbashable tiles
-     * @param bashing_vehicle Vehicle NOT to bash (to prevent vehicle bashing itself)
      * @param bash_floor Allow bashing the floor and the tile that supports it
+     * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
      */
-    std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,
-                                bool destroy = false, vehicle *bashing_vehicle = nullptr,
-                                bool bash_floor = false );
+    bash_params bash( const tripoint &p, int str, bool silent = false,
+                      bool destroy = false, bool bash_floor = false,
+                      const vehicle *bashing_vehicle = nullptr );
+
     /** Spawn items from the list, see map_bash_item_drop */
     void spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p );
 
@@ -1254,9 +1274,14 @@ private:
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
     // Bashes terrain or furniture, handles collapse and roofs
-    std::pair<bool, bool> bash_ter_furn( const tripoint &p, const int str,
-                                         bool silent, bool destroy, bool bash_floor,
-                                         float res_roll );
+    void bash_ter_furn( const tripoint &p, bash_params &params );
+    // Bash items. Currently affects only glass items.
+    void bash_items( const tripoint &p, bash_params &params );
+    // Bash a vehicle (if any) at p.
+    void bash_vehicle( const tripoint &p, bash_params &params );
+    // Remove webs.
+    void bash_field( const tripoint &p, bash_params &params );
+
     // Gets the roof type of the tile at p
     // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
     // or can just return air because we bashed down an entire floor tile

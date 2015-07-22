@@ -58,11 +58,12 @@ struct map_bash_info {
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
+    std::string tent_center;// id used for the special handling of tents (has to be id of furn)
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
                       str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       destroy_only(false), bash_below(false),
-                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      sound(""), sound_fail(""), ter_set(""), furn_set(""), tent_center("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {

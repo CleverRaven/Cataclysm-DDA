@@ -1960,15 +1960,15 @@ void map::drop_furniture( const tripoint &p )
 
     if( last_state == SS_FLOOR ) {
         // Bash the same tile twice - once for furniture, once for the floor
-        bash( current, dmg, false, false, nullptr, true );
-        bash( current, dmg, false, false, nullptr, true );
+        bash( current, dmg, false, false, true );
+        bash( current, dmg, false, false, true );
     } else if( last_state == SS_BAD_SUPPORT || last_state == SS_GOOD_SUPPORT ) {
-        bash( current, dmg, false, false, nullptr, false );
+        bash( current, dmg, false, false, false );
         tripoint below( current.x, current.y, current.z - 1 );
-        bash( below, dmg, false, false, nullptr, false );
+        bash( below, dmg, false, false, false );
     } else if( last_state == SS_CREATURE ) {
         const std::string &furn_name = frn_obj.name;
-        bash( current, dmg, false, false, nullptr, false );
+        bash( current, dmg, false, false, false );
         tripoint below( current.x, current.y, current.z - 1 );
         Creature *critter = g->critter_at( below );
         if( critter == nullptr ) {
@@ -3017,17 +3017,16 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
     return new_ter;
 }
 
-std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
-                                          bool silent, bool destroy, bool bash_floor,
-                                          float res_roll )
+bash_params map::bash_ter_furn( const tripoint &p, const int str,
+                                 bool silent, bool destroy, bool bash_floor,
+                                 float res_roll )
 {
+    bash_params result{ false, false };
     if( !inbounds( p ) ) {
-        return std::pair<bool, bool>( true, false );
+        return result;
     }
 
     std::string sound;
-    bool smashed_something = false;
-    bool success = false;
     int sound_volume = 0;
     bool smash_furn = false;
     bool smash_ter = false;
@@ -3066,7 +3065,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
         int sound_vol = bash->sound_vol;
         int sound_fail_vol = bash->sound_fail_vol;
         if (destroy) {
-            success = true;
+            result.success = true;
         } else {
             if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
                 if( has_adjacent_furniture( p ) ) {
@@ -3092,11 +3091,11 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
             // Linear interpolation from str_min to str_max
             const int resistance = smin + ( res_roll * ( smax - smin ) );
             if( str >= resistance ) {
-                success = true;
+                result.success = true;
             }
         }
 
-        if( success || destroy ) {
+        if( result.success || destroy ) {
             // Clear out any partially grown seeds
             if (has_flag_ter_or_furn("PLANT", p)) {
                 i_clear( p );
@@ -3121,6 +3120,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                     sound_volume = sound_vol;
                 }
             }
+
             sound = _(bash->sound.c_str());
             // Set this now in case the ter_set below changes this
             bool collapses = has_flag("COLLAPSES", p) && smash_ter;
@@ -3167,7 +3167,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 g->explosion( p, bash->explosive, 0, false );
             }
 
-            if (collapses) {
+            if( collapses ) {
                 collapse_at( p );
             }
             // Check the flag again to ensure the new terrain doesn't support anything
@@ -3186,7 +3186,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                     }
                 }
             }
-            smashed_something = true;
+            result.did_bash = true;
         } else {
             if (sound_fail_vol == -1) {
                 sound_volume = 12;
@@ -3194,9 +3194,71 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 sound_volume = sound_fail_vol;
             }
             sound = _(bash->sound_fail.c_str());
-            smashed_something = true;
+            result.did_bash = true;
         }
     } else {
+        if( !bash->tent_center.empty() ) {
+            furn_id center = furnfind( bash->tent_center );
+            if( center == f_null ) {
+                debugmsg("Invalid tent data for %s", furn( p ) );
+                return;
+            }
+
+            if (str >= rng(0, 6) || destroy) {
+                // Special code to collapse the tent if destroyed
+                tripoint tentp = tripoint_min;
+                // Find the center of the tent
+                for( const tripoint &pt : points_in_radius( p, 1 ) ) {
+                    const auto f_at = furn( pt );
+                    if( f_at == center ){
+                        tentp = pt;
+                        break;
+                    }
+                }
+                // Never found tent center, bail out
+                if( tentp == tripoint_min ) {
+                    result.did_bash = true;
+                    result.success = false;
+                    return result;
+                }
+                // Take the tent down
+                for( const tripoint &pt : points_in_radius( tentp, 1 ) ) {
+                    const auto frn = furn( pt );
+                    if( frn == nullptr ) {
+                        continue;
+                    }
+
+                    const auto recur_bash = &frn.bash;
+                    if( recur_bash->tent_center != bash->tent_center ) {
+                        // Somehow an abominable fusion of 2 tents was created
+                        // Treat them as separate
+                        continue;
+                    }
+
+                    spawn_item_list( recur_bash->items, pt );
+                    furn_set( pt, f_null);
+                    if (furn(tmp) == f_groundsheet) {
+                        spawn_item(tmp, "broketent");
+                    }
+                    if (furn(tmp) == f_skin_groundsheet) {
+                        spawn_item(tmp, "damaged_shelter_kit");
+                    }
+                    furn_id check_furn = furn(tmp);
+                    if (check_furn == f_skin_wall || check_furn == f_skin_door ||
+                          check_furn == f_skin_door_o || check_furn == f_skin_groundsheet ||
+                          check_furn == f_canvas_wall || check_furn == f_canvas_door ||
+                          check_furn == f_canvas_door_o || check_furn == f_groundsheet ||
+                          check_furn == f_fema_groundsheet) {
+                        
+                    }
+                }
+
+                sound_volume = 8;
+                sound = _("rrrrip!");
+                result.did_bash = true;
+                result.success = true;
+            }
+        }
         furn_id furnid = furn(p);
         if ( furnid == f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
              furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
@@ -3221,7 +3283,9 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 }
                 // Never found tent center, bail out
                 if( tentp == tripoint_min ) {
-                    return std::pair<bool, bool>( true, false );
+                    result.did_bash = true;
+                    result.success = false;
+                    return result;
                 }
                 // Take the tent down
                 for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
@@ -3245,12 +3309,12 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
 
                 sound_volume = 8;
                 sound = _("rrrrip!");
-                smashed_something = true;
-                success = true;
+                result.did_bash = true;
+                result.success = true;
             } else {
                 sound_volume = 8;
                 sound = _("slap!");
-                smashed_something = true;
+                result.did_bash = true;
             }
         // Made furniture seperate from the other tent to facilitate destruction
         } else if (furnid == f_center_groundsheet || furnid == f_large_groundsheet ||
@@ -3273,7 +3337,9 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 }
                 // Never found tent center, bail out
                 if( tentp == tripoint_min ) {
-                    return std::pair<bool, bool>( true, false );
+                    result.did_bash = true;
+                    result.success = false;
+                    return result;
                 }
                 // Take the tent down
                 for( i = tentp.x-1; i <= tentp.x+1; i++ ) {
@@ -3286,46 +3352,69 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 }
                 sound_volume = 8;
                 sound = _("rrrrip!");
-                smashed_something = true;
-                success = true;
+                result.did_bash = true;
+                result.success = true;
             } else {
                 sound_volume = 8;
                 sound = _("slap!");
-                smashed_something = true;
+                result.did_bash = true;
             }
         }
     }
 
-    if( move_cost(p) <= 0  && !smashed_something ) {
+    if( move_cost(p) <= 0  && !result.did_bash ) {
         sound = _("thump!");
         sound_volume = 18;
-        smashed_something = true;
+        result.did_bash = true;
     }
     if( !sound.empty() && !silent ) {
         sounds::sound( p, sound_volume, sound, false, "bash", sound );
     }
 
-    return std::pair<bool, bool>( smashed_something, success );
+    return result;
 }
 
-std::pair<bool, bool> map::bash( const tripoint &p, const int str,
-                                 bool silent, bool destroy, vehicle *bashing_vehicle,
-                                 bool bash_floor )
+bash_params map::bash( const tripoint &p, const int str,
+                       bool silent, bool destroy, bool bash_floor,
+                       const vehicle *bashing_vehicle )
 {
-    bool smashed_something = false;
-    if( get_field( p, fd_web ) != nullptr ) {
-        smashed_something = true;
-        remove_field( p, fd_web );
+    bash_params bsh{
+        false, false, str, silent, destroy, rng_float( 0, 1.0f ), false
+    };
+
+    // Remove webs
+    bash_fields( p, bsh );
+
+    // Bash glass items
+    bash_items( p, bsh );
+
+    // Bash vehicle
+    const vehicle *veh = veh_at( p );
+    if( veh != nullptr && veh != bashing_vehicle ) {
+        bash_vehicle( p, bsh );
     }
 
-    // Destroy glass items, spilling their contents.
+    // If we still didn't bash anything solid, bash furn/ter
+    if( !bsh.bashed_solid ) {
+        bash_ter_furn( p, bsh )
+    }
+
+    return bsh;
+}
+
+void bash_items( const tripoint &p, bash_params &params )
+{
+    if( !has_items( p ) ) {
+        return;
+    }
+
     std::vector<item> smashed_contents;
     auto bashed_items = i_at( p );
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active supresses molotovs smashing themselves with their own explosion
-        if (bashed_item->made_of("glass") && !bashed_item->active && one_in(2)) {
-            smashed_something = true;
+        if( bashed_item->made_of("glass") && !bashed_item->active && one_in(2) ) {
+            params.did_bash = true;
             smashed_glass = true;
             for( auto bashed_content : bashed_item->contents ) {
                 smashed_contents.push_back( bashed_content );
@@ -3339,28 +3428,35 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
     spawn_items( p, smashed_contents );
 
     // Add a glass sound even when something else also breaks
-    if( smashed_glass && !silent ) {
+    if( smashed_glass && !params.silent ) {
         sounds::sound( p, 12, _("glass shattering"), false, "bash", _("glass shattering") );
     }
+}
 
+void bash_vehicle( const tripoint &p, bash_params &params )
+{
     // Smash vehicle if present
     int vpart;
     vehicle *veh = veh_at( p, vpart );
-    if( veh != nullptr && veh != bashing_vehicle ) {
+    if( veh != nullptr ) {
         veh->damage( vpart, str, DT_BASH );
-        if( !silent ) {
+        if( !params.silent ) {
             sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
         }
 
-        return std::pair<bool, bool>( true, true );
+        params.did_bash = true;
+        params.success = true;
+        params.bashed_solid = true;
     }
+}
 
-    // Else smash furniture or terrain
-    const float resistance_roll = rng_float( 0, 1.0f );
-    const auto ter_furn = bash_ter_furn( p, str, silent, destroy, bash_floor, resistance_roll );
-    // Glass or web won't change the second value (success at bashing),
-    // but it can change the first (was an attempt at bashing made)
-    return std::pair<bool, bool>( ter_furn.first || smashed_something, ter_furn.second );
+void bash_field( const tripoint &p, bash_params &params )
+{
+    if( get_field( p, fd_web ) != nullptr ) {
+        params.did_bash = true;
+        params.bashed_solid = true; // To prevent bashing furniture/vehicles
+        remove_field( p, fd_web );
+    }
 }
 
 void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p ) {
@@ -3399,17 +3495,7 @@ void map::destroy( const tripoint &p, const bool silent )
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
-    while( count <= 25 && bash( p, 999, silent, true ).second ) {
-        count++;
-    }
-}
-
-void map::destroy_furn( const tripoint &p, const bool silent )
-{
-    // Break if it takes more than 25 destructions to remove to prevent infinite loops
-    // Example: A bashes to B, B bashes to A leads to A->B->A->...
-    int count = 0;
-    while (count <= 25 && furn(p) != f_null && bash(p, 999, silent, true).second) {
+    while( count <= 25 && bash( p, 999, silent, true ).success ) {
         count++;
     }
 }

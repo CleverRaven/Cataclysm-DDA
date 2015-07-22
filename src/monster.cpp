@@ -1500,7 +1500,7 @@ void monster::explode()
                     g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
                 }
                 if( g->m.move_cost( tarp ) == 0 ) {
-                    if( !g->m.bash( tarp, 3 ).second ) {
+                    if( !g->m.bash( tarp, 3 ).success ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
