@@ -3961,7 +3961,7 @@ void game::debug()
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
             nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
-            nmenu.addentry( D_HEALTHY, true, 'e', "%s", _("Set h[e]alth") );
+            nmenu.addentry( D_HEALTHY, true, 'a', "%s", _("Set he[a]lth") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
             nmenu.addentry( D_TELE, true, 'e', "%s", _("t[e]leport") );
