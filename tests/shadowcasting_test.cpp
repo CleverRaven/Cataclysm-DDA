@@ -107,8 +107,7 @@ void oldCastLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     }
 }
 
-TEST_CASE("Regression test against old shadowcasting implementation.") {
-
+void shadowcasting_runoff(int iterations) {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
@@ -139,8 +138,7 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     struct timespec start1;
     struct timespec end1;
     clock_gettime( CLOCK_REALTIME, &start1 );
-#define PERFORMANCE_TEST_ITERATIONS 100000
-    for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
+    for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
         oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
@@ -159,7 +157,7 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     struct timespec start2;
     struct timespec end2;
     clock_gettime( CLOCK_REALTIME, &start2 );
-    for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
+    for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLight<0, 1, 1, 0, sight_calc, sight_check>(
             seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
@@ -188,12 +186,14 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     timespec_subtract( &diff1, &end1, &start1 );
     timespec_subtract( &diff2, &end2, &start2 );
 
-    // TODO: display this better, I doubt sec.nsec is an accurate rendering,
-    // or at least reliably so.
-    printf( "oldCastLight() executed %d times in %ld.%ld seconds.\n",
-            PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
-    printf( "castLight() executed %d times in %ld.%ld seconds.\n",
-            PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
+    if( iterations > 1 ) {
+        // TODO: display this better, I doubt sec.nsec is an accurate rendering,
+        // or at least reliably so.
+        printf( "oldCastLight() executed %d times in %ld.%ld seconds.\n",
+                iterations, diff1.tv_sec, diff1.tv_nsec );
+        printf( "castLight() executed %d times in %ld.%ld seconds.\n",
+                iterations, diff2.tv_sec, diff2.tv_nsec );
+    }
 
     bool passed = true;
     for( int x = 0; passed && x < MAPSIZE*SEEX; ++x ) {
@@ -252,4 +252,12 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     }
 
     REQUIRE( passed );
+}
+
+TEST_CASE("Regression test against old shadowcasting implementation.") {
+    shadowcasting_runoff(1);
+}
+
+TEST_CASE("Performance test old vs new shadowcasting algorithms.", "[.]") {
+    shadowcasting_runoff(100000);
 }
