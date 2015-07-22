@@ -1,4 +1,3 @@
-#define CATCH_CONFIG_MAIN
 #include "catch/catch.hpp"
 
 #include "filesystem.h"
@@ -13,6 +12,7 @@
 #include "player.h"
 #include "worldfactory.h"
 
+#include <fstream>
 #include <ostream>
 
 void init_global_game_state() {

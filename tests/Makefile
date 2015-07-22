@@ -6,7 +6,6 @@
 # is a test executable.
 SOURCES = $(filter-out player_test.cpp,$(wildcard *.cpp))
 OBJS = $(SOURCES:%.cpp=$(ODIR)/%.o)
-TESTS = $(filter %_test,$(SOURCES:.cpp=))
 
 CATA_LIB=../cataclysm.a
 
@@ -22,17 +21,17 @@ CXXFLAGS += -I../src -Wno-unused-variable
 
 LD := $(CROSS)g++
 
-tests: $(TESTS)
+tests: cata_test
 
-%_test: $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(ODIR)/fake_messages.o $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+cata_test: $(ODIR) $(DDIR) $(OBJS)
+	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
-check: $(TESTS)
-	$(foreach exe,$(TESTS),./$(exe);)
+check: cata_test
+	cd .. && tests/cata_test -d yes
 
 clean:
-	rm -f $(TESTS) *.d $(ODIR)/*.o $(ODIR)/*.d
+	rm -f *.d $(ODIR)/*.o $(ODIR)/*.d
 
 $(ODIR):
 	mkdir $(ODIR)
