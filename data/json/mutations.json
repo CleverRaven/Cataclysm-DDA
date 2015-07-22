@@ -1834,7 +1834,7 @@
         "id" : "INFRESIST",
         "name" : "Infection Resistant",
         "points" : 2,
-        "description" : "Your immune system is particularly good at resisting infections.",
+        "description" : "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
         "starting_trait" : true,
         "changes_to" : ["INFIMMUNE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
