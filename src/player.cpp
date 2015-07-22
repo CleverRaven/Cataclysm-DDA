@@ -5748,6 +5748,28 @@ static int bound_mod_to_vals(int val, int mod, int max, int min)
     return mod;
 }
 
+void player::print_health()
+{
+    if( !is_player() ) {
+        return;
+    }
+
+    if( healthy > 50 ) {
+        add_msg( m_good, _("You're very healthy, your wounds heal faster") );
+    } else if( healthy > -10 ) {
+        // No message
+    } else if( healthy > -30 ) {
+        add_msg( m_bad, _("You feel sickly, you should improve your diet") );
+    } else {
+        add_msg( m_bad, _("You feel horrible, something is messing with your body") );
+        add_msg( m_bad, _("Your wounds will heal much slower or not at all until your health improves") );
+    }
+
+    if( has_trait( "SELFAWARE" ) ) {
+        add_msg( "Your health value is: %d", healthy );
+    }
+}
+
 void player::add_eff_effects(effect e, bool reduced)
 {
     body_part bp = e.get_bp();
@@ -7090,7 +7112,7 @@ void player::hardcoded_effects(effect &it)
                     add_msg_if_player(_("You use your %s to keep warm."), item_name.c_str());
                 }
             }
-            if (has_trait("HIBERNATE") && (hunger < -60)) {
+            if( has_active_mutation("HIBERNATE") && hunger < -60 ) {
                 add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
                                    pgettext("memorial_female", "Entered hibernation."));
                 // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
@@ -7120,53 +7142,10 @@ void player::hardcoded_effects(effect &it)
         // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
         // life like that--but since there's much less fluid reserve than food reserve,
         // simply using the same numbers won't work.
-        if((int(calendar::turn) % 350 == 0) && has_trait("HIBERNATE") && !(hunger > -60) && !(thirst >= 80)) {
-            int recovery_chance;
-            // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly.
-            // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            if (intense < 24) {
-                it.mod_intensity(1);
-            } else if (intense < 1) {
-                it.set_intensity(1);
-            }
-            recovery_chance = 24 - intense + 1;
-            if (fatigue > 0) {
-                fatigue -= 1 + one_in(recovery_chance);
-            }
-            int heal_chance = get_healthy() / 4;
-            if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
-                  (has_trait("FLIMSY3") && one_in(4)) ||
-                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
-                if (has_trait("FASTHEALER") || has_trait("MET_RAT")) {
-                    heal_chance += 100;
-                } else if (has_trait("FASTHEALER2")) {
-                    heal_chance += 150;
-                } else if (has_trait("REGEN")) {
-                    heal_chance += 200;
-                } else if (has_trait("SLOWHEALER")) {
-                    heal_chance += 13;
-                } else {
-                    heal_chance += 25;
-                }
-                healall(heal_chance / 100);
-                heal_chance %= 100;
-                if (x_in_y(heal_chance, 100)) {
-                    healall(1);
-                }
-            }
-
-            if (fatigue <= 0 && fatigue > -20) {
-                fatigue = -25;
-                add_msg_if_player(m_good, _("You feel well rested."));
-                it.set_duration(dice(3, 100));
-                add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
-                                   pgettext("memorial_female", "Awoke from hibernation."));
-            }
-
+        const bool hibernating = hunger <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
-        } else if(int(calendar::turn) % 50 == 0) {
+        if( ( !hibernating && int(calendar::turn) % 50 == 0 ) || int(calendar::turn) % 350 == 0 ) {
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7182,7 +7161,7 @@ void player::hardcoded_effects(effect &it)
 
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
-                if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
+                if( !hibernating && ( has_trait("SLEEPY") || has_trait("MET_RAT") ) ) {
                     const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (1.0 + roll) / 2.0;
                 }
@@ -7190,7 +7169,7 @@ void player::hardcoded_effects(effect &it)
                 // Tireless folks recover fatigue really fast
                 // as well as gaining it really slowly
                 // (Doesn't speed healing any, though...)
-                if (has_trait("WAKEFUL3")) {
+                if( !hibernating && has_trait("WAKEFUL3") ) {
                     const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (2.0 + roll) / 2.0;
                 }
@@ -7350,6 +7329,14 @@ void player::hardcoded_effects(effect &it)
                     }
                 }
             }
+        }
+
+        // A bit of a hack: check if we are about to wake up for any reason,
+        // including regular timing out of sleep
+        if( it.get_duration() == 0 &&
+            fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
+            fell_asleep_turn = -1;
+            print_health();
         }
     } else if (id == "alarm_clock") {
         if (has_effect("sleep")) {
@@ -11925,22 +11912,28 @@ bool player::can_sleep()
 void player::fall_asleep(int duration)
 {
     add_effect("sleep", duration);
+    fell_asleep_turn = calendar::turn;
 }
 
 void player::wake_up()
 {
     remove_effect("sleep");
     remove_effect("lying_down");
+
+    if( fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
+        fell_asleep_turn = -1;
+        print_health();
+    }
 }
 
 std::string player::is_snuggling()
 {
-    auto begin = g->m.i_at( posx(), posy() ).begin();
-    auto end = g->m.i_at( posx(), posy() ).end();
+    auto begin = g->m.i_at( pos() ).begin();
+    auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
         int vpart;
-        vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
+        vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh != nullptr ) {
             int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
             if( cargo >= 0 ) {
