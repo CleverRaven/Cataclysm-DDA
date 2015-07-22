@@ -1274,13 +1274,11 @@ private:
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
-    // Bashes terrain or furniture, handles collapse and roofs
+    // Internal methods used to bash just the selected features
+    // Information on what to bash/what was bashed is read from/written to the bash_params struct
     void bash_ter_furn( const tripoint &p, bash_params &params );
-    // Bash items. Currently affects only glass items.
     void bash_items( const tripoint &p, bash_params &params );
-    // Bash a vehicle (if any) at p.
     void bash_vehicle( const tripoint &p, bash_params &params );
-    // Remove webs.
     void bash_field( const tripoint &p, bash_params &params );
 
     // Gets the roof type of the tile at p

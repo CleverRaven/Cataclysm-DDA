@@ -3140,8 +3140,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     sound = _(bash->sound.c_str());
     // Set this now in case the ter_set below changes this
-    const bool collapses = has_flag("COLLAPSES", p) && smash_ter;
-    const bool supports = has_flag("SUPPORTS_ROOF", p) && smash_ter;
+    const bool collapses = smash_ter && has_flag("COLLAPSES", p);
+    const bool supports = smash_ter && has_flag("SUPPORTS_ROOF", p);
 
     const bool tent = smash_furn && !bash->tent_centers.empty();
     // Special code to collapse the tent if destroyed
