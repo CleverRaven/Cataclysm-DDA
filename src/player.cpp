@@ -5750,15 +5750,16 @@ static int bound_mod_to_vals(int val, int mod, int max, int min)
 
 void player::print_health()
 {
+    add_msg("check");
     if( !is_player() ) {
         return;
     }
-
-    if( healthy > 50 ) {
+    int current_health = get_healthy();
+    if( current_health > 50 ) {
         add_msg( m_good, _("You're very healthy, your wounds heal faster") );
-    } else if( healthy > -10 ) {
+    } else if( current_health > -10 ) {
         // No message
-    } else if( healthy > -30 ) {
+    } else if( current_health > -30 ) {
         add_msg( m_bad, _("You feel sickly, you should improve your diet") );
     } else {
         add_msg( m_bad, _("You feel horrible, something is messing with your body") );
@@ -5766,7 +5767,7 @@ void player::print_health()
     }
 
     if( has_trait( "SELFAWARE" ) ) {
-        add_msg( "Your health value is: %d", healthy );
+        add_msg( "Your health value is: %d", current_health );
     }
 }
 
@@ -7333,7 +7334,7 @@ void player::hardcoded_effects(effect &it)
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( it.get_duration() == 0 &&
+        if( it.get_duration() == 1 &&
             fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
             fell_asleep_turn = -1;
             print_health();
