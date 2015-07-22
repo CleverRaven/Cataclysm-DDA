@@ -1,0 +1,34 @@
+[
+  {
+    "type" : "recipe",
+    "result": "broken_tankbot",
+    "override": true,
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 600000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+        {"id":"SCREW","level":1,"amount":1},
+        {"id":"WRENCH","level":1,"amount":1},
+        {"id":"SAW_M","level":1,"amount":1}
+    ], "tools": [
+        [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
+        [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
+    ], "components": [
+        [ [ "flamethrower", 1 ] ],
+        [ [ "tazer", 1 ] ],
+        [ [ "m4a1", 1 ] ],
+        [ [ "motor_large", 1 ] ],
+        [ [ "power_supply", 20 ] ],
+        [ [ "plut_cell", 4 ] ],
+        [ [ "RAM", 2 ] ],
+        [ [ "steel_chunk", 15 ] ],
+        [ [ "mil_plate", 2 ] ],
+        [ [ "robot_controls", 1 ] ],
+        [ [ "tank_gun_auto", 1 ] ]
+    ]
+}
+]
