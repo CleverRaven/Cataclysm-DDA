@@ -1734,6 +1734,12 @@
         "flags": ["TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
         ],
         "open": "t_door_glass_o",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "glass_sheet", "amount": 1 }
+            ]
+        },
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
@@ -1754,6 +1760,12 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
         "close": "t_door_glass_c",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "glass_sheet", "amount": 1 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "glass breaking!",
