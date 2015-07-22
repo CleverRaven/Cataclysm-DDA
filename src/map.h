@@ -104,13 +104,11 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bool did_bash; // Was anything hit?
-    bool success; // Was anything destroyed?
-
     int strength; // Initial strength
 
     bool silent; // Make a sound?
     bool destroy; // Essentially infinite bash strength + some
+    bool bash_floor; // Do we want to bash floor if no furn/wall exists?
     /**
      * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
      * At 0.0, the bash is against str_min of targetted objects
@@ -118,6 +116,9 @@ struct bash_params {
      * can destroy a wall and a floor under it rather than only one at a time.
      */
     float roll;
+
+    bool did_bash; // Was anything hit?
+    bool success; // Was anything destroyed?
 
     bool bashed_solid; // Did we bash furniture, terrain or vehicle
 };

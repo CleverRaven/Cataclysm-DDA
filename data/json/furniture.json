@@ -1167,7 +1167,13 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_canvas_wall",
@@ -1177,7 +1183,14 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_canvas_door",
@@ -1188,7 +1201,13 @@
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_canvas_door_o",
@@ -1199,7 +1218,13 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "close": "f_canvas_door",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_canvas_door",
@@ -1210,7 +1235,14 @@
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_canvas_door_o",
@@ -1221,7 +1253,14 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "close": "f_canvas_door",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_groundsheet",
@@ -1232,7 +1271,16 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
         "examine_action": "portable_structure",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "items": [
+                { "item": "broketent", "amount": 1}
+            ],
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_groundsheet",
@@ -1242,7 +1290,14 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_center_groundsheet",
@@ -1253,7 +1308,17 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
         "examine_action": "portable_structure",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "items": [
+                { "item": "largebroketent", "amount": 1 }
+            ],
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_fema_groundsheet",
@@ -1263,7 +1328,13 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_wall",
@@ -1273,7 +1344,13 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_door",
@@ -1284,7 +1361,13 @@
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "open": "f_skin_door_o",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_door_o",
@@ -1295,7 +1378,13 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "close": "f_skin_door",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_groundsheet",
@@ -1306,7 +1395,16 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
         "examine_action": "portable_structure",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "items": [
+                { "item": "damaged_shelter_kit", "amount": 1 }
+            ],
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_mutpoppy",

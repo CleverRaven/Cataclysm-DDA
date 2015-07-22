@@ -51,6 +51,7 @@ struct map_bash_info {
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
+    int collapse_radius;    // Radius of the tent supported by this tile
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
@@ -58,12 +59,13 @@ struct map_bash_info {
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
-    std::string tent_center;// id used for the special handling of tents (has to be id of furn)
+    // ids used for the special handling of tents (have to be ids of furniture)
+    std::vector<std::string> tent_centers;
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
                       str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      destroy_only(false), bash_below(false),
-                      sound(""), sound_fail(""), ter_set(""), furn_set(""), tent_center("") {};
+                      collapse_radius(1), destroy_only(false), bash_below(false),
+                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {

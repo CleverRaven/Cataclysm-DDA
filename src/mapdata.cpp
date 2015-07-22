@@ -77,7 +77,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
 } };
 
-void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
+void load_map_bash_item_drop_list( JsonArray ja, std::vector<map_bash_item_drop> &items ) {
     while ( ja.has_more() ) {
         JsonObject jio = ja.next_object();
         map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount", -1) );
@@ -85,6 +85,12 @@ void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> 
         items.push_back(drop);
     }
 }
+
+void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
+    while ( ja.has_more() ) {
+        centers.push_back( ja.next_string() );
+    }
+} 
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( !jsobj.has_object(member) ) {
@@ -109,6 +115,8 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     sound_vol = j.get_int("sound_vol", -1);
     sound_fail_vol = j.get_int("sound_fail_vol", -1);
 
+    collapse_radius = j.get_int( "collapse_radius", 1 );
+
     destroy_only = j.get_bool("destroy_only", false);
 
     bash_below = j.get_bool("bash_below", false);
@@ -126,7 +134,9 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         load_map_bash_item_drop_list(j.get_array("items"), items);
     }
 
-    tent_center = j.get_string( "tent_center", "" );
+    if( j.has_array("tent_centers") ) {
+        load_map_bash_tent_centers( j.get_array("tent_centers"), tent_centers );
+    }
 
     return true;
 }
