@@ -291,7 +291,7 @@
         "type" : "ammunition_type",
         "id" : "conc_alcohol",
         "name" : "concentrated alcohol",
-        "default" : "chem_ethanol"
+        "default" : "denat_alcohol"
     },
     {
         "type" : "ammunition_type",
