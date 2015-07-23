@@ -187,7 +187,9 @@ void Item_modifier::modify(item &new_item) const
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
-            new_item.charges = ch;
+            // count_by_charges requires that charges is at least 1. It makes no sense to
+            // spawn a "water (0)" item.
+            new_item.charges = std::max( 1l, ch );
         } else if(t != NULL) {
             new_item.charges = std::min(ch, t->max_charges);
         } else if (g == nullptr){
