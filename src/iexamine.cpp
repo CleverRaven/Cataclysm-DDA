@@ -974,19 +974,14 @@ void iexamine::slot_machine(player *p, map*, const tripoint&)
 void iexamine::safe(player *p, map *m, const tripoint &examp)
 {
     if (!p->has_amount("stethoscope", 1)) {
-        if (query_yn(_("The safe is locked. Input a random combination?"))) {
-            p->moves -= 100;
-            // one_in(30^3) chance of guessing
-            if (one_in(27000)) {
-                p->add_msg_if_player(m_good, _("The safe opens!"));
-                m->furn_set(examp, f_safe_o);
-                return;
-            } else {
-                p->add_msg_if_player(m_info, _("The safe remains locked."));
-                return;
-            }
+        p->moves -= 100;
+        // one_in(30^3) chance of guessing
+        if (one_in(27000)) {
+            p->add_msg_if_player(m_good, _("You mess with the dial for a little bit... and it opens!"));
+            m->furn_set(examp, f_safe_o);
+            return;
         } else {
-            p->add_msg_if_player(m_info, _("Never mind."));
+            p->add_msg_if_player(m_info, _("You mess with the dial for a little bit."));
             return;
         }
     }
