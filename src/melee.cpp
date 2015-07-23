@@ -1439,7 +1439,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     } else {
         if (!can_limb_block()) {
             // No free blocks!
-            return;
+            return false;
         }
 
         //Choose which body part to block with, assume left side first
