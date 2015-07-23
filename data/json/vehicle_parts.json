@@ -1,5 +1,16 @@
 [
     {
+        "type": "item_group",
+        "id": "ig_vp_seat",
+        "subtype": "collection",
+        "entries": [
+            {"item": "leather", "count": [1, 5]},
+            {"item": "steel_lump", "count": [3, 5]},
+            {"item": "steel_chunk", "count": [3, 5]},
+            {"item": "scrap", "count": [3, 5]}
+        ]
+    },
+    {
         "type" : "vehicle_part",
         "id" : "null",
         "name" : "null part",
@@ -29,12 +40,7 @@
         "flags" : [
             "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
         ],
-        "breaks_into" : [
-            {"item": "leather", "count": [1, 5]},
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "scrap", "count": [3, 5]}
-        ]
+        "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
         "id" : "reclining_seat",
@@ -52,12 +58,7 @@
         "flags" : [
             "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO"
         ],
-        "breaks_into" : [
-            {"item": "leather", "count": [1, 5]},
-            {"item": "steel_lump", "count": [1, 2]},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [6, 10]}
-        ]
+        "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
         "id" : "seat_nocargo",
@@ -74,12 +75,7 @@
         "flags" : [
             "SEAT", "BOARDABLE", "BELTABLE"
         ],
-        "breaks_into" : [
-            {"item": "leather", "count": [1, 5]},
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "scrap", "count": [3, 5]}
-        ]
+        "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
         "id" : "tracker",
@@ -158,12 +154,7 @@
         "flags" : [
             "BED", "BOARDABLE", "CARGO", "MOUNTABLE"
         ],
-        "breaks_into" : [
-            {"item": "leather", "count": [1, 5]},
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "scrap", "count": [3, 5]}
-        ]
+        "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
         "id" : "frame_horizontal",
