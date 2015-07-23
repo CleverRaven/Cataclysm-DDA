@@ -3532,24 +3532,13 @@ void map::shoot( const tripoint &p, int &dam,
             ter_set(p, t_door_b);
         }
     } else if( terrain == t_window_domestic_taped ||
-               terrain == t_curtains ) {
+               terrain == t_curtains ||
+               terrain == t_window_domestic ) {
         if (ammo_effects.count("LASER")) {
-            dam -= rng(1, 5);
-        }
-        if (ammo_effects.count("LASER")) {
-            dam -= rng(0, 5);
-        } else {
-            dam -= rng(1,3);
-            if (dam > 0) {
-                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
-                ter_set(p, t_window_frame);
-                spawn_item(p, "sheet", 1);
-                spawn_item(p, "stick");
-                spawn_item(p, "string_36");
+            if ( terrain == t_window_domestic_taped ||
+                 terrain == t_curtains ){
+              dam -= rng(1, 5);
             }
-        }
-    } else if( terrain == t_window_domestic ) {
-        if (ammo_effects.count("LASER")) {
             dam -= rng(0, 5);
         } else {
             dam -= rng(1,3);
@@ -3562,22 +3551,14 @@ void map::shoot( const tripoint &p, int &dam,
             }
         }
     } else if( terrain == t_window_taped ||
-               terrain == t_window_alarm_taped ) {
-        if (ammo_effects.count("LASER")) {
-            dam -= rng(1, 5);
-        }
-        if (ammo_effects.count("LASER")) {
-            dam -= rng(0, 5);
-        } else {
-            dam -= rng(1,3);
-            if (dam > 0) {
-                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
-                ter_set(p, t_window_frame);
-            }
-        }
-    } else if( terrain == t_window ||
+               terrain == t_window_alarm_taped ||
+               terrain == t_window ||
                terrain == t_window_alarm ) {
         if (ammo_effects.count("LASER")) {
+            if ( terrain == t_window_taped ||
+                 terrain == t_window_alarm_taped ){
+                    dam -= rng(1, 5);
+                }
             dam -= rng(0, 5);
         } else {
             dam -= rng(1,3);
