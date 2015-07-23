@@ -3278,19 +3278,15 @@ bash_params map::bash( const tripoint &p, const int str,
         str, silent, destroy, bash_floor, (float)rng_float( 0, 1.0f ), false, false, false
     };
 
-    // Remove webs
     bash_field( p, bsh );
-
-    // Bash glass items
     bash_items( p, bsh );
-
-    // Bash vehicle
+    // Don't bash the vehicle doing the bashing
     const vehicle *veh = veh_at( p );
     if( veh != nullptr && veh != bashing_vehicle ) {
         bash_vehicle( p, bsh );
     }
 
-    // If we still didn't bash anything solid, bash furn/ter
+    // If we still didn't bash anything solid (a vehicle), bash furn/ter
     if( !bsh.bashed_solid ) {
         bash_ter_furn( p, bsh );
     }
