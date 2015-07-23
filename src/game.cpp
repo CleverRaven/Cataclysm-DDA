@@ -11179,6 +11179,7 @@ void game::butcher()
     }
     item &dis_item = items[corpses[butcher_corpse_index]];
     if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
+        draw_ter();
         u.disassemble(dis_item, corpses[butcher_corpse_index], true);
         return;
     } else if( !dis_item.is_corpse() ) {
