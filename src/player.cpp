@@ -7317,6 +7317,12 @@ void player::hardcoded_effects(effect &it)
                     delta += (2.0 + roll) / 2.0;
                 }
 
+                // Untreated pain causes a flat penalty to fatigue reduction
+                delta -= float(pain - pkill) / 60;
+                if (delta < 0) {
+                    delta = 0;
+                }
+
                 fatigue -= static_cast<int>(round(delta));
             }
 
