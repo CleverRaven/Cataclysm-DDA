@@ -36,13 +36,13 @@ The game decides based on the existence of either the `item` or the `group` valu
 
 Each entry can have more values (shown above as `...`). They allow further properties of the item(s):
 ```
-"damage": <number>,
+"damage": <number>|<array>,
 "damage-min": <number>,
 "damage-max": <number>,
-"count": <number>,
+"count": <number>|<array>,
 "count-min": <number>,
 "count-max": <number>,
-"charges": <number>,
+"charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
 "contents-item": "<item-id>",
@@ -59,8 +59,9 @@ Each entry can have more values (shown above as `...`). They allow further prope
 "damage-min": 0,
 "damage-max": 3,
 "count": 4
+"charges": [10, 100]
 ```
-This will create 4 items, they can have different damage levels as the damage value is rolled separately for each of these items.
+This will create 4 items, they can have different damage levels as the damage value is rolled separately for each of these items. Each item has charges in the range of 10 to 100 (inclusive). Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values. In other words `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
 
 The ammo type is checked and applied only to weapon / gunmods.
 The container is checked and the item is put inside the container, and the charges of the item are capped/increased to match the size of the container.

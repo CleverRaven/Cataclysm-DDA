@@ -1196,8 +1196,16 @@ template<typename T>
 bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
 {
     bool result = false;
-    result |= obj.read(name, pa.first);
-    result |= obj.read(name, pa.second);
+    if( obj.has_array( name ) ) {
+        // An array means first is min, second entry is max. Both are mandatory.
+        JsonArray arr = obj.get_array( name );
+        result |= arr.read_next( pa.first );
+        result |= arr.read_next( pa.second );
+    } else {
+        // Not an array, should be a single numeric value, which is set as min and max.
+        result |= obj.read( name, pa.first );
+        result |= obj.read( name, pa.second );
+    }
     result |= obj.read(name + "-min", pa.first);
     result |= obj.read(name + "-max", pa.second);
     return result;
