@@ -1234,7 +1234,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
-        "open": "f_canvas_door_o",
+        "open": "f_large_canvas_door_o",
         "bash": {
             "str_min": 1, "str_max": 8,
             "sound": "rrrrip!",

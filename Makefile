@@ -455,7 +455,7 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
-	ar rcs cataclysm.a $(filter-out $(ODIR)/main.o,$(OBJS))
+	ar rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
 version:

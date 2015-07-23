@@ -1,0 +1,22 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "mil_hw",
+    "items":[
+      ["120mm_usable_heat", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military",
+    "items":[
+      ["120mm_usable_heat", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rare",
+    "items":[
+      ["120mm_usable_heat", 2]
+    ]
+  }
+]
+
