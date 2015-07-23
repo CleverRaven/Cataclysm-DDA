@@ -78,15 +78,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
 } };
 
-void load_map_bash_item_drop_list( JsonArray ja, std::vector<map_bash_item_drop> &items ) {
-    while ( ja.has_more() ) {
-        JsonObject jio = ja.next_object();
-        map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount", -1) );
-        drop.chance = jio.get_int("chance", -1);
-        items.push_back(drop);
-    }
-}
-
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
     while ( ja.has_more() ) {
         centers.push_back( ja.next_string() );

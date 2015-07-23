@@ -38,16 +38,6 @@ static t_string_set item_whitelist;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
-void remove_item(const std::string &itm, std::vector<map_bash_item_drop> &vec)
-{
-    for (size_t i = 0; i < vec.size(); i++) {
-        if (vec[i].itemtype == itm) {
-            vec.erase(vec.begin() + i);
-            i--;
-        }
-    }
-}
-
 bool item_is_blacklisted(const std::string &id)
 {
     if (item_whitelist.count(id) > 0) {

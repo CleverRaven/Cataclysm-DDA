@@ -70,7 +70,6 @@ class map;
 enum ter_bitflags : int;
 template<typename T>
 struct id_or_id;
-struct map_bash_item_drop;
 
 class map_stack : public item_stack {
 private:
@@ -705,9 +704,6 @@ void add_corpse( const tripoint &p );
     bash_params bash( const tripoint &p, int str, bool silent = false,
                       bool destroy = false, bool bash_floor = false,
                       const vehicle *bashing_vehicle = nullptr );
-
-    /** Spawn items from the list, see map_bash_item_drop */
-    void spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p );
 
 // Effects of attacks/items
     bool hit_with_acid( const tripoint &p );

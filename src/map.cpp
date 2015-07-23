@@ -3358,37 +3358,6 @@ void map::bash_field( const tripoint &p, bash_params &params )
     }
 }
 
-void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p ) {
-    for( auto &items_i : items ) {
-        const map_bash_item_drop &drop = items_i;
-        int chance = drop.chance;
-        if ( chance == -1 || rng(0, 100) >= chance ) {
-            int numitems = drop.amount;
-
-            if ( drop.minamount != -1 ) {
-                numitems = rng( drop.minamount, drop.amount );
-            }
-            if ( numitems > 0 ) {
-                item new_item(drop.itemtype, calendar::turn);
-                if ( new_item.count_by_charges() ) {
-                    new_item.charges = numitems;
-                    numitems = 1;
-                }
-                const bool varsize = new_item.has_flag( "VARSIZE" );
-                for(int a = 0; a < numitems; a++ ) {
-                    if( varsize && one_in( 3 ) ) {
-                        new_item.item_tags.insert( "FIT" );
-                    } else if( varsize ) {
-                        // might have been added previously
-                        new_item.item_tags.erase( "FIT" );
-                    }
-                    add_item_or_charges(p, new_item);
-                }
-            }
-        }
-    }
-}
-
 void map::destroy( const tripoint &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops

@@ -31,14 +31,6 @@ using furn_id = int_id<furn_t>;
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-struct map_bash_item_drop {
-    std::string itemtype; // item id
-    int amount;           // number dropped
-    int minamount;        // optional: if >= amount drop is random # between minamount and amount
-    int chance;           //
-    map_bash_item_drop(std::string str, int i) : itemtype(str), amount(i), minamount(-1), chance(-1) {};
-    map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
-};
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
