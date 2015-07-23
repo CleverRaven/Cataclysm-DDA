@@ -86,11 +86,7 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["PROTRUSION"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [2, 4]},
-            {"item": "steel_chunk", "count": [3, 5]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_steel_plate"
     },
     {
         "type" : "vehicle_part",
