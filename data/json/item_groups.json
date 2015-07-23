@@ -5995,7 +5995,7 @@
       ["chem_nitric_acid", 15],
       ["chem_chromium_oxide", 10],
       ["denat_alcohol", 10]
-      ]
+    ]
   },{
     "type" : "item_group",
     "id" : "mut_lab",

@@ -7701,7 +7701,7 @@
   "reversible": false,
   "autolearn": true,
   "components": [
-    [ ["chem_ethanol", 1] ],
+    [ ["chem_ethanol", 7] ],
     [ ["water", 1], ["water_clean", 1] ] ]
 },{
   "type" : "recipe",
