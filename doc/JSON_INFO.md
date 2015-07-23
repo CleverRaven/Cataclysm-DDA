@@ -141,6 +141,7 @@ The syntax listed here is still valid.
 "vision_night" : 1,                 // Vision range in total darkness
 "luminance" : 0,					// Amount of light passively output by monster. Ranges from 0 to 10.
 "hp" : 10,							// Monster hit points
+"death_drops": "some-group-id",     // An item group that is used to spawn items when the monster dies. This can be an inlined item group, see ITEM_SPAWN.md. The default subtype is "distribution".
 "special_freq" : 0,					// Number of turns required to "charge" a monster's special attack
 "death_function" : "NORMAL",		// How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. Supports multiple death functions
 "special_attack" : "BITE",			// Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack

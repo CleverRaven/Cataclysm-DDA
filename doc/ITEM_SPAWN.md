@@ -112,6 +112,38 @@ Another example. The group "milk" spawns a container (taken from milk_containers
 },
 ```
 
+Inlined item groups
+====
+
+At some places one can define an item group directly instead of giving the id of a group. One can not refer to that group as it has no visible id (it has an unspecific/random id internally). This is most useful when the group is very specific to the place it is used and wont ever appear anywhere else.
+
+As an example: monster death drops ("death_drops" entry in the "MONSTER" object, see JSON_INFO.md) can do this. If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death wont (in that form) appear in any other group.
+
+Therefor this snippet:
+```JSON
+{
+    "type": "item_group",
+    "id": "specific_group_id",
+    "subtype": "distribution",
+    "items": [ "a", "b" ]
+},
+{
+    "death_drops": "specific_group_id"
+}
+```
+is equivalent to:
+
+```JSON
+{
+    "death_drops": {
+        "subtype": "distribution",
+        "items": [ "a", "b" ]
+    }
+}
+```
+
+The inline group is read like any other group and one can use all the properties mentioned above. Its "type" and its "id" members are always ignored.
+
 ----
 
 You can test your item groups in the game:
