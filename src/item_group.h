@@ -64,6 +64,19 @@ namespace item_group {
      * See @ref Item_factory::load_item_group
      */
     void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::string &subtype );
+    /**
+     * Get an item group id and (optionally) load an inlined item group.
+     *
+     * If the next value in the JSON stream is string, it's assumed to be an item group id and it's
+     * returned directly.
+     *
+     * If the next value is a JSON object, it is loaded as item group. The group will be given a
+     * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
+     * If the JSON object does not contain a subtype, the given default is used.
+     *
+     * @throw std::string as usual for JSON errors, including invalid input values.
+     */
+    Group_tag load_item_group( JsonIn& stream, const std::string& default_subtype );
 }
 
 /**

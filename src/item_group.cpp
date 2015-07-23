@@ -456,3 +456,39 @@ void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
+
+Group_tag get_unique_group_id()
+{
+    // This is just a hint what id to use next. Overflow of it is defined and if the group
+    // name is already used, we simply go the next id.
+    static unsigned int next_id = 0;
+    // Prefixing with a character outside the ASCII range, so it is hopefully unique and
+    // (if actually printed somewhere) stands out. Theoretically those auto-generated group
+    // names should not be seen anywhere.
+    static const std::string unique_prefix = "\u01F7 ";
+    while( true ) {
+        const Group_tag new_group = unique_prefix + std::to_string( next_id++ );
+        if( !item_group::group_is_defined( new_group ) ) {
+            return new_group;
+        }
+    }
+}
+
+Group_tag item_group::load_item_group( JsonIn& stream, const std::string& default_subtype )
+{
+    if( stream.test_string() ) {
+        return stream.get_string();
+    } else if( stream.test_object() ) {
+        const Group_tag group = get_unique_group_id();
+
+        JsonObject jo = stream.get_object();
+        const std::string subtype = jo.get_string( "subtype", default_subtype );
+        item_controller->load_item_group( jo, group, subtype );
+
+        return group;
+    } else {
+        stream.error( "invalid item group, must be string (group id) or object (the group data)" );
+        // stream.error always throws, this is here to prevent a warning
+        return Group_tag{};
+    }
+}

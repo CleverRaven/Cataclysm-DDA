@@ -453,17 +453,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             }
         }
 
-        if (jo.has_string("death_drops")) {
-            newmon->death_drops = jo.get_string("death_drops");
-        } else if (jo.has_object("death_drops")) {
-            JsonObject death_frop_json = jo.get_object("death_drops");
-            // Make up a group name, should be unique (include the monster id),
-            newmon->death_drops = newmon->id.str() + "_death_drops_auto";
-            const std::string subtype = death_frop_json.get_string("subtype", "distribution");
-            // and load the entry as a standard item group using the made up name.
-            item_group::load_item_group(death_frop_json, newmon->death_drops, subtype);
-        } else if (jo.has_member("death_drops")) {
-            jo.throw_error("invalid type, must be string or object", "death_drops");
+        if( jo.has_member( "death_drops" ) ) {
+            JsonIn& stream = *jo.get_raw( "death_drops" );
+            newmon->death_drops = item_group::load_item_group( stream, "distribution" );
         }
 
         newmon->dies = get_death_functions(jo, "death_function");
