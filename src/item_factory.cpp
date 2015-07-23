@@ -96,13 +96,6 @@ void Item_factory::finialize_item_blacklist()
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
         });
-
-        for( auto &elem : termap ) {
-            remove_item( itm, elem.second.bash.items );
-        }
-        for( auto &elem : furnmap ) {
-            remove_item( itm, elem.second.bash.items );
-        }
     }
 }
 
