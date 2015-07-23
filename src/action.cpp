@@ -440,7 +440,7 @@ bool can_butcher_at( const tripoint &p )
         } else {
             const recipe *cur_recipe = get_disassemble_recipe( items_it.type->id );
             if( cur_recipe != NULL &&
-                g->u.can_disassemble( &items_it, cur_recipe, crafting_inv, false ) ) {
+                g->u.can_disassemble( items_it, cur_recipe, crafting_inv, false ) ) {
                 has_item = true;
             }
         }

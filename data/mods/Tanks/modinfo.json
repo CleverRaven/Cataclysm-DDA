@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod_type": "SUPPLEMENTAL",
+    "ident": "Tanks",
+    "name": "Tanks",
+    "description": "Adds a few armored fighting vehicles, requires Vehicle Additions Pack.",
+    "author": "Chaosvolt",
+    "path": "",
+    "dependencies": ["blazemod"]
+}

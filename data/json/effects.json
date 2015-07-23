@@ -547,14 +547,16 @@
         "apply_memorial_log": "Received a deep bite wound.",
         "remove_memorial_log": "Recovered from a bite wound.",
         "apply_message": "The bite wound feels really deep...",
+        "resist_trait": "INFRESIST",
         "main_parts_only": true,
         "rating": "bad",
-        "int_dur_factor": 1200,
+        "int_dur_factor": 1800,
         "scaling_mods": {
-            "dex_mod": [-1],
-            "pain_chance": [100],
+            "dex_mod": [-1, 0],
+            "pain_chance_bot": [200],
+            "pain_chance": [2, 1],
             "pain_min": [1],
-            "pain_max_val": [10]
+            "pain_max_val": [10, 5]
         }
     },
     {
@@ -569,23 +571,25 @@
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
         "apply_message": "Your bite wound feels infected",
+        "resist_trait": "INFRESIST",
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 4800,
         "base_mods": {
-            "pain_chance": [100],
+            "pain_chance": [2, 1],
+            "pain_chance_bot": [200],
             "pain_min": [1],
-            "pain_max_val": [30],
+            "pain_max_val": [30, 20],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [1000],
-            "sleep_min": [60],
+            "vomit_chance": [1000, 1200],
+            "sleep_min": [60, 30],
             "sleep_chance": [-102]
         },
         "scaling_mods": {
-            "pain_max_val": [30],
-            "str_mod": [-1],
-            "dex_mod": [-1],
+            "pain_max_val": [30, 20],
+            "str_mod": [-1, -.5],
+            "dex_mod": [-1, -.5],
             "vomit_chance": [-400],
             "sleep_chance": [101]
         }

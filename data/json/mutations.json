@@ -339,9 +339,10 @@
         "id" : "SELFAWARE",
         "name" : "Self-Aware",
         "points" : 1,
-        "description" : "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
+        "description" : "You get to see your exact amount of HP remaining and health, instead of only having a vague idea of whether you're in good condition or not.",
         "starting_trait" : true,
         "valid" : false,
+        "active" : true,
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -1833,8 +1834,8 @@
         "type" : "mutation",
         "id" : "INFRESIST",
         "name" : "Infection Resistant",
-        "points" : 3,
-        "description" : "Your immune system is particularly good at resisting infections.",
+        "points" : 2,
+        "description" : "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
         "starting_trait" : true,
         "changes_to" : ["INFIMMUNE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
@@ -1842,7 +1843,7 @@
         "type" : "mutation",
         "id" : "INFIMMUNE",
         "name" : "Infection Immune",
-        "points" : 5,
+        "points" : 4,
         "description" : "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
         "prereqs" : ["DISRESISTANT"],
         "prereqs2" : ["INFRESIST"],

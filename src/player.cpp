@@ -5759,6 +5759,133 @@ static int bound_mod_to_vals(int val, int mod, int max, int min)
     return mod;
 }
 
+void player::print_health()
+{
+    if( !is_player() ) {
+        return;
+    }
+    int current_health = get_healthy();
+    if( has_trait( "SELFAWARE" ) ) {
+        add_msg( "Your current health value is: %d", current_health );
+    }
+    int roll = rng(0,4);
+    std::string message = "";
+    if (current_health > 100) {
+        switch (roll) {
+        case 0:
+            message = _("You feel great! It doesn't seem like wounds could even slow you down for more than a day.");
+            break;
+        case 1:
+            message = _("Within moments you're ready and up. You don't feel like anything could stop you today!");
+            break;
+        case 2:
+            message = _("Your eyes open and your entire body feels like it is just bursting with energy to burn!");
+            break;
+        case 3:
+            message = _("You feel like a rubber ball; whatever hits you, you'll just bounce back!");
+            break;
+        case 4:
+            message = _("You're up and you feel fantastic. No sickness is going to keep you down today!");
+            break;
+        }
+    } else if (current_health > 50) {
+        switch (roll) {
+        case 0:
+            message = _("You're up and going rather quickly, and all the little aches from yesterday are gone.");
+            break;
+        case 1:
+            message = _("You get up feeling pretty good, as if all your little aches were fading faster.");
+            break;
+        case 2:
+            message = _("Getting up comes easy to you, your muscles revitalized after your rest.");
+            break;
+        case 3:
+            message = _("You're up and your little pains from before seem to have faded away rather quickly.");
+            break;
+        case 4:
+            message = _("Awareness comes fast, your body coming quickly to attention after your rest.");
+            break;
+        }
+    } else if (current_health > 10) {
+        switch (roll) {
+        case 0:
+            message = _("You feel good. Healthy living does seem to have some rewards.");
+            break;
+        case 1:
+            message = _("Getting out of bed doesn't seem too hard today. You could get used to this!");
+            break;
+        case 2:
+            message = _("Alertness comes somewhat fast, and your muscles stretch easier than before you went to bed.");
+            break;
+        case 3:
+            message = _("You feel extra alert, and your body feels ready to go.");
+            break;
+        case 4:
+            message = _("Your body stretches with ease, and you feel ready to take on the world.");
+            break;
+        }
+    } else if(current_health >= -10) {
+        // No message from -10 to 10
+    } else if(current_health >= -50) {
+        switch (roll) {
+        case 0:
+            message = _("You feel cruddy. Maybe you should consider eating a bit healthier.");
+            break;
+        case 1:
+            message = _("You get up with a bit of a scratch in your throat. Might be time for some vitamins.");
+            break;
+        case 2:
+            message = _("You stretch, but your muscles don't seem to be doing so good today.");
+            break;
+        case 3:
+            message = _("Your stomach gurgles. It's probably nothing, but maybe you should look into eating something healthy.");
+            break;
+        case 4:
+            message = _("You struggle to awareness. Being awake seems somewhat harder to reach today.");
+            break;
+        }
+    } else if (current_health >= -100) {
+        switch (roll) {
+        case 0:
+            message = _("Getting out of bed only comes with great difficulty, and your muscles resist the movement.");
+            break;
+        case 1:
+            message = _("Getting up seems like it should be easy, but all you want to do is go back to bed.");
+            break;
+        case 2:
+            message = _("Tired hands rub at your eyes, the little aches of yesterday protesting your stretches.");
+            break;
+        case 3:
+            message = _("Alertness seems flighty today, and your body argues when you move towards it.");
+            break;
+        case 4:
+            message = _("You're up, but your body seems like it would rather stay in bed.");
+            break;
+        }
+    } else {
+        switch (roll) {
+        case 0:
+            message = _("You get up feeling horrible, as if something was messing with your body.");
+            break;
+        case 1:
+            message = _("You feel awful, and every ache from yesterday is still there.");
+            break;
+        case 2:
+            message = _("Your eyes struggle to open, and your muscles ache like you didn't sleep at all.");
+            break;
+        case 3:
+            message = _("Bleary-eyed and half-asleep, you consider why you are doing this to yourself.");
+            break;
+        case 4:
+            message = _("Awareness seems to only come with a battle... and your body seem to be on its side.");
+            break;
+        }
+    }
+    if (message != "") {
+        add_msg((current_health > 0 ? m_good : m_bad), message.c_str());
+    }
+}
+
 void player::add_eff_effects(effect e, bool reduced)
 {
     body_part bp = e.get_bp();
@@ -7019,14 +7146,36 @@ void player::hardcoded_effects(effect &it)
         it.set_duration(0);
     } else if (id == "bite") {
         bool recovered = false;
-        // Recovery chance
+        /* Recovery chances, use binomial distributions if balancing here. Healing in the bite
+         * stage provides additional benefits, so both the bite stage chance of healing and
+         * the cumulative chances for spontaneous healing are both given.
+         * Cumulative heal chances for the bite + infection stages:
+         * -200 health - 38.6%
+         *    0 health - 46.8%
+         *  200 health - 53.7%
+         *
+         * Heal chances in the bite stage:
+         * -200 health - 23.4%
+         *    0 health - 28.3%
+         *  200 health - 32.9%
+         *
+         * Cumulative heal chances the bite + infection stages with the resistant mutation:
+         * -200 health - 82.6%
+         *    0 health - 84.5%
+         *  200 health - 86.1%
+         *
+         * Heal chances in the bite stage with the resistant mutation:
+         * -200 health - 60.7%
+         *    0 health - 63.2%
+         *  200 health - 65.6%
+         */
         if (dur % 10 == 0)  {
             int recover_factor = 100;
             if (has_effect("recover")) {
                 recover_factor -= get_effect_dur("recover") / 600;
             }
             if (has_trait("INFRESIST")) {
-                recover_factor += 1000;
+                recover_factor += 200;
             }
             recover_factor += get_healthy() / 10;
 
@@ -7051,14 +7200,15 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "infected") {
         bool recovered = false;
-        // Recovery chance
+        // Recovery chance, use binomial distributions if balancing here.
+        // See "bite" for balancing notes on this.
         if (dur % 10 == 0)  {
             int recover_factor = 100;
             if (has_effect("recover")) {
                 recover_factor -= get_effect_dur("recover") / 600;
             }
             if (has_trait("INFRESIST")) {
-                recover_factor += 1000;
+                recover_factor += 200;
             }
             recover_factor += get_healthy() / 10;
 
@@ -7101,7 +7251,7 @@ void player::hardcoded_effects(effect &it)
                     add_msg_if_player(_("You use your %s to keep warm."), item_name.c_str());
                 }
             }
-            if (has_trait("HIBERNATE") && (hunger < -60)) {
+            if( has_active_mutation("HIBERNATE") && hunger < -60 ) {
                 add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
                                    pgettext("memorial_female", "Entered hibernation."));
                 // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
@@ -7131,53 +7281,10 @@ void player::hardcoded_effects(effect &it)
         // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
         // life like that--but since there's much less fluid reserve than food reserve,
         // simply using the same numbers won't work.
-        if((int(calendar::turn) % 350 == 0) && has_trait("HIBERNATE") && !(hunger > -60) && !(thirst >= 80)) {
-            int recovery_chance;
-            // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly.
-            // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            if (intense < 24) {
-                it.mod_intensity(1);
-            } else if (intense < 1) {
-                it.set_intensity(1);
-            }
-            recovery_chance = 24 - intense + 1;
-            if (fatigue > 0) {
-                fatigue -= 1 + one_in(recovery_chance);
-            }
-            int heal_chance = get_healthy() / 4;
-            if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
-                  (has_trait("FLIMSY3") && one_in(4)) ||
-                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
-                if (has_trait("FASTHEALER") || has_trait("MET_RAT")) {
-                    heal_chance += 100;
-                } else if (has_trait("FASTHEALER2")) {
-                    heal_chance += 150;
-                } else if (has_trait("REGEN")) {
-                    heal_chance += 200;
-                } else if (has_trait("SLOWHEALER")) {
-                    heal_chance += 13;
-                } else {
-                    heal_chance += 25;
-                }
-                healall(heal_chance / 100);
-                heal_chance %= 100;
-                if (x_in_y(heal_chance, 100)) {
-                    healall(1);
-                }
-            }
-
-            if (fatigue <= 0 && fatigue > -20) {
-                fatigue = -25;
-                add_msg_if_player(m_good, _("You feel well rested."));
-                it.set_duration(dice(3, 100));
-                add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
-                                   pgettext("memorial_female", "Awoke from hibernation."));
-            }
-
+        const bool hibernating = hunger <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
-        } else if(int(calendar::turn) % 50 == 0) {
+        if( ( !hibernating && int(calendar::turn) % 50 == 0 ) || int(calendar::turn) % 350 == 0 ) {
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7193,7 +7300,7 @@ void player::hardcoded_effects(effect &it)
 
                 // You fatigue & recover faster with Sleepy
                 // Very Sleepy, you just fatigue faster
-                if (has_trait("SLEEPY") || has_trait("MET_RAT")) {
+                if( !hibernating && ( has_trait("SLEEPY") || has_trait("MET_RAT") ) ) {
                     const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (1.0 + roll) / 2.0;
                 }
@@ -7201,7 +7308,7 @@ void player::hardcoded_effects(effect &it)
                 // Tireless folks recover fatigue really fast
                 // as well as gaining it really slowly
                 // (Doesn't speed healing any, though...)
-                if (has_trait("WAKEFUL3")) {
+                if( !hibernating && has_trait("WAKEFUL3") ) {
                     const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (2.0 + roll) / 2.0;
                 }
@@ -7361,6 +7468,14 @@ void player::hardcoded_effects(effect &it)
                     }
                 }
             }
+        }
+
+        // A bit of a hack: check if we are about to wake up for any reason,
+        // including regular timing out of sleep
+        if( (it.get_duration() == 1 || woke_up) &&
+            fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
+            fell_asleep_turn = -1;
+            print_health();
         }
     } else if (id == "alarm_clock") {
         if (has_effect("sleep")) {
@@ -11936,22 +12051,28 @@ bool player::can_sleep()
 void player::fall_asleep(int duration)
 {
     add_effect("sleep", duration);
+    fell_asleep_turn = calendar::turn;
 }
 
 void player::wake_up()
 {
     remove_effect("sleep");
     remove_effect("lying_down");
+
+    if( fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
+        fell_asleep_turn = -1;
+        print_health();
+    }
 }
 
 std::string player::is_snuggling()
 {
-    auto begin = g->m.i_at( posx(), posy() ).begin();
-    auto end = g->m.i_at( posx(), posy() ).end();
+    auto begin = g->m.i_at( pos() ).begin();
+    auto end = g->m.i_at( pos() ).end();
 
     if( in_vehicle ) {
         int vpart;
-        vehicle *veh = g->m.veh_at( posx(), posy(), vpart );
+        vehicle *veh = g->m.veh_at( pos(), vpart );
         if( veh != nullptr ) {
             int cargo = veh->part_with_feature( vpart, VPFLAG_CARGO, false );
             if( cargo >= 0 ) {

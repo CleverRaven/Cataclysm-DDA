@@ -876,9 +876,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * (if disassembled item is counted by charges).
          * If print_msg is true show a message about missing tools/charges.
          */
-        bool can_disassemble( const item *dis_item, const recipe *cur_recipe,
+        bool can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const;
         void disassemble(int pos = INT_MAX);
+        void disassemble(item &dis_item, int dis_pos, bool ground);
         void complete_disassemble();
 
         // yet more crafting.cpp
@@ -1106,6 +1107,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // formats and prints encumbrance info to specified window
         void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
 
+        // Prints message(s) about current health
+        void print_health();
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1151,6 +1155,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_moves;
         int cached_turn;
         tripoint cached_position;
+
+        int fell_asleep_turn;
 
         struct weighted_int_list<const char*> melee_miss_reasons;
 

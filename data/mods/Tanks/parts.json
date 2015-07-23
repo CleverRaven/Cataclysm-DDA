@@ -1,0 +1,43 @@
+[
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_manual",
+        "name" : "120mm tank gun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_manual",
+        "difficulty" : 8,
+        "size" : 10,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_manual", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_auto",
+        "name" : "120mm tank gun (AL)",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_auto",
+        "difficulty" : 8,
+        "size" : 50,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_auto", "min": 0, "max": 1}
+        ]
+    }
+]
+
+
