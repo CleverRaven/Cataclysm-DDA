@@ -112,8 +112,14 @@ Another example. The group "milk" spawns a container (taken from milk_containers
 },
 ```
 
+----
+
 You can test your item groups in the game:
 - enable the debug menu (use '?' -> '1' to go to the keybindings and bind a key to "Debug menu"),
 - load a game and call the debug menu,
 - choose "item spawn debug".
 - select the item group you want to debug. It will spawn items based on that 100 times and count the spawned items. They are displayed, sorted by their frequency.
+
+----
+
+You should not add items to the item group "EMPTY_GROUP". This group can be used when the game requires a group id, but you don't want to spawn any items there. The group will never spawn items.
