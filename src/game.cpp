@@ -8175,9 +8175,9 @@ void game::examine( const tripoint &p )
         }
     }
 
-    // Sane UI is better than hiding black boxes.
     if( !m.tr_at( examp ).is_null() ) {
         iexamine::trap(&u, &m, examp);
+        draw_ter();
     }
 
     // In case of teleport trap or somesuch
@@ -11179,6 +11179,7 @@ void game::butcher()
     }
     item &dis_item = items[corpses[butcher_corpse_index]];
     if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
+        draw_ter();
         u.disassemble(dis_item, corpses[butcher_corpse_index], true);
         return;
     } else if( !dis_item.is_corpse() ) {
