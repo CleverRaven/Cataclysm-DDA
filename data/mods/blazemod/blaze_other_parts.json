@@ -105,9 +105,7 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["PROTRUSION"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },
     {
         "type" : "vehicle_part",

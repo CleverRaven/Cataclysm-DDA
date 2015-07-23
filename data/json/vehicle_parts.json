@@ -40,6 +40,14 @@
         ]
     },
     {
+        "type": "item_group",
+        "id": "ig_vp_wood_plate",
+        "subtype": "collection",
+        "entries": [
+            {"item": "splinter", "count": [7, 9]}
+        ]
+    },
+    {
         "type" : "vehicle_part",
         "id" : "null",
         "name" : "null part",
@@ -1231,9 +1239,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodboard_vertical",
@@ -1247,9 +1253,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodboard_nw",
@@ -1263,9 +1267,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodboard_ne",
@@ -1279,9 +1281,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodboard_se",
@@ -1295,9 +1295,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodboard_sw",
@@ -1311,9 +1309,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_horizontal",
@@ -1761,9 +1757,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_vertical",
@@ -1777,9 +1771,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_nw",
@@ -1793,9 +1785,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_ne",
@@ -1809,9 +1799,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_se",
@@ -1825,9 +1813,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_sw",
@@ -1841,9 +1827,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_horizontal_2",
@@ -1857,9 +1841,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_vertical_2",
@@ -1873,9 +1855,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "aisle_lights",
@@ -4177,9 +4157,7 @@
         "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
         "id" : "plating_steel",
