@@ -697,6 +697,11 @@ void effect::mult_duration(double dur)
     }
 }
 
+int effect::get_start_turn() const
+{
+    return start_turn;
+}
+
 body_part effect::get_bp() const
 {
     return bp;
@@ -1185,6 +1190,7 @@ void effect::serialize(JsonOut &json) const
     json.member("bp", (int)bp);
     json.member("permanent", permanent);
     json.member("intensity", intensity);
+    json.member("start_turn", start_turn);
     json.end_object();
 }
 void effect::deserialize(JsonIn &jsin)
@@ -1195,4 +1201,5 @@ void effect::deserialize(JsonIn &jsin)
     bp = (body_part)jo.get_int("bp");
     permanent = jo.get_bool("permanent");
     intensity = jo.get_int("intensity");
+    start_turn = jo.get_int("start_turn", 0);
 }

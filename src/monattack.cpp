@@ -2757,7 +2757,9 @@ void mattack::taze( monster *z, Creature *target )
         int shock = rng(5, 25);
         mon->moves -= shock * 100;
         mon->apply_damage( z, bp_torso, shock );
-        add_msg( _("The %s shocks the %s!"), z->name().c_str(), mon->name().c_str() );
+        if( g->u.sees( *z ) && g->u.sees( *mon ) ) {
+            add_msg( _("The %s shocks the %s!"), z->name().c_str(), mon->name().c_str() );
+        }
         mon->check_dead_state();
     }
 }
