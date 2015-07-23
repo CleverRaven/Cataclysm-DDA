@@ -21,6 +21,15 @@
         ]
     },
     {
+        "type": "item_group",
+        "id": "ig_vp_xlframe",
+        "subtype": "collection",
+        "entries": [
+            {"item": "pipe", "count": [0, 4]},
+            {"item": "scrap", "count": [2, 4]}
+        ]
+    },
+    {
         "type" : "vehicle_part",
         "id" : "null",
         "name" : "null part",
@@ -318,10 +327,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "folding_frame",
@@ -371,11 +377,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_cross",
@@ -389,10 +391,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_nw",
@@ -406,10 +405,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_ne",
@@ -423,10 +419,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_se",
@@ -440,10 +433,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_sw",
@@ -457,10 +447,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_horizontal_2",
@@ -474,10 +461,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "xlframe_vertical_2",
@@ -491,10 +475,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE", "INITIAL_PART"],
-        "breaks_into" : [
-            {"item": "pipe", "count": [0, 4]},
-            {"item": "scrap", "count": [2, 4]}
-        ]
+        "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_horizontal",
