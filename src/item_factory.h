@@ -273,6 +273,7 @@ class Item_factory
         phase_id phase_from_tag(Item_tag name);
 
         void add_entry(Item_group *sg, JsonObject &obj);
+        void load_item_group_entries( Item_group& ig, JsonArray& entries );
 
         void load_basic_info(JsonObject &jo, itype *new_item);
         void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);

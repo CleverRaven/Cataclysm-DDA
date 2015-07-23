@@ -1273,6 +1273,14 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
+void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
+{
+    while( entries.has_more() ) {
+        JsonObject subobj = entries.next_object();
+        add_entry( &ig, subobj );
+    }
+}
+
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
@@ -1305,10 +1313,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 
     if (jsobj.has_member("entries")) {
         JsonArray items = jsobj.get_array("entries");
-        while (items.has_more()) {
-            JsonObject subobj = items.next_object();
-            add_entry(ig, subobj);
-        }
+        load_item_group_entries( *ig, items );
     }
     if (jsobj.has_member("items")) {
         JsonArray items = jsobj.get_array("items");
