@@ -6202,6 +6202,7 @@ void player::hardcoded_effects(effect &it)
         return;
     }
     std::string id = it.get_id();
+    int start = it.get_start_turn();
     int dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
@@ -7461,9 +7462,7 @@ void player::hardcoded_effects(effect &it)
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( (it.get_duration() == 1 || woke_up) &&
-            fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
-            fell_asleep_turn = -1;
+        if( (it.get_duration() == 1 || woke_up) && calendar::turn - start > HOURS(2) ) {
             print_health();
         }
     } else if (id == "alarm_clock") {
@@ -12040,18 +12039,18 @@ bool player::can_sleep()
 void player::fall_asleep(int duration)
 {
     add_effect("sleep", duration);
-    fell_asleep_turn = calendar::turn;
 }
 
 void player::wake_up()
 {
+    if (has_effect("sleep")) {
+        if(calendar::turn - get_effect("sleep").get_start_turn() > HOURS(2) ) {
+            print_health();
+        }
+    }
+
     remove_effect("sleep");
     remove_effect("lying_down");
-
-    if( fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
-        fell_asleep_turn = -1;
-        print_health();
-    }
 }
 
 std::string player::is_snuggling()

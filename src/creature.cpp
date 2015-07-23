@@ -856,7 +856,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         }
 
         // Now we can make the new effect for application
-        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
+        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity, calendar::turn);
         effect &e = new_eff;
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {

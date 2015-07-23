@@ -122,14 +122,16 @@ class effect : public JsonSerializer, public JsonDeserializer
             duration(0),
             bp(num_bp),
             permanent(false),
-            intensity(1)
+            intensity(1),
+            start_turn(0)
         { }
-        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity) :
+        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
             eff_type(peff_type),
             duration(dur),
             bp(part),
             permanent(perm),
-            intensity(nintensity)
+            intensity(nintensity),
+            start_turn(nstart_turn)
         { }
         effect(const effect &) = default;
         effect &operator=(const effect &) = default;
@@ -159,6 +161,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         void mod_duration(int dur);
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration(double dur);
+
+        /** Returns the turn the effect was applied. */
+        int get_start_turn() const;
 
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
         body_part get_bp() const;
@@ -240,6 +245,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         body_part bp;
         bool permanent;
         int intensity;
+        int start_turn;
 
 };
 
