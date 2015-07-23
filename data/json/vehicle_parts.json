@@ -48,6 +48,16 @@
         ]
     },
     {
+        "type": "item_group",
+        "id": "ig_vp_sheet_metal",
+        "subtype": "collection",
+        "entries": [
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
+        ]
+    },
+    {
         "type" : "vehicle_part",
         "id" : "null",
         "name" : "null part",
@@ -1023,11 +1033,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "board_vertical",
@@ -1041,11 +1047,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "board_nw",
@@ -1059,11 +1061,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "board_ne",
@@ -1077,11 +1075,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "board_se",
@@ -1095,11 +1089,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "board_sw",
@@ -1113,11 +1103,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "hdboard_horizontal",
@@ -1323,11 +1309,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_vertical",
@@ -1341,11 +1323,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_nw",
@@ -1359,11 +1337,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_ne",
@@ -1377,11 +1351,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_se",
@@ -1395,11 +1365,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_sw",
@@ -1413,11 +1379,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_horizontal_2",
@@ -1431,11 +1393,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "halfboard_vertical_2",
@@ -1449,11 +1407,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "hdhalfboard_horizontal",
@@ -1739,11 +1693,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["OBSTACLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [3, 5]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "woodhalfboard_horizontal",
@@ -1909,11 +1859,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "aisle_vertical",
@@ -1927,11 +1873,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "trunk_floor",
@@ -1946,11 +1888,7 @@
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["AISLE", "BOARDABLE", "CARGO", "COVERED"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "stowboard_horizontal",
@@ -2009,11 +1947,7 @@
         "difficulty" : 1,
         "location" : "roof",
         "flags" : ["ROOF"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [1, 3]},
-            {"item": "steel_chunk", "count": [3, 4]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "hdroof",
@@ -4530,11 +4464,7 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
         "id" : "door_sliding",
