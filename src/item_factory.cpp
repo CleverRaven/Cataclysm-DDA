@@ -1281,6 +1281,16 @@ void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
     }
 }
 
+void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
+                                    const bool is_collection )
+{
+    const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
+    Item_spawn_data *&isd = m_template_groups[group_id];
+    Item_group* const ig = make_group_or_throw( isd, type );
+
+    load_item_group_entries( *ig, entries );
+}
+
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {

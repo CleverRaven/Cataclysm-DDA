@@ -486,8 +486,20 @@ Group_tag item_group::load_item_group( JsonIn& stream, const std::string& defaul
         item_controller->load_item_group( jo, group, subtype );
 
         return group;
+    } else if( stream.test_array() ) {
+        const Group_tag group = get_unique_group_id();
+
+        JsonArray jarr = stream.get_array();
+        // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
+        // from the caller of this function.
+        if( default_subtype != "collection" && default_subtype != "distribution" ) {
+            debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
+        }
+        item_controller->load_item_group( jarr, group, default_subtype == "collection" );
+
+        return group;
     } else {
-        stream.error( "invalid item group, must be string (group id) or object (the group data)" );
+        stream.error( "invalid item group, must be string (group id) or object/array (the group data)" );
         // stream.error always throws, this is here to prevent a warning
         return Group_tag{};
     }

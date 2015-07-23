@@ -74,6 +74,12 @@ namespace item_group {
      * unique id (if the JSON object contains an id, it is ignored) and that id will be returned.
      * If the JSON object does not contain a subtype, the given default is used.
      *
+     * If the next value is a JSON array, it is loaded as item group: the default_subtype will be
+     * used as subtype of the new item group and the array is loaded like the "entries" array of
+     * a item group definition (see format of item groups).
+     *
+     * @param default_subtype If an inlined item group is loaded this is used as the default
+     * subtype. It must be either "distribution" or "collection". See @ref Item_group.
      * @throw std::string as usual for JSON errors, including invalid input values.
      */
     Group_tag load_item_group( JsonIn& stream, const std::string& default_subtype );

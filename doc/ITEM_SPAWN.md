@@ -144,6 +144,15 @@ is equivalent to:
 
 The inline group is read like any other group and one can use all the properties mentioned above. Its "type" and its "id" members are always ignored.
 
+Instead of a full JSON object, one can also write a JSON array. The default subtype is used and the array is read like the "entries" array (see above). Each entry of that array must be a JSON object. Example:
+```JSON
+{
+    "death_drops": [
+        { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
+    ]
+}
+```
+
 ----
 
 You can test your item groups in the game:
