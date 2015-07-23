@@ -30,6 +30,16 @@
         ]
     },
     {
+        "type": "item_group",
+        "id": "ig_vp_hdframe",
+        "subtype": "collection",
+        "entries": [
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
+        ]
+    },
+    {
         "type" : "vehicle_part",
         "id" : "null",
         "name" : "null part",
@@ -489,11 +499,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_vertical",
@@ -507,11 +513,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_cross",
@@ -525,11 +527,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_nw",
@@ -543,11 +541,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_ne",
@@ -561,9 +555,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [1, 4]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_se",
@@ -577,11 +569,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_sw",
@@ -595,11 +583,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_horizontal_2",
@@ -613,11 +597,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_vertical_2",
@@ -631,11 +611,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE", "INITIAL_PART"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "hdframe_cover",
@@ -649,11 +625,7 @@
         "difficulty" : 1,
         "location" : "structure",
         "flags" : ["MOUNTABLE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "frame_handle",
@@ -2158,11 +2130,7 @@
         "difficulty" : 3,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]}
-        ]
+        "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
         "id" : "windshield",
