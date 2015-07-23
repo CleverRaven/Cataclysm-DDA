@@ -137,7 +137,7 @@ class inventory
 
         static int num_items_at_position( int position );
 
-        int leak_level(std::string flag) const; // level of leaked bad stuff from items
+        float leak_level(std::string flag) const; // level of leaked bad stuff from items
 
         int butcher_factor() const;
 
@@ -257,7 +257,7 @@ class inventory
             }
             return result;
         }
-        
+
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

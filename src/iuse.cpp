@@ -4624,7 +4624,7 @@ int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
                   toggle_text.c_str(), _("Cancel"), NULL);
     switch (ch) {
         case 1:
-            p->add_msg_if_player(m_info, _("Your radiation level: %d (%d from items)"), p->radiation,
+            p->add_msg_if_player(m_info, _("Your radiation level: %d (%.1f from items)"), p->radiation,
                                  p->leak_level("RADIOACTIVE"));
             break;
         case 2:

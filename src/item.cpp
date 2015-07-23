@@ -109,7 +109,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             if(type_is_defined( gm ) ){
                 contents.push_back( item( gm, turn, rand, handed ) );
             }
-        } 
+        }
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -1129,7 +1129,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
     for( const auto &quality : type->qualities ){
         const auto desc = string_format( _("Has level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name(quality.first).c_str() );
         dump->push_back( iteminfo( "QUALITIES", "", desc ) );
     }
@@ -1142,7 +1142,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
 
             const auto desc = string_format( _("  Level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name( quality.first ).c_str() );
             dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
@@ -1625,7 +1625,7 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if(has_flag("LITCIG")) {
         ret = c_red;
-    } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
+    } else if ( (has_flag("LEAK_DAM") || has_flag("LEAK_DAM_SMALL")) && has_flag("RADIOACTIVE") && damage > 0 ) {
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
