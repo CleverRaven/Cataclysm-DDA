@@ -8175,9 +8175,9 @@ void game::examine( const tripoint &p )
         }
     }
 
-    // Sane UI is better than hiding black boxes.
     if( !m.tr_at( examp ).is_null() ) {
         iexamine::trap(&u, &m, examp);
+        draw_ter();
     }
 
     // In case of teleport trap or somesuch
