@@ -719,7 +719,6 @@
       [ "brandy", 14 ],
       [ "chem_ethanol", 14],
       [ "denat_alcohol", 14],
-      [ "chem_methanol", 14],
       [ "lamp_oil", 400 ],
       [ "gasoline", 600 ],
       [ "diesel", 600 ]
@@ -2023,7 +2022,6 @@
       [ "brandy", 7 ],
       [ "chem_ethanol", 7],
       [ "denat_alcohol", 7],
-      [ "chem_methanol", 7],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
@@ -2061,7 +2059,6 @@
       [ "brandy", 7 ],
       [ "chem_ethanol", 7],
       [ "denat_alcohol", 7],
-      [ "chem_methanol", 7],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],

@@ -629,7 +629,6 @@
       [ "brandy", 7, "NO_RECOVER" ],
       [ "chem_ethanol", 7, "NO_RECOVER" ],
       [ "denat_alcohol", 7, "NO_RECOVER" ],
-      [ "chem_methanol", 7, "NO_RECOVER" ],
       [ "lamp_oil", 100, "NO_RECOVER" ],
       [ "gasoline", 200, "NO_RECOVER" ],
       [ "diesel", 200, "NO_RECOVER" ]

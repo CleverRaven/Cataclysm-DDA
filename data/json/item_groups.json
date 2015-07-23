@@ -5904,8 +5904,7 @@
       ["chem_zinc_powder", 10],
       ["chem_saltpetre", 10],
       ["chem_carbide", 10],
-      ["denat_alcohol", 10],
-      ["chem_methanol", 10]
+      ["denat_alcohol", 10]
     ]
   },{
     "type" : "item_group",
@@ -5944,8 +5943,7 @@
       ["charcoal", 15],
       ["chem_hydrogen_peroxide", 15],
       ["chem_carbide", 10],
-      ["denat_alcohol", 10],
-      ["chem_methanol", 10]
+      ["denat_alcohol", 10]
     ]
   },{
     "type" : "item_group",
@@ -5996,9 +5994,8 @@
       ["chem_saltpetre", 15],
       ["chem_nitric_acid", 15],
       ["chem_chromium_oxide", 10],
-      ["denat_alcohol", 10],
-      ["chem_methanol", 10]
-    ]
+      ["denat_alcohol", 10]
+      ]
   },{
     "type" : "item_group",
     "id" : "mut_lab",
@@ -6118,7 +6115,6 @@
       ["rag_bloody", 1],
       ["chem_nitric_acid", 10],
       ["chem_hydrogen_peroxide_conc", 10],
-      ["chem_methanol", 10],
       ["denat_alcohol", 10]
     ]
   },{
@@ -8319,7 +8315,6 @@
       ["chem_nitric_acid", 1],
       ["chem_sulphuric_acid", 1],
       ["chem_hexamine", 2],
-      ["chem_methanol", 1],
       ["denat_alcohol", 1],
       ["remotevehcontrol", 5]
     ]

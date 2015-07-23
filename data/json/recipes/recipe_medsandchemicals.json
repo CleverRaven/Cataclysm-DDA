@@ -2632,7 +2632,7 @@
     "tools": [[[ "chemistry_set", 10 ]]],
     "components": [
         [[ "water_clean", 1 ], [ "water", 1 ]],
-        [[ "chem_ethanol", 17 ]],
+        [[ "chem_ethanol", 14 ]],
         [[ "cooking_oil", 2 ],
          [ "lard", 2 ],
          [ "tallow", 2 ],
@@ -2664,16 +2664,16 @@
         [ "toolset", 15 ]
     ] ],
     "components": [ [
-        [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "single_malt_whiskey", 1 ],
-        [ "brandy", 1 ],
-        [ "rum", 1 ],
-        [ "gin", 1 ],
-        [ "tequila", 1 ],
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
         [ "bum_wine", 56 ],
         [ "fruit_wine", 56],
-        [ "moonshine", 1]
+        [ "moonshine", 14]
     ] ]
 },
 {
