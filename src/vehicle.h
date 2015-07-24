@@ -84,7 +84,7 @@ struct veh_collision {
     void         *target      = nullptr;  //vehicle
     int           target_part = 0; //veh partnum
     std::string   target_name;
- 
+
     veh_collision() = default;
 };
 
@@ -154,7 +154,7 @@ public:
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
-    std::pair<tripoint, tripoint> target;  
+    std::pair<tripoint, tripoint> target;
 private:
     std::list<item> items; // inventory
 public:
@@ -383,6 +383,7 @@ public:
     void honk_horn();
     void beeper_sound();
     void play_music();
+    void play_chimes();
 
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
@@ -709,7 +710,7 @@ public:
     turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
     // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed 
+    // If `from_controls` is false, only manual modes are allowed
     // and message describing the new mode is printed
     void cycle_turret_mode( int p, bool from_controls );
 
@@ -728,7 +729,7 @@ public:
     // Manual turret fire - gives the `shooter` a temporary weapon, makes them use it,
     // then gives back the weapon held before (if any).
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    bool manual_fire_turret( int p, player &shooter, const itype &guntype, 
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype,
                              const itype &ammotype, long &charges );
 
     // Update the set of occupied points and return a reference to it
@@ -894,6 +895,7 @@ public:
     bool engine_on                  = false; // at least one engine is on, of any type
     bool lights_on                  = false; // lights on/off
     bool stereo_on                  = false;
+    bool chimes_on                  = false; // ice cream truck chimes
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on

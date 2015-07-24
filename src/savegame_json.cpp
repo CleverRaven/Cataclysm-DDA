@@ -1362,6 +1362,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("tracking_on", tracking_on);
     data.read("lights_on", lights_on);
     data.read("stereo_on", stereo_on);
+    data.read("chimes_on", chimes_on);
     data.read("overhead_lights_on", overhead_lights_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
@@ -1439,6 +1440,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "tracking_on", tracking_on );
     json.member( "lights_on", lights_on );
     json.member( "stereo_on", stereo_on);
+    json.member( "chimes_on", chimes_on);
     json.member( "overhead_lights_on", overhead_lights_on );
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );

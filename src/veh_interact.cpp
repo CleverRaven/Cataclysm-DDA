@@ -681,6 +681,7 @@ void veh_interact::do_install()
                                                    part.has_flag("POWER_TRANSFER") ||
                                                    part.has_flag("FAUCET") ||
                                                    part.has_flag("STEREO") ||
+                                                   part.has_flag("CHIMES") ||
                                                    part.has_flag("MUFFLER") ||
                                                    part.has_flag("REMOTE_CONTROLS") ||
                                                    part.has_flag("CURTAIN") ||
