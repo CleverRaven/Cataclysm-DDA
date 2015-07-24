@@ -1502,16 +1502,18 @@ void vehicle::play_music()
 
 void vehicle::play_chimes()
 {
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if ( ! part_flag( p, "CHIMES" ) )
-            continue;
-        // epower is negative for consumers
-        if( drain( fuel_type_battery, -part_epower( p ) ) == 0 ) {
-            chimes_on = false;
-            return;
+    if (one_in(3)) {
+        for( size_t p = 0; p < parts.size(); ++p ) {
+            if ( ! part_flag( p, "CHIMES" ) )
+                continue;
+            // epower is negative for consumers
+            if( drain( fuel_type_battery, -part_epower( p ) ) == 0 ) {
+                chimes_on = false;
+                return;
+            }
+            const auto chimes_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
+            sounds::sound(chimes_pos, 40, _("a simple melody blaring from the loudspeakers.") );
         }
-        const auto chimes_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
-        iuse::play_music( &g->u, chimes_pos, 40, 10 );
     }
 }
 
