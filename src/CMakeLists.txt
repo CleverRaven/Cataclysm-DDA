@@ -92,7 +92,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
     ${CMAKE_SOURCE_DIR}/src/material.cpp
-    ${CMAKE_SOURCE_DIR}/src/veh_typedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/veh_type.cpp
     ${CMAKE_SOURCE_DIR}/src/melee.cpp
     ${CMAKE_SOURCE_DIR}/src/defense.cpp
     ${CMAKE_SOURCE_DIR}/src/npc.cpp

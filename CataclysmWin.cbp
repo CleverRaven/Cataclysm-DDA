@@ -438,7 +438,7 @@
 		<Unit filename="src/veh_interact.cpp" />
 		<Unit filename="src/veh_interact.h" />
 		<Unit filename="src/veh_type.h" />
-		<Unit filename="src/veh_typedef.cpp" />
+		<Unit filename="src/veh_type.cpp" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
 		<Unit filename="src/vehicle_group.cpp" />
