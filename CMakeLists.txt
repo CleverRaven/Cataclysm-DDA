@@ -39,13 +39,15 @@ ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
-MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
+MESSAGE(STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
-    MESSAGE(STATUS "${PROJECT} build version is: ${GIT_VERSION}\n")
+    MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
     ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
+ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+    MESSAGE("")
 ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -166,7 +168,6 @@ IF (PREFIX)
 ENDIF (PREFIX)
 
 # Set build types and display info
-	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}\n")
 IF(RELEASE)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
@@ -213,6 +214,7 @@ IF (LUA)
 	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
 ENDIF (LUA)
 	MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
+	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
