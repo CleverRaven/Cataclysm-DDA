@@ -817,7 +817,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  amount_of(const itype_id &it) const;
         long charges_of(const itype_id &it) const;
 
-        int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
+        float leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
         // Check for free container space for the whole liquid item
         bool has_container_for(const item &liquid) const;

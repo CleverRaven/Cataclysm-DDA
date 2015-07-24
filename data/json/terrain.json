@@ -3649,7 +3649,8 @@
                 { "item": "power_supply", "amount": 4, "minamount": 2 },
                 { "item": "amplifier", "amount": 4, "minamount": 2 },
                 { "item": "plastic_chunk", "amount": 12, "minamount": 10 },
-                { "item": "scrap", "amount": 8, "minamount": 6 }
+                { "item": "scrap", "amount": 8, "minamount": 6 },
+                { "item": "plut_cell_tiny", "amount": 5, "minamount": 3}
             ]
         },
         "bash": {
@@ -3690,7 +3691,8 @@
                 { "item": "power_supply", "amount": 4, "minamount": 2 },
                 { "item": "amplifier", "amount": 4, "minamount": 2 },
                 { "item": "plastic_chunk", "amount": 12, "minamount": 10 },
-                { "item": "scrap", "amount": 8, "minamount": 6 }
+                { "item": "scrap", "amount": 8, "minamount": 6 },
+                { "item": "plut_cell_tiny", "amount": 5, "minamount": 3}
             ]
         },
         "bash": {
@@ -3708,7 +3710,8 @@
                 { "item": "power_supply", "amount": 1, "minamount": 0, "chance": 50 },
                 { "item": "amplifier", "amount": 1, "minamount": 0, "chance": 50 },
                 { "item": "plastic_chunk", "amount": 10, "minamount": 4, "chance": 50 },
-                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 }
+                { "item": "scrap", "amount": 6, "minamount": 2, "chance": 50 },
+                { "item": "plut_cell_tiny", "amount": 3, "minamount": 1, "chance": 50 }
             ]
         }
     },{
@@ -3731,7 +3734,8 @@
                 { "item": "power_supply", "amount": 4, "minamount": 2 },
                 { "item": "amplifier", "amount": 4, "minamount": 2 },
                 { "item": "plastic_chunk", "amount": 12, "minamount": 10 },
-                { "item": "scrap", "amount": 8, "minamount": 6 }
+                { "item": "scrap", "amount": 8, "minamount": 6 },
+                { "item": "plut_cell_tiny", "amount": 5, "minamount": 3}
             ]
         },
         "bash": {

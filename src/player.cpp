@@ -8009,12 +8009,12 @@ void player::suffer()
     }
 
     // checking for radioactive items in inventory
-    int selfRadiation = 0;
+    float selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
     int localRadiation = g->m.get_radiation( pos3() );
 
-    if (localRadiation || selfRadiation) {
+    if (localRadiation || selfRadiation > 0) {
         bool has_helmet = false;
 
         bool power_armored = is_wearing_power_armor(&has_helmet);
@@ -9305,9 +9305,9 @@ long player::charges_of(const itype_id &it) const
     return quantity;
 }
 
-int  player::leak_level( std::string flag ) const
+float player::leak_level( std::string flag ) const
 {
-    int leak_level = 0;
+    float leak_level = 0;
     leak_level = inv.leak_level(flag);
     return leak_level;
 }

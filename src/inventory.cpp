@@ -943,17 +943,25 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
-int inventory::leak_level(std::string flag) const
+float inventory::leak_level(std::string flag) const
 {
-    int ret = 0;
+    float ret = 0;
 
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.has_flag( flag ) ) {
                 if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
                     ret += elem_stack_iter.volume();
-                } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage > 0 ) {
-                    ret += elem_stack_iter.damage;
+                } else if ( elem_stack_iter.damage > 0) {
+                    int mod = 1;
+                    if (elem_stack_iter.count_by_charges()) {
+                        mod = elem_stack_iter.charges;
+                    }
+                    if ( elem_stack_iter.has_flag("LEAK_DAM") ) {
+                        ret += elem_stack_iter.damage * mod;
+                    } else if ( elem_stack_iter.has_flag("LEAK_DAM_SMALL")) {
+                        ret += elem_stack_iter.damage * .1 * mod;
+                    }
                 }
             }
         }
@@ -1110,7 +1118,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
         return;
     }
-    
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();
