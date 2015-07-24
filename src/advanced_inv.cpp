@@ -1093,6 +1093,11 @@ bool advanced_inventory::move_all_items(bool nested_call)
 
     // AIM_ALL source area routine
     if(spane.get_area() == AIM_ALL) {
+        // move all to `AIM_WORN' doesn't make sense (see `MAX_WORN_PER_TYPE')
+        if(dpane.get_area() == AIM_WORN) {
+            popup(_("You look at the items, then your clothes, and scratch your head..."));
+            return false;
+        }
         // if the source pane (AIM_ALL) is empty, then show a message and leave
         if(spane.items.empty()) {
             popup(_("There are no items to be moved!"));
@@ -1941,9 +1946,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     const int unitvolume = it.precise_unit_volume();
     const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
-    const long input_amount = by_charges ? it.charges : 
-        (action == "MOVE_SINGLE_ITEM") ? 1 : 
-        (destarea == AIM_WORN) ? MAX_WORN_PER_TYPE : sitem.stacks;
+    const long input_amount = by_charges ? it.charges :
+            (action == "MOVE_SINGLE_ITEM") ? 1 : sitem.stacks;
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
@@ -1969,7 +1973,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         amount = std::min( volmax, amount );
     }
     // Map and vehicles have a maximal item count, check that. Inventory does not have this.
-    if( destarea != AIM_INVENTORY && destarea != AIM_WORN && destarea != AIM_CONTAINER ) {
+    if( destarea != AIM_INVENTORY && 
+            destarea != AIM_WORN && 
+            destarea != AIM_CONTAINER ) {
         const long cntmax = p.max_size - p.get_item_count();
         if( cntmax <= 0 ) {
             // TODO: items by charges might still be able to be add to an existing stack!
@@ -1985,8 +1991,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
-        const int unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
-        const int max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
+        const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
+        const long max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
         if( unitweight > 0 && unitweight * amount > max_weight ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
@@ -2001,22 +2007,23 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if(destarea == AIM_WORN) {
         const auto &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const int slots_available = input_amount - g->u.amount_worn(id);
-        // if something is going to the worn pane, there has to be at least 1
-        amount = std::min(slots_available, 1);
+        const long slots_available = MAX_WORN_PER_TYPE - g->u.amount_worn(id);
+        // base the amount to equip on amount of slots available
+        amount = std::min(slots_available, input_amount);
     }
-
-    // Now we have the final amount. Query if needed (either requested, or when
-    // the destination can not hold all items).
+    // Now we have the final amount. Query if requested or limited room left.
     if( action == "MOVE_VARIABLE_ITEM" || amount < input_amount ) {
         const int count = (by_charges) ? it.charges : sitem.stacks;
+        const char *msg = nullptr;
+        std::string popupmsg;
+        if(amount < input_amount) {
+            msg = _("How many do you want to move? [Have %d] (0 to cancel)");
+            popupmsg = string_format(msg, count);
+        } else {
+            msg = _("Destination can only hold %d! Move how many? [Have %d] (0 to cancel)");
+            popupmsg = string_format(msg, amount, count);
+        }
         // At this point amount contains the maximal amount that the destination can hold.
-        const char *msg = (amount < input_amount) ?
-            _("How many do you want to move? [Have %d] (0 to cancel)") :
-            _("Destination can only hold %d! Move how many? [Have %d] (0 to cancel)");
-        std::string popupmsg = (amount < input_amount) ?
-            string_format(msg, count) :
-            string_format(msg, amount, count);
         const long possible_max = std::min( input_amount, amount );
         if(amount <= 0) {
            popup(_("The destination is already full!"));
