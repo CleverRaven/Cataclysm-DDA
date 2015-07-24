@@ -9289,7 +9289,7 @@ int player::amount_of(const itype_id &it) const
 int player::amount_worn(const itype_id &id) const
 {
     int amount = 0;
-    for(auto &elem : g->u.worn) {
+    for(auto &elem : worn) {
         if(elem.typeId() == id) {
             ++amount;
         }
