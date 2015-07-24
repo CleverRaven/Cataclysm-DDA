@@ -1,0 +1,676 @@
+[
+    {
+        "type" : "item_group",
+        "id" : "allclothes",
+        "items":[
+            ["UPS_off", 5],
+            ["adv_UPS_off", 3],
+            ["apron_leather", 1],
+            ["arm_warmers", 20],
+            ["army_top", 20],
+            ["balclava", 15],
+            ["blazer", 35],
+            ["bondage_mask", 1],
+            ["bondage_suit", 1],
+            ["boots_combat", 10],
+            ["boots_western", 8],
+            ["bowhat", 10],
+            ["boxer_briefs", 20],
+            ["boxer_shorts", 30],
+            ["boy_shorts", 25],
+            ["bra", 30],
+            ["briefs", 15],
+            ["camisole", 30],
+            ["cassock", 1],
+            ["chestwrap", 5],
+            ["cloak", 5],
+            ["cloak_wool", 5],
+            ["clown_suit", 1],
+            ["clownshoes", 1],
+            ["coat_winter", 50],
+            ["collarpin", 2],
+            ["corset", 10],
+            ["cowboy_hat", 10],
+            ["dive_bag", 5],
+            ["dress_shirt", 60],
+            ["dress_wedding", 1],
+            ["duster_leather", 12],
+            ["ear_spool", 30],
+            ["eboshi", 1],
+            ["fedora", 5],
+            ["fishing_waders", 5],
+            ["flotation_vest", 1],
+            ["glasses_monocle", 2],
+            ["gloves_leather", 45],
+            ["gloves_light", 35],
+            ["gloves_liner", 25],
+            ["gloves_winter", 40],
+            ["gloves_wool", 33],
+            ["gloves_work", 5],
+            ["halter_top", 50],
+            ["hat_cotton", 45],
+            ["hat_fur", 15],
+            ["hat_knit", 25],
+            ["hat_newsboy", 20],
+            ["hoodie", 65],
+            ["house_coat", 25],
+            ["jacket_army", 10],
+            ["jacket_jean", 35],
+            ["jacket_leather", 30],
+            ["jacket_light", 50],
+            ["jeans", 90],
+            ["jedi_cloak", 1],
+            ["jersey", 40],
+            ["kariginu", 1],
+            ["kilt", 5],
+            ["kimono", 3],
+            ["kippah", 2],
+            ["kittel", 1],
+            ["knit_scarf", 35],
+            ["kufi", 2],
+            ["leather_belt", 30],
+            ["leg_warmers", 20],
+            ["leggings", 20],
+            ["linuxtshirt", 20],
+            ["long_knit_scarf", 5],
+            ["long_underpants", 40],
+            ["long_undertop", 40],
+            ["longshirt", 80],
+            ["maid_dress", 3],
+            ["maid_hat", 3],
+            ["mittens", 30],
+            ["nanoskirt", 10],
+            ["panties", 30],
+            ["pants", 75],
+            ["pants_army", 10],
+            ["pants_cargo", 70],
+            ["pants_checkered", 5],
+            ["pants_leather", 60],
+            ["pants_ski", 60],
+            ["peacoat", 30],
+            ["polo_shirt", 65],
+            ["porkpie", 5],
+            ["postman_hat", 5],
+            ["postman_shirt", 5],
+            ["postman_shorts", 5],
+            ["robe", 5],
+            ["scarf", 45],
+            ["scarf_long", 1],
+            ["shorts", 70],
+            ["shorts_cargo", 50],
+            ["shorts_denim", 35],
+            ["skinny_tie", 5],
+            ["skirt", 75],
+            ["skirt_leather", 5],
+            ["sleeveless_duster", 2],
+            ["sleeveless_duster_fur", 1],
+            ["sleeveless_duster_leather", 2],
+            ["sleeveless_trenchcoat", 2],
+            ["sleeveless_trenchcoat_fur", 1],
+            ["sleeveless_trenchcoat_leather", 2],
+            ["sleeveless_tunic", 5],
+            ["stockings", 20],
+            ["straw_fedora", 5],
+            ["straw_hat", 5],
+            ["suit", 60],
+            ["sweater", 75],
+            ["sweatshirt", 75],
+            ["tank_top", 50],
+            ["thawb", 1],
+            ["thermal_gloves", 2],
+            ["thermal_mask", 2],
+            ["thermal_outfit", 1],
+            ["thermal_socks", 2],
+            ["thermal_suit", 2],
+            ["tieclip", 2],
+            ["tights", 20],
+            ["tophat", 10],
+            ["trenchcoat_leather", 12],
+            ["tshirt", 70],
+            ["tux", 1],
+            ["under_armor", 20],
+            ["under_armor_shorts", 20],
+            ["undershirt", 30],
+            ["union_suit", 20],
+            ["veil_wedding", 1],
+            ["waistcoat", 30],
+            ["wetsuit", 5],
+            ["wetsuit_booties", 10],
+            ["wetsuit_gloves", 10],
+            ["wetsuit_hood", 5],
+            ["wetsuit_spring", 5],
+            ["winter_gloves_army", 10],
+            ["winter_jacket_army", 10],
+            ["winter_pants_army", 10]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "bags",
+        "items":[
+            ["backpack", 38],
+            ["backpack_leather", 8],
+            ["briefcase", 10],
+            ["mbag", 20],
+            ["purse", 40],
+            ["rucksack", 20]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "bags_trip",
+        "items" : [
+            ["duffelbag", 8],
+            ["suitcase_l", 37],
+            ["suitcase_m", 55]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "bio_op_boots",
+        "items":[
+            ["boots_combat", 1]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "bio_op_face",
+        "items":[
+            ["glasses_bal", 40],
+            ["mask_bal", 30],
+            ["mask_filter", 30],
+            ["mask_gas", 40]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "bio_op_gloves",
+        "items":[
+            ["gloves_fingerless", 40],
+            ["gloves_tactical", 60],
+            ["winter_gloves_army", 40]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "bio_op_torso",
+        "items":[
+            ["dragonskin", 50],
+            ["modularvestceramic", 40],
+            ["modularvestkevlar", 20],
+            ["winter_jacket_army", 10]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "dresses",
+        "items":[
+            ["dress", 55],
+            ["dress_wedding", 2],
+            ["sundress", 43]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "fancyfurs",
+        "items":[
+            ["boots_fur", 200],
+            ["coat_fur", 300],
+            ["coat_fur_sf", 100],
+            ["gloves_fur", 300],
+            ["hat_fur", 400],
+            ["sleeveless_duster_fur", 10],
+            ["sleeveless_trenchcoat_fur", 10]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "female_underwear_bottom",
+        "items":[
+            ["boy_shorts", 50],
+            ["panties", 70]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "female_underwear_top",
+        "items":[
+            ["bra", 90]
+      ]
+    },{
+        "type" : "item_group",
+        "id" : "hatstore_accessories",
+        "items":[
+            ["bandana", 100],
+            ["barrette", 30],
+            ["fc_hairpin", 20],
+            ["hairpin", 50],
+            ["knit_scarf", 50],
+            ["long_knit_scarf", 30],
+            ["scarf", 50],
+            ["scarf_long", 30]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "hatstore_hats",
+        "items":[
+            ["10gal_hat", 100],
+            ["balclava", 20],
+            ["bowhat", 50],
+            ["cowboy_hat", 100],
+            ["eboshi", 30],
+            ["fedora", 100],
+            ["hat_ball", 100],
+            ["hat_chef", 10],
+            ["hat_cotton", 30],
+            ["hat_fur", 20],
+            ["hat_knit", 40],
+            ["hat_newsboy", 20],
+            ["kippah", 30],
+            ["kufi", 30],
+            ["maid_hat", 30],
+            ["porkpie", 30],
+            ["postman_hat", 10],
+            ["straw_fedora", 100],
+            ["straw_hat", 100],
+            ["tophat", 50]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "hazmat_boots",
+        "items":[
+            ["boots_rubber", 1]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "hazmat_eyes",
+        "items":[
+            ["glasses_safety", 50]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "hazmat_full",
+        "items":[
+            ["anbc_suit", 20],
+            ["hazmat_suit", 80]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "hazmat_gloves",
+        "items":[
+            ["gloves_medical", 60],
+            ["gloves_rubber", 40]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "hazmat_mask",
+        "items":[
+            ["mask_dust", 80],
+            ["mask_filter", 20],
+            ["mask_gas", 10]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "hazmat_torso",
+        "items":[
+            ["cleansuit", 40],
+            ["jumpsuit", 60]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "jackets",
+        "items":[
+            ["apron_leather", 1],
+            ["blazer", 35],
+            ["coat_rain", 50],
+            ["collarpin", 2],
+            ["duster", 12],
+            ["jacket_jean", 35],
+            ["jacket_leather", 30],
+            ["jacket_light", 50],
+            ["skinny_tie", 5],
+            ["tieclip", 2],
+            ["trenchcoat", 12]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "lab_pants",
+        "items":[
+            ["jeans", 90],
+            ["pants", 75],
+            ["pants_cargo", 70],
+            ["pants_checkered", 5],
+            ["skirt", 75]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "lab_shoes",
+        "items":[
+            ["boots", 70],
+            ["boots_hiking", 40],
+            ["boots_steel", 50],
+            ["dress_shoes", 50],
+            ["sneakers", 80]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "lab_torso",
+        "items":[
+            ["cleansuit", 10],
+            ["coat_lab", 20],
+            ["coat_lab", 20],
+            ["coat_lab", 20],
+            ["coat_lab", 20],
+            ["dress", 70],
+            ["dress_shirt", 60],
+            ["hazmat_suit", 5],
+            ["hoodie", 65],
+            ["jumpsuit", 20],
+            ["longshirt", 80],
+            ["polo_shirt", 65],
+            ["sweater", 75],
+            ["sweatshirt", 75],
+            ["tshirt", 80]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "loincloth",
+        "items":[
+            ["loincloth", 2],
+            ["loincloth_fur", 1],
+            ["loincloth_leather", 1],
+            ["loincloth_wool", 1]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "male_underwear_bottom",
+        "items":[
+            ["boxer_briefs", 50],
+            ["boxer_shorts", 70],
+            ["briefs", 30]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "male_underwear_top",
+        "items":[
+            ["undershirt", 30]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "pants",
+        "items":[
+            ["b_shorts", 15],
+            ["dress", 70],
+            ["dress_wedding", 1],
+            ["jeans", 90],
+            ["kilt", 5],
+            ["leather_belt", 30],
+            ["leggings", 15],
+            ["nanoskirt", 10],
+            ["pants", 75],
+            ["pants_cargo", 70],
+            ["pants_checkered", 5],
+            ["pants_leather", 60],
+            ["postman_shorts", 5],
+            ["shorts", 70],
+            ["shorts_cargo", 50],
+            ["shorts_denim", 35],
+            ["skirt", 75],
+            ["skirt_leather", 5],
+            ["sundress", 50],
+            ["under_armor_shorts", 20]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "rad_gear",
+        "items":[
+            ["adv_UPS_off", 2],
+            ["geiger_off", 20],
+            ["iodine", 50],
+            ["oxygen_tank", 10],
+            ["rad_monitor", 10],
+            ["smoxygen_tank", 15],
+            ["wrapped_rad_badge", 80]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "shirts",
+        "items":[
+            ["camisole", 60],
+            ["collarpin", 5],
+            ["dress_shirt", 60],
+            ["halter_top", 50],
+            ["hoodie", 65],
+            ["jersey", 40],
+            ["linuxtshirt", 10],
+            ["longshirt", 80],
+            ["polo_shirt", 65],
+            ["postman_shirt", 5],
+            ["skinny_tie", 10],
+            ["sleeveless_tunic", 5],
+            ["sweater", 75],
+            ["sweatshirt", 75],
+            ["tank_top", 50],
+            ["tieclip", 5],
+            ["tshirt", 80],
+            ["under_armor", 20]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "shoes",
+        "items":[
+            ["boots", 70],
+            ["boots_combat", 10],
+            ["boots_hiking", 20],
+            ["boots_western", 10],
+            ["clogs", 1],
+            ["dance_shoes", 5],
+            ["dress_shoes", 50],
+            ["flip_flops", 35],
+            ["heels", 50],
+            ["knee_high_boots", 20],
+            ["leathersandals", 10],
+            ["lowtops", 45],
+            ["roller_blades", 5],
+            ["rollerskates", 1],
+            ["sneakers", 80],
+            ["socks", 70],
+            ["stockings", 20],
+            ["tights", 20]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "shoestore_accessories",
+        "items":[
+            ["socks", 100],
+            ["socks_wool", 50],
+            ["string_36", 200],
+            ["thermal_socks", 25]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "shoestore_shoes",
+        "items":[
+            ["boots", 100],
+            ["boots_hiking", 40],
+            ["boots_rubber", 20],
+            ["boots_western", 60],
+            ["clogs", 60],
+            ["clownshoes", 10],
+            ["dance_shoes", 20],
+            ["dress_shoes", 50],
+            ["flip_flops", 50],
+            ["heels", 100],
+            ["knee_high_boots", 40],
+            ["leathersandals", 100],
+            ["lowtops", 100],
+            ["mocassins", 40],
+            ["roller_blades", 20],
+            ["rollerskates", 10],
+            ["sneakers", 100]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "suits",
+        "items":[
+            ["collarpin", 30],
+            ["dress_shirt", 100],
+            ["skinny_tie", 50],
+            ["suit", 100],
+            ["tieclip", 30],
+            ["tophat", 30],
+            ["tux", 50],
+            ["undershirt", 100],
+            ["waistcoat", 70]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "survival_armor",
+        "items":[
+            ["UPS_off", 5],
+            ["adv_UPS_off", 3],
+            ["apron_leather", 2],
+            ["armguard_hard", 20],
+            ["boots_combat", 50],
+            ["boots_hiking", 50],
+            ["boots_steel", 50],
+            ["bootstrap", 3],
+            ["chestrig", 10],
+            ["cloak", 5],
+            ["cloak_wool", 5],
+            ["dump_pouch", 20],
+            ["elbow_pads", 40],
+            ["emer_blanket", 20],
+            ["fishing_waders", 2],
+            ["flotation_vest", 1],
+            ["glasses_bal", 20],
+            ["gloves_fingerless", 20],
+            ["gloves_tactical", 20],
+            ["goggles_ski", 30],
+            ["helmet_ball", 45],
+            ["helmet_motor", 40],
+            ["helmet_riot", 25],
+            ["helmet_skid", 30],
+            ["holster", 8],
+            ["jacket_army", 30],
+            ["jacket_leather", 30],
+            ["jumpsuit", 20],
+            ["kevlar", 30],
+            ["knee_pads", 40],
+            ["legguard_hard", 15],
+            ["legrig", 10],
+            ["long_underpants", 40],
+            ["long_undertop", 40],
+            ["mask_bal", 5],
+            ["mask_filter", 30],
+            ["mask_gas", 10],
+            ["modularvest", 12],
+            ["modularvestceramic", 8],
+            ["modularvestkevlar", 10],
+            ["modularveststeel", 5],
+            ["modularvestsuper", 1],
+            ["molle_pack", 8],
+            ["pants_army", 30],
+            ["pants_cargo", 70],
+            ["rucksack", 20],
+            ["sheath", 5],
+            ["sholster", 4],
+            ["shorts_cargo", 50],
+            ["sleeveless_duster", 2],
+            ["sleeveless_duster_leather", 5],
+            ["sleeveless_trenchcoat", 2],
+            ["sleeveless_trenchcoat_leather", 5],
+            ["tac_fullhelmet", 2],
+            ["tac_helmet", 5],
+            ["tool_belt", 5],
+            ["touring_suit", 15],
+            ["under_armor", 20],
+            ["union_suit", 20],
+            ["vest", 15],
+            ["winter_gloves_army", 10],
+            ["winter_jacket_army", 10],
+            ["winter_pants_army", 10]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "swimmer_head",
+        "items":[
+            ["fancy_sunglasses", 1],
+            ["fitover_sunglasses", 5],
+            ["goggles_swim", 90],
+            ["rebreather", 1],
+            ["sunglasses", 10],
+            ["wetsuit_hood", 30]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "swimmer_pants",
+        "items":[
+            ["hot_pants", 30],
+            ["trunks", 80]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "swimmer_shoes",
+        "items":[
+            ["flip_flops", 80],
+            ["swim_fins", 20]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "swimmer_torso",
+        "items":[
+            ["bikini_top", 50],
+            ["dive_bag", 5],
+            ["flotation_vest", 10]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "swimmer_wetsuit",
+        "items":[
+            ["wetsuit", 90],
+            ["wetsuit_spring", 10]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "technician_pants",
+        "items":[
+            ["technician_pants_blue", 20],
+            ["technician_pants_gray", 10],
+            ["technician_pants_ltblue", 15]
+                ]
+    },{
+        "type" : "item_group",
+        "id" : "technician_shirts",
+        "items":[
+            ["technician_shirt_blue", 20],
+            ["technician_shirt_ltblue", 15],
+            ["technician_shirt_gray", 10]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "winter",
+        "items":[
+            ["arm_warmers", 20],
+            ["balclava", 15],
+            ["coat_winter", 50],
+            ["gloves_leather", 45],
+            ["gloves_light", 35],
+            ["gloves_liner", 25],
+            ["gloves_winter", 40],
+            ["gloves_wool", 33],
+            ["hat_cotton", 45],
+            ["hat_fur", 15],
+            ["hat_knit", 25],
+            ["hat_newsboy", 20],
+            ["knit_scarf", 35],
+            ["leg_warmers", 20],
+            ["long_knit_scarf", 15],
+            ["long_underpants", 40],
+            ["long_undertop", 40],
+            ["mittens", 30],
+            ["pants_ski", 60],
+            ["peacoat", 30],
+            ["scarf", 45],
+            ["scarf_long", 2],
+            ["thermal_gloves", 10],
+            ["thermal_mask", 10],
+            ["thermal_outfit", 5],
+            ["thermal_socks", 10],
+            ["thermal_suit", 10],
+            ["tights", 20],
+            ["union_suit", 40]
+        ]
+    }
+]
+
