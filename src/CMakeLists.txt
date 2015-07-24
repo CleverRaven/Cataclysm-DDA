@@ -468,7 +468,7 @@ IF(CURSES)
 		)
 	ENDIF (LOCALIZE)
 
-	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_PATH})
+	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_DIR})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
 
 	IF(CMAKE_USE_PTHREADS_INIT)
