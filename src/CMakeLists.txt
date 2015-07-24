@@ -25,7 +25,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
     ${CMAKE_SOURCE_DIR}/src/item_factory.cpp
     ${CMAKE_SOURCE_DIR}/src/activity_handlers.cpp
-    ${CMAKE_SOURCE_DIR}/src/mongroupdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/mongroup.cpp
     ${CMAKE_SOURCE_DIR}/src/mapgen_functions.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame_json.cpp
     ${CMAKE_SOURCE_DIR}/src/item_action.cpp

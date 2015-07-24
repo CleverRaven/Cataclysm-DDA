@@ -346,7 +346,7 @@
 		<Unit filename="src/mondefense.cpp" />
 		<Unit filename="src/mondefense.h" />
 		<Unit filename="src/mongroup.h" />
-		<Unit filename="src/mongroupdef.cpp" />
+		<Unit filename="src/mongroup.cpp" />
 		<Unit filename="src/monmove.cpp" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/monster.h" />
