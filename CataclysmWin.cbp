@@ -428,7 +428,7 @@
 		<Unit filename="src/translations.cpp" />
 		<Unit filename="src/translations.h" />
 		<Unit filename="src/trap.h" />
-		<Unit filename="src/trapdef.cpp" />
+		<Unit filename="src/trap.cpp" />
 		<Unit filename="src/trapfunc.cpp" />
 		<Unit filename="src/tutorial.cpp" />
 		<Unit filename="src/tutorial.h" />

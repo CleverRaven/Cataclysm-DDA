@@ -114,7 +114,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/active_item_cache.cpp
     ${CMAKE_SOURCE_DIR}/src/addiction.cpp
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
-    ${CMAKE_SOURCE_DIR}/src/trapdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
