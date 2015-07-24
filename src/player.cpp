@@ -4723,17 +4723,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             }
             add_effect("blind", rng(minblind, maxblind));
         }
-
-    /*
-        It almost looks like damage may be getting applied twice in some cases.
-     */
-    case bp_mouth: // Fall through to head damage
-    case bp_head:
-        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from player::apply_damage()
-        if (hp_cur[hp_head] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_head];
-            hp_cur[hp_head] = 0;
-        }
         break;
     case bp_torso:
         // getting hit throws off our shooting
@@ -4756,6 +4745,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     case bp_foot_r: // Fall through to legs
     case bp_leg_r:
         break;
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
     default:
         debugmsg("Wacky body part hit!");
     }
@@ -4857,12 +4848,6 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hurtpart = hp_torso;
     }
 
-    if( dam <= 0 ) {
-        // Call on_hurt to wake player up etc.
-        on_hurt( source );
-        return;
-    }
-
     mod_pain( dam / 2 );
 
     hp_cur[hurtpart] -= dam;
@@ -4872,7 +4857,9 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    on_hurt( source );
+    if( dam > pkill ) {
+        on_hurt( source );
+    }
 }
 
 void player::heal(body_part healed, int dam)
