@@ -969,7 +969,7 @@ void vehicle::use_controls()
     }
 
     if (has_chimes) {
-        menu.addentry( toggle_chimes, true, 'm', chimes_on ?
+        menu.addentry( toggle_chimes, true, 'i', chimes_on ?
                        _("Turn off chimes") : _("Turn on chimes") );
     }
 
