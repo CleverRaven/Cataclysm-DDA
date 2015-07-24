@@ -588,8 +588,8 @@
         },
         "scaling_mods": {
             "pain_max_val": [30, 20],
-            "str_mod": [-1, -.5],
-            "dex_mod": [-1, -.5],
+            "str_mod": [-1, -0.5],
+            "dex_mod": [-1, -0.5],
             "vomit_chance": [-400],
             "sleep_chance": [101]
         }
