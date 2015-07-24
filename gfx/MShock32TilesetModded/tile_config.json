@@ -18003,6 +18003,11 @@
           "rotates": false
         },
         {
+          "id": "char_cooker",
+          "fg": 2189,
+          "rotates": false
+        },
+        {
           "id": "mil_mess_kit",
           "fg": 2190,
           "rotates": false
@@ -21007,6 +21012,31 @@
           "id": "vp_forklift_fork",
           "fg": 2716,
           "rotates": true
+        },
+        {
+          "id": "small_charcoal",
+          "fg": 2717,
+          "rotates": false
+        },
+        {
+          "id": "jerrypack",
+          "fg": 2718,
+          "rotates": false
+        },
+        {
+          "id": "lemat_revolver",
+          "fg": 2719,
+          "rotates": false
+        },
+        {
+          "id": "vp_funnel",
+          "fg": 2720,
+          "rotates": true
+        },
+        {
+          "id": "chemical_thrower",
+          "fg": 2722,
+          "rotates": false
         }
       ]
     },
