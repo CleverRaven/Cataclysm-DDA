@@ -243,6 +243,8 @@ FIND_PACKAGE(Threads REQUIRED)
 
 # Check for build types and libraries
 IF(TILES)
+    # Can't compile curses and tiles build's at same time
+    SET(CURSES OFF)
 	# Find SDL, SDL_ttf & SDL_image for graphical install
 	MESSAGE(STATUS "Searching for SDL2 library --\n")
 	FIND_PACKAGE(SDL2)
