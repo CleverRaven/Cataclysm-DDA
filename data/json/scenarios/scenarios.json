@@ -50,7 +50,7 @@
     "ident": "medieval",
     "name": "Challenge-Medieval Peasant",
     "points" : -5,
-    "description": "Som nigromancie hath brought yow hidder! Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God",
+    "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Forest",
     "allowed_locs" : ["forest"],
     "professions" : ["churl"],
