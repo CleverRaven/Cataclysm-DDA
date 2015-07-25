@@ -4501,7 +4501,7 @@ bool player::is_dead_state() const {
 
 void player::on_dodge( Creature *source, int difficulty )
 {
-    if( difficulty == INT_MIN ) {
+    if( difficulty == INT_MIN && source != nullptr ) {
         difficulty = source->get_melee();
     }
 
@@ -4857,7 +4857,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    if( dam > pkill && source != nullptr) {
+    if( dam > pkill ) {
         on_hurt( source );
     }
 }
