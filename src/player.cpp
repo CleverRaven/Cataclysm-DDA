@@ -4501,7 +4501,7 @@ bool player::is_dead_state() const {
 
 void player::on_dodge( Creature *source, int difficulty )
 {
-    if( difficulty == INT_MIN && source != nullptr ) {
+    if( difficulty == INT_MIN ) {
         difficulty = source->get_melee();
     }
 
