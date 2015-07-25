@@ -1590,77 +1590,32 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
-        int length = 0;
         vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
         vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-        length = utf8_width(_("<a>ctivate"));
-        if (length > max_text_length) {
-            max_text_length = length;
+
+        std::vector< std::tuple<std::string,std::string,std::string,double> >
+            menuItems {
+                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)),
+                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem)),
+                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)),
+                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)),
+                std::make_tuple("MENU", "w", _("<w>ield"), -999),
+                std::make_tuple("MENU", "t", _("<t>hrow"), -999),
+                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)),
+                std::make_tuple("MENU", "d", _("<d>rop"), rate_drop_item),
+                std::make_tuple("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )),
+                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)),
+                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)),
+                std::make_tuple("MENU", "=", _("<=> reassign"),-999)
+            };
+
+        for (auto &i: menuItems){
+            vMenu.push_back(iteminfo(std::get<0>(i), std::get<1>(i), std::get<2>(i), std::get<3>(i)));
+            max_text_length = std::max(max_text_length, utf8_width(std::get<2>(i).c_str()));
         }
-        vMenu.push_back(iteminfo("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)));
-        length = utf8_width(_("<R>ead"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem)));
-        length = utf8_width(_("<E>at"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)));
-        length = utf8_width(_("<W>ear"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)));
-        length = utf8_width(_("<w>ield"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "w", _("<w>ield")));
-        length = utf8_width(_("<t>hrow"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "t", _("<t>hrow")));
-        length = utf8_width(_("<T>ake off"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)));
-        length = utf8_width(_("<d>rop"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "d", _("<d>rop"), rate_drop_item));
-        length = utf8_width(_("<U>nload"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )));
-        length = utf8_width(_("<r>eload"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)));
-        length = utf8_width(_("<D>isassemble"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)));
-        length = utf8_width(_("<=> reassign"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        vMenu.push_back(iteminfo("MENU", "=", _("<=> reassign")));
-        length = utf8_width(_("<-> Autopickup"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
-        length = utf8_width(_("<+> Autopickup"));
-        if (length > max_text_length) {
-            max_text_length = length;
-        }
+
+        max_text_length = std::max(max_text_length, utf8_width(_("<-> Autopickup")));
+        max_text_length = std::max(max_text_length, utf8_width(_("<+> Autopickup")));
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-" : "+",
                                  (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
