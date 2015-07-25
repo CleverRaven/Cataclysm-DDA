@@ -569,6 +569,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void healall(int dam);
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall(int dam, Creature *source);
+        /** Hurts a given number of random body parts */
+        void hurt_random(int numberOfBodyParts, int dam, bool randomizeDamage = false);
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */

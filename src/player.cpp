@@ -4857,7 +4857,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    if( dam > pkill ) {
+    if( dam > pkill && source != nullptr) {
         on_hurt( source );
     }
 }
@@ -14057,3 +14057,14 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line)
     }
 }
 
+void player::hurt_random(int numberOfBodyParts, int dam, bool randomizeDamage) {
+    int totalDmg = 0;
+    for(int i = 0; i < numberOfBodyParts; i++) {
+        auto part = bp_to_hp(random_body_part());
+        auto maxHp = get_hp_max(part);
+        int dmg = randomizeDamage ? int(rng( maxHp/12, maxHp/4)) : dam;
+        hp_cur[part] -= dmg;
+        totalDmg+=dmg;
+    }
+    mod_pain(totalDmg);
+}

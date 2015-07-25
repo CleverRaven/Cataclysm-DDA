@@ -1604,6 +1604,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
             wprintz(w_flags, c_ltgray, _("Zombies nearby"));
             wprintz(w_flags, c_ltgray, ("\n"));
         }
+        if ( sorted_scens[cur_id]->has_flag("WOUND_START") ) {
+            wprintz(w_flags, c_ltgray, _("Various wounds"));
+            wprintz(w_flags, c_ltgray, ("\n"));
+        }
 
         draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
         wrefresh(w);
