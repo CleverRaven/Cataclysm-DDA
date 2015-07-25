@@ -4723,17 +4723,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             }
             add_effect("blind", rng(minblind, maxblind));
         }
-
-    /*
-        It almost looks like damage may be getting applied twice in some cases.
-     */
-    case bp_mouth: // Fall through to head damage
-    case bp_head:
-        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from player::apply_damage()
-        if (hp_cur[hp_head] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_head];
-            hp_cur[hp_head] = 0;
-        }
         break;
     case bp_torso:
         // getting hit throws off our shooting
@@ -4756,6 +4745,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     case bp_foot_r: // Fall through to legs
     case bp_leg_r:
         break;
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
     default:
         debugmsg("Wacky body part hit!");
     }
@@ -4857,12 +4848,6 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hurtpart = hp_torso;
     }
 
-    if( dam <= 0 ) {
-        // Call on_hurt to wake player up etc.
-        on_hurt( source );
-        return;
-    }
-
     mod_pain( dam / 2 );
 
     hp_cur[hurtpart] -= dam;
@@ -4872,7 +4857,9 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    on_hurt( source );
+    if( dam > pkill ) {
+        on_hurt( source );
+    }
 }
 
 void player::heal(body_part healed, int dam)
@@ -6202,6 +6189,7 @@ void player::hardcoded_effects(effect &it)
         return;
     }
     std::string id = it.get_id();
+    int start = it.get_start_turn();
     int dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
@@ -7461,9 +7449,7 @@ void player::hardcoded_effects(effect &it)
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( (it.get_duration() == 1 || woke_up) &&
-            fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
-            fell_asleep_turn = -1;
+        if( (it.get_duration() == 1 || woke_up) && calendar::turn - start > HOURS(2) ) {
             print_health();
         }
     } else if (id == "alarm_clock") {
@@ -12040,18 +12026,18 @@ bool player::can_sleep()
 void player::fall_asleep(int duration)
 {
     add_effect("sleep", duration);
-    fell_asleep_turn = calendar::turn;
 }
 
 void player::wake_up()
 {
+    if (has_effect("sleep")) {
+        if(calendar::turn - get_effect("sleep").get_start_turn() > HOURS(2) ) {
+            print_health();
+        }
+    }
+
     remove_effect("sleep");
     remove_effect("lying_down");
-
-    if( fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
-        fell_asleep_turn = -1;
-        print_health();
-    }
 }
 
 std::string player::is_snuggling()

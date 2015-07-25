@@ -180,7 +180,7 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 #ifdef PREFIX   // use the PREFIX path over the current directory
     img_path = (FILENAMES["base_path"] + "/" + img_path);
 #elif defined DATA_DIR_PREFIX // Used for linux release installs
-    img_path = (FILENAMES["datadir"] + "/" + img_path)
+    img_path = (FILENAMES["datadir"] + "/" + img_path);
 #endif
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
