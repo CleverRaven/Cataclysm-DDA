@@ -1987,7 +1987,7 @@ void monster::hear_sound( const tripoint &source, const int vol )
 
             int wander_turns = volume * (goodhearing ? 6 : 1);
             process_trigger(MTRIG_SOUND, volume);
-            if( morale >= anger ) {
+            if( morale >= 0 && anger >= 10 ) {
                 // TODO: Add a proper check for fleeing attitude
                 // but cache it nicely, because this part is called a lot
                 wander_to( tripoint( target_x, target_y, source.z ), wander_turns);
