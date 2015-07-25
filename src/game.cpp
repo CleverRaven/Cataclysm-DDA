@@ -2175,97 +2175,97 @@ bool game::handle_action()
     int mouse_action_x = -1;
     int mouse_action_y = -1;
 
-    // do not allow mouse actions while dead
-    if(!u.is_dead_state()) {
-        if (act == ACTION_NULL) {
-            if (action == "SELECT" || action == "SEC_SELECT") {
-                // Mouse button click
-                if (veh_ctrl) {
-                    // No mouse use in vehicle
-                    return false;
-                }
+// do not allow mouse actions while dead
+    if( !u.is_dead_state() &&
+        act == ACTION_NULL &&
+        (action == "SELECT" || action == "SEC_SELECT")
+      ) {
+        // Mouse button click
+        if (veh_ctrl) {
+            // No mouse use in vehicle
+            return false;
+        }
 
-                int mx, my;
-                if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees(mx, my)) {
-                    // Not clicked in visible terrain
-                    return false;
-                }
+        int mx, my;
+        if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees(mx, my)) {
+            // Not clicked in visible terrain
+            return false;
+        }
 
-                if (action == "SELECT") {
-                    bool new_destination = true;
-                    if (!destination_preview.empty()) {
-                        auto &final_destination = destination_preview.back();
-                        if (final_destination.x == mx && final_destination.y == my) {
-                            // Second click
-                            new_destination = false;
-                            u.set_destination(destination_preview);
-                            destination_preview.clear();
-                            act = u.get_next_auto_move_direction();
-                            if (act == ACTION_NULL) {
-                                // Something went wrong
-                                u.clear_destination();
-                                return false;
-                            }
-                        }
-                    }
-
-                    if (new_destination) {
-                        destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
-                        return false;
-                    }
-                } else if (action == "SEC_SELECT") {
-                    // Right mouse button
-
-                    bool had_destination_to_clear = !destination_preview.empty();
-                    u.clear_destination();
+        if (action == "SELECT") {
+            bool new_destination = true;
+            if (!destination_preview.empty()) {
+                auto &final_destination = destination_preview.back();
+                if (final_destination.x == mx && final_destination.y == my) {
+                    // Second click
+                    new_destination = false;
+                    u.set_destination(destination_preview);
                     destination_preview.clear();
-
-                    if (had_destination_to_clear) {
+                    act = u.get_next_auto_move_direction();
+                    if (act == ACTION_NULL) {
+                        // Something went wrong
+                        u.clear_destination();
                         return false;
                     }
+                }
+            }
 
-                    mouse_action_x = mx;
-                    mouse_action_y = my;
-                    int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
-                    if (mouse_selected_mondex != -1) {
-                        monster &critter = critter_tracker->find(mouse_selected_mondex);
-                        if (!u.sees(critter)) {
-                            add_msg(_("Nothing relevant here."));
-                            return false;
-                        }
+            if (new_destination) {
+                destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
+                return false;
+            }
+        } else if (action == "SEC_SELECT") {
+            // Right mouse button
 
-                        if (!u.weapon.is_gun()) {
-                            add_msg(m_info, _("You are not wielding a ranged weapon."));
-                            return false;
-                        }
+            bool had_destination_to_clear = !destination_preview.empty();
+            u.clear_destination();
+            destination_preview.clear();
 
-                        //TODO: Add weapon range check. This requires weapon to be reloaded.
+            if (had_destination_to_clear) {
+                return false;
+            }
 
-                        act = ACTION_FIRE;
-                    } else if (std::abs(mx - u.posx()) <= 1 && std::abs(my - u.posy()) <= 1 &&
-                               m.close_door( tripoint( mx, my, u.posz() ), !m.is_outside(u.pos3()), true)) {
-                        // Can only close doors when adjacent to it.
-                        act = ACTION_CLOSE;
+            mouse_action_x = mx;
+            mouse_action_y = my;
+            int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
+            if (mouse_selected_mondex != -1) {
+                monster &critter = critter_tracker->find(mouse_selected_mondex);
+                if (!u.sees(critter)) {
+                    add_msg(_("Nothing relevant here."));
+                    return false;
+                }
+
+                if (!u.weapon.is_gun()) {
+                    add_msg(m_info, _("You are not wielding a ranged weapon."));
+                    return false;
+                }
+
+                //TODO: Add weapon range check. This requires weapon to be reloaded.
+
+                act = ACTION_FIRE;
+            } else if (std::abs(mx - u.posx()) <= 1 && std::abs(my - u.posy()) <= 1 &&
+                       m.close_door( tripoint( mx, my, u.posz() ), !m.is_outside(u.pos3()), true)) {
+                // Can only close doors when adjacent to it.
+                act = ACTION_CLOSE;
+            } else {
+                int dx = abs(u.posx() - mx);
+                int dy = abs(u.posy() - my);
+                if (dx < 2 && dy < 2) {
+                    if (dy == 0 && dx == 0) {
+                        // Clicked on self
+                        act = ACTION_PICKUP;
                     } else {
-                        int dx = abs(u.posx() - mx);
-                        int dy = abs(u.posy() - my);
-                        if (dx < 2 && dy < 2) {
-                            if (dy == 0 && dx == 0) {
-                                // Clicked on self
-                                act = ACTION_PICKUP;
-                            } else {
-                                // Clicked adjacent tile
-                                act = ACTION_EXAMINE;
-                            }
-                        } else {
-                            add_msg(_("Nothing relevant here."));
-                            return false;
-                        }
+                        // Clicked adjacent tile
+                        act = ACTION_EXAMINE;
                     }
+                } else {
+                    add_msg(_("Nothing relevant here."));
+                    return false;
                 }
             }
         }
     }
+
 
     if( act == ACTION_NULL ) {
         // No auto-move action, no mouse clicks.
@@ -3461,25 +3461,16 @@ bool game::save_player_data()
 bool game::save()
 {
     try {
-        if( !save_player_data() ) {
+        if ( !save_player_data() ||
+             !save_factions_missions_npcs() ||
+             !save_artifacts() ||
+             !save_maps() ||
+             !save_auto_pickup(true) || // Save character auto pickup rules
+             !save_uistate()){
             return false;
+        } else {
+            return true;
         }
-        if (!save_factions_missions_npcs()) {
-            return false;
-        }
-        if (!save_artifacts()) {
-            return false;
-        }
-        if (!save_maps()) {
-            return false;
-        }
-        if (!save_auto_pickup(true)) { // Save character auto pickup rules
-            return false;
-        }
-        if (!save_uistate()) {
-            return false;
-        }
-        return true;
     } catch (std::ios::failure &err) {
         popup(_("Failed to save game data"));
         return false;
@@ -4890,11 +4881,7 @@ void game::draw_sidebar()
 
 bool game::isBetween(int test, int down, int up)
 {
-    if (test > down && test < up) {
-        return true;
-    } else {
-        return false;
-    }
+    return test > down && test < up;
 }
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
@@ -4954,7 +4941,8 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         for (realx = posx - POSX; realx <= posx + POSX; realx++) {
             for (realy = posy - POSY; realy <= posy + POSY; realy++) {
                 if (scent(tmp) != 0) {
-                    int tempx = posx - realx, tempy = posy - realy;
+                    int tempx = posx - realx;
+                    int tempy = posy - realy;
                     if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
                         if (mon_at(tmp) != -1) {
                             mvwputch(w_terrain, realy + POSY - posy,
@@ -5198,19 +5186,17 @@ void game::draw_minimap()
                 }
 
                 if (symbolIndex > -1) {
-
                     int symbolStart = 0;
                     if (colorIndex > -1 && !symbolFirst) {
                         symbolStart = colorIndex + 1;
                     }
-
                     ter_sym = note_text.substr(symbolStart, symbolIndex - symbolStart).c_str()[0];
-
                 }
 
                 if (colorIndex > -1) {
 
                     int colorStart = 0;
+
                     if (symbolIndex > -1 && symbolFirst) {
                         colorStart = symbolIndex + 1;
                     }
@@ -5218,59 +5204,40 @@ void game::draw_minimap()
                     std::string sym = note_text.substr(colorStart, colorIndex - colorStart);
 
                     if (sym.length() == 2) {
-
                         if (sym.compare("br") == 0) {
                             ter_color = c_brown;
-                        }
-                        if (sym.compare("lg") == 0) {
+                        } else if (sym.compare("lg") == 0) {
                             ter_color = c_ltgray;
-                        }
-                        if (sym.compare("dg") == 0) {
+                        } else if (sym.compare("dg") == 0) {
                             ter_color = c_dkgray;
                         }
-
                     } else {
-
                         char colorID = sym.c_str()[0];
-
                         if (colorID == 'r') {
                             ter_color = c_ltred;
-                        }
-                        if (colorID == 'R') {
+                        } else if (colorID == 'R') {
                             ter_color = c_red;
-                        }
-                        if (colorID == 'g') {
+                        } else if (colorID == 'g') {
                             ter_color = c_ltgreen;
-                        }
-                        if (colorID == 'G') {
+                        } else if (colorID == 'G') {
                             ter_color = c_green;
-                        }
-                        if (colorID == 'b') {
+                        } else if (colorID == 'b') {
                             ter_color = c_ltblue;
-                        }
-                        if (colorID == 'B') {
+                        } else if (colorID == 'B') {
                             ter_color = c_blue;
-                        }
-                        if (colorID == 'W') {
+                        } else if (colorID == 'W') {
                             ter_color = c_white;
-                        }
-                        if (colorID == 'C') {
+                        } else if (colorID == 'C') {
                             ter_color = c_cyan;
-                        }
-                        if (colorID == 'c') {
+                        } else if (colorID == 'c') {
                             ter_color = c_ltcyan;
-                        }
-                        if (colorID == 'P') {
+                        } else if (colorID == 'P') {
                             ter_color = c_pink;
-                        }
-                        if (colorID == 'm') {
+                        } else if (colorID == 'm') {
                             ter_color = c_magenta;
                         }
-
                     }
-
                 }
-
             } else if (!seen) {
                 ter_sym = ' ';
                 ter_color = c_black;
@@ -5644,19 +5611,15 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
-                if (u.has_trait("M_DEFENDER")) {
-                    if (critter.type->in_species("PLANT")) {
-                        add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
-                        if (!u.has_effect("adrenaline_mycus")){
-                            u.add_effect("adrenaline_mycus", 300);
-                        } else {
-                            if (u.get_effect_int("adrenaline_mycus") == 1) {
-                                // Triffids present.  We ain't got TIME to adrenaline comedown!
-                                u.add_effect("adrenaline_mycus", 150);
-                                u.mod_pain(3); // Does take it out of you, though
-                                add_msg(m_info, _("Our fibers strain with renewed wrath!"));
-                            }
-                        }
+                if (u.has_trait("M_DEFENDER") && critter.type->in_species("PLANT")) {
+                    add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
+                    if (!u.has_effect("adrenaline_mycus")){
+                        u.add_effect("adrenaline_mycus", 300);
+                    } else if (u.get_effect_int("adrenaline_mycus") == 1) {
+                        // Triffids present.  We ain't got TIME to adrenaline comedown!
+                        u.add_effect("adrenaline_mycus", 150);
+                        u.mod_pain(3); // Does take it out of you, though
+                        add_msg(m_info, _("Our fibers strain with renewed wrath!"));
                     }
                 }
             } else {
@@ -5911,16 +5874,16 @@ void game::monmove()
             m.creature_in_field( critter );
         }
 
-        if (!critter.is_dead()) {
-            if (u.has_active_bionic("bio_alarm") && u.power_level >= 25 &&
-                rl_dist( u.pos(), critter.pos() ) <= 5) {
+        if (!critter.is_dead() &&
+            u.has_active_bionic("bio_alarm") &&
+            u.power_level >= 25 &&
+            rl_dist( u.pos(), critter.pos() ) <= 5) {
                 u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
                 if (u.in_sleep_state()) {
                     u.wake_up();
                 }
-            }
         }
     }
 
@@ -5942,18 +5905,17 @@ void game::monmove()
     }
 
     // Now, do active NPCs.
-    for( auto &elem : active_npc ) {
-        npc &np = *elem;
-        if( np.is_dead() ) {
+    for( auto np : active_npc ) {
+        if( np->is_dead() ) {
             continue;
         }
         int turns = 0;
-        m.creature_in_field( *elem );
-        np.process_turn();
-        while( !np.is_dead() && !np.in_sleep_state() && np.moves > 0 && turns < 10 ) {
-            int moves = np.moves;
-            np.move();
-            if( moves == np.moves ) {
+        m.creature_in_field( *np );
+        np->process_turn();
+        while( !np->is_dead() && !np->in_sleep_state() && np->moves > 0 && turns < 10 ) {
+            int moves = np->moves;
+            np->move();
+            if( moves == np->moves ) {
                 // Count every time we exit npc::move() without spending any moves.
                 turns++;
             }
@@ -5961,15 +5923,15 @@ void game::monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s's brain explodes!" ), np.name.c_str() );
-            np.die( nullptr );
+            add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
+            np->die( nullptr );
         }
 
-        if( !np.is_dead() ) {
-            np.process_active_items();
-            np.update_needs();
-            np.regen();
-            np.update_stamina();
+        if( !np->is_dead() ) {
+            np->process_active_items();
+            np->update_needs();
+            np->regen();
+            np->update_stamina();
         }
     }
     cleanup_dead();
@@ -6248,10 +6210,10 @@ void game::flashbang( const tripoint &p, bool player_immune)
     for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker->find(i);
         dist = rl_dist( critter.pos3(), p );
-        if( dist <= 4 ) {
-            critter.add_effect("stunned", 10 - dist);
-        }
         if( dist <= 8 ) {
+            if( dist <= 4 ) {
+                critter.add_effect("stunned", 10 - dist);
+            }
             if( critter.has_flag(MF_SEES) && m.sees( critter.pos3(), p, 8 ) ) {
                 critter.add_effect("blind", 18 - dist);
             }
@@ -6439,29 +6401,17 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                     targ->name.c_str(), force_remaining);
                     }
                     add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult * force_remaining);
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_head, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_hand_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        targ->deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                    body_part bps[] = {
+                        bp_head,
+                        bp_arm_l, bp_arm_r,
+                        bp_hand_l, bp_hand_r,
+                        bp_torso,
+                        bp_leg_l, bp_leg_r
+                    };
+                    for (auto &bp : bps) {
+                        if (one_in(2)) {
+                            targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                        }
                     }
                     targ->check_dead_state();
                 }
@@ -6536,29 +6486,17 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                 force_remaining);
                     }
                     u.add_effect("stunned", force_remaining);
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_head, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_BASH, force_remaining * dam_mult ) );
-                    }
-                    if (one_in(2)) {
-                        u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                    body_part bps[] = {
+                        bp_head,
+                        bp_arm_l, bp_arm_r,
+                        bp_hand_l, bp_hand_r,
+                        bp_torso,
+                        bp_leg_l, bp_leg_r
+                    };
+                    for (auto &bp : bps) {
+                        if (one_in(2)) {
+                            u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                        }
                     }
                     u.check_dead_state();
                 }
@@ -11058,11 +10996,10 @@ void game::butcher()
     size_t salvage_index = corpses.size();
     if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
-            if( !items[i].is_corpse() ) {
-                if( salvage_iuse->valid_to_cut_up( &items[i] ) ) {
+            if( !items[i].is_corpse() &&
+                salvage_iuse->valid_to_cut_up( &items[i] ) ) {
                     corpses.push_back(i);
                     has_item = true;
-                }
             }
         }
     }
@@ -13153,8 +13090,7 @@ void game::vertical_move(int movez, bool force)
                     !otermap[ter2].has_flag(known_down) ) {
                     overmap_buffer.set_seen(cursx, cursy, z_after, true);
                     overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
-                }
-                if( movez == -1 && otermap[ter].has_flag(known_down) &&
+                } else if ( movez == -1 && otermap[ter].has_flag(known_down) &&
                     !otermap[ter2].has_flag(known_up) ) {
                     overmap_buffer.set_seen(cursx, cursy, z_after, true);
                     overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
@@ -14524,7 +14460,7 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
                                    (net_per > 0 ? "+" : ""), net_per);
     }
 
-    if (stat_info.length() > 0) {
+    if (!stat_info.empty()) {
         add_msg(stat_info.c_str());
     }
 
