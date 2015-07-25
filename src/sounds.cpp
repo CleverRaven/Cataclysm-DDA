@@ -149,7 +149,11 @@ void sounds::process_sounds()
         // Alert all monsters (that can hear) to the sound.
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster &critter = g->zombie(i);
-            critter.hear_sound( source, vol );
+            const int dist = rl_dist( source, critter.pos() );
+            if( vol * 2 > dist ) {
+                // Exclude monsters that certainly won't hear the sound
+                critter.hear_sound( source, vol, dist );
+            }
         }
     }
     recent_sounds.clear();

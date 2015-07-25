@@ -308,8 +308,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void make_ally(monster* z);
         void add_item(item it);     // Add an item to inventory
 
-        // Here volume is source volume (ie. before distance subtraction)
-        void hear_sound( const tripoint &from, int volume );
+        /**
+         * Makes monster react to heard sound
+         *
+         * @param source_volume Volume at the center of the sound source
+         * @param distance Distance to sound source (currently just rl_dist)
+         */
+        void hear_sound( const tripoint &from, int source_volume, int distance );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
