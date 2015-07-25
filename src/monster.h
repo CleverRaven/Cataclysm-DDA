@@ -298,12 +298,18 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void drop_items_on_death();
 
         // Other
-        bool make_fungus();  // Makes this monster into a fungus version
-        // Returns false if no such monster exists
+        /**
+         * Makes this monster into a fungus version
+         * Returns false if no such monster exists
+         */
+        bool make_fungus();
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally(monster* z);
         void add_item(item it);     // Add an item to inventory
+
+        // Here volume is source volume (ie. before distance subtraction)
+        void hear_sound( const tripoint &from, int volume );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
