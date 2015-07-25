@@ -1991,7 +1991,7 @@ void monster::hear_sound( const tripoint &source, const int vol )
                 // TODO: Add a proper check for fleeing attitude
                 // but cache it nicely, because this part is called a lot
                 wander_to( tripoint( target_x, target_y, source.z ), wander_turns);
-            } else {
+            } else if( morale < 0 ) {
                 // Monsters afraid of sound should not go towards sound
                 wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ), wander_turns );
             }
