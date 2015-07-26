@@ -1792,11 +1792,11 @@ int npc::danger_assessment()
 
 int npc::average_damage_dealt()
 {
- int ret = base_damage();
- ret += weapon.damage_cut() + weapon.damage_bash() / 2;
- ret *= (base_to_hit() + weapon.type->m_to_hit);
- ret /= 15;
- return ret;
+    int ret = base_damage();
+    ret += ( weapon.damage_cut() + weapon.damage_bash() ) / 2;
+    ret *= ( get_hit_base() + weapon.type->m_to_hit );
+    ret /= 15;
+    return ret;
 }
 
 bool npc::bravery_check(int diff)

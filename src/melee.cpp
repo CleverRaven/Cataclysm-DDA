@@ -43,8 +43,6 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
  *  true if we're wielding a bionic weapon (at this point, just "bio_claws").
  *
  * HIT DETERMINATION
- * int base_to_hit() - The base number of sides we get in hit_roll().
- *                     Dexterity / 2 + sk_melee
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
  *   player's dodge_roll().  This handles weapon bonuses, weapon-specific
  *   skills, torso encumbrance penalties and drunken master bonuses.
@@ -128,19 +126,8 @@ bool player::unarmed_attack() const {
  return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
 }
 
-// TODO: this is here for newcharacter.cpp only, swap it out when possible
-int player::base_to_hit(bool real_life, int stat)
-{
- if (stat == -999)
-  stat = (real_life ? dex_cur : dex_max);
- return 1 + int(stat / 2) + get_skill_level("melee");
-}
-
-
 int player::get_hit_base() const
 {
-    int best_bonus = 0;
-
     int unarmed_skill = get_skill_level("unarmed");
     int bashing_skill = get_skill_level("bashing");
     int cutting_skill = get_skill_level("cutting");
@@ -155,59 +142,42 @@ int player::get_hit_base() const
         melee_skill = 5;
     }
 
+    float best_bonus = 0.0;
+
     // Are we unarmed?
-    if (unarmed_attack()) {
-        best_bonus = unarmed_skill;
-        if (unarmed_skill > 4)
-            best_bonus += unarmed_skill - 4; // Extra bonus for high levels
+    if( unarmed_attack() ) {
+        best_bonus = unarmed_skill / 2.0f;
     }
 
     // Using a bashing weapon?
-    if (weapon.is_bashing_weapon()) {
-        int bash_bonus = int(bashing_skill / 3);
-        if (bash_bonus > best_bonus)
-            best_bonus = bash_bonus;
+    if( weapon.is_bashing_weapon() ) {
+        best_bonus = std::max( best_bonus, bashing_skill / 3.0f );
     }
 
     // Using a cutting weapon?
-    if (weapon.is_cutting_weapon()) {
-        int cut_bonus = int(cutting_skill / 2);
-        if (cut_bonus > best_bonus)
-            best_bonus = cut_bonus;
+    if( weapon.is_cutting_weapon() ) {
+        best_bonus = std::max( best_bonus, cutting_skill / 3.0f );
     }
 
     // Using a spear?
-    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
-        int stab_bonus = int(stabbing_skill / 2);
-        if (stab_bonus > best_bonus)
-            best_bonus = stab_bonus;
+    if( weapon.has_flag("SPEAR") || weapon.has_flag("STAB") ) {
+        best_bonus = std::max( best_bonus, stabbing_skill / 3.0f );
     }
 
     // Creature::get_hit_base includes stat calculations already
-    return Creature::get_hit_base() + melee_skill + best_bonus;
+    return Creature::get_hit_base() + int(melee_skill / 2.0f + best_bonus);
 }
 
 int player::hit_roll() const
 {
     //Unstable ground chance of failure
-    if (has_effect("bouldering")) {
-        if(one_in(get_dex())) {
-            add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
-            return 0;
-        }
+    if( has_effect("bouldering") && one_in(8) ) {
+        add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
+        return 0;
     }
 
-    // apply martial arts bonuses
+    // Dexterity, skills, weapon and martial arts
     int numdice = get_hit();
-
-    int sides = 10 - (encumb(bp_torso) / 10);
-    int best_bonus = 0;
-    if (sides < 2) {
-        sides = 2;
-    }
-
-    numdice += best_bonus; // Use whichever bonus is best.
-
     // Drunken master makes us hit better
     if (has_trait("DRUNKEN")) {
         if (unarmed_attack()) {
@@ -218,16 +188,16 @@ int player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if (has_trait("HYPEROPIC") && !is_wearing("glasses_reading")
-          && !is_wearing("glasses_bifocal")) {
+    if( has_trait("HYPEROPIC") &&
+        !is_wearing("glasses_reading") && !is_wearing("glasses_bifocal") ) {
         numdice -= 2;
     }
 
-    if (numdice < 1) {
+    if( numdice < 1 ) {
         numdice = 1;
-        sides = 8 - (encumb(bp_torso) / 10);
     }
 
+    const int sides = std::max( 10 - (encumb(bp_torso) / 10), 2 );
     return dice(numdice, sides);
 }
 
@@ -249,10 +219,10 @@ const char *player::get_miss_reason()
     // in one turn
     add_miss_reason(
         _("Your torso encumbrance throws you off-balance."),
-        encumb(bp_torso));
-    int farsightedness = 2 * (has_trait("HYPEROPIC")
-                              && !is_wearing("glasses_reading")
-                              && !is_wearing("glasses_bifocal"));
+        encumb(bp_torso) / 10 );
+    const int farsightedness = 2 * ( has_trait("HYPEROPIC") &&
+                               !is_wearing("glasses_reading") &&
+                               !is_wearing("glasses_bifocal") );
     add_miss_reason(
         _("You can't hit reliably without your glasses."),
         farsightedness);
@@ -278,7 +248,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     int move_cost = attack_speed(*this);
 
-    bool critical_hit = scored_crit(t.dodge_roll());
+    const bool critical_hit = scored_crit( t.dodge_roll() );
 
     // Pick one or more special attacks
     matec_id technique_id;
@@ -290,12 +260,12 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         technique_id = tec_none;
     }
     const ma_technique &technique = technique_id.obj();
-    int hit_spread = t.deal_melee_attack(this, hit_roll());
-    if (hit_spread < 0) {
+    const int hit_spread = t.deal_melee_attack(this, hit_roll());
+    if( hit_spread < 0 ) {
         int stumble_pen = stumble(*this);
-        if (is_player()) { // Only display messages if this is the player
+        if( is_player() ) { // Only display messages if this is the player
 
-            if (one_in(2)) {
+            if( one_in(2) ) {
                 const char* reason_for_miss = get_miss_reason();
                 if (reason_for_miss != NULL)
                     add_msg(reason_for_miss);
@@ -317,12 +287,16 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             else
                 add_msg(_("%s misses."),name.c_str());
         }
-        if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
+        if( !has_active_bionic("bio_cqb") ) {
+            // No practice if you're relying on bio_cqb to fight for you
             melee_practice( *this, false, unarmed_attack(),
                             weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                             (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
-        move_cost += stumble_pen;
-        if (has_miss_recovery_tec()) {
+        }
+
+        // Cap stumble penalty, heavy weapons are quite weak already
+        move_cost += std::min( 60, stumble_pen );
+        if( has_miss_recovery_tec() ) {
             move_cost = rng(move_cost / 3, move_cost);
         }
     } else {
@@ -464,103 +438,102 @@ void player::reach_attack( const tripoint &p )
 
 int stumble(player &u)
 {
- int stumble_pen = 2 * u.weapon.volume() + (u.weapon.weight() / 113);
- if (u.has_trait("DEFT"))
-  stumble_pen = int(stumble_pen * .3) - 10;
- if (stumble_pen < 0)
-  stumble_pen = 0;
-// TODO: Reflect high strength bonus in newcharacter.cpp
- if (stumble_pen > 0 && (u.str_cur >= 15 || u.dex_cur >= 21 ||
-                         one_in(16 - u.str_cur) || one_in(22 - u.dex_cur)))
-  stumble_pen = rng(0, stumble_pen);
+    if( u.has_trait("DEFT") ) {
+        return 0;
+    }
 
- return stumble_pen;
+    // Examples:
+    // 10 str with a hatchet: 4 + 8 = 12
+    // 5 str with a battle axe: 26 + 49 = 75
+    // Fist: 0
+
+    return ( 2 * u.weapon.volume() ) +
+           ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
 }
 
 bool player::scored_crit(int target_dodge)
 {
- int num_crits = 0;
+    int num_crits = 0;
 
- int unarmed_skill = get_skill_level("unarmed");
- int bashing_skill = get_skill_level("bashing");
- int cutting_skill = get_skill_level("cutting");
- int stabbing_skill = get_skill_level("stabbing");
- int melee_skill = get_skill_level("melee");
+    int unarmed_skill = get_skill_level("unarmed");
+    int bashing_skill = get_skill_level("bashing");
+    int cutting_skill = get_skill_level("cutting");
+    int stabbing_skill = get_skill_level("stabbing");
+    int melee_skill = get_skill_level("melee");
 
- if (has_active_bionic("bio_cqb")) {
-     unarmed_skill = 5;
-     bashing_skill = 5;
-     cutting_skill = 5;
-     stabbing_skill = 5;
-     melee_skill = 5;
- }
-// Weapon to-hit roll
- int chance = 25;
- if (unarmed_attack()) { // Unarmed attack: 1/2 of unarmed skill is to-hit
-  for (int i = 1; i <= int(unarmed_skill * .5); i++)
-   chance += (50 / (2 + i));
- }
- if (weapon.type->m_to_hit > 0) {
-  for (int i = 1; i <= weapon.type->m_to_hit; i++)
-   chance += (50 / (2 + i));
- } else if (weapon.type->m_to_hit < 0) {
-  for (int i = 0; i > weapon.type->m_to_hit; i--)
-   chance /= 2;
- }
- if (rng(0, 99) < chance)
-   num_crits++;
+    if( has_active_bionic("bio_cqb") ) {
+        unarmed_skill = 5;
+        bashing_skill = 5;
+        cutting_skill = 5;
+        stabbing_skill = 5;
+        melee_skill = 5;
+    }
+    // Weapon to-hit roll
+    int weapon_crit_chance = 50;
+    if( unarmed_attack() ) {
+        // Unarmed attack: 1/2 of unarmed skill is to-hit
+        weapon_crit_chance = 50 + unarmed_skill * 5;
+    }
 
-// Dexterity to-hit roll
-// ... except sometimes we don't use dexterity!
- int stat = dex_cur;
+    if( weapon.type->m_to_hit > 0 ) {
+        // Don't let unarmed bonus stack with good unarmed weapons (it gets crazy high)
+        weapon_crit_chance = std::max( weapon_crit_chance, 50 + 10 * weapon.type->m_to_hit );
+    } else if( weapon.type->m_to_hit < 0 ) {
+        weapon_crit_chance -= 10 * weapon.type->m_to_hit;
+    }
 
- chance = 25;
- if (stat > 8) {
-  for (int i = 9; i <= stat; i++)
-   chance += (21 - i); // 12, 11, 10...
- } else {
-  int decrease = 5;
-  for (int i = 7; i >= stat; i--) {
-   chance -= decrease;
-   if (i % 2 == 0)
-    decrease--;
-  }
- }
- if (rng(0, 99) < chance)
-  num_crits++;
+    if( rng(0, 99) < weapon_crit_chance ) {
+        num_crits++;
+    }
 
-// Skill level roll
- int best_skill = 0;
+    // Dexterity and perception
+    const int stat_crit_chance = 25 + dex_cur + ( 2 * per_cur );
 
- if (weapon.is_bashing_weapon() && bashing_skill > best_skill)
-  best_skill = bashing_skill;
- if (weapon.is_cutting_weapon() && cutting_skill > best_skill)
-  best_skill = cutting_skill;
- if ((weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) &&
-     stabbing_skill > best_skill)
-  best_skill = stabbing_skill;
- if (unarmed_attack() && unarmed_skill > best_skill)
-  best_skill = unarmed_skill;
+    if( rng(0, 99) < stat_crit_chance ) {
+        num_crits++;
+    }
 
- best_skill += int(melee_skill / 2.5);
+    // Skill level roll
+    int best_skill = 0;
 
- chance = 25;
- if (best_skill > 3) {
-  for (int i = 3; i < best_skill; i++)
-   chance += (50 / (2 + i));
- } else if (best_skill < 3) {
-  for (int i = 3; i > best_skill; i--)
-   chance /= 2;
- }
- if (rng(0, 99) < chance)
-  num_crits++;
+    if( weapon.is_bashing_weapon() && bashing_skill > best_skill ) {
+        best_skill = bashing_skill;
+    }
 
- if (num_crits == 3)
-  return true;
- else if (num_crits == 2)
-  return (hit_roll() >= target_dodge * 1.5 && !one_in(4));
+    if( weapon.is_cutting_weapon() && cutting_skill > best_skill ) {
+        best_skill = cutting_skill;
+    }
 
- return false;
+    if( (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) &&
+        stabbing_skill > best_skill ) {
+        best_skill = stabbing_skill;
+    }
+
+    if( unarmed_attack() && unarmed_skill > best_skill ) {
+        best_skill = unarmed_skill;
+    }
+
+    best_skill += int(melee_skill / 2.5);
+
+    const int skill_crit_chance = 25 + int(best_skill * 2.5);
+    if( rng(0, 99) < skill_crit_chance ) {
+        num_crits++;
+    }
+
+    // Examples (survivor stats/chances of each crit):
+    // Fresh (skill-less) 8/8/8/8, unarmed:
+    //  50%, 49%, 25%; ~1/16 guaranteed crit + ~1/8 if roll>dodge*1.5
+    // Expert (skills 10) 10/10/10/10, unarmed:
+    //  100%, 55%, 60%; ~1/3 guaranteed crit + ~4/10 if roll>dodge*1.5
+    // Godlike with combat CBM 20/20/20/20, pipe (+1 accuracy):
+    //  60%, 100%, 42%; ~1/4 guaranteed crit + ~3/8 if roll>dodge*1.5
+    if( num_crits == 3 ) {
+        return true;
+    } else if( num_crits == 2 ) {
+        return one_in( 2 ) && hit_roll() >= target_dodge * 1.5;
+    }
+
+    return false;
 }
 
 int player::get_dodge_base() const {

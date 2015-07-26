@@ -646,7 +646,7 @@ int set_stats(WINDOW *w, player *u, int &points)
                 mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Dex further costs 2 points."));
             }
             mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%d"),
-                      u->base_to_hit(false));
+                      u->get_hit_base());
             if (u->throw_dex_mod(false) <= 0) {
                 mvwprintz(w_description, 1, 0, COL_STAT_BONUS, _("Throwing bonus: +%d"),
                           abs(u->throw_dex_mod(false)));
