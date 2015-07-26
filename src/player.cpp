@@ -11359,6 +11359,13 @@ void player::remove_gunmod(item *weapon, unsigned id)
     }
     i_add_or_drop(*gunmod);
     weapon->contents.erase(weapon->contents.begin()+id);
+    // gunmod removal decreased the gun's clip_size, move ammo to inventory
+    if ( weapon->clip_size() < weapon->charges ) {
+        ammo = item( weapon->get_curammo_id(), calendar::turn );
+        ammo.charges = weapon->charges - weapon->clip_size();
+        weapon->charges = weapon->clip_size();
+        i_add_or_drop(ammo);
+    }
 }
 
 hint_rating player::rate_action_read(item *it)
