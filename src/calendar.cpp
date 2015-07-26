@@ -405,6 +405,6 @@ void calendar::sync()
     second = (turn_number * 6) % 60;
 }
 
-bool calendar::is_time_for(int event_frequency) {
+bool calendar::once_every(int event_frequency) {
     return (calendar::turn % event_frequency) == 0;
 }

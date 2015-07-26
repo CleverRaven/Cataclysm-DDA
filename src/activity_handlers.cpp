@@ -28,7 +28,7 @@
 
 void activity_handlers::burrow_do_turn(player_activity *act, player *p)
 {
-    if(calendar::is_time_for(MINUTES(1))) { // each turn is too much
+    if( calendar::once_every(MINUTES(1)) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, _("ScratchCrunchScrabbleScurry.") );
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
@@ -570,7 +570,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at(act->position);
 
     //Deduct 1 battery charge for every minute spent playing
-    if( calendar::is_time_for(MINUTES(1)) ) {
+    if( calendar::once_every(MINUTES(1)) ) {
         game_item.charges--;
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
@@ -725,7 +725,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
 {
     const tripoint &pos = act->placement;
-    if(calendar::is_time_for(MINUTES(1))) { // each turn is too much
+    if( calendar::once_every(MINUTES(1)) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound(pos, 30, _("CHNK! CHNK! CHNK!"));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
@@ -1044,7 +1044,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     //Deduct 1 battery charge for every minute using the vibrator
-    if( calendar::is_time_for(MINUTES(1)) ) {
+    if( calendar::once_every(MINUTES(1)) ) {
         vibrator_item.charges--;
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
@@ -1118,7 +1118,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.charges -= charges_used;
     act->values[0] -= charges_used;
 
-    if( calendar::is_time_for(2) ) {
+    if( calendar::once_every(2) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
     }
 }

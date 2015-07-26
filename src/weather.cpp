@@ -410,7 +410,7 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet(true);
-    if( calendar::is_time_for(MINUTES(1)) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every(MINUTES(1)) && PLAYER_OUTSIDE ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.tname().c_str());
         } else {
@@ -437,7 +437,7 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::is_time_for(2) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every(2) && PLAYER_OUTSIDE ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
