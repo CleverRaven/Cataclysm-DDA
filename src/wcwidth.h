@@ -193,6 +193,7 @@ int mk_wcwidth(uint32_t ucs)
     (ucs >= 0x1100 &&
      (ucs <= 0x115f ||                    /* Hangul Jamo init. consonants */
       ucs == 0x2329 || ucs == 0x232a ||
+      ucs == 0x2026 ||                    /* Ellipsis */
       (ucs >= 0x2e80 && ucs <= 0xa4cf &&
        ucs != 0x303f) ||                  /* CJK ... Yi */
       (ucs >= 0xac00 && ucs <= 0xd7a3) || /* Hangul Syllables */
