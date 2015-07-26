@@ -12251,14 +12251,14 @@ int player::encumb( body_part bp ) const
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
-    int layer[MAX_CLOTHING_LAYER] = { };
+    double layer[MAX_CLOTHING_LAYER] = { };
 
     for( auto& w : worn ) {
         if( !w.covers(bp) ) {
             continue;
         }
 
-        layer[w.get_layer()] += 10;
+        layer[w.get_layer()] += 10.f * (w.get_coverage() / 100);
 
         if( w.is_power_armor() && is_wearing_active_power_armor() ) {
             armorenc += std::max( 0, w.get_encumber() - 40 );
@@ -12270,7 +12270,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
     ret += armorenc;
 
     for( const auto &elem : layer ) {
-       layers += std::max(0, elem - 10);
+       layers += std::max(0.0, elem - 10);
     }
 
     ret += layers;
