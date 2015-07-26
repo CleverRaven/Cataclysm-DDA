@@ -25,7 +25,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
     ${CMAKE_SOURCE_DIR}/src/item_factory.cpp
     ${CMAKE_SOURCE_DIR}/src/activity_handlers.cpp
-    ${CMAKE_SOURCE_DIR}/src/mongroupdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/mongroup.cpp
     ${CMAKE_SOURCE_DIR}/src/mapgen_functions.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame_json.cpp
     ${CMAKE_SOURCE_DIR}/src/item_action.cpp
@@ -92,7 +92,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
     ${CMAKE_SOURCE_DIR}/src/material.cpp
-    ${CMAKE_SOURCE_DIR}/src/veh_typedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/veh_type.cpp
     ${CMAKE_SOURCE_DIR}/src/melee.cpp
     ${CMAKE_SOURCE_DIR}/src/defense.cpp
     ${CMAKE_SOURCE_DIR}/src/npc.cpp
@@ -114,7 +114,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/active_item_cache.cpp
     ${CMAKE_SOURCE_DIR}/src/addiction.cpp
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
-    ${CMAKE_SOURCE_DIR}/src/trapdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
