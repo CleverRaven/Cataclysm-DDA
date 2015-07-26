@@ -1,5 +1,5 @@
 [
-	{
+    {
         "type" : "vehicle_part",
         "id" : "alaser_gunp",
         "name" : "NX-17 pulse turret",
@@ -22,7 +22,7 @@
             {"item": "plastic_chunk", "min": 2, "max": 4}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ateslagun",
         "name" : "tesla turret",
@@ -58,8 +58,8 @@
         "range" : 12,
         "folded_volume": 14,
         "item" : "anailer",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -70,7 +70,7 @@
             {"item": "plastic_chunk", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "SMG9mm",
         "name" : "9mm SMG turret",
@@ -83,8 +83,8 @@
         "range" : 10,
         "folded_volume": 8,
         "item" : "SMGturret",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -96,7 +96,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "SMG22",
         "name" : ".22 SMG turret",
@@ -109,8 +109,8 @@
         "range" : 10,
         "folded_volume": 8,
         "item" : "SMGturret22",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -122,7 +122,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "SMG45",
         "name" : ".45 SMG turret",
@@ -135,8 +135,8 @@
         "range" : 10,
         "folded_volume": 8,
         "item" : "SMGturret45",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -148,7 +148,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "shottyman",
         "name" : "shotgun turret",
@@ -161,8 +161,8 @@
         "range" : 6,
         "folded_volume": 8,
         "item" : "shottyman",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -172,10 +172,10 @@
             {"item": "scrap", "min": 1, "max": 2},
             {"item": "cable", "min": 3, "max": 6},
             {"item": "e_scrap", "min": 3, "max": 6}
-			
+            
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ablundergun",
         "name" : "thundergun turret",
@@ -188,8 +188,8 @@
         "range" : 4,
         "folded_volume": 30,
         "item" : "ablundergun",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -201,7 +201,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "rifleturret",
         "name" : "assault rifle turret",
@@ -214,8 +214,8 @@
         "range" : 12,
         "folded_volume": 13,
         "item" : "rifleturret",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -227,7 +227,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "50turret",
         "name" : "AP rifle turret",
@@ -240,8 +240,8 @@
         "range" : 16,
         "folded_volume": 20,
         "item" : "50turret",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -256,7 +256,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ascorpion",
         "name" : "scorpion turret",
@@ -269,8 +269,8 @@
         "range" : 20,
         "folded_volume": 28,
         "item" : "ascorpion",
-		"size" : 40,
-		"difficulty" : 2,
+        "size" : 40,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -284,7 +284,7 @@
             {"item": "chain", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "acangun",
         "name" : "slingshot cannon turret",
@@ -297,8 +297,8 @@
         "range" : 16,
         "folded_volume": 24,
         "item" : "acangun",
-		"size" : 40,
-		"difficulty" : 2,
+        "size" : 40,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -312,7 +312,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "atiharturret",
         "name" : "avalanche turret",
@@ -325,8 +325,8 @@
         "range" : 10,
         "folded_volume": 19,
         "item" : "atiharturret",
-		"size": 40,
-		"difficulty" : 3,
+        "size": 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -339,7 +339,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "40mmturret",
         "name" : "grenade turret",
@@ -352,8 +352,8 @@
         "range" : 25,
         "folded_volume": 8,
         "item" : "40mmturret",
-		"size" : 40,
-		"difficulty" : 2,
+        "size" : 40,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -366,7 +366,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "am249",
         "name" : "M249 turret",
@@ -379,8 +379,8 @@
         "range" : 12,
         "folded_volume": 18,
         "item" : "am249",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -392,7 +392,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "am2browning",
         "name" : "M2 Browning turret",
@@ -405,8 +405,8 @@
         "range" : 12,
         "folded_volume": 20,
         "item" : "am2browning",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -418,7 +418,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "arm298",
         "name" : "RM298 turret",
@@ -431,8 +431,8 @@
         "range" : 12,
         "folded_volume": 26,
         "item" : "arm298",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -444,7 +444,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "rslauncher",
         "name" : "rotary speargun",
@@ -457,8 +457,8 @@
         "range" : 8,
         "folded_volume": 22,
         "item" : "rslauncher",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -471,7 +471,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "abolter",
         "name" : "storm bolter turret",
@@ -484,8 +484,8 @@
         "range" : 10,
         "folded_volume": 18,
         "item" : "abolter",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -497,7 +497,7 @@
             {"item": "cable", "min": 3, "max": 6},
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
-    },	{
+    },    {
         "type" : "vehicle_part",
         "id" : "alasgun",
         "name" : "laser cannon turret",
@@ -510,7 +510,7 @@
         "range" : 12,
         "folded_volume": 14,
         "item" : "alasgun",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -522,7 +522,7 @@
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "cable", "min": 3, "max": 6}
         ]
-    },	{
+    },    {
         "type" : "vehicle_part",
         "id" : "alasgunp",
         "name" : "pulse laser turret",
@@ -535,7 +535,7 @@
         "range" : 12,
         "folded_volume": 16,
         "item" : "alasgunp",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -548,7 +548,7 @@
             {"item": "cable", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "alasgunx",
         "name" : "turbolaser turret",
@@ -561,7 +561,7 @@
         "range" : 20,
         "folded_volume": 22,
         "item" : "alasgunx",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -574,7 +574,7 @@
             {"item": "cable", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "agattler1",
         "name" : "rotary cannon turret",
@@ -587,8 +587,8 @@
         "range" : 10,
         "folded_volume": 19,
         "item" : "agattler",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -601,7 +601,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ashardgun",
         "name" : "splintergun turret",
@@ -614,8 +614,8 @@
         "range" : 8,
         "folded_volume": 14,
         "item" : "ashardgun",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -627,7 +627,7 @@
             {"item": "steel_chunk", "min": 1, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "aneedler",
         "name" : "needler turret",
@@ -640,8 +640,8 @@
         "range" : 10,
         "folded_volume": 19,
         "item" : "aneedler",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -654,7 +654,7 @@
             {"item": "steel_chunk", "min": 1, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "arailturret",
         "name" : "railgun turret",
@@ -667,8 +667,8 @@
         "range" : 25,
         "folded_volume": 20,
         "item" : "arailturret",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
@@ -680,7 +680,7 @@
             {"item": "plastic_chunk", "min": 0, "max": 10}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "flamethrower1",
         "name" : "flame turret",
@@ -708,7 +708,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "flamethrower2",
         "name" : "flamecaster turret",
@@ -736,7 +736,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "flamethrower3",
         "name" : "dragon turret",
@@ -764,7 +764,7 @@
             {"item": "e_scrap", "min": 3, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "aripper",
         "name" : "ripper turret",
@@ -776,8 +776,8 @@
         "range" : 8,
         "power" : -50,
         "item" : "aripper",
-		"size" : 90,
-		"difficulty" : 5,
+        "size" : 90,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "folded_volume": 19,
