@@ -112,6 +112,23 @@
     ],
     "components": [ [ [ "tin", 100 ] ] ]
   },{
+  "type" : "recipe",
+  "result": "cu_pipe",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 70 ]
+    ]
+  ]
+},{
     "type" : "recipe",
     "result": "silver",
     "id_suffix": "uncraft",
