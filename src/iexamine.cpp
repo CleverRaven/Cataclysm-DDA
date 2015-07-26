@@ -974,23 +974,30 @@ void iexamine::slot_machine(player *p, map*, const tripoint&)
 void iexamine::safe(player *p, map *m, const tripoint &examp)
 {
     if (!p->has_amount("stethoscope", 1)) {
-        add_msg(m_info, _("You need a stethoscope for safecracking."));
-        return;
+        p->moves -= 100;
+        // one_in(30^3) chance of guessing
+        if (one_in(27000)) {
+            p->add_msg_if_player(m_good, _("You mess with the dial for a little bit... and it opens!"));
+            m->furn_set(examp, f_safe_o);
+            return;
+        } else {
+            p->add_msg_if_player(m_info, _("You mess with the dial for a little bit."));
+            return;
+        }
     }
 
     if (query_yn(_("Attempt to crack the safe?"))) {
-        bool success = true;
         if (p->is_deaf()) {
             add_msg(m_info, _("You can't crack a safe while deaf!"));
             return;
         }
+         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
+        int moves = std::max(MINUTES(150) + (p->skillLevel("mechanics") - 3) * MINUTES(-20) +
+                             (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
-        if (success) {
-            m->furn_set(examp, f_safe_o);
-            add_msg(m_good, _("You successfully crack the safe!"));
-        } else {
-            add_msg(_("The safe resists your attempt at cracking it."));
-        }
+         p->assign_activity( ACT_CRACKING, moves );
+         p->activity.placement = examp;
     }
 }
 
