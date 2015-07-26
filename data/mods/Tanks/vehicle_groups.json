@@ -5,6 +5,10 @@
         "vehicles" : [
             ["tank_light", 100],
             ["tank_medium", 60],
+            ["sp_howitizer", 40],
+            ["mobile_gun_system", 50],
+            ["pickup_technical", 40],
+            ["tractor_bandit", 25],
             ["tank_atomic", 25]
         ]
     },{
@@ -13,6 +17,10 @@
         "vehicles" : [
             ["tank_light", 100],
             ["tank_medium", 60],
+            ["sp_howitizer", 40],
+            ["mobile_gun_system", 50],
+            ["pickup_technical", 40],
+            ["tractor_bandit", 20],
             ["tank_atomic", 25]
         ]
     },{
@@ -21,7 +29,12 @@
         "vehicles" : [
             ["tank_light", 330],
             ["tank_medium", 165],
-            ["tank_atomic", 80]
+            ["sp_howitzer", 120],
+            ["mobile_gun_system", 120],
+            ["pickup_technical", 120],
+            ["tractor_bandit", 60],
+            ["tank_atomic", 80],
+            ["tractor", 80]
         ]
     },{
         "type" : "vehicle_group",
@@ -29,7 +42,17 @@
         "vehicles" : [
             ["tank_light", 500],
             ["tank_medium", 250],
-            ["tank_atomic", 125]
+            ["tank_atomic", 125],
+            ["sp_howitzer", 200],
+            ["mobile_gun_system", 200]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "bandit_vehicles",
+        "vehicles" : [
+            ["motorcycle", 400],
+            ["pickup_technical", 200],
+            ["tractor_bandit", 100]
         ]
     }
 ]

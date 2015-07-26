@@ -97,7 +97,8 @@ enum vehicle_controls {
  cont_turrets,
  manual_fire,
  toggle_camera,
- release_remote_control
+ release_remote_control,
+ toggle_chimes
 };
 
 class vehicle::turret_ammo_data {
@@ -865,6 +866,7 @@ void vehicle::use_controls()
 
     bool has_lights = false;
     bool has_stereo = false;
+    bool has_chimes = false;
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
@@ -908,6 +910,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "STEREO")) {
             has_stereo = true;
+        }
+        else if (part_flag(p, "CHIMES")) {
+            has_chimes = true;
         }
         else if( part_flag( p, "REACTOR" ) ) {
             has_reactor = true;
@@ -961,6 +966,11 @@ void vehicle::use_controls()
     if (has_stereo) {
         menu.addentry( toggle_stereo, true, 'm', stereo_on ?
                        _("Turn off stereo") : _("Turn on stereo") );
+    }
+
+    if (has_chimes) {
+        menu.addentry( toggle_chimes, true, 'i', chimes_on ?
+                       _("Turn off chimes") : _("Turn on chimes") );
     }
 
    if (has_overhead_lights) {
@@ -1088,6 +1098,14 @@ void vehicle::use_controls()
             add_msg( stereo_on ? _("Turned on music") : _("Turned off music") );
         } else {
                 add_msg(_("The stereo won't come on!"));
+        }
+        break;
+    case toggle_chimes:
+        if( ( chimes_on || fuel_left( fuel_type_battery, true ) ) ) {
+            chimes_on = !chimes_on;
+            add_msg( chimes_on ? _("Turned on chimes") : _("Turned off chimes") );
+        } else {
+                add_msg(_("The chimes won't come on!"));
         }
         break;
     case toggle_overhead_lights:
@@ -1479,6 +1497,23 @@ void vehicle::play_music()
         }
         const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
         iuse::play_music( &g->u, radio_pos, 15, 50 );
+    }
+}
+
+void vehicle::play_chimes()
+{
+    if (one_in(3)) {
+        for( size_t p = 0; p < parts.size(); ++p ) {
+            if ( ! part_flag( p, "CHIMES" ) )
+                continue;
+            // epower is negative for consumers
+            if( drain( fuel_type_battery, -part_epower( p ) ) == 0 ) {
+                chimes_on = false;
+                return;
+            }
+            const auto chimes_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
+            sounds::sound(chimes_pos, 40, _("a simple melody blaring from the loudspeakers.") );
+        }
     }
 }
 
@@ -3499,6 +3534,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         overhead_lights_on = false;
         fridge_on = false;
         stereo_on = false;
+        chimes_on = false;
         recharger_on = false;
         camera_on = false;
         dome_lights_on = false;
@@ -3710,6 +3746,10 @@ void vehicle::idle(bool on_map) {
         play_music();
     }
 
+    if (chimes_on) {
+        play_chimes();
+    }
+
     if (on_map && is_alarm_on) {
         alarm();
     }
@@ -3782,6 +3822,10 @@ void vehicle::thrust (int thd) {
 
     if (stereo_on == true) {
         play_music();
+    }
+
+    if (chimes_on == true) {
+        play_chimes();
     }
 
     //no need to change velocity

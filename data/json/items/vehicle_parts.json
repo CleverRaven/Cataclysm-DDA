@@ -1049,6 +1049,22 @@
         "price" : 800
     },
     {
+        "type":"GENERIC",
+        "id" : "chimes",
+        "name" : "chime loudspeakers",
+        "description" : "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
+        "weight" : 2600,
+        "to_hit" : -2,
+        "color" : "blue",
+        "symbol" : "&",
+        "material" : ["steel", "null"],
+        "volume" : 16,
+        "bashing" : 0,
+        "category" : "veh_parts",
+        "cutting" : 0,
+        "price" : 5000
+    },
+    {
         "type":"TOOL",
         "id": "jumper_cable",
         "name": "jumper cable",

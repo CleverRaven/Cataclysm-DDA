@@ -4880,6 +4880,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "chimes",
+        "name" : "chimes",
+        "symbol" : "&",
+        "color" : "red",
+        "broken_symbol" : "&",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 0,
+        "durability" : 40,
+        "epower" : -200,
+        "item" : "chimes",
+        "difficulty" : 4,
+        "flags" : ["CHIMES"],
+        "location" : "on_roof",
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5},
+            {"item": "e_scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_1cyl_small",
         "name" : "1-cylinder engine",
         "symbol" : "*",
