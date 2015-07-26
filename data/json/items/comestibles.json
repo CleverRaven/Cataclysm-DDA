@@ -15301,7 +15301,7 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 20,
-        "description" : "A can of processed cheese spread.",
+        "description" : "Processed cheese spread.",
         "price" : 650,
         "material" : ["milk", "junk"],
         "tool" : "null",
