@@ -403,7 +403,7 @@
         "volume" : 5,
         "bashing" : 4,
         "cutting" : 13,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 1300,
         "qualities": [["COOK", 1]]
     },
@@ -421,7 +421,7 @@
         "volume" : 5,
         "bashing" : 4,
         "cutting" : 14,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 1400,
         "qualities": [["COOK", 1]]
     },
