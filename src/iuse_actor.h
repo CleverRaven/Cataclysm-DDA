@@ -466,6 +466,7 @@ class cauterize_actor : public iuse_actor
         virtual ~cauterize_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
 };
 

@@ -1278,7 +1278,13 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD"
+    "use_action": [
+        "SOLDER_WELD",
+        {
+            "type": "cauterize",
+            "flame": false
+        }
+    ]
   },
 
   {
@@ -4333,7 +4339,13 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD",
+    "use_action": [
+        "SOLDER_WELD",
+        {
+            "type": "cauterize",
+            "flame": false
+        }
+    ],
     "qualities": [["WELD", 2]]
   },
 
@@ -7568,7 +7580,13 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD",
+    "use_action": [
+        "SOLDER_WELD",
+        {
+            "type": "cauterize",
+            "flame": false
+        }
+    ],
     "qualities": [["WELD", 1]]
   },
 
