@@ -10155,7 +10155,7 @@ bool player::wield(item* it, bool autodrop)
         if(weapon.is_null()) {
             return false;
         }
-        if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
+        if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
             moves -= 20;
