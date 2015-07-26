@@ -1795,8 +1795,8 @@ int player::swim_speed()
     }
     ret -= str_cur * 6 + dex_cur * 4;
     if( worn_with_flag("FLOATATION") ) {
-        ret = std::max(ret, 400);
-        ret = std::min(ret, 200);
+        ret = std::min(ret, 400);
+        ret = std::max(ret, 200);
     }
     // If (ret > 500), we can not swim; so do not apply the underwater bonus.
     if (underwater && ret < 500) {
