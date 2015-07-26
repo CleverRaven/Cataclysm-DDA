@@ -14061,8 +14061,6 @@ void player::handle_heli_crash() {
     for(int i = 2; i < num_hp_parts; i++) { // Skip head + torso for balance reasons.
         auto part = hp_part(i);
         int roll = int(rng(1,8));
-        auto maxHp = get_hp_max(part);
-        int dmg = int(rng(maxHp/3, maxHp));
         switch (roll) {
             case 1:
             case 2:// Damage + Bleed
@@ -14070,10 +14068,13 @@ void player::handle_heli_crash() {
             case 3:
             case 4:
             case 5:// Just damage
+                auto maxHp = get_hp_max(part);
+                int dmg = int(rng(maxHp/3, maxHp));
                 hp_cur[part] -= dmg;
                 break;
             default: // No damage
                 break;
         }
     }
+    on_hurt(nullptr);
 }
