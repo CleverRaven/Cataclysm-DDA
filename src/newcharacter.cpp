@@ -1604,8 +1604,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
             wprintz(w_flags, c_ltgray, _("Zombies nearby"));
             wprintz(w_flags, c_ltgray, ("\n"));
         }
-        if ( sorted_scens[cur_id]->has_flag("WOUND_START") ) {
-            wprintz(w_flags, c_ltgray, _("Various wounds"));
+        if ( sorted_scens[cur_id]->has_flag("HELI_CRASH") ) {
+            wprintz(w_flags, c_ltgray, _("Various limb wounds"));
             wprintz(w_flags, c_ltgray, ("\n"));
         }
 

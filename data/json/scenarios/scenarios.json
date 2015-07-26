@@ -167,6 +167,6 @@
     "professions" : ["unemployed", "bio_soldier"],
     "allowed_locs" : ["field"],
     "map_special": "mx_helicopter",
-    "flags": ["WOUND_START","FIRE_START"]
+    "flags": ["HELI_CRASH"]
     }
 ]
