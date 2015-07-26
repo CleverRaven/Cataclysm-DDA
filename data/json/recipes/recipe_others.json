@@ -3108,6 +3108,7 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
       [ "disinfectant", 1 ],
       [ "saline", 5 ],
       [ "thyme_oil", 1 ],
@@ -3886,6 +3887,21 @@
   ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
     [ ["metal_tank_small", 1] ] ]
+},{
+  "type" : "recipe",
+  "result": "popcan_stove",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["fun_survival", 1], ["manual_fabrication", 1]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [ [ [ "can_drink", 2 ] ],
+    [ [ "bottle_plastic", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "forge",

@@ -2067,6 +2067,7 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
       [ "bleach", 1 ]
     ],
     [
@@ -2631,7 +2632,7 @@
     "tools": [[[ "chemistry_set", 10 ]]],
     "components": [
         [[ "water_clean", 1 ], [ "water", 1 ]],
-        [[ "chem_ethanol", 1 ]],
+        [[ "chem_ethanol", 14 ]],
         [[ "cooking_oil", 2 ],
          [ "lard", 2 ],
          [ "tallow", 2 ],
@@ -2649,7 +2650,7 @@
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
   "difficulty": 6,
-  "time": 20000,
+  "time": 1176,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
@@ -2670,7 +2671,9 @@
         [ "rum", 14 ],
         [ "gin", 14 ],
         [ "tequila", 14 ],
-        [ "bum_wine", 56 ]
+        [ "bum_wine", 56 ],
+        [ "fruit_wine", 56],
+        [ "moonshine", 14]
     ] ]
 },
 {

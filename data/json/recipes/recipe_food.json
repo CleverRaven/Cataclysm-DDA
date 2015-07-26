@@ -7693,6 +7693,18 @@
   ]
 },{
   "type" : "recipe",
+  "result": "vodka",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "difficulty": 0,
+  "time": 20,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [ ["chem_ethanol", 7] ],
+    [ ["water", 1], ["water_clean", 1] ] ]
+},{
+  "type" : "recipe",
   "result": "drink_strawberry_surprise",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -10008,7 +10020,8 @@
       [ "vodka", 1 ],
       [ "rum", 1 ],
       [ "tequila", 1 ],
-      [ "gin", 1 ]
+      [ "gin", 1 ],
+      [ "chem_ethanol", 1]
     ]
   ]
 },
@@ -10078,7 +10091,8 @@
       [ "rum", 1 ],
       [ "tequila", 1 ],
       [ "gin", 1 ],
-      [ "triple_sec", 1 ]
+      [ "triple_sec", 1 ],
+      [ "chem_ethanol", 1]
     ]
   ]
 },
