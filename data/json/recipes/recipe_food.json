@@ -896,6 +896,7 @@
       [ "water_clean", 1 ]
     ],
     [
+      ["lemonade_powder", 1],
       ["apple", 1],
       ["apricot", 1],
       ["banana", 1],
