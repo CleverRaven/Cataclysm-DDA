@@ -1103,7 +1103,7 @@ void npc::perform_mission()
 {
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
-  if (int(calendar::turn) % 24 == 0) {
+  if (calendar::is_time_for(24)) {
    if (mapx > g->get_levx())
     mapx--;
    else if (mapx < g->get_levx())
@@ -1118,7 +1118,7 @@ void npc::perform_mission()
  case NPC_MISSION_SHOPKEEP:
   break; // Just stay where we are
  default: // Random Walk
-  if (int(calendar::turn) % 24 == 0) {
+  if (calendar::is_time_for(24)) {
    mapx += rng(-1, 1);
    mapy += rng(-1, 1);
   }

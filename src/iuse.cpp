@@ -3783,7 +3783,7 @@ int iuse::radio_on(player *p, item *it, bool t, const tripoint &pos)
             }
 
             std::vector<std::string> segments = foldstring(message, RADIO_PER_TURN);
-            int index = calendar::turn % (segments.size());
+            int index = calendar::is_time_for(segments.size());
             std::stringstream messtream;
             messtream << string_format(_("radio: %s"), segments[index].c_str());
             message = messtream.str();
@@ -5530,7 +5530,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
-    if( int(calendar::turn) % 50 == 0 ) {
+    if( calendar::is_time_for(50) ) {
         // Every 5 minutes, describe the music
         auto const music = get_music_description( *p );
         if ( !music.sound.empty() ) {
@@ -7880,7 +7880,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
     if (t) {
         if( it->get_var( "EIPC_MUSIC_ON" ) != "" ) {
 
-            if (calendar::turn % 50 == 0) {
+          if (calendar::is_time_for(50)) {
                 it->charges--;
             }
 
@@ -8525,7 +8525,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
             }
         }
 
-        if (calendar::turn % 10 == 0) {
+        if( calendar::is_time_for(10) ) {
             sounds::sound(pos, 10, _("a police siren, whoop WHOOP."));
         }
 

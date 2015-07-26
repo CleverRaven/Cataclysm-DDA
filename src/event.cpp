@@ -301,7 +301,7 @@ void event::per_turn()
     turn--;
     return;
    }
-   if (int(calendar::turn) % 3 == 0)
+   if (calendar::is_time_for(3))
     add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
    break;
 

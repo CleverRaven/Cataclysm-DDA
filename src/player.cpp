@@ -420,7 +420,7 @@ void player::reset_stats()
     // Apply static martial arts buffs
     ma_static_effects();
 
-    if (int(calendar::turn) % 10 == 0) {
+    if( calendar::is_time_for(10) ) {
         update_mental_focus();
     }
     pda_cached = false;
@@ -451,8 +451,8 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id("null");
 
-    if (has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
-            hunger < 100 && (int(calendar::turn) % 5 == 0)) {
+    if( has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
+        hunger < 100 && calendar::is_time_for(5) ) {
         hunger += 2;
         charge_power(25);
     }
@@ -1484,10 +1484,10 @@ void player::update_bodytemp()
         }
     }
     // Morale penalties, updated at the same rate morale is
-    if( morale_pen < 0 && int(calendar::turn) % 10 == 0 ) {
+    if( morale_pen < 0 && calendar::is_time_for(10) ) {
         add_morale(MORALE_COLD, -2, -abs(morale_pen), 10, 5, true);
     }
-    if( morale_pen > 0 && int(calendar::turn) % 10 == 0 ) {
+    if( morale_pen > 0 && calendar::is_time_for(10) ) {
         add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
 }
@@ -5316,11 +5316,11 @@ void player::update_needs()
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if (hunger >= 5000 && calendar::turn % 20 == 0) {
+        } else if( hunger >= 5000 && calendar::is_time_for(20) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if (hunger >= 4000 && calendar::turn % 20 == 0) {
+        } else if( hunger >= 4000 && calendar::is_time_for(20) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
-        } else if (calendar::turn % 20 == 0) {
+        } else if( calendar::is_time_for(20) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
         }
     }
@@ -5332,11 +5332,11 @@ void player::update_needs()
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
                                pgettext("memorial_female", "Died of thirst."));
             hp_cur[hp_torso] = 0;
-        } else if (thirst >= 1000 && calendar::turn % 20 == 0) {
+        } else if (thirst >= 1000 && calendar::is_time_for(20)) {
             add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
-        } else if (thirst >= 800 && calendar::turn % 20 == 0) {
+        } else if (thirst >= 800 && calendar::is_time_for(20)) {
             add_msg_if_player(m_warning, _("You are THIRSTY!"));
-        } else if (calendar::turn % 20 == 0) {
+        } else if (calendar::is_time_for(20)) {
             add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
         }
     }
@@ -5349,9 +5349,9 @@ void player::update_needs()
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             fatigue -= 10;
             try_to_sleep();
-        } else if (fatigue >= 800 && calendar::turn % 10 == 0) {
+        } else if (fatigue >= 800 && calendar::is_time_for(10)) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if (calendar::turn % 50 == 0) {
+        } else if (calendar::is_time_for(50)) {
             add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
         }
     }
@@ -5360,7 +5360,7 @@ void player::update_needs()
     // Penalties start at Dead Tired and go from there
     if (fatigue >= 383 && !in_sleep_state()) {
         if (fatigue >= 700) {
-            if (calendar::turn % 50 == 0) {
+            if (calendar::is_time_for(50)) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect("lack_sleep", 50);
             }
@@ -5369,23 +5369,23 @@ void player::update_needs()
                 fall_asleep(5);
             }
         } else if (fatigue >= 575) {
-            if (calendar::turn % 50 == 0) {
+            if (calendar::is_time_for(50)) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
             }
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if (fatigue >= 383 && calendar::turn % 50 == 0) {
+        } else if (fatigue >= 383 && calendar::is_time_for(50)) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect("lack_sleep", 50);
         }
     }
 
-    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
-        if ((!has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
-            !(has_trait("DEBUG_LS"))) {
+    if( calendar::is_time_for(50) ) { // Hunger, thirst, & fatigue up every 5 minutes
+        if( (!has_trait("LIGHTEATER") || !one_in(3)) &&
+            (!has_bionic("bio_recycler") || calendar::is_time_for(300) ) &&
+            !(has_trait("DEBUG_LS") )) {
             hunger++;
             if (has_trait("HUNGER")) {
                 if (one_in(2)) {
@@ -5404,7 +5404,7 @@ void player::update_needs()
                 hunger += 2;
             }
         }
-        if ((!has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+        if( (!has_bionic("bio_recycler") || calendar::is_time_for(100) ) &&
             (!has_trait("PLANTSKIN") || !one_in(5)) &&
             (!has_trait("DEBUG_LS")) ) {
             thirst++;
@@ -5504,7 +5504,7 @@ void player::update_needs()
 
 void player::regen()
 {
-    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+    if( calendar::is_time_for(300) ) { // Pain up/down every 30 minutes
         if (pain > 0) {
             pain -= 1 + int(pain / 10);
         } else if (pain < 0) {
@@ -5535,8 +5535,7 @@ void player::regen()
         }
     }
 
-    if (calendar::turn % 3600 == 0)
-    {
+    if( calendar::is_time_for(3600) ) {
         update_health();
     }
 }
@@ -7265,7 +7264,7 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "sleep") {
         set_moves(0);
         #ifdef SDLTILES
-        if(int(calendar::turn) % 100 == 0){
+        if( calendar::is_time_for(100) ) {
             SDL_PumpEvents();
         }
         #endif // SDLTILES
@@ -7278,7 +7277,7 @@ void player::hardcoded_effects(effect &it)
         const bool hibernating = hunger <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
-        if( ( !hibernating && int(calendar::turn) % 50 == 0 ) || int(calendar::turn) % 350 == 0 ) {
+        if( ( !hibernating && calendar::is_time_for(50) ) || calendar::is_time_for(350) ) {
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7345,7 +7344,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
 
-        if (int(calendar::turn) % 100 == 0 && !has_bionic("bio_recycler") && !(hunger < -60)) {
+        if (calendar::is_time_for(100) && !has_bionic("bio_recycler") && !(hunger < -60)) {
             // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
             hunger--;
             thirst--;
@@ -7357,12 +7356,12 @@ void player::hardcoded_effects(effect &it)
         // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
         // without a good explanation and taking a night to make sure it works
         // with the extended sleep duration, OK?
-        if (int(calendar::turn) % 70 == 0 && !has_bionic("bio_recycler") && (hunger < -60)) {
+        if (calendar::is_time_for(70) && !has_bionic("bio_recycler") && (hunger < -60)) {
             hunger--;
             thirst--;
         }
 
-        if (int(calendar::turn) % 100 == 0 && has_trait("CHLOROMORPH") &&
+        if (calendar::is_time_for(100) && has_trait("CHLOROMORPH") &&
         g->is_in_sunlight(pos()) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if (hunger >= -30) {
@@ -8056,7 +8055,7 @@ void player::suffer()
             if( x_in_y( rads - rads_max, 1 ) ) {
                 rads_max++;
             }
-            if( int(calendar::turn) % 30 == 0 && has_bionic("bio_geiger") && localRadiation > 0 ) {
+            if( calendar::is_time_for(30) && has_bionic("bio_geiger") && localRadiation > 0 ) {
                 add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
             }
         }
@@ -8096,7 +8095,7 @@ void player::suffer()
         }
     }
 
-    if( int(calendar::turn) % 150 == 0 ) {
+    if( calendar::is_time_for(150) ) {
         if (radiation < 0) {
             radiation = 0;
         } else if (radiation > 2000) {
@@ -8562,7 +8561,7 @@ void player::update_body_wetness()
         delay -= 2;
     }
 
-    if (calendar::turn % delay != 0) {
+    if (!calendar::is_time_for(delay)) {
         return;
     }
 
