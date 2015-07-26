@@ -1794,7 +1794,7 @@ int player::swim_speed()
         }
     }
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag("FLOATATION") ) {
+    if( worn_with_flag("FLOTATION") ) {
         ret = std::min(ret, 400);
         ret = std::max(ret, 200);
     }

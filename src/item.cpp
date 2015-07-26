@@ -1309,7 +1309,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear has Kevlar inserted into strategic locations to increase protection with some increase to encumbrance.")));
         }
-        if (is_armor() && has_flag("FLOATATION")) {
+        if (is_armor() && has_flag("FLOTATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing prevents you from going underwater (including voluntary diving).")));

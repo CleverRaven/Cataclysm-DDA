@@ -112,7 +112,7 @@ std::vector<std::string> clothing_flags_description(item const &worn_item)
     if (worn_item.has_flag("SUPER_FANCY")) {
         description_stack.push_back(_("It looks really fancy."));
     }
-    if (worn_item.has_flag("FLOATATION")) {
+    if (worn_item.has_flag("FLOTATION")) {
         description_stack.push_back(_("You will not drown today."));
     }
     if (worn_item.has_flag("OVERSIZE")) {
