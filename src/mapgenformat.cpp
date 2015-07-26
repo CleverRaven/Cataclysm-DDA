@@ -92,14 +92,7 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
 
 std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 {
-    std::string temp;
-    for( auto &character : characters ) {
-        if( character != ' ' ) {
-            temp += character;
-        }
-    }
-    characters = temp;
-
+    characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
     std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
     va_list vl;
     va_start(vl,characters);

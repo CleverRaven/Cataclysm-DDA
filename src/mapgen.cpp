@@ -11595,15 +11595,17 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 
             // Might contain one item or several that belong together like guns & their ammo
             int tries = 0;
+            auto is_valid_terrain = [this,ongrass](int x,int y){
+                return this->ter_at(x, y).movecost == 0           &&
+                       !this->ter_at(x, y).has_flag("PLACE_ITEM") &&
+                       !ongrass                                   &&
+                       !this->ter_at(x, y).has_flag("FLAT");
+            };
             do {
                 px = rng(x1, x2);
                 py = rng(y1, y2);
                 tries++;
-                // Only place on valid terrain
-            } while (( (ter_at(px, py).movecost == 0 &&
-                        !(ter_at(px, py).has_flag("PLACE_ITEM")) ) &&
-                       (!ongrass && !ter_at(px, py).has_flag("FLAT")) ) &&
-                     tries < 20);
+            } while ( is_valid_terrain(px,py) && tries < 20 );
             if (tries < 20) {
                 item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
             }
