@@ -4892,10 +4892,12 @@
         "item" : "chimes",
         "difficulty" : 4,
         "flags" : ["CHIMES"],
+        "location" : "on_roof",
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
-            {"item": "scrap", "min": 3, "max": 5}
+            {"item": "scrap", "min": 3, "max": 5},
+            {"item": "e_scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
