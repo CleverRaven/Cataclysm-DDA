@@ -219,12 +219,8 @@
                 "makeshift_knife",
                 "sheath"
             ],
-            "male": [
-                "briefs"
-            ],
             "female": [
-                "chestwrap",
-                "briefs"
+                "chestwrap"
             ]
         },
         "skills": [
