@@ -1794,9 +1794,9 @@ int player::swim_speed()
         }
     }
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag("FLOATATION") ) {
-        ret = std::max(ret, 400);
-        ret = std::min(ret, 200);
+    if( worn_with_flag("FLOTATION") ) {
+        ret = std::min(ret, 400);
+        ret = std::max(ret, 200);
     }
     // If (ret > 500), we can not swim; so do not apply the underwater bonus.
     if (underwater && ret < 500) {
@@ -10155,7 +10155,7 @@ bool player::wield(item* it, bool autodrop)
         if(weapon.is_null()) {
             return false;
         }
-        if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
+        if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
             moves -= 20;
@@ -11359,6 +11359,13 @@ void player::remove_gunmod(item *weapon, unsigned id)
     }
     i_add_or_drop(*gunmod);
     weapon->contents.erase(weapon->contents.begin()+id);
+    // gunmod removal decreased the gun's clip_size, move ammo to inventory
+    if ( weapon->clip_size() < weapon->charges ) {
+        ammo = item( weapon->get_curammo_id(), calendar::turn );
+        ammo.charges = weapon->charges - weapon->clip_size();
+        weapon->charges = weapon->clip_size();
+        i_add_or_drop(ammo);
+    }
 }
 
 hint_rating player::rate_action_read(item *it)

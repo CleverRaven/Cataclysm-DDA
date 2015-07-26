@@ -12823,7 +12823,7 @@ void game::vertical_move(int movez, bool force)
                 add_msg(m_info, _("You are already underwater!"));
                 return;
             }
-            if (u.worn_with_flag("FLOATATION")) {
+            if (u.worn_with_flag("FLOTATION")) {
                 add_msg(m_info, _("You can't dive while wearing a flotation device."));
                 return;
             }

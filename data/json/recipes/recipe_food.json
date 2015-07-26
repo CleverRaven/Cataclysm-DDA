@@ -896,6 +896,7 @@
       [ "water_clean", 1 ]
     ],
     [
+      ["lemonade_powder", 1],
       ["apple", 1],
       ["apricot", 1],
       ["banana", 1],
@@ -2697,6 +2698,27 @@
     ],
     [
       [ "sugar", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "lemonade",
+  "id_suffix": "from_mix",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "lemonade_powder", 1 ]
     ],
     [
       [ "water_clean", 1 ]

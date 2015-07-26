@@ -1309,6 +1309,23 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     return it->type->charges_to_use();
 }
 
+bool cauterize_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
+{
+    if( flame && !p->has_charges( "fire", 4 ) ) {
+        return false;
+    } else if( !flame && it->charges >= 0 && it->type->charges_to_use() < it->charges ) {
+        return false;
+    } else if( p->is_underwater() ) {
+        return false;
+    } else if( p->has_effect( "bite" ) || p->has_effect( "bleed" ) ) {
+        return true;
+    } else if( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) {
+        return true;
+    }
+
+    return false;
+}
+
 void enzlave_actor::load( JsonObject & )
 {
 }

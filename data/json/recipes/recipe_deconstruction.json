@@ -1735,25 +1735,37 @@
   "autolearn": false,
   "components": [
     [
-      [ "mre_beef", 1 ]
+      [ "mre_beef", 4 ]
     ],
     [
-      [ "heatpack", 1 ]
+      [ "pur_tablets", 6 ]
+    ],
+    [
+      [ "gummy_vitamins", 1 ]
     ],
     [
       [ "crackers", 2 ]
     ],
     [
-      [ "paper", 8 ]
+      [ "can_cheese", 1 ]
     ],
     [
-      [ "spork", 1 ]
+      [ "dry_fruit", 1 ]
     ],
     [
-      [ "candy3", 3 ]
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "candy2", 2 ]
+    ],
+    [
+      [ "cookies", 1 ]
     ],
     [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "lemonade_powder", 2 ]
     ],
     [
       [ "matches", 1 ]
@@ -1762,7 +1774,19 @@
       [ "protein_powder", 1 ]
     ],
     [
-      [ "gum", 4 ]
+      [ "gum", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
     ]
   ]
 },{
@@ -1777,25 +1801,37 @@
   "autolearn": false,
   "components": [
     [
-      [ "mre_veggy", 1 ]
+      [ "mre_veggy", 4 ]
     ],
     [
-      [ "heatpack", 1 ]
+      [ "pur_tablets", 6 ]
+    ],
+    [
+      [ "gummy_vitamins", 1 ]
     ],
     [
       [ "crackers", 2 ]
     ],
     [
-      [ "paper", 8 ]
+      [ "can_cheese", 1 ]
     ],
     [
-      [ "spork", 1 ]
+      [ "dry_fruit", 1 ]
     ],
     [
-      [ "candy3", 3 ]
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "candy2", 2 ]
+    ],
+    [
+      [ "cookies", 1 ]
     ],
     [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "lemonade_powder", 2 ]
     ],
     [
       [ "matches", 1 ]
@@ -1804,7 +1840,19 @@
       [ "protein_powder", 1 ]
     ],
     [
-      [ "gum", 4 ]
+      [ "gum", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
     ]
   ]
 },{
@@ -1819,25 +1867,37 @@
   "autolearn": false,
   "components": [
     [
-      [ "mre_chicken", 1 ]
+      [ "mre_chicken", 4 ]
     ],
     [
-      [ "heatpack", 1 ]
+      [ "pur_tablets", 6 ]
+    ],
+    [
+      [ "gummy_vitamins", 1 ]
     ],
     [
       [ "crackers", 2 ]
     ],
     [
-      [ "paper", 8 ]
+      [ "can_cheese", 1 ]
     ],
     [
-      [ "spork", 1 ]
+      [ "dry_fruit", 1 ]
     ],
     [
-      [ "candy3", 3 ]
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "candy2", 2 ]
+    ],
+    [
+      [ "cookies", 1 ]
     ],
     [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "lemonade_powder", 2 ]
     ],
     [
       [ "matches", 1 ]
@@ -1846,7 +1906,19 @@
       [ "protein_powder", 1 ]
     ],
     [
-      [ "gum", 4 ]
+      [ "gum", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
     ]
   ]
 },{
@@ -1861,25 +1933,37 @@
   "autolearn": false,
   "components": [
     [
-      [ "mre_hotdogs", 1 ]
+      [ "mre_hotdogs", 4 ]
     ],
     [
-      [ "heatpack", 1 ]
+      [ "pur_tablets", 6 ]
+    ],
+    [
+      [ "gummy_vitamins", 1 ]
     ],
     [
       [ "crackers", 2 ]
     ],
     [
-      [ "paper", 8 ]
+      [ "can_cheese", 1 ]
     ],
     [
-      [ "spork", 1 ]
+      [ "dry_fruit", 1 ]
     ],
     [
-      [ "candy3", 3 ]
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "candy2", 2 ]
+    ],
+    [
+      [ "cookies", 1 ]
     ],
     [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "lemonade_powder", 2 ]
     ],
     [
       [ "matches", 1 ]
@@ -1888,7 +1972,19 @@
       [ "protein_powder", 1 ]
     ],
     [
-      [ "gum", 4 ]
+      [ "gum", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
     ]
   ]
 },{
@@ -1903,25 +1999,37 @@
   "autolearn": false,
   "components": [
     [
-      [ "mre_ravioli", 1 ]
+      [ "mre_ravioli", 4 ]
     ],
     [
-      [ "heatpack", 1 ]
+      [ "pur_tablets", 6 ]
+    ],
+    [
+      [ "gummy_vitamins", 1 ]
     ],
     [
       [ "crackers", 2 ]
     ],
     [
-      [ "paper", 8 ]
+      [ "can_cheese", 1 ]
     ],
     [
-      [ "spork", 1 ]
+      [ "dry_fruit", 1 ]
     ],
     [
-      [ "candy3", 3 ]
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "candy2", 2 ]
+    ],
+    [
+      [ "cookies", 1 ]
     ],
     [
       [ "coffee_raw", 1 ]
+    ],
+    [
+      [ "lemonade_powder", 2 ]
     ],
     [
       [ "matches", 1 ]
@@ -1930,7 +2038,19 @@
       [ "protein_powder", 1 ]
     ],
     [
-      [ "gum", 4 ]
+      [ "gum", 2 ]
+    ],
+    [
+      [ "paper", 8 ]
+    ],
+    [
+      [ "spork", 1 ]
+    ],
+    [
+      [ "heatpack", 1 ]
+    ],
+    [
+      [ "bag_plastic", 1 ]
     ]
   ]
 },{

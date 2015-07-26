@@ -3401,196 +3401,187 @@ static int cauterize_elec(player *p, item *it)
     return 0;
 }
 
-int iuse::solder_weld(player *p, item *it, bool, const tripoint& )
+int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
 {
-    if (p->is_underwater()) {
+    if( p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-    int choice = 2;
-    int charges_used = (dynamic_cast<it_tool *>(it->type))->charges_to_use();
 
-    // Option for cauterization only if player has the incentive to do so
-    // One does not check for open wounds with a soldering iron.
-    if ((p->has_effect("bite") || p->has_effect("bleed")) && !p->is_underwater()) {
-        choice = menu(true, _("Using soldering item:"), _("Cauterize wound"),
-                      _("Repair plastic/metal/Kevlar item"), _("Cancel"), NULL);
-    } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
-               p->has_trait("CENOBITE")) {
-        // Masochists might be wounded too, let's not ask twice.
-        choice = menu(true, _("Using soldering item:"), _("Cauterize yourself for fun"),
-                      _("Repair plastic/metal/Kevlar item"), _("Cancel"), NULL);
+    int charges_used = dynamic_cast<it_tool*>( it->type )->charges_to_use();
+    if( it->charges <= charges_used ) {
+        p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
+        return 0;
     }
 
-    switch (choice) {
-        case 1:
-            return cauterize_elec(p, it);
-            break;
-        case 2: {
-            if (it->charges <= 0) {
-                p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
-                return 0;
-            }
+    static const std::vector<std::string> materials = {{
+        "kevlar", "plastic", "iron", "steel", "hardsteel"
+    }};
 
-            int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
-                return itm.made_of( "kevlar" ) ||
-                       itm.made_of( "plastic" ) ||
-                       itm.made_of( "iron" ) ||
-                       itm.made_of( "steel" ) ||
-                       itm.made_of( "hardsteel" );
-            } );
-            item *fix = &(p->i_at(pos));
-            if (fix == NULL || fix->is_null()) {
-                p->add_msg_if_player(m_info, _("You do not have that item!"));
-                return 0;
-            }
-            if (fix->is_gun()) {
-                p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
-                return 0;
-            }
-            if (fix->is_ammo()) {
-                p->add_msg_if_player(m_info, _("You cannot repair this type of item."));
-                return 0;
-            }
-            itype_id repair_item = "none";
-            std::vector<std::string> repairitem_names;
-            std::vector<itype_id> repair_items;
-            if (fix->made_of("kevlar")) {
-                repair_items.push_back("kevlar_plate");
-                repairitem_names.push_back(_("Kevlar plates"));
-            }
-            if (fix->made_of("plastic")) {
-                repair_items.push_back("plastic_chunk");
-                repairitem_names.push_back(_("plastic chunks"));
-            }
-            if (fix->made_of("iron") || fix->made_of("steel") || fix->made_of("hardsteel")) {
-                repair_items.push_back("scrap");
-                repairitem_names.push_back(_("scrap metal"));
-            }
-            if (repair_items.empty()) {
-                p->add_msg_if_player(m_info, _("Your %s is not made of plastic, metal, or Kevlar."),
-                                     fix->tname().c_str());
-                return 0;
-            }
-            if( fix == it || std::find(repair_items.begin(), repair_items.end(), fix->typeId()) != repair_items.end()) {
-                p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
-                return 0;
-            }
+    int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
+        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_gun() && &itm != it;
+    } );
 
-            //repairing or modifying items requires at least 1 repair item,
-            // otherwise number is related to size of item
-            int items_needed = ceil(fix->volume() * 0.25);
+    item &fix = p->i_at( pos );
+    if( fix.is_null() ) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0;
+    }
+    if( fix.is_gun() ) {
+        p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
+        return 0;
+    }
+    if( fix.is_ammo() ) {
+        p->add_msg_if_player(m_info, _("You cannot repair this type of item."));
+        return 0;
+    }
 
-            // this will cause issues if/when NPCs start being able to sew.
-            // but, then again, it'll cause issues when they start crafting, too.
-            const inventory &crafting_inv = p->crafting_inventory();
-
-            bool bFound = false;
-            //go through all discovered repair items and see if we have any of them available
-            for( auto &repair_items_i : repair_items ) {
-                if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-                    //we've found enough of a material, use this one
-                    repair_item = repair_items_i;
-                    bFound = true;
-                }
-            }
-            if (!bFound) {
-                for (unsigned int i = 0; i < repair_items.size(); i++) {
-                    p->add_msg_if_player(m_info, _("You don't have enough %s to do that."),
-                                         repairitem_names[i].c_str());
-                }
-                return 0;
-            }
-
-            std::vector<item_comp> comps;
-            comps.push_back(item_comp(repair_item, items_needed));
-
-            if (fix->damage > 0) {
-                p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice("mechanics", 8);
-                int rn = dice(4, 2 + p->skillLevel("mechanics"));
-                rn -= rng(fix->damage, fix->damage * 2);
-                if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-                    rn -= rng(2, 6);
-                }
-                if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
-                    rn += rng(2, 6);
-                }
-                if (p->dex_cur > 16) {
-                    rn += rng(0, p->dex_cur - 16);
-                }
-                if (rn <= 4) {
-                    p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix->tname().c_str());
-                    fix->damage++;
-                    if (fix->damage >= 5) {
-                        p->add_msg_if_player(m_bad, _("You destroy it!"));
-                        p->i_rem_keep_contents( pos );
-                    }
-                } else if (rn <= 6) {
-                    p->add_msg_if_player(m_bad, _("You don't repair your %s, and you waste lots of charge."),
-                                         fix->tname().c_str());
-                    charges_used += rng(1, 8);
-                } else if (rn <= 8) {
-                    p->add_msg_if_player(m_mixed, _("You repair your %s, but you waste lots of charge."),
-                                         fix->tname().c_str());
-                    if (fix->damage >= 3) {
-                        p->consume_items(comps);
-                    }
-                    fix->damage--;
-                    charges_used += rng(1, 8);
-                } else if (rn <= 16) {
-                    p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-                    if (fix->damage >= 3) {
-                        p->consume_items(comps);
-                    }
-                    fix->damage--;
-                } else {
-                    p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
-                    if (fix->damage >= 3) {
-                        p->consume_items(comps);
-                    }
-                    fix->damage = 0;
-                }
-            } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
-                p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice("mechanics", 10);
-                int rn = dice(4, 2 + p->skillLevel("mechanics"));
-                if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-                    rn -= rng(2, 6);
-                }
-                if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-                    rn += rng(2, 6);
-                }
-                if (p->dex_cur > 16) {
-                    rn += rng(0, p->dex_cur - 16);
-                }
-                if (rn <= 4) {
-                    p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
-                    fix->damage++;
-                } else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
-                    p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
-                                         fix->tname().c_str());
-                    fix->item_tags.insert("FIT");
-                } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-                    p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
-                    fix->damage--;
-                    p->consume_items(comps);
-                } else {
-                    p->add_msg_if_player(m_neutral, _("You practice your soldering."));
-                }
-            } else {
-                p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
-                return 0;
-            }
-            return charges_used;
-        }
-        break;
-        case 3:
-            break;
-        default:
-            break;
+    // <material, material item id, translated name of material item>
+    using repair_tuple = std::tuple<std::string, itype_id, std::string>;
+    // TODO: Rewrite this to be created from jsons and populated from materials and items
+    static const std::vector< repair_tuple >
+        repair_list {
+            std::make_tuple( "kevlar", "kevlar_plate", _("Kevlar plates") ),
+            std::make_tuple( "plastic", "plastic_chunk", _("plastic chunks") ),
+            std::make_tuple( "iron", "scrap", _("scrap metal") ),
+            std::make_tuple( "steel", "scrap", _("scrap metal") ),
+            std::make_tuple( "hardsteel", "scrap", _("scrap metal") )
     };
-    return 0;
+
+    if( &fix == it || any_of( repair_list.begin(), repair_list.end(), [&fix]( const repair_tuple &tup ) {
+            return std::get<1>( tup ) == fix.typeId();
+        } ) ) {
+        p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
+        return 0;
+    }
+
+    // Entries valid for repaired items
+    std::set<repair_tuple> valid_entries;
+    for( const auto &tup : repair_list ) {
+        if( fix.made_of( std::get<0>( tup ) ) ) {
+            valid_entries.insert( tup );
+        }
+    }
+
+    if( valid_entries.empty() ) {
+        p->add_msg_if_player(m_info, _("Your %s is not made of plastic, metal, or Kevlar."),
+                             fix.tname().c_str());
+        return 0;
+    }
+
+
+    // Repairing apparently doesn't always consume items;
+    // maybe it should just consume less or something?
+    // Anyway, don't ask for items if we won't need any.
+    const bool consume_items = fix.damage >= 3 || fix.damage == 0;
+    // Let's have a dummy inventory not to build a crafting inventory when we don't need it
+    static const inventory null_inventory;
+    const inventory &crafting_inv = consume_items ? p->crafting_inventory() : null_inventory;
+    std::vector<item_comp> comps;
+    if( consume_items ) {
+        // Repairing or modifying items requires at least 1 repair item,
+        //  otherwise number is related to size of item
+        const int items_needed = std::max<int>( 1, ceil( fix.volume() * 0.25f ) );
+
+        // Go through all discovered repair items and see if we have any of them available
+        for( const auto &entry : valid_entries ) {
+            if( crafting_inv.has_amount( std::get<1>( entry ), items_needed ) ) {
+                // We've found enough of a material, add it to list
+                comps.push_back( item_comp( std::get<1>( entry ), items_needed ) );
+            }
+        }
+
+        if( comps.empty() ) {
+            for( const auto &entry : valid_entries ) {
+                p->add_msg_if_player( m_info, _("You don't have enough %s to do that. Have: %d, need: %d"),
+                                      std::get<2>( entry ).c_str(),
+                                      crafting_inv.amount_of( std::get<1>( entry ), false ), items_needed );
+            }
+
+            return 0;
+        }
+    }
+
+    if( fix.damage > 0 ) {
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice("mechanics", 8);
+        int rn = dice(4, 2 + p->skillLevel("mechanics"));
+        rn -= rng(fix.damage, fix.damage * 2);
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
+        if (rn <= 4) {
+            p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
+            fix.damage++;
+            if (fix.damage >= 5) {
+                p->add_msg_if_player(m_bad, _("You destroy it!"));
+                p->i_rem_keep_contents( pos );
+            }
+        } else if (rn <= 6) {
+            p->add_msg_if_player(m_bad, _("You don't repair your %s, and you waste lots of charge."),
+                                 fix.tname().c_str());
+            charges_used += rng(1, 8);
+        } else if (rn <= 8) {
+            p->add_msg_if_player(m_mixed, _("You repair your %s, but you waste lots of charge."),
+                                 fix.tname().c_str());
+            if( consume_items ) {
+                p->consume_items(comps);
+            }
+
+            fix.damage--;
+            charges_used += rng(1, 8);
+        } else if (rn <= 16) {
+            p->add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
+            if( consume_items ) {
+                p->consume_items(comps);
+            }
+            fix.damage--;
+        } else {
+            p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix.tname().c_str());
+            if( consume_items ) {
+                p->consume_items(comps);
+            }
+            fix.damage = 0;
+        }
+    } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice("mechanics", 10);
+        int rn = dice(4, 2 + p->skillLevel("mechanics"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
+        if (rn <= 4) {
+            p->add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
+            fix.damage++;
+        } else if (rn >= 12 && fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) {
+            p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
+                                 fix.tname().c_str());
+            fix.item_tags.insert("FIT");
+            p->consume_items(comps);
+        } else if (rn >= 12 && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE"))) {
+            p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
+            fix.damage--;
+            p->consume_items(comps);
+        } else {
+            p->add_msg_if_player(m_neutral, _("You practice your soldering."));
+        }
+    } else {
+        p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix.tname().c_str());
+        return 0;
+    }
+    return charges_used;
 }
 
 

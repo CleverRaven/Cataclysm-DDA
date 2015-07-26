@@ -1959,3 +1959,43 @@ std::string monster::get_material() const
 {
     return type->mat[0];
 }
+
+void monster::hear_sound( const tripoint &source, const int vol, const int dist )
+{
+    if( !can_hear() ) {
+        return;
+    }
+
+    const bool goodhearing = has_flag(MF_GOODHEARING);
+    const int volume = goodhearing ? ((2 * vol) - dist) : (vol - dist);
+    // Error is based on volume, louder sound = less error
+    if( volume <= 0 ) {
+        return;
+    }
+
+    int max_error = 0;
+    if( volume < 2 ) {
+        max_error = 10;
+    } else if( volume < 5 ) {
+        max_error = 5;
+    } else if( volume < 10 ) {
+        max_error = 3;
+    } else if( volume < 20 ) {
+        max_error = 1;
+    }
+
+    int target_x = source.x + rng(-max_error, max_error);
+    int target_y = source.y + rng(-max_error, max_error);
+    // target_z will require some special check due to soil muffling sounds
+
+    int wander_turns = volume * (goodhearing ? 6 : 1);
+    process_trigger(MTRIG_SOUND, volume);
+    if( morale >= 0 && anger >= 10 ) {
+        // TODO: Add a proper check for fleeing attitude
+        // but cache it nicely, because this part is called a lot
+        wander_to( tripoint( target_x, target_y, source.z ), wander_turns);
+    } else if( morale < 0 ) {
+        // Monsters afraid of sound should not go towards sound
+        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ), wander_turns );
+    }
+}

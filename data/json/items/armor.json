@@ -4653,7 +4653,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 40,
         "bashing" : 2,
-        "flags" : ["FLOATATION","WATER_FRIENDLY","BELTED"],
+        "flags" : ["FLOTATION","WATER_FRIENDLY","BELTED"],
         "coverage" : 40,
         "material_thickness" : 4
     },
