@@ -4747,6 +4747,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         break;
     case bp_mouth: // Fall through to head damage
     case bp_head:
+        break;
     default:
         debugmsg("Wacky body part hit!");
     }
