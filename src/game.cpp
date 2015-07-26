@@ -6014,14 +6014,14 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             if( z_offset[i] == 0 ) {
                 // Horizontal - no floor bashing
                 m.smash_items( dest, force );
-                m.bash( dest, bash_force, true, false, nullptr, false );
+                m.bash( dest, bash_force, true, false, false );
             } else if( z_offset[i] > 0 ) {
                 // Should actually bash through the floor first, but that's not really possible yet
-                m.bash( dest, bash_force, true, false, nullptr, true );
+                m.bash( dest, bash_force, true, false, true );
             } else if( !m.valid_move( pt, dest, false, true ) ) {
                 // Only bash through floor if it doesn't exist
                 // Bash the current tile's floor, not the one's below
-                m.bash( pt, bash_force, true, false, nullptr, true );
+                m.bash( pt, bash_force, true, false, true );
             }
 
             float next_dist = distance;
@@ -7235,7 +7235,7 @@ void game::smash()
         }
     }
 
-    didit = m.bash( smashp, smashskill, false, false, nullptr, smash_floor ).first;
+    didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if (didit) {
         u.handle_melee_wear();
         u.moves -= move_cost;
@@ -12767,7 +12767,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         if( force > 0 ) {
             int dmg = c->impact( force, c->pos() );
             // TODO: Make landing damage the floor
-            m.bash( c->pos(), dmg / 4, false, false, nullptr, false );
+            m.bash( c->pos(), dmg / 4, false, false, false );
         }
     } else {
         c->underwater = true;
