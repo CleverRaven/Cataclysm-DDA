@@ -1,6 +1,6 @@
 [
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbomb",
         "price" : 1000,
         "name" : "blast canister",
@@ -25,8 +25,8 @@
         "stack_size" : 1,
         "effects" : ["NEVER_MISFIRES", "EXPLOSIVE_BIG", "COOKOFF"]
     },
-	{
-		"type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "canbomb2",
         "price" : 1000,
         "name" : "Big Bang canister",
@@ -52,7 +52,7 @@
         "effects" : ["NEVER_MISFIRES", "EXPLOSIVE_HUGE", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombfrag",
         "price" : 800,
         "name" : "fragmentation canister",
@@ -78,7 +78,7 @@
         "effects" : ["FRAG", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombfire",
         "price" : 600,
         "name" : "fire canister",
@@ -104,7 +104,7 @@
         "effects" : ["FLAME", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "canbombfire2",
         "price" : 2200,
         "name" : "inferno canister",
@@ -129,7 +129,7 @@
         "stack_size" : 1,
         "effects" : ["NAPALM", "NEVER_MISFIRES", "COOKOFF"]
     },
-	{
+    {
       "type" : "AMMO",
       "id" : "hbolt_wood",
       "price" : 1000,
@@ -152,8 +152,8 @@
       "recoil" : 0,
       "count" : 5,
       "effects" : ["RECOVER_5"]
-	},
-	{
+    },
+    {
       "type" : "AMMO",
       "id" : "hbolt_metal",
       "price" : 2000,
@@ -200,7 +200,7 @@
       "recoil" : 0,
       "count" : 250
    },
-	{
+   {
       "type" : "AMMO",
       "id" : "ripdisk",
       "price" : 1000,
@@ -224,7 +224,7 @@
       "count" : 1,
       "effects" : ["BOUNCE", "NEVER_MISFIRES"]
    },
-	{
+   {
       "type" : "AMMO",
       "id" : "teardisk",
       "price" : 200,
@@ -271,7 +271,7 @@
       "recoil" : 0,
       "count" : 1,
       "effects" : ["RECOVER_3", "BEANBAG"],
-	  "qualities": [["HAMMER", 1]]
+      "qualities": [["HAMMER", 1]]
    },
    {
       "type" : "AMMO",
@@ -298,7 +298,7 @@
       "effects" : ["RECOVER_3", "BEANBAG"]
    },
    {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "h_projectile",
         "price" : 180000,
         "name" : "modified mininuke",
@@ -323,32 +323,32 @@
         "stack_size" : 2,
         "effects" : ["h_projectile", "NEVER_MISFIRES"]
     },
-	{
-		"type" : "AMMO",
-		"id": "lead_ball",
-		"symbol": "*",
-		"color": "blue",
-		"name": "lead ball",
-		"description": "A heavy lead ball about 8cm in diameter.  Could pack quite a bit of a punch if you had something to launch it.",
-		"price": 200,
-		"material": "steel",
-		"weight": 400,
-		"volume": 1,
-		"bashing": 8,
-		"cutting": 0,
-		"to_hit": -3,
-		"ammo_type" : "h_projectile",
-		"casing" : "NULL",
-		"damage" : 50,
-		"pierce" : 0,
-		"range" : 3,
-		"dispersion" : 0,
-		"recoil" : 0,
-		"count" : 1,
-		"effects" : ["RECOVER_3", "LARGE_BEANBAG"]
-	},
+    {
+        "type" : "AMMO",
+        "id": "lead_ball",
+        "symbol": "*",
+        "color": "blue",
+        "name": "lead ball",
+        "description": "A heavy lead ball about 8cm in diameter.  Could pack quite a bit of a punch if you had something to launch it.",
+        "price": 200,
+        "material": "steel",
+        "weight": 400,
+        "volume": 1,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -3,
+        "ammo_type" : "h_projectile",
+        "casing" : "NULL",
+        "damage" : 50,
+        "pierce" : 0,
+        "range" : 3,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1,
+        "effects" : ["RECOVER_3", "LARGE_BEANBAG"]
+    },
    {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "hbolt_nuke",
         "price" : 180000,
         "name" : "nuclear bolt",
@@ -373,8 +373,8 @@
         "stack_size" : 2,
         "effects" : ["h_projectile", "NEVER_MISFIRES"]
     },
-	{
-		"type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "hbolt_boom",
         "price" : 1000,
         "name" : "nova bolt",
@@ -399,8 +399,8 @@
         "stack_size" : 1,
         "effects" : ["NEVER_MISFIRES", "EXPLOSIVE_BIG", "COOKOFF"]
     },
-	{
-		"type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "hbolt_boom2",
         "price" : 1000,
         "name" : "supernova bolt",
@@ -426,7 +426,7 @@
         "effects" : ["NEVER_MISFIRES", "EXPLOSIVE_HUGE", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "hbolt_frag",
         "price" : 800,
         "name" : "shatter bolt",
@@ -452,7 +452,7 @@
         "effects" : ["FRAG", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "hbolt_fire",
         "price" : 600,
         "name" : "searing bolt",
@@ -478,7 +478,7 @@
         "effects" : ["FLAME", "NEVER_MISFIRES", "COOKOFF"]
     },
     {
-		"type" : "AMMO",
+        "type" : "AMMO",
         "id" : "hbolt_fire2",
         "price" : 2200,
         "name" : "napalm bolt",
