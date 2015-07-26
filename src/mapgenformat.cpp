@@ -4,6 +4,7 @@
 #include <string>
 
 #include <cassert>
+#include <algorithm>
 #include <stdarg.h>
 
 #include "output.h"
