@@ -383,16 +383,28 @@
     {"id":"HAMMER","level":1,"amount":1}
   ],
   "components":
+  [
     [
-     [
-     [ "javelin", 4 ]
-     ],
-     [
-     [ "rock", 2 ],
-     [ "ceramic_shard", 2 ],
-     [ "sharp_rock", 2 ]
-     ]
+      [ "spear_wood", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ]
+  ]
 },{
   "type" : "recipe",
   "result": "javelin_copper",
@@ -415,48 +427,23 @@
   ],
   "components":
     [
-     [
-     [ "javelin", 4 ]
-     ],
-     [
-     [ "copper", 200 ]
-     ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "javelin_iron",
-  "override": true,
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "throw", 2 ],
-  "difficulty": 2,
-  "time": 60000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ], "tools": [
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
-      ]
-      ],
-  "components":
     [
+      [ "spear_wood", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "duct_tape", 20 ]
+    ],
      [
-     [ "javelin", 4 ]
-     ],
-     [
-     [ "scrap", 2 ]
+     [ "copper", 50 ]
      ]
     ]
 },{
@@ -496,7 +483,7 @@
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "copper_ax",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -608,43 +595,6 @@
       [ "wild_herbs", 100 ],
       [ "honey_glassed", 3 ],
       [ "honey_bottled", 6 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "override": true,
-  "result": "javelin",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
-  "difficulty": 3,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "spear_wood", 2 ],
-      [ "pointy_stick", 2 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "duct_tape", 20 ]
     ]
   ]
 },{
@@ -955,6 +905,240 @@
       [ "stick", 1 ],
       [ "bone", 1 ],
       [ "bone_human", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe", "//": "Tin can be melted by fire, but you need something to contain and work with it. Hence the press.",
+  "result": "pot_copper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+ "tools": [
+      [
+        ["press", -1]
+      ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "copper", 500 ]
+     ],
+     [
+     [ "tin", 30 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "pot_makeshift",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components":
+    [
+     [
+     [ "sheet_metal", 1 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "pot_makeshift_copper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "copper", 500 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "canteen_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"SAW_W","level":2,"amount":1}
+  ],
+  "tools": [
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "stick", 2 ],
+      [ "2x4", 2 ]
+    ],
+    [
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "wire", 1 ],
+      [ "scrap", 2 ],
+      [ "copper", 20 ]
+    ],
+    [
+      [ "wax", 1 ],
+      [ "pine_bough", 2 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "felt_patch", 2 ],
+      [ "leather", 2 ],
+      [ "fur", 2 ]
+    ],
+  ]
+},{
+  "type" : "recipe",
+  "result": "spear_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "stick", 1 ]
+    ],
+    [
+      [ "copper", 200 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "javelin_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "copper", 50 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_knife",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 100 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_ax",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "stick", 1 ]
+    ],
+    [
+      [ "copper", 150 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pot_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 500 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pot_makeshift_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 500 ]
     ]
   ]
 }
