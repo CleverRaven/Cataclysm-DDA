@@ -163,10 +163,9 @@ ELSE (GIT_BINARY)
 	ENDIF (NOT GIT_FOUND)
 ENDIF (GIT_BINARY)
 
-# PREFIX has no sense in case of WIN32
-IF (PREFIX AND NOT WIN32)
+IF (PREFIX)
 	ADD_DEFINITIONS(-DPREFIX=${PREFIX})
-ENDIF (PREFIX AND NOT WIN32)
+ENDIF (PREFIX)
 
 # Set build types and display info
 IF(RELEASE)
@@ -188,7 +187,10 @@ IF(RELEASE)
 		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
 		ADD_DEFINITIONS(-D__NO_INLINE__)
 	ENDIF(MINGW)
-	ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
+    # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
+    IF (PREFIX AND NOT WIN32)
+	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
+    ENDIF (PREFIX AND NOT WIN32)
 ELSE (RELEASE)
 	MESSAGE("\n")
 	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
