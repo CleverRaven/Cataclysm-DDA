@@ -11698,7 +11698,7 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
         // Don't spawn non-classic monsters in classic zombie mode.
         return;
     }
-    if (MonsterGroupManager::monster_is_blacklisted(GetMType(type))) {
+    if (MonsterGroupManager::monster_is_blacklisted( type )) {
         return;
     }
     spawn_point tmp(type, count, offset_x, offset_y, faction_id, mission_id, friendly, name);

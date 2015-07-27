@@ -63,7 +63,7 @@ bool Creature_tracker::add( monster &critter )
         }
     }
 
-    if( MonsterGroupManager::monster_is_blacklisted(critter.type) ) {
+    if( MonsterGroupManager::monster_is_blacklisted( critter.type->id ) ) {
         return false;
     }
 

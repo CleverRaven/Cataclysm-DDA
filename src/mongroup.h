@@ -164,7 +164,7 @@ class MonsterGroupManager
 
         static void ClearMonsterGroups();
 
-        static bool monster_is_blacklisted( const mtype *m );
+        static bool monster_is_blacklisted( const mtype_id &m );
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
