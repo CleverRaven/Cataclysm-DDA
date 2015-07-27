@@ -2,6 +2,8 @@ Rusty's stuff version 0.9
 by Russell
 mysticinmaine@gmail.com
 
+this is published under creative commons CC-BY-SA 3.0
+
 
 all items either have recipes in the pre-existing books, or are generated on the map, or both.
 
@@ -46,4 +48,4 @@ These items are great for small bicycles that need a headlight or motor but don'
 
 anyway so these items are not perfect and may need rebalancing.
 
-this is an experimental mod.  Use/modify/redistribute to your satisfaction, just mention me in the credits.  Use github.
+this is an experimental mod. Use github.
