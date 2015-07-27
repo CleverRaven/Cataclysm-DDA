@@ -5969,9 +5969,11 @@ void player::process_effects() {
         remove_effect("paincysts");
         add_msg_if_player(m_good, _("Something writhes and inside of you as it dies."));
     }
-    if (has_trait("ACIDBLOOD") && (has_effect("dermatik") || has_effect("brainworms"))) {
+    if (has_trait("ACIDBLOOD") && (has_effect("dermatik") || has_effect("bloodworms") ||
+          has_effect("brainworms"))) {
         remove_effect("dermatik");
         remove_effect("bloodworms");
+        remove_effect("brainworms");
     }
     if (has_trait("EATHEALTH") && has_effect("tapeworm")) {
         remove_effect("tapeworm");
