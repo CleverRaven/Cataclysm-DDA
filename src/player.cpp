@@ -420,7 +420,7 @@ void player::reset_stats()
     // Apply static martial arts buffs
     ma_static_effects();
 
-    if (int(calendar::turn) % 10 == 0) {
+    if( calendar::once_every(MINUTES(1)) ) {
         update_mental_focus();
     }
     pda_cached = false;
@@ -451,8 +451,8 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id("null");
 
-    if (has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
-            hunger < 100 && (int(calendar::turn) % 5 == 0)) {
+    if( has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
+        hunger < 100 && calendar::once_every(5) ) {
         hunger += 2;
         charge_power(25);
     }
@@ -1487,10 +1487,10 @@ void player::update_bodytemp()
         }
     }
     // Morale penalties, updated at the same rate morale is
-    if( morale_pen < 0 && int(calendar::turn) % 10 == 0 ) {
+    if( morale_pen < 0 && calendar::once_every(MINUTES(1)) ) {
         add_morale(MORALE_COLD, -2, -abs(morale_pen), 10, 5, true);
     }
-    if( morale_pen > 0 && int(calendar::turn) % 10 == 0 ) {
+    if( morale_pen > 0 && calendar::once_every(MINUTES(1)) ) {
         add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
 }
@@ -4826,7 +4826,8 @@ void player::mod_pain(int npain) {
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
     }
-    int felt_pain = pain - pkill + npain;
+    // reduce new felt pain by excess pkill, if any.
+    int felt_pain = npain - std::max(0, pkill - pain);
     // Only trigger the "you felt it" effects if we are going to feel it.
     if (felt_pain > 0) {
         // Putting the threshold at 2 here to avoid most basic "ache" style
@@ -5319,76 +5320,76 @@ void player::update_needs()
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if (hunger >= 5000 && calendar::turn % 20 == 0) {
+        } else if( hunger >= 5000 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if (hunger >= 4000 && calendar::turn % 20 == 0) {
+        } else if( hunger >= 4000 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
-        } else if (calendar::turn % 20 == 0) {
+        } else if( calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
         }
     }
 
     // Check if we're dying of thirst
-    if (thirst >= 600) {
-        if (thirst >= 1200) {
+    if( thirst >= 600 ) {
+        if( thirst >= 1200 ) {
             add_msg_if_player(m_bad, _("You have died of dehydration."));
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
                                pgettext("memorial_female", "Died of thirst."));
             hp_cur[hp_torso] = 0;
-        } else if (thirst >= 1000 && calendar::turn % 20 == 0) {
+        } else if( thirst >= 1000 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
-        } else if (thirst >= 800 && calendar::turn % 20 == 0) {
+        } else if( thirst >= 800 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("You are THIRSTY!"));
-        } else if (calendar::turn % 20 == 0) {
+        } else if( calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
         }
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (fatigue >= 600 && !in_sleep_state()) {
-        if (fatigue >= 1000) {
+    if( fatigue >= 600 && !in_sleep_state() ) {
+        if( fatigue >= 1000 ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             fatigue -= 10;
             try_to_sleep();
-        } else if (fatigue >= 800 && calendar::turn % 10 == 0) {
+        } else if( fatigue >= 800 && calendar::once_every(MINUTES(1)) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if (calendar::turn % 50 == 0) {
+        } else if( calendar::once_every(MINUTES(5)) ) {
             add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
         }
     }
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if (fatigue >= 383 && !in_sleep_state()) {
-        if (fatigue >= 700) {
-            if (calendar::turn % 50 == 0) {
+    if( fatigue >= 383 && !in_sleep_state() ) {
+        if( fatigue >= 700 ) {
+           if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect("lack_sleep", 50);
             }
-            if (one_in(50 + int_cur)) {
+            if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
             }
-        } else if (fatigue >= 575) {
-            if (calendar::turn % 50 == 0) {
+        } else if( fatigue >= 575 ) {
+            if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
             }
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if (fatigue >= 383 && calendar::turn % 50 == 0) {
+        } else if (fatigue >= 383 && calendar::once_every(MINUTES(5))) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect("lack_sleep", 50);
         }
     }
 
-    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
-        if ((!has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
-            !(has_trait("DEBUG_LS"))) {
+    if( calendar::once_every(MINUTES(5)) ) { // Hunger, thirst, & fatigue up every 5 minutes
+        if( (!has_trait("LIGHTEATER") || !one_in(3)) &&
+            (!has_bionic("bio_recycler") || calendar::once_every(MINUTES(30)) ) &&
+            !(has_trait("DEBUG_LS") )) {
             hunger++;
             if (has_trait("HUNGER")) {
                 if (one_in(2)) {
@@ -5407,7 +5408,7 @@ void player::update_needs()
                 hunger += 2;
             }
         }
-        if ((!has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+        if( (!has_bionic("bio_recycler") || calendar::once_every(MINUTES(10)) ) &&
             (!has_trait("PLANTSKIN") || !one_in(5)) &&
             (!has_trait("DEBUG_LS")) ) {
             thirst++;
@@ -5507,7 +5508,7 @@ void player::update_needs()
 
 void player::regen()
 {
-    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+    if( calendar::once_every(MINUTES(30)) ) { // Pain up/down every 30 minutes
         if (pain > 0) {
             pain -= 1 + int(pain / 10);
         } else if (pain < 0) {
@@ -5538,8 +5539,7 @@ void player::regen()
         }
     }
 
-    if (calendar::turn % 3600 == 0)
-    {
+    if( calendar::once_every(HOURS(6)) ) {
         update_health();
     }
 }
@@ -7268,7 +7268,7 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "sleep") {
         set_moves(0);
         #ifdef SDLTILES
-        if(int(calendar::turn) % 100 == 0){
+        if( calendar::once_every(MINUTES(10)) ) {
             SDL_PumpEvents();
         }
         #endif // SDLTILES
@@ -7281,7 +7281,8 @@ void player::hardcoded_effects(effect &it)
         const bool hibernating = hunger <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
-        if( ( !hibernating && int(calendar::turn) % 50 == 0 ) || int(calendar::turn) % 350 == 0 ) {
+        if( ( !hibernating && calendar::once_every(MINUTES(5)) ) ||
+            calendar::once_every(MINUTES(35)) ) {
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7348,7 +7349,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
 
-        if (int(calendar::turn) % 100 == 0 && !has_bionic("bio_recycler") && !(hunger < -60)) {
+        if (calendar::once_every(MINUTES(10)) && !has_bionic("bio_recycler") && !(hunger < -60)) {
             // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
             hunger--;
             thirst--;
@@ -7360,12 +7361,12 @@ void player::hardcoded_effects(effect &it)
         // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
         // without a good explanation and taking a night to make sure it works
         // with the extended sleep duration, OK?
-        if (int(calendar::turn) % 70 == 0 && !has_bionic("bio_recycler") && (hunger < -60)) {
+        if (calendar::once_every(MINUTES(7)) && !has_bionic("bio_recycler") && (hunger < -60)) {
             hunger--;
             thirst--;
         }
 
-        if (int(calendar::turn) % 100 == 0 && has_trait("CHLOROMORPH") &&
+        if (calendar::once_every(MINUTES(10)) && has_trait("CHLOROMORPH") &&
         g->is_in_sunlight(pos()) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if (hunger >= -30) {
@@ -8059,7 +8060,7 @@ void player::suffer()
             if( x_in_y( rads - rads_max, 1 ) ) {
                 rads_max++;
             }
-            if( int(calendar::turn) % 30 == 0 && has_bionic("bio_geiger") && localRadiation > 0 ) {
+            if( calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") && localRadiation > 0 ) {
                 add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
             }
         }
@@ -8099,7 +8100,7 @@ void player::suffer()
         }
     }
 
-    if( int(calendar::turn) % 150 == 0 ) {
+    if( calendar::once_every(MINUTES(15)) ) {
         if (radiation < 0) {
             radiation = 0;
         } else if (radiation > 2000) {
@@ -8405,11 +8406,11 @@ void player::vomit()
     wake_up();
 }
 
-void player::drench(int saturation, int flags)
+void player::drench( int saturation, int flags, bool ignore_waterproof )
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
     if ( (has_trait("DEBUG_NOTEMP")) || (has_active_mutation("SHELL2")) ||
-      ((is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, pos())))) ) {
+      ((is_waterproof(flags)) && (!ignore_waterproof(g->m.has_flag(TFLAG_DEEP_WATER, pos())))) ) {
         return;
     }
 
@@ -8435,7 +8436,36 @@ void player::drench(int saturation, int flags)
             body_wetness[i] += wetness_increment;
         }
     }
+}
 
+void player::drench_mut_calc()
+{
+    mMutDrench.clear();
+    int ignored, neutral, good;
+
+    for( auto &elem : mDrenchEffect ) {
+        ignored = 0;
+        neutral = 0;
+        good = 0;
+
+        for( const auto &_iter : my_mutations ) {
+            const auto &mdata = mutation_branch::get( _iter.first );
+            const auto _wp_iter = mdata.protection.find( elem.first );
+            if( _wp_iter != mdata.protection.end() ) {
+                ignored += _wp_iter->second.x;
+                neutral += _wp_iter->second.y;
+                good += _wp_iter->second.z;
+            }
+        }
+
+        mMutDrench[elem.first]["good"] = good;
+        mMutDrench[elem.first]["neutral"] = neutral;
+        mMutDrench[elem.first]["ignored"] = ignored;
+    }
+}
+
+void player::apply_wetness_morale()
+{
     // Apply morale results from getting wet
     int effected = 0;
     int tot_ignored = 0; //Always ignored
@@ -8443,7 +8473,7 @@ void player::drench(int saturation, int flags)
     int tot_good = 0; //Increase good wet bonus
 
     for (std::map<body_part, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
-        if (mfb(iter->first) & flags) {
+        if( mfb(iter->first) & flags ) {
             effected += iter->second;
             tot_ignored += mMutDrench[iter->first]["ignored"];
             tot_neut += mMutDrench[iter->first]["neutral"];
@@ -8490,54 +8520,7 @@ void player::drench(int saturation, int flags)
         }
     }
 
-    int dur = 60;
-    int d_start = 30;
-    if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
-          has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
-          has_trait("CHITIN_FUR3")) {
-            dur /= 5;
-            d_start /= 5;
-        }
-        // Shaggy fur holds water longer.  :-/
-        if (has_trait("URSINE_FUR")) {
-            dur /= 3;
-            d_start /= 3;
-        }
-    } else {
-        if (has_trait("SLIMY")) {
-            dur *= 1.2;
-            d_start *= 1.2;
-        }
-    }
-
     add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
-}
-
-void player::drench_mut_calc()
-{
-    mMutDrench.clear();
-    int ignored, neutral, good;
-
-    for( auto &elem : mDrenchEffect ) {
-        ignored = 0;
-        neutral = 0;
-        good = 0;
-
-        for( const auto &_iter : my_mutations ) {
-            const auto &mdata = mutation_branch::get( _iter.first );
-            const auto _wp_iter = mdata.protection.find( elem.first );
-            if( _wp_iter != mdata.protection.end() ) {
-                ignored += _wp_iter->second.x;
-                neutral += _wp_iter->second.y;
-                good += _wp_iter->second.z;
-            }
-        }
-
-        mMutDrench[elem.first]["good"] = good;
-        mMutDrench[elem.first]["neutral"] = neutral;
-        mMutDrench[elem.first]["ignored"] = ignored;
-    }
 }
 
 void player::update_body_wetness()
@@ -8557,24 +8540,31 @@ void player::update_body_wetness()
     if (has_trait("SLIMY")) {
         delay += 5;
     }
+
+    // We could get precise weather for air humidity,
+    // but that could get expensive when NPCs get wet
     if( g->weather == WEATHER_SUNNY ) {
         delay -= 2;
-    } else if( g->weather == WEATHER_DRIZZLE ||
-               g->weather == WEATHER_RAINY ||
-               g->weather == WEATHER_THUNDER ||
-               g->weather == WEATHER_LIGHTNING ) {
-        // High moisture
+    } else if( g->weather >= WEATHER_DRIZZLE &&
+               g->weather <= WEATHER_SNOWSTORM ) {
+        // High air humidity
         delay += 2;
     }
 
-    if( calendar::turn % delay != 0 ) {
-        return;
-    }
-
-    for (int i = 0; i < num_bp; ++i) {
-        if (body_wetness[i] == 0) {
+    // Now per-body-part stuff
+    for( int i = 0; i < num_bp; ++i ) {
+        if( body_wetness[i] == 0 ) {
             continue;
         }
+        int part_delay = delay;
+        // Body temperature affects duration of wetness
+        temp_cur[i]
+
+        // Don't use calendar modulo, because the delay can change quite a bit
+        if( !one_in( part_delay ) ) {
+            return;
+        }
+
         body_wetness[i] -= 1;
         if (body_wetness[i] < 0) {
             body_wetness[i] = 0;
@@ -12263,26 +12253,36 @@ int player::encumb( body_part bp ) const
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
-    int layer[MAX_CLOTHING_LAYER] = { };
+    // First is the total of encumbrance on the given layer,
+    // and second is the highest encumbrance of any one item on the layer.
+    std::array<std::pair<int, int>, MAX_CLOTHING_LAYER> layer = {{{0,0},{0,0},{0,0},{0,0},{0,0}}};
 
     for( auto& w : worn ) {
         if( !w.covers(bp) ) {
             continue;
         }
+        std::pair<int, int> &this_layer = layer[w.get_layer()];
+        int encumber_val = w.get_encumber();
+        // For the purposes of layering penalty, set a min of 1 and a max of 10 per item.
+        int layering_encumbrance = std::min( 10, std::max( 1, encumber_val ) );
 
-        layer[w.get_layer()] += 10;
+        this_layer.first += layering_encumbrance;
+        this_layer.second = std::max(this_layer.second, layering_encumbrance);
 
         if( w.is_power_armor() && is_wearing_active_power_armor() ) {
-            armorenc += std::max( 0, w.get_encumber() - 40 );
+            armorenc += std::max( 0, encumber_val - 40 );
         } else {
-            armorenc += w.get_encumber();
+            armorenc += encumber_val;
         }
     }
     armorenc = std::max(0, armorenc);
     ret += armorenc;
 
+    // The stacking penalty applies by doubling the encumbrance of
+    // each item except the highest encumbrance one.
+    // So we add them together and then subtract out the highest.
     for( const auto &elem : layer ) {
-       layers += std::max(0, elem - 10);
+        layers += std::max(0, elem.first - elem.second);
     }
 
     ret += layers;

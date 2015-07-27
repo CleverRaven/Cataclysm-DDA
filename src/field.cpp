@@ -1456,7 +1456,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         std::array<std::string, 9> monids = { { "mon_flying_polyp", "mon_hunting_horror",
                         "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
                         "mon_blank" } };
-                        if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
+                        if (cur->getFieldDensity() < 3 && calendar::once_every(HOURS(6)) && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
                             g->summon_mon( random_entry( monids ), p);

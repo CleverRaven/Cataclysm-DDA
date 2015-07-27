@@ -614,6 +614,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void drench(int saturation, int flags);
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
+        /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
+        void apply_wetness_morale();
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands(item &water);
@@ -640,11 +642,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item(item *to_wear, bool interactive = true);
         /** Takes off an item, returning false on fail, if an item vector
-         is given, stores the items in that vector and not in the inventory */
+         *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it,
-	 * taking moves based on skill and volume of item being wielded. */
+         * taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);
