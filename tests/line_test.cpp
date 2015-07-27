@@ -237,7 +237,7 @@ TEST_CASE("Compare line_to() to canonical line_to()") {
  REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
 
  const int seed = time( NULL );
- srandom( seed );
+ std::srand( seed );
 
  for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
      const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
