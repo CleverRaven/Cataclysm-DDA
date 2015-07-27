@@ -3449,7 +3449,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_a_75",
-        "name" : "fast food",
+        "name" : "fast food restaurant",
         "sym" : [94, 62, 118, 60],
         "color" : "yellow_magenta",
         "see_cost" : 5,
