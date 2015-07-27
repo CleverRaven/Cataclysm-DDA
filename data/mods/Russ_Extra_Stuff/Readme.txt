@@ -1,5 +1,5 @@
 Rusty's stuff version 0.9
-by Russell A.
+by Russell
 mysticinmaine@gmail.com
 
 
