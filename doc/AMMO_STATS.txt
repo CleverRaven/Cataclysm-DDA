@@ -72,6 +72,26 @@ The damage of ammunition is the square root of a round's muzzle energy in joules
 230gr FMJ bullet
 447J muzzle energy - √447=21
 
+.45 ACP +P:
+200gr JHP bullet
+702J muzzle energy - √702=26
+
+.454 Casull:
+300gr JSP bullet
+2459J muzzle energy - √2459=50
+
+.500 S&W Magnum:
+500gr bullet
+3056J muzzle energy - √3056=55
+
+5.7x28mm SS190:
+31gr AP FMJ bullet - damage reduced by 3
+534J muzzle energy - √534=23
+
+4.6x30mm:
+31gr copper plated steel bullet - damage reduced by 4
+505J muzzle energy - √505=22
+
 7.62x39mm M43:
 123gr steel core FMJ bullet - damage lowered by 15
 1607J muzzle energy - √1607=47
@@ -120,3 +140,11 @@ Belt with 1/5 tracer rounds
 .30-06 M14A1:
 Incendiary ammunition - damage reduced by 10
 3894J muzzle energy - √3894=62
+
+.300 Winchester Magnum:
+220gr JHP bullet - damage increased by 5
+5299J muzzle energy - √5299=73
+
+7.62x54mmR:
+150gr FMJ bullet
+2677J muzzle energy - √2677=52
