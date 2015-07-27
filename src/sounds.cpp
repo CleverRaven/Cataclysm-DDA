@@ -671,7 +671,8 @@ void sfx::do_ambient_sfx() {
         fade_audio_group( 1, 1000 );
         // We are outside and there is precipitation
         switch( g->weather ) {
-        case WEATHER_DRIZZLE:
+	case WEATHER_ACID_DRIZZLE:        
+	case WEATHER_DRIZZLE:
             play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", get_heard_volume( g->u.pos() ), 9,
                                         1000 );
             break;
@@ -679,7 +680,8 @@ void sfx::do_ambient_sfx() {
             play_ambient_variant_sound( "environment", "WEATHER_RAINY", get_heard_volume( g->u.pos() ), 8,
                                         1000 );
             break;
-        case WEATHER_THUNDER:
+	case WEATHER_ACID_RAIN:
+	case WEATHER_THUNDER:
         case WEATHER_LIGHTNING:
             play_ambient_variant_sound( "environment", "WEATHER_THUNDER", get_heard_volume( g->u.pos() ), 7,
                                         1000 );
@@ -688,6 +690,12 @@ void sfx::do_ambient_sfx() {
             play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", get_heard_volume( g->u.pos() ), 6,
                                         1000 );
             break;
+	// I didn't know where to put these or even if the first two were needed. They probably shouldn't make any noise, but I was getting an error when compiling when I left them out.
+	case WEATHER_NULL:
+	case NUM_WEATHER_TYPES:        
+	case WEATHER_CLEAR:
+	case WEATHER_SUNNY:
+	case WEATHER_CLOUDY:
         case WEATHER_SNOWSTORM:
         case WEATHER_SNOW:
             play_ambient_variant_sound( "environment", "WEATHER_SNOW", get_heard_volume( g->u.pos() ), 5,
@@ -811,8 +819,8 @@ void sfx::generate_melee_soundfx( tripoint source, tripoint target, bool hit, bo
     out->hit = hit;
     out->targ_mon = targ_mon;
     out->material = material;
-    pthread_t thread1;
-    pthread_create( &thread1, NULL, generate_melee_soundfx_thread, out );
+    //pthread_t thread1;
+    //pthread_create( &thread1, NULL, generate_melee_soundfx_thread, out );
     return;
 }
 

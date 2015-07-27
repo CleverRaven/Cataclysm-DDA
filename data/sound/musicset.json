@@ -1,15 +1,48 @@
 {
-    "playlists" : [
+    "playlists" :
+    	[
         {
             "id" : "title",
-            "shuffle" : false,
+            "shuffle" : true,
             "files" : [
                 {
-                    "file": "Dark_Days_Ahead_demo_2.wav",
-                    "volume": 128
+                    "file": "music/bg1.mp3",
+                    "volume": 90
                 },
                 {
-                    "file": "cataclysmthemeREV6.wav",
+                    "file": "music/bg2.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg3.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg4.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg5.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg6.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg7.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg8.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg9.mp3",
+                    "volume": 90
+                },
+                {
+                    "file": "music/bg10.mp3",
                     "volume": 90
                 }
             ]
