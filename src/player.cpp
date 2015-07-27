@@ -12258,26 +12258,36 @@ int player::encumb( body_part bp ) const
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
-    int layer[MAX_CLOTHING_LAYER] = { };
+    // First is the total of encumbrance on the given layer,
+    // and second is the highest encumbrance of any one item on the layer.
+    std::array<std::pair<int, int>, MAX_CLOTHING_LAYER> layer = {{{0,0},{0,0},{0,0},{0,0},{0,0}}};
 
     for( auto& w : worn ) {
         if( !w.covers(bp) ) {
             continue;
         }
+        std::pair<int, int> &this_layer = layer[w.get_layer()];
+        int encumber_val = w.get_encumber();
+        // For the purposes of layering penalty, set a min of 1 and a max of 10 per item.
+        int layering_encumbrance = std::min( 10, std::max( 1, encumber_val ) );
 
-        layer[w.get_layer()] += 10;
+        this_layer.first += layering_encumbrance;
+        this_layer.second = std::max(this_layer.second, layering_encumbrance);
 
         if( w.is_power_armor() && is_wearing_active_power_armor() ) {
-            armorenc += std::max( 0, w.get_encumber() - 40 );
+            armorenc += std::max( 0, encumber_val - 40 );
         } else {
-            armorenc += w.get_encumber();
+            armorenc += encumber_val;
         }
     }
     armorenc = std::max(0, armorenc);
     ret += armorenc;
 
+    // The stacking penalty applies by doubling the encumbrance of
+    // each item except the highest encumbrance one.
+    // So we add them together and then subtract out the highest.
     for( const auto &elem : layer ) {
-       layers += std::max(0, elem - 10);
+        layers += std::max(0, elem.first - elem.second);
     }
 
     ret += layers;

@@ -66,11 +66,11 @@ struct iteminfo {
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER = 10,
-    WAIST_LAYER = 20,
-    OUTER_LAYER = 30,
-    BELTED_LAYER = 40,
-    MAX_CLOTHING_LAYER = 50
+    REGULAR_LAYER,
+    WAIST_LAYER,
+    OUTER_LAYER,
+    BELTED_LAYER,
+    MAX_CLOTHING_LAYER
 };
 
 class item_category
