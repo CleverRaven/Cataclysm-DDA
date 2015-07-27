@@ -1,4 +1,5 @@
 #include "effect.h"
+#include "debug.h"
 #include "rng.h"
 #include "output.h"
 #include "player.h"
@@ -407,6 +408,11 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
 
 std::string effect::disp_name() const
 {
+    if (eff_type->name.size() < 1) {
+        debugmsg("No names for effect type, ID: %s", eff_type->id.c_str());
+        return "";
+    }
+
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::stringstream ret;
     if (eff_type->use_name_ints()) {
