@@ -115,7 +115,7 @@
         "type" : "mutation",
         "id" : "NIGHTVISION",
         "name" : "Night Vision",
-        "points" : 1,
+        "points" : 2,
         "description" : "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
