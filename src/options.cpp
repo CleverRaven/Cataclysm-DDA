@@ -955,7 +955,7 @@ void initOptions()
                                   );
 
     OPTIONS["WANDER_SPAWNS"] = cOpt("world_default", _("Wander spawns"),
-                                    _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise"),
+                                    _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise. Must reset world directory after changing for it to take effect."),
                                     false
                                    );
 
