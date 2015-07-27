@@ -657,6 +657,9 @@ void player::apply_persistent_morale()
     if (has_trait("BADTEMPER")) {
         add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
+
+    // Wetness affects morale (usually negatively)
+    
 }
 
 void player::update_mental_focus()
@@ -8406,7 +8409,7 @@ void player::drench(int saturation, int flags)
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
     if ( (has_trait("DEBUG_NOTEMP")) || (has_active_mutation("SHELL2")) ||
-      ((is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx(), posy())))) ) {
+      ((is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, pos())))) ) {
         return;
     }
 
@@ -8539,10 +8542,6 @@ void player::drench_mut_calc()
 
 void player::update_body_wetness()
 {
-    /**
-    * Issue : morale and wetness still aren't linked ... they are two seperate things that mostly coincide
-    **/
-
     /*
     * Mutations and weather can affect the duration of the player being wet.
     */
@@ -8556,13 +8555,19 @@ void player::update_body_wetness()
         delay += 5;
     }
     if (has_trait("SLIMY")) {
-        delay -= 5;
+        delay += 5;
     }
-    if (g->weather == WEATHER_SUNNY) {
+    if( g->weather == WEATHER_SUNNY ) {
         delay -= 2;
+    } else if( g->weather == WEATHER_DRIZZLE ||
+               g->weather == WEATHER_RAINY ||
+               g->weather == WEATHER_THUNDER ||
+               g->weather == WEATHER_LIGHTNING ) {
+        // High moisture
+        delay += 2;
     }
 
-    if (calendar::turn % delay != 0) {
+    if( calendar::turn % delay != 0 ) {
         return;
     }
 
