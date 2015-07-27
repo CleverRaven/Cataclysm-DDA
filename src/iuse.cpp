@@ -1111,8 +1111,8 @@ int iuse::antiparasitic(player *p, item *it, bool, const tripoint& )
         p->remove_effect("bloodworms");
         p->add_msg_if_player(_("Your skin prickles and your veins itch for a few moments."));
     }
-    if (p->has_effect("brainworm")) {
-        p->remove_effect("brainworm");
+    if (p->has_effect("brainworms")) {
+        p->remove_effect("brainworms");
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The pressure inside your head feels better already."));
         } else {

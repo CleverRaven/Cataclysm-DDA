@@ -800,7 +800,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if (has_effect("bloodworms")) {
             good.push_back(_("Hemolytic Parasites"));
         }
-        if (has_effect("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
+        if (has_effect("brainworms")) {  // These little guys are immune to the blood filter too, as they live in your brain.
             good.push_back(_("Intracranial Parasite"));
         }
         if (has_effect("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
