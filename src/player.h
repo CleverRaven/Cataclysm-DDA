@@ -455,7 +455,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
-        void on_hurt( Creature *source );
+        void on_hurt( Creature *source, bool wakeup = true );
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
@@ -566,7 +566,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Heals all body parts for dam */
         void healall(int dam);
         /** Hurts all body parts for dam, no armor reduction */
-        void hurtall(int dam, Creature *source);
+        void hurtall(int dam, Creature *source, bool wakeup = true);
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
