@@ -68,8 +68,8 @@
             "T": "t_support_l",
             "B": "t_oil_circ_brkr_l",
             "s": "t_switchgear_s",
-            "w": "t_wall_h",
-            "v": "t_wall_v",
+            "w": "t_wall",
+            "v": "t_wall",
             "d": "t_door_locked",
             "C": "t_console_broken",
             "*": "t_floor",
@@ -83,7 +83,7 @@
             "furniture": {
             "c": "f_counter"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "pwr_clothing",   "x": 10, "y": 17, "chance": 18 },
                 { "item": "pwr_parts",      "x": 10, "y": 17, "chance": 12 },
                 
@@ -141,8 +141,8 @@
             "+": "t_chaingate_c",
             "T": "t_support_l",
             "S": "t_switchgear_l",
-            "w": "t_wall_h",
-            "v": "t_wall_v",
+            "w": "t_wall",
+            "v": "t_wall",
             "d": "t_door_locked",
             "C": "t_console_broken",
             "*": "t_floor",
@@ -154,7 +154,7 @@
             "furniture": {
             "c": "f_counter"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "pwr_clothing",   "x": 17, "y": 17, "chance": 24 },
                 { "item": "pwr_parts",      "x": 17, "y": 17, "chance": 12 },
                 

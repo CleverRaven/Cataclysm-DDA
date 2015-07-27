@@ -31,6 +31,8 @@ struct islot_variable_bigness;
 struct islot_bionic;
 struct islot_spawn;
 struct islot_ammo;
+struct islot_seed;
+struct islot_software;
 class item_category;
 
 /**
@@ -69,6 +71,10 @@ class Item_factory
          * Get the iuse function function of the given name.
          */
         const use_function *get_iuse( const std::string &id );
+        /**
+         * Gets function ID from its name.
+         */
+        const std::string &inverse_get_iuse( const use_function *fun );
 
 
         /**
@@ -254,6 +260,8 @@ class Item_factory
         void load( islot_bionic &slot, JsonObject &jo );
         void load( islot_spawn &slot, JsonObject &jo );
         void load( islot_ammo &slot, JsonObject &jo );
+        void load( islot_seed &slot, JsonObject &jo );
+        void load( islot_software &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);
@@ -261,7 +269,7 @@ class Item_factory
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
-        use_function use_from_object(JsonObject obj);
+        void set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods);
         phase_id phase_from_tag(Item_tag name);
 
         void add_entry(Item_group *sg, JsonObject &obj);
@@ -285,7 +293,6 @@ class Item_factory
                                 const std::string &flag_type);
         void clear();
         void init();
-        void init_old();
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;

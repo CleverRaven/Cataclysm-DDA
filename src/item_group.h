@@ -193,11 +193,11 @@ class Single_item_creator : public Item_spawn_data
         Type type;
         std::unique_ptr<Item_modifier> modifier;
 
-        virtual ItemList create(int birthday, RecursionList &rec) const;
-        virtual item create_single(int birthday, RecursionList &rec) const;
-        virtual void check_consistency() const;
-        virtual bool remove_item(const Item_tag &itemid);
-        virtual bool has_item(const Item_tag &itemid) const;
+        virtual ItemList create(int birthday, RecursionList &rec) const override;
+        virtual item create_single(int birthday, RecursionList &rec) const override;
+        virtual void check_consistency() const override;
+        virtual bool remove_item(const Item_tag &itemid) override;
+        virtual bool has_item(const Item_tag &itemid) const override;
 };
 
 /**
@@ -231,11 +231,11 @@ class Item_group : public Item_spawn_data
         void add_group_entry(const Group_tag &groupid, int probability);
         void add_entry(std::unique_ptr<Item_spawn_data> &ptr);
 
-        virtual ItemList create(int birthday, RecursionList &rec) const;
-        virtual item create_single(int birthday, RecursionList &rec) const;
-        virtual void check_consistency() const;
-        virtual bool remove_item(const Item_tag &itemid);
-        virtual bool has_item(const Item_tag &itemid) const;
+        virtual ItemList create(int birthday, RecursionList &rec) const override;
+        virtual item create_single(int birthday, RecursionList &rec) const override;
+        virtual void check_consistency() const override;
+        virtual bool remove_item(const Item_tag &itemid) override;
+        virtual bool has_item(const Item_tag &itemid) const override;
 
     protected:
         /**
@@ -250,7 +250,7 @@ class Item_group : public Item_spawn_data
 
     public:
         // TODO: remove this legacy function
-        virtual bool guns_have_ammo() const
+        virtual bool guns_have_ammo() const override
         {
             return with_ammo;
         }

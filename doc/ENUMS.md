@@ -22,7 +22,6 @@ Format: File with definition : Name of enum
 * debug.h : DebugLevel
 * debug.h : DebugClass
 * dialogue.h : talk_trial
-* disease.cpp : dis_type_enum
 * effect.h : effect_rating
 * enums.h : phase_id
 * enums.h : damage_type

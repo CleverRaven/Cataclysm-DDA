@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "iuse_software_sokoban.h"
 #include "path_info.h"
+#include "translations.h"
 
 sokoban_game::sokoban_game()
 {

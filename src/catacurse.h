@@ -32,22 +32,17 @@ typedef struct {
 //Individual lines, so that we can track changed lines
 struct cursecell {
     std::string ch;
-    char FG;
-    char BG;
-    cursecell(std::string ch) : ch(ch), FG(0), BG(0) { }
-    cursecell() : cursecell(" ") { }
+    char FG = 0;
+    char BG = 0;
+
+    cursecell(std::string ch) : ch(std::move(ch)) { }
+    cursecell() : cursecell(std::string(1, ' ')) { }
 
     bool operator==(const cursecell &b) const {
-        return ch == b.ch && FG == b.FG && BG == b.BG;
-    }
-
-    cursecell& operator=(const cursecell &b) {
-        ch = b.ch;
-        FG = b.FG;
-        BG = b.BG;
-        return *this;
+        return FG == b.FG && BG == b.BG && ch == b.ch;
     }
 };
+
 struct curseline {
     bool touched;
     std::vector<cursecell> chars;

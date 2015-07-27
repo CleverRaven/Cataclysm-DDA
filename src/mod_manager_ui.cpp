@@ -2,6 +2,7 @@
 #include "input.h"
 #include "output.h"
 #include "debug.h"
+#include "translations.h"
 #include <algorithm>
 
 // Note: Functions for drawing of UI are moved to the file worldfactory.cpp.

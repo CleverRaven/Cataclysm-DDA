@@ -178,9 +178,9 @@
             "terrain": {
                 "_": "t_pavement",
                 " ": "t_linoleum_white",
-                "-": "t_wall_h",
-                "=": "t_wall_glass_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "=": "t_wall_glass",
+                "|": "t_wall",
                 "[": "t_door_glass_c",
                 "+": "t_door_c",
                 "L": "t_door_locked",
@@ -205,7 +205,6 @@
                 "f": "t_linoleum_white"
             },
             "furniture": {
-                "T": "f_toilet",
                 "S": "f_sink",
                 "C": "f_crate_c",
                 "]": "f_rack",
@@ -216,11 +215,10 @@
                 "7": "f_bookcase",
                 "f": "f_glass_fridge"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 1, "y": 15 },
-                { "type": "toilet", "x": 1, "y": 17 }
-            ],
-            "place_groups": [
+            "toilets": {
+                "T": { }
+            },
+            "place_vehicles": [
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 3,       "y": 2 },
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 4,       "y": 2 },
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 5,       "y": 2 },
@@ -235,7 +233,9 @@
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 7,       "y": 3 },
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 8,       "y": 3 },
                 { "vehicle": "shopping_cart", "chance": 10,  "x": 9,       "y": 3 },
-                { "vehicle": "shopping_cart", "chance": 15,  "x": [4,21],  "y": 13 },
+                { "vehicle": "shopping_cart", "chance": 15,  "x": [4,21],  "y": 13 }
+            ],
+            "place_items": [
                 { "item": "produce",          "chance": 65, "x": [3,6],   "y": 5,       "repeat": [1,2] },
                 { "item": "produce",          "chance": 65, "x": [8,12],  "y": 5,       "repeat": [1,2] },
                 { "item": "produce",          "chance": 65, "x": 3,       "y": [6,7],   "repeat": [1,2] },

@@ -36,8 +36,8 @@
             ],
             "terrain": {
                 "." : "t_grass",
-                "-": "t_wall_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "|": "t_wall",
                 "S" : "t_sidewalk",
                 "M": "t_door_metal_locked",
                 "O": "t_window",
@@ -59,7 +59,6 @@
             "furniture": {
                 "1" : "f_crate_c",
                 "2" : "f_sink",
-                "4" : "f_toilet",
                 "5" : "f_counter",
                 "6" : "f_chair",
                 "7" : "f_desk",
@@ -67,9 +66,9 @@
                 "9" : "f_sofa",
                 "@": "f_trashcan"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 2, "y": 17 }
-            ],
+            "toilets" : {
+                "4" : { }
+            },
             "set": [
                 { "point": "terrain", "id": "t_dirt",      "x": 23,        "y": [ 0,23 ], "repeat": [ 5,10 ] },
                 { "point": "terrain", "id": "t_dirt",      "x": [ 0,23 ],  "y": 23,       "repeat": [ 5,8 ] },
@@ -80,11 +79,15 @@
                 { "point": "terrain", "id": "t_tree_pine", "x": 0,         "y": [ 2,19 ], "repeat": [ 0,2 ] },
                 { "point": "terrain", "id": "t_tree_pine", "x": 23,        "y": [ 2,19 ], "repeat": [ 0,2 ] }
             ],
-            "place_groups": [
-                { "vehicle": "flatbed_truck", "chance": 50, "x": 12,        "y": 13, "rotation": 270 },
+            "place_vehicles": [
+                { "vehicle": "flatbed_truck", "chance": 50, "x": 12,        "y": 13, "rotation": 270 }
+            ],
+            "place_items": [
                 { "item":    "home_hw",       "chance": 4,  "x": [ 3,20 ],  "y": [ 3,20 ] },
                 { "item":    "cannedfood",    "chance": 20, "x": [ 2,2 ],   "y": [ 19,20 ] },
-                { "item":    "softdrugs",     "chance": 30, "x": [ 2,3 ],   "y": [ 16,16 ] },
+                { "item":    "softdrugs",     "chance": 30, "x": [ 2,3 ],   "y": [ 16,16 ] }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE",  "chance": 2,  "x": [ 2,21 ],  "y": [ 2,21 ] }
             ],
         "comment": "end of mapgen json definition ---v"

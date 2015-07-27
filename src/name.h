@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <stdint.h>
 
 typedef enum {
@@ -17,6 +18,7 @@ typedef enum {
 } nameFlags;
 
 class NameGenerator;
+class JsonObject;
 
 class Name
 {

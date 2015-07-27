@@ -3,10 +3,10 @@
 // SEE ALSO: monitemsdef.cpp, which defines data on which items any given
 // monster may carry.
 
-#include "material.h"
 #include "enums.h"
 #include "color.h"
-#include "field.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #include <bitset>
 #include <string>
@@ -15,14 +15,23 @@
 #include <math.h>
 
 class Creature;
+class monster;
+class monfaction;
+struct projectile;
+enum field_id : int;
+enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
+
+using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
 
-enum m_size {
+enum m_size : int {
     MS_TINY = 0,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
@@ -32,7 +41,7 @@ enum m_size {
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum monster_trigger {
+enum monster_trigger : int {
     MTRIG_NULL = 0,
     MTRIG_STALK,  // Increases when following the player
     MTRIG_MEAT,  // Meat or a corpse nearby
@@ -52,7 +61,7 @@ enum monster_trigger {
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
-enum m_flag {
+enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_VIS50,               // Vision -10
@@ -90,6 +99,7 @@ enum m_flag {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
+    MF_FIREPROOF,           //Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_LEAKSGAS,            // Occasionally leaks gas when moving
@@ -131,29 +141,10 @@ enum m_flag {
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
+    MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
+    MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
-};
-
-enum mf_attitude {
-    MFA_BY_MOOD = 0,    // Hostile if angry
-    MFA_NEUTRAL,        // Neutral even when angry
-    MFA_FRIENDLY        // Friendly
-};
-
-class monfaction;
-
-typedef std::map< const monfaction*, mf_attitude > mfaction_att_map;
-
-class monfaction {
-    public:
-        int id;
-        std::string name;
-        const monfaction *base_faction;
-
-        mf_attitude attitude( const monfaction *other ) const;
-        friend class MonsterGenerator;
-    private:
-        mfaction_att_map attitude_map;
 };
 
 /** Used to store monster effects placed on attack */
@@ -164,7 +155,7 @@ struct mon_effect_data
     body_part bp;
     bool permanent;
     int chance;
-    
+
     mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
@@ -174,25 +165,24 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
-        std::string faction_name;
     public:
         std::string id;
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
-        const monfaction *default_faction;
+        mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
         nc_color color;
         m_size size;
-        std::string mat;
+        std::vector<std::string> mat;
         phase_id phase;
         std::set<m_flag> flags;
         std::set<monster_trigger> anger, placate, fear;
 
         std::bitset<MF_MAX> bitflags;
         std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
-        
+
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
@@ -218,9 +208,9 @@ struct mtype {
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
         std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
-        
+
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
-        
+
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
         std::vector<mon_action_attack> sp_attack;  // This monster's special attack
 
@@ -228,6 +218,11 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
+        // Monster upgrade variables
+        bool upgrades;
+        int half_life;
+        std::string upgrade_into;
+        mongroup_id upgrade_group;
         // Default constructor
         mtype ();
         /**
@@ -246,6 +241,7 @@ struct mtype {
         std::string nname(unsigned int quantity = 1) const;
         bool has_flag(m_flag flag) const;
         bool has_flag(std::string flag) const;
+        bool has_material( const std::string &material ) const;
         void set_flag(std::string flag, bool state);
         bool has_anger_trigger(monster_trigger trigger) const;
         bool has_fear_trigger(monster_trigger trigger) const;

@@ -64,10 +64,6 @@ void set_language(bool reload_options)
     if (setlocale(LC_ALL, ".1252") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '.1252').";
     }
-#else
-    if (setlocale(LC_ALL, "") == NULL) {
-        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
-    }
 #endif
 
     // Step 2. Bind to gettext domain.

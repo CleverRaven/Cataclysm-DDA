@@ -52,8 +52,9 @@ enum morale_type : int
     MORALE_KILLED_FRIEND,
     MORALE_KILLED_MONSTER,
     MORALE_MUTILATE_CORPSE,
+    MORALE_MUTAGEN_ELF,
     MORALE_MUTAGEN_CHIMERA,
-    MORALE_MUTAGEN_ELFA,
+    MORALE_MUTAGEN_MUTATION,
 
     MORALE_MOODSWING,
     MORALE_BOOK,
@@ -68,6 +69,9 @@ enum morale_type : int
     MORALE_PERM_BADTEMPER,
     MORALE_PERM_CONSTRAINED,
     MORALE_GAME_FOUND_KITTEN,
+    
+    MORALE_HAIRCUT,
+    MORALE_SHAVE,
 
     NUM_MORALE_TYPES
 };
@@ -87,9 +91,9 @@ class morale_point : public JsonSerializer, public JsonDeserializer
             type (T), item_type (I), bonus (B), duration(D), decay_start(DS), age(A) {};
 
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin);
+        void deserialize(JsonIn &jsin) override;
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
 
         std::string name() const;
 };

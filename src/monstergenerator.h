@@ -2,15 +2,24 @@
 #define MONSTER_GENERATOR_H
 
 #include "json.h"
-#include "mtype.h"
+#include "enums.h"
 
 #include <map>
 #include <set>
 
 class Creature;
+struct mtype;
+enum m_flag : int;
+enum monster_trigger : int;
+enum m_size : int;
+class monster;
+class Creature;
+struct projectile;
+using mon_action_death  = void (*)(monster*);
+using mon_action_attack = void (*)(monster*, int);
+using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 
 #define GetMType(x) MonsterGenerator::generator().get_mtype(x)
-#define GetMFact(x) MonsterGenerator::generator().faction_by_name(x)
 
 struct species_type {
     int short_id;
@@ -56,12 +65,10 @@ class MonsterGenerator
         // JSON loading functions
         void load_monster(JsonObject &jo);
         void load_species(JsonObject &jo);
-        void load_monster_faction(JsonObject &jo);
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
-        // Apply parent faction attributes to child factions
-        void finalize_monfactions();
+        
 
         void check_monster_definitions() const;
 
@@ -72,7 +79,6 @@ class MonsterGenerator
         std::map<std::string, mtype *> get_all_mtypes() const;
         std::vector<std::string> get_all_mtype_ids() const;
         mtype *get_valid_hallucination();
-        const monfaction *faction_by_name(const std::string &name) const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -90,8 +96,6 @@ class MonsterGenerator
         void init_flags();
         void init_mf_attitude();
 
-        void init_hardcoded_factions(); // Player faction only at the moment
-
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
         std::vector<mon_action_death> get_death_functions(JsonObject &jo, std::string member);
@@ -101,16 +105,13 @@ class MonsterGenerator
                 std::map<std::string, T> conversion_map, T fallback);
         template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
                                                 T fallback);
-        void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
-                                  mf_attitude value );
-        monfaction *get_or_add_faction( const std::string &name );
+        
+        
 
         // finalization
         void apply_species_attributes(mtype *mon);
         void set_mtype_flags(mtype *mon);
         void set_species_ids(mtype *mon);
-        void set_default_faction(mtype *mon);
-        void apply_base_faction( const monfaction *base, monfaction *faction );
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
@@ -124,8 +125,6 @@ class MonsterGenerator
         std::map<std::string, mon_action_defend> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
-        std::map<std::string, monfaction> faction_map;
-        std::map<std::string, mf_attitude> mf_attitude_map;
 };
 
 #endif

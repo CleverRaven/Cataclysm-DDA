@@ -191,6 +191,9 @@ class JsonIn
         // returns true if the data was read successfully, false otherwise
         bool read(bool &b);
         bool read(char &c);
+        bool read(signed char &c);
+        bool read(short unsigned int &s);
+        bool read(short int &s);
         bool read(int &i);
         bool read(unsigned int &u);
         bool read(long &l);
@@ -201,6 +204,17 @@ class JsonIn
         template<size_t N>
         bool read(std::bitset<N> &b);
         bool read(JsonDeserializer &j);
+        // This is for the string_id type
+        template <typename T>
+        auto read(T &thing) -> decltype(thing.str(), true)
+        {
+            std::string tmp;
+            if( !read( tmp ) ) {
+                return false;
+            }
+            thing = T( tmp );
+            return true;
+        }
 
         // array ~> vector, deque, list
         template <typename T, typename std::enable_if<
@@ -387,6 +401,12 @@ class JsonOut
             write(std::string(cstr));
         }
         void write(const JsonSerializer &thing);
+        // This is for the string_id type
+        template <typename T>
+        auto write(const T &thing) -> decltype(thing.str(), (void)0)
+        {
+            write( thing.str() );
+        }
 
         // enum ~> underlying type
         template <typename T, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr>
@@ -692,7 +712,7 @@ class JsonArray
         void finish(); // move the stream position to the end of the array
 
         bool has_more(); // true iff more elements may be retrieved with next_*
-        int size();
+        size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
         void throw_error(std::string err);

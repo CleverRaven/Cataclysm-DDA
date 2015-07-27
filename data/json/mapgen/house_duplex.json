@@ -37,8 +37,8 @@
             "terrain": {
                 " ": "t_floor",
                 ".": "t_grass",
-                "-": "t_wall_h",
-                "|": "t_wall_v",
+                "-": "t_wall",
+                "|": "t_wall",
                 ":": "t_floor",
                 ";": "t_floor",
                 "+": "t_door_c",
@@ -71,7 +71,6 @@
             },
             "furniture": {
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -93,19 +92,19 @@
                 "H": "f_armchair",
                 "P": "f_sign"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 20, "y": 4 },
-                { "type": "toilet", "x": 8, "y": 21 },
-                { "type": "toilet", "x": 10, "y": 21 },
-                { "type": "sign", "x": 1, "y": 2, "signage": "the address has been defaced" },
-                { "type": "sign", "x": 23, "y": 2, "signage": "the address is unreadable" }
+            "toilets": {
+                ";": { }
+            },
+            "place_signs": [
+                { "x": 1, "y": 2, "signage": "the address has been defaced" },
+                { "x": 23, "y": 2, "signage": "the address is unreadable" }
             ],
             "add": [
                 { "item": "television", "x": 15, "y": 2 },
                 { "item": "television", "x": 11, "y": 3 }
             ],
             "comment": "east  dwelling followed by west dwelling",
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [15,16 ], "y": [17,18 ] },
                 { "item": "homebooks", "chance": 60,  "x": [ 14, 14 ], "y": [ 5, 6 ] },
                 { "item": "bedroom", "chance": 60,  "x": [ 13, 16 ], "y": [ 17, 21 ] },

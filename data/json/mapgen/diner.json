@@ -86,8 +86,8 @@
             ".": "t_grass",
             "_": "t_pavement",
             ",": "t_pavement_y",
-            "-": "t_wall_h",
-            "|": "t_wall_v",
+            "-": "t_wall",
+            "|": "t_wall",
             "O": "t_window",
             "+": "t_door_c",
             "c": "t_linoleum_white",
@@ -105,19 +105,18 @@
             "furniture": {
             "#": "f_counter",
             "t": "f_table",
-            "T": "f_toilet",
             "S": "f_sink",
             "G": "f_oven",
             "f": "f_fridge",
             "H": "f_sofa"
             },
-        "place_groups": [
+        "place_items": [
                 { "item": "diner_food", "chance": 75, "x": [ 4,17 ], "y": [ 14,14 ] },
                 { "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
         ],
-        "place_specials": [
-                { "type": "toilet", "x": 20, "y": 18 }
-        ]
+        "toilets": {
+            "T": { }
+        }
         }
     }
 ]

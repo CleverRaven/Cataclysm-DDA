@@ -27,9 +27,6 @@ enum handedness : int {
     RIGHT
 };
 
-// Global map of body_parts names
-extern std::map<std::string, body_part> body_parts;
-
 /** Returns the matching name of the body_part token. */
 std::string body_part_name(body_part bp);
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
@@ -43,9 +40,9 @@ body_part random_body_part(bool main_parts_only = false);
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
 body_part mutate_to_main_part(body_part bp);
 
-/** Initializes the body_part token map keys; i.e. "HEAD" -> bp_head. */
-void init_body_parts();
 /** Returns the matching body_part key from the corresponding body_part token. */
 std::string get_body_part_id(body_part bp);
+/** Returns the matching body_part token from the corresponding body_part string. */
+body_part get_body_part_token( const std::string &id );
 
 #endif

@@ -6,7 +6,7 @@
     "color": "brown",
     "name": "boat board",
     "name_plural": "boat board",
-    "description": "boat board",
+    "description": "A wooden board that keeps the boat afloat.  To change a vehicle into a boat, place as you would wheels on a car. Then attach oars or a motor to get the boat to move.",
     "price": 8000,
     "material": ["wood", "null"],
     "weight": 3000,

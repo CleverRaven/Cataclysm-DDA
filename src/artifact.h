@@ -66,16 +66,16 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         std::vector<art_effect_active>  effects_activated;
         std::vector<art_effect_passive> effects_carried;
 
-        bool is_artifact() const
+        bool is_artifact() const override
         {
             return true;
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
         void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin)
+        void deserialize(JsonIn &jsin) override
         {
             JsonObject jo = jsin.get_object();
             deserialize(jo);
@@ -93,16 +93,16 @@ class it_artifact_armor : public itype, public JsonSerializer, public JsonDeseri
     public:
         std::vector<art_effect_passive> effects_worn;
 
-        bool is_artifact() const
+        bool is_artifact() const override
         {
             return true;
         }
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const;
+        void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
         void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin)
+        void deserialize(JsonIn &jsin) override
         {
             JsonObject jo = jsin.get_object();
             deserialize(jo);

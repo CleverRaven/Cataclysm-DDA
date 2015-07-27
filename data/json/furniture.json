@@ -27,7 +27,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "TINY"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "TINY"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -39,7 +39,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "PLACE_ITEM", "MOUNTABLE", "CONTAINER",
-                  "SEALED", "SHORT"],
+                  "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -51,7 +51,7 @@
         "max_volume": 3000,
         "required_str": -1,
         "flags": ["TRANSPARENT", "UNSTABLE", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE",
-                  "CONTAINER", "SEALED", "SHORT"],
+                  "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "SHORT"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",
@@ -993,6 +993,42 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_bigmirror",
+        "name": "standing mirror",
+        "symbol": "{",
+        "color": "white",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["NOITEM","BLOCKSDOOR"],
+        "bash": {
+            "str_min": 5, "str_max": 16,
+            "sound": "glass breaking",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "furn_set": "f_bigmirror_b",
+            "items": [
+                { "item": "glass_shard", "amount": 6, "minamount": 3 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_bigmirror_b",
+        "name": "broken standing mirror",
+        "symbol": "{",
+        "color": "ltgray",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["NOITEM","BLOCKSDOOR"],
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 4, "minamount": 2}
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_vending_c",
         "name": "vending machine",
         "symbol": "{",
@@ -1077,8 +1113,9 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "ORGANIC",
-                  "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", 
+                  "ORGANIC", "MOUNTABLE", "SHORT"],
+        "examine_action": "crate",
         "deconstruct": {
             "items": [
                 { "item": "2x4", "amount": 4 },
@@ -1130,7 +1167,13 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_canvas_wall",
@@ -1140,7 +1183,14 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_canvas_door",
@@ -1151,7 +1201,13 @@
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
         "open": "f_canvas_door_o",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_canvas_door_o",
@@ -1162,7 +1218,13 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "close": "f_canvas_door",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet", "f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_canvas_door",
@@ -1172,8 +1234,15 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM", "DOOR"],
-        "open": "f_canvas_door_o",
-        "comment": "No bash info due to special handling"
+        "open": "f_large_canvas_door_o",
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_canvas_door_o",
@@ -1184,7 +1253,14 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "close": "f_canvas_door",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_groundsheet",
@@ -1195,7 +1271,16 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
         "examine_action": "portable_structure",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "items": [
+                { "item": "broketent", "amount": 1}
+            ],
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_large_groundsheet",
@@ -1205,7 +1290,14 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_center_groundsheet",
@@ -1216,7 +1308,17 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
         "examine_action": "portable_structure",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "collapse_radius": 2,
+            "items": [
+                { "item": "largebroketent", "amount": 1 }
+            ],
+            "tent_centers": ["f_center_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_fema_groundsheet",
@@ -1226,7 +1328,13 @@
         "move_cost_mod": 0,
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_wall",
@@ -1236,7 +1344,13 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_door",
@@ -1247,7 +1361,13 @@
         "required_str": -1,
         "flags": ["FLAMMABLE_HARD", "NOITEM"],
         "open": "f_skin_door_o",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_door_o",
@@ -1258,7 +1378,13 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "close": "f_skin_door",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_skin_groundsheet",
@@ -1269,7 +1395,16 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "INDOORS", "NOCOLLIDE"],
         "examine_action": "portable_structure",
-        "comment": "No bash info due to special handling"
+        "bash": {
+            "str_min": 1, "str_max": 8,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 8,
+            "items": [
+                { "item": "damaged_shelter_kit", "amount": 1 }
+            ],
+            "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"]
+        }
     },{
         "type" : "furniture",
         "id" : "f_mutpoppy",
@@ -1308,7 +1443,7 @@
         "bgcolor": "dkgray",
         "move_cost_mod": -10,
         "required_str": -1,
-        "flags": ["CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
+        "flags": ["CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT"],
         "bash": {
             "str_min": 6, "str_max":30,
             "sound": "poof.",
@@ -1322,7 +1457,7 @@
         "bgcolor": "ltgray",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE",
                   "SHORT"],
         "bash": {
             "str_min": 6, "str_max":20,
@@ -1553,7 +1688,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
+        "flags": ["NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg",
         "bash": {
             "str_min": 12, "str_max": 50,
@@ -1603,6 +1738,23 @@
             "sound_fail": "thump.",
             "items": [
                 { "item": "rock", "amount": 6, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_mannequin",
+        "name": "mannequin",
+        "symbol": "@",
+        "color": "brown",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["PLACE_ITEM","TRANSPARENT", "FLAMMABLE"],
+        "bash": {
+            "str_min": 6, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "splinter", "amount": 12, "minamount": 9 }
             ]
         }
     },{
@@ -1675,6 +1827,21 @@
         "required_str": -1,
         "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
         "examine_action": "flower_dandelion",
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "crunch.",
+            "sound_fail": "whish."
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_cattails",
+        "name": "cattails",
+        "symbol": "i",
+        "color": "brown",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
+        "examine_action": "examine_cattails",
         "bash": {
             "str_min": 2, "str_max": 6,
             "sound": "crunch.",
@@ -2163,5 +2330,154 @@
                 { "item": "pipe", "amount": 4, "minamount": 0}
             ]
         }
+    },{
+        "type" : "furniture",
+        "id" : "f_robotic_arm",
+        "name": "robotic arm",
+        "symbol": "&",
+        "bgcolor": "yellow",
+        "move_cost_mod": 3,
+        "required_str": 18,
+        "flags": ["TRANSPARENT", "MOUNTABLE"],
+        "deconstruct": {
+            "items": [
+                { "item": "processor", "amount": 1, "chance": 75},
+                { "item": "RAM", "amount": 1, "chance": 80},
+                { "item": "power_supply", "amount": 1, "chance": 70},
+                { "item": "amplifier", "amount": 1, "chance": 90},
+                { "item": "steel_chunk", "amount": 4, "minamount": 1},
+                { "item": "spring", "amount": 1, "chance": 80},
+                { "item": "steel_lump", "amount": 1, "chance": 60},
+                { "item": "sheet_metal", "amount": 1, "chance": 50},
+                { "item": "motor", "amount": 1, "chance": 60}
+            ]
+        },
+        "bash": {
+            "str_min": 8, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "thunk.",
+            "items": [
+                { "item": "processor", "amount": 1, "chance": 15},
+                { "item": "RAM", "amount": 1, "chance": 30},
+                { "item": "power_supply", "amount": 1, "chance": 50},
+                { "item": "amplifier", "amount": 1, "chance": 70},
+                { "item": "steel_chunk", "amount": 3, "minamount": 1},
+                { "item": "spring", "amount": 1, "chance": 80},
+                { "item": "steel_lump", "amount": 1, "chance": 50},
+                { "item": "sheet_metal", "amount": 1, "chance": 30},
+                { "item": "scrap", "amount": 5, "minamount": 2},
+                { "item": "motor", "amount": 1, "chance": 30}
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_aut_gas_console",
+        "name": "automated gas console",
+        "symbol": "9",
+        "color": "blue",
+        "move_cost_mod": -1,
+        "required_str": 25,
+        "flags": ["SEALED", "ALARMED", "BLOCKSDOOR"],
+        "examine_action": "pay_gas",
+        "bash": {
+            "str_min": 7, "str_max": 30,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "furn_set": "f_aut_gas_console_o"
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_aut_gas_console_o",
+        "name": "broken automated gas console",
+        "symbol": "9",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 20,
+        "flags": ["BLOCKSDOOR"],
+        "bash": {
+            "str_min": 5, "str_max": 45,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "amount": 8, "minamount": 2},
+                { "item": "steel_chunk", "amount": 3, "minamount": 0},
+                { "item": "hose", "amount": 1},
+                { "item": "cu_pipe", "amount": 5, "minamount": 2 }
+            ]
+        }
+    },{
+    "type" : "furniture",
+    "id" : "f_smoking_rack",
+    "name": "smoking rack",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM"],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "reload_furniture",
+    "deconstruct": {
+      "items": [
+        { "item": "rock", "amount": 8 },
+        { "item": "stick", "amount": 16, "minamount": 16 }
+      ]
+    },
+    "bash": {
+        "str_min": 18, "str_max": 50,
+        "sound": "crunch!",
+        "sound_fail": "whump!",
+        "items": [
+            { "item": "rock", "amount": 8 },
+            { "item": "stick", "amount": 12, "minamount": 8 }
+        ]
     }
+  },{
+    "type" : "furniture",
+    "id" : "f_forge_rock",
+    "name": "rock forge",
+    "symbol": "^",
+    "color": "ltred",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "crafting_pseudo_item": "char_forge",
+    "flags": ["SEALED", "CONTAINER", "NOITEM"],
+    "deconstruct": {
+      "items": [
+        { "item": "rock", "amount": 40 }
+      ]
+    },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 18, "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "rock", "amount": 30, "minamount": 20 }
+      ]
+    }
+  },{
+   "type" : "furniture",
+   "id" : "f_clay_kiln",
+   "name": "clay kiln",
+   "symbol": "^",
+   "color": "ltred",
+   "move_cost_mod": -1,
+   "required_str": -1,
+   "crafting_pseudo_item": "brick_kiln",
+   "flags": [ "SEALED", "CONTAINER", "NOITEM"],
+   "deconstruct": {
+     "items": [
+       { "item": "rock", "amount": 40 }
+     ]
+   },
+   "examine_action": "reload_furniture",
+   "bash": {
+     "str_min": 18, "str_max": 50,
+     "sound": "crunch!",
+     "sound_fail": "whump.",
+     "items": [
+       { "item": "rock", "amount": 30, "minamount": 20 }
+     ]
+   }
+}
 ]

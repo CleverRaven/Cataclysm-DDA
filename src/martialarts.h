@@ -3,12 +3,21 @@
 
 #include "pldata.h"
 #include "json.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
 
+class effect;
 class player;
+class item;
+class martialart;
+using matype_id = string_id<martialart>;
+class ma_buff;
+using mabuff_id = string_id<ma_buff>;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
@@ -41,8 +50,8 @@ struct ma_requirements {
         min_cutting_damage = 0;
     }
 
-    bool is_valid_player(player &u);
-    bool is_valid_weapon(item &i);
+    bool is_valid_player( const player &u ) const;
+    bool is_valid_weapon( const item &i ) const;
 };
 
 class ma_technique
@@ -50,13 +59,13 @@ class ma_technique
     public:
         ma_technique();
 
-        std::string id;
+        matec_id id;
         std::string name;
 
         std::string goal; // the melee goal this achieves
 
         // given a player's state, does this bonus apply to him?
-        bool is_valid_player(player &u);
+        bool is_valid_player( const player &u ) const;
 
         std::set<std::string> flags;
 
@@ -120,39 +129,44 @@ class ma_buff
 
         // utility function so to prevent duplicate buff copies, we use this
         // instead of add_disease (since all buffs have the same distype)
-        void apply_buff(std::list<disease> &dVec);
+        void apply_buff( player &u ) const;
 
         // given a player's state, does this bonus apply to him?
-        bool is_valid_player(player &u);
+        bool is_valid_player( const player &u ) const;
 
         // apply static bonuses to a player
-        void apply_player(player &u);
+        void apply_player(player &u) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
-        int hit_bonus(player &u);
-        int dodge_bonus(player &u);
-        int speed_bonus(player &u);
-        int block_bonus(player &u);
+        int hit_bonus( const player &u ) const;
+        int dodge_bonus( const player &u ) const;
+        int speed_bonus( const player &u ) const;
+        int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int arm_bash_bonus(player &u);
-        int arm_cut_bonus(player &u);
+        int arm_bash_bonus( const player &u ) const;
+        int arm_cut_bonus( const player &u ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        int bash_bonus(player &u);
-        int cut_bonus(player &u);
+        int bash_bonus( const player &u ) const;
+        int cut_bonus( const player &u ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float bash_mult();
-        float cut_mult();
+        float bash_mult() const;
+        float cut_mult() const;
 
         // returns various boolean flags
-        bool is_throw_immune();
-        bool is_quiet();
-        bool can_melee();
+        bool is_throw_immune() const;
+        bool is_quiet() const;
+        bool can_melee() const;
 
-        std::string id;
+        // The ID of the effect that is used to store this buff
+        std::string get_effect_id() const;
+        // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
+        static const ma_buff *from_effect( const effect &eff );
+
+        mabuff_id id;
         std::string name;
         std::string description;
 
@@ -215,28 +229,28 @@ class martialart
         martialart();
 
         // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs(player &u, std::list<disease> &dVec);
+        void apply_static_buffs(player &u) const;
 
-        void apply_onmove_buffs(player &u, std::list<disease> &dVec);
+        void apply_onmove_buffs(player &u) const;
 
-        void apply_onhit_buffs(player &u, std::list<disease> &dVec);
+        void apply_onhit_buffs(player &u) const;
 
-        void apply_onattack_buffs(player &u, std::list<disease> &dVec);
+        void apply_onattack_buffs(player &u) const;
 
-        void apply_ondodge_buffs(player &u, std::list<disease> &dVec);
+        void apply_ondodge_buffs(player &u) const;
 
-        void apply_onblock_buffs(player &u, std::list<disease> &dVec);
+        void apply_onblock_buffs(player &u) const;
 
-        void apply_ongethit_buffs(player &u, std::list<disease> &dVec);
+        void apply_ongethit_buffs(player &u) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique(player &u, matec_id tech);
+        bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
         bool has_weapon(std::string item) const;
         // gets custom melee string for a technique under this style
-        std::string melee_verb(matec_id tech, player &u);
+        std::string melee_verb(matec_id tech,  const player &u );
 
-        std::string id;
+        matype_id id;
         std::string name;
         std::string description;
         int arm_block;
@@ -252,16 +266,14 @@ class martialart
         std::vector<ma_buff> ondodge_buffs;
         std::vector<ma_buff> onblock_buffs;
         std::vector<ma_buff> ongethit_buffs;
-
 };
 
 void load_technique(JsonObject &jo);
 void load_martial_art(JsonObject &jo);
 void check_martialarts();
 void clear_techniques_and_martial_arts();
+void finialize_martial_arts();
 
-extern std::map<matype_id, martialart> martialarts;
-extern std::map<mabuff_id, ma_buff> ma_buffs;
-extern std::map<matec_id, ma_technique> ma_techniques;
+std::vector<matype_id> all_martialart_types();
 
 #endif

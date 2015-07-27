@@ -38,10 +38,10 @@
             ],
             "terrain": {
                 ".": "t_grass",
-                "-": "t_wall_h",
+                "-": "t_wall",
                 "2": "t_window_domestic",
                 "3": "t_door_locked",
-                "|": "t_wall_v",
+                "|": "t_wall",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
@@ -70,7 +70,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_fireplace",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -83,10 +82,9 @@
                 "F": "f_fridge",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "toilet", "x": 11, "y": 3 },
-                { "type": "toilet", "x": 11, "y": 20 }
-            ],
+            "toilets": {
+                ";": { }
+            },
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
@@ -102,7 +100,7 @@
                 { "item": "laptop", "x": 2, "y": 20, "chance": 3 }
             ],
             "comment": "randomly picked from a group ---v",
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [4,5 ], "y": [6,7 ] },
                 { "item": "bed", "chance": 80,  "x": [2,3 ], "y": [14,15 ] },
                 { "item": "allclothes", "chance": 50, "x": [ 7,7 ], "y": 21 },
@@ -126,7 +124,9 @@
                 { "item": "oven", "chance": 50, "x": [ 20, 21 ], "y": [ 20, 21 ] },
                 { "item": "softdrugs", "chance": 50, "x": [ 11,11 ], "y": [ 15, 18 ] },
                 { "item": "softdrugs", "chance": 50, "x": [ 9,9 ], "y": [ 5, 7 ] },
-                { "item": "trash", "chance": 50, "x": [ 19, 19 ], "y": 15 },
+                { "item": "trash", "chance": 50, "x": [ 19, 19 ], "y": 15 }
+            ],
+            "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"

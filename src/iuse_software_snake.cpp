@@ -9,12 +9,14 @@
 #include <map>
 #include <vector>
 
+#include "rng.h"
 #include "input.h"
 #include "output.h"
 #include "catacharset.h"
 #include "options.h"
 #include "debug.h"
 #include "iuse_software_snake.h"
+#include "translations.h"
 
 snake_game::snake_game()
 {

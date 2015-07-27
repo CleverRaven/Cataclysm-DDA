@@ -1,5 +1,5 @@
-#include <tap++/tap++.h>
-using namespace TAP;
+#define CATCH_CONFIG_MAIN
+#include "catch/catch.hpp"
 
 #include "rng.h"
 #include "line.h"
@@ -102,16 +102,171 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
 #define RANDOM_TEST_NUM 1000
 #define COORDINATE_RANGE 99
 
-int main(int argc, char *argv[])
-{
- plan( 2 + RANDOM_TEST_NUM );
+TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
 
- ok( trig_dist(0, 0, 0, 0) == 0 );
- ok( trig_dist(0, 0, 1, 0) == 1 );
+  // Test the unit cube, which are the only values this function is valid for.
+  REQUIRE( make_xyz_unit(-1, -1, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz_unit(-1, -1, 0) == NORTHWEST );
+  REQUIRE( make_xyz_unit(-1, -1, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz_unit(0, -1, -1) == ABOVENORTH );
+  REQUIRE( make_xyz_unit(0, -1, 0) == NORTH );
+  REQUIRE( make_xyz_unit(0, -1, 2) == BELOWNORTH );
+  REQUIRE( make_xyz_unit(1, -1, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz_unit(1, -1, 0) == NORTHEAST );
+  REQUIRE( make_xyz_unit(1, -1, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz_unit(-1, 0, -1) == ABOVEWEST );
+  REQUIRE( make_xyz_unit(-1, 0, 0) == WEST );
+  REQUIRE( make_xyz_unit(-1, 0, 1) == BELOWWEST );
+  REQUIRE( make_xyz_unit(0, 0, -1) == ABOVECENTER );
+  REQUIRE( make_xyz_unit(0, 0, 0) == CENTER );
+  REQUIRE( make_xyz_unit(0, 0, 1) == BELOWCENTER );
+  REQUIRE( make_xyz_unit(1, 0, -1) == ABOVEEAST );
+  REQUIRE( make_xyz_unit(1, 0, 0) == EAST );
+  REQUIRE( make_xyz_unit(1, 0, 1) == BELOWEAST );
+  REQUIRE( make_xyz_unit(-1, 1, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz_unit(-1, 1, 0) == SOUTHWEST );
+  REQUIRE( make_xyz_unit(-1, 1, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz_unit(0, 1, -1) == ABOVESOUTH );
+  REQUIRE( make_xyz_unit(0, 1, 0) == SOUTH );
+  REQUIRE( make_xyz_unit(0, 1, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz_unit(1, 1, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz_unit(1, 1, 0) == SOUTHEAST );
+  REQUIRE( make_xyz_unit(1, 1, 1) == BELOWSOUTHEAST );
+  
+  // Test the unit square values at distance 1 and 2.
+  // Test the multiples of 30deg at 60 squares.
+  // Test 22 deg to either side of the cardinal directions.
+  REQUIRE( make_xyz(-1, -1, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-2, -2, -2) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-30, -60, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-60, -60, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-60, -30, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-1, -1, 0) == NORTHWEST );
+  REQUIRE( make_xyz(-2, -2, 0) == NORTHWEST );
+  REQUIRE( make_xyz(-60, -60, 0) == NORTHWEST );
+  REQUIRE( make_xyz(-1, -1, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-2, -2, 2) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-30, -60, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-60, -60, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-60, -30, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(0, -1, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(0, -2, -2) == ABOVENORTH );
+  REQUIRE( make_xyz(-22, -60, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(0, -60, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(22, -60, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(0, -1, 0) == NORTH );
+  REQUIRE( make_xyz(0, -2, 0) == NORTH );
+  REQUIRE( make_xyz(-22, -60, 0) == NORTH );
+  REQUIRE( make_xyz(0, -60, 0) == NORTH );
+  REQUIRE( make_xyz(22, -60, 0) == NORTH );
+  REQUIRE( make_xyz(0, -1, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(0, -2, 2) == BELOWNORTH );
+  REQUIRE( make_xyz(-22, -60, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(0, -60, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(22, -60, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(1, -1, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(2, -2, -2) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(30, -60, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(60, -60, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(60, -30, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(1, -1, 0) == NORTHEAST );
+  REQUIRE( make_xyz(2, -2, 0) == NORTHEAST );
+  REQUIRE( make_xyz(30, -60, 0) == NORTHEAST );
+  REQUIRE( make_xyz(60, -60, 0) == NORTHEAST );
+  REQUIRE( make_xyz(60, -30, 0) == NORTHEAST );
+  REQUIRE( make_xyz(1, -1, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(2, -2, 2) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(30, -60, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(60, -60, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(60, -30, 1) == BELOWNORTHEAST );
+
+  REQUIRE( make_xyz(-1, 0, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-2, 0, -2) == ABOVEWEST );
+  REQUIRE( make_xyz(-60, -22, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-60, 0, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-60, 22, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-1, 0, 0) == WEST );
+  REQUIRE( make_xyz(-2, 0, 0) == WEST );
+  REQUIRE( make_xyz(-60, -22, 0) == WEST );
+  REQUIRE( make_xyz(-60, 0, 0) == WEST );
+  REQUIRE( make_xyz(-60, 22, 0) == WEST );
+  REQUIRE( make_xyz(-1, 0, 1) == BELOWWEST );
+  REQUIRE( make_xyz(-2, 0, 2) == BELOWWEST );
+  REQUIRE( make_xyz(-60, -22, 1) == BELOWWEST );
+  REQUIRE( make_xyz(-60, 0, 1) == BELOWWEST );
+  REQUIRE( make_xyz(-60, 22, 1) == BELOWWEST );
+  REQUIRE( make_xyz(0, 0, -1) == ABOVECENTER );
+  REQUIRE( make_xyz(0, 0, -2) == ABOVECENTER );
+  REQUIRE( make_xyz(0, 0, 0) == CENTER );
+  REQUIRE( make_xyz(0, 0, 1) == BELOWCENTER );
+  REQUIRE( make_xyz(0, 0, 2) == BELOWCENTER );
+  REQUIRE( make_xyz(1, 0, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(2, 0, -2) == ABOVEEAST );
+  REQUIRE( make_xyz(60, -22, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(60, 0, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(60, 22, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(1, 0, 0) == EAST );
+  REQUIRE( make_xyz(2, 0, 0) == EAST );
+  REQUIRE( make_xyz(60, -22, 0) == EAST );
+  REQUIRE( make_xyz(60, 0, 0) == EAST );
+  REQUIRE( make_xyz(60, 22, 0) == EAST );
+  REQUIRE( make_xyz(1, 0, 1) == BELOWEAST );
+  REQUIRE( make_xyz(2, 0, 2) == BELOWEAST );
+  REQUIRE( make_xyz(60, -22, 1) == BELOWEAST );
+  REQUIRE( make_xyz(60, 0, 1) == BELOWEAST );
+  REQUIRE( make_xyz(60, 22, 1) == BELOWEAST );
+
+  REQUIRE( make_xyz(-1, 1, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-2, 2, -2) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-30, 60, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-60, 60, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-60, 30, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-1, 1, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-2, 2, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-30, 60, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-60, 60, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-60, 30, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-1, 1, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-2, 2, 2) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-30, 60, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-60, 60, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-60, 30, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(0, 1, -1) == ABOVESOUTH );
+  REQUIRE( make_xyz(0, 2, -2) == ABOVESOUTH );
+  REQUIRE( make_xyz(0, 60, -1) == ABOVESOUTH );
+  REQUIRE( make_xyz(0, 1, 0) == SOUTH );
+  REQUIRE( make_xyz(-22, 60, 0) == SOUTH );
+  REQUIRE( make_xyz(0, 60, 0) == SOUTH );
+  REQUIRE( make_xyz(22, 60, 0) == SOUTH );
+  REQUIRE( make_xyz(0, 1, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(0, 2, 2) == BELOWSOUTH );
+  REQUIRE( make_xyz(-22, 60, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(0, 60, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(22, 60, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(1, 1, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(2, 2, -2) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(30, 60, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(60, 60, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(60, 30, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(1, 1, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(2, 2, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(30, 60, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(60, 60, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(60, 30, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(1, 1, 1) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(2, 2, 2) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(30, 60, 1) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(60, 60, 1) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(60, 30, 1) == BELOWSOUTHEAST );
+}
+
+TEST_CASE("Compare line_to() to canonical line_to()") {
+
+ REQUIRE( trig_dist(0, 0, 0, 0) == 0 );
+ REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
 
  const int seed = time( NULL );
  srandom( seed );
- char test_message[100];
 
  for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
      const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
@@ -120,10 +275,7 @@ int main(int argc, char *argv[])
      const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
      int t1 = 0;
      int t2 = 0;
-     snprintf( test_message, sizeof(test_message), "Line from %d, %d to %d, %d.",
-               x1, y1, x2, y2 );
-     ok( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ),
-         test_message );
+     REQUIRE( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ) );
  }
 
  {
@@ -137,7 +289,7 @@ int main(int argc, char *argv[])
      struct timespec start1;
      struct timespec end1;
      clock_gettime( CLOCK_REALTIME, &start1 );
-     #define PERFORMANCE_TEST_ITERATIONS 1000000
+     #define PERFORMANCE_TEST_ITERATIONS 10000
      while( count1 < PERFORMANCE_TEST_ITERATIONS ) {
          line_to( x1, y1, x2, y2, t1 );
          count1++;
@@ -148,7 +300,7 @@ int main(int argc, char *argv[])
      struct timespec end2;
      clock_gettime( CLOCK_REALTIME, &start2 );
      while( count2 < PERFORMANCE_TEST_ITERATIONS ) {
-         line_to( x1, y1, x2, y2, t2 );
+         canonical_line_to( x1, y1, x2, y2, t2 );
          count2++;
      }
      clock_gettime( CLOCK_REALTIME, &end2 );
@@ -164,6 +316,4 @@ int main(int argc, char *argv[])
      printf( "canonical_line_to() executed %d times in %ld.%ld seconds.\n",
              PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
  }
-
- return exit_status();
 }

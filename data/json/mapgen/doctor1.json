@@ -1,0 +1,121 @@
+[
+    {
+      "type" : "item_group",
+      "id" : "doctors_books",
+      "items":[
+        ["mag_firstaid", 50],
+        ["textbook_firstaid", 200],
+        ["manual_swimming", 50],
+        ["manual_first_aid", 200],
+        ["pocket_firstaid", 100],
+        ["textbook_chemistry", 200],
+        ["adv_chemistry", 200],
+        ["emergency_book", 200],
+        ["record_patient", 100],
+        ["recipe_medicalmut", 50],
+        ["recipe_serum", 10],
+        ["recipe_labchem", 100],
+        ["recipe_augs", 100]
+      ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "office_doctor"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "***|--0---|::|--OO--|***",
+                    "***|dh...]|..|[hh.h[|***",
+                    "***|d%...y|::|h....h|***",
+                    "***|--|+--|........h|***",
+                    "***|..|..+........h[|***",
+                    "***|B.|..|9999|..|--|***",
+                    "***|s.|..|%#%#|..|B.|***",
+                    "***|..+..|....|..|.#|***",
+                    "***|##|..|h...|..+.#|***",
+                    "***|--|..|--+-|..|--|***",
+                    "***|$$|..#}..h%..|B.|***",
+                    "***|..i......h#..|.#|***",
+                    "***|$$|..%h...#..+.#|***",
+                    "***|--|..###.##..|--|***",
+                    "***|..i.............;***",
+                    "***|}}|.............|***",
+                    "***|--|+|+-|-+|----+|***",
+                    "***|d...|.s|s.|.....|***",
+                    "***|%h.]|.t|t.|}}}}}|***",
+                    "***|-0--|--|--|-----|***",
+                    "************************",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ";": "t_door_locked",
+                "i": "t_door_locked_interior",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "9": "t_window_domestic",
+                "0": "t_window_alarm",
+                "W": "t_chainfence_h",
+                "w": "t_chainfence_v",
+                "^": "t_chaingate_c",
+                "=": "t_wall_glass",
+                "#": "t_floor",
+                "h": "t_floor",
+                "[": "t_floor",
+                "}": "t_floor",
+                "$": "t_floor",
+                "d": "t_floor",
+                "]": "t_floor",
+                "s": "t_floor",
+                "t": "t_floor",
+                "B": "t_floor",
+                "y": "t_floor",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "h": "f_chair",
+                "[": "f_table",
+                "}": "f_locker",
+                "$": "f_safe_l",
+                "d": "f_desk",
+                "]": "f_bookcase",
+                "s": "f_sink",
+                "B": "f_bed",
+                "y": "f_indoor_plant_y"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "waitingroom", "chance": 60, "x": 14,   "y": 3 },
+                { "item": "waitingroom", "chance": 60, "x": 19,   "y": 3 },
+                { "item": "waitingroom", "chance": 60, "x": 19,   "y": 6 },
+                { "item": "doctorsoffice", "chance": 60, "x": 19,   "y": [9,10], "repeat": [1,2] },
+                { "item": "doctorsoffice", "chance": 60, "x": 19,   "y": [13,14], "repeat": [1,2] },
+                { "item": "cleaning", "chance": 50, "x": [15,19],   "y": 20,      "repeat": [1,5] },
+                { "item": "doctorsoffice", "chance": 50, "x": 10,   "y": 12, "repeat": [1,3] },
+                { "item": "softdrugs", "chance": 40, "x": [4,5],   "y": 17, "repeat": [1,4] },
+                { "item": "office", "chance": 50, "x": 4,   "y": 19 },
+                { "item": "office", "chance": 50, "x": 4,   "y": [3,4], "repeat": [1,2] },
+                { "item": "doctors_books", "chance": 40, "x": 9,   "y": 3, "repeat": [1,3] },
+                { "item": "doctors_books", "chance": 40, "x": 7,   "y": 20, "repeat": [1,3] },
+                { "item": "surgery", "chance": 60, "x": [4,5],   "y": 10, "repeat": [1,3] },
+                { "item": "harddrugs", "chance": 60, "x": [4,5],   "y": 12, "repeat": [1,3] },
+                { "item": "harddrugs", "chance": 60, "x": [4,5],   "y": 14, "repeat": [1,3] }
+           ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]
+

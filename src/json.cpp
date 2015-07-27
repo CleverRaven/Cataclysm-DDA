@@ -463,7 +463,7 @@ bool JsonArray::has_more()
 {
     return (index >= 0 && size_t(index) < positions.size());
 }
-int JsonArray::size()
+size_t JsonArray::size() const
 {
     return positions.size();
 }
@@ -1307,6 +1307,36 @@ bool JsonIn::read(char &c)
         return false;
     }
     c = get_int();
+    return true;
+}
+
+bool JsonIn::read(signed char &c)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    c = get_int();
+    return true;
+}
+
+bool JsonIn::read(short unsigned int &s)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    s = get_int();
+    return true;
+}
+
+bool JsonIn::read(short int &s)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    s = get_int();
     return true;
 }
 

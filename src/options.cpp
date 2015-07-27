@@ -7,6 +7,9 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "input.h"
+#include "worldfactory.h"
+#include "catacharset.h"
 
 #ifdef SDLTILES
 #include "cata_tiles.h"
@@ -20,6 +23,7 @@
 
 bool trigdist;
 bool use_tiles;
+bool log_from_top;
 
 bool used_tiles_changed;
 #ifdef SDLTILES
@@ -513,8 +517,8 @@ void initOptions()
                                    false
                                   );
 
-    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to reenable safemode"),
-                                        _("Number of turns after safemode is reenabled if no hostiles are in safemodeproximity distance."),
+    OPTIONS["AUTOSAFEMODETURNS"] = cOpt("general", _("Turns to re-enable safemode"),
+                                        _("Number of turns after safemode is re-enabled if no hostiles are in safemodeproximity distance."),
                                         1, 100, 50
                                        );
 
@@ -703,6 +707,14 @@ void initOptions()
                                     "wider,narrow", "narrow"
                                    );
 
+    //~ sidebar message log flow direction
+    optionNames["new_top"] = _("Top");
+    optionNames["new_bottom"] = _("Bottom");
+    OPTIONS["SIDEBAR_LOG_FLOW"] = cOpt("interface", _("Sidebar log flow"),
+                                       _("Where new sidebar log messages should show."),
+                                       "new_top,new_bottom", "new_bottom"
+                                      );
+
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
     optionNames["horizontal"] = _("Horizontal");
@@ -741,6 +753,10 @@ void initOptions()
                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
                                      true
                                     );
+    OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
+                                     _("If true, show item symbols in inventory and pick up menu."),
+                                     false
+                                    );
 
     mOptionsSort["interface"]++;
 
@@ -756,18 +772,11 @@ void initOptions()
     //~ hide mouse cursor when keyboard is used
     optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
-                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
+                                  _("Show: Cursor is always shown. Hide: Cursor is hidden. HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
                                   "show,hide,hidekb", "show", COPT_CURSES_HIDE
                                  );
 
     ////////////////////////////GRAPHICS/////////////////////////
-    OPTIONS["NO_BRIGHT_BACKGROUNDS"] = cOpt("graphics", _("No bright backgrounds"),
-                                            _("If true, bright backgrounds are not used - some consoles are not compatible."),
-                                            false
-                                           );
-
-    mOptionsSort["graphics"]++;
-
     OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
                                  _("If true, will display enabled animations."),
                                  true
@@ -809,7 +818,7 @@ void initOptions()
 
     OPTIONS["TILES"] = cOpt("graphics", _("Choose tileset"),
                             _("Choose the tileset you want to use."),
-                            tileset_names, "hoder", COPT_CURSES_HIDE
+                            tileset_names, "ChestHole", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
     mOptionsSort["graphics"]++;
@@ -829,6 +838,10 @@ void initOptions()
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_CURSES_HIDE
+                                  );
+    OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("graphics", _("Sound Effect Volume"),
+                                   _("Adjust the volume of sound effects being played by the game."),
+                                   0, 200, 0, COPT_CURSES_HIDE
                                   );
 
     ////////////////////////////DEBUG////////////////////////////
@@ -891,6 +904,15 @@ void initOptions()
                                      0.01, 10.0, 1.0, 0.01
                                     );
 
+    OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
+                                    _("A scaling factor that determines density of dynamic NPC spawns."),
+                                    0.0, 100.0, 1.0, 0.01
+                                   );
+    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster half-life scaling factor"),
+                                    _("A scaling factor that determines average time in days between monster upgrades. Set to 0.00 to turn off monster upgrades."),
+                                    0.0, 100, 1.0, 0.01
+                                   );
+
     mOptionsSort["world_default"]++;
 
     std::string region_ids("default");
@@ -919,6 +941,11 @@ void initOptions()
                                     _("Season length, in days."),
                                     14, 127, 14
                                    );
+
+    OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
+                                           _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+                                           0, 1000, 100
+                                           );
 
     mOptionsSort["world_default"]++;
 
@@ -960,6 +987,12 @@ void initOptions()
                                    _("If true, radiation causes the player to mutate."),
                                    true
                                   );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["ZLEVELS"] = cOpt( "world_default", _("Experimental z-levels"),
+                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
+                               false );
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
@@ -1311,6 +1344,7 @@ void show_options(bool ingame)
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
+                tilecontext->do_tile_loading_report();
             }
         } catch(std::string err) {
             popup(_("Loading the tileset failed: %s"), err.c_str());
@@ -1370,6 +1404,7 @@ void load_options()
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
 }
 
 std::string options_header()
@@ -1424,6 +1459,8 @@ void save_options(bool ingame)
     }
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+
 }
 
 bool use_narrow_sidebar()

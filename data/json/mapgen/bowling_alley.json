@@ -184,8 +184,8 @@
                         ",": "t_sidewalk",
                         "y": "t_pavement_y",
                         " ": "t_floor",
-                        "-": "t_wall_h",
-                        "|": "t_wall_v",
+                        "-": "t_wall",
+                        "|": "t_wall",
                         "O": "t_window",
                         "+": "t_door_c",
                         "M": "t_door_metal_locked",
@@ -230,7 +230,6 @@
                         "F": "f_fridge",
                         "@": "f_bed",
                         ":": "f_dresser",
-                        "T": "f_toilet",
                         "l": "f_vending_c",
                         "S": "f_null",
                         "=": "f_ball_mach",
@@ -241,8 +240,10 @@
                     },
                     "set": [
                     ],
-                    "place_groups": [
-                        { "monster": "GROUP_PLAIN",      "chance": 1,     "x": [2,21],  "y": [7,22]  },
+                    "place_monsters": [
+                        { "monster": "GROUP_PLAIN",      "chance": 1,     "x": [2,21],  "y": [7,22]  }
+                    ],
+                    "place_items": [
                         { "item":    "bowling_item",     "chance": 70,    "x": [22,22],   "y": [8,9] },
                         { "item":    "bowling_item",     "chance": 70,    "x": [4,4],   "y": [19,22] },
                         { "item":    "bowling_balls",    "chance": 80,    "x": [11,11], "y": [13,14] },
@@ -264,10 +265,9 @@
                         { "item":    "bowling_food",     "chance": 60,    "x": [1,1], "y":[15,16]    },
                         { "item":    "bowling_fridge",   "chance": 70,    "x": [1,1], "y":[19,21]    }
                     ],
-                    "place_specials": [
-                        { "type": "toilet", "x": 6, "y": 22 },
-                        { "type": "toilet", "x": 9, "y": 22 }
-                    ]
+                    "toilets": {
+                        "T": { }
+                    }
                 }
             }
         ]

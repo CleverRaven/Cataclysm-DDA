@@ -21,6 +21,23 @@
         "category" : "veh_parts",
         "price" : 4000
     },
+	{
+        "type":"GENERIC",
+        "id" : "foldwoodframe",
+        "name" : "foldable wooden frame",
+        "description" : "A small foldable frame made from scrap wood.",
+        "weight" : 4048,
+        "to_hit" : -3,
+        "color" : "brown",
+        "symbol" : "]",
+        "material" : ["wood", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 50,
+        "bashing" : 15,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 4000
+    },
     {
         "type":"GENERIC",
         "id" : "xlframe",
@@ -87,8 +104,7 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5500
-    },
-    {
+    },{
         "type":"GENERIC",
         "id" : "frame_wood",
         "name" : "wooden frame",
@@ -158,9 +174,24 @@
     {
         "type":"GENERIC",
         "id" : "v_table",
-        "name" : "table",
+        "name" : "fancy table",
         "description" : "A very fancy table from a very fancy RV.  If times were better it might be useful for something more than firewood.",
         "weight" : 9071,
+        "to_hit" : -8,
+        "color" : "red",
+        "symbol" : "0",
+        "material" : ["wood", "null"],
+        "volume" : 42,
+        "bashing" : 6,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 20000
+    },{
+        "type":"GENERIC",
+        "id" : "w_table",
+        "name" : "wooden table",
+        "description" : "A crude wooden table.",
+        "weight" : 10071,
         "to_hit" : -8,
         "color" : "red",
         "symbol" : "0",
@@ -236,6 +267,22 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "motor_enhanced",
+        "name" : "enhanced electric motor",
+        "description" : "A very powerful and yet lightweight electric motor.  Useful for crafting.",
+        "weight" : 18427,
+        "to_hit" : 0,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["superalloy", "null"],
+        "volume" : 12,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 68000
     },
     {
         "type":"GENERIC",
@@ -887,6 +934,22 @@
         "category" : "veh_parts",
         "price": 80000
     },
+   {
+        "type":"GENERIC",
+        "id": "beeper",
+        "name": "back-up beeper",
+        "description": "This is a safety device intended to warn passersby of a vehicle moving in reverse, but the usage of it now seems terribly unwise.",
+        "weight": 360,
+        "symbol": ";",
+        "color": "light_gray",
+        "material": ["plastic", "aluminum"],
+        "volume": 1,
+        "to_hit": -1,
+        "bashing": 2,
+        "cutting": 0,
+        "category": "veh_parts",
+        "price": 6000
+    },
     {
         "type":"GENERIC",
         "id": "light_emergency_red",
@@ -1013,7 +1076,7 @@
         "type":"TOOL",
         "id": "jumper_cable_heavy",
         "name": "heavy-duty cable",
-        "description": "A long, thick, heavy-duty cable with power leads on either end. It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.",
+        "description": "A long, thick, heavy-duty cable with power leads on either end.  It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.",
         "to_hit": 1,
         "color": "light_blue",
         "symbol": "&",
@@ -1037,7 +1100,7 @@
         "type":"TOOL",
         "id": "jumper_cable_debug",
         "name": "Shiny Cable",
-        "description": "This is the cable of the gods: 50 meters long, no power loss, light as a feather and fits in a matchbook. You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
+        "description": "This is the cable of the gods: 50 meters long, no power loss, light as a feather and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
         "weight": 1,
         "to_hit": 1,
         "color": "light_blue",
@@ -1154,5 +1217,22 @@
         "cutting": 0,
         "category" : "veh_parts",
         "price": 20000
+    },
+    {
+        "type":"GENERIC",
+        "id": "v_curtain_item",
+        "name": "vehicle curtain",
+        "name_plural" : "vehicle curtains",
+        "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
+        "weight": 2200,
+        "to_hit": -4,
+        "color": "white",
+        "symbol": "\"",
+        "material": ["cotton", "steel"],
+        "volume": 20,
+        "bashing": 1,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 3500
     }
 ]

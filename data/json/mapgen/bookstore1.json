@@ -1,0 +1,95 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_bookstore"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "*|----OOO-::--OO--OO--|*",
+                    "*|s..#.Thf..#ccccccccc|*",
+                    "*|e..%................|*",
+                    "*|#..#.hT...##%#%#%#--|*",
+                    "*|...%..............:.:*",
+                    "*|.###.Th...........:.:*",
+                    "*|..................--|*",
+                    "*|.h..h...TT.TT..]]..]|*",
+                    "*|.T..T..........]]..]|*",
+                    "*|.h..h...TT.TT..]]..]|*",
+                    "*|f..............]]..]|*",
+                    "*|...............]]..]|*",
+                    "*|]..]]..]]..]]].....]|*",
+                    "*|]..]]..]]........|--|*",
+                    "*|]..]]..]]........+..|*",
+                    "*|]..........]]]]]]|st|*",
+                    "*|-----------------|--|*",
+                    "************************",
+                    "************************",
+                    "************************",
+                    "***************^********",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "^": "t_tree",
+                "#": "t_floor",
+                "h": "t_floor",
+                "T": "t_floor",
+                "c": "t_floor",
+                "f": "t_floor",
+                "s": "t_floor",
+                "e": "t_floor",
+                "]": "t_floor",
+                "t": "t_floor",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "h": "f_chair",
+                "T": "f_table",
+                "c": "f_cupboard",
+                "f": "f_indoor_plant",
+                "s": "f_sink",
+                "e": "f_fridge",
+                "]": "f_rack"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "magazines", "chance": 40, "x": 21,   "y": [9,14], "repeat": [4,8] },
+                { "item": "bookstore_misc", "chance": 40, "x": [17,18],   "y": [9,13], "repeat": [5,10] },
+                { "item": "novels", "chance": 50, "x": [10,11],   "y": 9, "repeat": [2,3] },
+                { "item": "novels", "chance": 50, "x": [13,14],   "y": 9, "repeat": [4,3] },
+                { "item": "novels", "chance": 50, "x": [10,11],   "y": 11, "repeat": [2,3] },
+                { "item": "novels", "chance": 50, "x": [13,14],   "y": 11, "repeat": [2,3] },
+                { "item": "manuals", "chance": 50, "x": 2,   "y": [14,17], "repeat": 2 },
+                { "item": "textbooks", "chance": 50, "x": 2,   "y": [14,17], "repeat": 2 },
+                { "item": "homebooks", "chance": 50, "x": [5,6],   "y": [14,16], "repeat": [3,4] },
+                { "item": "homebooks", "chance": 50, "x": [9,10],   "y": [14,16], "repeat": [3,4] },
+                { "item": "novels", "chance": 40, "x": [13,15],   "y": 14, "repeat": [2,3] },
+                { "item": "novels", "chance": 50, "x": [13,18],   "y": 17, "repeat": [4,5] },
+                { "item": "coffee_display", "chance": 50, "x": 2,   "y": 5, "repeat": [2,3] },
+                { "item": "coffee_fridge", "chance": 50, "x": 2,   "y": 4, "repeat": [2,3] },
+                { "item": "bookstore_misc", "chance": 50, "x": [13,21],   "y": 3, "repeat": [3,6] }
+            ],
+            "add": [
+                { "item": "coffeemaker", "x": 4, "y": 7, "amount": 1, "repeat": 1, "chance": 1 }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]
+

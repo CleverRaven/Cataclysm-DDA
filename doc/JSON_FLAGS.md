@@ -72,6 +72,13 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
+
+Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+```
+-X-    -Y-
+ |      O
+```
 
 ### Examine actions
 
@@ -395,8 +402,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
-- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it with their feet.
-- ```HAND_RIMS``` Similar to 'ENGINE', but requires the player to manually power it with their hands.
+- ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than 'MUSCLE_LEGS').
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
@@ -419,58 +426,83 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
+- ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 
 ## Ammo
 
 ### Ammo type
-The chambering of weapons that this ammo can be loaded into.
+These are handled through ammo_types.json.  You can tag a weapon with these to have it chamber existing ammo,
+or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses
+to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo
+listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
-- ```nail``` Nail
-- ```BB``` BB
-- ```bolt``` Bolt
-- ```arrow``` Arrow
-- ```pebble``` Pebble
-- ```shot``` Shotshell
-- ```22``` .22LR
-- ```9mm``` 9mm Luger
-- ```762x25``` 7.62x25mm
+- ```22``` .22LR (and relatives)
+- ```223``` .223 Remington (and 5.56 NATO)
+- ```300``` .300 WinMag
+- ```3006``` 30.06
+- ```308``` .308 Winchester (and relatives)
+- ```32``` .32 ACP
+- ```36paper``` .36 cap & ball
 - ```38``` .38 Special
 - ```40``` 10mm
 - ```44``` .44 Magnum
-- ```45``` .45 ACP
+- ```44paper``` .44 cap & ball
+- ```45``` .45 ACP (and relatives)
 - ```454``` .454 Casull
+- ```46``` 46mm
+- ```5x50``` 5x50 Dart
+- ```50``` .50 BMG
 - ```500``` .500 Magnum
 - ```57``` 57mm
-- ```46``` 46mm
+- ```700nx``` .700 Nitro Express
+- ```762x25``` 7.62x25mm
 - ```762``` 7.62x39mm
-- ```223``` .223 Remington
-- ```308``` .308 Winchester
-- ```3006``` 30.06
+- ```762R``` 7.62x54mm
+- ```8x40mm``` 8mm Caseless
+- ```9mm``` 9mm Luger (and relatives)
+- ```12mm``` 12mm
+- ```20x66mm``` 20x66mm Shot (and relatives)
 - ```40mm``` 40mm Grenade
 - ```66mm``` 66mm HEAT
-- ```120mm``` 120mm HEAT
 - ```84x246mm``` 84x246mm HE
-- ```m235``` M235 TPA (66mm Incendiary Rocket)
+- ```120mm``` 120mm HEAT
+- ```ammo_flintlock``` Flintlock ammo
+- ```ampoule``` Ampoule
+- ```arrow``` Arrow
 - ```battery``` Battery
+- ```BB``` BB
+- ```blunderbuss``` Blunderbuss
+- ```bolt``` Bolt
+- ```charcoal``` Charcoal
+- ```components``` Components
+- ```dart``` Dart
+- ```diesel``` Diesel
+- ```fish_bait``` Fish bait
+- ```fishspear``` Speargun spear
 - ```fusion``` Laser Pack
-- ```12mm``` 12mm
+- ```gasoline``` Gasoline
+- ```homebrew_rocket``` homebrew rocket
+- ```lamp_oil``` Lamp oil
+- ```laser_capacitor``` Charge
+- ```m235``` M235 TPA (66mm Incendiary Rocket)
+- ```metal_rail``` Rebar Rail
+- ```mininuke_mod``` Mininuke
+- ```money``` Cents
+- ```muscle``` Muscle
+- ```nail``` Nail
+- ```pebble``` Pebble
 - ```plasma``` Plasma
 - ```plutonium``` Plutonium Cell
-- ```gasoline``` Gasoline
-- ```thread``` Thread
-- ```water``` Water
-- ```charcoal``` Charcoal
-- ```8x40mm``` 8mm Caseless
-- ```20x66mm``` 20x66mm Shot
-- ```5x50``` 5x50 Dart
+- ```rebreather_filter``` Rebreather filter
+- ```RPG-7``` RPG-7
 - ```signal_flare``` Signal Flare
-- ```mininuke_mod``` Mininuke
-- ```metal_rail``` Rebar Rail
-- ```UPS``` UPS
-- ```components``` Components
+- ```shot``` Shotshell
+- ```tape``` Duct tape
+- ```thread``` Thread
 - ```thrown``` Thrown
-- ```ampoule``` Ampoule
-- ```50``` .50 BMG
+- ```unfinished_char``` Semi-charred fuel
+- ```UPS``` UPS charges
+- ```water``` Water
 
 ### Effects
 
@@ -534,27 +566,38 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 ### Flags
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
-- ```VARSIZE``` Can be made to fit via tailoring.
-- ```SKINTIGHT``` Undergarment layer.
-- ```OUTER```  Outer garment layer.
+- ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
+- ```BLIND``` - Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
+- ```BOOTS``` - You can store knives in this gear.
+- ```COLLAR``` - This piece of clothing has a wide collar that can keep your mouth warm.
+- ```DEAF``` Makes the player deaf.
+- ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
+- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
+- ```furred``` - This piece of clothing has a fur lining sewn into it to increase its overall warmth.
+- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
+- ```kevlar_padded``` - This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
+- ```leather_padded``` - This gear has certain parts padded with leather to increase protection without increasing encumbrance.
+- ```OUTER```  Outer garment layer.
+- ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
+- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
+- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
+- ```RAD_PROOF``` - This piece of clothing completely protects you from radiation.
+- ```RAD_RESIST``` - This piece of clothing partially protects you from radiation.
+- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```SKINTIGHT``` Undergarment layer.
+- ```STURDY``` This clothing is a lot more resistant to damage than normal.
+- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
+- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
+- ```SWIM_GOGGLES``` - Allows you to see much further under water.
+- ```THERMOMETER``` - This gear is equipped with an accurate thermometer.
+- ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
+- ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
-- ```STURDY``` This clothing is a lot more resistant to damage than normal.
-- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
-- ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
-- ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
-- ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
-- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
-- ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
-- ```WATCH``` Acts as a watch and allows the player to see actual time.
-- ```ALARMCLOCK``` Has an alarm-clock feature.
-- ```DEAF``` Makes the player deaf.
-- ```SWIM_GOGGLES``` - Allows you to see much further under water.
-- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
-- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
+- ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 
 ## Comestibles
 
@@ -621,9 +664,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```EATEN_HOT``` Morale bonus for eating hot.
+- ```EATEN_COLD``` Morale bonus for eating cold.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
-- ```SEED``` Plantable seed for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.
 - ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
@@ -665,15 +708,18 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
+- ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
 
 ## Guns
 
 - ```MODE_BURST``` Has a burst-fire mode.
+- ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
@@ -693,6 +739,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
+- ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 
 ## Tools
 
@@ -709,6 +757,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
 - ```RADIOSIGNAL_1``` Activated per radios signal 1.
 - ```RADIOSIGNAL_2``` Activated per radios signal 2.
+- ```RADIOSIGNAL_3``` Activated per radios signal 3.
 - ```BOMB``` It's a radio controlled bomb.
 - ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
 - ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
@@ -718,6 +767,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
+- ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
+- ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
+- ```RADIO_MOD``` The item has been made into a radio-activated item.
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -726,9 +778,12 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 - ```FIT``` Reduces encumbrance by one.
+- ```COLD``` Item is cold (see EATEN_COLD).
+- ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
+- ```RIGHT``` or ```LEFT``` Item is handed, the flag indicates which side it is for.
 
 ## Books
 
@@ -867,7 +922,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LAW``` Unpack the LAW for firing.
 - ```DEJAR```
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ABSORBENT```
+- ```TOWEL``` Dry your character using the item as towel.
 - ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.
@@ -898,6 +953,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
+- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
+- ```REDUCED_WEIGHT``` ... Gunmod flag; reduce's the item's base weight by 25%.
+- ```REDUCED_BASHING``` ... Gunmod flag; reduce's the item's bashing damage by 50%.
+- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
 
 ## Skills
 
@@ -919,3 +978,20 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
 - `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
+
+## MAP SPECIALS
+
+- ```mx_null``` ... No special at all.
+- ```mx_helicopter``` ... Metal wreckage and some items.
+- ```mx_military``` ... Corpses and some military items.
+- ```mx_science``` ... Corpses and some scientist items.
+- ```mx_collegekids``` ... Corpses and items.
+- ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
+- ```mx_drugdeal``` ... Corpses and some drugs.
+- ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_portal``` ... Portal to neither space.
+- ```mx_minefield``` ... Landmines, a field of them.
+- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_fumarole``` ... A lava rift.
+- ```mx_portal_in``` ... Another portal to neither space.
+- ```mx_anomaly``` ...  Natural anomaly (crater + artifact).

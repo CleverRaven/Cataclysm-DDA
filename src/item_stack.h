@@ -1,6 +1,10 @@
 #ifndef ITEM_STACK_H
 #define ITEM_STACK_H
 
+#include <list>
+
+class item;
+
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items at a particular map x/y location.
 // Note this does not expose the container itself,

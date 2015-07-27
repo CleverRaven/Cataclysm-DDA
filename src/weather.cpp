@@ -1,26 +1,26 @@
-#include <vector>
-#include <sstream>
 #include "options.h"
 #include "game.h"
+#include "map.h"
 #include "weather.h"
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "trap.h"
 #include "math.h"
+#include "translations.h"
+#include "weather_gen.h"
+
+#include <vector>
+#include <sstream>
 
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
  */
 
-#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->levz >= 0)
+#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->get_levz() >= 0)
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
-
-/**
- * Weather animation settings container.
- */
-std::map<weather_type, clWeatherAnim> mapWeatherAnim;
 
 /**
  * Glare.
@@ -28,7 +28,7 @@ std::map<weather_type, clWeatherAnim> mapWeatherAnim;
  */
 void weather_effect::glare()
 {
-    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx(), g->u.posy()) &&
+    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.pos()) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
             if (g->u.has_trait("CEPH_VISION")) {
@@ -47,91 +47,89 @@ void weather_effect::glare()
 }
 ////// food vs weather
 
-/**
- * Retroactively determine weather-related rotting effects.
- * Applies rot based on the temperatures incurred between a turn range.
- */
-int get_rot_since( const int since, const int endturn, const point &location )
+int get_hourly_rotpoints_at_temp( int temp );
+
+int get_rot_since( const int startturn, const int endturn, const tripoint &location )
 {
-    // Hack: Ensure food doesn't rot in ice labs, where the
+    // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
-    // http://github.com/CleverRaven/Cataclysm-DDA/issues/9162
-    // Bug with this hack: Rot is prevented even when it's above
-    // freezing on the ground floor.
-    oter_id oter = overmap_buffer.ter(g->om_global_location());
+    tripoint const omt_pos = overmapbuffer::ms_to_omt_copy( location );
+    oter_id const & oter = overmap_buffer.ter( omt_pos );
+    // TODO: extract this into a property of the overmap terrain
     if (is_ot_type("ice_lab", oter)) {
         return 0;
     }
+    // TODO: maybe have different rotting speed when underground?
     int ret = 0;
-    for (calendar i(since); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weatherGen.get_weather(location, i);
+    for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
+        w_point w = g->weatherGen->get_weather(location, i);
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
 }
 
 ////// Funnels.
-/**
- * mm/h of rain/acid for weather type (should move to weather_data)
- */
-std::pair<int, int> rain_or_acid_level( const int wt )
+rainfall_data get_rainfall( const calendar &startturn,
+                            const calendar &endturn,
+                            const tripoint &location )
 {
-    if ( wt == WEATHER_ACID_RAIN || wt == WEATHER_ACID_DRIZZLE ) {
-        return std::make_pair(0, (wt == WEATHER_ACID_RAIN  ? 8 : 4 ));
-    } else if (wt == WEATHER_DRIZZLE ) {
-        return std::make_pair(4, 0);
-        // why isn't this in weather data. now we have multiple rain/turn scales =[
-    } else if ( wt ==  WEATHER_RAINY || wt == WEATHER_THUNDER || wt == WEATHER_LIGHTNING ) {
-        return std::make_pair(8, 0);
-        /// @todo bucket of melted snow?
-    } else {
-        return std::make_pair(0, 0);
-    }
-}
-
-/**
- * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
- */
-void retroactively_fill_from_funnel( item *it, const trap_id t, const calendar &endturn,
-                                     const point &location )
-{
-    const calendar startturn = calendar( it->bday > 0 ? it->bday - 1 : 0 );
-    if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
-        return;
-    }
-    it->bday = int(endturn.get_turn()); // bday == last fill check
-    int rain_amount = 0;
-    int acid_amount = 0;
-    int rain_turns = 0;
-    int acid_turns = 0;
-    for( calendar turn(startturn); turn >= endturn; turn += 10) {
-        switch(g->weatherGen.get_weather_conditions(location, turn)) {
+    rainfall_data rainfall;
+    for( calendar turn(startturn); turn < endturn; turn += 10 ) {
+        switch( g->weatherGen->get_weather_conditions( point( location.x, location.y ), turn ) ) {
         case WEATHER_DRIZZLE:
-            rain_amount += 4;
-            rain_turns++;
+            rainfall.rain_amount += 4;
+            rainfall.rain_turns++;
             break;
         case WEATHER_RAINY:
         case WEATHER_THUNDER:
         case WEATHER_LIGHTNING:
-            rain_amount += 8;
-            rain_turns++;
+            rainfall.rain_amount += 8;
+            rainfall.rain_turns++;
             break;
         case WEATHER_ACID_DRIZZLE:
-            acid_amount += 4;
-            acid_turns++;
+            rainfall.acid_amount += 4;
+            rainfall.acid_turns++;
             break;
         case WEATHER_ACID_RAIN:
-            acid_amount += 8;
-            acid_turns++;
+            rainfall.acid_amount += 8;
+            rainfall.acid_turns++;
             break;
         default:
             break;
         }
     }
-    int rain = rain_turns / traplist[t]->funnel_turns_per_charge( rain_amount );
-    int acid = acid_turns / traplist[t]->funnel_turns_per_charge( acid_amount );
-    it->add_rain_to_container( false, rain );
-    it->add_rain_to_container( true, acid );
+
+    return rainfall;
+}
+
+/**
+ * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
+ */
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
+                                     const tripoint &location )
+{
+    const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
+
+    if ( startturn > endturn || !tr.is_funnel() ) {
+        return;
+    }
+
+    it.bday = endturn; // bday == last fill check
+    rainfall_data rainfall = get_rainfall( startturn, endturn, location );
+
+    // Technically 0.0 division is OK, but it will be cleaner without it
+    if( rainfall.rain_amount > 0 ) {
+        // This is kinda weird: we're dumping a "block" of water all at once
+        // but the old formula ( rain_turns / turn_per_charge(total_amount) ) resulted in
+        // water being produced at quadratic rate rather than linear with time
+        const int rain = 1.0 / tr.funnel_turns_per_charge( rainfall.rain_amount );
+        it.add_rain_to_container( false, rain );
+    }
+
+    if( rainfall.acid_amount > 0 ) {
+        const int acid = 1.0 / tr.funnel_turns_per_charge( rainfall.acid_amount );
+        it.add_rain_to_container( true, acid );
+    }
 }
 
 /**
@@ -195,6 +193,30 @@ void item::add_rain_to_container(bool acid, int charges)
     }
 }
 
+double funnel_charges_per_turn( const double surface_area_mm2, const double rain_depth_mm_per_hour )
+{
+    // 1mm rain on 1m^2 == 1 liter water == 1000ml
+    // 1 liter == 4 volume
+    // 1 volume == 250ml: containers
+    // 1 volume == 200ml: water
+    // How many charges of water can we collect in a turn (usually <1.0)?
+    if( rain_depth_mm_per_hour == 0.0 ) {
+        return 0.0;
+    }
+
+    // Calculate once, because that part is expensive
+    static const item water("water", 0);
+    static const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
+
+    const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
+    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
+
+    const double ml_to_mm3 = 1000;
+    const double charges_per_turn = vol_mm3_per_turn / (charge_ml * ml_to_mm3);
+
+    return charges_per_turn;
+}
+
 double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
 {
     // 1mm rain on 1m^2 == 1 liter water == 1000ml
@@ -203,36 +225,31 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
     // 1 volume == 200ml: water
     // How many turns should it take for us to collect 1 charge of rainwater?
     // "..."
-    if ( rain_depth_mm_per_hour == 0 ) {
-        return 0;
+    if ( rain_depth_mm_per_hour == 0.0 ) {
+        return 0.0;
     }
-    const item water("water", 0);
-    const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
-    const double PI = 3.14159265358979f;
 
-    const double surface_area_mm2 = PI * (funnel_radius_mm * funnel_radius_mm);
+    const double surface_area_mm2 = M_PI * (funnel_radius_mm * funnel_radius_mm);
+    const double charges_per_turn = funnel_charges_per_turn( surface_area_mm2, rain_depth_mm_per_hour );
 
-    const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
-    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
+    if( charges_per_turn > 0.0 ) {
+        return 1.0 / charges_per_turn;
+    }
 
-    const double ml_to_mm3 = 1000;
-    const double turns_per_charge = (charge_ml * ml_to_mm3) / vol_mm3_per_turn;
-    return turns_per_charge;// / rain_depth_mm_per_hour;
+    return 0.0;
 }
 
 /**
  * Main routine for filling funnels from weather effects.
  */
-void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
+void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
 {
-    const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
+    const double turns_per_charge = tr.funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
-    const std::set<point> &funnel_locs = g->m.trap_locations(t);
-    std::set<point>::const_iterator i;
-    for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
+    const auto &funnel_locs = g->m.trap_locations( tr.loadid );
+    for( auto loc : funnel_locs ) {
         int maxcontains = 0;
-        point loc = *i;
-        auto items = g->m.i_at(loc.x, loc.y);
+        auto items = g->m.i_at( loc );
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
@@ -260,25 +277,8 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
  */
 void fill_water_collectors(int mmPerHour, bool acid)
 {
-    fill_funnels(mmPerHour, acid, tr_funnel);
-    fill_funnels(mmPerHour, acid, tr_makeshift_funnel);
-    fill_funnels(mmPerHour, acid, tr_leather_funnel);
-}
-
-/**
- * Weather-based degradation of fires and scentmap.
- */
-void decay_fire_and_scent(int fire_amount)
-{
-    for (int x = g->u.posx() - SEEX * 2; x <= g->u.posx() + SEEX * 2; x++) {
-        for (int y = g->u.posy() - SEEY * 2; y <= g->u.posy() + SEEY * 2; y++) {
-            if (g->m.is_outside(x, y)) {
-                g->m.adjust_field_age(point(x, y), fd_fire, fire_amount);
-                if (g->scent(x, y) > 0) {
-                    g->scent(x, y)--;
-                }
-            }
-        }
+    for( auto &e : trap::get_funnels() ) {
+        fill_funnels( mmPerHour, acid, *e );
     }
 }
 
@@ -290,7 +290,7 @@ void decay_fire_and_scent(int fire_amount)
  *
  * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
  * @see fill_water_collectors
- * @see decay_fire_and_scent
+ * @see map::decay_fields_and_scent
  * @see player::drench
  */
 void generic_wet(bool acid)
@@ -310,15 +310,15 @@ void generic_wet(bool acid)
         }
     }
 
-    fill_water_collectors(4, acid); // fixme; consolidate drench, this, and decay_fire_and_scent.
-    decay_fire_and_scent(15);
+    fill_water_collectors(4, acid); // fixme; consolidate drench and this.
+    g->m.decay_fields_and_scent( 15 );
 }
 
 /**
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
  * @see fill_water_collectors
- * @see decay_fire_and_scent
+ * @see map::decay_fields_and_scent
  * @see player::drench
  */
 void generic_very_wet(bool acid)
@@ -338,8 +338,13 @@ void generic_very_wet(bool acid)
     }
 
     fill_water_collectors(8, acid);
-    decay_fire_and_scent(45);
+    g->m.decay_fields_and_scent( 45 );
 }
+
+void weather_effect::none()      {};
+void weather_effect::flurry()    {};
+void weather_effect::snow()      {};
+void weather_effect::snowstorm() {};
 
 /**
  * Wet.
@@ -367,11 +372,11 @@ void weather_effect::thunder()
 {
     very_wet();
     if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
-        if (g->levz >= 0) {
+        if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
-        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
+        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
-        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
+        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
         }
     }
@@ -389,7 +394,7 @@ void weather_effect::lightning()
 {
     thunder();
     if(one_in(LIGHTNING_CHANCE)) {
-        if(g->levz >= 0) {
+        if(g->get_levz() >= 0) {
             add_msg(_("A flash of lightning illuminates your surroundings!"));
             g->lightning_active = true;
         }
@@ -481,17 +486,18 @@ void weather_effect::acid()
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast(radio_tower tower)
+std::string weather_forecast( point const &abs_sm_pos )
 {
-    std::stringstream weather_report;
+    std::ostringstream weather_report;
     // Local conditions
-    city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
+    const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
+    const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(
                        _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. "),
                        calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(),
-                       closest_city->name.c_str(),
-                       weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
+                       city_name.c_str(),
+                       weather_data(g->weather).name.c_str(), print_temperature(g->temperature).c_str()
                    );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
@@ -510,13 +516,14 @@ std::string weather_forecast(radio_tower tower)
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
+    point const abs_ms_pos = overmapbuffer::sm_to_ms_copy( abs_sm_pos );
     // TODO wind direction and speed
     int last_hour = calendar::turn - (calendar::turn % HOURS(1));
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen.get_weather(point(tower.x, tower.y), i);
-            forecast = std::max(forecast, g->weatherGen.get_weather_conditions(w));
+            w_point w = g->weatherGen->get_weather( abs_ms_pos, i );
+            forecast = std::max(forecast, g->weatherGen->get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }
@@ -537,7 +544,7 @@ std::string weather_forecast(radio_tower tower)
         }
         weather_report << string_format(
                            _("%s... %s. Highs of %s. Lows of %s. "),
-                           day.c_str(), weather_data[forecast].name.c_str(),
+                           day.c_str(), weather_data(forecast).name.c_str(),
                            print_temperature(high).c_str(), print_temperature(low).c_str()
                        );
     }
@@ -549,7 +556,7 @@ std::string weather_forecast(radio_tower tower)
  */
 std::string print_temperature(float fahrenheit, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -568,7 +575,7 @@ std::string print_temperature(float fahrenheit, int decimals)
  */
 std::string print_windspeed(float windspeed, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -586,7 +593,7 @@ std::string print_windspeed(float windspeed, int decimals)
  */
 std::string print_humidity(float humidity, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -599,7 +606,7 @@ std::string print_humidity(float humidity, int decimals)
  */
 std::string print_pressure(float pressure, int decimals)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret.precision(decimals);
     ret << std::fixed;
 
@@ -654,7 +661,7 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered)
     return tmphumidity;
 }
 
-int get_local_windpower(double windpower, std::string omtername, bool sheltered)
+int get_local_windpower(double windpower, std::string const &omtername, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.

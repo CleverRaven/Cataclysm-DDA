@@ -2,6 +2,7 @@
     {
         "type":"GENERIC",
         "id": "flyer",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "flyer",
@@ -19,6 +20,7 @@
     {
         "type":"GENERIC",
         "id": "survnote",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "survivor's note",
@@ -36,6 +38,7 @@
         {
         "type":"GENERIC",
         "id": "newest_newspaper",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
@@ -53,6 +56,7 @@
         {
         "type":"GENERIC",
         "id": "many_years_old_newspaper",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
@@ -70,6 +74,7 @@
         {
         "type":"GENERIC",
         "id": "years_old_newspaper",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
@@ -87,6 +92,7 @@
         {
         "type":"GENERIC",
         "id": "one_year_old_newspaper",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
@@ -104,6 +110,7 @@
         {
         "type":"GENERIC",
         "id": "months_old_newspaper",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
@@ -121,6 +128,7 @@
         {
         "type":"GENERIC",
         "id": "weeks_old_newspaper",
+        "category": "books",
         "symbol": ",",
         "color": "white",
         "name": "newspaper page",
@@ -130,6 +138,24 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0
+    },
+        {
+        "type":"GENERIC",
+        "id": "necropolis_leaflet",
+        "category": "books",
+        "symbol": ",",
+        "color": "white",
+        "name": "vault leaflet",
+        "plural-name": "vault leaflets",
+        "snippet_category": "necropolis_intro",
+        "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
+        "price": 0,
+        "material": "paper",
+        "weight": 1,
         "volume": 0,
         "bashing": 0,
         "cutting": 0,

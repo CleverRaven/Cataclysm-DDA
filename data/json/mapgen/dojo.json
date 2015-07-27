@@ -108,13 +108,13 @@
                 ],
                 "terrain":{
                     " ": "t_null",
-                    "g": "t_wall_glass_h",
+                    "g": "t_wall_glass",
                     ",": "t_pavement_y",
                     "-": "t_pavement",
                     "#": "t_floor",
                     ".": "t_floor",
-                    "q": "t_wall_h",
-                    "x": "t_wall_v",
+                    "q": "t_wall",
+                    "x": "t_wall",
                     "L": "t_floor",
                     "+": "t_door_glass_c",
                     "'": "t_door_c",
@@ -127,7 +127,6 @@
                     "s": "t_sidewalk"
                 },
                 "furniture":{
-                    "T": "f_toilet",
                     "S": "f_shower",
                     "L": "f_locker",
                     "B": "f_bench",
@@ -136,14 +135,14 @@
                     "C": "f_chair",
                     "X": "f_rack"
                 },
-                "place_groups": [
+                "place_items": [
                     { "item": "gi", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [5, 8] },
                     { "item": "judo_belts", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [1, 2] },
                     { "item": "dojo_manuals", "x": [17, 19], "y": [19, 19], "chance": 80, "repeat": [1, 2] }
                 ],
-                "place_specials": [
-                    { "type": "toilet", "x": 11, "y": 22 }
-                ],
+                "toilets": {
+                    "T": { }
+                },
                 "add": [
                     { "item": "judo_belt_black", "x": 17, "y": 18 }
                 ] }

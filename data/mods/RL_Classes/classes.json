@@ -157,6 +157,65 @@
     },
     {
         "type": "profession",
+        "ident": "skald",
+        "name": "Skald",
+        "description": "A mysterious wandering minstrel and storyteller hailing from the northern highlands; you are a skald, a noble barbarian lore-keeper and speaker to the spirits.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "CBMs":[
+            "bio_face_mask",
+            "bio_ethanol",
+            "bio_memory",
+            "bio_adrenaline",
+            "bio_power_storage"
+        ],
+        "items": {
+            "both": [
+                "kilt",
+                "vest_leather",
+                "cloak",
+                "gauntlets_larmor",
+                "knee_high_boots",
+                "backpack_leather",
+                "sheath",
+                "knife_trench",
+                "broadsword",
+                "scabbard",
+                "bagpipes",
+                "pot",
+                "scots_cookbook",
+                "fire_drill",
+                "bandages",
+                "waterskin",
+                "haggis",
+                "whiskey",
+                "mead"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "ranger",
         "name": "Ranger",
         "description": "One of the few who wander but are never lost; you are a ranger, wise in the ways of the forest and deadly with a bow.",
