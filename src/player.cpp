@@ -4823,7 +4823,8 @@ void player::mod_pain(int npain) {
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
     }
-    int felt_pain = pain - pkill + npain;
+    // reduce new felt pain by excess pkill, if any.
+    int felt_pain = npain - std::max(0, pkill - pain);
     // Only trigger the "you felt it" effects if we are going to feel it.
     if (felt_pain > 0) {
         // Putting the threshold at 2 here to avoid most basic "ache" style
