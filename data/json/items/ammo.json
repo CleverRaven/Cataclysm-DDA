@@ -4037,7 +4037,7 @@
         "name_plural" : ".300 Winchester Magnum",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : ".300 Winchester Magun rounds with 220gr JHP bullets.  The 300WM round is an extremely powerful and accurate rifle round introduced in 1963.  It has proven popular with hunters and snipers, although it is not as common as .308 or .30-06.",
+        "description" : ".300 Winchester Magnum rounds with 220gr JHP bullets.  The 300WM round is an extremely powerful and accurate rifle round introduced in 1963.  It has proven popular with hunters and snipers, although it is not as common as .308 or .30-06.",
         "material" : ["steel", "powder"],
         "volume" : 1,
         "weight" : 15,
