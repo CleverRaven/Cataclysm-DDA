@@ -1,0 +1,13 @@
+[{
+        "type" : "ammunition_type",
+        "id" : "22air",
+        "name" : ".22 pellet",
+        "default" : "22_pl"
+    },
+{
+        "type" : "ammunition_type",
+        "id" : "177air",
+        "name" : ".177 pellet",
+        "default" : "177_pl"
+    }
+]

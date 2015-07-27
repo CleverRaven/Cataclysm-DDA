@@ -1,0 +1,203 @@
+[{
+    "type":"item_group",
+    "id":"livingroom",
+    "guns_with_ammo" : true,
+    "items":[
+      ["RWS_34_Diana",10],
+	 ["crosman_1322_airpistol", 5 ],
+	["22_pl", 5],
+	["177_pl", 5]
+    ]
+  },
+
+{
+    "type":"item_group",
+    "id":"homeguns",
+    "guns_with_ammo" : true,
+    "items":[
+      ["RWS_34_Diana",10],
+	 ["crosman_1322_airpistol", 10 ]
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "tools",
+    "items":[
+  
+	 ["flashlight2",10],
+	 ["bucket_storage",20]
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "sports",
+    "items":[
+  
+	 ["RWS_34_Diana",10],
+	 ["crosman_1322_airpistol", 10 ],
+	["fishing_handline",30],
+	["fish_trap_net",15],
+	["bucket_storage",20],
+	["flashlight2",5 ]
+
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "camping",
+    "items":[
+
+	["item_small_water_purifier",5],
+	["fishing_handline",15],
+	["flashlight2",5],
+	["bucket_storage",20],
+	 ["crosman_1322_airpistol", 5 ]
+
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "rifles",
+    "items":[
+  
+	 ["RWS_34_Diana",5]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pistols",
+    "items":[
+  
+	 ["crosman_1322_airpistol",5]
+
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "allguns",
+    "items":[
+  
+	 ["RWS_34_Diana",5],
+	 ["crosman_1322_airpistol",10]
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "cop_gear",
+    "items":[
+  
+	 ["shield_generator",5]
+
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "lmoe_guns",
+    "items":[
+  
+	 ["RWS_34_Diana",5],
+	 ["crosman_1322_airpistol",5]
+
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "mansion_guns",
+    "items":[
+  
+	 ["RWS_34_Diana",5],
+	["crosman_1322_airpistol",5]
+
+    ]
+  },
+{
+    "type" : "item_group",
+    "id" : "pawn",
+    "items":[
+  
+	 ["shield_generator",5],
+	["RWS_34_Diana",5],
+	["crosman_1322_airpistol",5]
+	
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_surplus",
+    "items":[
+  
+	 ["shield_generator",5]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mechanics",
+    "items":[
+  
+	 ["item_small_kitchen_unit",5],
+	["alloy_foldframe",5],
+	["item_microfridge",5],
+	["item_small_vehicle_controls",10],
+	["item_small_muffler",10],
+	["dozer_bucket",5],
+	["plut_elec_motor",5],
+	["foot_crank_atomic",3],
+	["tiny_solar_panel",5],
+	["bucket_storage",15]
+	
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "electronics",
+    "items":[
+  
+	 ["shield_generator",5],
+	["flashlight2",10],
+	["item_small_water_purifier",5]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_accessories",
+    "items":[
+  
+	 ["shield_generator",5]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stash_ammo",
+    "items":[
+  
+	 ["22_pl",8],
+	 ["177_pl",5]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "ammo",
+    "items":[
+  
+	 ["22_pl",8],
+	["177_pl",8]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cleaning",
+    "items":[
+  
+	 ["bucket_storage",35]
+
+    ]
+},{
+    "type" : "item_group",
+    "id" : "gunsmith_tools",
+    "items":[
+  
+	 ["bucket_storage",35]
+
+    ]
+}
+]
