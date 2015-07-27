@@ -408,7 +408,7 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
 
 std::string effect::disp_name() const
 {
-    if (eff_type->name.size() < 1) {
+    if (eff_type->name.empty()) {
         debugmsg("No names for effect type, ID: %s", eff_type->id.c_str());
         return "";
     }
