@@ -1099,7 +1099,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
             return false;
         }
         // if the source pane (AIM_ALL) is empty, then show a message and leave
-        if(spane.items.empty()) {
+        if(!is_processing() && spane.items.empty()) {
             popup(_("There are no items to be moved!"));
             return false;
         }
