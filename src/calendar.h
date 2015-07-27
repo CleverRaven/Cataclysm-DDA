@@ -112,6 +112,10 @@ class calendar
             return year;
         }
 
+        /**
+         * Predicate to handle rate-limiting, returns true once every @event_frequency turns.
+         */
+        static bool once_every(int event_frequency);
 
         // Season and year length stuff
         static int year_turns()

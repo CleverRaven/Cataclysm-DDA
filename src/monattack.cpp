@@ -3221,7 +3221,7 @@ void mattack::searchlight(monster *z, int index)
     }
 
     //battery charge from the generator is enough for some time of work
-    if (calendar::turn % 100 == 0) {
+    if( calendar::once_every(MINUTES(10)) ) {
 
         bool generator_ok = false;
 
@@ -3690,7 +3690,7 @@ void mattack::generator(monster *z, int index)
 {
     (void)index; //unused
     sounds::sound(z->pos(), 100, "");
-    if (int(calendar::turn) % 10 == 0 && z->get_hp() < z->get_hp_max()) {
+    if( calendar::once_every(MINUTES(1)) && z->get_hp() < z->get_hp_max() ) {
         z->heal( 1 );
     }
 }
@@ -4296,7 +4296,7 @@ void mattack::riotbot(monster *z, int index)
     player *foe = &g->u;
     z->reset_special(index); // Reset timer
 
-    if (calendar::turn % 10 == 0) {
+    if( calendar::once_every(MINUTES(1)) ) {
         for (int i = -4; i <= 4; i++) {
             for (int j = -4; j <= 4; j++) {
                 tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
@@ -4313,7 +4313,7 @@ void mattack::riotbot(monster *z, int index)
     if( foe->weapon.type->id == "e_handcuffs" || !foe->has_two_arms() ) {
         z->anger = 0;
 
-        if (calendar::turn % 25 == 0) {
+        if( calendar::once_every(25) ) {
             sounds::sound( z->pos(), 10,
                      _("Halt and submit to arrest, citizen! The police will be here any moment."));
         }
@@ -4445,7 +4445,7 @@ void mattack::riotbot(monster *z, int index)
         return;
     }
 
-    if (calendar::turn % 5 == 0) {
+    if( calendar::once_every(5) ) {
         sounds::sound( z->pos(), 25, _("Empty your hands and hold your position, citizen!") );
     }
 

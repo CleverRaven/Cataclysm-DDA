@@ -297,24 +297,24 @@ void event::per_turn()
     } break;
 
   case EVENT_SPAWN_WYRMS:
-   if (g->get_levz() >= 0) {
-    turn--;
-    return;
-   }
-   if (int(calendar::turn) % 3 == 0)
-    add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
-   break;
+     if (g->get_levz() >= 0) {
+         turn--;
+         return;
+     }
+     if( calendar::once_every(3) ) {
+         add_msg(m_warning, _("You hear screeches from the rock above and around you!"));
+     }
+     break;
 
   case EVENT_AMIGARA:
-   add_msg(m_warning, _("The entire cavern shakes!"));
-   break;
+     add_msg(m_warning, _("The entire cavern shakes!"));
+     break;
 
   case EVENT_TEMPLE_OPEN:
-   add_msg(m_warning, _("The earth rumbles."));
-   break;
-
+     add_msg(m_warning, _("The earth rumbles."));
+     break;
 
   default:
-   break; // Nothing happens for other events
+     break; // Nothing happens for other events
  }
 }

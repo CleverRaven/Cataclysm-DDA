@@ -410,7 +410,7 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet(true);
-    if (int(calendar::turn) % 10 == 0 && PLAYER_OUTSIDE) {
+    if( calendar::once_every(MINUTES(1)) && PLAYER_OUTSIDE ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.tname().c_str());
         } else {
@@ -437,7 +437,7 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if (int(calendar::turn) % 2 == 0 && PLAYER_OUTSIDE) {
+    if( calendar::once_every(2) && PLAYER_OUTSIDE ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
@@ -518,7 +518,7 @@ std::string weather_forecast( point const &abs_sm_pos )
     double low = 100.0;
     point const abs_ms_pos = overmapbuffer::sm_to_ms_copy( abs_sm_pos );
     // TODO wind direction and speed
-    int last_hour = calendar::turn - (calendar::turn % HOURS(1));
+    int last_hour = calendar::turn - ( calendar::turn % HOURS(1) );
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {

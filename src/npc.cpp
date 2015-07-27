@@ -1101,28 +1101,30 @@ bool npc::wield(item* it)
 
 void npc::perform_mission()
 {
- switch (mission) {
- case NPC_MISSION_RESCUE_U:
-  if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->get_levx())
-    mapx--;
-   else if (mapx < g->get_levx())
-    mapx++;
-   if (mapy > g->get_levy())
-    mapy--;
-   else if (mapy < g->get_levy())
-    mapy++;
-   attitude = NPCATT_DEFEND;
-  }
-  break;
- case NPC_MISSION_SHOPKEEP:
-  break; // Just stay where we are
- default: // Random Walk
-  if (int(calendar::turn) % 24 == 0) {
-   mapx += rng(-1, 1);
-   mapy += rng(-1, 1);
-  }
- }
+    switch (mission) {
+    case NPC_MISSION_RESCUE_U:
+        if (calendar::once_every(24)) {
+            if (mapx > g->get_levx()) {
+                mapx--;
+            } else if (mapx < g->get_levx()) {
+                mapx++;
+            }
+            if (mapy > g->get_levy()) {
+                mapy--;
+            } else if (mapy < g->get_levy()) {
+                mapy++;
+            }
+            attitude = NPCATT_DEFEND;
+        }
+        break;
+    case NPC_MISSION_SHOPKEEP:
+        break; // Just stay where we are
+    default: // Random Walk
+        if (calendar::once_every(24)) {
+            mapx += rng(-1, 1);
+            mapy += rng(-1, 1);
+        }
+    }
 }
 
 void npc::form_opinion(player *u)
