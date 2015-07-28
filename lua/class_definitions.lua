@@ -1493,7 +1493,7 @@ classes = {
             sym = { type = "string", writable = true },
             upgrades = { type = "bool", writable = true },
             half_life = { type = "int", writable = true },
-            upgrade_into = { type = "string", writable = true },
+            upgrade_into = { type = "mtype_id", writable = true },
             vision_day = { type = "int", writable = true },
             vision_night = { type = "int", writable = true },
         },

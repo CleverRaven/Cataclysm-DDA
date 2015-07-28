@@ -222,7 +222,7 @@ struct mtype {
         // Monster upgrade variables
         bool upgrades;
         int half_life;
-        std::string upgrade_into;
+        mtype_id upgrade_into;
         mongroup_id upgrade_group;
         // Default constructor
         mtype ();
