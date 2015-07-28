@@ -13,11 +13,7 @@
 #include "player.h"
 #include "path_info.h"
 #include "options.h"
-#include "pthread.h"
 #include "time.h"
-#if (defined _WIN32 || defined WINDOWS)
-#   include "mingw.thread.h"
-#endif
 #include <chrono>
 #include <thread>
 
