@@ -903,7 +903,7 @@ bool game::cleanup_at_end()
         WINDOW *w_rip = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
         draw_border(w_rip);
 
-        sfx::do_player_death_hurt_sfx(g->u.male, 1 );
+        sfx::do_player_death_hurt_sfx( g->u, 1 );
         sfx::fade_audio_group(1, 2000);
         sfx::fade_audio_group(2, 2000);
         sfx::fade_audio_group(3, 2000);

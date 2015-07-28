@@ -762,8 +762,9 @@ void sfx::do_projectile_hit_sfx( const Creature *target ) {
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
 
-void sfx::do_player_death_hurt_sfx( bool male, bool death ) {
-    int heard_volume = get_heard_volume( g->u.pos() );
+void sfx::do_player_death_hurt_sfx( const player &target, bool death ) {
+    int heard_volume = get_heard_volume( target.pos() );
+    const bool male = target.male;
     if( !male && !death ) {
         play_variant_sound( "deal_damage", "hurt_f", heard_volume );
     } else if( male && !death ) {
@@ -1005,7 +1006,7 @@ void sfx::fade_audio_group( int, int ) { }
 void sfx::fade_audio_channel( int, int ) { }
 bool is_channel_playing( int ) { return false; }
 void sfx::stop_sound_effect_fade( int, int ) { }
-void sfx::do_player_death_hurt_sfx( bool, bool ) { }
+void sfx::do_player_death_hurt_sfx( const player &, bool ) { }
 void sfx::do_fatigue_sfx() { }
 void sfx::do_obstacle_sfx() { }
 /*@}*/

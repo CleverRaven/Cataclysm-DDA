@@ -72,7 +72,7 @@ namespace sfx {
     void fade_audio_channel( int tag, int duration );
     bool is_channel_playing( int channel );
     void stop_sound_effect_fade( int channel, int duration );
-    void do_player_death_hurt_sfx( bool male, bool death );
+    void do_player_death_hurt_sfx( const player &target, bool death );
     void do_fatigue_sfx();
     int get_heard_angle( const tripoint source );
     void do_obstacle_sfx();
