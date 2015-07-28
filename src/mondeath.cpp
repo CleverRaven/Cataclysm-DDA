@@ -22,6 +22,7 @@ const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
 const mtype_id mon_blob_small( "mon_blob_small" );
 const mtype_id mon_breather( "mon_breather" );
+const mtype_id mon_breather_hub( "mon_breather_hub" );
 const mtype_id mon_creeper_hub( "mon_creeper_hub" );
 const mtype_id mon_creeper_vine( "mon_creeper_vine" );
 const mtype_id mon_halfworm( "mon_halfworm" );
@@ -606,7 +607,7 @@ void mdeath::kill_breathers(monster *z)
     (void)z; //unused
     for (size_t i = 0; i < g->num_zombies(); i++) {
         const mtype_id& monID = g->zombie(i).type->id;
-        if (monID == mtype_id( "mon_breather_hub " ) || monID == mon_breather) {
+        if (monID == mon_breather_hub || monID == mon_breather) {
             g->zombie(i).die( nullptr );
         }
     }
