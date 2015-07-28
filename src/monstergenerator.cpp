@@ -30,6 +30,7 @@ const mtype_id mon_null( "mon_null" );
 const mtype_id mon_generator( "mon_generator" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
+const mongroup_id GROUP_NULL( "GROUP_NULL" );
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -473,7 +474,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         if (jo.has_member("upgrades")) {
             JsonObject upgrades = jo.get_object("upgrades");
             newmon->half_life = upgrades.get_int("half_life", -1);
-            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", "GROUP_NULL") );
+            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", GROUP_NULL.str() ) );
             newmon->upgrade_into = upgrades.get_string("into", "NULL");
             newmon->upgrades = true;
         }
@@ -701,17 +702,17 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
             }
-            if( mon->upgrade_into == "NULL" && mon->upgrade_group == mongroup_id( "GROUP_NULL" ) ) {
+            if( mon->upgrade_into == "NULL" && mon->upgrade_group == GROUP_NULL ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
             }
-            if( mon->upgrade_into != "NULL" && mon->upgrade_group != mongroup_id( "GROUP_NULL" ) ) {
+            if( mon->upgrade_into != "NULL" && mon->upgrade_group != GROUP_NULL ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
             if( mon->upgrade_into != "NULL" && !has_mtype( mtype_id( mon->upgrade_into ) ) ) {
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
                            mon->upgrade_into.c_str(), mon->id.c_str() );
             }
-            if( mon->upgrade_group != mongroup_id( "GROUP_NULL" ) &&
+            if( mon->upgrade_group != GROUP_NULL &&
                 !MonsterGroupManager::isValidMonsterGroup( mon->upgrade_group ) ) {
                 debugmsg( "upgrade_group %s of monster %s is not a valid monster group id",
                            mon->upgrade_group.c_str(), mon->id.c_str() );
