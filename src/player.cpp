@@ -659,7 +659,7 @@ void player::apply_persistent_morale()
     }
 
     // Wetness affects morale (usually negatively)
-    
+    apply_wetness_morale();
 }
 
 void player::update_mental_focus()
@@ -4233,10 +4233,10 @@ void player::pause()
         if (g->temperature <= 50) {
             drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
                         mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
-                        mfb(bp_hand_l)|mfb(bp_hand_r));
+                        mfb(bp_hand_l)|mfb(bp_hand_r), true );
         } else {
             drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth));
+                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth), true );
         }
     }
 
@@ -8410,7 +8410,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
     if ( has_trait("DEBUG_NOTEMP") || has_active_mutation("SHELL2") ||
-         ( is_waterproof(flags) && !ignore_waterproof ) ) {
+         ( !ignore_waterproof && is_waterproof(flags) ) ) {
         return;
     }
 
@@ -8469,7 +8469,7 @@ void player::apply_wetness_morale()
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( int i = bp_torso; i < num_bp; ++i ) {
-        body_part bp = static_cast<body_part>( i );
+        const body_part bp = static_cast<body_part>( i );
         // Sum of body wetness can go up to 103
         const int part_drench = body_wetness[bp];
 
@@ -8495,29 +8495,35 @@ void player::apply_wetness_morale()
             bp_morale = std::min( effective_drench, part_good - effective_drench );
         } else if( effective_drench > part_good + part_neutral ) {
             // This one will be negative
-            bp_morale = effective_drench - part_good - part_neutral;
+            bp_morale = part_good + part_neutral - effective_drench;
         }
 
-        // -1 at COLD, 1 at HOT
-        const int effective_temp =
+        // Clamp to [COLD,HOT] and cast to double
+        const double effective_temp =
             std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp] ) );
+        // -1 at COLD, 1 at HOT
+        // logistic_range is a bit too sensitive, let's use linear interpolation
         double scaled_temperature =
-            logistic_range( BODYTEMP_COLD, BODYTEMP_HOT, effective_temp );
+            ( 2.0 * (effective_temp - BODYTEMP_COLD) / (BODYTEMP_HOT - BODYTEMP_COLD) ) - 1.0;
 
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
-            scaled_temperature = abs( scaled_temperature );
+            scaled_temperature = fabs( scaled_temperature );
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
         // +51 when hot in 100% water friendly clothing
         // -103 when cold/hot in 100% unfriendly clothing
-        total_morale += bp_morale * ( 1 + scaled_temperature ) / 2;
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
+    }
+
+    if( total_morale == 0 ) {
+        return;
     }
 
     int morale_effect = total_morale / 8;
     if( morale_effect == 0 ) {
-        if( morale_cap > 0 ) {
+        if( total_morale > 0 ) {
             morale_effect = 1;
         } else {
             morale_effect = -1;
@@ -8538,10 +8544,10 @@ void player::update_body_wetness()
         has_trait("CHITIN_FUR3")) {
         delay += 2;
     }
-    if (has_trait("URSINE_FUR")) {
+    if( has_trait( "URSINE_FUR" ) ) {
         delay += 5;
     }
-    if (has_trait("SLIMY")) {
+    if( has_trait( "SLIMY" ) ) {
         delay += 5;
     }
 
@@ -8557,20 +8563,32 @@ void player::update_body_wetness()
 
     // Now per-body-part stuff
     for( int i = 0; i < num_bp; ++i ) {
-        if( body_wetness[i] == 0 ) {
+        const body_part bp = static_cast<body_part>( i );
+        if( body_wetness[bp] == 0 ) {
             continue;
         }
         int part_delay = delay;
         // Body temperature affects duration of wetness
-        temp_cur[i]
+        if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+            part_delay /= 3;
+        } else if( temp_conv[bp] >=  BODYTEMP_VERY_HOT ) {
+            part_delay /= 2;
+        } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
+            part_delay = part_delay * 2 / 3;
+        } else if( temp_conv[bp] > BODYTEMP_COLD ) {
+            // Comfortable, doesn't need any changes
+        } else {
+            // Evaporation doesn't change that much at lower temp
+            part_delay = part_delay * 2 / 3;
+        }
 
-        // Don't use calendar modulo, because the delay can change quite a bit
-        if( !one_in( part_delay ) ) {
+        // Don't use calendar modulo, because the delay can fluctuate
+        if( part_delay > 0 && !one_in( part_delay ) ) {
             return;
         }
 
         body_wetness[i] -= 1;
-        if (body_wetness[i] < 0) {
+        if( body_wetness[i] < 0 ) {
             body_wetness[i] = 0;
         }
     }
@@ -9237,6 +9255,7 @@ bool player::covered_with_flag( const std::string &flag, const std::bitset<num_b
 std::bitset<num_bp> player::exclusive_flag_coverage( const std::string &flag ) const
 {
     std::bitset<num_bp> ret;
+    ret.set();
     for( const auto &elem : worn ) {
         if( !elem.has_flag( flag ) ) {
             // Unset the parts covered by this item

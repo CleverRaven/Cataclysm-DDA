@@ -12419,8 +12419,8 @@ bool game::plmove(int dx, int dy)
         u.ma_onmove_effects();
 
         // Drench the player if swimmable
-        if (m.has_flag("SWIMMABLE", x, y)) {
-            u.drench(40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r));
+        if( m.has_flag( "SWIMMABLE", dest_loc ) ) {
+            u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
         }
 
         // List items here
@@ -12662,7 +12662,7 @@ void game::plswim(int x, int y)
     if (u.is_underwater()) {
         drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
     }
-    u.drench(100, drenchFlags);
+    u.drench( 100, drenchFlags, true );
 }
 
 void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)
