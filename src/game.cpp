@@ -6874,7 +6874,7 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination()
 {
-    monster phantasm(MonsterGenerator::generator().get_valid_hallucination()->id);
+    monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
     phantasm.hallucination = true;
     phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 

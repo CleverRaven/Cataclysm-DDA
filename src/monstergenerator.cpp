@@ -565,12 +565,12 @@ std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
     return hold;
 }
 
-mtype *MonsterGenerator::get_valid_hallucination()
+const mtype_id &MonsterGenerator::get_valid_hallucination() const
 {
-    std::vector<mtype *> potentials;
+    std::vector<mtype_id> potentials;
     for( auto &elem : mon_templates ) {
         if( elem.first != mon_null && elem.first != mon_generator ) {
-            potentials.push_back( elem.second );
+            potentials.push_back( elem.first );
         }
     }
 
