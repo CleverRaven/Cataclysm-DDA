@@ -398,7 +398,7 @@ public:
      * The item must have enough charges for this (>= quantity) and be counted
      * by charges.
      * @param quantity How many charges should be removed.
-     * @return true if all charges would have been removed and the must be destroyed.
+     * @return true if all charges would have been removed and the item must be destroyed.
      * The charges member is not changed in that case (for usage in `player::i_rem`
      * which returns the removed item).
      * False if there are charges remaining, the charges have been reduced in that case.
@@ -1167,7 +1167,7 @@ public:
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
-         * Returns the item type of the given identifier. Never retruns null.
+         * Returns the item type of the given identifier. Never returns null.
          */
         static itype *find_type( const itype_id &id );
         /**

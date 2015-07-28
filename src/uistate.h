@@ -41,10 +41,11 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
         bool adv_inv_container_in_vehicle = 0;
+        int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
-        bool adv_inv_re_enter_move_all = false;
-        int adv_inv_aim_all_location = 0;
+        int adv_inv_re_enter_move_all = 0;
+        int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
 
         int ags_pay_gas_selected_pump = 0;
@@ -151,21 +152,24 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             JsonObject jo = jsin.get_object();
             /**** here ****/
             if(jo.has_array("adv_inv_sort")) {
-                adv_inv_sort = vec_to_array<int, 2>(jo.get_int_array("adv_inv_sort"));
+                auto tmp = jo.get_int_array("adv_inv_sort");
+                std::move(tmp.begin(), tmp.end(), adv_inv_sort.begin());
             } else {
                 jo.read("adv_inv_leftsort", adv_inv_sort[left]);
                 jo.read("adv_inv_rightsort", adv_inv_sort[right]);
             }
             // pane area selected
             if(jo.has_array("adv_inv_area")) {
-                adv_inv_area = vec_to_array<int, 2>(jo.get_int_array("adv_inv_area"));
+                auto tmp = jo.get_int_array("adv_inv_area");
+                std::move(tmp.begin(), tmp.end(), adv_inv_area.begin());
             } else {
                 jo.read("adv_inv_leftarea", adv_inv_area[left]);
                 jo.read("adv_inv_rightarea", adv_inv_area[right]);
             }
             // pane current index
             if(jo.has_array("adv_inv_index")) {
-                adv_inv_index = vec_to_array<int, 2>(jo.get_int_array("adv_inv_index"));
+                auto tmp = jo.get_int_array("adv_inv_index");
+                std::move(tmp.begin(), tmp.end(), adv_inv_index.begin());
             } else {
                 jo.read("adv_inv_leftindex", adv_inv_index[left]);
                 jo.read("adv_inv_rightindex", adv_inv_index[right]);
@@ -179,7 +183,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             }
             // filter strings
             if(jo.has_array("adv_inv_filter")) {
-                adv_inv_filter = vec_to_array<std::string, 2>(jo.get_string_array("adv_inv_filter"));
+                auto tmp = jo.get_int_array("adv_inv_filter");
+                std::move(tmp.begin(), tmp.end(), adv_inv_filter.begin());
             } else {
                 jo.read("adv_inv_leftfilter", adv_inv_filter[left]);
                 jo.read("adv_inv_rightfilter", adv_inv_filter[right]);

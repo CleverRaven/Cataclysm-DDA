@@ -1963,7 +1963,19 @@
         "type" : "keybinding",
         "id": "MOVE_SINGLE_ITEM",
         "category": "ADVANCED_INVENTORY",
-        "name": "Move item",
+        "name": "Move a single item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_VARIABLE_ITEM",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move an amount of item",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1980,10 +1992,6 @@
             {
                 "input_method":"keyboard",
                 "key":"M"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"RETURN"
             }
         ]
     },

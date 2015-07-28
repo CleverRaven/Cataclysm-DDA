@@ -95,6 +95,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
          */
         bool is_abortable() const;
+        /**
+         * If this returns true, the activity does not finish. This is
+         * the type of activities that use UI trickery, but must be cancelled
+         * manually!
+         */
+        bool never_completes() const;
         int get_value(size_t index, int def = 0) const;
         std::string get_str_value(size_t index, const std::string def = "") const;
         /**

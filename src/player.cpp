@@ -9286,6 +9286,17 @@ int player::amount_of(const itype_id &it) const
     return quantity;
 }
 
+int player::amount_worn(const itype_id &id) const
+{
+    int amount = 0;
+    for(auto &elem : worn) {
+        if(elem.typeId() == id) {
+            ++amount;
+        }
+    }
+    return amount;
+}
+
 bool player::has_charges(const itype_id &it, long quantity) const
 {
     if (it == "fire" || it == "apparatus") {
@@ -10556,15 +10567,8 @@ bool player::wear_item(item *to_wear, bool interactive)
     }
 
     // Make sure we're not wearing 2 of the item already
-    int count = 0;
-
-    for (auto &i : worn) {
-        if (i.type->id == to_wear->type->id) {
-            count++;
-        }
-    }
-
-    if (count == 2) {
+    int count = amount_worn(to_wear->typeId());
+    if (count == MAX_WORN_PER_TYPE) {
         if(interactive) {
             add_msg(m_info, _("You can't wear more than two %s at once."),
                     to_wear->tname(count).c_str());

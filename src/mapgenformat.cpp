@@ -5,6 +5,7 @@
 
 #include <cassert>
 #include <stdarg.h>
+#include <algorithm>
 
 #include "output.h"
 #include "mapdata.h"

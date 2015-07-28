@@ -4,8 +4,10 @@
 #include "game.h"
 #include "item_factory.h"
 #include "translations.h"
+
 #include <fstream>
 #include <stdexcept>
+#include <algorithm>
 
 std::string itype::nname( unsigned int const quantity ) const
 {
