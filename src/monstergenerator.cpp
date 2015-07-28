@@ -508,23 +508,27 @@ void MonsterGenerator::load_species(JsonObject &jo)
     }
 }
 
-mtype *MonsterGenerator::get_mtype(std::string mon)
+mtype *MonsterGenerator::get_mtype( const std::string& id )
 {
-    mtype *default_montype = mon_templates["mon_null"];
-
-    if (mon == "mon_zombie_fast") {
-        mon = "mon_zombie_dog";
-    }
-    if (mon == "mon_fungaloid_dormant") {
-        mon = "mon_fungaloid";
+    // first do the look-up as it is most likely to succeed
+    const auto iter = mon_templates.find( id );
+    if( iter != mon_templates.end() ) {
+        return iter->second;
     }
 
-    if (mon_templates.find(mon) != mon_templates.end()) {
-        return mon_templates[mon];
+    // second most likely are outdated ids from old saves
+    if( id == "mon_zombie_fast" ) {
+        return get_mtype( "mon_zombie_dog" );
     }
-    debugmsg("Could not find monster with type %s", mon.c_str());
-    return default_montype;
+    if( id == "mon_fungaloid_dormant" ) {
+        return get_mtype( "mon_fungaloid" );
+    }
+
+    // this is most unlikely and therefor checked last.
+    debugmsg( "Could not find monster with type %s", id.c_str() );
+    return mon_templates["mon_null"];
 }
+
 bool MonsterGenerator::has_mtype(const std::string &mon) const
 {
     return mon_templates.count(mon) > 0;

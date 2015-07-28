@@ -72,7 +72,7 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
-        mtype *get_mtype(std::string mon);
+        mtype *get_mtype( const std::string& id );
         mtype *get_mtype(int mon);
         bool has_mtype(const std::string &mon) const;
         bool has_species(const std::string &species) const;
