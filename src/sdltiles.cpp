@@ -70,7 +70,6 @@ std::string current_playlist = "";
 int current_playlist_at = 0;
 
 struct sound_effect {
-    std::vector<std::string> files;
     std::string id;
     std::string variant;
     int volume;
@@ -2085,17 +2084,13 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
 
 #ifdef SDL_SOUND
 void sfx::load_sound_effects( JsonObject &jsobj ) {
-    int index = 0;
-    std::string file;
     sound_effect new_sound_effect;
     new_sound_effect.id = jsobj.get_string( "id" );
     new_sound_effect.volume = jsobj.get_int( "volume" );
     new_sound_effect.variant = jsobj.get_string( "variant" );
     JsonArray jsarr = jsobj.get_array( "files" );
     while( jsarr.has_more() ) {
-        new_sound_effect.files.push_back( jsarr.next_string().c_str() );
-        file = new_sound_effect.files[index];
-        index++;
+        const std::string file = jsarr.next_string();
         std::string path = ( FILENAMES[ "datadir" ] + "/sound/" + file );
         Mix_Chunk *loaded_chunk = Mix_LoadWAV( path.c_str() );
         if( !loaded_chunk ) {
