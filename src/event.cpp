@@ -259,13 +259,10 @@ void event::actualize()
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
-        mtype_id montype = mon_null;
-        switch (rng(1, 4)) {
-        case 1: montype = mon_sewer_snake;  break;
-        case 2: montype = mon_centipede;    break;
-        case 3: montype = mon_dermatik;     break;
-        case 4: montype = mon_spider_widow_giant; break;
-        }
+        static const std::array<mtype_id, 4> temple_monsters = { {
+            mon_sewer_snake, mon_centipede, mon_dermatik, mon_spider_widow_giant
+        } };
+        const mtype_id &montype = random_entry( temple_monsters );
         int tries = 0, x, y;
         do {
             x = rng(g->u.posx() - 5, g->u.posx() + 5);
