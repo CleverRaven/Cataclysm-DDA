@@ -9125,7 +9125,6 @@ std::string game::ask_item_priority_low(WINDOW *window, int rows)
                               _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "list_item_downvote", 256);
 }
 
-
 void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 {
     //Reset terrain
