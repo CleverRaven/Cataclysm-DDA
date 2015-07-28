@@ -1327,7 +1327,8 @@ void defense_game::spawn_wave()
     while (diff > 0) {
         // Clear out any monsters that exceed our remaining difficulty
         for( auto it = valid.begin(); it != valid.end(); ) {
-            if (GetMType(*it)->difficulty > diff) {
+            const mtype &mt = it->obj();
+            if( mt.difficulty > diff) {
                 it = valid.erase(it);
             } else {
                 it++;
@@ -1338,23 +1339,23 @@ void defense_game::spawn_wave()
             add_msg(m_info, "********");
             return;
         }
-        mtype *type = GetMType( random_entry( valid ) );
+        const mtype &type = random_entry( valid ).obj();
         if (themed_wave) {
-            int num = diff / type->difficulty;
+            int num = diff / type.difficulty;
             if (num >= SPECIAL_WAVE_MIN) {
                 // TODO: Do we want a special message here?
                 for (int i = 0; i < num; i++) {
-                    spawn_wave_monster(type);
+                    spawn_wave_monster( type.id );
                 }
-                add_msg(m_info,  special_wave_message(type->nname(100)).c_str() );
+                add_msg(m_info,  special_wave_message(type.nname(100)).c_str() );
                 add_msg(m_info, "********");
                 return;
             } else {
                 themed_wave = false;    // No partially-themed waves
             }
         }
-        diff -= type->difficulty;
-        spawn_wave_monster(type);
+        diff -= type.difficulty;
+        spawn_wave_monster( type.id );
     }
     add_msg(m_info, _("Welcome to Wave %d!"), current_wave);
     add_msg(m_info, "********");
@@ -1394,7 +1395,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
     return ret;
 }
 
-void defense_game::spawn_wave_monster(mtype *type)
+void defense_game::spawn_wave_monster( const mtype_id &type )
 {
     point pnt;
     int tries = 0;
@@ -1421,7 +1422,7 @@ void defense_game::spawn_wave_monster(mtype *type)
             return;
         }
     }
-    monster tmp( type->id, tripoint( pnt, g->get_levz() ) );
+    monster tmp( type, tripoint( pnt, g->get_levz() ) );
     tmp.wander_pos = g->u.pos3();
     tmp.wandf = 150;
     // We wanna kill!

@@ -4245,12 +4245,12 @@ void game::disp_kills()
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
     for( auto &elem : kills ) {
-        const mtype *m = GetMType( elem.first );
+        const mtype &m = elem.first.obj();
         std::ostringstream buffer;
-        buffer << "<color_" << string_from_color(m->color) << ">";
-        buffer << m->sym << " " << m->nname();
+        buffer << "<color_" << string_from_color(m.color) << ">";
+        buffer << m.sym << " " << m.nname();
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m->nname().c_str());
+        const int w = colum_width - utf8_width(m.nname().c_str());
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << elem.second;

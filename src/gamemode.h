@@ -153,7 +153,7 @@ struct defense_game : public special_game {
         void spawn_wave();
         void caravan();
         std::vector<mtype_id> pick_monster_wave();
-        void spawn_wave_monster(mtype *type);
+        void spawn_wave_monster( const mtype_id &type );
 
         std::string special_wave_message(std::string name);
 

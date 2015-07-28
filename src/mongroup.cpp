@@ -68,14 +68,14 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"
     if(turn != -1 &&
-       (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))) {
+       (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS( group.defaultMonster.obj().difficulty))) {
         spawn_details = MonsterGroupResult(mon_null, 0);
     }
 
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
-        const mtype& mt = *GetMType( it->name );
+        const mtype& mt = it->name.obj();
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
@@ -375,16 +375,14 @@ void MonsterGroupManager::ClearMonsterGroups()
 
 void MonsterGroupManager::check_group_definitions()
 {
-    const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
-        if(mg.defaultMonster != mon_null && !gen.has_mtype(mg.defaultMonster)) {
+        if( !mg.defaultMonster.is_valid() ) {
             debugmsg("monster group %s has unknown default monster %s", mg.name.c_str(),
                      mg.defaultMonster.c_str());
         }
         for( const auto &mge : mg.monsters ) {
-
-            if(mge.name == mon_null || !gen.has_mtype(mge.name)) {
+            if( !mge.name.is_valid() ) {
                 // mon_null should not be valid here
                 debugmsg("monster group %s contains unknown monster %s", mg.name.c_str(), mge.name.c_str());
             }

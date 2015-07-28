@@ -21,8 +21,6 @@ using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 using mtype_id = string_id<mtype>;
 
-#define GetMType(x) MonsterGenerator::generator().get_mtype(x)
-
 struct species_type {
     int short_id;
     std::string id;

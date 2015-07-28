@@ -799,7 +799,7 @@ public:
     , friendly( jsi.get_bool( "friendly", false ) )
     , name( jsi.get_string( "name", "NONE" ) )
     {
-        if( !MonsterGenerator::generator().has_mtype( id ) ) {
+        if( !id.is_valid() ) {
             jsi.throw_error( "no such monster", "monster" );
         }
     }
@@ -11693,10 +11693,12 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
                  type.c_str(), count, x, y);
         return;
     }
-    if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && !GetMType(type)->in_category("CLASSIC") &&
-        !GetMType(type)->in_category("WILDLIFE") ) {
-        // Don't spawn non-classic monsters in classic zombie mode.
-        return;
+    if( ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] ) {
+        const mtype& mt = type.obj();
+        if( !mt.in_category("CLASSIC") && !mt.in_category("WILDLIFE") ) {
+            // Don't spawn non-classic monsters in classic zombie mode.
+            return;
+        }
     }
     if (MonsterGroupManager::monster_is_blacklisted( type )) {
         return;

@@ -739,12 +739,12 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             }
         } else if (category == C_MONSTER) {
             const mtype_id mid( id );
-            if (MonsterGenerator::generator().has_mtype(mid)) {
-                const mtype *m = GetMType(mid);
-                int len = m->sym.length();
-                const char *s = m->sym.c_str();
+            if( mid.is_valid() ) {
+                const mtype &mt = mid.obj();
+                int len = mt.sym.length();
+                const char *s = mt.sym.c_str();
                 sym = UTF8_getch(&s, &len);
-                col = m->color;
+                col = mt.color;
             }
         } else if (category == C_VEHICLE_PART) {
             const vpart_str_id vpid( id.substr( 3 ) );
