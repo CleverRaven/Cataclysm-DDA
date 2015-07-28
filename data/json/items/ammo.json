@@ -4135,7 +4135,7 @@
         "name_plural" : "7.62x54mmR",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "7.62x64mmR ammunition with 150gr FMJ bullets.  The 7.62x54mmR round is one of the oldest still in common use, primarily due to the the popularity of the Mosin-Nagant rifle.  Although it has not been used by militaries for several decades it remains popular with civilians.  It is a powerful cartridge capable of killing most targets with one shot.",
+        "description" : "7.62x54mmR ammunition with 150gr FMJ bullets.  The 7.62x54mmR round is one of the oldest still in common use, primarily due to the the popularity of the Mosin-Nagant rifle.  Although it has not been used by militaries for several decades it remains popular with civilians.  It is a powerful cartridge capable of killing most targets with one shot.",
         "material" : ["steel", "powder"],
         "volume" : 1,
         "weight" : 8,
