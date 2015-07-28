@@ -670,43 +670,44 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
     tripoint target = in->target;
     std::string material = in->material;
     std::string variant_used;
+    const int heard_volume = get_heard_volume( source );
     int npc_index = g->npc_at( source );
     if( npc_index == -1 ) {
         std::string weapon_skill = g->u.weapon.weap_skill();
         int weapon_volume = g->u.weapon.volume();
         if( weapon_skill == "bashing" && weapon_volume <= 8 ) {
             variant_used = "small_bash";
-            play_variant_sound( "melee_swing", "small_bash", get_heard_volume( source ), 0.8, 1.2 );
+            play_variant_sound( "melee_swing", "small_bash", heard_volume, 0.8, 1.2 );
         } else if( weapon_skill == "bashing" && weapon_volume >= 9 ) {
             variant_used = "big_bash";
-            play_variant_sound( "melee_swing", "big_bash", get_heard_volume( source ), 0.8, 1.2 );
+            play_variant_sound( "melee_swing", "big_bash", heard_volume, 0.8, 1.2 );
         } else if( ( weapon_skill == "cutting" || weapon_skill == "stabbing" ) && weapon_volume <= 6 ) {
             variant_used = "small_cutting";
-            play_variant_sound( "melee_swing", "small_cutting", get_heard_volume( source ), 0.8, 1.2 );
+            play_variant_sound( "melee_swing", "small_cutting", heard_volume, 0.8, 1.2 );
         } else if( ( weapon_skill == "cutting" || weapon_skill == "stabbing" ) && weapon_volume >= 7 ) {
             variant_used = "big_cutting";
-            play_variant_sound( "melee_swing", "big_cutting", get_heard_volume( source ), 0.8, 1.2 );
+            play_variant_sound( "melee_swing", "big_cutting", heard_volume, 0.8, 1.2 );
         } else {
             variant_used = "default";
-            play_variant_sound( "melee_swing", "default", get_heard_volume( source ), 0.8, 1.2 );
+            play_variant_sound( "melee_swing", "default", heard_volume, 0.8, 1.2 );
         }
         if( hit ) {
             if( targ_mon ) {
                 if( material == "steel" ) {
                     std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 12,
                                                  weapon_volume * 16 ) ) );
-                    play_variant_sound( "melee_hit_metal", variant_used, get_heard_volume( source ),
+                    play_variant_sound( "melee_hit_metal", variant_used, heard_volume,
                                         get_heard_angle( target ), 0.8, 1.2 );
                 } else {
                     std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 12,
                                                  weapon_volume * 16 ) ) );
-                    play_variant_sound( "melee_hit_flesh", variant_used, get_heard_volume( source ),
+                    play_variant_sound( "melee_hit_flesh", variant_used, heard_volume,
                                         get_heard_angle( target ), 0.8, 1.2 );
                 }
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 9,
                                              weapon_volume * 12 ) ) );
-                play_variant_sound( "melee_hit_flesh", variant_used, get_heard_volume( source ),
+                play_variant_sound( "melee_hit_flesh", variant_used, heard_volume,
                                     get_heard_angle( target ), 0.8, 1.2 );
             }
         }
@@ -716,23 +717,23 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
         int weapon_volume = p->weapon.volume();
         if( weapon_skill == "bashing" && weapon_volume <= 8 ) {
             variant_used = "small_bash";
-            play_variant_sound( "melee_swing", "small_bash", get_heard_volume( source ) - 30,
+            play_variant_sound( "melee_swing", "small_bash", heard_volume - 30,
                                 get_heard_angle( source ), 0.8, 1.2 );
         } else if( weapon_skill == "bashing" && weapon_volume >= 9 ) {
             variant_used = "big_bash";
-            play_variant_sound( "melee_swing", "big_bash", get_heard_volume( source ) - 30,
+            play_variant_sound( "melee_swing", "big_bash", heard_volume - 30,
                                 get_heard_angle( source ), 0.8, 1.2 );
         } else if( ( weapon_skill == "cutting" || weapon_skill == "stabbing" ) && weapon_volume <= 6 ) {
             variant_used = "small_cutting";
-            play_variant_sound( "melee_swing", "small_cutting", get_heard_volume( source ) - 30,
+            play_variant_sound( "melee_swing", "small_cutting", heard_volume - 30,
                                 get_heard_angle( source ), 0.8, 1.2 );
         } else if( ( weapon_skill == "cutting" || weapon_skill == "stabbing" ) && weapon_volume >= 7 ) {
             variant_used = "big_cutting";
-            play_variant_sound( "melee_swing", "big_cutting", get_heard_volume( source ) - 30,
+            play_variant_sound( "melee_swing", "big_cutting", heard_volume - 30,
                                 get_heard_angle( source ), 0.8, 1.2 );
         } else {
             variant_used = "default";
-            play_variant_sound( "melee_swing", "default", get_heard_volume( source ) - 30,
+            play_variant_sound( "melee_swing", "default", heard_volume - 30,
                                 get_heard_angle( source ), 0.8, 1.2 );
         }
         if( hit ) {
@@ -740,18 +741,18 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
                 if( material == "steel" ) {
                     std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 12,
                                                  weapon_volume * 16 ) ) );
-                    play_variant_sound( "melee_hit_metal", variant_used, get_heard_volume( source ) - 20,
+                    play_variant_sound( "melee_hit_metal", variant_used, heard_volume - 20,
                                         get_heard_angle( target ), 0.8, 1.2 );
                 } else {
                     std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 12,
                                                  weapon_volume * 16 ) ) );
-                    play_variant_sound( "melee_hit_flesh", variant_used, get_heard_volume( source ) - 20,
+                    play_variant_sound( "melee_hit_flesh", variant_used, heard_volume - 20,
                                         get_heard_angle( target ), 0.8, 1.2 );
                 }
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( rng( weapon_volume * 9,
                                              weapon_volume * 12 ) ) );
-                play_variant_sound( "melee_hit_flesh", variant_used, get_heard_volume( source ) - 20,
+                play_variant_sound( "melee_hit_flesh", variant_used, heard_volume - 20,
                                     get_heard_angle( target ), 0.8, 1.2 );
             }
         }
