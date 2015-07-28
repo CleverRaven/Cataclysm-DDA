@@ -480,16 +480,17 @@ void sfx::do_ambient_sfx() {
                                 calendar::turn );
     g->weather = g->weatherGen.get_weather_conditions( weather_at_player );
     const bool is_deaf = g->u.get_effect_int( "deaf" ) > 0;
+    const int heard_volume = get_heard_volume( g->u.pos() );
     // Step in at night time / we are not indoors
     if( calendar::turn.is_night() && !g->is_sheltered( g->u.pos() ) &&
             !is_channel_playing( 1 ) && !is_deaf ) {
         fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "nighttime", get_heard_volume( g->u.pos() ), 1, 1000 );
+        play_ambient_variant_sound( "environment", "nighttime", heard_volume, 1, 1000 );
         // Step in at day time / we are not indoors
     } else if( !calendar::turn.is_night() && !is_channel_playing( 0 ) &&
                !g->is_sheltered( g->u.pos() ) && !is_deaf ) {
         fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "daytime", get_heard_volume( g->u.pos() ), 0, 1000 );
+        play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );
     }
     // We are underground
     if( ( is_underground( g->u.pos() ) && !is_channel_playing( 2 ) &&
@@ -497,7 +498,7 @@ void sfx::do_ambient_sfx() {
                     g->weather != previous_weather && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "underground", get_heard_volume( g->u.pos() ), 2,
+        play_ambient_variant_sound( "environment", "underground", heard_volume, 2,
                                     1000 );
         // We are indoors
     } else if( ( g->is_sheltered( g->u.pos() ) && !is_underground( g->u.pos() ) &&
@@ -506,12 +507,12 @@ void sfx::do_ambient_sfx() {
                  g->weather != previous_weather && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
-        play_ambient_variant_sound( "environment", "indoors", get_heard_volume( g->u.pos() ), 3, 1000 );
+        play_ambient_variant_sound( "environment", "indoors", heard_volume, 3, 1000 );
     }
     // We are indoors and it is also raining
     if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground( g->u.pos() )
             && !is_channel_playing( 4 ) ) {
-        play_ambient_variant_sound( "environment", "indoors_rain", get_heard_volume( g->u.pos() ), 4,
+        play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
     }
     if( ( !g->is_sheltered( g->u.pos() ) && g->weather != WEATHER_CLEAR
@@ -526,21 +527,21 @@ void sfx::do_ambient_sfx() {
         switch( g->weather ) {
 	case WEATHER_ACID_DRIZZLE:        
 	case WEATHER_DRIZZLE:
-            play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", get_heard_volume( g->u.pos() ), 9,
+            play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume, 9,
                                         1000 );
             break;
         case WEATHER_RAINY:
-            play_ambient_variant_sound( "environment", "WEATHER_RAINY", get_heard_volume( g->u.pos() ), 8,
+            play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume, 8,
                                         1000 );
             break;
 	case WEATHER_ACID_RAIN:
 	case WEATHER_THUNDER:
         case WEATHER_LIGHTNING:
-            play_ambient_variant_sound( "environment", "WEATHER_THUNDER", get_heard_volume( g->u.pos() ), 7,
+            play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume, 7,
                                         1000 );
             break;
         case WEATHER_FLURRIES:
-            play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", get_heard_volume( g->u.pos() ), 6,
+            play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume, 6,
                                         1000 );
             break;
 	// I didn't know where to put these or even if the first two were needed. They probably shouldn't make any noise, but I was getting an error when compiling when I left them out.
@@ -551,7 +552,7 @@ void sfx::do_ambient_sfx() {
 	case WEATHER_CLOUDY:
         case WEATHER_SNOWSTORM:
         case WEATHER_SNOW:
-            play_ambient_variant_sound( "environment", "WEATHER_SNOW", get_heard_volume( g->u.pos() ), 5,
+            play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
                                         1000 );
             break;
         }
