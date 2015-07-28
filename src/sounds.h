@@ -79,7 +79,6 @@ namespace sfx {
     void do_player_death_hurt_sfx( bool gender, bool death );
     void do_fatigue_sfx();
     int get_heard_angle( const tripoint source );
-    int get_channel( Mix_Chunk * effect_to_play );
     void do_obstacle_sfx();
 }
 

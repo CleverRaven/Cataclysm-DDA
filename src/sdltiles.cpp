@@ -2104,10 +2104,6 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
     }
 }
 
-int sfx::get_channel( Mix_Chunk * effect_to_play ) {
-    return Mix_PlayChannel( -1, effect_to_play, 0 );
-}
-
 Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
@@ -2174,7 +2170,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
     Mix_VolumeChunk( shifted_effect,
                      selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
-    int channel = get_channel( shifted_effect );
+    int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
     Mix_SetPosition( channel, angle, 1 );
 }
 
