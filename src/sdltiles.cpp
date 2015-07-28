@@ -392,6 +392,12 @@ bool WinCreate()
     }
     Mix_AllocateChannels(128);
     Mix_ReserveChannels(20);
+
+    // For the sound effects system.
+    Mix_GroupChannels( 2, 9, 1 );
+    Mix_GroupChannels( 0, 1, 2 );
+    Mix_GroupChannels( 11, 14, 3 );
+    Mix_GroupChannels( 15, 17, 4 );
 #endif
 
     return true;
@@ -2079,10 +2085,6 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
 
 #ifdef SDL_SOUND
 void sfx::load_sound_effects( JsonObject &jsobj ) {
-    set_group_channels( 2, 9, 1 );
-    set_group_channels( 0, 1, 2 );
-    set_group_channels( 11, 14, 3 );
-    set_group_channels( 15, 17, 4 );
     int index = 0;
     std::string file;
     sound_effect new_sound_effect;
