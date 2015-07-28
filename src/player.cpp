@@ -8409,44 +8409,43 @@ void player::vomit()
 void player::drench( int saturation, int flags, bool ignore_waterproof )
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (has_trait("DEBUG_NOTEMP")) || (has_active_mutation("SHELL2")) ||
-      ((is_waterproof(flags)) && (!ignore_waterproof(g->m.has_flag(TFLAG_DEEP_WATER, pos())))) ) {
+    if ( has_trait("DEBUG_NOTEMP") || has_active_mutation("SHELL2") ||
+         ( is_waterproof(flags) && !ignore_waterproof ) ) {
         return;
     }
 
     // Make the body wet
-    for (int i = 0; i < num_bp; ++i) {
+    for( int i = bp_torso; i < num_bp; ++i ) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
-        if (mfb(i) & flags){
+        if( mfb(i) & flags ){
             bp_wetness_max = mDrenchEffect[static_cast<body_part>( i )];
         }
-        if (bp_wetness_max == 0){
+
+        if( bp_wetness_max == 0 ){
             continue;
         }
         // Different sources will only make the bodypart wet to a limit
         int source_wet_max = saturation / 2;
         int wetness_increment = source_wet_max / 8;
         // Make sure increment is at least 1
-        if (source_wet_max != 0 && wetness_increment == 0) {
+        if( source_wet_max != 0 && wetness_increment == 0 ) {
             wetness_increment = 1;
         }
         // Respect maximums
-        if (body_wetness[i] < source_wet_max && body_wetness[i] < bp_wetness_max){
-            body_wetness[i] += wetness_increment;
+        const int wetness_max = std::min( source_wet_max, bp_wetness_max );
+        if( body_wetness[i] < wetness_max ){
+            body_wetness[i] = std::min( wetness_max, body_wetness[i] + wetness_increment );
         }
     }
 }
 
 void player::drench_mut_calc()
 {
-    mMutDrench.clear();
-    int ignored, neutral, good;
-
     for( auto &elem : mDrenchEffect ) {
-        ignored = 0;
-        neutral = 0;
-        good = 0;
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
 
         for( const auto &_iter : my_mutations ) {
             const auto &mdata = mutation_branch::get( _iter.first );
@@ -8458,69 +8457,74 @@ void player::drench_mut_calc()
             }
         }
 
-        mMutDrench[elem.first]["good"] = good;
-        mMutDrench[elem.first]["neutral"] = neutral;
-        mMutDrench[elem.first]["ignored"] = ignored;
+        mut_drench[elem.first][WT_GOOD] = good;
+        mut_drench[elem.first][WT_NEUTRAL] = neutral;
+        mut_drench[elem.first][WT_IGNORED] = ignored;
     }
 }
 
 void player::apply_wetness_morale()
 {
-    // Apply morale results from getting wet
-    int effected = 0;
-    int tot_ignored = 0; //Always ignored
-    int tot_neut = 0; //Ignored for good wet bonus
-    int tot_good = 0; //Increase good wet bonus
+    // Apply morale results from being wet
+    int total_morale = 0;
+    const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    for( int i = bp_torso; i < num_bp; ++i ) {
+        body_part bp = static_cast<body_part>( i );
+        // Sum of body wetness can go up to 103
+        const int part_drench = body_wetness[bp];
 
-    for (std::map<body_part, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
-        if( mfb(iter->first) & flags ) {
-            effected += iter->second;
-            tot_ignored += mMutDrench[iter->first]["ignored"];
-            tot_neut += mMutDrench[iter->first]["neutral"];
-            tot_good += mMutDrench[iter->first]["good"];
+        const auto &part_arr = mut_drench.at( bp );
+        const int part_ignored = part_arr[WT_IGNORED];
+        const int part_neutral = part_arr[WT_NEUTRAL];
+        const int part_good    = part_arr[WT_GOOD];
+
+        if( part_ignored >= part_drench ) {
+            continue;
         }
+
+        int bp_morale = 0;
+        const bool is_friendly = wet_friendliness[bp];
+        const int effective_drench = part_drench - part_ignored;
+        if( is_friendly ) {
+            // Using entire bonus from mutations and then some "human" bonus
+            bp_morale = std::min( part_good, effective_drench ) + effective_drench / 2;
+        } else if( effective_drench < part_good ) {
+            // Positive or 0
+            // Won't go higher than part_good / 2
+            // Wet slime/scale doesn't feel as good when covered by wet rags/fur/kevlar
+            bp_morale = std::min( effective_drench, part_good - effective_drench );
+        } else if( effective_drench > part_good + part_neutral ) {
+            // This one will be negative
+            bp_morale = effective_drench - part_good - part_neutral;
+        }
+
+        // -1 at COLD, 1 at HOT
+        const int effective_temp =
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp] ) );
+        double scaled_temperature =
+            logistic_range( BODYTEMP_COLD, BODYTEMP_HOT, effective_temp );
+
+        if( bp_morale < 0 ) {
+            // Damp, hot clothing on hot skin feels bad
+            scaled_temperature = abs( scaled_temperature );
+        }
+
+        // For an unmutated human swimming in deep water, this will add up to:
+        // +51 when hot in 100% water friendly clothing
+        // -103 when cold/hot in 100% unfriendly clothing
+        total_morale += bp_morale * ( 1 + scaled_temperature ) / 2;
     }
 
-    if (effected == 0) {
-        return;
-    }
-
-    bool wants_drench = false;
-    // If not protected by mutations then check clothing
-    if (tot_good + tot_neut + tot_ignored < effected) {
-        wants_drench = is_water_friendly(flags);
-    } else {
-        wants_drench = true;
-    }
-
-    int morale_cap;
-    if (wants_drench) {
-        morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
-    } else {
-        morale_cap = -(saturation / 2);
-    }
-
-    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-    if (morale_cap > 0) {
-        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
-    } else if (morale_cap < 0) {
-        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
-    }
-
-    if (morale_cap == 0) {
-        return;
-    }
-
-    int morale_effect = morale_cap / 8;
-    if (morale_effect == 0) {
-        if (morale_cap > 0) {
+    int morale_effect = total_morale / 8;
+    if( morale_effect == 0 ) {
+        if( morale_cap > 0 ) {
             morale_effect = 1;
         } else {
             morale_effect = -1;
         }
     }
 
-    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
+    add_morale( MORALE_WET, morale_effect, total_morale, 5, 5, true );
 }
 
 void player::update_body_wetness()
@@ -9205,7 +9209,7 @@ item* player::pick_usb()
     return drives[ select - 1 ].first;
 }
 
-bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const
+bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
 {
     std::bitset<num_bp> covered = 0;
 
@@ -9230,22 +9234,20 @@ bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts
     return (covered == parts);
 }
 
-bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const
+std::bitset<num_bp> player::exclusive_flag_coverage( const std::string &flag ) const
 {
+    std::bitset<num_bp> ret;
     for( const auto &elem : worn ) {
-        if( ( elem.get_covered_body_parts() & parts ).any() && !elem.has_flag( flag ) ) {
-            return false;
+        if( !elem.has_flag( flag ) ) {
+            // Unset the parts covered by this item
+            ret &= ( ~elem.get_covered_body_parts() );
         }
     }
-    return true;
+
+    return ret;
 }
 
-bool player::is_water_friendly(std::bitset<num_bp> parts) const
-{
-    return covered_with_flag_exclusively("WATER_FRIENDLY", parts);
-}
-
-bool player::is_waterproof(std::bitset<num_bp> parts) const
+bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
 {
     return covered_with_flag("WATERPROOF", parts);
 }

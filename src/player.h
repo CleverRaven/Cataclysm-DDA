@@ -611,7 +611,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void vomit();
 
         /** Drenches the player with water, saturation is the percent gotten wet */
-        void drench(int saturation, int flags);
+        void drench( int saturation, int flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
@@ -802,10 +802,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int butcher_factor() const; // Automatically picks our best butchering tool
         item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
-        bool covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const;
-        bool covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const;
-        bool is_water_friendly(std::bitset<num_bp> parts) const;
-        bool is_waterproof(std::bitset<num_bp> parts) const;
+        bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
+        /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
+        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+        bool is_waterproof( const std::bitset<num_bp> &parts ) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -981,7 +981,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool pda_cached;
 
         // Drench cache
-        std::map<int, std::map<std::string, int> > mMutDrench;
+        enum water_tolerance {
+            WT_IGNORED = 0,
+            WT_NEUTRAL,
+            WT_GOOD,
+            NUM_WATER_TOLERANCE
+        };
+        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp > mut_drench;
         std::map<body_part, int> mDrenchEffect;
         std::array<int, num_bp> body_wetness;
 
