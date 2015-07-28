@@ -2001,6 +2001,10 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
                 have_this_tool = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 );
             }
 
+            if (type == "sewing_kit") {
+                have_this_tool = crafting_inv.has_items_with_quality( "CUT", 1, 1 );
+            }
+            
             if( have_this_tool ) {
                 break;
             }
