@@ -7497,8 +7497,8 @@ void player::hardcoded_effects(effect &it)
                         it.mod_duration(100);
                     }
                 } else {
-                    sounds::sound( pos(), 12, _("beep-beep-beep!"));
-                    if( !can_hear( pos(), 12 ) ) {
+                    sounds::sound( pos(), 16, _("beep-beep-beep!"));
+                    if( !can_hear( pos(), 16 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
