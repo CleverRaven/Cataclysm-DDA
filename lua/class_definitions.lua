@@ -605,7 +605,7 @@ classes = {
             { name = "uncanny_dodge", rval = "bool", args = { } },
             { name = "unimpaired_range", rval = "int", args = { } },
             { name = "uninstall_bionic", rval = "bool", args = { "string" } },
-            { name = "update_body_wetness", rval = nil, args = { } },
+            { name = "update_body_wetness", rval = nil, args = { "w_point" } },
             { name = "update_bodytemp", rval = nil, args = { } },
             { name = "update_health", rval = nil, args = { "int" } },
             { name = "update_health", rval = nil, args = { } },
@@ -1675,6 +1675,17 @@ classes = {
                 type = "int",
                 writable = true
             }
+        },
+        functions = {
+        }
+    },
+    w_point = {
+        attributes = {
+            temperature = { type = "float" },
+            humidity = { type = "float" },
+            pressure = { type = "float" },
+            windpower = { type = "float" },
+            acidic = { type = "bool" }
         },
         functions = {
         }

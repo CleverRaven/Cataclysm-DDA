@@ -30,6 +30,7 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct it_comest;
+struct w_point;
 
 struct special_attack {
     std::string text;
@@ -195,7 +196,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed();
         /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness();
+        void update_body_wetness( w_point& );
         /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
         void update_needs();
         /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.

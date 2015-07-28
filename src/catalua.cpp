@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "line.h"
+#include "weather_gen.h"
 
 #ifdef LUA
 #include "ui.h"

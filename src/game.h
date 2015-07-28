@@ -97,6 +97,7 @@ struct weather_printable;
 class faction;
 class live_view;
 typedef int nc_color;
+struct w_point;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -407,11 +408,12 @@ class game
         void zoom_in();
         void zoom_out();
 
-        std::unique_ptr<weather_generator> weatherGen;
+        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
+        std::unique_ptr<w_point> weather_precise; // Cached weather data
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same

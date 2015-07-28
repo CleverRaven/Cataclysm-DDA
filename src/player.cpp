@@ -804,7 +804,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
-    w_point const weather = g->weatherGen->get_weather( global_square_location(), calendar::turn );
+    w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
@@ -935,7 +935,7 @@ void player::update_bodytemp()
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to C.
-        int water_temperature = 100 * (g->weatherGen->get_water_temperature() - 32) * 5 / 9;
+        int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
              ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
               (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
@@ -8465,13 +8465,22 @@ void player::drench_mut_calc()
 
 void player::apply_wetness_morale()
 {
-    // Apply morale results from being wet
+    // First, a quick check if we have any wetness to calculate morale from
+    // Faster than checking all worn items for friendliness
+    if( !std::any_of( body_wetness.begin(), body_wetness.end(),
+        []( const int w ) { return w != 0; } ) ) {
+        return;
+    }
+
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( int i = bp_torso; i < num_bp; ++i ) {
         const body_part bp = static_cast<body_part>( i );
         // Sum of body wetness can go up to 103
         const int part_drench = body_wetness[bp];
+        if( part_drench == 0 ) {
+            continue;
+        }
 
         const auto &part_arr = mut_drench.at( bp );
         const int part_ignored = part_arr[WT_IGNORED];
@@ -8533,65 +8542,75 @@ void player::apply_wetness_morale()
     add_morale( MORALE_WET, morale_effect, total_morale, 5, 5, true );
 }
 
-void player::update_body_wetness()
+void player::update_body_wetness( w_point &weather )
 {
-    /*
-    * Mutations and weather can affect the duration of the player being wet.
-    */
-    int delay = 10;
+    // Average number of turns to go from completely soaked to fully dry
+    // assuming average temperature and humidity
+    constexpr int average_drying = HOURS(1);
+
+    // A modifier on drying time
+    double delay = 1.0;
+    // Weather slows down drying
+    delay -= ( weather.temperature - 65 ) / 100.0;
+    delay += ( weather.humidity - 66 ) / 100.0;
+    delay = std::max( 0.1, delay );
+    // Fur/slime retains moisture
     if( has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
         has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
         has_trait("CHITIN_FUR3")) {
-        delay += 2;
+        delay = delay * 6 / 5;
     }
-    if( has_trait( "URSINE_FUR" ) ) {
-        delay += 5;
-    }
-    if( has_trait( "SLIMY" ) ) {
-        delay += 5;
+    if( has_trait( "URSINE_FUR" ) || has_trait( "SLIMY" ) ) {
+        delay = delay * 3 / 2;
     }
 
-    // We could get precise weather for air humidity,
-    // but that could get expensive when NPCs get wet
-    if( g->weather == WEATHER_SUNNY ) {
-        delay -= 2;
-    } else if( g->weather >= WEATHER_DRIZZLE &&
-               g->weather <= WEATHER_SNOWSTORM ) {
-        // High air humidity
-        delay += 2;
+    if( !one_in_improved( average_drying * delay / 100.0 ) ) {
+        // No drying this turn
+        return;
     }
 
     // Now per-body-part stuff
+    // To make drying uniform, make just one roll and reuse it
+    const int drying_roll = rng( 1, 100 );
+    if( drying_roll > 40 ) {
+        // Wouldn't affect anything
+        return;
+    }
+
     for( int i = 0; i < num_bp; ++i ) {
         const body_part bp = static_cast<body_part>( i );
         if( body_wetness[bp] == 0 ) {
             continue;
         }
-        int part_delay = delay;
+        // This is to normalize drying times
+        int drying_chance = mDrenchEffect.at( bp );
         // Body temperature affects duration of wetness
+        // Note: Using temp_conv rather than temp_cur, to better approximate environment
         if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
-            part_delay /= 3;
+            drying_chance *= 2;
         } else if( temp_conv[bp] >=  BODYTEMP_VERY_HOT ) {
-            part_delay /= 2;
+            drying_chance = drying_chance * 3 / 2;
         } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
-            part_delay = part_delay * 2 / 3;
+            drying_chance = drying_chance * 4 / 3;
         } else if( temp_conv[bp] > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
-            part_delay = part_delay * 2 / 3;
+            drying_chance = drying_chance * 3 / 4;
         }
 
-        // Don't use calendar modulo, because the delay can fluctuate
-        if( part_delay > 0 && !one_in( part_delay ) ) {
-            return;
+        if( drying_chance < 1 ) {
+            drying_chance = 1;
         }
 
-        body_wetness[i] -= 1;
-        if( body_wetness[i] < 0 ) {
-            body_wetness[i] = 0;
+        if( drying_chance >= drying_roll ) {
+            body_wetness[i] -= 1;
+            if( body_wetness[i] < 0 ) {
+                body_wetness[i] = 0;
+            }
         }
     }
+    // TODO: Make clothing slow down drying
 }
 
 double player::convert_weight(int weight)
