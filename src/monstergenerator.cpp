@@ -11,7 +11,6 @@
 #include "mondefense.h"
 #include "mondeath.h"
 #include "monfaction.h"
-#include "mongroup.h"
 #include "mtype.h"
 
 template<>
@@ -712,8 +711,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
                            mon->upgrade_into.c_str(), mon->id.c_str() );
             }
-            if( mon->upgrade_group != GROUP_NULL &&
-                !MonsterGroupManager::isValidMonsterGroup( mon->upgrade_group ) ) {
+            if( !mon->upgrade_group.is_valid() ) {
                 debugmsg( "upgrade_group %s of monster %s is not a valid monster group id",
                            mon->upgrade_group.c_str(), mon->id.c_str() );
             }
