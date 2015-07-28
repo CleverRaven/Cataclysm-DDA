@@ -424,8 +424,8 @@ void sfx::fade_audio_channel( int tag, int duration ) {
     Mix_FadeOutChannel( tag, duration );
 }
 
-int sfx::is_channel_playing( int channel ) {
-    return Mix_Playing( channel );
+bool sfx::is_channel_playing( int channel ) {
+    return Mix_Playing( channel ) != 0;
 }
 
 void sfx::stop_sound_effect_fade( int channel, int duration ) {
@@ -476,17 +476,17 @@ void sfx::do_ambient_sfx() {
     g->weather = g->weatherGen.get_weather_conditions( weather_at_player );
     // Step in at night time / we are not indoors
     if( calendar::turn.is_night() && !g->is_sheltered( g->u.pos() ) &&
-            is_channel_playing( 1 ) != 1 && !g->u.get_effect_int( "deaf" ) > 0 ) {
+            !is_channel_playing( 1 ) && !g->u.get_effect_int( "deaf" ) > 0 ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "nighttime", get_heard_volume( g->u.pos() ), 1, 1000 );
         // Step in at day time / we are not indoors
-    } else if( !calendar::turn.is_night() && is_channel_playing( 0 ) != 1 &&
+    } else if( !calendar::turn.is_night() && !is_channel_playing( 0 ) &&
                !g->is_sheltered( g->u.pos() ) && !g->u.get_effect_int( "deaf" ) > 0 ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "daytime", get_heard_volume( g->u.pos() ), 0, 1000 );
     }
     // We are underground
-    if( ( g->is_underground( g->u.pos() ) && is_channel_playing( 2 ) != 1 &&
+    if( ( g->is_underground( g->u.pos() ) && !is_channel_playing( 2 ) &&
             !g->u.get_effect_int( "deaf" ) > 0 ) || ( g->is_underground( g->u.pos() ) &&
                     g->weather != previous_weather && !g->u.get_effect_int( "deaf" ) > 0 ) ) {
         fade_audio_group( 1, 1000 );
@@ -495,7 +495,7 @@ void sfx::do_ambient_sfx() {
                                     1000 );
         // We are indoors
     } else if( ( g->is_sheltered( g->u.pos() ) && !g->is_underground( g->u.pos() ) &&
-                 is_channel_playing( 3 ) != 1 && !g->u.get_effect_int( "deaf" ) > 0 ) ||
+                 !is_channel_playing( 3 ) && !g->u.get_effect_int( "deaf" ) > 0 ) ||
                ( g->is_sheltered( g->u.pos() ) && !g->is_underground( g->u.pos() ) &&
                  g->weather != previous_weather && !g->u.get_effect_int( "deaf" ) > 0 ) ) {
         fade_audio_group( 1, 1000 );
@@ -504,15 +504,15 @@ void sfx::do_ambient_sfx() {
     }
     // We are indoors and it is also raining
     if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !g->is_underground( g->u.pos() )
-            && is_channel_playing( 4 ) != 1 ) {
+            && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", get_heard_volume( g->u.pos() ), 4,
                                     1000 );
     }
     if( ( !g->is_sheltered( g->u.pos() ) && g->weather != WEATHER_CLEAR
-            && is_channel_playing( 5 ) != 1  &&
-            is_channel_playing( 6 ) != 1  && is_channel_playing( 7 ) != 1  && is_channel_playing( 8 ) != 1
+            && !is_channel_playing( 5 ) &&
+            !is_channel_playing( 6 ) && !is_channel_playing( 7 ) && !is_channel_playing( 8 )
             &&
-            is_channel_playing( 9 ) != 1  && !g->u.get_effect_int( "deaf" ) > 0 )
+            !is_channel_playing( 9 ) && !g->u.get_effect_int( "deaf" ) > 0 )
             || ( !g->is_sheltered( g->u.pos() ) &&
                  g->weather != previous_weather  && !g->u.get_effect_int( "deaf" ) > 0 ) ) {
         fade_audio_group( 1, 1000 );
@@ -804,7 +804,7 @@ void sfx::do_danger_music() {
         fade_audio_channel( -1, 100 );
         audio_muted = true;
         return;
-    } else if( ( g->u.in_sleep_state() && audio_muted ) || is_channel_playing( 19 ) == 1 ) {
+    } else if( ( g->u.in_sleep_state() && audio_muted ) || is_channel_playing( 19 ) ) {
         fade_audio_group( 3, 1000 );
         return;
     }
@@ -1027,7 +1027,7 @@ void sfx::do_danger_music() { }
 void sfx::do_ambient_sfx() { }
 void sfx::fade_audio_group( int, int ) { }
 void sfx::fade_audio_channel( int, int ) { }
-int is_channel_playing( int ) { return -1; }
+bool is_channel_playing( int ) { return false; }
 void sfx::stop_sound_effect_fade( int, int ) { }
 void sfx::do_player_death_hurt_sfx( bool, bool ) { }
 void sfx::do_fatigue_sfx() { }

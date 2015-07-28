@@ -70,7 +70,7 @@ namespace sfx {
     void do_ambient_sfx();
     void fade_audio_group( int tag, int duration );
     void fade_audio_channel( int tag, int duration );
-    int is_channel_playing( int channel );
+    bool is_channel_playing( int channel );
     void stop_sound_effect_fade( int channel, int duration );
     void do_player_death_hurt_sfx( bool gender, bool death );
     void do_fatigue_sfx();
