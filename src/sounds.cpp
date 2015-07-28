@@ -41,13 +41,17 @@ struct sound_event {
     std::string variant;
 };
 
+namespace sfx {
 struct sound_thread {
     tripoint source;
     tripoint target;
     bool hit;
     bool targ_mon;
     std::string material;
+
+    void operator()();
 };
+} // namespace sfx
 
 struct centroid {
     // Values have to be floats to prevent rounding errors.
@@ -605,26 +609,16 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
 
 void sfx::generate_melee_sound( tripoint source, tripoint target, bool hit, bool targ_mon,
                                   std::string material ) {
-    sound_thread * out = new sound_thread();
-    out->source = source;
-    out->target = target;
-    out->hit = hit;
-    out->targ_mon = targ_mon;
-    out->material = material;
-    //pthread_t thread1;
-    //pthread_create( &thread1, NULL, generate_melee_soundfx_thread, out );
-    return;
+    // If creating a new thread for each invocation is to much, we have to consider a thread
+    // pool or maybe a single thread that works continuously, but that requires a queue or similar
+    // to coordinate its work.
+    std::thread the_thread( sound_thread{ source, target, hit, targ_mon, material } );
+    the_thread.detach();
 }
 
-void *sfx::generate_melee_soundfx_thread( void * out ) {
-    std::srand( time( NULL ) );
+void sfx::sound_thread::operator() ()
+{
     std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
-    sound_thread *in = ( sound_thread* ) out;
-    bool hit = in->hit;
-    bool targ_mon = in->targ_mon;
-    tripoint source = in->source;
-    tripoint target = in->target;
-    std::string material = in->material;
     std::string variant_used;
     const int heard_volume = get_heard_volume( source );
     // volume and angle for calls to play_variant_sound
@@ -681,7 +675,6 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
             play_variant_sound( "melee_hit_flesh", variant_used, vol_targ, ang_targ, 0.8, 1.2 );
         }
     }
-    return 0;
 }
 
 void sfx::do_projectile_hit( const Creature &target ) {
@@ -950,7 +943,6 @@ void sfx::play_variant_sound( std::string, std::string, int ) { }
 void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
 void sfx::generate_gun_sound( const player&, const item& ) { }
 void sfx::generate_melee_sound( const tripoint, const tripoint, bool, bool, std::string ) { }
-void *sfx::generate_melee_soundfx_thread( void* ) { return nullptr; }
 void sfx::do_hearing_loss( int ) { }
 void sfx::remove_hearing_loss() { }
 void sfx::do_projectile_hit( const Creature& ) { }

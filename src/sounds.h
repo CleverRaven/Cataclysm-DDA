@@ -63,7 +63,6 @@ namespace sfx {
                                      int duration );
     void generate_gun_sound( const player &source, const item &firing );
     void generate_melee_sound( const tripoint source, const tripoint target, bool hit, bool targ_mon = 0, std::string material = "flesh" );
-    void *generate_melee_soundfx_thread( void * argument );
     void do_hearing_loss( int turns );
     void remove_hearing_loss();
     void do_projectile_hit( const Creature &target );
