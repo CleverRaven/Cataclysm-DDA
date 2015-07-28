@@ -22,6 +22,8 @@
 //     default monster will never get picked, and nor will the others past the
 //     monster that makes the point count go over 1000
 
+const mtype_id mon_null( "mon_null" );
+
 std::map<mongroup_id, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
@@ -67,7 +69,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     //If the default monster is too difficult, replace this with "mon_null"
     if(turn != -1 &&
        (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))) {
-        spawn_details = MonsterGroupResult("mon_null", 0);
+        spawn_details = MonsterGroupResult(mon_null, 0);
     }
 
     bool monster_found = false;
@@ -226,7 +228,7 @@ const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& grou
         // but it prevents further messages about invalid monster type id
         auto &g = monsterGroupMap[group];
         g.name = group;
-        g.defaultMonster = "mon_null";
+        g.defaultMonster = mon_null;
         return g;
     } else {
         return it->second;
@@ -294,7 +296,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             }
         }
         if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
-            mg.defaultMonster = "mon_null";
+            mg.defaultMonster = mon_null;
         }
     }
 }
@@ -374,13 +376,13 @@ void MonsterGroupManager::check_group_definitions()
     const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
-        if(mg.defaultMonster != "mon_null" && !gen.has_mtype(mg.defaultMonster)) {
+        if(mg.defaultMonster != mon_null && !gen.has_mtype(mg.defaultMonster)) {
             debugmsg("monster group %s has unknown default monster %s", mg.name.c_str(),
                      mg.defaultMonster.c_str());
         }
         for( const auto &mge : mg.monsters ) {
 
-            if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
+            if(mge.name == mon_null || !gen.has_mtype(mge.name)) {
                 // mon_null should not be valid here
                 debugmsg("monster group %s contains unknown monster %s", mg.name.c_str(), mge.name.c_str());
             }

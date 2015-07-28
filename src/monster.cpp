@@ -36,6 +36,48 @@
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
 #define UPGRADE_MAX_ITERS 5
 
+const mtype_id mon_ant( "mon_ant" );
+const mtype_id mon_ant_fungus( "mon_ant_fungus" );
+const mtype_id mon_ant_queen( "mon_ant_queen" );
+const mtype_id mon_ant_soldier( "mon_ant_soldier" );
+const mtype_id mon_bee( "mon_bee" );
+const mtype_id mon_beekeeper( "mon_beekeeper" );
+const mtype_id mon_boomer( "mon_boomer" );
+const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
+const mtype_id mon_triffid( "mon_triffid" );
+const mtype_id mon_triffid_queen( "mon_triffid_queen" );
+const mtype_id mon_triffid_young( "mon_triffid_young" );
+const mtype_id mon_zombie( "mon_zombie" );
+const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+const mtype_id mon_zombie_brute_shocker( "mon_zombie_brute_shocker" );
+const mtype_id mon_zombie_child( "mon_zombie_child" );
+const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
+const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
+const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
+const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
+const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
+const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
+const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
+const mtype_id mon_zombie_master( "mon_zombie_master" );
+const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
+const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
+const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
+const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
+const mtype_id mon_zombie_technician( "mon_zombie_technician" );
+const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+
 monster::monster()
 {
  position.x = 20;
@@ -643,7 +685,7 @@ monster_attitude monster::attitude(player *u) const
             effective_anger -= 20;
         }
 
-        if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
+        if ( (type->id == mon_bee) && (u->has_trait("FLOWERS"))) {
             effective_anger -= 10;
         }
 
@@ -1753,42 +1795,42 @@ bool monster::make_fungus()
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
-    if( tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" ) {
+    if( tid == mon_ant || tid == mon_ant_soldier || tid == mon_ant_queen ) {
         polypick = 1;
-    } else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" ||
-      tid == "mon_zombie_spitter" || tid == "mon_zombie_brute" ||
-      tid == "mon_zombie_hulk" || tid == "mon_zombie_soldier" || tid == "mon_zombie_tough" ||
-      tid == "mon_zombie_scientist" || tid == "mon_zombie_hunter" || tid == "mon_zombie_child"||
-      tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
-      tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
-      tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
-      tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
-      tid == "mon_zombie_grenadier_elite") {
+    } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
+      tid == mon_zombie_spitter || tid == mon_zombie_brute ||
+      tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_zombie_child||
+      tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
+      tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
+      tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
+      tid == mon_zombie_brute_shocker || tid == mon_zombie_grenadier ||
+      tid == mon_zombie_grenadier_elite) {
         polypick = 2;
-    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
-      tid == "mon_zombie_hazmat" || tid == "mon_beekeeper") {
+    } else if (tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
+      tid == mon_zombie_hazmat || tid == mon_beekeeper) {
         // Necro and Master have enough Goo to resist conversion.
         // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
         return true;
-    } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag" || tid == "mon_zombie_smoker") {
+    } else if (tid == mon_boomer || tid == mon_zombie_gasbag || tid == mon_zombie_smoker) {
         polypick = 3;
-    } else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen") {
+    } else if (tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen) {
         polypick = 4;
     }
 
     const std::string old_name = name();
     switch (polypick) {
         case 1:
-            poly( "mon_ant_fungus" );
+            poly( mon_ant_fungus );
             break;
         case 2: // zombies, non-boomer
-            poly( "mon_zombie_fungus" );
+            poly( mon_zombie_fungus );
             break;
         case 3:
-            poly( "mon_boomer_fungus" );
+            poly( mon_boomer_fungus );
             break;
         case 4:
-            poly( "mon_fungaloid" );
+            poly( mon_fungaloid );
             break;
         default:
             return false;

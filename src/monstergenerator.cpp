@@ -14,9 +14,14 @@
 #include "mongroup.h"
 #include "mtype.h"
 
+const mtype_id mon_null( "mon_null" );
+const mtype_id mon_generator( "mon_generator" );
+const mtype_id mon_zombie_dog( "mon_zombie_dog" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
+
 MonsterGenerator::MonsterGenerator()
 {
-    mon_templates["mon_null"] = new mtype();
+    mon_templates[mon_null] = new mtype();
     mon_species["spec_null"] = new species_type();
     //ctor
     init_phases();
@@ -43,7 +48,7 @@ void MonsterGenerator::reset()
         delete elem.second;
     }
     mon_species.clear();
-    mon_templates["mon_null"] = new mtype();
+    mon_templates[mon_null] = new mtype();
     mon_species["spec_null"] = new species_type();
 }
 
@@ -518,15 +523,15 @@ mtype *MonsterGenerator::get_mtype( const mtype_id& id )
 
     // second most likely are outdated ids from old saves
     if( id == "mon_zombie_fast" ) {
-        return get_mtype( "mon_zombie_dog" );
+        return get_mtype( mon_zombie_dog );
     }
     if( id == "mon_fungaloid_dormant" ) {
-        return get_mtype( "mon_fungaloid" );
+        return get_mtype( mon_fungaloid );
     }
 
     // this is most unlikely and therefor checked last.
     debugmsg( "Could not find monster with type %s", id.c_str() );
-    return mon_templates["mon_null"];
+    return mon_templates[mon_null];
 }
 
 bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
@@ -546,7 +551,7 @@ mtype *MonsterGenerator::get_mtype(int mon)
         }
         ++count;
     }
-    return mon_templates["mon_null"];
+    return mon_templates[mon_null];
 }
 
 std::map<mtype_id, mtype *> MonsterGenerator::get_all_mtypes() const
@@ -566,7 +571,7 @@ mtype *MonsterGenerator::get_valid_hallucination()
 {
     std::vector<mtype *> potentials;
     for( auto &elem : mon_templates ) {
-        if( elem.first != "mon_null" && elem.first != "mon_generator" ) {
+        if( elem.first != mon_null && elem.first != mon_generator ) {
             potentials.push_back( elem.second );
         }
     }

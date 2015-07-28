@@ -101,6 +101,9 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+const mtype_id mon_manhack( "mon_manhack" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -11691,7 +11694,7 @@ bool game::disable_robot( const tripoint &p )
         return true;
     }
     // Manhacks are special, they have their own menu here.
-    if( mid == "mon_manhack" ) {
+    if( mid == mon_manhack ) {
         int choice = 0;
         if( critter.has_effect( "docile" ) ) {
             choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
@@ -13873,7 +13876,7 @@ bool game::spread_fungus( const tripoint &p )
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
                                 if (one_in(3)) { // young trees are Vulnerable
                                     m.ter_set(dest, t_fungus);
-                                    summon_mon( "mon_fungal_blossom", p );
+                                    summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
@@ -13890,7 +13893,7 @@ bool game::spread_fungus( const tripoint &p )
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0) {
                                 if (one_in(4)) {
                                     m.ter_set(dest, t_fungus);
-                                    summon_mon( "mon_fungal_blossom", p );
+                                    summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
                                     }
