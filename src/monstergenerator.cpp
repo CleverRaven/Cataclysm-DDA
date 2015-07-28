@@ -16,7 +16,7 @@
 template<>
 const mtype& string_id<mtype>::obj() const
 {
-    return *MonsterGenerator::generator().get_mtype( *this );
+    return MonsterGenerator::generator().get_mtype( *this );
 }
 
 template<>
@@ -521,12 +521,12 @@ void MonsterGenerator::load_species(JsonObject &jo)
     }
 }
 
-mtype *MonsterGenerator::get_mtype( const mtype_id& id )
+mtype &MonsterGenerator::get_mtype( const mtype_id& id )
 {
     // first do the look-up as it is most likely to succeed
     const auto iter = mon_templates.find( id );
     if( iter != mon_templates.end() ) {
-        return iter->second;
+        return *iter->second;
     }
 
     // second most likely are outdated ids from old saves, this compares against strings, not
@@ -540,7 +540,7 @@ mtype *MonsterGenerator::get_mtype( const mtype_id& id )
 
     // this is most unlikely and therefor checked last.
     debugmsg( "Could not find monster with type %s", id.c_str() );
-    return mon_templates[mon_null];
+    return *mon_templates[mon_null];
 }
 
 bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
