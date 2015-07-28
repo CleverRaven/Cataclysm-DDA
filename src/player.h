@@ -196,7 +196,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed();
         /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness( w_point& );
+        void update_body_wetness( const w_point &weather );
         /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
         void update_needs();
         /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.
@@ -616,7 +616,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
-        void apply_wetness_morale();
+        void apply_wetness_morale( int temperature );
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands(item &water);
@@ -988,8 +988,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             WT_GOOD,
             NUM_WATER_TOLERANCE
         };
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp > mut_drench;
-        std::map<body_part, int> mDrenchEffect;
+        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
+        std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
         std::vector<morale_point> morale;

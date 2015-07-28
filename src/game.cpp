@@ -1316,6 +1316,7 @@ bool game::do_turn()
 
     u.update_bodytemp();
     u.update_body_wetness( *weather_precise );
+    u.apply_wetness_morale( temperature );
     rustCheck();
     if (calendar::once_every(MINUTES(1))) {
         u.update_morale();

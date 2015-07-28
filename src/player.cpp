@@ -242,18 +242,18 @@ player::player() : Character()
  memorial_log.clear();
  player_stats.reset();
 
- mDrenchEffect[bp_eyes] = 1;
- mDrenchEffect[bp_mouth] = 1;
- mDrenchEffect[bp_head] = 7;
- mDrenchEffect[bp_leg_l] = 11;
- mDrenchEffect[bp_leg_r] = 11;
- mDrenchEffect[bp_foot_l] = 3;
- mDrenchEffect[bp_foot_r] = 3;
- mDrenchEffect[bp_arm_l] = 10;
- mDrenchEffect[bp_arm_r] = 10;
- mDrenchEffect[bp_hand_l] = 3;
- mDrenchEffect[bp_hand_r] = 3;
- mDrenchEffect[bp_torso] = 40;
+    drench_capacity[bp_eyes] = 1;
+    drench_capacity[bp_mouth] = 1;
+    drench_capacity[bp_head] = 7;
+    drench_capacity[bp_leg_l] = 11;
+    drench_capacity[bp_leg_r] = 11;
+    drench_capacity[bp_foot_l] = 3;
+    drench_capacity[bp_foot_r] = 3;
+    drench_capacity[bp_arm_l] = 10;
+    drench_capacity[bp_arm_r] = 10;
+    drench_capacity[bp_hand_l] = 3;
+    drench_capacity[bp_hand_r] = 3;
+    drench_capacity[bp_torso] = 40;
 
  recalc_sight_limits();
 }
@@ -657,9 +657,6 @@ void player::apply_persistent_morale()
     if (has_trait("BADTEMPER")) {
         add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
-
-    // Wetness affects morale (usually negatively)
-    apply_wetness_morale();
 }
 
 void player::update_mental_focus()
@@ -1385,7 +1382,7 @@ void player::update_bodytemp()
         if( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at( static_cast<body_part>( i ) ); // 0 - 100
+            int wetness_percentage = 100 * body_wetness[i] / drench_capacity[static_cast<body_part>( i )]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() +
@@ -8419,7 +8416,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
         if( mfb(i) & flags ){
-            bp_wetness_max = mDrenchEffect[static_cast<body_part>( i )];
+            bp_wetness_max = drench_capacity[static_cast<body_part>( i )];
         }
 
         if( bp_wetness_max == 0 ){
@@ -8442,28 +8439,29 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
 
 void player::drench_mut_calc()
 {
-    for( auto &elem : mDrenchEffect ) {
+    for( int i = 0; i < num_bp; i++ ) {
+        body_part bp = static_cast<body_part>( i );
         int ignored = 0;
         int neutral = 0;
         int good = 0;
 
-        for( const auto &_iter : my_mutations ) {
-            const auto &mdata = mutation_branch::get( _iter.first );
-            const auto _wp_iter = mdata.protection.find( elem.first );
-            if( _wp_iter != mdata.protection.end() ) {
-                ignored += _wp_iter->second.x;
-                neutral += _wp_iter->second.y;
-                good += _wp_iter->second.z;
+        for( const auto &iter : my_mutations ) {
+            const auto &mdata = mutation_branch::get( iter.first );
+            const auto wp_iter = mdata.protection.find( bp );
+            if( wp_iter != mdata.protection.end() ) {
+                ignored += wp_iter->second.x;
+                neutral += wp_iter->second.y;
+                good += wp_iter->second.z;
             }
         }
 
-        mut_drench[elem.first][WT_GOOD] = good;
-        mut_drench[elem.first][WT_NEUTRAL] = neutral;
-        mut_drench[elem.first][WT_IGNORED] = ignored;
+        mut_drench[bp][WT_GOOD] = good;
+        mut_drench[bp][WT_NEUTRAL] = neutral;
+        mut_drench[bp][WT_IGNORED] = ignored;
     }
 }
 
-void player::apply_wetness_morale()
+void player::apply_wetness_morale( int temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -8471,6 +8469,10 @@ void player::apply_wetness_morale()
         []( const int w ) { return w != 0; } ) ) {
         return;
     }
+
+    // Normalize temperature to [-1.0,1.0]
+    temperature = std::max( 0, std::min( 100, temperature ) );
+    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
@@ -8482,7 +8484,7 @@ void player::apply_wetness_morale()
             continue;
         }
 
-        const auto &part_arr = mut_drench.at( bp );
+        const auto &part_arr = mut_drench[bp];
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];
@@ -8508,12 +8510,13 @@ void player::apply_wetness_morale()
         }
 
         // Clamp to [COLD,HOT] and cast to double
-        const double effective_temp =
+        const double part_temperature =
             std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp] ) );
-        // -1 at COLD, 1 at HOT
-        // logistic_range is a bit too sensitive, let's use linear interpolation
-        double scaled_temperature =
-            ( 2.0 * (effective_temp - BODYTEMP_COLD) / (BODYTEMP_HOT - BODYTEMP_COLD) ) - 1.0;
+        // 0.0 at COLD, 1.0 at HOT
+        const double part_mod = (part_temperature - BODYTEMP_COLD) /
+                                (BODYTEMP_HOT - BODYTEMP_COLD);
+        // Average of global and part temperature modifiers, each in range [-1.0, 1.0]
+        double scaled_temperature = ( global_temperature_mod + part_mod ) / 2;
 
         if( bp_morale < 0 ) {
             // Damp, hot clothing on hot skin feels bad
@@ -8542,7 +8545,7 @@ void player::apply_wetness_morale()
     add_morale( MORALE_WET, morale_effect, total_morale, 5, 5, true );
 }
 
-void player::update_body_wetness( w_point &weather )
+void player::update_body_wetness( const w_point &weather )
 {
     // Average number of turns to go from completely soaked to fully dry
     // assuming average temperature and humidity
@@ -8583,7 +8586,7 @@ void player::update_body_wetness( w_point &weather )
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = mDrenchEffect.at( bp );
+        int drying_chance = drench_capacity[bp];
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
         if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
@@ -12224,7 +12227,7 @@ int player::warmth(body_part bp) const
             // Warmth is reduced by 0 - 66% based on wetness.
             if (!i.made_of("wool"))
             {
-                warmth *= 1.0 - 0.66 * body_wetness[bp] / mDrenchEffect.at(bp);
+                warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }
             ret += warmth;
         }

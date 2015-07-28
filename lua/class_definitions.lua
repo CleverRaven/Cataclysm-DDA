@@ -391,7 +391,7 @@ classes = {
             { name = "dodge_roll", rval = "int", args = { } },
             { name = "drench", rval = nil, args = { "int", "int", "bool" } },
             { name = "drench_mut_calc", rval = nil, args = { } },
-            { name = "apply_wetness_morale", rval = nil, args = { } },
+            { name = "apply_wetness_morale", rval = nil, args = { "int" } },
             { name = "drink_from_hands", rval = "int", args = { "item" } },
             { name = "dump_memorial", rval = "string", args = { } },
             { name = "encumb", rval = "int", args = { "body_part" } },
