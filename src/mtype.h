@@ -26,7 +26,8 @@ using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
-using mtype_id = std::string;
+struct mtype;
+using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;

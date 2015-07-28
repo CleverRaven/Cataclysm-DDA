@@ -5,12 +5,13 @@
 #include <string>
 #include "enums.h"
 #include "itype.h"
+#include "string_id.h"
 
 enum action_id : int;
 
 struct special_game;
 struct mtype;
-using mtype_id = std::string;
+using mtype_id = string_id<mtype>;
 
 std::string special_game_name(special_game_id id);
 special_game *get_special_game(special_game_id id);

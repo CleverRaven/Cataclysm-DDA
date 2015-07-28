@@ -15,7 +15,7 @@ struct mtype;
 enum monster_trigger : int;
 
 using mfaction_id = int_id<monfaction>;
-using mtype_id = std::string;
+using mtype_id = string_id<mtype>;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
 

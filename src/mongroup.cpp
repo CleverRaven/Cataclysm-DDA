@@ -253,7 +253,7 @@ void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
 
 bool MonsterGroupManager::monster_is_blacklisted(const mtype *m)
 {
-    if(m == NULL || monster_whitelist.count(m->id) > 0) {
+    if(m == NULL || monster_whitelist.count(m->id.str()) > 0) {
         return false;
     }
     for( const auto &elem : monster_categories_whitelist ) {
@@ -266,7 +266,7 @@ bool MonsterGroupManager::monster_is_blacklisted(const mtype *m)
             return true;
         }
     }
-    if(monster_blacklist.count(m->id) > 0) {
+    if(monster_blacklist.count(m->id.str()) > 0) {
         return true;
     }
     // Empty whitelist: default to enable all,
@@ -278,12 +278,12 @@ void MonsterGroupManager::FinalizeMonsterGroups()
 {
     const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &mtid : monster_whitelist ) {
-        if( !gen.has_mtype( mtid ) ) {
+        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
             debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &mtid : monster_blacklist ) {
-        if( !gen.has_mtype( mtid ) ) {
+        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
@@ -307,13 +307,13 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     MonsterGroup g;
 
     g.name = mongroup_id( jo.get_string("name") );
-    g.defaultMonster = jo.get_string("default");
+    g.defaultMonster = mtype_id( jo.get_string("default") );
     if (jo.has_array("monsters")) {
         JsonArray monarr = jo.get_array("monsters");
 
         while (monarr.has_more()) {
             JsonObject mon = monarr.next_object();
-            std::string name = mon.get_string("monster");
+            const mtype_id name = mtype_id( mon.get_string("monster") );
             int freq = mon.get_int("freq");
             int cost = mon.get_int("cost_multiplier");
             int pack_min = 1;

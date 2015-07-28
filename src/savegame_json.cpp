@@ -1043,7 +1043,7 @@ void monster::load(JsonObject &data)
     std::string sidtmp;
     // load->str->int
     data.read("typeid", sidtmp);
-    type = GetMType(sidtmp);
+    type = GetMType( mtype_id( sidtmp ) );
 
     data.read( "unique_name", unique_name );
     data.read("posx", position.x);
@@ -1170,7 +1170,7 @@ void item::io( Archive& archive )
             // backwards compatibility, nullptr should not be stored at all
             corpse = nullptr;
         } else {
-            corpse = GetMType( id );
+            corpse = GetMType( mtype_id( id ) );
         }
     };
 
@@ -1195,7 +1195,7 @@ void item::io( Archive& archive )
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
     archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
-    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
+    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );

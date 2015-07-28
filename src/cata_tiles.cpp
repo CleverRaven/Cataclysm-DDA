@@ -738,8 +738,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = t.color;
             }
         } else if (category == C_MONSTER) {
-            if (MonsterGenerator::generator().has_mtype(id)) {
-                const mtype *m = GetMType(id);
+            const mtype_id mid( id );
+            if (MonsterGenerator::generator().has_mtype(mid)) {
+                const mtype *m = GetMType(mid);
                 int len = m->sym.length();
                 const char *s = m->sym.c_str();
                 sym = UTF8_getch(&s, &len);
@@ -1196,7 +1197,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p )
             ent_subcategory = *m->type->species.begin();
         }
         const int subtile = corner;
-        return draw_from_id_string(ent_name, ent_category, ent_subcategory, p.x, p.y, subtile, 0);
+        return draw_from_id_string(ent_name.str(), ent_category, ent_subcategory, p.x, p.y, subtile, 0);
     }
     const player *pl = dynamic_cast<const player*>( &critter );
     if( pl != nullptr ) {
@@ -1758,54 +1759,47 @@ void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL );
 }
 
-// TODO: make one more generally templated function, possibly using specialization, for both maps and arrays with ids
-template <typename maptype>
-void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+template<typename Iter, typename Func>
+void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::string &label, const std::string &prefix )
+{
     int missing=0, present=0;
     std::string missing_list;
-    for( auto const & i : tiletypemap ) {
-        if (tile_ids.count(prefix+i.first) == 0) {
+    for( ; begin != end; ++begin ) {
+        const std::string id_string = id_func( begin );
+        if( tile_ids.count( prefix + id_string ) == 0 ) {
             missing++;
-            missing_list.append(i.first+" ");
+            missing_list.append( id_string + " " );
         } else {
             present++;
         }
     }
     DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    lr_generic( tiletypemap.begin(), tiletypemap.end(),
+                []( decltype(tiletypemap.begin()) const & v ) {
+                    // c_str works for std::string and for string_id!
+                    return v->first.c_str();
+                }, label, prefix );
 }
 
 template <typename base_type>
 void cata_tiles::tile_loading_report(size_t const count, std::string const & label, std::string const & prefix) {
-    int missing=0, present=0;
-    std::string missing_list;
-    for( size_t i = 0; i < count; ++i ) {
-        const int_id<base_type> iid( i );
-        const string_id<base_type> &sid = iid.id();
-        const std::string &s = sid.str();
-        if (tile_ids.count(prefix+s) == 0) {
-            missing++;
-            missing_list.append(s+" ");
-        } else {
-            present++;
-        }
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+    lr_generic( 0u, count,
+                []( const size_t i ) {
+                    return int_id<base_type>( i ).id().str();
+                }, label, prefix );
 }
 
 template <typename arraytype>
 void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
-    // fields are the only tile-able thing not kept in a map?
-    int missing=0, present=0;
-    std::string missing_list;
-    for(int i = 0; i < array_length; ++i) {
-        if (tile_ids.count(prefix+array[i].id) == 0) {
-            missing++;
-            missing_list.append(array[i].id+" ");
-        } else {
-            present++;
-        }
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+    const auto begin = &(array[0]);
+    lr_generic( begin, begin + array_length,
+                []( decltype(begin) const v ) {
+                    return v->id;
+                }, label, prefix );
 }
 
 #endif // SDL_TILES

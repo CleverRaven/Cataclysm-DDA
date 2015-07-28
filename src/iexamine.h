@@ -10,12 +10,15 @@
 
 #include <string>
 
+#include "string_id.h"
+
 class game;
 class item;
 class player;
 class map;
 struct tripoint;
-using mtype_id = std::string;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 namespace iexamine
 {

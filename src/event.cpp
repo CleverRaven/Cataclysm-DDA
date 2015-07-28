@@ -81,12 +81,7 @@ void event::actualize()
     case EVENT_ROBOT_ATTACK: {
         const auto u_pos = g->u.global_sm_location();
         if (rl_dist(u_pos, map_point) <= 4) {
-            std::string robot_type;
-            if (one_in(2)) {
-                robot_type = mon_copbot;
-            } else {
-                robot_type = mon_riotbot;
-            }
+            const mtype_id& robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
             g->u.add_memorial_log( pgettext("memorial_male", "Became wanted by the police!"),
                                     pgettext("memorial_female", "Became wanted by the police!"));

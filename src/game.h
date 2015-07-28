@@ -69,7 +69,7 @@ enum weather_type : int;
 
 struct special_game;
 struct mtype;
-using mtype_id = std::string;
+using mtype_id = string_id<mtype>;
 class mission;
 class map;
 class Creature;

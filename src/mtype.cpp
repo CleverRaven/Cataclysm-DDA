@@ -8,7 +8,7 @@
 
 mtype::mtype ()
 {
-    id = "mon_null";
+    id = mtype_id( "mon_null" );
     name = "human";
     name_plural = "humans";
     description = "";

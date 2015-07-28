@@ -8094,7 +8094,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             pmenu.text = _("Your collection of monsters:");
             pmenu.addentry(0, true, 'q', _("Cancel"));
 
-            std::vector<std::string> monster_photos;
+            std::vector<mtype_id> monster_photos;
 
             std::istringstream f(it->get_var( "EINK_MONSTER_PHOTOS" ));
             std::string s;
@@ -8103,9 +8103,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 if (s.size() == 0) {
                     continue;
                 }
-                monster_photos.push_back(s);
+                monster_photos.push_back( mtype_id( s ) );
                 std::string menu_str;
-                const monster dummy( s );
+                const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
                 getline(f, s, ',');
                 char *chq = &s[0];
@@ -8319,7 +8319,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         photo_quality = 0;
                     }
 
-                    const std::string mtype = z.type->id;
+                    const std::string mtype = z.type->id.str();
 
                     auto monster_photos = it->get_var( "CAMERA_MONSTER_PHOTOS" );
                     if (monster_photos == "") {
@@ -8397,7 +8397,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         pmenu.text = _("Critter photos saved on camera:");
         pmenu.addentry(0, true, 'q', _("Cancel"));
 
-        std::vector<std::string> monster_photos;
+        std::vector<mtype_id> monster_photos;
 
         std::istringstream f(it->get_var( "CAMERA_MONSTER_PHOTOS" ));
         std::string s;
@@ -8408,11 +8408,11 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                 continue;
             }
 
-            monster_photos.push_back(s);
+            monster_photos.push_back( mtype_id( s ) );
 
             std::string menu_str;
 
-            const monster dummy( s );
+            const monster dummy( monster_photos.back() );
             menu_str = dummy.name();
 
             getline(f, s, ',');

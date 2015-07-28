@@ -2055,8 +2055,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     int total_kills = 0;
 
-    const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
-    for( const auto &monid : monids ) {
+    for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
         if( g->kill_count( monid.first ) > 0 ) {
             memorial_file << "  " << monid.second->sym << " - "
                           << string_format( "%4d", g->kill_count( monid.first ) ) << " "

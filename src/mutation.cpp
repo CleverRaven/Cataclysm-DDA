@@ -412,7 +412,7 @@ void player::activate_mutation( const std::string &mut )
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon("mon_player_blob", target)) {
+            if (g->summon_mon(mtype_id( "mon_player_blob" ), target)) {
                 monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }

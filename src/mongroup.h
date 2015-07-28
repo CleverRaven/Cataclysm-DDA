@@ -11,7 +11,8 @@
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
-using mtype_id = std::string;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 struct mtype;
 

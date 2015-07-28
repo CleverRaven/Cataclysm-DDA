@@ -4153,7 +4153,7 @@ void mattack::parrot(monster *z, int index)
     if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->reset_special(index); // Reset timer
-        const SpeechBubble speech = get_speech( z->type->id );
+        const SpeechBubble speech = get_speech( z->type->id.str() );
         sounds::sound(z->pos(), speech.volume, speech.text);
     }
 }

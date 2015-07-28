@@ -21,6 +21,7 @@ class player;
 class npc;
 struct itype;
 struct mtype;
+using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
@@ -29,7 +30,6 @@ using ammotype = std::string;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
-using mtype_id = std::string;
 
 std::string const& rad_badge_color(int rad);
 

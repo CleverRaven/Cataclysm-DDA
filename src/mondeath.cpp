@@ -502,7 +502,7 @@ void mdeath::broken(monster *z) {
     if (z->no_corpse_quiet) {
         return;
     }
-    std::string item_id = z->type->id;
+    std::string item_id = z->type->id.str();
     if (item_id.compare(0, 4, "mon_") == 0) {
         item_id.erase(0, 4);
     }
@@ -605,8 +605,8 @@ void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        const std::string monID = g->zombie(i).type->id;
-        if (monID == "mon_breather_hub " || monID == mon_breather) {
+        const mtype_id& monID = g->zombie(i).type->id;
+        if (monID == mtype_id( "mon_breather_hub " ) || monID == mon_breather) {
             g->zombie(i).die( nullptr );
         }
     }

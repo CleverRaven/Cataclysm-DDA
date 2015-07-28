@@ -10,7 +10,8 @@
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;
-using mtype_id = std::string;
+struct mtype;
+using mtype_id = string_id<mtype>;
 class JsonObject;
 
 /**

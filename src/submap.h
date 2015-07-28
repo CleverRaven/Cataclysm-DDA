@@ -8,6 +8,7 @@
 #include "field.h"
 #include "item_stack.h"
 #include "int_id.h"
+#include "string_id.h"
 #include "active_item_cache.h"
 
 #include <vector>
@@ -24,7 +25,8 @@ struct furn_t;
 using trap_id = int_id<trap>;
 using ter_id = int_id<ter_t>;
 using furn_id = int_id<furn_t>;
-using mtype_id = std::string;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 // TODO: use string_id and string_id::id to get the id
 extern furn_id furnfind(const std::string & id);

@@ -14,6 +14,18 @@
 #include "mongroup.h"
 #include "mtype.h"
 
+template<>
+const mtype& string_id<mtype>::obj() const
+{
+    return *MonsterGenerator::generator().get_mtype( *this );
+}
+
+template<>
+bool string_id<mtype>::is_valid() const
+{
+    return MonsterGenerator::generator().has_mtype( *this );
+}
+
 const mtype_id mon_null( "mon_null" );
 const mtype_id mon_generator( "mon_generator" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
@@ -377,10 +389,7 @@ void MonsterGenerator::set_species_ids( mtype *mon )
 
 void MonsterGenerator::load_monster(JsonObject &jo)
 {
-    // id
-    std::string mid;
-    if (jo.has_member("id")) {
-        mid = jo.get_string("id");
+    const mtype_id mid = mtype_id( jo.get_string("id") );
         if (mon_templates.count(mid) > 0) {
             delete mon_templates[mid];
         }
@@ -449,7 +458,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         } else if (jo.has_object("death_drops")) {
             JsonObject death_frop_json = jo.get_object("death_drops");
             // Make up a group name, should be unique (include the monster id),
-            newmon->death_drops = newmon->id + "_death_drops_auto";
+            newmon->death_drops = newmon->id.str() + "_death_drops_auto";
             const std::string subtype = death_frop_json.get_string("subtype", "distribution");
             // and load the entry as a standard item group using the made up name.
             item_group::load_item_group(death_frop_json, newmon->death_drops, subtype);
@@ -481,7 +490,6 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->placate = get_set_from_tags(placate_trig, trigger_map, MTRIG_NULL);
 
         mon_templates[mid] = newmon;
-    }
 }
 void MonsterGenerator::load_species(JsonObject &jo)
 {
@@ -521,11 +529,12 @@ mtype *MonsterGenerator::get_mtype( const mtype_id& id )
         return iter->second;
     }
 
-    // second most likely are outdated ids from old saves
-    if( id == "mon_zombie_fast" ) {
+    // second most likely are outdated ids from old saves, this compares against strings, not
+    // mtype_ids because the old ids are not valid ids at all.
+    if( id.str() == "mon_zombie_fast" ) {
         return get_mtype( mon_zombie_dog );
     }
-    if( id == "mon_fungaloid_dormant" ) {
+    if( id.str() == "mon_fungaloid_dormant" ) {
         return get_mtype( mon_fungaloid );
     }
 
@@ -698,7 +707,7 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->upgrade_into != "NULL" && mon->upgrade_group != mongroup_id( "GROUP_NULL" ) ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
-            if( mon->upgrade_into != "NULL" && !has_mtype( mon->upgrade_into ) ) {
+            if( mon->upgrade_into != "NULL" && !has_mtype( mtype_id( mon->upgrade_into ) ) ) {
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
                            mon->upgrade_into.c_str(), mon->id.c_str() );
             }

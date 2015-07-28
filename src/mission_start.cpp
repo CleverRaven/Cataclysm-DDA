@@ -302,7 +302,7 @@ void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->attitude = NPCATT_FOLLOW;//npc joins you
-    miss->monster_type = mon_zombie;
+    miss->monster_type = mon_zombie.str(); // TODO: change monster_type to be mtype_id (better: species!)
     int killed = 0;
     killed += g->kill_count( mon_zombie );
     miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
@@ -311,7 +311,7 @@ void mission_start::kill_100_z( mission *miss )
 void mission_start::kill_20_nightmares( mission *miss )
 {
     target_om_ter( "necropolis_c_44", 3, miss, false );
-    miss->monster_type = mon_charred_nightmare;
+    miss->monster_type = mon_charred_nightmare.str();
     int killed = 0;
     killed += g->kill_count( mon_charred_nightmare );
     miss->monster_kill_goal = 20 + killed; //your kill score must increase by 100
