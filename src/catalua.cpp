@@ -824,17 +824,6 @@ static int game_get_monsters(lua_State *L) {
 }
 */
 
-// mtype = game.monster_type(name)
-static int game_monster_type(lua_State *L)
-{
-    const mtype_id parameter1( lua_tostring_wrapper( L, 1 ) );
-
-    LuaReference<mtype>::push( L, parameter1.obj() );
-
-    return 1; // 1 return values
-
-}
-
 static void popup_wrapper(const std::string &text) {
     popup( "%s", text.c_str() );
 }
@@ -1039,7 +1028,6 @@ static const struct luaL_Reg global_funcs [] = {
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
     {"choose_adjacent", game_choose_adjacent},
-    {"monster_type", game_monster_type},
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
     {"get_item_groups", game_get_item_groups},
