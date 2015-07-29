@@ -388,7 +388,7 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
         return;
     }
 
-    tilecontext->init_draw_hit( p, m.type->id );
+    tilecontext->init_draw_hit( p, m.type->id.str() );
     wrefresh(w_terrain);
     try_update();
     draw_animation_delay();
