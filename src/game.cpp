@@ -6156,12 +6156,14 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
         projectile proj;
+        proj.speed = 100;
         proj.impact = damage_instance::physical( rng_float( power / 4.0, power ),
                                                  rng_float( power / 4.0, power ),
                                                  0, 0 );
         Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
         if( critter_in_center != nullptr ) {
             dealt_projectile_attack dda; // Cool variable name
+            dda.proj = proj;
             critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
