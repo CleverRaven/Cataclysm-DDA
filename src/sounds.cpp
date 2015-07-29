@@ -564,90 +564,46 @@ void sfx::do_ambient_sfx() {
     previous_weather = g->weather;
 }
 
-void sfx::generate_gun_soundfx( const tripoint source ) {
-
+// firing is the item that is fired. It may be the wielded gun, but it can also be an attached
+// gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
+// vehicle turrets) or a NPC.
+void sfx::generate_gun_soundfx( const player &p, const item &firing )
+{
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
+    const tripoint source = p.pos();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;
     }
-    int angle = get_heard_angle( source );
-    int distance = rl_dist( g->u.pos3(), source );
-    if( source == g->u.pos3() ) {
-        itype_id weapon_id = g->u.weapon.typeId();
-        std::string weapon_type = g->u.weapon.gun_skill();
-        std::string selected_sound = "fire_gun";
-        if( g->u.weapon.has_gunmod( "suppressor" ) == 1
-                || g->u.weapon.has_gunmod( "homemade suppressor" ) == 1 ) {
-            selected_sound = "fire_gun";
+
+    itype_id weapon_id = firing.typeId();
+    int angle;
+    int distance;
+    std::string selected_sound;
+    // this does not mean p == g->u (it could be a vehicle turret)
+    if( g->u.pos3() == source ) {
+        angle = 0;
+        distance = 0;
+        selected_sound = "fire_gun";
+        if( firing.has_gunmod( "suppressor" ) == 1 || firing.has_gunmod( "homemade suppressor" ) == 1 ) {
             weapon_id = "weapon_fire_suppressed";
         }
-        play_variant_sound( selected_sound, weapon_id, heard_volume, 0, 0.8, 1.2 );
-        start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-        return;
-    }
-    if( g->npc_at( source ) != -1 ) {
-        npc *npc_source = g->active_npc[ g->npc_at( source ) ];
+    } else {
+        angle = get_heard_angle( source );
+        distance = rl_dist( g->u.pos3(), source );
         if( distance <= 17 ) {
-            itype_id weapon_id = npc_source->weapon.typeId();
-            play_variant_sound( "fire_gun", weapon_id, heard_volume, angle, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
+            selected_sound = "fire_gun";
         } else {
-            std::string weapon_type = npc_source->weapon.gun_skill();
-            play_variant_sound( "fire_gun_distant", weapon_type, heard_volume, angle, 0.8, 1.2 );
-            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
+            selected_sound = "fire_gun_distant";
         }
     }
-    int mon_pos = g->mon_at( source );
-    if( mon_pos != -1 ) {
-        monster *monster = g->monster_at( source );
-        std::string monster_id = monster->type->id;
-        if( distance <= 18 ) {
-            if( monster_id == "mon_turret" || monster_id == "mon_secubot" ) {
-                play_variant_sound( "fire_gun", "hk_mp5", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            } else if( monster_id == "mon_turret_rifle" || monster_id == "mon_chickenbot"
-                       || monster_id == "mon_tankbot" ) {
-                play_variant_sound( "fire_gun", "m4a1", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            } else if( monster_id == "mon_turret_bmg" ) {
-                play_variant_sound( "fire_gun", "m2browning", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            } else if( monster_id == "mon_laserturret" ) {
-                play_variant_sound( "fire_gun", "laser_rifle", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            }
-        } else {
-            if( monster_id == "mon_turret" || monster_id == "mon_secubot" ) {
-                play_variant_sound( "fire_gun_distant", "smg", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            } else if( monster_id == "mon_turret_rifle" || monster_id == "mon_chickenbot"
-                       || monster_id == "mon_tankbot" ) {
-                play_variant_sound( "fire_gun_distant", "rifle", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            } else if( monster_id == "mon_turret_bmg" ) {
-                play_variant_sound( "fire_gun_distant", "rifle", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            } else if( monster_id == "mon_laserturret" ) {
-                play_variant_sound( "fire_gun_distant", "laser", heard_volume, angle, 0.8, 1.2 );
-                start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-                return;
-            }
-        }
-    }
+
+    play_variant_sound( selected_sound, weapon_id, heard_volume, angle, 0.8, 1.2 );
+    start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
 void sfx::generate_melee_soundfx( tripoint source, tripoint target, bool hit, bool targ_mon,
@@ -993,7 +949,7 @@ void sfx::do_obstacle_sfx() {
 void sfx::load_sound_effects( JsonObject & ) { }
 void sfx::play_variant_sound( std::string, std::string, int, int, float, float ) { }
 void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
-void sfx::generate_gun_soundfx( const tripoint ) { }
+void sfx::generate_gun_soundfx( const player&, const item& ) { }
 void sfx::generate_melee_soundfx( const tripoint, const tripoint, bool, bool, std::string ) { }
 void *sfx::generate_melee_soundfx_thread( void* ) { return nullptr; }
 void sfx::do_hearing_loss_sfx( int ) { }

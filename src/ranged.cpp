@@ -112,7 +112,6 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
     bool stream = proj.proj_effects.count("FLAME") > 0 || proj.proj_effects.count("JET") > 0;
     int projectile_skip_current_frame = 0;
     float projectile_skip_multiplier = 0.1;
-    sfx::generate_gun_soundfx( source );
     for( size_t i = 0; i < trajectory.size() && ( dam > 0 || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
@@ -563,6 +562,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
+        sfx::generate_gun_soundfx( *this, *used_weapon );
 
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
         int damage_factor = 21;

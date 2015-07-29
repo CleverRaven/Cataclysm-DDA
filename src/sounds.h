@@ -10,6 +10,7 @@
 class monster;
 class player;
 class Creature;
+class item;
 
 namespace sounds {
     // Methods for recording sound events.
@@ -58,7 +59,7 @@ namespace sfx {
     void play_variant_sound( std::string id, std::string variant, int volume, int angle = 0, float pitch_mix = 1.0, float pitch_max = 1.0 );
     void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
                                      int duration );
-    void generate_gun_soundfx( const tripoint source );
+    void generate_gun_soundfx( const player &source, const item &firing );
     void generate_melee_soundfx( const tripoint source, const tripoint target, bool hit, bool targ_mon = 0, std::string material = "flesh" );
     void *generate_melee_soundfx_thread( void * argument );
     void do_hearing_loss_sfx( int turns );
