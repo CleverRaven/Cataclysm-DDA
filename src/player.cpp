@@ -5966,17 +5966,19 @@ void player::process_effects() {
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
     }
     if (has_trait("PARAIMMUNE") && (has_effect("dermatik") || has_effect("tapeworm") ||
-          has_effect("bloodworms") || has_effect("brainworm") || has_effect("paincysts")) ) {
+          has_effect("bloodworms") || has_effect("brainworms") || has_effect("paincysts")) ) {
         remove_effect("dermatik");
         remove_effect("tapeworm");
         remove_effect("bloodworms");
-        remove_effect("brainworm");
+        remove_effect("brainworms");
         remove_effect("paincysts");
         add_msg_if_player(m_good, _("Something writhes and inside of you as it dies."));
     }
-    if (has_trait("ACIDBLOOD") && (has_effect("dermatik") || has_effect("brainworm"))) {
+    if (has_trait("ACIDBLOOD") && (has_effect("dermatik") || has_effect("bloodworms") ||
+          has_effect("brainworms"))) {
         remove_effect("dermatik");
         remove_effect("bloodworms");
+        remove_effect("brainworms");
     }
     if (has_trait("EATHEALTH") && has_effect("tapeworm")) {
         remove_effect("tapeworm");
@@ -7020,7 +7022,7 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
-    } else if (id == "brainworm") {
+    } else if (id == "brainworms") {
         if (one_in(256)) {
             add_msg_if_player(m_bad, _("Your head aches faintly."));
         }
