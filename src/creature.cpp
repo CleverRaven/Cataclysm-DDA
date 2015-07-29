@@ -468,7 +468,6 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     dealt_dam.bp_hit = bp_hit;
 }
 
-// TODO: check this over, see if it's right
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -480,13 +479,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const double missed_by = attack.missed_by;
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
-    const auto &effects = proj.proj_effects;
+    const auto &proj_effects = proj.proj_effects;
 
     bool u_see_this = g->u.sees(*this);
     body_part bp_hit;
 
+    double monster_speed_penalty = std::max(double(get_speed()) / 80., 1.0);
+    double goodhit = missed_by / monster_speed_penalty;
+
     // do 10,speed because speed could potentially be > 10000
-    if( dodge_roll() >= dice( 10, proj.speed ) ) {
+    if( goodhit > 1.0 || dodge_roll() >= dice( 10, proj.speed ) ) {
         if( source != nullptr ) {
             add_msg_player_or_npc(
                 m_warning,
@@ -527,8 +529,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    double monster_speed_penalty = std::max(double(get_speed()) / 80., 1.0);
-    double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
     std::string message = "";
@@ -561,9 +561,11 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= 0;
     }
 
+    attack.missed_by = goodhit;
+
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( effects.count("NOGIB") > 0 ) {
+    if( proj_effects.count("NOGIB") > 0 ) {
         impact.add_effect("NOGIB");
     }
     impact.mult_damage(damage_mult);
@@ -600,7 +602,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
-    if( bp_hit == bp_head && effects.count( "BLINDS_EYES" ) ) {
+    if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
         add_effect( "blind", rng( 3, 10 ) );
     }

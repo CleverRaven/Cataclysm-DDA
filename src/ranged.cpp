@@ -91,11 +91,13 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     projectile &proj = ret.proj;
 
     tripoint target = target_arg;
-    if (missed_by >= 1.) {
+    if( missed_by >= 1.0 ) {
         // We missed D:
         // Shoot a random nearby space?
-        target.x += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-        target.y += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+        // But not too far away
+        const int offset = std::min<int>( range, sqrtf(missed_by) );
+        target.x += rng( -offset, offset );
+        target.y += rng( -offset, offset );
         // TODO: Z dispersion
     }
 
@@ -160,7 +162,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-        double cur_missed_by;
+        double &cur_missed_by = ret.missed_by;
         if (i < trajectory.size() - 1) { // Unintentional hit
             cur_missed_by = std::max(rng_float(0, 1.5) + (1 - missed_by), 0.2);
         } else {
@@ -184,6 +186,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot( tp, proj, i == trajectory.size() - 1 );
+            has_momentum = proj.impact.total_damage() > 0;
         }
     } // Done with the trajectory!
 

@@ -6160,16 +6160,18 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         proj.impact = damage_instance::physical( rng_float( power / 4.0, power ),
                                                  rng_float( power / 4.0, power ),
                                                  0, 0 );
+
         Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
         if( critter_in_center != nullptr ) {
             dealt_projectile_attack dda; // Cool variable name
             dda.proj = proj;
-            critter_in_center->deal_projectile_attack( nullptr, dda );
+            critter_in_center->deal_projectile_attack( &fake_npc, dda );
         }
+
 
         // This needs to be high enough to prevent game from thinking that
         //  the fake npc is scoring headshots.
-        fake_npc.projectile_attack( proj, sp, rng_float( 0.5, 1.0 ) );
+        fake_npc.projectile_attack( proj, sp, 3600 );
     }
 }
 
