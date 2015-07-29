@@ -2127,6 +2127,21 @@ const sound_effect* find_random_effect( const std::string &id, const std::string
     return find_random_effect( id_and_variant( id, "default" ) );
 }
 
+// Contains the chunks that have been dynamically created via do_pitch_shift. It is used to
+// distinguish between dynamically created chunks and static chunks (the later must not be freed).
+std::set<Mix_Chunk*> dynamic_chunks;
+// Deletes the dynamically created chunk (if such a chunk had been played).
+void cleanup_when_channel_finished( int channel )
+{
+    Mix_Chunk *chunk = Mix_GetChunk( channel );
+    const auto iter = dynamic_chunks.find( chunk );
+    if( iter != dynamic_chunks.end() ) {
+        dynamic_chunks.erase( iter );
+        free( chunk->abuf );
+        free( chunk );
+    }
+}
+
 Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     Mix_Chunk *result;
     Uint32 s_in = s->alen / 4;
@@ -2134,6 +2149,7 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     float pitch_real = ( float )s_out / ( float )s_in;
     Uint32 i, j;
     result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
+    dynamic_chunks.insert( result );
     result->allocated = 1;
     result->alen = s_out * 4;
     result->abuf = ( Uint8* )malloc( result->alen * sizeof( Uint8 ) );
@@ -2175,6 +2191,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     }
     const sound_effect& selected_sound_effect = *eff;
 
+    Mix_ChannelFinished( cleanup_when_channel_finished );
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
