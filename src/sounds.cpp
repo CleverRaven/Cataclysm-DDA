@@ -43,13 +43,22 @@ struct sound_event {
 
 namespace sfx {
 struct sound_thread {
-    tripoint source;
-    tripoint target;
+    sound_thread( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
+                  const std::string &material );
+
     bool hit;
     bool targ_mon;
     std::string material;
 
-    void operator()();
+    std::string weapon_skill;
+    int weapon_volume;
+    // volume and angle for calls to play_variant_sound
+    int ang_src;
+    int vol_src;
+    int vol_targ;
+    int ang_targ;
+
+    void operator()() const;
 };
 } // namespace sfx
 
@@ -612,21 +621,18 @@ void sfx::generate_melee_sound( tripoint source, tripoint target, bool hit, bool
     // If creating a new thread for each invocation is to much, we have to consider a thread
     // pool or maybe a single thread that works continuously, but that requires a queue or similar
     // to coordinate its work.
-    std::thread the_thread( sound_thread{ source, target, hit, targ_mon, material } );
+    std::thread the_thread( sound_thread( source, target, hit, targ_mon, material ) );
     the_thread.detach();
 }
 
-void sfx::sound_thread::operator() ()
+sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target, const bool hit,
+                                 const bool targ_mon, const std::string &material )
+: hit( hit )
+, targ_mon( targ_mon )
+, material( material )
 {
-    std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
-    std::string variant_used;
+    // This is function is run in the main thread.
     const int heard_volume = get_heard_volume( source );
-    // volume and angle for calls to play_variant_sound
-    int ang_src;
-    int vol_src;
-    int vol_targ;
-    const int ang_targ = get_heard_angle( target );
-
     const player *p;
     int npc_index = g->npc_at( source );
     if( npc_index == -1 ) {
@@ -641,9 +647,19 @@ void sfx::sound_thread::operator() ()
         vol_src = heard_volume - 30;
         vol_targ = heard_volume - 20;
     }
+    ang_targ = get_heard_angle( target );
+    weapon_skill = p->weapon.weap_skill();
+    weapon_volume = p->weapon.volume();
+}
 
-    std::string weapon_skill = p->weapon.weap_skill();
-    int weapon_volume = p->weapon.volume();
+
+void sfx::sound_thread::operator()() const
+{
+    // This is function is run in a separate thread. One must be careful and not access game data
+    // that might change (e.g. g->u.weapon, the character could switch weapons while this thread
+    // runs).
+    std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
+    std::string variant_used;
 
     if( weapon_skill == "bashing" && weapon_volume <= 8 ) {
         variant_used = "small_bash";
