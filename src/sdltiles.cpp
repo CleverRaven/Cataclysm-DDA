@@ -71,11 +71,13 @@ int current_playlist_at = 0;
 
 struct sound_effect {
     int volume;
-    Mix_Chunk *chunk;
 
-    sound_effect() {
-        volume = 0;
-    }
+    struct deleter {
+        void operator()( Mix_Chunk* const c ) const {
+            Mix_FreeChunk( c );
+        };
+    };
+    std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
 
 using id_and_variant = std::pair<std::string, std::string>;
@@ -2090,12 +2092,12 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
         sound_effect new_sound_effect;
         const std::string file = jsarr.next_string();
         std::string path = ( FILENAMES[ "datadir" ] + "/sound/" + file );
-        Mix_Chunk *loaded_chunk = Mix_LoadWAV( path.c_str() );
-        if( !loaded_chunk ) {
+        new_sound_effect.chunk.reset( Mix_LoadWAV( path.c_str() ) );
+        if( !new_sound_effect.chunk ) {
             dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+            continue; // don't want empty chunks in the map
         }
         new_sound_effect.volume = volume;
-        new_sound_effect.chunk = loaded_chunk;
 
         effects.push_back( std::move( new_sound_effect ) );
     }
@@ -2173,7 +2175,7 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     }
     const sound_effect& selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
     Mix_VolumeChunk( shifted_effect,
@@ -2194,7 +2196,7 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
     }
     const sound_effect& selected_sound_effect = *eff;
 
-    Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
     if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
@@ -2269,6 +2271,7 @@ void cleanup_sound() {
         }
     }
     sound_effects.clear();
+    sound_effects_p.clear();
 #endif
 }
 
