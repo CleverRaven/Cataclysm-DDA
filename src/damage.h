@@ -88,15 +88,11 @@ struct projectile {
     int speed; // how hard is it to dodge? essentially rolls to-hit, bullets have arbitrarily high values but thrown objects have dodgeable values
 
     std::set<std::string> proj_effects;
-    std::unique_ptr<item> item; // Actual item used (to drop contents etc.). Null in case of bullets (they aren't "made of cartridges")
+    std::unique_ptr<item> drop; // Actual item used (to drop contents etc.). Null in case of bullets (they aren't "made of cartridges")
 
-    projectile() :
-        speed( 0 ),
-        item( nullptr )
-    { }
-
+    projectile();
     projectile( const projectile& );
-    operator=( const projectile& );
+    projectile& operator=( const projectile& );
 };
 
 struct dealt_projectile_attack {

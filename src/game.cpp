@@ -6128,7 +6128,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
 {
     const int radius = int(sqrt(double(power / 4)));
     const int noise = power * (fire ? 2 : 10);
-    int dam;
 
     if (power >= 30) {
         sounds::sound( p, noise, _("a huge explosion!"), false, "explosion", "huge" );
@@ -6142,11 +6141,9 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     }
 
     // The rest of the function is shrapnel
-    if (shrapnel <= 0 || power < 4) {
+    if( shrapnel <= 0 || power < 4 ) {
         return;
     }
-
-    bool const do_animation = p.z == u.posz() && OPTIONS["ANIMATIONS"];
 
     npc fake_npc;
     fake_npc.name = _("Shrapnel");
@@ -6159,12 +6156,12 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
         projectile proj;
-        proj.impact = damage_instance.physical( rng_float( power / 4.0, power ),
-                                                rng_float( power / 4.0, power ),
-                                                0, 0 );
+        proj.impact = damage_instance::physical( rng_float( power / 4.0, power ),
+                                                 rng_float( power / 4.0, power ),
+                                                 0, 0 );
         Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
         if( critter_in_center != nullptr ) {
-            dealt_projectile_attack dda; // Cool name
+            dealt_projectile_attack dda; // Cool variable name
             critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 

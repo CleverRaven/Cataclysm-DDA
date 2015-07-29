@@ -599,6 +599,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_effect("onfire", rng(10, 10));
         }
     }
+
+    if( bp_hit == bp_head && effects.count( "BLINDS_EYES" ) ) {
+        // TODO: Change this to require bp_eyes
+        add_effect( "blind", rng( 3, 10 ) );
+    }
+
     int stun_strength = 0;
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;

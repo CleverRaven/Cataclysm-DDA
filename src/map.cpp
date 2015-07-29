@@ -3672,10 +3672,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field(p, fd_laser, 2, 0 );
     }
 
-    if( ammo_effects.count( "ELECTRIC_TRAIL" ) ) {
-        m.add_field(tp, fd_electricity, rng(2, 3), 0);
-    }
-
     // Set damage to 0 if it's less
     if (dam < 0) {
         dam = 0;

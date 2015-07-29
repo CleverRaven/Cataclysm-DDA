@@ -188,6 +188,10 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
         }
     }
 
+    if( effects.count( "ACID_DROP" ) > 0 ) {
+        g->m.add_field( p, fd_acid, 1, 0 );
+    }
+
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         g->explosion( p, 40, 0, false );
     }
@@ -291,3 +295,26 @@ damage_type dt_by_name( const std::string &name )
 
     return iter->second;
 }
+
+projectile::projectile() :
+        speed( 0 ),
+        drop( nullptr )
+{ }
+
+projectile::projectile( const projectile &other )
+{
+    (*this) = other;
+}
+
+projectile &projectile::operator=( const projectile &other )
+{
+    impact = other.impact;
+    speed = other.speed;
+    proj_effects = other.proj_effects;
+    if( other.drop != nullptr ) {
+        drop = std::unique_ptr<item>( new item( *other.drop ) );
+    }
+
+    return *this;
+}
+

@@ -26,7 +26,7 @@ int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
-void drop_or_embed_projectile( dealt_projectile_attack &attack );
+void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
 
@@ -209,7 +209,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 if (!z.has_effect("bounced")) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     z.add_effect("bounced", 1);
-                    projectile_attack(proj, tp, z.pos(), shot_dispersion);
+                    projectile_attack( proj, tp, z.pos(), shot_dispersion );
                     break;
                 }
             }
@@ -319,28 +319,29 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
     const auto &curammo_effects = curammo->ammo->ammo_effects;
     const auto &gun_effects = used_weapon->type->gun->ammo_effects;
-    proj.proj_effects.insert(gun_effects.begin(), gun_effects.end());
-    proj.proj_effects.insert(curammo_effects.begin(), curammo_effects.end());
+    auto &proj_effects = proj.proj_effects;
+    proj_effects.insert(gun_effects.begin(), gun_effects.end());
+    proj_effects.insert(curammo_effects.begin(), curammo_effects.end());
 
-    if( !effects.count("IGNITE") &&
-        !effects.count("EXPLOSIVE") &&
+    if( !proj_effects.count("IGNITE") &&
+        !proj_effects.count("EXPLOSIVE") &&
           (
-            (effects.count("RECOVER_3") && !one_in(3)) ||
-            (effects.count("RECOVER_5") && !one_in(5)) ||
-            (effects.count("RECOVER_10") && !one_in(10)) ||
-            (effects.count("RECOVER_15") && !one_in(15)) ||
-            (effects.count("RECOVER_25") && !one_in(25))
+            (proj_effects.count("RECOVER_3") && !one_in(3)) ||
+            (proj_effects.count("RECOVER_5") && !one_in(5)) ||
+            (proj_effects.count("RECOVER_10") && !one_in(10)) ||
+            (proj_effects.count("RECOVER_15") && !one_in(15)) ||
+            (proj_effects.count("RECOVER_25") && !one_in(25))
           )
         ) {
         // Prepare an item to drop
-        proj.item = std::unique_ptr( new item( curammo->id, calendar::turn ) );
-        proj.item->charges = 1;
+        proj.drop = std::unique_ptr<item>( new item( curammo->id, calendar::turn ) );
+        proj.drop->charges = 1;
     }
 
     if( curammo->phase == LIQUID ||
-        proj.proj_effects.count("SHOT") ||
-        proj.proj_effects.count("BOUNCE") ) {
-        proj.proj_effects.insert( "WIDE" );
+        proj_effects.count("SHOT") ||
+        proj_effects.count("BOUNCE") ) {
+        proj_effects.insert( "WIDE" );
     }
 
     if (has_trait("TRIGGERHAPPY") && one_in(30)) {
@@ -559,7 +560,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
         proj.impact = damage_instance::physical(0, adjusted_damage, 0, armor_penetration);
 
-        auto dealt = projectile_attack(proj, targ, total_dispersion);
+        auto dealt = projectile_attack( proj, targ, total_dispersion );
         double missed_by = dealt.missed_by;
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
@@ -603,11 +604,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
-    int skill_cost = (int)(move_cost / (std::pow(u.skillLevel("throw"), 3.0f) / 400.0 + 1.0));
-    const int dexbonus = (int)(std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3.0);
+    int skill_cost = (int)(move_cost / (std::pow(skillLevel("throw"), 3.0f) / 400.0 + 1.0));
+    const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
-    move_cost += 2 * u.encumb(bp_torso);
+    move_cost += 2 * encumb(bp_torso);
     move_cost -= dexbonus;
 
     if( has_trait("LIGHT_BONES") ) {
@@ -629,31 +630,30 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     tripoint targ = target;
     int deviation = 0;
-    int trange = 1.5 * rl_dist( p.pos(), targ );
 
     const auto skill_used = Skill::skill("throw");
     // Throwing attempts below "Basic Competency" level are extra-bad
-    int skillLevel = p.skillLevel("throw");
+    int skill_level = skillLevel("throw");
 
-    if (skillLevel < 3) {
-        deviation += rng(0, 8 - skillLevel);
+    if( skill_level < 3 ) {
+        deviation += rng(0, 8 - skill_level);
     }
 
-    if (skillLevel < 8) {
-        deviation += rng(0, 8 - skillLevel);
+    if( skill_level < 8 ) {
+        deviation += rng(0, 8 - skill_level);
     } else {
-        deviation -= skillLevel - 6;
+        deviation -= skill_level - 6;
     }
 
-    deviation += p.throw_dex_mod();
+    deviation += throw_dex_mod();
 
-    if (p.per_cur < 6) {
-        deviation += rng(0, 8 - p.per_cur);
-    } else if (p.per_cur > 8) {
-        deviation -= p.per_cur - 8;
+    if (per_cur < 6) {
+        deviation += rng(0, 8 - per_cur);
+    } else if (per_cur > 8) {
+        deviation -= per_cur - 8;
     }
 
-    deviation += rng(0, ((p.encumb(bp_hand_l) + p.encumb(bp_hand_r)) + p.encumb(bp_eyes) + 1) / 10);
+    deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
     if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
     }
@@ -661,7 +661,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation += rng(0, 3);
     }
 
-    deviation += rng(0, std::max( 0, p.str_cur - thrown.weight() / 113 ) );
+    deviation += rng(0, std::max( 0, str_cur - thrown.weight() / 113 ) );
 
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
@@ -672,7 +672,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // The damage dealt due to item's weight and player's strength
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
-                     + (p.str_cur / 2) )
+                     + (str_cur / 2) )
                    / (2.0 + (thrown.volume() / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
         real_dam = thrown.weight() / 40;
@@ -681,21 +681,23 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         real_dam *= 2;
     }
 
-    // Item will shatter upon landing, destroying the item, dealing damage, and making noise
-    bool shatter = ( thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
-                     rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume() );
-
     // Construct a projectile
     projectile proj;
-    proj.item = std::unique_ptr( new item( thrown ) );
+    proj.speed = 10 + skill_level;
+    proj.drop = std::unique_ptr<item>( new item( thrown ) );
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
     impact.add_damage( DT_BASH, real_dam );
 
-    if( thrown.has_flag( "ACTIVATE_ON_THROW" ) ) {
-        proj.item->active = true;
+    if( thrown.has_flag( "PROCESS_ON_DROP" ) ) {
+        proj_effects.insert( "PROCESS_ON_DROP" );
+        proj.drop->active = true;
     }
+
+    // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    const bool shatter = !proj.drop->active && thrown.made_of("glass") &&
+                         rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
 
     // Add some flags to the projectile
     // TODO: Add this flag only when the item is heavy
@@ -708,10 +710,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     if( do_railgun ) {
-        proj_effects.insert( "ELECTRIC_TRAIL" );
+        proj_effects.insert( "LIGHTNING" );
     }
 
-    if( thrown.volume > 2 ) {
+    if( thrown.volume() > 2 ) {
         proj_effects.insert( "WIDE" );
     }
 
@@ -722,20 +724,21 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    if( rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0 ) {
+    if( rng(0, 100) < 20 + skill_level * 12 && thrown.type->melee_cut > 0 ) {
         const auto type =
             ( thrown.has_flag("SPEAR") || thrown.has_flag("STAB") ) ?
             DT_STAB : DT_CUT;
         proj.impact.add_damage( type, thrown.type->melee_cut );
     }
 
-    auto dealt_attack = projectile_attack( &proj, pos(), target, shot_dispersion );
+    auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
 
     const double missed_by = dealt_attack.missed_by;
 
     // Copied from the shooting function
-    int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-    int damage_factor = 21;
+    const int range = rl_dist( pos(), target );
+    const int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
+    constexpr int damage_factor = 21;
 
     if( missed_by <= .1 ) {
         practice( skill_used, damage_factor * range_multiplier );
@@ -752,6 +755,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     } else if (missed_by <= 1.0) {
         practice( skill_used, damage_factor * range_multiplier / 5 );
     }
+
+    return dealt_attack;
 }
 
 // Draws the static portions of the targeting menu,
@@ -1458,16 +1463,16 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
-    const auto &proj = attack.projectile;
-    const auto &drop_item = proj.item;
+    const auto &proj = attack.proj;
+    const auto &drop_item = proj.drop;
     const auto &effects = proj.proj_effects;
     if( drop_item == nullptr ) {
         return;
     }
 
-    const tripoint &pt = ret.end_point;
+    const tripoint &pt = attack.end_point;
 
-    if( drop_item != nullptr && effects.count( "SHATTER_SELF" ) ) {
+    if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
             add_msg( _("The %s shatters!"), drop_item->tname().c_str() );
@@ -1482,19 +1487,26 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    // Get the item from the projectile
-    item ammotmp = *drop_item;
+    item dropped_item = *drop_item;
 
-    monster *mon = dynamic_cast<monster *>( ret.hit_critter );
+    monster *mon = dynamic_cast<monster *>( attack.hit_critter );
     // Try to embed the projectile in monster
     // Don't embed on miss, in player/NPCs, when we didn't stab/cut properly
     //  or when the item simply shouldn't be embedded (for example, it is active)
     if( mon == nullptr ||
-        ( ret.dealt_dam.type_damage( DT_STAB ) +
-          ret.dealt_dam.type_damage( DT_CUT ) <=
-            ret.dealt_dam.type_damage( DT_BASH ) ) ||
+        ( attack.dealt_dam.type_damage( DT_STAB ) +
+          attack.dealt_dam.type_damage( DT_CUT ) <=
+            attack.dealt_dam.type_damage( DT_BASH ) ) ||
         effects.count( "NO_EMBED" ) != 0 ) {
-        g->m.add_item_or_charges( ret.end_point, ammotmp );
+        bool do_drop = true;
+        if( effects.count( "PROCESS_ON_DROP" ) ) {
+            // Don't drop if it exploded
+            do_drop = !dropped_item.process( nullptr, attack.end_point, true );
+        }
+
+        if( do_drop ) {
+            g->m.add_item_or_charges( attack.end_point, dropped_item );
+        }
 
         if( effects.count( "HEAVY_HIT" ) ) {
             if( g->m.has_flag( "LIQUID", pt ) ) {
@@ -1503,11 +1515,11 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                 sounds::sound( pt, 8, _("thud.") );
             }
             const trap &tr = g->m.tr_at(pt);
-            if( tr.triggered_by_item( thrown ) ) {
+            if( tr.triggered_by_item( *drop_item ) ) {
                 tr.trigger( pt, nullptr );
             }
         }
     } else {
-        mon->add_item( ammotmp );
+        mon->add_item( dropped_item );
     }
 }

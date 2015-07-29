@@ -3223,7 +3223,7 @@
     "description": "This is a glass vial, split into two chambers.  The divider is removable, which will cause the chemicals to mix.  If this mixture is exposed to air (perhaps by throwing the vial) they will spill out as a pool of potent acid.",
     "price": 5000,
     "material": "glass",
-    "flags": "ACTIVATE_ON_THROW",
+    "flags": "PROCESS_ON_DROP",
     "weight": 1268,
     "volume": 2,
     "bashing": 4,
@@ -3240,7 +3240,7 @@
         "type": "auto_transform",
         "target": "acidbomb_act",
         "target_charges": 1,
-        "msg": "You remove the divider, and the chemicals mix.",
+        "msg": "The acid mixes and starts foaming.",
         "active": true,
         "moves": 150
     }

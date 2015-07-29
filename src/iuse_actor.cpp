@@ -50,23 +50,26 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "menu_option_text", menu_option_text );
 }
 
-long iuse_transform::use(player *p, item *it, bool t, const tripoint &/*pos*/) const
+long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) const
 {
     if( t ) {
         // Invoked from active item processing, do nothing.
         return 0;
     }
-    if (need_fire > 0 && p != NULL && p->is_underwater()) {
+    // We can't just check for p != nullptr, because item::process sets p = g->u
+    // Not needed here (player always has the item), but is in auto_transform
+    const bool player_has_item = p != nullptr && p->has_item( it );
+    if( player_has_item && p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
     }
-    if (need_charges > 0 && it->charges < need_charges) {
+    if( player_has_item && it->charges < need_charges ) {
         if (!need_charges_msg.empty()) {
             p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
         }
         return 0;
     }
-    if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
+    if( player_has_item && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire) ) {
         if (!need_fire_msg.empty()) {
             p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
         }
@@ -74,7 +77,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &/*pos*/) c
     }
     // load this from the original item, not the transformed one.
     const long charges_to_use = it->type->charges_to_use();
-    if( !msg_transform.empty() ) {
+    if( p != nullptr && !msg_transform.empty() && p->sees( pos ) ) {
         p->add_msg_if_player(m_neutral, _( msg_transform.c_str() ), it->tname().c_str());
     }
     item *target;
@@ -102,7 +105,10 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &/*pos*/) c
     // instead of passing it off to the caller.
         target->charges -= std::min(charges_to_use, target->charges);
     }
-    p->moves -= moves;
+
+    if( player_has_item ) {
+        p->moves -= moves;
+    }
     return 0;
 }
 
@@ -140,7 +146,9 @@ long auto_iuse_transform::use(player *p, item *it, bool t, const tripoint &pos) 
         return 0;
     }
     if (it->charges > 0 && !non_interactive_msg.empty()) {
-        p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
+        if( p != nullptr ) {
+            p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
+        }
         // Activated by the player, but not allowed to do so
         return 0;
     }

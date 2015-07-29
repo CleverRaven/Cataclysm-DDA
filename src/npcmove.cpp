@@ -1823,15 +1823,7 @@ void npc::alt_attack(int target)
     if (!thrown_item(used)) {
         activate_item(weapon_index);
     } else { // We are throwing it!
-
-        std::vector<tripoint> trajectory;
-        int linet1, linet2, light = g->light_level();
-
         if (dist <= confident_range(weapon_index) && wont_hit_friend( tar, weapon_index )) {
-
-            g->m.sees( pos3(), tar, light, linet1, linet2 );
-            trajectory = line_to( pos3(), tar, linet1, linet2);
-            moves -= 125;
             if (g->u.sees( *this )) {
                 add_msg(_("%s throws a %s."),
                         name.c_str(), used->tname().c_str());
@@ -1842,7 +1834,7 @@ void npc::alt_attack(int target)
                 stack_size = used->charges;
                 used->charges = 1;
             }
-            g->throw_item(*this, tar, *used, trajectory);
+            throw_item( tar, *used );
             // Throw a single charge of a stacking object.
             if( stack_size == -1 || stack_size == 1 ) {
                 i_rem(weapon_index);
@@ -1891,9 +1883,6 @@ void npc::alt_attack(int target)
                  * should be equal to the original location of our target, and risking friendly
                  * fire is better than holding on to a live grenade / whatever.
                  */
-                g->m.sees( pos3(), tar, light, linet1, linet2 );
-                trajectory = line_to( pos3(), tar, linet1, linet2 );
-                moves -= 125;
                 if (g->u.sees( *this )) {
                     add_msg(_("%s throws a %s."), name.c_str(),
                             used->tname().c_str());
@@ -1904,7 +1893,7 @@ void npc::alt_attack(int target)
                     stack_size = used->charges;
                     used->charges = 1;
                 }
-                g->throw_item(*this, tar, *used, trajectory);
+                throw_item( tar, *used);
 
                 // Throw a single charge of a stacking object.
                 if( stack_size == -1 || stack_size == 1 ) {
