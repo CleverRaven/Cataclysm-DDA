@@ -4591,22 +4591,23 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 }
 
-void player::on_hurt( Creature *source )
+void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
         add_effect("adrenaline", 200);
     }
 
-    if( in_sleep_state() ) {
-        wake_up();
-    }
-
-    if( !is_npc() ) {
-        if( source != nullptr ) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            g->cancel_activity_query(_("You were hurt!"));
+    if( disturb ) {
+        if( in_sleep_state() ) {
+            wake_up();
+        }
+        if( !is_npc() ) {
+            if( source != nullptr ) {
+                g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+            } else {
+                g->cancel_activity_query(_("You were hurt!"));
+            }
         }
     }
 
@@ -4942,7 +4943,7 @@ void player::healall(int dam)
     }
 }
 
-void player::hurtall(int dam, Creature *source)
+void player::hurtall(int dam, Creature *source, bool disturb /*= true*/)
 {
     if( is_dead_state() || has_trait( "DEBUG_NODMG" ) || dam <= 0 ) {
         return;
@@ -4961,7 +4962,7 @@ void player::hurtall(int dam, Creature *source)
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
     mod_pain( dam );
-    on_hurt( source );
+    on_hurt( source, disturb );
 }
 
 int player::hitall(int dam, int vary, Creature *source)
@@ -5519,10 +5520,10 @@ void player::regen()
             healall(1);
         }
         if (has_trait("ROT2") && one_in(5)) {
-            hurtall(1, nullptr);
+            hurtall(1, nullptr, false);
         }
         if (has_trait("ROT3") && one_in(2)) {
-            hurtall(1, nullptr);
+            hurtall(1, nullptr, false);
         }
 
         if (radiation > 0 && one_in(3)) {
