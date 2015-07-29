@@ -664,9 +664,7 @@ void veh_interact::do_install()
                                                    part.has_flag(VPFLAG_CIRCLE_LIGHT) ||
                                                    part.has_flag(VPFLAG_DOME_LIGHT) ||
                                                    part.has_flag(VPFLAG_AISLE_LIGHT) ||
-                                                   part.has_flag(VPFLAG_ATOMIC_LIGHT) ||
-                                                   part.has_flag(VPFLAG_EVENTURN) ||
-                                                   part.has_flag(VPFLAG_ODDTURN); };
+                                                   part.has_flag(VPFLAG_ATOMIC_LIGHT); };
     tab_filters[3] = [&](const vpart_info *p) { auto &part = *p;
                                                    return part.has_flag("TRACK") || //Util
                                                    part.has_flag(VPFLAG_FRIDGE) ||
@@ -676,6 +674,9 @@ void veh_interact::do_install()
                                                    part.has_flag("CHEMLAB") ||
                                                    part.has_flag("FORGE") ||
                                                    part.has_flag("HORN") ||
+                                                   part.has_flag("BEEPER") ||
+                                                   part.has_flag("WATCH") ||
+                                                   part.has_flag("ALARMCLOCK") ||
                                                    part.has_flag(VPFLAG_RECHARGE) ||
                                                    part.has_flag("VISION") ||
                                                    part.has_flag("POWER_TRANSFER") ||
