@@ -475,10 +475,6 @@ void sfx::do_ambient() {
         return;
     }
     audio_muted = false;
-    // Check weather at player position
-    w_point weather_at_player = g->weatherGen.get_weather( g->u.global_square_location(),
-                                calendar::turn );
-    g->weather = g->weatherGen.get_weather_conditions( weather_at_player );
     const bool is_deaf = g->u.get_effect_int( "deaf" ) > 0;
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
