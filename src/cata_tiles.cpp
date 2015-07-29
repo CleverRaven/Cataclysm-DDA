@@ -1787,7 +1787,7 @@ void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string co
 
 template <typename base_type>
 void cata_tiles::tile_loading_report(size_t const count, std::string const & label, std::string const & prefix) {
-    lr_generic( 0u, count,
+    lr_generic( static_cast<size_t>( 0 ), count,
                 []( const size_t i ) {
                     return int_id<base_type>( i ).id().str();
                 }, label, prefix );
