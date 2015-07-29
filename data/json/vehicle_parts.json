@@ -3750,7 +3750,8 @@
         "location" : "on_controls",
         "flags" : ["ON_CONTROLS", "DIFFICULTY_REMOVE", "SECURITY"],
         "breaks_into" : [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "min": 0, "max": 1},
+            {"item": "e_scrap", "min": 0, "max": 3}
         ]
     },{
         "type" : "vehicle_part",
@@ -4876,6 +4877,8 @@
         "breaks_into" : [
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "e_scrap", "min": 1, "max": 3},
+            {"item": "cable", "min": 1, "max": 2},
             {"item": "scrap", "min": 3, "max": 5}
         ]
     },{
@@ -4897,6 +4900,7 @@
             {"item": "steel_lump", "min": 3, "max": 5},
             {"item": "steel_chunk", "min": 3, "max": 5},
             {"item": "scrap", "min": 3, "max": 5},
+            {"item": "cable", "min": 1, "max": 3},
             {"item": "e_scrap", "min": 1, "max": 2}
         ]
     },{
