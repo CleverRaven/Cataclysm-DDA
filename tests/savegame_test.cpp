@@ -153,16 +153,16 @@ void check_test_overmap_data( const overmap &test_map )
     }
     // Spot-check some monsters.
     std::vector<std::pair<tripoint, monster>> expected_monsters{
-        {{251, 86, 0},{ "mon_zombie", {140, 23, 0}}},
-        {{253, 87, 0},{ "mon_zombie", {136, 25, 0}}},
-        {{259, 95, 0},{ "mon_zombie", {143, 122, 0}}},
-        {{259, 94, 0},{ "mon_zombie", {139, 109, 0}}},
-        {{259, 91, 0},{ "mon_dog", {139, 82, 0}}},
-        {{194, 87, -3},{"mon_irradiated_wanderer_4", {119, 73, -3}}},
-        {{194, 87, -3},{ "mon_charred_nightmare", {117, 83, -3}}},
-        {{142, 96, 0},{ "mon_deer", {16, 109, 0}}},
-        {{196, 66, -1},{ "mon_turret", {17, 65, -1}}},
-        {{196, 63, -1},{ "mon_broken_cyborg", {19, 26, -1}}}
+        {{251, 86, 0},{ mtype_id("mon_zombie"), {140, 23, 0}}},
+        {{253, 87, 0},{ mtype_id("mon_zombie"), {136, 25, 0}}},
+        {{259, 95, 0},{ mtype_id("mon_zombie"), {143, 122, 0}}},
+        {{259, 94, 0},{ mtype_id("mon_zombie"), {139, 109, 0}}},
+        {{259, 91, 0},{ mtype_id("mon_dog"), {139, 82, 0}}},
+        {{194, 87, -3},{ mtype_id("mon_irradiated_wanderer_4"), {119, 73, -3}}},
+        {{194, 87, -3},{ mtype_id("mon_charred_nightmare"), {117, 83, -3}}},
+        {{142, 96, 0},{ mtype_id("mon_deer"), {16, 109, 0}}},
+        {{196, 66, -1},{ mtype_id("mon_turret"), {17, 65, -1}}},
+        {{196, 63, -1},{ mtype_id("mon_broken_cyborg"), {19, 26, -1}}}
     };
     for( auto candidate_monster : expected_monsters ) {
         REQUIRE(test_map.monster_check(candidate_monster));
