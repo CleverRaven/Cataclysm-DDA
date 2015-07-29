@@ -1985,7 +1985,7 @@ input_context game::get_player_input(std::string &action)
 
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
                         !critter_at( mapp, true ) ) {
-                        // Supress if a critter is there
+                        // Suppress if a critter is there
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
                     }
                 }
@@ -2159,7 +2159,7 @@ bool game::handle_action()
     if (u.has_destination()) {
         act = u.get_next_auto_move_direction();
         if (act == ACTION_NULL) {
-            add_msg(m_info, _("Auto-move cancelled"));
+            add_msg(m_info, _("Auto-move canceled"));
             u.clear_destination();
             return false;
         }
@@ -2296,7 +2296,7 @@ bool game::handle_action()
 
     int before_action_moves = u.moves;
 
-    // Use to track if auto-move should be cancelled due to a failed
+    // Use to track if auto-move should be canceled due to a failed
     // move or obstacle
     bool continue_auto_move = false;
 
@@ -4041,7 +4041,7 @@ void game::debug()
 
                 if( bp_ptr != nullptr ) {
                     int value = query_int( "Set the value to? Currently: %d", *bp_ptr );
-                    // No cancelling here
+                    // No canceling here
                     *bp_ptr = value;
                 }
             }
@@ -4675,7 +4675,7 @@ void game::list_missions()
             const auto miss = umissions[selection];
             mvwprintz(w_missions, 4, 31, c_white, "%s", miss->get_description().c_str());
             if( miss->has_deadline() ) {
-                // TODO: proper fomatting of turns, see calendar class, it has some nice functions
+                // TODO: proper formatting of turns, see calendar class, it has some nice functions
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
                           int(miss->get_deadline()), int(calendar::turn));
             }
