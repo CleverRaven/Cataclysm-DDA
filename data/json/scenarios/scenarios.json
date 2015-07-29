@@ -98,7 +98,7 @@
     "start_name": "Hospital",
     "forced_traits" : ["FLIMSY2"],
     "forbidden_traits" : ["TOUGH","DISRESISTANT"],
-    "professions" : ["unemployed","bionic_patient","patient"],
+    "professions" : ["unemployed","bionic_patient","patient","broken_cyborg"],
     "flags" : ["CHALLENGE"]
   },{
     "type": "scenario",
