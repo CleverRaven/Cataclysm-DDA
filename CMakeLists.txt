@@ -39,13 +39,15 @@ ENDIF (RELEASE)
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
-MESSAGE(STATUS "Build realm is   : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}\n")
+MESSAGE(STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h "\#define VERSION \"${GIT_VERSION}\"\n")
-    MESSAGE(STATUS "${PROJECT} build version is: ${GIT_VERSION}\n")
+    MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
     ADD_DEFINITIONS(-DGIT_VERSION=${GIT_VERSION})
+ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+    MESSAGE("")
 ENDIF(NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 
 #OS Check Placeholders. Will be used for BINDIST
@@ -141,7 +143,7 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 
 
-MESSAGE(STATUS "${PROJECT} build options --\n")
+MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 IF (NOT LUA_BINARY)
@@ -166,27 +168,29 @@ IF (PREFIX)
 ENDIF (PREFIX)
 
 # Set build types and display info
-	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}\n")
 IF(RELEASE)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
 	MESSAGE(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
+    IF(LOCALIZE)
+        MESSAGE(STATUS "LOCALE_PATH                   : ${LOCALE_DIR}")
+    ENDIF(LOCALIZE)
 	MESSAGE(STATUS "DESKTOP_ENTRY_PATH            : ${DESKTOP_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
 	SET(CMAKE_BUILD_TYPE RELEASE)
+	ADD_DEFINITIONS(-DRELEASE)
 	# FIXME: Removed -Werror for a while. Currently it is broken in upstream.
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -std=c++11 -MMD -Wall -Wextra")
 	IF(MINGW)
 		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
 		ADD_DEFINITIONS(-D__NO_INLINE__)
 	ENDIF(MINGW)
-	IF(NOT WIN32 AND NOT PREFIX)
-		# PREFIX has no sence in case of win32
-		ADD_DEFINITIONS(-DDATA_DIR_PREFIX=${CMAKE_INSTALL_PREFIX})
-	ENDIF(NOT WIN32 AND NOT PREFIX)
-	ADD_DEFINITIONS(-DRELEASE)
+    # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
+    IF (PREFIX AND NOT WIN32)
+	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
+    ENDIF (PREFIX AND NOT WIN32)
 ELSE (RELEASE)
 	MESSAGE("\n")
 	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
@@ -213,6 +217,7 @@ IF (LUA)
 	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
 ENDIF (LUA)
 	MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
+	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
@@ -238,6 +243,8 @@ FIND_PACKAGE(Threads REQUIRED)
 
 # Check for build types and libraries
 IF(TILES)
+    # Can't compile curses and tiles build's at same time
+    SET(CURSES OFF)
 	# Find SDL, SDL_ttf & SDL_image for graphical install
 	MESSAGE(STATUS "Searching for SDL2 library --\n")
 	FIND_PACKAGE(SDL2)

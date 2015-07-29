@@ -1712,6 +1712,10 @@ void Creature::load( JsonObject &jsin )
             jsin.read( "effects", tmp_map );
             int key_num;
             for (auto maps : tmp_map) {
+                if (effect_types.find(maps.first) == effect_types.end()) {
+                    debugmsg("Invalid effect: %s", maps.first.c_str());
+                    continue;
+                }
                 for (auto i : maps.second) {
                     if ( !(std::istringstream(i.first) >> key_num) ) {
                         key_num = 0;

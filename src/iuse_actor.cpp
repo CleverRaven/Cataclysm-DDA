@@ -1280,7 +1280,7 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame && !p->has_charges("fire", 4) ) {
         p->add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
         return 0;
-    } else if( !flame && it->charges >= 0 && it->type->charges_to_use() < it->charges ) {
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
         p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->type->charges_to_use() );
         return 0;
     } else if( p->is_underwater() ) {
@@ -1313,7 +1313,7 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
 {
     if( flame && !p->has_charges( "fire", 4 ) ) {
         return false;
-    } else if( !flame && it->charges >= 0 && it->type->charges_to_use() < it->charges ) {
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
         return false;
     } else if( p->is_underwater() ) {
         return false;
