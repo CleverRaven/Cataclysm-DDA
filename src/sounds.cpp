@@ -483,6 +483,7 @@ void sfx::do_ambient_sfx() {
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
+    const bool weather_changed = g->weather != previous_weather;
     // Step in at night time / we are not indoors
     if( calendar::turn.is_night() && !is_sheltered &&
             !is_channel_playing( 1 ) && !is_deaf ) {
@@ -497,7 +498,7 @@ void sfx::do_ambient_sfx() {
     // We are underground
     if( ( is_underground && !is_channel_playing( 2 ) &&
             !is_deaf ) || ( is_underground &&
-                    g->weather != previous_weather && !is_deaf ) ) {
+                    weather_changed && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "underground", heard_volume, 2,
@@ -506,7 +507,7 @@ void sfx::do_ambient_sfx() {
     } else if( ( is_sheltered && !is_underground &&
                  !is_channel_playing( 3 ) && !is_deaf ) ||
                ( is_sheltered && !is_underground &&
-                 g->weather != previous_weather && !is_deaf ) ) {
+                 weather_changed && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "indoors", heard_volume, 3, 1000 );
@@ -523,7 +524,7 @@ void sfx::do_ambient_sfx() {
             &&
             !is_channel_playing( 9 ) && !is_deaf )
             || ( !is_sheltered &&
-                 g->weather != previous_weather  && !is_deaf ) ) {
+                 weather_changed  && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         // We are outside and there is precipitation
         switch( g->weather ) {
