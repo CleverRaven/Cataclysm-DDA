@@ -530,6 +530,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // ranged.cpp
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
         int throw_range(int pos);
+        /** Execute a throw */
+        dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
         /** Returns the ranged attack dexterity mod */
         int ranged_dex_mod() const;
         /** Returns the ranged attack perception mod */

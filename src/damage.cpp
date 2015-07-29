@@ -56,7 +56,7 @@ float damage_instance::total_damage() const
 {
     float ret = 0;
     for( const auto &elem : damage_units ) {
-        ret += elem.amount;
+        ret += elem.amount * elem.damage_multiplier;
     }
     return ret;
 }
@@ -291,4 +291,3 @@ damage_type dt_by_name( const std::string &name )
 
     return iter->second;
 }
-

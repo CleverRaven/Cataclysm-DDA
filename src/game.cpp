@@ -6148,48 +6148,29 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
 
     bool const do_animation = p.z == u.posz() && OPTIONS["ANIMATIONS"];
 
-    std::vector<tripoint> traj;
-    for (int i = 0; i < shrapnel; i++) {
+    npc fake_npc;
+    fake_npc.name = _("Shrapnel");
+    fake_npc.set_fake(true);
+    fake_npc.recoil = 0;
+    fake_npc.setpos( p );
+    for( int i = 0; i < shrapnel; i++ ) {
         // TODO: Z-level shrapnel, but not before z-level ranged attacks
         tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
-        traj = line_to( p, sp, 0, 0 );
-        // If the randomly chosen spot is the origin, it already points there.
-        // Otherwise line_to excludes the origin, so add it.
-        if( sp != p ) {
-            traj.insert( traj.begin(), p );
+        projectile proj;
+        proj.impact = damage_instance.physical( rng_float( power / 4.0, power ),
+                                                rng_float( power / 4.0, power ),
+                                                0, 0 );
+        Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
+        if( critter_in_center != nullptr ) {
+            dealt_projectile_attack dda; // Cool name
+            critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
-        dam = rng(power / 2, power * 2);
-        size_t j;
-        for( j = 0; j < traj.size() && dam > 0; j++ ) {
-            const tripoint &tp = traj[j];
-            const int zid = mon_at( tp, true );
-            const int npcdex = npc_at( tp );
-            if (zid != -1) {
-                monster &critter = critter_tracker->find(zid);
-                dam -= critter.get_armor_cut(bp_torso);
-                critter.apply_damage( nullptr, bp_torso, dam );
-            } else if( npcdex != -1 ) {
-                body_part hit = random_body_part();
-                active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-            } else if (tp == u.pos()) {
-                body_part hit = random_body_part();
-                //~ %s is bodypart name in accusative.
-                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
-                u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-            } else {
-                static const std::set<std::string> shrapnel_effects{};
-                m.shoot( tp, dam, j == traj.size() - 1, shrapnel_effects);
-            }
-        }
-
-        if( do_animation && j > 0 ) {
-            traj.resize( j );
-            draw_line( traj[j - 1], traj );
-            draw_bullet(u, traj[j - 1], (int)j, traj, '`');
-        }
+        // This needs to be high enough to prevent game from thinking that
+        //  the fake npc is scoring headshots.
+        fake_npc.projectile_attack( proj, sp, rng_float( 0.5, 1.0 ) );
     }
 }
 
@@ -10569,9 +10550,9 @@ void game::plthrow(int pos)
     }
 
     temp_exit_fullscreen();
-    m.draw( w_terrain, u.pos3() );
+    m.draw( w_terrain, u.pos() );
 
-    tripoint targ = u.pos3();
+    tripoint targ = u.pos();
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
     std::vector<tripoint> trajectory = pl_target_ui( targ, range, &thrown, TARGET_MODE_THROW );
@@ -10580,41 +10561,14 @@ void game::plthrow(int pos)
     }
 
     // Throw a single charge of a stacking object.
-    if (thrown.count_by_charges() && thrown.charges > 1) {
-        u.i_at(pos).charges--;
+    if( thrown.count_by_charges() && thrown.charges > 1 ) {
+        u.i_at( pos ).charges--;
         thrown.charges = 1;
     } else {
-        u.i_rem(pos);
+        u.i_rem( pos );
     }
 
-    // Base move cost on moves per turn of the weapon
-    // and our skill.
-    int move_cost = thrown.attack_time() / 2;
-    int skill_cost = (int)(move_cost / (std::pow(u.skillLevel("throw"), 3.0f) / 400.0 + 1.0));
-    int dexbonus = (int)(std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3.0);
-
-    move_cost += skill_cost;
-    move_cost += 2 * u.encumb(bp_torso);
-    move_cost -= dexbonus;
-
-    if (u.has_trait("LIGHT_BONES")) {
-        move_cost *= .9;
-    }
-    if (u.has_trait("HOLLOW_BONES")) {
-        move_cost *= .8;
-    }
-
-    if (move_cost < 25) {
-        move_cost = 25;
-    }
-
-    u.moves -= move_cost;
-    u.practice("throw", 10);
-
-    int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
-    u.mod_stat("stamina", stamina_cost);
-
-    throw_item( u, targ, thrown, trajectory );
+    u.throw_item( targ, thrown );
     reenter_fullscreen();
 }
 

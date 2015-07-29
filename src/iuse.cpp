@@ -35,6 +35,7 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "map_iterator.h"
 
 #include <vector>
 #include <sstream>
@@ -5027,8 +5028,11 @@ int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
             }
         }
     } else {
-        if (!t) {
-            g->explosion( pos, 8, 0, true);
+        if( !t ) {
+            for( auto &&pt : g->m.points_in_radius( pos, 1, 0 ) ) {
+                const int density = 1 + one_in( 3 ) + one_in( 5 );
+                g->m.add_field( pt, fd_fire, density, 0 );
+            }
         }
     }
     return 0;

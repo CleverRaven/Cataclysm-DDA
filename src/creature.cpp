@@ -473,27 +473,35 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
  * Attempts to harm a creature with a projectile.
  *
  * @param source Pointer to the creature who shot the projectile.
- * @param missed_by Deviation of the projectile.
- * @param proj Reference to the projectile hitting the creature.
- * @param dealt_dam A reference storing the damage dealt.
- * @return 0 signals that the projectile should stop,
- *         1 signals that the projectile should not stop (i.e. dodged, passed through).
+ * @param attack A structure describing the attack and its results.
  */
-int Creature::deal_projectile_attack(Creature *source, double missed_by,
-                                     const projectile &proj, dealt_damage_instance &dealt_dam)
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
+    const double missed_by = attack.missed_by;
+    const projectile &proj = attack.proj;
+    dealt_damage_instance &dealt_dam = attack.dealt_dam;
+    const auto &effects = proj.proj_effects;
+
     bool u_see_this = g->u.sees(*this);
     body_part bp_hit;
 
     // do 10,speed because speed could potentially be > 10000
-    if (dodge_roll() >= dice(10, proj.speed)) {
-        if (is_player())
-            add_msg(_("You dodge %s projectile!"),
-                    source->disp_name(true).c_str());
-        else if (u_see_this)
-            add_msg(_("%s dodges %s projectile."),
-                    disp_name().c_str(), source->disp_name(true).c_str());
-        return 1;
+    if( dodge_roll() >= dice( 10, proj.speed ) ) {
+        if( source != nullptr ) {
+            add_msg_player_or_npc(
+                m_warning,
+                _("You dodge %s projectile!"),
+                _("<npcname> dodges %s projectile."),
+                source->disp_name(true).c_str() );
+        } else {
+            add_msg_player_or_npc(
+                m_warning,
+                _("You dodge a projectile!"),
+                _("<npcname> dodges a projectile.") );
+        }
+
+        attack.missed_by = 1.0; // Arbitrary value
+        return;
     }
 
     // Bounce applies whether it does damage or not.
@@ -555,7 +563,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( item(proj.ammo->id, 0).has_flag("NOGIB") ) {
+    if( effects.count("NOGIB") > 0 ) {
         impact.add_effect("NOGIB");
     }
     impact.mult_damage(damage_mult);
@@ -664,7 +672,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         }
     }
     check_dead_state();
-    return 0;
+    attack.hit_critter = this;
 }
 
 dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
