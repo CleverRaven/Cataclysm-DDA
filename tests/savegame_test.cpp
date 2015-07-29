@@ -1,51 +1,20 @@
 #include "catch/catch.hpp"
 
 #include "filesystem.h"
-#include "game.h"
-#include "init.h"
 #include "mongroup.h"
-#include "monstergenerator.h"
-#include "morale.h"
 #include "npc.h"
 #include "overmap.h"
-#include "path_info.h"
-#include "player.h"
-#include "worldfactory.h"
 
 #include <fstream>
 #include <ostream>
 
-void init_global_game_state() {
-    PATH_INFO::init_base_path("");
-    PATH_INFO::init_user_dir("./");
-    PATH_INFO::set_standard_filenames();
-
-    initOptions();
-    load_options();
-    init_colors();
-
-    g = new game;
-
-    g->load_static_data();
-    g->load_core_data();
-    DynamicDataLoader::get_instance().finalize_loaded_data();
-
-    world_generator->set_active_world(NULL);
-    world_generator->get_all_worlds();
-    WORLDPTR test_world = world_generator->make_new_world( false );
-    world_generator->set_active_world(test_world);
-
-    g->u = player();
-    g->u.create(PLTYPE_NOW);
-}
-
 // Intentionally ignoring the name member.
 bool operator==(const city &a, const city &b) {
-  return a.x == b.x && a.y == b.y && a.s == b.s;
+    return a.x == b.x && a.y == b.y && a.s == b.s;
 }
 bool operator==(const radio_tower &a, const radio_tower &b) {
-  return a.x == b.x && a.y == b.y && a.strength == b.strength &&
-    a.type == b.type && a.message == b.message;
+    return a.x == b.x && a.y == b.y && a.strength == b.strength &&
+      a.type == b.type && a.message == b.message;
 }
 
 void check_test_overmap_data( const overmap &test_map )
@@ -234,8 +203,6 @@ TEST_CASE("Reading a legacy overmap save.") {
 
     std::string legacy_save_name = "tests/data/legacy_0.C_overmap.sav";
     std::string new_save_name = "tests/data/jsionized_overmap.sav";
-
-    init_global_game_state();
 
     overmap test_map;
     std::ifstream fin;
