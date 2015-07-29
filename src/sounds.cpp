@@ -482,14 +482,15 @@ void sfx::do_ambient_sfx() {
     const bool is_deaf = g->u.get_effect_int( "deaf" ) > 0;
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
+    const bool is_sheltered = g->is_sheltered( g->u.pos() );
     // Step in at night time / we are not indoors
-    if( calendar::turn.is_night() && !g->is_sheltered( g->u.pos() ) &&
+    if( calendar::turn.is_night() && !is_sheltered &&
             !is_channel_playing( 1 ) && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "nighttime", heard_volume, 1, 1000 );
         // Step in at day time / we are not indoors
     } else if( !calendar::turn.is_night() && !is_channel_playing( 0 ) &&
-               !g->is_sheltered( g->u.pos() ) && !is_deaf ) {
+               !is_sheltered && !is_deaf ) {
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );
     }
@@ -502,9 +503,9 @@ void sfx::do_ambient_sfx() {
         play_ambient_variant_sound( "environment", "underground", heard_volume, 2,
                                     1000 );
         // We are indoors
-    } else if( ( g->is_sheltered( g->u.pos() ) && !is_underground &&
+    } else if( ( is_sheltered && !is_underground &&
                  !is_channel_playing( 3 ) && !is_deaf ) ||
-               ( g->is_sheltered( g->u.pos() ) && !is_underground &&
+               ( is_sheltered && !is_underground &&
                  g->weather != previous_weather && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
@@ -516,12 +517,12 @@ void sfx::do_ambient_sfx() {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
     }
-    if( ( !g->is_sheltered( g->u.pos() ) && g->weather != WEATHER_CLEAR
+    if( ( !is_sheltered && g->weather != WEATHER_CLEAR
             && !is_channel_playing( 5 ) &&
             !is_channel_playing( 6 ) && !is_channel_playing( 7 ) && !is_channel_playing( 8 )
             &&
             !is_channel_playing( 9 ) && !is_deaf )
-            || ( !g->is_sheltered( g->u.pos() ) &&
+            || ( !is_sheltered &&
                  g->weather != previous_weather  && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         // We are outside and there is precipitation
