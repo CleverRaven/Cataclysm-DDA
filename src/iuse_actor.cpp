@@ -1313,7 +1313,7 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
 {
     if( flame && !p->has_charges( "fire", 4 ) ) {
         return false;
-    } else if( !flame && it->charges >= 0 && it->type->charges_to_use() < it->charges ) {
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
         return false;
     } else if( p->is_underwater() ) {
         return false;
