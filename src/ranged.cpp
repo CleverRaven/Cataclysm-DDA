@@ -599,8 +599,14 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
 }
 
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &thrown )
+dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
 {
+    // We'll be constructing a projectile
+    // Start by copying the item into it
+    projectile proj;
+    proj.drop = std::unique_ptr<item>( new item( to_throw ) );
+    item &thrown = *proj.drop;
+
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
@@ -666,8 +672,18 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
 
+    /*
+    // This causes crashes for some reason
+    static const std::vector<std::string> ferric = {{
+        "iron", "steel"
+    }};
+    */
+    std::vector<std::string> ferric;
+    ferric.push_back( "iron" );
+    ferric.push_back( "steel" );
+
     bool do_railgun = has_active_bionic("bio_railgun") &&
-                      thrown.made_of_any( {{ "iron", "steel" }} );
+                      thrown.made_of_any( ferric );
 
     // The damage dealt due to item's weight and player's strength
     int real_dam = ( (thrown.weight() / 452)
@@ -681,10 +697,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         real_dam *= 2;
     }
 
-    // Construct a projectile
-    projectile proj;
     proj.speed = 10 + skill_level;
-    proj.drop = std::unique_ptr<item>( new item( thrown ) );
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
@@ -692,11 +705,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     if( thrown.has_flag( "PROCESS_ON_DROP" ) ) {
         proj_effects.insert( "PROCESS_ON_DROP" );
-        proj.drop->active = true;
+        thrown.active = true;
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
-    const bool shatter = !proj.drop->active && thrown.made_of("glass") &&
+    const bool shatter = !thrown.active && thrown.made_of("glass") &&
                          rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
 
     // Add some flags to the projectile

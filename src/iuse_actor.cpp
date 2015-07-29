@@ -63,7 +63,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
     }
-    if( player_has_item && it->charges < need_charges ) {
+    if( player_has_item && need_charges > 0 && it->charges < need_charges ) {
         if (!need_charges_msg.empty()) {
             p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
         }

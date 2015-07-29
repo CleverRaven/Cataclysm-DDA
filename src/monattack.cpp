@@ -275,22 +275,26 @@ void mattack::acid(monster *z, int index)
     z->moves -= 300;   // It takes a while
     z->reset_special(index); // Reset timer
     sounds::sound(z->pos(), 4, _("a spitting noise."));
-    tripoint hitp( target->posx() + rng(-2, 2), target->posy() + rng(-2, 2), target->posz() );
-    std::vector<tripoint> line = line_to( z->pos(), hitp, 0, 0 );
-    for (auto &i : line) {
-        if (g->m.hit_with_acid( i )) {
-            if (g->u.sees( i )) {
-                add_msg(_("A glob of acid hits the %s!"),
-                        g->m.tername( i ).c_str());
-            }
+
+    projectile proj;
+    proj.speed = 10;
+    auto dealt = z->projectile_attack( proj, target->pos(), 1800 );
+    const tripoint &hitp = dealt.end_point;
+    const Creature *hit_critter = dealt.hit_critter;
+    if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
+        add_msg( _("A glob of acid hits the %s!"),
+                 g->m.tername( hitp ).c_str());
+        if( g->m.move_cost( hitp ) == 0 ) {
+            // TODO: Allow it to spill on the side it hit from
             return;
         }
     }
+
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
             tripoint dest = hitp + tripoint( i, j, 0 );
             if (g->m.move_cost( dest ) > 0 &&
-                g->m.sees( dest, hitp, 6 ) &&
+                g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
                 g->m.add_field( dest, fd_acid, 2, 0 );
             }
