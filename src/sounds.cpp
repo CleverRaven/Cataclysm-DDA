@@ -481,6 +481,7 @@ void sfx::do_ambient_sfx() {
     g->weather = g->weatherGen.get_weather_conditions( weather_at_player );
     const bool is_deaf = g->u.get_effect_int( "deaf" ) > 0;
     const int heard_volume = get_heard_volume( g->u.pos() );
+    const bool is_underground = ::is_underground( g->u.pos() );
     // Step in at night time / we are not indoors
     if( calendar::turn.is_night() && !g->is_sheltered( g->u.pos() ) &&
             !is_channel_playing( 1 ) && !is_deaf ) {
@@ -493,24 +494,24 @@ void sfx::do_ambient_sfx() {
         play_ambient_variant_sound( "environment", "daytime", heard_volume, 0, 1000 );
     }
     // We are underground
-    if( ( is_underground( g->u.pos() ) && !is_channel_playing( 2 ) &&
-            !is_deaf ) || ( is_underground( g->u.pos() ) &&
+    if( ( is_underground && !is_channel_playing( 2 ) &&
+            !is_deaf ) || ( is_underground &&
                     g->weather != previous_weather && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "underground", heard_volume, 2,
                                     1000 );
         // We are indoors
-    } else if( ( g->is_sheltered( g->u.pos() ) && !is_underground( g->u.pos() ) &&
+    } else if( ( g->is_sheltered( g->u.pos() ) && !is_underground &&
                  !is_channel_playing( 3 ) && !is_deaf ) ||
-               ( g->is_sheltered( g->u.pos() ) && !is_underground( g->u.pos() ) &&
+               ( g->is_sheltered( g->u.pos() ) && !is_underground &&
                  g->weather != previous_weather && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "indoors", heard_volume, 3, 1000 );
     }
     // We are indoors and it is also raining
-    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground( g->u.pos() )
+    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground
             && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
