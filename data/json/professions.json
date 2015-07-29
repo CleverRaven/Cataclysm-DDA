@@ -1584,13 +1584,14 @@
             "bio_ankles",
             "bio_trip",
             "bio_stiff",
-            "bio_str_enhancer",
             "bio_armor_head",
             "bio_armor_torso",
             "bio_armor_arms",
             "bio_armor_legs",
             "bio_armor_eyes",
-            "bio_razors"
+            "bio_razors",
+            "bio_power_storage",
+            "bio_torsionratchet"
         ],
         "items":{
             "both": [
