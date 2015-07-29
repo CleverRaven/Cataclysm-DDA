@@ -10,11 +10,15 @@
 
 #include <string>
 
+#include "string_id.h"
+
 class game;
 class item;
 class player;
 class map;
 struct tripoint;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 namespace iexamine
 {
@@ -24,7 +28,7 @@ namespace iexamine
     * Also spawns eggs.
     * @param montype The monster type of the created spiders.
     */
-void egg_sack_generic( player *p, map *m, const tripoint &examp, const std::string &montype );
+void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id& montype );
 
 void none( player *p, map *m, const tripoint &examp );
 

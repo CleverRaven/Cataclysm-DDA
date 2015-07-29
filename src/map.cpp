@@ -33,6 +33,10 @@
 #include <fstream>
 #include <cstring>
 
+const mtype_id mon_spore( "mon_spore" );
+const mtype_id mon_null( "mon_null" );
+const mtype_id mon_zombie( "mon_zombie" );
+
 extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
@@ -2810,7 +2814,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
             add_msg(m_warning, _("You're covered in tiny spores!"));
         }
     } else if( g->num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
-        if( g->summon_mon( "mon_spore", sporep ) ) {
+        if( g->summon_mon( mon_spore, sporep ) ) {
             monster *spore = g->monster_at(sporep);
             monster *origin_mon = dynamic_cast<monster*>( origin );
             if( origin_mon != nullptr ) {
@@ -6523,7 +6527,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     }
     for( int m = 0; m < pop; m++ ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-        if( spawn_details.name == "mon_null" ) {
+        if( spawn_details.name == mon_null ) {
             continue;
         }
         monster tmp( spawn_details.name );
@@ -7170,7 +7174,7 @@ void map::add_corpse( const tripoint &p ) {
     if (!isReviveSpecial){
         body.make_corpse();
     } else {
-        body.make_corpse( "mon_zombie", calendar::turn );
+        body.make_corpse( mon_zombie, calendar::turn );
         body.item_tags.insert("REVIVE_SPECIAL");
         body.active = true;
     }

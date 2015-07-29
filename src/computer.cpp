@@ -22,6 +22,10 @@
 #include <string>
 #include <sstream>
 
+const mtype_id mon_manhack( "mon_manhack" );
+const mtype_id mon_null( "mon_null" );
+const mtype_id mon_secubot( "mon_secubot" );
+
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
 
@@ -811,7 +815,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == "mon_null" ) {
+                        if( mt == nullptr || mt->id == mon_null ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( "ZOMBIE" ) ) {
                             if( mt->sym == "Z" ) {
@@ -1229,7 +1233,7 @@ void computer::activate_failure(computer_failure fail)
             } while (!g->is_empty( mp ) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
-                g->summon_mon( "mon_manhack", mp );
+                g->summon_mon( mon_manhack, mp );
             }
         }
     }
@@ -1247,7 +1251,7 @@ void computer::activate_failure(computer_failure fail)
             } while (!g->is_empty(mp) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
-                g->summon_mon("mon_secubot", mp);
+                g->summon_mon(mon_secubot, mp);
             }
         }
     }

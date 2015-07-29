@@ -101,6 +101,9 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+const mtype_id mon_manhack( "mon_manhack" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -971,7 +974,7 @@ bool game::cleanup_at_end()
 
         int iTotalKills = 0;
 
-        const std::map<std::string, mtype *> monids = MonsterGenerator::generator().get_all_mtypes();
+        const std::map<mtype_id, mtype *> monids = MonsterGenerator::generator().get_all_mtypes();
         for( const auto &monid : monids ) {
             if( kill_count( monid.first ) > 0 ) {
                 iTotalKills += kill_count( monid.first );
@@ -1515,7 +1518,7 @@ npc *game::find_npc(int id)
     return overmap_buffer.find_npc(id);
 }
 
-int game::kill_count(std::string mon)
+int game::kill_count( const mtype_id& mon )
 {
     if (kills.find(mon) != kills.end()) {
         return kills[mon];
@@ -1523,9 +1526,9 @@ int game::kill_count(std::string mon)
     return 0;
 }
 
-void game::increase_kill_count(const std::string &mtype_id)
+void game::increase_kill_count( const mtype_id& id )
 {
-    kills[mtype_id]++;
+    kills[id]++;
 }
 
 void game::handle_key_blocking_activity()
@@ -4242,12 +4245,12 @@ void game::disp_kills()
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
     for( auto &elem : kills ) {
-        const mtype *m = MonsterGenerator::generator().get_mtype( elem.first );
+        const mtype &m = elem.first.obj();
         std::ostringstream buffer;
-        buffer << "<color_" << string_from_color(m->color) << ">";
-        buffer << m->sym << " " << m->nname();
+        buffer << "<color_" << string_from_color(m.color) << ">";
+        buffer << m.sym << " " << m.nname();
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m->nname().c_str());
+        const int w = colum_width - utf8_width(m.nname().c_str());
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << elem.second;
@@ -5481,14 +5484,13 @@ int game::mon_info(WINDOW *w)
     const int maxheight = 12;
     const int startrow = use_narrow_sidebar() ? 1 : 0;
 
-    std::string sbuff;
     int newseen = 0;
     const int iProxyDist = (OPTIONS["SAFEMODEPROXIMITY"] <= 0) ? 60 : OPTIONS["SAFEMODEPROXIMITY"];
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
     std::vector<npc*> unique_types[9];
-    std::vector<std::string> unique_mons[9];
+    std::vector<const mtype*> unique_mons[9];
     // dangerous_types tracks whether we should print in red to warn the player
     bool dangerous[8];
     for( auto &dangerou : dangerous ) {
@@ -5593,8 +5595,8 @@ int game::mon_info(WINDOW *w)
             }
 
             auto &vec = unique_mons[index];
-            if( std::find( vec.begin(), vec.end(), critter.type->id ) == vec.end() ) {
-                vec.push_back(critter.type->id);
+            if( std::find( vec.begin(), vec.end(), critter.type ) == vec.end() ) {
+                vec.push_back( critter.type );
             }
         } else if( p != nullptr ) {
             if (p->attitude == NPCATT_KILL)
@@ -5707,9 +5709,9 @@ int game::mon_info(WINDOW *w)
                 }
                 sym = "@";
             } else {
-                sbuff = unique_mons[i][j - typeshere_npc];
-                c = GetMType(sbuff)->color;
-                sym = GetMType(sbuff)->sym;
+                const mtype& mt = *unique_mons[i][j - typeshere_npc];
+                c = mt.color;
+                sym = mt.sym;
             }
             mvwprintz(w, pr.y, pr.x, c, "%s", sym.c_str());
 
@@ -5719,7 +5721,7 @@ int game::mon_info(WINDOW *w)
 
     // Now we print their full names!
 
-    std::set<std::string> listed_mons;
+    std::set<const mtype*> listed_mons;
 
     // Start printing monster names on row 4. Rows 0-2 are for labels, and row 3
     // is blank.
@@ -5731,38 +5733,42 @@ int game::mon_info(WINDOW *w)
     for (int j = 8; j >= 0 && pr.y < maxheight; j--) {
         // Separate names by some number of spaces (more for local monsters).
         int namesep = (j == 8 ? 2 : 1);
-        for (std::vector<std::string>::iterator it = unique_mons[j].begin();
-             it != unique_mons[j].end() && pr.y < maxheight; ++it) {
-            sbuff = *it;
-            // buff < 0 means an NPC!  Don't list those.
-            if (listed_mons.find(sbuff) == listed_mons.end()) {
-                listed_mons.insert(sbuff);
+        for( const mtype* type : unique_mons[j] ) {
+            if( pr.y >= maxheight ) {
+                // no space to print to anyway
+                break;
+            }
+            if( listed_mons.count( type ) > 0 ) {
+                // this type is already printed.
+                continue;
+            }
+            listed_mons.insert( type );
 
-                std::string name = GetMType(sbuff)->nname();
+            const mtype& mt = *type;
+            const std::string name = mt.nname();
 
-                // Move to the next row if necessary. (The +2 is for the "Z ").
-                if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
-                    pr.y++;
-                    pr.x = 0;
+            // Move to the next row if necessary. (The +2 is for the "Z ").
+            if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
+                pr.y++;
+                pr.x = 0;
+            }
+
+            if (pr.y < maxheight) { // Don't print if we've overflowed
+                lastrowprinted = pr.y;
+                mvwprintz(w, pr.y, pr.x, mt.color, "%s", mt.sym.c_str());
+                pr.x += 2; // symbol and space
+                nc_color danger = c_dkgray;
+                if (mt.difficulty >= 30) {
+                    danger = c_red;
+                } else if (mt.difficulty >= 16) {
+                    danger = c_ltred;
+                } else if (mt.difficulty >= 8) {
+                    danger = c_white;
+                } else if (mt.agro > 0) {
+                    danger = c_ltgray;
                 }
-
-                if (pr.y < maxheight) { // Don't print if we've overflowed
-                    lastrowprinted = pr.y;
-                    mvwprintz(w, pr.y, pr.x, GetMType(sbuff)->color, "%s", GetMType(sbuff)->sym.c_str());
-                    pr.x += 2; // symbol and space
-                    nc_color danger = c_dkgray;
-                    if (GetMType(sbuff)->difficulty >= 30) {
-                        danger = c_red;
-                    } else if (GetMType(sbuff)->difficulty >= 16) {
-                        danger = c_ltred;
-                    } else if (GetMType(sbuff)->difficulty >= 8) {
-                        danger = c_white;
-                    } else if (GetMType(sbuff)->agro > 0) {
-                        danger = c_ltgray;
-                    }
-                    mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
-                    pr.x += utf8_width(name.c_str()) + namesep;
-                }
+                mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
+                pr.x += utf8_width(name.c_str()) + namesep;
             }
         }
     }
@@ -6806,7 +6812,7 @@ Creature const* game::critter_at( const tripoint &p, bool allow_hallucination ) 
     return const_cast<game*>(this)->critter_at( p, allow_hallucination );
 }
 
-bool game::summon_mon( const std::string id, const tripoint &p )
+bool game::summon_mon( const mtype_id& id, const tripoint &p )
 {
     monster mon( id );
     mon.spawn(p);
@@ -6868,7 +6874,7 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination()
 {
-    monster phantasm(MonsterGenerator::generator().get_valid_hallucination()->id);
+    monster phantasm(MonsterGenerator::generator().get_valid_hallucination());
     phantasm.hallucination = true;
     phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 
@@ -11690,7 +11696,7 @@ bool game::disable_robot( const tripoint &p )
         return true;
     }
     // Manhacks are special, they have their own menu here.
-    if( mid == "mon_manhack" ) {
+    if( mid == mon_manhack ) {
         int choice = 0;
         if( critter.has_effect( "docile" ) ) {
             choice = menu( true, _( "Reprogram the manhack?" ), _( "Engage targets." ), _( "Cancel" ), NULL );
@@ -13872,7 +13878,7 @@ bool game::spread_fungus( const tripoint &p )
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
                                 if (one_in(3)) { // young trees are Vulnerable
                                     m.ter_set(dest, t_fungus);
-                                    summon_mon( "mon_fungal_blossom", p );
+                                    summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
@@ -13889,7 +13895,7 @@ bool game::spread_fungus( const tripoint &p )
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0) {
                                 if (one_in(4)) {
                                     m.ter_set(dest, t_fungus);
-                                    summon_mon( "mon_fungal_blossom", p );
+                                    summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
                                     }

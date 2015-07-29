@@ -18,6 +18,19 @@
 #include <math.h>  // rounding
 #include <sstream>
 
+const mtype_id mon_blob( "mon_blob" );
+const mtype_id mon_blob_brain( "mon_blob_brain" );
+const mtype_id mon_blob_small( "mon_blob_small" );
+const mtype_id mon_breather( "mon_breather" );
+const mtype_id mon_breather_hub( "mon_breather_hub" );
+const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+const mtype_id mon_halfworm( "mon_halfworm" );
+const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+const mtype_id mon_thing( "mon_thing" );
+const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
 void mdeath::normal(monster *z)
 {
     if ((g->u.sees(*z)) && (!z->no_corpse_quiet)) {
@@ -136,11 +149,11 @@ void mdeath::kill_vines(monster *z)
     std::vector<int> vines;
     std::vector<int> hubs;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        bool isHub = g->zombie(i).type->id == "mon_creeper_hub";
+        bool isHub = g->zombie(i).type->id == mon_creeper_hub;
         if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
             hubs.push_back(i);
         }
-        if (g->zombie(i).type->id == "mon_creeper_vine") {
+        if (g->zombie(i).type->id == mon_creeper_vine) {
             vines.push_back(i);
         }
     }
@@ -172,7 +185,7 @@ void mdeath::vine_cut(monster *z)
                 y++; // Skip ourselves
             }
             int mondex = g->mon_at( tmp );
-            if (mondex != -1 && g->zombie(mondex).type->id == "mon_creeper_vine") {
+            if (mondex != -1 && g->zombie(mondex).type->id == mon_creeper_vine) {
                 vines.push_back(mondex);
             }
         }
@@ -187,8 +200,8 @@ void mdeath::vine_cut(monster *z)
                 if (x != z->posx() || y != z->posy()) {
                     // Not the dying vine
                     int mondex = g->mon_at( { x, y, z->posz() } );
-                    if (mondex != -1 && (g->zombie(mondex).type->id == "mon_creeper_hub" ||
-                                         g->zombie(mondex).type->id == "mon_creeper_vine")) {
+                    if (mondex != -1 && (g->zombie(mondex).type->id == mon_creeper_hub ||
+                                         g->zombie(mondex).type->id == mon_creeper_vine)) {
                         found_neighbor = true;
                     }
                 }
@@ -253,7 +266,7 @@ void mdeath::worm(monster *z)
     while(worms < 2 && !wormspots.empty()) {
         const tripoint target = random_entry_removed( wormspots );
         if(-1 == g->mon_at( target )) {
-            g->summon_mon("mon_halfworm", target);
+            g->summon_mon(mon_halfworm, target);
             worms++;
         }
     }
@@ -366,7 +379,7 @@ void mdeath::blobsplit(monster *z)
 
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         const tripoint target = random_entry_removed( valid );
-        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", target)) {
+        if (g->summon_mon(speed < 50 ? mon_blob_small : mon_blob, target)) {
             monster *blob = g->monster_at( target );
             blob->make_ally(z);
             blob->set_speed_base(speed);
@@ -378,7 +391,7 @@ void mdeath::blobsplit(monster *z)
 void mdeath::brainblob(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species("BLOB") && candidate->type->id != "mon_blob_brain" ) {
+        if(candidate->type->in_species("BLOB") && candidate->type->id != mon_blob_brain ) {
             candidate->remove_effect("controlled");
         }
     }
@@ -388,8 +401,8 @@ void mdeath::brainblob(monster *z) {
 void mdeath::jackson(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->id == "mon_zombie_dancer" ) {
-            candidate->poly( "mon_zombie_hulk" );
+        if(candidate->type->id == mon_zombie_dancer ) {
+            candidate->poly( mon_zombie_hulk );
             candidate->remove_effect("controlled");
         }
         if (g->u.sees( *z )) {
@@ -424,7 +437,7 @@ void mdeath::amigara(monster *z)
 
 void mdeath::thing(monster *z)
 {
-    g->summon_mon("mon_thing", z->pos3());
+    g->summon_mon(mon_thing, z->pos3());
 }
 
 void mdeath::explode(monster *z)
@@ -490,7 +503,7 @@ void mdeath::broken(monster *z) {
     if (z->no_corpse_quiet) {
         return;
     }
-    std::string item_id = z->type->id;
+    std::string item_id = z->type->id.str();
     if (item_id.compare(0, 4, "mon_") == 0) {
         item_id.erase(0, 4);
     }
@@ -519,7 +532,7 @@ void mdeath::ratking(monster *z)
         }
     }
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
-        g->summon_mon("mon_sewer_rat", random_entry_removed( ratspots ) );
+        g->summon_mon( mon_sewer_rat, random_entry_removed( ratspots ) );
     }
 }
 
@@ -593,8 +606,8 @@ void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        const std::string monID = g->zombie(i).type->id;
-        if (monID == "mon_breather_hub " || monID == "mon_breather") {
+        const mtype_id& monID = g->zombie(i).type->id;
+        if (monID == mon_breather_hub || monID == mon_breather) {
             g->zombie(i).die( nullptr );
         }
     }

@@ -40,6 +40,32 @@
 #include <limits>  // std::numeric_limits
 #define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
+const mtype_id mon_ant( "mon_ant" );
+const mtype_id mon_ant_larva( "mon_ant_larva" );
+const mtype_id mon_ant_soldier( "mon_ant_soldier" );
+const mtype_id mon_biollante( "mon_biollante" );
+const mtype_id mon_blob( "mon_blob" );
+const mtype_id mon_blob_brain( "mon_blob_brain" );
+const mtype_id mon_blob_large( "mon_blob_large" );
+const mtype_id mon_blob_small( "mon_blob_small" );
+const mtype_id mon_breather( "mon_breather" );
+const mtype_id mon_breather_hub( "mon_breather_hub" );
+const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+const mtype_id mon_dermatik( "mon_dermatik" );
+const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
+const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
+const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
+const mtype_id mon_fungal_wall( "mon_fungal_wall" );
+const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
+const mtype_id mon_manhack( "mon_manhack" );
+const mtype_id mon_shadow( "mon_shadow" );
+const mtype_id mon_triffid( "mon_triffid" );
+const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
+const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+
 // shared utility functions
 int within_visual_range(monster *z, int max_range) {
     int dist;
@@ -129,8 +155,8 @@ void mattack::antqueen(monster *z, int index)
                     break; // Done looking at this tile
                 }
                 int mondex = g->mon_at( dest );
-                if (mondex != -1 && (g->zombie(mondex).type->id == "mon_ant_larva" ||
-                                     g->zombie(mondex).type->id == "mon_ant"        )) {
+                if (mondex != -1 && (g->zombie(mondex).type->id == mon_ant_larva ||
+                                     g->zombie(mondex).type->id == mon_ant        )) {
                     ants.push_back(mondex);
                 }
             }
@@ -143,10 +169,10 @@ void mattack::antqueen(monster *z, int index)
         if (g->u.sees( *z ) && g->u.sees( *ant ))
             add_msg(m_warning, _("The %s feeds an %s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
-        if (ant->type->id == "mon_ant_larva") {
-            ant->poly( "mon_ant" );
+        if (ant->type->id == mon_ant_larva) {
+            ant->poly( mon_ant );
         } else {
-            ant->poly( "mon_ant_soldier" );
+            ant->poly( mon_ant_soldier );
         }
     } else if (egg_points.empty()) { // There's no eggs nearby--lay one.
         if (g->u.sees( *z )) {
@@ -162,7 +188,7 @@ void mattack::antqueen(monster *z, int index)
             for (size_t j = 0; j < g->m.i_at(i.x, i.y).size(); j++) {
                 if (g->m.i_at(i.x, i.y)[j].type->id == "ant_egg") {
                     g->m.i_rem(i.x, i.y, j);
-                    monster tmp( "mon_ant_larva", tripoint( i.x, i.y, z->posz() ) );
+                    monster tmp( mon_ant_larva, tripoint( i.x, i.y, z->posz() ) );
                     tmp.faction = z->faction;
                     g->add_zombie(tmp);
                     break; // Max one hatch per tile
@@ -964,7 +990,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         }
 
         const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
-        if( g->summon_mon( "mon_manhack", where ) ) {
+        if( g->summon_mon( mon_manhack, where ) ) {
             monster *manhack = g->monster_at( where );
             manhack->make_ally(z);
         }
@@ -1188,7 +1214,7 @@ void mattack::grow_vine(monster *z, int index)
                            z->posy() + (y + yshift) % 3 - 1,
                            z->posz() );
             if (g->is_empty(dest)) {
-                if (g->summon_mon("mon_creeper_vine", dest)) {
+                if (g->summon_mon(mon_creeper_vine, dest)) {
                     monster *vine = g->monster_at(dest);
                     vine->make_ally(z);
                     vine->reset_special(0);
@@ -1239,7 +1265,7 @@ void mattack::vine(monster *z, int index)
                 grow.push_back(dest);
             } else {
                 const int zid = g->mon_at(dest);
-                if (zid > -1 && g->zombie(zid).type->id == "mon_creeper_vine") {
+                if (zid > -1 && g->zombie(zid).type->id == mon_creeper_vine) {
                     vine_neighbors++;
                 }
             }
@@ -1248,7 +1274,7 @@ void mattack::vine(monster *z, int index)
     // Calculate distance from nearest hub
     int dist_from_hub = 999;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->zombie(i).type->id == "mon_creeper_hub") {
+        if (g->zombie(i).type->id == mon_creeper_hub) {
             int dist = rl_dist( z->pos(), g->zombie(i).pos() );
             if (dist < dist_from_hub) {
                 dist_from_hub = dist;
@@ -1260,7 +1286,7 @@ void mattack::vine(monster *z, int index)
         return;
     }
     const tripoint target = random_entry( grow );
-    if (g->summon_mon("mon_creeper_vine", target)) {
+    if (g->summon_mon(mon_creeper_vine, target)) {
         monster *vine = g->monster_at( target );
         vine->make_ally(z);
         vine->reset_special(0);
@@ -1382,11 +1408,11 @@ void mattack::triffid_heartbeat(monster *z, int index)
             g->m.ter_set(dest, t_dirt);
             if (rl_dist(dest, g->u.pos()) > 3 && g->num_zombies() < 30 &&
                 g->mon_at( dest ) == -1 && one_in(20)) { // Spawn an extra monster
-                std::string montype = "mon_triffid";
+                mtype_id montype = mon_triffid;
                 if (one_in(4)) {
-                    montype = "mon_creeper_hub";
+                    montype = mon_creeper_hub;
                 } else if (one_in(3)) {
-                    montype = "mon_biollante";
+                    montype = mon_biollante;
                 }
                 if (g->summon_mon(montype, dest)) {
                     monster *plant = g->monster_at(dest);
@@ -1401,7 +1427,7 @@ void mattack::triffid_heartbeat(monster *z, int index)
             for (int y = z->posy() - 1; y <= z->posy() + 1; y++) {
                 tripoint dest( x, y, z->posz() );
                 if (g->is_empty(dest) && one_in(2)) {
-                    if (g->summon_mon("mon_triffid", dest)) {
+                    if (g->summon_mon(mon_triffid, dest)) {
                         monster *triffid = g->monster_at(dest);
                         triffid->make_ally(z);
                     }
@@ -1658,7 +1684,7 @@ void mattack::fungus_growth(monster *z, int index)
                 z->name().c_str());
     }
 
-    z->poly( "mon_fungaloid" );
+    z->poly( mon_fungaloid );
 }
 
 void mattack::fungus_sprout(monster *z, int index)
@@ -1672,7 +1698,7 @@ void mattack::fungus_sprout(monster *z, int index)
                 push_player = true;
             }
             if( g->is_empty(dest) ) {
-                if (g->summon_mon("mon_fungal_wall", dest)) {
+                if (g->summon_mon(mon_fungal_wall, dest)) {
                     monster *wall = g->monster_at(dest);
                     wall->make_ally(z);
                 }
@@ -1736,7 +1762,7 @@ void mattack::fungus_fortify(monster *z, int index)
                 push_player = true;
             }
             if (g->is_empty(dest)) {
-                if (g->summon_mon("mon_fungal_hedgerow", dest)) {
+                if (g->summon_mon(mon_fungal_hedgerow, dest)) {
                     monster *wall = g->monster_at(dest);
                     wall->make_ally(z);
                 }
@@ -1784,7 +1810,7 @@ void mattack::fungus_fortify(monster *z, int index)
                             add_msg(m_bad, _("A fungal tendril bursts forth from the earth!"));
                         }
                 }
-                if (g->summon_mon("mon_fungal_tendril", tripoint(g->u.posx() + i, g->u.posy() + j, z->posz()))) {
+                if (g->summon_mon(mon_fungal_tendril, tripoint(g->u.posx() + i, g->u.posy() + j, z->posz()))) {
                     monster *tendril = g->monster_at(tripoint(g->u.posx() + i, g->u.posy() + j, z->posz()));
                     tendril->make_ally(z);
                 }
@@ -2026,7 +2052,7 @@ void mattack::dermatik_growth(monster *z, int index)
         add_msg(m_warning, _("The %s dermatik larva grows into an adult!"),
                 z->name().c_str());
     }
-    z->poly( "mon_dermatik" );
+    z->poly( mon_dermatik );
 }
 
 void mattack::plant( monster *z, int /*index*/ )
@@ -2038,7 +2064,7 @@ void mattack::plant( monster *z, int /*index*/ )
                     z->name().c_str());
         }
 
-        z->poly( "mon_fungaloid_young" );
+        z->poly( mon_fungaloid_young );
         z->moves -= 1000; // It takes a while
     } else {
         if (g->u.sees( *z )) {
@@ -2076,7 +2102,7 @@ void mattack::formblob(monster *z, int index)
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
                 if( z->get_speed_base() > 40 && othermon.type->in_species( "BLOB" ) ) {
-                    if( othermon.type->id == "mon_blob_brain" ) {
+                    if( othermon.type->id == mon_blob_brain ) {
                         // Brain blobs don't get sped up, they heal at the cost of the other blob.
                         // But only if they are hurt badly.
                         if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
@@ -2090,17 +2116,17 @@ void mattack::formblob(monster *z, int index)
                     didit = true;
                     othermon.set_speed_base( othermon.get_speed_base() + 5 );
                     z->set_speed_base( z->get_speed_base() - 5 );
-                    if (othermon.type->id == "mon_blob_small" && othermon.get_speed_base() >= 60) {
-                        othermon.poly( "mon_blob" );
-                    } else if ( othermon.type->id == "mon_blob" && othermon.get_speed_base() >= 80) {
-                        othermon.poly( "mon_blob_large" );
+                    if (othermon.type->id == mon_blob_small && othermon.get_speed_base() >= 60) {
+                        othermon.poly( mon_blob );
+                    } else if ( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80) {
+                        othermon.poly( mon_blob_large );
                     }
                 } else if( (othermon.made_of("flesh") ||
                             othermon.made_of("veggy") ||
                             othermon.made_of("iflesh") ) &&
                            rng(0, z->get_hp()) > rng(0, othermon.get_hp())) { // Blobify!
                     didit = true;
-                    othermon.poly( "mon_blob" );
+                    othermon.poly( mon_blob );
                     othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
                     othermon.set_hp( othermon.get_speed_base() );
                 }
@@ -2108,7 +2134,7 @@ void mattack::formblob(monster *z, int index)
                 // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->mod_speed_bonus( -15 );
-                if (g->summon_mon("mon_blob_small", tripoint(z->posx() + i, z->posy() + j, z->posz()))) {
+                if (g->summon_mon(mon_blob_small, tripoint(z->posx() + i, z->posy() + j, z->posz()))) {
                     monster *blob = g->monster_at(tripoint(z->posx() + i, z->posy() + j, z->posz()));
                     blob->make_ally(z);
                     blob->set_speed_base( blob->get_speed_base() - rng(30, 60) );
@@ -2117,10 +2143,10 @@ void mattack::formblob(monster *z, int index)
             }
         }
         if (didit) { // We did SOMEthing.
-            if (z->type->id == "mon_blob" && z->get_speed_base() <= 50) { // We shrank!
-                z->poly( "mon_blob_small" );
-            } else if (z->type->id == "mon_blob_large" && z->get_speed_base() <= 70) { // We shrank!
-                z->poly( "mon_blob" );
+            if (z->type->id == mon_blob && z->get_speed_base() <= 50) { // We shrank!
+                z->poly( mon_blob_small );
+            } else if (z->type->id == mon_blob_large && z->get_speed_base() <= 70) { // We shrank!
+                z->poly( mon_blob );
             }
 
             z->moves = 0;
@@ -2146,7 +2172,7 @@ void mattack::callblobs(monster *z, int index)
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if( candidate->type->in_species("BLOB") && candidate->type->id != "mon_blob_brain" ) {
+        if( candidate->type->in_species("BLOB") && candidate->type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( candidate );
@@ -2181,7 +2207,7 @@ void mattack::jackson(monster *z, int index)
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species("ZOMBIE") && candidate->type->id != "mon_zombie_jackson") {
+        if(candidate->type->in_species("ZOMBIE") && candidate->type->id != mon_zombie_jackson) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( candidate );
@@ -2197,8 +2223,8 @@ void mattack::jackson(monster *z, int index)
             int assigned_spot = (nearby_points.size() * dancers) / num_dancers;
             post = nearby_points[ assigned_spot ];
         }
-        if ((*ally)->type->id != "mon_zombie_dancer") {
-            (*ally)->poly( "mon_zombie_dancer" );
+        if ((*ally)->type->id != mon_zombie_dancer) {
+            (*ally)->poly( mon_zombie_dancer );
             converted = true;
         }
         int trash = 0;
@@ -2277,7 +2303,7 @@ void mattack::dogthing(monster *z, int index)
     }
 
     z->friendly = 0;
-    z->poly( "mon_headless_dog_thing" );
+    z->poly( mon_headless_dog_thing );
 }
 
 void mattack::tentacle(monster *z, int index)
@@ -2539,7 +2565,7 @@ void mattack::triffid_growth(monster *z, int index)
         add_msg(m_warning, _("The %s young triffid grows into an adult!"),
                 z->name().c_str());
     }
-    z->poly( "mon_triffid" );
+    z->poly( mon_triffid );
 }
 
 void mattack::stare(monster *z, int index)
@@ -3196,7 +3222,7 @@ void mattack::searchlight(monster *z, int index)
             for (int x = zposx - 24; x < zposx + 24; x++)
                 for (int y = zposy - 24; y < zposy + 24; y++) {
                     tripoint dest( x, y, z->posz() );
-                    if (g->mon_at( dest ) != -1 && g->zombie(g->mon_at( dest )).type->id == "mon_turret_searchlight") {
+                    if (g->mon_at( dest ) != -1 && g->zombie(g->mon_at( dest )).type->id == mon_turret_searchlight) {
                         if (x < zposx) {
                             settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                         }
@@ -3755,13 +3781,13 @@ void mattack::breathe(monster *z, int index)
     z->reset_special(index); // Reset timer
     z->moves -= 100;   // It takes a while
 
-    bool able = (z->type->id == "mon_breather_hub");
+    bool able = (z->type->id == mon_breather_hub);
     if (!able) {
         for (int x = z->posx() - 3; x <= z->posx() + 3 && !able; x++) {
             for (int y = z->posy() - 3; y <= z->posy() + 3 && !able; y++) {
                 tripoint dest( x, y, z->posz() );
                 int mondex = g->mon_at(dest);
-                if (mondex != -1 && g->zombie(mondex).type->id == "mon_breather_hub") {
+                if (mondex != -1 && g->zombie(mondex).type->id == mon_breather_hub) {
                     able = true;
                 }
             }
@@ -3783,7 +3809,7 @@ void mattack::breathe(monster *z, int index)
 
     if (!valid.empty()) {
         const tripoint pt = random_entry( valid );
-        if (g->summon_mon("mon_breather", pt)) {
+        if (g->summon_mon(mon_breather, pt)) {
             monster *spawned = g->monster_at(pt);
             spawned->reset_special(0);
             spawned->make_ally(z);
@@ -4127,7 +4153,7 @@ void mattack::parrot(monster *z, int index)
     if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->reset_special(index); // Reset timer
-        const SpeechBubble speech = get_speech( z->type->id );
+        const SpeechBubble speech = get_speech( z->type->id.str() );
         sounds::sound(z->pos(), speech.volume, speech.text);
     }
 }
@@ -4153,7 +4179,7 @@ void mattack::darkman(monster *z, int index)
     if (!free.empty()) {
         z->moves -= 10;
         const tripoint target = random_entry( free );
-        if (g->summon_mon("mon_shadow", target)) {
+        if (g->summon_mon(mon_shadow, target)) {
             monster *shadow = g->monster_at( target );
             shadow->make_ally(z);
         }
@@ -4798,7 +4824,7 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-    if( g->summon_mon(actor->mtype_id, where ) ) {
+    if( g->summon_mon(actor->mtypeid, where ) ) {
         monster *hack = g->monster_at( where );
         hack->make_ally(z);
     }

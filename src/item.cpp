@@ -17,7 +17,6 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "crafting.h"
 #include "martialarts.h"
@@ -35,6 +34,8 @@
 #include <set>
 #include <array>
 #include <tuple>
+
+const mtype_id mon_null( "mon_null" );
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -87,7 +88,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     init();
     type = find_type( new_type );
     bday = turn;
-    corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
+    corpse = type->id == "corpse" ? &mon_null.obj() : nullptr;
     name = type_name(1);
     const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
     if( has_random_charges ) {
@@ -156,15 +157,15 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse( const std::string& mt, unsigned int turn )
+void item::make_corpse( const mtype_id& mt, unsigned int turn )
 {
-    if( !MonsterGenerator::generator().has_mtype( mt ) ) {
+    if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
     const bool isReviveSpecial = one_in( 20 );
     init();
     make( "corpse" );
-    corpse = GetMType( mt );
+    corpse = &mt.obj();
     active = corpse->has_flag( MF_REVIVES );
     if( active && isReviveSpecial ) {
         item_tags.insert( "REVIVE_SPECIAL" );
@@ -172,7 +173,7 @@ void item::make_corpse( const std::string& mt, unsigned int turn )
     bday = turn;
 }
 
-void item::make_corpse( const std::string& mt, unsigned int turn, const std::string &name )
+void item::make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name )
 {
     make_corpse( mt, turn );
     this->name = name;
@@ -180,7 +181,7 @@ void item::make_corpse( const std::string& mt, unsigned int turn, const std::str
 
 void item::make_corpse()
 {
-    make_corpse( "mon_null", calendar::turn );
+    make_corpse( mon_null, calendar::turn );
 }
 
 item::item(JsonObject &jo)
@@ -1801,7 +1802,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                            quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == "mon_null")
+        if (corpse == NULL || corpse->id == mon_null)
             maintext = rm_prefix(ngettext("<item_name>human blood",
                                           "<item_name>human blood",
                                           quantity));
@@ -5112,7 +5113,7 @@ std::string item::type_name( unsigned int quantity ) const
                                corpse->nname().c_str(), name.c_str() );
         }
     } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == "mon_null" ) {
+        if( corpse == nullptr || corpse->id == mon_null ) {
             return rm_prefix( ngettext( "<item_name>human blood",
                                         "<item_name>human blood", quantity ) );
         } else {

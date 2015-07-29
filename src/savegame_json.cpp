@@ -21,7 +21,6 @@
 #include "catacharset.h"
 #include "crafting.h"
 #include "get_version.h"
-#include "monstergenerator.h"
 #include "scenario.h"
 #include "monster.h"
 #include "monfaction.h"
@@ -1043,7 +1042,7 @@ void monster::load(JsonObject &data)
     std::string sidtmp;
     // load->str->int
     data.read("typeid", sidtmp);
-    type = GetMType(sidtmp);
+    type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
     data.read("posx", position.x);
@@ -1170,7 +1169,7 @@ void item::io( Archive& archive )
             // backwards compatibility, nullptr should not be stored at all
             corpse = nullptr;
         } else {
-            corpse = GetMType( id );
+            corpse = &mtype_id( id ).obj();
         }
     };
 
@@ -1195,7 +1194,7 @@ void item::io( Archive& archive )
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
     archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
-    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
+    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );

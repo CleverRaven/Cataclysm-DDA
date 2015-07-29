@@ -11,6 +11,8 @@
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 struct mtype;
 
@@ -19,7 +21,7 @@ typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
 struct MonsterGroupEntry {
-    std::string name;
+    mtype_id name;
     int frequency;
     int cost_multiplier;
     int pack_minimum;
@@ -32,42 +34,42 @@ struct MonsterGroupEntry {
         return (ends <= 0);
     }
 
-    MonsterGroupEntry(std::string new_name, int new_freq, int new_cost,
+    MonsterGroupEntry( const mtype_id& id, int new_freq, int new_cost,
                       int new_pack_max, int new_pack_min, int new_starts,
                       int new_ends)
+    : name( id )
+    , frequency( new_freq )
+    , cost_multiplier( new_cost )
+    , pack_minimum( new_pack_min )
+    , pack_maximum( new_pack_max )
+    , starts( new_starts )
+    , ends( new_ends )
     {
-        name = new_name;
-        frequency = new_freq;
-        cost_multiplier = new_cost;
-        pack_minimum = new_pack_min;
-        pack_maximum = new_pack_max;
-        starts = new_starts;
-        ends = new_ends;
     }
 };
 
 struct MonsterGroupResult {
-    std::string name;
+    mtype_id name;
     int pack_size;
 
     MonsterGroupResult()
+    : name( "mon_null" )
+    , pack_size( 0 )
     {
-        name = "mon_null";
-        pack_size = 0;
     }
 
-    MonsterGroupResult(std::string new_name, int new_pack_size)
+    MonsterGroupResult( const mtype_id& id, int new_pack_size)
+    : name( id )
+    , pack_size( new_pack_size )
     {
-        name = new_name;
-        pack_size = new_pack_size;
     }
 };
 
 struct MonsterGroup {
     mongroup_id name;
-    std::string defaultMonster;
+    mtype_id defaultMonster;
     FreqDef  monsters;
-    bool IsMonsterInGroup(const std::string &mtypeid) const;
+    bool IsMonsterInGroup( const mtype_id& id ) const;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
@@ -87,15 +89,17 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
     bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id& ptype, int pposx, int pposy, int pposz,
-              unsigned int prad, unsigned int ppop ) : pos(pposx, pposy, pposz)
+              unsigned int prad, unsigned int ppop )
+    : type( ptype )
+    , pos( pposx, pposy, pposz )
+    , radius( prad )
+    , population( ppop )
+    , target()
+    , interest( 0 )
+    , dying( false )
+    , horde( false )
+    , diffuse( false )
     {
-        type = ptype;
-        radius = prad;
-        population = ppop;
-        interest = 0;
-        dying = false;
-        diffuse = false;
-        horde = false;
     }
     mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
@@ -149,10 +153,10 @@ class MonsterGroupManager
         static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup(const mongroup_id& group,
                 int *quantity = 0, int turn = -1);
-        static bool IsMonsterInGroup(const mongroup_id& group, const std::string& mtype_id);
+        static bool IsMonsterInGroup(const mongroup_id& group, const mtype_id& id );
         static bool isValidMonsterGroup(const mongroup_id& group);
-        static const mongroup_id& Monster2Group(std::string);
-        static std::vector<std::string> GetMonstersFromGroup(const mongroup_id& group);
+        static const mongroup_id& Monster2Group( const mtype_id& id );
+        static std::vector<mtype_id> GetMonstersFromGroup(const mongroup_id& group);
         static const MonsterGroup &GetMonsterGroup(const mongroup_id& group);
         static const MonsterGroup &GetUpgradedMonsterGroup(const mongroup_id& group);
 
@@ -160,7 +164,7 @@ class MonsterGroupManager
 
         static void ClearMonsterGroups();
 
-        static bool monster_is_blacklisted( const mtype *m );
+        static bool monster_is_blacklisted( const mtype_id &m );
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

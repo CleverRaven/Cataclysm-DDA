@@ -445,7 +445,7 @@ iuse_actor *place_monster_iuse::clone() const
 
 void place_monster_iuse::load( JsonObject &obj )
 {
-    mtype_id = obj.get_string( "monster_id" );
+    mtypeid = mtype_id( obj.get_string( "monster_id" ) );
     obj.read( "friendly_msg", friendly_msg );
     obj.read( "hostile_msg", hostile_msg );
     obj.read( "difficulty", difficulty );
@@ -457,7 +457,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
-    monster newmon( mtype_id );
+    monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
@@ -528,7 +528,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
+    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     g->add_zombie( newmon, true );

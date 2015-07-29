@@ -21,6 +21,7 @@ class player;
 class npc;
 struct itype;
 struct mtype;
+using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
@@ -114,8 +115,8 @@ public:
          * Without any parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( const std::string& mt, unsigned int turn );
-        void make_corpse( const std::string& mt, unsigned int turn, const std::string &name );
+        void make_corpse( const mtype_id& mt, unsigned int turn );
+        void make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name );
         void make_corpse();
         /*@}*/
         /**

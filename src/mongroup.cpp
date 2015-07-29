@@ -22,6 +22,8 @@
 //     default monster will never get picked, and nor will the others past the
 //     monster that makes the point count go over 1000
 
+const mtype_id mon_null( "mon_null" );
+
 std::map<mongroup_id, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
@@ -66,22 +68,23 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
     //If the default monster is too difficult, replace this with "mon_null"
     if(turn != -1 &&
-       (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS(GetMType(group.defaultMonster)->difficulty))) {
-        spawn_details = MonsterGroupResult("mon_null", 0);
+       (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS( group.defaultMonster.obj().difficulty))) {
+        spawn_details = MonsterGroupResult(mon_null, 0);
     }
 
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
+        const mtype& mt = it->name.obj();
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
         valid_entry = valid_entry && (turn == -1 ||
-                                      (turn + 900) >= (MINUTES(STARTING_MINUTES) + HOURS(GetMType(it->name)->difficulty)));
+                                      (turn + 900) >= (MINUTES(STARTING_MINUTES) + HOURS(mt.difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
         if(ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
-            valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") ||
-                                          GetMType(it->name)->in_category("WILDLIFE"));
+            valid_entry = valid_entry && (mt.in_category("CLASSIC") ||
+                                          mt.in_category("WILDLIFE"));
         }
         //Insure that the time is not before the spawn first appears or after it stops appearing
         valid_entry = valid_entry && (HOURS(it->starts) < calendar::turn.get_turn());
@@ -169,7 +172,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     return spawn_details;
 }
 
-bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
+bool MonsterGroup::IsMonsterInGroup( const mtype_id& mtypeid ) const
 {
     if( defaultMonster == mtypeid ) {
         return true;
@@ -182,12 +185,12 @@ bool MonsterGroup::IsMonsterInGroup(const std::string &mtypeid) const
     return false;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const std::string& monster)
+bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const mtype_id& monster )
 {
     return group.obj().IsMonsterInGroup( monster );
 }
 
-const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
+const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
 {
     for( auto &g : monsterGroupMap ) {
         if( g.second.IsMonsterInGroup( monster ) ) {
@@ -198,11 +201,11 @@ const mongroup_id& MonsterGroupManager::Monster2Group(std::string monster)
     return null;
 }
 
-std::vector<std::string> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
+std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
 {
     const MonsterGroup &g = group.obj();
 
-    std::vector<std::string> monsters;
+    std::vector<mtype_id> monsters;
 
     monsters.push_back(g.defaultMonster);
 
@@ -226,7 +229,7 @@ const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& grou
         // but it prevents further messages about invalid monster type id
         auto &g = monsterGroupMap[group];
         g.name = group;
-        g.defaultMonster = "mon_null";
+        g.defaultMonster = mon_null;
         return g;
     } else {
         return it->second;
@@ -248,22 +251,23 @@ void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
     add_to_set(monster_categories_whitelist, jo, "categories");
 }
 
-bool MonsterGroupManager::monster_is_blacklisted(const mtype *m)
+bool MonsterGroupManager::monster_is_blacklisted(const mtype_id& m)
 {
-    if(m == NULL || monster_whitelist.count(m->id) > 0) {
+    if(monster_whitelist.count(m.str()) > 0) {
         return false;
     }
+    const mtype& mt = m.obj();
     for( const auto &elem : monster_categories_whitelist ) {
-        if( m->categories.count( elem ) > 0 ) {
+        if( mt.categories.count( elem ) > 0 ) {
             return false;
         }
     }
     for( const auto &elem : monster_categories_blacklist ) {
-        if( m->categories.count( elem ) > 0 ) {
+        if( mt.categories.count( elem ) > 0 ) {
             return true;
         }
     }
-    if(monster_blacklist.count(m->id) > 0) {
+    if(monster_blacklist.count(m.str()) > 0) {
         return true;
     }
     // Empty whitelist: default to enable all,
@@ -275,26 +279,26 @@ void MonsterGroupManager::FinalizeMonsterGroups()
 {
     const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &mtid : monster_whitelist ) {
-        if( !gen.has_mtype( mtid ) ) {
+        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
             debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &mtid : monster_blacklist ) {
-        if( !gen.has_mtype( mtid ) ) {
+        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &elem : monsterGroupMap ) {
         MonsterGroup &mg = elem.second;
         for(FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-            if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(c->name))) {
+            if(MonsterGroupManager::monster_is_blacklisted( c->name )) {
                 c = mg.monsters.erase(c);
             } else {
                 ++c;
             }
         }
-        if(MonsterGroupManager::monster_is_blacklisted(gen.GetMType(mg.defaultMonster))) {
-            mg.defaultMonster = "mon_null";
+        if(MonsterGroupManager::monster_is_blacklisted( mg.defaultMonster )) {
+            mg.defaultMonster = mon_null;
         }
     }
 }
@@ -304,13 +308,13 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
     MonsterGroup g;
 
     g.name = mongroup_id( jo.get_string("name") );
-    g.defaultMonster = jo.get_string("default");
+    g.defaultMonster = mtype_id( jo.get_string("default") );
     if (jo.has_array("monsters")) {
         JsonArray monarr = jo.get_array("monsters");
 
         while (monarr.has_more()) {
             JsonObject mon = monarr.next_object();
-            std::string name = mon.get_string("monster");
+            const mtype_id name = mtype_id( mon.get_string("monster") );
             int freq = mon.get_int("freq");
             int cost = mon.get_int("cost_multiplier");
             int pack_min = 1;
@@ -371,16 +375,14 @@ void MonsterGroupManager::ClearMonsterGroups()
 
 void MonsterGroupManager::check_group_definitions()
 {
-    const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
-        if(mg.defaultMonster != "mon_null" && !gen.has_mtype(mg.defaultMonster)) {
+        if( !mg.defaultMonster.is_valid() ) {
             debugmsg("monster group %s has unknown default monster %s", mg.name.c_str(),
                      mg.defaultMonster.c_str());
         }
         for( const auto &mge : mg.monsters ) {
-
-            if(mge.name == "mon_null" || !gen.has_mtype(mge.name)) {
+            if( !mge.name.is_valid() ) {
                 // mon_null should not be valid here
                 debugmsg("monster group %s contains unknown monster %s", mg.name.c_str(), mge.name.c_str());
             }

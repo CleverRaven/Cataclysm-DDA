@@ -292,6 +292,12 @@ class cata_tiles
         void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
         template <typename basetype>
         void tile_loading_report(size_t count, std::string const & label, std::string const & prefix);
+        /**
+         * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
+         * to an id string (result of id_func must be convertible to string).
+         */
+        template<typename Iter, typename Func>
+        void lr_generic( Iter begin, Iter end, Func id_func, const std::string &label, const std::string &prefix );
         /** Lighting */
         void init_light();
 

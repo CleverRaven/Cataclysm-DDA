@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "enums.h"
+#include "string_id.h"
 
 #include <map>
 #include <set>
@@ -18,8 +19,7 @@ struct projectile;
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
-
-#define GetMType(x) MonsterGenerator::generator().get_mtype(x)
+using mtype_id = string_id<mtype>;
 
 struct species_type {
     int short_id;
@@ -72,13 +72,12 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
-        mtype *get_mtype(std::string mon);
-        mtype *get_mtype(int mon);
-        bool has_mtype(const std::string &mon) const;
+        mtype &get_mtype( const mtype_id& id );
+        bool has_mtype( const mtype_id &id ) const;
         bool has_species(const std::string &species) const;
-        std::map<std::string, mtype *> get_all_mtypes() const;
-        std::vector<std::string> get_all_mtype_ids() const;
-        mtype *get_valid_hallucination();
+        std::map<mtype_id, mtype *> get_all_mtypes() const;
+        std::vector<mtype_id> get_all_mtype_ids() const;
+        const mtype_id &get_valid_hallucination() const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -115,7 +114,7 @@ class MonsterGenerator
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
-        std::map<std::string, mtype *> mon_templates;
+        std::map<mtype_id, mtype *> mon_templates;
         std::map<std::string, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;

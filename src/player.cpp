@@ -62,6 +62,11 @@
 #include <stdlib.h>
 #include <fstream>
 
+const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+const mtype_id mon_null( "mon_null" );
+const mtype_id mon_player_blob( "mon_player_blob" );
+const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
@@ -2050,8 +2055,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     int total_kills = 0;
 
-    const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
-    for( const auto &monid : monids ) {
+    for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
         if( g->kill_count( monid.first ) > 0 ) {
             memorial_file << "  " << monid.second->sym << " - "
                           << string_format( "%4d", g->kill_count( monid.first ) ) << " "
@@ -4660,7 +4664,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         for (int i = 0; i < snakes && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon("mon_shadow_snake", target)) {
+            if (g->summon_mon(mon_shadow_snake, target)) {
                 monster *snake = g->monster_at( target );
                 snake->friendly = -1;
             }
@@ -4682,7 +4686,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon("mon_player_blob", target)) {
+            if (g->summon_mon(mon_player_blob, target)) {
                 monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
@@ -6764,7 +6768,7 @@ void player::hardcoded_effects(effect &it)
                     }
                     tripoint dest( i, j, posz() );
                     if (g->mon_at( dest ) == -1) {
-                        if (g->summon_mon("mon_dermatik_larva", dest)) {
+                        if (g->summon_mon(mon_dermatik_larva, dest)) {
                             monster *grub = g->monster_at(dest);
                             if (one_in(3)) {
                                 grub->friendly = -1;
@@ -9717,7 +9721,7 @@ bool player::eat(item *eaten, it_comest *comest)
             int numslime = 1;
             for (int i = 0; i < numslime && !valid.empty(); i++) {
                 const tripoint target = random_entry_removed( valid );
-                if (g->summon_mon("mon_player_blob", target)) {
+                if (g->summon_mon(mon_player_blob, target)) {
                     monster *slime = g->monster_at( target );
                     slime->friendly = -1;
                 }
@@ -13843,7 +13847,7 @@ void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
     item body;
-    body.make_corpse( "mon_null", calendar::turn, name );
+    body.make_corpse( mon_null, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

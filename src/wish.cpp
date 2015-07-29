@@ -269,8 +269,12 @@ class wish_monster_callback: public uimenu_callback
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
+        const std::vector<const mtype*> &mtypes;
 
-        wish_monster_callback() : msg(""), padding("")
+        wish_monster_callback( const std::vector<const mtype*>& mtypes )
+        : msg("")
+        , padding("")
+        , mtypes( mtypes )
         {
             started = false;
             friendly = false;
@@ -318,7 +322,7 @@ class wish_monster_callback: public uimenu_callback
             }
             if (entnum != lastent) {
                 lastent = entnum;
-                tmp = monster( GetMType(entnum)->id );
+                tmp = monster( mtypes[ entnum ]->id );
                 if (friendly) {
                     tmp.friendly = -1;
                 }
@@ -355,7 +359,7 @@ class wish_monster_callback: public uimenu_callback
 
 void game::wishmonster( const tripoint &p )
 {
-    const std::map<std::string, mtype *> montypes = MonsterGenerator::generator().get_all_mtypes();
+    std::vector<const mtype*> mtypes;
 
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -364,22 +368,23 @@ void game::wishmonster( const tripoint &p )
     wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmonster_selected;
-    wish_monster_callback *cb = new wish_monster_callback();
+    wish_monster_callback *cb = new wish_monster_callback( mtypes );
     wmenu.callback = cb;
 
     int i = 0;
-    for( const auto &montype : montypes ) {
+    for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
         wmenu.addentry( i, true, 0, "%s", montype.second->nname().c_str() );
         wmenu.entries[i].extratxt.txt = montype.second->sym;
         wmenu.entries[i].extratxt.color = montype.second->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;
+        mtypes.push_back( montype.second );
     }
 
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            monster mon = monster( GetMType(wmenu.ret)->id );
+            monster mon = monster( mtypes[ wmenu.ret ]->id );
             if (cb->friendly) {
                 mon.friendly = -1;
             }

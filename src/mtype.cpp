@@ -8,7 +8,7 @@
 
 mtype::mtype ()
 {
-    id = "mon_null";
+    id = mtype_id( "mon_null" );
     name = "human";
     name_plural = "humans";
     description = "";
@@ -32,7 +32,7 @@ mtype::mtype ()
     def_chance = 0;
     upgrades = false;
     half_life = -1;
-    upgrade_into = "NULL";
+    upgrade_into = mtype_id( "mon_null" );
     upgrade_group = mongroup_id( "GROUP_NULL" );
     dies.push_back(&mdeath::normal);
     sp_attack.push_back(nullptr);

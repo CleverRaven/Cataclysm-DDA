@@ -109,7 +109,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "kills" );
         json.start_object();
         for( auto &elem : kills ) {
-            json.member( elem.first, elem.second );
+            json.member( elem.first.str(), elem.second );
         }
         json.end_object();
 
@@ -236,7 +236,7 @@ void game::unserialize(std::ifstream & fin)
         JsonObject odata = data.get_object("kills");
         std::set<std::string> members = odata.get_member_names();
         for( const auto &member : members ) {
-            kills[member] = odata.get_int( member );
+            kills[mtype_id( member )] = odata.get_int( member );
         }
 
         data.read("player", u);

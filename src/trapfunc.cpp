@@ -12,6 +12,10 @@
 #include "mapdata.h"
 #include "mtype.h"
 
+const mtype_id mon_blob( "mon_blob" );
+const mtype_id mon_shadow( "mon_shadow" );
+const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
@@ -572,11 +576,11 @@ void trapfunc::goo( Creature *c, const tripoint &p )
                 n->check_dead_state();
             }
         } else if( z != nullptr ) {
-            if( z->type->id == "mon_blob" ) {
+            if( z->type->id == mon_blob ) {
                 z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
             } else {
-                z->poly( "mon_blob" );
+                z->poly( mon_blob );
                 z->set_speed_base( z->get_speed_base() - 15 );
                 z->set_hp( z->get_speed() );
             }
@@ -1123,7 +1127,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
     if( tries < 5 ) {
-        if( g->summon_mon( "mon_shadow", monp ) ) {
+        if( g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             monster *spawned = g->monster_at( monp );
             spawned->reset_special_rng( 0 );
@@ -1177,7 +1181,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
 
         if( tries < 5 ) {
             add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
-            g->summon_mon( "mon_shadow_snake", p );
+            g->summon_mon( mon_shadow_snake, p );
             g->m.remove_trap( p );
         }
     }
