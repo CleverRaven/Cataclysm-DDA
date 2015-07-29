@@ -218,7 +218,6 @@ class game
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
         bool is_sheltered( const tripoint &p );
-        bool is_underground( const tripoint &p );
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a

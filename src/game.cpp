@@ -6930,11 +6930,6 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::is_underground( const tripoint &p )
-{
-    return ( p.z < 0 );
-}
-
 bool game::revive_corpse( const tripoint &p, const item &it )
 {
     if (!it.is_corpse()) {

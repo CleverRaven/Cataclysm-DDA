@@ -415,7 +415,12 @@ std::string sounds::sound_at( const tripoint &location )
 }
 
 #ifdef SDL_SOUND
-//sfx::
+
+bool is_underground( const tripoint &p )
+{
+    return p.z < 0;
+}
+
 void sfx::fade_audio_group( int tag, int duration ) {
     Mix_FadeOutGroup( tag, duration );
 }
@@ -486,24 +491,24 @@ void sfx::do_ambient_sfx() {
         play_ambient_variant_sound( "environment", "daytime", get_heard_volume( g->u.pos() ), 0, 1000 );
     }
     // We are underground
-    if( ( g->is_underground( g->u.pos() ) && !is_channel_playing( 2 ) &&
-            !g->u.get_effect_int( "deaf" ) > 0 ) || ( g->is_underground( g->u.pos() ) &&
+    if( ( is_underground( g->u.pos() ) && !is_channel_playing( 2 ) &&
+            !g->u.get_effect_int( "deaf" ) > 0 ) || ( is_underground( g->u.pos() ) &&
                     g->weather != previous_weather && !g->u.get_effect_int( "deaf" ) > 0 ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "underground", get_heard_volume( g->u.pos() ), 2,
                                     1000 );
         // We are indoors
-    } else if( ( g->is_sheltered( g->u.pos() ) && !g->is_underground( g->u.pos() ) &&
+    } else if( ( g->is_sheltered( g->u.pos() ) && !is_underground( g->u.pos() ) &&
                  !is_channel_playing( 3 ) && !g->u.get_effect_int( "deaf" ) > 0 ) ||
-               ( g->is_sheltered( g->u.pos() ) && !g->is_underground( g->u.pos() ) &&
+               ( g->is_sheltered( g->u.pos() ) && !is_underground( g->u.pos() ) &&
                  g->weather != previous_weather && !g->u.get_effect_int( "deaf" ) > 0 ) ) {
         fade_audio_group( 1, 1000 );
         fade_audio_group( 2, 1000 );
         play_ambient_variant_sound( "environment", "indoors", get_heard_volume( g->u.pos() ), 3, 1000 );
     }
     // We are indoors and it is also raining
-    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !g->is_underground( g->u.pos() )
+    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground( g->u.pos() )
             && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", get_heard_volume( g->u.pos() ), 4,
                                     1000 );
