@@ -507,7 +507,7 @@
         "bullet": "700nx",
         "items": [
             ["lead", 14],
-            ["50_casing", 1],
+            ["700nx_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 38],
             ["copper", 9]
@@ -518,7 +518,7 @@
         "bullet": "300_winmag",
         "items": [
             ["lead", 8],
-            ["50_casing", 1],
+            ["300_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 16],
             ["copper", 21]
@@ -529,7 +529,7 @@
         "bullet": "9x18mm",
         "items": [
             ["lead", 4],
-            ["50_casing", 1],
+            ["9x18mm_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 3]
         ]
@@ -539,7 +539,7 @@
         "bullet": "9x18mmP2",
         "items": [
             ["lead", 4],
-            ["50_casing", 1],
+            ["9x18mm_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 5]
         ]
@@ -549,7 +549,7 @@
         "bullet": "9x18mmfmj",
         "items": [
             ["lead", 4],
-            ["50_casing", 1],
+            ["9x18mm_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 3],
 			["copper", 2]
@@ -560,7 +560,7 @@
         "bullet": "762_54R",
         "items": [
             ["lead", 3],
-            ["50_casing", 1],
+            ["762_casing", 1],
             ["lgrifle_primer", 1],
             ["gunpowder", 8],
 			["copper", 10]
