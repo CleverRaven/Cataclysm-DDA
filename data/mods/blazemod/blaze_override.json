@@ -106,10 +106,28 @@
         "item" : "nx17",
         "difficulty" : 13,
         "location" : "on_roof",
-        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 16,
         "breaks_into" : [
             {"item": "nx17", "min": 0, "max": 1}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "laser_rifle",
+        "name" : "mounted A7 laser rifle",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "laser_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "laser_rifle", "min": 0, "max": 1}
         ]
     },{
         "type" : "vehicle_part",
@@ -145,8 +163,7 @@
         "difficulty" : 4,
         "size" : 40,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 16,
+        "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
             {"item": "m240", "min": 0, "max": 1}
         ]
@@ -165,8 +182,7 @@
         "difficulty" : 4,
         "size" : 40,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 16,
+        "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
             {"item": "m60", "min": 0, "max": 1}
         ]
@@ -185,8 +201,7 @@
         "difficulty" : 5,
         "size" : 40,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 18,
+        "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
             {"item": "abzats", "min": 0, "max": 1}
         ]
@@ -205,8 +220,7 @@
         "difficulty" : 7,
         "size" : 40,
         "location" : "on_roof",
-        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
-        "folded_volume": 32,
+        "flags" : ["TURRET", "CARGO"],
         "breaks_into" : [
             {"item": "m134", "min": 0, "max": 1}
         ]
