@@ -512,5 +512,16 @@
             ["gunpowder", 38],
             ["copper", 9]
         ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "300_winmag",
+        "items": [
+            ["lead", 8],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 16],
+            ["copper", 21]
+        ]
     }
 ]
