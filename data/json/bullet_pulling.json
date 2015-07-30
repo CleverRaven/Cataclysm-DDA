@@ -523,5 +523,36 @@
             ["gunpowder", 16],
             ["copper", 21]
         ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mm",
+        "items": [
+            ["lead", 4],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 3]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mmP2",
+        "items": [
+            ["lead", 4],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 5]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mmfmj",
+        "items": [
+            ["lead", 4],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 5],
+			["copper", 2]
+        ]
     }
 ]
