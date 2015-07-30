@@ -9,7 +9,7 @@
 #include <memory>
 
 struct iteminfo;
-enum direction : int;
+enum direction : unsigned;
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502

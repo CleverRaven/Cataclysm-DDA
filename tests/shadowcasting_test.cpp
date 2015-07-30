@@ -9,8 +9,8 @@
 #include "stdio.h"
 
 // Constants setting the ratio of set to unset tiles.
-constexpr int NUMERATOR = 1;
-constexpr int DENOMINATOR = 10;
+constexpr unsigned int NUMERATOR = 1;
+constexpr unsigned int DENOMINATOR = 10;
 
 // The width and height of the area being checked.
 constexpr int DIMENSION = 121;
@@ -86,9 +86,9 @@ void shadowcasting_runoff(int iterations) {
     std::uniform_int_distribution<unsigned int> distribution(0, DENOMINATOR);
     auto rng = std::bind ( distribution, generator );
 
-    float seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
-    float seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
-    float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {0};
+    float seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
+    float seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
+    float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
