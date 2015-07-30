@@ -394,6 +394,17 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "3006fmj",
+        "items": [
+            ["lead", 6],
+            ["3006_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 8],
+            ["copper", 6]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "3006_incendiary",
         "items": [
             ["incendiary", 6],
