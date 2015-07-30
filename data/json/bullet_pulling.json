@@ -490,5 +490,16 @@
             ["gunpowder", 100],
             ["copper", 27]
         ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "700nx",
+        "items": [
+            ["lead", 14],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 38],
+            ["copper", 9]
+        ]
     }
 ]
