@@ -490,5 +490,35 @@
             ["gunpowder", 100],
             ["copper", 27]
         ]
-    }
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "762_54R",
+        "items": [
+            ["lead", 7],
+            ["762R_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 10],
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "3006",
+        "items": [
+            ["lead", 7],
+            ["3006_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 10],
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "700nx",
+        "items": [
+            ["lead", 25],
+            ["700nx_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 150],
+        ]
+    },
 ]
