@@ -551,7 +551,7 @@
             ["lead", 4],
             ["50_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 5],
+            ["gunpowder", 3],
 			["copper", 2]
         ]
     }
