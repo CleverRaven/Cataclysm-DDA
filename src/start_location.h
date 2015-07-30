@@ -52,6 +52,7 @@ class start_location
          */
         void add_map_special( const tripoint &omtstart, const std::string& map_special ) const;
 
+        void handle_heli_crash( player &u ) const;
     private:
         std::string _ident;
         std::string _name;

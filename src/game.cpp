@@ -713,7 +713,7 @@ void game::start_game(std::string worldname)
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
     if(scen->has_flag("HELI_CRASH")) {
-        u.handle_heli_crash();
+        start_loc.handle_heli_crash( u );
     }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
