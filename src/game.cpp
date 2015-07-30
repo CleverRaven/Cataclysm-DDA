@@ -715,6 +715,9 @@ void game::start_game(std::string worldname)
         u.add_effect("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
+    if(scen->has_flag("HELI_CRASH")) {
+        start_loc.handle_heli_crash( u );
+    }
     //~ %s is player name
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),

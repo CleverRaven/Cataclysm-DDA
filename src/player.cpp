@@ -14108,4 +14108,3 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line)
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
     }
 }
-

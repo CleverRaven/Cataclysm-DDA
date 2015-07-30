@@ -166,6 +166,7 @@
     "start_name": "Crash site",
     "professions" : ["unemployed", "bio_soldier"],
     "allowed_locs" : ["field"],
-    "map_special": "mx_helicopter"
+    "map_special": "mx_helicopter",
+    "flags": ["HELI_CRASH"]
     }
 ]

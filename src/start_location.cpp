@@ -382,3 +382,28 @@ void start_location::add_map_special( const tripoint &omtstart, const std::strin
 
     m.save();
 }
+
+void start_location::handle_heli_crash( player &u ) const {
+    for (int i = 2; i < num_hp_parts; i++) { // Skip head + torso for balance reasons.
+        auto part = hp_part(i);
+        auto bp_part = u.hp_to_bp(part);
+        int roll = int(rng(1, 8));
+        switch (roll) {
+            case 1:
+            case 2:// Damage + Bleed
+                u.add_effect("bleed", 60, bp_part);
+            case 3:
+            case 4:
+            case 5:// Just damage
+            {
+                auto maxHp = u.get_hp_max(part);
+                // Body part health will range from 33% to 66% with occasional bleed
+                int dmg = int(rng(maxHp / 3, maxHp * 2 / 3));
+                u.apply_damage(nullptr, bp_part, dmg);
+                break;
+            }
+            default: // No damage
+                break;
+        }
+    }
+}
