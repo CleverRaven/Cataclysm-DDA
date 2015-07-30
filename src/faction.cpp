@@ -13,6 +13,7 @@
 #include "json.h"
 #include "translations.h"
 #include <string>
+#include <cstdlib>
 
 std::string invent_name();
 std::string invent_adj();
