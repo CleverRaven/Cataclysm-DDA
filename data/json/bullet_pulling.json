@@ -554,5 +554,16 @@
             ["gunpowder", 3],
 			["copper", 2]
         ]
+    },
+	{
+        "type": "BULLET_PULLING",
+        "bullet": "762_54R",
+        "items": [
+            ["lead", 3],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 8],
+			["copper", 10]
+        ]
     }
 ]
