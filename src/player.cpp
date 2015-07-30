@@ -11566,7 +11566,7 @@ void player::read(int inventory_position)
         // We're just skimming, so it's 10x faster.
         time /= 10;
 
-        activity = player_activity(ACT_READ, time - moves, -1, inventory_position, "");
+        assign_activity( ACT_READ, time - moves, -1, inventory_position );
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
@@ -11642,7 +11642,7 @@ void player::read(int inventory_position)
         time += (tmp->time * (tmp->intel - get_int()) * 100);
     }
 
-    activity = player_activity(ACT_READ, time, -1, inventory_position, "");
+    assign_activity( ACT_READ, time, -1, inventory_position );
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
