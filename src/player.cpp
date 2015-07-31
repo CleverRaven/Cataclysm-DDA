@@ -1382,7 +1382,7 @@ void player::update_bodytemp()
         if( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[i] / drench_capacity[static_cast<body_part>( i )]; // 0 - 100
+            int wetness_percentage = 100 * body_wetness[i] / drench_capacity[i]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() +
@@ -8418,7 +8418,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
         if( mfb(i) & flags ){
-            bp_wetness_max = drench_capacity[static_cast<body_part>( i )];
+            bp_wetness_max = drench_capacity[i];
         }
 
         if( bp_wetness_max == 0 ){
@@ -8441,7 +8441,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
 
 void player::drench_mut_calc()
 {
-    for( int i = 0; i < num_bp; i++ ) {
+    for( size_t i = 0; i < num_bp; i++ ) {
         body_part bp = static_cast<body_part>( i );
         int ignored = 0;
         int neutral = 0;
@@ -8457,9 +8457,9 @@ void player::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        mut_drench[i][WT_GOOD] = good;
+        mut_drench[i][WT_NEUTRAL] = neutral;
+        mut_drench[i][WT_IGNORED] = ignored;
     }
 }
 
@@ -8479,14 +8479,13 @@ void player::apply_wetness_morale( int temperature )
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( int i = bp_torso; i < num_bp; ++i ) {
-        const body_part bp = static_cast<body_part>( i );
         // Sum of body wetness can go up to 103
-        const int part_drench = body_wetness[bp];
+        const int part_drench = body_wetness[i];
         if( part_drench == 0 ) {
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp];
+        const auto &part_arr = mut_drench[i];
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];
@@ -8496,7 +8495,7 @@ void player::apply_wetness_morale( int temperature )
         }
 
         int bp_morale = 0;
-        const bool is_friendly = wet_friendliness[bp];
+        const bool is_friendly = wet_friendliness[i];
         const int effective_drench = part_drench - part_ignored;
         if( is_friendly ) {
             // Using entire bonus from mutations and then some "human" bonus
@@ -8513,7 +8512,7 @@ void player::apply_wetness_morale( int temperature )
 
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[i] ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = (part_temperature - BODYTEMP_COLD) /
                                 (BODYTEMP_HOT - BODYTEMP_COLD);
@@ -8583,21 +8582,20 @@ void player::update_body_wetness( const w_point &weather )
     }
 
     for( int i = 0; i < num_bp; ++i ) {
-        const body_part bp = static_cast<body_part>( i );
-        if( body_wetness[bp] == 0 ) {
+        if( body_wetness[i] == 0 ) {
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = drench_capacity[bp];
+        int drying_chance = drench_capacity[i];
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+        if( temp_conv[i] >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( temp_conv[bp] >=  BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv[i] >=  BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
-        } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
+        } else if( temp_conv[i] >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
-        } else if( temp_conv[bp] > BODYTEMP_COLD ) {
+        } else if( temp_conv[i] > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
