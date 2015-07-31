@@ -1603,12 +1603,20 @@ void advanced_inventory::display()
             if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
                 int idx = ( spane.get_area() == AIM_INVENTORY ) ?
                           sitem->idx : player::worn_position_to_index( sitem->idx );
+                // Setup a "return to AIM" activity. If examining the item creates a new activity
+                // (e.g. reading, reloading, activating), the new activity will be put on top of
+                // "return to AIM". Once the new activity is finished, "return to AIM" comes back
+                // (automatically, see player activity handling) and it re-opens the AIM.
+                // If examining the item did not create a new activity, we have to remove
+                // "return to AIM".
+                do_return_entry();
+                assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
                 ret = g->inventory_item_menu( idx, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, ( src == right ? 0 : -1 ) );
-                // if player has started an activity, leave the screen and process it
-                if( !g->u.has_activity( ACT_NULL ) ) {
-                    do_return_entry();
+                if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
                     exit = true;
+                } else {
+                    g->u.cancel_activity();
                 }
                 // Might have changed a stack (activated an item, repaired an item, etc.)
                 if( spane.get_area() == AIM_INVENTORY ) {
