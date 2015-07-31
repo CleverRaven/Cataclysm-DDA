@@ -390,7 +390,7 @@ task_reason veh_interact::cant_do (char mode)
     bool part_free = true;
     bool has_skill = true;
     bool pass_checks = false; // Used in refill only
-    bool has_biostr = false;
+    bool has_str = false;
     
     switch (mode) {
     case 'i': // install mode
@@ -448,8 +448,8 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
-		has_biostr = g->u.has_active_bionic("bio_hydraulics");
-        has_tools = has_wrench && (has_jack || has_biostr) && has_wheel;
+		has_str = (g->u.get_str() * TIRE_CHANGE_STR_MOD) >= veh->total_mass();
+        has_tools = has_wrench && (has_jack || has_str) && has_wheel;
         break;
     case 'a': // relabel
         valid_target = cpart >= 0;
@@ -1167,7 +1167,7 @@ void veh_interact::do_tirechange()
     display_mode('c');
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
-    bool has_biostr = g->u.has_active_bionic("bio_hydraulics");    
+    bool has_str = (g->u.get_str() * TIRE_CHANGE_STR_MOD) >= veh->total_mass();
     switch( reason ) {
     case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There is no wheel to change here."));
@@ -1175,10 +1175,9 @@ void veh_interact::do_tirechange()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color> or active <color_%3$s>hydraulic muscles</color> bionic."),
+                       _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>. Being strong enougth allows to lift a car to change the tire."),
                        has_wrench ? "ltgreen" : "red",
-                       has_jack ? "ltgreen" : "red",
-                       has_biostr ? "ltgreen" : "red");
+                       has_jack ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
@@ -1197,7 +1196,7 @@ void veh_interact::do_tirechange()
         display_list (pos, wheel_types);
         itype_id itm = sel_vpart_info->item;
         bool has_comps = crafting_inv.has_components(itm, 1);
-        bool has_tools = (has_jack || has_biostr) && has_wrench;
+        bool has_tools = (has_jack || has_str) && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
