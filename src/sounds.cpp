@@ -64,12 +64,13 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 static std::unordered_map<tripoint, sound_event> sound_markers;
 std::vector<sound_effect> sound_effects_p;
 
-void sounds::ambient_sound( const tripoint &p, int vol, std::string description ) {
+void sounds::ambient_sound( const tripoint &p, int vol, std::string description )
+{
     sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient,
-                    const std::string& id, const std::string& variant ) {
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant )
+{
     if( vol < 0 ) {
         // Bail out if no volume.
         debugmsg( "negative sound volume %d", vol );
@@ -80,13 +81,15 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
         std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
 }
 
-void sounds::add_footstep( const tripoint &p, int volume, int, monster * ) {
+void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
+{
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
 }
 
 template <typename C>
-static void vector_quick_remove( std::vector<C> &source, int index ) {
+static void vector_quick_remove( std::vector<C> &source, int index )
+{
     if( source.size() != 1 ) {
         // Swap the target and the last element of the vector.
         // This scrambles the vector, but makes removal O(1).
@@ -95,7 +98,8 @@ static void vector_quick_remove( std::vector<C> &source, int index ) {
     source.pop_back();
 }
 
-static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int>> recent_sounds ) {
+static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int>> recent_sounds )
+{
     // If there are too many monsters and too many noise sources (which can be monsters, go figure),
     // applying sound events to monsters can dominate processing time for the whole game,
     // so we cluster sounds and apply the centroids of the sounds to the monster AI
@@ -148,7 +152,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-void sounds::process_sounds() {
+void sounds::process_sounds()
+{
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
@@ -200,7 +205,8 @@ void sounds::process_sounds() {
     recent_sounds.clear();
 }
 
-void sounds::process_sound_markers( player *p ) {
+void sounds::process_sound_markers( player *p )
+{
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
     const int weather_vol = weather_data( g->weather ).sound_attn;
@@ -343,17 +349,20 @@ void sounds::process_sound_markers( player *p ) {
     sounds_since_last_turn.clear();
 }
 
-void sounds::reset_sounds() {
+void sounds::reset_sounds()
+{
     recent_sounds.clear();
     sounds_since_last_turn.clear();
     sound_markers.clear();
 }
 
-void sounds::reset_markers() {
+void sounds::reset_markers()
+{
     sound_markers.clear();
 }
 
-void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window ) {
+void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window )
+{
     auto sound_clusters = cluster_sounds( recent_sounds );
     // TODO: Signal sounds on different Z-levels differently (with '^' and 'v'?)
     for( const auto &sound : recent_sounds ) {
@@ -364,7 +373,8 @@ void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window ) {
     }
 }
 
-std::vector<tripoint> sounds::get_footstep_markers() {
+std::vector<tripoint> sounds::get_footstep_markers()
+{
     // Optimization, make this static and clear it in reset_markers?
     std::vector<tripoint> footsteps;
     footsteps.reserve( sound_markers.size() );
@@ -374,7 +384,8 @@ std::vector<tripoint> sounds::get_footstep_markers() {
     return footsteps;
 }
 
-std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_sounds() {
+std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_sounds()
+{
     auto sound_clusters = cluster_sounds( recent_sounds );
     std::vector<tripoint> sound_locations;
     sound_locations.reserve( recent_sounds.size() );
@@ -389,7 +400,8 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     return { sound_locations, cluster_centroids };
 }
 
-std::string sounds::sound_at( const tripoint &location ) {
+std::string sounds::sound_at( const tripoint &location )
+{
     auto this_sound = sound_markers.find( location );
     if( this_sound == sound_markers.end() ) {
         return std::string();
