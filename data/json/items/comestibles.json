@@ -11636,7 +11636,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 15,
+        "nutrition" : 20,
         "description" : "Simple unleavened bread.",
         "price" : 140,
         "material" : "wheat",
@@ -11644,7 +11644,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 8,
+        "charges" : 6,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
