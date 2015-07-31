@@ -1501,6 +1501,31 @@ bool recipe::has_byproducts() const
     return byproducts.size() != 0;
 }
 
+// @param offset is the index of the created item in the range [0, batch_size-1],
+// it makes sure that the used items are distributed equally among the new items.
+void set_components( std::vector<item> &components, const std::list<item> &used, const int batch_size, const size_t offset )
+{
+    if( batch_size <= 1 ) {
+        components.insert( components.begin(), used.begin(), used.end() );
+        return;
+    }
+    // This count does *not* include items counted by charges!
+    size_t non_charges_counter = 0;
+    for( auto &tmp : used ) {
+        if( tmp.count_by_charges() ) {
+            components.push_back( tmp );
+            // This assumes all (count-by-charges) items of the same type have been merged into one,
+            // which has a charges value that can be evenly divided by batch_size.
+            components.back().charges = tmp.charges / batch_size;
+        } else {
+            if( ( non_charges_counter + offset ) % batch_size == 0 ) {
+                components.push_back( tmp );
+            }
+            non_charges_counter++;
+        }
+    }
+}
+
 void player::complete_craft()
 {
     const recipe *making = recipe_by_index(activity.index); // Which recipe is it?
@@ -1629,6 +1654,7 @@ void player::complete_craft()
     bool first = true;
     float used_age_tally = 0;
     int used_age_count = 0;
+    size_t newit_counter = 0;
     for(item &newit : newits) {
         // messages, learning of recipe, food spoilage calc only once
         if (first) {
@@ -1666,7 +1692,8 @@ void player::complete_craft()
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
-            newit.components.insert(newit.components.begin(), used.begin(), used.end());
+            set_components( newit.components, used, batch_size, newit_counter );
+            newit_counter++;
         }
         finalize_crafted_item( newit, used_age_tally, used_age_count );
         set_item_inventory(newit);
