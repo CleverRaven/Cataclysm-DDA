@@ -920,8 +920,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             if( gun->reload_noise_volume > 0 ) {
 
               sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume(p->pos()));
-              sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
-                             true, "", "" );
+              sounds::ambient_sound( p->pos(), gun->reload_noise_volume, gun->reload_noise );
             }
             sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume(p->pos()));
         }
