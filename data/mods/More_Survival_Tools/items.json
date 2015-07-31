@@ -305,7 +305,8 @@
         "range" : 15,
         "dispersion" : 135,
         "recoil" : 0,
-        "count" : 4,
+        "count" : 1,
+        "stack_size" : 4,
         "effects" : ["RECOVER_10"]
     },
     {
@@ -332,7 +333,8 @@
         "range" : 13,
         "dispersion" : 135,
         "recoil" : 0,
-        "count" : 4,
+        "count" : 1,
+        "stack_size" : 4,
         "effects" : ["RECOVER_10"]
     },
     {
@@ -359,7 +361,8 @@
         "range" : 10,
         "dispersion" : 135,
         "recoil" : 0,
-        "count" : 4,
+        "count" : 1,
+        "stack_size" : 4,
         "effects" : ["RECOVER_10"]
     },
     {
@@ -386,7 +389,8 @@
         "range" : 10,
         "dispersion" : 135,
         "recoil" : 0,
-        "count" : 4,
+        "count" : 1,
+        "stack_size" : 4,
         "effects" : ["RECOVER_15"]
     },
     {
@@ -475,7 +479,7 @@
     "use_action": "LUMBER"
      },
   {
-    "id": "milk_curdling",
+    "id": "milk_curdling", "//": "Dummied out after mainlining. I'm always the last to hear about these things. -Chaosvolt",
     "type": "TOOL",
     "category" : "food",
     "symbol": ")",
@@ -508,7 +512,7 @@
     }
   },
   {
-    "id": "milk_curdling2",
+    "id": "milk_curdling2", "//": "Dummied out after mainlining. I'm always the last to hear about these things. -Chaosvolt",
     "type": "TOOL",
     "category" : "food",
     "symbol": ")",
@@ -541,7 +545,7 @@
     }
   },
   {
-    "id": "milk_curdling3",
+    "id": "milk_curdling3", "//": "Dummied out after mainlining. I'm always the last to hear about these things. -Chaosvolt",
     "type": "TOOL",
     "category" : "food",
     "symbol": ")",
@@ -574,7 +578,7 @@
     }
   },
     {
-        "id": "foil_alum",
+        "id": "foil_alum", "//": "Dummied out way back when.",
         "type": "CONTAINER",
         "symbol": ",",
         "color": "light_gray",
@@ -685,15 +689,96 @@
         "symbol": ")",
         "color": "light_gray",
         "name": "mess tin",
-        "description": "A compact military-style pan and tray, designed for heating food over a fire or portable stove. It is shallower than a proper pot or pan, and lacks the integrated heating elements modern mess kits have.",
+        "description": "A compact military-style pan and tray, designed for heating food over a fire or portable stove.  It is shallower than a proper pot or pan, and lacks the integrated heating elements modern mess kits have.",
         "price": 2000,
         "material": "steel",
-        "weight": 1360,
+        "weight": 450,
         "volume": 3,
         "bashing": 10,
         "cutting": 0,
         "category" : "tools",
         "to_hit": 2,
-        "qualities": [["COOK", 2], ["BOIL", 1]]
-  }
+        "qualities": [["COOK", 2], ["BOIL", 1], ["CONTAIN", 1]]
+  },
+    {
+        "type":"GENERIC",
+        "id": "pot_copper",
+        "symbol": ")",
+        "color": "light_red",
+        "name": "copper pot",
+        "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
+        "price": 4500,
+        "material": "copper",
+        "weight": 1081,
+        "volume": 8,
+        "bashing": 6,
+        "cutting": 0,
+        "category" : "tools",
+        "to_hit": 1,
+        "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    },
+    {
+        "type":"GENERIC",
+        "id": "pot_makeshift",
+        "symbol": ")",
+        "color": "light_gray",
+        "name": "makeshift pot",
+        "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
+        "price": 200,
+        "material": "steel",
+        "weight": 550,
+        "volume": 4,
+        "bashing": 10,
+        "cutting": 0,
+        "category" : "tools",
+        "to_hit": 1,
+        "qualities": [["COOK", 2], ["BOIL", 1], ["CONTAIN", 1]]
+  },
+    {
+        "type":"GENERIC",
+        "id": "pot_makeshift_copper",
+        "symbol": ")",
+        "color": "light_red",
+        "name": "makeshift copper pot",
+        "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
+        "price": 200,
+        "material": "copper",
+        "weight": 1081,
+        "volume": 4,
+        "bashing": 10,
+        "cutting": 0,
+        "category" : "tools",
+        "to_hit": 1,
+        "qualities": [["COOK", 2], ["BOIL", 1], ["CONTAIN", 1]]
+  },
+    {
+        "id": "canteen_wood",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "brown",
+        "name": "wooden canteen",
+        "category": "other",
+        "description": "A water canteen made from wood, secured by metal bands and sealed with wax or pitch.  Holds 1.5 liters and has a simple carry strap.",
+        "price": 800,
+        "weight": 232,
+        "volume": 7,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "plastic",
+        "contains": 6,
+        "armor_data" : {
+           "covers" : ["TORSO"],
+           "coverage" : 5,
+           "material_thickness" : 2,
+           "encumbrance" : 5,
+           "environmental_protection" : 0,
+           "warmth" : 0,
+           "storage" : 0
+        },
+        "rigid": true,
+        "watertight": true,
+        "seals": true,
+        "flags": ["WAIST"]
+    }
 ]
