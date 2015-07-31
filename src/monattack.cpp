@@ -278,7 +278,8 @@ void mattack::acid(monster *z, int index)
 
     projectile proj;
     proj.speed = 10;
-    auto dealt = z->projectile_attack( proj, target->pos(), 1800 );
+    proj.impact.add_damage( DT_ACID, 5 ); // Mostly just for momentum
+    auto dealt = z->projectile_attack( proj, target->pos(), 5400 );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
@@ -378,7 +379,7 @@ void mattack::acid_accurate(monster *z, int index)
     proj.proj_effects.insert( "ACID_DROP" );
     proj.proj_effects.insert( "BLINDS_EYES" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    z->projectile_attack( proj, target->pos(), 150 );
+    z->projectile_attack( proj, target->pos(), rng( 150, 1200 ) );
 }
 
 void mattack::shockstorm(monster *z, int index)
