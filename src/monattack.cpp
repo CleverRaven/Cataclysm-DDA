@@ -3842,7 +3842,7 @@ void mattack::bite(monster *z, int index)
         //~ 1$s is monster name, 2$s bodypart in accusative
         if ( target->is_player()) {
             sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume(z->pos()), sfx::get_heard_angle(z->pos()));
-            sfx::do_player_death_hurt_sfx( g->u, 0 );
+            sfx::do_player_death_hurt( g->u, 0 );
         }
         target->add_msg_player_or_npc( msg_type,
                                     _("The %1$s bites your %2$s!"),

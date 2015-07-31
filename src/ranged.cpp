@@ -168,7 +168,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
                 splatter( blood_traj, dam, critter );
-                sfx::do_projectile_hit_sfx( *critter );
+                sfx::do_projectile_hit( *critter );
             }
             if (!passed_through) {
                 dam = 0;
@@ -562,7 +562,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
-        sfx::generate_gun_soundfx( *this, *used_weapon );
+        sfx::generate_gun_sound( *this, *used_weapon );
 
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
         int damage_factor = 21;

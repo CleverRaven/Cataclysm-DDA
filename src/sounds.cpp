@@ -250,7 +250,7 @@ void sounds::process_sound_markers( player *p )
                 && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
             int duration = ( max_volume - dist - 130 ) / 4;
             p->add_effect( "deaf", duration );
-            sfx::do_hearing_loss_sfx( duration );
+            sfx::do_hearing_loss( duration );
             is_deaf = true;
             continue;
         }
@@ -439,7 +439,7 @@ void sfx::stop_sound_effect_fade( int channel, int duration ) {
     }
 }
 
-void sfx::do_ambient_sfx() {
+void sfx::do_ambient() {
     /* Channel assignments:
     0: Daytime outdoors env
     1: Nighttime outdoors env
@@ -567,7 +567,7 @@ void sfx::do_ambient_sfx() {
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_soundfx( const player &p, const item &firing )
+void sfx::generate_gun_sound( const player &p, const item &firing )
 {
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
@@ -606,7 +606,7 @@ void sfx::generate_gun_soundfx( const player &p, const item &firing )
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
-void sfx::generate_melee_soundfx( tripoint source, tripoint target, bool hit, bool targ_mon,
+void sfx::generate_melee_sound( tripoint source, tripoint target, bool hit, bool targ_mon,
                                   std::string material ) {
     sound_thread * out = new sound_thread();
     out->source = source;
@@ -687,7 +687,7 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
     return 0;
 }
 
-void sfx::do_projectile_hit_sfx( const Creature &target ) {
+void sfx::do_projectile_hit( const Creature &target ) {
     const int heard_volume = sfx::get_heard_volume( target.pos() );
     const int angle = get_heard_angle( target.pos() );
     if( !target.is_npc() && !target.is_player() ) {
@@ -718,7 +718,7 @@ void sfx::do_projectile_hit_sfx( const Creature &target ) {
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
 
-void sfx::do_player_death_hurt_sfx( const player &target, bool death ) {
+void sfx::do_player_death_hurt( const player &target, bool death ) {
     int heard_volume = get_heard_volume( target.pos() );
     const bool male = target.male;
     if( !male && !death ) {
@@ -779,7 +779,7 @@ void sfx::do_danger_music() {
     prev_hostiles = hostiles;
 }
 
-void sfx::do_fatigue_sfx() {
+void sfx::do_fatigue() {
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
@@ -823,7 +823,7 @@ void sfx::do_fatigue_sfx() {
     }
 }
 
-void sfx::do_hearing_loss_sfx( int turns ) {
+void sfx::do_hearing_loss( int turns ) {
     if( deafness_turns == 0 ) {
         deafness_turns = turns;
         g_sfx_volume_multiplier = .1;
@@ -843,18 +843,18 @@ void sfx::do_hearing_loss_sfx( int turns ) {
     }
 }
 
-void sfx::remove_hearing_loss_sfx() {
+void sfx::remove_hearing_loss() {
     if( current_deafness_turns >= deafness_turns ) {
         stop_sound_effect_fade( 10, 300 );
         g_sfx_volume_multiplier = 1;
         deafness_turns = 0;
         current_deafness_turns = 0;
-        do_ambient_sfx();
+        do_ambient();
     }
     current_deafness_turns++;
 }
 
-void sfx::do_footstep_sfx() {
+void sfx::do_footstep() {
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
@@ -924,7 +924,7 @@ void sfx::do_footstep_sfx() {
     }
 }
 
-void sfx::do_obstacle_sfx() {
+void sfx::do_obstacle() {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
     const auto terrain = g->m.ter_at( g->u.pos() ).id;
     static std::set<ter_type> const water = {
@@ -949,22 +949,22 @@ void sfx::do_obstacle_sfx() {
 void sfx::load_sound_effects( JsonObject & ) { }
 void sfx::play_variant_sound( std::string, std::string, int, int, float, float ) { }
 void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
-void sfx::generate_gun_soundfx( const player&, const item& ) { }
-void sfx::generate_melee_soundfx( const tripoint, const tripoint, bool, bool, std::string ) { }
+void sfx::generate_gun_sound( const player&, const item& ) { }
+void sfx::generate_melee_sound( const tripoint, const tripoint, bool, bool, std::string ) { }
 void *sfx::generate_melee_soundfx_thread( void* ) { return nullptr; }
-void sfx::do_hearing_loss_sfx( int ) { }
-void sfx::remove_hearing_loss_sfx() { }
-void sfx::do_projectile_hit_sfx( const Creature& ) { }
-void sfx::do_footstep_sfx() { }
+void sfx::do_hearing_loss( int ) { }
+void sfx::remove_hearing_loss() { }
+void sfx::do_projectile_hit( const Creature& ) { }
+void sfx::do_footstep() { }
 void sfx::do_danger_music() { }
-void sfx::do_ambient_sfx() { }
+void sfx::do_ambient() { }
 void sfx::fade_audio_group( int, int ) { }
 void sfx::fade_audio_channel( int, int ) { }
 bool is_channel_playing( int ) { return false; }
 void sfx::stop_sound_effect_fade( int, int ) { }
-void sfx::do_player_death_hurt_sfx( const player &, bool ) { }
-void sfx::do_fatigue_sfx() { }
-void sfx::do_obstacle_sfx() { }
+void sfx::do_player_death_hurt( const player &, bool ) { }
+void sfx::do_fatigue() { }
+void sfx::do_obstacle() { }
 /*@}*/
 
 #endif // ifdef SDL_SOUND

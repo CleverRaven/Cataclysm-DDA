@@ -903,7 +903,7 @@ bool game::cleanup_at_end()
         WINDOW *w_rip = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
         draw_border(w_rip);
 
-        sfx::do_player_death_hurt_sfx( g->u, 1 );
+        sfx::do_player_death_hurt( g->u, 1 );
         sfx::fade_audio_group(1, 2000);
         sfx::fade_audio_group(2, 2000);
         sfx::fade_audio_group(3, 2000);
@@ -1307,9 +1307,9 @@ bool game::do_turn()
     if (calendar::turn % 10 == 0) {
         u.update_morale();
     }
-    sfx::remove_hearing_loss_sfx();
+    sfx::remove_hearing_loss();
     sfx::do_danger_music();
-    sfx::do_fatigue_sfx();
+    sfx::do_fatigue();
 
     return false;
 }
@@ -1473,7 +1473,7 @@ void game::update_weather()
         w_point const w = weatherGen.get_weather( u.global_square_location(), calendar::turn );
         weather_type old_weather = weather;
         weather = weatherGen.get_weather_conditions(w);
-        sfx::do_ambient_sfx();
+        sfx::do_ambient();
         if (weather == WEATHER_SUNNY && calendar::turn.is_night()) { weather = WEATHER_CLEAR; }
         temperature = w.temperature;
         lightning_active = false;
@@ -12282,16 +12282,16 @@ bool game::plmove(int dx, int dy)
             !u.has_trait("DEBUG_SILENT")) {
             if (u.has_trait("LIGHTSTEP") || u.is_wearing("rm13_armor_on")) {
                 sounds::sound(dest_loc, 2, "", true, "none", "none");    // Sound of footsteps may awaken nearby monsters
-                sfx::do_footstep_sfx();
+                sfx::do_footstep();
             } else if (u.has_trait("CLUMSY")) {
                 sounds::sound(dest_loc, 10, "", true, "none", "none");
-                sfx::do_footstep_sfx();
+                sfx::do_footstep();
             } else if (u.has_bionic("bio_ankles")) {
                 sounds::sound(dest_loc, 12, "", true, "none", "none");
-                sfx::do_footstep_sfx();
+                sfx::do_footstep();
             } else {
                 sounds::sound(dest_loc, 6, "", true, "none");
-                sfx::do_footstep_sfx();
+                sfx::do_footstep();
             }
         }
         if (one_in(20) && u.has_artifact_with(AEP_MOVEMENT_NOISE)) {
@@ -12505,7 +12505,7 @@ bool game::plmove(int dx, int dy)
 
     //Only now can we be sure we actually moved
     on_move_effects();
-    sfx::do_ambient_sfx();
+    sfx::do_ambient();
     return true;
 }
 

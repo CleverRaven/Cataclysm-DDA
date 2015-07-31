@@ -907,7 +907,7 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
             if (u_see_me) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit", sfx::get_heard_volume(target.pos()) );
-                sfx::do_player_death_hurt_sfx( g->u, 0 );
+                sfx::do_player_death_hurt( g->u, 0 );
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name_accusative(bp_hit).c_str());
             } else {

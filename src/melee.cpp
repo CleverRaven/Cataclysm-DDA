@@ -291,7 +291,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
-        sfx::generate_melee_soundfx( pos3(), t.pos3(), 0, 0);
+        sfx::generate_melee_sound( pos3(), t.pos3(), 0, 0);
         if (is_player()) { // Only display messages if this is the player
 
             if (one_in(2)) {
@@ -355,7 +355,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                 material = "steel";
             }
         }
-        sfx::generate_melee_soundfx( pos3(), t.pos3(), 1, targ_mon, material);
+        sfx::generate_melee_sound( pos3(), t.pos3(), 1, targ_mon, material);
         int dam = dealt_dam.total_damage();
 
         bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());

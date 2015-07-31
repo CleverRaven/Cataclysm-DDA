@@ -59,24 +59,24 @@ namespace sfx {
     void play_variant_sound( std::string id, std::string variant, int volume, int angle = 0, float pitch_mix = 1.0, float pitch_max = 1.0 );
     void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
                                      int duration );
-    void generate_gun_soundfx( const player &source, const item &firing );
-    void generate_melee_soundfx( const tripoint source, const tripoint target, bool hit, bool targ_mon = 0, std::string material = "flesh" );
+    void generate_gun_sound( const player &source, const item &firing );
+    void generate_melee_sound( const tripoint source, const tripoint target, bool hit, bool targ_mon = 0, std::string material = "flesh" );
     void *generate_melee_soundfx_thread( void * argument );
-    void do_hearing_loss_sfx( int turns );
-    void remove_hearing_loss_sfx();
-    void do_projectile_hit_sfx( const Creature &target );
+    void do_hearing_loss( int turns );
+    void remove_hearing_loss();
+    void do_projectile_hit( const Creature &target );
     int get_heard_volume( const tripoint source );
-    void do_footstep_sfx();
+    void do_footstep();
     void do_danger_music();
-    void do_ambient_sfx();
+    void do_ambient();
     void fade_audio_group( int tag, int duration );
     void fade_audio_channel( int tag, int duration );
     bool is_channel_playing( int channel );
     void stop_sound_effect_fade( int channel, int duration );
-    void do_player_death_hurt_sfx( const player &target, bool death );
-    void do_fatigue_sfx();
+    void do_player_death_hurt( const player &target, bool death );
+    void do_fatigue();
     int get_heard_angle( const tripoint source );
-    void do_obstacle_sfx();
+    void do_obstacle();
 }
 
 #endif
