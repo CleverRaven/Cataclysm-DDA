@@ -596,6 +596,7 @@
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -1464,6 +1465,7 @@
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -1565,6 +1567,7 @@
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -3579,6 +3582,7 @@
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "con_milk", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
@@ -3793,12 +3797,43 @@
   ]
 },{
   "type" : "recipe",
+  "result": "flatbread",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 15000,
+  "batch_time_factors":[50, 4],
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bread",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3862,6 +3897,7 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 18000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3891,6 +3927,7 @@
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 90000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities":[
@@ -3959,6 +3996,7 @@
   "skill_used": "cooking",
   "difficulty": 1,
   "time": 14000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -7023,6 +7061,7 @@
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
       [ "con_milk", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
@@ -8169,6 +8208,7 @@
       [ "meat", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8209,6 +8249,7 @@
       [ "fish_fried", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8287,6 +8328,7 @@
       [ "human_flesh", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8334,6 +8376,7 @@
       [ "meat", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8451,6 +8494,7 @@
       [ "hotdogs_frozen", 1 ]
     ],
     [
+      [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
       [ "wastebread", 4 ],
@@ -8495,6 +8539,7 @@
       [ "chili", 1]
     ],
     [
+      [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
       [ "wastebread", 4 ],
@@ -8567,6 +8612,7 @@
       [ "chili_human", 1]
     ],
     [
+      [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
       [ "wastebread", 4 ],
@@ -8663,6 +8709,7 @@
       [ "human_flesh", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8704,6 +8751,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8745,6 +8793,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8788,6 +8837,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8820,6 +8870,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8846,6 +8897,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8870,6 +8922,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8899,6 +8952,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8929,6 +8983,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -9719,6 +9774,7 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
   "time": 35000,
+  "batch_time_factors":[50, 4],
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -9768,6 +9824,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "hardtack", 4 ],
@@ -9800,6 +9857,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "hardtack", 4 ],
@@ -9827,6 +9885,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "hardtack", 4 ],
