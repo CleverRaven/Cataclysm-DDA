@@ -535,11 +535,13 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
 - ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
-- ```WIDE``` Prevents ```HARDTOSHOOT``` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
+- ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```ACID_DROP``` Creates a tiny field of weak acid.
 - ```RECOVER_[X]``` where X is any of 3, 5, 10, 15, 25 - Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
-- ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items.
+- ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
+- ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
+- ```DRAW_AS_LINE``` Doesn't go through regular bullet animation, instead draws a line and the bullet on its end for one frame.
 
 ## Techniques
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.

@@ -1085,9 +1085,20 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
+    const auto &effects = proj.proj_effects;
+    
+    // Whip has a chance to scare wildlife even if it misses
+    if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
+        add_effect("run", rng(3, 5));
+    }
+
+    if( missed_by > 1.0 ) {
+        // Total miss
+        return;
+    }
+
     const bool u_see_mon = g->u.sees(*this);
     // Maxes out at 50% chance with perfect hit
-    const auto &effects = proj.proj_effects;
     if( has_flag(MF_HARDTOSHOOT) &&
         !one_in(10 - 10 * (.8 - missed_by)) &&
         !effects.count( "WIDE" ) ) {
@@ -1098,13 +1109,8 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     }
     // Not HARDTOSHOOT
     // if it's a headshot with no head, make it not a headshot
-    if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
+    if( missed_by < 0.2 && has_flag( MF_NOHEAD ) ) {
         missed_by = 0.2;
-    }
-
-    // whip has a chance to scare wildlife
-    if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
-        add_effect("run", rng(3, 5));
     }
 
     Creature::deal_projectile_attack( source, attack );

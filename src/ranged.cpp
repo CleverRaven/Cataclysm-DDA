@@ -75,7 +75,7 @@ int ranged_skill_offset( std::string skill )
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double shot_dispersion )
 {
-    bool const do_animation = OPTIONS["ANIMATIONS"];
+    const bool do_animation = OPTIONS["ANIMATIONS"];
 
     double range = rl_dist(source, target_arg);
     // .013 * trange is a computationally cheap version of finding the tangent in degrees.
@@ -89,15 +89,23 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     };
 
     projectile &proj = ret.proj;
+    const auto &proj_effects = proj.proj_effects;
+
+    const bool stream = proj_effects.count("FLAME") > 0 ||
+                        proj_effects.count("JET") > 0;
+    const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
+    const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
 
     tripoint target = target_arg;
     if( missed_by >= 1.0 ) {
         // We missed D:
         // Shoot a random nearby space?
         // But not too far away
-        const int offset = std::min<int>( range, sqrtf(missed_by) );
+        const int offset = std::min<int>( range, sqrtf( missed_by ) );
         target.x += rng( -offset, offset );
         target.y += rng( -offset, offset );
+        // Cap missed_by at 1.0
+        missed_by = 1.0;
         // TODO: Z dispersion
     }
 
@@ -116,20 +124,19 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     //Start this now in case we hit something early
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
-    const bool stream = proj.proj_effects.count("FLAME") > 0 ||
-                        proj.proj_effects.count("JET") > 0;
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
     const int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
-    for( size_t i = 0; i < trajectory.size() && ( has_momentum || stream ); i++ ) {
+    size_t i = 0; // Outside loop, because we want it for line drawing
+    for( ; i < trajectory.size() && ( has_momentum || stream ); i++ ) {
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
         tp = trajectory[i];
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
-        if ( do_animation ) {
+        if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
                 g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
@@ -150,9 +157,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         Creature *critter = g->critter_at( tp );
         monster *mon = dynamic_cast<monster *>(critter);
         // ignore non-point-blank digging targets (since they are underground)
-        if (mon != NULL && mon->digging() &&
-            rl_dist(pos(), tp) > 1) {
-            critter = mon = NULL;
+        if( mon != nullptr && mon->digging() &&
+            rl_dist( pos(), tp ) > 1) {
+            critter = mon = nullptr;
         }
 
         // Reset hit critter from the last iteration
@@ -162,13 +169,15 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         // TODO: add size effects to accuracy
         // If there's a monster in the path of our bullet, and either our aim was true,
         //  OR it's not the monster we were aiming at and we were lucky enough to hit it
-        double &cur_missed_by = ret.missed_by;
-        if (i < trajectory.size() - 1) { // Unintentional hit
-            cur_missed_by = std::max(rng_float(0, 1.5) + (1 - missed_by), 0.2);
-        } else {
-            cur_missed_by = missed_by;
+        double cur_missed_by = missed_by;
+        // If missed_by is 1.0, the end of the trajectory may not be the original target
+        // We missed it too much for the original target to matter, just reroll as unintended
+        if( missed_by >= 1.0 || i < trajectory.size() - 1 ) {
+            // Unintentional hit
+            cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
         }
-        if( critter != nullptr && cur_missed_by <= 1.0 ) {
+
+        if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh && critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
@@ -185,10 +194,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            g->m.shoot( tp, proj, i == trajectory.size() - 1 );
+            g->m.shoot( tp, proj, !no_item_damage && i == trajectory.size() - 1 );
             has_momentum = proj.impact.total_damage() > 0;
         }
     } // Done with the trajectory!
+
+    if( do_animation && do_draw_line && i > 0 ) {
+        trajectory.resize( i );
+        g->draw_line( tp, trajectory );
+        g->draw_bullet( g->u, tp, (int)i, trajectory, stream ? '#' : '*' );
+    }
 
     if( g->m.move_cost(tp) == 0 ) {
         tp = prev_point;
@@ -725,6 +740,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Add some flags to the projectile
     // TODO: Add this flag only when the item is heavy
     proj_effects.insert( "HEAVY_HIT" );
+    proj_effects.insert( "NO_ITEM_DAMAGE" );
 
     if( thrown.active ) {
         // Can't have molotovs embed into mons

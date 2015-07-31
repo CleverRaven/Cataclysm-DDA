@@ -311,7 +311,7 @@ projectile &projectile::operator=( const projectile &other )
     impact = other.impact;
     speed = other.speed;
     proj_effects = other.proj_effects;
-    set_drop( *other.drop );
+    set_drop( other.get_drop() );
 
     return *this;
 }
@@ -346,6 +346,6 @@ void projectile::set_drop( item &&it )
 
 void projectile::unset_drop()
 {
-    drop.reset();
+    drop.reset( nullptr );
 }
 

@@ -6157,17 +6157,23 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
                      p.z };
         projectile proj;
         proj.speed = 100;
-        proj.impact = damage_instance::physical( rng_float( power / 4.0, power ),
-                                                 rng_float( power / 4.0, power ),
-                                                 0, 0 );
+        proj.proj_effects.insert( "DRAW_AS_LINE" );
+        // Scaling of the damage happens later, as a result of low accuracy
+        // Big damage, because all shrapnel has low accuracy
+        proj.impact = damage_instance::physical( 2 * power, 2 * power, 0, 0 );
 
         Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
         if( critter_in_center != nullptr ) {
             dealt_projectile_attack dda; // Cool variable name
             dda.proj = proj;
+            // For each shrapnel piece:
+            // 20% chance for 50%-100% base (power to 2 * power)
+            // 20% chance for 0-25% base
+            // 60% chance for nothing
+            // Still, that's a lot of shrapnel to "dodge"
+            dda.missed_by = rng_float( 0.4, 1.4 );
             critter_in_center->deal_projectile_attack( &fake_npc, dda );
         }
-
 
         // This needs to be high enough to prevent game from thinking that
         //  the fake npc is scoring headshots.
