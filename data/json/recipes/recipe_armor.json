@@ -4323,7 +4323,7 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 100000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_melee", 6]],
   "components": [ [ ["string_36", 2], ["string_6", 12] ],

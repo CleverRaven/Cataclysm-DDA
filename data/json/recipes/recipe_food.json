@@ -596,6 +596,7 @@
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -1464,6 +1465,7 @@
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -1565,6 +1567,7 @@
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -3579,6 +3582,7 @@
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "con_milk", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
@@ -7052,6 +7056,7 @@
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
       [ "con_milk", 1 ],
+      [ "flatbread", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
@@ -8198,6 +8203,7 @@
       [ "meat", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8238,6 +8244,7 @@
       [ "fish_fried", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8316,6 +8323,7 @@
       [ "human_flesh", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8363,6 +8371,7 @@
       [ "meat", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8480,6 +8489,7 @@
       [ "hotdogs_frozen", 1 ]
     ],
     [
+      [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
       [ "wastebread", 4 ],
@@ -8524,6 +8534,7 @@
       [ "chili", 1]
     ],
     [
+      [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
       [ "wastebread", 4 ],
@@ -8596,6 +8607,7 @@
       [ "chili_human", 1]
     ],
     [
+      [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
       [ "wastebread", 4 ],
@@ -8692,6 +8704,7 @@
       [ "human_flesh", 1 ]
     ],
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8733,6 +8746,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8774,6 +8788,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8817,6 +8832,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8849,6 +8865,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8875,6 +8892,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8899,6 +8917,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8928,6 +8947,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -8958,6 +8978,7 @@
   ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "wastebread", 2 ],
@@ -9797,6 +9818,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "hardtack", 4 ],
@@ -9829,6 +9851,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "hardtack", 4 ],
@@ -9856,6 +9879,7 @@
    ],
   "components": [
     [
+      [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
       [ "hardtack", 4 ],

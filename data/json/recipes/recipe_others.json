@@ -2080,7 +2080,7 @@
   "subcategory": "CSC_OTHER_MATERIALS",
   "difficulty": 0,
   "time": 3000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}

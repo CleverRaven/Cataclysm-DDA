@@ -11634,7 +11634,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : 1,
+        "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 15,
         "description" : "Simple unleavened bread.",
@@ -11647,7 +11647,7 @@
         "charges" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 1
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
