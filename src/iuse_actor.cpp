@@ -445,7 +445,7 @@ iuse_actor *place_monster_iuse::clone() const
 
 void place_monster_iuse::load( JsonObject &obj )
 {
-    mtype_id = obj.get_string( "monster_id" );
+    mtypeid = mtype_id( obj.get_string( "monster_id" ) );
     obj.read( "friendly_msg", friendly_msg );
     obj.read( "hostile_msg", hostile_msg );
     obj.read( "difficulty", difficulty );
@@ -457,7 +457,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
-    monster newmon( mtype_id );
+    monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
@@ -528,7 +528,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
+    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
     g->add_zombie( newmon, true );
@@ -1280,7 +1280,7 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame && !p->has_charges("fire", 4) ) {
         p->add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
         return 0;
-    } else if( !flame && it->charges >= 0 && it->type->charges_to_use() < it->charges ) {
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
         p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->type->charges_to_use() );
         return 0;
     } else if( p->is_underwater() ) {
@@ -1307,6 +1307,23 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     return it->type->charges_to_use();
+}
+
+bool cauterize_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
+{
+    if( flame && !p->has_charges( "fire", 4 ) ) {
+        return false;
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
+        return false;
+    } else if( p->is_underwater() ) {
+        return false;
+    } else if( p->has_effect( "bite" ) || p->has_effect( "bleed" ) ) {
+        return true;
+    } else if( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) {
+        return true;
+    }
+
+    return false;
 }
 
 void enzlave_actor::load( JsonObject & )

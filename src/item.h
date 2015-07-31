@@ -21,6 +21,7 @@ class player;
 class npc;
 struct itype;
 struct mtype;
+using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
@@ -66,11 +67,11 @@ struct iteminfo {
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER = 10,
-    WAIST_LAYER = 20,
-    OUTER_LAYER = 30,
-    BELTED_LAYER = 40,
-    MAX_CLOTHING_LAYER = 50
+    REGULAR_LAYER,
+    WAIST_LAYER,
+    OUTER_LAYER,
+    BELTED_LAYER,
+    MAX_CLOTHING_LAYER
 };
 
 class item_category
@@ -114,8 +115,8 @@ public:
          * Without any parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( const std::string& mt, unsigned int turn );
-        void make_corpse( const std::string& mt, unsigned int turn, const std::string &name );
+        void make_corpse( const mtype_id& mt, unsigned int turn );
+        void make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name );
         void make_corpse();
         /*@}*/
         /**
@@ -398,7 +399,7 @@ public:
      * The item must have enough charges for this (>= quantity) and be counted
      * by charges.
      * @param quantity How many charges should be removed.
-     * @return true if all charges would have been removed and the must be destroyed.
+     * @return true if all charges would have been removed and the item must be destroyed.
      * The charges member is not changed in that case (for usage in `player::i_rem`
      * which returns the removed item).
      * False if there are charges remaining, the charges have been reduced in that case.
@@ -1167,7 +1168,7 @@ public:
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
-         * Returns the item type of the given identifier. Never retruns null.
+         * Returns the item type of the given identifier. Never returns null.
          */
         static itype *find_type( const itype_id &id );
         /**

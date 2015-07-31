@@ -28,6 +28,13 @@
 #include <algorithm>
 #include <cstdlib>
 
+const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
+const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+const mtype_id mon_spider_web_s( "mon_spider_web_s" );
+const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+const mtype_id mon_turret( "mon_turret" );
+const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+
 static void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
@@ -586,8 +593,8 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
             }
         }
         for (int i = 0; i < (int)g->num_zombies(); i++) {
-            if ( (g->zombie(i).type->id == "mon_turret") ||
-                 (g->zombie(i).type->id == "mon_turret_rifle") ) {
+            if ( (g->zombie(i).type->id == mon_turret) ||
+                 (g->zombie(i).type->id == mon_turret_rifle) ) {
                 g->remove_zombie(i);
                 i--;
             }
@@ -974,23 +981,30 @@ void iexamine::slot_machine(player *p, map*, const tripoint&)
 void iexamine::safe(player *p, map *m, const tripoint &examp)
 {
     if (!p->has_amount("stethoscope", 1)) {
-        add_msg(m_info, _("You need a stethoscope for safecracking."));
-        return;
+        p->moves -= 100;
+        // one_in(30^3) chance of guessing
+        if (one_in(27000)) {
+            p->add_msg_if_player(m_good, _("You mess with the dial for a little bit... and it opens!"));
+            m->furn_set(examp, f_safe_o);
+            return;
+        } else {
+            p->add_msg_if_player(m_info, _("You mess with the dial for a little bit."));
+            return;
+        }
     }
 
     if (query_yn(_("Attempt to crack the safe?"))) {
-        bool success = true;
         if (p->is_deaf()) {
             add_msg(m_info, _("You can't crack a safe while deaf!"));
             return;
         }
+         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
+        int moves = std::max(MINUTES(150) + (p->skillLevel("mechanics") - 3) * MINUTES(-20) +
+                             (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
-        if (success) {
-            m->furn_set(examp, f_safe_o);
-            add_msg(m_good, _("You successfully crack the safe!"));
-        } else {
-            add_msg(_("The safe resists your attempt at cracking it."));
-        }
+         p->assign_activity( ACT_CRACKING, moves );
+         p->activity.placement = examp;
     }
 }
 
@@ -1138,7 +1152,7 @@ void iexamine::pedestal_wyrm(player *p, map *m, const tripoint &examp)
                     rl_dist( p->pos(), monp ) <= 2);
         if (tries < 10) {
             g->m.ter_set( monp, t_rock_floor);
-            g->summon_mon("mon_dark_wyrm", monp);
+            g->summon_mon(mon_dark_wyrm, monp);
         }
     }
     add_msg(_("The pedestal sinks into the ground, with an ominous grinding noise..."));
@@ -1435,7 +1449,7 @@ void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
 }
 
 void iexamine::egg_sack_generic( player *p, map *m, const tripoint &examp,
-                                 const std::string &montype )
+                                 const mtype_id& montype )
 {
     const std::string old_furn_name = m->furnname( examp );
     if( !query_yn( _( "Harvest the %s?" ), old_furn_name.c_str() ) ) {
@@ -1463,12 +1477,12 @@ void iexamine::egg_sack_generic( player *p, map *m, const tripoint &examp,
 
 void iexamine::egg_sackbw( player *p, map *m, const tripoint &examp )
 {
-    egg_sack_generic( p, m, examp, "mon_spider_widow_giant_s" );
+    egg_sack_generic( p, m, examp, mon_spider_widow_giant_s );
 }
 
 void iexamine::egg_sackws( player *p, map *m, const tripoint &examp )
 {
-    egg_sack_generic( p, m, examp, "mon_spider_web_s" );
+    egg_sack_generic( p, m, examp, mon_spider_web_s );
 }
 
 void iexamine::fungus(player *p, map *m, const tripoint &examp)
@@ -1577,7 +1591,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
               one_in(2)) ) {
                 // Note: not Z-level-friendly!
-                g->summon_mon( "mon_fungal_blossom", examp );
+                g->summon_mon( mon_fungal_blossom, examp );
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
             } else if ( (p->has_trait("THRESH_MYCUS")) || one_in(4)) {
                 m->furn_set(examp, f_flower_marloss);

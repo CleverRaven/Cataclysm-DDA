@@ -1,42 +1,12 @@
-#define CATCH_CONFIG_MAIN
 #include "catch/catch.hpp"
 
-#include "map.h"
 #include "line.h" // For rl_dist.
+#include "map.h"
+#include "test_helpers.h"
 
 #include <chrono>
 #include <random>
 #include "stdio.h"
-
-// Extracted from http://www.gnu.org/software/libc/manual/html_node/Elapsed-Time.html
-// And lightly updated for use with timespec instead of timeval.
-/* Subtract the `struct timespec' values X and Y,
-   storing the result in RESULT.
-   Return 1 if the difference is negative, otherwise 0. */
-int
-timespec_subtract( struct timespec *result, struct timespec *x, struct timespec *y)
-{
-    /* Perform the carry for the later subtraction by updating y. */
-    if (x->tv_nsec < y->tv_nsec) {
-        int nsec = (y->tv_nsec - x->tv_nsec) / 1000000000 + 1;
-        y->tv_nsec -= 1000000000 * nsec;
-        y->tv_sec += nsec;
-    }
-    if (x->tv_nsec - y->tv_nsec > 1000000000) {
-        int nsec = (x->tv_nsec - y->tv_nsec) / 1000000000;
-        y->tv_nsec += 1000000000 * nsec;
-        y->tv_sec -= nsec;
-    }
-
-    /* Compute the time remaining to wait.
-       tv_nsec is certainly positive. */
-    result->tv_sec = x->tv_sec - y->tv_sec;
-    result->tv_nsec = x->tv_nsec - y->tv_nsec;
-
-    /* Return 1 if result is negative. */
-    return x->tv_sec < y->tv_sec;
-}
-
 
 // Constants setting the ratio of set to unset tiles.
 constexpr int NUMERATOR = 1;
@@ -107,8 +77,7 @@ void oldCastLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     }
 }
 
-TEST_CASE("Regression test against old shadowcasting implementation.") {
-
+void shadowcasting_runoff(int iterations) {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
@@ -139,8 +108,7 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     struct timespec start1;
     struct timespec end1;
     clock_gettime( CLOCK_REALTIME, &start1 );
-#define PERFORMANCE_TEST_ITERATIONS 100000
-    for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
+    for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
         oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
@@ -159,7 +127,7 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     struct timespec start2;
     struct timespec end2;
     clock_gettime( CLOCK_REALTIME, &start2 );
-    for( int i = 0; i < PERFORMANCE_TEST_ITERATIONS; i++ ) {
+    for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLight<0, 1, 1, 0, sight_calc, sight_check>(
             seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
@@ -188,12 +156,14 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     timespec_subtract( &diff1, &end1, &start1 );
     timespec_subtract( &diff2, &end2, &start2 );
 
-    // TODO: display this better, I doubt sec.nsec is an accurate rendering,
-    // or at least reliably so.
-    printf( "oldCastLight() executed %d times in %ld.%ld seconds.\n",
-            PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
-    printf( "castLight() executed %d times in %ld.%ld seconds.\n",
-            PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
+    if( iterations > 1 ) {
+        // TODO: display this better, I doubt sec.nsec is an accurate rendering,
+        // or at least reliably so.
+        printf( "oldCastLight() executed %d times in %ld.%ld seconds.\n",
+                iterations, diff1.tv_sec, diff1.tv_nsec );
+        printf( "castLight() executed %d times in %ld.%ld seconds.\n",
+                iterations, diff2.tv_sec, diff2.tv_nsec );
+    }
 
     bool passed = true;
     for( int x = 0; passed && x < MAPSIZE*SEEX; ++x ) {
@@ -252,4 +222,12 @@ TEST_CASE("Regression test against old shadowcasting implementation.") {
     }
 
     REQUIRE( passed );
+}
+
+TEST_CASE("Regression test against old shadowcasting implementation.") {
+    shadowcasting_runoff(1);
+}
+
+TEST_CASE("Performance test old vs new shadowcasting algorithms.", "[.]") {
+    shadowcasting_runoff(100000);
 }

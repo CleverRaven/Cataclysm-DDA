@@ -40,7 +40,9 @@
             ["apc", 100],
             ["apc-gl", 50],
             ["humvee", 150],
-            ["humvee_gl", 50]
+            ["humvee_gl", 50],
+            ["icecream_truck", 50],
+            ["wienermobile", 5]
         ]
     },{
         "type" : "vehicle_group",
@@ -86,7 +88,8 @@
             ["rv", 800],
             ["lux_rv", 100],
             ["meth_lab", 300],
-            ["armored_car", 900]
+            ["armored_car", 900],
+            ["wienermobile", 5]
         ]
     },{
         "type" : "vehicle_group",
@@ -148,7 +151,9 @@
             ["bicycle_electric", 200],
             ["motorcycle", 500],
             ["motorcycle_sidecart", 300],
-            ["shopping_cart", 1000]
+            ["shopping_cart", 1000],
+            ["icecream_truck", 50],
+            ["wienermobile", 5]
         ]
     },{
         "type" : "vehicle_group",

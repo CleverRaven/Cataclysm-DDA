@@ -180,7 +180,7 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 #ifdef PREFIX   // use the PREFIX path over the current directory
     img_path = (FILENAMES["base_path"] + "/" + img_path);
 #elif defined DATA_DIR_PREFIX // Used for linux release installs
-    img_path = (FILENAMES["datadir"] + "/" + img_path)
+    img_path = (FILENAMES["datadir"] + "/" + img_path);
 #endif
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
@@ -738,12 +738,13 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = t.color;
             }
         } else if (category == C_MONSTER) {
-            if (MonsterGenerator::generator().has_mtype(id)) {
-                const mtype *m = MonsterGenerator::generator().get_mtype(id);
-                int len = m->sym.length();
-                const char *s = m->sym.c_str();
+            const mtype_id mid( id );
+            if( mid.is_valid() ) {
+                const mtype &mt = mid.obj();
+                int len = mt.sym.length();
+                const char *s = mt.sym.c_str();
                 sym = UTF8_getch(&s, &len);
-                col = m->color;
+                col = mt.color;
             }
         } else if (category == C_VEHICLE_PART) {
             const vpart_str_id vpid( id.substr( 3 ) );
@@ -1196,7 +1197,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p )
             ent_subcategory = *m->type->species.begin();
         }
         const int subtile = corner;
-        return draw_from_id_string(ent_name, ent_category, ent_subcategory, p.x, p.y, subtile, 0);
+        return draw_from_id_string(ent_name.str(), ent_category, ent_subcategory, p.x, p.y, subtile, 0);
     }
     const player *pl = dynamic_cast<const player*>( &critter );
     if( pl != nullptr ) {
@@ -1427,13 +1428,15 @@ void cata_tiles::draw_custom_explosion_frame()
 {
     // TODO: Make the drawing code handle all the missing tiles: <^>v and *
     // TODO: Add more explosion tiles, like "strong explosion", so that it displays more info
-    std::string exp_name = "explosion";
+    static const std::string exp_strong = "explosion";
+    static const std::string exp_medium = "explosion_medium";
+    static const std::string exp_weak = "explosion_weak";
     int subtile = 0;
     int rotation = 0;
     for( const auto &pr : custom_explosion_layer ) {
         const point &p = pr.first;
         const explosion_neighbors ngh = pr.second.neighborhood;
-        // const nc_color col = pr.second.color;
+        const nc_color col = pr.second.color;
 
         switch( ngh ) {
         case N_NORTH:
@@ -1483,7 +1486,13 @@ void cata_tiles::draw_custom_explosion_frame()
             break;
         }
 
-        draw_from_id_string( exp_name, p.x, p.y, subtile, rotation );
+        if( col == c_red ) {
+            draw_from_id_string( exp_strong, p.x, p.y, subtile, rotation );
+        } else if( col == c_yellow ) {
+            draw_from_id_string( exp_medium, p.x, p.y, subtile, rotation );
+        } else {
+            draw_from_id_string( exp_weak, p.x, p.y, subtile, rotation );
+        }
     }
 }
 void cata_tiles::draw_bullet_frame()
@@ -1750,54 +1759,47 @@ void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL );
 }
 
-// TODO: make one more generally templated function, possibly using specialization, for both maps and arrays with ids
-template <typename maptype>
-void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+template<typename Iter, typename Func>
+void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::string &label, const std::string &prefix )
+{
     int missing=0, present=0;
     std::string missing_list;
-    for( auto const & i : tiletypemap ) {
-        if (tile_ids.count(prefix+i.first) == 0) {
+    for( ; begin != end; ++begin ) {
+        const std::string id_string = id_func( begin );
+        if( tile_ids.count( prefix + id_string ) == 0 ) {
             missing++;
-            missing_list.append(i.first+" ");
+            missing_list.append( id_string + " " );
         } else {
             present++;
         }
     }
     DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    lr_generic( tiletypemap.begin(), tiletypemap.end(),
+                []( decltype(tiletypemap.begin()) const & v ) {
+                    // c_str works for std::string and for string_id!
+                    return v->first.c_str();
+                }, label, prefix );
 }
 
 template <typename base_type>
 void cata_tiles::tile_loading_report(size_t const count, std::string const & label, std::string const & prefix) {
-    int missing=0, present=0;
-    std::string missing_list;
-    for( size_t i = 0; i < count; ++i ) {
-        const int_id<base_type> iid( i );
-        const string_id<base_type> &sid = iid.id();
-        const std::string &s = sid.str();
-        if (tile_ids.count(prefix+s) == 0) {
-            missing++;
-            missing_list.append(s+" ");
-        } else {
-            present++;
-        }
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+    lr_generic( static_cast<size_t>( 0 ), count,
+                []( const size_t i ) {
+                    return int_id<base_type>( i ).id().str();
+                }, label, prefix );
 }
 
 template <typename arraytype>
 void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
-    // fields are the only tile-able thing not kept in a map?
-    int missing=0, present=0;
-    std::string missing_list;
-    for(int i = 0; i < array_length; ++i) {
-        if (tile_ids.count(prefix+array[i].id) == 0) {
-            missing++;
-            missing_list.append(array[i].id+" ");
-        } else {
-            present++;
-        }
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+    const auto begin = &(array[0]);
+    lr_generic( begin, begin + array_length,
+                []( decltype(begin) const v ) {
+                    return v->id;
+                }, label, prefix );
 }
 
 #endif // SDL_TILES

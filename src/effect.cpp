@@ -1,4 +1,5 @@
 #include "effect.h"
+#include "debug.h"
 #include "rng.h"
 #include "output.h"
 #include "player.h"
@@ -407,6 +408,11 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
 
 std::string effect::disp_name() const
 {
+    if (eff_type->name.empty()) {
+        debugmsg("No names for effect type, ID: %s", eff_type->id.c_str());
+        return "";
+    }
+
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::stringstream ret;
     if (eff_type->use_name_ints()) {
@@ -645,6 +651,9 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
     if (intensity > eff_type->max_intensity) {
         intensity = eff_type->max_intensity;
     }
+    if (intensity < 1) {
+        intensity = 1;
+    }
     // Display decay message if available
     if (player && tmp_int > intensity && (intensity - 1) < int(eff_type->decay_msgs.size())) {
         // -1 because intensity = 1 is the first message
@@ -695,6 +704,11 @@ void effect::mult_duration(double dur)
     if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
         duration = eff_type->max_duration;
     }
+}
+
+int effect::get_start_turn() const
+{
+    return start_turn;
 }
 
 body_part effect::get_bp() const
@@ -1185,6 +1199,7 @@ void effect::serialize(JsonOut &json) const
     json.member("bp", (int)bp);
     json.member("permanent", permanent);
     json.member("intensity", intensity);
+    json.member("start_turn", start_turn);
     json.end_object();
 }
 void effect::deserialize(JsonIn &jsin)
@@ -1195,4 +1210,5 @@ void effect::deserialize(JsonIn &jsin)
     bp = (body_part)jo.get_int("bp");
     permanent = jo.get_bool("permanent");
     intensity = jo.get_int("intensity");
+    start_turn = jo.get_int("start_turn", 0);
 }

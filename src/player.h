@@ -455,13 +455,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
-        void on_hurt( Creature *source );
+        void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
-        /** Returns the base to hit chance the player has based on their stats */
-        int base_to_hit(bool real_life = true, int stat = -999);
-        /** Returns Creature::get_hit_base() modified by clothing and weapon skill */
+        /** Returns Creature::get_hit_base() modified by weapon skill */
         int get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         int hit_roll() const override;
@@ -568,7 +566,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Heals all body parts for dam */
         void healall(int dam);
         /** Hurts all body parts for dam, no armor reduction */
-        void hurtall(int dam, Creature *source);
+        void hurtall(int dam, Creature *source, bool disturb = true);
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
@@ -642,11 +640,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item(item *to_wear, bool interactive = true);
         /** Takes off an item, returning false on fail, if an item vector
-         is given, stores the items in that vector and not in the inventory */
+         *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it,
-	 * taking moves based on skill and volume of item being wielded. */
+         * taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);
@@ -815,6 +813,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_amount(const itype_id &it, int quantity) const;
         bool has_charges(const itype_id &it, long quantity) const;
         int  amount_of(const itype_id &it) const;
+        /** Returns the amount of item `type' that is currently worn */
+        int  amount_worn(const itype_id &id) const;
         long charges_of(const itype_id &it) const;
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
@@ -1155,8 +1155,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_moves;
         int cached_turn;
         tripoint cached_position;
-
-        int fell_asleep_turn;
 
         struct weighted_int_list<const char*> melee_miss_reasons;
 

@@ -716,13 +716,13 @@ firearms load fully in one action, while shotguns must be loaded one shell at a 
     text.push_back(_("\
 =       Ammunition\n\
 Ammunition is worthless without a gun to load it into. Generally, \
-there are several variants for any particular calibre. Ammunition has \
+there are several variants for any particular caliber. Ammunition has \
 damage, dispersion, and range ratings, and an armor-piercing quality."));
 
     text.push_back(string_format(_("\
 *       Thrown weapon; simple projectile or grenade\n\
 These items are suited for throwing, and many are only useful when thrown, \
-such as grenades, molotov cocktails, or tear gas. Once activated be certain \
+such as grenades, Molotov cocktails, or tear gas. Once activated be certain \
 to throw these items by pressing %s, then the letter of the item to throw."),
                                  press_x(ACTION_THROW, "", "").c_str()));
 
@@ -779,7 +779,7 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
     mvwprintz(win, 13, 0, c_ltcyan,  _("\
 ^>v<        Sporting Goods store - Several survival tools and melee weapons."));
     mvwprintz(win, 14, 0, c_magenta, _("\
-^>v<        Liquor store - Alcohol is good for crafting molotov cocktails."));
+^>v<        Liquor store - Alcohol is good for crafting Molotov cocktails."));
     mvwprintz(win, 15, 0, c_red,     _("\
 ^>v<        Gun store - Firearms and ammunition are very valuable."));
     mvwprintz(win, 16, 0, c_blue,    _("\

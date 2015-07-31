@@ -404,3 +404,7 @@ void calendar::sync()
     minute = turn_number / MINUTES(1) % 60;
     second = (turn_number * 6) % 60;
 }
+
+bool calendar::once_every(int event_frequency) {
+    return (calendar::turn % event_frequency) == 0;
+}

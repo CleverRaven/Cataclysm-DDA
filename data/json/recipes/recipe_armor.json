@@ -4323,7 +4323,7 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 100000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "book_learn": [["recipe_melee", 6]],
   "components": [ [ ["string_36", 2], ["string_6", 12] ],
@@ -7961,6 +7961,30 @@
   "components": [
     [
       [ "felt_patch", 30 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "greatcoat",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "needle_bone", 160 ],
+        [ "needle_wood", 160 ],
+        [ "tailors_kit", 160 ],
+        [ "sewing_kit", 160 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 40 ]
     ]
   ]
 },{

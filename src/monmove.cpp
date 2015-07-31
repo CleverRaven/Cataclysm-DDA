@@ -862,7 +862,7 @@ int monster::group_bash_skill( const tripoint &target )
                 break;
             }
         }
-        if( !connected ) {
+        if( !connected || mondex == -1 ) {
             continue;
         }
         // If we made it here, the last monster checked was the candidate.

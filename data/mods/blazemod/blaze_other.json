@@ -217,7 +217,7 @@
     "description": "Not much more than a box with a hole and ignition trigger.  The ignition is controlled by a tiny detector, which, when a potential hostile appears nearby, ignites the contained charcoal dust in measured amounts to generate smoke.",
     "price": 500,
     "material": ["steel"],
-	"ammo_effects": ["TRAIL", "SMOKE"],
+    "ammo_effects": ["TRAIL", "SMOKE"],
     "flags": ["NEVER_JAMS"],
     "skill": "melee",
     "ammo": "charcoal",

@@ -15,6 +15,7 @@ struct mtype;
 enum monster_trigger : int;
 
 using mfaction_id = int_id<monfaction>;
+using mtype_id = string_id<mtype>;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
 
@@ -35,8 +36,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster( const std::string& id );
-        monster( const std::string& id, const tripoint &pos );
+        monster( const mtype_id& id );
+        monster( const mtype_id& id, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
@@ -48,7 +49,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        void poly( const std::string& id );
+        void poly( const mtype_id& id );
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade(bool pin_time);
@@ -298,12 +299,23 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void drop_items_on_death();
 
         // Other
-        bool make_fungus();  // Makes this monster into a fungus version
-        // Returns false if no such monster exists
+        /**
+         * Makes this monster into a fungus version
+         * Returns false if no such monster exists
+         */
+        bool make_fungus();
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally(monster* z);
         void add_item(item it);     // Add an item to inventory
+
+        /**
+         * Makes monster react to heard sound
+         *
+         * @param source_volume Volume at the center of the sound source
+         * @param distance Distance to sound source (currently just rl_dist)
+         */
+        void hear_sound( const tripoint &from, int source_volume, int distance );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 

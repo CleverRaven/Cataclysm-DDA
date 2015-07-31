@@ -453,7 +453,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     // TODO: unify this with game::move_vertical
     if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOATATION" );
+            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
         } else {
             return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
         }

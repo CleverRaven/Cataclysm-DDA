@@ -1,4 +1,3 @@
-#define CATCH_CONFIG_MAIN
 #include "catch/catch.hpp"
 
 #include "creature.h"
@@ -20,7 +19,7 @@ void calculate_bodypart_distribution( monster &attacker, monster &defender, int 
         {bp_hand_l, 0}, {bp_hand_r, 0}, {bp_leg_l, 0}, {bp_leg_r, 0}, {bp_foot_l, 0}, {bp_foot_r, 0}
     };
 
-    for( int i = 0; i < 150000; ++i) {
+    for( int i = 0; i < 15000; ++i) {
         selected_part_histogram[defender.select_body_part(&attacker, hit_roll)]++;
     }
 
@@ -31,7 +30,7 @@ void calculate_bodypart_distribution( monster &attacker, monster &defender, int 
 
     for( auto weight : selected_part_histogram ) {
         CHECK( Approx(expected[weight.first] / total_weight).epsilon(0.01) ==
-               weight.second / 150000.0 );
+               weight.second / 15000.0 );
     }
 }
 

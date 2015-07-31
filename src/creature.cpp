@@ -11,6 +11,7 @@
 #include "npc.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "debug.h"
 
 #include <algorithm>
 #include <numeric>
@@ -795,6 +796,12 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         return;
     }
 
+    // First make sure it's a valid effect
+    if (effect_types.find(eff_id) == effect_types.end()) {
+        debugmsg("Invalid effect, ID: %s", eff_id.c_str());
+        return;
+    }
+
     // Mutate to a main (HP'd) body_part if necessary.
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
@@ -839,10 +846,6 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
     if( found == false ) {
         // If we don't already have it then add a new one
 
-        // First make sure it's a valid effect
-        if (effect_types.find(eff_id) == effect_types.end()) {
-            return;
-        }
         // Then check if the effect is blocked by another
         for( auto &elem : effects ) {
             for( auto &_effect_it : elem.second ) {
@@ -856,7 +859,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         }
 
         // Now we can make the new effect for application
-        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity);
+        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity, calendar::turn);
         effect &e = new_eff;
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
@@ -1236,11 +1239,11 @@ int Creature::get_speed_base() const
 }
 int Creature::get_dodge_base() const
 {
-    return (get_dex() / 2) + int(get_speed() / 150); //Faster = small dodge advantage
+    return (get_dex() / 2);
 }
 int Creature::get_hit_base() const
 {
-    return (get_dex() / 2) + 1;
+    return (get_dex() / 4) + 3;
 }
 int Creature::get_speed_bonus() const
 {

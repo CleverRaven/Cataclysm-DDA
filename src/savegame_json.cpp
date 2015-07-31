@@ -21,7 +21,6 @@
 #include "catacharset.h"
 #include "crafting.h"
 #include "get_version.h"
-#include "monstergenerator.h"
 #include "scenario.h"
 #include "monster.h"
 #include "monfaction.h"
@@ -1043,7 +1042,7 @@ void monster::load(JsonObject &data)
     std::string sidtmp;
     // load->str->int
     data.read("typeid", sidtmp);
-    type = GetMType(sidtmp);
+    type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
     data.read("posx", position.x);
@@ -1170,7 +1169,7 @@ void item::io( Archive& archive )
             // backwards compatibility, nullptr should not be stored at all
             corpse = nullptr;
         } else {
-            corpse = GetMType( id );
+            corpse = &mtype_id( id ).obj();
         }
     };
 
@@ -1195,7 +1194,7 @@ void item::io( Archive& archive )
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
     archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
-    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id; } );
+    archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
@@ -1362,6 +1361,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("tracking_on", tracking_on);
     data.read("lights_on", lights_on);
     data.read("stereo_on", stereo_on);
+    data.read("chimes_on", chimes_on);
     data.read("overhead_lights_on", overhead_lights_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
@@ -1439,6 +1439,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "tracking_on", tracking_on );
     json.member( "lights_on", lights_on );
     json.member( "stereo_on", stereo_on);
+    json.member( "chimes_on", chimes_on);
     json.member( "overhead_lights_on", overhead_lights_on );
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );
@@ -1711,6 +1712,10 @@ void Creature::load( JsonObject &jsin )
             jsin.read( "effects", tmp_map );
             int key_num;
             for (auto maps : tmp_map) {
+                if (effect_types.find(maps.first) == effect_types.end()) {
+                    debugmsg("Invalid effect: %s", maps.first.c_str());
+                    continue;
+                }
                 for (auto i : maps.second) {
                     if ( !(std::istringstream(i.first) >> key_num) ) {
                         key_num = 0;

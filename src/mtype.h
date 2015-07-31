@@ -26,7 +26,8 @@ using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
-
+struct mtype;
+using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
@@ -166,7 +167,7 @@ struct mtype {
         std::string name;
         std::string name_plural;
     public:
-        std::string id;
+        mtype_id id;
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
@@ -221,7 +222,7 @@ struct mtype {
         // Monster upgrade variables
         bool upgrades;
         int half_life;
-        std::string upgrade_into;
+        mtype_id upgrade_into;
         mongroup_id upgrade_group;
         // Default constructor
         mtype ();

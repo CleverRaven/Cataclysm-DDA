@@ -37,7 +37,7 @@
     "price": 0,
     "material": ["flesh", "bone"],
     "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
-	"ammo_effects": "BEANBAG",
+    "ammo_effects": "BEANBAG",
     "skill": "pistol",
     "ammo": "dart",
     "weight": 15103,
@@ -66,7 +66,7 @@
     "price": 0,
     "material": ["flesh", "bone"],
     "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
-	"ammo_effects": ["ACIDBOMB", "JET"],
+    "ammo_effects": ["ACIDBOMB", "JET"],
     "skill": "launcher",
     "ammo": "bfeed",
     "weight": 16501,
@@ -123,7 +123,7 @@
     "price": 0,
     "material": ["flesh", "bone"],
     "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "WHIP"],
-	"ammo_effects": ["WHIP"],
+    "ammo_effects": ["WHIP"],
     "skill": "rifle",
     "ammo": "bfeed",
     "weight": 22121,
@@ -132,7 +132,7 @@
     "cutting": 0,
     "to_hit": -5,
     "ranged_damage": 30,
-	"pierce": 30,
+    "pierce": 30,
     "range": 6,
     "dispersion": 0,
     "sight_dispersion": 150,
@@ -143,7 +143,7 @@
     "clip_size": 0,
     "reload": 0
   },
-	{
+  {
         "type" : "vehicle_part",
         "id" : "shooter",
         "name" : "blob shooter",
@@ -156,15 +156,15 @@
         "range" : 10,
         "folded_volume": 10,
         "item" : "shooter",
-		"size" : 10,
-		"difficulty" : 1,
+        "size" : 10,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
-			{"item": "blobshootergrow", "min": 1, "max": 1}
-		]
+            {"item": "blobshootergrow", "min": 1, "max": 1}
+        ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "darter",
         "name" : "blob darter",
@@ -177,15 +177,15 @@
         "range" : 10,
         "folded_volume": 10,
         "item" : "darter",
-		"size" : 10,
-		"difficulty" : 1,
+        "size" : 10,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
-			{"item": "blobdartergrow", "min": 1, "max": 1}
-		]
+            {"item": "blobdartergrow", "min": 1, "max": 1}
+        ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "spitter",
         "name" : "blob spitter",
@@ -198,14 +198,14 @@
         "range" : 12,
         "folded_volume": 12,
         "item" : "spitter",
-		"difficulty" : 1,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TURRET", "TOOL_NONE"],
         "breaks_into" : [
-			{"item": "blobspittergrow", "min": 1, "max": 1}
-		]
+            {"item": "blobspittergrow", "min": 1, "max": 1}
+        ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "slinger",
         "name" : "blob slinger",
@@ -218,15 +218,15 @@
         "range" : 10,
         "folded_volume": 12,
         "item" : "slinger",
-		"size" : 50,
-		"difficulty" : 1,
+        "size" : 50,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
-			{"item": "blobslingergrow", "min": 1, "max": 1}
-		]
+            {"item": "blobslingergrow", "min": 1, "max": 1}
+        ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "lancer",
         "name" : "blob lancer",
@@ -237,16 +237,16 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "folded_volume": 12,
-		"range": 8,
+        "range": 8,
         "item" : "lancer",
-		"difficulty" : 1,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TURRET", "TOOL_NONE"],
         "breaks_into" : [
-			{"item": "bloblancergrow", "min": 1, "max": 1}
-		]
+            {"item": "bloblancergrow", "min": 1, "max": 1}
+        ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "blob_tank",
         "name" : "blob core",
@@ -267,7 +267,7 @@
             {"item": "scrap", "min": 5, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "bplate",
         "name" : "blob plating",
@@ -323,7 +323,7 @@
             {"item": "bharnessgrow", "min": 1, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "bframe",
         "name" : "blob frame",
@@ -360,7 +360,7 @@
             {"item": "bwheelgrow", "min": 1, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "bengineout",
         "name" : "blob grinder",
@@ -381,7 +381,7 @@
             {"item": "benginegrow", "min": 1, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "benginein",
         "name" : "blob roller",
@@ -419,27 +419,27 @@
   "components": [
     [
       [ "metal_tank_small", 1],
-	  [ "clay_hydria", 1],
-	  [ "blob_tank", 1]
+      [ "clay_hydria", 1],
+      [ "blob_tank", 1]
     ],
-	[
-	  [ "meat", 10 ],
-	  [ "meat_tainted", 10 ],
-	  [ "human_flesh", 10 ]
+    [
+      [ "meat", 10 ],
+      [ "meat_tainted", 10 ],
+      [ "human_flesh", 10 ]
     ],
-	[
-	  [ "water", 30 ],
-	  [ "sewage", 30 ],
-	  [ "salt_water", 30 ]
+    [
+      [ "water", 30 ],
+      [ "sewage", 30 ],
+      [ "salt_water", 30 ]
     ],
-	[
-	  [ "bone", 10 ],
-	  [ "bone_tainted", 10 ],
-	  [ "bone_human", 10 ]
+    [
+      [ "bone", 10 ],
+      [ "bone_tainted", 10 ],
+      [ "bone_human", 10 ]
     ],
-	[
-	  [ "slime_scrap", 1 ],
-	  [ "blob_tank", 1]
+    [
+      [ "slime_scrap", 1 ],
+      [ "blob_tank", 1]
   ]]
 },
 {
@@ -460,31 +460,31 @@
   "components": [
     [
       [ "bone", 30 ],
-	  [ "bone_tainted", 30 ],
-	  [ "bone_human", 30 ]
+      [ "bone_tainted", 30 ],
+      [ "bone_human", 30 ]
     ],
     [
       [ "waterskin3", 1 ],
-	  [ "waterskin2", 2 ],
-	  [ "waterskin", 3 ]
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
     ],
-	[
-	 [ "slime_scrap", 20 ]
+    [
+     [ "slime_scrap", 20 ]
     ],
-	[
-	 [ "string_6", 24 ],
-	 [ "string_36", 4 ],
-	 [ "duct_tape", 100 ],
-	 [ "superglue", 4 ],
-	 [ "bone_glue", 4 ]
+    [
+     [ "string_6", 24 ],
+     [ "string_36", 4 ],
+     [ "duct_tape", 100 ],
+     [ "superglue", 4 ],
+     [ "bone_glue", 4 ]
     ],
-	[
-	 [ "bfeed", 200 ]
+    [
+     [ "bfeed", 200 ]
     ],
-	[
-	 [ "mutagen", 1 ]
+    [
+     [ "mutagen", 1 ]
     ]
-			]
+  ]
 },
 {
         "type" : "recipe",
@@ -505,30 +505,30 @@
     [
       ["shooter", 1]
     ],
-	[
-	 [ "bfeed", 200 ]
+    [
+     [ "bfeed", 200 ]
     ],
     [
       [ "bone", 8 ],
-	  [ "bone_tainted", 8 ],
-	  [ "bone_human", 8 ]
+      [ "bone_tainted", 8 ],
+      [ "bone_human", 8 ]
     ],
     [
       [ "waterskin3", 1 ],
-	  [ "waterskin2", 2 ],
-	  [ "waterskin", 3 ]
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
     ],
-	[
-	 [ "string_6", 12 ],
-	 [ "string_36", 2 ],
-	 [ "duct_tape", 50 ],
-	 [ "superglue", 2 ],
-	 [ "bone_glue", 2 ]
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 2 ],
+     [ "duct_tape", 50 ],
+     [ "superglue", 2 ],
+     [ "bone_glue", 2 ]
     ],
-	[
-	 [ "mutagen", 1 ]
+    [
+     [ "mutagen", 1 ]
     ]
-			]
+            ]
 },
 {
         "type" : "recipe",
@@ -549,30 +549,30 @@
     [
       ["shooter", 1]
     ],
-	[
-	 [ "bfeed", 400 ]
+    [
+     [ "bfeed", 400 ]
     ],
     [
       [ "bone", 10 ],
-	  [ "bone_tainted", 10 ],
-	  [ "bone_human", 10 ]
+      [ "bone_tainted", 10 ],
+      [ "bone_human", 10 ]
     ],
     [
       [ "waterskin3", 1 ],
-	  [ "waterskin2", 2 ],
-	  [ "waterskin", 3 ]
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
     ],
-	[
-	 [ "string_6", 12 ],
-	 [ "string_36", 2 ],
-	 [ "duct_tape", 50 ],
-	 [ "superglue", 2 ],
-	 [ "bone_glue", 2 ]
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 2 ],
+     [ "duct_tape", 50 ],
+     [ "superglue", 2 ],
+     [ "bone_glue", 2 ]
     ],
-	[
-	 [ "mutagen", 1 ]
+    [
+     [ "mutagen", 1 ]
     ]
-		]
+        ]
 },
 {
         "type" : "recipe",
@@ -593,31 +593,31 @@
     [
       ["shooter", 1]
     ],
-	[
-	 [ "bfeed", 1000 ]
+    [
+     [ "bfeed", 1000 ]
     ],
     [
       [ "bone", 20 ],
-	  [ "bone_tainted", 20 ],
-	  [ "bone_human", 20 ]
+      [ "bone_tainted", 20 ],
+      [ "bone_human", 20 ]
     ],
     [
       [ "waterskin3", 1 ],
-	  [ "waterskin2", 2 ],
-	  [ "waterskin", 3 ]
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
     ],
-	[
-	 [ "string_6", 20 ],
-	 [ "string_36", 4 ],
-	 [ "duct_tape", 100 ],
-	 [ "superglue", 4 ],
-	 [ "bone_glue", 4 ]
+    [
+     [ "string_6", 20 ],
+     [ "string_36", 4 ],
+     [ "duct_tape", 100 ],
+     [ "superglue", 4 ],
+     [ "bone_glue", 4 ]
     ],
-	[
-	 [ "mutagen", 3 ],
-	 [ "iv_mutagen", 1 ]
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1 ]
     ]
-		]
+        ]
 },
 {
         "type" : "recipe",
@@ -638,31 +638,31 @@
     [
       ["shooter", 1]
     ],
-	[
-	 [ "bfeed", 1000 ]
+    [
+     [ "bfeed", 1000 ]
     ],
     [
       [ "bone", 10 ],
-	  [ "bone_tainted", 10 ],
-	  [ "bone_human", 10 ]
+      [ "bone_tainted", 10 ],
+      [ "bone_human", 10 ]
     ],
     [
       [ "waterskin3", 1 ],
-	  [ "waterskin2", 2 ],
-	  [ "waterskin", 3 ]
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
     ],
-	[
-	 [ "string_6", 12 ],
-	 [ "string_36", 2 ],
-	 [ "superglue", 2 ],
-	 [ "bone_glue", 2 ],
-	 [ "duct_tape", 50 ]
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 2 ],
+     [ "superglue", 2 ],
+     [ "bone_glue", 2 ],
+     [ "duct_tape", 50 ]
     ],
-	[
-	 [ "mutagen", 3 ],
-	 [ "iv_mutagen", 1 ]
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1 ]
     ]
-		]
+        ]
 },
   {
     "id": "bfeedpot",
@@ -710,7 +710,7 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2,
-	"contains": 10,
+    "contains": 10,
     "ammo": "bfeed",
     "rigid": true,
     "watertight": true,
@@ -745,7 +745,7 @@
         "moves": 0,
         "target": "shooter"
     }
-	},
+    },
   {
     "id": "blobdartergrow",
     "type": "TOOL",
@@ -775,7 +775,7 @@
         "moves": 0,
         "target": "darter"
     }
-	},
+    },
   {
     "id": "blobspittergrow",
     "type": "TOOL",
@@ -835,7 +835,7 @@
         "moves": 0,
         "target": "slinger"
     }
-	},
+    },
   {
     "id": "bloblancergrow",
     "type": "TOOL",
@@ -1165,25 +1165,25 @@
   ],
   "components": [
     [
-	  [ "bone", 20 ],
-	  [ "bone_tainted", 20 ],
-	  [ "bone_human", 20 ]
+      [ "bone", 20 ],
+      [ "bone_tainted", 20 ],
+      [ "bone_human", 20 ]
     ],
-	[
-	  [ "slime_scrap", 5 ]
+    [
+      [ "slime_scrap", 5 ]
     ],
-	[
-	  [ "bfeed", 100 ]
+    [
+      [ "bfeed", 100 ]
     ],
-	[
-	 [ "string_6", 12 ],
-	 [ "string_36", 3 ],
-	 [ "superglue", 3 ],
-	 [ "bone_glue", 3 ],
-	 [ "duct_tape", 75 ]
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
     ],
-	[
-	 [ "rag", 6 ]
+    [
+     [ "rag", 6 ]
     ]
   ]
 },
@@ -1204,26 +1204,26 @@
   ],
   "components": [
     [
-	  [ "bone", 15 ],
-	  [ "bone_tainted", 15 ],
-	  [ "bone_human", 15 ]
+      [ "bone", 15 ],
+      [ "bone_tainted", 15 ],
+      [ "bone_human", 15 ]
     ],
-	[
-	  [ "slime_scrap", 20 ]
+    [
+      [ "slime_scrap", 20 ]
     ],
-	[
-	  [ "bfeed", 200 ]
+    [
+      [ "bfeed", 200 ]
     ],
-	[
-	 [ "string_6", 12 ],
-	 [ "string_36", 3 ],
-	 [ "superglue", 3 ],
-	 [ "bone_glue", 3 ],
-	 [ "duct_tape", 75 ]
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
     ],
-	[
-	 [ "rag", 20 ],
-	 [ "fur", 10 ]
+    [
+     [ "rag", 20 ],
+     [ "fur", 10 ]
     ]
   ]
 },
@@ -1245,25 +1245,25 @@
   ],
   "components": [
     [
-	  [ "bone", 12 ],
-	  [ "bone_tainted", 12 ],
-	  [ "bone_human", 12 ]
+      [ "bone", 12 ],
+      [ "bone_tainted", 12 ],
+      [ "bone_human", 12 ]
     ],
-	[
-	  [ "slime_scrap", 10 ]
+    [
+      [ "slime_scrap", 10 ]
     ],
-	[
-	  [ "bfeed", 100 ]
+    [
+      [ "bfeed", 100 ]
     ],
-	[
-	 [ "string_6", 12 ],
-	 [ "string_36", 3 ],
-	 [ "superglue", 3 ],
-	 [ "bone_glue", 3 ],
-	 [ "duct_tape", 75 ]
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
     ],
-	[
-	 [ "rag", 20 ]
+    [
+     [ "rag", 20 ]
     ]
   ]
 },
@@ -1285,59 +1285,59 @@
   ],
   "components": [
     [
-	  [ "pebble", 1000 ]
+      [ "pebble", 1000 ]
     ],
-	[
-	  [ "slime_scrap", 50 ]
+    [
+      [ "slime_scrap", 50 ]
     ],
-	[
-	  [ "bfeed", 2000 ]
+    [
+      [ "bfeed", 2000 ]
     ],
-	[
-	 [ "superglue", 10 ],
-	 [ "bone_glue", 10 ]
+    [
+     [ "superglue", 10 ],
+     [ "bone_glue", 10 ]
     ],
-	[
-	 [ "rope_30", 4 ],
-	 [ "chain", 4]
+    [
+     [ "rope_30", 4 ],
+     [ "chain", 4]
     ],
-	[
-	 [ "2x4", 8 ]
+    [
+     [ "2x4", 8 ]
     ],
-	[
-	 [ "mutagen", 6 ],
-	 [ "iv_mutagen", 2 ]
+    [
+     [ "mutagen", 6 ],
+     [ "iv_mutagen", 2 ]
     ]
   ]
 },
-	{
-		"type" : "AMMO",
-		"id": "bfeed",
-		"symbol": "*",
-		"color": "red",
-		"name": "blob feed",
-		"description": "This thick syrupy mixture of... let's not look too close, contains everything the blob needs to be healthy.  You think...",
-		"price": 0,
-		"material": "flesh",
-		"weight": 1,
-		"volume": 1,
-		"bashing": 8,
-		"cutting": 0,
-		"to_hit": -3,
+    {
+        "type" : "AMMO",
+        "id": "bfeed",
+        "symbol": "*",
+        "color": "red",
+        "name": "blob feed",
+        "description": "This thick syrupy mixture of... let's not look too close, contains everything the blob needs to be healthy.  You think...",
+        "price": 0,
+        "material": "flesh",
+        "weight": 1,
+        "volume": 1,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -3,
         "phase" : "liquid",
-		"ammo_type" : "bfeed",
-		"casing" : "NULL",
-		"damage" : 0,
-		"pierce" : 0,
-		"range" : 0,
-		"dispersion" : 0,
-		"recoil" : 0,
-		"count" : 100
-	},
+        "ammo_type" : "bfeed",
+        "casing" : "NULL",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 100
+    },
     {
         "type" : "ammunition_type",
         "id" : "bfeed",
         "name" : "blob feed",
         "default" : "bfeed"
     }
-	]
+]

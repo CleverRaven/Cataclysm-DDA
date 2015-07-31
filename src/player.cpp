@@ -62,6 +62,11 @@
 #include <stdlib.h>
 #include <fstream>
 
+const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
+const mtype_id mon_null( "mon_null" );
+const mtype_id mon_player_blob( "mon_player_blob" );
+const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
@@ -415,12 +420,12 @@ void player::reset_stats()
     }
 
     // Hit-related effects
-    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit - (encumb(bp_torso) / 10) );
+    mod_hit_bonus( mabuff_tohit_bonus() + weapon.type->m_to_hit );
 
     // Apply static martial arts buffs
     ma_static_effects();
 
-    if (int(calendar::turn) % 10 == 0) {
+    if( calendar::once_every(MINUTES(1)) ) {
         update_mental_focus();
     }
     pda_cached = false;
@@ -451,8 +456,8 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id("null");
 
-    if (has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
-            hunger < 100 && (int(calendar::turn) % 5 == 0)) {
+    if( has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
+        hunger < 100 && calendar::once_every(5) ) {
         hunger += 2;
         charge_power(25);
     }
@@ -1484,10 +1489,10 @@ void player::update_bodytemp()
         }
     }
     // Morale penalties, updated at the same rate morale is
-    if( morale_pen < 0 && int(calendar::turn) % 10 == 0 ) {
+    if( morale_pen < 0 && calendar::once_every(MINUTES(1)) ) {
         add_morale(MORALE_COLD, -2, -abs(morale_pen), 10, 5, true);
     }
-    if( morale_pen > 0 && int(calendar::turn) % 10 == 0 ) {
+    if( morale_pen > 0 && calendar::once_every(MINUTES(1)) ) {
         add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
 }
@@ -1794,9 +1799,9 @@ int player::swim_speed()
         }
     }
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag("FLOATATION") ) {
-        ret = std::max(ret, 400);
-        ret = std::min(ret, 200);
+    if( worn_with_flag("FLOTATION") ) {
+        ret = std::min(ret, 400);
+        ret = std::max(ret, 200);
     }
     // If (ret > 500), we can not swim; so do not apply the underwater bonus.
     if (underwater && ret < 500) {
@@ -2050,8 +2055,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     int total_kills = 0;
 
-    const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
-    for( const auto &monid : monids ) {
+    for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
         if( g->kill_count( monid.first ) > 0 ) {
             memorial_file << "  " << monid.second->sym << " - "
                           << string_format( "%4d", g->kill_count( monid.first ) ) << " "
@@ -2896,7 +2900,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     mvwprintz(w_stats, 3, 1, h_ltgray, _("Dexterity:"));
 
                     mvwprintz(w_stats, 6, 1, c_magenta, _("Melee to-hit bonus:"));
-                    mvwprintz(w_stats, 6, 22, c_magenta, "%+3d", base_to_hit(false));
+                    mvwprintz(w_stats, 6, 22, c_magenta, "%+3d", get_hit_base());
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty:"));
                     mvwprintz(w_stats, 7, 21, c_magenta, "%+4d", -(abs(ranged_dex_mod())));
                     if (throw_dex_mod(false) <= 0) {
@@ -2988,7 +2992,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                s += string_format( _("Melee skill %+d; "), - (encumb( bp_torso ) / 10));
+                const int melee_roll_pen = std::max( -( encumb( bp_torso ) / 10 ) * 10, -80 );
+                s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
                 s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - skillLevel( "swimming" ) * 3 ) );
                 s += melee_cost_text( encumb( bp_torso ) );
@@ -4590,22 +4595,23 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 }
 
-void player::on_hurt( Creature *source )
+void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
         add_effect("adrenaline", 200);
     }
 
-    if( in_sleep_state() ) {
-        wake_up();
-    }
-
-    if( !is_npc() ) {
-        if( source != nullptr ) {
-            g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-        } else {
-            g->cancel_activity_query(_("You were hurt!"));
+    if( disturb ) {
+        if( in_sleep_state() ) {
+            wake_up();
+        }
+        if( !is_npc() ) {
+            if( source != nullptr ) {
+                g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+            } else {
+                g->cancel_activity_query(_("You were hurt!"));
+            }
         }
     }
 
@@ -4658,7 +4664,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
         for (int i = 0; i < snakes && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon("mon_shadow_snake", target)) {
+            if (g->summon_mon(mon_shadow_snake, target)) {
                 monster *snake = g->monster_at( target );
                 snake->friendly = -1;
             }
@@ -4680,7 +4686,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon("mon_player_blob", target)) {
+            if (g->summon_mon(mon_player_blob, target)) {
                 monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
@@ -4723,17 +4729,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             }
             add_effect("blind", rng(minblind, maxblind));
         }
-
-    /*
-        It almost looks like damage may be getting applied twice in some cases.
-     */
-    case bp_mouth: // Fall through to head damage
-    case bp_head:
-        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from player::apply_damage()
-        if (hp_cur[hp_head] < 0) {
-            lifetime_stats()->damage_taken+=hp_cur[hp_head];
-            hp_cur[hp_head] = 0;
-        }
         break;
     case bp_torso:
         // getting hit throws off our shooting
@@ -4755,6 +4750,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         break;
     case bp_foot_r: // Fall through to legs
     case bp_leg_r:
+        break;
+    case bp_mouth: // Fall through to head damage
+    case bp_head:
         break;
     default:
         debugmsg("Wacky body part hit!");
@@ -4830,10 +4828,26 @@ void player::mod_pain(int npain) {
     if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
         npain = npain * 4 / rng(6,9);
     }
-    if (!is_npc() && ((npain >= 1) && (rng(0, pain) >= 10))) {
-        g->cancel_activity_query(_("Ouch, you were hurt!"));
-        if (in_sleep_state()) {
-            wake_up();
+    // reduce new felt pain by excess pkill, if any.
+    int felt_pain = npain - std::max(0, pkill - pain);
+    // Only trigger the "you felt it" effects if we are going to feel it.
+    if (felt_pain > 0) {
+        // Putting the threshold at 2 here to avoid most basic "ache" style
+        // effects from constantly asking you to stop crafting.
+        if (!is_npc() && felt_pain >= 2) {
+            g->cancel_activity_query(_("Ouch, something hurts!"));
+        }
+        // Only a large pain burst will actually wake people while sleeping.
+        if(in_sleep_state()) {
+            int pain_thresh = rng(3, 5);
+            if (has_trait("HEAVYSLEEPER")) {
+                pain_thresh += 2;
+            } else if (has_trait("HEAVYSLEEPER2")) {
+                pain_thresh += 5;
+            }
+            if (felt_pain >= pain_thresh) {
+                wake_up();
+            }
         }
     }
     Creature::mod_pain(npain);
@@ -4857,12 +4871,6 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hurtpart = hp_torso;
     }
 
-    if( dam <= 0 ) {
-        // Call on_hurt to wake player up etc.
-        on_hurt( source );
-        return;
-    }
-
     mod_pain( dam / 2 );
 
     hp_cur[hurtpart] -= dam;
@@ -4872,7 +4880,9 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    on_hurt( source );
+    if( dam > pkill ) {
+        on_hurt( source );
+    }
 }
 
 void player::heal(body_part healed, int dam)
@@ -4937,7 +4947,7 @@ void player::healall(int dam)
     }
 }
 
-void player::hurtall(int dam, Creature *source)
+void player::hurtall(int dam, Creature *source, bool disturb /*= true*/)
 {
     if( is_dead_state() || has_trait( "DEBUG_NODMG" ) || dam <= 0 ) {
         return;
@@ -4956,7 +4966,7 @@ void player::hurtall(int dam, Creature *source)
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
     mod_pain( dam );
-    on_hurt( source );
+    on_hurt( source, disturb );
 }
 
 int player::hitall(int dam, int vary, Creature *source)
@@ -5312,76 +5322,76 @@ void player::update_needs()
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if (hunger >= 5000 && calendar::turn % 20 == 0) {
+        } else if( hunger >= 5000 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if (hunger >= 4000 && calendar::turn % 20 == 0) {
+        } else if( hunger >= 4000 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
-        } else if (calendar::turn % 20 == 0) {
+        } else if( calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
         }
     }
 
     // Check if we're dying of thirst
-    if (thirst >= 600) {
-        if (thirst >= 1200) {
+    if( thirst >= 600 ) {
+        if( thirst >= 1200 ) {
             add_msg_if_player(m_bad, _("You have died of dehydration."));
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
                                pgettext("memorial_female", "Died of thirst."));
             hp_cur[hp_torso] = 0;
-        } else if (thirst >= 1000 && calendar::turn % 20 == 0) {
+        } else if( thirst >= 1000 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
-        } else if (thirst >= 800 && calendar::turn % 20 == 0) {
+        } else if( thirst >= 800 && calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("You are THIRSTY!"));
-        } else if (calendar::turn % 20 == 0) {
+        } else if( calendar::once_every(MINUTES(2)) ) {
             add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
         }
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (fatigue >= 600 && !in_sleep_state()) {
-        if (fatigue >= 1000) {
+    if( fatigue >= 600 && !in_sleep_state() ) {
+        if( fatigue >= 1000 ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             fatigue -= 10;
             try_to_sleep();
-        } else if (fatigue >= 800 && calendar::turn % 10 == 0) {
+        } else if( fatigue >= 800 && calendar::once_every(MINUTES(1)) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if (calendar::turn % 50 == 0) {
+        } else if( calendar::once_every(MINUTES(5)) ) {
             add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
         }
     }
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if (fatigue >= 383 && !in_sleep_state()) {
-        if (fatigue >= 700) {
-            if (calendar::turn % 50 == 0) {
+    if( fatigue >= 383 && !in_sleep_state() ) {
+        if( fatigue >= 700 ) {
+           if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect("lack_sleep", 50);
             }
-            if (one_in(50 + int_cur)) {
+            if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
             }
-        } else if (fatigue >= 575) {
-            if (calendar::turn % 50 == 0) {
+        } else if( fatigue >= 575 ) {
+            if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
             }
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if (fatigue >= 383 && calendar::turn % 50 == 0) {
+        } else if (fatigue >= 383 && calendar::once_every(MINUTES(5))) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect("lack_sleep", 50);
         }
     }
 
-    if (calendar::turn % 50 == 0) { // Hunger, thirst, & fatigue up every 5 minutes
-        if ((!has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!has_bionic("bio_recycler") || calendar::turn % 300 == 0) &&
-            !(has_trait("DEBUG_LS"))) {
+    if( calendar::once_every(MINUTES(5)) ) { // Hunger, thirst, & fatigue up every 5 minutes
+        if( (!has_trait("LIGHTEATER") || !one_in(3)) &&
+            (!has_bionic("bio_recycler") || calendar::once_every(MINUTES(30)) ) &&
+            !(has_trait("DEBUG_LS") )) {
             hunger++;
             if (has_trait("HUNGER")) {
                 if (one_in(2)) {
@@ -5400,7 +5410,7 @@ void player::update_needs()
                 hunger += 2;
             }
         }
-        if ((!has_bionic("bio_recycler") || calendar::turn % 100 == 0) &&
+        if( (!has_bionic("bio_recycler") || calendar::once_every(MINUTES(10)) ) &&
             (!has_trait("PLANTSKIN") || !one_in(5)) &&
             (!has_trait("DEBUG_LS")) ) {
             thirst++;
@@ -5500,7 +5510,7 @@ void player::update_needs()
 
 void player::regen()
 {
-    if (calendar::turn % 300 == 0) { // Pain up/down every 30 minutes
+    if( calendar::once_every(MINUTES(30)) ) { // Pain up/down every 30 minutes
         if (pain > 0) {
             pain -= 1 + int(pain / 10);
         } else if (pain < 0) {
@@ -5514,10 +5524,10 @@ void player::regen()
             healall(1);
         }
         if (has_trait("ROT2") && one_in(5)) {
-            hurtall(1, nullptr);
+            hurtall(1, nullptr, false);
         }
         if (has_trait("ROT3") && one_in(2)) {
-            hurtall(1, nullptr);
+            hurtall(1, nullptr, false);
         }
 
         if (radiation > 0 && one_in(3)) {
@@ -5531,8 +5541,7 @@ void player::regen()
         }
     }
 
-    if (calendar::turn % 3600 == 0)
-    {
+    if( calendar::once_every(HOURS(6)) ) {
         update_health();
     }
 }
@@ -5957,17 +5966,19 @@ void player::process_effects() {
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
     }
     if (has_trait("PARAIMMUNE") && (has_effect("dermatik") || has_effect("tapeworm") ||
-          has_effect("bloodworms") || has_effect("brainworm") || has_effect("paincysts")) ) {
+          has_effect("bloodworms") || has_effect("brainworms") || has_effect("paincysts")) ) {
         remove_effect("dermatik");
         remove_effect("tapeworm");
         remove_effect("bloodworms");
-        remove_effect("brainworm");
+        remove_effect("brainworms");
         remove_effect("paincysts");
         add_msg_if_player(m_good, _("Something writhes and inside of you as it dies."));
     }
-    if (has_trait("ACIDBLOOD") && (has_effect("dermatik") || has_effect("brainworm"))) {
+    if (has_trait("ACIDBLOOD") && (has_effect("dermatik") || has_effect("bloodworms") ||
+          has_effect("brainworms"))) {
         remove_effect("dermatik");
         remove_effect("bloodworms");
+        remove_effect("brainworms");
     }
     if (has_trait("EATHEALTH") && has_effect("tapeworm")) {
         remove_effect("tapeworm");
@@ -6202,6 +6213,7 @@ void player::hardcoded_effects(effect &it)
         return;
     }
     std::string id = it.get_id();
+    int start = it.get_start_turn();
     int dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
@@ -6758,7 +6770,7 @@ void player::hardcoded_effects(effect &it)
                     }
                     tripoint dest( i, j, posz() );
                     if (g->mon_at( dest ) == -1) {
-                        if (g->summon_mon("mon_dermatik_larva", dest)) {
+                        if (g->summon_mon(mon_dermatik_larva, dest)) {
                             monster *grub = g->monster_at(dest);
                             if (one_in(3)) {
                                 grub->friendly = -1;
@@ -7010,7 +7022,7 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
-    } else if (id == "brainworm") {
+    } else if (id == "brainworms") {
         if (one_in(256)) {
             add_msg_if_player(m_bad, _("Your head aches faintly."));
         }
@@ -7260,7 +7272,7 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "sleep") {
         set_moves(0);
         #ifdef SDLTILES
-        if(int(calendar::turn) % 100 == 0){
+        if( calendar::once_every(MINUTES(10)) ) {
             SDL_PumpEvents();
         }
         #endif // SDLTILES
@@ -7273,7 +7285,8 @@ void player::hardcoded_effects(effect &it)
         const bool hibernating = hunger <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
         // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
         // See above.  No log note for you. :-/
-        if( ( !hibernating && int(calendar::turn) % 50 == 0 ) || int(calendar::turn) % 350 == 0 ) {
+        if( ( !hibernating && calendar::once_every(MINUTES(5)) ) ||
+            calendar::once_every(MINUTES(35)) ) {
             // Accelerated recovery capped to 2x over 2 hours
             // After 16 hours of activity, equal to 7.25 hours of rest
             if (intense < 24) {
@@ -7300,6 +7313,12 @@ void player::hardcoded_effects(effect &it)
                 if( !hibernating && has_trait("WAKEFUL3") ) {
                     const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
                     delta += (2.0 + roll) / 2.0;
+                }
+
+                // Untreated pain causes a flat penalty to fatigue reduction
+                delta -= float(pain - pkill) / 60;
+                if (delta < 0) {
+                    delta = 0;
                 }
 
                 fatigue -= static_cast<int>(round(delta));
@@ -7334,7 +7353,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
 
-        if (int(calendar::turn) % 100 == 0 && !has_bionic("bio_recycler") && !(hunger < -60)) {
+        if (calendar::once_every(MINUTES(10)) && !has_bionic("bio_recycler") && !(hunger < -60)) {
             // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
             hunger--;
             thirst--;
@@ -7346,12 +7365,12 @@ void player::hardcoded_effects(effect &it)
         // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
         // without a good explanation and taking a night to make sure it works
         // with the extended sleep duration, OK?
-        if (int(calendar::turn) % 70 == 0 && !has_bionic("bio_recycler") && (hunger < -60)) {
+        if (calendar::once_every(MINUTES(7)) && !has_bionic("bio_recycler") && (hunger < -60)) {
             hunger--;
             thirst--;
         }
 
-        if (int(calendar::turn) % 100 == 0 && has_trait("CHLOROMORPH") &&
+        if (calendar::once_every(MINUTES(10)) && has_trait("CHLOROMORPH") &&
         g->is_in_sunlight(pos()) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if (hunger >= -30) {
@@ -7461,9 +7480,7 @@ void player::hardcoded_effects(effect &it)
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( (it.get_duration() == 1 || woke_up) &&
-            fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
-            fell_asleep_turn = -1;
+        if( (it.get_duration() == 1 || woke_up) && calendar::turn - start > HOURS(2) ) {
             print_health();
         }
     } else if (id == "alarm_clock") {
@@ -7487,8 +7504,8 @@ void player::hardcoded_effects(effect &it)
                         it.mod_duration(100);
                     }
                 } else {
-                    sounds::sound( pos(), 12, _("beep-beep-beep!"));
-                    if( !can_hear( pos(), 12 ) ) {
+                    sounds::sound( pos(), 16, _("beep-beep-beep!"));
+                    if( !can_hear( pos(), 16 ) ) {
                         // 10 minute automatic snooze
                         it.mod_duration(100);
                     } else {
@@ -8047,7 +8064,7 @@ void player::suffer()
             if( x_in_y( rads - rads_max, 1 ) ) {
                 rads_max++;
             }
-            if( int(calendar::turn) % 30 == 0 && has_bionic("bio_geiger") && localRadiation > 0 ) {
+            if( calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") && localRadiation > 0 ) {
                 add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
             }
         }
@@ -8087,7 +8104,7 @@ void player::suffer()
         }
     }
 
-    if( int(calendar::turn) % 150 == 0 ) {
+    if( calendar::once_every(MINUTES(15)) ) {
         if (radiation < 0) {
             radiation = 0;
         } else if (radiation > 2000) {
@@ -8553,7 +8570,7 @@ void player::update_body_wetness()
         delay -= 2;
     }
 
-    if (calendar::turn % delay != 0) {
+    if (!calendar::once_every(delay)) {
         return;
     }
 
@@ -9276,6 +9293,17 @@ int player::amount_of(const itype_id &it) const
     return quantity;
 }
 
+int player::amount_worn(const itype_id &id) const
+{
+    int amount = 0;
+    for(auto &elem : worn) {
+        if(elem.typeId() == id) {
+            ++amount;
+        }
+    }
+    return amount;
+}
+
 bool player::has_charges(const itype_id &it, long quantity) const
 {
     if (it == "fire" || it == "apparatus") {
@@ -9695,7 +9723,7 @@ bool player::eat(item *eaten, it_comest *comest)
             int numslime = 1;
             for (int i = 0; i < numslime && !valid.empty(); i++) {
                 const tripoint target = random_entry_removed( valid );
-                if (g->summon_mon("mon_player_blob", target)) {
+                if (g->summon_mon(mon_player_blob, target)) {
                     monster *slime = g->monster_at( target );
                     slime->friendly = -1;
                 }
@@ -10146,7 +10174,7 @@ bool player::wield(item* it, bool autodrop)
         if(weapon.is_null()) {
             return false;
         }
-        if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
+        if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
             moves -= 20;
@@ -10546,15 +10574,8 @@ bool player::wear_item(item *to_wear, bool interactive)
     }
 
     // Make sure we're not wearing 2 of the item already
-    int count = 0;
-
-    for (auto &i : worn) {
-        if (i.type->id == to_wear->type->id) {
-            count++;
-        }
-    }
-
-    if (count == 2) {
+    int count = amount_worn(to_wear->typeId());
+    if (count == MAX_WORN_PER_TYPE) {
         if(interactive) {
             add_msg(m_info, _("You can't wear more than two %s at once."),
                     to_wear->tname(count).c_str());
@@ -11350,6 +11371,13 @@ void player::remove_gunmod(item *weapon, unsigned id)
     }
     i_add_or_drop(*gunmod);
     weapon->contents.erase(weapon->contents.begin()+id);
+    // gunmod removal decreased the gun's clip_size, move ammo to inventory
+    if ( weapon->clip_size() < weapon->charges ) {
+        ammo = item( weapon->get_curammo_id(), calendar::turn );
+        ammo.charges = weapon->charges - weapon->clip_size();
+        weapon->charges = weapon->clip_size();
+        i_add_or_drop(ammo);
+    }
 }
 
 hint_rating player::rate_action_read(item *it)
@@ -12040,18 +12068,18 @@ bool player::can_sleep()
 void player::fall_asleep(int duration)
 {
     add_effect("sleep", duration);
-    fell_asleep_turn = calendar::turn;
 }
 
 void player::wake_up()
 {
+    if (has_effect("sleep")) {
+        if(calendar::turn - get_effect("sleep").get_start_turn() > HOURS(2) ) {
+            print_health();
+        }
+    }
+
     remove_effect("sleep");
     remove_effect("lying_down");
-
-    if( fell_asleep_turn > 0 && calendar::turn - fell_asleep_turn > HOURS(2) ) {
-        fell_asleep_turn = -1;
-        print_health();
-    }
 }
 
 std::string player::is_snuggling()
@@ -12242,26 +12270,36 @@ int player::encumb( body_part bp ) const
 int player::encumb(body_part bp, double &layers, int &armorenc) const
 {
     int ret = 0;
-    int layer[MAX_CLOTHING_LAYER] = { };
+    // First is the total of encumbrance on the given layer,
+    // and second is the highest encumbrance of any one item on the layer.
+    std::array<std::pair<int, int>, MAX_CLOTHING_LAYER> layer = {{{0,0},{0,0},{0,0},{0,0},{0,0}}};
 
     for( auto& w : worn ) {
         if( !w.covers(bp) ) {
             continue;
         }
+        std::pair<int, int> &this_layer = layer[w.get_layer()];
+        int encumber_val = w.get_encumber();
+        // For the purposes of layering penalty, set a min of 1 and a max of 10 per item.
+        int layering_encumbrance = std::min( 10, std::max( 1, encumber_val ) );
 
-        layer[w.get_layer()] += 10;
+        this_layer.first += layering_encumbrance;
+        this_layer.second = std::max(this_layer.second, layering_encumbrance);
 
         if( w.is_power_armor() && is_wearing_active_power_armor() ) {
-            armorenc += std::max( 0, w.get_encumber() - 40 );
+            armorenc += std::max( 0, encumber_val - 40 );
         } else {
-            armorenc += w.get_encumber();
+            armorenc += encumber_val;
         }
     }
     armorenc = std::max(0, armorenc);
     ret += armorenc;
 
+    // The stacking penalty applies by doubling the encumbrance of
+    // each item except the highest encumbrance one.
+    // So we add them together and then subtract out the highest.
     for( const auto &elem : layer ) {
-       layers += std::max(0, elem - 10);
+        layers += std::max(0, elem.first - elem.second);
     }
 
     ret += layers;
@@ -13811,7 +13849,7 @@ void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
     item body;
-    body.make_corpse( "mon_null", calendar::turn, name );
+    body.make_corpse( mon_null, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
@@ -14070,4 +14108,3 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line)
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
     }
 }
-

@@ -787,6 +787,12 @@
           "rotates": false
         },
         {
+          "id": "20_dread",
+          "fg": 123,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "bismuth",
           "fg": 124,
           "rotates": false
@@ -4281,6 +4287,12 @@
           "rotates": false
         },
         {
+          "id": "box_cigarette",
+          "fg": 874,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "brass_catcher",
           "fg": 1385,
           "bg": 505,
@@ -5489,6 +5501,12 @@
         },
         {
           "id": "ftk93",
+          "fg": 1272,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "arccan",
           "fg": 1272,
           "bg": 505,
           "rotates": false
@@ -7711,6 +7729,12 @@
           "rotates": false
         },
         {
+          "id": "retool_flaregun",
+          "fg": 1397,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "retool_46",
           "fg": 1398,
           "bg": 505,
@@ -8432,6 +8456,12 @@
         },
         {
           "id": "sw_500",
+          "fg": 1361,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "50pistol",
           "fg": 1361,
           "bg": 505,
           "rotates": false
@@ -10392,6 +10422,12 @@
           "rotates": false
         },
         {
+          "id": "book_asgard",
+          "fg": 595,
+          "bg": 507,
+          "rotates": false
+        },
+        {
           "id": "holybook_bible3",
           "fg": 569,
           "bg": 507,
@@ -10648,6 +10684,12 @@
         },
         {
           "id": "textbook_chemistry",
+          "fg": 562,
+          "bg": 509,
+          "rotates": false
+        },
+        {
+          "id": "textbook_biodiesel",
           "fg": 562,
           "bg": 509,
           "rotates": false
@@ -16712,6 +16754,11 @@
           "rotates": false
         },
         {
+          "id": "ltcarb",
+          "fg": 1300,
+          "rotates": false
+        },
+        {
           "id": "m9",
           "fg": 1302,
           "rotates": false
@@ -17972,6 +18019,11 @@
         },
         {
           "id": "mess_kit",
+          "fg": 2189,
+          "rotates": false
+        },
+        {
+          "id": "char_cooker",
           "fg": 2189,
           "rotates": false
         },
@@ -20831,6 +20883,191 @@
           "id": "vp_omnicam",
           "fg": 2693,
           "rotates": true
+        },
+        {
+          "id": "105mm_heat",
+          "fg": 2694,
+          "rotates": false
+        },
+        {
+          "id": "120mm_HEAT",
+          "fg": 2694,
+          "rotates": false
+        },
+        {
+          "id": "120mm_usable_heat",
+          "fg": 2694,
+          "rotates": false
+        },
+        {
+          "id": "155mm_heat",
+          "fg": 2694,
+          "rotates": false
+        },
+        {
+          "id": "ksg",
+          "fg": 2695,
+          "rotates": false
+        },
+        {
+          "id": "combination_gun",
+          "fg": 2696,
+          "rotates": false
+        },
+        {
+          "id": "pipe_combination_gun",
+          "fg": 2696,
+          "rotates": false
+        },
+        {
+          "id": "reloaded_654",
+          "fg": 2697,
+          "rotates": false
+        },
+        {
+          "id": "wrist_dread",
+          "fg": 2698,
+          "rotates": false
+        },
+        {
+          "id": "emas",
+          "fg": 2699,
+          "rotates": false
+        },
+        {
+          "id": "ficrico",
+          "fg": 2700,
+          "rotates": false
+        },
+        {
+          "id": "m203",
+          "fg": 2701,
+          "rotates": false
+        },
+        {
+          "id": "ruger_lcr_38",
+          "fg": 2702,
+          "rotates": false
+        },
+        {
+          "id": "ruger_lcr_22",
+          "fg": 2702,
+          "rotates": false
+        },
+        {
+          "id": "gunsword",
+          "fg": 2703,
+          "rotates": false
+        },
+        {
+          "id": "gunknife",
+          "fg": 2704,
+          "rotates": false
+        },
+        {
+          "id": "hk_mp5eod",
+          "fg": 2705,
+          "rotates": false
+        },
+        {
+          "id": "inflatable_boat",
+          "fg": 2706,
+          "rotates": false
+        },
+        {
+          "id": "inflatable_section",
+          "fg": 2707,
+          "rotates": false
+        },
+        {
+          "id": "inflatable_airbag",
+          "fg": 2707,
+          "rotates": false
+        },
+        {
+          "id": "boat_board",
+          "fg": 2708,
+          "rotates": false
+        },
+        {
+          "id": "vp_boat_board",
+          "fg": 2708,
+          "rotates": true
+        },
+        {
+          "id": "vp_inflatable_section",
+          "fg": 2709,
+          "rotates": true
+        },
+        {
+          "id": "vp_inflatable_airbag",
+          "fg": 2709,
+          "rotates": true
+        },
+        {
+          "id": "vp_hand_paddles",
+          "fg": 2710,
+          "rotates": true
+        },
+        {
+          "id": "laevateinn_replica",
+          "fg": 2711,
+          "rotates": false
+        },
+        {
+          "id": "ichaival_replica",
+          "fg": 2712,
+          "rotates": false
+        },
+        {
+          "id": "mjolnir_replica",
+          "fg": 2713,
+          "rotates": false
+        },
+        {
+          "id": "mjolnir",
+          "fg": 2714,
+          "rotates": false
+        },
+        {
+          "id": "gungnir_replica",
+          "fg": 2715,
+          "rotates": false
+        },
+        {
+          "id": "vp_forklift_fork",
+          "fg": 2716,
+          "rotates": true
+        },
+        {
+          "id": "small_charcoal",
+          "fg": 2717,
+          "rotates": false
+        },
+        {
+          "id": "jerrypack",
+          "fg": 2718,
+          "rotates": false
+        },
+        {
+          "id": "lemat_revolver",
+          "fg": 2719,
+          "rotates": false
+        },
+        {
+          "id": "vp_funnel",
+          "fg": 2720,
+          "rotates": true
+        },
+        {
+          "id": "camelbak",
+          "fg": 2721,
+          "rotates": false
+        },
+        {
+          "id": "chemical_thrower",
+          "fg": 2722,
+          "rotates": false
         }
       ]
     },

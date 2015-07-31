@@ -10,6 +10,8 @@
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;
+struct mtype;
+using mtype_id = string_id<mtype>;
 class JsonObject;
 
 /**
@@ -260,7 +262,7 @@ class place_monster_iuse : public iuse_actor
 {
     public:
         /** The monster type id of the monster to create. */
-        std::string mtype_id;
+        mtype_id mtypeid;
         /** If true, place the monster at a random square around the player,
          * otherwise allow the player to select the target square. */
         bool place_randomly;
@@ -466,6 +468,7 @@ class cauterize_actor : public iuse_actor
         virtual ~cauterize_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
 };
 

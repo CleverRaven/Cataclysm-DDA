@@ -17,6 +17,23 @@
 #include "mapdata.h"
 #include "field.h"
 
+const mtype_id mon_ant_larva( "mon_ant_larva" );
+const mtype_id mon_ant_queen( "mon_ant_queen" );
+const mtype_id mon_bat( "mon_bat" );
+const mtype_id mon_bee( "mon_bee" );
+const mtype_id mon_beekeeper( "mon_beekeeper" );
+const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
+const mtype_id mon_fungaloid_seeder( "mon_fungaloid_seeder" );
+const mtype_id mon_fungaloid_tower( "mon_fungaloid_tower" );
+const mtype_id mon_jabberwock( "mon_jabberwock" );
+const mtype_id mon_rat_king( "mon_rat_king" );
+const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+const mtype_id mon_shia( "mon_shia" );
+const mtype_id mon_spider_web( "mon_spider_web" );
+const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+const mtype_id mon_wasp( "mon_wasp" );
+const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
+
 mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
                        oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
     default_groundcover(t_null,1,t_null)
@@ -657,12 +674,12 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
 
     //1-2 per overmap, very bad day for low level characters
     if (one_in(10000)) {
-        m->add_spawn("mon_jabberwock", 1, SEEX, SEEY); // fixme add to monster_group?
+        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY); // fixme add to monster_group?
     }
 
     //Very rare easter egg, ~1 per 10 overmaps
     if (one_in(1000000)) {
-        m->add_spawn("mon_shia", 1, SEEX, SEEY);
+        m->add_spawn(mon_shia, 1, SEEX, SEEY);
     }
 
 
@@ -679,7 +696,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         m->ter_set( 12, 12, t_dirt );
         m->furn_set(12, 12, f_egg_sackws);
         m->remove_field({12, 12, m->get_abs_sub().z}, fd_web);
-        m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
+        m->add_spawn(mon_spider_web, rng(1, 2), SEEX, SEEY);
     }
 }
 
@@ -713,8 +730,8 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
                         m->ter_set(i + k, j + l, t_floor_wax);
                     }
                 }
-                m->add_spawn("mon_bee", 2, i, j);
-                m->add_spawn("mon_beekeeper", 1, i, j);
+                m->add_spawn(mon_bee, 2, i, j);
+                m->add_spawn(mon_beekeeper, 1, i, j);
                 m->ter_set(i    , j - 3, t_floor_wax);
                 m->ter_set(i    , j + 3, t_floor_wax);
                 m->ter_set(i - 1, j - 2, t_floor_wax);
@@ -902,7 +919,7 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
         }
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
-    m->add_spawn("mon_fungaloid_queen", 1, 12, 12);
+    m->add_spawn(mon_fungaloid_queen, 1, 12, 12);
 }
 
 void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
@@ -925,7 +942,7 @@ void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
         }
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
-    m->add_spawn("mon_fungaloid_tower", 1, 12, 12);
+    m->add_spawn(mon_fungaloid_tower, 1, 12, 12);
 }
 
 void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
@@ -954,7 +971,7 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
         }
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
-    m->add_spawn("mon_fungaloid_seeder", 1, 12, 12);
+    m->add_spawn(mon_fungaloid_seeder, 1, 12, 12);
 }
 
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
@@ -992,7 +1009,7 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
-            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -1092,7 +1109,7 @@ ssss.......yy.......ssss\n",
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
-            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -1197,7 +1214,7 @@ ssss....................\n\
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
-            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -1245,7 +1262,7 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
-            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -1327,7 +1344,7 @@ t   t\n\
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
-            m->add_spawn("mon_zombie_jackson", 1, SEEX, SEEY);
+            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
         }
     }
     if (terrain_type == "road_nesw_manhole") {
@@ -2622,7 +2639,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                     }
                 }
             }
-            m->add_spawn("mon_wasp", 1, podx, pody);
+            m->add_spawn(mon_wasp, 1, podx, pody);
         }
         m->place_items("rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 
@@ -2631,7 +2648,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             for (int j = 0; j < SEEY * 2; j++) {
                 if (m->ter(i, j) == t_floor) {
                     if (one_in(15)) {
-                        m->add_spawn("mon_spider_widow_giant", rng(1, 2), i, j);
+                        m->add_spawn(mon_spider_widow_giant, rng(1, 2), i, j);
                         for (int x = i - 1; x <= i + 1; x++) {
                             for (int y = j - 1; y <= j + 1; y++) {
                                 if (m->ter(x, y) == t_floor) {
@@ -3472,7 +3489,7 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
                 }
                 if( one_in( 30 ) && m->move_cost( i, j ) > 0 ) {
                     m->furn_set(i, j, f_egg_sackbw);
-                    m->add_spawn("mon_spider_widow_giant", rng(3, 6), i, j); //hope you like'em spiders
+                    m->add_spawn(mon_spider_widow_giant, rng(3, 6), i, j); //hope you like'em spiders
                     m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
                 }
             }
@@ -4969,7 +4986,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             case 3:
                 // bat corpses
                 for (int i = rng(1, 12); i > 0; i--) {
-                    body.make_corpse( "mon_bat", calendar::turn );
+                    body.make_corpse( mon_bat, calendar::turn );
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }
                 break;
@@ -5050,11 +5067,11 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
             for (int i = SEEX - 4; i <= SEEX + 4; i++) {
                 for (int j = SEEY - 4; j <= SEEY + 4; j++) {
                     if ((i <= SEEX - 2 || i >= SEEX + 2) && (j <= SEEY - 2 || j >= SEEY + 2)) {
-                        m->add_spawn("mon_sewer_rat", 1, i, j);
+                        m->add_spawn(mon_sewer_rat, 1, i, j);
                     }
                 }
             }
-            m->add_spawn("mon_rat_king", 1, SEEX, SEEY);
+            m->add_spawn(mon_rat_king, 1, SEEX, SEEY);
             m->place_items("rare", 75, SEEX - 4, SEEY - 4, SEEX + 4, SEEY + 4, true, 0);
         } else { // Level 1
             int cavex = SEEX, cavey = SEEY * 2 - 3;
@@ -5070,7 +5087,7 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
                             madd_field( m, cx, cy, fd_blood, rng(1, 3));
                         }
                         if (one_in(20)) {
-                            m->add_spawn("mon_sewer_rat", 1, cx, cy);
+                            m->add_spawn(mon_sewer_rat, 1, cx, cy);
                         }
                     }
                 }
@@ -5090,7 +5107,7 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
                                 madd_field( m, cx, cy, fd_blood, rng(1, 3));
                             }
                             if (one_in(20)) {
-                                m->add_spawn("mon_sewer_rat", 1, cx, cy);
+                                m->add_spawn(mon_sewer_rat, 1, cx, cy);
                             }
                         }
                     }
@@ -5696,9 +5713,9 @@ void mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, int, floa
         m->place_items("ant_egg",  98, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
     if (terrain_type == "ants_queen") {
-        m->add_spawn("mon_ant_queen", 1, SEEX, SEEY);
+        m->add_spawn(mon_ant_queen, 1, SEEX, SEEY);
     } else if (terrain_type == "ants_larvae") {
-        m->add_spawn("mon_ant_larva", 10, SEEX, SEEY);
+        m->add_spawn(mon_ant_larva, 10, SEEX, SEEY);
     }
 
 
@@ -5716,7 +5733,7 @@ void mapgen_ants_larvae(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
     m->place_items("ant_egg",  98, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    m->add_spawn("mon_ant_larva", 10, SEEX, SEEY);
+    m->add_spawn(mon_ant_larva, 10, SEEX, SEEY);
 }
 
 
@@ -5724,7 +5741,7 @@ void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
     m->place_items("ant_egg",  98, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-    m->add_spawn("mon_ant_queen", 1, SEEX, SEEY);
+    m->add_spawn(mon_ant_queen, 1, SEEX, SEEY);
 
 }
 

@@ -771,7 +771,7 @@ const ter_t &get_terrain_type(int id)
 }
 
 /** Create a new monster of the given type. */
-monster *create_monster( const std::string &mon_type, const tripoint &p )
+monster *create_monster( const mtype_id &mon_type, const tripoint &p )
 {
     monster new_monster( mon_type, p );
     if(!g->add_zombie(new_monster)) {
@@ -823,17 +823,6 @@ static int game_get_monsters(lua_State *L) {
     return 1; // 1 return values
 }
 */
-
-// mtype = game.monster_type(name)
-static int game_monster_type(lua_State *L)
-{
-    const std::string parameter1 = lua_tostring_wrapper( L, 1 );
-
-    LuaReference<mtype>::push( L, GetMType( parameter1 ) );
-
-    return 1; // 1 return values
-
-}
 
 static void popup_wrapper(const std::string &text) {
     popup( "%s", text.c_str() );
@@ -900,7 +889,7 @@ static int game_get_item_groups(lua_State *L)
 // monster_types = game.get_monster_types()
 static int game_get_monster_types(lua_State *L)
 {
-    std::vector<std::string> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
+    std::vector<mtype_id> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
 
     lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
 
@@ -914,7 +903,7 @@ static int game_get_monster_types(lua_State *L)
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
         lua_pushnumber(L, i + 1);
-        lua_pushstring(L, mtypes[i].c_str());
+        LuaValue<mtype_id>::push( L, mtypes[i] );
         lua_rawset(L, -3);
     }
 
@@ -1039,7 +1028,6 @@ static const struct luaL_Reg global_funcs [] = {
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
     {"choose_adjacent", game_choose_adjacent},
-    {"monster_type", game_monster_type},
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
     {"get_item_groups", game_get_item_groups},

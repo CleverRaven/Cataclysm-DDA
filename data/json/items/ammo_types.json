@@ -289,6 +289,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "conc_alcohol",
+        "name" : "concentrated alcohol",
+        "default" : "denat_alcohol"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "8x40mm",
         "name" : "8x40mm caseless",
         "default" : "8mm_caseless"

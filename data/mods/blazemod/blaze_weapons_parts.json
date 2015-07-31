@@ -1,5 +1,5 @@
 [
-	{
+    {
         "type" : "vehicle_part",
         "id" : "laser_gunp",
         "name" : "mounted pulse rifle",
@@ -21,7 +21,7 @@
             {"item": "plastic_chunk", "min": 6, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "teslagun",
         "name" : "mounted tesla cannon",
@@ -53,8 +53,8 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "needler",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 15,
@@ -65,7 +65,7 @@
             {"item": "plastic_chunk", "min": 6, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "m107a1",
         "name" : "mounted M107A1",
@@ -76,8 +76,8 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "item" : "m107a1",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 18,
@@ -85,7 +85,7 @@
             {"item": "m107a1", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "l_lmg_223",
         "name" : "mounted L523 LMG",
@@ -96,8 +96,8 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "item" : "l_lmg_223",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 18,
@@ -105,7 +105,7 @@
             {"item": "l_lmg_223", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "mounted rm614_lmg",
         "name" : "LM614 LMG",
@@ -116,8 +116,8 @@
         "damage_modifier" : 80,
         "durability" : 400,
         "item" : "rm614_lmg",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 10,
@@ -144,7 +144,7 @@
             {"item": "rm298", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "m2browning_sawn",
         "name" : "mounted .50 caliber rifle",
@@ -155,8 +155,8 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "item" : "m2browning_sawn",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 14,
@@ -164,7 +164,7 @@
             {"item": "m2browning_sawn", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "launcher_simple",
         "name" : "mounted 40mm launcher",
@@ -175,8 +175,8 @@
         "damage_modifier" : 80,
         "durability" : 100,
         "item" : "launcher_simple",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 5,
@@ -184,7 +184,7 @@
             {"item": "launcher_simple", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "m79",
         "name" : "mounted M79",
@@ -195,8 +195,8 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "item" : "m79",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 4,
@@ -204,7 +204,7 @@
             {"item": "m79", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "m320",
         "name" : "mounted M320",
@@ -215,8 +215,8 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "item" : "m320",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 3,
@@ -224,7 +224,7 @@
             {"item": "m320", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "mgl",
         "name" : "mounted milkor MGL",
@@ -235,8 +235,8 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "item" : "mgl",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 9,
@@ -244,7 +244,7 @@
             {"item": "mgl", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "rm802",
         "name" : "mounted RM802",
@@ -255,8 +255,8 @@
         "damage_modifier" : 80,
         "durability" : 250,
         "item" : "rm802",
-		"size" : 40,
-		"difficulty" : 1,
+        "size" : 40,
+        "difficulty" : 1,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 7,
@@ -264,7 +264,7 @@
             {"item": "rm802", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "scorpion",
         "name" : "mounted scorpion",
@@ -275,8 +275,8 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "scorpion",
-		"size" : 10,
-		"difficulty" : 4,
+        "size" : 10,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 24,
@@ -285,7 +285,7 @@
             {"item": "splinter", "min": 0, "max": 24}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "slauncher",
         "name" : "mounted speargun",
@@ -297,8 +297,8 @@
         "durability" : 200,
         "epower" : 25,
         "item" : "slauncher",
-		"size" : 30,
-		"difficulty" : 5,
+        "size" : 30,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 20,
@@ -307,7 +307,7 @@
             {"item": "scrap", "min": 2, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "cangun",
         "name" : "mounted slingshot cannon",
@@ -318,8 +318,8 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "cangun",
-		"size" : 10,
-		"difficulty" : 2,
+        "size" : 10,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 25,
@@ -329,7 +329,7 @@
             {"item": "splinter", "min": 0, "max": 24}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "tiharturret",
         "name" : "mounted avalanche",
@@ -340,8 +340,8 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "tiharturret",
-		"size": 40,
-		"difficulty" : 2,
+        "size": 40,
+        "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
@@ -349,7 +349,7 @@
             {"item": "tiharturret", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "bolter",
         "name" : "mounted storm bolter",
@@ -360,15 +360,15 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "bolter",
-		"size" : 40,
-		"difficulty" : 4,
+        "size" : 40,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TOOL_NONE", "TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
         "breaks_into" : [
             {"item": "bolter", "min": 0, "max": 1}
-			]
-    },	{
+            ]
+    },    {
         "type" : "vehicle_part",
         "id" : "lasgun",
         "name" : "mounted laser cannon",
@@ -379,7 +379,7 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "lasgun",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 10,
@@ -389,7 +389,7 @@
             {"item": "e_scrap", "min": 8, "max": 16},
             {"item": "plastic_chunk", "min": 6, "max": 8}
         ]
-    },	{
+    },    {
         "type" : "vehicle_part",
         "id" : "lasgunp",
         "name" : "mounted pulse laser",
@@ -400,7 +400,7 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "lasgunp",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 12,
@@ -411,7 +411,7 @@
             {"item": "plastic_chunk", "min": 6, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "lasgunx",
         "name" : "mounted turbolaser",
@@ -422,7 +422,7 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "lasgunx",
-		"difficulty" : 4,
+        "difficulty" : 4,
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 18,
@@ -433,7 +433,7 @@
             {"item": "plastic_chunk", "min": 8, "max": 16}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "gattler1",
         "name" : "mounted rotary cannon",
@@ -444,8 +444,8 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "gattler",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 15,
@@ -456,7 +456,7 @@
             {"item": "chain", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "blundergun",
         "name" : "mounted thundergun",
@@ -467,8 +467,8 @@
         "damage_modifier" : 80,
         "durability" : 800,
         "item" : "blundergun",
-		"size" : 40,
-		"difficulty" : 3,
+        "size" : 40,
+        "difficulty" : 3,
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 30,
@@ -479,7 +479,7 @@
             {"item": "spring", "min": 0, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "shardgun",
         "name" : "mounted splintergun",
@@ -490,8 +490,8 @@
         "damage_modifier" : 80,
         "durability" : 150,
         "item" : "shardgun",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 14,
@@ -502,7 +502,7 @@
             {"item": "plastic_chunk", "min": 0, "max": 4}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "nailer",
         "name" : "mounted perforator",
@@ -513,8 +513,8 @@
         "damage_modifier" : 80,
         "durability" : 150,
         "item" : "nailer",
-		"size" : 40,
-		"difficulty" : 5,
+        "size" : 40,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 12,
@@ -526,7 +526,7 @@
             {"item": "plastic_chunk", "min": 0, "max": 4}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "railturret",
         "name" : "mounted hypervelocity driver",
@@ -537,8 +537,8 @@
         "damage_modifier" : 80,
         "durability" : 200,
         "item" : "railturret",
-		"size" : 10,
-		"difficulty" : 5,
+        "size" : 10,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "MANUAL", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 16,
@@ -549,7 +549,7 @@
             {"item": "e_scrap", "min": 2, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "mflamethrower1",
         "name" : "mounted flamethrower (S)",
@@ -568,7 +568,7 @@
             {"item": "flamethrower_simple", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "mflamethrower3",
         "name" : "mounted rm451",
@@ -587,7 +587,7 @@
             {"item": "rm451_flamethrower", "min": 0, "max": 1}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ripper",
         "name" : "mounted ripper",
@@ -598,8 +598,8 @@
         "durability" : 400,
         "power" : -50,
         "item" : "ripper",
-		"size" : 60,
-		"difficulty" : 5,
+        "size" : 60,
+        "difficulty" : 5,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "MANUAL", "FOLDABLE"],
         "folded_volume": 15,
