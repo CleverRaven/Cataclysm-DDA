@@ -6041,13 +6041,13 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     int dam;
 
     if (power >= 30) {
-        sounds::sound( p, noise, _("a huge explosion!"), false, "", "" );
+        sounds::sound( p, noise, _("a huge explosion!") );
         sfx::play_variant_sound( "explosion", "huge", 100);
     } else if (power >= 4) {
-        sounds::sound( p, noise, _("an explosion!"), false, "" );
+        sounds::sound( p, noise, _("an explosion!") );
         sfx::play_variant_sound( "explosion", "default", 100);
     } else {
-        sounds::sound( p, 3, _("a loud pop!"), false, "", "" );
+        sounds::sound( p, 3, _("a loud pop!") );
         sfx::play_variant_sound( "explosion", "small", 100);
     }
     if (blast) {

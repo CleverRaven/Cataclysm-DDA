@@ -345,7 +345,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
         // Make a rather quiet sound, to alert any nearby monsters
         if (!is_quiet()) { // check martial arts silence
-            sounds::sound( pos3(), 8, "", false, "", "" );
+            sounds::sound( pos3(), 8, "" );
         }
         std::string material = "flesh";
         bool targ_mon = (!t.is_npc() && !t.is_player());

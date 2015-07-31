@@ -2993,7 +2993,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
         smashed_something = true;
     }
     if( !sound.empty() && !silent ) {
-        sounds::sound( p, sound_volume, sound, false, "", "");
+        sounds::sound( p, sound_volume, sound );
         sfx::play_variant_sound( soundfxid, soundfxvariant, sfx::get_heard_volume(p), sfx::get_heard_angle(p));
     }
 
@@ -3032,7 +3032,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !silent ) {
-        sounds::sound( p, 12, _("glass shattering"), false, "", "" );
+        sounds::sound( p, 12, _("glass shattering") );
         sfx::play_variant_sound( "smash_success", "smash_glass_contents", sfx::get_heard_volume(p));
     }
 
@@ -3042,7 +3042,7 @@ std::pair<bool, bool> map::bash( const tripoint &p, const int str,
     if( veh != nullptr && veh != bashing_vehicle ) {
         veh->damage( vpart, str, 1 );
         if( !silent ) {
-            sounds::sound( p, 18, _("crash!"), false, "", "" );
+            sounds::sound( p, 18, _("crash!") );
             sfx::play_variant_sound( "smash_success", "hit_vehicle", sfx::get_heard_volume(p));
         }
 

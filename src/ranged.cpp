@@ -1311,7 +1311,7 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
     const auto data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, data.sound, false, "", "" );
+        sounds::sound( p.pos(), data.volume, data.sound );
     }
 }
 
