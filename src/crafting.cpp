@@ -902,19 +902,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                 redraw = true;
                 continue;
             }
-            if (current[line]->reversible) {
-                popup(_("Batch crafting is not available for reversible items!"));
+            batch = !batch;
+            if (batch) {
+                batch_line = line;
+                chosen = current[batch_line];
             } else {
-                batch = !batch;
-                if (batch) {
-                    batch_line = line;
-                    chosen = current[batch_line];
-                } else {
-                    line = batch_line;
-                    keepline = true;
-                }
-                redraw = true;
+                line = batch_line;
+                keepline = true;
             }
+            redraw = true;
         }
         if (line < 0) {
             line = current.size() - 1;
@@ -1688,7 +1684,7 @@ void player::complete_craft()
             }
         }
 
-        if (!newit.count_by_charges() && making->reversible) {
+        if( !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
