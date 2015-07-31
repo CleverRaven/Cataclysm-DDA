@@ -4225,16 +4225,18 @@ void player::pause()
     recoil = int(recoil / 2);
 
     // Train swimming if underwater
-    if (underwater) {
+    if( underwater ) {
         practice( "swimming", 1 );
-        if (g->temperature <= 50) {
-            drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
-                        mfb(bp_hand_l)|mfb(bp_hand_r), true );
-        } else {
-            drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth), true );
-        }
+        drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
+                    mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
+                    mfb(bp_hand_l)|mfb(bp_hand_r), true );
+    } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+        practice( "swimming", 1 );
+        // Same as above, except no head/eyes/mouth
+        drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
+                    mfb(bp_foot_l)|mfb(bp_foot_r)| mfb(bp_hand_l)|mfb(bp_hand_r), true );
+    } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
+        drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
     }
 
     VehicleList vehs = g->m.get_vehicles();
