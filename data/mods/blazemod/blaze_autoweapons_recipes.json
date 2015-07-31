@@ -14,42 +14,42 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20 ],
-		[ "toolset", 20 ]
-	],
-	[
-	  [ "small_repairkit", 25 ],
-	  [ "large_repairkit", 25 ]
-	]
+     [
+       [ "soldering_iron", 20 ],
+       [ "toolset", 20 ]
+     ],
+     [
+       [ "small_repairkit", 25 ],
+       [ "large_repairkit", 25 ]
+     ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+      [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+    [
+      [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 6],
-		[ "steel_chunk", 2]
+    [
+      [ "scrap", 6],
+      [ "steel_chunk", 2]
     ],
-	[
-		["american_180", 1],
-		["uzi", 1],
-		["tec9", 1],
-		["calico", 1],
-		["hk_mp5", 1],
-		["mac_10", 1],
-		["hk_ump45", 1],
-		["TDI", 1],
-		["fn_p90", 1],
-		["hk_mp7", 1],
-		["ppsh", 1],
-		["rm2000_smg", 1],
-		["needlegun", 1]
+    [
+      ["american_180", 1],
+      ["uzi", 1],
+      ["tec9", 1],
+      ["calico", 1],
+      ["hk_mp5", 1],
+      ["mac_10", 1],
+      ["hk_ump45", 1],
+      ["TDI", 1],
+      ["fn_p90", 1],
+      ["hk_mp7", 1],
+      ["ppsh", 1],
+      ["rm2000_smg", 1],
+      ["needlegun", 1]
     ]
-			]
+  ]
 },
 {
         "type" : "recipe",
@@ -66,43 +66,43 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20 ],
-		[ "toolset", 20 ]
-	],
-	[
-	  [ "small_repairkit", 25 ],
-	  [ "large_repairkit", 25 ]
-	]
+  [
+    [ "soldering_iron", 20 ],
+    [ "toolset", 20 ]
+  ],
+  [
+    [ "small_repairkit", 25 ],
+    [ "large_repairkit", 25 ]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 6],
-		[ "steel_chunk", 2]
+  [
+    [ "scrap", 6],
+    [ "steel_chunk", 2]
     ],
-	[
-		["shotgun_sawn", 1],
-		["saiga_sawn", 1],
-		["shotgun_s", 1],
-		["shotgun_d", 1],
-		["remington_870", 1],
-		["mossberg_500", 1],
-		["m1014", 1],
-		["saiga_12", 1],
-		["l_def_12", 1],
-		["revolver_shotgun", 1],
-		["pipe_shotgun", 1],
-		["pipe_double_shotgun", 1],
-		["pipe_shotgunsawn", 1],
-		["bigun", 1]
+  [
+    ["shotgun_sawn", 1],
+    ["saiga_sawn", 1],
+    ["shotgun_s", 1],
+    ["shotgun_d", 1],
+    ["remington_870", 1],
+    ["mossberg_500", 1],
+    ["m1014", 1],
+    ["saiga_12", 1],
+    ["l_def_12", 1],
+    ["revolver_shotgun", 1],
+    ["pipe_shotgun", 1],
+    ["pipe_double_shotgun", 1],
+    ["pipe_shotgunsawn", 1],
+    ["bigun", 1]
     ]
-			]
+      ]
 }, {
         "type" : "recipe",
   "result": "SMGturret45",
@@ -118,42 +118,42 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20 ],
-		[ "toolset", 20 ]
-	],
-	[
-	  [ "small_repairkit", 25 ],
-	  [ "large_repairkit", 25 ]
-	]
+  [
+    [ "soldering_iron", 20 ],
+    [ "toolset", 20 ]
+  ],
+  [
+    [ "small_repairkit", 25 ],
+    [ "large_repairkit", 25 ]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 6],
-		[ "steel_chunk", 2]
+  [
+    [ "scrap", 6],
+    [ "steel_chunk", 2]
     ],
-	[
-		["american_180", 1],
-		["uzi", 1],
-		["tec9", 1],
-		["calico", 1],
-		["hk_mp5", 1],
-		["mac_10", 1],
-		["hk_ump45", 1],
-		["TDI", 1],
-		["fn_p90", 1],
-		["hk_mp7", 1],
-		["ppsh", 1],
-		["rm2000_smg", 1],
-		["needlegun", 1]
+  [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ]
-			]
+      ]
 },{
         "type" : "recipe",
   "result": "SMGturret22",
@@ -169,42 +169,42 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20 ],
-		[ "toolset", 20 ]
-	],
-	[
-	  [ "small_repairkit", 25 ],
-	  [ "large_repairkit", 25 ]
-	]
+  [
+    [ "soldering_iron", 20 ],
+    [ "toolset", 20 ]
+  ],
+  [
+    [ "small_repairkit", 25 ],
+    [ "large_repairkit", 25 ]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 6],
-		[ "steel_chunk", 2]
+  [
+    [ "scrap", 6],
+    [ "steel_chunk", 2]
     ],
-	[
-		["american_180", 1],
-		["uzi", 1],
-		["tec9", 1],
-		["calico", 1],
-		["hk_mp5", 1],
-		["mac_10", 1],
-		["hk_ump45", 1],
-		["TDI", 1],
-		["fn_p90", 1],
-		["hk_mp7", 1],
-		["ppsh", 1],
-		["rm2000_smg", 1],
-		["needlegun", 1]
+  [
+    ["american_180", 1],
+    ["uzi", 1],
+    ["tec9", 1],
+    ["calico", 1],
+    ["hk_mp5", 1],
+    ["mac_10", 1],
+    ["hk_ump45", 1],
+    ["TDI", 1],
+    ["fn_p90", 1],
+    ["hk_mp7", 1],
+    ["ppsh", 1],
+    ["rm2000_smg", 1],
+    ["needlegun", 1]
     ]
-			]
+      ]
 },{
         "type" : "recipe",
   "result": "40mmturret",
@@ -220,28 +220,28 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20 ],
-		[ "toolset", 20 ]
-	]
+  [
+    [ "soldering_iron", 20 ],
+    [ "toolset", 20 ]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 6],
-		[ "steel_chunk", 2]
+  [
+    [ "scrap", 6],
+    [ "steel_chunk", 2]
     ],
-	[
-		[ "launcher_simple", 1 ],
-		[ "m79", 1 ],
-		[ "m320", 1 ]
+  [
+    [ "launcher_simple", 1 ],
+    [ "m79", 1 ],
+    [ "m320", 1 ]
     ]
-			]
+      ]
 },{
         "type" : "recipe",
   "result": "rifleturret",
@@ -257,39 +257,39 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20],
-		[ "toolset", 20]
-	],
-	[
-		[ "small_repairkit", 50 ],
-		[ "large_repairkit", 50 ]
-	]
+  [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+  ],
+  [
+    [ "small_repairkit", 50 ],
+    [ "large_repairkit", 50 ]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
-	[
-		["hk_g36", 1],
-		["l_base_223", 1],
-		["l_car_223", 1],
-		["acr", 1],
-		["m4a1", 1],
-		["l_mbr_223", 1],
-		["scar_l", 1],
-		["h&k416a5", 1],
-		["l_dsr_223", 1],
-		["m27iar", 1],
-		["l_lmg_223", 1],
-		["steyr_aug", 1]
+  [
+    ["hk_g36", 1],
+    ["l_base_223", 1],
+    ["l_car_223", 1],
+    ["acr", 1],
+    ["m4a1", 1],
+    ["l_mbr_223", 1],
+    ["scar_l", 1],
+    ["h&k416a5", 1],
+    ["l_dsr_223", 1],
+    ["m27iar", 1],
+    ["l_lmg_223", 1],
+    ["steyr_aug", 1]
     ]
   ]
 },{
@@ -307,29 +307,29 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 40],
-		[ "toolset", 40]
-	],
-	[
-	  [ "small_repairkit", 50 ],
-	  [ "large_repairkit", 50 ]
-	]
+  [
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
+  ],
+  [
+    [ "small_repairkit", 50 ],
+    [ "large_repairkit", 50 ]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
-	[
-		["m107a1", 1],
-		["m2browning_sawn", 1]
+  [
+    ["m107a1", 1],
+    ["m2browning_sawn", 1]
     ]
   ]
 },{
@@ -347,24 +347,24 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20],
-		[ "toolset", 20]
-	]
+  [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
-	[
-		[ "needler", 1]
+  [
+    [ "needler", 1]
   ]]
 },{
         "type" : "recipe",
@@ -381,24 +381,24 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20],
-		[ "toolset", 20]
-	]
+  [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 6],
-		[ "steel_chunk", 2]
+  [
+    [ "scrap", 6],
+    [ "steel_chunk", 2]
     ],
-	[
-		["lasgunp", 1]
+  [
+    ["lasgunp", 1]
     ]
 ]
 },{
@@ -416,24 +416,24 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20],
-		[ "toolset", 20]
-	]
+  [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "lasgun", 1 ]
+    [ "lasgun", 1 ]
     ]
 ]
 },{
@@ -451,24 +451,24 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 40],
-		[ "toolset", 40]
-	]
+  [
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
+  [
+    [ "turret_engine", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "lasgunx", 1 ]
+    [ "lasgunx", 1 ]
     ]
 ]
 },{
@@ -488,24 +488,24 @@
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 50],
-		[ "toolset", 50]
-	]
+  [
+    [ "soldering_iron", 50],
+    [ "toolset", 50]
+  ]
   ],
   "components": [
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine_L", 1 ]
+  [
+    [ "turret_engine_L", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "scorpion", 1 ]
+    [ "scorpion", 1 ]
     ]
   ]
 },{
@@ -523,26 +523,26 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
-	]
+  [
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
+  ]
   ],
   "components": [
     [
-		[ "nx17p", 1 ]
+    [ "nx17p", 1 ]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
-	]
-				]
+  [
+    [ "turret_engine", 1 ]
+  ]
+        ]
 },{
         "type" : "recipe",
   "result": "acangun",
@@ -556,11 +556,11 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_W","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+  {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 40],
-	  [ "toolset", 40]
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
     ]
   ],
   "components": [
@@ -569,19 +569,19 @@
     ],
     [
       [ "duct_tape", 400],
-	  [ "superglue", 4],
-	  [ "nail", 150]
+    [ "superglue", 4],
+    [ "nail", 150]
     ],
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine_L", 1 ]
-	]
+  [
+    [ "turret_engine_L", 1 ]
+  ]
   ]
 },{
         "type" : "recipe",
@@ -596,11 +596,11 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_W","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+  {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 40],
-	  [ "toolset", 40]
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
     ]
   ],
   "components": [
@@ -609,19 +609,19 @@
     ],
     [
       [ "duct_tape", 400],
-	  [ "superglue", 4],
-	  [ "nail", 150]
+    [ "superglue", 4],
+    [ "nail", 150]
     ],
-	[
-		[ "scrap", 18],
-		[ "steel_chunk", 6]
+  [
+    [ "scrap", 18],
+    [ "steel_chunk", 6]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine_L", 1 ]
-	]
+  [
+    [ "turret_engine_L", 1 ]
+  ]
   ]
 },{
         "type" : "recipe",
@@ -639,24 +639,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 20],
-	  [ "toolset", 20]
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
     ]
   ],
   "components": [
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-	  [ "tihar", 1]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "tihar", 1]
+  ]
  ]
 },{
         "type" : "recipe",
@@ -671,27 +671,27 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+  {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 40],
-	  [ "toolset", 40]
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
     ]
   ],
   "components": [
     [
-		["m249", 1]
+    ["m249", 1]
     ],
     [
-		["steel_chunk", 4],
-		["scrap", 12]
+    ["steel_chunk", 4],
+    ["scrap", 12]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ]
   ]
 },{
         "type" : "recipe",
@@ -706,27 +706,27 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+  {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 40],
-	  [ "toolset", 40]
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
     ]
   ],
   "components": [
     [
-		["m2browning", 1]
+    ["m2browning", 1]
     ],
     [
-		["steel_chunk", 4],
-		["scrap", 12]
+    ["steel_chunk", 4],
+    ["scrap", 12]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ]
   ]
 },{
         "type" : "recipe",
@@ -741,27 +741,27 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":1}
+  {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 40],
-	  [ "toolset", 40]
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
     ]
   ],
   "components": [
     [
-		["rm298", 1]
+    ["rm298", 1]
     ],
     [
-		["steel_chunk", 4],
-		["scrap", 12]
+    ["steel_chunk", 4],
+    ["scrap", 12]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ]
   ]
 },{
         "type" : "recipe",
@@ -779,24 +779,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 20],
-	  [ "toolset", 20]
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
     ]
   ],
   "components": [
-	[
-		[ "scrap", 9],
-		[ "steel_chunk", 3]
+  [
+    [ "scrap", 9],
+    [ "steel_chunk", 3]
     ],
     [
-		[ "fcs", 1 ]
+    [ "fcs", 1 ]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "helsing", 1]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "helsing", 1]
+  ]
  ]
 },{
         "type" : "recipe",
@@ -814,24 +814,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 50],
-	  [ "toolset", 50]
+    [ "soldering_iron", 50],
+    [ "toolset", 50]
     ]
   ],
   "components": [
     [
-		["slauncher", 1]
+    ["slauncher", 1]
     ],
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine_L", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	]
+  [
+    [ "turret_engine_L", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ]
  ]
 },{
         "type" : "recipe",
@@ -849,24 +849,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 50],
-	  [ "toolset", 50]
+    [ "soldering_iron", 50],
+    [ "toolset", 50]
     ]
   ],
   "components": [
     [
-		["gattler", 1]
+    ["gattler", 1]
     ],
-	[
-		["scrap", 12],
-		["steel_chunk", 4]
+  [
+    ["scrap", 12],
+    ["steel_chunk", 4]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ]
  ]
 },{
         "type" : "recipe",
@@ -884,24 +884,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 20],
-	  [ "toolset", 20]
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
     ]
   ],
   "components": [
     [
-		["teslagun", 1]
+    ["teslagun", 1]
     ],
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ]
 ]
 },{
         "type" : "recipe",
@@ -919,24 +919,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 20],
-	  [ "toolset", 20]
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
     ]
   ],
   "components": [
     [
-		["shardgun", 1]
+    ["shardgun", 1]
     ],
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ]
 ]
 },{
         "type" : "recipe",
@@ -954,24 +954,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
     [
-		["nailer", 1]
+    ["nailer", 1]
     ],
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	]
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ]
 ]
 },{
         "type" : "recipe",
@@ -989,24 +989,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
     [
-		["railturret", 1]
+    ["railturret", 1]
     ],
-	[
-		["scrap", 12],
-		["steel_chunk", 4]
+  [
+    ["scrap", 12],
+    ["steel_chunk", 4]
     ],
-	[
-		[ "turret_engine_L", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	]
+  [
+    [ "turret_engine_L", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ]
 ]
 },{
         "type" : "recipe",
@@ -1024,27 +1024,27 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "metal_tank_little", 1 ]
-	],
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "metal_tank_little", 1 ]
+  ],
     [
-		[ "hose", 2 ]
+    [ "hose", 2 ]
     ],
-	[
-		[ "fcs", 1 ]
-	],
+  [
+    [ "fcs", 1 ]
+  ],
     [
       [ "flamethrower_simple", 1 ]
     ]
@@ -1065,29 +1065,29 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "metal_tank_little", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	],
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "metal_tank_little", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ],
     [
-		[ "hose", 2 ]
+    [ "hose", 2 ]
     ],
     [
-		[ "flamethrower", 1 ]
+    [ "flamethrower", 1 ]
     ]
 ]
 },{
@@ -1106,29 +1106,29 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
-		["scrap", 9],
-		["steel_chunk", 3]
+  [
+    ["scrap", 9],
+    ["steel_chunk", 3]
     ],
-	[
-		[ "turret_engine", 1 ]
-	],
-	[
-		[ "metal_tank_little", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	],
+  [
+    [ "turret_engine", 1 ]
+  ],
+  [
+    [ "metal_tank_little", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ],
     [
-		[ "hose", 2 ]
+    [ "hose", 2 ]
     ],
-	[
-		[ "rm451_flamethrower", 1 ]
+  [
+    [ "rm451_flamethrower", 1 ]
     ]
 ]
 },{
@@ -1147,24 +1147,24 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
-		["scrap", 12],
-		["steel_chunk", 4]
+  [
+    ["scrap", 12],
+    ["steel_chunk", 4]
     ],
-	[
-		[ "turret_engine_L", 1 ]
-	],
-	[
-		[ "fcs", 1 ]
-	],
-	[
-		[ "ripper", 1 ]
-	]
+  [
+    [ "turret_engine_L", 1 ]
+  ],
+  [
+    [ "fcs", 1 ]
+  ],
+  [
+    [ "ripper", 1 ]
+  ]
  ]
 }
 ]
