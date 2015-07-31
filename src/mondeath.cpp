@@ -663,10 +663,10 @@ void mdeath::detonate(monster *z)
     if (g->u.sees(*z)) {
         if (dets.empty()) {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_info, _("The %s hands fly to its pockets, but there's nothing left in them."), z->disp_name(true).c_str());
+            add_msg(m_info, _("The %s's hands fly to its pockets, but there's nothing left in them."), z->name().c_str());
         } else {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
+            add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
         }
     }
     const tripoint det_point = z->pos3();
@@ -688,8 +688,8 @@ void mdeath::broken_ammo(monster *z)
 {
     if (g->u.sees(z->pos())) {
         //~ %s is the possessive form of the monster's name
-        add_msg(m_info, _("The %s interior compartment sizzles with destructive energy."),
-                            z->disp_name(true).c_str());
+        add_msg(m_info, _("The %s's interior compartment sizzles with destructive energy."),
+                            z->name().c_str());
     }
     mdeath::broken(z);
 }
