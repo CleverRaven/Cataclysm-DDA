@@ -311,10 +311,41 @@ projectile &projectile::operator=( const projectile &other )
     impact = other.impact;
     speed = other.speed;
     proj_effects = other.proj_effects;
-    if( other.drop != nullptr ) {
-        drop = std::unique_ptr<item>( new item( *other.drop ) );
-    }
+    set_drop( *other.drop );
 
     return *this;
+}
+
+const item &projectile::get_drop() const
+{
+    if( drop != nullptr ) {
+        return *drop;
+    }
+
+    static const item null_drop;
+    return null_drop;
+}
+
+void projectile::set_drop( const item &it )
+{
+    if( it.is_null() ) {
+        unset_drop();
+    } else {
+        drop.reset( new item( it ) );
+    }
+}
+
+void projectile::set_drop( item &&it )
+{
+    if( it.is_null() ) {
+        unset_drop();
+    } else {
+        drop.reset( new item( std::move( it ) ) );
+    }
+}
+
+void projectile::unset_drop()
+{
+    drop.reset();
 }
 

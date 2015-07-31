@@ -337,8 +337,13 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
           )
         ) {
         // Prepare an item to drop
-        proj.drop = std::unique_ptr<item>( new item( curammo->id, calendar::turn ) );
-        proj.drop->charges = 1;
+        item drop( curammo->id, calendar::turn );
+        drop.charges = 1;
+        if( proj_effects.count( "ACT_ON_RANGED_HIT" ) > 0 ) {
+            drop.active = true;
+        }
+
+        proj.set_drop( drop );
     }
 
     if( curammo->phase == LIQUID ||
@@ -604,11 +609,8 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
 {
-    // We'll be constructing a projectile
-    // Start by copying the item into it
-    projectile proj;
-    proj.drop = std::unique_ptr<item>( new item( to_throw ) );
-    item &thrown = *proj.drop;
+    // Copy the item, we may alter it before throwing
+    item thrown = to_throw;
 
     // Base move cost on moves per turn of the weapon
     // and our skill.
@@ -632,7 +634,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     moves -= move_cost;
-    practice( "throw", 10 );
 
     const int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
     mod_stat("stamina", stamina_cost);
@@ -670,11 +671,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation += rng(0, 3);
     }
 
-    deviation += rng(0, std::max( 0, str_cur - thrown.weight() / 113 ) );
+    deviation += rng(0, std::max( 0, thrown.weight() / 113 - str_cur ) );
+    deviation = std::max( 0, deviation );
 
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-
     /*
     // This causes crashes for some reason
     static const std::vector<std::string> ferric = {{
@@ -696,18 +697,24 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( real_dam > thrown.weight() / 40 ) {
         real_dam = thrown.weight() / 40;
     }
+    if( real_dam < 1 ) {
+        // Need at least 1 dmg or projectile attack will stop due to no momentum
+        real_dam = 1;
+    }
     if( do_railgun ) {
         real_dam *= 2;
     }
 
+    // We'll be constructing a projectile
+    projectile proj;
     proj.speed = 10 + skill_level;
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
     impact.add_damage( DT_BASH, real_dam );
 
-    if( thrown.has_flag( "PROCESS_ON_DROP" ) ) {
-        proj_effects.insert( "PROCESS_ON_DROP" );
+    if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
+        proj_effects.insert( "ACT_ON_RANGED_HIT" );
         thrown.active = true;
     }
 
@@ -747,6 +754,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj.impact.add_damage( type, thrown.type->melee_cut );
     }
 
+    // Put the item into the projectile
+    proj.set_drop( std::move( thrown ) );
+
     auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
 
     const double missed_by = dealt_attack.missed_by;
@@ -762,14 +772,16 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         if( dealt_attack.hit_critter != nullptr ) {
             lifetime_stats()->headshots++;
         }
-    } else if (missed_by <= .2) {
+    } else if( missed_by <= .2 ) {
         practice( skill_used, damage_factor * range_multiplier / 2 );
-    } else if (missed_by <= .4) {
+    } else if( missed_by <= .4 ) {
         practice( skill_used, damage_factor * range_multiplier / 3 );
-    } else if (missed_by <= .6) {
+    } else if( missed_by <= .6 ) {
         practice( skill_used, damage_factor * range_multiplier / 4 );
-    } else if (missed_by <= 1.0) {
+    } else if( missed_by <= 1.0 ) {
         practice( skill_used, damage_factor * range_multiplier / 5 );
+    } else {
+        practice( skill_used, 10 );
     }
 
     return dealt_attack;
@@ -1480,9 +1492,9 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
     const auto &proj = attack.proj;
-    const auto &drop_item = proj.drop;
+    const auto &drop_item = proj.get_drop();
     const auto &effects = proj.proj_effects;
-    if( drop_item == nullptr ) {
+    if( drop_item.is_null() ) {
         return;
     }
 
@@ -1491,10 +1503,10 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
-            add_msg( _("The %s shatters!"), drop_item->tname().c_str() );
+            add_msg( _("The %s shatters!"), drop_item.tname().c_str() );
         }
 
-        for( const item &i : drop_item->contents ) {
+        for( const item &i : drop_item.contents ) {
             g->m.add_item_or_charges( pt, i );
         }
         // TODO: Non-glass breaking
@@ -1503,7 +1515,8 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    item dropped_item = *drop_item;
+    // Copy the item
+    item dropped_item = drop_item;
 
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
     // Try to embed the projectile in monster
@@ -1515,7 +1528,7 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             attack.dealt_dam.type_damage( DT_BASH ) ) ||
         effects.count( "NO_EMBED" ) != 0 ) {
         bool do_drop = true;
-        if( effects.count( "PROCESS_ON_DROP" ) ) {
+        if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
             // Don't drop if it exploded
             do_drop = !dropped_item.process( nullptr, attack.end_point, true );
         }
@@ -1531,11 +1544,16 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                 sounds::sound( pt, 8, _("thud.") );
             }
             const trap &tr = g->m.tr_at(pt);
-            if( tr.triggered_by_item( *drop_item ) ) {
+            if( tr.triggered_by_item( dropped_item ) ) {
                 tr.trigger( pt, nullptr );
             }
         }
     } else {
         mon->add_item( dropped_item );
+        if( g->u.sees( *mon ) ) {
+            add_msg( _("The %s embeds in %s!"),
+                     dropped_item.tname().c_str(),
+                     mon->disp_name().c_str() );
+        }
     }
 }

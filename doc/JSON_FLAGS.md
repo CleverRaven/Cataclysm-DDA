@@ -508,7 +508,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
 - ```COOKOFF``` Explodes when lit on fire.
 - ```SHOT``` Multiple smaller pellets instead of one singular bullet; less effective against armor but increases chance to hit.
-- ```BOUNCE``` Inflicts target with `ME_BOUNCED` effect.
+- ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```EXPLOSIVE``` Explodes without any shrapnel.
 - ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
 - ```EXPLOSIVE_HUGE``` Huge explosion without any shrapnel.
@@ -535,6 +535,11 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
 - ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
+- ```WIDE``` Prevents ```HARDTOSHOOT``` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
+- ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
+- ```ACID_DROP``` Creates a tiny field of weak acid.
+- ```RECOVER_[X]``` where X is any of 3, 5, 10, 15, 25 - Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
+- ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items.
 
 ## Techniques
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
@@ -770,6 +775,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
 - ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
+- ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -954,8 +960,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
-- ```REDUCED_WEIGHT``` ... Gunmod flag; reduce's the item's base weight by 25%.
-- ```REDUCED_BASHING``` ... Gunmod flag; reduce's the item's bashing damage by 50%.
+- ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
+- ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
 
 ## Skills

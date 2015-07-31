@@ -604,7 +604,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        add_effect( "blind", rng( 3, 10 ) );
+        add_env_effect( "blind", bp_eyes, 5, rng( 3, 10 ) );
     }
 
     int stun_strength = 0;
