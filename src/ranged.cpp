@@ -95,6 +95,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                         proj_effects.count("JET") > 0;
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
+    const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
 
     tripoint target = target_arg;
     if( missed_by >= 1.0 ) {
@@ -184,7 +185,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 continue;
             }
             dealt_damage_instance dealt_dam;
-            critter->deal_projectile_attack( this, ret );
+            critter->deal_projectile_attack( null_source ? nullptr : this, ret );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( ret.hit_critter != nullptr ) {
@@ -215,7 +216,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        for (unsigned long int i = 0; i < g->num_zombies(); i++) {
+        for( size_t i = 0; i < g->num_zombies(); i++ ) {
             monster &z = g->zombie(i);
             if( z.is_dead() ) {
                 continue;

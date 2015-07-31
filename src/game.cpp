@@ -6148,16 +6148,17 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     npc fake_npc;
     fake_npc.name = _("Shrapnel");
     fake_npc.set_fake(true);
-    fake_npc.recoil = 0;
     fake_npc.setpos( p );
+    projectile proj;
+    proj.speed = 100;
+    proj.proj_effects.insert( "DRAW_AS_LINE" );
+    proj.proj_effects.insert( "NULL_SOURCE" );
     for( int i = 0; i < shrapnel; i++ ) {
         // TODO: Z-level shrapnel, but not before z-level ranged attacks
         tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
-        projectile proj;
-        proj.speed = 100;
-        proj.proj_effects.insert( "DRAW_AS_LINE" );
+
         // Scaling of the damage happens later, as a result of low accuracy
         // Big damage, because all shrapnel has low accuracy
         proj.impact = damage_instance::physical( 2 * power, 2 * power, 0, 0 );
@@ -6172,7 +6173,7 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
             // 60% chance for nothing
             // Still, that's a lot of shrapnel to "dodge"
             dda.missed_by = rng_float( 0.4, 1.4 );
-            critter_in_center->deal_projectile_attack( &fake_npc, dda );
+            critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
         // This needs to be high enough to prevent game from thinking that

@@ -498,7 +498,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( goodhit >= 1.0 ) {
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
-        if( source != nullptr && !source->is_fake() && g->u.sees( *source ) ) {
+        if( source != nullptr && g->u.sees( *source ) ) {
             add_msg_player_or_npc(
                 m_warning,
                 _("You avoid %s projectile!"),
@@ -546,29 +546,29 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( goodhit < 0.1 ) {
         message = _("Headshot!");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if( goodhit < 0.2 ) {
         message = _("Critical!");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
     } else if( goodhit < 0.4 ) {
         message = _("Good hit!");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
     } else if( goodhit < 0.6 ) {
         damage_mult *= rng_float(0.5, 1);
     } else if( goodhit < 0.8 ) {
         message = _("Grazing hit.");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
+    }
+
+    if( source != nullptr && !message.empty() ) {
+        source->add_msg_if_player(m_good, message.c_str());
     }
 
     attack.missed_by = goodhit;
@@ -649,15 +649,21 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if(u_see_this) {
-        if (damage_mult == 0) {
-            if(source != NULL) {
-                add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+        if( damage_mult == 0 ) {
+            if( source != nullptr ) {
+                add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
             }
-        } else if (dealt_dam.total_damage() == 0) {
+        } else if( dealt_dam.total_damage() == 0 ) {
             add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
                     skin_name().c_str());
-        } else if (source != NULL) {
-            if (source->is_player()) {
+        } else if( is_player() ) {
+                //monster hits player ranged
+                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                  body_part_name_accusative(bp_hit).c_str( ),
+                                  dealt_dam.total_damage());
+        } else if( source != nullptr ) {
+            if( source->is_player() ) {
                 //player hits monster ranged
                 SCT.add(posx(), posy(),
                         direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
@@ -676,13 +682,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
                 add_msg(m_good, _("You hit %s for %d damage."),
                         disp_name().c_str(), dealt_dam.total_damage());
-
-            } else if(this->is_player()) {
-                //monster hits player ranged
-                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative(bp_hit).c_str( ),
-                                  dealt_dam.total_damage());
             } else if( u_see_this ) {
                 add_msg(_("%s shoots %s."),
                         source->disp_name().c_str(), disp_name().c_str());
