@@ -217,6 +217,7 @@ void DynamicDataLoader::initialize()
     type_function_map["MONSTER_FACTION"] =
         new StaticFunctionAccessor(&monfactions::load_monster_faction);
     type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
+    type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
 
 }
 

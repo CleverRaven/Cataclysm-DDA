@@ -2067,7 +2067,7 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
     }
 }
 
-void load_playlist( JsonObject &jsobj )
+void sfx::load_playlist( JsonObject &jsobj )
 {
     JsonArray jarr = jsobj.get_array( "playlists" );
     while( jarr.has_more() ) {
@@ -2234,7 +2234,7 @@ void load_soundset() {
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
-        load_playlist( config );
+        sfx::load_playlist( config );
     }
 
     // Load sound effects. This loads the sound effect chunks directly
@@ -2256,6 +2256,7 @@ void load_soundset() {
 void cleanup_sound() {
 #ifdef SDL_SOUND
     sound_effects_p.clear();
+    playlists.clear();
 #endif
 }
 
