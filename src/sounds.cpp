@@ -701,10 +701,10 @@ void sfx::do_projectile_hit( const Creature &target ) {
         if( fleshy.count( material ) > 0 || mon.has_flag( MF_VERMIN ) ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.get_material() == "stone" ) {
+        } else if( material == "stone" ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.get_material() == "steel" ) {
+        } else if( material == "steel" ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {
