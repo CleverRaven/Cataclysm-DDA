@@ -30,6 +30,7 @@ bool used_tiles_changed;
 extern cata_tiles *tilecontext;
 #endif // SDLTILES
 
+std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::unordered_map<std::string, cOpt> OPTIONS;
 std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
@@ -499,6 +500,74 @@ bool cOpt::operator!=(const std::string sCompare) const
     return !(*this == sCompare);
 }
 
+static std::string build_tilesets_list()
+{
+    const std::string defaultTilesets = "hoder,deon";
+
+    std::string tileset_names;
+    bool first_tileset_name = true;
+
+    TILESETS.clear();
+
+    auto const tilesets_dirs = get_directories_with(FILENAMES["tileset-conf"], FILENAMES["gfxdir"], true);
+
+    for( auto &ts_dir : tilesets_dirs ) {
+        std::ifstream fin;
+        std::string file = ts_dir + "/" + FILENAMES["tileset-conf"];
+
+        fin.open( file.c_str() );
+        if(!fin.is_open()) {
+            fin.close();
+            DebugLog( D_ERROR, DC_ALL ) << "Can't read tileset config from " << file;
+        }
+        // should only have 2 values inside it, otherwise is going to only load the last 2 values
+        std::string tileset_name;
+
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
+
+            if(sOption == "") {
+                getline(fin, sOption);    // Empty line, chomp it
+            } else if(sOption[0] == '#') { // # indicates a comment
+                getline(fin, sOption);
+            } else {
+                if (sOption.find("NAME") != std::string::npos) {
+                    tileset_name = "";
+                    fin >> tileset_name;
+                    if(first_tileset_name) {
+                        first_tileset_name = false;
+                        tileset_names += tileset_name;
+                    } else {
+                        tileset_names += std::string(",");
+                        tileset_names += tileset_name;
+                    }
+                } else if (sOption.find("VIEW") != std::string::npos) {
+                    std::string viewName = "";
+                    fin >> viewName;
+                    optionNames[tileset_name] = viewName;
+                    break;
+                }
+            }
+        }
+        fin.close();
+        if (TILESETS.count(tileset_name) != 0) {
+            DebugLog( D_ERROR, DC_ALL ) << "Found tileset dublicate with name " << tileset_name;
+        } else {
+            TILESETS.insert(std::pair<std::string,std::string>(tileset_name, ts_dir));
+        }
+    }
+
+    if(tileset_names == "") {
+        optionNames["deon"] = _("Deon's");          // more standards
+        optionNames["hoder"] = _("Hoder's");
+        return defaultTilesets;
+
+    }
+
+    return tileset_names;
+}
+
 void init_options()
 {
     OPTIONS.clear();
@@ -522,8 +591,7 @@ void init_options()
     }
 
     std::string tileset_names;
-    tileset_names = get_tileset_names(
-                        FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
+    tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
@@ -1509,66 +1577,4 @@ void save_options(bool ingame)
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
-}
-
-std::string get_tileset_names(std::string dir_path)
-{
-    const std::string defaultTilesets = "hoder,deon";
-
-    auto const files = get_files_from_path(FILENAMES["tileset-conf"], dir_path, true);
-
-    std::string tileset_names;
-    bool first_tileset_name = true;
-
-    for( auto &file : files ) {
-        std::ifstream fin;
-        fin.open( file.c_str() );
-        if(!fin.is_open()) {
-            fin.close();
-            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << file;
-            optionNames["deon"] = _("Deon's");          // just setting some standards
-            optionNames["hoder"] = _("Hoder's");
-            return defaultTilesets;
-        }
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        std::string tileset_name;
-
-        while(!fin.eof()) {
-            std::string sOption;
-            fin >> sOption;
-
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
-            } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    tileset_name = "";
-                    fin >> tileset_name;
-                    if(first_tileset_name) {
-                        first_tileset_name = false;
-                        tileset_names += tileset_name;
-                    } else {
-                        tileset_names += std::string(",");
-                        tileset_names += tileset_name;
-                    }
-                } else if (sOption.find("VIEW") != std::string::npos) {
-                    std::string viewName = "";
-                    fin >> viewName;
-                    optionNames[tileset_name] = viewName;
-                    break;
-                }
-            }
-        }
-        fin.close();
-    }
-
-    if(tileset_names == "") {
-        optionNames["deon"] = _("Deon's");          // more standards
-        optionNames["hoder"] = _("Hoder's");
-        return defaultTilesets;
-
-    }
-
-    return tileset_names;
 }
