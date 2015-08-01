@@ -11,6 +11,6 @@ NAME: MShock24Modded
 #Viewing (Option) name of the tileset
 VIEW: MShock24Modded
 #JSON Path - Default of gfx/tile_config.json
-JSON: MShock24TilesetModded/tile_config.json
+JSON: tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: MShock24TilesetModded/tiles.png
+TILESET: tiles.png
