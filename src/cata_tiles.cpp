@@ -112,57 +112,65 @@ void cata_tiles::reinit(std::string load_file_path)
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
-    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]";
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
+    const std::string current_tileset = OPTIONS["TILES"].getValue();
 
-    // search for the files (tileset.txt)
-    auto files = get_files_from_path(FILENAMES["tileset-conf"], dir_path, true);
+    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from tileset config";
 
-    for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {   // iterate through every file found
-        std::ifstream fin;
-        fin.open(it->c_str());
-        if(!fin.is_open()) {
-            fin.close();
-            dbg( D_ERROR ) << "Could not read " << *it << " -- Setting to default values!";
-            json_path = default_json;
-            tileset_path = default_tileset;
-            return;
-        }
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while(!fin.eof()) {
-            std::string sOption;
-            fin >> sOption;
-
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
-            } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    std::string tileset_name;
-                    tileset_name = "";
-                    fin >> tileset_name;
-                    if(tileset_name != OPTIONS["TILES"].getValue()) {   // if the current tileset name isn't the same
-                        // as the current one in the options break
-                        break;                                          // out of the while loop, close the file and
-                    }                                                   // continue with the next file
-                } else if (sOption.find("VIEW") != std::string::npos) { // we don't need the view name here
-                    getline(fin, sOption);                              // so we just skip it
-                } else if (sOption.find("JSON") != std::string::npos) {
-                    fin >> json_path;
-                    json_path = FILENAMES["gfxdir"] + json_path;
-                    dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
-                } else if (sOption.find("TILESET") != std::string::npos) {
-                    fin >> tileset_path;
-                    tileset_path = FILENAMES["gfxdir"] + tileset_path;
-                    dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
-                }
-            }
-        }
-
-        fin.close();
+    if (current_tileset.empty()) {
+        dbg( D_ERROR ) << "Tileset not set in OPTIONS. Corrupted options or empty tileset name";
+        json_path = default_json;
+        tileset_path = default_tileset;
+        return;
+    } else {
+        dbg( D_INFO ) << "Current OPTIONS tileset is: " << current_tileset;
     }
+
+    std::string config_path = TILESETS[current_tileset];
+    if (config_path.empty()) {
+        dbg( D_ERROR ) << "Tileset with name " << current_tileset << " can't be found or empty string";
+        json_path = default_json;
+        tileset_path = default_tileset;
+        return;
+    }
+
+    // Build config name from TILESETS map.
+    config_path += '/' + FILENAMES["tileset-conf"];
+    dbg( D_INFO ) << '"' << current_tileset << '"' << " tileset: found config file path: " << config_path;
+
+    // Get JSON and TILESET var from config
+    std::ifstream fin;
+    fin.open(config_path.c_str());
+    if(!fin.is_open()) {
+        fin.close();
+        dbg( D_ERROR ) << "Can't open " << config_path << " -- Setting default values!";
+        json_path = default_json;
+        tileset_path = default_tileset;
+        return;
+    }
+
+    while(!fin.eof()) {
+        std::string sOption;
+        fin >> sOption;
+
+        if(sOption == "") {
+            getline(fin, sOption);
+        } else if(sOption[0] == '#') { // Skip comment
+            getline(fin, sOption);
+        } else if (sOption.find("JSON") != std::string::npos) {
+            fin >> json_path;
+            dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
+        } else if (sOption.find("TILESET") != std::string::npos) {
+            fin >> tileset_path;
+            dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
+        } else {
+            getline(fin, sOption);
+        }
+    }
+
+    fin.close();
+
     if (json_path == "") {
         json_path = default_json;
         dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
