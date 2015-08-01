@@ -3805,8 +3805,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::ambient_sound( p, 6, "" );
-            sfx::play_variant_sound( "open_door", ter.id, sfx::get_heard_volume(p));
+            sounds::sound( p, 6, "", true, "open_door", ter.id );
             ter_set(p, ter.open );
         }
 
@@ -3822,8 +3821,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::ambient_sound( p, 6, "" );
-            sfx::play_variant_sound( "open_door", furn.id, sfx::get_heard_volume(p));
+            sounds::sound( p, 6, "", true, "open_door", furn.id );
             furn_set(p, furn.open );
         }
 
@@ -3905,8 +3903,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-        sounds::ambient_sound( p, 10, "" );
-        sfx::play_variant_sound( "close_door", ter.id, sfx::get_heard_volume(p));
+        sounds::sound( p, 10, "", true, "close_door", ter.id );
         ter_set(p, ter.close );
      }
      return true;
@@ -3919,8 +3916,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-         sounds::ambient_sound( p, 10, "" );
-         sfx::play_variant_sound( "close_door", furn.id, sfx::get_heard_volume(p));
+         sounds::sound( p, 10, "", true, "close_door", furn.id );
          furn_set(p, furn.close );
      }
      return true;
