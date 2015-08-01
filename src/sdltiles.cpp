@@ -1983,28 +1983,7 @@ struct music_playlist {
     }
 };
 
-struct sound_effect_entry {
-    Mix_Chunk *chunk;
-    unsigned volume;
-};
-
 std::map<std::string, music_playlist> playlists;
-std::map<std::string, std::map<std::string, sound_effect_entry> > sound_effects;
-
-sound_effect_entry *get_sound_effect(std::string name, std::string variant) {
-    if(!sound_effects.count(name)) {
-        return NULL;
-    }
-
-    std::map<std::string, sound_effect_entry>& variants = sound_effects[name];
-    if(!variants.count(variant)) {
-        variant = "default";
-    }
-    if(!variants.count(variant)) {
-        return NULL;
-    }
-    return &(variants[variant]);
-};
 
 void musicFinished();
 
@@ -2068,8 +2047,8 @@ void play_music(std::string playlist) {
 
 #ifdef SDL_SOUND
 void sfx::load_sound_effects( JsonObject &jsobj ) {
-    const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant" ) );
-    const int volume = jsobj.get_int( "volume" );
+    const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant", "default" ) );
+    const int volume = jsobj.get_int( "volume", 100 );
     auto &effects = sound_effects_p[key];
 
     JsonArray jsarr = jsobj.get_array( "files" );
@@ -2265,21 +2244,7 @@ void load_soundset() {
         JsonArray sound_effects_json = config.get_array("sound_effects");
         for (unsigned i=0; i < sound_effects_json.size(); i++) {
             JsonObject sound_effect = sound_effects_json.get_object(i);
-
-            std::string sound_effect_id = sound_effect.get_string("id");
-            std::string sound_effect_variant = sound_effect.get_string("variant", "default");
-            sound_effect_entry sfx_to_load;
-
-            const std::string filename = sound_effect.get_string("file");
-            const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
-            Mix_Chunk *loaded_chunk = Mix_LoadWAV(path.c_str());
-            if (!loaded_chunk) {
-                dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
-            }
-            sfx_to_load.chunk = loaded_chunk;
-            sfx_to_load.volume = sound_effect.get_int("volume", 100);
-
-            sound_effects[sound_effect_id][sound_effect_variant] = sfx_to_load;
+            sfx::load_sound_effects( sound_effect );
         }
     }
 #endif
@@ -2287,12 +2252,6 @@ void load_soundset() {
 
 void cleanup_sound() {
 #ifdef SDL_SOUND
-    for(auto id_variants_pair : sound_effects) {
-        for(auto variant_soundeffect_pair : id_variants_pair.second) {
-            Mix_FreeChunk(variant_soundeffect_pair.second.chunk);
-        }
-    }
-    sound_effects.clear();
     sound_effects_p.clear();
 #endif
 }
