@@ -82,7 +82,7 @@ TEST_CASE("Player body temperatures converge on expected values.") {
 
     SECTION("Nude target temperatures.") {
         //test_temperature_spread( &dummy, { 19, 34, 49, 64, 79, 94, 109 } );
-        test_temperature_spread( &dummy, { -12, 15, 40, 64, 78, 90, 101 } );
+        test_temperature_spread( &dummy, {{ -12, 15, 40, 64, 78, 90, 101 }} );
     }
 
     SECTION("Lightly clothed target temperatures") {
@@ -95,7 +95,7 @@ TEST_CASE("Player body temperatures converge on expected values.") {
         equip_clothing( &dummy, "sneakers");
 
         //test_temperature_spread( &dummy, { -3, 12, 27, 42, 57, 72, 87 } );
-        test_temperature_spread( &dummy, { -17, 10, 35, 62, 77, 90, 100 } );
+        test_temperature_spread( &dummy, {{ -17, 10, 35, 62, 77, 90, 100 }} );
     }
 
     SECTION("Heavily clothed target temperatures" ) {
@@ -110,7 +110,7 @@ TEST_CASE("Player body temperatures converge on expected values.") {
         equip_clothing( &dummy, "boots");
 
         //test_temperature_spread( &dummy, { -25, -10, 5, 20, 35, 50, 65 } );
-        test_temperature_spread( &dummy, { -39, -14, 17, 46, 70, 84, 96 } );
+        test_temperature_spread( &dummy, {{ -39, -14, 17, 46, 70, 84, 96 }} );
     }
 
     SECTION("Artic gear target temperatures") {
@@ -128,6 +128,6 @@ TEST_CASE("Player body temperatures converge on expected values.") {
         equip_clothing( &dummy, "boots_winter");
 
         //test_temperature_spread( &dummy, { -47, -32, -17, -2, 13, 28, 43 } );
-        test_temperature_spread( &dummy, { -115, -87, -54, -6, 36, 64, 80 } );
+        test_temperature_spread( &dummy, {{ -115, -87, -54, -6, 36, 64, 80 }} );
     }
 }
