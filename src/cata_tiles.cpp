@@ -252,14 +252,14 @@ void cata_tiles::set_draw_scale(int scale) {
 
 void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path)
 {
-    std::string path = tileset_root + '/' + json_conf;
+    std::string json_path = tileset_root + '/' + json_conf;
     std::string img_path = tileset_root + '/' + image_path;
 
-    dbg( D_INFO ) << "Attempting to Load JSON file " << path;
+    dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
-        throw std::string("Failed to open tile info json: ") + path;
+        throw std::string("Failed to open tile info json: ") + json_path;
     }
 
     load_tilejson_from_file( config_file, img_path );
@@ -271,10 +271,9 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
 void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
 {
     JsonIn config_json(f);
-    // it's all one json object
     JsonObject config = config_json.get_object();
 
-    /** 1) Make sure that the loaded file has the "tile_info" section */
+    // "tile_info" section must exis.
     if (!config.has_member("tile_info")) {
         config.throw_error( "\"tile_info\" missing" );
     }
@@ -292,7 +291,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
 
     set_draw_scale(16);
 
-    /** 2) Load tile information if available */
+    // Load tile information if available.
     int offset = 0;
     if (config.has_array("tiles-new")) {
         // new system, several entries
