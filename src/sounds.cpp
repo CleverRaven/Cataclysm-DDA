@@ -732,11 +732,10 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
 }
 
 void sfx::do_projectile_hit_sfx( const Creature *target ) {
-    int heard_volume;
+    const int heard_volume = sfx::get_heard_volume( target->pos() );
+    const int angle = get_heard_angle( target->pos() );
     if( !target->is_npc() && !target->is_player() ) {
         const monster *mon = dynamic_cast<const monster *>( target );
-        heard_volume = get_heard_volume( target->pos3() );
-        int angle = get_heard_angle( mon->pos3() );
         const auto material = mon->get_material();
         static std::set<mat_type> const fleshy = {
             mat_type( "flesh" ),
@@ -760,8 +759,6 @@ void sfx::do_projectile_hit_sfx( const Creature *target ) {
             return;
         }
     }
-    heard_volume = sfx::get_heard_volume( target->pos() );
-    int angle = get_heard_angle( target->pos3() );
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
 
