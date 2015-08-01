@@ -524,8 +524,8 @@ void sfx::do_ambient() {
         fade_audio_group( 1, 1000 );
         // We are outside and there is precipitation
         switch( g->weather ) {
-	case WEATHER_ACID_DRIZZLE:        
-	case WEATHER_DRIZZLE:
+        case WEATHER_ACID_DRIZZLE:
+        case WEATHER_DRIZZLE:
             play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume, 9,
                                         1000 );
             break;
@@ -533,8 +533,8 @@ void sfx::do_ambient() {
             play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume, 8,
                                         1000 );
             break;
-	case WEATHER_ACID_RAIN:
-	case WEATHER_THUNDER:
+        case WEATHER_ACID_RAIN:
+        case WEATHER_THUNDER:
         case WEATHER_LIGHTNING:
             play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume, 7,
                                         1000 );
@@ -543,12 +543,12 @@ void sfx::do_ambient() {
             play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume, 6,
                                         1000 );
             break;
-	// I didn't know where to put these or even if the first two were needed. They probably shouldn't make any noise, but I was getting an error when compiling when I left them out.
-	case WEATHER_NULL:
-	case NUM_WEATHER_TYPES:        
-	case WEATHER_CLEAR:
-	case WEATHER_SUNNY:
-	case WEATHER_CLOUDY:
+        // I didn't know where to put these or even if the first two were needed. They probably shouldn't make any noise, but I was getting an error when compiling when I left them out.
+        case WEATHER_NULL:
+        case NUM_WEATHER_TYPES:
+        case WEATHER_CLEAR:
+        case WEATHER_SUNNY:
+        case WEATHER_CLOUDY:
         case WEATHER_SNOWSTORM:
         case WEATHER_SNOW:
             play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
