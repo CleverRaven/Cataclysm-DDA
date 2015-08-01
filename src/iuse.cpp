@@ -4732,7 +4732,26 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
     it->active = false;
     return 0;
 }
-
+int iuse::capture_sphere_act(player *p, item *it, bool, const tripoint& pos){
+  int mon_dex =g->mon_at(pos,true);
+  if(mon_dex!=-1){
+    if(g->zombie(mon_dex).type->has_flag(MF_EXPERIENCE_UPGRADE)){
+      int chance=g->zombie(mon_dex).hp_percentage()/10;
+      if(one_in(chance)){//successful capture :)
+	auto n=g->zombie(mon_dex).type->nname(1);
+	add_msg(_("You caught the %s"),n.c_str());
+	g->m.add_item_or_charges(pos.x,pos.y,g->zombie(mon_dex).to_item());
+	g->remove_zombie(mon_dex);
+      }else{
+	add_msg(_("it broke the capture sphere :("));
+      }
+      return 1;
+    }
+    
+  }
+  add_msg(_("It can't capture nothing"));
+  return 0;
+}
 int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
 {
     if (pos.x == -999 || pos.y == -999) {
