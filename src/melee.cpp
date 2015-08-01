@@ -348,14 +348,13 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             sounds::sound( pos3(), 8, "" );
         }
         std::string material = "flesh";
-        bool targ_mon = (!t.is_npc() && !t.is_player());
-        if ( targ_mon ) {
+        if( t.is_monster() ) {
             const monster *m = dynamic_cast<const monster*>( &t );
             if ( m->made_of("steel")) {
                 material = "steel";
             }
         }
-        sfx::generate_melee_sound( pos3(), t.pos3(), 1, targ_mon, material);
+        sfx::generate_melee_sound( pos3(), t.pos3(), 1, t.is_monster(), material);
         int dam = dealt_dam.total_damage();
 
         bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());
