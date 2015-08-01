@@ -94,52 +94,51 @@ void cata_tiles::clear()
     tile_ids.clear();
 }
 
-void cata_tiles::init(std::string load_file_path)
+void cata_tiles::init()
 {
-    std::string json_path, tileset_path;
-    // get path information from load_file_path
-    get_tile_information(load_file_path, json_path, tileset_path);
-    // send this information to old init to avoid redundant code
-    load_tilejson(json_path, tileset_path);
-}
-
-void cata_tiles::reinit(std::string load_file_path)
-{
-    clear_buffer();
-    clear();
-    init(load_file_path);
-}
-
-void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
-{
-    const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
+    const std::string default_json = FILENAMES["defaulttilejson"];
     const std::string default_tileset = FILENAMES["defaulttilepng"];
     const std::string current_tileset = OPTIONS["TILES"].getValue();
+    std::string json_path, tileset_path, config_path;
 
-    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from tileset config";
-
+    // Get curent tileset and it's directory path.
     if (current_tileset.empty()) {
         dbg( D_ERROR ) << "Tileset not set in OPTIONS. Corrupted options or empty tileset name";
         json_path = default_json;
         tileset_path = default_tileset;
-        return;
     } else {
         dbg( D_INFO ) << "Current OPTIONS tileset is: " << current_tileset;
     }
 
-    std::string config_path = TILESETS[current_tileset];
+    // Build tileset config path
+    config_path = TILESETS[current_tileset];
     if (config_path.empty()) {
         dbg( D_ERROR ) << "Tileset with name " << current_tileset << " can't be found or empty string";
         json_path = default_json;
         tileset_path = default_tileset;
-        return;
+    } else {
+        config_path += '/' + FILENAMES["tileset-conf"];
+        dbg( D_INFO ) << '"' << current_tileset << '"' << " tileset: found config file path: " << config_path;
+        get_tile_information(config_path, json_path, tileset_path);
     }
 
-    // Build config name from TILESETS map.
-    config_path += '/' + FILENAMES["tileset-conf"];
-    dbg( D_INFO ) << '"' << current_tileset << '"' << " tileset: found config file path: " << config_path;
+    // Try to load tileset
+    load_tilejson(config_path, json_path, tileset_path);
+}
 
-    // Get JSON and TILESET var from config
+void cata_tiles::reinit()
+{
+    clear_buffer();
+    clear();
+    init();
+}
+
+void cata_tiles::get_tile_information(std::string config_path, std::string &json_path, std::string &tileset_path)
+{
+    const std::string default_json = FILENAMES["defaulttilejson"];
+    const std::string default_tileset = FILENAMES["defaulttilepng"];
+
+    // Get JSON and TILESET vars from config
     std::ifstream fin;
     fin.open(config_path.c_str());
     if(!fin.is_open()) {
@@ -257,7 +256,7 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
+void cata_tiles::load_tilejson(std::string tileset_root, std::string path, const std::string &image_path)
 {
     dbg( D_INFO ) << "Attempting to Load JSON file " << path;
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);

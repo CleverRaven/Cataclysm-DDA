@@ -158,7 +158,7 @@ class cata_tiles
          * are loaded from the json entries.
          * throws std::string on errors.
          */
-        void load_tilejson(std::string path, const std::string &imagepath);
+        void load_tilejson(std::string tileset_root, std::string path, const std::string &imagepath);
 
         /**
          * throws std::string on errors.
@@ -275,9 +275,9 @@ class cata_tiles
 
     public:
         /* initialize from an outside file, throws std::string on errors. */
-        void init(std::string load_file_path);
+        void init();
         /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
-        void reinit(std::string load_file_path);
+        void reinit();
         int get_tile_height() const { return tile_height; }
         int get_tile_width() const { return tile_width; }
         float get_tile_ratiox() const { return tile_ratiox; }
