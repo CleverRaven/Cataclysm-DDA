@@ -1471,10 +1471,8 @@ bool use_narrow_sidebar()
 std::string get_tileset_names(std::string dir_path)
 {
     const std::string defaultTilesets = "hoder,deon";
-    // tileset-info-file
-    const std::string filename = "tileset.txt";
-    // search it
-    auto const files = get_files_from_path(filename, dir_path, true);
+
+    auto const files = get_files_from_path(FILENAMES["tileset-conf"], dir_path, true);
 
     std::string tileset_names;
     bool first_tileset_name = true;

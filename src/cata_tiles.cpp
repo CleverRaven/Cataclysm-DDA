@@ -113,12 +113,11 @@ void cata_tiles::reinit(std::string load_file_path)
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
 {
     dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]";
-    const std::string filename = "tileset.txt";                 // tileset-information-file
     const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
     // search for the files (tileset.txt)
-    auto files = get_files_from_path(filename, dir_path, true);
+    auto files = get_files_from_path(FILENAMES["tileset-conf"], dir_path, true);
 
     for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {   // iterate through every file found
         std::ifstream fin;
