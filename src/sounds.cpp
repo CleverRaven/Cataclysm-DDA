@@ -15,9 +15,9 @@
 #include "options.h"
 #include "time.h"
 #include <chrono>
-#include <thread>
 #ifdef SDL_SOUND
 #include "SDL2/SDL_mixer.h"
+#include <thread>
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -40,27 +40,6 @@ struct sound_event {
     std::string id;
     std::string variant;
 };
-
-namespace sfx {
-struct sound_thread {
-    sound_thread( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
-                  const std::string &material );
-
-    bool hit;
-    bool targ_mon;
-    std::string material;
-
-    std::string weapon_skill;
-    int weapon_volume;
-    // volume and angle for calls to play_variant_sound
-    int ang_src;
-    int vol_src;
-    int vol_targ;
-    int ang_targ;
-
-    void operator()() const;
-};
-} // namespace sfx
 
 struct centroid {
     // Values have to be floats to prevent rounding errors.
@@ -615,6 +594,27 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
     play_variant_sound( selected_sound, weapon_id, heard_volume, angle, 0.8, 1.2 );
     start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
+
+namespace sfx {
+struct sound_thread {
+    sound_thread( const tripoint &source, const tripoint &target, bool hit, bool targ_mon,
+                  const std::string &material );
+
+    bool hit;
+    bool targ_mon;
+    std::string material;
+
+    std::string weapon_skill;
+    int weapon_volume;
+    // volume and angle for calls to play_variant_sound
+    int ang_src;
+    int vol_src;
+    int vol_targ;
+    int ang_targ;
+
+    void operator()() const;
+};
+} // namespace sfx
 
 void sfx::generate_melee_sound( tripoint source, tripoint target, bool hit, bool targ_mon,
                                   std::string material ) {
