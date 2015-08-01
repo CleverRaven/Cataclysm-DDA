@@ -64,7 +64,7 @@ namespace sfx {
     void *generate_melee_soundfx_thread( void * argument );
     void do_hearing_loss_sfx( int turns );
     void remove_hearing_loss_sfx();
-    void do_projectile_hit_sfx( const Creature *target = nullptr );
+    void do_projectile_hit_sfx( const Creature &target );
     int get_heard_volume( const tripoint source );
     void do_footstep_sfx();
     void do_danger_music();

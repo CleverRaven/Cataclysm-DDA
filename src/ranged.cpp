@@ -168,7 +168,7 @@ std::pair<double, tripoint> Creature::projectile_attack( const projectile &proj,
             bool passed_through = critter->deal_projectile_attack(this, cur_missed_by, proj, dealt_dam) == 1;
             if (dealt_dam.total_damage() > 0) {
                 splatter( blood_traj, dam, critter );
-                sfx::do_projectile_hit_sfx( critter );
+                sfx::do_projectile_hit_sfx( *critter );
             }
             if (!passed_through) {
                 dam = 0;

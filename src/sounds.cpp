@@ -687,12 +687,12 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
     return 0;
 }
 
-void sfx::do_projectile_hit_sfx( const Creature *target ) {
-    const int heard_volume = sfx::get_heard_volume( target->pos() );
-    const int angle = get_heard_angle( target->pos() );
-    if( !target->is_npc() && !target->is_player() ) {
-        const monster *mon = dynamic_cast<const monster *>( target );
-        const auto material = mon->get_material();
+void sfx::do_projectile_hit_sfx( const Creature &target ) {
+    const int heard_volume = sfx::get_heard_volume( target.pos() );
+    const int angle = get_heard_angle( target.pos() );
+    if( !target.is_npc() && !target.is_player() ) {
+        const monster &mon = dynamic_cast<const monster &>( target );
+        const auto material = mon.get_material();
         static std::set<mat_type> const fleshy = {
             mat_type( "flesh" ),
             mat_type( "hflesh" ),
@@ -701,13 +701,13 @@ void sfx::do_projectile_hit_sfx( const Creature *target ) {
             mat_type( "bone" ),
             mat_type( "protoplasmic" ),
         };
-        if( fleshy.count( material ) > 0 || mon->has_flag( MF_VERMIN ) ) {
+        if( fleshy.count( material ) > 0 || mon.has_flag( MF_VERMIN ) ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon->get_material() == "stone" ) {
+        } else if( mon.get_material() == "stone" ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon->get_material() == "steel" ) {
+        } else if( mon.get_material() == "steel" ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {
@@ -954,7 +954,7 @@ void sfx::generate_melee_soundfx( const tripoint, const tripoint, bool, bool, st
 void *sfx::generate_melee_soundfx_thread( void* ) { return nullptr; }
 void sfx::do_hearing_loss_sfx( int ) { }
 void sfx::remove_hearing_loss_sfx() { }
-void sfx::do_projectile_hit_sfx( const Creature* ) { }
+void sfx::do_projectile_hit_sfx( const Creature& ) { }
 void sfx::do_footstep_sfx() { }
 void sfx::do_danger_music() { }
 void sfx::do_ambient_sfx() { }
