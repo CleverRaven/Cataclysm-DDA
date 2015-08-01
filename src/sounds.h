@@ -3,9 +3,6 @@
 
 #include "enums.h" // For point
 #include "cursesdef.h" // For WINDOW
-#ifdef SDL_SOUND
-#include "SDL2/SDL_mixer.h"
-#endif
 
 #include <vector>
 #include <string>

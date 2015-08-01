@@ -16,6 +16,9 @@
 #include "time.h"
 #include <chrono>
 #include <thread>
+#ifdef SDL_SOUND
+#include "SDL2/SDL_mixer.h"
+#endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -411,44 +414,24 @@ std::string sounds::sound_at( const tripoint &location )
     return _( "a sound" );
 }
 
+#ifdef SDL_SOUND
 //sfx::
 void sfx::fade_audio_group( int tag, int duration ) {
-#ifdef SDL_SOUND
     Mix_FadeOutGroup( tag, duration );
-#else
-    ( void ) tag;
-    ( void ) duration;
-#endif
 }
 
 void sfx::fade_audio_channel( int tag, int duration ) {
-#ifdef SDL_SOUND
     Mix_FadeOutChannel( tag, duration );
-#else
-    ( void ) tag;
-    ( void ) duration;
-#endif
 }
 
 int sfx::is_channel_playing( int channel ) {
-#ifdef SDL_SOUND
     return Mix_Playing( channel );
-#else
-    ( void ) channel;
-#endif
 }
 
 void sfx::stop_sound_effect_fade( int channel, int duration ) {
-#ifdef SDL_SOUND
     if( Mix_FadeOutChannel( channel, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to stop sound effect: " << Mix_GetError();
     }
-#else
-    ( void ) id;
-    ( void ) variant;
-    ( void ) volume;
-    ( void ) loops;
-#endif
 }
 
 void sfx::do_ambient_sfx() {
@@ -569,24 +552,6 @@ void sfx::do_ambient_sfx() {
     }
     // Keep track of weather to compare for next iteration
     previous_weather = g->weather;
-}
-
-int sfx::get_heard_volume( const tripoint source ) {
-    int distance = rl_dist( g->u.pos3(), source );
-    // fract = -100 / 24
-    const float fract = -4.166666;
-    int heard_volume = fract * distance - 1 + 100;
-    if( heard_volume <= 0 ) {
-        heard_volume = 0;
-    }
-    heard_volume *= g_sfx_volume_multiplier;
-    return ( heard_volume );
-}
-
-int sfx::get_heard_angle( const tripoint source ) {
-    int angle = g->m.coord_to_angle( g->u.posx(), g->u.posy(), source.x, source.y ) + 90;
-    //add_msg(m_warning, "angle: %i", angle);
-    return ( angle );
 }
 
 void sfx::generate_gun_soundfx( const tripoint source ) {
@@ -1043,3 +1008,52 @@ void sfx::do_obstacle_sfx() {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
     }
 }
+
+#else // ifdef SDL_SOUND
+
+/** Dummy implementations for builds without sound */
+/*@{*/
+void sfx::load_sound_effects( JsonObject & ) { }
+void sfx::play_variant_sound( std::string, std::string, int, int, float, float ) { }
+void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
+void sfx::generate_gun_soundfx( const tripoint ) { }
+void sfx::generate_melee_soundfx( const tripoint, const tripoint, bool, bool, std::string ) { }
+void *sfx::generate_melee_soundfx_thread( void* ) { return nullptr; }
+void sfx::do_hearing_loss_sfx( int ) { }
+void sfx::remove_hearing_loss_sfx() { }
+void sfx::do_projectile_hit_sfx( const Creature* ) { }
+void sfx::do_footstep_sfx() { }
+void sfx::do_danger_music() { }
+void sfx::do_ambient_sfx() { }
+void sfx::fade_audio_group( int, int ) { }
+void sfx::fade_audio_channel( int, int ) { }
+int is_channel_playing( int ) { return -1; }
+void sfx::stop_sound_effect_fade( int, int ) { }
+void sfx::do_player_death_hurt_sfx( bool, bool ) { }
+void sfx::do_fatigue_sfx() { }
+void sfx::do_obstacle_sfx() { }
+/*@}*/
+
+#endif // ifdef SDL_SOUND
+
+/** Functions from sfx that do not use the SDL_mixer API at all. They can be used in builds
+  * without sound support. */
+/*@{*/
+int sfx::get_heard_volume( const tripoint source ) {
+    int distance = rl_dist( g->u.pos3(), source );
+    // fract = -100 / 24
+    const float fract = -4.166666;
+    int heard_volume = fract * distance - 1 + 100;
+    if( heard_volume <= 0 ) {
+        heard_volume = 0;
+    }
+    heard_volume *= g_sfx_volume_multiplier;
+    return ( heard_volume );
+}
+
+int sfx::get_heard_angle( const tripoint source ) {
+    int angle = g->m.coord_to_angle( g->u.posx(), g->u.posy(), source.x, source.y ) + 90;
+    //add_msg(m_warning, "angle: %i", angle);
+    return ( angle );
+}
+/*@}*/
