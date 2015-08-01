@@ -3,7 +3,6 @@
 
 #include <climits>
 #include <cassert>
-#include <algorithm>
 
 #include "json.h" // (de)serialization for points
 
@@ -13,7 +12,7 @@
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
-// Function has to live in the std namespace 
+// Function has to live in the std namespace
 // so that it is picked up by argument-dependent name lookup (ADL).
 namespace std{
     namespace
@@ -53,15 +52,15 @@ namespace std{
     }
 
     template <typename ... TT>
-    struct hash<std::tuple<TT...>> 
+    struct hash<std::tuple<TT...>>
     {
         size_t
         operator()(std::tuple<TT...> const& tt) const
-        {                                              
-            size_t seed = 0;                             
-            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);    
-            return seed;                                 
-        }                                              
+        {
+            size_t seed = 0;
+            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);
+            return seed;
+        }
 
     };
 
@@ -177,7 +176,8 @@ enum object_type {
 struct point : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
-    point(int X = 0, int Y = 0) : x (X), y (Y) {}
+    point() : x(0), y(0) {}
+    point(int X, int Y) : x (X), y (Y) {}
     point(point &&) = default;
     point(const point &) = default;
     point &operator=(point &&) = default;
@@ -353,22 +353,5 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 }
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-
-// turns a vector, into an array, via MAGIC(tm)
-template <typename T, std::size_t N>
-std::array<T, N> vec_to_array(const std::vector<T> &vec)
-{
-    std::array<T, N> array;
-    for(size_t i = 0; i < N; ++i) {
-        array[i] = vec[i];
-    }
-    return array;
-}
-
-template <typename T, typename C>
-inline bool is_any_of(const T &t, const C &c)
-{
-    return std::find(c.begin(), c.end(), t) != c.end();
-}
 
 #endif

@@ -5,7 +5,6 @@
 
 #include "enums.h"
 #include "color.h"
-#include "field.h"
 #include "int_id.h"
 #include "string_id.h"
 
@@ -19,6 +18,7 @@ class Creature;
 class monster;
 class monfaction;
 struct projectile;
+enum field_id : int;
 enum body_part : int;
 
 using mon_action_death  = void (*)(monster*);
@@ -26,12 +26,13 @@ using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
-
+struct mtype;
+using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
 
-enum m_size {
+enum m_size : int {
     MS_TINY = 0,    // Squirrel
     MS_SMALL,      // Dog
     MS_MEDIUM,    // Human
@@ -41,7 +42,7 @@ enum m_size {
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum monster_trigger {
+enum monster_trigger : int {
     MTRIG_NULL = 0,
     MTRIG_STALK,  // Increases when following the player
     MTRIG_MEAT,  // Meat or a corpse nearby
@@ -61,7 +62,7 @@ enum monster_trigger {
 #ifndef mfb
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
-enum m_flag {
+enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
     MF_VIS50,               // Vision -10
@@ -166,7 +167,7 @@ struct mtype {
         std::string name;
         std::string name_plural;
     public:
-        std::string id;
+        mtype_id id;
         std::string description;
         std::set<std::string> species, categories;
         std::set< int > species_id;
@@ -218,13 +219,11 @@ struct mtype {
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;
 
-        int upgrade_min; // First day upon which this monster can upgrade
-        int half_life;  // Radioactive decay based upgrade chance half life length
-        // Modifier of the chance of upgrading per half life, i.e. 10 would mean an additional 10% chance to upgrade per half life,
-        // or -10 would mean a -10% chance to upgrade per half life.
-        float base_upgrade_chance;
+        // Monster upgrade variables
+        bool upgrades;
+        int half_life;
+        mtype_id upgrade_into;
         mongroup_id upgrade_group;
-        std::string upgrades_into;
         // Default constructor
         mtype ();
         /**

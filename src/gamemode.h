@@ -3,12 +3,15 @@
 
 #include <vector>
 #include <string>
-#include "action.h"
 #include "enums.h"
 #include "itype.h"
-#include "mtype.h"
+#include "string_id.h"
+
+enum action_id : int;
 
 struct special_game;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 std::string special_game_name(special_game_id id);
 special_game *get_special_game(special_game_id id);
@@ -149,8 +152,8 @@ struct defense_game : public special_game {
 
         void spawn_wave();
         void caravan();
-        std::vector<std::string> pick_monster_wave();
-        void spawn_wave_monster(mtype *type);
+        std::vector<mtype_id> pick_monster_wave();
+        void spawn_wave_monster( const mtype_id &type );
 
         std::string special_wave_message(std::string name);
 

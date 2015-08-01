@@ -3,7 +3,6 @@
 #include "debug.h"
 #include "field.h"
 #include "game.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "translations.h"
 #include "material.h"
@@ -12,6 +11,9 @@
 #include "trap.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "submap.h"
+#include "mapdata.h"
+#include "mtype.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
@@ -321,6 +323,13 @@ void game::init_fields()
             {"", "", ""}, '&', -1,
             {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
             {0,0,0}
+        },
+
+        {
+            "fd_fungicidal_gas",
+            {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(90),
+            {0,0,0}
         }
 
     };
@@ -540,8 +549,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
         // If not possible (or randomly), try to spread up
         if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
             // Construct the destination from offset and p
-            const int n_index = spread[ rng( 0, spread.size() - 1 ) ];
-            spread_to( neighs[ n_index ] );
+            spread_to( neighs[ random_entry( spread ) ] );
         } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
             tripoint up{p.x, p.y, p.z + 1};
             maptile up_tile = maptile_at_internal( up );
@@ -751,7 +759,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // because the only trap we're checking for is brazier
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
-                        
+
                         const auto &trp = map_tile.get_trap();
                         // We've got ter/furn cached, so let's use that
                         const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
@@ -974,7 +982,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         //Get the part of the vehicle in the fire.
                         veh = veh_at_internal( p, part ); // _internal skips the boundary check
                         if( veh != nullptr ) {
-                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);
+                            veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, false);
                             //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained,
@@ -1002,7 +1010,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 4 - cur->getFieldDensity();
                                 smoke += 2;
-                                if( cur->getFieldDensity() > 1 && 
+                                if( cur->getFieldDensity() > 1 &&
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     destroy( p, true );
                                 }
@@ -1011,7 +1019,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // The fire feeds on the ground itself until max density.
                                 time_added += 5 - cur->getFieldDensity();
                                 smoke += 2;
-                                if( cur->getFieldDensity() > 1 && 
+                                if( cur->getFieldDensity() > 1 &&
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
                                     ter_set( p, t_dirt );
                                     furn_set( p, f_ash );
@@ -1028,7 +1036,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     } else {
                                         // Don't fuel raging fires or they'll burn forever
                                         // as they can produce small fires above themselves
-                                        int new_density = std::max( cur->getFieldDensity(), 
+                                        int new_density = std::max( cur->getFieldDensity(),
                                                                     fire_there->getFieldDensity() );
                                         // Allow smaller fires to combine
                                         if( new_density < 3 &&
@@ -1160,7 +1168,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Our iterator will start at end_i + 1 and increment from there and then wrap around.
                         // This guarantees it will check all neighbors, starting from a random one
                         const size_t end_i = (size_t)rng( 0, neighs.size() - 1 );
-                        for( size_t i = ( end_i + 1 ) % neighs.size(); 
+                        for( size_t i = ( end_i + 1 ) % neighs.size();
                              i != end_i; i = ( i + 1 ) % neighs.size() ) {
                             if( one_in( cur->getFieldDensity() * 2 ) ) {
                                 // Skip some processing to save on CPU
@@ -1266,28 +1274,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_fungal_haze:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 33,  5);
-                        int mondex;
-                        mondex = g->mon_at( p );
-                        if( move_cost( p ) > 0 ) {
-                            if( mondex != -1 ) { // Haze'd!
-                                if( !g->zombie(mondex).type->in_species("FUNGUS") &&
-                                    !g->zombie(mondex).type->has_flag("NO_BREATHE")) {
-                                    if( g->u.sees( p ) ) {
-                                        add_msg( m_info, _("The %s inhales thousands of live spores!"),
-                                                 g->zombie(mondex).name().c_str());
-                                    }
-
-                                    monster &critter = g->zombie( mondex );
-                                    if( !critter.make_fungus() ) {
-                                        critter.die(nullptr);
-                                    }
-                                }
-                            }
-
-                            if (one_in(5 - cur->getFieldDensity())) {
-                                g->spread_fungus( p ); //Haze'd terrain
-                            }
+                        if( one_in( 10 - 2 * cur->getFieldDensity() ) ) {
+                            g->spread_fungus( p ); //Haze'd terrain
                         }
+
                         break;
 
                     case fd_toxic_gas:
@@ -1453,10 +1443,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
                                 }
                                 while( !valid.empty() && cur->getFieldDensity() > 1 ) {
-                                    int index = rng(0, valid.size() - 1);
-                                    add_field(valid[index], fd_electricity, 1, cur->getFieldAge() + 1);
+                                    const tripoint target = random_entry_removed( valid );
+                                    add_field(target, fd_electricity, 1, cur->getFieldAge() + 1);
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                    valid.erase(valid.begin() + index);
                                 }
                             }
                         }
@@ -1464,14 +1453,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_fatigue:
                     {
-                        std::array<std::string, 9> monids = { { "mon_flying_polyp", "mon_hunting_horror",
-                        "mon_mi_go", "mon_yugg", "mon_gelatin", "mon_flaming_eye", "mon_kreck", "mon_gracke",
-                        "mon_blank" } };
-                        if (cur->getFieldDensity() < 3 && int(calendar::turn) % 3600 == 0 && one_in(10)) {
+                        static const std::array<mtype_id, 9> monids = { {
+                            mtype_id( "mon_flying_polyp" ), mtype_id( "mon_hunting_horror" ),
+                            mtype_id( "mon_mi_go" ), mtype_id( "mon_yugg" ), mtype_id( "mon_gelatin" ),
+                            mtype_id( "mon_flaming_eye" ), mtype_id( "mon_kreck" ), mtype_id( "mon_gracke" ),
+                            mtype_id( "mon_blank" ),
+                        } };
+                        if (cur->getFieldDensity() < 3 && calendar::once_every(HOURS(6)) && one_in(10)) {
                             cur->setFieldDensity(cur->getFieldDensity() + 1);
                         } else if (cur->getFieldDensity() == 3 && one_in(600)) { // Spawn nether creature!
-                            std::string type = monids[rng( 0, monids.size() - 1 )];
-                            g->summon_mon(type, p);
+                            g->summon_mon( random_entry( monids ), p);
                         }
                     }
                         break;
@@ -1499,7 +1490,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                 }
                                 if (!valid.empty()) {
-                                    tripoint newp = valid[rng(0, valid.size() - 1)];
+                                    tripoint newp = random_entry( valid );
                                     add_item_or_charges( newp, tmp );
                                     if( g->u.pos3() == newp ) {
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
@@ -1611,6 +1602,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             curfield.findField( fd_relax_gas ) ||
                             curfield.findField( fd_nuke_gas ) ||
                             curfield.findField( fd_gas_vent ) ||
+                            curfield.findField( fd_fungicidal_gas ) ||
                             curfield.findField( fd_fire_vent ) ||
                             curfield.findField( fd_flame_burst ) ||
                             curfield.findField( fd_electricity ) ||
@@ -1675,6 +1667,23 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     //Legacy Stuff
                     case fd_rubble:
                         make_rubble( p );
+                        break;
+
+                    case fd_fungicidal_gas:
+                        {
+                            dirty_transparency_cache = true;
+                            spread_gas( cur, p, curtype, 120, 10 );
+                            //check the terrain and replace it accordingly to simulate the fungus dieing off
+                            const auto &ter = map_tile.get_ter_t();
+                            const auto &frn = map_tile.get_furn_t();
+                            const int density = cur->getFieldDensity();
+                            if( ter.has_flag( "FUNGUS" ) && one_in( 10 / density ) ) {
+                                ter_set( p, t_dirt );
+                            }
+                            if( frn.has_flag( "FUNGUS" ) && one_in( 10 / density ) ) {
+                                furn_set( p, f_null );
+                            }
+                        }
                         break;
 
                     default:
@@ -2076,7 +2085,7 @@ void map::player_in_field( player &u )
             break;
 
         case fd_incendiary:
-        // Mysterious incendiary substance melts you horribly.
+            // Mysterious incendiary substance melts you horribly.
             if (u.has_trait("M_SKIN2") || cur->getFieldDensity() == 1) {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary burns you!"), _("The incendiary burns <npcname>!"));
                 u.hurtall(rng(1, 3), nullptr);
@@ -2084,6 +2093,32 @@ void map::player_in_field( player &u )
                 u.add_msg_player_or_npc(m_bad, _("The incendiary melts into your skin!"), _("The incendiary melts into <npcname>s skin!"));
                 u.add_effect("onfire", 8);
                 u.hurtall(rng(2, 6), nullptr);
+            }
+            break;
+
+        case fd_fungicidal_gas:
+            // Fungicidal gas is unhealthy and becomes deadly if you cross a related threshold.
+            {
+                // The gas won't harm you inside a vehicle.
+                if( inside ) {
+                    break;
+                }
+                // Full body suits protect you from the effects of the gas.
+                if( u.worn_with_flag("GAS_PROOF") ) {
+                    break;
+                }
+                bool inhaled = false;
+                const int density = cur->getFieldDensity();
+                inhaled = u.add_env_effect( "poison", bp_mouth, 5, density * 10 );
+                if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
+                    inhaled |= u.add_env_effect( "badpoison", bp_mouth, 5, density * 10 );
+                    u.hurtall( rng( density, density * 2 ), nullptr );
+                    u.add_msg_if_player( m_bad, _("The %s burns your skin."), cur->name().c_str() );
+                }
+
+                if( inhaled ) {
+                    u.add_msg_if_player( m_bad, _("The %s makes you feel sick."), cur->name().c_str() );
+                }
             }
             break;
 
@@ -2373,12 +2408,32 @@ void map::monster_in_field( monster &z )
             }
             break;
 
+        case fd_fungal_haze:
+            if( !z.type->in_species("FUNGUS") &&
+                !z.type->has_flag("NO_BREATHE") &&
+                !z.make_fungus() ) {
+                // Don't insta-kill jabberwocks, that's silly
+                const int density = cur->getFieldDensity();
+                z.moves -= rng( 10 * density, 30 * density );
+                dam += rng( 0, 10 * density );
+            }
+            break;
+
+        case fd_fungicidal_gas:
+            if( z.type->in_species("FUNGUS") ) {
+                const int density = cur->getFieldDensity();
+                z.moves -= rng( 10 * density, 30 * density );
+                dam += rng( 4, 7 * density );
+            }
+            break;
+
         default:
             //Suppress warnings
             break;
         }
     }
-    if (dam > 0) {
+
+    if( dam > 0 ) {
         z.apply_damage( nullptr, bp_torso, dam );
         z.check_dead_state();
     }

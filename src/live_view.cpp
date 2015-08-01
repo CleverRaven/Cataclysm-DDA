@@ -1,6 +1,7 @@
 #include "live_view.h"
 #include "output.h"
 #include "game.h"
+#include "player.h"
 #include "map.h"
 #include "options.h"
 #include "translations.h"

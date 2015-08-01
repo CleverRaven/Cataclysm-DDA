@@ -60,7 +60,9 @@
                 * 2.7.10 "traps"
                 * 2.7.11 "furniture"
                 * 2.7.12 "terrain"
-                * 2.7.12 "monster"
+                * 2.7.13 "monster"
+                * 2.7.14 "rubble"
+        * 2.6 "rotation":
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -605,6 +607,28 @@ Places a specific monster. Values:
 - "monster": (required, string) type id of the monster (e.g. mon_zombie).
 - "friendly": (optional, bool) whether the monster is friendly, default is false.
 - "name": (optional, string) a name for that monster, optional, default is to create an unnamed monster.
+
+### 2.7.14 "rubble"
+Creates rubble and bashes existing terrain (this step is applied last, after other things like furniture/terrain have been set). Creating rubble invokes the bashing function that can destroy terrain and cause structures to collapse.
+Values:
+- "rubble_type": (optional, furniture id, default: f_rubble) the type of the created rubble.
+- "items": (optional, bool, default: false) place items that result from bashing the structure.
+- "floor_type": (optional, terrain id, default: t_dirt) only used if there is a non-bashable wall at the location or with overwrite = true.
+- "overwrite": (optional, bool, default: false) if true it just writes on top of what currently exists.
+
+To use this type with explicit coordinates use the name "place_rubble" (no plural) like this:
+```JSON
+"place_rubble": [
+    { "x": 10, "y": 1 }
+]
+```
+
+# 2.8 "rotation"
+Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
+```JSON
+"rotation": [ 0, 3 ],
+```
+Values are 90° steps.
 
 ## 3 Method: lua
 Lua is very WIP but supports the following map class functions:

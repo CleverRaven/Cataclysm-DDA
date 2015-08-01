@@ -4,7 +4,6 @@
 #include "map.h"
 #include "rng.h"
 #include "line.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "mondeath.h"
@@ -13,9 +12,24 @@
 #include "morale.h"
 #include "event.h"
 #include "itype.h"
+#include "mtype.h"
+#include "field.h"
 
 #include <math.h>  // rounding
 #include <sstream>
+
+const mtype_id mon_blob( "mon_blob" );
+const mtype_id mon_blob_brain( "mon_blob_brain" );
+const mtype_id mon_blob_small( "mon_blob_small" );
+const mtype_id mon_breather( "mon_breather" );
+const mtype_id mon_breather_hub( "mon_breather_hub" );
+const mtype_id mon_creeper_hub( "mon_creeper_hub" );
+const mtype_id mon_creeper_vine( "mon_creeper_vine" );
+const mtype_id mon_halfworm( "mon_halfworm" );
+const mtype_id mon_sewer_rat( "mon_sewer_rat" );
+const mtype_id mon_thing( "mon_thing" );
+const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
+const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 
 void mdeath::normal(monster *z)
 {
@@ -138,11 +152,11 @@ void mdeath::kill_vines(monster *z)
     std::vector<int> vines;
     std::vector<int> hubs;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        bool isHub = g->zombie(i).type->id == "mon_creeper_hub";
+        bool isHub = g->zombie(i).type->id == mon_creeper_hub;
         if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
             hubs.push_back(i);
         }
-        if (g->zombie(i).type->id == "mon_creeper_vine") {
+        if (g->zombie(i).type->id == mon_creeper_vine) {
             vines.push_back(i);
         }
     }
@@ -174,7 +188,7 @@ void mdeath::vine_cut(monster *z)
                 y++; // Skip ourselves
             }
             int mondex = g->mon_at( tmp );
-            if (mondex != -1 && g->zombie(mondex).type->id == "mon_creeper_vine") {
+            if (mondex != -1 && g->zombie(mondex).type->id == mon_creeper_vine) {
                 vines.push_back(mondex);
             }
         }
@@ -189,8 +203,8 @@ void mdeath::vine_cut(monster *z)
                 if (x != z->posx() || y != z->posy()) {
                     // Not the dying vine
                     int mondex = g->mon_at( { x, y, z->posz() } );
-                    if (mondex != -1 && (g->zombie(mondex).type->id == "mon_creeper_hub" ||
-                                         g->zombie(mondex).type->id == "mon_creeper_vine")) {
+                    if (mondex != -1 && (g->zombie(mondex).type->id == mon_creeper_hub ||
+                                         g->zombie(mondex).type->id == mon_creeper_vine)) {
                         found_neighbor = true;
                     }
                 }
@@ -212,68 +226,15 @@ void mdeath::triffid_heart(monster *z)
 
 void mdeath::fungus(monster *z)
 {
-    bool fungal = false;
-    int mondex = -1;
     //~ the sound of a fungus dying
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            mondex = g->mon_at( sporep );
-            if (g->m.move_cost(sporep) > 0) {
-                if (mondex != -1) {
-                    // Spores hit a monster
-                    fungal = g->zombie(mondex).type->in_species("FUNGUS");
-                    if (g->u.sees(sporep) && !fungal) {
-                        add_msg(_("The %s is covered in tiny spores!"),
-                                g->zombie(mondex).name().c_str());
-                    }
-                    monster &critter = g->zombie( mondex );
-                    if( !critter.make_fungus() ) {
-                        critter.die( z ); // counts as kill by monster z
-                    }
-                } else if (g->u.pos() == sporep) {
-                    // Spores hit the player
-                    if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
-                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
-                        return;
-                    }
-                    bool hit = false;
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_head, 3, 90, bp_head)) {
-                        hit = true;
-                    }
-                    if (one_in(2) && g->u.add_env_effect("spores", bp_torso, 3, 90, bp_torso)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l)) {
-                        hit = true;
-                    }
-                    if (one_in(4) && g->u.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r)) {
-                        hit = true;
-                    }
-                    if (hit && (g->u.has_trait("TAIL_CATTLE") &&
-                                one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
-                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
-                        hit = false;
-                    }
-                    if (hit) {
-                        add_msg(m_warning, _("You're covered in tiny spores!"));
-                    }
-                } else if (one_in(2) && g->num_zombies() <= 1000) {
-                    // Spawn a spore
-                    if (g->summon_mon("mon_spore", sporep)) {
-                        monster *spore = g->monster_at(sporep);
-                        spore->make_ally(z);
-                    }
-                }
-            }
+            // z is dead, don't credit it with the kill
+            // Maybe credit z's killer?
+            g->m.fungalize( sporep, nullptr, 0.25 );
         }
     }
 }
@@ -306,12 +267,11 @@ void mdeath::worm(monster *z)
     }
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
-        int rn = rng(0, wormspots.size() - 1);
-        if(-1 == g->mon_at(wormspots[rn])) {
-            g->summon_mon("mon_halfworm", wormspots[rn]);
+        const tripoint target = random_entry_removed( wormspots );
+        if(-1 == g->mon_at( target )) {
+            g->summon_mon(mon_halfworm, target);
             worms++;
         }
-        wormspots.erase(wormspots.begin() + rn);
     }
 }
 
@@ -420,23 +380,21 @@ void mdeath::blobsplit(monster *z)
         }
     }
 
-    int rn;
     for (int s = 0; s < 2 && !valid.empty(); s++) {
-        rn = rng(0, valid.size() - 1);
-        if (g->summon_mon(speed < 50 ? "mon_blob_small" : "mon_blob", valid[rn])) {
-            monster *blob = g->monster_at(valid[rn]);
+        const tripoint target = random_entry_removed( valid );
+        if (g->summon_mon(speed < 50 ? mon_blob_small : mon_blob, target)) {
+            monster *blob = g->monster_at( target );
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);
         }
-        valid.erase(valid.begin() + rn);
     }
 }
 
 void mdeath::brainblob(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species("BLOB") && candidate->type->id != "mon_blob_brain" ) {
+        if(candidate->type->in_species("BLOB") && candidate->type->id != mon_blob_brain ) {
             candidate->remove_effect("controlled");
         }
     }
@@ -446,8 +404,8 @@ void mdeath::brainblob(monster *z) {
 void mdeath::jackson(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->id == "mon_zombie_dancer" ) {
-            candidate->poly(GetMType("mon_zombie_hulk"));
+        if(candidate->type->id == mon_zombie_dancer ) {
+            candidate->poly( mon_zombie_hulk );
             candidate->remove_effect("controlled");
         }
         if (g->u.sees( *z )) {
@@ -482,7 +440,7 @@ void mdeath::amigara(monster *z)
 
 void mdeath::thing(monster *z)
 {
-    g->summon_mon("mon_thing", z->pos3());
+    g->summon_mon(mon_thing, z->pos3());
 }
 
 void mdeath::explode(monster *z)
@@ -548,7 +506,7 @@ void mdeath::broken(monster *z) {
     if (z->no_corpse_quiet) {
         return;
     }
-    std::string item_id = z->type->id;
+    std::string item_id = z->type->id.str();
     if (item_id.compare(0, 4, "mon_") == 0) {
         item_id.erase(0, 4);
     }
@@ -576,11 +534,8 @@ void mdeath::ratking(monster *z)
             }
         }
     }
-    monster rat(GetMType("mon_sewer_rat"));
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
-        int rn = rng(0, ratspots.size() - 1);
-        g->summon_mon("mon_sewer_rat", ratspots[rn]);
-        ratspots.erase(ratspots.begin() + rn);
+        g->summon_mon( mon_sewer_rat, random_entry_removed( ratspots ) );
     }
 }
 
@@ -654,8 +609,8 @@ void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        const std::string monID = g->zombie(i).type->id;
-        if (monID == "mon_breather_hub " || monID == "mon_breather") {
+        const mtype_id& monID = g->zombie(i).type->id;
+        if (monID == mon_breather_hub || monID == mon_breather) {
             g->zombie(i).die( nullptr );
         }
     }
@@ -711,10 +666,10 @@ void mdeath::detonate(monster *z)
     if (g->u.sees(*z)) {
         if (dets.empty()) {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_info, _("The %s hands fly to its pockets, but there's nothing left in them."), z->disp_name(true).c_str());
+            add_msg(m_info, _("The %s's hands fly to its pockets, but there's nothing left in them."), z->name().c_str());
         } else {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_bad, _("The %s hands fly to its remaining pockets, opening them!"), z->disp_name(true).c_str());
+            add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
         }
     }
     const tripoint det_point = z->pos3();
@@ -736,8 +691,8 @@ void mdeath::broken_ammo(monster *z)
 {
     if (g->u.sees(z->pos())) {
         //~ %s is the possessive form of the monster's name
-        add_msg(m_info, _("The %s interior compartment sizzles with destructive energy."),
-                            z->disp_name(true).c_str());
+        add_msg(m_info, _("The %s's interior compartment sizzles with destructive energy."),
+                            z->name().c_str());
     }
     mdeath::broken(z);
 }
@@ -779,7 +734,7 @@ void make_mon_corpse(monster *z, int damageLvl)
 {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(z->type, calendar::turn);
+    corpse.make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.

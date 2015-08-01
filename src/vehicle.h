@@ -4,6 +4,7 @@
 #include "calendar.h"
 #include "tileray.h"
 #include "color.h"
+#include "damage.h"
 #include "item.h"
 #include "line.h"
 #include "item_stack.h"
@@ -83,7 +84,7 @@ struct veh_collision {
     void         *target      = nullptr;  //vehicle
     int           target_part = 0; //veh partnum
     std::string   target_name;
- 
+
     veh_collision() = default;
 };
 
@@ -153,7 +154,7 @@ public:
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
-    std::pair<tripoint, tripoint> target;  
+    std::pair<tripoint, tripoint> target;
 private:
     std::list<item> items; // inventory
 public:
@@ -285,7 +286,7 @@ private:
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
-    int damage_direct (int p, int dmg, int type = 1);
+    int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -353,7 +354,6 @@ public:
     void smash();
 
     // load and init vehicle data from stream. This implies valid save data!
-    void load_legacy(std::ifstream &stin);
     void load (std::ifstream &stin);
 
     // Save vehicle data to stream
@@ -381,8 +381,9 @@ public:
 
     // Honk the vehicle's horn, if there are any
     void honk_horn();
-
+    void beeper_sound();
     void play_music();
+    void play_chimes();
 
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
@@ -638,7 +639,7 @@ public:
     veh_collision part_collision (int part, int x, int y, bool just_detect);
 
     // Process the trap beneath
-    void handle_trap (int x, int y, int part);
+    void handle_trap( const tripoint &p, int part );
 
     int max_volume(int part) const; // stub for per-vpart limit
     int free_volume(int part) const;
@@ -653,8 +654,8 @@ public:
     bool add_item_at( int part, std::list<item>::iterator index, item itm );
 
     // remove item from part's cargo
-    bool remove_item (int part, int itemdex);
-    bool remove_item (int part, item *it);
+    bool remove_item( int part, int itemdex );
+    bool remove_item( int part, const item *it );
     std::list<item>::iterator remove_item (int part, std::list<item>::iterator it);
 
     vehicle_stack get_items( int part ) const;
@@ -674,18 +675,14 @@ public:
 
     void unboard_all ();
 
-    // damage types:
-    // 0 - piercing
-    // 1 - bashing (damage applied if it passes certain treshold)
-    // 2 - incendiary
-    // damage individual part. bash means damage
+    // Damage individual part. bash means damage
     // must exceed certain threshold to be substracted from hp
     // (a lot light collisions will not destroy parts)
-    // returns damage bypassed
-    int damage (int p, int dmg, int type = 1, bool aimed = true);
+    // Returns damage bypassed
+    int damage (int p, int dmg, damage_type type = DT_BASH, bool aimed = true);
 
     // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type, const point &impact);
+    void damage_all (int dmg1, int dmg2, damage_type type, const point &impact);
 
     //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
     void shift_parts( point delta );
@@ -713,7 +710,7 @@ public:
     turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
     // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed 
+    // If `from_controls` is false, only manual modes are allowed
     // and message describing the new mode is printed
     void cycle_turret_mode( int p, bool from_controls );
 
@@ -732,7 +729,7 @@ public:
     // Manual turret fire - gives the `shooter` a temporary weapon, makes them use it,
     // then gives back the weapon held before (if any).
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    bool manual_fire_turret( int p, player &shooter, const itype &guntype, 
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype,
                              const itype &ammotype, long &charges );
 
     // Update the set of occupied points and return a reference to it
@@ -824,6 +821,7 @@ public:
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;
     std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
@@ -852,6 +850,12 @@ public:
     std::set<tripoint> occupied_points;
     calendar occupied_cache_turn = -1; // Turn occupied points were calculated
 
+    // The below is currently used only for funnels
+    // Turn the vehicle was last processed
+    calendar last_update_turn = -1;
+    // Retroactively pass time spent outside bubble
+    void update_time();
+
     // save values
     /**
      * Position of the vehicle *inside* the submap that contains the vehicle.
@@ -864,15 +868,15 @@ public:
     tileray face;       // frame direction
     tileray move;       // direction we are moving
     int velocity = 0;       // vehicle current velocity, mph * 100
-    int cruise_velocity = 0; // velocity vehicle's cruise control trying to acheive
+    int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
     std::string music_id;    // what music storage device is in the stereo
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
-    int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
+    int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move
 
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
-    //int moves;
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
+
     int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
 
     int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
@@ -891,6 +895,7 @@ public:
     bool engine_on                  = false; // at least one engine is on, of any type
     bool lights_on                  = false; // lights on/off
     bool stereo_on                  = false;
+    bool chimes_on                  = false; // ice cream truck chimes
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
@@ -904,6 +909,7 @@ public:
     bool skidding                   = false; // skidding mode
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
+    bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
 };
 
 #endif

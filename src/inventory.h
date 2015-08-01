@@ -84,6 +84,10 @@ class inventory
          */
         item remove_item(const item *it);
         item remove_item(int position);
+        /**
+         * Randomly select items until the volume quota is filled.
+         */
+        std::list<item> remove_randomly_by_volume(int volume);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
 
@@ -153,8 +157,6 @@ class inventory
 
         // vector rather than list because it's NOT an item stack
         std::vector<item *> active_items();
-
-        void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
 
         void json_load_invcache(JsonIn &jsin);
         void json_load_items(JsonIn &jsin);

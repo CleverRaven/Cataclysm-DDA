@@ -1,23 +1,18 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "cursesdef.h"
-
-#include <stdlib.h>
 #include <vector>
 #include <string>
 #include <set>
 #include <map>
-#include <unordered_map>
-#include <unordered_set>
+#include <memory>
 
 #include "game_constants.h"
-#include "mapdata.h"
 #include "item.h"
-#include "json.h"
 #include "lightmap.h"
 #include "item_stack.h"
 #include "active_item_cache.h"
+#include "int_id.h"
 #include "string_id.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
@@ -29,13 +24,28 @@ class monster;
 class item;
 class Creature;
 class tripoint_range;
+enum field_id : int;
+class field;
+class field_entry;
 class vehicle;
+struct submap;
+struct maptile;
+class basecamp;
+class computer;
 struct itype;
 struct mapgendata;
 struct trap;
+using trap_id = int_id<trap>;
 struct oter_id;
 struct regional_settings;
 struct mongroup;
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
+struct mtype;
+using mtype_id = string_id<mtype>;
+
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
  int x;
@@ -55,6 +65,11 @@ class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+class map;
+enum ter_bitflags : int;
+template<typename T>
+struct id_or_id;
+struct map_bash_item_drop;
 
 class map_stack : public item_stack {
 private:
@@ -89,6 +104,26 @@ struct visibility_variables {
     bool u_sight_impaired;
     bool u_is_boomered;
     float vision_threshold;
+};
+
+struct bash_params {
+    int strength; // Initial strength
+
+    bool silent; // Make a sound?
+    bool destroy; // Essentially infinite bash strength + some
+    bool bash_floor; // Do we want to bash floor if no furn/wall exists?
+    /**
+     * Value from 0.0 to 1.0 that affects interpolation between str_min and str_max
+     * At 0.0, the bash is against str_min of targetted objects
+     * This is required for proper "piercing" bashing, so that one strong hit
+     * can destroy a wall and a floor under it rather than only one at a time.
+     */
+    float roll;
+
+    bool did_bash; // Was anything hit?
+    bool success; // Was anything destroyed?
+
+    bool bashed_solid; // Did we bash furniture, terrain or vehicle
 };
 
 enum visibility_type {
@@ -422,7 +457,6 @@ public:
     void board_vehicle(int x, int y, player *p);
     void unboard_vehicle(const int x, const int y);
     bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
-    bool displace_water (const int x, const int y);
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
     /**
@@ -594,10 +628,12 @@ public:
 
     /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
      *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-    void make_rubble( const tripoint &p, furn_id rubble_type = f_rubble, bool items = false,
-                      ter_id floor_type = t_dirt, bool overwrite = false);
-    void make_rubble( int, int, furn_id rubble_type = f_rubble, bool items = false,
-                      ter_id floor_type = t_dirt, bool overwrite = false) = delete;
+    void make_rubble( const tripoint &p, furn_id rubble_type, bool items,
+                      ter_id floor_type, bool overwrite = false );
+    void make_rubble( const tripoint &p );
+    void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
+    void make_rubble( int, int, furn_id rubble_type, bool items,
+                      ter_id floor_type, bool overwrite = false) = delete;
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;
@@ -622,14 +658,14 @@ void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
 void draw_fill_background(ter_id type);
 void draw_fill_background(std::string type);
 void draw_fill_background(ter_id (*f)());
-void draw_fill_background(const id_or_id & f);
+void draw_fill_background(const id_or_id<ter_t> & f);
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
 void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
-void draw_square_ter(const id_or_id & f, int x1, int y1, int x2, int y2);
+void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle(ter_id type, int x, int y, int rad);
 void draw_rough_circle(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
@@ -663,12 +699,13 @@ void add_corpse( const tripoint &p );
      *
      * @param silent Don't produce any sound
      * @param destroy Destroys some otherwise unbashable tiles
-     * @param bashing_vehicle Vehicle NOT to bash (to prevent vehicle bashing itself)
      * @param bash_floor Allow bashing the floor and the tile that supports it
+     * @param bashing_vehicle Vehicle that should NOT be bashed (because it is doing the bashing)
      */
-    std::pair<bool, bool> bash( const tripoint &p, const int str, bool silent = false,
-                                bool destroy = false, vehicle *bashing_vehicle = nullptr,
-                                bool bash_floor = false );
+    bash_params bash( const tripoint &p, int str, bool silent = false,
+                      bool destroy = false, bool bash_floor = false,
+                      const vehicle *bashing_vehicle = nullptr );
+
     /** Spawn items from the list, see map_bash_item_drop */
     void spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p );
 
@@ -676,8 +713,9 @@ void add_corpse( const tripoint &p );
     bool hit_with_acid( const tripoint &p );
     bool hit_with_fire( const tripoint &p );
     bool marlossify( const tripoint &p );
-    /** Makes spores at the respective x and y. source is used for kill counting */
+    /** Makes spores at p. source is used for kill counting */
     void create_spores( const tripoint &p, Creature* source = nullptr );
+    void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
 
     bool has_adjacent_furniture( const tripoint &p );
     void mop_spills( const tripoint &p );
@@ -745,7 +783,7 @@ void add_corpse( const tripoint &p );
     // returning an iterator to the next item after removal.
     std::list<item>::iterator i_rem( const tripoint &p, std::list<item>::iterator it );
     int i_rem( const tripoint &p, const int index );
-    void i_rem( const tripoint &p, item* it );
+    void i_rem( const tripoint &p, const item* it );
     void spawn_artifact( const tripoint &p );
     void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
     // Note: Passing the first argument by value, because some compilers don't warn about
@@ -934,6 +972,43 @@ void add_corpse( const tripoint &p );
     void set_graffiti( const tripoint &p, const std::string &contents);
     void delete_graffiti( const tripoint &p );
 
+// Climbing
+    /**
+     * Checks 3x3 block centered on p for terrain to climb.
+     * @return Difficulty of climbing check from point p.
+     */
+    int climb_difficulty( const tripoint &p ) const;
+
+// Support (of weight, structures etc.)
+private:
+    // Tiles whose ability to support things was removed in the last turn
+    std::set<tripoint> support_cache_dirty;
+    // Checks if the tile is supported and adds it to support_cache_dirty if it isn't
+    void support_dirty( const tripoint &p );
+public:
+
+    // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
+    // if we're not in zlevels mode or if we're at lowest level
+    bool has_floor( const tripoint &p ) const;
+    /** Does this tile support vehicles and furniture above it */
+    bool supports_above( const tripoint &p ) const;
+
+    /**
+     * Handles map objects of given type (not creatures) falling down.
+     * Returns true if anything changed.
+     */
+    /*@{*/
+    void drop_everything( const tripoint &p );
+    void drop_furniture( const tripoint &p );
+    void drop_items( const tripoint &p );
+    void drop_vehicle( const tripoint &p );
+    /*@}*/
+
+    /**
+     * Invoked @ref drop_everything on cached dirty tiles.
+     */
+    void process_falling();
+
 // mapgen.cpp functions
  void generate(const int x, const int y, const int z, const int turn);
  void post_process(unsigned zones);
@@ -944,7 +1019,7 @@ void add_corpse( const tripoint &p );
  void place_vending(int x, int y, std::string type);
  int place_npc(int x, int y, std::string type);
 
- void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
+ void add_spawn(const mtype_id& type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
  vehicle *add_vehicle(const vgroup_id & type, const point &p, const int dir,
@@ -1094,7 +1169,7 @@ protected:
                 const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
- void add_extra(map_extra type);
+
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );
@@ -1202,10 +1277,13 @@ private:
  void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy) const;
  vehicle *add_vehicle_to_map(vehicle *veh, bool merge_wrecks);
 
-    // Bashes terrain or furniture, handles collapse and roofs
-    std::pair<bool, bool> bash_ter_furn( const tripoint &p, const int str,
-                                         bool silent, bool destroy, bool bash_floor,
-                                         float res_roll );
+    // Internal methods used to bash just the selected features
+    // Information on what to bash/what was bashed is read from/written to the bash_params struct
+    void bash_ter_furn( const tripoint &p, bash_params &params );
+    void bash_items( const tripoint &p, bash_params &params );
+    void bash_vehicle( const tripoint &p, bash_params &params );
+    void bash_field( const tripoint &p, bash_params &params );
+
     // Gets the roof type of the tile at p
     // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
     // or can just return air because we bashed down an entire floor tile

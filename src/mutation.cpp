@@ -1,16 +1,19 @@
 #include "mutation.h"
 #include "player.h"
+#include "action.h"
 #include "game.h"
 #include "map.h"
 #include "translations.h"
 #include "messages.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "options.h"
 #include "catacharset.h"
 #include "input.h"
+#include "mapdata.h"
+#include "debug.h"
+#include "field.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -46,11 +49,22 @@ void Character::toggle_trait(const std::string &flag)
     recalc_sight_limits();
 }
 
-void Character::toggle_mutation(const std::string &flag)
+void Character::set_mutation(const std::string &flag)
 {
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
         my_mutations[flag]; // Creates a new entry with default values
+    } else {
+        debugmsg("Trying to set %s mutation, but the character already has it.", flag.c_str());
+    }
+    recalc_sight_limits();
+}
+
+void Character::unset_mutation(const std::string &flag)
+{
+    const auto iter = my_mutations.find( flag );
+    if( iter == my_mutations.end() ) {
+        debugmsg("Trying to unset %s mutation, but the character does not have it.", flag.c_str());
     } else {
         my_mutations.erase( iter );
     }
@@ -91,7 +105,6 @@ void Character::apply_mods(const std::string &mut, bool add_remove)
 
 void Character::mutation_effect(std::string mut)
 {
-    bool is_u = is_player();
     bool destroy = false;
     std::vector<body_part> bps;
 
@@ -209,31 +222,34 @@ void Character::mutation_effect(std::string mut)
         apply_mods(mut, true);
     }
 
-    std::string mutation_safe = "OVERSIZE";
-    for (size_t i = 0; i < worn.size(); i++) {
+    const auto covers_any = [&bps]( const item& armor ) {
         for( auto &bp : bps ) {
-            if( ( worn[i].covers( bp ) ) && ( !( worn[i].has_flag( mutation_safe ) ) ) ) {
-                if (destroy) {
-                    if (is_u) {
-                        add_msg(m_bad, _("Your %s is destroyed!"), worn[i].tname().c_str());
-                    }
-
-                    worn.erase(worn.begin() + i);
-
-                } else {
-                    if (is_u) {
-                        add_msg(m_bad, _("Your %s is pushed off."), worn[i].tname().c_str());
-                    }
-
-                    int pos = player::worn_position_to_index(i);
-                    g->m.add_item_or_charges(posx(), posy(), worn[i]);
-                    i_rem(pos);
-                }
-                // Reset to the start of the vector
-                i = 0;
+            if( armor.covers( bp ) ) {
+                return true;
             }
         }
-    }
+        return false;
+    };
+
+    remove_worn_items_with( [&]( item& armor ) {
+        static const std::string mutation_safe = "OVERSIZE";
+        if( armor.has_flag( mutation_safe ) ) {
+            return false;
+        }
+        if( !covers_any( armor ) ) {
+            return false;
+        }
+        if( destroy ) {
+            add_msg_if_player( m_bad, _("Your %s is destroyed!"), armor.tname().c_str() );
+            for( item& remain : armor.contents ) {
+                g->m.add_item_or_charges( pos(), remain );
+            }
+        } else {
+            add_msg_if_player( m_bad, _("Your %s is pushed off."), armor.tname().c_str() );
+            g->m.add_item_or_charges( pos(), armor );
+        }
+        return true;
+    } );
 }
 
 void Character::mutation_loss_effect(std::string mut)
@@ -394,14 +410,12 @@ void player::activate_mutation( const std::string &mut )
         }
         add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
-        monster slime(GetMType("mon_player_blob"));
-        for (int i = 0; i < numslime; i++) {
-            int index = rng(0, valid.size() - 1);
-            if (g->summon_mon("mon_player_blob", valid[index])) {
-                monster *slime = g->monster_at(valid[index]);
+        for (int i = 0; i < numslime && !valid.empty(); i++) {
+            const tripoint target = random_entry_removed( valid );
+            if (g->summon_mon(mtype_id( "mon_player_blob" ), target)) {
+                monster *slime = g->monster_at( target );
                 slime->friendly = -1;
             }
-            valid.erase(valid.begin() + index);
         }
         //~ Usual enthusiastic slimespring small voices! :D
         if (one_in(3)) {
@@ -450,6 +464,10 @@ void player::activate_mutation( const std::string &mut )
             newit = i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
+        tdata.powered = false;
+        return;
+    } else if( mut == "SELFAWARE" ) {
+        print_health();
         tdata.powered = false;
         return;
     }
@@ -935,8 +953,7 @@ void player::mutate()
         return;
     }
 
-    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-    mutate_towards(selection);
+    mutate_towards( random_entry( valid ) );
 }
 
 void player::mutate_category( const std::string &cat )
@@ -968,10 +985,7 @@ void player::mutate_category( const std::string &cat )
         return;
     }
 
-    std::string selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
-    mutate_towards(selection);
-
-    return;
+    mutate_towards( random_entry( valid ) );
 }
 
 void player::mutate_towards( const std::string &mut )
@@ -1033,12 +1047,10 @@ void player::mutate_towards( const std::string &mut )
 
     if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
         if (!prereq1 && !prereq.empty()) {
-            std::string devel = prereq[ rng(0, prereq.size() - 1) ];
-            mutate_towards(devel);
+            mutate_towards( random_entry( prereq ) );
             return;
         } else if (!prereq2 && !prereqs2.empty()) {
-            std::string devel = prereqs2[ rng(0, prereqs2.size() - 1) ];
-            mutate_towards(devel);
+            mutate_towards( random_entry( prereqs2 ) );
             return;
         }
     }
@@ -1105,7 +1117,7 @@ void player::mutate_towards( const std::string &mut )
         }
     }
 
-    toggle_mutation(mut);
+    set_mutation(mut);
 
     bool mutation_replaced = false;
 
@@ -1127,7 +1139,7 @@ void player::mutate_towards( const std::string &mut )
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
-        toggle_mutation(replacing);
+        unset_mutation(replacing);
         mutation_loss_effect(replacing);
         mutation_effect(mut);
         mutation_replaced = true;
@@ -1148,7 +1160,7 @@ void player::mutate_towards( const std::string &mut )
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
-        toggle_mutation(replacing2);
+        unset_mutation(replacing2);
         mutation_loss_effect(replacing2);
         mutation_effect(mut);
         mutation_replaced = true;
@@ -1172,7 +1184,7 @@ void player::mutate_towards( const std::string &mut )
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                         cancel_mdata.name.c_str(), mdata.name.c_str());
-        toggle_mutation(canceltrait[i]);
+        unset_mutation(canceltrait[i]);
         mutation_loss_effect(canceltrait[i]);
         mutation_effect(mut);
         mutation_replaced = true;
@@ -1259,7 +1271,7 @@ void player::remove_mutation( const std::string &mut )
                 std::vector<std::string> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
                     for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
-                        if (traitcheck[j] == mut) {
+                        if (traitcheck[j] == mut && (iter.first) != replacing) {
                             replacing2 = (iter.first);
                         }
                     }
@@ -1271,8 +1283,13 @@ void player::remove_mutation( const std::string &mut )
         }
     }
 
+    // make sure we don't toggle a mutation or trait twice, or it will cancel itself out.
+    if(replacing == replacing2) {
+        replacing2 = "";
+    }
+
     // This should revert back to a removed base trait rather than simply removing the mutation
-    toggle_mutation(mut);
+    unset_mutation(mut);
 
     bool mutation_replaced = false;
 
@@ -1291,7 +1308,7 @@ void player::remove_mutation( const std::string &mut )
         }
         add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
-        toggle_mutation(replacing);
+        set_mutation(replacing);
         mutation_loss_effect(mut);
         mutation_effect(replacing);
         mutation_replaced = true;
@@ -1309,7 +1326,7 @@ void player::remove_mutation( const std::string &mut )
         }
         add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
-        toggle_mutation(replacing2);
+        set_mutation(replacing2);
         mutation_loss_effect(mut);
         mutation_effect(replacing2);
         mutation_replaced = true;

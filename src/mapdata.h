@@ -3,30 +3,20 @@
 
 #include "game_constants.h"
 #include "color.h"
-#include "item.h"
-//#include "monster.h"
 #include "enums.h"
-#include "computer.h"
-#include "basecamp.h"
 #include "iexamine.h"
-#include "field.h"
-#include "item_stack.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "weighted_list.h"
 #include "rng.h"
-#include "active_item_cache.h"
 
-#include <iosfwd>
 #include <bitset>
-#include <unordered_set>
 #include <vector>
 #include <list>
+#include <map>
 #include <string>
 
-struct maptile;
-class game;
-class monster;
-class vehicle;
+struct itype;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -61,6 +51,7 @@ struct map_bash_info {
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
+    int collapse_radius;    // Radius of the tent supported by this tile
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
@@ -68,10 +59,12 @@ struct map_bash_info {
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
+    // ids used for the special handling of tents (have to be ids of furniture)
+    std::vector<std::string> tent_centers;
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
                       str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      destroy_only(false), bash_below(false),
+                      collapse_radius(1), destroy_only(false), bash_below(false),
                       sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
@@ -146,7 +139,7 @@ struct map_deconstruct_info {
  * To add a new ter_bitflag, add below and add to init_ter_bitflags_map() in mapdata.cpp
  * Order does not matter.
  */
-enum ter_bitflags {
+enum ter_bitflags : int {
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -269,312 +262,19 @@ furn_id furnfind(const std::string & id); // lookup, carp and return null on err
 
 
 /*
-enum: map_extra
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
 */
-enum map_extra {
- mx_null = 0,
- mx_helicopter,
- mx_military,
- mx_science,
- mx_roadblock,
- mx_drugdeal,
- mx_supplydrop,
- mx_portal,
- mx_minefield,
- mx_crater,
- mx_fumarole,
- mx_portal_in,
- mx_anomaly,
- num_map_extras
-};
-
 //Classic Extras is for when you have special zombies turned off.
-const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
-  mfb(mx_roadblock) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
-  mfb(mx_crater);
-
+extern const std::set<std::string> classic_extras;
 
 struct map_extras {
  unsigned int chance;
- int chances[num_map_extras + 1];
- map_extras(unsigned int embellished, int helicopter = 0, int mili = 0,
-            int sci = 0, int roadblock = 0, int drug = 0, int supply = 0,
-            int portal = 0, int minefield = 0,
-            int crater = 0, int lava = 0, int marloss = 0, int anomaly = 0)
-            : chance(embellished)
- {
-  chances[ 0] = 0;
-  chances[ 1] = helicopter;
-  chances[ 2] = mili;
-  chances[ 3] = sci;
-  chances[ 4] = roadblock;
-  chances[ 5] = drug;
-  chances[ 6] = supply;
-  chances[ 7] = portal;
-  chances[ 8] = minefield;
-  chances[ 9] = crater;
-  chances[10] = lava;
-  chances[11] = marloss;
-  chances[12] = anomaly;
-  chances[13] = 0;
- }
+ weighted_int_list<std::string> values;
+
+ map_extras() : chance(0), values() {}
+ map_extras(const unsigned int embellished) : chance(embellished), values() {}
+
 };
-
-struct spawn_point {
- int posx, posy;
- int count;
- std::string type;
- int faction_id;
- int mission_id;
- bool friendly;
- std::string name;
- spawn_point(std::string T = "mon_null", int C = 0, int X = -1, int Y = -1,
-             int FAC = -1, int MIS = -1, bool F = false,
-             std::string N = "NONE") :
-             posx (X), posy (Y), count (C), type (T), faction_id (FAC),
-             mission_id (MIS), friendly (F), name (N) {}
-};
-
-struct submap {
-    inline trap_id get_trap( const int x, const int y ) const {
-        return trp[x][y];
-    }
-
-    inline void set_trap( const int x, const int y, trap_id trap ) {
-        is_uniform = false;
-        trp[x][y] = trap;
-    }
-
-    inline furn_id get_furn( const int x, const int y ) const {
-        return frn[x][y];
-    }
-
-    inline void set_furn( const int x, const int y, furn_id furn ) {
-        is_uniform = false;
-        frn[x][y] = furn;
-    }
-
-    inline ter_id get_ter( const int x, const int y ) const {
-        return ter[x][y];
-    }
-
-    inline void set_ter( const int x, const int y, ter_id terr ) {
-        is_uniform = false;
-        ter[x][y] = terr;
-    }
-
-    inline int get_radiation( const int x, const int y ) const {
-        return rad[x][y];
-    }
-
-    void set_radiation( const int x, const int y, const int radiation ) {
-        is_uniform = false;
-        rad[x][y] = radiation;
-    }
-
-    void update_lum_add( item const &i, int const x, int const y ) {
-        is_uniform = false;
-        if (i.is_emissive() && lum[x][y] < 255) {
-            lum[x][y]++;
-        }
-    }
-
-    void update_lum_rem( item const &i, int const x, int const y ) {
-        is_uniform = false;
-        if (!i.is_emissive()) {
-            return;
-        } else if (lum[x][y] && lum[x][y] < 255) {
-            lum[x][y]--;
-            return;
-        }
-
-        // Have to scan through all items to be sure removing i will actally lower
-        // the count below 255.
-        int count = 0;
-        for (auto const &it : itm[x][y]) {
-            if (it.is_emissive()) {
-                count++;
-            }
-        }
-
-        if (count <= 256) {
-            lum[x][y] = static_cast<uint8_t>(count - 1);
-        }
-    }
-
-    bool has_graffiti( int x, int y ) const;
-    const std::string &get_graffiti( int x, int y ) const;
-    void set_graffiti( int x, int y, const std::string &new_graffiti );
-    void delete_graffiti( int x, int y );
-
-    // Signage is a pretend union between furniture on a square and stored
-    // writing on the square. When both are present, we have signage.
-    // Its effect is meant to be cosmetic and atmospheric only.
-    inline bool has_signage( const int x, const int y) const {
-        if( frn[x][y] == furnfind( "f_sign" ) ) {
-            return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
-        }
-
-        return false;
-    }
-    // Dependent on furniture + cosmetics.
-    inline const std::string get_signage( const int x, const int y ) const {
-        if( frn[x][y] == furnfind( "f_sign" ) ) {
-            auto iter = cosmetics[x][y].find("SIGNAGE");
-            if( iter != cosmetics[x][y].end() ) {
-                return iter->second;
-            }
-        }
-
-        return "";
-    }
-    // Can be used anytime (prevents code from needing to place sign first.)
-    inline void set_signage( const int x, const int y, std::string s) {
-        is_uniform = false;
-        cosmetics[x][y]["SIGNAGE"] = s;
-    }
-    // Can be used anytime (prevents code from needing to place sign first.)
-    inline void delete_signage( const int x, const int y) {
-        is_uniform = false;
-        cosmetics[x][y].erase("SIGNAGE");
-    }
-
-    // TODO: make trp private once the horrible hack known as editmap is resolved
-    ter_id          ter[SEEX][SEEY];  // Terrain on each square
-    furn_id         frn[SEEX][SEEY];  // Furniture on each square
-    std::uint8_t    lum[SEEX][SEEY];  // Number of items emitting light on each square
-    std::list<item> itm[SEEX][SEEY];  // Items on each square
-    field           fld[SEEX][SEEY];  // Field on each square
-    trap_id         trp[SEEX][SEEY];  // Trap on each square
-    int             rad[SEEX][SEEY];  // Irradiation of each square
-
-    // If is_uniform is true, this submap is a solid block of terrain
-    // Uniform submaps aren't saved/loaded, because regenerating them is faster
-    bool is_uniform;
-
-    std::map<std::string, std::string> cosmetics[SEEX][SEEY]; // Textual "visuals" for each square.
-
-    active_item_cache active_items;
-
-    int field_count = 0;
-    int turn_last_touched = 0;
-    int temperature = 0;
-    std::vector<spawn_point> spawns;
-    /**
-     * Vehicles on this submap (their (0,0) point is on this submap).
-     * This vehicle objects are deleted by this submap when it gets
-     * deleted.
-     * TODO: submap owns these pointers, they ought to be unique_ptrs.
-     */
-    std::vector<vehicle*> vehicles;
-    computer comp;
-    basecamp camp;  // only allowing one basecamp per submap
-
-    submap();
-    ~submap();
-    // delete vehicles and clear the vehicles vector
-    void delete_vehicles();
-};
-
-/**
- * A wrapper for a submap point. Allows getting multiple map features
- * (terrain, furniture etc.) without directly accessing submaps or
- * doing multiple bounds checks and submap gets.
- */
-struct maptile {
-private:
-    friend map; // To allow "sliding" the tile in x/y without bounds checks
-    friend submap;
-    submap *const sm;
-    size_t x;
-    size_t y;
-
-    maptile( submap *sub, const size_t nx, const size_t ny ) :
-        sm( sub ), x( nx ), y( ny ) { }
-public:
-    inline trap_id get_trap() const
-    {
-        return sm->get_trap( x, y );
-    }
-
-    inline furn_id get_furn() const
-    {
-        return sm->get_furn( x, y );
-    }
-
-    inline ter_id get_ter() const
-    {
-        return sm->get_ter( x, y );
-    }
-
-    inline const trap &get_trap_t() const
-    {
-        return sm->get_trap( x, y ).obj();
-    }
-
-    const furn_t &get_furn_t() const;
-    const ter_t &get_ter_t() const;
-
-    inline const field &get_field() const
-    {
-        return sm->fld[x][y];
-    }
-
-    inline field_entry* find_field( const field_id field_to_find )
-    {
-        return sm->fld[x][y].findField( field_to_find );
-    }
-
-    inline bool add_field( const field_id field_to_add, const int new_density, const int new_age )
-    {
-        const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
-        if( ret ) {
-            sm->field_count++;
-        }
-
-        return ret;
-    }
-
-    inline int get_radiation() const
-    {
-        return sm->get_radiation( x, y );
-    }
-
-    inline bool has_graffiti() const
-    {
-        return sm->has_graffiti( x, y );
-    }
-
-    inline const std::string &get_graffiti() const
-    {
-        return sm->get_graffiti( x, y );
-    }
-
-    inline bool has_signage() const
-    {
-        return sm->has_signage( x, y );
-    }
-
-    inline const std::string get_signage() const
-    {
-        return sm->get_signage( x, y );
-    }
-
-    // For map::draw_maptile
-    inline size_t get_item_count() const
-    {
-        return sm->itm[x][y].size();
-    }
-
-    inline const item &get_last_item() const
-    {
-        return sm->itm[x][y].back();
-    }
-};
-
-std::ostream & operator<<(std::ostream &, const submap *);
-std::ostream & operator<<(std::ostream &, const submap &);
 
 void load_furniture(JsonObject &jsobj);
 void load_terrain(JsonObject &jsobj);
@@ -582,32 +282,22 @@ void load_terrain(JsonObject &jsobj);
 void verify_furniture();
 void verify_terrain();
 
-
-/*
- * Temporary container id_or_id. Stores str for delayed lookup and conversion.
- */
-struct sid_or_sid {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
-};
-
 /*
  * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
  */
+template<typename T>
 struct id_or_id {
    int chance;                  // 8
-   short primary;               // 12
-   short secondary;             // 16
-   id_or_id(const int id1, const int i, const int id2) : chance(i), primary(id1), secondary(id2) { }
-   bool match( const int iid ) const {
+   int_id<T> primary;
+   int_id<T> secondary;
+   id_or_id(const int_id<T> id1, const int i, const int_id<T> id2) : chance(i), primary(id1), secondary(id2) { }
+   bool match( const int_id<T> iid ) const {
        if ( iid == primary || iid == secondary ) {
            return true;
        }
        return false;
    }
-   int get() const {
+   int_id<T> get() const {
        return ( one_in(chance) ? secondary : primary );
    }
 };

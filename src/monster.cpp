@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "cursesdef.h"
-#include "monstergenerator.h"
 #include "json.h"
 #include "messages.h"
 #include "mondefense.h"
@@ -24,10 +23,60 @@
 #include "options.h"
 #include "trap.h"
 #include "line.h"
+#include "mapdata.h"
+#include "mtype.h"
+#include "field.h"
 #include "sounds.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
+
+// Limit the number of iterations for next upgrade_time calculations.
+// This also sets the percentage of monsters that will never upgrade.
+// The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
+#define UPGRADE_MAX_ITERS 5
+
+const mtype_id mon_ant( "mon_ant" );
+const mtype_id mon_ant_fungus( "mon_ant_fungus" );
+const mtype_id mon_ant_queen( "mon_ant_queen" );
+const mtype_id mon_ant_soldier( "mon_ant_soldier" );
+const mtype_id mon_bee( "mon_bee" );
+const mtype_id mon_beekeeper( "mon_beekeeper" );
+const mtype_id mon_boomer( "mon_boomer" );
+const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
+const mtype_id mon_triffid( "mon_triffid" );
+const mtype_id mon_triffid_queen( "mon_triffid_queen" );
+const mtype_id mon_triffid_young( "mon_triffid_young" );
+const mtype_id mon_zombie( "mon_zombie" );
+const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
+const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+const mtype_id mon_zombie_brute_shocker( "mon_zombie_brute_shocker" );
+const mtype_id mon_zombie_child( "mon_zombie_child" );
+const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
+const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
+const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
+const mtype_id mon_zombie_grenadier( "mon_zombie_grenadier" );
+const mtype_id mon_zombie_grenadier_elite( "mon_zombie_grenadier_elite" );
+const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
+const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
+const mtype_id mon_zombie_master( "mon_zombie_master" );
+const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+const mtype_id mon_zombie_rot( "mon_zombie_rot" );
+const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
+const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
+const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
+const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
+const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
+const mtype_id mon_zombie_technician( "mon_zombie_technician" );
+const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 monster::monster()
 {
@@ -41,7 +90,6 @@ monster::monster()
  friendly = 0;
  anger = 0;
  morale = 2;
- last_loaded = 0;
  faction = mfaction_id( 0 );
  mission_id = -1;
  no_extra_death_drops = false;
@@ -50,15 +98,17 @@ monster::monster()
  unique_name = "";
  hallucination = false;
  ignoring = 0;
+ upgrades = false;
+ upgrade_time = -1;
 }
 
-monster::monster(mtype *t)
+monster::monster( const mtype_id& id )
 {
  position.x = 20;
  position.y = 10;
  position.z = -500; // Some arbitrary number that will cause debugmsgs
  wandf = 0;
- type = t;
+ type = &id.obj();
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -67,10 +117,9 @@ monster::monster(mtype *t)
  }
  def_chance = type->def_chance;
  friendly = 0;
- anger = t->agro;
- morale = t->morale;
- last_loaded = 0;
- faction = t->default_faction;
+ anger = type->agro;
+ morale = type->morale;
+ faction = type->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -78,14 +127,16 @@ monster::monster(mtype *t)
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = t->starting_ammo;
+ ammo = type->starting_ammo;
+ upgrades = type->upgrades;
+ upgrade_time = -1;
 }
 
-monster::monster(mtype *t, const tripoint &p )
+monster::monster( const mtype_id& id, const tripoint &p )
 {
  position = p;
  wandf = 0;
- type = t;
+ type = &id.obj();
  moves = type->speed;
  Creature::set_speed_base(type->speed);
  hp = type->hp;
@@ -96,8 +147,7 @@ monster::monster(mtype *t, const tripoint &p )
  friendly = 0;
  anger = type->agro;
  morale = type->morale;
- faction = t->default_faction;
- last_loaded = 0;
+ faction = type->default_faction;
  mission_id = -1;
  no_extra_death_drops = false;
  dead = false;
@@ -105,7 +155,9 @@ monster::monster(mtype *t, const tripoint &p )
  unique_name = "";
  hallucination = false;
  ignoring = 0;
- ammo = t->starting_ammo;
+ ammo = type->starting_ammo;
+ upgrades = type->upgrades;
+ upgrade_time = -1;
 }
 
 monster::~monster()
@@ -127,10 +179,10 @@ const tripoint &monster::pos() const
     return position;
 }
 
-void monster::poly(mtype *t)
+void monster::poly( const mtype_id& id )
 {
     double hp_percentage = double(hp) / double(type->hp);
-    type = t;
+    type = &id.obj();
     moves = 0;
     Creature::set_speed_base(type->speed);
     anger = type->agro;
@@ -141,89 +193,95 @@ void monster::poly(mtype *t)
         sp_timeout.push_back( elem );
     }
     def_chance = type->def_chance;
-    faction = t->default_faction;
+    faction = type->default_faction;
+    upgrades = type->upgrades;
 }
 
-bool monster::can_upgrade() const
-{
-    // If we don't upgrade
-    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
-        return false;
-    }
-    // Or we aren't allowed to yet
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] <= 0) {
-        return false;
-    } else {
-        if ((calendar::turn.get_turn() / DAYS(1)) <
-             (type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"])) {
-            return false;
-        }
-    }
-    return true;
+bool monster::can_upgrade() {
+    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
 }
 
-void monster::update_check() {
-    // Hallucinations don't upgrade!
-    if (is_hallucination()) {
+// For master special attack.
+void monster::hasten_upgrade() {
+    if (!can_upgrade() || upgrade_time < 1) {
         return;
     }
 
-    // No chance of upgrading, abort
-    if ((type->half_life <= 0 && type->base_upgrade_chance <= 0) ||
-        (type->upgrade_group == mongroup_id( "GROUP_NULL" ) && type->upgrades_into == "NULL")) {
-        return;
+    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    upgrade_time -= rng(1, scaled_half_life);
+    if (upgrade_time < 0) {
+        upgrade_time = 0;
     }
-    int current_day = calendar::turn.get_turn()/ DAYS(1);
-    int upgrade_time = 0;
-    if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        upgrade_time = type->upgrade_min / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-    } else {
-        // Should ensure that the monsters never upgrade
-        upgrade_time = current_day + 1;
-    }
-    add_msg(m_debug, "Current:day: %d", current_day);
-    add_msg(m_debug, "Upgrade time : %d", upgrade_time);
-    add_msg(m_debug, "Last loaded: %d", last_loaded);
+}
 
-    if (current_day == last_loaded || current_day < upgrade_time) {
-        add_msg(m_debug, "Upgrade time less");
-        last_loaded = current_day;
-        return;
-    }
-
-    // We don't start counting until the minimum upgrade time
-    int time_passed = current_day - std::max(last_loaded, upgrade_time);
-    add_msg(m_debug, "Time passed: %d", time_passed);
-
-    float upgrade_chance = 0;
-    // If we have a valid half life use a radioactive decay function. This will become
-    // rapidly inaccurate when half_life > 700, if longer half lives are needed increase
-    // the 1000 here, the 10 in the else, and the rng() range by factors of 10 as necessary.
-    if (type->half_life > 0) {
-        float elapsed_lives = float(time_passed) / float(type->half_life);
-        // (1- (.5 - base%)^lives) = percentage that have upgraded
-        upgrade_chance = 1000 * (1 - pow(std::max(0.0, 0.5 - type->base_upgrade_chance * .01 ),
-                                               elapsed_lives));
-    } else {
-        // Not a valid half life, so just do base_upgrade_chance percent per day
-        // (1 - (1 - base%)^days) = percentage that has upgraded
-        upgrade_chance = 1000 * (1 - pow(1 - type->base_upgrade_chance * .01, time_passed));
-    }
-    add_msg(m_debug, "Upgrade chance: %f", upgrade_chance);
-    if (upgrade_chance > rng(0, 999)){
-        // Try to upgrade to a single monster first
-        if (type->upgrades_into != "NULL"){
-            poly(GetMType(type->upgrades_into));
-        // Else upgrade to the desired group
+// This will disable upgrades in case max iters have been reached.
+// Checking for return value of -1 is necessary.
+int monster::next_upgrade_time() {
+    const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+    int day = 0;
+    for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
+        if (one_in(2)) {
+            day += rng(0, scaled_half_life);
+            return day;
         } else {
-            const auto monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            const std::string newtype = monsters[rng(0, monsters.size() - 1)];
-            poly(GetMType(newtype));
+            day += scaled_half_life;
+        }
+    }
+    // didn't manage to upgrade, shouldn't ever then
+    upgrades = false;
+    return -1;
+}
+
+void monster::try_upgrade(bool pin_time) {
+    if (!can_upgrade()) {
+        return;
+    }
+
+    const int current_day = calendar::turn.get_turn() / DAYS(1);
+
+    if (upgrade_time < 0) {
+        upgrade_time = next_upgrade_time();
+        if (upgrade_time < 0) {
+            return;
+        }
+        if (pin_time) {
+            // offset by today
+            upgrade_time += current_day;
+        } else {
+            // offset by starting season
+            upgrade_time += calendar::start / DAYS(1);
         }
     }
 
-    last_loaded = current_day;
+    // Here we iterate until we either are before upgrade_time or can't upgrade any more.
+    // This is so that late into game new monsters can 'catch up' with all that half-life
+    // upgrades they'd get if we were simulating whole world.
+    while (true) {
+        if (upgrade_time > current_day) {
+            // not yet
+            return;
+        }
+
+        static const mtype_id mon_null( "mon_null" );
+        if( type->upgrade_into != mon_null ) {
+            poly( type->upgrade_into );
+        } else {
+            const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+            poly( random_entry( monsters ) );
+        }
+
+        if (!upgrades) {
+            // upgraded into a non-upgradable monster
+            return;
+        }
+
+        const int next_upgrade = next_upgrade_time();
+        if (next_upgrade < 0) {
+            // hit never_upgrade
+            return;
+        }
+        upgrade_time += next_upgrade;
+    }
 }
 
 void monster::spawn(const tripoint &p)
@@ -409,7 +467,7 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
 {
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
-    // Traps are on the ground, digging monsters go below, fliers go above.
+    // Traps are on the ground, digging monsters go below, fliers and climbers go above.
     if( digging() || has_flag( MF_FLIES ) ) {
         return true;
     }
@@ -484,16 +542,11 @@ void monster::load_info(std::string data)
 {
     std::stringstream dump;
     dump << data;
-    if ( dump.peek() == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
-        }
-        return;
-    } else {
-        load_legacy(dump);
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
     }
 }
 
@@ -566,6 +619,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( m == this ) {
             return A_FRIENDLY;
         }
+
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
@@ -632,7 +686,7 @@ monster_attitude monster::attitude(player *u) const
             effective_anger -= 20;
         }
 
-        if ( (type->id == "mon_bee") && (u->has_trait("FLOWERS"))) {
+        if ( (type->id == mon_bee) && (u->has_trait("FLOWERS"))) {
             effective_anger -= 10;
         }
 
@@ -683,9 +737,9 @@ int monster::hp_percentage() const
 
 void monster::process_triggers()
 {
-    anger += trigger_sum( &(type->anger) );
-    anger -= trigger_sum( &(type->placate) );
-    morale -= trigger_sum( &(type->fear) );
+    anger += trigger_sum( type->anger );
+    anger -= trigger_sum( type->placate );
+    morale -= trigger_sum( type->fear );
     if( morale != type->morale && one_in( 10 ) ) {
         if( morale < type->morale ) {
             morale++;
@@ -722,11 +776,11 @@ void monster::process_trigger(monster_trigger trig, int amount)
 }
 
 
-int monster::trigger_sum(std::set<monster_trigger> *triggers) const
+int monster::trigger_sum( const std::set<monster_trigger>& triggers ) const
 {
     int ret = 0;
     bool check_terrain = false, check_meat = false, check_fire = false;
-    for( const auto &trigger : *triggers ) {
+    for( const auto &trigger : triggers ) {
         switch( trigger ) {
             case MTRIG_STALK:
                 if( anger > 0 && one_in( 5 ) ) {
@@ -1142,7 +1196,7 @@ bool monster::move_effects(bool attacking)
     if (has_effect("downed")) {
         remove_effect("downed");
         if (u_see_me) {
-            add_msg(_("The %s climbs to it's feet!"), name().c_str());
+            add_msg(_("The %s climbs to its feet!"), name().c_str());
         }
         return false;
     }
@@ -1491,7 +1545,7 @@ void monster::explode()
                     g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
                 }
                 if( g->m.move_cost( tarp ) == 0 ) {
-                    if( !g->m.bash( tarp, 3 ).second ) {
+                    if( !g->m.bash( tarp, 3 ).success ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
                         // point (e.g. wall adjacent to monster) , make it invalid.
@@ -1734,48 +1788,63 @@ bool monster::make_fungus()
         return true;
     }
     char polypick = 0;
-    std::string tid = type->id;
-    if (type->in_species("FUNGUS")) { // No friendly-fungalizing ;-)
+    const mtype_id& tid = type->id;
+    if( type->in_species("FUNGUS") ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if (tid == "mon_ant" || tid == "mon_ant_soldier" || tid == "mon_ant_queen" || tid == "mon_fly" ||
-      tid == "mon_bee" || tid == "mon_dermatik") {
-        polypick = 1;
-    } else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" ||
-      tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" || tid == "mon_zombie_brute" ||
-      tid == "mon_zombie_hulk" || tid == "mon_zombie_soldier" || tid == "mon_zombie_tough" ||
-      tid == "mon_zombie_scientist" || tid == "mon_zombie_hunter" || tid == "mon_zombie_child"||
-      tid == "mon_zombie_bio_op" || tid == "mon_zombie_survivor" || tid == "mon_zombie_fireman" ||
-      tid == "mon_zombie_cop" || tid == "mon_zombie_fat" || tid == "mon_zombie_rot" ||
-      tid == "mon_zombie_swimmer" || tid == "mon_zombie_grabber" || tid == "mon_zombie_technician" ||
-      tid == "mon_zombie_brute_shocker" || tid == "mon_zombie_grenadier" ||
-      tid == "mon_zombie_grenadier_elite") {
-        polypick = 2; // Necro and Master have enough Goo to resist conversion.
-        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-    } else if (tid == "mon_zombie_necro" || tid == "mon_zombie_master" || tid == "mon_zombie_fireman" ||
-      tid == "mon_zombie_hazmat" || tid == "mon_beekeeper") {
+    if( !type->has_material("flesh") && !type->has_material("hflesh") &&
+        !type->has_material("veggy") && !type->has_material("iflesh") &&
+        !type->has_material("bone") ) {
+        // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
-    } else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag" || tid == "mon_zombie_smoker") {
+    }
+    if( tid == mon_ant || tid == mon_ant_soldier || tid == mon_ant_queen ) {
+        polypick = 1;
+    } else if (tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
+      tid == mon_zombie_spitter || tid == mon_zombie_brute ||
+      tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
+      tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_zombie_child||
+      tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
+      tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
+      tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
+      tid == mon_zombie_brute_shocker || tid == mon_zombie_grenadier ||
+      tid == mon_zombie_grenadier_elite) {
+        polypick = 2;
+    } else if (tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
+      tid == mon_zombie_hazmat || tid == mon_beekeeper) {
+        // Necro and Master have enough Goo to resist conversion.
+        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
+        return true;
+    } else if (tid == mon_boomer || tid == mon_zombie_gasbag || tid == mon_zombie_smoker) {
         polypick = 3;
-    } else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen") {
+    } else if (tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen) {
         polypick = 4;
     }
+
+    const std::string old_name = name();
     switch (polypick) {
-        case 1: // bugs, why do they all turn into fungal ants?
-            poly(GetMType("mon_ant_fungus"));
-            return true;
+        case 1:
+            poly( mon_ant_fungus );
+            break;
         case 2: // zombies, non-boomer
-            poly(GetMType("mon_zombie_fungus"));
-            return true;
+            poly( mon_zombie_fungus );
+            break;
         case 3:
-            poly(GetMType("mon_boomer_fungus"));
-            return true;
+            poly( mon_boomer_fungus );
+            break;
         case 4:
-            poly(GetMType("mon_fungaloid"));
-            return true;
+            poly( mon_fungaloid );
+            break;
         default:
             return false;
     }
+
+    if( g->u.sees( pos() ) ) {
+        add_msg( m_info, _("The spores transform %s into a %s!"),
+                         old_name.c_str(), name().c_str() );
+    }
+
+    return true;
 }
 
 void monster::make_friendly()
@@ -1787,21 +1856,6 @@ void monster::make_friendly()
 void monster::make_ally(monster *z) {
     friendly = z->friendly;
     faction = z->faction;
-}
-
-int monster::get_last_load() const
-{
-    return last_loaded;
-}
-
-void monster::set_last_load(int day)
-{
-    last_loaded = day;
-}
-
-void monster::reset_last_load()
-{
-    last_loaded = calendar::turn.get_turn() / DAYS(1);
 }
 
 void monster::add_item(item it)
@@ -1923,7 +1977,10 @@ void monster::on_dodge( Creature*, int )
 void monster::on_hit( Creature *source, body_part,
                       int, projectile const* const proj )
 {
-    type->sp_defense( this, source, proj );
+    if( !is_hallucination() ) {
+        type->sp_defense( this, source, proj );
+    }
+
     check_dead_state();
     // TODO: Faction relations
 }
@@ -1931,4 +1988,59 @@ void monster::on_hit( Creature *source, body_part,
 body_part monster::get_random_body_part( bool ) const
 {
     return bp_torso;
+}
+
+int monster::get_hp_max( hp_part ) const
+{
+    return type->hp;
+}
+
+int monster::get_hp_max() const
+{
+    return type->hp;
+}
+
+std::string monster::get_material() const
+{
+    return type->mat[0];
+}
+
+void monster::hear_sound( const tripoint &source, const int vol, const int dist )
+{
+    if( !can_hear() ) {
+        return;
+    }
+
+    const bool goodhearing = has_flag(MF_GOODHEARING);
+    const int volume = goodhearing ? ((2 * vol) - dist) : (vol - dist);
+    // Error is based on volume, louder sound = less error
+    if( volume <= 0 ) {
+        return;
+    }
+
+    int max_error = 0;
+    if( volume < 2 ) {
+        max_error = 10;
+    } else if( volume < 5 ) {
+        max_error = 5;
+    } else if( volume < 10 ) {
+        max_error = 3;
+    } else if( volume < 20 ) {
+        max_error = 1;
+    }
+
+    int target_x = source.x + rng(-max_error, max_error);
+    int target_y = source.y + rng(-max_error, max_error);
+    // target_z will require some special check due to soil muffling sounds
+
+    int wander_turns = volume * (goodhearing ? 6 : 1);
+    process_trigger(MTRIG_SOUND, volume);
+    if( morale >= 0 && anger >= 10 ) {
+        // TODO: Add a proper check for fleeing attitude
+        // but cache it nicely, because this part is called a lot
+        wander_to( tripoint( target_x, target_y, source.z ), wander_turns);
+    } else if( morale < 0 ) {
+        // Monsters afraid of sound should not go towards sound
+        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ), wander_turns );
+    }
 }

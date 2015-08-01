@@ -8,12 +8,15 @@
 #include "messages.h"
 #include "monster.h"
 #include "line.h"
+#include "mtype.h"
+#include "weather.h"
 #include "npc.h"
 #include "item.h"
 #include "player.h"
 #include "path_info.h"
 #include "options.h"
 #include "time.h"
+#include "mapdata.h"
 #include <chrono>
 #ifdef SDL_SOUND
 #include "SDL2/SDL_mixer.h"
@@ -166,33 +169,12 @@ void sounds::process_sounds()
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
-        for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
-            monster &critter = g->zombie( i );
-            // rl_dist() is faster than critter.has_flag() or critter.can_hear(), so we'll check it first.
-            int dist = rl_dist( source, critter.pos3() );
-            int vol_goodhearing = vol * 2 - dist;
-            if( vol_goodhearing > 0 && critter.can_hear() ) {
-                const bool goodhearing = critter.has_flag( MF_GOODHEARING );
-                int volume = goodhearing ? vol_goodhearing : ( vol - dist );
-                // Error is based on volume, louder sound = less error
-                if( volume > 0 ) {
-                    int max_error = 0;
-                    if( volume < 2 ) {
-                        max_error = 10;
-                    } else if( volume < 5 ) {
-                        max_error = 5;
-                    } else if( volume < 10 ) {
-                        max_error = 3;
-                    } else if( volume < 20 ) {
-                        max_error = 1;
-                    }
-                    int target_x = source.x + rng( -max_error, max_error );
-                    int target_y = source.y + rng( -max_error, max_error );
-                    // target_z will require some special check due to soil muffling sounds
-                    int wander_turns = volume * ( goodhearing ? 6 : 1 );
-                    critter.wander_to( tripoint( target_x, target_y, source.z ), wander_turns );
-                    critter.process_trigger( MTRIG_SOUND, volume );
-                }
+        for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
+            monster &critter = g->zombie(i);
+            const int dist = rl_dist( source, critter.pos() );
+            if( vol * 2 > dist ) {
+                // Exclude monsters that certainly won't hear the sound
+                critter.hear_sound( source, vol, dist );
             }
         }
     }
@@ -238,13 +220,15 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( "deaf" )
-                && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
-            int duration = ( max_volume - dist - 130 ) / 4;
-            p->add_effect( "deaf", duration );
-            sfx::do_hearing_loss( duration );
-            is_deaf = true;
-            continue;
+        if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+            int duration = (max_volume - dist - 130) / 4;
+            p->add_effect("deaf", duration);
+            if( p->is_deaf() ) {
+                // Need to check for actual deafness
+                is_deaf = true;
+                sfx::do_hearing_loss( duration );
+                continue;
+            }
         }
         // At this point we are dealing with attention (as opposed to physical effects)
         // so reduce volume by the amount of ambient noise from the weather.
@@ -335,9 +319,8 @@ void sounds::process_sound_markers( player *p )
         }
         // Then place the sound marker in a random one.
         if( !unseen_points.empty() ) {
-            sound_markers.emplace(
-                std::make_pair( unseen_points[rng( 0, unseen_points.size() - 1 )],
-                                sound_event_pair.second ) );
+            sound_markers.emplace( random_entry( unseen_points ),
+                                   sound_event_pair.second );
         }
     }
     sounds_since_last_turn.clear();

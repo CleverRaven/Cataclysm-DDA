@@ -25,10 +25,11 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
     ${CMAKE_SOURCE_DIR}/src/item_factory.cpp
     ${CMAKE_SOURCE_DIR}/src/activity_handlers.cpp
-    ${CMAKE_SOURCE_DIR}/src/mongroupdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/mongroup.cpp
     ${CMAKE_SOURCE_DIR}/src/mapgen_functions.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame_json.cpp
     ${CMAKE_SOURCE_DIR}/src/item_action.cpp
+    ${CMAKE_SOURCE_DIR}/src/item_location.cpp
     ${CMAKE_SOURCE_DIR}/src/inventory.cpp
     ${CMAKE_SOURCE_DIR}/src/npctalk.cpp
     ${CMAKE_SOURCE_DIR}/src/calendar.cpp
@@ -83,14 +84,15 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/savegame.cpp
     ${CMAKE_SOURCE_DIR}/src/lightmap.cpp
     ${CMAKE_SOURCE_DIR}/src/mapdata.cpp
+    ${CMAKE_SOURCE_DIR}/src/submap.cpp
     ${CMAKE_SOURCE_DIR}/src/weather_data.cpp
     ${CMAKE_SOURCE_DIR}/src/martialarts.cpp
     ${CMAKE_SOURCE_DIR}/src/mod_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/vehicle.cpp
-    ${CMAKE_SOURCE_DIR}/src/vehicle_factory.cpp
+    ${CMAKE_SOURCE_DIR}/src/vehicle_group.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
     ${CMAKE_SOURCE_DIR}/src/material.cpp
-    ${CMAKE_SOURCE_DIR}/src/veh_typedef.cpp
+    ${CMAKE_SOURCE_DIR}/src/veh_type.cpp
     ${CMAKE_SOURCE_DIR}/src/melee.cpp
     ${CMAKE_SOURCE_DIR}/src/defense.cpp
     ${CMAKE_SOURCE_DIR}/src/npc.cpp
@@ -112,7 +114,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/active_item_cache.cpp
     ${CMAKE_SOURCE_DIR}/src/addiction.cpp
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
-    ${CMAKE_SOURCE_DIR}/src/trapdef.cpp
+    ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
@@ -170,6 +172,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/mapbuffer.h
     ${CMAKE_SOURCE_DIR}/src/posix_time.h
     ${CMAKE_SOURCE_DIR}/src/item_action.h
+    ${CMAKE_SOURCE_DIR}/src/item_location.h
     ${CMAKE_SOURCE_DIR}/src/map.h
     ${CMAKE_SOURCE_DIR}/src/npc.h
     ${CMAKE_SOURCE_DIR}/src/rng.h
@@ -188,14 +191,13 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/game_constants.h
     ${CMAKE_SOURCE_DIR}/src/mission.h
     ${CMAKE_SOURCE_DIR}/src/requirements.h
-    ${CMAKE_SOURCE_DIR}/src/savegame.h
     ${CMAKE_SOURCE_DIR}/src/sounds.h
     ${CMAKE_SOURCE_DIR}/src/worldfactory.h
     ${CMAKE_SOURCE_DIR}/src/editmap.h
     ${CMAKE_SOURCE_DIR}/src/effect.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
-    ${CMAKE_SOURCE_DIR}/src/vehicle_factory.h
+    ${CMAKE_SOURCE_DIR}/src/vehicle_group.h
     ${CMAKE_SOURCE_DIR}/src/clzones.h
     ${CMAKE_SOURCE_DIR}/src/translations.h
     ${CMAKE_SOURCE_DIR}/src/skill.h
@@ -264,6 +266,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/gamemode.h
     ${CMAKE_SOURCE_DIR}/src/artifact.h
     ${CMAKE_SOURCE_DIR}/src/mapdata.h
+    ${CMAKE_SOURCE_DIR}/src/submap.h
     ${CMAKE_SOURCE_DIR}/src/text_snippets.h
     ${CMAKE_SOURCE_DIR}/src/monattack.h
     ${CMAKE_SOURCE_DIR}/src/filesystem.h
@@ -465,7 +468,7 @@ IF(CURSES)
 		)
 	ENDIF (LOCALIZE)
 
-	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_PATH})
+	target_include_directories(cataclysm PUBLIC ${CURSES_INCLUDE_DIR})
 	target_link_libraries(cataclysm ${CURSES_LIBRARIES})
 
 	IF(CMAKE_USE_PTHREADS_INIT)

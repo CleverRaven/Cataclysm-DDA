@@ -395,6 +395,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
@@ -465,6 +466,30 @@
     "revert_to": "null",
     "category" : "spare_parts",
     "use_action": "EXTRA_BATTERY"
+  },
+
+  {
+    "id": "double_plutonium_core",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "reactor core expansion device",
+    "description": "This is an expansion device for use on plutonium-powered equipment.  With enough electronics skill, you could attach this to an atomic tool to double the amount of plutonium it can hold.  Note that this device is incompatible with the atomic battery mod.",
+    "price": 10000,
+    "material": ["superalloy", "plastic"],
+    "weight": 694,
+    "volume": 3,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "spare_parts",
+    "use_action": "DOUBLE_REACTOR"
   },
 
   {
@@ -1004,6 +1029,29 @@
     "use_action": "HOTPLATE"
   },
   {
+    "id": "charcoal_cooker",
+    "sub": "hotplate",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "charcoal cooker",
+    "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
+    "price": 5000,
+    "material": "steel",
+    "weight": 405,
+    "volume": 5,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "small_charcoal",
+    "revert_to": "null",
+    "use_action": "HOTPLATE"
+  },
+  {
     "id": "oil_cooker",
     "sub": "hotplate",
     "type": "TOOL",
@@ -1046,6 +1094,29 @@
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "gasoline",
+    "revert_to": "null",
+    "use_action": "HOTPLATE"
+  },
+  {
+    "id": "popcan_stove",
+    "sub": "hotplate",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "soda can stove kit",
+    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans. It comes with a 500ml plastic bottle to hold concentrated alcohol fuel.",
+    "price" : 250,
+    "material" : "aluminum",
+    "weight": 45,
+    "volume": 3,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 28,
+    "initial_charges": 28,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "conc_alcohol",
     "revert_to": "null",
     "use_action": "HOTPLATE"
   },
@@ -1207,7 +1278,13 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD"
+    "use_action": [
+        "SOLDER_WELD",
+        {
+            "type": "cauterize",
+            "flame": false
+        }
+    ]
   },
 
   {
@@ -1869,7 +1946,7 @@
     "ammo": "battery",
     "revert_to": "carver_off",
     "use_action": "CARVER_ON",
-    "qualities": [["CUT", 1], ["BUTCHER", 25]]
+    "qualities": [["BUTCHER", 25]]
   },{
     "id": "trimmer_off",
     "type": "TOOL",
@@ -1914,8 +1991,7 @@
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
-    "use_action": "TRIMMER_ON",
-    "qualities": [["CUT", 1]]
+    "use_action": "TRIMMER_ON"
   },{
     "id": "circsaw_off",
     "type": "TOOL",
@@ -1966,7 +2042,7 @@
     "ammo": "battery",
     "revert_to": "circsaw_off",
     "use_action": "CIRCSAW_ON",
-    "qualities": [["CUT", 1], ["SAW_W", 2], ["BUTCHER", 60]]
+    "qualities": [["SAW_W", 2], ["BUTCHER", 60]]
   },{
     "id": "combatsaw_off",
     "type": "TOOL",
@@ -2128,7 +2204,7 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": "JACQUESHAMMER"
+    "use_action": "JACKHAMMER"
   },
 
   {
@@ -4263,7 +4339,13 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD",
+    "use_action": [
+        "SOLDER_WELD",
+        {
+            "type": "cauterize",
+            "flame": false
+        }
+    ],
     "qualities": [["WELD", 2]]
   },
 
@@ -6414,6 +6496,28 @@
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   },{
+    "id": "makeshift_hammer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "makeshift hammer",
+    "description": "This is a crude hammer make from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
+    "price": 0,
+    "material": ["steel", "wood"],
+    "weight": 1020,
+    "volume": 2,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAMMER",
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+  },{
     "id": "primitive_adze",
     "type": "TOOL",
     "symbol": ";",
@@ -6522,7 +6626,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DIG",
+    "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
@@ -7476,7 +7580,13 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "SOLDER_WELD",
+    "use_action": [
+        "SOLDER_WELD",
+        {
+            "type": "cauterize",
+            "flame": false
+        }
+    ],
     "qualities": [["WELD", 1]]
   },
 
@@ -7821,7 +7931,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "use_action": { "type": "knife" },
+    "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
 
   {
@@ -8106,7 +8217,6 @@
     "revert_to": "null",
     "category" : "tools"
   },
-
   {
     "id": "horn_bicycle",
     "type": "TOOL",
@@ -8372,7 +8482,7 @@
     "volume": 1,
     "bashing": 0,
     "cutting": 16,
-    "flags" : ["SHEATH_KNIFE"],
+    "flags" : ["SHEATH_KNIFE","CHOP"],
     "to_hit": -1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -8538,6 +8648,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
 
@@ -8564,6 +8675,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 1]]
   },
 
@@ -8588,6 +8700,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
   {
@@ -8936,7 +9049,7 @@
     "turns_per_charge": 0,
     "ammo": "tape",
     "revert_to": "null",
-    "use_action": "MISC_REPAIR",
+    "use_action": [ "MISC_REPAIR", { "type": "knife" } ],
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
@@ -9032,7 +9145,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "revert_to": "null",
-    "qualities": [["CUT", 1], ["DIG", 1], ["BUTCHER", -4]]
+    "qualities": [["DIG", 1], ["BUTCHER", -4]]
   },
   {
     "type":"TOOL",
@@ -9813,7 +9926,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
-    "use_action": "DIG"
+    "use_action": { "type": "knife" }
   },
   {
     "id": "survivor_machete",

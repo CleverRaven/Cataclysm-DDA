@@ -92,3 +92,10 @@ data/osx/AppIcon.icns
 
 # Jetbrains CLion
 .idea/
+
+# linked test executable
+tests/line_test
+tests/map_iterator_test
+tests/shadowcasting_test
+# static library used to link the test executable
+cataclysm.a

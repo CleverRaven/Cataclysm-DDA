@@ -1,7 +1,8 @@
 #ifndef BUILDING_GENERATION_H
 #define BUILDING_GENERATION_H
 
-#include "overmap.h"
+#include "omdata.h"
+#include "mapdata.h"
 #include "map.h"
 
 struct mapgendata
@@ -20,7 +21,7 @@ public:
   int zlevel;
   const regional_settings * region;
   map * m;
-  id_or_id default_groundcover;
+  id_or_id<ter_t> default_groundcover;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west, oter_id t_neast,
               oter_id t_seast, oter_id t_nwest, oter_id t_swest, oter_id up, int z, const regional_settings * rsettings, map * mp );
   void set_dir(int dir_in, int val);
@@ -38,7 +39,7 @@ public:
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
   ter_id groundcover();
-  bool is_groundcover(const int iid ) const;
+  bool is_groundcover(const ter_id iid ) const;
 };
 
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
@@ -70,8 +71,6 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int t
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_parking_lot(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_park_playground(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_park_basketball(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant); // not mapped
@@ -115,7 +114,6 @@ void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, i
 void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_cabin(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

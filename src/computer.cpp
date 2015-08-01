@@ -6,7 +6,6 @@
 #include "overmap.h"
 #include "output.h"
 #include "json.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
@@ -16,10 +15,16 @@
 #include "monster.h"
 #include "event.h"
 #include "trap.h"
+#include "mtype.h"
+#include "field.h"
 
 #include <fstream>
 #include <string>
 #include <sstream>
+
+const mtype_id mon_manhack( "mon_manhack" );
+const mtype_id mon_null( "mon_null" );
+const mtype_id mon_secubot( "mon_secubot" );
 
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
@@ -109,6 +114,12 @@ void computer::use()
     // Login
     print_line(_("Logging into %s..."), name.c_str());
     if (security > 0) {
+        if (int(calendar::turn) < next_attempt) {
+            print_error( _("Access is temporary blocked for security purposes.") );
+            query_any(_("Please contact the system administrator."));
+            reset_terminal();
+            return;
+        }
         print_error(_("ERROR!  Access denied!"));
         switch (query_ynq(_("Bypass security?"))) {
         case 'q':
@@ -204,7 +215,6 @@ bool computer::hack_attempt(player *p, int Security)
     }
 
     p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
-    p->practice( "computer", 5 + Security * 2 );
     int player_roll = hack_skill;
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
@@ -212,7 +222,9 @@ bool computer::hack_attempt(player *p, int Security)
         player_roll += rng(0, p->int_cur - 8);
     }
 
-    return (dice(player_roll, 6) >= dice(Security, 6));
+    bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
+    p->practice( "computer", (successful_attempt ? (15 + Security * 3) : 7));
+    return successful_attempt;
 }
 
 std::string computer::save_data()
@@ -436,12 +448,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
             }
         }
-        if (cascade_points.empty()) {
-            g->resonance_cascade( g->u.pos3() );
-        } else {
-            const tripoint &p = cascade_points[rng(0, cascade_points.size() - 1)];
-            g->resonance_cascade( p );
-        }
+        g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
     }
     break;
 
@@ -473,6 +480,7 @@ void computer::activate_function(computer_action action, char ch)
         const tripoint center = g->u.global_omt_location();
         overmap_buffer.reveal(point(center.x, center.y), 40, 0);
         query_any(_("Surface map data downloaded.  Local anomalous-access error logged.  Press any key..."));
+        remove_option( COMPACT_MAPS );
         alerts ++;
     }
     break;
@@ -489,6 +497,7 @@ void computer::activate_function(computer_action action, char ch)
             }
         }
         query_any(_("Sewage map data downloaded.  Press any key..."));
+        remove_option( COMPACT_MAP_SEWER );
     }
     break;
 
@@ -502,7 +511,7 @@ void computer::activate_function(computer_action action, char ch)
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
             add_msg(m_info, _("Nuclear missile launched!"));
-            options.clear();//Remove the option to fire another missle.
+            options.clear();//Remove the option to fire another missile.
         } else {
             add_msg(m_info, _("Nuclear missile launch aborted."));
             return;
@@ -649,7 +658,7 @@ for 50 years, and hasn't even been up for termination despite the fact that\n\
 these mining operations are the backbone of our economy.\n\
 \n\
 ENTRY 52:\n\
-Still waiting on the archaeologists.  We've done a little light insepction of\n\
+Still waiting on the archaeologists.  We've done a little light inspection of\n\
 the faultline; our sounding equipment is insufficient to measure the depth of\n\
 the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
 for such narrow tunnels, so it's hard to say exactly how far back they go.\n"));
@@ -806,7 +815,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == "mon_null" ) {
+                        if( mt == nullptr || mt->id == mon_null ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( "ZOMBIE" ) ) {
                             if( mt->sym == "Z" ) {
@@ -1077,7 +1086,7 @@ It takes you forever to find the address on your map...\n"));
   safe procedures and rig the sarcophagus with C-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
   and seal the sarcophagus or remove the charges.  It is of the\n\
-  utmost importance that the facility be sealed immediatly when\n\
+  utmost importance that the facility be sealed immediately when\n\
   the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
@@ -1166,8 +1175,8 @@ It takes you forever to find the address on your map...\n"));
 
 void computer::activate_random_failure()
 {
-    computer_failure fail = (failures.empty() ? COMPFAIL_SHUTDOWN :
-                             failures[rng(0, failures.size() - 1)]);
+    next_attempt = int(calendar::turn) + 450;
+    computer_failure fail = random_entry( failures, COMPFAIL_SHUTDOWN );
     activate_failure(fail);
 }
 
@@ -1224,7 +1233,7 @@ void computer::activate_failure(computer_failure fail)
             } while (!g->is_empty( mp ) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
-                g->summon_mon( "mon_manhack", mp );
+                g->summon_mon( mon_manhack, mp );
             }
         }
     }
@@ -1242,7 +1251,7 @@ void computer::activate_failure(computer_failure fail)
             } while (!g->is_empty(mp) && tries < 10);
             if (tries != 10) {
                 add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
-                g->summon_mon("mon_secubot", mp);
+                g->summon_mon(mon_secubot, mp);
             }
         }
     }
@@ -1296,7 +1305,7 @@ void computer::activate_failure(computer_failure fail)
                         if (next_move.empty()) {
                             i = leak_size;
                         } else {
-                            p = next_move[rng(0, next_move.size() - 1)];
+                            p = random_entry( next_move );
                             g->m.ter_set(p.x, p.y, t_sewage);
                         }
                     }

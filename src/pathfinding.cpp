@@ -2,9 +2,12 @@
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
+#include "player.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "vehicle.h"
+#include "submap.h"
+#include "mapdata.h"
 
 #include <algorithm>
 #include <queue>

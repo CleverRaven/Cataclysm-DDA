@@ -11,8 +11,23 @@
 #include "overmap.h"
 #include "trap.h"
 #include "line.h"
+#include "computer.h"
 // TODO: Remove this include once 2D wrappers are no longer needed
 #include "mapgen_functions.h"
+#include "field.h"
+
+const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
+const mtype_id mon_dog( "mon_dog" );
+const mtype_id mon_graboid( "mon_graboid" );
+const mtype_id mon_jabberwock( "mon_jabberwock" );
+const mtype_id mon_zombie( "mon_zombie" );
+const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+const mtype_id mon_zombie_dog( "mon_zombie_dog" );
+const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_zombie_master( "mon_zombie_master" );
+const mtype_id mon_zombie_necro( "mon_zombie_necro" );
+
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -39,10 +54,7 @@ static tripoint random_house_in_city( const city_reference &cref )
             }
         }
     }
-    if( valid.empty() ) {
-        return city_center_omt; // center of the city is a good fallback
-    }
-    return valid[ rng( 0, valid.size() - 1 ) ];
+    return random_entry( valid, city_center_omt ); // center of the city is a good fallback
 }
 
 static tripoint random_house_in_closest_city()
@@ -90,7 +102,7 @@ static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, 
         }
     }
 
-    const tripoint place = places_om[rng( 0, places_om.size() - 1 )];
+    const tripoint place = random_entry( places_om );
     if( reveal_rad >= 0 ) {
         overmap_buffer.reveal( place, reveal_rad );
     }
@@ -138,7 +150,7 @@ void mission_start::place_dog( mission *miss )
 
     tinymap doghouse;
     doghouse.load( house.x * 2, house.y * 2, house.z, false );
-    doghouse.add_spawn( "mon_dog", 1, SEEX, SEEY, true, -1, miss->uid );
+    doghouse.add_spawn( mon_dog, 1, SEEX, SEEY, true, -1, miss->uid );
     doghouse.save();
 }
 
@@ -151,7 +163,7 @@ void mission_start::place_zombie_mom( mission *miss )
 
     tinymap zomhouse;
     zomhouse.load( house.x * 2, house.y * 2, house.z, false );
-    zomhouse.add_spawn( "mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid,
+    zomhouse.add_spawn( mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid,
                         Name::get( nameIsFemaleName | nameIsGivenName ) );
     zomhouse.save();
 }
@@ -163,7 +175,7 @@ void mission_start::place_zombie_bay( mission *miss )
     tripoint site = target_om_ter_random( "evac_center_9", 1, miss, false, EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_spawn( "mon_zombie_electric", 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin" );
+    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin" );
     bay.save();
 }
 
@@ -252,8 +264,8 @@ void mission_start::place_grabber( mission *miss )
     tripoint site = target_om_ter_random( "field", 5, miss, false, 50 );
     tinymap there;
     there.load( site.x * 2, site.y * 2, site.z, false );
-    there.add_spawn( "mon_graboid", 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
-    there.add_spawn( "mon_graboid", 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy" );
+    there.add_spawn( mon_graboid, 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
+    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy" );
     there.save();
 }
 
@@ -268,7 +280,7 @@ void mission_start::place_bandit_camp( mission *miss )
     // Ideally this would happen at the end of the mission
     // (you're told that they entered your image into the databases, etc)
     // but better to get it working.
-    g->u.toggle_mutation( "PROF_FED" );
+    g->u.set_mutation( "PROF_FED" );
 
     tripoint site = target_om_ter_random( "bandit_camp_1", 1, miss, false, 50 );
     tinymap bay1;
@@ -282,7 +294,7 @@ void mission_start::place_jabberwock( mission *miss )
     tripoint site = target_om_ter( "forest_thick", 6, miss, false );
     tinymap grove;
     grove.load( site.x * 2, site.y * 2, site.z, false );
-    grove.add_spawn( "mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE" );
+    grove.add_spawn( mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE" );
     grove.save();
 }
 
@@ -290,18 +302,18 @@ void mission_start::kill_100_z( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
     p->attitude = NPCATT_FOLLOW;//npc joins you
-    miss->monster_type = "mon_zombie";
+    miss->monster_type = mon_zombie.str(); // TODO: change monster_type to be mtype_id (better: species!)
     int killed = 0;
-    killed += g->kill_count( "mon_zombie" );
+    killed += g->kill_count( mon_zombie );
     miss->monster_kill_goal = 100 + killed; //your kill score must increase by 100
 }
 
 void mission_start::kill_20_nightmares( mission *miss )
 {
     target_om_ter( "necropolis_c_44", 3, miss, false );
-    miss->monster_type = "mon_charred_nightmare";
+    miss->monster_type = mon_charred_nightmare.str();
     int killed = 0;
-    killed += g->kill_count( "mon_charred_nightmare" );
+    killed += g->kill_count( mon_charred_nightmare );
     miss->monster_kill_goal = 20 + killed; //your kill score must increase by 100
 }
 
@@ -325,19 +337,19 @@ void mission_start::kill_horde_master( mission *miss )
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
     tile.load( site.x * 2, site.y * 2, site.z, false );
-    tile.add_spawn( "mon_zombie_master", 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul" );
-    tile.add_spawn( "mon_zombie_brute", 3, SEEX, SEEY );
-    tile.add_spawn( "mon_zombie_dog", 3, SEEX, SEEY );
+    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul" );
+    tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
+    tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
     if( SEEX > 1 && SEEX < OMAPX && SEEY > 1 && SEEY < OMAPY ) {
         for( int x = SEEX - 1; x <= SEEX + 1; x++ ) {
             for( int y = SEEY - 1; y <= SEEY + 1; y++ ) {
-                tile.add_spawn( "mon_zombie", rng( 3, 10 ), x, y );
+                tile.add_spawn( mon_zombie, rng( 3, 10 ), x, y );
             }
-            tile.add_spawn( "mon_zombie_dog", rng( 0, 2 ), SEEX, SEEY );
+            tile.add_spawn( mon_zombie_dog, rng( 0, 2 ), SEEX, SEEY );
         }
     }
-    tile.add_spawn( "mon_zombie_necro", 2, SEEX, SEEY );
-    tile.add_spawn( "mon_zombie_hulk", 1, SEEX, SEEY );
+    tile.add_spawn( mon_zombie_necro, 2, SEEX, SEEY );
+    tile.add_spawn( mon_zombie_hulk, 1, SEEX, SEEY );
     tile.save();
 }
 
@@ -412,11 +424,8 @@ void mission_start::place_npc_software( mission *miss )
                 }
             }
         }
-        if( valid.empty() ) {
-            comppoint = tripoint( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
-        } else {
-            comppoint = valid[rng( 0, valid.size() - 1 )];
-        }
+        const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
+        comppoint = random_entry( valid, fallback );
     }
 
     compmap.ter_set( comppoint, t_console );
@@ -433,7 +442,6 @@ void mission_start::place_priest_diary( mission *miss )
     overmap_buffer.reveal( place, 2 );
     tinymap compmap;
     compmap.load( place.x * 2, place.y * 2, place.z, false );
-    tripoint comppoint;
 
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
@@ -444,11 +452,8 @@ void mission_start::place_priest_diary( mission *miss )
             }
         }
     }
-    if( valid.empty() ) {
-        comppoint = tripoint( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
-    } else {
-        comppoint = valid[rng( 0, valid.size() - 1 )];
-    }
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
+    const tripoint comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "priest_diary" );
     compmap.save();
 }
@@ -472,7 +477,6 @@ void mission_start::place_deposit_box( mission *miss )
 
     tinymap compmap;
     compmap.load( site.x * 2, site.y * 2, site.z, false );
-    tripoint comppoint;
     std::vector<tripoint> valid;
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
@@ -489,11 +493,8 @@ void mission_start::place_deposit_box( mission *miss )
             }
         }
     }
-    if( valid.empty() ) {
-        comppoint = tripoint( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z );
-    } else {
-        comppoint = valid[rng( 0, valid.size() - 1 )];
-    }
+    const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z );
+    const tripoint comppoint = random_entry( valid, fallback );
     compmap.spawn_item( comppoint, "safe_box" );
     compmap.save();
 }
@@ -629,7 +630,7 @@ void mission_start::start_commune(mission *miss)
  bay.place_npc(SEEX-3, SEEY+5, "ranch_construction_1");
  bay.save();
  npc *p = g->find_npc( miss->npc_id );
- p->toggle_mutation( "NPC_MISSION_LEV_1" );
+ p->set_mutation( "NPC_MISSION_LEV_1" );
 }
 
 const int RANCH_SIZE = 5;
@@ -1535,7 +1536,7 @@ void mission_start::ranch_bartender_1(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->toggle_mutation( "NPC_BRANDY" );
+ p->set_mutation( "NPC_BRANDY" );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1557,7 +1558,7 @@ void mission_start::ranch_bartender_2(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->toggle_mutation( "NPC_RUM" );
+ p->set_mutation( "NPC_RUM" );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1581,7 +1582,7 @@ void mission_start::ranch_bartender_3(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->toggle_mutation( "NPC_WHISKEY" );
+ p->set_mutation( "NPC_WHISKEY" );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;

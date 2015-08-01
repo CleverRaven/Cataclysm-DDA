@@ -254,7 +254,9 @@ void construction_menu()
             int current = i + offset;
             std::string con_name = constructs[current];
             nc_color col = c_dkgray;
-            if (can_construct( con_name )) {
+            if (g->u.has_trait( "DEBUG_HS" )) {
+                col = c_white;
+            } else if (can_construct( con_name )) {
                 construction *con_first = NULL;
                 std::vector<construction *> cons = constructions_by_desc( con_name );
                 for (auto &con : cons) {
@@ -552,6 +554,10 @@ bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
 
 bool player_can_build(player &p, const inventory &pinv, construction const *con)
 {
+    if (p.has_trait("DEBUG_HS")) {
+        return true;
+    }
+
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
     }
@@ -683,7 +689,7 @@ void complete_construction()
             }
         }
     }
-                   
+
     for (const auto &it : built.requirements.components) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
@@ -901,9 +907,9 @@ bool catch_with_rope( point const &center )
         return false;
     }
     add_msg( _( "You pull yourself to safety!" ) );
-    int const index = rng( 0, safe.size() - 1 );
-    u.setx( safe[index].x );
-    u.sety( safe[index].y );
+    const point p = random_entry( safe );
+    u.setx( p.x );
+    u.sety( p.y );
     g->update_map( &u );
     return true;
 }

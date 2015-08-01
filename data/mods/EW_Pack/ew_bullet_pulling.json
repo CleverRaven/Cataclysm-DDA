@@ -20,27 +20,5 @@
             ["gunpowder", 10],
             ["copper", 6]
         ]
-    },
-    {
-        "type": "BULLET_PULLING",
-        "bullet": "545",
-        "items": [
-            ["lead", 2],
-            ["545_casing", 1],
-            ["smrifle_primer", 1],
-            ["gunpowder", 5],
-            ["copper", 2]
-        ]
-    },
-    {
-        "type": "BULLET_PULLING",
-        "bullet": "545_ap",
-        "items": [
-            ["lead", 3],
-            ["545_casing", 1],
-            ["smrifle_primer", 1],
-            ["gunpowder", 5],
-            ["copper", 3]
-        ]
     }
 ]

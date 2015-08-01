@@ -18,6 +18,7 @@
 #include "input.h"
 #include "item_group.h"
 #include "compatibility.h"
+#include "mapdata.h"
 
 #include <vector>
 #include <string>
@@ -169,7 +170,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     if (id == "SCAVENGER"){
         col_missions["Assign Scavenging Patrol"] = "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
             "Assigning one of your allies to patrol the surrounding wilderness and isolated buildings presents "
-            "the opportunity to build survival skills while engaging in relativly safe combat against isolated "
+            "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
             "creatures.";
         keys.push_back("Assign Scavenging Patrol");
         npc_list = companion_list(p->name+"_scavenging_patrol");
@@ -487,7 +488,7 @@ void talk_function::caravan_depart(npc *p, std::string dest, std::string id)
         if (elem->companion_mission_time == -1){
             //Adds a 10% error in estimated travel time
             elem->companion_mission_time = time + int(time * rng_float(-.1,.1)) +
-	      calendar::turn.get_turn();
+              calendar::turn.get_turn();
         }
     }
 
@@ -608,8 +609,8 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     if (attacker.size() == 0 || defender.size() ==0){
             return;
     }
-    npc* att = attacker[rng( 0, attacker.size() - 1 )];
-    npc* def = defender[rng( 0, defender.size() - 1 )];
+    npc* att = random_entry( attacker );
+    npc* def = random_entry( defender );
     const Skill* best = att->best_skill();
     int best_score = 1;
     if (best != nullptr){
@@ -656,7 +657,7 @@ void talk_function::field_build_1(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->toggle_mutation( "NPC_CONSTRUCTION_LEV_1" );
+    p->set_mutation( "NPC_CONSTRUCTION_LEV_1" );
     g->u.cash += -100000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -678,7 +679,7 @@ void talk_function::field_build_2(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->toggle_mutation( "NPC_CONSTRUCTION_LEV_2" );
+    p->set_mutation( "NPC_CONSTRUCTION_LEV_2" );
     g->u.cash += -550000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -936,10 +937,10 @@ bool talk_function::scavenging_patrol_return(npc *p)
             int monsters = rng( 8, 30 );
             if( skill * rng_float( .60, 1.4 ) > (.35 * monsters * rng_float( .6, 1.4 )) ) {
                 popup(_("Through brute force the party smashed through the group of %d undead!"),
-		      monsters);
+                      monsters);
                 experience += rng ( 2, 10 );
             } else {
-                popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
+                popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
                 companion_lost(comp);
                 return false;
             }
@@ -984,7 +985,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
         g->u.cash += 10000;
     }
     if (one_in(10) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->toggle_mutation( "NPC_MISSION_LEV_1" );
+        p->set_mutation( "NPC_MISSION_LEV_1" );
         popup(_("%s feels more confident in your abilities and is willing to let you participate in daring raids."), p->name.c_str());
     }
     companion_return(comp);
@@ -1109,7 +1110,7 @@ bool talk_function::labor_return(npc *p)
     popup(_("%s returns from working as a laborer having earned $%d and a bit of experience..."), comp->name.c_str(),money);
     companion_return(comp);
     if (turns >= 8 && one_in(8) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->toggle_mutation( "NPC_MISSION_LEV_1" );
+        p->set_mutation( "NPC_MISSION_LEV_1" );
         popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
     }
 
@@ -1182,7 +1183,7 @@ bool talk_function::forage_return(npc *p)
         int skill_1 = comp->skillLevel( "survival" );
         int skill_2 = comp->skillLevel( "dodge" );
         if( skill_1 > rng( -2, 8 ) ){
-            popup(_("Alterted by a russle, %s fled to the safety of the outpost!"), comp->name.c_str());
+            popup(_("Alerted by a rustle, %s fled to the safety of the outpost!"), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("As soon as the cougar sprang %s darted to the safety of the outpost!"), comp->name.c_str());
         } else {
@@ -1259,7 +1260,7 @@ bool talk_function::forage_return(npc *p)
                 g->u.i_add( result );
         }
         if (one_in(6) && !p->has_trait("NPC_MISSION_LEV_1")){
-            p->toggle_mutation( "NPC_MISSION_LEV_1" );
+            p->set_mutation( "NPC_MISSION_LEV_1" );
             popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
         }
 

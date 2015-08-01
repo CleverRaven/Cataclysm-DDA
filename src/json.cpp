@@ -1310,6 +1310,36 @@ bool JsonIn::read(char &c)
     return true;
 }
 
+bool JsonIn::read(signed char &c)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    c = get_int();
+    return true;
+}
+
+bool JsonIn::read(short unsigned int &s)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    s = get_int();
+    return true;
+}
+
+bool JsonIn::read(short int &s)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    s = get_int();
+    return true;
+}
+
 bool JsonIn::read(int &i)
 {
     if (!test_number()) {

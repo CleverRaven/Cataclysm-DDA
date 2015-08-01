@@ -18,6 +18,7 @@
 #include "input.h"
 #include "item_group.h"
 #include "compatibility.h"
+#include "basecamp.h"
 
 #include <vector>
 #include <string>
@@ -3163,8 +3164,7 @@ void talk_function::stop_guard(npc *p)
 
 void talk_function::allow_sleep(npc *p)
 {
-    //add_msg(_("%s goes to sleep."), p->name.c_str());
-    p->add_effect( "allow_sleep", 1800 );
+    p->add_effect( "allow_sleep", 1, num_bp, true );
     p->chatbin.first_topic = "TALK_WAKE_UP";
 }
 
@@ -3363,7 +3363,7 @@ void talk_function::buy_10_logs(npc *p)
             places_om.push_back(i);
     }
 
-    const tripoint site = places_om[rng(0,places_om.size()-1)];
+    const tripoint site = random_entry( places_om );
     tinymap bay;
     bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
     bay.spawn_item( 7, 15, "log", 10);
@@ -3389,7 +3389,7 @@ void talk_function::buy_100_logs(npc *p)
             places_om.push_back(i);
     }
 
-    const tripoint site = places_om[rng(0,places_om.size()-1)];
+    const tripoint site = random_entry( places_om );
     tinymap bay;
     bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
     bay.spawn_item( 7, 15, "log", 100);
@@ -4349,10 +4349,8 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
         }
     }
     function = [lines]( const dialogue &d ) {
-        if( lines.empty() ) {
-            return std::string{};
-        }
-        return lines[rng( 0, lines.size() - 1 )]( d );
+        const dynamic_line_t& line = random_entry( lines );
+        return line( d );
     };
 }
 

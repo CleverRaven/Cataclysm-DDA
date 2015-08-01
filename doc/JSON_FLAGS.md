@@ -574,7 +574,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
-- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
+- ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```furred``` - This piece of clothing has a fur lining sewn into it to increase its overall warmth.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```kevlar_padded``` - This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
@@ -714,10 +714,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
+- ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
 
 ## Guns
 
 - ```MODE_BURST``` Has a burst-fire mode.
+- ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
@@ -738,6 +740,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
+- ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 
 ## Tools
 
@@ -975,3 +978,20 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
 - `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
+
+## MAP SPECIALS
+
+- ```mx_null``` ... No special at all.
+- ```mx_helicopter``` ... Metal wreckage and some items.
+- ```mx_military``` ... Corpses and some military items.
+- ```mx_science``` ... Corpses and some scientist items.
+- ```mx_collegekids``` ... Corpses and items.
+- ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
+- ```mx_drugdeal``` ... Corpses and some drugs.
+- ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_portal``` ... Portal to neither space.
+- ```mx_minefield``` ... Landmines, a field of them.
+- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_fumarole``` ... A lava rift.
+- ```mx_portal_in``` ... Another portal to neither space.
+- ```mx_anomaly``` ...  Natural anomaly (crater + artifact).

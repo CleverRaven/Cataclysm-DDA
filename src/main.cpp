@@ -10,10 +10,10 @@
 #include "color.h"
 #include "options.h"
 #include "debug.h"
-#include "monstergenerator.h"
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "output.h"
 
 #include <cstring>
 #include <ctime>

@@ -280,6 +280,14 @@ struct islot_gun : common_firing_data {
      * that the location can have. The value should be > 0.
      */
     std::map<std::string, int> valid_mod_locations;
+    /**
+    *Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set.
+    */
+    std::vector<std::string> built_in_mods;
+    /**
+    *Default mods, string is id of mod. These mods are removable but are default on the weapon.
+    */
+    std::vector<std::string> default_mods;
 };
 
 struct islot_gunmod : common_firing_data {
@@ -332,6 +340,10 @@ struct islot_gunmod : common_firing_data {
      * TODO: document me
      */
     bool used_on_launcher = false;
+    /**
+    *Allowing a mod to add UPS charge requirement to a gun.
+    */
+    int ups_charges = 0;
 };
 
 struct islot_ammo : common_ranged_data {

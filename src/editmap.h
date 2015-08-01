@@ -13,6 +13,7 @@
 #include <stdarg.h>
 
 struct real_coords;
+enum field_id : int;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -62,7 +63,7 @@ class editmap
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
-        void update_fmenu_entry( uimenu *fmenu, field *field, int idx );
+        void update_fmenu_entry( uimenu *fmenu, field *field, field_id idx );
         void setup_fmenu( uimenu *fmenu );
         bool change_fld( std::vector<tripoint> coords, field_id fid, int density );
         WINDOW *w_info;
@@ -102,7 +103,7 @@ class editmap
 
         std::string padding;
 
-        std::string fids[num_fields];
+        std::map<field_id, std::string> fids;
 
         std::vector<tripoint> target_list;
         std::map<std::string, editmap_hilight> hilights;

@@ -13,6 +13,8 @@
 #include "monster.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mtype.h"
+#include "field.h"
 #include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
@@ -121,8 +123,7 @@ void npc::move()
         };
         targets.erase( std::remove_if( targets.begin(), targets.end(), filter ), targets.end() );
         if( !targets.empty() ) {
-            const auto tpos = targets[rng( 0, targets.size() - 1 )];
-            move_to( tpos );
+            move_to( random_entry( targets ) );
             return;
         }
     }
@@ -1451,12 +1452,14 @@ void npc::find_item()
         range = 12;
     }
 
+    static const std::string no_pickup( "NO_NPC_PICKUP" );
+
     const item *wanted = nullptr;
-    // TODO: Use internal map class functions to quickly skip
-    // tiles with no items
     for( const tripoint &p : g->m.points_in_radius( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
-        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
+        // TODO: Optimize that zone check
+        if( g->m.sees_some_items( p, *this ) && sees( p ) &&
+            ( !is_following() || !g->check_zone( no_pickup, p ) ) ) {
             for( auto &elem : g->m.i_at( p ) ) {
                 if( elem.made_of( LIQUID ) ) {
                     // Don't even consider liquids.
@@ -1502,16 +1505,19 @@ void npc::pick_up_item()
 
     auto items = g->m.i_at( wanted_item_pos );
 
+    if( ( items.size() == 0 && sees( wanted_item_pos ) ) ||
+        ( is_following() && g->check_zone( "NO_NPC_PICKUP", wanted_item_pos ) ) ) {
+        // Items we wanted no longer exist and we can see it
+        // Or player who is leading us doesn't want us to pick it up
+        fetching_item = false;
+        // Just to prevent debugmsgs
+        moves -= 1;
+        return;
+    }
+
     if( path.size() > 1 ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
-        if( items.size() == 0 && sees( wanted_item_pos ) ) {
-            // Items we wanted no longer exist and we can see it
-            fetching_item = false;
-            // Just to prevent debugmsgs
-            moves -= 1;
-            return;
-        }
 
         move_to_next();
         return;
@@ -2282,8 +2288,7 @@ void npc::look_for_player(player &sought)
         if (one_in(6)) {
             say("<wait>");
         }
-        int index = rng(0, possibilities.size() - 1);
-        update_path( tripoint( possibilities[index], posz() ) );
+        update_path( tripoint( random_entry( possibilities ), posz() ) );
         move_to_next();
     }
     */
@@ -2389,7 +2394,7 @@ void npc::set_destination()
         options.push_back("s_library");
     }
 
-    std::string dest_type = options[rng(0, options.size() - 1)];
+    const std::string dest_type = random_entry( options );
 
     goal = overmap_buffer.find_closest(global_omt_location(), dest_type, 0, false);
 }

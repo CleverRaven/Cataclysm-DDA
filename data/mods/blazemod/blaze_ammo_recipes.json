@@ -39,8 +39,8 @@
   "components": [
     [
       [ "scrap", 9 ],
-	  [ "steel_chunk", 3],
-	  [ "steel_lump", 1]
+      [ "steel_chunk", 3],
+      [ "steel_lump", 1]
     ]
   ]
 },
@@ -55,9 +55,7 @@
   "time": 15000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-	],
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "tools" : [
     [
       [ "soldering_iron", 10 ],
@@ -72,10 +70,10 @@
       [ "2x4", 5 ],
       [ "log", 1 ]
     ],
-	  [
+    [
         [ "scrap", 10 ],
         [ "rebar", 2 ]
-      ]
+    ]
   ]
   },
   {
@@ -94,7 +92,7 @@
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ],
-	  [ "duct_tape", 5 ]
+      [ "duct_tape", 5 ]
     ]
   ],
   "components": [
@@ -105,19 +103,19 @@
       [ "clay_canister", 1 ]
     ], [
         [ "gunpowder", 72 ],
-		[ "gasoline", 200 ],
-		[ "diesel", 200 ],
-		[ "chem_rdx", 1 ],
-		[ "chem_hmtd", 2],
-		[ "chem_anfo", 5]
-	],[
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ],
+        [ "chem_rdx", 1 ],
+        [ "chem_hmtd", 2],
+        [ "chem_anfo", 5]
+    ],[
         [ "lead", 120 ],
         [ "nail", 30 ],
         [ "bb", 100 ],
-		[ "shards", 50 ],
-		[ "material_sand", 200]
+        [ "shards", 50 ],
+        [ "material_sand", 200]
       ],
-	  [
+      [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
@@ -127,7 +125,7 @@
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "canbomb",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -142,7 +140,7 @@
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ],
-	  [ "duct_tape", 5 ]
+      [ "duct_tape", 5 ]
     ]
   ],
   "components": [
@@ -152,26 +150,26 @@
       [ "canister_empty", 1 ],
       [ "clay_canister", 1 ]
     ],
-	[
+    [
         [ "gunpowder", 216 ],
-		[ "gasoline", 600 ],
-		[ "diesel", 600 ],
-		[ "chem_rdx", 1 ],
-		[ "chem_hmtd", 2],
-		[ "chem_anfo", 5],
-		[ "matchbomb", 3 ]
-	],
-	[
+        [ "gasoline", 600 ],
+        [ "diesel", 600 ],
+        [ "chem_rdx", 1 ],
+        [ "chem_hmtd", 2],
+        [ "chem_anfo", 5],
+        [ "matchbomb", 3 ]
+    ],
+    [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
     ]
-				]
+  ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "canbomb2",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -180,13 +178,12 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ], "tools" : [
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "tools" : [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 10 ],
-	  [ "duct_tape", 5 ]
+      [ "duct_tape", 5 ]
     ]
   ],
   "components": [
@@ -196,25 +193,24 @@
       [ "canister_empty", 5 ],
       [ "clay_canister", 5 ]
     ],
-	[
+    [
         [ "dynamite", 1 ],
-		[ "c4", 1 ],
-		[ "fertilizer_bomb", 1 ],
-		[ "chem_rdx", 5 ],
-		[ "chem_hmtd", 10],
-		[ "chem_anfo", 50]
-		
-	],
-	[
+        [ "c4", 1 ],
+        [ "fertilizer_bomb", 1 ],
+        [ "chem_rdx", 5 ],
+        [ "chem_hmtd", 10],
+        [ "chem_anfo", 50]
+    ],
+    [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
     ]
-				]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "canbombfire",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -230,7 +226,7 @@
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ],
-	  [ "duct_tape", 2 ]
+      [ "duct_tape", 2 ]
     ]
   ],
   "components": [
@@ -252,18 +248,18 @@
       [ "brandy", 7 ],
       [ "lamp_oil", 150 ],
       [ "gasoline", 200 ],
-	  [ "diesel", 200],
-	  [ "napalm", 100]
+      [ "diesel", 200],
+      [ "napalm", 100]
     ],
-	[
+    [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
         ["lgrifle_primer", 1],
         ["shotgun_primer", 1]
-	]
-				]
-	},
+    ]
+  ]
+},
 {
         "type" : "recipe",
   "result": "canbombfire2",
@@ -282,9 +278,9 @@
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ],
-	  [ "duct_tape", 2 ]
+      [ "duct_tape", 2 ]
     ],
-	[
+    [
       [ "hotplate", 3 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
@@ -309,10 +305,10 @@
       [ "brandy", 21 ],
       [ "lamp_oil", 600 ],
       [ "gasoline", 1000 ],
-	  [ "diesel", 1000],
-	  [ "napalm", 400]
+      [ "diesel", 1000],
+      [ "napalm", 400]
     ],
-	  [
+      [
         ["smpistol_primer", 1 ],
         ["lgpistol_primer", 1],
         ["smrifle_primer", 1],
@@ -332,24 +328,17 @@
   "decomp_learn": 1,
   "autolearn": true,
   "tools": [
-    [
-      ["crucible", -1]
-    ],
+    [ ["crucible", -1] ],
     [
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
       [ "fire", -1 ]
     ],
     [ ["mold_plastic", -1] ]
-	],
-  "components": [
-    [
-      [ "lead", 100 ]
-    ]
-  ]
-},
- {
-        "type" : "recipe",
+  ],
+  "components": [ [ [ "lead", 100 ] ] ]
+},{
+  "type" : "recipe",
   "result": "hbolt_fire",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_OTHER",
@@ -364,17 +353,17 @@
   "components": [
     [
       [ "hbolt_wood", 1 ],
-	  [ "hbolt_metal", 1]
+      [ "hbolt_metal", 1]
     ],
     [
       [ "canbombfire", 1 ],
-	  [ "molotov", 1]
+      [ "molotov", 1]
     ],
     [
       [ "string_36", 1 ],
       [ "superglue", 1 ],
-	  [ "duct_tape", 25 ],
-	  [ "bone_glue", 1 ]
+      [ "duct_tape", 25 ],
+      [ "bone_glue", 1 ]
     ]
   ]
 }, 
@@ -394,7 +383,7 @@
   "components": [
     [
       [ "hbolt_wood", 1 ],
-	  [ "hbolt_metal", 1]
+      [ "hbolt_metal", 1]
     ],
     [
       [ "canbomb", 1 ]
@@ -402,8 +391,8 @@
     [
       [ "string_36", 1 ],
       [ "superglue", 1 ],
-	  [ "duct_tape", 25 ],
-	  [ "bone_glue", 1 ]
+      [ "duct_tape", 25 ],
+      [ "bone_glue", 1 ]
     ]
   ]
 }, 
@@ -423,17 +412,17 @@
   "components": [
     [
       [ "hbolt_wood", 1 ],
-	  [ "hbolt_metal", 1]
+      [ "hbolt_metal", 1]
     ],
     [
       [ "canbomb2", 1 ]
-	  
+      
     ],
     [
       [ "string_36", 1 ],
       [ "superglue", 1 ],
-	  [ "duct_tape", 25 ],
-	  [ "bone_glue", 1 ]
+      [ "duct_tape", 25 ],
+      [ "bone_glue", 1 ]
     ]
   ]
 }
@@ -453,18 +442,18 @@
   "components": [
     [
       [ "hbolt_wood", 1 ],
-	  [ "hbolt_metal", 1]
+      [ "hbolt_metal", 1]
     ],
     [
       [ "canbombfire2", 1 ],
-	  [ "40mm_incendiary", 1],
-	  [ "grenade_inc", 1]
+      [ "40mm_incendiary", 1],
+      [ "grenade_inc", 1]
     ],
     [
       [ "string_36", 1 ],
       [ "superglue", 1 ],
-	  [ "duct_tape", 25 ],
-	  [ "bone_glue", 1 ]
+      [ "duct_tape", 25 ],
+      [ "bone_glue", 1 ]
     ]
   ]
 }, {
@@ -483,20 +472,20 @@
   "components": [
     [
       [ "hbolt_wood", 1 ],
-	  [ "hbolt_metal", 1]
+      [ "hbolt_metal", 1]
     ],
     [
       [ "canbombfrag", 1 ],
-	  [ "grenade", 1],
-	  [ "landmine", 1],
-	  [ "40mm_frag", 1],
-	  [ "pipebomb", 1]
+      [ "grenade", 1],
+      [ "landmine", 1],
+      [ "40mm_frag", 1],
+      [ "pipebomb", 1]
     ],
     [
       [ "string_36", 1 ],
       [ "superglue", 1 ],
-	  [ "duct_tape", 25 ],
-	  [ "bone_glue", 1 ]
+      [ "duct_tape", 25 ],
+      [ "bone_glue", 1 ]
     ]
   ]
 }, {
@@ -515,7 +504,7 @@
   "components": [
     [
       [ "hbolt_wood", 1 ],
-	  [ "hbolt_metal", 1]
+      [ "hbolt_metal", 1]
     ],
     [
       [ "mininuke", 1 ]
@@ -523,8 +512,8 @@
     [
       [ "string_36", 1 ],
       [ "superglue", 1 ],
-	  [ "duct_tape", 25 ],
-	  [ "bone_glue", 1 ]
+      [ "duct_tape", 25 ],
+      [ "bone_glue", 1 ]
     ]
   ]
 },{
@@ -544,18 +533,18 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+      ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       [ "scrap", 9 ],
-	  [ "steel_chunk", 3 ],
-	  [ "steel_lump", 1 ]
+      [ "steel_chunk", 3 ],
+      [ "steel_lump", 1 ]
     ],
     [
       ["blade", 7]
@@ -578,20 +567,19 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+    [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  [ "oxy_torch", 2]
+      [ "oxy_torch", 2]
     ]
   ],
   "components": [
     [
       [ "scrap", 9],
-	  [ "steel_chunk", 3],
-	  [ "steel_lump", 1]
+      [ "steel_chunk", 3],
+      [ "steel_lump", 1]
     ]
-    ]
+  ]
 }
-
 ]

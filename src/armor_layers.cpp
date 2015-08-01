@@ -67,9 +67,8 @@ std::vector<std::string> clothing_properties(item const &worn_item, int const wi
     props.push_back(string_format("[%s]", _("Properties")));
     props.push_back(name_and_value(space + _("Coverage:"),
                                    string_format("%3d", worn_item.get_coverage()), width));
-    props.push_back(name_and_value(space + _("Encumbrance:"), string_format("%3d",
-                                   (worn_item.has_flag("FIT")) ? std::max(0, (worn_item.get_encumber() - 10)) :
-                                   worn_item.get_encumber()), width));
+    props.push_back(name_and_value(space + _("Encumbrance:"),
+                                   string_format("%3d", worn_item.get_encumber()), width));
     props.push_back(name_and_value(space + _("Warmth:"),
                                    string_format("%3d", worn_item.get_warmth()), width));
     props.push_back(name_and_value(space + _("Storage:"),
@@ -113,7 +112,7 @@ std::vector<std::string> clothing_flags_description(item const &worn_item)
     if (worn_item.has_flag("SUPER_FANCY")) {
         description_stack.push_back(_("It looks really fancy."));
     }
-    if (worn_item.has_flag("FLOATATION")) {
+    if (worn_item.has_flag("FLOTATION")) {
         description_stack.push_back(_("You will not drown today."));
     }
     if (worn_item.has_flag("OVERSIZE")) {
@@ -340,9 +339,7 @@ void player::sort_armor()
                         mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
                                    elem.type_name( 1 ).c_str() );
                         mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
-                                   ( elem.has_flag( "FIT" ) ) ?
-                                       std::max( 0, (elem.get_encumber() - 10) ) :
-                                       elem.get_encumber() );
+                                   elem.get_encumber() );
                         pos++;
                     }
                     rightListSize++;
@@ -380,9 +377,8 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const auto tmp_item = *tmp_worn[selected];
-                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
-                    worn.erase( it_selected );
+                    const item tmp_item = *tmp_worn[selected];
+                    i_rem( tmp_worn[selected] );
                     worn.insert( worn.end(), tmp_item );
                 }
 
@@ -402,9 +398,8 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const auto tmp_item = *tmp_worn[selected];
-                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
-                    worn.erase( it_selected );
+                    const item tmp_item = *tmp_worn[selected];
+                    i_rem( tmp_worn[selected] );
                     worn.insert( worn.begin(), tmp_item );
                 }
 
@@ -472,19 +467,19 @@ void player::sort_armor()
             // prompt first before doing this (yes yes, more popups...)
             if(query_yn(_("Reassign invlets for armor?"))) {
                 // Start with last armor (the most unimportant one?)
-                int worn_index = worn.size() - 1;
-                int invlet_index = inv_chars.size() - 1;
-                while (invlet_index >= 0 && worn_index >= 0) {
-                    const char invlet = inv_chars[invlet_index];
-                    item &w = worn[worn_index];
+                auto iiter = inv_chars.rbegin();
+                auto witer = worn.rbegin();
+                while( witer != worn.rend() && iiter != inv_chars.rend() ) {
+                    const char invlet = *iiter;
+                    item &w = *witer;
                     if (invlet == w.invlet) {
-                        worn_index--;
+                        ++witer;
                     } else if (invlet_to_position(invlet) != INT_MIN) {
-                        invlet_index--;
+                        ++iiter;
                     } else {
                         w.invlet = invlet;
-                        worn_index--;
-                        invlet_index--;
+                        ++witer;
+                        ++iiter;
                     }
                 }
             }

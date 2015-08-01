@@ -245,7 +245,7 @@
         "desc": [
             "Your hearing is impaired.",
             "You can barely hear anything and your ears hurt.",
-            "You can't hear anything and your head aches from all the noise. You can't converse with NPCs."
+            "You can't hear anything and your head aches from all the noise.  You can't converse with NPCs."
         ],
         "apply_message": "Your ears ring!",
         "remove_message": "You can hear again!",
@@ -547,14 +547,16 @@
         "apply_memorial_log": "Received a deep bite wound.",
         "remove_memorial_log": "Recovered from a bite wound.",
         "apply_message": "The bite wound feels really deep...",
+        "resist_trait": "INFRESIST",
         "main_parts_only": true,
         "rating": "bad",
-        "int_dur_factor": 1200,
+        "int_dur_factor": 1800,
         "scaling_mods": {
-            "dex_mod": [-1],
-            "pain_chance": [100],
+            "dex_mod": [-1, 0],
+            "pain_chance_bot": [200],
+            "pain_chance": [2, 1],
             "pain_min": [1],
-            "pain_max_val": [10]
+            "pain_max_val": [10, 5]
         }
     },
     {
@@ -569,23 +571,25 @@
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
         "apply_message": "Your bite wound feels infected",
+        "resist_trait": "INFRESIST",
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 4800,
         "base_mods": {
-            "pain_chance": [100],
+            "pain_chance": [2, 1],
+            "pain_chance_bot": [200],
             "pain_min": [1],
-            "pain_max_val": [30],
+            "pain_max_val": [30, 20],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [1000],
-            "sleep_min": [60],
+            "vomit_chance": [1000, 1200],
+            "sleep_min": [60, 30],
             "sleep_chance": [-102]
         },
         "scaling_mods": {
-            "pain_max_val": [30],
-            "str_mod": [-1],
-            "dex_mod": [-1],
+            "pain_max_val": [30, 20],
+            "str_mod": [-1, -0.5],
+            "dex_mod": [-1, -0.5],
             "vomit_chance": [-400],
             "sleep_chance": [101]
         }
@@ -756,7 +760,16 @@
             "speed_mod": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [-7]
+            "speed_mod": [-7],
+            "int_mod": [-0.5],
+            "dex_mod": [-0.5],
+            "hurt_min": [1],
+            "hurt_chance": [200],
+            "pkill_tick": [10],
+            "pkill_min": [1],
+            "pkill_max_val": [30],
+            "stamina_chance": [2],
+            "stamina_min": [-2]
         }
     },
     {
@@ -937,7 +950,7 @@
         "type": "effect_type",
         "id": "cureall",
         "//": "This is the royal jelly effect, it should cure pretty much everything.",
-        "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworm", "tapeworm",
+        "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworms", "tapeworm",
                             "blind", "poison", "stung", "badpoison", "foodpoison", "paralyzepoison",
                             "tetanus", "infected", "asthma", "common_cold", "flu"],
         "base_mods": {
@@ -1305,7 +1318,7 @@
     },
     {
         "type": "effect_type",
-        "id": "brainworm",
+        "id": "brainworms",
         "rating": "bad",
         "base_mods": {
             "pain_chance": [512],

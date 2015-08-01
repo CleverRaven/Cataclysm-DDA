@@ -513,7 +513,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   COUNT(3);
   FOLLOWUP(MISSION_RANCH_NURSE_11);
 
- MISSION(_("Make 10 Knife Spears"), MGOAL_FIND_ITEM, 5, 50000, false,
+ MISSION(_("Make 12 Knife Spears"), MGOAL_FIND_ITEM, 5, 50000, false,
          &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
@@ -626,10 +626,7 @@ mission_type_id mission_type::get_random_id( const mission_origin origin, const 
             valid.push_back( t.id );
         }
     }
-    if( valid.empty() ) {
-        return MISSION_NULL;
-    }
-    return valid[rng( 0, valid.size() - 1 )];
+    return random_entry( valid, MISSION_NULL );
 }
 
 void mission_type::reset() {

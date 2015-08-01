@@ -6,6 +6,9 @@
 #include "rng.h"
 #include "debug.h"
 #include "map_iterator.h"
+#include "field.h"
+#include "mtype.h"
+
 #include <map>
 
 damage_instance::damage_instance() { }
@@ -153,11 +156,19 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {
-        g->explosion( p, 18, 0, true );
+        g->explosion( p, 4, 0, true );
+        // More intense fire near the center
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 1, 0 );
+        }
     }
 
     if( effects.count( "NAPALM_BIG" ) > 0 ) {
-        g->explosion( p, 72, 0, true );
+        g->explosion( p, 48, 0, true );
+        // More intense fire near the center
+        for( auto &&pt : g->m.points_in_radius( p, 3, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 1, 0 );
+        }
     }
 
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
@@ -190,7 +201,11 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
             g->m.add_field( pt, fd_tear_gas, 3, 0 );
         }
     }
-
+    if( effects.count( "GAS_FUNGICIDAL" ) > 0 ) {
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_fungicidal_gas, 3, 0 );
+        }
+    }
     if( effects.count( "SMOKE" ) > 0 ) {
         for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
             g->m.add_field( pt, fd_smoke, 3, 0 );
@@ -207,7 +222,9 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "NO_BOOM" ) == 0 && effects.count( "FLAME" ) > 0 ) {
-        g->explosion( p, 4, 0, true );
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 1, 0 );
+        }
     }
 
     if( effects.count( "FLARE" ) > 0 ) {

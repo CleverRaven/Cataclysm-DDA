@@ -12,7 +12,6 @@
 #include "line.h"
 #include "item_group.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
@@ -21,11 +20,12 @@
 #include "morale.h"
 #include "overmap.h"
 #include "vehicle.h"
+#include "mtype.h"
 
 #include <algorithm>
 #include <string>
 
-std::vector<item> starting_clothes(npc_class type, bool male);
+std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
@@ -94,7 +94,7 @@ void npc::load_npc(JsonObject &jsobj)
     } else {
         guy.miss_id = 0;
     }
-    _all_npc[guy.idz] = guy;
+    _all_npc[guy.idz] = std::move( guy );
 }
 
 npc* npc::find_npc(std::string ident)
@@ -151,24 +151,14 @@ void npc::load_info(std::string data)
     std::stringstream dump;
     dump << data;
 
-    char check = dump.peek();
-    if ( check == ' ' ) {
-        // sigh..
-        check = data[1];
+    JsonIn jsin(dump);
+    try {
+        deserialize(jsin);
+    } catch (std::string jsonerr) {
+        debugmsg("Bad npc json\n%s", jsonerr.c_str() );
     }
-    if ( check == '{' ) {
-        JsonIn jsin(dump);
-        try {
-            deserialize(jsin);
-        } catch (std::string jsonerr) {
-            debugmsg("Bad npc json\n%s", jsonerr.c_str() );
-        }
-        if (fac_id != ""){
-            set_fac(fac_id);
-        }
-        return;
-    } else {
-        load_legacy(dump);
+    if( fac_id != "" ) {
+        set_fac(fac_id);
     }
 }
 
@@ -800,9 +790,9 @@ item get_clothing_item( npc_class type, const std::string &what, bool male )
     }
 }
 
-std::vector<item> starting_clothes( npc_class type, bool male )
+std::list<item> starting_clothes( npc_class type, bool male )
 {
-    std::vector<item> ret;
+    std::list<item> ret;
 
     item pants = get_clothing_item( type, "pants", male);
     item shirt = get_clothing_item( type, "shirt", male );
@@ -848,7 +838,7 @@ std::vector<item> starting_clothes( npc_class type, bool male )
 
 std::list<item> starting_inv(npc *me, npc_class type)
 {
- int total_space = me->volume_capacity() - 2;
+ int total_space = me->volume_capacity();
  std::list<item> ret;
  ret.push_back( item("lighter", 0, false) );
  itype_id tmp;
@@ -930,10 +920,9 @@ void npc::spawn_at_random_city(overmap *o)
         x = rng(0, OMAPX * 2 - 1);
         y = rng(0, OMAPY * 2 - 1);
     } else {
-        int city_index = rng(0, o->cities.size() - 1);
-        int s = o->cities[city_index].s;
-        x = o->cities[city_index].x + rng(-s, +s);
-        y = o->cities[city_index].y + rng(-s, +s);
+        const city& c = random_entry( o->cities );
+        x = c.x + rng(-c.s, +c.s);
+        y = c.y + rng(-c.s, +c.s);
     }
     x += o->pos().x * OMAPX * 2;
     y += o->pos().y * OMAPY * 2;
@@ -1068,20 +1057,19 @@ bool npc::wear_if_wanted(item it)
         return true;
     }
     // Otherwise, maybe we should take off one or more items and replace them
-    std::vector<int> removal;
-    for (size_t i = 0; i < worn.size(); i++) {
-        for (int j = 0; j < num_bp; j++) {
-            const auto bp = static_cast<body_part>( j );
-            if (it.covers(bp) && worn[i].covers(bp)) {
-                removal.push_back(i);
-                j = num_bp;
-            }
+    for( int j = 0; j < num_bp; j++ ) {
+        const body_part bp = static_cast<body_part>( j );
+        if( !it.covers( bp ) ) {
+            continue;
         }
-    }
-    for (auto &i : removal) {
-        if (true) {
-            inv.push_back(worn[i]);
-            worn.push_back(it);
+        // Find an item that covers the same body part as the new item
+        auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item& armor ) {
+            return armor.covers( bp );
+        } );
+        if( iter != worn.end() ) {
+            inv.push_back( *iter );
+            worn.erase( iter );
+            worn.push_back( it );
             return true;
         }
     }
@@ -1113,28 +1101,30 @@ bool npc::wield(item* it)
 
 void npc::perform_mission()
 {
- switch (mission) {
- case NPC_MISSION_RESCUE_U:
-  if (int(calendar::turn) % 24 == 0) {
-   if (mapx > g->get_levx())
-    mapx--;
-   else if (mapx < g->get_levx())
-    mapx++;
-   if (mapy > g->get_levy())
-    mapy--;
-   else if (mapy < g->get_levy())
-    mapy++;
-   attitude = NPCATT_DEFEND;
-  }
-  break;
- case NPC_MISSION_SHOPKEEP:
-  break; // Just stay where we are
- default: // Random Walk
-  if (int(calendar::turn) % 24 == 0) {
-   mapx += rng(-1, 1);
-   mapy += rng(-1, 1);
-  }
- }
+    switch (mission) {
+    case NPC_MISSION_RESCUE_U:
+        if (calendar::once_every(24)) {
+            if (mapx > g->get_levx()) {
+                mapx--;
+            } else if (mapx < g->get_levx()) {
+                mapx++;
+            }
+            if (mapy > g->get_levy()) {
+                mapy--;
+            } else if (mapy < g->get_levy()) {
+                mapy++;
+            }
+            attitude = NPCATT_DEFEND;
+        }
+        break;
+    case NPC_MISSION_SHOPKEEP:
+        break; // Just stay where we are
+    default: // Random Walk
+        if (calendar::once_every(24)) {
+            mapx += rng(-1, 1);
+            mapy += rng(-1, 1);
+        }
+    }
 }
 
 void npc::form_opinion(player *u)
@@ -1560,7 +1550,7 @@ void npc::init_buying(inventory& you, std::vector<item*> &items, std::vector<int
 
 void npc::shop_restock(){
     items_location from = "NULL";
-    int total_space = volume_capacity() - 2;
+    int total_space = volume_capacity();
     std::list<item> ret;
     //list all merchant types here along with the item group they pull from and how much extra space they should have
     //guards and other fixed npcs may need a small supply of food daily...
@@ -1804,11 +1794,11 @@ int npc::danger_assessment()
 
 int npc::average_damage_dealt()
 {
- int ret = base_damage();
- ret += weapon.damage_cut() + weapon.damage_bash() / 2;
- ret *= (base_to_hit() + weapon.type->m_to_hit);
- ret /= 15;
- return ret;
+    int ret = base_damage();
+    ret += ( weapon.damage_cut() + weapon.damage_bash() ) / 2;
+    ret *= ( get_hit_base() + weapon.type->m_to_hit );
+    ret /= 15;
+    return ret;
 }
 
 bool npc::bravery_check(int diff)
@@ -2441,7 +2431,7 @@ void epilogue::random_by_group(std::string group, std::string name)
     }
     if (v.size() == 0)
         return;
-    epilogue epi = v.at(rng(0,v.size()-1));
+    epilogue epi = random_entry( v );
     id = epi.id;
     group = epi.group;
     is_unique = epi.is_unique;

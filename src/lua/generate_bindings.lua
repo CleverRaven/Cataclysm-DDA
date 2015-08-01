@@ -13,30 +13,15 @@ local tab = "    "
 -- Generic helpers to generate C++ source code chunks for use in our lua binding.
 ---------------------------------------------------------------------------------
 
--- Convert a given type such as "int", "bool" etc to a lua type, such
--- as LUA_TNUMBER etc, needed for typechecking mostly.
-function member_type_to_lua_type(member_type)
-    if member_type == "int" or member_type == "float" then
-        return "LUA_TNUMBER"
-    elseif member_type == "string" or member_type == "cstring" then
-        return "LUA_TSTRING"
-    elseif member_type == "bool" then
-        return "LUA_TBOOLEAN"
-    else
-        for class_name, _ in pairs(classes) do
-            if class_name == member_type then
-                return "LUA_TUSERDATA"
-            end
-        end
-    end
-end
-
 -- Convert a given type such as "string" to the corresponding C++
--- type string, e.g. "std::string"
+-- type string, e.g. "std::string". For types wrapped in LuaReference/LuaValue/LuaEnum, it
+-- returns the wrapped type, e.g. "LuaValue<ter_t>"
 function member_type_to_cpp_type(member_type)
     if member_type == "bool" then return "bool"
     elseif member_type == "cstring" then return "const char*"
     elseif member_type == "string" then return "std::string"
+    elseif member_type == "int" then return "int"
+    elseif member_type == "float" then return "float"
     else
         for class_name, class in pairs(classes) do
             if class_name == member_type then
@@ -52,15 +37,32 @@ function member_type_to_cpp_type(member_type)
                 return "LuaEnum<" .. member_type .. ">"
             end
         end
+
+        error("'"..member_type.."' is not a build-in type and is not defined in class_definitions.lua")
     end
-    
-    return member_type
+end
+
+-- Loads an instance of class_name (which must be the first thing on the stack) into a local
+-- variable, named "<class_name>_instance". Only use for classes (not enums/primitives).
+function load_instance(class_name)
+    if not classes[class_name] then
+        error("'"..class_name.."' is not defined in class_definitions.lua")
+    end
+
+    local instance_name = class_name .. "_instance"
+    local wrapper_type = ""
+    if classes[class_name].by_value then
+        wrapper_type = "LuaValue<" .. class_name .. ">"
+    else
+        wrapper_type = "LuaValue<" .. class_name .. "*>"
+    end
+    return class_name .. "& " .. instance_name .. " = " .. wrapper_type .. "::get(L, 1);"
 end
 
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
-    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get_proxy(L, " .. stack_position .. ");"
+    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get(L, " .. stack_position .. ");"
 end
 
 -- Returns code to take a C++ variable of the given type and push a lua version
@@ -69,27 +71,12 @@ function push_lua_value(in_variable, value_type)
     return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::push(L, " .. in_variable .. ");"
 end
 
---[[
-        text = text .. indentation .. value_type .. "** userdata" .. parameter_index .. " = ("..value_type.."**) lua_newuserdata(L, sizeof("..value_type.."*));"
-        text = text .. indentation .. "*userdata" .. parameter_index .. " = "..in_variable..";"
-        text = text .. indentation .. value_type .. "parameter_in_registry_" .. parameter_index .. " = luah_store_in_registry(L, -1);"..br
-        text = text .. indentation .. 'luah_setmetatable(L, "'..value_type..'_metatable");'..br
-function cleanup_lua_parameter(value_type, parameter_index, indentation)
-    local text = ""
-    if member_type_to_lua_type(value_type) == "LUA_TUSERDATA" then
-        text = text .. indentation .. "luah_remove_from_registry(L, parameter_in_registry_" .. parameter_index .. ");"..br
-        text = text .. indentation .. 'luah_setmetatable(L, "outdated_metatable");'..br
-    end
-    return text
-end
-]]
-
 -- Generates a getter function for a specific class and member variable.
 function generate_getter(class_name, member_name, member_type, cpp_name)
     local function_name = class_name.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
+    text = text .. tab .. load_instance(class_name)..br
 
     text = text .. tab .. push_lua_value(class_name.."_instance."..cpp_name, member_type)..br
 
@@ -105,10 +92,10 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
-    text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
+    text = text .. tab .. load_instance(class_name)..br
 
     text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
-    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2) ..br
+    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2)..br
 
     text = text .. tab .. class_name.."_instance."..cpp_name.." = value;"..br
 
@@ -118,7 +105,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     return text
 end
 
--- Generates a function wrapper fora  global function. "function_to_call" can be any string
+-- Generates a function wrapper for a global function. "function_to_call" can be any string
 -- that works as a "function", including expressions like "g->add_msg"
 function generate_global_function_wrapper(function_name, function_to_call, args, rval)
     local text = "static int "..function_name.."(lua_State *L) {"..br
@@ -286,7 +273,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
     local text = "static int "..class_name.."_"..function_name.."(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. "auto & "..class_name.."_instance = "..member_type_to_cpp_type(class_name).."::get(L, 1);"..br
+    text = text .. tab .. load_instance(class_name)..br
 
     local cbc = function(indentation, stack_index, rval, function_to_call)
     local tab = string.rep("    ", indentation)
@@ -379,7 +366,7 @@ function generate_operator(class_name, function_name, cppname)
         -- Both objects are pointers, they need to point to the same object to be equal.
         text = text .. "&lhs " .. cppname .. " &rhs";
     end
-    text = text .. ";"
+    text = text .. ";"..br
 
     text = text .. tab .. push_lua_value("rval", "bool")..br
     text = text .. tab .. "return 1; // 1 return values"..br

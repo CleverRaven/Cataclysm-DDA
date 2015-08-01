@@ -1,4 +1,5 @@
 #include "gamemode.h"
+#include "action.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -182,7 +183,7 @@ void defense_game::init_itypes()
 
 void defense_game::init_mtypes()
 {
-    std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
+    std::map<mtype_id, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
 
     for( auto &montemplate : montemplates ) {
         montemplate.second->difficulty *= 1.5;
@@ -297,7 +298,7 @@ void defense_game::init_map()
     g->update_map(x, y);
     g->u.setx(x);
     g->u.sety(y);
-    monster generator( GetMType("mon_generator"), 
+    monster generator( mtype_id( "mon_generator" ),
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
     std::vector<tripoint> valid;
@@ -310,8 +311,7 @@ void defense_game::init_map()
         }
     }
     if (!valid.empty()) {
-        tripoint p = valid[rng(0, valid.size() - 1)];
-        generator.spawn( p );
+        generator.spawn( random_entry( valid ) );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1323,13 +1323,12 @@ void defense_game::spawn_wave()
     int diff = initial_difficulty + current_wave * wave_difficulty;
     bool themed_wave = one_in(SPECIAL_WAVE_CHANCE); // All a single monster type
     g->u.cash += cash_per_wave + (current_wave - 1) * cash_increase;
-    std::vector<std::string> valid;
-    valid = pick_monster_wave();
+    std::vector<mtype_id> valid = pick_monster_wave();
     while (diff > 0) {
         // Clear out any monsters that exceed our remaining difficulty
-        for (std::vector<std::string>::iterator it = valid.begin();
-             it != valid.end();) {
-            if (GetMType(*it)->difficulty > diff) {
+        for( auto it = valid.begin(); it != valid.end(); ) {
+            const mtype &mt = it->obj();
+            if( mt.difficulty > diff) {
                 it = valid.erase(it);
             } else {
                 it++;
@@ -1340,33 +1339,32 @@ void defense_game::spawn_wave()
             add_msg(m_info, "********");
             return;
         }
-        int rn = rng(0, valid.size() - 1);
-        mtype *type = GetMType(valid[rn]);
+        const mtype &type = random_entry( valid ).obj();
         if (themed_wave) {
-            int num = diff / type->difficulty;
+            int num = diff / type.difficulty;
             if (num >= SPECIAL_WAVE_MIN) {
                 // TODO: Do we want a special message here?
                 for (int i = 0; i < num; i++) {
-                    spawn_wave_monster(type);
+                    spawn_wave_monster( type.id );
                 }
-                add_msg(m_info,  special_wave_message(type->nname(100)).c_str() );
+                add_msg(m_info,  special_wave_message(type.nname(100)).c_str() );
                 add_msg(m_info, "********");
                 return;
             } else {
                 themed_wave = false;    // No partially-themed waves
             }
         }
-        diff -= type->difficulty;
-        spawn_wave_monster(type);
+        diff -= type.difficulty;
+        spawn_wave_monster( type.id );
     }
     add_msg(m_info, _("Welcome to Wave %d!"), current_wave);
     add_msg(m_info, "********");
 }
 
-std::vector<std::string> defense_game::pick_monster_wave()
+std::vector<mtype_id> defense_game::pick_monster_wave()
 {
     std::vector<mongroup_id> valid;
-    std::vector<std::string> ret;
+    std::vector<mtype_id> ret;
 
     if (zombies || specials) {
         if (specials) {
@@ -1391,13 +1389,13 @@ std::vector<std::string> defense_game::pick_monster_wave()
     if (valid.empty()) {
         debugmsg("Couldn't find a valid monster group for defense!");
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup(valid[rng(0, valid.size() - 1)]);
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
     }
 
     return ret;
 }
 
-void defense_game::spawn_wave_monster(mtype *type)
+void defense_game::spawn_wave_monster( const mtype_id &type )
 {
     point pnt;
     int tries = 0;

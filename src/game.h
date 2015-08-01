@@ -1,15 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "enums.h"
 #include "game_constants.h"
-#include "player.h"
-#include "faction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "weather.h"
-#include "weather_gen.h"
-#include "live_view.h"
 #include "int_id.h"
+#include "item_location.h"
+#include "cursesdef.h"
+
 #include <vector>
 #include <map>
 #include <list>
@@ -19,9 +18,9 @@ extern const int savegame_version;
 extern int save_loading_version;
 
 // The reference to the one and only game instance.
+class game;
 extern game *g;
 
-#define PICKUP_RANGE 6
 extern bool trigdist;
 extern bool use_tiles;
 
@@ -64,19 +63,28 @@ enum target_mode {
     TARGET_MODE_REACH
 };
 
+enum activity_type : int;
+enum body_part : int;
+enum weather_type : int;
+
 struct special_game;
 struct mtype;
+using mtype_id = string_id<mtype>;
 class mission;
 class map;
+class Creature;
+class Character;
 class player;
 class npc;
 class monster;
+class vehicle;
 class Creature_tracker;
 class calendar;
 class scenario;
 class DynamicDataLoader;
 class salvage_actor;
 class input_context;
+class map_item_stack;
 struct WORLD;
 typedef WORLD *WORLDPTR;
 class overmap;
@@ -85,6 +93,19 @@ enum event_type : int;
 struct vehicle_part;
 struct ter_t;
 using ter_id = int_id<ter_t>;
+class weather_generator;
+struct weather_printable;
+class faction;
+class live_view;
+typedef int nc_color;
+
+// Note: this is copied from inventory.h
+// Entire inventory.h would also bring item.h here
+typedef std::list< std::list<item> > invstack;
+typedef std::vector< std::list<item>* > invslice;
+typedef std::vector< const std::list<item>* > const_invslice;
+typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
+typedef std::function<bool(const item &)> item_filter;
 
 class game
 {
@@ -99,9 +120,9 @@ class game
         void load_static_data();
         /** Loads core data and all mods. */
         void check_all_mod_data();
-    protected:
         /** Loads core dynamic data. */
         void load_core_data();
+    protected:
         /** Loads dynamic data from the given directory. */
         void load_data_from_dir(const std::string &path);
         /** Loads core data and mods from the given world. */
@@ -109,6 +130,9 @@ class game
 
         // May be a bit hacky, but it's probably better than the header spaghetti
         std::unique_ptr<map> map_ptr;
+        std::unique_ptr<player> u_ptr;
+        std::unique_ptr<live_view> liveview_ptr;
+        live_view& liveview;
     public:
 
         /** Initializes the UI. */
@@ -149,6 +173,7 @@ class game
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+        player &u;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
         /**
@@ -185,13 +210,14 @@ class game
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         int  npc_by_id(const int id) const;
         /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p );
-        Creature const* critter_at( const tripoint &p ) const;
+        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
+        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
-        bool summon_mon(const std::string id, const tripoint &p);
+        bool summon_mon( const mtype_id& id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
+        bool add_zombie(monster &critter, bool pin_upgrade);
         /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
@@ -207,9 +233,9 @@ class game
         bool swap_critters( Creature &first, Creature &second );
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p ) const;
+        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
         /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p);
+        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if the value of test is between down and up. */
@@ -275,9 +301,9 @@ class game
         /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
         void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
-        int kill_count(std::string mon);
+        int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
-        void increase_kill_count(const std::string &mtype_id);
+        void increase_kill_count( const mtype_id& id );
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -295,7 +321,6 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent( const tripoint &p );
-        float ground_natural_light_level() const;
         float natural_light_level() const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -321,7 +346,7 @@ class game
         void peek( const tripoint &p );
         tripoint look_debug();
 
-        bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
+        bool check_zone( const std::string &type, const tripoint &where ) const;
         void zones_manager();
         void zones_manager_shortcuts(WINDOW *w_info);
         void zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight,
@@ -362,11 +387,12 @@ class game
         int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
         int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
 
-        // Combines filtered player inventory with filtered ground items to create a pseudo-inventory.
-        // Then asks the player to select an item and returns a pair: ( item index, item pointer )
-        // If the item is outside player inventory, index is INT_MIN, but pointer is not null
-        std::pair< int, item* > inv_map_splice( item_filter inv_filter, item_filter ground_filter, const std::string &title );
-        std::pair< int, item* > inv_map_splice( item_filter filter, const std::string &title );
+        // Combines filtered player inventory with filtered ground and vehicle items to create a pseudo-inventory.
+        item_location inv_map_splice( item_filter inv_filter,
+                                      item_filter ground_filter,
+                                      item_filter vehicle_filter,
+                                      const std::string &title );
+        item_location inv_map_splice( item_filter filter, const std::string &title );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -382,7 +408,7 @@ class game
         void zoom_in();
         void zoom_out();
 
-        weather_generator weatherGen; //A weather engine.
+        std::unique_ptr<weather_generator> weatherGen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
@@ -404,15 +430,12 @@ class game
          * The overmap which is at the top left corner of the reality bubble.
          */
         overmap &get_cur_om() const;
-        player u;
         scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
         std::vector<npc *> active_npc;
         std::vector<npc *> mission_npc;
         std::vector<faction> factions;
-        // NEW: Dragging a piece of furniture, with a list of items contained
-        std::vector<item> items_dragged;
         int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
@@ -426,7 +449,6 @@ class game
         WINDOW *w_status;
         WINDOW *w_status2;
         WINDOW *w_blackspace;
-        live_view liveview;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,
@@ -450,7 +472,7 @@ class game
         void open_gate( const tripoint &p, const ter_id handle_type );
 
         // Helper because explosion was getting too big.
-        void do_blast( const tripoint &p, const int power, const int radius, const bool fire );
+        void do_blast( const tripoint &p, const int power, const bool fire );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -468,6 +490,7 @@ class game
 
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
+        void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( Creature const &p, const tripoint &pos, int i,
                           std::vector<tripoint> const &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);
@@ -476,7 +499,7 @@ class game
         void draw_line( const tripoint &p, std::vector<tripoint> const &ret);
         void draw_weather(weather_printable const &wPrint);
         void draw_sct();
-        void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void draw_zones(const tripoint &start, const tripoint &end, const tripoint &offset);
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
@@ -534,8 +557,6 @@ class game
         // returns false if saving failed for whatever reason
         bool save_maps();
         void save_weather(std::ofstream &fout);
-        void load_legacy_future_weather(std::string data);
-        void load_legacy_future_weather(std::istream &fin);
         // returns false if saving failed for whatever reason
         bool save_uistate();
         void load_uistate(std::string worldname);
@@ -727,7 +748,7 @@ class game
         int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
         int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
-        std::map<std::string, int> kills;         // Player's kill count
+        std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable float latest_lightlevel;

@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "player.h"
 #include "options.h"
 #include "messages.h"
 #include "translations.h"
@@ -13,6 +14,8 @@
 #include "ui.h"
 #include "trap.h"
 #include "itype.h"
+#include "mapdata.h"
+
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -437,7 +440,7 @@ bool can_butcher_at( const tripoint &p )
         } else {
             const recipe *cur_recipe = get_disassemble_recipe( items_it.type->id );
             if( cur_recipe != NULL &&
-                g->u.can_disassemble( &items_it, cur_recipe, crafting_inv, false ) ) {
+                g->u.can_disassemble( items_it, cur_recipe, crafting_inv, false ) ) {
                 has_item = true;
             }
         }
@@ -450,7 +453,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     // TODO: unify this with game::move_vertical
     if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOATATION" );
+            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
         } else {
             return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
         }

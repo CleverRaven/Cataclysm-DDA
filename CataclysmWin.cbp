@@ -282,6 +282,8 @@
 		<Unit filename="src/item_factory.h" />
 		<Unit filename="src/item_group.cpp" />
 		<Unit filename="src/item_group.h" />
+        <Unit filename="src/item_location.cpp" />
+		<Unit filename="src/item_location.h" />
 		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.cpp" />
 		<Unit filename="src/itype.h" />
@@ -348,7 +350,7 @@
 		<Unit filename="src/monfaction.cpp" />
 		<Unit filename="src/monfaction.h" />
 		<Unit filename="src/mongroup.h" />
-		<Unit filename="src/mongroupdef.cpp" />
+		<Unit filename="src/mongroup.cpp" />
 		<Unit filename="src/monmove.cpp" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/monster.h" />
@@ -403,7 +405,6 @@
 		<Unit filename="src/rng.cpp" />
 		<Unit filename="src/rng.h" />
 		<Unit filename="src/savegame.cpp" />
-		<Unit filename="src/savegame.h" />
 		<Unit filename="src/savegame_json.cpp" />
 		<Unit filename="src/savegame_legacy.cpp" />
 		<Unit filename="src/scenario.cpp" />
@@ -419,6 +420,8 @@
 		<Unit filename="src/speech.h" />
 		<Unit filename="src/start_location.cpp" />
 		<Unit filename="src/start_location.h" />
+		<Unit filename="src/submap.cpp" />
+		<Unit filename="src/submap.h" />
 		<Unit filename="src/text_snippets.cpp" />
 		<Unit filename="src/text_snippets.h" />
 		<Unit filename="src/tile_id_data.h" />
@@ -427,7 +430,7 @@
 		<Unit filename="src/translations.cpp" />
 		<Unit filename="src/translations.h" />
 		<Unit filename="src/trap.h" />
-		<Unit filename="src/trapdef.cpp" />
+		<Unit filename="src/trap.cpp" />
 		<Unit filename="src/trapfunc.cpp" />
 		<Unit filename="src/tutorial.cpp" />
 		<Unit filename="src/tutorial.h" />
@@ -437,11 +440,11 @@
 		<Unit filename="src/veh_interact.cpp" />
 		<Unit filename="src/veh_interact.h" />
 		<Unit filename="src/veh_type.h" />
-		<Unit filename="src/veh_typedef.cpp" />
+		<Unit filename="src/veh_type.cpp" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
-		<Unit filename="src/vehicle_factory.cpp" />
-		<Unit filename="src/vehicle_factory.h" />
+		<Unit filename="src/vehicle_group.cpp" />
+		<Unit filename="src/vehicle_group.h" />
 		<Unit filename="src/version.cpp" />
 		<Unit filename="src/wcwidth.h" />
 		<Unit filename="src/wdirent.h" />

@@ -17,13 +17,15 @@
 #include "itype.h"
 #include "iuse_actor.h"
 #include "compatibility.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "crafting.h"
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "mtype.h"
+#include "field.h"
+#include "weather.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -32,6 +34,8 @@
 #include <set>
 #include <array>
 #include <tuple>
+
+const mtype_id mon_null( "mon_null" );
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -84,7 +88,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     init();
     type = find_type( new_type );
     bday = turn;
-    corpse = type->id == "corpse" ? GetMType( "mon_null" ) : nullptr;
+    corpse = type->id == "corpse" ? &mon_null.obj() : nullptr;
     name = type_name(1);
     const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
     if( has_random_charges ) {
@@ -94,6 +98,19 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
         charges = 0;
+        for( auto &gm : type->gun->built_in_mods ){
+            if(type_is_defined( gm) ){
+                item temp( gm, turn, rand, handed );
+                temp.item_tags.insert("IRREMOVABLE");
+                contents.push_back( temp );
+            }
+        }
+
+        for( auto &gm : type->gun->default_mods ){
+            if(type_is_defined( gm ) ){
+                contents.push_back( item( gm, turn, rand, handed ) );
+            }
+        } 
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -140,36 +157,31 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     }
 }
 
-void item::make_corpse( mtype *mt, unsigned int turn )
+void item::make_corpse( const mtype_id& mt, unsigned int turn )
 {
-    if( mt == nullptr ) {
-        debugmsg( "tried to make a corpse with a null mtype pointer" );
+    if( !mt.is_valid() ) {
+        debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
     const bool isReviveSpecial = one_in( 20 );
     init();
     make( "corpse" );
-    active = mt->has_flag( MF_REVIVES );
+    corpse = &mt.obj();
+    active = corpse->has_flag( MF_REVIVES );
     if( active && isReviveSpecial ) {
         item_tags.insert( "REVIVE_SPECIAL" );
     }
-    corpse = mt;
     bday = turn;
 }
 
-void item::make_corpse( const std::string &mtype_id, unsigned int turn )
+void item::make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name )
 {
-    make_corpse( MonsterGenerator::generator().get_mtype( mtype_id ), turn );
+    make_corpse( mt, turn );
+    this->name = name;
 }
 
 void item::make_corpse()
 {
-    make_corpse( "mon_null", calendar::turn );
-}
-
-void item::make_corpse( mtype *mt, unsigned int turn, const std::string &name )
-{
-    make_corpse( mt, turn );
-    this->name = name;
+    make_corpse( mon_null, calendar::turn );
 }
 
 item::item(JsonObject &jo)
@@ -758,6 +770,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
             }
         } else {
+            if (has_flag("BURST_ONLY")) {
+                dump->push_back(iteminfo("GUN", _("Fully-automatic (burst only).")));
+            }
             dump->push_back(iteminfo("GUN", _("Burst size: "), "", mod->burst_size()));
         }
 
@@ -942,7 +957,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
         if (has_flag("FIT")) {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
-                                     std::max(0, get_encumber() - 10), true, "", true, true));
+                                     get_encumber(), true, "", true, true));
         } else {
             dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "",
                                      get_encumber(), true, "", true, true));
@@ -1182,13 +1197,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            if( get_encumber() > 0 ) {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
-            } else {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly and layers easily.")));
-            }
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing fits you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
@@ -1300,7 +1310,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear has Kevlar inserted into strategic locations to increase protection with some increase to encumbrance.")));
         }
-        if (is_armor() && has_flag("FLOATATION")) {
+        if (is_armor() && has_flag("FLOTATION")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing prevents you from going underwater (including voluntary diving).")));
@@ -1493,6 +1503,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
+                    if( elem.has_flag("IRREMOVABLE") ){
+                        temp1 << _("[Integrated]");
+                    }
                     temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
                     dump->push_back(iteminfo("DESCRIPTION", temp1.str()));
                     dump->push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
@@ -1789,7 +1802,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                            quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == "mon_null")
+        if (corpse == NULL || corpse->id == mon_null)
             maintext = rm_prefix(ngettext("<item_name>human blood",
                                           "<item_name>human blood",
                                           quantity));
@@ -1805,7 +1818,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret.str("");
         ret << type_name(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
-            ret << "+";
+            if( !contents.at(i).has_flag("IRREMOVABLE") ){
+                ret << "+";
+            }
         }
         maintext = ret.str();
     } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
@@ -2191,12 +2206,9 @@ int item::damage_cut() const
 {
     int total = type->melee_cut;
     if (is_gun()) {
-        std::string tmp_tp;
+        static const std::string FLAG_BAYONET( "BAYONET" );
         for( auto &elem : contents ) {
-            tmp_tp = elem.typeId();
-            if ( tmp_tp == "bayonet" || tmp_tp == "pistol_bayonet" ||
-                 tmp_tp == "sword_bayonet" || tmp_tp == "diamond_bayonet" ||
-                 tmp_tp == "diamond_pistol_bayonet" || tmp_tp == "diamond_sword_bayonet" ) {
+            if( elem.has_flag( FLAG_BAYONET ) ) {
                 return elem.type->melee_cut;
             }
         }
@@ -2422,6 +2434,10 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
+    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
+    if( item::item_tags.count("FIT") ) {
+        encumber = std::max( encumber / 2, encumber - 10 );
+    }
     // Good items to test this stuff on:
     // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
     // Nomes socks (2 thickness, 0 encumbrance)
@@ -2443,6 +2459,20 @@ int item::get_encumber() const
     }
 
     return encumber;
+}
+
+int item::get_layer() const
+{
+    if( has_flag("SKINTIGHT") ) {
+        return UNDERWEAR;
+    } else if( has_flag("WAIST") ) {
+        return WAIST_LAYER;
+    } else if( has_flag("OUTER") ) {
+        return OUTER_LAYER;
+    } else if( has_flag("BELTED") ) {
+        return BELTED_LAYER;
+    }
+    return REGULAR_LAYER;
 }
 
 int item::get_coverage() const
@@ -2908,12 +2938,12 @@ bool item::is_corpse() const
     return typeId() == "corpse" && corpse != nullptr;
 }
 
-mtype *item::get_mtype() const
+const mtype *item::get_mtype() const
 {
     return corpse;
 }
 
-void item::set_mtype( mtype * const m )
+void item::set_mtype( const mtype * const m )
 {
     // This is potentially dangerous, e.g. for corpse items, which *must* have a valid mtype pointer.
     if( m == nullptr ) {
@@ -3109,8 +3139,7 @@ const material_type &item::get_random_material() const
     if( type->materials.empty() ) {
         return *material_type::find_material( "null" );
     }
-    const auto chosen_mat_id = type->materials[rng( 0, type->materials.size() - 1 )];
-    return *material_type::find_material( chosen_mat_id );
+    return *material_type::find_material( random_entry( type->materials ) );
 }
 
 const material_type &item::get_base_material() const
@@ -3204,7 +3233,9 @@ void item::set_auxiliary_mode()
 
 std::string item::get_gun_mode() const
 {
-    return get_var( GUN_MODE_VAR_NAME, "NULL" );
+    // has_flag() calls get_gun_mode(), so this:
+    const std::string default_mode = type->item_tags.count( "BURST_ONLY" ) ? "MODE_BURST" : "NULL";
+    return get_var( GUN_MODE_VAR_NAME, default_mode );
 }
 
 void item::set_gun_mode( const std::string &mode )
@@ -3222,7 +3253,7 @@ void item::set_gun_mode( const std::string &mode )
 
 void item::next_mode()
 {
-    const auto mode = get_gun_mode();
+    auto mode = get_gun_mode();
     if( mode == "NULL" && has_flag("MODE_BURST") ) {
         set_gun_mode("MODE_BURST");
     } else if( mode == "NULL" || mode == "MODE_BURST" ) {
@@ -3264,6 +3295,11 @@ void item::next_mode()
         }
     } else if( mode == "MODE_REACH" ) {
         set_gun_mode( "NULL" );
+    }
+    // ensure MODE_BURST for BURST_ONLY weapons
+    mode = get_gun_mode();
+    if( mode == "NULL" && has_flag( "BURST_ONLY" ) ) {
+        set_gun_mode( "MODE_BURST" );
     }
 }
 
@@ -5077,7 +5113,7 @@ std::string item::type_name( unsigned int quantity ) const
                                corpse->nname().c_str(), name.c_str() );
         }
     } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == "mon_null" ) {
+        if( corpse == nullptr || corpse->id == mon_null ) {
             return rm_prefix( ngettext( "<item_name>human blood",
                                         "<item_name>human blood", quantity ) );
         } else {
@@ -5113,7 +5149,19 @@ itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
 }
-
+int item::get_gun_ups_drain() const
+{
+    int draincount = 0;
+    if( type->gun.get() != nullptr ){
+        draincount += type->gun->ups_charges;
+        for( auto &mod : contents ){
+            if( mod.type->gunmod->ups_charges > 0 ){
+                draincount += mod.type->gunmod->ups_charges;
+            }
+        }
+    }
+    return draincount;
+}
 item_category::item_category() : id(), name(), sort_rank( 0 )
 {
 }

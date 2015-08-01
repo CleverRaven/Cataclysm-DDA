@@ -5,11 +5,15 @@
 #include "debug.h"
 #include "translations.h"
 #include "trap.h"
-#include "vehicle.h"
+#include "output.h"
+#include "item.h"
 
-#include <ostream>
 #include <unordered_map>
-#include <memory>
+
+const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
+"mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield",
+"mx_crater", "mx_collegekids"
+};
 
 std::vector<ter_t> terlist;
 std::map<std::string, ter_t> termap;
@@ -37,59 +41,6 @@ const furn_t &int_id<furn_t>::obj() const
         return dummy;
     }
     return furnlist[_id];
-}
-
-const furn_t &maptile::get_furn_t() const
-{
-    return sm->get_furn( x, y ).obj();
-}
-
-const ter_t &maptile::get_ter_t() const
-{
-    return sm->get_ter( x, y ).obj();
-}
-
-std::ostream & operator<<(std::ostream & out, const submap * sm)
-{
- out << "submap(";
- if( !sm )
- {
-  out << "NULL)";
-  return out;
- }
-
- out << "\n\tter:";
- for(int x = 0; x < SEEX; ++x)
- {
-  out << "\n\t" << x << ": ";
-  for(int y = 0; y < SEEY; ++y)
-   out << sm->ter[x][y] << ", ";
- }
-
- out << "\n\titm:";
- for(int x = 0; x < SEEX; ++x)
- {
-  for(int y = 0; y < SEEY; ++y)
-  {
-   if( !sm->itm[x][y].empty() )
-   {
-    for( auto it = sm->itm[x][y].begin(), end = sm->itm[x][y].end(); it != end; ++it )
-    {
-     out << "\n\t("<<x<<","<<y<<") ";
-     out << *it << ", ";
-    }
-   }
-  }
- }
-
-   out << "\n\t)";
- return out;
-}
-
-std::ostream & operator<<(std::ostream & out, const submap & sm)
-{
- out << (&sm);
- return out;
 }
 
 static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
@@ -126,7 +77,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
 } };
 
-void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
+void load_map_bash_item_drop_list( JsonArray ja, std::vector<map_bash_item_drop> &items ) {
     while ( ja.has_more() ) {
         JsonObject jio = ja.next_object();
         map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount", -1) );
@@ -135,47 +86,59 @@ void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> 
     }
 }
 
+void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
+    while ( ja.has_more() ) {
+        centers.push_back( ja.next_string() );
+    }
+} 
+
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
-    if( jsobj.has_object(member) ) {
-        JsonObject j = jsobj.get_object(member);
-        str_min = j.get_int("str_min", 0);
-        str_max = j.get_int("str_max", 0);
-
-        str_min_blocked = j.get_int("str_min_blocked", -1);
-        str_max_blocked = j.get_int("str_max_blocked", -1);
-
-        str_min_supported = j.get_int("str_min_supported", -1);
-        str_max_supported = j.get_int("str_max_supported", -1);
-
-        str_min_roll = j.get_int("str_min_roll", str_min);
-        str_max_roll = j.get_int("str_min_roll", str_max);
-
-        explosive = j.get_int("explosive", -1);
-
-        sound_vol = j.get_int("sound_vol", -1);
-        sound_fail_vol = j.get_int("sound_fail_vol", -1);
-
-        destroy_only = j.get_bool("destroy_only", false);
-
-        bash_below = j.get_bool("bash_below", false);
-
-        sound = j.get_string("sound", _("smash!"));
-        sound_fail = j.get_string("sound_fail", _("thump!"));
-
-        if (isfurniture) {
-            furn_set = j.get_string("furn_set", "f_null");
-        } else {
-            ter_set = j.get_string( "ter_set" );
-        }
-
-        if ( j.has_array("items") ) {
-            load_map_bash_item_drop_list(j.get_array("items"), items);
-        }
-
-        return true;
-    } else {
+    if( !jsobj.has_object(member) ) {
         return false;
     }
+
+    JsonObject j = jsobj.get_object(member);
+    str_min = j.get_int("str_min", 0);
+    str_max = j.get_int("str_max", 0);
+
+    str_min_blocked = j.get_int("str_min_blocked", -1);
+    str_max_blocked = j.get_int("str_max_blocked", -1);
+
+    str_min_supported = j.get_int("str_min_supported", -1);
+    str_max_supported = j.get_int("str_max_supported", -1);
+
+    str_min_roll = j.get_int("str_min_roll", str_min);
+    str_max_roll = j.get_int("str_min_roll", str_max);
+
+    explosive = j.get_int("explosive", -1);
+
+    sound_vol = j.get_int("sound_vol", -1);
+    sound_fail_vol = j.get_int("sound_fail_vol", -1);
+
+    collapse_radius = j.get_int( "collapse_radius", 1 );
+
+    destroy_only = j.get_bool("destroy_only", false);
+
+    bash_below = j.get_bool("bash_below", false);
+
+    sound = j.get_string("sound", _("smash!"));
+    sound_fail = j.get_string("sound_fail", _("thump!"));
+
+    if( isfurniture ) {
+        furn_set = j.get_string("furn_set", "f_null");
+    } else {
+        ter_set = j.get_string( "ter_set" );
+    }
+
+    if( j.has_array("items") ) {
+        load_map_bash_item_drop_list(j.get_array("items"), items);
+    }
+
+    if( j.has_array("tent_centers") ) {
+        load_map_bash_tent_centers( j.get_array("tent_centers"), tent_centers );
+    }
+
+    return true;
 }
 
 bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
@@ -1013,59 +976,4 @@ void check_furniture_and_terrain()
             debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
         }
     }
-}
-
-submap::submap()
-{
-    constexpr size_t elements = SEEX * SEEY;
-
-    std::uninitialized_fill_n(&ter[0][0], elements, t_null);
-    std::uninitialized_fill_n(&frn[0][0], elements, f_null);
-    std::uninitialized_fill_n(&lum[0][0], elements, 0);
-    std::uninitialized_fill_n(&trp[0][0], elements, tr_null);
-    std::uninitialized_fill_n(&rad[0][0], elements, 0);
-
-    is_uniform = false;
-}
-
-submap::~submap()
-{
-    delete_vehicles();
-}
-
-void submap::delete_vehicles()
-{
-    for(vehicle *veh : vehicles) {
-        delete veh;
-    }
-    vehicles.clear();
-}
-
-static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
-
-bool submap::has_graffiti( int x, int y ) const
-{
-    return cosmetics[x][y].count( COSMETICS_GRAFFITI ) > 0;
-}
-
-const std::string &submap::get_graffiti( int x, int y ) const
-{
-    const auto it = cosmetics[x][y].find( COSMETICS_GRAFFITI );
-    if( it == cosmetics[x][y].end() ) {
-        static const std::string empty_string;
-        return empty_string;
-    }
-    return it->second;
-}
-
-void submap::set_graffiti( int x, int y, const std::string &new_graffiti )
-{
-    is_uniform = false;
-    cosmetics[x][y][COSMETICS_GRAFFITI] = new_graffiti;
-}
-
-void submap::delete_graffiti( int x, int y )
-{
-    is_uniform = false;
-    cosmetics[x][y].erase( COSMETICS_GRAFFITI );
 }

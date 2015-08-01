@@ -2,6 +2,7 @@
 
 #include "auto_pickup.h"
 #include "game.h"
+#include "player.h"
 #include "map.h"
 #include "messages.h"
 #include "translations.h"
@@ -10,6 +11,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
 
 #include <map>
 #include <vector>
@@ -388,7 +390,7 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     int cargo_part = -1;
     vehicle *veh = nullptr;
     bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
-    bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity() -  2);
+    bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity());
     bool offered_swap = false;
     // Convert from player-relative to map-relative.
     tripoint pickup_target = pickup_target_arg + g->u.pos();
@@ -437,7 +439,7 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     if (weight_is_okay && g->u.weight_carried() > g->u.weight_capacity()) {
         add_msg(m_bad, _("You're overburdened!"));
     }
-    if (volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() - 2) {
+    if (volume_is_okay && g->u.volume_carried() > g->u.volume_capacity()) {
         add_msg(m_bad, _("You struggle to carry such a large volume!"));
     }
 }
@@ -502,7 +504,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
 
     if (min == -1) {
-        if (g->checkZone("NO_AUTO_PICKUP", pos.x, pos.y)) {
+        if( g->check_zone( "NO_AUTO_PICKUP", pos ) ) {
             here.clear();
         }
 
@@ -518,7 +520,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 if( g->m.has_flag( "SEALED", apos ) ) {
                     continue;
                 }
-                if( g->checkZone( "NO_AUTO_PICKUP", apos.x, apos.y ) ) {
+                if( g->check_zone( "NO_AUTO_PICKUP", apos ) ) {
                     continue;
                 }
                 pick_up( apos, min );
@@ -813,9 +815,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
                           _("Wgt %.1f"), g->u.convert_weight(new_weight) + 0.05); // +0.05 to round up
                 wprintz(w_pickup, c_white, "/%.1f", g->u.convert_weight(g->u.weight_capacity()));
                 mvwprintz(w_pickup, 0, 24,
-                          (new_volume > g->u.volume_capacity() - 2 ? c_red : c_white),
+                          (new_volume > g->u.volume_capacity() ? c_red : c_white),
                           _("Vol %d"), new_volume);
-                wprintz(w_pickup, c_white, "/%d", g->u.volume_capacity() - 2);
+                wprintz(w_pickup, c_white, "/%d", g->u.volume_capacity());
             }
             wrefresh(w_pickup);
 

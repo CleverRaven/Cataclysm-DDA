@@ -551,8 +551,10 @@ Guns can be define like this:
 "durability": 8,      // Resistance to damage/rusting, also determines misfire chance
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
-"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS.
-"reload": 450         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+"ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"reload": 450,         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+"built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
+"default_mods": ["m203"] //An array of mods that will be added to a weapon on spawn.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
 ```C++
@@ -773,4 +775,35 @@ The format also support snippet ids like above.
 "flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
 "examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.
                            //If omitted, defaults to iexamine::none.
+```
+
+###SCENARIO
+
+```JSON
+{
+    "type": "scenario",              // Must always be "scenario"
+    "ident": "schools_out",          // Internal ident of the scenario, must be unique
+    "name": "School",                // The displayed name, can be gender specific:
+    "name": {
+        "male": "...",
+        "female": "..."
+    },
+    "points" : -1,                   // How much points it costs (or if negative, how much it gives)
+    "description": "...",            // Some description of the scenario, can be anything you like, can also be gender specific:
+        "scen_desc_male": "...",     // Gender specific descriptions are optional.
+        "scen_desc_female": "...",
+    "allowed_locs" : ["school"],     // Starting locations (see start_locations.json) that can be chosen when using this scenario.
+    "professions" : ["student"],     // Professions (see professions.json) that can be chosen when using this scenario. The first entry is the default profession.
+    "start_name": "School",          // TODO
+    "items": {                       // Additional starting items, see professions for the format.
+        "both": [ ... ],
+        "female": [ ... ],
+        "male": [ ... ]
+    },
+    "flags": [ "some flag" ],        // Flags, see JSON_FLAGS.
+    "traits": [ "PROF_MED" ],        // Allowed starting traits (see mutations.json). The player still has to choose them if they like, only useful if the listed trait can actually be chosen at game start.
+    "forced_traits": [ "PROF_MED" ], // Traits that are automatically added to the new character.
+    "forbidden_traits": [ "PROF_MED" ], // Traits that can explicitly not be chosen at start.
+    "map_special": "mx_helicopter",  // (optional) Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+}
 ```

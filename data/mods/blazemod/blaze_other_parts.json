@@ -1,5 +1,5 @@
 [
-	{
+    {
         "type" : "vehicle_part",
         "id" : "wiring",
         "name" : "wiring",
@@ -10,52 +10,11 @@
         "durability" : 10,
         "item" : "wire",
         "folded_volume": 1,
-		"difficulty" : 1,
+        "difficulty" : 1,
         "location" : "structure",
         "flags" : ["FOLDABLE", "AISLE", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "wire", "min": 0, "max": 1}
-        ]
-    },
-	{
-        "type" : "vehicle_part",
-        "id" : "water_tank_small",
-        "name" : "water tank (small)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 180,
-        "fuel_type" : "water",
-        "item" : "metal_tank_small",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
-        ]
-    },
-	{
-        "type" : "vehicle_part",
-        "id" : "water_tank_little",
-        "name" : "water tank (little)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 75,
-        "size" : 20,
-        "fuel_type" : "water",
-        "item" : "metal_tank_little",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
         ]
     },
     {
@@ -78,7 +37,7 @@
             {"item": "scrap", "min": 1, "max": 3}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "cargo_space_external",
         "name" : "cargo rack",
@@ -94,7 +53,7 @@
         "flags" : ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED"],
         "breaks_into" : []
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_military_horizontal",
         "name" : "military composite ram",
@@ -114,7 +73,7 @@
             {"item": "ceramic_armor", "min": 0, "max": 4}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_steel",
         "name" : "steel ram",
@@ -133,7 +92,7 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_wood",
         "name" : "wooden ram",
@@ -150,7 +109,7 @@
             {"item": "splinter", "min": 7, "max": 9}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_hardsteel",
         "name" : "heavy steel ram",
@@ -169,7 +128,7 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_alloy",
         "name" : "superalloy ram",
@@ -188,7 +147,7 @@
             {"item": "scrap", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "basketsm_external",
         "name" : "wire bike basket",
@@ -204,7 +163,7 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION"]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "basketlg_external",
         "name" : "shopping cart basket",
@@ -220,7 +179,7 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION"]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "ram_spiked",
         "name" : "spiked ram",
@@ -241,7 +200,7 @@
             {"item": "spike", "min": 0, "max": 2}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "tearer",
         "name" : "shredder",
@@ -253,12 +212,12 @@
         "durability" : 600,
         "power" : -25,
         "item" : "tearer",
-		"difficulty" : 5,
+        "difficulty" : 5,
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
         "breaks_into" : []
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "rebar_plate",
         "name" : "rebar reinforcement",
@@ -277,7 +236,7 @@
             {"item": "scrap", "min": 4, "max": 8}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "spring_plate",
         "name" : "shock absorber",
@@ -354,7 +313,7 @@
             {"item": "steel_lump", "min": 12, "max": 20},
             {"item": "steel_chunk", "min": 25, "max": 60},
             {"item": "scrap", "min": 70, "max": 100},
-			{"item": "chain", "min": 4, "max": 6}
+            {"item": "chain", "min": 4, "max": 6}
         ]
     },{
         "type" : "vehicle_part",
@@ -375,10 +334,10 @@
             {"item": "steel_lump", "min": 16, "max": 40},
             {"item": "steel_chunk", "min": 35, "max": 80},
             {"item": "scrap", "min": 80, "max": 150},
-			{"item": "chain", "min": 4, "max": 6}
+            {"item": "chain", "min": 4, "max": 6}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "smokescreen",
         "name" : "smokescreen",
@@ -391,15 +350,15 @@
         "folded_volume": 4,
         "fuel_type" : "charcoal",
         "item" : "smokescreen",
-		"size" : 50,
-		"difficulty" : 1,
+        "size" : 50,
+        "difficulty" : 1,
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "TOOL_NONE"],
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 4},
             {"item": "cable", "min": 6, "max": 10}
         ]
     },
-	{
+    {
         "type" : "vehicle_part",
         "id" : "smokescreenouter",
         "name" : "smokelayer",
@@ -413,8 +372,8 @@
         "fuel_type" : "charcoal",
         "item" : "smokescreen",
         "location" : "structure",
-		"size" : 50,
-		"difficulty" : 1,
+        "size" : 50,
+        "difficulty" : 1,
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "TOOL_NONE", "PROTRUSION"],
         "breaks_into" : [
             {"item": "scrap", "min": 1, "max": 4},

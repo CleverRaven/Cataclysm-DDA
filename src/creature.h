@@ -7,7 +7,6 @@
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
-#include "mtype.h"
 #include "output.h"
 #include "cursesdef.h" // WINDOW
 
@@ -19,6 +18,9 @@ class game;
 class JsonObject;
 class JsonOut;
 struct trap;
+enum m_size : int;
+enum m_flag : int;
+enum field_id : int;
 
 class Creature
 {
@@ -60,9 +62,10 @@ class Creature
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
-        /** Should always be overwritten by the appropriate player/NPC/monster version, return 0 just in case. */
+        /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
+        virtual int stability_roll() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -322,9 +325,6 @@ class Creature
 
         virtual bool in_sleep_state() const;
 
-        virtual int stability_roll() const = 0;
-        //Returns true if the target will be moved
-
         /*
          * Get/set our killer, this is currently used exclusively to allow
          * mondeath effects to happen after death cleanup
@@ -548,8 +548,9 @@ class Creature
         Creature &operator=(const Creature &) = default;
         Creature &operator=(Creature &&) = default;
 
-        body_part select_body_part(Creature *source, int hit_roll);
-
+ public:
+        body_part select_body_part(Creature *source, int hit_roll) const;
+ protected:
         /**
          * This function replaces the "<npcname>" substring with the provided NPC name.
          *

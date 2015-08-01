@@ -21,6 +21,23 @@
         "category" : "veh_parts",
         "price" : 4000
     },
+	{
+        "type":"GENERIC",
+        "id" : "foldwoodframe",
+        "name" : "foldable wooden frame",
+        "description" : "A small foldable frame made from scrap wood.",
+        "weight" : 4048,
+        "to_hit" : -3,
+        "color" : "brown",
+        "symbol" : "]",
+        "material" : ["wood", "null"],
+        "techniques" : ["DEF_DISARM"],
+        "volume" : 50,
+        "bashing" : 15,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 4000
+    },
     {
         "type":"GENERIC",
         "id" : "xlframe",
@@ -917,6 +934,22 @@
         "category" : "veh_parts",
         "price": 80000
     },
+   {
+        "type":"GENERIC",
+        "id": "beeper",
+        "name": "back-up beeper",
+        "description": "This is a safety device intended to warn passersby of a vehicle moving in reverse, but the usage of it now seems terribly unwise.",
+        "weight": 360,
+        "symbol": ";",
+        "color": "light_gray",
+        "material": ["plastic", "aluminum"],
+        "volume": 1,
+        "to_hit": -1,
+        "bashing": 2,
+        "cutting": 0,
+        "category": "veh_parts",
+        "price": 6000
+    },
     {
         "type":"GENERIC",
         "id": "light_emergency_red",
@@ -987,7 +1020,7 @@
         "type":"GENERIC",
         "id": "recharge_station",
         "name": "recharging station",
-        "description": "An induction based charging system designed to operate on vehicle power.  Once installed in a vehicle storage space, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
+        "description": "An induction based charging system designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from vehicle controls, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
         "weight": 2500,
         "to_hit": 1,
         "color": "light_blue",
@@ -1003,7 +1036,7 @@
         "type":"GENERIC",
         "id" : "stereo",
         "name" : "stereo system",
-        "description" : "A stereo system with speakers.  It is capable of being hooked up to a vehicle to play music from a CD.",
+        "description" : "A stereo system with speakers.  It is capable of being hooked up to a vehicle.",
         "weight" : 800,
         "to_hit" : -2,
         "color" : "red",
@@ -1014,6 +1047,22 @@
         "category" : "veh_parts",
         "cutting" : 0,
         "price" : 800
+    },
+    {
+        "type":"GENERIC",
+        "id" : "chimes",
+        "name" : "chime loudspeakers",
+        "description" : "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
+        "weight" : 2600,
+        "to_hit" : -2,
+        "color" : "blue",
+        "symbol" : "&",
+        "material" : ["steel", "null"],
+        "volume" : 16,
+        "bashing" : 0,
+        "category" : "veh_parts",
+        "cutting" : 0,
+        "price" : 5000
     },
     {
         "type":"TOOL",
@@ -1184,5 +1233,22 @@
         "cutting": 0,
         "category" : "veh_parts",
         "price": 20000
+    },
+    {
+        "type":"GENERIC",
+        "id": "v_curtain_item",
+        "name": "vehicle curtain",
+        "name_plural" : "vehicle curtains",
+        "description": "A rod, a few metal rings, and a large piece of cloth with some strings attached for securely fastening the edges.",
+        "weight": 2200,
+        "to_hit": -4,
+        "color": "white",
+        "symbol": "\"",
+        "material": ["cotton", "steel"],
+        "volume": 20,
+        "bashing": 1,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 3500
     }
 ]

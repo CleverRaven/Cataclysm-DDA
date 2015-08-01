@@ -13,9 +13,6 @@
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 
-#define OMAPX 180
-#define OMAPY 180
-
 class overmap;
 
 struct overmap_spawns {
@@ -178,8 +175,6 @@ class overmap_special
         std::list<std::string> locations;
         std::set<std::string> flags;
 };
-
-extern std::vector<overmap_special> overmap_specials;
 
 void load_overmap_specials(JsonObject &jo);
 

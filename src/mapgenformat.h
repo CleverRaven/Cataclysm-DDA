@@ -7,8 +7,10 @@
 #include "map.h"
 /////
 
+struct ter_furn_id;
+
 void formatted_set_incredibly_simple(
-  map * m, const ter_furn_id data[], int width, int height, int startx, int starty, ter_id defter = t_null
+  map * m, const ter_furn_id data[], int width, int height, int startx, int starty, ter_id defter
 );
 
 /////

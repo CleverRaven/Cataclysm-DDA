@@ -1734,6 +1734,12 @@
         "flags": ["TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
         ],
         "open": "t_door_glass_o",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "glass_sheet", "amount": 1 }
+            ]
+        },
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "glass breaking!",
@@ -1754,6 +1760,12 @@
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
         "close": "t_door_glass_c",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "glass_sheet", "amount": 1 }
+            ]
+        },
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "glass breaking!",
@@ -4690,7 +4702,7 @@
         "color": "i_cyan",
         "move_cost": 2,
         "trap": "tr_ledge",
-        "flags": ["TRANSPARENT", "NOITEM", "NO_FLOOR"]
+        "flags": ["TRANSPARENT", "NO_FLOOR"]
     },{
         "type" : "terrain",
         "id" : "t_flat_roof",
@@ -5287,7 +5299,24 @@
                 { "item": "clay_lump", "amount": 10, "minamount": 5 }
             ]
         }
-},{
+    },{
+        "type" : "terrain",
+        "id" : "t_sandmound",
+        "name": "mound of sand",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT"],
+        "bash": {
+            "str_min": 2, "str_max": 4, "num_tests": 2,
+            "sound": "splosh!",
+            "sound_fail": "splosh!",
+            "ter_set": "t_water_dp",
+            "items": [
+                { "item": "material_sand", "amount": 1200, "minamount": 800 }
+            ]
+        }
+    },{
         "type" : "terrain",
         "id" : "t_conveyor",
         "name": "conveyor belt",

@@ -1,4 +1,5 @@
 #include "iuse_actor.h"
+#include "action.h"
 #include "item.h"
 #include "game.h"
 #include "map.h"
@@ -6,7 +7,6 @@
 #include "monster.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "morale.h"
 #include "messages.h"
@@ -16,6 +16,10 @@
 #include "ui.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mtype.h"
+#include "mapdata.h"
+#include "field.h"
+#include "weather.h"
 
 #include <sstream>
 #include <algorithm>
@@ -441,7 +445,7 @@ iuse_actor *place_monster_iuse::clone() const
 
 void place_monster_iuse::load( JsonObject &obj )
 {
-    mtype_id = obj.get_string( "monster_id" );
+    mtypeid = mtype_id( obj.get_string( "monster_id" ) );
     obj.read( "friendly_msg", friendly_msg );
     obj.read( "hostile_msg", hostile_msg );
     obj.read( "difficulty", difficulty );
@@ -453,7 +457,7 @@ void place_monster_iuse::load( JsonObject &obj )
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
 {
-    monster newmon( GetMType( mtype_id ) );
+    monster newmon( mtypeid );
     tripoint target;
     if( place_randomly ) {
         std::vector<tripoint> valid;
@@ -470,7 +474,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
                                   newmon.name().c_str() );
             return 0;
         }
-        target = valid[rng( 0, valid.size() - 1 )];
+        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name().c_str() );
         if( !choose_adjacent( query, target ) ) {
@@ -482,7 +486,6 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         }
     }
     p->moves -= moves;
-    newmon.reset_last_load();
     newmon.spawn( target );
     if (!newmon.has_flag(MF_INTERIOR_AMMO)) {
         for( auto & amdef : newmon.ammo ) {
@@ -525,10 +528,10 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         newmon.friendly = -1;
     }
     // TODO: add a flag instead of monster id or something?
-    if( newmon.type->id == "mon_laserturret" && !g->is_in_sunlight( newmon.pos() ) ) {
+    if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p->add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon );
+    g->add_zombie( newmon, true );
     return 1;
 }
 
@@ -1092,8 +1095,8 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         int amount = salvaged.second;
         item result( mat_name, int(calendar::turn) );
         if (amount > 0) {
-            add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
-                     amount, result.display_name().c_str() );
+            add_msg( m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount),
+                     amount, result.display_name( amount ).c_str() );
             if( pos != INT_MIN ) {
                 p->i_add_or_drop(result, amount);
             } else {
@@ -1277,7 +1280,7 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame && !p->has_charges("fire", 4) ) {
         p->add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
         return 0;
-    } else if( !flame && it->charges >= 0 && it->type->charges_to_use() < it->charges ) {
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
         p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->type->charges_to_use() );
         return 0;
     } else if( p->is_underwater() ) {
@@ -1304,6 +1307,23 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     return it->type->charges_to_use();
+}
+
+bool cauterize_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
+{
+    if( flame && !p->has_charges( "fire", 4 ) ) {
+        return false;
+    } else if( !flame && it->type->charges_to_use() > it->charges ) {
+        return false;
+    } else if( p->is_underwater() ) {
+        return false;
+    } else if( p->has_effect( "bite" ) || p->has_effect( "bleed" ) ) {
+        return true;
+    } else if( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) {
+        return true;
+    }
+
+    return false;
 }
 
 void enzlave_actor::load( JsonObject & )
@@ -1590,8 +1610,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
-        const size_t desc_index = rng( 0, descriptions.size() - 1 );
-        desc = _(descriptions[ desc_index ].c_str());
+        desc = _( random_entry( descriptions ).c_str() );
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         desc = _("You produce an annoying sound");

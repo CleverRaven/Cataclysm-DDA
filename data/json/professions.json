@@ -174,7 +174,7 @@
         "type": "profession",
         "ident": "chef",
         "name": "Chef",
-        "description": "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+        "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
         "points": 1,
         "skills": [
             {
@@ -200,6 +200,48 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "churl",
+        "name": "Churl",
+        "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
+        "points": 1,
+        "items": {
+            "both": [
+                "footrags",
+                "loincloth",
+                "cloak_wool",
+                "ragpouch",
+                "small_relic",
+                "gloves_wraps",
+                "tunic_rag",
+                "makeshift_knife",
+                "sheath"
+            ],
+            "female": [
+                "chestwrap"
+            ]
+        },
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            }
+        ],
+        "traits": [ "PROF_CHURL" ]
     },
     {
         "type": "profession",
@@ -320,7 +362,7 @@
                 "picklocks"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "boxer_shorts"
@@ -359,7 +401,7 @@
 
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -1228,7 +1270,7 @@
                 "flashlight"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -1299,7 +1341,7 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
         "points": -1,
         "items": {
             "both": [
@@ -1516,6 +1558,55 @@
             ]
         },
         "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "broken_cyborg",
+        "name": "Broken Cyborg",
+        "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
+        "points": -2,
+        "CBMs":[
+            "bio_dis_shock",
+            "bio_dis_acid",
+            "bio_drain",
+            "bio_noise",
+            "bio_power_weakness",
+            "bio_itchy",
+            "bio_nostril",
+            "bio_thumbs",
+            "bio_spasm",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_deformity",
+            "bio_voice",
+            "bio_pokedeye",
+            "bio_ankles",
+            "bio_trip",
+            "bio_stiff",
+            "bio_armor_head",
+            "bio_armor_torso",
+            "bio_armor_arms",
+            "bio_armor_legs",
+            "bio_armor_eyes",
+            "bio_razors",
+            "bio_power_storage",
+            "bio_torsionratchet"
+        ],
+        "items":{
+            "both": [
+                "subsuit_xl",
+                "footrags",
+                "hat_noise_cancelling"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -2129,7 +2220,7 @@
         "type": "profession",
         "ident": "senior",
         "name": "Senior Citizen",
-        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
+        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
         "points": 0,
         "items": {
             "both": [
@@ -2922,7 +3013,7 @@
         "type": "profession",
         "ident": "blackbelt_intermediate",
         "name": "Martial Artist",
-        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them! SHOW THEM ALL!",
+        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
         "points": 3,
         "traits": [
             "PROF_MA_ORANGE"

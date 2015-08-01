@@ -16,6 +16,11 @@
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "game.h"
+#include "mapdata.h"
+#include "mtype.h"
+#include "field.h"
+#include "weather.h"
 
 #include <algorithm>
 #include <fstream>
@@ -59,6 +64,7 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 
     in_animation = false;
     do_draw_explosion = false;
+    do_draw_custom_explosion = false;
     do_draw_bullet = false;
     do_draw_hit = false;
     do_draw_line = false;
@@ -172,6 +178,8 @@ int cata_tiles::load_tileset(std::string path, int R, int G, int B)
 {
     std::string img_path = path;
 #ifdef PREFIX   // use the PREFIX path over the current directory
+    img_path = (FILENAMES["base_path"] + "/" + img_path);
+#elif defined DATA_DIR_PREFIX // Used for linux release installs
     img_path = (FILENAMES["datadir"] + "/" + img_path);
 #endif
     /** reinit tile_atlas */
@@ -550,7 +558,7 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
 void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
                                    const visibility_variables &cache ) {
     if( apply_vision_effects( p.x, p.y, g->m.get_visibility( ll, cache ) ) ) {
-        const auto critter = g->critter_at( p );
+        const auto critter = g->critter_at( p, true );
         if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
             draw_from_id_string( "infrared_creature", C_NONE, empty_string, p.x, p.y, 0, 0 );
         }
@@ -565,7 +573,7 @@ void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
     draw_trap( p );
     draw_field_or_item( p );
     draw_vpart( p );
-    const auto critter = g->critter_at( p );
+    const auto critter = g->critter_at( p, true );
     if( critter != nullptr ) {
         draw_entity( *critter, p );
     }
@@ -621,14 +629,18 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
-    in_animation = do_draw_explosion || do_draw_bullet || do_draw_hit ||
-                   do_draw_line || do_draw_weather || do_draw_sct ||
+    in_animation = do_draw_explosion || do_draw_custom_explosion ||
+                   do_draw_bullet || do_draw_hit || do_draw_line ||
+                   do_draw_weather || do_draw_sct ||
                    do_draw_zones;
 
     draw_footsteps_frame();
     if (in_animation) {
         if (do_draw_explosion) {
             draw_explosion_frame();
+        }
+        if (do_draw_custom_explosion) {
+            draw_custom_explosion_frame();
         }
         if (do_draw_bullet) {
             draw_bullet_frame();
@@ -726,12 +738,13 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = t.color;
             }
         } else if (category == C_MONSTER) {
-            if (MonsterGenerator::generator().has_mtype(id)) {
-                const mtype *m = MonsterGenerator::generator().get_mtype(id);
-                int len = m->sym.length();
-                const char *s = m->sym.c_str();
+            const mtype_id mid( id );
+            if( mid.is_valid() ) {
+                const mtype &mt = mid.obj();
+                int len = mt.sym.length();
+                const char *s = mt.sym.c_str();
                 sym = UTF8_getch(&s, &len);
-                col = m->color;
+                col = mt.color;
             }
         } else if (category == C_VEHICLE_PART) {
             const vpart_str_id vpid( id.substr( 3 ) );
@@ -1184,7 +1197,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p )
             ent_subcategory = *m->type->species.begin();
         }
         const int subtile = corner;
-        return draw_from_id_string(ent_name, ent_category, ent_subcategory, p.x, p.y, subtile, 0);
+        return draw_from_id_string(ent_name.str(), ent_category, ent_subcategory, p.x, p.y, subtile, 0);
     }
     const player *pl = dynamic_cast<const player*>( &critter );
     if( pl != nullptr ) {
@@ -1286,6 +1299,11 @@ void cata_tiles::init_explosion( const tripoint &p, int radius )
     exp_pos_y = p.y;
     exp_rad = radius;
 }
+void cata_tiles::init_custom_explosion_layer( const std::map<point, explosion_tile> &layer )
+{
+    do_draw_custom_explosion = true;
+    custom_explosion_layer = layer;
+}
 void cata_tiles::init_draw_bullet( const tripoint &p, std::string name )
 {
     do_draw_bullet = true;
@@ -1320,12 +1338,12 @@ void cata_tiles::init_draw_sct()
 {
     do_draw_sct = true;
 }
-void cata_tiles::init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+void cata_tiles::init_draw_zones(const tripoint &_start, const tripoint &_end, const tripoint &_offset)
 {
     do_draw_zones = true;
-    pStartZone = p_pointStart;
-    pEndZone = p_pointEnd;
-    pZoneOffset = p_pointOffset;
+    zone_start = _start;
+    zone_end = _end;
+    zone_offset = _offset;
 }
 /* -- Void Animators */
 void cata_tiles::void_explosion()
@@ -1334,6 +1352,11 @@ void cata_tiles::void_explosion()
     exp_pos_x = -1;
     exp_pos_y = -1;
     exp_rad = -1;
+}
+void cata_tiles::void_custom_explosion()
+{
+    do_draw_custom_explosion = false;
+    custom_explosion_layer.clear();
 }
 void cata_tiles::void_bullet()
 {
@@ -1397,6 +1420,78 @@ void cata_tiles::draw_explosion_frame()
             rotation = 1;
             draw_from_id_string(exp_name, mx - i, my + j, subtile, rotation);
             draw_from_id_string(exp_name, mx + i, my + j, subtile, rotation);
+        }
+    }
+}
+#include "debug.h"
+void cata_tiles::draw_custom_explosion_frame()
+{
+    // TODO: Make the drawing code handle all the missing tiles: <^>v and *
+    // TODO: Add more explosion tiles, like "strong explosion", so that it displays more info
+    static const std::string exp_strong = "explosion";
+    static const std::string exp_medium = "explosion_medium";
+    static const std::string exp_weak = "explosion_weak";
+    int subtile = 0;
+    int rotation = 0;
+    for( const auto &pr : custom_explosion_layer ) {
+        const point &p = pr.first;
+        const explosion_neighbors ngh = pr.second.neighborhood;
+        const nc_color col = pr.second.color;
+
+        switch( ngh ) {
+        case N_NORTH:
+        case N_SOUTH:
+            subtile = edge;
+            rotation = 1;
+            break;
+        case N_WEST:
+        case N_EAST:
+            subtile = edge;
+            rotation = 0;
+            break;
+        case N_NORTH | N_SOUTH:
+        case N_NORTH | N_SOUTH | N_WEST:
+        case N_NORTH | N_SOUTH | N_EAST:
+            subtile = edge;
+            rotation = 1;
+            break;
+        case N_WEST | N_EAST:
+        case N_WEST | N_EAST | N_NORTH:
+        case N_WEST | N_EAST | N_SOUTH:
+            subtile = edge;
+            rotation = 0;
+            break;
+        case N_SOUTH | N_EAST:
+            subtile = corner;
+            rotation = 0;
+            break;
+        case N_NORTH | N_EAST:
+            subtile = corner;
+            rotation = 1;
+            break;
+        case N_NORTH | N_WEST:
+            subtile = corner;
+            rotation = 2;
+            break;
+        case N_SOUTH | N_WEST:
+            subtile = corner;
+            rotation = 3;
+            break;
+        case N_NO_NEIGHBORS:
+            subtile = edge;
+            break;
+        case N_WEST | N_EAST | N_NORTH | N_SOUTH:
+            // Needs some special tile
+            subtile = edge;
+            break;
+        }
+
+        if( col == c_red ) {
+            draw_from_id_string( exp_strong, p.x, p.y, subtile, rotation );
+        } else if( col == c_yellow ) {
+            draw_from_id_string( exp_medium, p.x, p.y, subtile, rotation );
+        } else {
+            draw_from_id_string( exp_weak, p.x, p.y, subtile, rotation );
         }
     }
 }
@@ -1478,9 +1573,9 @@ void cata_tiles::draw_zones_frame()
         item_highlight_available = true;
     }
 
-    for (int iY=pStartZone.y; iY <= pEndZone.y; ++iY) {
-        for (int iX=pStartZone.x; iX <= pEndZone.x; ++iX) {
-            draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, iX + pZoneOffset.x, iY + pZoneOffset.y, 0, 0);
+    for (int iY=zone_start.y; iY <= zone_end.y; ++iY) {
+        for (int iX=zone_start.x; iX <= zone_end.x; ++iX) {
+            draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, iX + zone_offset.x, iY + zone_offset.y, 0, 0);
         }
     }
 
@@ -1664,54 +1759,47 @@ void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL );
 }
 
-// TODO: make one more generally templated function, possibly using specialization, for both maps and arrays with ids
-template <typename maptype>
-void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+template<typename Iter, typename Func>
+void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, const std::string &label, const std::string &prefix )
+{
     int missing=0, present=0;
     std::string missing_list;
-    for( auto const & i : tiletypemap ) {
-        if (tile_ids.count(prefix+i.first) == 0) {
+    for( ; begin != end; ++begin ) {
+        const std::string id_string = id_func( begin );
+        if( tile_ids.count( prefix + id_string ) == 0 ) {
             missing++;
-            missing_list.append(i.first+" ");
+            missing_list.append( id_string + " " );
         } else {
             present++;
         }
     }
     DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+}
+
+template <typename maptype>
+void cata_tiles::tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix) {
+    lr_generic( tiletypemap.begin(), tiletypemap.end(),
+                []( decltype(tiletypemap.begin()) const & v ) {
+                    // c_str works for std::string and for string_id!
+                    return v->first.c_str();
+                }, label, prefix );
 }
 
 template <typename base_type>
 void cata_tiles::tile_loading_report(size_t const count, std::string const & label, std::string const & prefix) {
-    int missing=0, present=0;
-    std::string missing_list;
-    for( size_t i = 0; i < count; ++i ) {
-        const int_id<base_type> iid( i );
-        const string_id<base_type> &sid = iid.id();
-        const std::string &s = sid.str();
-        if (tile_ids.count(prefix+s) == 0) {
-            missing++;
-            missing_list.append(s+" ");
-        } else {
-            present++;
-        }
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+    lr_generic( static_cast<size_t>( 0 ), count,
+                []( const size_t i ) {
+                    return int_id<base_type>( i ).id().str();
+                }, label, prefix );
 }
 
 template <typename arraytype>
 void cata_tiles::tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix) {
-    // fields are the only tile-able thing not kept in a map?
-    int missing=0, present=0;
-    std::string missing_list;
-    for(int i = 0; i < array_length; ++i) {
-        if (tile_ids.count(prefix+array[i].id) == 0) {
-            missing++;
-            missing_list.append(array[i].id+" ");
-        } else {
-            present++;
-        }
-    }
-    DebugLog( D_INFO, DC_ALL ) << "Missing " << label << ": " << missing_list;
+    const auto begin = &(array[0]);
+    lr_generic( begin, begin + array_length,
+                []( decltype(begin) const v ) {
+                    return v->id;
+                }, label, prefix );
 }
 
 #endif // SDL_TILES

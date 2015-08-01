@@ -897,6 +897,7 @@
         "flags" : ["DURABLE_MELEE","CHOP"],
         "to_hit": 1,
         "category" : "weapons",
+        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
     },
     {
@@ -2214,7 +2215,6 @@
         "bashing": 12,
         "cutting": 4,
         "to_hit": 0,
-        "flags" : ["CHOP"],
         "techniques": ["WBLOCK_1"]
     },
     {
@@ -2248,7 +2248,7 @@
         "bashing": 4,
         "cutting": 14,
         "to_hit": 2,
-        "flags": ["SHEATH_SWORD"],
+        "flags": ["SHEATH_SWORD","CHOP"],
         "techniques": ["WBLOCK_2"]
     },
     {
@@ -2991,7 +2991,7 @@
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0,
-        "qualities": [["CUT", 1], ["BUTCHER", 12]]
+        "qualities": [["BUTCHER", 12]]
     },
     {
         "type":"GENERIC",
@@ -3009,7 +3009,8 @@
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0,
-        "qualities": [["CUT", 1], ["BUTCHER", 22]]
+        "qualities": [["CUT", 1], ["BUTCHER", 22]],
+        "use_action": { "type": "knife" }
     },
     {
         "type":"GENERIC",
@@ -3026,6 +3027,7 @@
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
         "price" : 10000,
+        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["BUTCHER", 14]]
     },
     {
@@ -3044,7 +3046,7 @@
         "cutting" : 6,
         "flags" : ["SLICE", "UNARMED_WEAPON", "DURABLE_MELEE"],
         "price" : 20000,
-        "qualities": [["CUT", 1], ["BUTCHER", 14]]
+        "qualities": [["BUTCHER", 14]]
     },
     {
         "type":"GENERIC",
@@ -3382,7 +3384,7 @@
         "symbol": ",",
         "color": "light_green",
         "name": "atomic nightlight",
-        "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.",
+        "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.  Use it to close the cover and hide the light.",
         "price": 125000,
         "material": ["plastic", "aluminum"],
         "flags": ["LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
@@ -3390,7 +3392,36 @@
         "volume": 1,
         "bashing": 4,
         "cutting": 0,
-        "to_hit": -2
+        "to_hit": -2,
+        "revert_to": "null",
+        "use_action": {
+            "type": "auto_transform",
+            "target": "atomic_light_off",
+            "msg": "You close the nightlight's cover."
+        }
+    },
+    {
+        "type":"GENERIC",
+        "id": "atomic_light_off",
+        "category" : "tools",
+        "symbol": ",",
+        "color": "light_green",
+        "name": "atomic nightlight (covered)",
+        "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.  The cover is closed.  Use it to open the cover and show the light.",
+        "price": 125000,
+        "material": ["plastic", "aluminum"],
+        "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+        "weight": 3714,
+        "volume": 1,
+        "bashing": 4,
+        "cutting": 0,
+        "to_hit": -2,
+        "revert_to": "null",
+        "use_action": {
+            "type": "auto_transform",
+            "target": "atomic_light",
+            "msg": "You open the nightlight's cover."
+        }
     },
     {
         "type":"GENERIC",
@@ -3399,7 +3430,7 @@
         "symbol": ",",
         "color": "light_green",
         "name": "atomic lamp",
-        "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.",
+        "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.  Use it to close the cover and hide the light.",
         "price": 175000,
         "material": ["plastic", "aluminum"],
         "flags": ["LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
@@ -3407,9 +3438,37 @@
         "volume": 4,
         "bashing": 8,
         "cutting": 0,
-        "to_hit": -2
+        "to_hit": -2,
+        "revert_to": "null",
+        "use_action": {
+            "type": "auto_transform",
+            "target": "atomic_lamp_off",
+            "msg": "You close the lamp's cover."
+        }
     },
-    
+    {
+        "type":"GENERIC",
+        "id": "atomic_lamp_off",
+        "category" : "tools",
+        "symbol": ",",
+        "color": "light_green",
+        "name": "atomic lamp (covered)",
+        "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.  The cover is closed.  Use it to open the cover and show the light.",
+        "price": 175000,
+        "material": ["plastic", "aluminum"],
+        "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+        "weight": 5438,
+        "volume": 4,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -2,
+        "revert_to": "null",
+        "use_action": {
+            "type": "auto_transform",
+            "target": "atomic_lamp",
+            "msg": "You open the lamp's cover."
+        }
+    },
     {
         "type":"GENERIC",
         "id": "atomic_coffeepot",
@@ -3438,7 +3497,7 @@
         "to_hit" : -1,
         "color" : "light_red",
         "symbol" : "/",
-        "material" : ["steel", "null"],
+        "material" : ["copper", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 2,
         "bashing" : 5,
@@ -3512,15 +3571,16 @@
         "flags": ["SHEATH_KNIFE"],
         "qualities": [["BUTCHER", -18]]
     },{
+        "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
         "type":"GENERIC",
         "id" : "glass_macuahuitl",
         "name" : "makeshift macuahuitl",
-        "description" : "A flat wooden club with sharp glass shards sticking to both of its sides.",
+        "description" : "A flat wooden club with sharpened pieces of stone sticking to both of its sides.",
         "weight" : 955,
         "to_hit" : 1,
-        "color" : "light_cyan",
+        "color" : "dark_gray",
         "symbol" : "/",
-        "material" : ["wood", "glass"],
+        "material" : ["wood", "stone"],
         "volume" : 9,
         "bashing" : 7,
         "cutting" : 14,
@@ -3536,8 +3596,8 @@
         "name_plural": "MREs - beef",
         "category": "food",
         "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 30000,
-        "weight": 350,
+        "price": 1500,
+        "weight": 900,
         "volume": 3,
         "bashing": -2,
         "cutting": 0,
@@ -3553,8 +3613,8 @@
         "name_plural": "MREs - vegetarian",
         "category": "food",
         "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 30000,
-        "weight": 350,
+        "price": 1500,
+        "weight": 900,
         "volume": 3,
         "bashing": -2,
         "cutting": 0,
@@ -3570,8 +3630,8 @@
         "name_plural": "MREs - chicken",
         "category": "food",
         "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 30000,
-        "weight": 350,
+        "price": 1500,
+        "weight": 900,
         "volume": 3,
         "bashing": -2,
         "cutting": 0,
@@ -3587,8 +3647,8 @@
         "name_plural": "MREs - hotdogs",
         "category": "food",
         "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 22000,
-        "weight": 350,
+        "price": 1200,
+        "weight": 900,
         "volume": 3,
         "bashing": -2,
         "cutting": 0,
@@ -3604,8 +3664,8 @@
         "name_plural": "MREs - ravioli",
         "category": "food",
         "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 30000,
-        "weight": 350,
+        "price": 1700,
+        "weight": 900,
         "volume": 3,
         "bashing": -2,
         "cutting": 0,
@@ -4225,7 +4285,7 @@
     "rarity": 30,
     "price": 15000,
     "material": "aluminum",
-    "flags": ["SLICE", "SHEATH_SWORD"],
+    "flags": ["BASH", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE"],
     "weight": 1882,
     "volume": 17,

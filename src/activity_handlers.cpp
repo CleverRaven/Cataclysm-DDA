@@ -3,11 +3,11 @@
 #include "game.h"
 #include "map.h"
 #include "player.h"
+#include "action.h"
 #include "veh_interact.h"
 #include "debug.h"
 #include "translations.h"
 #include "sounds.h"
-#include "monstergenerator.h"
 #include "iuse_actor.h"
 #include "rng.h"
 #include "mongroup.h"
@@ -16,6 +16,10 @@
 #include "martialarts.h"
 #include "itype.h"
 #include "vehicle.h"
+#include "mapdata.h"
+#include "mtype.h"
+#include "field.h"
+#include "weather.h"
 
 #include <sstream>
 
@@ -23,7 +27,7 @@
 
 void activity_handlers::burrow_do_turn(player_activity *act, player *p)
 {
-    if( calendar::turn % MINUTES(1) == 0 ) { // each turn is too much
+    if( calendar::once_every(MINUTES(1)) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, _("ScratchCrunchScrabbleScurry.") );
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
@@ -97,7 +101,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
-    mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
+    const mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
     std::vector<item> contents = g->m.i_at(p->pos())[act->index].contents;
     int age = g->m.i_at(p->pos())[act->index].bday;
     g->m.i_rem(p->pos(), act->index);
@@ -447,11 +451,11 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
         if( fishables.size() < 1 ) {
             if( one_in(20) ) {
                 item fish;
-                std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
-                std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
+                const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
+                const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
                 fish.make_corpse( fish_mon, calendar::turn );
                 g->m.add_item_or_charges(p->pos(), fish);
-                p->add_msg_if_player(m_good, _("You caught a %s."), GetMType(fish_mon)->nname().c_str());
+                p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
                 p->add_msg_if_player(_("You didn't catch anything."));
             }
@@ -565,7 +569,7 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
     item &game_item = p->i_at(act->position);
 
     //Deduct 1 battery charge for every minute spent playing
-    if( int(calendar::turn) % 10 == 0 ) {
+    if( calendar::once_every(MINUTES(1)) ) {
         game_item.charges--;
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
@@ -720,7 +724,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 void activity_handlers::pickaxe_do_turn(player_activity *act, player *p)
 {
     const tripoint &pos = act->placement;
-    if( calendar::turn % MINUTES(1) == 0 ) { // each turn is too much
+    if( calendar::once_every(MINUTES(1)) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound(pos, 30, _("CHNK! CHNK! CHNK!"));
         if( act->moves_left <= 91000 && act->moves_left > 89000 ) {
@@ -1040,7 +1044,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     //Deduct 1 battery charge for every minute using the vibrator
-    if( int(calendar::turn) % 10 == 0 ) {
+    if( calendar::once_every(MINUTES(1)) ) {
         vibrator_item.charges--;
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
@@ -1114,7 +1118,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.charges -= charges_used;
     act->values[0] -= charges_used;
 
-    if( calendar::turn % 2 ) {
+    if( calendar::once_every(2) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
     }
 }
@@ -1160,4 +1164,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
     }
+}
+
+void activity_handlers::cracking_finish( player_activity *act, player *p )
+{
+    p->add_msg_if_player( m_good, _("The safe opens!"));
+    g->m.furn_set( act->placement, f_safe_o);
 }

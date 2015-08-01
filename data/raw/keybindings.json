@@ -1051,6 +1051,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_PROFESSIONS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_SCENARIOS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "INSTALL",
         "category": "VEH_INTERACT",
         "name": "Install part",
@@ -1308,18 +1332,6 @@
             {
                 "input_method":"keyboard",
                 "key":"!"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SWAP_BIONIC_TABS",
-        "category":"BIONICS",
-        "name":"Swap bionic tab view",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"TAB"
             }
         ]
     },
@@ -1951,7 +1963,19 @@
         "type" : "keybinding",
         "id": "MOVE_SINGLE_ITEM",
         "category": "ADVANCED_INVENTORY",
-        "name": "Move item",
+        "name": "Move a single item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_VARIABLE_ITEM",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move an amount of item",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1968,10 +1992,6 @@
             {
                 "input_method":"keyboard",
                 "key":"M"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"RETURN"
             }
         ]
     },

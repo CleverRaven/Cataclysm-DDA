@@ -4,7 +4,6 @@
 #include "character.h"
 #include "item.h"
 #include "player_activity.h"
-#include "clzones.h"
 #include "weighted_list.h"
 
 #include <unordered_set>
@@ -12,6 +11,8 @@
 #include <array>
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
+
+enum action_id : int;
 
 class monster;
 class game;
@@ -134,8 +135,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns what color the player should be drawn as */
         virtual nc_color basic_symbol_color() const override;
 
-        /** Stringstream loader for old player data files */
-        virtual void load_legacy(std::stringstream &dump);
         /** Deserializes string data when loading files */
         virtual void load_info(std::string data);
         /** Outputs a serialized json string for saving */
@@ -159,10 +158,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_morale();
         /** Print the bars indicating how well the player is currently aiming.**/
         int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target);
-        /** Print just the gun mode indicator. **/
-        void print_gun_mode( WINDOW *w, nc_color c );
-        /** Print just the colored recoil indicator. **/
-        void print_recoil( WINDOW *w ) const;
+        /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
+        std::string print_gun_mode();
+        /** Returns the colored recoil indicator (contains color-tags). **/
+        std::string print_recoil() const;
         /** Displays indicator informing which turrets can fire at `targ`.**/
         int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
 
@@ -259,6 +258,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool remove_random_bionic();
         /** Returns the size of my_bionics[] */
         int num_bionics() const;
+        /** Returns amount of Storage CBMs in the corpse **/
+        std::pair<int, int> amount_of_storage_bionics();
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
@@ -327,6 +328,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         std::vector<Creature*> get_visible_creatures( int range ) const;
+        /**
+         * As above, but includes all creatures the player can detect well enough to target
+         * with ranged weapons, e.g. with infared vision.
+         */
+        std::vector<Creature*> get_targetable_creatures( int range ) const;
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
@@ -431,13 +437,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void fire_gun( const tripoint &target, long burst_size );
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
-        
+
         /** Activates any on-dodge effects and checks for dodge counter techniques */
         void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) override;
-        /** Reduces and mutates du, prints messages about armor taking damage. */
-        void armor_absorb(damage_unit &du, item &armor);
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb(damage_unit &du, item &armor);
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Handles dodged attacks (training dodge) and ma_ondodge */
@@ -446,13 +455,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
-        void on_hurt( Creature *source );
+        void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the base damage the player deals based on their stats */
         int base_damage(bool real_life = true, int stat = -999);
-        /** Returns the base to hit chance the player has based on their stats */
-        int base_to_hit(bool real_life = true, int stat = -999);
-        /** Returns Creature::get_hit_base() modified by clothing and weapon skill */
+        /** Returns Creature::get_hit_base() modified by weapon skill */
         int get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         int hit_roll() const override;
@@ -488,6 +495,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_dodge() const override;
         /** Returns the player's dodge_roll to be compared against an agressor's hit_roll() */
         int dodge_roll() override;
+
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         int get_melee() const override;
         /**
@@ -508,8 +516,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** ReReturns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
         tripoint adjacent_tile();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
@@ -550,7 +566,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Heals all body parts for dam */
         void healall(int dam);
         /** Hurts all body parts for dam, no armor reduction */
-        void hurtall(int dam, Creature *source);
+        void hurtall(int dam, Creature *source, bool disturb = true);
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
         int hitall(int dam, int vary, Creature *source);
         /** Knocks the player back one square from a tile */
@@ -618,16 +634,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wields an item, returns false on failed wield */
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
-        void pick_style();
+        bool pick_style();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item(item *to_wear, bool interactive = true);
         /** Takes off an item, returning false on fail, if an item vector
-         is given, stores the items in that vector and not in the inventory */
+         *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
-        /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
+        /** Removes the first item in the container's contents and wields it,
+         * taking moves based on skill and volume of item being wielded. */
         void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, std::string skill_used, int volume_factor);
@@ -713,6 +730,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        /** Returns true if the player is wearing active power */
+        bool is_wearing_active_power_armor() const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
 
@@ -794,12 +813,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_amount(const itype_id &it, int quantity) const;
         bool has_charges(const itype_id &it, long quantity) const;
         int  amount_of(const itype_id &it) const;
+        /** Returns the amount of item `type' that is currently worn */
+        int  amount_worn(const itype_id &id) const;
         long charges_of(const itype_id &it) const;
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
         // Check for free container space for the whole liquid item
-        bool has_container_for(const item &liquid);
+        bool has_container_for(const item &liquid) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( std::string flag ) const;
         // Has amount (or more) items with at least the required quality level.
@@ -855,9 +876,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * (if disassembled item is counted by charges).
          * If print_msg is true show a message about missing tools/charges.
          */
-        bool can_disassemble( const item *dis_item, const recipe *cur_recipe,
+        bool can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const;
         void disassemble(int pos = INT_MAX);
+        void disassemble(item &dis_item, int dis_pos, bool ground);
         void complete_disassemble();
 
         // yet more crafting.cpp
@@ -1042,13 +1064,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
 
-        // zone related stuff
-        // (zones as in the zones designated by players)
-        clZones Zones;
-
-        bool save_zones();
-        void load_zones();
-
         // drawing related stuff
         /**
          * Returns a list of the IDs of overlays on this character,
@@ -1091,6 +1106,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance(WINDOW *win, int min, int max, int line = -1);
+
+        // Prints message(s) about current health
+        void print_health();
 
     protected:
         // The player's position on the local map.

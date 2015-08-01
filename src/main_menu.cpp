@@ -1,4 +1,5 @@
 #include "game.h"
+#include "player.h"
 #include "gamemode.h"
 #include "debug.h"
 #include "input.h"
@@ -427,7 +428,6 @@ bool game::opening_screen()
                         werase(w_background);
                         wrefresh(w_background);
 
-                        MAPBUFFER.load(world->world_name);
                         start_game(world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
@@ -669,7 +669,6 @@ bool game::opening_screen()
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
                         setup();
-                        MAPBUFFER.load(world->world_name);
 
                         load(world->world_name, savegames[sel3]);
                         start = true;
@@ -804,7 +803,6 @@ bool game::opening_screen()
                     }
                     werase(w_background);
                     wrefresh(w_background);
-                    MAPBUFFER.load(world_generator->active_world->world_name);
                     start_game(world_generator->active_world->world_name);
                     start = true;
                 }

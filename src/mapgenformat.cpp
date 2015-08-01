@@ -5,14 +5,14 @@
 
 #include <cassert>
 #include <stdarg.h>
+#include <algorithm>
 
 #include "output.h"
-
+#include "mapdata.h"
 #include "mapgenformat.h"
 /*
  * Take array of struct { short; short } and spaw it on a map
  */
-
 void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const ter_id defter ) {
     (void)startx; (void)starty; // FIXME: unused
     for ( int y = 0; y < height; y++ ) {
@@ -93,14 +93,7 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
 
 std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 {
-    std::string temp;
-    for( auto &character : characters ) {
-        if( character != ' ' ) {
-            temp += character;
-        }
-    }
-    characters = temp;
-
+    characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
     std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
     va_list vl;
     va_start(vl,characters);

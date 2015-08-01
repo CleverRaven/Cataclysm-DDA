@@ -21,6 +21,7 @@ class player;
 class npc;
 struct itype;
 struct mtype;
+using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
@@ -38,6 +39,10 @@ struct light_emission {
     short direction;
 };
 extern light_emission nolight;
+
+namespace io {
+struct object_archive_tag;
+}
 
 struct iteminfo {
     public:
@@ -62,11 +67,11 @@ struct iteminfo {
 
 enum layer_level {
     UNDERWEAR = 0,
-    REGULAR_LAYER = 10,
-    WAIST_LAYER = 20,
-    OUTER_LAYER = 30,
-    BELTED_LAYER = 40,
-    MAX_CLOTHING_LAYER = 50
+    REGULAR_LAYER,
+    WAIST_LAYER,
+    OUTER_LAYER,
+    BELTED_LAYER,
+    MAX_CLOTHING_LAYER
 };
 
 class item_category
@@ -97,8 +102,7 @@ public:
 
         /**
          * Make this a corpse of the given monster type.
-         * The monster type must not be null, alternatively the monster type id must be a valid
-         * monster type (see @ref MonsterGenerator::get_mtype).
+         * The monster type id must be valid (see @ref MonsterGenerator::get_mtype).
          *
          * The turn parameter sets the birthday of the corpse, in other words: the turn when the
          * monster died. Because corpses are removed from the map when they reach a certain age,
@@ -111,9 +115,8 @@ public:
          * Without any parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( mtype* mt, unsigned int turn );
-        void make_corpse( mtype* mt, unsigned int turn, const std::string &name );
-        void make_corpse( const std::string &mtype_id, unsigned int turn );
+        void make_corpse( const mtype_id& mt, unsigned int turn );
+        void make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name );
         void make_corpse();
         /*@}*/
         /**
@@ -121,13 +124,13 @@ public:
          * type that this item is made of (e.g. corpse, meat or blood of the monster).
          * May return a null-pointer.
          */
-        mtype *get_mtype() const;
+        const mtype *get_mtype() const;
         /**
          * Sets the monster type associated with this item (@ref corpse). You must not pass a
          * null pointer.
          * TODO: change this to take a reference instead.
          */
-        void set_mtype( mtype *corpse );
+        void set_mtype( const mtype *corpse );
         /**
          * Whether this is a corpse item. Corpses always have valid monster type (@ref corpse)
          * associated (@ref get_mtype return a non-null pointer) and have been created
@@ -205,6 +208,10 @@ public:
     int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
  std::string skill() const;
+
+    template<typename Archive>
+    void io( Archive& );
+    using archive_type_tag = io::object_archive_tag;
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default
@@ -392,7 +399,7 @@ public:
      * The item must have enough charges for this (>= quantity) and be counted
      * by charges.
      * @param quantity How many charges should be removed.
-     * @return true if all charges would have been removed and the must be destroyed.
+     * @return true if all charges would have been removed and the item must be destroyed.
      * The charges member is not changed in that case (for usage in `player::i_rem`
      * which returns the removed item).
      * False if there are charges remaining, the charges have been reduced in that case.
@@ -864,6 +871,10 @@ public:
          */
         int get_thickness() const;
         /**
+         * Returns clothing layer for item which will always be 0 for non-wearable items.
+         */
+        int get_layer() const;
+        /**
          * Returns the relative coverage that this item has when worn.
          * Values range from 0 (not covering anything, or no armor at all) to
          * 100 (covering the whole body part). Items that cover more are more likely to absorb
@@ -873,8 +884,6 @@ public:
         /**
          * Returns the encumbrance value that this item has when worn.
          * Returns 0 if this is can not be worn at all.
-         * Note that this does not include any bonus from the FIT tag or similar, only
-         * @ref islot_armor::encumber.
          */
         int get_encumber() const;
         /**
@@ -1159,7 +1168,7 @@ public:
          */
         static std::string nname( const itype_id &id, unsigned int quantity = 1 );
         /**
-         * Returns the item type of the given identifier. Never retruns null.
+         * Returns the item type of the given identifier. Never returns null.
          */
         static itype *find_type( const itype_id &id );
         /**
@@ -1189,8 +1198,7 @@ public:
         std::bitset<num_bp> covered_bodyparts;
         itype* curammo;
         std::map<std::string, std::string> item_vars;
-        // TODO: make a pointer to const
-        mtype* corpse;
+        const mtype* corpse;
         std::set<matec_id> techniques; // item specific techniques
         light_emission light;
 public:
@@ -1216,6 +1224,7 @@ public:
 
  int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
+ int get_gun_ups_drain() const; 
 };
 
 bool item_compare_by_charges( const item& left, const item& right);

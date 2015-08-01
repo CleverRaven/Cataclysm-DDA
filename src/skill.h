@@ -193,8 +193,6 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
         }
 };
 
-std::istream &operator>>(std::istream &is, SkillLevel &obj); // see savegame_legacy.cpp
-
 double price_adjustment(int);
 
 #endif

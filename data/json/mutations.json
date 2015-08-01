@@ -115,8 +115,8 @@
         "type" : "mutation",
         "id" : "NIGHTVISION",
         "name" : "Night Vision",
-        "points" : 1,
-        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.  Activate to toggle NV-visible areas on or off.",
+        "points" : 2,
+        "description" : "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
@@ -339,9 +339,10 @@
         "id" : "SELFAWARE",
         "name" : "Self-Aware",
         "points" : 1,
-        "description" : "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
+        "description" : "You get to see your exact amount of HP remaining and health, instead of only having a vague idea of whether you're in good condition or not.",
         "starting_trait" : true,
         "valid" : false,
+        "active" : true,
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -1833,8 +1834,8 @@
         "type" : "mutation",
         "id" : "INFRESIST",
         "name" : "Infection Resistant",
-        "points" : 3,
-        "description" : "Your immune system is particularly good at resisting infections.",
+        "points" : 2,
+        "description" : "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
         "starting_trait" : true,
         "changes_to" : ["INFIMMUNE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
@@ -1842,7 +1843,7 @@
         "type" : "mutation",
         "id" : "INFIMMUNE",
         "name" : "Infection Immune",
-        "points" : 5,
+        "points" : 4,
         "description" : "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
         "prereqs" : ["DISRESISTANT"],
         "prereqs2" : ["INFRESIST"],
@@ -2015,8 +2016,8 @@
         "name" : "Subterranean Fortitude",
         "points" : 2,
         "description" : "The aches and pains of living underground don't bother you as much.",
-        "prereq" : ["PAINRESIST"],
-        "prereq2" : ["STOCKY_TROGLO"],
+        "prereqs" : ["PAINRESIST"],
+        "prereqs2" : ["STOCKY_TROGLO"],
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLOBITE"]
     },{
@@ -2382,7 +2383,7 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH2",
@@ -4484,6 +4485,15 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_CHURL",
+        "name" : "Churl",
+        "points" : 0,
+        "description" : "Thou art a lewede man, a lowly cowherd, though where thi catel been thou hast not ynn certain.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "PROF_PD_DET",
         "name" : "Police Detective",
         "points" : 0,
@@ -4642,6 +4652,14 @@
         "points" : 99,
         "valid" : false,
         "description" : "Bug repellent forcefield.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_HS",
+        "name" : "Debug Hammerspace",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "threshold" : true
     }
 ]

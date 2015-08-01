@@ -174,6 +174,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sling",
+  "id_suffix": "cord",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_36", 3 ],
+      [ "string_6", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "slingshot",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -700,6 +717,8 @@
       [ "gin", 14 ],
       [ "moonshine", 14 ],
       [ "brandy", 14 ],
+      [ "chem_ethanol", 14],
+      [ "denat_alcohol", 14],
       [ "lamp_oil", 400 ],
       [ "gasoline", 600 ],
       [ "diesel", 600 ]
@@ -725,6 +744,7 @@
       [ "gasoline", 200 ],
       [ "diesel", 200 ],
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_bird", 6 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ]
@@ -753,8 +773,7 @@
   "components": [
     [
       [ "paper", 5 ],
-      [ "rolling_paper", 30],
-      [ "wrapper", 5]
+      [ "rolling_paper", 32]
     ],
     [
       [ "acid", 2 ]
@@ -1350,6 +1369,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "pipe_combination_gun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "nail", 2 ]
+    ],
+    [
+      [ "spring", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "byproducts": { "id" : "scrap", "amount" : 3 },
   "category": "CC_WEAPON",
@@ -1672,6 +1722,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
@@ -1969,6 +2020,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
+      [ "denat_alcohol", 7],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
@@ -2004,6 +2057,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
+      [ "denat_alcohol", 7],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
@@ -5991,9 +6046,9 @@
   "autolearn": true,
   "tools": [],
   "components": [
-    [ [ "glass_shard", 5 ] ],
+    [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ],
     [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ] ]
+    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -6103,10 +6158,11 @@
     ],
     [
       [ "paper", 1 ],
-      [ "rolling_paper", 5 ]
+      [ "rolling_paper", 6 ]
     ],
     [
-      [ "gunpowder", 5 ]
+      [ "gunpowder", 5 ],
+      [ "chem_black_powder", 10 ]
     ]
   ]
 },{
@@ -6713,6 +6769,54 @@
     [["steel_lump", 1],
     ["steel_chunk", 4],
     ["scrap", 12]]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "chemical_thrower",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "launcher", 2 ],
+  "difficulty": 6,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": 
+  [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 80],
+      ["welder", 400],
+      ["welder_crude", 550],
+      ["toolset", 550]
+    ]
+  ],
+  "components": [
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "metal_tank_little", 1]
+    ],
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "steel_lump", 1],
+      [ "steel_chunk", 4],
+      [ "scrap", 12]
+    ]
   ]
 }
 ]

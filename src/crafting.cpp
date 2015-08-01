@@ -461,12 +461,20 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 
 bool player::can_make(const recipe *r, int batch_size)
 {
+    if (has_trait( "DEBUG_HS" )) {
+        return true;
+    }
+
     const inventory &crafting_inv = crafting_inventory();
     return r->can_make_with_inventory( crafting_inv, batch_size );
 }
 
 bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) const
 {
+    if (g->u.has_trait( "DEBUG_HS" )) {
+        return true;
+    }
+
     if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv) ) {
         return false;
     }
@@ -894,19 +902,15 @@ const recipe *select_crafting_recipe( int &batch_size )
                 redraw = true;
                 continue;
             }
-            if (current[line]->reversible) {
-                popup(_("Batch crafting is not available for reversible items!"));
+            batch = !batch;
+            if (batch) {
+                batch_line = line;
+                chosen = current[batch_line];
             } else {
-                batch = !batch;
-                if (batch) {
-                    batch_line = line;
-                    chosen = current[batch_line];
-                } else {
-                    line = batch_line;
-                    keepline = true;
-                }
-                redraw = true;
+                line = batch_line;
+                keepline = true;
             }
+            redraw = true;
         }
         if (line < 0) {
             line = current.size() - 1;
@@ -1493,6 +1497,31 @@ bool recipe::has_byproducts() const
     return byproducts.size() != 0;
 }
 
+// @param offset is the index of the created item in the range [0, batch_size-1],
+// it makes sure that the used items are distributed equally among the new items.
+void set_components( std::vector<item> &components, const std::list<item> &used, const int batch_size, const size_t offset )
+{
+    if( batch_size <= 1 ) {
+        components.insert( components.begin(), used.begin(), used.end() );
+        return;
+    }
+    // This count does *not* include items counted by charges!
+    size_t non_charges_counter = 0;
+    for( auto &tmp : used ) {
+        if( tmp.count_by_charges() ) {
+            components.push_back( tmp );
+            // This assumes all (count-by-charges) items of the same type have been merged into one,
+            // which has a charges value that can be evenly divided by batch_size.
+            components.back().charges = tmp.charges / batch_size;
+        } else {
+            if( ( non_charges_counter + offset ) % batch_size == 0 ) {
+                components.push_back( tmp );
+            }
+            non_charges_counter++;
+        }
+    }
+}
+
 void player::complete_craft()
 {
     const recipe *making = recipe_by_index(activity.index); // Which recipe is it?
@@ -1621,6 +1650,7 @@ void player::complete_craft()
     bool first = true;
     float used_age_tally = 0;
     int used_age_count = 0;
+    size_t newit_counter = 0;
     for(item &newit : newits) {
         // messages, learning of recipe, food spoilage calc only once
         if (first) {
@@ -1654,11 +1684,12 @@ void player::complete_craft()
             }
         }
 
-        if (!newit.count_by_charges() && making->reversible) {
+        if( !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.
-            newit.components.insert(newit.components.begin(), used.begin(), used.end());
+            set_components( newit.components, used, batch_size, newit_counter );
+            newit_counter++;
         }
         finalize_crafted_item( newit, used_age_tally, used_age_count );
         set_item_inventory(newit);
@@ -1728,6 +1759,11 @@ void set_item_inventory(item &newit)
 std::list<item> player::consume_items(const std::vector<item_comp> &components, int batch)
 {
     std::list<item> ret;
+
+    if (has_trait("DEBUG_HS")) {
+        return ret;
+    }
+
     // For each set of components in the recipe, fill you_have with the list of all
     // matching ingredients the player has.
     std::vector<item_comp> player_has;
@@ -1868,6 +1904,10 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 
 void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
 {
+    if (has_trait("DEBUG_HS")) {
+        return;
+    }
+
     bool found_nocharge = false;
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
@@ -1940,13 +1980,13 @@ const recipe *get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
+bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const
 {
-    if (dis_item->count_by_charges()) {
+    if (dis_item.count_by_charges()) {
         // Create a new item to get the default charges
         const item tmp = cur_recipe->create_result();
-        if (dis_item->charges < tmp.charges) {
+        if (dis_item.charges < tmp.charges) {
             if (print_msg) {
                 popup(ngettext("You need at least %d charge of that item to disassemble it.",
                                "You need at least %d charges of that item to disassemble it.",
@@ -1984,6 +2024,10 @@ bool player::can_disassemble( const item *dis_item, const recipe *cur_recipe,
                 have_this_tool = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 );
             }
 
+            if (type == "sewing_kit") {
+                have_this_tool = crafting_inv.has_items_with_quality( "CUT", 1, 1 );
+            }
+            
             if( have_this_tool ) {
                 break;
             }
@@ -2025,19 +2069,30 @@ void player::disassemble(int dis_pos)
     if (dis_pos == INT_MAX) {
         dis_pos = g->inv(_("Disassemble item:"));
     }
-    item *dis_item = &i_at(dis_pos);
+    item &dis_item = i_at(dis_pos);
     if (!has_item(dis_pos)) {
         add_msg(m_info, _("You don't have that item!"), dis_pos);
         return;
     }
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item->type->id );
+    disassemble(dis_item, dis_pos, false);
+}
+
+void player::disassemble(item &dis_item, int dis_pos, bool ground)
+{
+    const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
+
+    //no disassembly without proper light
+    if (fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to craft!"));
+        return;
+    }
 
     //checks to see if you're disassembling rotten food, and will stop you if true
-    if( (dis_item->is_food() && dis_item->goes_bad()) ||
-        (dis_item->is_food_container() && dis_item->contents[0].goes_bad()) ) {
-        dis_item->calc_rot( global_square_location() );
-        if( dis_item->rotten() ||
-            (dis_item->is_food_container() && dis_item->contents[0].rotten())) {
+    if( (dis_item.is_food() && dis_item.goes_bad()) ||
+        (dis_item.is_food_container() && dis_item.contents[0].goes_bad()) ) {
+        dis_item.calc_rot( global_square_location() );
+        if( dis_item.rotten() ||
+            (dis_item.is_food_container() && dis_item.contents[0].rotten())) {
             add_msg(m_info, _("It's rotten, I'm not taking that apart."));
             return;
         }
@@ -2046,22 +2101,25 @@ void player::disassemble(int dis_pos)
     if (cur_recipe != NULL) {
         const inventory &crafting_inv = crafting_inventory();
         if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
-            if( !query_dissamble( *dis_item ) ) {
+            if( !query_dissamble( dis_item ) ) {
                 return;
             }
             assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
             activity.values.push_back(dis_pos);
+            if( ground ) {
+                activity.values.push_back(1);
+            }
         }
         return; // recipe exists, but no tools, so do not start disassembly
     }
     //if we're trying to disassemble a book or magazine
-    if( dis_item->is_book() ) {
+    if( dis_item.is_book() ) {
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
-            !(query_yn(_("Do you want to tear %s into pages?"), dis_item->tname().c_str()))) {
+            !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
             return;
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
-            int num_pages = (dis_item->volume() * 2) * 10;
+            int num_pages = (dis_item.volume() * 2) * 10;
             g->m.spawn_item(posx(), posy(), "paper", 0, num_pages);
             i_rem(dis_pos);
         }

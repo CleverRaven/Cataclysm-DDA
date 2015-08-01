@@ -2,7 +2,6 @@
 #define CHARACTER_H
 
 #include "creature.h"
-#include "action.h"
 #include "inventory.h"
 #include "bionics.h"
 
@@ -39,6 +38,10 @@ class Character : public Creature
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
+        /**
+         * Handles end-of-turn processing.
+         */
+        void process_turn() override;
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
@@ -75,8 +78,9 @@ class Character : public Creature
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
-        /** Toggles a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void toggle_mutation(const std::string &flag);
+        /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
+        void set_mutation(const std::string &flag);
+        void unset_mutation(const std::string &flag);
 
  private:
         /** Retrieves a stat mod of a mutation. */
@@ -201,14 +205,15 @@ class Character : public Creature
         {
             // player usually interacts with items in the inventory the most (?)
             std::list<item> result = inv.remove_items_with( filter );
-            for( auto &article : worn ) {
+            for( auto iter = worn.begin(); iter != worn.end(); ) {
+                item &article = *iter;
                 if( filter( article ) ) {
-                    result.push_back( article );
+                    result.splice( result.begin(), worn, iter++ );
                 } else {
                     result.splice( result.begin(), article.remove_items_with( filter ) );
+                    ++iter;
                 }
             }
-            worn.erase( std::remove_if( worn.begin(), worn.end(), filter ), worn.end() );
             if( !weapon.is_null() ) {
                 if( filter( weapon ) ) {
                     result.push_back( remove_weapon() );
@@ -218,6 +223,12 @@ class Character : public Creature
             }
             return result;
         }
+        /**
+         * Similar to @ref remove_items_with, but considers only worn items and not their
+         * content (@ref item::contents is not checked).
+         * If the filter function returns true, the item is removed.
+         */
+        std::list<item> remove_worn_items_with( std::function<bool(item &)> filter );
 
         item &i_add(item it);
         /**
@@ -258,6 +269,8 @@ class Character : public Creature
         int volume_capacity() const;
         bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
+
+        void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 
@@ -322,7 +335,7 @@ class Character : public Creature
         std::string name;
         bool male;
 
-        std::vector<item> worn;
+        std::list<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max;
         bool nv_cached;
 

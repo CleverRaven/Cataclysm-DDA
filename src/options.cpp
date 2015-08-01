@@ -23,6 +23,7 @@
 
 bool trigdist;
 bool use_tiles;
+bool log_from_top;
 
 bool used_tiles_changed;
 #ifdef SDLTILES
@@ -706,6 +707,14 @@ void initOptions()
                                     "wider,narrow", "narrow"
                                    );
 
+    //~ sidebar message log flow direction
+    optionNames["new_top"] = _("Top");
+    optionNames["new_bottom"] = _("Bottom");
+    OPTIONS["SIDEBAR_LOG_FLOW"] = cOpt("interface", _("Sidebar log flow"),
+                                       _("Where new sidebar log messages should show."),
+                                       "new_top,new_bottom", "new_bottom"
+                                      );
+
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
     optionNames["horizontal"] = _("Horizontal");
@@ -763,7 +772,7 @@ void initOptions()
     //~ hide mouse cursor when keyboard is used
     optionNames["hidekb"] = _("HideKB");
     OPTIONS["HIDE_CURSOR"] = cOpt("interface", _("Hide mouse cursor"),
-                                  _("Always: Cursor is always shown. Hidden: Cursor is hidden. HiddenKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
+                                  _("Show: Cursor is always shown. Hide: Cursor is hidden. HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
                                   "show,hide,hidekb", "show", COPT_CURSES_HIDE
                                  );
 
@@ -899,8 +908,8 @@ void initOptions()
                                     _("A scaling factor that determines density of dynamic NPC spawns."),
                                     0.0, 100.0, 1.0, 0.01
                                    );
-    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster difficulty"),
-                                    _("A scaling factor that determines the rate of monster advancement. A value of 100 makes monsters upgrade 100x faster, while zero stops upgrading completely."),
+    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster half-life scaling factor"),
+                                    _("A scaling factor that determines average time in days between monster upgrades. Set to 0.00 to turn off monster upgrades."),
                                     0.0, 100, 1.0, 0.01
                                    );
 
@@ -946,7 +955,7 @@ void initOptions()
                                   );
 
     OPTIONS["WANDER_SPAWNS"] = cOpt("world_default", _("Wander spawns"),
-                                    _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise"),
+                                    _("Emulation of zombie hordes. Zombie spawn points wander around cities and may go to noise. Must reset world directory after changing for it to take effect."),
                                     false
                                    );
 
@@ -1395,6 +1404,7 @@ void load_options()
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
 }
 
 std::string options_header()
@@ -1449,6 +1459,8 @@ void save_options(bool ingame)
     }
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+
 }
 
 bool use_narrow_sidebar()

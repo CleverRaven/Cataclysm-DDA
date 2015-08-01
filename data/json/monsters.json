@@ -1501,10 +1501,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "upgrade_group" : "GROUP_ZOMBIE_UPGRADE",
-    "upgrade_min" : 14,
-    "half_life" : 14,
-    "base_upgrade_chance" : 10,
+    "upgrades":{
+        "into_group": "GROUP_ZOMBIE_UPGRADE",
+        "half_life": 28
+    },
     "hp":80,
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5], ["GRAB", 7]],
@@ -1535,10 +1535,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "upgrade_group" : "GROUP_ZOMBIE_FAT",
-    "upgrade_min" : 3,
-    "half_life" : 5,
-    "base_upgrade_chance" : 15,
+    "upgrades":{
+        "into_group": "GROUP_ZOMBIE_FAT",
+        "half_life": 10
+    },
     "hp":95,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
@@ -1807,14 +1807,14 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "upgrades_into" : "mon_zombie_spitter",
-    "upgrade_min" : 1,
-    "half_life" : 4,
-    "base_upgrade_chance" : 15,
+    "upgrades":{
+      "into": "mon_zombie_spitter",
+      "half_life": 10
+    },
     "hp":65,
     "special_attacks":[["ACID_BARF", 10]],
     "death_function":["ACID", "NORMAL"],
-    "description":"A sickly-looking dead one. Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
+    "description":"A sickly-looking dead one.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -1840,10 +1840,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "upgrades_into" : "mon_zombie_corrosive",
-    "upgrade_min" : 14,
-    "half_life" : 14,
-    "base_upgrade_chance" : 10,
+    "upgrades":{
+      "into": "mon_zombie_corrosive",
+      "half_life": 28
+    },
     "hp":70,
     "death_function":["ACID", "NORMAL"],
     "special_attacks":[["ACID", 20]],
@@ -2199,10 +2199,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_items",
-    "upgrades_into" : "mon_boomer_huge",
-    "upgrade_min" : 6,
-    "half_life" : 10,
-    "base_upgrade_chance" : 20,
+    "upgrades":{
+      "into": "mon_boomer_huge",
+      "half_life": 14
+    },
     "hp":40,
     "death_function":["BOOMER"],
     "special_attacks":[["BOOMER", 20]],
@@ -2263,7 +2263,7 @@
     "death_drops": "default_zombie_items",
     "hp":30,
     "death_function":["FUNGUS", "NORMAL"],
-    "special_attacks":[["FUNGUS", 200], ["BOOMER", 20]],
+    "special_attacks":[["FUNGUS", 100], ["BOOMER", 20]],
     "description":"A rotund and bloated human body with pasty, fungus-ridden flesh.  Its mouth drips with a frothing gray sludge.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "FAT", "PUSH_MON"]
     },{
@@ -2510,10 +2510,10 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "upgrades_into" : "mon_zombie_grappler",
-    "upgrade_min" : 6,
-    "half_life" : 7,
-    "base_upgrade_chance" : 20,
+    "upgrades":{
+      "into": "mon_zombie_grappler",
+      "half_life": 14
+    },
     "hp":95,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 5]],
@@ -2547,7 +2547,7 @@
     "hp":110,
     "death_function":["NORMAL"],
     "special_attacks":[["RANGED_PULL", 20], ["GRAB_DRAG", 3], ["BITE", 5]],
-    "description":"An undead humanoid, its elongated arms drag along the ground as it moves. It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
+    "description":"An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -2638,10 +2638,10 @@
     "vision_night":3,
     "item_chance":40,
     "death_drops": "default_zombie_death_drops",
-    "upgrades_into" : "mon_zombie_hunter",
-    "upgrade_min" : 1,
-    "half_life" : 1,
-    "base_upgrade_chance" : 15,
+    "upgrades":{
+      "into": "mon_zombie_hunter",
+      "half_life": 10
+    },
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[ ["BITE", 5]],
@@ -2671,10 +2671,10 @@
     "vision_day":40,
     "vision_night":5,
     "death_drops": "default_zombie_death_drops",
-    "upgrades_into" : "mon_zombie_predator",
-    "upgrade_min" : 14,
-    "half_life" : 14,
-    "base_upgrade_chance" : 10,
+    "upgrades":{
+      "into": "mon_zombie_predator",
+      "half_life": 28
+    },
     "hp":90,
     "death_function":["NORMAL"],
     "special_attacks":[["LEAP", 5], ["BITE", 5]],
@@ -3297,20 +3297,22 @@
     "material":"veggy",
     "diff":1,
     "aggression":-50,
-    "morale":100,
+    "morale":75,
     "speed":100,
     "melee_skill":0,
     "melee_dice":0,
     "melee_dice_sides":0,
     "melee_cut":0,
-    "dodge":4,
+    "dodge":2,
     "armor_bash":0,
     "armor_cut":0,
     "hp":4,
-    "upgrades_into": "mon_fungaloid",
-    "half_life" : 1,
+    "upgrades":{
+      "into": "mon_fungaloid",
+      "half_life": 10
+    },
     "death_function":"DISINTEGRATE",
-    "special_attacks":[["PLANT", 500]],
+    "special_attacks":[["PLANT", 100]],
     "description":"A mass of spores the size of a balled fist, wafting around in the air.",
     "flags":["STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOHEAD", "NOGIB"]
     },{
@@ -5189,13 +5191,13 @@
     "aggression":100,
     "morale":100,
     "speed":190,
-    "melee_skill":6,
-    "melee_dice":1,
+    "melee_skill":10,
+    "melee_dice":2,
     "melee_dice_sides":4,
-    "melee_cut":8,
-    "dodge":4,
-    "armor_bash":0,
-    "armor_cut":6,
+    "melee_cut":12,
+    "dodge":0,
+    "armor_bash":2,
+    "armor_cut":8,
     "vision_day":40,
     "revert_to_itype": "bot_manhack",
     "death_drops": {
@@ -6436,7 +6438,7 @@
     "hp":10000,
     "death_function":"NORMAL",
     "special_attacks":[["DANCE", 30]],
-    "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!",
+    "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!\n\nThe dancer doens't even notice you, it seems like something nearby is controlling it.",
     "flags":["WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "REGENERATES_50", "BONES", "POISON", "FAT"]
     }, {
     "type" : "MONSTER",

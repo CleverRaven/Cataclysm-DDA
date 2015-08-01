@@ -6,6 +6,8 @@
 #include "translations.h"
 #include "options.h"
 #include "map_iterator.h"
+#include "field.h"
+
 #include <map>
 
 Character::Character()
@@ -160,6 +162,12 @@ void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+}
+
+void Character::process_turn()
+{
+    Creature::process_turn();
+    drop_inventory_overflow();
 }
 
 void Character::recalc_hp()
@@ -388,6 +396,19 @@ item& Character::i_add(item it)
     return item_in_inv;
 }
 
+std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> filter )
+{
+    std::list<item> result;
+    for( auto iter = worn.begin(); iter != worn.end(); ) {
+        if( filter( *iter ) ) {
+            result.splice( result.begin(), worn, iter++ );
+        } else {
+            ++iter;
+        }
+    }
+    return result;
+}
+
 item Character::i_rem(int pos)
 {
  item tmp;
@@ -396,8 +417,10 @@ item Character::i_rem(int pos)
      weapon = ret_null;
      return tmp;
  } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
-     tmp = worn[worn_position_to_index(pos)];
-     worn.erase(worn.begin() + worn_position_to_index(pos));
+     auto iter = worn.begin();
+     std::advance( iter, worn_position_to_index( pos ) );
+     tmp = *iter;
+     worn.erase( iter );
      return tmp;
  }
  return inv.remove_item(pos);
@@ -431,7 +454,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
         }
         if (drop) {
             retval &= g->m.add_item_or_charges(posx(), posy(), it);
-        } else {
+        } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
             i_add(it);
         }
     }
@@ -522,7 +545,7 @@ int Character::weight_capacity() const
 
 int Character::volume_capacity() const
 {
-    int ret = 2; // A small bonus (the overflow)
+    int ret = 0;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -541,20 +564,15 @@ int Character::volume_capacity() const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    if (ret < 2) {
-        ret = 2;
-    }
+    ret = std::max(ret, 0);
     return ret;
 }
 
-bool Character::can_pickVolume( int volume, bool safe ) const
+bool Character::can_pickVolume( int volume, bool ) const
 {
-    if( !safe ) {
-        return volume_carried() + volume <= volume_capacity();
-    } else {
-        return volume_carried() + volume <= volume_capacity() - 2;
-    }
+   return volume_carried() + volume <= volume_capacity();
 }
+
 bool Character::can_pickWeight( int weight, bool safe ) const
 {
     if (!safe)
@@ -565,6 +583,16 @@ bool Character::can_pickWeight( int weight, bool safe ) const
     else
     {
         return (weight_carried() + weight <= weight_capacity());
+    }
+}
+
+void Character::drop_inventory_overflow() {
+    if( volume_carried() > volume_capacity() ) {
+        for( auto &item_to_drop :
+               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
+            g->m.add_item_or_charges( pos(), item_to_drop );
+        }
+        add_msg_if_player( m_bad, _("Some items tumble to the ground.") );
     }
 }
 
@@ -682,8 +710,6 @@ void Character::die(Creature* nkiller)
 
 void Character::reset_stats()
 {
-    Creature::reset_stats();
-
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
@@ -750,6 +776,9 @@ void Character::reset_stats()
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
+
+    // Has to be at the end because it applies the bonuses
+    Creature::reset_stats();
 }
 
 bool Character::has_nv()

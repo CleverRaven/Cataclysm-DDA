@@ -4,14 +4,18 @@
 #include "creature.h"
 #include "player.h"
 #include "enums.h"
+#include "int_id.h"
 #include <vector>
 
 class map;
 class game;
 class item;
 class monfaction;
+struct mtype;
+enum monster_trigger : int;
 
 using mfaction_id = int_id<monfaction>;
+using mtype_id = string_id<mtype>;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
 
@@ -32,8 +36,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster(mtype *t);
-        monster( mtype *t, const tripoint &pos );
+        monster( const mtype_id& id );
+        monster( const mtype_id& id, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
@@ -45,9 +49,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        void poly(mtype *t);
-        bool can_upgrade() const;
-        void update_check();
+        void poly( const mtype_id& id );
+        bool can_upgrade();
+        void hasten_upgrade();
+        void try_upgrade(bool pin_time);
         void spawn( const tripoint &p); // All this does is moves the monster to p
         m_size get_size() const override;
         int get_hp( hp_part ) const override
@@ -58,18 +63,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return hp;
         }
-        int get_hp_max( hp_part ) const override
-        {
-            return type->hp;
-        };
-        int get_hp_max() const
-        {
-            return type->hp;
-        }
-        std::string get_material() const override
-        {
-            return type->mat[0];
-        };
+        int get_hp_max( hp_part ) const override;
+        int get_hp_max() const;
+        std::string get_material() const override;
         int hp_percentage() const override;
 
         // Access
@@ -105,7 +101,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) override;
 
-        void load_legacy(std::stringstream &dump);
         void load_info(std::string data);
 
         using JsonSerializer::serialize;
@@ -124,7 +119,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool wander(); // Returns true if we have no plans
 
         /**
-         * Checks whether we can move to/through (x, y). This does not account for bashing.
+         * Checks whether we can move to/through p. This does not account for bashing.
          *
          * This is used in pathfinding and ONLY checks the terrain. It ignores players
          * and monsters, which might only block this tile temporarily.
@@ -134,11 +129,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
         int  turns_to_reach(int x, int y); // How long will it take?
 
-        void set_dest( const tripoint &p, int &t ); // Go in a straight line to (x, y)
+        void set_dest( const tripoint &p, int &t ); // Go in a straight line to p
         // t determines WHICH Bresenham line
 
         /**
-         * Set (x, y) as wander destination.
+         * Set p as wander destination.
          *
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.
@@ -161,6 +156,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint scent_move();
         tripoint wander_next();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
+        int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
         /**
          * Attempt to move to p.
@@ -220,7 +216,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
-        int trigger_sum(std::set<monster_trigger> *triggers) const;
+        int trigger_sum( const std::set<monster_trigger>& triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -303,12 +299,23 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void drop_items_on_death();
 
         // Other
-        bool make_fungus();  // Makes this monster into a fungus version
-        // Returns false if no such monster exists
+        /**
+         * Makes this monster into a fungus version
+         * Returns false if no such monster exists
+         */
+        bool make_fungus();
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
         void make_ally(monster* z);
         void add_item(item it);     // Add an item to inventory
+
+        /**
+         * Makes monster react to heard sound
+         *
+         * @param source_volume Volume at the center of the sound source
+         * @param distance Distance to sound source (currently just rl_dist)
+         */
+        void hear_sound( const tripoint &from, int source_volume, int distance );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
@@ -331,7 +338,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int anger, morale;
         mfaction_id faction; // Our faction (species, for most monsters)
         int mission_id; // If we're related to a mission
-        mtype *type;
+        const mtype *type;
         bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
         bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
         bool is_dead() const;
@@ -374,25 +381,21 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( const item &itm );
-        /** Gets the last time the monster was loaded. */
-        int get_last_load() const;
-        /** Sets the last time the monster was loaded to the given day. */
-        void set_last_load(int day);
-
-        /** Sets the last time the monster was loaded to the current day */
-        void reset_last_load();
 
     private:
         int hp;
         std::vector<int> sp_timeout;
         std::vector <tripoint> plans;
         tripoint position;
-        int last_loaded; //time the monster was last loaded
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );
+        /** Normal upgrades **/
+        int next_upgrade_time();
+        bool upgrades;
+        int upgrade_time;
 
     protected:
         void store(JsonOut &jsout) const;

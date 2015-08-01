@@ -348,11 +348,7 @@
         "see_cost" : 2,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true,
-        "mapgen": [
-            { "method": "builtin", "name": "park_playground", "weight": 500 },
-            { "method": "builtin", "name": "park_basketball", "weight": 1000, "comment": "1000 is default" }
-        ]
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "pool",
@@ -673,6 +669,17 @@
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
         "color" : "brown",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "s_bookstore",
+        "name" : "bookstore",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "ltgray_yellow",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
@@ -3442,7 +3449,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_a_75",
-        "name" : "fast food",
+        "name" : "fast food restaurant",
         "sym" : [94, 62, 118, 60],
         "color" : "yellow_magenta",
         "see_cost" : 5,
