@@ -163,7 +163,7 @@ class cata_tiles
         /**
          * throws std::string on errors.
          */
-        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+        void load_tilejson_from_file(const std::string tileset_dir, std::ifstream &f, const std::string &imagepath);
 
         /**
          * Load tiles from json data.This expects a "tiles" array in

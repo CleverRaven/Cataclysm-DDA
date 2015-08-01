@@ -256,19 +256,19 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
     std::string img_path = tileset_root + '/' + image_path;
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
+    std::ifstream config_file(json_path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
         throw std::string("Failed to open tile info json: ") + json_path;
     }
 
-    load_tilejson_from_file( config_file, img_path );
+    load_tilejson_from_file(tileset_root, config_file, img_path);
     if (tile_ids.count("unknown") == 0) {
         dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
     }
 }
 
-void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
+void cata_tiles::load_tilejson_from_file(const std::string tileset_dir, std::ifstream &f, const std::string &image_path)
 {
     JsonIn config_json(f);
     JsonObject config = config_json.get_object();
@@ -300,7 +300,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         JsonArray tiles_new = config.get_array("tiles-new");
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
-            const std::string tileset_image_path = tile_part_def.get_string("file");
+            const std::string tileset_image_path = tileset_dir + '/' + tile_part_def.get_string("file");
             int R = -1;
             int G = -1;
             int B = -1;
