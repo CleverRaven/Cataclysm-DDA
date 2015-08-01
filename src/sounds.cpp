@@ -543,9 +543,6 @@ void sfx::do_ambient() {
             play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume, 6,
                                         1000 );
             break;
-        // I didn't know where to put these or even if the first two were needed. They probably shouldn't make any noise, but I was getting an error when compiling when I left them out.
-        case WEATHER_NULL:
-        case NUM_WEATHER_TYPES:
         case WEATHER_CLEAR:
         case WEATHER_SUNNY:
         case WEATHER_CLOUDY:
@@ -553,6 +550,10 @@ void sfx::do_ambient() {
         case WEATHER_SNOW:
             play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, 5,
                                         1000 );
+            break;
+        case WEATHER_NULL:
+        case NUM_WEATHER_TYPES:
+            // nothing here, those are pseudo-types, they should not be active at all.
             break;
         }
     }
