@@ -762,15 +762,15 @@ void sfx::do_projectile_hit_sfx( const Creature *target ) {
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
 
-void sfx::do_player_death_hurt_sfx( bool gender, bool death ) {
+void sfx::do_player_death_hurt_sfx( bool male, bool death ) {
     int heard_volume = get_heard_volume( g->u.pos() );
-    if( !gender && !death ) {
+    if( !male && !death ) {
         play_variant_sound( "deal_damage", "hurt_f", heard_volume );
-    } else if( gender && !death ) {
+    } else if( male && !death ) {
         play_variant_sound( "deal_damage", "hurt_m", heard_volume );
-    } else if( !gender && death ) {
+    } else if( !male && death ) {
         play_variant_sound( "clean_up_at_end", "death_f", heard_volume );
-    } else if( gender && death ) {
+    } else if( male && death ) {
         play_variant_sound( "clean_up_at_end", "death_m", heard_volume );
     }
 }
