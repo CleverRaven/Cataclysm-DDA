@@ -52,6 +52,49 @@ options_data::options_data()
     //   optionsdata.addme("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
 }
 
+void options_data::enable_json(const std::string &lvar)
+{
+    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
+}
+
+void options_data::add_retry(const std::string &lvar, const::std::string &lval)
+{
+    static const std::string blank_value( 1, 001 );
+    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+    if ( it != post_json_verify.end() && it->second == blank_value ) {
+        // initialized with impossible value: valid
+        post_json_verify[ lvar ] = lval;
+    }
+}
+
+void options_data::add_value( const std::string &lvar, const std::string &lval,
+                              std::string lvalname )
+{
+    static const std::string blank_value( 1, 001 );
+
+    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+    if ( it != post_json_verify.end() ) {
+        auto ot = OPTIONS.find(lvar);
+        if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
+            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
+                eit != ot->second.vItems.end(); ++eit) {
+                if ( *eit == lval ) { // already in
+                    return;
+                }
+            }
+            ot->second.vItems.push_back(lval);
+            if ( optionNames.find(lval) == optionNames.end() ) {
+                optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
+            }
+            // our value was saved, then set to default, so set it again.
+            if ( it->second == lval ) {
+                OPTIONS[ lvar ].setValue( lval );
+            }
+        }
+
+    }
+}
+
 //Default constructor
 cOpt::cOpt()
 {
@@ -456,7 +499,7 @@ bool cOpt::operator!=(const std::string sCompare) const
     return !(*this == sCompare);
 }
 
-void initOptions()
+void init_options()
 {
     OPTIONS.clear();
     ACTIVE_WORLD_OPTIONS.clear();
@@ -1528,47 +1571,4 @@ std::string get_tileset_names(std::string dir_path)
     }
 
     return tileset_names;
-}
-
-void options_data::enable_json(const std::string &lvar)
-{
-    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
-}
-
-void options_data::add_retry(const std::string &lvar, const::std::string &lval)
-{
-    static const std::string blank_value( 1, 001 );
-    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
-    if ( it != post_json_verify.end() && it->second == blank_value ) {
-        // initialized with impossible value: valid
-        post_json_verify[ lvar ] = lval;
-    }
-}
-
-void options_data::add_value( const std::string &lvar, const std::string &lval,
-                              std::string lvalname )
-{
-    static const std::string blank_value( 1, 001 );
-
-    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
-    if ( it != post_json_verify.end() ) {
-        auto ot = OPTIONS.find(lvar);
-        if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
-            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
-                eit != ot->second.vItems.end(); ++eit) {
-                if ( *eit == lval ) { // already in
-                    return;
-                }
-            }
-            ot->second.vItems.push_back(lval);
-            if ( optionNames.find(lval) == optionNames.end() ) {
-                optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
-            }
-            // our value was saved, then set to default, so set it again.
-            if ( it->second == lval ) {
-                OPTIONS[ lvar ].setValue( lval );
-            }
-        }
-
-    }
 }

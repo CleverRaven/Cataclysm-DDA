@@ -131,7 +131,7 @@ extern std::map<int, std::vector<std::string> > mPageItems;
 extern int iWorldOptPage;
 
 extern options_data optionsdata;
-void initOptions();
+void init_options();
 void load_options();
 void save_options(bool ingame = false);
 void show_options(bool ingame = false);
