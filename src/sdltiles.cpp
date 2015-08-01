@@ -2067,6 +2067,27 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
     }
 }
 
+void load_playlist( JsonObject &jsobj )
+{
+    JsonArray jarr = jsobj.get_array( "playlists" );
+    while( jarr.has_more() ) {
+        JsonObject playlist = jarr.next_object();
+
+        const std::string playlist_id = playlist.get_string( "id" );
+        music_playlist playlist_to_load;
+        playlist_to_load.shuffle = playlist.get_bool( "shuffle", false );
+
+        JsonArray files = playlist.get_array( "files" );
+        while( files.has_more() ) {
+            JsonObject entry = files.next_object();
+            playlist_to_load.files.push_back( entry.get_string( "file" ) );
+            playlist_to_load.volumes.push_back( entry.get_int( "volume" ) );
+        }
+
+        playlists[playlist_id] = std::move( playlist_to_load );
+    }
+}
+
 // Returns a random sound effect matching given id and variant or `nullptr` if there is no
 // matching sound effect.
 const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
@@ -2213,25 +2234,7 @@ void load_soundset() {
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
-
-        // Load music playlists.
-        JsonArray playlists_json = config.get_array("playlists");
-        for (unsigned i=0; i < playlists_json.size(); i++) {
-            JsonObject playlist = playlists_json.get_object(i);
-
-            std::string playlist_id = playlist.get_string("id");
-            music_playlist playlist_to_load;
-            playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
-
-            JsonArray playlist_files = playlist.get_array("files");
-            for(unsigned j=0; j < playlist_files.size(); j++) {
-                JsonObject entry = playlist_files.get_object(j);
-                playlist_to_load.files.push_back(entry.get_string("file"));
-                playlist_to_load.volumes.push_back(entry.get_int("volume"));
-            }
-
-            playlists[playlist_id] = playlist_to_load;
-        }
+        load_playlist( config );
     }
 
     // Load sound effects. This loads the sound effect chunks directly
