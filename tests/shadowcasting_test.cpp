@@ -2,7 +2,6 @@
 
 #include "line.h" // For rl_dist.
 #include "map.h"
-#include "test_helpers.h"
 
 #include <chrono>
 #include <random>
@@ -104,10 +103,7 @@ void shadowcasting_runoff(int iterations) {
     const int offsetX = 65;
     const int offsetY = 65;
 
-
-    struct timespec start1;
-    struct timespec end1;
-    clock_gettime( CLOCK_REALTIME, &start1 );
+    auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
@@ -122,11 +118,9 @@ void shadowcasting_runoff(int iterations) {
         oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
         oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
     }
-    clock_gettime( CLOCK_REALTIME, &end1 );
+    auto end1 = std::chrono::high_resolution_clock::now();
 
-    struct timespec start2;
-    struct timespec end2;
-    clock_gettime( CLOCK_REALTIME, &start2 );
+    auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLight<0, 1, 1, 0, sight_calc, sight_check>(
@@ -149,20 +143,15 @@ void shadowcasting_runoff(int iterations) {
         castLight<-1, 0, 0, -1, sight_calc, sight_check>(
             seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
     }
-    clock_gettime( CLOCK_REALTIME, &end2 );
-
-    struct timespec diff1;
-    struct timespec diff2;
-    timespec_subtract( &diff1, &end1, &start1 );
-    timespec_subtract( &diff2, &end2, &start2 );
+    auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        // TODO: display this better, I doubt sec.nsec is an accurate rendering,
-        // or at least reliably so.
-        printf( "oldCastLight() executed %d times in %ld.%ld seconds.\n",
-                iterations, diff1.tv_sec, diff1.tv_nsec );
-        printf( "castLight() executed %d times in %ld.%ld seconds.\n",
-                iterations, diff2.tv_sec, diff2.tv_nsec );
+        long diff1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count();
+        long diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count();
+        printf( "oldCastLight() executed %d times in %ld microseconds.\n",
+                iterations, diff1 );
+        printf( "castLight() executed %d times in %ld microseconds.\n",
+                iterations, diff2 );
     }
 
     bool passed = true;

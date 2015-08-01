@@ -2,9 +2,9 @@
 
 #include "line.h"
 #include "rng.h"
-#include "test_helpers.h"
 
 #include "stdio.h"
+#include <chrono>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
@@ -257,34 +257,27 @@ TEST_CASE("Compare line_to() to canonical line_to()") {
      int t1 = 0;
      int t2 = 0;
      long count1 = 0;
-     struct timespec start1;
-     struct timespec end1;
-     clock_gettime( CLOCK_REALTIME, &start1 );
+     auto start1 = std::chrono::high_resolution_clock::now();
      #define PERFORMANCE_TEST_ITERATIONS 10000
      while( count1 < PERFORMANCE_TEST_ITERATIONS ) {
          line_to( x1, y1, x2, y2, t1 );
          count1++;
      }
-     clock_gettime( CLOCK_REALTIME, &end1 );
+     auto end1 = std::chrono::high_resolution_clock::now();
      long count2 = 0;
-     struct timespec start2;
-     struct timespec end2;
-     clock_gettime( CLOCK_REALTIME, &start2 );
+     auto start2 = std::chrono::high_resolution_clock::now();
      while( count2 < PERFORMANCE_TEST_ITERATIONS ) {
          canonical_line_to( x1, y1, x2, y2, t2 );
          count2++;
      }
-     clock_gettime( CLOCK_REALTIME, &end2 );
-     struct timespec diff1;
-     struct timespec diff2;
-     timespec_subtract( &diff1, &end1, &start1 );
-     timespec_subtract( &diff2, &end2, &start2 );
+     auto end2 = std::chrono::high_resolution_clock::now();
 
-     // TODO: display this better, I doubt sec.nsec is an accurate rendering,
-     // or at least reliably so.
-     printf( "line_to() executed %d times in %ld.%ld seconds.\n",
-             PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
-     printf( "canonical_line_to() executed %d times in %ld.%ld seconds.\n",
-             PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
+     long diff1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count();
+     long diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count();
+
+     printf( "line_to() executed %d times in %ld microseconds.\n",
+             PERFORMANCE_TEST_ITERATIONS, diff1 );
+     printf( "canonical_line_to() executed %d times in %ld microseconds.\n",
+             PERFORMANCE_TEST_ITERATIONS, diff2 );
  }
 }
