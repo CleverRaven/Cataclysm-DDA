@@ -2791,7 +2791,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 }
             }
             sound = _(bash->sound.c_str());
-            soundfxid = _("smash_success");
+            soundfxid = "smash_success";
             if (smash_ter == true) {
                 soundfxvariant = terid.id;
             } else if (smash_furn == true) {
@@ -2869,7 +2869,7 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 sound_volume = sound_fail_vol;
             }
             sound = _(bash->sound_fail.c_str());
-            soundfxid = _("smash_fail");
+            soundfxid = "smash_fail";
             if (smash_ter == true) {
                 soundfxvariant = terid.id;
             } else if (smash_furn == true) {
@@ -2926,15 +2926,15 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
 
                 sound_volume = 8;
                 sound = _("rrrrip!");
-                soundfxid = _("smash_success");
-                soundfxvariant = _("smash_cloth");
+                soundfxid = "smash_success";
+                soundfxvariant = "smash_cloth";
                 smashed_something = true;
                 success = true;
             } else {
                 sound_volume = 8;
                 sound = _("slap!");
-                soundfxid = _("smash_fail");
-                soundfxvariant = _("hit_cloth");
+                soundfxid = "smash_fail";
+                soundfxvariant = "hit_cloth";
                 smashed_something = true;
             }
         // Made furniture seperate from the other tent to facilitate destruction
@@ -2971,15 +2971,15 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
                 }
                 sound_volume = 8;
                 sound = _("rrrrip!");
-                soundfxid = _("smash_success");
-                soundfxvariant = _("smash_cloth");
+                soundfxid = "smash_success";
+                soundfxvariant = "smash_cloth";
                 smashed_something = true;
                 success = true;
             } else {
                 sound_volume = 8;
                 sound = _("slap!");
-                soundfxid = _("smash_fail");
-                soundfxvariant = _("hit_cloth");
+                soundfxid = "smash_fail";
+                soundfxvariant = "hit_cloth";
                 smashed_something = true;
             }
         }
@@ -2987,8 +2987,8 @@ std::pair<bool, bool> map::bash_ter_furn( const tripoint &p, const int str,
 
     if( move_cost(p) <= 0  && !smashed_something ) {
         sound = _("thump!");
-        soundfxid = _("smash_thump");
-        soundfxvariant = _("smash_success");
+        soundfxid = "smash_thump";
+        soundfxvariant = "smash_success";
         sound_volume = 18;
         smashed_something = true;
     }
