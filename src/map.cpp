@@ -3066,8 +3066,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Nothing bashable here
         if( move_cost( p ) <= 0 ) {
             if( !params.silent ) {
-                sounds::sound( p, 18, _("thump!"), false, "bash", _("thump!") );
-                sfx::play_variant_sound( "smash_thump", "smash_success", sfx::get_heard_volume(p), sfx::get_heard_angle(p));
+                sounds::sound( p, 18, _("thump!"), false, "smash_thump", "smash_success" );
             }
 
             params.did_bash = true;
@@ -3127,8 +3126,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         sound = _(bash->sound_fail.c_str());
         params.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sound, false, "bash", sound );
-            sfx::play_variant_sound( "smash_fail", soundfxvariant, sfx::get_heard_volume(p), sfx::get_heard_angle(p));
+            sounds::sound( p, sound_volume, sound, false, "smash_fail", soundfxvariant );
         }
 
         return;
@@ -3284,8 +3282,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sound, false, "bash", sound );
-        sfx::play_variant_sound( soundfxid, soundfxvariant, sfx::get_heard_volume( p ), sfx::get_heard_angle( p ) );
+        sounds::sound( p, sound_volume, sound, false, soundfxid, soundfxvariant );
     }
 }
 
@@ -3340,8 +3337,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, _("glass shattering"), false, "bash", _("glass shattering") );
-        sfx::play_variant_sound( "smash_success", "smash_glass_contents", sfx::get_heard_volume(p));
+        sounds::sound( p, 12, _("glass shattering"), false, "smash_success", "smash_glass_contents" );
     }
 }
 
@@ -3353,8 +3349,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
     if( veh != nullptr ) {
         veh->damage( vpart, params.strength, DT_BASH );
         if( !params.silent ) {
-            sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
-            sfx::play_variant_sound( "smash_success", "hit_vehicle", sfx::get_heard_volume(p));
+            sounds::sound( p, 18, _("crash!"), false, "smash_success", "hit_vehicle" );
         }
 
         params.did_bash = true;
