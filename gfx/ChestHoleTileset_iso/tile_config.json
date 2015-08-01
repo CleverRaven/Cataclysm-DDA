@@ -8,7 +8,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/ChestHoleTileset_iso/tiles.png",
+      "file": "tiles.png",
       "tiles": [
         {
           "bg": [
