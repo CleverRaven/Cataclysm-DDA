@@ -56,7 +56,8 @@ typedef std::string ter_type;
 
 namespace sfx {
     void load_sound_effects( JsonObject &jsobj );
-    void play_variant_sound( std::string id, std::string variant, int volume, int angle = 0, float pitch_mix = 1.0, float pitch_max = 1.0 );
+    void play_variant_sound( std::string id, std::string variant, int volume, int angle, float pitch_mix = 1.0, float pitch_max = 1.0 );
+    void play_variant_sound( std::string id, std::string variant, int volume );
     void play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
                                      int duration );
     void generate_gun_sound( const player &source, const item &firing );

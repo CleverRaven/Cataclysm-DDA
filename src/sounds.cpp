@@ -945,6 +945,7 @@ void sfx::do_obstacle() {
 /*@{*/
 void sfx::load_sound_effects( JsonObject & ) { }
 void sfx::play_variant_sound( std::string, std::string, int, int, float, float ) { }
+void sfx::play_variant_sound( std::string, std::string, int ) { }
 void sfx::play_ambient_variant_sound( std::string, std::string, int, int, int ) { }
 void sfx::generate_gun_sound( const player&, const item& ) { }
 void sfx::generate_melee_sound( const tripoint, const tripoint, bool, bool, std::string ) { }

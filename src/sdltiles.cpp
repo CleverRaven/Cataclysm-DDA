@@ -2164,6 +2164,26 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
     return result;
 }
 
+void sfx::play_variant_sound( std::string id, std::string variant, int volume ) {
+    if( volume == 0 ) {
+        return;
+    }
+
+    const sound_effect* eff = find_random_effect( id, variant );
+    if( eff == nullptr ) {
+        eff = find_random_effect( id, "default" );
+        if( eff == nullptr ) {
+            return;
+        }
+    }
+    const sound_effect& selected_sound_effect = *eff;
+
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
+    Mix_VolumeChunk( effect_to_play,
+                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+    Mix_PlayChannel( -1, effect_to_play, 0 );
+}
+
 void sfx::play_variant_sound( std::string id, std::string variant, int volume, int angle,
                               float pitch_min, float pitch_max ) {
     if( volume == 0 ) {
