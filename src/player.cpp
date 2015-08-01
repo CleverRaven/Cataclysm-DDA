@@ -11411,7 +11411,10 @@ hint_rating player::rate_action_read(item *it)
 
     return HINT_GOOD;
 }
-
+void player::acquire_xp(int amount){
+  add_msg(m_info,_("You acquire %i experience points"),amount);
+  Creature::acquire_xp(amount);
+}
 void player::read(int inventory_position)
 {
     // Find the object

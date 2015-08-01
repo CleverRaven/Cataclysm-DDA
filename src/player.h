@@ -609,7 +609,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void mend();
         /** Handles player vomiting effects */
         void vomit();
-
+	void acquire_xp(int amount);
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench(int saturation, int flags);
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */

@@ -53,7 +53,9 @@ static std::map<int, std::map<body_part, double> > default_hit_weights = {
         }
     }
 };
-
+void Creature::acquire_xp(int amount){
+  xp+=amount;
+}
 struct weight_compare {
     bool operator() (const std::pair<body_part, double> &left,
                      const std::pair<body_part, double> &right)
@@ -78,6 +80,7 @@ Creature::Creature()
     pain = 0;
     killer = NULL;
     speed_base = 100;
+    xp=0;
     underwater = false;
 
     reset_bonuses();

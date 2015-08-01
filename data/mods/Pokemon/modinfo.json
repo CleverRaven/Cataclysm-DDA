@@ -1,0 +1,8 @@
+{
+    "type":"MOD_INFO",
+    "mod-type":"SUPPLEMENTAL",
+    "ident":"pokemon",
+    "name":"Pokemon",
+    "description":"Adds entities that might be compared to a certain nintendo's franchise",
+    "path":""
+}

@@ -371,6 +371,7 @@ void MonsterGenerator::init_flags()
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
+    flag_map["EXPERIENCE_UPGRADE"]=MF_EXPERIENCE_UPGRADE;
 }
 
 void MonsterGenerator::set_species_ids( mtype *mon )
