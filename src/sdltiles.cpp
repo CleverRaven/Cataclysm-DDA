@@ -2229,26 +2229,10 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
 
 void load_soundset() {
 #ifdef SDL_SOUND
-    std::string location = FILENAMES["datadir"] + "/sound/musicset.json";
-    std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
-    if (jsonstream.good()) {
-        JsonIn json(jsonstream);
-        JsonObject config = json.get_object();
-        sfx::load_playlist( config );
-    }
-
-    // Load sound effects. This loads the sound effect chunks directly
-    // into memory.
-    location = FILENAMES["datadir"] + "/sound/soundset.json";
-    std::ifstream jsonstream2(location.c_str(), std::ifstream::binary);
-    if (jsonstream2.good()) {
-        JsonIn json(jsonstream2);
-        JsonObject config = json.get_object();
-        JsonArray sound_effects_json = config.get_array("sound_effects");
-        for (unsigned i=0; i < sound_effects_json.size(); i++) {
-            JsonObject sound_effect = sound_effects_json.get_object(i);
-            sfx::load_sound_effects( sound_effect );
-        }
+    try {
+        DynamicDataLoader::get_instance().load_data_from_path( FILENAMES["datadir"] + "sound/" );
+    } catch(std::string err) {
+        dbg( D_ERROR ) << "failed to load sounds: " << err;
     }
 #endif
 }
