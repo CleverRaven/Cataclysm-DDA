@@ -7217,18 +7217,28 @@ void game::smash()
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     tripoint smashp;
 
-    const bool allow_floor_bash = debug_mode; // Should later become "true"
+    const bool allow_floor_bash = true; // Should later become "true"
     if( !choose_adjacent(_("Smash where?"), smashp, allow_floor_bash ) ) {
         return;
     }
 
     bool smash_floor = false;
     if( smashp.z != u.posz() ) {
-        if( smashp.z > u.posz() ) {
-            // TODO: Knock on the ceiling
-            return;
+        if(( smashp.z > u.posz() ) && (ACTIVE_WORLD_OPTIONS["ZLEVELS"])) {
+		    tripoint fdest( smashp.x, smashp.y, smashp.z );
+		    if ( !m.valid_move( u.pos(), fdest, false, true ) )
+			{
+                sounds::sound( smashp, 25, "knocking sound." );
+                add_msg( m_info, _( "You knock on the ceiling." ) );
+                u.moves -= 100;
+                return;
+			}
+			else
+			{
+			    add_msg( m_info, _( "No ceiling to knock on." ) );
+			    return;
+			}
         }
-
         smashp.z = u.posz();
         smash_floor = true;
     }
