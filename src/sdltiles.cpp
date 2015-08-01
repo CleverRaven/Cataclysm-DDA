@@ -70,19 +70,16 @@ std::string current_playlist = "";
 int current_playlist_at = 0;
 
 struct sound_effect {
-    std::string id;
-    std::string variant;
     int volume;
     Mix_Chunk *chunk;
 
     sound_effect() {
-        id = "";
-        variant = "";
         volume = 0;
     }
 };
 
-std::vector<sound_effect> sound_effects_p;
+using id_and_variant = std::pair<std::string, std::string>;
+std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
 #endif
 
 /**
@@ -2084,21 +2081,48 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
 
 #ifdef SDL_SOUND
 void sfx::load_sound_effects( JsonObject &jsobj ) {
-    sound_effect new_sound_effect;
-    new_sound_effect.id = jsobj.get_string( "id" );
-    new_sound_effect.volume = jsobj.get_int( "volume" );
-    new_sound_effect.variant = jsobj.get_string( "variant" );
+    const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant" ) );
+    const int volume = jsobj.get_int( "volume" );
+    auto &effects = sound_effects_p[key];
+
     JsonArray jsarr = jsobj.get_array( "files" );
     while( jsarr.has_more() ) {
+        sound_effect new_sound_effect;
         const std::string file = jsarr.next_string();
         std::string path = ( FILENAMES[ "datadir" ] + "/sound/" + file );
         Mix_Chunk *loaded_chunk = Mix_LoadWAV( path.c_str() );
         if( !loaded_chunk ) {
             dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
         }
+        new_sound_effect.volume = volume;
         new_sound_effect.chunk = loaded_chunk;
-        sound_effects_p.push_back( new_sound_effect );
+
+        effects.push_back( std::move( new_sound_effect ) );
     }
+}
+
+// Returns a random sound effect matching given id and variant or `nullptr` if there is no
+// matching sound effect.
+const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
+{
+    const auto iter = sound_effects_p.find( id_variants_pair );
+    if( iter == sound_effects_p.end() ) {
+        return nullptr;
+    }
+    const auto &vector = iter->second;
+    if( vector.empty() ) {
+        return nullptr;
+    }
+    return &vector[rng( 0, vector.size() - 1 )];
+}
+// Same as above, but with fallback to "default" variant. May still return `nullptr`
+const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
+{
+    const auto eff = find_random_effect( id_and_variant( id, variant ) );
+    if( eff != nullptr ) {
+        return eff;
+    }
+    return find_random_effect( id_and_variant( id, "default" ) );
 }
 
 Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
@@ -2142,26 +2166,13 @@ void sfx::play_variant_sound( std::string id, std::string variant, int volume, i
     if( volume == 0 ) {
         return;
     }
-    std::vector<sound_effect> valid_sound_effects;
-    sound_effect selected_sound_effect;
-    for( auto &i : sound_effects_p ) {
-        if( ( i.id == id ) && ( i.variant == variant ) ) {
-            valid_sound_effects.push_back( i );
-        }
-    }
-    if( valid_sound_effects.empty() ) {
-        for( auto &i : sound_effects_p ) {
-            if( ( i.id == id ) && ( i.variant == "default" ) ) {
-                valid_sound_effects.push_back( i );
-            }
-        }
-    }
-    if( valid_sound_effects.empty() ) {
+
+    const sound_effect* eff = find_random_effect( id, variant );
+    if( eff == nullptr ) {
         return;
     }
-    int index = rng( 0, valid_sound_effects.size() - 1 );
-    selected_sound_effect = valid_sound_effects[index];
-    //add_msg ( m_warning, _ ( "rng 1: %i" ), index );
+    const sound_effect& selected_sound_effect = *eff;
+
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
     float pitch_random = rng_float( pitch_min, pitch_max );
     Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
@@ -2176,26 +2187,13 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
     if( volume == 0 ) {
         return;
     }
-    std::vector<sound_effect> valid_sound_effects;
-    sound_effect selected_sound_effect;
-    for( auto &i : sound_effects_p ) {
-        if( ( i.id == id ) && ( i.variant == variant ) ) {
-            valid_sound_effects.push_back( i );
-        }
-    }
-    if( valid_sound_effects.empty() ) {
-        for( auto &i : sound_effects_p ) {
-            if( ( i.id == id ) && ( i.variant == "default" ) ) {
-                valid_sound_effects.push_back( i );
-            }
-        }
-    }
-    if( valid_sound_effects.empty() ) {
+
+    const sound_effect* eff = find_random_effect( id, variant );
+    if( eff == nullptr ) {
         return;
     }
-    int index = rng( 0, valid_sound_effects.size() - 1 );
-    selected_sound_effect = valid_sound_effects[index];
-    //add_msg ( m_warning, _ ( "rng: %i" ), index );
+    const sound_effect& selected_sound_effect = *eff;
+
     Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
