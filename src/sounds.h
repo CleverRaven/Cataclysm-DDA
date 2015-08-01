@@ -71,7 +71,6 @@ namespace sfx {
     void do_footstep_sfx();
     void do_danger_music();
     void do_ambient_sfx();
-    void set_group_channels( int from, int to, int tag );
     void fade_audio_group( int tag, int duration );
     void fade_audio_channel( int tag, int duration );
     int is_channel_playing( int channel );

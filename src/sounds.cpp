@@ -430,16 +430,6 @@ void sfx::fade_audio_channel( int tag, int duration ) {
 #endif
 }
 
-void sfx::set_group_channels( int from, int to, int tag ) {
-#ifdef SDL_SOUND
-    Mix_GroupChannels( from, to, tag );
-#else
-    ( void ) from;
-    ( void ) to;
-    ( void ) tag;
-#endif
-}
-
 int sfx::is_channel_playing( int channel ) {
 #ifdef SDL_SOUND
     return Mix_Playing( channel );
