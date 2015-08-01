@@ -7,10 +7,24 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "kitchen",
+    "items":[
+      ["pot_copper", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "oven",
+    "items":[
+      ["pot_copper", 20]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "medieval",
     "items":[
       ["tinderbox", 4],
-      ["flint_steel", 7]
+      ["flint_steel", 7],
+      ["pot_copper", 3],
+      ["canteen_wood", 5]
     ]
   },{
     "type" : "item_group",
@@ -24,7 +38,9 @@
       ["chem_hexamine", 5],
       ["esbit_stove", 10],
       ["bottle_folding", 10],
-      ["mess_tin", 10]
+      ["mess_tin", 10],
+      ["pot_copper", 5],
+      ["canteen_wood", 5]
     ]
   },{
     "type" : "item_group",
@@ -37,7 +53,9 @@
       ["chem_hexamine", 5],
       ["esbit_stove", 10],
       ["bottle_folding", 5],
-      ["mess_tin", 10]
+      ["mess_tin", 10],
+      ["pot_copper", 5],
+      ["canteen_wood", 5]
     ]
   },{
     "type" : "item_group",
@@ -81,7 +99,9 @@
       ["bottle_metal", 2],
       ["chem_hexamine", 3],
       ["esbit_stove", 6],
-      ["mess_tin", 8]
+      ["mess_tin", 8],
+      ["pot_copper", 2],
+      ["canteen_wood", 2]
     ]
   },{
     "type" : "item_group",
