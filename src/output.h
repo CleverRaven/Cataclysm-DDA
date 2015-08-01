@@ -340,6 +340,5 @@ int get_terminal_height();
 bool is_draw_tiles_mode();
 
 void play_music(std::string playlist);
-void play_sound_effect(std::string id, std::string variant, int volume);
 
 #endif

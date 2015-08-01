@@ -2066,21 +2066,6 @@ void play_music(std::string playlist) {
 #endif
 }
 
-void play_sound_effect(std::string id, std::string variant, int volume) {
-#ifdef SDL_SOUND
-    sound_effect_entry *effect_to_play = get_sound_effect(id, variant);
-    if (!effect_to_play) {
-        return;
-    }
-    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
-    if (Mix_PlayChannel(-1, effect_to_play->chunk, 0) == -1) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
-    }
-#else
-    (void)id;(void)variant;(void)volume;
-#endif
-}
-
 #ifdef SDL_SOUND
 void sfx::load_sound_effects( JsonObject &jsobj ) {
     const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant" ) );

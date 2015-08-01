@@ -310,7 +310,7 @@ void sounds::process_sound_markers( player *p )
         if( !sfx_id.empty() ) {
             // for our sfx API, 100 is "normal" volume, so scale accordingly
             int heard_volume = sfx::get_heard_volume( pos );
-            play_sound_effect( sfx_id, sfx_variant, heard_volume );
+            sfx::play_variant_sound( sfx_id, sfx_variant, heard_volume );
             //add_msg("Playing sound effect %s, %s, %d", sfx_id.c_str(), sfx_variant.c_str(), heard_volume);
         }
         // If Z coord is different, draw even when you can see the source
