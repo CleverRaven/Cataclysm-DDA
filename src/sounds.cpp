@@ -932,7 +932,6 @@ void *sfx::generate_melee_soundfx_thread( void * out ) {
 }
 
 void sfx::do_projectile_hit_sfx( const Creature *target ) {
-    std::string selected_sound;
     int heard_volume;
     if( !target->is_npc() && !target->is_player() ) {
         const monster *mon = dynamic_cast<const monster *>( target );
