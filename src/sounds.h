@@ -13,21 +13,6 @@
 class monster;
 class player;
 class Creature;
-struct sound_effect;
-
-struct sound_effect {
-    std::vector<std::string> files;
-    std::string id;
-    std::string variant;
-    int volume;
-    Mix_Chunk *chunk;
-
-    sound_effect() {
-        id = "";
-        variant = "";
-        volume = 0;
-    }
-};
 
 namespace sounds {
     // Methods for recording sound events.

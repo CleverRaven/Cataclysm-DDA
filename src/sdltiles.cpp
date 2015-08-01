@@ -47,6 +47,7 @@
 
 #ifdef SDL_SOUND
 #include "SDL2/SDL_mixer.h"
+#include "sounds.h"
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -67,6 +68,22 @@ static bool needupdate = false;
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 int current_playlist_at = 0;
+
+struct sound_effect {
+    std::vector<std::string> files;
+    std::string id;
+    std::string variant;
+    int volume;
+    Mix_Chunk *chunk;
+
+    sound_effect() {
+        id = "";
+        variant = "";
+        volume = 0;
+    }
+};
+
+std::vector<sound_effect> sound_effects_p;
 #endif
 
 /**
@@ -2059,6 +2076,141 @@ void play_sound_effect(std::string id, std::string variant, int volume) {
     (void)id;(void)variant;(void)volume;
 #endif
 }
+
+#ifdef SDL_SOUND
+void sfx::load_sound_effects( JsonObject &jsobj ) {
+    set_group_channels( 2, 9, 1 );
+    set_group_channels( 0, 1, 2 );
+    set_group_channels( 11, 14, 3 );
+    set_group_channels( 15, 17, 4 );
+    int index = 0;
+    std::string file;
+    sound_effect new_sound_effect;
+    new_sound_effect.id = jsobj.get_string( "id" );
+    new_sound_effect.volume = jsobj.get_int( "volume" );
+    new_sound_effect.variant = jsobj.get_string( "variant" );
+    JsonArray jsarr = jsobj.get_array( "files" );
+    while( jsarr.has_more() ) {
+        new_sound_effect.files.push_back( jsarr.next_string().c_str() );
+        file = new_sound_effect.files[index];
+        index++;
+        std::string path = ( FILENAMES[ "datadir" ] + "/sound/" + file );
+        Mix_Chunk *loaded_chunk = Mix_LoadWAV( path.c_str() );
+        if( !loaded_chunk ) {
+            dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+        }
+        new_sound_effect.chunk = loaded_chunk;
+        sound_effects_p.push_back( new_sound_effect );
+    }
+}
+
+int sfx::get_channel( Mix_Chunk * effect_to_play ) {
+    return Mix_PlayChannel( -1, effect_to_play, 0 );
+}
+
+Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
+    Mix_Chunk *result;
+    Uint32 s_in = s->alen / 4;
+    Uint32 s_out = ( Uint32 )( ( float )s_in * pitch );
+    float pitch_real = ( float )s_out / ( float )s_in;
+    Uint32 i, j;
+    result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
+    result->allocated = 1;
+    result->alen = s_out * 4;
+    result->abuf = ( Uint8* )malloc( result->alen * sizeof( Uint8 ) );
+    result->volume = s->volume;
+    for( i = 0; i < s_out; i++ ) {
+        Sint16 lt;
+        Sint16 rt;
+        Sint16 lt_out;
+        Sint16 rt_out;
+        Sint64 lt_avg = 0;
+        Sint64 rt_avg = 0;
+        Uint32 begin = ( Uint32 )( ( float )i / pitch_real );
+        Uint32 end = ( Uint32 )( ( float )( i + 1 ) / pitch_real );
+        for( j = begin; j <= end; j++ ) {
+            lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
+            rt = ( s->abuf[( 4 * j ) + 3] << 8 ) | ( s->abuf[( 4 * j ) + 2] );
+            lt_avg += lt;
+            rt_avg += rt;
+        }
+        lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
+        rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
+        result->abuf[( 4 * i ) + 1] = ( lt_out >> 8 ) & 0xFF;
+        result->abuf[( 4 * i ) + 0] = lt_out & 0xFF;
+        result->abuf[( 4 * i ) + 3] = ( rt_out >> 8 ) & 0xFF;
+        result->abuf[( 4 * i ) + 2] = rt_out & 0xFF;
+    }
+    return result;
+}
+
+void sfx::play_variant_sound( std::string id, std::string variant, int volume, int angle,
+                              float pitch_min, float pitch_max ) {
+    if( volume == 0 ) {
+        return;
+    }
+    std::vector<sound_effect> valid_sound_effects;
+    sound_effect selected_sound_effect;
+    for( auto &i : sound_effects_p ) {
+        if( ( i.id == id ) && ( i.variant == variant ) ) {
+            valid_sound_effects.push_back( i );
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        for( auto &i : sound_effects_p ) {
+            if( ( i.id == id ) && ( i.variant == "default" ) ) {
+                valid_sound_effects.push_back( i );
+            }
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        return;
+    }
+    int index = rng( 0, valid_sound_effects.size() - 1 );
+    selected_sound_effect = valid_sound_effects[index];
+    //add_msg ( m_warning, _ ( "rng 1: %i" ), index );
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
+    float pitch_random = rng_float( pitch_min, pitch_max );
+    Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
+    Mix_VolumeChunk( shifted_effect,
+                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+    int channel = get_channel( shifted_effect );
+    Mix_SetPosition( channel, angle, 1 );
+}
+
+void sfx::play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
+                                      int duration ) {
+    if( volume == 0 ) {
+        return;
+    }
+    std::vector<sound_effect> valid_sound_effects;
+    sound_effect selected_sound_effect;
+    for( auto &i : sound_effects_p ) {
+        if( ( i.id == id ) && ( i.variant == variant ) ) {
+            valid_sound_effects.push_back( i );
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        for( auto &i : sound_effects_p ) {
+            if( ( i.id == id ) && ( i.variant == "default" ) ) {
+                valid_sound_effects.push_back( i );
+            }
+        }
+    }
+    if( valid_sound_effects.empty() ) {
+        return;
+    }
+    int index = rng( 0, valid_sound_effects.size() - 1 );
+    selected_sound_effect = valid_sound_effects[index];
+    //add_msg ( m_warning, _ ( "rng: %i" ), index );
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk;
+    Mix_VolumeChunk( effect_to_play,
+                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+    if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
+        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
+    }
+}
+#endif
 
 void load_soundset() {
 #ifdef SDL_SOUND
