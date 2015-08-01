@@ -122,7 +122,6 @@ void cata_tiles::init()
                              json_path, tileset_path);
     }
 
-    dbg ( D_ERROR ) << "TEMP DEBUG" << config_path;
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
 }
