@@ -158,7 +158,7 @@ class cata_tiles
          * are loaded from the json entries.
          * throws std::string on errors.
          */
-        void load_tilejson(std::string tileset_root, std::string path, const std::string &imagepath);
+        void load_tilejson(std::string tileset_root, std::string json_conf, const std::string &imagepath);
 
         /**
          * throws std::string on errors.

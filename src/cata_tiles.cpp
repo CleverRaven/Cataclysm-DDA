@@ -117,11 +117,12 @@ void cata_tiles::init()
         json_path = default_json;
         tileset_path = default_tileset;
     } else {
-        config_path += '/' + FILENAMES["tileset-conf"];
         dbg( D_INFO ) << '"' << current_tileset << '"' << " tileset: found config file path: " << config_path;
-        get_tile_information(config_path, json_path, tileset_path);
+        get_tile_information(config_path + '/' + FILENAMES["tileset-conf"],
+                             json_path, tileset_path);
     }
 
+    dbg ( D_ERROR ) << "TEMP DEBUG" << config_path;
     // Try to load tileset
     load_tilejson(config_path, json_path, tileset_path);
 }
@@ -180,14 +181,8 @@ void cata_tiles::get_tile_information(std::string config_path, std::string &json
     }
 }
 
-int cata_tiles::load_tileset(std::string path, int R, int G, int B)
+int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
 {
-    std::string img_path = path;
-#ifdef PREFIX   // use the PREFIX path over the current directory
-    img_path = (FILENAMES["base_path"] + "/" + img_path);
-#elif defined DATA_DIR_PREFIX // Used for linux release installs
-    img_path = (FILENAMES["datadir"] + "/" + img_path);
-#endif
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
@@ -256,19 +251,22 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void cata_tiles::load_tilejson(std::string tileset_root, std::string path, const std::string &image_path)
+void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path)
 {
+    std::string path = tileset_root + '/' + json_conf;
+    std::string img_path = tileset_root + '/' + image_path;
+
     dbg( D_INFO ) << "Attempting to Load JSON file " << path;
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
-        throw std::string("failed to open tile info json: ") + path;
+        throw std::string("Failed to open tile info json: ") + path;
     }
 
-        load_tilejson_from_file( config_file, image_path );
-        if (tile_ids.count("unknown") == 0) {
-            dbg( D_ERROR ) << "the tileset you're using has no 'unknown' tile defined!";
-        }
+    load_tilejson_from_file( config_file, img_path );
+    if (tile_ids.count("unknown") == 0) {
+        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+    }
 }
 
 void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
