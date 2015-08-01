@@ -4752,6 +4752,16 @@ int iuse::capture_sphere_act(player *p, item *it, bool, const tripoint& pos){
   add_msg(_("It can't capture nothing"));
   return 0;
 }
+int iuse::potion_act(player *,item *it, bool t, const tripoint &pos){
+  int mon_dex=g->mon_at(pos);
+  if(mon_dex!=-1){
+    auto mon=g->zombie(mon_dex);
+    mon.heal(20);
+    add_msg(_("The potion heals the %s"),mon.type->nname(1).c_str());
+  }
+  return 0;
+}
+
 int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
 {
     if (pos.x == -999 || pos.y == -999) {

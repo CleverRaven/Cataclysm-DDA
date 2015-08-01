@@ -709,7 +709,9 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
         }
 
         if (hit_something) {
+
 	 
+   
             // Check if we manage to do cutting damage
             if (rng(0, 100) < 20 + skillLevel * 12 && thrown.type->melee_cut > 0) {
                 if (!p.is_npc()) {
@@ -783,9 +785,10 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
                                             message.c_str(), guy->name.c_str(), dam);
                 }
             }
-	    if(thrown.has_flag("ACTIVATE_ON_THROW")){
+	    if(thrown.has_flag("NO_THROWN_DAMAGE"))
+	      dam=0;
+	    if(thrown.has_flag("ACTIVATE_ON_THROW"))
 	      thrown.active=true;
-	    }
             // actually deal damage now
             if (zid != -1) {
                 z->apply_damage( &p, bp_torso, dam );

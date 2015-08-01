@@ -13,7 +13,7 @@
     "to_hit":-2,
     "price":3000,
     "use_action":"CAPTURE_SPHERE_ACT",
-        "flags":"ACTIVATE_ON_THROW",
+        "flags":["ACTIVATE_ON_THROW","NO_THROWN_DAMAGE"],
     "max_charges":0,
         "initial_charges":0,
     "turns_per_charge":0,
@@ -21,7 +21,28 @@
     "revert_to":"null",
     "ammo":"NULL"
 },
-    
+{
+    "id":"potion",
+    "type":"TOOL",
+    "symbol":"p",
+    "name":"potion",
+    "description":"A thing to heal pokemon when they have been injured. This one is throwable.",
+        "color":"magenta",
+    "volume":0,
+    "weight":170,
+    "bashing":8,
+    "cutting":0,
+    "to_hit":-2,
+    "price":3000,
+    "use_action":"POTION_ACT",
+        "flags":["ACTIVATE_ON_THROW","NO_THROWN_DAMAGE"],
+    "max_charges":0,
+        "initial_charges":0,
+    "turns_per_charge":0,
+    "charges_per_use":0,
+    "revert_to":"null",
+    "ammo":"NULL"
+},
 {
     "id":"poke_pichu",
     "type":"TOOL",

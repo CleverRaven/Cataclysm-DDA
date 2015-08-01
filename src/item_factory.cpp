@@ -197,6 +197,7 @@ void Item_factory::init()
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
     iuse_function_list["CATFOOD"] = &iuse::catfood;
     iuse_function_list["CAPTURE_SPHERE_ACT"]=&iuse::capture_sphere_act;
+    iuse_function_list["POTION_ACT"]=&iuse::potion_act;
     // TOOLS
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
