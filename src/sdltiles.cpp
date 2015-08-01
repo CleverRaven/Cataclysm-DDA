@@ -82,6 +82,18 @@ struct sound_effect {
 
 using id_and_variant = std::pair<std::string, std::string>;
 std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
+
+struct music_playlist {
+    // list of filenames relative to the soundpack location
+    std::vector<std::string> files;
+    std::vector<int> volumes;
+    bool shuffle;
+
+    music_playlist() : shuffle(false) {
+    }
+};
+
+std::map<std::string, music_playlist> playlists;
 #endif
 
 /**
@@ -1972,18 +1984,6 @@ bool is_draw_tiles_mode() {
 }
 
 #ifdef SDL_SOUND
-
-struct music_playlist {
-    // list of filenames relative to the soundpack location
-    std::vector<std::string> files;
-    std::vector<int> volumes;
-    bool shuffle;
-
-    music_playlist() : shuffle(false) {
-    }
-};
-
-std::map<std::string, music_playlist> playlists;
 
 void musicFinished();
 
