@@ -213,10 +213,10 @@ void shadowcasting_runoff(int iterations) {
     REQUIRE( passed );
 }
 
-TEST_CASE("Regression test against old shadowcasting implementation.") {
+TEST_CASE("shadowcasting_runoff") {
     shadowcasting_runoff(1);
 }
 
-TEST_CASE("Performance test old vs new shadowcasting algorithms.", "[.]") {
+TEST_CASE("shadowcasting_performance", "[.]") {
     shadowcasting_runoff(100000);
 }
