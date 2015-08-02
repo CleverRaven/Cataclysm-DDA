@@ -4743,13 +4743,15 @@ int iuse::capture_sphere_act(player *p, item *it, bool, const tripoint& pos){
 	g->m.add_item_or_charges(pos.x,pos.y,g->zombie(mon_dex).to_item());
 	g->remove_zombie(mon_dex);
       }else{
-	add_msg(_("it broke the capture sphere :("));
-      }
-      return 1;
-    }
-    
-  }
-  add_msg(_("It can't capture nothing"));
+	auto n=item::nname(it->typeId(),1);
+	add_msg(_("it broke the %s :("),n.c_str());
+      }				  
+      return 1;			
+    }				
+    				
+  }				
+  auto name=item::nname(it->typeId(),1);
+  add_msg(_("The %s can't capture nothing"),name.c_str());
   return 0;
 }
 int iuse::potion_act(player *,item *it, bool t, const tripoint &pos){
@@ -4757,7 +4759,8 @@ int iuse::potion_act(player *,item *it, bool t, const tripoint &pos){
   if(mon_dex!=-1){
     auto mon=g->zombie(mon_dex);
     mon.heal(20);
-    add_msg(_("The potion heals the %s"),mon.type->nname(1).c_str());
+    auto n = item::nname(it->typeId(),1);
+    add_msg(_("The %s heals the %s"),n.c_str(),mon.type->nname(1).c_str());
   }
   return 0;
 }

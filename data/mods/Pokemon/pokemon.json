@@ -62,6 +62,7 @@
     "charges_per_use":0,
     "ammo":"NULL",
         "revert_to":"null",
+    "flags":"ACTIVATE_ON_THROW",
     "use_action":{
         "type":"place_monster",
         "monster_id":"mon_pichu",
@@ -91,6 +92,7 @@
     "turns_per_charge":0,
     "ammo":"NULL",
         "revert_to":"null",
+    "flags":"ACTIVATE_ON_THROW",
     "use_action":{
         "type":"place_monster",
         "monster_id":"mon_pikachu",
@@ -120,6 +122,7 @@
     "charges_per_use":0,
     "ammo":"NULL",
         "revert_to":"null",
+    "flags":"ACTIVATE_ON_THROW",
     "use_action":{
         "type":"place_monster",
         "monster_id":"mon_raichu",

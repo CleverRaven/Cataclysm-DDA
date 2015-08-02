@@ -707,7 +707,8 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
             guy = g->active_npc[npcID];
             hit_something = true;
         }
-
+	if(thrown.has_flag("ACTIVATE_ON_THROW"))
+	      thrown.active=true;
         if (hit_something) {
 
 	 
@@ -763,7 +764,9 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
                 dam = rng(0, dam);
                 p.practice( "throw", 5 * (i+1) );
             }
-
+	    if(thrown.has_flag("NO_THROWN_DAMAGE"))
+	      dam=0;
+	
             // Combat text and message
             if (u.sees(tp)) {
 
@@ -785,8 +788,6 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
                                             message.c_str(), guy->name.c_str(), dam);
                 }
             }
-	    if(thrown.has_flag("NO_THROWN_DAMAGE"))
-	      dam=0;
 	    
             // actually deal damage now
             if (zid != -1) {
@@ -834,8 +835,7 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
             tr.trigger( tp, nullptr );
         }
     }
-    if(thrown.has_flag("ACTIVATE_ON_THROW"))
-	      thrown.active=true;
+    
 }
 
 // Draws the static portions of the targeting menu,
