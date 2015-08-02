@@ -2642,11 +2642,7 @@ bool game::handle_action()
             break;
 
         case ACTION_THROW:
-            if (u.has_active_mutation("SHELL2")) {
-                add_msg(m_info, _("You can't effectively throw while you're in your shell."));
-            } else {
-                plthrow();
-            }
+            plthrow();
             break;
 
         case ACTION_FIRE:
@@ -10541,6 +10537,10 @@ void game::reassign_item( int pos )
 
 void game::plthrow(int pos)
 {
+    if (u.has_active_mutation("SHELL2")) {
+        add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+        return;
+    }
 
     if (pos == INT_MIN) {
         pos = inv(_("Throw item:"));
