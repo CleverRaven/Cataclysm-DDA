@@ -153,17 +153,25 @@ class cata_tiles
         /**
          * Load tileset config file (json format).
          * If the tileset uses the old system (one image per tileset) the image
-         * path <B>imagepath</B> is used to load the tileset image.
+         * path <B>image_path</B> is used to load the tileset image.
          * Otherwise (the tileset uses the new system) the image pathes
          * are loaded from the json entries.
          * throws std::string on errors.
+         * @param tileset_root Path to tileset root directory.
+         * @param json_conf Path to json config inside tileset_root.
+         * @param image_path Path to tiles image inside tileset_root.
          */
-        void load_tilejson(std::string tileset_root, std::string json_conf, const std::string &imagepath);
+        void load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path);
 
         /**
+         * Try to load json tileset config. If json valid it lookup
+         * it parses it and load tileset.
          * throws std::string on errors.
+         * @param tileset_dir Path to tileset root directory.
+         * @param f File stream to read from.
+         * @param image_path
          */
-        void load_tilejson_from_file(const std::string tileset_dir, std::ifstream &f, const std::string &imagepath);
+        void load_tilejson_from_file(const std::string tileset_dir, std::ifstream &f, const std::string &image_path);
 
         /**
          * Load tiles from json data.This expects a "tiles" array in
