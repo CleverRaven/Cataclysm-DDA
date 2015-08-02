@@ -1510,7 +1510,7 @@ void player::perform_special_attacks(Creature &t)
     }
     else if (has_trait("POISONOUS2")) {
         t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-        t.add_effect("nasty_poison", 6);
+        t.add_effect("badpoison", 6);
     }
  }
 }
