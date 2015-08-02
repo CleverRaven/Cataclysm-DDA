@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "enums.h"
+#include <functional>
 #include <math.h>
 
 //! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
@@ -60,6 +61,15 @@ direction direction_from(tripoint const &p, tripoint const &q);
 point direction_XY(direction dir);
 std::string const& direction_name(direction dir);
 std::string const& direction_name_short(direction dir);
+
+/**
+ * The actual bresenham algorithm in 2D and 3D, everything else should call these
+ * and pass in an interact functor to iterate across a line between two points.
+ */
+void bresenham(const int x1, const int y1, const int x2, const int y2, int t,
+               const std::function<void(const point &)> &interact);
+void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
+		const std::function<void(const tripoint &)> &interact );
 
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to(int x1, int y1, int x2, int y2, int t);

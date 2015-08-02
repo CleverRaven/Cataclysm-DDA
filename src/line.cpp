@@ -5,14 +5,9 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
-//Trying to pull points out of a tripoint vector is messy and
-//probably slow, so leaving two full functions for now
-std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
+void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
+                const std::function<void(const point &)> &interact )
 {
-    std::vector<point> ret;
-    // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
-    ret.reserve(numCells);
     const int dx = x2 - x1;
     const int dy = y2 - y1;
 
@@ -20,62 +15,44 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     cur.x = x1;
     cur.y = y1;
 
-    // Draw point
-    if (dx == 0 && dy == 0) {
-        ret.push_back(cur);
-        // Should exit here
-        return ret;
-    }
-
     // Any ideas why we're multiplying the abs distance by two here?
     const int ax = abs(dx) * 2;
     const int ay = abs(dy) * 2;
-    const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
+    const int sx = (dx == 0) ? 0 : SGN(dx);
+    const int sy = (dy == 0) ? 0 : SGN(dy);
 
-    // The old version of this algorithm would generate points on the line and check min/max for each point
-    // to determine whether or not to continue generating the line. Since we already know how many points
-    // we need, this method saves us a half-dozen variables and a few calculations.
-    if (ax == ay) {
-        for (int i = 0; i < numCells; i++) {
+    if( ax == ay ) {
+        while( cur.x != x2 ) {
             cur.y += sy;
             cur.x += sx;
-            ret.push_back(cur);
-        } ;
-    } else if (ax > ay) {
-        for (int i = 0; i < numCells; i++) {
-            if (t > 0) {
+            interact( cur );
+        }
+    } else if( ax > ay ) {
+        while( cur.x != x2 ) {
+            if( t > 0 ) {
                 cur.y += sy;
                 t -= ax;
             }
             cur.x += sx;
             t += ay;
-            ret.push_back(cur);
-        } ;
+            interact( cur );
+        }
     } else {
-        for (int i = 0; i < numCells; i++) {
-            if (t > 0) {
+        while( cur.y != y2 ) {
+            if( t > 0 ) {
                 cur.x += sx;
                 t -= ay;
             }
             cur.y += sy;
             t += ax;
-            ret.push_back(cur);
-        } ;
+            interact( cur );
+        }
     }
-    return ret;
 }
 
-std::vector<point> line_to( const point &p1, const point &p2, const int t )
+void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
+		const std::function<void(const tripoint &)> &interact )
 {
-    return line_to( p1.x, p1.y, p2.x, p2.y, t );
-}
-
-std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2)
-{
-    std::vector<tripoint> ret;
-    // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist(loc1, loc2);
-    ret.reserve(numCells);
     tripoint cur( loc1 );
     const int dx = loc2.x - loc1.x;
     const int dy = loc2.y - loc1.y;
@@ -87,101 +64,135 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     const int sx = (dx == 0 ? 0 : SGN(dx));
     const int sy = (dy == 0 ? 0 : SGN(dy));
     const int sz = (dz == 0 ? 0 : SGN(dz));
-    if (az == 0) {
-        if (ax == ay) {
-            for (int i = 0; i < numCells; i++) {
+    if( az == 0 ) {
+        if( ax == ay ) {
+	  while( cur.x != loc2.x ) {
                 cur.y += sy;
                 cur.x += sx;
-                ret.push_back(cur);
-            } ;
+                interact( cur );
+            }
         } else if (ax > ay) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
                     cur.y += sy;
                     t -= ax;
                 }
                 cur.x += sx;
                 t += ay;
-                ret.push_back(cur);
-            } ;
+                interact( cur );
+            }
         } else {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
                     cur.x += sx;
                     t -= ay;
                 }
                 cur.y += sy;
                 t += ax;
-                ret.push_back(cur);
-            } ;
+                interact( cur );
+            }
         }
     } else {
-        if (ax == ay && ay == az) {
-            for (int i = 0; i < numCells; i++) {
+        if( ax == ay && ay == az ) {
+            while( cur.x != loc2.x ) {
                 cur.z += sz;
                 cur.y += sy;
                 cur.x += sx;
-                ret.push_back(cur);
-            } ;
-        } else if ((az > ax) && (az > ay)) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
+                interact( cur );
+            }
+        } else if( (az > ax) && (az > ay) ) {
+            while( cur.z != loc2.z ) {
+                if( t > 0 ) {
                     cur.x += sx;
                     t -= az;
                 }
-                if (t2 > 0) {
+                if( t2 > 0 ) {
                     cur.z += sz;
                     t2 -= ax;
                 }
                 cur.z += sz;
                 t += ax;
                 t2 += ay;
-                ret.push_back(cur);
-            } ;
-        } else if (ax == ay) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
+                interact( cur );
+            }
+        } else if( ax == ay ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
                     cur.z += sz;
                     t -= ax; // to clarify, ax and az are equivalent in this case
                 }
                 cur.y += sy;
                 cur.x += sx;
                 t += az;
-                ret.push_back(cur);
-            } ;
-        } else if (ax > ay) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
+                interact( cur );
+            }
+        } else if( ax > ay ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
                     cur.y += sy;
                     t -= ax;
                 }
-                if (t2 > 0) {
+                if( t2 > 0 ) {
                     cur.z += sz;
                     t2 -= ax;
                 }
                 cur.x += sx;
                 t += ay;
                 t2 += az;
-                ret.push_back(cur);
-            } ;
+                interact( cur );
+            }
         } else { //dy > dx >= dz
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
                     cur.x += sx;
                     t -= ay;
                 }
-                if (t2 > 0) {
+                if( t2 > 0 ) {
                     cur.z += sz;
                     t2 -= ay;
                 }
                 cur.y += sy;
                 t += ax;
                 t2 += az;
-                ret.push_back(cur);
-            } ;
+                interact( cur );
+            }
         }
     }
-    return ret;
+}
+
+//Trying to pull points out of a tripoint vector is messy and
+//probably slow, so leaving two full functions for now
+std::vector<point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
+{
+    std::vector<point> line;
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+    if( numCells == 0 ) {
+        line.push_back( {x1, y1} );
+    } else {
+        line.reserve(numCells);
+        bresenham( x1, y1, x2, y2, t, [&line](const point &new_point){line.push_back(new_point);} );
+    }
+    return line;
+}
+
+std::vector<point> line_to( const point &p1, const point &p2, const int t )
+{
+    return line_to( p1.x, p1.y, p2.x, p2.y, t );
+}
+
+std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2)
+{
+    std::vector<tripoint> line;
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = square_dist(loc1, loc2);
+    if( numCells == 0 ) {
+        line.push_back( loc1 );
+    } else {
+        line.reserve(numCells);
+	bresenham( loc1, loc2, t, t2, [&line](const tripoint &new_point){line.push_back(new_point);} );
+    }
+    return line;
 }
 
 int trig_dist(const int x1, const int y1, const int x2, const int y2)
