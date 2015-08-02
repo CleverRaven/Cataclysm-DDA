@@ -276,14 +276,14 @@ void game::load_weather(std::ifstream & fin) {
         int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weatherGen->set_seed( seed );
+        weather_gen->set_seed( seed );
     }
 }
 
 void game::save_weather(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weatherGen->get_seed();
+    fout << "seed: " << weather_gen->get_seed();
 }
 ///// overmap
 void overmap::unserialize( std::ifstream &fin ) {

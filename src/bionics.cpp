@@ -660,7 +660,7 @@ bool player::activate_bionic(int b, bool eff_only)
     int &dirx = dirp.x;
     int &diry = dirp.y;
     item tmp_item;
-    w_point const weatherPoint = g->weatherGen->get_weather( global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(), calendar::turn );
 
     // On activation effects go here
     if(bio.id == "bio_painkiller") {
