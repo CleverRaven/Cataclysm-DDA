@@ -5780,136 +5780,38 @@ http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
 bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                const int range, int &bresenham_slope) const
 {
-    const int dx = Tx - Fx;
-    const int dy = Ty - Fy;
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int sx = SGN(dx);
-    const int sy = SGN(dy);
-    int x = Fx;
-    int y = Fy;
-    int t = 0;
-    int st;
-
-    if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+    if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
+        !INBOUNDS(Tx, Ty) ) {
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    if (ax > ay) { // Mostly-horizontal line
-        st = SGN(ay - (ax / 2));
-        // Doing it "backwards" prioritizes straight lines before diagonal.
-        // This will help avoid creating a string of zombies behind you and will
-        // promote "mobbing" behavior (zombies surround you to beat on you)
-        for (bresenham_slope = abs(ay - (ax / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    y += sy;
-                    t -= ax;
-                }
-                x += sx;
-                t += ay;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while ((trans(x, y)) && (INBOUNDS(x,y)));
-        }
-        // Zero the slope when returning false - simplifies many if-elses in code
-        bresenham_slope = 0;
-        return false;
-    } else { // Same as above, for mostly-vertical lines
-        st = SGN(ax - (ay / 2));
-        for (bresenham_slope = abs(ax - (ay / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    x += sx;
-                    t -= ay;
-                }
-                y += sy;
-                t += ax;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while ((trans(x, y)) && (INBOUNDS(x,y)));
-        }
-        bresenham_slope = 0;
-        return false;
-    }
-    bresenham_slope = 0;
-    return false; // Shouldn't ever be reached, but there it is.
+    bool visible = true;
+    bresenham( Fx, Fy, Tx, Ty, bresenham_slope,
+               [this, &visible](const point &new_point ) {
+                   if( !this->trans(new_point.x, new_point.y) ) {
+                       visible = false;
+                   }
+               } );
+    return visible;
 }
 
 bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                      const int range, const int cost_min, const int cost_max, int &bresenham_slope) const
 {
-    const int dx = Tx - Fx;
-    const int dy = Ty - Fy;
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int sx = SGN(dx);
-    const int sy = SGN(dy);
-    int x = Fx;
-    int y = Fy;
-    int t = 0;
-    int st;
-
-    if (range >= 0 &&  range < rl_dist(Fx, Fy, Tx, Ty) ) {
+    if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
+        !INBOUNDS(Tx, Ty) ) {
+        bresenham_slope = 0;
         return false; // Out of range!
     }
-    if (ax > ay) { // Mostly-horizontal line
-        st = SGN(ay - (ax / 2));
-        // Doing it "backwards" prioritizes straight lines before diagonal.
-        // This will help avoid creating a string of zombies behind you and will
-        // promote "mobbing" behavior (zombies surround you to beat on you)
-        for (bresenham_slope = abs(ay - (ax / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    y += sy;
-                    t -= ax;
-                }
-                x += sx;
-                t += ay;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-                     INBOUNDS(x, y));
-        }
-        return false;
-    } else { // Same as above, for mostly-vertical lines
-        st = SGN(ax - (ay / 2));
-        for (bresenham_slope = abs(ax - (ay / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    x += sx;
-                    t -= ay;
-                }
-                y += sy;
-                t += ax;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-                     INBOUNDS(x,y));
-        }
-        return false;
-    }
-    return false; // Shouldn't ever be reached, but there it is.
+    bool is_clear = true;
+    bresenham( Fx, Fy, Tx, Ty, bresenham_slope,
+               [this, &is_clear, cost_min, cost_max](const point &new_point ) {
+                   const int cost = this->move_cost( new_point.x, new_point.y );
+                   if( cost < cost_min || cost > cost_max ) {
+                       is_clear = false;
+                   }
+               } );
+    return is_clear;
 }
 
 // TODO: Z
