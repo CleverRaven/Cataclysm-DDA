@@ -787,8 +787,7 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
             }
 	    if(thrown.has_flag("NO_THROWN_DAMAGE"))
 	      dam=0;
-	    if(thrown.has_flag("ACTIVATE_ON_THROW"))
-	      thrown.active=true;
+	    
             // actually deal damage now
             if (zid != -1) {
                 z->apply_damage( &p, bp_torso, dam );
@@ -835,6 +834,8 @@ void game::throw_item( player &p, const tripoint &target, item &thrown,
             tr.trigger( tp, nullptr );
         }
     }
+    if(thrown.has_flag("ACTIVATE_ON_THROW"))
+	      thrown.active=true;
 }
 
 // Draws the static portions of the targeting menu,
