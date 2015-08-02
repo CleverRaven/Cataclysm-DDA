@@ -158,11 +158,11 @@ class Creature
          *  dispersion.
          *  Returns the rolled dispersion of the shot and the actually hit point.
          */
-        std::pair<double, tripoint> projectile_attack( const projectile &proj, const tripoint &source,
-                                                       const tripoint &target, double total_dispersion );
+        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
+                                                   const tripoint &target, double total_dispersion );
         /** Overloaded version that assumes the projectile comes from this Creature's postion. */
-        std::pair<double, tripoint> projectile_attack( const projectile &proj, const tripoint &target,
-                                                       double total_dispersion );
+        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
+                                                   double total_dispersion );
 
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
@@ -187,11 +187,9 @@ class Creature
         virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
                                     const damage_instance &d, dealt_damage_instance &dealt_dam);
 
-        // makes a ranged projectile attack against the creature
-        // dodgeable determines if the dodge stat applies or not, dodge is
-        // reduced for ranged attacks
-        virtual int deal_projectile_attack(Creature *source, double missed_by,
-                                           const projectile &proj, dealt_damage_instance &dealt_dam);
+        // Makes a ranged projectile attack against the creature
+        // Sets relevant values in `attack`.
+        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
