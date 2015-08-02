@@ -21,7 +21,7 @@ inline constexpr unsigned make_xyz_unit(int const x, int const y, int const z) n
 // This more general version of this function gives correct values for larger inputs.
 unsigned make_xyz(int const x, int const y, int const z);
 
-enum direction : int {
+enum direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit(-1, -1, -1),
     NORTHWEST      = make_xyz_unit(-1, -1,  0),
     BELOWNORTHWEST = make_xyz_unit(-1, -1,  1),

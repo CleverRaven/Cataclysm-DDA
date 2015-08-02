@@ -3480,13 +3480,16 @@ void map::crush( const tripoint &p )
     }
 }
 
-void map::shoot( const tripoint &p, int &dam,
-                 const bool hit_items, const std::set<std::string>& ammo_effects )
+void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
-    if (dam < 0)
-    {
+    // TODO: Make bashing count fully, but other types much less
+    const int initial_damage = proj.impact.total_damage();
+    if( initial_damage < 0 ) {
         return;
     }
+
+    int dam = initial_damage;
+    const auto &ammo_effects = proj.proj_effects;
 
     if (has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED))
     {
@@ -3497,10 +3500,9 @@ void map::shoot( const tripoint &p, int &dam,
 
     int vpart;
     vehicle *veh = veh_at(p, vpart);
-    if (veh)
-    {
+    if( veh != nullptr ) {
         const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
-        dam = veh->damage (vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items);
+        dam -= veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
     }
 
     ter_id terrain = ter( p );
@@ -3682,7 +3684,7 @@ void map::shoot( const tripoint &p, int &dam,
     }
 
     // Set damage to 0 if it's less
-    if (dam < 0) {
+    if( dam < 0 ) {
         dam = 0;
     }
 
@@ -3696,6 +3698,13 @@ void map::shoot( const tripoint &p, int &dam,
             dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
             remove_field(p,fd_web);
         }
+    }
+
+    // Rescale the damage
+    if( dam <= 0 ) {
+        proj.impact.damage_units.clear();
+    } else {
+        proj.impact.mult_damage( static_cast<double>( initial_damage ) / dam );
     }
 
     // Now, destroy items on that tile.

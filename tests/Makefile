@@ -13,7 +13,7 @@ ODIR := obj
 
 DDIR := .deps
 
-LDFLAGS += -L. -lrt
+LDFLAGS += -L.
 
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.

@@ -98,6 +98,7 @@ struct weather_printable;
 class faction;
 class live_view;
 typedef int nc_color;
+struct w_point;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -261,8 +262,6 @@ class game
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
         /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
         void cycle_item_mode( bool force_gun );
-        void throw_item( player &p, const tripoint &tarp, item &thrown,
-                         std::vector<tripoint> &trajectory );
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
@@ -408,11 +407,12 @@ class game
         void zoom_in();
         void zoom_out();
 
-        std::unique_ptr<weather_generator> weatherGen;
+        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
+        std::unique_ptr<w_point> weather_precise; // Cached weather data
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same

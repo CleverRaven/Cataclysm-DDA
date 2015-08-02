@@ -233,8 +233,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         using Creature::melee_attack;
         void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
         virtual int deal_melee_attack(Creature *source, int hitroll) override;
-        virtual int deal_projectile_attack(Creature *source, double missed_by,
-                                           const projectile &proj, dealt_damage_instance &dealt_dam) override;
+        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain) override;
         void apply_damage(Creature *source, body_part bp, int amount) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
