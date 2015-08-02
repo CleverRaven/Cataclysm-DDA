@@ -618,7 +618,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
-        add_effect( "sap", dealt_dam );
+        add_effect( "sap", dealt_dam.total_damage() );
     }
 
     int stun_strength = 0;
