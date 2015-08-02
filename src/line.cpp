@@ -15,9 +15,8 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
     cur.x = x1;
     cur.y = y1;
 
-    // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
+    const int ax = abs(dx);
+    const int ay = abs(dy);
     const int sx = (dx == 0) ? 0 : SGN(dx);
     const int sy = (dy == 0) ? 0 : SGN(dy);
 
@@ -57,10 +56,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     const int dx = loc2.x - loc1.x;
     const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
-    // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int az = abs(dz) * 2;
+    const int ax = abs(dx);
+    const int ay = abs(dy);
+    const int az = abs(dz);
     const int sx = (dx == 0 ? 0 : SGN(dx));
     const int sy = (dy == 0 ? 0 : SGN(dy));
     const int sz = (dz == 0 ? 0 : SGN(dz));
