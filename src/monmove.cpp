@@ -418,16 +418,42 @@ void monster::move()
     int mondex = !plans.empty() ? g->mon_at( plans[0], is_hallucination() ) : -1;
     auto mon_att = mondex != -1 ? attitude_to( g->zombie( mondex ) ) : A_HOSTILE;
 
-    if( !plans.empty() &&
-        ( mon_att == A_HOSTILE || has_flag( MF_ATTACKMON ) || has_flag( MF_PUSH_MON ) ) &&
-        ( can_move_to( plans[0] ) ||
-          ( plans[0] == g->u.pos3() ) ||
-          ( ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) ) &&
-            g->m.bash_rating( bash_estimate(), plans[0] ) >= 0 ) ) ) {
-        // CONCRETE PLANS - Most likely based on sight
-        next = plans[0];
-        moved = true;
-    } else if( has_flag( MF_SMELLS ) ) {
+    // CONCRETE PLANS - Most likely based on sight
+    if( !plans.empty() ) {
+        // When attacking an adjacent enemy, we're direct.
+        if( (mondex != -1 && mon_att == A_HOSTILE) || plans[0] == g->u.pos3() ) {
+            next = plans[0];
+            moved = true;
+        } else {
+            // If the direct path is blocked, go around.
+            int switch_chance = 1;
+            std::vector<point> squares =
+                squares_in_direction( pos().x, pos().y, plans[0].x, plans[0].y );
+            for( point &square : squares ) {
+                const tripoint candidate = { square.x, square.y, pos().z };
+                if( rl_dist( candidate, plans.back() ) >= rl_dist( pos(), plans.back() ) ) {
+                    continue;
+                }
+                // Bail out if we can't move there and we can't bash.
+                if( !can_move_to( candidate ) &&
+                    !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
+                    continue;
+                }
+                int this_mondex = g->mon_at( candidate, is_hallucination() );
+                // Bail out if there's a monster in the way and we aren't "pushy".
+                if( this_mondex != -1 && !(has_flag( MF_ATTACKMON ) || has_flag( MF_PUSH_MON )) ) {
+                    continue;
+                }
+                // Randomly pick one of the viable squares to move to.
+                if( one_in(switch_chance) ) {
+                    next = candidate;
+                    moved = true;
+                    switch_chance++;
+                }
+            }
+        }
+    }
+    if( !moved && has_flag( MF_SMELLS ) ) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
         plans.clear();
@@ -449,7 +475,6 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
-        // Note: The below works because C++ in A() || B() won't call B() if A() is true
         const bool did_something =
             ( !pacified && attack_at( next ) ) ||
             ( !pacified && bash_at( next ) ) ||
