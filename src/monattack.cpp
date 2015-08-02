@@ -275,22 +275,27 @@ void mattack::acid(monster *z, int index)
     z->moves -= 300;   // It takes a while
     z->reset_special(index); // Reset timer
     sounds::sound(z->pos(), 4, _("a spitting noise."));
-    tripoint hitp( target->posx() + rng(-2, 2), target->posy() + rng(-2, 2), target->posz() );
-    std::vector<tripoint> line = line_to( z->pos(), hitp, 0, 0 );
-    for (auto &i : line) {
-        if (g->m.hit_with_acid( i )) {
-            if (g->u.sees( i )) {
-                add_msg(_("A glob of acid hits the %s!"),
-                        g->m.tername( i ).c_str());
-            }
+
+    projectile proj;
+    proj.speed = 10;
+    proj.impact.add_damage( DT_ACID, 5 ); // Mostly just for momentum
+    auto dealt = z->projectile_attack( proj, target->pos(), 5400 );
+    const tripoint &hitp = dealt.end_point;
+    const Creature *hit_critter = dealt.hit_critter;
+    if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
+        add_msg( _("A glob of acid hits the %s!"),
+                 g->m.tername( hitp ).c_str());
+        if( g->m.move_cost( hitp ) == 0 ) {
+            // TODO: Allow it to spill on the side it hit from
             return;
         }
     }
+
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
             tripoint dest = hitp + tripoint( i, j, 0 );
             if (g->m.move_cost( dest ) > 0 &&
-                g->m.sees( dest, hitp, 6 ) &&
+                g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
                 g->m.add_field( dest, fd_acid, 2, 0 );
             }
@@ -359,79 +364,22 @@ void mattack::acid_accurate(monster *z, int index)
         return;
     }
 
-    int t1, t2;
-    int dist;
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        ( dist = rl_dist( z->pos(), target->pos() ) ) > 12 ||
-        !z->sees( *target, t1 ) ) {
+        rl_dist( z->pos(), target->pos() ) > 12 ||
+        !z->sees( *target ) ) {
         return;
     }
-
-    auto msg_type = target == &g->u ? m_bad : m_neutral;
 
     z->moves -= 50;
     z->reset_special(index); // Reset timer
 
-    int deviation = rng(1, 10);
-    double missed_by = (.0325 * deviation * dist);
-    std::set<std::string> no_effects;
-
-    if (missed_by > 1.) {
-        if( g->u.sees( *z ) ) {
-            add_msg(_("The %s spits acid, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
-        }
-        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
-                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
-                       target->posz() );
-        std::vector<tripoint> line = line_to( z->pos(), hitp, 0, 0 );
-        int dam = rng(5,10);
-        for( auto &i : line ) {
-            g->m.shoot( i, dam, false, no_effects);
-            if (dam == 0 && g->u.sees( i )) {
-                add_msg(_("A bolt of acid hits the %s!"),
-                        g->m.tername( i ).c_str());
-                return;
-            }
-            if (dam <= 0) {
-                break;
-            }
-        }
-        g->m.add_field( hitp, fd_acid, 1, 0 );
-        return;
-    }
-
-    if( g->u.sees( *z ) ) {
-        add_msg(_("The %s spits acid!"), z->name().c_str());
-    }
-    g->m.sees( z->pos(), target->pos(), 60, t1, t2 );
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t1, t2 );
-    int dam = rng(5,10);
-    body_part bp = target->get_random_body_part();
-    for (auto &i : line) {
-        g->m.shoot( i, dam, false, no_effects );
-        if (dam == 0 && g->u.sees( i )) {
-            add_msg(_("A bolt of acid hits the %s!"), g->m.tername( i ).c_str());
-            return;
-        }
-    }
-    if (dam <= 0) {
-        return;
-    }
-    if( target->uncanny_dodge() ) {
-        return;
-    }
-    if( g->u.sees( *target ) ) {
-        target->add_msg_player_or_npc( msg_type,
-                                    _("A bolt of acid hits your %s!"),
-                                    _("A bolt of acid hits <npcname>'s %s!"),
-                                    body_part_name_accusative( bp ).c_str() );
-    }
-    target->deal_damage( z, bp, damage_instance( DT_ACID, dam ) );
-    if (bp == bp_eyes){
-        target->add_env_effect("blind", bp_eyes, 3, 10);
-    }
-    target->check_dead_state();
+    projectile proj;
+    proj.speed = 10;
+    proj.proj_effects.insert( "ACID_DROP" );
+    proj.proj_effects.insert( "BLINDS_EYES" );
+    proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
+    z->projectile_attack( proj, target->pos(), rng( 150, 1200 ) );
 }
 
 void mattack::shockstorm(monster *z, int index)
@@ -1299,77 +1247,21 @@ void mattack::spit_sap(monster *z, int index)
         return;
     }
 
-    int t1, t2;
-    int dist;
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        ( dist = rl_dist( z->pos(), target->pos() ) ) > 12 ||
-        !z->sees( *target, t1, t2 ) ) {
+        rl_dist( z->pos(), target->pos() ) > 12 ||
+        !z->sees( *target ) ) {
         return;
     }
-
-    auto msg_type = target == &g->u ? m_bad : m_neutral;
 
     z->moves -= 150;
     z->reset_special(index); // Reset timer
 
-    int deviation = rng(1, 10);
-    double missed_by = (.0325 * deviation * dist);
-    std::set<std::string> no_effects;
-
-    if (missed_by > 1.) {
-        if( g->u.sees( *z ) ) {
-            add_msg(_("The %s spits sap, but misses %s."), z->name().c_str(), target->disp_name().c_str() );
-        }
-
-        tripoint hitp( target->posx() + rng(0 - int(missed_by), int(missed_by)),
-                       target->posy() + rng(0 - int(missed_by), int(missed_by)),
-                       target->posz() );
-        std::vector<tripoint> line = line_to( z->pos(), hitp, 0, 0 );
-        int dam = 5;
-        for( auto &i : line ) {
-            g->m.shoot( i, dam, false, no_effects);
-            if (dam == 0 && g->u.sees( i )) {
-                add_msg(_("A glob of sap hits the %s!"),
-                        g->m.tername( i ).c_str());
-                return;
-            }
-
-            if (dam <= 0) {
-                break;
-            }
-        }
-
-        g->m.add_field( hitp, fd_sap, (dam >= 4 ? 3 : 2), 0 );
-        return;
-    }
-
-    if( g->u.sees( *z ) ) {
-        add_msg(_("The %s spits sap!"), z->name().c_str());
-    }
-    g->m.sees( z->pos(), target->pos(), 60, t1, t2 );
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t1, t2 );
-    int dam = 5;
-    for (auto &i : line) {
-        g->m.shoot( i, dam, false, no_effects );
-        if (dam == 0 && g->u.sees( i )) {
-            add_msg(_("A glob of sap hits the %s!"),
-                    g->m.tername( i ).c_str());
-            return;
-        }
-    }
-    if (dam <= 0) {
-        return;
-    }
-    if( target->uncanny_dodge() ) {
-        return;
-    }
-    if( g->u.sees( *target ) ) {
-        add_msg( msg_type, _("A glob of sap hits %s!"), target->disp_name().c_str() );
-    }
-    target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
-    target->add_effect("sap", dam);
-    target->check_dead_state();
+    projectile proj;
+    proj.speed = 10;
+    proj.proj_effects.insert( "APPLY_SAP" );
+    proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
+    z->projectile_attack( proj, target->pos(), 150 );
 }
 
 void mattack::triffid_heartbeat(monster *z, int index)
@@ -2319,13 +2211,6 @@ void mattack::tentacle(monster *z, int index)
     add_msg(m_bad, _("The %s lashes its tentacle at you!"), z->name().c_str());
     z->moves -= 100;
     z->reset_special(index); // Reset timer
-
-    std::vector<tripoint> line = line_to( z->pos(), g->u.pos(), t, 0 );
-    std::set<std::string> no_effects;
-    for (auto &i : line) {
-        int tmpdam = 20;
-        g->m.shoot( i, tmpdam, true, no_effects );
-    }
 
     if (g->u.uncanny_dodge()) {
         return;

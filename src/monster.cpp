@@ -1096,34 +1096,42 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
     return roll;
 }
 
-int monster::deal_projectile_attack(Creature *source, double missed_by,
-                                    const projectile& proj, dealt_damage_instance &dealt_dam) {
-    bool u_see_mon = g->u.sees(*this);
-    // Maxes out at 50% chance with perfect hit
-    if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
-        if (u_see_mon) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
-        }
-        return 1;
-    }
-    // Not HARDTOSHOOT
-    // if it's a headshot with no head, make it not a headshot
-    if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
-        missed_by = 0.2;
-    }
-
-    // whip has a chance to scare wildlife
-    if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
+void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
+    const auto &proj = attack.proj;
+    double &missed_by = attack.missed_by; // We can change this here
+    const auto &effects = proj.proj_effects;
+    
+    // Whip has a chance to scare wildlife even if it misses
+    if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));
     }
 
-    int went_past = Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
-    if( !is_hallucination() && !went_past ) {
+    if( missed_by > 1.0 ) {
+        // Total miss
+        return;
+    }
+
+    const bool u_see_mon = g->u.sees(*this);
+    // Maxes out at 50% chance with perfect hit
+    if( has_flag(MF_HARDTOSHOOT) &&
+        !one_in(10 - 10 * (.8 - missed_by)) &&
+        !effects.count( "WIDE" ) ) {
+        if( u_see_mon ) {
+            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+        }
+        return;
+    }
+    // Not HARDTOSHOOT
+    // if it's a headshot with no head, make it not a headshot
+    if( missed_by < 0.2 && has_flag( MF_NOHEAD ) ) {
+        missed_by = 0.2;
+    }
+
+    Creature::deal_projectile_attack( source, attack );
+    if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
         on_hit( source, bp_torso, INT_MIN, &proj );
     }
-
-    return went_past;
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {

@@ -45,6 +45,7 @@ struct furn_t;
 using furn_id = int_id<furn_t>;
 struct mtype;
 using mtype_id = string_id<mtype>;
+struct projectile;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -686,8 +687,7 @@ void add_corpse( const tripoint &p );
     /** Keeps bashing a square until there is no more furniture */
     void destroy_furn( const tripoint &p, const bool silent = false );
     void crush( const tripoint &p );
-    void shoot( const tripoint &p, int &dam, const bool hit_items,
-                const std::set<std::string>& ammo_effects );
+    void shoot( const tripoint &p, projectile &proj, const bool hit_items );
     /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
     int collapse_check( const tripoint &p );
     /** Causes a collapse at (x, y), such as from destroying a wall */
