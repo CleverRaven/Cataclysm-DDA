@@ -1539,7 +1539,7 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // Try to embed the projectile in monster
     // Don't embed on miss, in player/NPCs, when we didn't stab/cut properly
     //  or when the item simply shouldn't be embedded (for example, it is active)
-    if( mon == nullptr ||
+    if( mon == nullptr || mon->is_dead_state() ||
         ( attack.dealt_dam.type_damage( DT_STAB ) +
           attack.dealt_dam.type_damage( DT_CUT ) <=
             attack.dealt_dam.type_damage( DT_BASH ) ) ||
