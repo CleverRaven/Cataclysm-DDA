@@ -389,8 +389,9 @@ classes = {
             { name = "do_read", rval = nil, args = { "item" } },
             { name = "dodge_hit", rval = nil, args = { "Creature", "int" } },
             { name = "dodge_roll", rval = "int", args = { } },
-            { name = "drench", rval = nil, args = { "int", "int" } },
+            { name = "drench", rval = nil, args = { "int", "int", "bool" } },
             { name = "drench_mut_calc", rval = nil, args = { } },
+            { name = "apply_wetness_morale", rval = nil, args = { "int" } },
             { name = "drink_from_hands", rval = "int", args = { "item" } },
             { name = "dump_memorial", rval = "string", args = { } },
             { name = "encumb", rval = "int", args = { "body_part" } },
@@ -604,7 +605,7 @@ classes = {
             { name = "uncanny_dodge", rval = "bool", args = { } },
             { name = "unimpaired_range", rval = "int", args = { } },
             { name = "uninstall_bionic", rval = "bool", args = { "string" } },
-            { name = "update_body_wetness", rval = nil, args = { } },
+            { name = "update_body_wetness", rval = nil, args = { "w_point" } },
             { name = "update_bodytemp", rval = nil, args = { } },
             { name = "update_health", rval = nil, args = { "int" } },
             { name = "update_health", rval = nil, args = { } },
@@ -1675,6 +1676,17 @@ classes = {
                 type = "int",
                 writable = true
             }
+        },
+        functions = {
+        }
+    },
+    w_point = {
+        attributes = {
+            temperature = { type = "float" },
+            humidity = { type = "float" },
+            pressure = { type = "float" },
+            windpower = { type = "float" },
+            acidic = { type = "bool" }
         },
         functions = {
         }

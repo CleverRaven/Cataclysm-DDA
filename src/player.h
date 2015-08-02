@@ -30,6 +30,7 @@ struct item_comp;
 struct tool_comp;
 class vehicle;
 struct it_comest;
+struct w_point;
 
 struct special_attack {
     std::string text;
@@ -195,7 +196,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed();
         /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness();
+        void update_body_wetness( const w_point &weather );
         /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
         void update_needs();
         /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.
@@ -611,9 +612,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void vomit();
 	void acquire_xp(int amount);
         /** Drenches the player with water, saturation is the percent gotten wet */
-        void drench(int saturation, int flags);
+        void drench( int saturation, int flags, bool ignore_waterproof );
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
         void drench_mut_calc();
+        /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
+        void apply_wetness_morale( int temperature );
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands(item &water);
@@ -800,10 +803,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int butcher_factor() const; // Automatically picks our best butchering tool
         item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
-        bool covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const;
-        bool covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const;
-        bool is_water_friendly(std::bitset<num_bp> parts) const;
-        bool is_waterproof(std::bitset<num_bp> parts) const;
+        bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
+        /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
+        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+        bool is_waterproof( const std::bitset<num_bp> &parts ) const;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -981,8 +984,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool pda_cached;
 
         // Drench cache
-        std::map<int, std::map<std::string, int> > mMutDrench;
-        std::map<body_part, int> mDrenchEffect;
+        enum water_tolerance {
+            WT_IGNORED = 0,
+            WT_NEUTRAL,
+            WT_GOOD,
+            NUM_WATER_TOLERANCE
+        };
+        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
+        std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
         std::vector<morale_point> morale;
