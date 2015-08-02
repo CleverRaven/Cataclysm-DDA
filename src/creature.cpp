@@ -617,6 +617,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_env_effect( "blind", bp_eyes, 5, rng( 3, 10 ) );
     }
 
+    if( proj_effects.count( "APPLY_SAP" ) ) {
+        add_effect( "sap", dealt_dam );
+    }
+
     int stun_strength = 0;
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
