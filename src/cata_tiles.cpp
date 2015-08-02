@@ -31,7 +31,6 @@
 
 #define ITEM_HIGHLIGHT "highlight_item"
 
-extern game *g;
 //extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
@@ -1425,7 +1424,7 @@ void cata_tiles::draw_explosion_frame()
         }
     }
 }
-#include "debug.h"
+
 void cata_tiles::draw_custom_explosion_frame()
 {
     // TODO: Make the drawing code handle all the missing tiles: <^>v and *
