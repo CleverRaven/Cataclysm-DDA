@@ -13057,9 +13057,9 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
                     continue;
                 }
                 if( ( r->skill_used == NULL ||
-                      get_skill_level(r->skill_used) >= elem.skill_level ) &&
-                    ( difficulty == -1 || elem.skill_level < difficulty ) ) {
-                    difficulty = elem.skill_level;
+                      get_skill_level(r->skill_used) >= r->difficulty ) &&
+                    ( difficulty == -1 || r->difficulty < difficulty ) ) {
+                    difficulty = r->difficulty;
                 }
             }
         } else {
