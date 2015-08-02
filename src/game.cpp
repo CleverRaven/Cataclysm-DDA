@@ -131,7 +131,8 @@ game::game() :
     m( *map_ptr ),
     u( *u_ptr ),
     critter_tracker( new Creature_tracker() ),
-    weatherGen( new weather_generator() ),
+    weather_gen( new weather_generator() ),
+    weather_precise( new w_point() ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
@@ -638,7 +639,7 @@ void game::start_game(std::string worldname)
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;
-    weatherGen->set_seed( rand() );
+    weather_gen->set_seed( rand() );
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -1322,7 +1323,8 @@ bool game::do_turn()
     }
 
     u.update_bodytemp();
-    u.update_body_wetness();
+    u.update_body_wetness( *weather_precise );
+    u.apply_wetness_morale( temperature );
     rustCheck();
     if (calendar::once_every(MINUTES(1))) {
         u.update_morale();
@@ -1487,10 +1489,14 @@ bool game::cancel_activity_query(const char *message, ...)
 void game::update_weather()
 {
     if (calendar::turn >= nextweather) {
-        w_point const w = weatherGen->get_weather( u.global_square_location(), calendar::turn );
+        w_point &w = *weather_precise;
+        w = weather_gen->get_weather( u.global_square_location(), calendar::turn );
         weather_type old_weather = weather;
-        weather = weatherGen->get_weather_conditions(w);
-        if (weather == WEATHER_SUNNY && calendar::turn.is_night()) { weather = WEATHER_CLEAR; }
+        weather = weather_gen->get_weather_conditions(w);
+        if( weather == WEATHER_SUNNY && calendar::turn.is_night() ) {
+            weather = WEATHER_CLEAR;
+        }
+
         temperature = w.temperature;
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
@@ -4127,7 +4133,7 @@ void game::debug()
         uimenu weather_menu;
         weather_menu.text = _("Select new weather pattern:");
         weather_menu.return_invalid = true;
-        weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weatherGen->debug_weather == WEATHER_NULL ?
+        weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_gen->debug_weather == WEATHER_NULL ?
                                _("Keep normal weather patterns") : _("Disable weather forcing") );
         for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
             weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
@@ -4140,7 +4146,7 @@ void game::debug()
 
         if( weather_menu.ret >= 0 && weather_menu.ret <= NUM_WEATHER_TYPES ) {
             weather_type selected_weather = (weather_type)weather_menu.selected;
-            weatherGen->debug_weather = selected_weather;
+            weather_gen->debug_weather = selected_weather;
             nextweather = calendar::turn;
             update_weather();
         }
@@ -12429,8 +12435,8 @@ bool game::plmove(int dx, int dy)
         u.ma_onmove_effects();
 
         // Drench the player if swimmable
-        if (m.has_flag("SWIMMABLE", x, y)) {
-            u.drench(40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r));
+        if( m.has_flag( "SWIMMABLE", dest_loc ) ) {
+            u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
         }
 
         // List items here
@@ -12672,7 +12678,7 @@ void game::plswim(int x, int y)
     if (u.is_underwater()) {
         drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
     }
-    u.drench(100, drenchFlags);
+    u.drench( 100, drenchFlags, true );
 }
 
 void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)

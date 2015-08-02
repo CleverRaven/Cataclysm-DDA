@@ -62,7 +62,7 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     // TODO: maybe have different rotting speed when underground?
     int ret = 0;
     for (calendar i(startturn); i.get_turn() < endturn; i += 600) {
-        w_point w = g->weatherGen->get_weather(location, i);
+        w_point w = g->weather_gen->get_weather(location, i);
         ret += std::min(600, endturn - i.get_turn()) * get_hourly_rotpoints_at_temp(w.temperature) / 600;
     }
     return ret;
@@ -75,7 +75,7 @@ rainfall_data get_rainfall( const calendar &startturn,
 {
     rainfall_data rainfall;
     for( calendar turn(startturn); turn < endturn; turn += 10 ) {
-        switch( g->weatherGen->get_weather_conditions( point( location.x, location.y ), turn ) ) {
+        switch( g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn ) ) {
         case WEATHER_DRIZZLE:
             rainfall.rain_amount += 4;
             rainfall.rain_turns++;
@@ -303,10 +303,10 @@ void generic_wet(bool acid)
             // Umbrellas tend to protect one's head and torso pretty well
             g->u.drench(30 - (g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 2 / 5 +
                               (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
-                        mfb(bp_leg_l) | mfb(bp_leg_r));
+                        mfb(bp_leg_l) | mfb(bp_leg_r), false );
         } else {
             g->u.drench(30 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
-                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head));
+                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head), false );
         }
     }
 
@@ -330,10 +330,10 @@ void generic_very_wet(bool acid)
             // Umbrellas tend to protect one's head and torso pretty well
             g->u.drench(60 - ((g->u.warmth(bp_leg_l) + g->u.warmth(bp_leg_r)) * 2 / 5 +
                               (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
-                        mfb(bp_leg_l) | mfb(bp_leg_r));
+                        mfb(bp_leg_l) | mfb(bp_leg_r), false );
         } else {
             g->u.drench(60 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
-                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head));
+                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head), false );
         }
     }
 
@@ -522,8 +522,8 @@ std::string weather_forecast( point const &abs_sm_pos )
     for(int d = 0; d < 6; d++) {
         weather_type forecast = WEATHER_NULL;
         for(calendar i(last_hour + 7200 * d); i < last_hour + 7200 * (d + 1); i += 600) {
-            w_point w = g->weatherGen->get_weather( abs_ms_pos, i );
-            forecast = std::max(forecast, g->weatherGen->get_weather_conditions(w));
+            w_point w = g->weather_gen->get_weather( abs_ms_pos, i );
+            forecast = std::max(forecast, g->weather_gen->get_weather_conditions(w));
             high = std::max(high, w.temperature);
             low = std::min(low, w.temperature);
         }

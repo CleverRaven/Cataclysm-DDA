@@ -247,18 +247,18 @@ player::player() : Character()
  memorial_log.clear();
  player_stats.reset();
 
- mDrenchEffect[bp_eyes] = 1;
- mDrenchEffect[bp_mouth] = 1;
- mDrenchEffect[bp_head] = 7;
- mDrenchEffect[bp_leg_l] = 11;
- mDrenchEffect[bp_leg_r] = 11;
- mDrenchEffect[bp_foot_l] = 3;
- mDrenchEffect[bp_foot_r] = 3;
- mDrenchEffect[bp_arm_l] = 10;
- mDrenchEffect[bp_arm_r] = 10;
- mDrenchEffect[bp_hand_l] = 3;
- mDrenchEffect[bp_hand_r] = 3;
- mDrenchEffect[bp_torso] = 40;
+    drench_capacity[bp_eyes] = 1;
+    drench_capacity[bp_mouth] = 1;
+    drench_capacity[bp_head] = 7;
+    drench_capacity[bp_leg_l] = 11;
+    drench_capacity[bp_leg_r] = 11;
+    drench_capacity[bp_foot_l] = 3;
+    drench_capacity[bp_foot_r] = 3;
+    drench_capacity[bp_arm_l] = 10;
+    drench_capacity[bp_arm_r] = 10;
+    drench_capacity[bp_hand_l] = 3;
+    drench_capacity[bp_hand_r] = 3;
+    drench_capacity[bp_torso] = 40;
 
  recalc_sight_limits();
 }
@@ -806,7 +806,7 @@ void player::update_bodytemp()
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
-    w_point const weather = g->weatherGen->get_weather( global_square_location(), calendar::turn );
+    w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
@@ -937,7 +937,7 @@ void player::update_bodytemp()
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to C.
-        int water_temperature = 100 * (g->weatherGen->get_water_temperature() - 32) * 5 / 9;
+        int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
              ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
               (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
@@ -1387,7 +1387,7 @@ void player::update_bodytemp()
         if( i == bp_mouth || i == bp_foot_r || i == bp_foot_l || i == bp_hand_r || i == bp_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[i] / mDrenchEffect.at( static_cast<body_part>( i ) ); // 0 - 100
+            int wetness_percentage = 100 * body_wetness[i] / drench_capacity[i]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to tempearture resistance
             int Ftemperature = g->get_temperature() +
@@ -4229,16 +4229,18 @@ void player::pause()
     recoil = int(recoil / 2);
 
     // Train swimming if underwater
-    if (underwater) {
+    if( underwater ) {
         practice( "swimming", 1 );
-        if (g->temperature <= 50) {
-            drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
-                        mfb(bp_hand_l)|mfb(bp_hand_r));
-        } else {
-            drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                        mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth));
-        }
+        drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
+                    mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
+                    mfb(bp_hand_l)|mfb(bp_hand_r), true );
+    } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+        practice( "swimming", 1 );
+        // Same as above, except no head/eyes/mouth
+        drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
+                    mfb(bp_foot_l)|mfb(bp_foot_r)| mfb(bp_hand_l)|mfb(bp_hand_r), true );
+    } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
+        drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
     }
 
     VehicleList vehs = g->m.get_vehicles();
@@ -8410,179 +8412,215 @@ void player::vomit()
     wake_up();
 }
 
-void player::drench(int saturation, int flags)
+void player::drench( int saturation, int flags, bool ignore_waterproof )
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( (has_trait("DEBUG_NOTEMP")) || (has_active_mutation("SHELL2")) ||
-      ((is_waterproof(flags)) && (!(g->m.has_flag(TFLAG_DEEP_WATER, posx(), posy())))) ) {
+    if ( has_trait("DEBUG_NOTEMP") || has_active_mutation("SHELL2") ||
+         ( !ignore_waterproof && is_waterproof(flags) ) ) {
         return;
     }
 
     // Make the body wet
-    for (int i = 0; i < num_bp; ++i) {
+    for( int i = bp_torso; i < num_bp; ++i ) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
-        if (mfb(i) & flags){
-            bp_wetness_max = mDrenchEffect[static_cast<body_part>( i )];
+        if( mfb(i) & flags ){
+            bp_wetness_max = drench_capacity[i];
         }
-        if (bp_wetness_max == 0){
+
+        if( bp_wetness_max == 0 ){
             continue;
         }
         // Different sources will only make the bodypart wet to a limit
         int source_wet_max = saturation / 2;
         int wetness_increment = source_wet_max / 8;
         // Make sure increment is at least 1
-        if (source_wet_max != 0 && wetness_increment == 0) {
+        if( source_wet_max != 0 && wetness_increment == 0 ) {
             wetness_increment = 1;
         }
         // Respect maximums
-        if (body_wetness[i] < source_wet_max && body_wetness[i] < bp_wetness_max){
-            body_wetness[i] += wetness_increment;
+        const int wetness_max = std::min( source_wet_max, bp_wetness_max );
+        if( body_wetness[i] < wetness_max ){
+            body_wetness[i] = std::min( wetness_max, body_wetness[i] + wetness_increment );
         }
     }
+}
 
-    // Apply morale results from getting wet
-    int effected = 0;
-    int tot_ignored = 0; //Always ignored
-    int tot_neut = 0; //Ignored for good wet bonus
-    int tot_good = 0; //Increase good wet bonus
+void player::drench_mut_calc()
+{
+    for( size_t i = 0; i < num_bp; i++ ) {
+        body_part bp = static_cast<body_part>( i );
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
 
-    for (std::map<body_part, int>::iterator iter = mDrenchEffect.begin(); iter != mDrenchEffect.end(); ++iter) {
-        if (mfb(iter->first) & flags) {
-            effected += iter->second;
-            tot_ignored += mMutDrench[iter->first]["ignored"];
-            tot_neut += mMutDrench[iter->first]["neutral"];
-            tot_good += mMutDrench[iter->first]["good"];
+        for( const auto &iter : my_mutations ) {
+            const auto &mdata = mutation_branch::get( iter.first );
+            const auto wp_iter = mdata.protection.find( bp );
+            if( wp_iter != mdata.protection.end() ) {
+                ignored += wp_iter->second.x;
+                neutral += wp_iter->second.y;
+                good += wp_iter->second.z;
+            }
         }
-    }
 
-    if (effected == 0) {
+        mut_drench[i][WT_GOOD] = good;
+        mut_drench[i][WT_NEUTRAL] = neutral;
+        mut_drench[i][WT_IGNORED] = ignored;
+    }
+}
+
+void player::apply_wetness_morale( int temperature )
+{
+    // First, a quick check if we have any wetness to calculate morale from
+    // Faster than checking all worn items for friendliness
+    if( !std::any_of( body_wetness.begin(), body_wetness.end(),
+        []( const int w ) { return w != 0; } ) ) {
         return;
     }
 
-    bool wants_drench = false;
-    // If not protected by mutations then check clothing
-    if (tot_good + tot_neut + tot_ignored < effected) {
-        wants_drench = is_water_friendly(flags);
-    } else {
-        wants_drench = true;
+    // Normalize temperature to [-1.0,1.0]
+    temperature = std::max( 0, std::min( 100, temperature ) );
+    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
+
+    int total_morale = 0;
+    const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    for( int i = bp_torso; i < num_bp; ++i ) {
+        // Sum of body wetness can go up to 103
+        const int part_drench = body_wetness[i];
+        if( part_drench == 0 ) {
+            continue;
+        }
+
+        const auto &part_arr = mut_drench[i];
+        const int part_ignored = part_arr[WT_IGNORED];
+        const int part_neutral = part_arr[WT_NEUTRAL];
+        const int part_good    = part_arr[WT_GOOD];
+
+        if( part_ignored >= part_drench ) {
+            continue;
+        }
+
+        int bp_morale = 0;
+        const bool is_friendly = wet_friendliness[i];
+        const int effective_drench = part_drench - part_ignored;
+        if( is_friendly ) {
+            // Using entire bonus from mutations and then some "human" bonus
+            bp_morale = std::min( part_good, effective_drench ) + effective_drench / 2;
+        } else if( effective_drench < part_good ) {
+            // Positive or 0
+            // Won't go higher than part_good / 2
+            // Wet slime/scale doesn't feel as good when covered by wet rags/fur/kevlar
+            bp_morale = std::min( effective_drench, part_good - effective_drench );
+        } else if( effective_drench > part_good + part_neutral ) {
+            // This one will be negative
+            bp_morale = part_good + part_neutral - effective_drench;
+        }
+
+        // Clamp to [COLD,HOT] and cast to double
+        const double part_temperature =
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[i] ) );
+        // 0.0 at COLD, 1.0 at HOT
+        const double part_mod = (part_temperature - BODYTEMP_COLD) /
+                                (BODYTEMP_HOT - BODYTEMP_COLD);
+        // Average of global and part temperature modifiers, each in range [-1.0, 1.0]
+        double scaled_temperature = ( global_temperature_mod + part_mod ) / 2;
+
+        if( bp_morale < 0 ) {
+            // Damp, hot clothing on hot skin feels bad
+            scaled_temperature = fabs( scaled_temperature );
+        }
+
+        // For an unmutated human swimming in deep water, this will add up to:
+        // +51 when hot in 100% water friendly clothing
+        // -103 when cold/hot in 100% unfriendly clothing
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
     }
 
-    int morale_cap;
-    if (wants_drench) {
-        morale_cap = g->get_temperature() - std::min(65, 65 + (tot_ignored - tot_good) / 2) * saturation / 100;
-    } else {
-        morale_cap = -(saturation / 2);
-    }
-
-    // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-    if (morale_cap > 0) {
-        morale_cap = morale_cap * (effected - tot_ignored + tot_good) / effected;
-    } else if (morale_cap < 0) {
-        morale_cap = morale_cap * (effected - tot_ignored - tot_neut - tot_good) / effected;
-    }
-
-    if (morale_cap == 0) {
+    if( total_morale == 0 ) {
         return;
     }
 
-    int morale_effect = morale_cap / 8;
-    if (morale_effect == 0) {
-        if (morale_cap > 0) {
+    int morale_effect = total_morale / 8;
+    if( morale_effect == 0 ) {
+        if( total_morale > 0 ) {
             morale_effect = 1;
         } else {
             morale_effect = -1;
         }
     }
 
-    int dur = 60;
-    int d_start = 30;
-    if (morale_cap < 0) {
-        if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
-          has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
-          has_trait("CHITIN_FUR3")) {
-            dur /= 5;
-            d_start /= 5;
-        }
-        // Shaggy fur holds water longer.  :-/
-        if (has_trait("URSINE_FUR")) {
-            dur /= 3;
-            d_start /= 3;
-        }
-    } else {
-        if (has_trait("SLIMY")) {
-            dur *= 1.2;
-            d_start *= 1.2;
-        }
-    }
-
-    add_morale(MORALE_WET, morale_effect, morale_cap, dur, d_start);
+    add_morale( MORALE_WET, morale_effect, total_morale, 5, 5, true );
 }
 
-void player::drench_mut_calc()
+void player::update_body_wetness( const w_point &weather )
 {
-    mMutDrench.clear();
-    int ignored, neutral, good;
+    // Average number of turns to go from completely soaked to fully dry
+    // assuming average temperature and humidity
+    constexpr int average_drying = HOURS(1);
 
-    for( auto &elem : mDrenchEffect ) {
-        ignored = 0;
-        neutral = 0;
-        good = 0;
-
-        for( const auto &_iter : my_mutations ) {
-            const auto &mdata = mutation_branch::get( _iter.first );
-            const auto _wp_iter = mdata.protection.find( elem.first );
-            if( _wp_iter != mdata.protection.end() ) {
-                ignored += _wp_iter->second.x;
-                neutral += _wp_iter->second.y;
-                good += _wp_iter->second.z;
-            }
-        }
-
-        mMutDrench[elem.first]["good"] = good;
-        mMutDrench[elem.first]["neutral"] = neutral;
-        mMutDrench[elem.first]["ignored"] = ignored;
-    }
-}
-
-void player::update_body_wetness()
-{
-    /**
-    * Issue : morale and wetness still aren't linked ... they are two seperate things that mostly coincide
-    **/
-
-    /*
-    * Mutations and weather can affect the duration of the player being wet.
-    */
-    int delay = 10;
+    // A modifier on drying time
+    double delay = 1.0;
+    // Weather slows down drying
+    delay -= ( weather.temperature - 65 ) / 100.0;
+    delay += ( weather.humidity - 66 ) / 100.0;
+    delay = std::max( 0.1, delay );
+    // Fur/slime retains moisture
     if( has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") ||
         has_trait("LUPINE_FUR") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2") ||
         has_trait("CHITIN_FUR3")) {
-        delay += 2;
+        delay = delay * 6 / 5;
     }
-    if (has_trait("URSINE_FUR")) {
-        delay += 5;
-    }
-    if (has_trait("SLIMY")) {
-        delay -= 5;
-    }
-    if (g->weather == WEATHER_SUNNY) {
-        delay -= 2;
+    if( has_trait( "URSINE_FUR" ) || has_trait( "SLIMY" ) ) {
+        delay = delay * 3 / 2;
     }
 
-    if (!calendar::once_every(delay)) {
+    if( !one_in_improved( average_drying * delay / 100.0 ) ) {
+        // No drying this turn
         return;
     }
 
-    for (int i = 0; i < num_bp; ++i) {
-        if (body_wetness[i] == 0) {
+    // Now per-body-part stuff
+    // To make drying uniform, make just one roll and reuse it
+    const int drying_roll = rng( 1, 100 );
+    if( drying_roll > 40 ) {
+        // Wouldn't affect anything
+        return;
+    }
+
+    for( int i = 0; i < num_bp; ++i ) {
+        if( body_wetness[i] == 0 ) {
             continue;
         }
-        body_wetness[i] -= 1;
-        if (body_wetness[i] < 0) {
-            body_wetness[i] = 0;
+        // This is to normalize drying times
+        int drying_chance = drench_capacity[i];
+        // Body temperature affects duration of wetness
+        // Note: Using temp_conv rather than temp_cur, to better approximate environment
+        if( temp_conv[i] >= BODYTEMP_SCORCHING ) {
+            drying_chance *= 2;
+        } else if( temp_conv[i] >=  BODYTEMP_VERY_HOT ) {
+            drying_chance = drying_chance * 3 / 2;
+        } else if( temp_conv[i] >= BODYTEMP_HOT ) {
+            drying_chance = drying_chance * 4 / 3;
+        } else if( temp_conv[i] > BODYTEMP_COLD ) {
+            // Comfortable, doesn't need any changes
+        } else {
+            // Evaporation doesn't change that much at lower temp
+            drying_chance = drying_chance * 3 / 4;
+        }
+
+        if( drying_chance < 1 ) {
+            drying_chance = 1;
+        }
+
+        if( drying_chance >= drying_roll ) {
+            body_wetness[i] -= 1;
+            if( body_wetness[i] < 0 ) {
+                body_wetness[i] = 0;
+            }
         }
     }
+    // TODO: Make clothing slow down drying
 }
 
 double player::convert_weight(int weight)
@@ -9218,7 +9256,7 @@ item* player::pick_usb()
     return drives[ select - 1 ].first;
 }
 
-bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts) const
+bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
 {
     std::bitset<num_bp> covered = 0;
 
@@ -9243,22 +9281,21 @@ bool player::covered_with_flag(const std::string flag, std::bitset<num_bp> parts
     return (covered == parts);
 }
 
-bool player::covered_with_flag_exclusively(const std::string flag, std::bitset<num_bp> parts) const
+std::bitset<num_bp> player::exclusive_flag_coverage( const std::string &flag ) const
 {
+    std::bitset<num_bp> ret;
+    ret.set();
     for( const auto &elem : worn ) {
-        if( ( elem.get_covered_body_parts() & parts ).any() && !elem.has_flag( flag ) ) {
-            return false;
+        if( !elem.has_flag( flag ) ) {
+            // Unset the parts covered by this item
+            ret &= ( ~elem.get_covered_body_parts() );
         }
     }
-    return true;
+
+    return ret;
 }
 
-bool player::is_water_friendly(std::bitset<num_bp> parts) const
-{
-    return covered_with_flag_exclusively("WATER_FRIENDLY", parts);
-}
-
-bool player::is_waterproof(std::bitset<num_bp> parts) const
+bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
 {
     return covered_with_flag("WATERPROOF", parts);
 }
@@ -12201,7 +12238,7 @@ int player::warmth(body_part bp) const
             // Warmth is reduced by 0 - 66% based on wetness.
             if (!i.made_of("wool"))
             {
-                warmth *= 1.0 - 0.66 * body_wetness[bp] / mDrenchEffect.at(bp);
+                warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }
             ret += warmth;
         }
