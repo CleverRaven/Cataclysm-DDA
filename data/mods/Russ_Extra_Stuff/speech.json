@@ -1,0 +1,47 @@
+[
+
+
+  {
+        "type" : "speech",
+        "speaker" : "mon_wild_beehive",
+        "sound" : "buzZZzzzzZZZZZ",
+        "volume" : 15
+    },
+
+ {
+        "type" : "speech",
+        "speaker" : "mon_wild_beehive",
+        "sound" : "the sound of thousands of insect wings",
+        "volume" : 15
+    },
+ {
+        "type" : "speech",
+        "speaker" : "mon_wild_beehive",
+        "sound" : "a lot of bees close by.",
+        "volume" : 15
+    },
+
+
+  {
+        "type" : "speech",
+        "speaker" : "mon_bee_swarm",
+        "sound" : "buzZZzzzzZZZZZz",
+        "volume" : 15
+    },
+
+ {
+        "type" : "speech",
+        "speaker" : "mon_bee_swarm",
+        "sound" : "the sound of thousands of insect wings.",
+        "volume" : 15
+    },
+ {
+        "type" : "speech",
+        "speaker" : "mon_bee_swarm",
+        "sound" : "a lot of bees close by.",
+        "volume" : 15
+    }
+
+
+
+]

@@ -165,6 +165,40 @@
     ],
     "components": [
       [
+      [ "lead", 150 ],
+      [ "gold_small", 150 ],
+      [ "silver_small", 150 ],
+      [ "tin", 150 ],
+      [ "bismuth", 150 ],
+      [ "solder_wire", 150 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "177_pl_heavy",
+    "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 2,
+    "time": 100000,
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
+      ["forge", 20], ["char_forge", 5], [ "oxy_torch", 10]
+    ]
+    ],
+    "components": [
+      [
       [ "lead", 200 ],
       [ "gold_small", 200 ],
       [ "silver_small", 200 ],
@@ -205,6 +239,40 @@
       [ "tin", 200 ],
       [ "bismuth", 200 ],
       [ "solder_wire", 200 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "22_pl_heavy",
+    "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 2,
+    "time": 100000,
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
+      ["forge", 20], ["char_forge", 5], [ "oxy_torch", 10]
+    ]
+    ],
+    "components": [
+      [
+      [ "lead", 250 ],
+      [ "gold_small", 250 ],
+      [ "silver_small", 250 ],
+      [ "tin", 250 ],
+      [ "bismuth", 250 ],
+      [ "solder_wire", 250 ]
       ]
     ]
   },{

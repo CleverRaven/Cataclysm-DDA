@@ -1,0 +1,237 @@
+[{
+  "type" : "recipe",
+  "result": "deluxe_macaroni_helper",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 4 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 4 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spaghetti_raw", 1 ],
+      [ "macaroni_raw", 1],
+      [ "noodles_fast", 1]
+    ],
+    [
+      [ "meat", 1],
+      [ "rehydrated_meat", 2 ],
+      [ "dry_meat", 2 ],
+      [ "can_chicken", 2 ],
+      [ "meat_canned", 2 ],
+      [ "fish", 1 ],
+      [ "dry_fish", 2],
+      [ "rehydrated_fish", 2],
+      [ "fish_canned", 2],
+      [ "can_salmon", 2],
+      [ "can_tuna", 2]
+    ],
+    [
+      [ "cheese", 1 ],
+      [ "can_cheese", 1 ],
+      ["sauce_red", 1],
+      ["con_milk",1],
+      ["milk_powder",1],
+      ["milk",1]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [[ "veggy_wild", 5]],
+     [[ "wild_herbs", 5]]
+    
+  ]
+},{
+  "type" : "recipe",
+  "result": "popover",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+	[["popover_tray",1]],
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 3 ]
+    ],
+    	[
+         [ "powder_eggs", 5 ],
+         [ "egg_bird", 2 ],
+         [ "egg_reptile", 2 ]
+        ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+      ["cooking_oil",1],
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "food_meatloaf",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 15 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 15 ],
+      [ "fire", -1 ]
+    ]
+
+  ],
+  "components": [
+    [
+      [ "veggy_wild", 2 ]
+    ],
+	[
+	 [ "meat", 2 ]
+	],
+	[
+         [ "powder_eggs", 5 ],
+         [ "egg_bird", 2 ],
+         [ "egg_reptile", 2 ]
+        ],
+       [
+	["wild_herbs",10],
+	["salt", 1],
+	["pepper",1]
+       ]
+
+    ]
+},
+{
+  "type" : "recipe",
+  "result": "french_toast",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+	[ "crackers", 1 ],
+      [ "hardtack", 1 ],
+      [ "wastebread", 1 ]
+    ],
+    [
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      ["cooking_oil",1],
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "deluxe_french_toast",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+	[ "crackers", 1 ],
+      [ "hardtack", 1 ],
+      [ "wastebread", 1 ]
+    ],
+    [
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "syrup", 1 ],
+	 [ "sugar", 1],
+      [ "jam_fruit", 1 ],
+      [ "jam_strawberries", 1 ],
+      [ "jam_blueberries", 1 ],
+	 [ "strawberries", 1 ],
+      [ "blueberries", 1 ],
+      [ "cherries", 1 ],
+      [ "cranberries", 3 ],
+      [ "raspberries", 1 ],
+      [ "blackberries", 1 ],
+      [ "molasses", 1 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1],
+      [ "honey_glassed", 1]
+    ],
+    [
+      ["cooking_oil",1 ],
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+}
+
+]
+

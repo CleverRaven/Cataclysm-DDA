@@ -1,12 +1,53 @@
 [{
+    "type" : "item_group",
+    "id" : "trash_forest",
+    "items":[
+      ["rag",1]
+    ]
+  },
+
+{"type" : "item_group",
+    "id" : "field",
+    "items":[
+      ["mininuke", 0.01]
+	]
+  },
+{
+    "type":"item_group",
+    "id":"kitchen",
+    "items":[
+      ["bucket_storage",5],
+	["popover_tray",30]
+	
+    ]
+  },{
     "type":"item_group",
     "id":"livingroom",
     "guns_with_ammo" : true,
     "items":[
-      ["RWS_34_Diana",10],
+      ["rws_34_diana",5],
 	 ["crosman_1322_airpistol", 5 ],
-	["22_pl", 5],
-	["177_pl", 5]
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5],
+
+	["piston_kit_airgun",5],
+	["bushing_kit_airgun",5],
+	["screws_airgun",5],
+	["trigger_upgrade_airgun",5],
+	["spring_upgrade_airgun",5],
+	["rifle_scope_air",5],
+	["retool_177_airgun",5],
+	["retool_22_airgun",5],
+	["underbarrel_mininuke",5]
+	
     ]
   },
 
@@ -15,8 +56,18 @@
     "id":"homeguns",
     "guns_with_ammo" : true,
     "items":[
-      ["RWS_34_Diana",10],
-	 ["crosman_1322_airpistol", 10 ]
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10],
+        ["rws_34_diana",5],
+	["crosman_1322_airpistol", 5 ],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5]
     ]
   },
 {
@@ -24,8 +75,40 @@
     "id" : "tools",
     "items":[
   
-	 ["flashlight2",10],
+	 ["flashlight2",5],
 	 ["bucket_storage",20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "allsporting",
+    "items":[
+  
+	 ["rws_34_diana",5],
+	 ["crosman_1322_airpistol", 5 ],
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5],
+	["piston_kit_airgun",5],
+	["bushing_kit_airgun",5],
+	["screws_airgun",5],
+	["trigger_upgrade_airgun",5],
+	["spring_upgrade_airgun",5],
+	["rifle_scope_air",5],
+	["retool_177_airgun",5],
+	["retool_22_airgun",5],
+
+	["fishing_handline",30],
+	["fish_trap_net",15],
+	["bucket_storage",20],
+	["flashlight2",5 ]
+
     ]
   },
 {
@@ -33,8 +116,27 @@
     "id" : "sports",
     "items":[
   
-	 ["RWS_34_Diana",10],
-	 ["crosman_1322_airpistol", 10 ],
+	 ["rws_34_diana",5],
+	 ["crosman_1322_airpistol", 5 ],
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5],
+	["piston_kit_airgun",5],
+	["bushing_kit_airgun",5],
+	["screws_airgun",5],
+	["trigger_upgrade_airgun",5],
+	["spring_upgrade_airgun",5],
+	["rifle_scope_air",5],
+	["retool_177_airgun",5],
+	["retool_22_airgun",5],
+
 	["fishing_handline",30],
 	["fish_trap_net",15],
 	["bucket_storage",20],
@@ -51,7 +153,19 @@
 	["fishing_handline",15],
 	["flashlight2",5],
 	["bucket_storage",20],
-	 ["crosman_1322_airpistol", 5 ]
+
+	["rws_34_diana",5],
+	["crosman_1322_airpistol", 5 ],
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5]
 
     ]
   },
@@ -60,7 +174,11 @@
     "id" : "rifles",
     "items":[
   
-	 ["RWS_34_Diana",5]
+	 ["rws_34_diana",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5]
 
     ]
   },{
@@ -68,7 +186,9 @@
     "id" : "pistols",
     "items":[
   
-	 ["crosman_1322_airpistol",5]
+	 ["crosman_1322_airpistol", 5 ],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5]
 
     ]
   },
@@ -77,8 +197,29 @@
     "id" : "allguns",
     "items":[
   
-	 ["RWS_34_Diana",5],
-	 ["crosman_1322_airpistol",10]
+	 ["rws_34_diana",5],
+	 ["crosman_1322_airpistol", 5 ],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunxtras",
+    "items":[
+  	["piston_kit_airgun",5],
+	["bushing_kit_airgun",5],
+	["screws_airgun",5],
+	["trigger_upgrade_airgun",5],
+	["spring_upgrade_airgun",5],
+	["rifle_scope_air",5],
+	["retool_177_airgun",5],
+	["retool_22_airgun",5],
+	["underbarrel_mininuke",5]
+
     ]
   },
 {
@@ -95,8 +236,14 @@
     "id" : "lmoe_guns",
     "items":[
   
-	 ["RWS_34_Diana",5],
-	 ["crosman_1322_airpistol",5]
+	 ["rws_34_diana",5],
+	 ["crosman_1322_airpistol", 5 ],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5]
 
     ]
   },
@@ -105,8 +252,15 @@
     "id" : "mansion_guns",
     "items":[
   
-	 ["RWS_34_Diana",5],
-	["crosman_1322_airpistol",5]
+	 ["rws_34_diana",5],
+	 ["crosman_1322_airpistol", 5 ],
+	["alecto_airpistol", 5],
+	["buckmark_airpistol",5],
+	["gamo_bigcat",10],
+	["benjamin_xl1500",5],
+	["walther_lgv_airgun",3 ],
+	["ruger_blackhawk",5],
+	["screws_airgun",5]
 
     ]
   },
@@ -115,8 +269,8 @@
     "id" : "pawn",
     "items":[
   
-	 ["shield_generator",5],
-	["RWS_34_Diana",5],
+	 ["shield_generator",2],
+	["rws_34_diana",5],
 	["crosman_1322_airpistol",5]
 	
 
@@ -153,7 +307,7 @@
     "items":[
   
 	 ["shield_generator",5],
-	["flashlight2",10],
+	["flashlight2",5],
 	["item_small_water_purifier",5]
 
     ]
@@ -162,7 +316,8 @@
     "id" : "mil_accessories",
     "items":[
   
-	 ["shield_generator",5]
+	 ["shield_generator",5],
+	["underbarrel_mininuke",5]
 
     ]
   },{
@@ -170,8 +325,10 @@
     "id" : "stash_ammo",
     "items":[
   
-	 ["22_pl",8],
-	 ["177_pl",5]
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10]
 
     ]
   },{
@@ -179,8 +336,10 @@
     "id" : "ammo",
     "items":[
   
-	 ["22_pl",8],
-	["177_pl",8]
+	["22_pl_heavy",10],
+	["22_pl", 10],
+	["177_pl", 10],
+	["177_pl_heavy",10]
 
     ]
   },{
@@ -196,8 +355,51 @@
     "id" : "gunsmith_tools",
     "items":[
   
-	 ["bucket_storage",35]
+	 ["bucket_storage",25]
 
     ]
-}
+},{
+    "type" : "item_group",
+    "id" : "gunsmith_gunparts",
+    "items":[
+  
+	 ["piston_kit_airgun",5],
+	["bushing_kit_airgun",5],
+	["screws_airgun",5],
+	["trigger_upgrade_airgun",5],
+	["spring_upgrade_airgun",5],
+	["rifle_scope_air",5],
+	["retool_177_airgun",5],
+	["retool_22_airgun",5]
+
+    ]
+},{
+    "type" : "item_group",
+    "id" : "surgery",
+    "items":[
+  
+	 ["bucket_storage",25]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "school",
+    "items":[
+  
+	 ["bucket_storage",1],
+	["knife_combat",1],
+	["ak47",1]	
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "church",
+    "items":[
+  
+	 ["bucket_storage",5],
+	["vibrator",5],
+	["ak47",5]
+
+    ]
+  }
 ]

@@ -1,0 +1,32 @@
+[{
+  "type" : "recipe",
+  "result": "bee_skep",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_W","level":1,"amount":1}
+  ],
+    
+  "components": [
+    [
+      [ "frame_wood", 1 ],
+      [ "jerrycan",1 ],
+      [ "bucket_storage",1]
+    ],
+    [
+      [ "nail", 20 ],
+      [ "scrap",3]
+    ],
+    [
+      [ "sheet_metal", 1 ],
+      [ "2x4", 2]
+    ]
+  ]
+}
+]

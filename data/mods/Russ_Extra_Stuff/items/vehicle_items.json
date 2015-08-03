@@ -237,7 +237,7 @@
         "type":"GENERIC",
         "id" : "tiny_solar_panel",
         "name" : "tiny adv. solar panel",
-        "description" : "Electronic device that can convert solar radiation into electric power. Useful for a vehicle.",
+        "description" : "Electronic device that can convert solar radiation into electric power. Useful for a small vehicle.",
         "weight" : 1400,
         "to_hit" : -4,
         "color" : "yellow",

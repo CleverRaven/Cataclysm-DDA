@@ -1,4 +1,20 @@
-[{
+[ {
+        "type":"GENERIC",
+        "id" : "popover_tray",
+        "name" : "pop-over tray",
+        "description" : "A special tray with six depressions, really only useful for making pop-overs.",
+        "weight" : 1000,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : "]",
+        "material" : ["steel", "null"],
+        "volume" : 4,
+        "bashing" : 5,
+        "cutting" : 0,
+        "price" : 6000
+    },
+
+{
     "type":"TOOL",
     "id": "fishing_handline",
     "symbol": "/",
@@ -16,7 +32,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "flags": ["FISH_GOOD"],
+    "flags": ["FISH_POOR"],
     "use_action": ["FISH_ROD"],
     "revert_to": "null",
     "to_hit": 1
