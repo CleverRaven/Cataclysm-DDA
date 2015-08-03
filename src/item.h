@@ -19,7 +19,6 @@ class game;
 class Character;
 class player;
 class npc;
-class monster;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
