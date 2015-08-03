@@ -507,7 +507,7 @@ bool monster::digging() const
 
 bool monster::can_act() const
 {
-    return moves > 0 && !has_flag(MF_IMMOBILE) &&
+    return moves > 0 &&
         ( effects.empty() ||
           ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
