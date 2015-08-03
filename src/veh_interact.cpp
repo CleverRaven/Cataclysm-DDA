@@ -1176,9 +1176,10 @@ void veh_interact::do_tirechange()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>. Having strength %3$d or more allows to lift this car to change the tire."),
+                       _("To change a wheel you need a <color_%1$s>wrench</color> and either a <color_%2$s>jack</color> or <color_%3$s>%4$d</color> strength."),
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red",
+                       has_str ? "ltgreen" : "red",
                        needed_strength);                       
         wrefresh (w_msg);
         return;
