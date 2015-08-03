@@ -6,7 +6,7 @@
      "color": "brown",
      "name": "pipe gun: revolver ammo",
      "name_plural": "pipe guns: revolver ammo",
-     "description": "A home-made breech-loading gun made from a metal pipe. It can hold a single revolver round.",
+     "description": "A home-made breech-loading gun made from a metal pipe.  It can hold a single revolver round.",
      "price": 10000,
      "material": ["steel", "wood"],
      "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
