@@ -448,7 +448,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
-		has_str = (g->u.get_str() * TIRE_CHANGE_STR_MOD) >= veh->total_mass();
+        has_str = g->u.get_str() >= int(veh->total_mass() / TIRE_CHANGE_STR_MOD);
         has_tools = has_wrench && (has_jack || has_str) && has_wheel;
         break;
     case 'a': // relabel
@@ -1167,7 +1167,8 @@ void veh_interact::do_tirechange()
     display_mode('c');
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
-    bool has_str = (g->u.get_str() * TIRE_CHANGE_STR_MOD) >= veh->total_mass();
+    const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    const bool has_str = g->u.get_str() >= needed_strength;
     switch( reason ) {
     case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There is no wheel to change here."));
@@ -1175,9 +1176,10 @@ void veh_interact::do_tirechange()
         return;
     case LACK_TOOLS:
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>. Being strong enougth allows to lift a car to change the tire."),
+                       _("To change a wheel you need a <color_%1$s>wrench</color> and a <color_%2$s>jack</color>. Having strength %3$d or more allows to lift this car to change the tire."),
                        has_wrench ? "ltgreen" : "red",
-                       has_jack ? "ltgreen" : "red");
+                       has_jack ? "ltgreen" : "red",
+                       needed_strength);                       
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
