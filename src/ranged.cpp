@@ -1553,7 +1553,7 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                  ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
                    attack.dealt_dam.type_damage( DT_STAB ) >
                      attack.dealt_dam.type_damage( DT_BASH ) +
-                     vol * 3;
+                     vol * 3 + rng( 0, 5 );
     }
 
     if( embed ) {
