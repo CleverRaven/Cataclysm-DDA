@@ -4733,26 +4733,46 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
     it->active = false;
     return 0;
 }
-int iuse::capture_sphere_act(player *p, item *it, bool, const tripoint& pos){
-  int mon_dex =g->mon_at(pos,true);
-  if(mon_dex!=-1){
-    if(g->zombie(mon_dex).type->has_flag(MF_EXPERIENCE_UPGRADE)){
-      int chance=g->zombie(mon_dex).hp_percentage()/10;
-      if(one_in(chance)){//successful capture :)
-	auto n=g->zombie(mon_dex).type->nname(1);
-	add_msg(_("You caught the %s"),n.c_str());
-	g->m.add_item_or_charges(pos.x,pos.y,g->zombie(mon_dex).to_item());
-	g->remove_zombie(mon_dex);
+int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos){
+  if(it->has_var("contained_name")){
+    try{
+        monster new_monster;
+        new_monster.deserialize(it->get_var("contained_json",""));
+        new_monster.spawn(pos);
+        g->add_zombie(new_monster);
+        it->erase_var("contained_name");
+        it->erase_var("contained_json");
+        it->active=false;
+        }catch(const std::string &e){
+            debugmsg(_("Error restoring monster: %s"),e.c_str());
+        }
+  }else{
+    //capture the thing, if it's on the same square.
+    int mon_dex=g->mon_at(pos);
+    if(mon_dex!=-1){
+      auto f=g->zombie(mon_dex);
+      int chance=f.hp_percentage()/10;
+      if(one_in(chance)||f.friendly){//If the monster is friendly, then put it in the item without checking if it rolled a success
+        try{
+        it->set_var("contained_json",f.serialize());
+        it->set_var("contained_name",f.type->nname(1));
+        it->active=false;
+        g->remove_zombie(mon_dex);
+        }catch(const std::string &e){
+            debugmsg(_("Error storing monster: %s"),e.c_str());
+        }
+        return 0;
       }else{
-	auto n=item::nname(it->typeId(),1);
-	add_msg(_("it broke the %s :("),n.c_str());
-      }				  
-      return 1;			
-    }				
-    				
-  }				
-  auto name=item::nname(it->typeId(),1);
-  add_msg(_("The %s can't capture nothing"),name.c_str());
+          add_msg(_("It broke free"));
+          it->active=false;
+          return 1;
+      }
+    }else{
+      it->active=false;
+      add_msg(_("The %s can't capture nothing."),item::nname(it->typeId(),1).c_str());
+      return 0;
+    }
+  }
   return 0;
 }
 int iuse::potion_act(player *,item *it, bool t, const tripoint &pos){

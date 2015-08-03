@@ -12,7 +12,7 @@
     "cutting":0,
     "to_hit":-2,
     "price":3000,
-    "use_action":"CAPTURE_SPHERE_ACT",
+    "use_action":"CAPTURE_MONSTER_ACT",
         "flags":["ACT_ON_RANGED_HIT","NO_THROWN_DAMAGE"],
     "max_charges":0,
         "initial_charges":0,
