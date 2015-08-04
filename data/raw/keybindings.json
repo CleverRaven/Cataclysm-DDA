@@ -1362,6 +1362,7 @@
     { "type":"keybinding", "name": "Grab something nearby", "category":"DEFAULTMODE", "id":"grab", "bindings":[ { "input_method":"keyboard", "key":"G" } ] },
     { "type":"keybinding", "name": "Butcher", "category":"DEFAULTMODE", "id":"butcher", "bindings":[ { "input_method":"keyboard", "key":"B" } ] },
     { "type":"keybinding", "name": "Chat with NPC", "category":"DEFAULTMODE", "id":"chat", "bindings":[ { "input_method":"keyboard", "key":"C" } ] },
+    { "type":"keybinding", "name": "Shout", "category":"DEFAULTMODE", "id":"shout", "bindings":[ { "input_method":"keyboard", "key":"0" } ] },
     { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
     { "type":"keybinding", "name": "Peek Around Corners", "category":"DEFAULTMODE", "id":"peek", "bindings":[ { "input_method":"keyboard", "key":"X" } ] },
     { "type":"keybinding", "name": "List all items around the player", "category":"DEFAULTMODE", "id":"listitems", "bindings":[ { "input_method":"keyboard", "key":"V" } ] },

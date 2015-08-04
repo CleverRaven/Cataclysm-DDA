@@ -1844,6 +1844,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("grab");
     ctxt.register_action("butcher");
     ctxt.register_action("chat");
+    ctxt.register_action("shout");
     ctxt.register_action("look");
     ctxt.register_action("peek");
     ctxt.register_action("listitems");
@@ -2565,6 +2566,17 @@ bool game::handle_action()
 
         case ACTION_CHAT:
             chat();
+            break;
+
+        case ACTION_SHOUT:
+            switch (rng(1, 2)) {
+            case 1:
+                u.shout(_("AAAAAAAAAAHH!!!"));
+                break;
+            case 2:
+                u.shout(_("COME GET SOME!"));
+                break;
+            }
             break;
 
         case ACTION_PEEK:
