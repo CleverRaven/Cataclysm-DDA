@@ -410,8 +410,7 @@ void monster::move()
     // Don't do it in plan(), because the mon can still use ranged special attacks using
     // the plans that are not valid for travel/melee.
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
-    if( !plans.empty() &&
-        !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) {
+    if( !plans.empty() && !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) {
         plans.clear();
     }
 
@@ -440,10 +439,9 @@ void monster::move()
     }
 
     if( moved ) {
-        int mondex = g->mon_at( next, is_hallucination() );
+        const Creature *target = g->critter_at( next, is_hallucination() );
         // When attacking an adjacent enemy, we're direct.
-        if( (mondex != -1 && attitude_to( g->zombie( mondex ) ) == A_HOSTILE) ||
-            next == g->u.pos3() ) {
+        if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
             // No change, stick with the plan.
         } else {
             // If the direct path is blocked, go around.
@@ -461,10 +459,9 @@ void monster::move()
                     !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
                     continue;
                 }
-
-                int this_mondex = g->mon_at( candidate, is_hallucination() );
-                // Bail out if there's a monster in the way and we aren't "pushy".
-                if( this_mondex != -1 && attitude_to( g->zombie( this_mondex ) ) != A_HOSTILE ) &&
+                const Creature *target = g->critter_at( candidate, is_hallucination() );
+                // Bail out if there's a non-hostile monster in the way and we're not pushy.
+                if( target != nullptr && attitude_to( *target ) == A_HOSTILE &&
                     !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     continue;
                 }
