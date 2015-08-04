@@ -6426,7 +6426,7 @@
         "bashing" : 2,
         "coverage" : 70,
         "material_thickness" : 3,
-        "flags" : ["FANCY", "SPEAR"]
+        "flags" : ["FANCY", "STAB"]
     },
     {
         "type" : "ARMOR",
