@@ -10849,7 +10849,9 @@ void game::plfire( bool burst, const tripoint &default_target )
             int vpart = -1;
             vehicle *veh = m.veh_at( u.pos3(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos3() ) &&
-                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+                (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0) &&
+                !u.has_trait("HUGE") &&
+                !u.has_trait("HUGE_OK")) {
                 add_msg(m_info,
                         _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
                 return;
