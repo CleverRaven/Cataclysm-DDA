@@ -369,7 +369,7 @@ void monster::move()
     }
     static const std::string stun_string = "stunned";
     if( has_effect( stun_string ) ) {
-        stumble( false );
+        stumble();
         moves = 0;
         return;
     }
@@ -401,7 +401,7 @@ void monster::move()
     if( current_attitude == MATT_IGNORE ||
         ( current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST ) ) {
         moves -= 100;
-        stumble( false );
+        stumble();
         return;
     }
 
@@ -451,7 +451,7 @@ void monster::move()
                 const tripoint candidate = { square.x, square.y, pos().z };
                 // Bail out if the move doesn't get us closer to the target.
                 if( !plans.empty() && rl_dist( candidate, plans.back() ) >=
-		    rl_dist( pos(), plans.back() ) ) {
+                    rl_dist( pos(), plans.back() ) ) {
                     continue;
                 }
                 // Bail out if we can't move there and we can't bash.
@@ -469,6 +469,11 @@ void monster::move()
                 if( one_in(switch_chance) ) {
                     next = candidate;
                     switch_chance++;
+                    // If we stumble, pick a random square, otherwise take the first one,
+                    // which is the most direct path.
+                    if( !has_flag( MF_STUMBLES ) ) {
+                        break;
+                    }
                 }
             }
         }
@@ -487,11 +492,9 @@ void monster::move()
     } else {
         moves -= 100;
     }
-
-    // If we're close to our target, we get focused and don't stumble
-    if( ( has_flag( MF_STUMBLES ) && ( plans.size() > 3 || plans.empty() ) ) ||
-        !moved ) {
-        stumble( moved );
+    // Stumble around if we're not moving
+    if( !moved ) {
+        stumble();
     }
 }
 
@@ -551,7 +554,7 @@ void monster::friendly_move()
     } else {
         //Otherwise just stumble around randomly until we formulate a plan.
         moves -= 100;
-        stumble( moved );
+        stumble();
     }
     if( moved ) {
         const bool pacified = has_effect( "pacified" );
@@ -562,7 +565,7 @@ void monster::friendly_move()
 
         //If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
         if( !did_something ) {
-            stumble( moved );
+            stumble();
             moves -= 100;
         }
     }
@@ -1238,21 +1241,19 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     return true;
 }
 
-/* Random walking even when we've moved
- * To simulate zombie stumbling and ineffective movement
- * Note that this is sub-optimal; stumbling may INCREASE a zombie's speed.
- * Most of the time (out in the open) this effect is insignificant compared to
- * the negative effects, but in a hallway it's perfectly even
+/**
+ * Stumble in a random direction, but with some caveats.
  */
-void monster::stumble( bool moved )
+void monster::stumble( )
 {
-    // don't stumble every turn. every 3rd turn, or 8th when walking.
-    if( ( moved && !one_in( 8 ) ) || !one_in( 3 ) ) {
+    // Only move every 3rd turn.
+    if( !one_in( 3 ) ) {
         return;
     }
 
     std::vector<tripoint> valid_stumbles;
-    const bool avoid_water = has_flag( MF_NO_BREATHE ) && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC );
+    const bool avoid_water = has_flag( MF_NO_BREATHE ) &&
+      !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC );
     for( int i = -1; i <= 1; i++ ) {
         for( int j = -1; j <= 1; j++ ) {
             tripoint dest( posx() + i, posy() + j, posz() );
@@ -1276,8 +1277,7 @@ void monster::stumble( bool moved )
             valid_stumbles.push_back( below );
         }
         // More restrictions for moving up
-        // It should happen during "shambling around", but not as actual stumbling
-        if( !moved && one_in( 5 ) && has_flag( MF_FLIES ) &&
+        if( one_in( 5 ) && has_flag( MF_FLIES ) &&
             g->m.valid_move( pos(), above, false, true ) && can_move_to( above ) ) {
             valid_stumbles.push_back( above );
         }

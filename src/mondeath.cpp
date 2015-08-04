@@ -106,7 +106,7 @@ void mdeath::boomer(monster *z)
             g->m.add_field( dest, fd_bile, 1, 0 );
             int mondex = g->mon_at( dest );
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -130,7 +130,7 @@ void mdeath::boomer_glow(monster *z)
             int mondex = g->mon_at(dest);
             Creature *critter = g->critter_at(dest);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
             if (critter != nullptr){
@@ -557,7 +557,7 @@ void mdeath::gas(monster *z)
             g->m.add_field(dest, fd_toxic_gas, 3, 0);
             int mondex = g->mon_at(dest);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -574,7 +574,7 @@ void mdeath::smokeburst(monster *z)
             g->m.add_field( dest, fd_smoke, 3, 0 );
             int mondex = g->mon_at( dest );
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
         }

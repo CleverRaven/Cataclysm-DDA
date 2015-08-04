@@ -1890,7 +1890,7 @@ void mattack::dermatik(monster *z, int index)
         if( target == &g->u ) {
             add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         }
-        z->stumble(false);
+        z->stumble();
         target->on_dodge( z, z->type->melee_skill * 2 );
         return;
     }
@@ -1910,7 +1910,7 @@ void mattack::dermatik(monster *z, int index)
             z->check_dead_state();
         }
         if (player_swat > dodge_roll * 1.5) {
-            z->stumble(false);
+            z->stumble();
         }
         return;
     }

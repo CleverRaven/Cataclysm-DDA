@@ -207,7 +207,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * bash the designated target.  **/
         int group_bash_skill( const tripoint &target );
 
-        void stumble(bool moved);
+        void stumble();
         void knock_back_from( const tripoint &p ) override;
 
         // Combat
