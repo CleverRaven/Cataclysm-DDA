@@ -381,6 +381,148 @@ If you dont want tiles you can change `TILES` to 0.
 
 If you dont want localization you can change `LOCALIZE` to 0.
 
+## Rough guide to building with only MSYS2
+
+This is a tentative step-by-step guide to building your own CDDA with Tiles, Localization and Lua using only MSYS2. You may want to follow it if the MinGW guide above doesn't work for you or you just feel adventurous. Feedback is very much welcome in terms of issues and/or pull-requests.
+
+This guide assumes you're building on a x86_64 build of Windows. If not adjust the invocations appropriately. It has been tested and proven to work on Windows XP and Windows 10. Your mileage may vary.
+
+#### 1. Go to https://msys2.github.io/ and download appropriate MSYS (top of the page).
+
+#### 2. Install MSYS2 and leave the Run ticker on. You should end up with a MSYS2 terminal.
+
+#### 3. In the open terminal:
+
+```bash
+pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime
+```
+
+Note: You may close the terminal now and reopen it from the Start menu (MSYS2 Shell, just to be on the safe-er side).
+
+Note: You may need to bash the close button repeatedly. Or use the task manager to kill it.
+
+#### 4. Open an editor that preserves line-endings
+
+Note: Wordpad should do. Or Notepadd++.
+
+#### 5. Open `C:\msys64\etc\pacman.conf` and change:
+
+```bash
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+#SigLevel = Never
+SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+
+To:
+
+```bash
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+SigLevel = Never
+#SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+
+(Exchange the # on SigLevel). This disables signature checking as it is currently borked.
+
+#### 6. Save the file
+
+#### 7. Run in MSYS2 terminal:
+
+```bash
+pacman -Su
+pacman -S mingw-w64-x86_64-gcc
+pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_ttf
+pacman -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libwebp
+pacman -S git make
+```
+
+If you wish to build with Lua also run:
+
+```bash
+pacman -S mingw-w64-x86_64-lua
+```
+
+#### 8. Close MSYS2 terminal and open MinGW-w64 Win64 Shell from Start menu and run:
+
+Note: This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+
+```bash
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git
+cd Cataclysm-DDA
+```
+
+#### 9. Open `Makefile` (it's located at `C:\msys64\home\<Your_Login>\Cataclysm-DDA\Makefile`) in an editor that worked before and change:
+
+```Makefile
+   ifeq ($(NATIVE), osx)
+     CXXFLAGS += -O3
+   else
+     CXXFLAGS += -Os
+     LDFLAGS += -s
+   endif
+```
+
+To:
+
+```Makefile
+   ifeq ($(NATIVE), osx)
+     CXXFLAGS += -O3
+   else
+     #CXXFLAGS += -Os
+     LDFLAGS += -s
+   endif
+```
+
+(Comment out `CXXFLAGS += -Os`). Optimizations break `gcc 4.9.2` you get with MSYS2.
+
+Also change:
+
+```Makefile
+   ifeq ($(TARGETSYSTEM),WINDOWS)
+     ifndef DYNAMIC_LINKING
+       # These differ depending on what SDL2 is configured to use.
+       LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+     else
+```
+
+To:
+
+```Makefile
+   ifeq ($(TARGETSYSTEM),WINDOWS)
+     ifndef DYNAMIC_LINKING
+       # These differ depending on what SDL2 is configured to use.
+       LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg
+     else
+```
+
+(Add `-lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg`). You'll need these libs for it to link.
+
+#### 10. Compile your CDDA by running:
+
+```bash
+make RELEASE=1 TILES=1 LOCALIZE=0 NATIVE=win64
+```
+
+Note: Add `-jX` where X should be the number of threads/cores your processor has (for speeding the build up).
+
+For:
+- Lua:
+    You'd need to first run:
+    
+    ```bash
+    cd src/lua && lua generate_bindings.lua && cd ../../
+    ```
+
+    Then add `LUA=1` to make invocation
+- Localization: Use `LOCALIZE=1`
+
+That's it. You should get a `cataclysm-tiles.exe` binary in the same folder you've found the `Makefile` in.
+
 # BSDs
 
 There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
