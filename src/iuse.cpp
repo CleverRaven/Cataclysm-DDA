@@ -5733,9 +5733,9 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                 if(it->has_flag("PLACE_RANDOMLY"))
                 {
                     std::vector<tripoint> valid;
-                    for(int x = p->posx()-1; x <= p->posx()+1; x++)
+                    for(int x = p->posx()-1; x <= p->posx() + 1; x++)
                     {
-                        for(int y = p->posy()-1; y <= p->posy()+1; y++)
+                        for(int y = p->posy() - 1; y <= p->posy() + 1; y++)
                         {
                             tripoint dest(x,y,pos.z);
                             if(g->is_empty(dest))
@@ -5744,6 +5744,10 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                             }
                         }
                     }
+                    if(valid.size() == 0){
+                        p->add_msg_if_player(_("There is no place to put the %s"),it->get_var("contained_name","").c_str());
+                        return 0;
+                    }
                     target = random_entry(valid);
                 }
                 else
@@ -5751,7 +5755,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                     const std::string query = string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
                     if(!choose_adjacent(query,target))
                     {
-                        it->active=false;
+                        it->active = false;
                         return 0;
                     }
                     if(!g->is_empty(target))
@@ -5790,7 +5794,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
             monster f = g->zombie(mon_dex);
             int chance = f.hp_percentage()/10;
             if(one_in(chance)//a weaker monster is easier to capture.
-                    || f.friendly//If the monster is friendly, then put it in the item without checking if it rolled a success
+                    || f.friendly != 0//If the monster is friendly, then put it in the item without checking if it rolled a success
                     || it->has_flag("NO_FAIL")) //Or if the item is rigged so no monster can escape.
             {
                 try
@@ -5820,8 +5824,9 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                         new_weight = 200000;
                         break;
                     }
-                    if(!it->has_flag("NO_WEIGHT_ADJUST"))
+                    if(!it->has_flag("NO_WEIGHT_ADJUST")){
                         it->set_var("weight",new_weight);
+                    }
                     it->active = false;
                     g->remove_zombie( mon_dex );
                 }

@@ -206,7 +206,7 @@ void monster::acquire_xp(int amount){
 	const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
 	poly(random_entry(monsters));//this seems like the only option with pokemon like eevee.
       }
-    }	
+    }
   }
 }
 
@@ -1100,7 +1100,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
-    
+
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));
@@ -1599,9 +1599,9 @@ void monster::die(Creature* nkiller) {
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }
-    Creature *kill;
-    if((kill=get_killer())!=nullptr){
-      kill->acquire_xp(10*(1+power_rating()));
+    Creature *killer = get_killer();
+    if(kill != nullptr){
+      kill->acquire_xp(10 * (1 + power_rating()));
     }
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
