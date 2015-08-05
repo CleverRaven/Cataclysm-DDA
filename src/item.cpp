@@ -79,7 +79,8 @@ static itype *nullitem()
     return &nullitem_m;
 }
 
-item::item(){
+item::item()
+{
     init();
 }
 
@@ -1162,7 +1163,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else {
             dump->push_back(iteminfo("DESCRIPTION", type->description));
         }
-
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
             const ma_technique &tec = elem.obj();

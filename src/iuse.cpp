@@ -5851,7 +5851,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
     }
     return 0;
 }
-int iuse::potion_act(player *,item *it, bool t, const tripoint &pos)
+int iuse::potion_act(player *,item *it, bool, const tripoint &pos)
 {
     int mon_dex = g->mon_at(pos);
     if(mon_dex != -1)
