@@ -2260,20 +2260,22 @@ void iexamine::tree_marloss(player *p, map *m, const tripoint &examp)
     }
 }
 
-void iexamine::shrub_wildveggies(player *p, map *m, const tripoint &examp)
+void iexamine::shrub_wildveggies( player *p, map *m, const tripoint &examp )
 {
     // Ask if there's something possibly more interesting than this shrub here
     if( ( !m->i_at( examp ).empty() ||
           m->veh_at( examp ) != nullptr ||
           !m->tr_at( examp ).is_null() ||
           g->critter_at( examp ) != nullptr ) &&
-          !query_yn(_("Forage through %s?"), m->tername(examp).c_str() ) ) {
-        none(p, m, examp);
+          !query_yn(_("Forage through %s?"), m->tername( examp ).c_str() ) ) {
+        none( p, m, examp );
         return;
     }
 
-    add_msg(_("You forage through the %s."), m->tername(examp).c_str());
-    p->assign_activity(ACT_FORAGE, 500 / (p->skillLevel("survival") + 1), 0);
+    add_msg( _("You forage through the %s."), m->tername( examp ).c_str() );
+    int move_cost = 100000 / ( 2 * p->skillLevel("survival") + 5 );
+    move_cost /= rng( std::max( 4, p->per_cur ), 4 + p->per_cur * 2 );
+    p->assign_activity( ACT_FORAGE, move_cost, 0 );
     p->activity.placement = examp;
     return;
 }

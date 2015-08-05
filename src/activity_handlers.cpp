@@ -491,14 +491,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     int veggy_chance = rng(1, 100);
     bool found_something = false;
 
-    if( one_in(12) ) {
-        add_msg(m_good, _("You found some trash!"));
-        g->m.put_items_from_loc( "trash_forest", p->pos3(), calendar::turn );
-        found_something = true;
-    }
     items_location loc;
     ter_id next_ter = t_null; //Just to have a default for compilers' sake
-    switch (calendar::turn.get_season() ) {
+    switch( calendar::turn.get_season() ) {
     case SPRING:
         loc = "forage_spring";
         next_ter = terfind("t_underbrush_harvested_spring");
@@ -517,46 +512,33 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         break;
     }
 
-    // Compromise: Survival gives a bigger boost, and Peception is leveled a bit.
-    if( veggy_chance < ((p->skillLevel("survival") * 1.5) + ((p->per_cur / 2 - 4) + 3)) ) {
+    // Survival gives a bigger boost, and Peception is leveled a bit.
+    // Both survival and perception affect time to forage
+    if( veggy_chance < p->skillLevel("survival") * 3 + p->per_cur - 2 ) {
         // Returns zero if location has no defined items.
-        int cnt = g->m.put_items_from_loc( loc, p->pos3(), calendar::turn );
+        int cnt = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         if( cnt > 0 ) {
-            add_msg(m_good, _("You found something!"));
-            g->m.ter_set( act->placement, next_ter );
+            // Crap, map methods don't return *what* was found - can't fix it here
+            add_msg( m_good, _("You found something!") );
             found_something = true;
         }
-    } else {
-        if( one_in(2) ) {
-            g->m.ter_set( act->placement, next_ter );
-        }
     }
+
+    g->m.ter_set( act->placement, next_ter );
+    if( one_in(10) ) {
+        add_msg(m_good, _("You found some trash!"));
+        g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
+        found_something = true;
+    }
+
     if( !found_something ) {
         add_msg(_("You didn't find anything."));
     }
 
-    //Determinate maximum level of skill attained by foraging using ones intelligence score
-    int max_forage_skill = 0;
-    if( p->int_cur < 4 ) {
-        max_forage_skill = 1;
-    } else if( p->int_cur < 6 ) {
-        max_forage_skill = 2;
-    } else if( p->int_cur < 8 ) {
-        max_forage_skill = 3;
-    } else if( p->int_cur < 11 ) {
-        max_forage_skill = 4;
-    } else if( p->int_cur < 15 ) {
-        max_forage_skill = 5;
-    } else if( p->int_cur < 20 ) {
-        max_forage_skill = 6;
-    } else if( p->int_cur < 26 ) {
-        max_forage_skill = 7;
-    } else if( p->int_cur > 25 ) {
-        max_forage_skill = 8;
-    }
-
-    const int max_exp {(max_forage_skill * 2) - (p->skillLevel("survival") * 2)};
-    //Award experience for foraging attempt regardless of success
+    // Intelligence limits the forage exp gain
+    const int max_forage_skill = p->int_cur / 3 + 1;
+    const int max_exp = 2 * ( max_forage_skill - p->skillLevel("survival") );
+    // Award experience for foraging attempt regardless of success
     p->practice("survival", rng(1, max_exp), max_forage_skill);
 }
 
