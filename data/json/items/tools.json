@@ -43,7 +43,7 @@
       "ammo":"NULL",
       "revert_to":"null",
       "use_action":"CAPTURE_MONSTER_ACT",
-      "flags":"NO_BREAK_ON_FAIL","//":"specifies that the item doesn't break when it fails to capture a creature",
+      "flags":"NO_BREAK_ON_FAIL",
       "material":["steel","plastic"]
   },
   {
