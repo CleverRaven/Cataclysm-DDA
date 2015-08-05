@@ -157,7 +157,7 @@ class Creature
          */
         void melee_attack(Creature &t, bool allow_special);
 
-        /** 
+        /**
          *  Fires a projectile at the target point from the source point with total_dispersion
          *  dispersion.
          *  Returns the rolled dispersion of the shot and the actually hit point.
@@ -541,10 +541,9 @@ class Creature
 
         int grab_resist;
         int throw_resist;
-	
         bool fake;
 
-	int xp;
+        int xp;
 
         Creature();
         Creature(const Creature &) = default;

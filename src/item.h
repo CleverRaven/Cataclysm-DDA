@@ -3,7 +3,6 @@
 
 #include <climits>
 #include <string>
-#include <memory>
 #include <vector>
 #include <list>
 #include <bitset>
