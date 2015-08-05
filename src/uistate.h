@@ -183,7 +183,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             }
             // filter strings
             if(jo.has_array("adv_inv_filter")) {
-                auto tmp = jo.get_int_array("adv_inv_filter");
+                auto tmp = jo.get_string_array("adv_inv_filter");
                 std::move(tmp.begin(), tmp.end(), adv_inv_filter.begin());
             } else {
                 jo.read("adv_inv_leftfilter", adv_inv_filter[left]);
