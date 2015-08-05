@@ -5857,7 +5857,7 @@ int iuse::potion_act(player *,item *it, bool t, const tripoint &pos)
     if(mon_dex != -1)
     {
         monster mon = g->zombie( mon_dex );
-        if( mon.get_hp() < mon.get_hp_max()-20))
+        if( mon.get_hp() < mon.get_hp_max()-20)
         {
             mon.heal(20);
         }

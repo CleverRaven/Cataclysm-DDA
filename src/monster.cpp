@@ -1599,7 +1599,7 @@ void monster::die(Creature* nkiller) {
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }
-    Creature *killer = get_killer();
+    Creature *kill = get_killer();
     if(kill != nullptr){
       kill->acquire_xp(10 * (1 + power_rating()));
     }
