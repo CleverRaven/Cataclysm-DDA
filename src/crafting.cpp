@@ -941,7 +941,7 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
     mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
-    int light = g->u.fine_detail_vision_mod();
+    float light = g->u.fine_detail_vision_mod();
     const char *str;
     nc_color color;
     if (light <= 1) {
@@ -1321,18 +1321,15 @@ void pick_recipes(const inventory &crafting_inv,
         if( subtab == "CSC_ALL" || rec->subcat == subtab ||
             (rec->subcat == "" && last_craft_subcat( tab ) == subtab) ||
             filter != "") {
-            if( !g->u.knows_recipe(rec) && -1 == g->u.has_recipe(rec, crafting_inv) ) {
-                continue;
-            }
-
-            if (rec->difficulty < 0 ) {
+            if(  (!g->u.knows_recipe(rec) && -1 == g->u.has_recipe(rec, crafting_inv))
+              || (rec->difficulty < 0) ) {
                 continue;
             }
             if(filter != "") {
-                if(search_name) {
-                    if( !lcmatch( item::nname( rec->result ), filter ) ) {
-                        continue;
-                    }
+                if( (search_name && !lcmatch( item::nname( rec->result ), filter ))
+                 || (search_tool && !lcmatch_any( rec->requirements.tools, filter ))
+                 || (search_component && !lcmatch_any( rec->requirements.components, filter )) ) {
+                    continue;
                 }
                 if(search_qualities) {
                   bool match_found = false;
@@ -1347,16 +1344,6 @@ void pick_recipes(const inventory &crafting_inv,
                   if (!match_found) {
                     continue;
                   }
-                }
-                if(search_tool) {
-                    if( !lcmatch_any( rec->requirements.tools, filter ) ) {
-                        continue;
-                    }
-                }
-                if(search_component) {
-                    if( !lcmatch_any( rec->requirements.components, filter ) ) {
-                        continue;
-                    }
                 }
                 if(search_skill) {
                     if( !rec->skill_used) {
@@ -1384,7 +1371,6 @@ void pick_recipes(const inventory &crafting_inv,
     int truecount = 0;
     for( int i = max_difficulty; i != -1; --i ) {
         for( auto rec : filtered_list ) {
-
             if (rec->difficulty == i) {
                 if (rec->can_make_with_inventory(crafting_inv)) {
                     current.insert(current.begin(), rec);
@@ -1429,7 +1415,9 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
 item recipe::create_result(handedness handed) const
 {
     item newit(result, calendar::turn, false, handed);
-    if (contained == true) {newit = newit.in_its_container();}
+    if (contained == true) {
+        newit = newit.in_its_container();
+    }
     if (result_mult != 1) {
         newit.charges *= result_mult;
     }
@@ -1567,11 +1555,9 @@ void player::complete_craft()
         if (has_trait("PAWS_LARGE")) {
             paws_rank_penalty += 1;
         }
-        if (making->skill_used == Skill::skill("electronics")) {
-            paws_rank_penalty += 1;
-        } else if (making->skill_used == Skill::skill("tailor")) {
-            paws_rank_penalty += 1;
-        } else if (making->skill_used == Skill::skill("mechanics")) {
+        if ( making->skill_used == Skill::skill("electronics")
+          || making->skill_used == Skill::skill("tailor")
+          || making->skill_used == Skill::skill("mechanics")) {
             paws_rank_penalty += 1;
         }
         skill_dice -= paws_rank_penalty * 4;
