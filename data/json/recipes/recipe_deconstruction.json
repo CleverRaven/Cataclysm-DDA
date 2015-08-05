@@ -2704,38 +2704,6 @@
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [ [ [ "wild_herbs", 10 ] ] ]
 },{
-  "type" : "recipe",  "//" : "Dismantling this will return the integrated mod.",
-  "result": "pipe_combination_gun",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "nail", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
     "type" : "recipe",
     "result": "seat",
     "id_suffix": "uncraft",

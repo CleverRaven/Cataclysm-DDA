@@ -1376,7 +1376,7 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 4,
   "time": 18000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
@@ -1396,69 +1396,6 @@
     ],
     [
       [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe_combination_gun",
-  "id_suffix": "using mod",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "nail", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "combination_gun_shotgun_pipe", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "combination_gun_shotgun_pipe",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 8000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "nail", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
     ]
   ]
 },{
