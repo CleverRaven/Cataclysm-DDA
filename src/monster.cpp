@@ -195,23 +195,9 @@ void monster::poly( const mtype_id& id )
     faction = type->default_faction;
     upgrades = type->upgrades;
 }
-void monster::acquire_xp(int amount){
-  Creature::acquire_xp(amount);
-  if(has_flag(MF_EXPERIENCE_UPGRADE)){
-    if(type->half_life<=get_xp()){
-      static const mtype_id mon_null( "mon_null" );
-      if(type->upgrade_into!=mon_null){
-	poly(type->upgrade_into);
-      }else{
-	const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-	poly(random_entry(monsters));//this seems like the only option with pokemon like eevee.
-      }
-    }
-  }
-}
 
 bool monster::can_upgrade() {
-  return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0)&&!has_flag(MF_EXPERIENCE_UPGRADE);
+  return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
 }
 
 // For master special attack.
@@ -1598,10 +1584,6 @@ void monster::die(Creature* nkiller) {
     }
     if (!no_extra_death_drops) {
         drop_items_on_death();
-    }
-    Creature *kill = get_killer();
-    if(kill != nullptr){
-      kill->acquire_xp(10 * (1 + power_rating()));
     }
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );

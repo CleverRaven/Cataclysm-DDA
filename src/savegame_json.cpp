@@ -1624,7 +1624,6 @@ void faction::serialize(JsonOut &json) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member("xp",xp);
     jsout.member( "str_cur", str_cur );
     jsout.member( "str_max", str_max );
     jsout.member( "dex_cur", dex_cur );
