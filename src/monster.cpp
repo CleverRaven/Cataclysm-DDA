@@ -197,7 +197,7 @@ void monster::poly( const mtype_id& id )
 }
 
 bool monster::can_upgrade() {
-  return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
+    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
 }
 
 // For master special attack.
@@ -1594,7 +1594,7 @@ void monster::die(Creature* nkiller) {
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
-            g->increase_kill_count( type->id);
+            g->increase_kill_count( type->id );
         }
         if( type->difficulty >= 30 ) {
             ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),

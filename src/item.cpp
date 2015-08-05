@@ -5133,7 +5133,7 @@ std::string item::type_name( unsigned int quantity ) const
 std::string item::nname( const itype_id &id, unsigned int quantity )
 {
     const auto t = find_type( id );
-    return t->nname(quantity);
+    return t->nname( quantity );
 }
 
 bool item::count_by_charges( const itype_id &id )
