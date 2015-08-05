@@ -781,7 +781,7 @@
       ["barometer", 3],
       ["denat_alcohol", 10],
       ["popcan_stove", 5],
-      ["pet_carrier",2]
+      ["pet_carrier",3]
     ]
   },{
     "type" : "item_group",
