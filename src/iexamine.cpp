@@ -1723,7 +1723,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
             add_msg( _("This kiln already contains charcoal.") );
             add_msg( _("Remove it before firing the kiln again.") );
             return;
-        } else if( i.only_made_of( kilnable ) ) {
+        } else if( i.made_of_any( kilnable ) ) {
             fuel_present = true;
         } else {
             add_msg( m_bad, _("This kiln contains %s, which can't be made into charcoal!"), i.tname( 1, false ).c_str() );
