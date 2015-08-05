@@ -1690,7 +1690,6 @@ void Creature::store( JsonOut &jsout ) const
 
 void Creature::load( JsonObject &jsin )
 {
-    jsin.read("xp",xp);
     jsin.read( "str_cur", str_cur );
     jsin.read( "str_max", str_max );
     jsin.read( "dex_cur", dex_cur );
