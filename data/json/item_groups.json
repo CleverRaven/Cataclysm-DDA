@@ -295,6 +295,7 @@
       ["atomic_light", 1],
       ["atomic_lamp", 1],
       ["dog_whistle", 5],
+      ["pet_carrier",2],
       ["dogfood", 10],
       ["catfood", 10],
       ["nic_gum", 2],
@@ -779,7 +780,8 @@
       ["hygrometer", 3],
       ["barometer", 3],
       ["denat_alcohol", 10],
-      ["popcan_stove", 5]
+      ["popcan_stove", 5],
+      ["pet_carrier",2]
     ]
   },{
     "type" : "item_group",
@@ -976,7 +978,8 @@
       ["survnote", 2],
       ["mask_guy_fawkes", 5],
       ["magnifying_glass", 2],
-      ["holy_symbol", 5]
+      ["holy_symbol", 5],
+      ["pet_carrier",3]
     ]
   },{
     "type":"item_group",

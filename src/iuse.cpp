@@ -4751,7 +4751,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos){
                         }
                     }
                 }
-                i=random_entry(valid);
+                target=random_entry(valid);
             }else{
                 const std::string query=string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
                 if(!choose_adjacent(query,target)){
@@ -4765,7 +4765,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos){
         }
         monster new_monster;
         new_monster.deserialize(it->get_var("contained_json",""));
-        new_monster.spawn(i);
+        new_monster.spawn(target);
         g->add_zombie(new_monster);
         it->erase_var("contained_name");
         it->erase_var("contained_json");
