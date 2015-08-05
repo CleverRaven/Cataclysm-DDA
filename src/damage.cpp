@@ -56,7 +56,7 @@ float damage_instance::total_damage() const
 {
     float ret = 0;
     for( const auto &elem : damage_units ) {
-        ret += elem.amount;
+        ret += elem.amount * elem.damage_multiplier;
     }
     return ret;
 }
@@ -188,6 +188,10 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
         }
     }
 
+    if( effects.count( "ACID_DROP" ) > 0 ) {
+        g->m.add_field( p, fd_acid, 1, 0 );
+    }
+
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         g->explosion( p, 40, 0, false );
     }
@@ -290,5 +294,58 @@ damage_type dt_by_name( const std::string &name )
     }
 
     return iter->second;
+}
+
+projectile::projectile() :
+        speed( 0 ),
+        drop( nullptr )
+{ }
+
+projectile::projectile( const projectile &other )
+{
+    (*this) = other;
+}
+
+projectile &projectile::operator=( const projectile &other )
+{
+    impact = other.impact;
+    speed = other.speed;
+    proj_effects = other.proj_effects;
+    set_drop( other.get_drop() );
+
+    return *this;
+}
+
+const item &projectile::get_drop() const
+{
+    if( drop != nullptr ) {
+        return *drop;
+    }
+
+    static const item null_drop;
+    return null_drop;
+}
+
+void projectile::set_drop( const item &it )
+{
+    if( it.is_null() ) {
+        unset_drop();
+    } else {
+        drop.reset( new item( it ) );
+    }
+}
+
+void projectile::set_drop( item &&it )
+{
+    if( it.is_null() ) {
+        unset_drop();
+    } else {
+        drop.reset( new item( std::move( it ) ) );
+    }
+}
+
+void projectile::unset_drop()
+{
+    drop.reset( nullptr );
 }
 

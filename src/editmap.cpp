@@ -97,7 +97,6 @@ std::vector<std::string> fld_string( std::string str, int width )
 template<class SAVEOBJ>
 void edit_json( SAVEOBJ *it )
 {
-
     int tmret = -1;
     std::string save1 = it->serialize();
     std::string osave1 = save1;
@@ -329,15 +328,12 @@ void editmap::uphelp( std::string txt1, std::string txt2, std::string title )
     }
     if( title != "" ) {
         int hwidth = getmaxx( w_help );
-        for( int i = 0; i < hwidth; i++ ) {  // catacurses/sdl/etc have no hline()
-            mvwaddch( w_help, 2, i, LINE_OXOX );
-        }
+        mvwhline( w_help, 2, 0, LINE_OXOX, hwidth );
         int starttxt = int( ( hwidth - title.size() - 4 ) / 2 );
         mvwprintw( w_help, 2, starttxt, "< " );
         wprintz( w_help, c_cyan, "%s", title.c_str() );
         wprintw( w_help, " >" );
     }
-    //mvwprintw(w_help, 0, 0, "%d,%d / %d,%d", target.x, target.y, origin.x, origin.y );
     wrefresh( w_help );
 }
 
@@ -377,7 +373,6 @@ tripoint editmap::edit()
     for( int i = 0; i < getmaxx( w_help ); i++ ) {
         mvwaddch( w_help, 2, i, LINE_OXOX );
     }
-
     do {
         if( target_list.empty() ) {
             target_list.push_back( target ); // 'editmap.target_list' always has point 'editmap.target' at least
@@ -621,14 +616,13 @@ void editmap::update_view( bool update_info )
                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ));
         mvwprintw(w_info, off++, 1, _("sight_range: %d, daylight_sight_range: %d,"),
                   g->u.sight_range( g->light_level() ),g->u.sight_range(DAYLIGHT_LEVEL) );
-        mvwprintw(w_info, off++, 1, _("transparency: %f.2 visibility: %f.2"),
+        mvwprintw(w_info, off++, 1, _("transparency: %.5f visibility: %.5f"),
                   map_cache.transparency_cache[target.x][target.y],
                   map_cache.seen_cache[target.x][target.y] );
-        mvwprintw(w_info, off++, 1, _("apparent light: %f.2, light_at: %f.2"),
+        mvwprintw(w_info, off++, 1, _("apparent light: %.2f, light_at: %.2f"),
                   map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
                   map_cache.lm[target.x][target.y] );
         mvwprintw(w_info, off++, 1, _("outside: %d"), g->m.is_outside( target ) );
-
         std::string extras = "";
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
@@ -1950,8 +1944,6 @@ int editmap::edit_mapgen()
         uphelp( pgettext( "map generator", "[m]ove" ),
                 pgettext( "map generator", "[enter] change, [q]uit" ), pgettext( "map generator",
                         "Mapgen stamp" ) );
-        //        point msub=point(target.x/12, target.y/12);
-
         tc.fromabs( g->m.getabs( target.x, target.y ) );
         point omt_lpos = g->m.getlocal( tc.begin_om_pos() );
         tripoint om_ltarget = tripoint( omt_lpos.x + 11, omt_lpos.y + 11, target.z );

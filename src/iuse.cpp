@@ -35,6 +35,7 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "map_iterator.h"
 
 #include <vector>
 #include <sstream>
@@ -5027,8 +5028,11 @@ int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
             }
         }
     } else {
-        if (!t) {
-            g->explosion( pos, 8, 0, true);
+        if( !t ) {
+            for( auto &&pt : g->m.points_in_radius( pos, 1, 0 ) ) {
+                const int density = 1 + one_in( 3 ) + one_in( 5 );
+                g->m.add_field( pt, fd_fire, density, 0 );
+            }
         }
     }
     return 0;
@@ -9439,7 +9443,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
 
 int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
 {
-    w_point const weatherPoint = g->weatherGen->get_weather( p->global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(), calendar::turn );
 
     if (it->type->id == "weather_reader") {
         p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());

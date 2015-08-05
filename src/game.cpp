@@ -131,7 +131,8 @@ game::game() :
     m( *map_ptr ),
     u( *u_ptr ),
     critter_tracker( new Creature_tracker() ),
-    weatherGen( new weather_generator() ),
+    weather_gen( new weather_generator() ),
+    weather_precise( new w_point() ),
     w_terrain(NULL),
     w_overmap(NULL),
     w_omlegend(NULL),
@@ -638,7 +639,7 @@ void game::start_game(std::string worldname)
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;
-    weatherGen->set_seed( rand() );
+    weather_gen->set_seed( rand() );
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
@@ -1322,7 +1323,8 @@ bool game::do_turn()
     }
 
     u.update_bodytemp();
-    u.update_body_wetness();
+    u.update_body_wetness( *weather_precise );
+    u.apply_wetness_morale( temperature );
     rustCheck();
     if (calendar::once_every(MINUTES(1))) {
         u.update_morale();
@@ -1487,10 +1489,14 @@ bool game::cancel_activity_query(const char *message, ...)
 void game::update_weather()
 {
     if (calendar::turn >= nextweather) {
-        w_point const w = weatherGen->get_weather( u.global_square_location(), calendar::turn );
+        w_point &w = *weather_precise;
+        w = weather_gen->get_weather( u.global_square_location(), calendar::turn );
         weather_type old_weather = weather;
-        weather = weatherGen->get_weather_conditions(w);
-        if (weather == WEATHER_SUNNY && calendar::turn.is_night()) { weather = WEATHER_CLEAR; }
+        weather = weather_gen->get_weather_conditions(w);
+        if( weather == WEATHER_SUNNY && calendar::turn.is_night() ) {
+            weather = WEATHER_CLEAR;
+        }
+
         temperature = w.temperature;
         lightning_active = false;
         nextweather += 50; // Check weather each 50 turns.
@@ -2642,11 +2648,7 @@ bool game::handle_action()
             break;
 
         case ACTION_THROW:
-            if (u.has_active_mutation("SHELL2")) {
-                add_msg(m_info, _("You can't effectively throw while you're in your shell."));
-            } else {
-                plthrow();
-            }
+            plthrow();
             break;
 
         case ACTION_FIRE:
@@ -4127,7 +4129,7 @@ void game::debug()
         uimenu weather_menu;
         weather_menu.text = _("Select new weather pattern:");
         weather_menu.return_invalid = true;
-        weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weatherGen->debug_weather == WEATHER_NULL ?
+        weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather_gen->debug_weather == WEATHER_NULL ?
                                _("Keep normal weather patterns") : _("Disable weather forcing") );
         for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
             weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
@@ -4140,7 +4142,7 @@ void game::debug()
 
         if( weather_menu.ret >= 0 && weather_menu.ret <= NUM_WEATHER_TYPES ) {
             weather_type selected_weather = (weather_type)weather_menu.selected;
-            weatherGen->debug_weather = selected_weather;
+            weather_gen->debug_weather = selected_weather;
             nextweather = calendar::turn;
             update_weather();
         }
@@ -6133,7 +6135,6 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
 {
     const int radius = int(sqrt(double(power / 4)));
     const int noise = power * (fire ? 2 : 10);
-    int dam;
 
     if (power >= 30) {
         sounds::sound( p, noise, _("a huge explosion!"), false, "explosion", "huge" );
@@ -6147,54 +6148,44 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     }
 
     // The rest of the function is shrapnel
-    if (shrapnel <= 0 || power < 4) {
+    if( shrapnel <= 0 || power < 4 ) {
         return;
     }
 
-    bool const do_animation = p.z == u.posz() && OPTIONS["ANIMATIONS"];
-
-    std::vector<tripoint> traj;
-    for (int i = 0; i < shrapnel; i++) {
+    npc fake_npc;
+    fake_npc.name = _("Shrapnel");
+    fake_npc.set_fake(true);
+    fake_npc.setpos( p );
+    projectile proj;
+    proj.speed = 100;
+    proj.proj_effects.insert( "DRAW_AS_LINE" );
+    proj.proj_effects.insert( "NULL_SOURCE" );
+    for( int i = 0; i < shrapnel; i++ ) {
         // TODO: Z-level shrapnel, but not before z-level ranged attacks
         tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
                      static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
                      p.z };
-        traj = line_to( p, sp, 0, 0 );
-        // If the randomly chosen spot is the origin, it already points there.
-        // Otherwise line_to excludes the origin, so add it.
-        if( sp != p ) {
-            traj.insert( traj.begin(), p );
+
+        // Scaling of the damage happens later, as a result of low accuracy
+        // Big damage, because all shrapnel has low accuracy
+        proj.impact = damage_instance::physical( 2 * power, 2 * power, 0, 0 );
+
+        Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
+        if( critter_in_center != nullptr ) {
+            dealt_projectile_attack dda; // Cool variable name
+            dda.proj = proj;
+            // For each shrapnel piece:
+            // 20% chance for 50%-100% base (power to 2 * power)
+            // 20% chance for 0-25% base
+            // 60% chance for nothing
+            // Still, that's a lot of shrapnel to "dodge"
+            dda.missed_by = rng_float( 0.4, 1.4 );
+            critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
-        dam = rng(power / 2, power * 2);
-        size_t j;
-        for( j = 0; j < traj.size() && dam > 0; j++ ) {
-            const tripoint &tp = traj[j];
-            const int zid = mon_at( tp, true );
-            const int npcdex = npc_at( tp );
-            if (zid != -1) {
-                monster &critter = critter_tracker->find(zid);
-                dam -= critter.get_armor_cut(bp_torso);
-                critter.apply_damage( nullptr, bp_torso, dam );
-            } else if( npcdex != -1 ) {
-                body_part hit = random_body_part();
-                active_npc[npcdex]->deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-            } else if (tp == u.pos()) {
-                body_part hit = random_body_part();
-                //~ %s is bodypart name in accusative.
-                add_msg(m_bad, _("Shrapnel hits your %s!"), body_part_name_accusative(hit).c_str());
-                u.deal_damage( nullptr, hit, damage_instance( DT_CUT, dam ) );
-            } else {
-                static const std::set<std::string> shrapnel_effects{};
-                m.shoot( tp, dam, j == traj.size() - 1, shrapnel_effects);
-            }
-        }
-
-        if( do_animation && j > 0 ) {
-            traj.resize( j );
-            draw_line( traj[j - 1], traj );
-            draw_bullet(u, traj[j - 1], (int)j, traj, '`');
-        }
+        // This needs to be high enough to prevent game from thinking that
+        //  the fake npc is scoring headshots.
+        fake_npc.projectile_attack( proj, sp, 3600 );
     }
 }
 
@@ -10541,6 +10532,10 @@ void game::reassign_item( int pos )
 
 void game::plthrow(int pos)
 {
+    if (u.has_active_mutation("SHELL2")) {
+        add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+        return;
+    }
 
     if (pos == INT_MIN) {
         pos = inv(_("Throw item:"));
@@ -10574,9 +10569,9 @@ void game::plthrow(int pos)
     }
 
     temp_exit_fullscreen();
-    m.draw( w_terrain, u.pos3() );
+    m.draw( w_terrain, u.pos() );
 
-    tripoint targ = u.pos3();
+    tripoint targ = u.pos();
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
     std::vector<tripoint> trajectory = pl_target_ui( targ, range, &thrown, TARGET_MODE_THROW );
@@ -10585,41 +10580,14 @@ void game::plthrow(int pos)
     }
 
     // Throw a single charge of a stacking object.
-    if (thrown.count_by_charges() && thrown.charges > 1) {
-        u.i_at(pos).charges--;
+    if( thrown.count_by_charges() && thrown.charges > 1 ) {
+        u.i_at( pos ).charges--;
         thrown.charges = 1;
     } else {
-        u.i_rem(pos);
+        u.i_rem( pos );
     }
 
-    // Base move cost on moves per turn of the weapon
-    // and our skill.
-    int move_cost = thrown.attack_time() / 2;
-    int skill_cost = (int)(move_cost / (std::pow(u.skillLevel("throw"), 3.0f) / 400.0 + 1.0));
-    int dexbonus = (int)(std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3.0);
-
-    move_cost += skill_cost;
-    move_cost += 2 * u.encumb(bp_torso);
-    move_cost -= dexbonus;
-
-    if (u.has_trait("LIGHT_BONES")) {
-        move_cost *= .9;
-    }
-    if (u.has_trait("HOLLOW_BONES")) {
-        move_cost *= .8;
-    }
-
-    if (move_cost < 25) {
-        move_cost = 25;
-    }
-
-    u.moves -= move_cost;
-    u.practice("throw", 10);
-
-    int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
-    u.mod_stat("stamina", stamina_cost);
-
-    throw_item( u, targ, thrown, trajectory );
+    u.throw_item( targ, thrown );
     reenter_fullscreen();
 }
 
@@ -12429,8 +12397,8 @@ bool game::plmove(int dx, int dy)
         u.ma_onmove_effects();
 
         // Drench the player if swimmable
-        if (m.has_flag("SWIMMABLE", x, y)) {
-            u.drench(40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r));
+        if( m.has_flag( "SWIMMABLE", dest_loc ) ) {
+            u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
         }
 
         // List items here
@@ -12672,7 +12640,7 @@ void game::plswim(int x, int y)
     if (u.is_underwater()) {
         drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
     }
-    u.drench(100, drenchFlags);
+    u.drench( 100, drenchFlags, true );
 }
 
 void game::fling_creature(Creature *c, const int &dir, float flvel, bool controlled)
