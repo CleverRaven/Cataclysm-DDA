@@ -23,7 +23,23 @@
     "ammo": "NULL",
     "revert_to": "null"
   },
-
+  {
+      "id":"pet_carrier",
+      "type":"TOOL",
+      "color":"light_gray",
+      "description":"A plastic container meant to hold pets for transport.",
+      "price":1000,
+      "weight":1000,
+      "volume":20,
+      "to_hit":0,
+      "max_charges":0,
+      "initial_charges":0,
+      "turns_per_charge"0,
+      "ammo":"NULL",
+      "revert_to":"null",
+      "use_action":"CAPTURE_MONSTER",
+      "flags":"NO_BREAK_ON_FAIL",
+  },
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
