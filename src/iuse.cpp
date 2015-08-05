@@ -4759,7 +4759,6 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                 } else {
                     const std::string query = string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
                     if(!choose_adjacent(query,target)) {
-                        it->active = false;
                         return 0;
                     }
                     if(!g->is_empty(target)) {
@@ -4781,19 +4780,19 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
         }
     } else {
         tripoint target = pos;
-        const std::string query = string_format(_("Capture something with the %s where?"),it->get_var("contained_name","").c_str());
-        if(p->pos() == pos && !choose_adjacent(query,target)) {
+        const std::string query = string_format(_("Capture what with the %s?"),it->tname(1).c_str());
+        if(!choose_adjacent(query,target)) {
             p->add_msg_if_player(m_info,_("You cannot use a %s there."),it->tname().c_str());
             return 0;
         }
         //capture the thing, if it's on the same square.
-        int mon_dex = g->mon_at(target);
+        int mon_dex = g->mon_at( target );
         if(mon_dex != -1) {
-            monster f = g->zombie(mon_dex);
+            monster f = g->zombie( mon_dex );
             int chance = f.hp_percentage()/10;
-            if(one_in(chance)//a weaker monster is easier to capture.
+            if(one_in( chance )//a weaker monster is easier to capture.
                     || f.friendly != 0//If the monster is friendly, then put it in the item without checking if it rolled a success
-                    || it->has_flag("NO_FAIL")) {
+                    || it->has_flag( "NO_FAIL" )) {
                 try {
                     it->set_var("contained_json",f.serialize());
                     it->set_var("contained_name",f.type->nname(1));
@@ -4829,7 +4828,6 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                 return 0;
             } else {
                 add_msg(_("The %s broke free from the %s"),f.name().c_str(),it->tname(1).c_str());
-                it->active = false;
                 return it->has_flag("NO_BREAK_ON_FAIL")?1:0;
             }
         } else {
