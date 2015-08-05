@@ -1669,7 +1669,7 @@ void player::complete_craft()
                 int difficulty = has_recipe( making, crafting_inventory() );
                 if( x_in_y( making->time, (1000 * 8 *
                             ( difficulty * difficulty * difficulty * difficulty ) ) /
-                            ( get_skill_level( making->skill_used ) * std::max( get_int(), 1 ) ) ) ) {
+                            ( std::max( get_skill_level( making->skill_used ).level(), 1 ) * std::max( get_int(), 1 ) ) ) ) {
                     learn_recipe( (recipe *)making );
                     add_msg(m_good, _("You memorized the recipe for %s!"),
                             newit.type_name( 1 ).c_str());
@@ -2027,7 +2027,7 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
             if (type == "sewing_kit") {
                 have_this_tool = crafting_inv.has_items_with_quality( "CUT", 1, 1 );
             }
-            
+
             if( have_this_tool ) {
                 break;
             }
