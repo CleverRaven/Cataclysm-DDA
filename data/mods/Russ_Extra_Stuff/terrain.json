@@ -9,7 +9,7 @@
         "harvestable": "honeycomb",
          "transforms_into": "t_honeybee_hive_empty",
         "examine_action": "harvest_tree_shrub",
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "TRANSPARENT"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "DECONSTRUCT","TRANSPARENT"],
         "bash": {
             "str_min": 1, "str_max": 5,
             "sound": "poom!",
@@ -33,7 +33,7 @@
         "harvestable": "honeycomb",
          "transforms_into": "t_honeybee_hive",
         "examine_action": "harvest_tree_shrub",
-        "flags": ["FLAMMABLE_ASH", "NOITEM","TRANSPARENT", "HARVESTED"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM","TRANSPARENT", "DECONSTRUCT","HARVESTED"],
         "bash": {
             "str_min": 1, "str_max": 5,
             "sound": "poom!",

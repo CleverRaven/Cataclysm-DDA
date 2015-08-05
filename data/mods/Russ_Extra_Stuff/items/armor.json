@@ -72,7 +72,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "o",
-        "description" : "Your typical shield generator, reminiscent of the 90's game Out Of This World.  Runs on batteries.  It has a radiation compensation unit built in, but running it generates a lot of heat. (activate again to use)",
+        "description" : "Your typical shield generator, creating a protective energy field around your body. It has a radiation compensation unit built in, but running it generates a lot of heat while activated. (activate again to use)",
         "price" : 100000,
         "material" : ["shieldgen", "null"],
         "volume" : 2,
@@ -83,7 +83,7 @@
         "encumbrance" : 0,
         "bashing" : 0,
 	   "piercing" : 0,
-        "flags" : ["WATERPROOF","STURDY","OUTER","OVERSIZE"],
+        "flags" : ["WATERPROOF","STURDY","OUTER","OVERSIZE","RAD_PROOF"],
         "coverage" : 100,
         "material_thickness" : 5,
 "max_charges": 100,
@@ -94,7 +94,7 @@
     "revert_to": "shield_generator",
     "use_action": {
         "type": "transform",
-        "msg": "You turn the sheild generator's radiation filter on.",
+        "msg": "You turn the shield generator's radiation filter on.",
         "target": "shield_generator_on_heating",
 	   "active": true,
         "need_charges": 1

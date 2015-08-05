@@ -50,9 +50,9 @@
         "cutting": 0,
         "to_hit": -1,
         "material": "plastic",
-        "contains": 75,
+        "contains": 0,
         "armor_data" : {
-        "covers" : ["HANDS"],
+        "covers" : ["HANDS","ARMS"],
         "coverage" : 5,
 	   "storage" : 0,
         "material_thickness" : 4,
@@ -72,7 +72,7 @@
 
     "revert_to": "bucket_storage",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "You decide to use the bucket to carry things.",
         "target": "bucket_storage"
     }

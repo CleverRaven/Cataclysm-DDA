@@ -6,12 +6,7 @@
     ]
   },
 
-{"type" : "item_group",
-    "id" : "field",
-    "items":[
-      ["mininuke", 0.01]
-	]
-  },
+
 {
     "type":"item_group",
     "id":"kitchen",

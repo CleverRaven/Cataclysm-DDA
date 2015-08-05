@@ -1,6 +1,6 @@
-[{
+[{     
         "type" : "construction",
-        "description" : "Start Vehicle Construction (alt)", "//": "For superalloy folding frames", 
+        "description" : "Start Vehicle Construction (alt)", "//": "For superalloy folding frames.  So that this is compatable with other mods im avoiding overwrites.", 
         "category" : "OTHER",
         "difficulty" : 0,
         "time" : 10,
@@ -21,10 +21,10 @@
         "components" : [
             
                 [[ "bee_skep", 1 ]],
-	 	[[ "queen_bee",1 ]]
+        [[ "queen_bee",1 ]]
             
         ],
         "pre_special" : "check_empty",
-	"post_terrain" :"t_honeybee_hive_empty"
+        "post_terrain" :"t_honeybee_hive_empty"
     }
 ]

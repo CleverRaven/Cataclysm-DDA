@@ -3,20 +3,20 @@ ZZZZZZZZZZZZZZZZZZZZZZZZZZZZOMBIESZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 
 Cataclysm, Dark Days Ahead:                                
      
-        _  _                 _ _                        
-<*--~\ < || | /-~\ <-Y~-->  * v / % /-~\    *\,   /\  ___  *,
- |-o / | ||o| |/o| <_\o/_>   \ /    |/o|    |o\, / | / V \,|T\,
- |__/  | || | \ \/   | |     |Y|    \ \/    C  \/  %(~~0 z)|  \,
- |  \  | \/ | /\$\   | |     | |    /\$\,   J \   /) \___/ |   \,
-<|/\_\ \____y \=Y/   |_|     \+/    \/Y/    Z  \_/ ^   V   |~~D \
-                                    / /     z_/   \|       |____/
-o<-o%%#ZzZZz^@,ftzZJz~OoO:P=ZZzz~~~<_/
+        _  _                _ _                        
+<*--~\ < || | /-~\ <-Y~--> * v / % /-~\    *\,   /\  ___  *,
+ |-o / | ||o| |/o| <_\o/_>  \ /    |/o|    |o\, / | / V \,|T\,
+ |__/  | || | \ \/   | |    |Y|    \ \/    C  \/  %(~~0 z)|  \,
+ |  \  | \/ | /\$\   | |    | |    /\$\,   J \   /) \___/ |   \,
+<|/\_\ \____y \=Y/   |_|    \+/    \/Y/    Z  \_/ ^   V   |~~D \
+                                   / /     z_/   \|       |____/
+o<-o%%#ZzZZz^@,ftzZJz~OoO:PZZzz~~~<_/
 
 ZZZZZZZZZZZZZZZZZZZZZZTHISISACOMFORTABLEPLACETOZZZZZZZZZZZZZZZZ
 
 Hopefully im better at modding than ascii art. (That's what she said).
 
----------->Rusty's stuff version 0.1<----------
+---------->Rusty's stuff version 0.11<----------
 by Russell
 mysticinmaine@gmail.com
 
@@ -92,7 +92,7 @@ airgun conversion kit 22->177 and 177-->22
 .22 and 177 pellets - for the airgun.
 heavy .22 and .177 pellets also.
 
-underbarrel mininuke launcher (for any rifle) fires modified mininukes
+underbarrel mininuke launcher (for any rifle) fires modified mininukes. You know you need this item.
 
 bushing upgrade for airguns 
 piston upgrade "
