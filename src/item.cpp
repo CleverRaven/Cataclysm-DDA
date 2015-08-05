@@ -2,7 +2,6 @@
 #include "player.h"
 #include "output.h"
 #include "skill.h"
-#include "monster.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
