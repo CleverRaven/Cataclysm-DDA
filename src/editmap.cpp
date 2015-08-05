@@ -590,7 +590,7 @@ void editmap::update_view( bool update_info )
         int off = 1;
         draw_border( w_info );
 
-        mvwprintz( w_info, 0, 2 , c_ltgray, "< %d,%d >--", target.x, target.y );
+        mvwprintz( w_info, 0, 2 , c_ltgray, "< %d,%d >", target.x, target.y );
         for( int i = 1; i < infoHeight - 2; i++ ) { // clear window
             mvwprintz( w_info, i, 1, c_white, padding.c_str() );
         }
@@ -616,7 +616,7 @@ void editmap::update_view( bool update_info )
                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ));
         mvwprintw(w_info, off++, 1, _("sight_range: %d, daylight_sight_range: %d,"),
                   g->u.sight_range( g->light_level() ),g->u.sight_range(DAYLIGHT_LEVEL) );
-        mvwprintw(w_info, off++, 1, _("transparency: %.5f visibility: %.5f"),
+        mvwprintw(w_info, off++, 1, _("transparency: %.5f, visibility: %.5f,"),
                   map_cache.transparency_cache[target.x][target.y],
                   map_cache.seen_cache[target.x][target.y] );
         mvwprintw(w_info, off++, 1, _("apparent light: %.2f, light_at: %.2f"),
@@ -1205,11 +1205,11 @@ int editmap::edit_fld()
 int editmap::edit_trp()
 {
     int ret = 0;
-    int pwh = TERMY - infoHeight - 1;
+    int pwh = TERMY - infoHeight;
 
     WINDOW *w_picktrap = newwin( pwh, width, VIEW_OFFSET_Y, TERRAIN_WINDOW_TERM_WIDTH - VIEW_OFFSET_X );
     draw_border( w_picktrap );
-    int tmax = pwh - 4;
+    int tmax = pwh - 3;
     int tshift = 0;
     input_context ctxt( "EDITMAP_TRAPS" );
     ctxt.register_updown();
