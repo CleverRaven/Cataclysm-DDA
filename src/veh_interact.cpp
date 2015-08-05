@@ -986,6 +986,8 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH") ||
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
+        const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+        const bool has_str = g->u.get_str() >= needed_strength;
 
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
@@ -1019,9 +1021,11 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else if (is_wheel) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color>, either a <color_%2$s>jack</color> or <color_%3$s>%4$d</color> strength and <color_%5$s>level %6$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red",
+                           has_str ? "ltgreen" : "red",
+                           needed_strength,
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else {
@@ -1037,7 +1041,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
             return true;
         }
         //check if have all necessary materials
-        if (has_skill && ((is_wheel && has_wrench && has_jack) ||
+        if (has_skill && ((is_wheel && has_wrench && (has_jack || has_str)) ||
                             (is_wrenchable && has_wrench) ||
                             (is_hand_remove) ||
                             (is_wood && has_hammer) ||
