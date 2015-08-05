@@ -615,7 +615,7 @@ void editmap::update_view( bool update_info )
         mvwprintw(w_info, off++, 1, _("dist: %d u_see: %d v_in: %d scent: %d"),
                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ));
         mvwprintw(w_info, off++, 1, _("sight_range: %d, daylight_sight_range: %d,"),
-                  g->u.sight_range( g->light_level() ),g->u.sight_range(DAYLIGHT_LEVEL) );
+                  g->u.sight_range( g->light_level() ), g->u.sight_range(DAYLIGHT_LEVEL) );
         mvwprintw(w_info, off++, 1, _("transparency: %.5f, visibility: %.5f,"),
                   map_cache.transparency_cache[target.x][target.y],
                   map_cache.seen_cache[target.x][target.y] );
@@ -848,7 +848,8 @@ int editmap::edit_ter()
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.loadid.to_i(), pttype.name.c_str() );
+            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.loadid.to_i(),
+                       pttype.name.c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras = "";
             if( pttype.has_flag( TFLAG_INDOORS ) ) {
@@ -902,7 +903,8 @@ int editmap::edit_ter()
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.loadid.to_i(), pftype.name.c_str() );
+            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.loadid.to_i(),
+                       pftype.name.c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras = "";
             if( pftype.has_flag( TFLAG_INDOORS ) ) {
@@ -1200,7 +1202,6 @@ int editmap::edit_fld()
     return ret;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// edit traps
 int editmap::edit_trp()
 {
@@ -1289,7 +1290,6 @@ int editmap::edit_trp()
     return ret;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
  * edit items in target square. WIP
  */
@@ -1345,15 +1345,15 @@ int editmap::edit_itm()
                 if( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
                     int intval = -1;
                     switch( imenu.ret ) {
-                        case imenu_bday:
-                            intval = ( int )it->bday;
-                            break;
-                        case imenu_damage:
-                            intval = ( int )it->damage;
-                            break;
-                        case imenu_burnt:
-                            intval = ( int )it->burnt;
-                            break;
+                    case imenu_bday:
+                        intval = ( int )it->bday;
+                        break;
+                    case imenu_damage:
+                        intval = ( int )it->damage;
+                        break;
+                    case imenu_burnt:
+                        intval = ( int )it->burnt;
+                        break;
                     }
                     int retval = std::atoi(
                                      string_input_popup( "set: ", 20, to_string( intval ) ).c_str()
@@ -1433,52 +1433,52 @@ tripoint editmap::recalc_target( shapetype shape )
     tripoint ret = target;
     target_list.clear();
     switch( shape ) {
-        case editmap_circle: {
-            int radius = rl_dist( origin, target );
-            for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
-                for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                    if( rl_dist( {x, y, z}, origin ) <= radius ) {
-                        if( inbounds( x, y, z ) ) {
-                            target_list.push_back( tripoint( x, y, z ) );
-                        }
+    case editmap_circle: {
+        int radius = rl_dist( origin, target );
+        for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
+            for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
+                if( rl_dist( {x, y, z}, origin ) <= radius ) {
+                    if( inbounds( x, y, z ) ) {
+                        target_list.push_back( tripoint( x, y, z ) );
+                    }
+                }
+            }
+        }
+    }
+    break;
+    case editmap_rect_filled:
+    case editmap_rect:
+        int sx;
+        int sy;
+        int ex;
+        int ey;
+        if( target.x < origin.x ) {
+            sx = target.x;
+            ex = origin.x;
+        } else {
+            sx = origin.x;
+            ex = target.x;
+        }
+        if( target.y < origin.y ) {
+            sy = target.y;
+            ey = origin.y;
+        } else {
+            sy = origin.y;
+            ey = target.y;
+        }
+        for( int x = sx; x <= ex; x++ ) {
+            for( int y = sy; y <= ey; y++ ) {
+                if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
+                    if( inbounds( x, y, z ) ) {
+                        target_list.push_back( tripoint( x, y, z ) );
                     }
                 }
             }
         }
         break;
-        case editmap_rect_filled:
-        case editmap_rect:
-            int sx;
-            int sy;
-            int ex;
-            int ey;
-            if( target.x < origin.x ) {
-                sx = target.x;
-                ex = origin.x;
-            } else {
-                sx = origin.x;
-                ex = target.x;
-            }
-            if( target.y < origin.y ) {
-                sy = target.y;
-                ey = origin.y;
-            } else {
-                sy = origin.y;
-                ey = target.y;
-            }
-            for( int x = sx; x <= ex; x++ ) {
-                for( int y = sy; y <= ey; y++ ) {
-                    if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
-                        if( inbounds( x, y, z ) ) {
-                            target_list.push_back( tripoint( x, y, z ) );
-                        }
-                    }
-                }
-            }
-            break;
-        case editmap_line:
-            target_list = line_to( origin, target, 0, 0 );
-            break;
+    case editmap_line:
+        target_list = line_to( origin, target, 0, 0 );
+        break;
     }
 
     return ret;
@@ -1677,7 +1677,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
     tmpmap.generate( omt_pos.x * 2, omt_pos.y * 2, target.z, calendar::turn );
 
-    tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } ); //
+    tripoint pofs = pos2screen( { target.x - 11, target.y - 11, target.z } );
     WINDOW *w_preview = newwin( 24, 24, pofs.y, pofs.x );
 
     gmenu.border_color = c_ltgray;
