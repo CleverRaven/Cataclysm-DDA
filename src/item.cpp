@@ -595,7 +595,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("BASE", string_format(_("Material: %s"), material_list.c_str())));
             }
         }
-
+        if(has_var("contained_name")){
+            dump->push_back(iteminfo("BASE",string_format(_("Contains: %s"),get_var("contained_name").c_str())));
+        }
         if ( debug == true ) {
             if( g != NULL ) {
                 dump->push_back(iteminfo("BASE", _("age: "), "",
@@ -1906,10 +1908,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     } else if (has_flag("RIGHT")) {
         sidedtext = _("right ");
     }
-    if(has_var("contained_name")){
-            auto n=get_var("contained_name","empty");
-        ret<<_(n.c_str())<<" ";
-    }
+
     if(has_flag("WET"))
        ret << _(" (wet)");
 

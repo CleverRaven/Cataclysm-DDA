@@ -4736,26 +4736,64 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
 int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos){
   if(it->has_var("contained_name")){
     try{
+        tripoint i;
+        if(g->is_empty(pos))
+        {
+            i=pos;//it's been activated somewhere where there isn't a player or monster, good.=
+        }else{
+            if(it->has_flag("PLACE_RANDOMLY")){
+                std::vector<tripoint> valid;
+                for(int x=p->posx()-1;x<=p->posx()+1;x++){
+                    for(int y=p->posy()-1;y<=p->posy()+1;y++){
+                        tripoint dest(x,y,pos.z);
+                        if(g->is_empty(dest)){
+                            valid.push_back(dest);
+                        }
+                    }
+                }
+                i=random_entry(valid);
+            }else{
+            const std::string query=string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
+            if(!choose_adjacent(query,i)){
+                it->active=false;
+                return 0;
+            }
+            if(!g->is_empty(i)){
+                p->add_msg_if_player(m_info,_("You cannot place the %s there!"),it->get_var("contained_name","").c_str());
+            }
+            }
+        }
         monster new_monster;
         new_monster.deserialize(it->get_var("contained_json",""));
-        new_monster.spawn(pos);
+        new_monster.spawn(i);
         g->add_zombie(new_monster);
         it->erase_var("contained_name");
         it->erase_var("contained_json");
+        it->erase_var("name");
         it->active=false;
         }catch(const std::string &e){
             debugmsg(_("Error restoring monster: %s"),e.c_str());
         }
   }else{
+    tripoint target=pos;
+    const std::string query=string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
+    if(p->pos()==pos&&!choose_adjacent(query,target))
+    {
+        add_msg(_("You cannot use a %s there."),it->tname().c_str());
+    }
     //capture the thing, if it's on the same square.
-    int mon_dex=g->mon_at(pos);
+    int mon_dex=g->mon_at(target);
     if(mon_dex!=-1){
       auto f=g->zombie(mon_dex);
       int chance=f.hp_percentage()/10;
-      if(one_in(chance)||f.friendly){//If the monster is friendly, then put it in the item without checking if it rolled a success
+      if(one_in(chance)||f.friendly//If the monster is friendly, then put it in the item without checking if it rolled a success
+         ||it->has_flag("NO_FAIL")){//Or if the item is rigged so no monster can escape.
         try{
         it->set_var("contained_json",f.serialize());
         it->set_var("contained_name",f.type->nname(1));
+        it->set_var("name",string_format(_("%s holding %s"),
+                                         it->type->nname(1).c_str(),
+                                         f.type->nname(1).c_str()));
         it->active=false;
         g->remove_zombie(mon_dex);
         }catch(const std::string &e){
@@ -4768,8 +4806,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos){
           return 1;
       }
     }else{
-      it->active=false;
-      add_msg(_("The %s can't capture nothing."),item::nname(it->typeId(),1).c_str());
+        add_msg(_("The %s can't capture nothing"),it->tname(1).c_str());
       return 0;
     }
   }
