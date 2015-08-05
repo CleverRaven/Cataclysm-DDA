@@ -4775,15 +4775,16 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
             it->erase_var("contained_json");
             it->erase_var("name");
             it->erase_var("weight");
-            it->active = false;
+            return 0;
         } catch(const std::string &e) {
             debugmsg(_("Error restoring monster: %s"),e.c_str());
         }
     } else {
         tripoint target = pos;
-        const std::string query = string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
+        const std::string query = string_format(_("Capture something with the %s where?"),it->get_var("contained_name","").c_str());
         if(p->pos() == pos && !choose_adjacent(query,target)) {
             p->add_msg_if_player(m_info,_("You cannot use a %s there."),it->tname().c_str());
+            return 0;
         }
         //capture the thing, if it's on the same square.
         int mon_dex = g->mon_at(target);
@@ -4792,7 +4793,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
             int chance = f.hp_percentage()/10;
             if(one_in(chance)//a weaker monster is easier to capture.
                     || f.friendly != 0//If the monster is friendly, then put it in the item without checking if it rolled a success
-                    || it->has_flag("NO_FAIL")) { //Or if the item is rigged so no monster can escape.
+                    || it->has_flag("NO_FAIL")) {
                 try {
                     it->set_var("contained_json",f.serialize());
                     it->set_var("contained_name",f.type->nname(1));
@@ -4821,7 +4822,6 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                     if(!it->has_flag("NO_WEIGHT_ADJUST")) {
                         it->set_var("weight",new_weight);
                     }
-                    it->active = false;
                     g->remove_zombie( mon_dex );
                 } catch(const std::string &e) {
                     debugmsg(_("Error storing monster: %s"),e.c_str());
@@ -4830,7 +4830,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
             } else {
                 add_msg(_("The %s broke free from the %s"),f.name().c_str(),it->tname(1).c_str());
                 it->active = false;
-                return !it->has_flag("NO_BREAK_ON_FAIL");
+                return it->has_flag("NO_BREAK_ON_FAIL")?1:0;
             }
         } else {
             add_msg(_("The %s can't capture nothing"),it->tname(1).c_str());

@@ -944,8 +944,11 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
-- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. Has a chance to break unless the flag ```NO_BREAK_ON_FAIL``` is present on the item. 
-
+- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. This action is affected by several flags which as of this point, have no other purposes. The associated action is also used for releasing it.
+  - ```NO_BREAK_ON_FAIL``` Prevents a monster capturing device, like a pet carrier, from breaking if it fails to capture the monster.
+  - ```NO_FAIL`` Prevents a monster capturing device from failing to capture the monster. This negates the need for ```NO_BREAK_ON_FAIL```
+  - ```NO_WEIGHT_ADJUST``` Prevents a monster capturing device from changing its weight based upon the size of the monster inside it.
+  -```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 
 ## Generic
 
@@ -965,7 +968,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
-- ```NO_BREAK_ON_FAIL``` Prevents a monster capturing device, like a pet carrier, from breaking if it fails to capture the monster.
 
 ## Skills
 
