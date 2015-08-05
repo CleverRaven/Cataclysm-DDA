@@ -32,7 +32,6 @@ std::string utf16_to_utf8(unsigned ch)
         utf8Bytes = 1;
     } else if (ch < 0x800) {
         utf8Bytes = 2;
-
     } else if (ch < 0x10000) {
         utf8Bytes = 3;
     } else if (ch <= 0x10FFFF) {
