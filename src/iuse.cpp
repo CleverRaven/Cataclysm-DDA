@@ -5851,25 +5851,6 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
     }
     return 0;
 }
-int iuse::potion_act(player *,item *it, bool, const tripoint &pos)
-{
-    int mon_dex = g->mon_at(pos);
-    if(mon_dex != -1)
-    {
-        monster mon = g->zombie( mon_dex );
-        if( mon.get_hp() < mon.get_hp_max()-20)
-        {
-            mon.heal(20);
-        }
-        else
-        {
-            mon.heal(mon.get_hp_max() - mon.get_hp());
-        }
-        auto n = item::nname(it->typeId(),1);
-        add_msg(_("The %s heals the %s"),n.c_str(),mon.type->nname(1).c_str());
-    }
-    return 0;
-}
 
 int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
 {
