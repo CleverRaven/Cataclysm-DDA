@@ -1,0 +1,52 @@
+[
+{
+    "type":"monstergroup",
+    "name" : "GROUP_CAVE",
+    "default" : "mon_null",
+    "monsters" : [
+	{ "monster" : "mon_wild_beehive", "freq" : 20, "cost_multiplier" : 3, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","NIGHT","DAWN","AUTUMN", "WINTER"] },
+	{ "monster" : "mon_wild_beehive_empty", "freq" : 10, "cost_multiplier" : 6, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","NIGHT","DAWN","SPRING"] },
+	
+       { "monster" : "mon_scorpion_small", "freq" : 10, "cost_multiplier" : 5, "pack_size" : [2,8], "conditions" : ["DAY","DUSK","SPRING", "SUMMER", "AUTUMN"] },
+       { "monster" : "mon_scorpion_giant", "freq" : 1, "cost_multiplier" : 20, "pack_size" : [2,4], "conditions" : ["NIGHT","SPRING", "SUMMER", "AUTUMN"] },
+	{ "monster" : "mon_queen_bee", "freq" : 10, "cost_multiplier" : 1, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","DAWN","SPRING","SUMMER", "AUTUMN"]},
+	{ "monster" : "mon_firefly", "freq" : 30, "cost_multiplier" : 1, "pack_size" : [5,20], "conditions" : ["NIGHT","DUSK","DAWN","SUMMER"]},
+   	{ "monster" : "mon_worker_bee", "freq" : 75, "cost_multiplier" : 1, "pack_size" : [1,10], "conditions" : ["DAY","DUSK","DAWN","SPRING","SUMMER", "AUTUMN"]},
+	{ "monster" : "mon_bee_swarm", "freq" : 10, "cost_multiplier" : 5, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","DAWN","NIGHT","SPRING","SUMMER", "AUTUMN"]} 
+    ]
+  },
+{
+    "type":"monstergroup",
+    "name" : "GROUP_FOREST",
+    "default" : "mon_null",
+    "monsters" : [
+	{ "monster" : "mon_wild_beehive", "freq" : 1, "cost_multiplier" : 10, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","NIGHT","DAWN","AUTUMN", "WINTER"] },
+	{ "monster" : "mon_wild_beehive_empty", "freq" : 1, "cost_multiplier" : 20, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","NIGHT","DAWN","SPRING"] },
+	
+       { "monster" : "mon_scorpion_small", "freq" : 5, "cost_multiplier" : 5, "pack_size" : [2,8], "conditions" : ["DAY","DUSK","SPRING", "SUMMER", "AUTUMN"] },
+       { "monster" : "mon_scorpion_giant", "freq" : 1, "cost_multiplier" : 20, "pack_size" : [2,4], "conditions" : ["NIGHT","SPRING", "SUMMER", "AUTUMN"] },
+	{ "monster" : "mon_queen_bee", "freq" : 5, "cost_multiplier" : 5, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","DAWN","SPRING","SUMMER", "AUTUMN"]},
+	{ "monster" : "mon_firefly", "freq" : 75, "cost_multiplier" : 1, "pack_size" : [5,20], "conditions" : ["NIGHT","DUSK","DAWN","SUMMER"]},
+   	{ "monster" : "mon_worker_bee", "freq" : 25, "cost_multiplier" : 1, "pack_size" : [1,10], "conditions" : ["DAY","DUSK","DAWN","SPRING","SUMMER", "AUTUMN"]},
+	{ "monster" : "mon_bee_swarm", "freq" : 3, "cost_multiplier" : 5, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","DAWN","NIGHT","SPRING","SUMMER", "AUTUMN"]} 
+]
+  },
+{
+    "type":"monstergroup",
+    "name" : "GROUP_SWAMP",
+    "default" : "mon_null",
+    "monsters" : [
+	{ "monster" : "mon_wild_beehive", "freq" : 1, "cost_multiplier" : 10, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","NIGHT","DAWN","AUTUMN", "WINTER"] },
+	{ "monster" : "mon_wild_beehive_empty", "freq" : 1, "cost_multiplier" : 20, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","NIGHT","DAWN","SPRING"] },
+	
+       { "monster" : "mon_scorpion_small", "freq" : 10, "cost_multiplier" : 5, "pack_size" : [2,8], "conditions" : ["DAY","DUSK","SPRING", "SUMMER", "AUTUMN"] },
+       { "monster" : "mon_scorpion_giant", "freq" : 1, "cost_multiplier" : 20, "pack_size" : [2,4], "conditions" : ["NIGHT","SPRING", "SUMMER", "AUTUMN"] },
+	{ "monster" : "mon_queen_bee", "freq" : 5, "cost_multiplier" : 1, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","DAWN","SPRING","SUMMER", "AUTUMN"]},
+	{ "monster" : "mon_firefly", "freq" : 75, "cost_multiplier" : 1, "pack_size" : [5,20], "conditions" : ["NIGHT","DUSK","DAWN","SUMMER"]},
+   	{ "monster" : "mon_worker_bee", "freq" : 25, "cost_multiplier" : 1, "pack_size" : [1,5], "conditions" : ["DAY","DUSK","DAWN","SPRING","SUMMER", "AUTUMN"]},
+	{ "monster" : "mon_bee_swarm", "freq" : 5, "cost_multiplier" : 1, "pack_size" : [1,1], "conditions" : ["DAY","DUSK","DAWN","NIGHT","SPRING","SUMMER", "AUTUMN"]} 
+    ]
+  }
+
+
+]

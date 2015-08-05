@@ -16,7 +16,7 @@ ZZZZZZZZZZZZZZZZZZZZZZTHISISACOMFORTABLEPLACETOZZZZZZZZZZZZZZZZ
 
 Hopefully im better at modding than ascii art. (That's what she said).
 
----------->Rusty's stuff version 0.11<----------
+---------->Rusty's stuff version 0.1<----------
 by Russell
 mysticinmaine@gmail.com
 

@@ -17,7 +17,7 @@
         "damage" : 3,
         "pierce" : 1,
         "range" : 5,
-        "dispersion" : -15,
+        "dispersion" : 15,
         "recoil" : 5,
         "count" : 250,
         "stack_size" : 250,
@@ -74,7 +74,9 @@
         "count" : 250,
         "stack_size" : 250,
         "effects" : ["NEVER_MISFIRES"]
-    },{   "type" : "AMMO",
+
+    },{  
+        "type" : "AMMO",
         "id" : "177_pl_heavy",
         "price" : 3500,
         "name" : ".177 heavy pellet",
@@ -93,7 +95,7 @@
         "damage" : 2,
         "pierce" : 0,
         "range" : 5,
-        "dispersion" : -5,
+        "dispersion" : 5,
         "recoil" : 0,
         "count" : 250,
         "stack_size" : 250,
