@@ -170,8 +170,6 @@ std::string action_ident( action_id act )
             return "butcher";
         case ACTION_CHAT:
             return "chat";
-        case ACTION_SHOUT:
-            return "shout";
         case ACTION_LOOK:
             return "look";
         case ACTION_PEEK:
@@ -681,7 +679,6 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_OPEN );
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
-            REGISTER_ACTION( ACTION_SHOUT );
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );

@@ -42,7 +42,6 @@ enum action_id : int {
     ACTION_GRAB,
     ACTION_BUTCHER,
     ACTION_CHAT,
-    ACTION_SHOUT,
     ACTION_LOOK,
     ACTION_PEEK,
     ACTION_LIST_ITEMS,

@@ -428,15 +428,15 @@ void player::activate_mutation( const std::string &mut )
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT1") {
-        shout(_("You shout loudly!"));
+        shout();
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT2"){
-        shout(_("You scream loudly!"));
+        shout();
         tdata.powered = false;
         return;
     } else if (mut == "SHOUT3"){
-        shout(_("You let out a piercing howl!"));
+        shout();
         tdata.powered = false;
         return;
     } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){

@@ -4268,17 +4268,26 @@ void player::shout( std::string msg )
     int base = 10;
     int shout_multiplier = 2;
 
-    // Mutations make shouting louder
+    // Mutations make shouting louder, they also define the defualt message
     if ( has_trait("SHOUT2") ) {
         base = 15;
         shout_multiplier = 3;
+        if ( msg == "" ) {
+            msg = _("You scream loudly!");
+        }
     }
 
     if ( has_trait("SHOUT3") ) {
         shout_multiplier = 4;
         base = 20;
+        if ( msg == "" ) {
+            msg = _("You let out a piercing howl!");
+        }
     }
 
+    if ( msg  == "" ) {
+        msg = _("You shout loudly!");
+    }
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
@@ -7839,7 +7848,7 @@ void player::suffer()
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
-                    shout("AHHHHHHH!");
+                    shout(_("AHHHHHHH!"));
                     break;
                 case 10:
                     add_msg(std::string(name + name + name + name + name + name + name +
@@ -7873,13 +7882,13 @@ void player::suffer()
         }
 
         if (has_trait("SHOUT1") && one_in(3600)) {
-            shout(_("You shout loudly!"));
+            shout();
         }
         if (has_trait("SHOUT2") && one_in(2400)) {
-            shout(_("You scream loudly!"));
+            shout();
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
-            shout(_("You let out a piercing howl!"));
+            shout();
         }
         if (has_trait("M_SPORES") && one_in(2400)) {
             spores();
