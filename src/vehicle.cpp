@@ -3765,12 +3765,10 @@ void vehicle::idle(bool on_map) {
     if( on_map ) {
         update_time();
         if(scoop_on){
-            vehicle_part e;
             std::vector<int> scoops=all_parts_with_feature("SCOOP");
             auto c=get_points();
             for(int scoop:scoops){
-                vpart_info e=parts[scoop].info();
-                auto position = global_pos3()+e.precalc[0];
+                auto position = global_pos3()+parts[scoop].precalc[0];
                 const char *sound_msgs[]={"Whirrrr","Chunk-chunk","Swish"};
                 sounds::sound(position, (int) rng(20,35), sound_msgs[rng(0,3)]);
                 for(tripoint i:c){
