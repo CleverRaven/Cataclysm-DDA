@@ -754,7 +754,8 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
-
+    //scoop operation,pickups, battery drain, etc.
+    void operate_scoop();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
