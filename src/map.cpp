@@ -1167,6 +1167,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
         veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
         dst_submap->vehicles.push_back( veh );
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
+        dst_submap->is_uniform = false;
     }
 
     p = p2;
