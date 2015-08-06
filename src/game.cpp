@@ -11978,11 +11978,10 @@ bool game::plmove(int dx, int dy)
                         return false; // No shoving around an RV.
                     }
 
-                    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
                     //if vehicle weighs too much, wheels don't provide a bonus.
-                    //wheel_indices can be empty if a boat contains "floats" type parts only
-                    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40 && !wheel_indices.empty() ) {
+                    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40) {
                         //determine movecost for terrain touching wheels
+                        std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
                         for(auto p : wheel_indices) {
                             mc += (str_req / wheel_indices.size()) *
                                 m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,
