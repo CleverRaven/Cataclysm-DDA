@@ -11661,7 +11661,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 tries++;
             } while ( is_valid_terrain(px,py) && tries < 20 );
             if (tries < 20) {
-                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
+                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn ).size();
             }
         }
         if (chance == 100) {
@@ -11671,11 +11671,10 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     return item_num;
 }
 
-int map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
+std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
 {
     const auto items = item_group::items_from(loc, turn);
-    spawn_items( p, items );
-    return items.size();
+    return spawn_items( p, items );
 }
 
 void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly,

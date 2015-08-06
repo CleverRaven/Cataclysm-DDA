@@ -786,9 +786,6 @@ void add_corpse( const tripoint &p );
     void i_rem( const tripoint &p, const item* it );
     void spawn_artifact( const tripoint &p );
     void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
-    // Note: Passing the first argument by value, because some compilers don't warn about
-    // implicit cast of reference to int. Reference here could result in calling the
-    // 2D overload above instead with pointer to p as first param
     void spawn_item( const tripoint &p, const std::string &itype_id,
                      const unsigned quantity=1, const long charges=0,
                      const unsigned birthday=0, const int damlevel=0, const bool rand = true);
@@ -796,10 +793,10 @@ void add_corpse( const tripoint &p );
     int free_volume( const tripoint &p );
     int stored_volume( const tripoint &p );
     bool is_full( const tripoint &p, const int addvolume = -1, const int addnumber = -1 );
-    bool add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
-    void add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
-    void add_item( const tripoint &p, item new_item );
-    void spawn_an_item( const tripoint &p, item new_item,
+    item &add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
+    item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
+    item &add_item( const tripoint &p, item new_item );
+    item &spawn_an_item( const tripoint &p, item new_item,
                         const long charges, const int damlevel);
 
     /**
@@ -839,15 +836,15 @@ void add_corpse( const tripoint &p );
     int place_items( items_location loc, const int chance, const tripoint &f,
                      const tripoint &t, bool ongrass, const int turn, bool rand = true );
     /**
-    * Place items from an item group at (x,y). Places as much items as the item group says.
+    * Place items from an item group at p. Places as much items as the item group says.
     * (Most item groups are distributions and will only create one item.)
     * @param turn The birthday that the created items shall have.
-    * @return The number of placed items.
+    * @return Vector of pointers to placed items (can be empty, but no nulls).
     */
-    int put_items_from_loc( items_location loc, const tripoint &p, const int turn = 0 );
+    std::vector<item*> put_items_from_loc( items_location loc, const tripoint &p, const int turn = 0 );
 
     // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
-    void spawn_items( const tripoint &p, const std::vector<item> &new_items );
+    std::vector<item*> spawn_items( const tripoint &p, const std::vector<item> &new_items );
     void create_anomaly( const tripoint &p, artifact_natural_property prop );
 
  /**
