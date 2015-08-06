@@ -98,7 +98,8 @@ enum vehicle_controls {
  manual_fire,
  toggle_camera,
  release_remote_control,
- toggle_chimes
+ toggle_chimes,
+ toggle_scoop
 };
 
 class vehicle::turret_ammo_data {
@@ -882,7 +883,7 @@ void vehicle::use_controls()
     bool has_camera_control = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
-
+    bool has_scoop=false;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -936,6 +937,8 @@ void vehicle::use_controls()
             } else {
                 has_camera = true;
             }
+        }else if ( part_flag(p,"SCOOP") ){
+            has_scoop=true;
         }
     }
 
@@ -1048,7 +1051,9 @@ void vehicle::use_controls()
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
-
+    if(has_scoop){
+        menu.addentry(toggle_scoop, true, 'S', scoop_on?_("Turn off scoop system"):_("Turn on scoop system"));
+    }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
     menu.query();
@@ -1237,6 +1242,8 @@ void vehicle::use_controls()
         break;
     case control_cancel:
         break;
+    case toggle_scoop:
+        scoop_on=!scoop_on;
     }
 }
 
@@ -3444,7 +3451,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     if( camera_on ) epower += camera_epower;
     if( dome_lights_on ) epower += dome_lights_epower;
     if( aisle_lights_on ) epower += aisle_lights_epower;
-
+    if( scoop_on ) epower+=scoop_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     int engine_epower = 0;
@@ -3539,6 +3546,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         camera_on = false;
         dome_lights_on = false;
         aisle_lights_on = false;
+        scoop_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
         }
@@ -3756,6 +3764,22 @@ void vehicle::idle(bool on_map) {
 
     if( on_map ) {
         update_time();
+        if(scoop_on){
+            vehicle_part e;
+            std::vector<int> cargoes=all_parts_with_feature("CARGO");
+            auto c=get_points();
+            for(tripoint i:c){
+                if(g->m.has_items(i)){
+                    item* that_item_there=g->m.item_from(i,0);//remove the first item on each square.
+                    while(cargoes.size()>0&&!add_item(cargoes.back(),*that_item_there)){
+                        cargoes.pop_back();
+                    }
+                    if(cargoes.size()>0){
+                        g->m.i_rem(i,0);//if it can be added to the vehicle, then add it.
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -4717,7 +4741,6 @@ void vehicle::refresh()
     alternator_load = 0;
     camera_epower = 0;
     has_atomic_lights = false;
-
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
@@ -4758,6 +4781,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );
+        }
+        if( vpi.has_flag("SCOOP") ){
+            scoop_epower+=vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
             fuel.push_back( p );
