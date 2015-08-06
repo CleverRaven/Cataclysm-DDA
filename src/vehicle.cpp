@@ -3769,7 +3769,7 @@ void vehicle::idle(bool on_map) {
             auto c=get_points();
             for(int scoop:scoops){
                 auto position = global_pos3()+parts[scoop].precalc[0];
-                const char *sound_msgs[]={"Whirrrr","Chunk-chunk","Swish"};
+                const char *sound_msgs[]={"Whirrrr","Ker-chunk","Swish","Cugugugugug","Horrifying"};
                 sounds::sound(position, (int) rng(20,35), sound_msgs[rng(0,3)]);
                 for(tripoint i:c){
                     if(g->m.moppable_items_at(i)){//That's right, street sweepers can now clean streets
@@ -3779,6 +3779,7 @@ void vehicle::idle(bool on_map) {
                     if( g->m.has_items(i) ){
                         item* that_item_there = g->m.item_from(i,0);//remove the first item on each square.
                         if(add_item(scoop,*that_item_there)){
+                            discharge_battery(that_item_there->weight()*scoop_epower/rng(8,15));
                             g->m.i_rem(i,that_item_there);
                         }else{
                             break;//otherwise move on to the next scoop.

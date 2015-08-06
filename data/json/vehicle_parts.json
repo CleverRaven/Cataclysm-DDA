@@ -5346,7 +5346,7 @@
         "durability" : 20,
         "epower" : -5,
         "size":400,
-        "item" : "sheet_metal",
+        "item" : "v_scoop_item",
         "difficulty" : 1,
         "flags": ["SCOOP","CARGO","OBSTACLE"],
         "location":"center",
