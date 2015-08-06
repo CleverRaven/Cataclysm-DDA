@@ -3778,6 +3778,8 @@ void vehicle::idle(bool on_map) {
                         item* that_item_there = g->m.item_from(i,0);//remove the first item on each square.
                         if(add_item(scoop,*that_item_there)){
                             g->m.i_rem(i,that_item_there);
+                        }else{
+                            break;//otherwise move on to the next scoop.
                         }
                     }
                 }
