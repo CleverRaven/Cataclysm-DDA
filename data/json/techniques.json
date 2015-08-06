@@ -35,6 +35,7 @@
         "type" : "technique",
         "id" : "DEF_DISARM",
         "name" : "disarm",
+        "disarms" : true,
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
