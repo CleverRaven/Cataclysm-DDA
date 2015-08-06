@@ -11744,6 +11744,7 @@ vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, cons
     if(placed_vehicle != NULL) {
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
         place_on_submap->vehicles.push_back(placed_vehicle);
+        place_on_submap->is_uniform = false;
 
         auto &ch = get_cache( placed_vehicle->smz );
         ch.vehicle_list.insert(placed_vehicle);
