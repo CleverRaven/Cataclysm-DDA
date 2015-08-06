@@ -11506,11 +11506,6 @@ void game::read()
 
 void game::chat()
 {
-    if (u.is_deaf()) {
-        add_msg(m_info, _("You can't chat while deaf!"));
-        return;
-    }
-
     if (active_npc.empty()) {
         add_msg(_("You talk to yourself for a moment."));
         return;
