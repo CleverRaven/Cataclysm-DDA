@@ -3768,14 +3768,15 @@ void vehicle::idle(bool on_map) {
             vehicle_part e;
             std::vector<int> cargoes=all_parts_with_feature("CARGO");
             auto c=get_points();
+
             for(tripoint i:c){
-                if(g->m.has_items(i)){
-                    item* that_item_there=g->m.item_from(i,0);//remove the first item on each square.
-                    while(cargoes.size()>0&&!add_item(cargoes.back(),*that_item_there)){
+                if( g->m.has_items(i) ){
+                    item* that_item_there = g->m.item_from(i,0);//remove the first item on each square.
+                    while(cargoes.size() > 0 && !add_item(cargoes.back(),*that_item_there)){
                         cargoes.pop_back();
                     }
                     if(cargoes.size()>0){
-                        g->m.i_rem(i,0);//if it can be added to the vehicle, then add it.
+                        g->m.i_rem(i,0);//if it can be added to the vehicle, then remove it from the map
                     }
                 }
             }
