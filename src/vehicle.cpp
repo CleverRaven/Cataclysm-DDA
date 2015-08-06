@@ -3766,17 +3766,19 @@ void vehicle::idle(bool on_map) {
         update_time();
         if(scoop_on){
             vehicle_part e;
-            std::vector<int> cargoes=all_parts_with_feature("CARGO");
+            std::vector<int> scoops=all_parts_with_feature("SCOOP");
             auto c=get_points();
-
-            for(tripoint i:c){
-                if( g->m.has_items(i) ){
-                    item* that_item_there = g->m.item_from(i,0);//remove the first item on each square.
-                    while(cargoes.size() > 0 && !add_item(cargoes.back(),*that_item_there)){
-                        cargoes.pop_back();
+            for(int scoop:scoops){
+                for(tripoint i:c){
+                    if(g->m.moppable_items_at(i)){//That's right, street sweepers can now clean streets
+                        g->m.mop_spills(i);
+                        continue;//the item should not be accessed at this point.
                     }
-                    if(cargoes.size()>0){
-                        g->m.i_rem(i,0);//if it can be added to the vehicle, then remove it from the map
+                    if( g->m.has_items(i) ){
+                        item* that_item_there = g->m.item_from(i,0);//remove the first item on each square.
+                        if(add_item(scoop,*that_item_there)){
+                            g->m.i_rem(i,that_item_there);
+                        }
                     }
                 }
             }

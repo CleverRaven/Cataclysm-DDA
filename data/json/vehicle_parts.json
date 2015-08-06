@@ -5345,9 +5345,11 @@
         "broken_color" : "dark_gray",
         "durability" : 20,
         "epower" : -5,
+        "size":400,
         "item" : "sheet_metal",
         "difficulty" : 1,
-        "flags": ["SCOOP"],
+        "flags": ["SCOOP","CARGO","OBSTACLE"],
+        "location":"center",
         "breaks_into" : [
             {"item": "scrap", "min": 0, "max": 1}
         ]
