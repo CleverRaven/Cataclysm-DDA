@@ -3769,6 +3769,10 @@ void vehicle::idle(bool on_map) {
             std::vector<int> scoops=all_parts_with_feature("SCOOP");
             auto c=get_points();
             for(int scoop:scoops){
+                vpart_info e=parts[scoop].info();
+                auto position = global_pos3()+e.precalc[0];
+                const char *sound_msgs[]={"Whirrrr","Chunk-chunk","Swish"};
+                sounds::sound(position, (int) rng(20,35), sound_msgs[rng(0,3)]);
                 for(tripoint i:c){
                     if(g->m.moppable_items_at(i)){//That's right, street sweepers can now clean streets
                         g->m.mop_spills(i);
