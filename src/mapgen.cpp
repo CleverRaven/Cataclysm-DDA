@@ -11767,12 +11767,19 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
+
+    //Check for boat type vehicles that should be placeable in deep water
+    bool can_float = false;
+    if(veh->all_parts_with_feature("FLOATS").size() > 2){
+        can_float = true;
+    }
+
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
         const auto p = veh->global_pos() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if (ter_at(p.x, p.y).has_flag(TFLAG_DEEP_WATER)) {
+        if (ter_at(p.x, p.y).has_flag(TFLAG_DEEP_WATER) && !can_float) {
             delete veh;
             return NULL;
         }
