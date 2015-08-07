@@ -2107,7 +2107,7 @@ void game::rcdrive(int dx, int dy)
         m.has_furn(dest) ) {
         sounds::sound(dest, 7, _("sound of a collision with an obstacle."));
         return;
-    } else if( m.add_item_or_charges(dest, *rc_car ) ) {
+    } else if( !m.add_item_or_charges(dest, *rc_car ).is_null() ) {
         //~ Sound of moving a remote controlled car
         sounds::sound(src, 6, _("zzz..."));
         u.moves -= 50;
@@ -11978,10 +11978,11 @@ bool game::plmove(int dx, int dy)
                         return false; // No shoving around an RV.
                     }
 
+                    std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
                     //if vehicle weighs too much, wheels don't provide a bonus.
-                    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40) {
+                    //wheel_indices can be empty if a boat contains "floats" type parts only
+                    if (grabbed_vehicle->valid_wheel_config() && str_req <= 40 && !wheel_indices.empty() ) {
                         //determine movecost for terrain touching wheels
-                        std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature(VPFLAG_WHEEL);
                         for(auto p : wheel_indices) {
                             mc += (str_req / wheel_indices.size()) *
                                 m.move_cost(grabbed_vehicle->global_x() + grabbed_vehicle->parts[p].precalc[0].x,

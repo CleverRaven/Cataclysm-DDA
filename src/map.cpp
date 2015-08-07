@@ -50,6 +50,7 @@ static std::list<item>  nulitems;          // Returned when &i_at() is asked for
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
 static int              null_temperature;  // Because radiation does it too
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
+static item             nulitem;           // Returned when item adding functions fail to add an item
 
 // Less for performance and more so that it's visible for when ter_t gets its string_id
 static std::string null_ter_t = "t_null";
@@ -1167,6 +1168,7 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
         veh->set_submap_moved( int( p2.x / SEEX ), int( p2.y / SEEY ) );
         dst_submap->vehicles.push_back( veh );
         src_submap->vehicles.erase( src_submap->vehicles.begin() + our_i );
+        dst_submap->is_uniform = false;
     }
 
     p = p2;
@@ -4099,7 +4101,7 @@ int map::free_volume(const int x, const int y)
 
 bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius)
 {
-    return add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius );
+    return !add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius ).is_null();
 }
 
 void map::add_item(const int x, const int y, item new_item)
@@ -4183,7 +4185,7 @@ void map::i_clear(const tripoint &p)
     current_submap->itm[lx][ly].clear();
 }
 
-void map::spawn_an_item(const tripoint &p, item new_item,
+item &map::spawn_an_item(const tripoint &p, item new_item,
                         const long charges, const int damlevel)
 {
     if( charges && new_item.charges > 0 ) {
@@ -4193,7 +4195,7 @@ void map::spawn_an_item(const tripoint &p, item new_item,
     new_item = new_item.in_its_container();
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
         has_flag("DESTROY_ITEM", p) ) {
-        return;
+        return nulitem;
     }
     // bounds checking for damage level
     if( damlevel < -1 ) {
@@ -4203,13 +4205,15 @@ void map::spawn_an_item(const tripoint &p, item new_item,
     } else {
         new_item.damage = damlevel;
     }
-    add_item_or_charges(p, new_item);
+
+    return add_item_or_charges(p, new_item);
 }
 
-void map::spawn_items(const tripoint &p, const std::vector<item> &new_items)
+std::vector<item*> map::spawn_items(const tripoint &p, const std::vector<item> &new_items)
 {
+    std::vector<item*> ret;
     if (!inbounds(p) || has_flag("DESTROY_ITEM", p)) {
-        return;
+        return ret;
     }
     const bool swimmable = has_flag("SWIMMABLE", p);
     for( auto new_item : new_items ) {
@@ -4221,10 +4225,18 @@ void map::spawn_items(const tripoint &p, const std::vector<item> &new_items)
             item new_item2 = new_item;
             new_item.make_handed( LEFT );
             new_item2.make_handed( RIGHT );
-            add_item_or_charges(p, new_item2);
+            item &it2 = add_item_or_charges(p, new_item2);
+            if( !it2.is_null() ) {
+                ret.push_back( &it2 );
+            }
         }
-        add_item_or_charges(p, new_item);
+        item &it = add_item_or_charges(p, new_item);
+        if( !it.is_null() ) {
+            ret.push_back( &it );
+        }
     }
+
+    return ret;
 }
 
 void map::spawn_artifact(const tripoint &p)
@@ -4243,22 +4255,24 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
                      const unsigned quantity, const long charges,
                      const unsigned birthday, const int damlevel, const bool rand)
 {
-    if(type_id == "null") {
+    if( type_id == "null" ) {
         return;
     }
-    if(item_is_blacklisted(type_id)) {
+
+    if( item_is_blacklisted( type_id ) ) {
         return;
     }
     // recurse to spawn (quantity - 1) items
-    for(unsigned i = 1; i < quantity; i++)
+    for( size_t i = 1; i < quantity; i++ )
     {
-        spawn_item(p, type_id, 1, charges, birthday, damlevel);
+        spawn_item( p, type_id, 1, charges, birthday, damlevel );
     }
     // spawn the item
     item new_item(type_id, birthday, rand);
     if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
         new_item.item_tags.insert( "FIT" );
     }
+
     spawn_an_item(p, new_item, charges, damlevel);
 }
 
@@ -4318,7 +4332,7 @@ bool map::is_full(const tripoint &p, const int addvolume, const int addnumber ) 
 // returns false if item exceeds tile's weight limits or item count. This function is expensive, and meant for
 // user initiated actions, not mapgen!
 // overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
-bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_radius) {
+item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_radius) {
 
     if(!inbounds(p) ) {
         // Complain about things that should never happen.
@@ -4326,19 +4340,19 @@ bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_rad
                     <<(new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) <<
                     ", destroy_item "<<has_flag("DESTROY_ITEM", p);
 
-        return false;
+        return nulitem;
     }
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
             has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ) {
         // Silently fail on mundane things that prevent item spawn.
-        return false;
+        return nulitem;
     }
 
 
-    bool tryaddcharges = (new_item.charges  != -1 && new_item.count_by_charges());
+    const bool tryaddcharges = new_item.charges != -1 && new_item.count_by_charges();
     std::vector<tripoint> ps = closest_tripoints_first(overflow_radius, p);
-    for( const auto p_it : ps ) {
-        if( !inbounds(p_it) || new_item.volume() > this->free_volume(p_it) ||
+    for( const auto &p_it : ps ) {
+        if( !inbounds(p_it) || new_item.volume() > free_volume(p_it) ||
             has_flag("DESTROY_ITEM", p_it) || has_flag("NOITEM", p_it) ) {
             continue;
         }
@@ -4346,28 +4360,30 @@ bool map::add_item_or_charges(const tripoint &p, item new_item, int overflow_rad
         if( tryaddcharges ) {
             for( auto &i : i_at( p_it ) ) {
                 if( i.merge_charges( new_item ) ) {
-                    return true;
+                    return i;
                 }
             }
         }
+
         if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
             if( !new_item.is_gunmod() ||  !new_item.has_flag("IRREMOVABLE") ) {
-                add_item( p_it, new_item );
                 support_dirty( p_it );
+                return add_item( p_it, new_item );
             }
-            return true;
+            return nulitem;
         }
     }
-    return false;
+
+    return nulitem;
 }
 
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 // WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
 // map::add_item_or_charges
-void map::add_item(const tripoint &p, item new_item)
+item &map::add_item(const tripoint &p, item new_item)
 {
-    if (!inbounds( p )) {
-        return;
+    if( !inbounds( p ) ) {
+        return nulitem;
     }
     int lx, ly;
     submap * const current_submap = get_submap_at(p, lx, ly);
@@ -4377,19 +4393,21 @@ void map::add_item(const tripoint &p, item new_item)
     if( new_item.needs_processing() && new_item.is_food() ) {
         new_item.process( nullptr, p, false );
     }
-    add_item_at(p, current_submap->itm[lx][ly].end(), new_item);
+    return add_item_at(p, current_submap->itm[lx][ly].end(), new_item);
 }
 
-void map::add_item_at( const tripoint &p,
-                       std::list<item>::iterator index, item new_item )
+item &map::add_item_at( const tripoint &p,
+                        std::list<item>::iterator index, item new_item )
 {
-    if (new_item.made_of(LIQUID) && has_flag( "SWIMMABLE", p )) {
-        return;
+    if( new_item.made_of(LIQUID) && has_flag( "SWIMMABLE", p ) ) {
+        return nulitem;
     }
-    if (has_flag( "DESTROY_ITEM", p )) {
-        return;
+
+    if( has_flag( "DESTROY_ITEM", p ) ) {
+        return nulitem;
     }
-    if (new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
+
+    if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
 
@@ -4402,6 +4420,8 @@ void map::add_item_at( const tripoint &p,
     if( new_item.needs_processing() ) {
         current_submap->active_items.add( new_pos, point(lx, ly) );
     }
+
+    return *new_pos;
 }
 
 item map::water_from(const tripoint &p)

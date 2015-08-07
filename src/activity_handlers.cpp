@@ -69,44 +69,63 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
     g->m.destroy( pos, true );
 }
 
-bool butcher_cbm_item( const std::string &item, const tripoint &pos, const int age )
+void butcher_cbm_item( const std::string &what, const tripoint &pos,
+                       const int age, const double roll )
 {
-    //To see if it spawns a random additional CBM
-    if( one_in( 2 ) ) { //The CBM works
-        g->m.spawn_item( pos, item, 1, 0, age );
-        return true;
+    if( roll <= 0 ) {
+        return;
     }
-    //There is a burnt out CBM
-    g->m.spawn_item( pos, "burnt_out_bionic", 1, 0, age );
-    return false;
+
+    item cbm( one_in( 2 ) ? what : "burnt_out_bionic", age );
+    add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
+    g->m.add_item( pos, cbm );
 }
 
-bool butcher_cbm_group( const std::string &group, const tripoint &pos, const int age )
+void butcher_cbm_group( const std::string &group, const tripoint &pos,
+                        const int age, const double roll )
 {
-    //To see if it spawns a random additional CBM
-    if( one_in( 2 ) ) { //The CBM works
-        g->m.put_items_from_loc( group, pos, age );
-        return true;
+    if( roll <= 0 ) {
+        return;
     }
-    //There is a burnt out CBM
-    g->m.spawn_item( pos, "burnt_out_bionic", 1, 0, age);
-    return false;
+
+    //To see if it spawns a random additional CBM
+    if( one_in( 2 ) ) {
+        //The CBM works
+        const auto spawned = g->m.put_items_from_loc( group, pos, age );
+        for( const auto &it : spawned ) {
+            add_msg( m_good, _( "You discover a %s!" ), it->tname().c_str() );
+        }
+    } else {
+        //There is a burnt out CBM
+        item cbm( "burnt_out_bionic", age );
+        add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
+        g->m.add_item( pos, cbm );
+    }
 }
 
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
-    // corpses can disappear (rezzing!), so check for that
-    if( static_cast<int>(g->m.i_at(p->pos()).size()) <= act->index ||
-        !(g->m.i_at(p->pos())[act->index].is_corpse() ) ) {
+    // Corpses can disappear (rezzing!), so check for that
+    auto items_here = g->m.i_at( p->pos() );
+    if( static_cast<int>( items_here.size() ) <= act->index ||
+        !( items_here[act->index].is_corpse() ) ) {
         add_msg(m_info, _("There's no corpse to butcher!"));
         return;
     }
-    const mtype *corpse = g->m.i_at(p->pos())[act->index].get_mtype();
-    std::vector<item> contents = g->m.i_at(p->pos())[act->index].contents;
-    int age = g->m.i_at(p->pos())[act->index].bday;
-    g->m.i_rem(p->pos(), act->index);
-    int factor = p->butcher_factor();
-    int pieces = 0, skins = 0, bones = 0, fats = 0, sinews = 0, feathers = 0;
+
+    item &corpse_item = items_here[act->index];
+    const mtype *corpse = corpse_item.get_mtype();
+    std::vector<item> contents = corpse_item.contents;
+    const int age = corpse_item.bday;
+    g->m.i_rem( p->pos(), act->index );
+
+    const int factor = p->butcher_factor();
+    int pieces = 0;
+    int skins = 0;
+    int bones = 0;
+    int fats = 0;
+    int sinews = 0;
+    int feathers = 0;
     bool stomach = false;
 
     switch (corpse->size) {
@@ -152,11 +171,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         break;
     }
 
-    int sSkillLevel = p->skillLevel("survival");
+    const int skill_level = p->skillLevel("survival");
 
     auto roll_butchery = [&] () {
-        double skill_shift = 0.;
-        skill_shift += rng_float( 0, sSkillLevel - 3 );
+        double skill_shift = 0.0;
+        skill_shift += rng_float( 0, skill_level - 3 );
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
         if( p->str_cur < 4 ) {
             skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
@@ -180,7 +199,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
-    stomach = (roll_butchery() >= 0);
+    stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
         if( corpse->has_material("veggy") ) {
@@ -276,82 +295,34 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
     //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-    bool any_cbm = false;
-    bool cbm = false;
     if( corpse->has_flag(MF_CBM_CIV) ) {
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
-        }
-
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_common", p->pos3(), age ) || cbm;
-        }
+        butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
+        butcher_cbm_group( "bionics_common", p->pos(), age, roll_butchery() );
     }
 
     // Zombie scientist bionics
     if( corpse->has_flag(MF_CBM_SCI) ) {
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
-        }
-
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_sci", p->pos3(), age ) || cbm;
-        }
+        butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
+        butcher_cbm_group( "bionics_sci", p->pos(), age, roll_butchery() );
     }
 
     // Zombie technician bionics
     if( corpse->has_flag(MF_CBM_TECH) ) {
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
-        }
-
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_tech", p->pos3(), age ) || cbm;
-        }
+        butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
+        butcher_cbm_group( "bionics_tech", p->pos(), age, roll_butchery() );
     }
 
     // Substation mini-boss bionics
     if( corpse->has_flag(MF_CBM_SUBS) ) {
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage", p->pos3(), age ) || cbm;
-        }
-
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_subs", p->pos3(), age ) || cbm;
-        }
-
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_subs", p->pos3(), age ) || cbm;
-        }
+        butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
+        butcher_cbm_group( "bionics_subs", p->pos(), age, roll_butchery() );
+        butcher_cbm_group( "bionics_subs", p->pos(), age, roll_butchery() );
     }
 
     // Payoff for butchering the zombie bio-op
     if( corpse->has_flag(MF_CBM_OP) ) {
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_item( "bio_power_storage_mkII", p->pos3(), age ) || cbm;
-        }
-
-        if( roll_butchery() >= 0 ) {
-            any_cbm = true;
-            cbm = butcher_cbm_group( "bionics_op", p->pos3(), age ) || cbm;
-        }
-    }
-
-    if( cbm ) {
-        add_msg( m_good, _("You discover a CBM in the %s!"), corpse->nname().c_str() );
-    } else if( any_cbm ) {
-        add_msg( m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
-                         corpse->nname().c_str() );
+        butcher_cbm_item( "bio_power_storage_mkII", p->pos(), age, roll_butchery() );
+        butcher_cbm_group( "bionics_op", p->pos(), age, roll_butchery() );
     }
 
     //Add a chance of CBM power storage recovery.
@@ -361,11 +332,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             //To see if it spawns a battery
             if( one_in(3) ) { //The battery works 33% of the time.
                 add_msg(m_good, _("You discover a power storage in the %s!"), corpse->nname().c_str());
-                g->m.spawn_item( p->pos3(), "bio_power_storage", 1, 0, age);
+                g->m.spawn_item( p->pos(), "bio_power_storage", 1, 0, age);
             } else { //There is a burnt out CBM
                 add_msg(m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
                         corpse->nname().c_str());
-                g->m.spawn_item( p->pos3(), "burnt_out_bionic", 1, 0, age);
+                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, age);
             }
         }
     }
@@ -435,7 +406,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
     iuse tmp;
-    tmp.completefirstaid( p, &it, false, p->pos3() );
+    tmp.completefirstaid( p, &it, false, p->pos() );
     p->reduce_charges(act->position, 1);
     // Erase activity and values.
     act->type = ACT_NULL;
@@ -460,7 +431,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 p->add_msg_if_player(_("You didn't catch anything."));
             }
         } else {
-            g->catch_a_monster(fishables, p->pos3(), p, 30000);
+            g->catch_a_monster(fishables, p->pos(), p, 30000);
         }
 
     } else {
@@ -512,23 +483,24 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         break;
     }
 
+    g->m.ter_set( act->placement, next_ter );
+
     // Survival gives a bigger boost, and Peception is leveled a bit.
     // Both survival and perception affect time to forage
     if( veggy_chance < p->skillLevel("survival") * 3 + p->per_cur - 2 ) {
-        // Returns zero if location has no defined items.
-        int cnt = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
-        if( cnt > 0 ) {
-            // Crap, map methods don't return *what* was found - can't fix it here
-            add_msg( m_good, _("You found something!") );
+        const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
+        for( const auto &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
         }
     }
 
-    g->m.ter_set( act->placement, next_ter );
     if( one_in(10) ) {
-        add_msg(m_good, _("You found some trash!"));
-        g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
-        found_something = true;
+        const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
+        for( const auto &it : dropped ) {
+            add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
+            found_something = true;
+        }
     }
 
     if( !found_something ) {
