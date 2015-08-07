@@ -9553,7 +9553,7 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                     it->set_var("contained_json",f.serialize());
                     it->set_var("contained_name",f.type->nname());
                     it->set_var("name",string_format(_("%s holding %s"),
-                                                     it->type->nname().c_str(),
+                                                     it->type->nname(1).c_str(),
                                                      f.type->nname().c_str()));
                     m_size mon_size = f.get_size();
                     int new_weight;
