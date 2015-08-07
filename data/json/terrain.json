@@ -1,5 +1,15 @@
 [
     {
+        "type": "item_group",
+        "id": "wall_bash_results",
+        "subtype": "collection",
+        "entries": [
+            { "item": "rock", "count": [0, 2] },
+            { "item": "nail", "charges": [2, 8] },
+            { "item": "splinter", "count": [1, 5] }
+        ]
+    },
+    {
         "type" : "terrain",
         "id" : "t_hole",
         "name": "empty space",
@@ -876,11 +886,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
     },{
         "type" : "terrain",
@@ -4492,11 +4498,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
     },{
         "type" : "terrain",
@@ -4511,11 +4513,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
     },{
         "type" : "terrain",
@@ -4530,11 +4528,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
     },{
         "type" : "terrain",
@@ -4549,11 +4543,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
     },{
         "type" : "terrain",
@@ -4568,11 +4558,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
     },{
         "type" : "terrain",
@@ -4587,11 +4573,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "ter_set": "t_null",
-            "items": [
-                { "item": "rock", "count": [0, 2] },
-                { "item": "nail", "charges": [2, 8] },
-                { "item": "splinter", "count": [1, 5] }
-            ]
+            "items": "wall_bash_results"
         }
    },{
         "type" : "terrain",
