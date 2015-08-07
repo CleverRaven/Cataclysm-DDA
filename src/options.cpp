@@ -30,6 +30,7 @@ bool used_tiles_changed;
 extern cata_tiles *tilecontext;
 #endif // SDLTILES
 
+std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::unordered_map<std::string, cOpt> OPTIONS;
 std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
@@ -50,6 +51,49 @@ options_data::options_data()
     //   friend class my_class;
     // then, in the my_class::load_json (or post-json setup) method:
     //   optionsdata.addme("OPTION_KEY_THAT_GETS_STRING_ENTRIES_ADDED_VIA_JSON", "thisvalue");
+}
+
+void options_data::enable_json(const std::string &lvar)
+{
+    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
+}
+
+void options_data::add_retry(const std::string &lvar, const::std::string &lval)
+{
+    static const std::string blank_value( 1, 001 );
+    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+    if ( it != post_json_verify.end() && it->second == blank_value ) {
+        // initialized with impossible value: valid
+        post_json_verify[ lvar ] = lval;
+    }
+}
+
+void options_data::add_value( const std::string &lvar, const std::string &lval,
+                              std::string lvalname )
+{
+    static const std::string blank_value( 1, 001 );
+
+    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
+    if ( it != post_json_verify.end() ) {
+        auto ot = OPTIONS.find(lvar);
+        if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
+            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
+                eit != ot->second.vItems.end(); ++eit) {
+                if ( *eit == lval ) { // already in
+                    return;
+                }
+            }
+            ot->second.vItems.push_back(lval);
+            if ( optionNames.find(lval) == optionNames.end() ) {
+                optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
+            }
+            // our value was saved, then set to default, so set it again.
+            if ( it->second == lval ) {
+                OPTIONS[ lvar ].setValue( lval );
+            }
+        }
+
+    }
 }
 
 //Default constructor
@@ -456,7 +500,81 @@ bool cOpt::operator!=(const std::string sCompare) const
     return !(*this == sCompare);
 }
 
-void initOptions()
+/** Fill TILESETS mapping with values.
+ * Scans all directores in gfx directory for file named "tileset.txt".
+ * All founded values added in mapping TILESETS as name, tileset_dir.
+ * Furthermore, it builds possible values list for cOpt class.
+ * @return One string containing all found tilesets in form "tileset1,tileset2,tileset3,..."
+ */
+static std::string build_tilesets_list()
+{
+    const std::string defaultTilesets = "hoder,deon";
+
+    std::string tileset_names;
+    bool first_tileset_name = true;
+
+    TILESETS.clear();
+
+    auto const tilesets_dirs = get_directories_with(FILENAMES["tileset-conf"], FILENAMES["gfxdir"], true);
+
+    for( auto &ts_dir : tilesets_dirs ) {
+        std::ifstream fin;
+        std::string file = ts_dir + "/" + FILENAMES["tileset-conf"];
+
+        fin.open( file.c_str() );
+        if(!fin.is_open()) {
+            fin.close();
+            DebugLog( D_ERROR, DC_ALL ) << "Can't read tileset config from " << file;
+        }
+        // should only have 2 values inside it, otherwise is going to only load the last 2 values
+        std::string tileset_name;
+
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
+
+            if(sOption == "") {
+                getline(fin, sOption);    // Empty line, chomp it
+            } else if(sOption[0] == '#') { // # indicates a comment
+                getline(fin, sOption);
+            } else {
+                if (sOption.find("NAME") != std::string::npos) {
+                    tileset_name = "";
+                    fin >> tileset_name;
+                    if(first_tileset_name) {
+                        first_tileset_name = false;
+                        tileset_names += tileset_name;
+                    } else {
+                        tileset_names += std::string(",");
+                        tileset_names += tileset_name;
+                    }
+                } else if (sOption.find("VIEW") != std::string::npos) {
+                    std::string viewName = "";
+                    fin >> viewName;
+                    optionNames[tileset_name] = viewName;
+                    break;
+                }
+            }
+        }
+        fin.close();
+        if (TILESETS.count(tileset_name) != 0) {
+            DebugLog( D_ERROR, DC_ALL ) << "Found tileset dublicate with name " << tileset_name;
+        } else {
+            TILESETS.insert(std::pair<std::string,std::string>(tileset_name, ts_dir));
+        }
+    }
+
+    if(tileset_names == "") {
+        optionNames["deon"] = _("Deon's");          // more standards
+        optionNames["hoder"] = _("Hoder's");
+        return defaultTilesets;
+
+    }
+
+    return tileset_names;
+}
+
+void init_options()
 {
     OPTIONS.clear();
     ACTIVE_WORLD_OPTIONS.clear();
@@ -479,8 +597,7 @@ void initOptions()
     }
 
     std::string tileset_names;
-    tileset_names = get_tileset_names(
-                        FILENAMES["gfxdir"]); //get the tileset names and set the optionNames
+    tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
@@ -1340,7 +1457,7 @@ void show_options(bool ingame)
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
-            tilecontext->reinit( FILENAMES["gfxdir"] );
+            tilecontext->reinit();
             g->init_ui();
             if( ingame ) {
                 g->refresh_all();
@@ -1466,111 +1583,4 @@ void save_options(bool ingame)
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
-}
-
-std::string get_tileset_names(std::string dir_path)
-{
-    const std::string defaultTilesets = "hoder,deon";
-    // tileset-info-file
-    const std::string filename = "tileset.txt";
-    // search it
-    auto const files = get_files_from_path(filename, dir_path, true);
-
-    std::string tileset_names;
-    bool first_tileset_name = true;
-
-    for( auto &file : files ) {
-        std::ifstream fin;
-        fin.open( file.c_str() );
-        if(!fin.is_open()) {
-            fin.close();
-            DebugLog( D_ERROR, DC_ALL ) << "Could not read " << file;
-            optionNames["deon"] = _("Deon's");          // just setting some standards
-            optionNames["hoder"] = _("Hoder's");
-            return defaultTilesets;
-        }
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        std::string tileset_name;
-
-        while(!fin.eof()) {
-            std::string sOption;
-            fin >> sOption;
-
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
-            } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    tileset_name = "";
-                    fin >> tileset_name;
-                    if(first_tileset_name) {
-                        first_tileset_name = false;
-                        tileset_names += tileset_name;
-                    } else {
-                        tileset_names += std::string(",");
-                        tileset_names += tileset_name;
-                    }
-                } else if (sOption.find("VIEW") != std::string::npos) {
-                    std::string viewName = "";
-                    fin >> viewName;
-                    optionNames[tileset_name] = viewName;
-                    break;
-                }
-            }
-        }
-        fin.close();
-    }
-
-    if(tileset_names == "") {
-        optionNames["deon"] = _("Deon's");          // more standards
-        optionNames["hoder"] = _("Hoder's");
-        return defaultTilesets;
-
-    }
-
-    return tileset_names;
-}
-
-void options_data::enable_json(const std::string &lvar)
-{
-    post_json_verify[ lvar ] = std::string( 1, 001 ); // because "" might be valid
-}
-
-void options_data::add_retry(const std::string &lvar, const::std::string &lval)
-{
-    static const std::string blank_value( 1, 001 );
-    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
-    if ( it != post_json_verify.end() && it->second == blank_value ) {
-        // initialized with impossible value: valid
-        post_json_verify[ lvar ] = lval;
-    }
-}
-
-void options_data::add_value( const std::string &lvar, const std::string &lval,
-                              std::string lvalname )
-{
-    static const std::string blank_value( 1, 001 );
-
-    std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
-    if ( it != post_json_verify.end() ) {
-        auto ot = OPTIONS.find(lvar);
-        if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
-            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
-                eit != ot->second.vItems.end(); ++eit) {
-                if ( *eit == lval ) { // already in
-                    return;
-                }
-            }
-            ot->second.vItems.push_back(lval);
-            if ( optionNames.find(lval) == optionNames.end() ) {
-                optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
-            }
-            // our value was saved, then set to default, so set it again.
-            if ( it->second == lval ) {
-                OPTIONS[ lvar ].setValue( lval );
-            }
-        }
-
-    }
 }

@@ -19,8 +19,8 @@ NAME: MShock32Modded
 VIEW: MShock32Modded
 #JSON Path - Default of gfx/tile_config.json
 
-JSON: MShock32TilesetModded/tile_config.json
+JSON: tile_config.json
 
 #Tileset Path - Default of gfx/tinytile.png
 
-TILESET: MShock32TilesetModded/tiles.png
+TILESET: tiles.png

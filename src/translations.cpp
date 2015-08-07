@@ -84,7 +84,7 @@ void set_language(bool reload_options)
 
     // Step 3. Reload options strings with right language
     if (reload_options) {
-        initOptions();
+        init_options();
         load_options();
     }
 }

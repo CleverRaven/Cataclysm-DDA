@@ -7,7 +7,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/MShock24Tileset/tiles.png",
+      "file": "tiles.png",
       "tiles": [
         {
           "id": "10mm",
@@ -18947,7 +18947,7 @@
       ]
     },
     {
-      "file": "gfx/MShock24Tileset/fallback.png",
+      "file": "fallback.png",
       "tiles": [],
       "ascii": [
         {
