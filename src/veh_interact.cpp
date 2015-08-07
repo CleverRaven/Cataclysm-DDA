@@ -520,6 +520,7 @@ bool veh_interact::can_install_part(int msg_width){
             }
         }
     }
+    bool is_wheel = sel_vpart_info->has_flag("WHEEL");
 
     itype_id itm = sel_vpart_info->item;
     bool drive_conflict = is_drive_conflict(msg_width);
@@ -531,7 +532,10 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
+    const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    const bool has_str = g->u.get_str() >= needed_strength;
     std::string engine_string = "";
+    std::string tire_string = "";
 
     if (drive_conflict) {
         return false; // No, you cannot has twin pedal power
@@ -544,31 +548,41 @@ bool veh_interact::can_install_part(int msg_width){
                             dif_eng);
     }
 
+    if (is_wheel) {
+        tire_string = string_format(
+                            _("  You also need either a <color_%1$s>jack</color> or <color_%2$s>%3$d</color> strength to install tire."),
+                            has_jack ? "ltgreen" : "red",
+                            has_str ? "ltgreen" : "red",
+                            needed_strength);
+    }
+
     if (is_hand_remove) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s"),
+                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s%6$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
-                        engine_string.c_str());
+                        engine_string.c_str(),
+                        tire_string.c_str());
         wrefresh (w_msg);
     } else if (is_wrenchable){
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
-                        engine_string.c_str());
+                        engine_string.c_str(),
+                        tire_string.c_str());
         wrefresh (w_msg);
     } else if (is_wood) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s"),
+                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_nails ? "ltgreen" : "red",
@@ -576,12 +590,13 @@ bool veh_interact::can_install_part(int msg_width){
                         has_duct_tape ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
-                        engine_string.c_str());
+                        engine_string.c_str(),
+                        tire_string.c_str());
         wrefresh (w_msg);
     } else {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s%10$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
@@ -590,12 +605,15 @@ bool veh_interact::can_install_part(int msg_width){
                         has_duct_tape ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
-                        engine_string.c_str());
+                        engine_string.c_str(),
+                        tire_string.c_str());
         wrefresh (w_msg);
     }
 
     if(!has_comps || !has_skill || !has_skill2) {
         return false; //Bail early on easy conditions
+    } else if (is_wheel && (!(has_jack || has_str))) {
+        return false;
     } else if(is_hand_remove) {
         return true;
     } else if(is_wrenchable) {
