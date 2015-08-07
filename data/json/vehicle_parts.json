@@ -5346,6 +5346,8 @@
         "durability" : 100,
         "epower" : -50,
         "size":400,
+        "bonus":10,
+        "damage_modifier":10,
         "item" : "v_scoop_item",
         "difficulty" : 1,
         "flags": ["SCOOP","CARGO","OBSTACLE"],

@@ -3776,6 +3776,8 @@ void vehicle::operate_scoop()
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     auto veh_points = get_points();
     for( int scoop : scoops ) {
+        int chance_to_damage_item = parts[scoop].info().dmg_mod;
+        int max_pickup_size = parts[scoop].info().bonus;
         const char *sound_msgs[] = {"Whirrrr", "Ker-chunk", "Swish", "Cugugugugug"};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
         for( const tripoint &position : veh_points ) {
@@ -3785,12 +3787,17 @@ void vehicle::operate_scoop()
                 const map_stack q = g->m.i_at( position );
                 size_t itemdex = 0;
                 for( auto it : q ) {
-                    if( it.weight() < 10000 && it.volume() < 10 ) {
+                    if( it.volume() < max_pickup_size ) {
                         break;
                     }
                     itemdex++;
                 }
                 that_item_there = g->m.item_from( position, itemdex );
+                if( one_in( chance_to_damage_item ) &&
+                   that_item_there->damage < 4){//The scoop will not destroy the item, but it may damage it a bit.
+                        that_item_there->damage += 1;
+                        sounds::sound( position, 50, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
+                }
                 const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
                 if( battery_deficit != 0
                         && add_item( scoop, *that_item_there ) ) {
