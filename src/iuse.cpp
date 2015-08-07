@@ -9583,11 +9583,11 @@ int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
                 }
                 return 0;
             } else {
-                add_msg(_("The %s broke free from the %s"),f.name().c_str(),it->tname(1).c_str());
+                add_msg(_("The %s broke free from the %s"),f.name().c_str(),it->tname().c_str());
                 return it->has_flag("NO_BREAK_ON_FAIL")?1:0;
             }
         } else {
-            add_msg(_("The %s can't capture nothing"),it->tname(1).c_str());
+            add_msg(_("The %s can't capture nothing"),it->tname().c_str());
             return 0;
         }
     }
