@@ -1258,7 +1258,7 @@
         "symbol":"u",
         "color":"light_gray",
         "name_plural":"vehicle scoops",
-        "description":"An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants",
+        "description":"An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
         "weight":22666,
         "bashing":1,
         "cutting":0,
