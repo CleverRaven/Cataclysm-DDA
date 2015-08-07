@@ -3799,7 +3799,7 @@ void vehicle::operate_scoop()
                         sounds::sound( position, 50, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
                 }
                 const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
-                if( battery_deficit != 0
+                if( battery_deficit == 0
                         && add_item( scoop, *that_item_there ) ) {
                     g->m.i_rem( position, itemdex );
                 } else {
