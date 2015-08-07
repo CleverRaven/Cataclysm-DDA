@@ -2107,7 +2107,7 @@ void game::rcdrive(int dx, int dy)
         m.has_furn(dest) ) {
         sounds::sound(dest, 7, _("sound of a collision with an obstacle."));
         return;
-    } else if( m.add_item_or_charges(dest, *rc_car ) ) {
+    } else if( !m.add_item_or_charges(dest, *rc_car ).is_null() ) {
         //~ Sound of moving a remote controlled car
         sounds::sound(src, 6, _("zzz..."));
         u.moves -= 50;

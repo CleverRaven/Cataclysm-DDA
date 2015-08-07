@@ -452,8 +452,8 @@ bool Character::i_add_or_drop(item& it, int qty) {
                       || !can_pickVolume(it.volume()))) {
             drop = true;
         }
-        if (drop) {
-            retval &= g->m.add_item_or_charges(posx(), posy(), it);
+        if( drop ) {
+            retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
         } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
             i_add(it);
         }
