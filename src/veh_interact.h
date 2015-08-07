@@ -12,7 +12,7 @@
 #define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
-#define TIRE_CHANGE_STR_MOD 40
+#define TIRE_CHANGE_STR_MOD 30
 
 struct vpart_info;
 using vpart_id = int_id<vpart_info>;
