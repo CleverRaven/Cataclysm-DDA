@@ -1244,7 +1244,8 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     case toggle_scoop:
-        scoop_on=!scoop_on;
+        scoop_on = !scoop_on;
+        break;
     }
 }
 
@@ -3770,30 +3771,31 @@ void vehicle::idle(bool on_map) {
         }
     }
 }
-void vehicle::operate_scoop(){
-    std::vector<int> scoops = all_parts_with_feature("SCOOP");
+void vehicle::operate_scoop()
+{
+    std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     auto veh_points = get_points();
-    for(int scoop : scoops){
+    for( int scoop : scoops ) {
         const char *sound_msgs[] = {"Whirrrr", "Ker-chunk", "Swish", "Cugugugugug"};
-        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng(20,35), sound_msgs[rng(0,3)] );
-        for( const tripoint &position : veh_points ){
-            g->m.mop_spills(position);
-            if( g->m.has_items(position) ){
+        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
+        for( const tripoint &position : veh_points ) {
+            g->m.mop_spills( position );
+            if( g->m.has_items( position ) ) {
                 item* that_item_there = NULL;
-                const map_stack q = g->m.i_at(position);
-                size_t itemdex=0;
-                for( auto it : q ){
-                    if(it.weight()<10000 && it.volume() < 10){
+                const map_stack q = g->m.i_at( position );
+                size_t itemdex = 0;
+                for( auto it : q ) {
+                    if( it.weight() < 10000 && it.volume() < 10 ) {
                         break;
                     }
                     itemdex++;
                 }
                 that_item_there = g->m.item_from( position, itemdex );
-                const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng(8, 15) );
+                const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
                 if( battery_deficit != 0
-                    && add_item( scoop, *that_item_there ) ){
+                        && add_item( scoop, *that_item_there ) ) {
                     g->m.i_rem( position, itemdex );
-                }else{
+                } else {
                     break;//otherwise move on to the next scoop.
                 }
             }
