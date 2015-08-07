@@ -113,7 +113,7 @@ class Creature
         bool sees( const Creature &critter ) const;
         bool sees( int cx, int cy, int &bresenham_slope ) const;
         bool sees( int tx, int ty ) const;
-        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
+        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2, bool is_player = false ) const;
         bool sees( const tripoint &t, int &bresen1 ) const;
         bool sees( const tripoint &t ) const;
         bool sees( point t ) const;

@@ -13668,7 +13668,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
+bool player::sees( const tripoint &t, int &bresen1, int &bresen2, bool ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos3(), t );

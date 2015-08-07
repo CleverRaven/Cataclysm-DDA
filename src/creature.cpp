@@ -212,7 +212,7 @@ bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
         return false;
     }
 
-    return sees( critter.pos3(), bresen1, bresen2 );
+    return sees( critter.pos3(), bresen1, bresen2, critter.is_player() );
 }
 
 bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
@@ -239,7 +239,7 @@ bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
     return sees( tripoint( tx, ty, posz() ), bresenham_slope, junk );
 }
 
-bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
+bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2, bool is_player ) const
 {
     // TODO: FoV update
     bresen2 = 0;
@@ -254,10 +254,18 @@ bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
           g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
+        int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
-            return g->m.sees( pos3(), t, wanted_range, bresen1, bresen2 );
+            range = wanted_range;
         } else {
-            return g->m.sees( pos3(), t, range_min, bresen1, bresen2 );
+            range = range_min;
+        }
+        if( is_player ) {
+            // Special case monster -> player visibility, forcing it to be symmetric with player vision.
+            return range >= wanted_range &&
+                g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
+        } else {
+            return g->m.sees( pos3(), t, range, bresen1, bresen2 );
         }
     } else {
         return false;
