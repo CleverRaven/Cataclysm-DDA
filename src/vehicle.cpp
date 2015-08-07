@@ -33,6 +33,7 @@
 #include <set>
 #include <queue>
 #include <math.h>
+#include <array>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -3770,22 +3771,28 @@ void vehicle::idle(bool on_map) {
     }
 }
 void vehicle::operate_scoop(){
-    std::vector<int> scoops=all_parts_with_feature("SCOOP");
-    auto c=get_points();
-    for(int scoop:scoops){
-        auto position = global_pos3()+parts[scoop].precalc[0];
-        const char *sound_msgs[]={"Whirrrr","Ker-chunk","Swish","Cugugugugug","Horrifying"};
-        sounds::sound(position, (int) rng(20,35), sound_msgs[rng(0,3)]);
-        for(tripoint i:c){
-            if(g->m.moppable_items_at(i)){//That's right, street sweepers can now clean streets
-                g->m.mop_spills(i);
-                continue;//the item should not be accessed at this point.
-            }
-            if( g->m.has_items(i) ){
-                item* that_item_there = g->m.item_from(i,0);//remove the first item on each square.
-                if(add_item(scoop,*that_item_there)){
-                    discharge_battery(that_item_there->weight()*scoop_epower/rng(8,15));
-                    g->m.i_rem(i,that_item_there);
+    std::vector<int> scoops = all_parts_with_feature("SCOOP");
+    auto veh_points = get_points();
+    for(int scoop : scoops){
+        const char *sound_msgs[] = {"Whirrrr", "Ker-chunk", "Swish", "Cugugugugug"};
+        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng(20,35), sound_msgs[rng(0,3)] );
+        for( const tripoint &position : veh_points ){
+            g->m.mop_spills(position);
+            if( g->m.has_items(position) ){
+                item* that_item_there = NULL;
+                const map_stack q = g->m.i_at(i);
+                size_t itemdex=0;
+                for( auto it : q ){
+                    if(it.weight()<10000 && it.volume() < 10){
+                        break;
+                    }
+                    itemdex++;
+                }
+                that_item_there = g->m.item_from( position, itemdex );
+                const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng(8, 15) );
+                if( battery_deficit != 0
+                    && add_item( scoop, *that_item_there ) ){
+                    g->m.i_rem( position, itemdex );
                 }else{
                     break;//otherwise move on to the next scoop.
                 }
