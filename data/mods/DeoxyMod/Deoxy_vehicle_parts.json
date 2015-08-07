@@ -14,7 +14,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -31,7 +31,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -48,7 +48,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -65,7 +65,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -82,7 +82,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -99,7 +99,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -116,7 +116,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -133,7 +133,7 @@
         "folded_volume": 4,
         "flags" : ["OBSTACLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 1}
+            {"item": "pipe", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -152,7 +152,7 @@
         "folded_volume": 2,
         "flags" : ["AISLE_LIGHT", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "scrap", "count": [0, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -173,10 +173,10 @@
         "folded_volume": 4,
         "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6}
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -196,7 +196,7 @@
         "folded_volume": 5,
         "flags" : ["FUEL_TANK", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -216,7 +216,7 @@
         "folded_volume": 5,
         "flags" : ["FUEL_TANK", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -234,9 +234,9 @@
         "folded_volume": 9,
         "flags" : ["BATTERY_MOUNT", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 0, "max": 1},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 0, "max": 3}
+            {"item": "steel_lump", "prob": 50},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [0, 3]}
         ]
     },{
         "type" : "vehicle_part",
@@ -256,7 +256,7 @@
         "folded_volume": 1,
         "flags" : ["ON_CONTROLS", "DIFFICULTY_REMOVE", "SECURITY", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -275,10 +275,10 @@
         "folded_volume": 12,
         "flags" : ["SOLAR_PANEL", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 2, "max": 4},
-            {"item": "steel_chunk", "min": 2, "max": 4},
-            {"item": "scrap", "min": 2, "max": 4},
-            {"item": "solar_cell", "min": 1, "max": 4}
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]},
+            {"item": "solar_cell", "count": [1, 4]}
         ]
     },{
         "type" : "vehicle_part",
@@ -297,10 +297,10 @@
         "folded_volume": 26,
         "flags" : ["SOLAR_PANEL", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 7},
-            {"item": "steel_chunk", "min": 4, "max": 7},
-            {"item": "scrap", "min": 4, "max": 7},
-            {"item": "solar_cell", "min": 1, "max": 4}
+            {"item": "steel_lump", "count": [4, 7]},
+            {"item": "steel_chunk", "count": [4, 7]},
+            {"item": "scrap", "count": [4, 7]},
+            {"item": "solar_cell", "count": [1, 4]}
         ]
     },{
         "type" : "vehicle_part",
@@ -319,10 +319,10 @@
         "folded_volume": 18,
         "flags" : ["SOLAR_PANEL", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 2, "max": 4},
-            {"item": "steel_chunk", "min": 2, "max": 4},
-            {"item": "scrap", "min": 2, "max": 4},
-            {"item": "solar_cell", "min": 1, "max": 6}
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]},
+            {"item": "solar_cell", "count": [1, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -341,10 +341,10 @@
         "folded_volume":30,
         "flags" : ["SOLAR_PANEL", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 7},
-            {"item": "steel_chunk", "min": 4, "max": 7},
-            {"item": "scrap", "min": 4, "max": 7},
-            {"item": "solar_cell", "min": 1, "max": 6}
+            {"item": "steel_lump", "count": [4, 7]},
+            {"item": "steel_chunk", "count": [4, 7]},
+            {"item": "scrap", "count": [4, 7]},
+            {"item": "solar_cell", "count": [1, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -363,10 +363,10 @@
         "folded_volume": 18,
         "flags" : ["SOLAR_PANEL", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 4},
-            {"item": "steel_chunk", "min": 4, "max": 4},
-            {"item": "scrap", "min": 4, "max": 4},
-            {"item": "solar_cell", "min": 2, "max": 8}
+            {"item": "steel_lump", "count": [4, 4]},
+            {"item": "steel_chunk", "count": [4, 4]},
+            {"item": "scrap", "count": [4, 4]},
+            {"item": "solar_cell", "count": [2, 8]}
         ]
     },{
         "type" : "vehicle_part",
@@ -383,9 +383,9 @@
         "folded_volume": 2,
         "flags" : ["ARMOR", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6}
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -403,9 +403,9 @@
         "folded_volume": 250,
         "flags" : ["AISLE", "BOARDABLE", "CARGO", "COVERED", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 6, "max": 8},
-            {"item": "steel_chunk", "min": 6, "max": 8},
-            {"item": "scrap", "min": 6, "max": 8}
+            {"item": "steel_lump", "count": [6, 8]},
+            {"item": "steel_chunk", "count": [6, 8]},
+            {"item": "scrap", "count": [6, 8]}
         ]
     },{
         "type" : "vehicle_part",
@@ -424,9 +424,9 @@
         "folded_volume": 14,
         "flags" : ["STEREO", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 3, "max": 5},
-            {"item": "steel_chunk", "min": 3, "max": 5},
-            {"item": "scrap", "min": 3, "max": 5}
+            {"item": "steel_lump", "count": [3, 5]},
+            {"item": "steel_chunk", "count": [3, 5]},
+            {"item": "scrap", "count": [3, 5]}
         ]
     },
     {
@@ -444,9 +444,9 @@
         "folded_volume": 15,
         "flags" : ["CONTROLS", "REMOTE_CONTROLS", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "motor_small", "min": 1, "max": 1},
-            {"item": "steel_chunk", "min": 1, "max": 3},
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "motor_small", "count": [1, 1]},
+            {"item": "steel_chunk", "count": [1, 3]},
+            {"item": "scrap", "count": [1, 3]}
         ]
     },
     {
@@ -465,8 +465,8 @@
         "folded_volume": 16,
         "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL", "FOLDABLE" ],
         "breaks_into" : [
-            {"item": "e_scrap", "min": 4, "max": 10},
-            {"item": "plastic_chunk", "min": 2, "max": 8}
+            {"item": "e_scrap", "count": [4, 10]},
+            {"item": "plastic_chunk", "count": [2, 8]}
         ]
     },
     {
@@ -487,8 +487,8 @@
         "folded_volume": 8,
         "flags" : [ "VISION", "CAMERA", "FOLDABLE" ],
         "breaks_into" : [
-            {"item": "e_scrap", "min": 4, "max": 16},
-            {"item": "plastic_chunk", "min": 2, "max": 8}
+            {"item": "e_scrap", "count": [4, 16]},
+            {"item": "plastic_chunk", "count": [2, 8]}
         ]
     },{
         "type" : "vehicle_part",
@@ -507,7 +507,7 @@
         "folded_volume": 4,
         "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 0, "max": 2}
+            {"item": "scrap", "count": [0, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -526,7 +526,7 @@
         "folded_volume": 2,
         "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -543,7 +543,7 @@
         "folded_volume": 1,
         "flags": ["WATCH", "ALARMCLOCK", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 0, "max": 1}
+            {"item": "scrap", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -562,8 +562,8 @@
         "folded_volume": 10,
         "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_chunk", "min": 0, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "steel_chunk", "count": [0, 2]},
+            {"item": "scrap", "count": [1, 2]}
         ]
     }
 ]

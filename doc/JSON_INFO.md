@@ -297,9 +297,10 @@ The syntax listed here is still valid.
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 "item": "wheel",              // The item used to install this part, and the item obtained when removing this part
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
-"breaks_into" : [             // When the vehicle part is destroyed, items from this list will be spawned around the part on the ground.
-  {"item": "scrap", "min": 0, "max": 5} // item is the item id, min/max is the amount of items to spawn, if item is counted by charges (like nails), it will create that many charges.
+"breaks_into" : [             // When the vehicle part is destroyed, items from this item group (see ITEM_SPAWN.md) will be spawned around the part on the ground.
+  {"item": "scrap", "count": [0,5]} // instead of an array, this can be an inline item group,
 ],
+"breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ]
