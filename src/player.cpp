@@ -9065,8 +9065,13 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
+    } else if (has_charges("fire_drill", quantity)) {
+        return true;
+    } else if (has_charges("fire_drill_large", quantity)) {
+        return true;
     }
-    return false;
+
+     return false;
 }
 
 void player::use_fire(const int quantity)
@@ -9142,7 +9147,14 @@ void player::use_fire(const int quantity)
     } else if (has_charges("zweifire_off", quantity)) {
         use_charges("zweifire_off", quantity);
         return;
+    } else if (has_charges("fire_drill", quantity)) {
+        use_charges("fire_drill", quantity);
+        return;
+    } else if (has_charges("fire_drill_large", quantity)) {
+        use_charges("fire_drill_large", quantity);
+        return;
     }
+
 }
 
 // does NOT return anything if the item is integrated toolset or fire!
