@@ -3776,7 +3776,7 @@ void vehicle::operate_scoop()
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     auto veh_points = get_points();
     for( int scoop : scoops ) {
-        int chance_to_damage_item = parts[scoop].info().dmg_mod;
+        const int chance_to_damage_item = 9;
         int max_pickup_size = parts[scoop].info().bonus;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
