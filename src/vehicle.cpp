@@ -3780,7 +3780,7 @@ void vehicle::operate_scoop(){
             g->m.mop_spills(position);
             if( g->m.has_items(position) ){
                 item* that_item_there = NULL;
-                const map_stack q = g->m.i_at(i);
+                const map_stack q = g->m.i_at(position);
                 size_t itemdex=0;
                 for( auto it : q ){
                     if(it.weight()<10000 && it.volume() < 10){
