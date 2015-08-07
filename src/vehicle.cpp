@@ -3778,7 +3778,7 @@ void vehicle::operate_scoop()
     for( int scoop : scoops ) {
         int chance_to_damage_item = parts[scoop].info().dmg_mod;
         int max_pickup_size = parts[scoop].info().bonus;
-        const char *sound_msgs[] = {"Whirrrr", "Ker-chunk", "Swish", "Cugugugugug"};
+        const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
         for( const tripoint &position : veh_points ) {
             g->m.mop_spills( position );
