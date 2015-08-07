@@ -50,7 +50,7 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
 }
 
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
-		const std::function<void(const tripoint &)> &interact )
+                const std::function<void(const tripoint &)> &interact )
 {
     tripoint cur( loc1 );
     const int dx = loc2.x - loc1.x;
@@ -64,7 +64,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     const int sz = (dz == 0 ? 0 : SGN(dz));
     if( az == 0 ) {
         if( ax == ay ) {
-	  while( cur.x != loc2.x ) {
+          while( cur.x != loc2.x ) {
                 cur.y += sy;
                 cur.x += sx;
                 interact( cur );
@@ -188,7 +188,7 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
         line.push_back( loc1 );
     } else {
         line.reserve(numCells);
-	bresenham( loc1, loc2, t, t2, [&line](const tripoint &new_point){line.push_back(new_point);} );
+        bresenham( loc1, loc2, t, t2, [&line](const tripoint &new_point){line.push_back(new_point);} );
     }
     return line;
 }
