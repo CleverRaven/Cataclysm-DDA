@@ -523,7 +523,6 @@ static std::string build_tilesets_list()
 
         fin.open( file.c_str() );
         if(!fin.is_open()) {
-            fin.close();
             DebugLog( D_ERROR, DC_ALL ) << "Can't read tileset config from " << file;
         }
         // should only have 2 values inside it, otherwise is going to only load the last 2 values
