@@ -1623,7 +1623,6 @@ int player::run_cost(int base_cost, bool diag)
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
 
-    const ter_id ter_at_pos = g->m.ter( pos() );
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool offroading = flatground && !g->m.has_flag( "ROAD", pos() );
 
