@@ -285,7 +285,8 @@ void game::save_weather(std::ofstream &fout) {
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     fout << "seed: " << weather_gen->get_seed();
 }
-///// overmap
+
+// throws std::exception
 void overmap::unserialize( std::ifstream &fin ) {
 
     if ( fin.peek() == '#' ) {
@@ -476,6 +477,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&arra
     }
 }
 
+// throws std::exception
 void overmap::unserialize_view(std::ifstream &fin)
 {
     // Private/per-character view of the overmap.

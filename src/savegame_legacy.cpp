@@ -245,6 +245,7 @@ void item::load_info( const std::string &data )
 }
 
 ///// overmap legacy deserialization, replaced with json serialization June 2015
+// throws std::exception (most likely as JsonError)
 void overmap::unserialize_legacy(std::ifstream & fin) {
     // DEBUG VARS
     int nummg = 0;
