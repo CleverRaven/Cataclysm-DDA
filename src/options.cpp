@@ -501,7 +501,7 @@ bool cOpt::operator!=(const std::string sCompare) const
 }
 
 /** Fill TILESETS mapping with values.
- * Scans all directores in gfx directory for file named "tileset.txt".
+ * Scans all directores in FILENAMES["gfx"] directory for file named FILENAMES["tileset.txt"].
  * All founded values added in mapping TILESETS as name, tileset_dir.
  * Furthermore, it builds possible values list for cOpt class.
  * @return One string containing all found tilesets in form "tileset1,tileset2,tileset3,..."
