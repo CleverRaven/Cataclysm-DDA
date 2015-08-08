@@ -146,7 +146,7 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if (action_contexts.empty()) {
-            throw "Could not read " + file_name;
+            throw std::runtime_error( std::string( "Could not read " ) + file_name );
         }
         return;
     }
@@ -289,7 +289,7 @@ void input_manager::save()
 
     data_file.close();
     if(!rename_file(file_name_tmp, file_name)) {
-        throw std::string("Could not rename file to ") + file_name;
+        throw std::runtime_error( std::string( "Could not rename " ) + file_name_tmp + " to " + file_name );
     }
 }
 
