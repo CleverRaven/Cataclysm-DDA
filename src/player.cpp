@@ -1618,26 +1618,14 @@ void player::recalc_speed_bonus()
 int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
+    const bool flatground = movecost < 105;
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
-    bool flatground = movecost < 105;
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    // If your floor is hard, flat, and otherwise skateable, list it here
+
+    const ter_id ter_at_pos = g->m.ter( pos() );
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
-      (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
-      (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
-      (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
-      (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
-      (ter_at_pos == t_door_glass_o) || (ter_at_pos == t_utility_light) ||
-      (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
-      (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
-      (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
-      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) ||
-      (ter_at_pos == t_pit_glass_covered) || (ter_at_pos == t_sidewalk_bg_dp) ||
-      (ter_at_pos == t_pavement_bg_dp) || (ter_at_pos == t_pavement_y_bg_dp) ||
-      (ter_at_pos == t_linoleum_white) || (ter_at_pos == t_linoleum_gray))) );
+    const bool offroading = flatground && !g->m.has_flag( "ROAD", pos() );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1652,14 +1640,13 @@ int player::run_cost(int base_cost, bool diag)
 
     if (hp_cur[hp_leg_l] == 0) {
         movecost += 50;
-    }
-    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
+    } else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
         movecost += 25;
     }
+
     if (hp_cur[hp_leg_r] == 0) {
         movecost += 50;
-    }
-    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
+    } else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
         movecost += 25;
     }
 
@@ -1745,7 +1732,7 @@ int player::run_cost(int base_cost, bool diag)
     }
 
     if( !footwear_factor() && has_trait("ROOTS3") &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) ) {
+        g->m.has_flag("DIGGABLE", pos()) ) {
         movecost += 10 * footwear_factor();
     }
 
