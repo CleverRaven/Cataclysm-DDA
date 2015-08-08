@@ -127,9 +127,6 @@ void input_manager::init()
     } catch(std::exception &err) {
         debugmsg("Could not write imported keybindings: %s", err.what());
         return;
-    } catch(std::string err) {
-        debugmsg("Could not write imported keybindings: %s", err.c_str());
-        return;
     }
     // Finally if we did import a file, and saved it to the new keybindings
     // file, delete the old keymap file to prevent re-importing it.
@@ -1028,8 +1025,6 @@ void input_context::display_help()
             inp_mngr.save();
         } catch(std::exception &err) {
             popup(_("saving keybindings failed: %s"), err.what());
-        } catch(std::string &err) {
-            popup(_("saving keybindings failed: %s"), err.c_str());
         }
     } else if(changed) {
         inp_mngr.action_contexts.swap(old_action_contexts);
