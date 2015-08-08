@@ -3162,7 +3162,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         tripoint tentp = tripoint_min;
         furn_id center_type = f_null;
-        
+
         // Find the center of the tent
         // First check if we're not currently bashing the center
         if( centers.count( furn( p ) ) > 0 ) {
@@ -4962,7 +4962,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
     bool trigger_item = false;
     // Check for charges != 0 not >0, so that -1 charge tools can still be used
     if( n->charges != 0 && n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
-        sounds::sound(pos, 6, "beep.");
+        sounds::sound(pos, 6, _("beep."));
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
             process_item( items, n, pos, true );
