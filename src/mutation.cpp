@@ -427,18 +427,6 @@ void player::activate_mutation( const std::string &mut )
         }
         tdata.powered = false;
         return;
-    } else if (mut == "SHOUT1") {
-        shout();
-        tdata.powered = false;
-        return;
-    } else if (mut == "SHOUT2"){
-        shout();
-        tdata.powered = false;
-        return;
-    } else if (mut == "SHOUT3"){
-        shout();
-        tdata.powered = false;
-        return;
     } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
         vomit();
         tdata.powered = false;
