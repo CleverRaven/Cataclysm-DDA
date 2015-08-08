@@ -509,9 +509,7 @@ bool cOpt::operator!=(const std::string sCompare) const
 static std::string build_tilesets_list()
 {
     const std::string defaultTilesets = "hoder,deon";
-
     std::string tileset_names;
-    bool first_tileset_name = true;
 
     TILESETS.clear();
 
@@ -525,9 +523,9 @@ static std::string build_tilesets_list()
         if(!fin.is_open()) {
             DebugLog( D_ERROR, DC_ALL ) << "Can't read tileset config from " << file;
         }
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        std::string tileset_name;
 
+        std::string tileset_name;
+        // should only have 2 values inside it, otherwise is going to only load the last 2 values
         while(!fin.eof()) {
             std::string sOption;
             fin >> sOption;
@@ -540,8 +538,7 @@ static std::string build_tilesets_list()
                 if (sOption.find("NAME") != std::string::npos) {
                     tileset_name = "";
                     fin >> tileset_name;
-                    if(first_tileset_name) {
-                        first_tileset_name = false;
+                    if(tileset_names.empty()) {
                         tileset_names += tileset_name;
                     } else {
                         tileset_names += std::string(",");

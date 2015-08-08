@@ -171,7 +171,7 @@ class cata_tiles
          * @param f File stream to read from.
          * @param image_path
          */
-        void load_tilejson_from_file(const std::string tileset_dir, std::ifstream &f, const std::string &image_path);
+        void load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path);
 
         /**
          * Load tiles from json data.This expects a "tiles" array in
