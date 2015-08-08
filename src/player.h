@@ -345,6 +345,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void pause(); // '.' command; pauses & reduces recoil
         void toggle_move_mode(); // Toggles to the next move mode.
+        void shout( std::string text = "" );
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
