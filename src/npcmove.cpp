@@ -1229,10 +1229,10 @@ void npc::move_to( const tripoint &pt )
         } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
             moves -= 100;
         } else {
-        bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
+            bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
             if (ter_or_furn) {
-            bool u_see_me = g->u.sees( *this );
-            int climb = dex_cur;
+                bool u_see_me = g->u.sees( *this );
+                int climb = dex_cur;
                 if (one_in( climb )) {
                     if( u_see_me ) {
                         add_msg( m_neutral, _( "%s falls tries to climb the %1$s but slips." ), name.c_str(),
@@ -1253,8 +1253,13 @@ void npc::move_to( const tripoint &pt )
                 int smashskill = str_cur + weapon.type->melee_dam;
                 g->m.bash( p, smashskill );
             } else {
-            attitude = NPCATT_FLEE;
-            moves -= 100;
+                if( attitude == NPCATT_MUG ||
+                    attitude == NPCATT_KILL ||
+                    attitude == NPCATT_WAIT_FOR_LEAVE ) {
+                    attitude = NPCATT_FLEE;
+                }
+
+                moves -= 100;
             }
         }
     }
