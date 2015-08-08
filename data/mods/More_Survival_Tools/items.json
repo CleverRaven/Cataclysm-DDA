@@ -765,7 +765,7 @@
         "bashing": 0,
         "cutting": 0,
         "to_hit": 1,
-        "material": "plastic",
+        "material": "wood",
         "contains": 6,
         "armor_data" : {
            "covers" : ["TORSO"],
