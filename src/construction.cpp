@@ -21,6 +21,7 @@
 #include "iuse.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "item_group.h"
 
 #include <algorithm>
 #include <map>
@@ -854,7 +855,7 @@ void construct::done_deconstruct(point p)
             g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
         }
         add_msg(_("You disassemble the %s."), f.name.c_str());
-        g->m.spawn_item_list( f.deconstruct.items, p3 );
+        g->m.spawn_items( p3, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -879,7 +880,7 @@ void construct::done_deconstruct(point p)
         }
         g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
         add_msg(_("You disassemble the %s."), t.name.c_str());
-        g->m.spawn_item_list( t.deconstruct.items, p3 );
+        g->m.spawn_items( p3, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
 }
 

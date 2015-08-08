@@ -13,7 +13,7 @@
             "sound": "crash!",
             "sound_fail": "whump!",
             "items": [
-                { "item": "rock", "amount": 15, "minamount": 5}
+                { "item": "rock", "count": [5, 15] }
             ]
         }
     }

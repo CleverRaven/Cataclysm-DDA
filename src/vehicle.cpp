@@ -2162,22 +2162,18 @@ void vehicle::part_removal_cleanup() {
  * @param scatter If true, pieces are scattered near the target square.
  */
 void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
-    std::vector<break_entry> break_info = part_info(p).breaks_into;
-    for( auto &elem : break_info ) {
-        int quantity = rng( elem.min, elem.max );
-        item piece( elem.item_id, calendar::turn );
-        if( piece.count_by_charges() ) {
-            piece.charges = 1;
-        }
+    const std::string& group = part_info(p).breaks_into_group;
+    if( group.empty() ) {
+        return;
+    }
+    for( item& piece : item_group::items_from( group, calendar::turn ) ) {
         // TODO: balance audit, ensure that less pieces are generated than one would need
         // to build the component (smash a veh box that took 10 lumps of steel,
         // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-        for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
             tripoint dest( actual_x, actual_y, smz );
             g->m.add_item_or_charges( dest, piece );
-        }
     }
 }
 

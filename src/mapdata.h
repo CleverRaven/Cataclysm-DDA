@@ -31,14 +31,6 @@ using furn_id = int_id<furn_t>;
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-struct map_bash_item_drop {
-    std::string itemtype; // item id
-    int amount;           // number dropped
-    int minamount;        // optional: if >= amount drop is random # between minamount and amount
-    int chance;           //
-    map_bash_item_drop(std::string str, int i) : itemtype(str), amount(i), minamount(-1), chance(-1) {};
-    map_bash_item_drop(std::string str, int i1, int i2) : itemtype(str), amount(i1), minamount(i2), chance(-1) {};
-};
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
@@ -54,7 +46,7 @@ struct map_bash_info {
     int collapse_radius;    // Radius of the tent supported by this tile
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
-    std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
+    std::string drop_group; // item group of items that are dropped when the object is bashed
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
@@ -65,7 +57,7 @@ struct map_bash_info {
                       str_min_supported(-1), str_max_supported(-1),
                       str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
-                      sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -74,10 +66,10 @@ struct map_deconstruct_info {
     // This terrain provided a roof, we need to tear it down now
     bool deconstruct_above;
     // items you get when deconstructing.
-    std::vector<map_bash_item_drop> items;
+    std::string drop_group;
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), items(), ter_set(), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), drop_group(), ter_set(), furn_set() { }
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 

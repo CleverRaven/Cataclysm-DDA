@@ -1461,7 +1461,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 || bay.get_ter(x,y) == "t_door_locked_alarm"){
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
                     bay.ter_set( x, y, bash.ter_set);
-                    bay.spawn_item_list( bash.items, p );
+                    bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if (bay.get_ter(x,y) == "t_door_metal_c" || bay.get_ter(x,y) == "t_door_metal_locked"
                 || bay.get_ter(x,y) == "t_door_metal_pickable"){
                     bay.ter_set( x, y, "t_door_metal_o");
@@ -1470,7 +1470,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
             } else if (bay.get_ter(x,y) == "t_wall" && one_in(25)){
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
                     bay.ter_set( x, y, bash.ter_set);
-                    bay.spawn_item_list( bash.items, p );
+                    bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
                     bay.collapse_at( p );
             }
             //Smash easily breakable stuff
@@ -1482,16 +1482,16 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     && one_in(4) ){
                 const map_bash_info &bash = bay.ter_at(x,y).bash;
                 bay.ter_set( x, y, bash.ter_set);
-                bay.spawn_item_list( bash.items, p );
+                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if ((bay.get_ter(x,y) == "t_wall_glass" || bay.get_ter(x,y) == "t_wall_glass_alarm") && one_in(3) ){
                 const map_bash_info &bash = bay.ter_at(x,y).bash;
                 bay.ter_set( x, y, bash.ter_set);
-                bay.spawn_item_list( bash.items, p );
+                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if ( bay.has_furn(x,y) && bay.furn_at(x,y).bash.str_max != -1 && one_in(10)) {
                 const map_bash_info &bash = bay.furn_at(x,y).bash;
                 bay.furn_set(x,y, bash.furn_set);
                 bay.delete_signage( p );
-                bay.spawn_item_list( bash.items, p );
+                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             }
             //Kill zombies!  Only works agains pre-spawned enemies at the moment...
             Creature *critter = g->critter_at( p);
