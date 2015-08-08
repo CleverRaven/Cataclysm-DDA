@@ -9436,6 +9436,50 @@
   ]
 },{
   "type" : "recipe",
+  "result": "juice",
+  "id_suffix": "fresh",
+  "byproducts": { "id" : "juice_pulp", "charges_mult" : 2 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [ [ ["rag", -1] ] ],
+  "components": [
+    [
+      ["apple", 4],
+      ["apricot", 4],
+      ["banana", 4],
+      ["blackberries", 4],
+      ["blueberries", 4],
+      ["cherries", 4],
+      ["cranberries", 12],
+      ["grapefruit", 4],
+      ["grapes", 8],
+      ["kiwi", 4],
+      ["lemon", 4],
+      ["mango", 4],
+      ["melon", 8],
+      ["orange", 4],
+      ["papaya", 4],
+      ["peach", 4],
+      ["pear", 4],
+      ["pineapple", 4],
+      ["plums", 4],
+      ["pomegranate", 4],
+      ["raspberries", 4],
+      ["strawberries", 4],
+      ["watermelon", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "brioche",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
