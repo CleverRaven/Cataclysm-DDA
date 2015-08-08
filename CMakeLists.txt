@@ -167,6 +167,11 @@ IF (PREFIX)
 	ADD_DEFINITIONS(-DPREFIX=${PREFIX})
 ENDIF (PREFIX)
 
+# Can't compile curses and tiles build's at same time
+IF(TILES)
+    SET(CURSES OFF)
+ENDIF(TILES)
+
 # Set build types and display info
 IF(RELEASE)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
@@ -219,10 +224,6 @@ ENDIF (LUA)
 	MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 	MESSAGE(STATUS "TILES                         : ${TILES}")
-    IF(TILES)
-        # Can't compile curses and tiles build's at same time
-        SET(CURSES OFF)
-    ENDIF(TILES)
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
 	MESSAGE(STATUS "RELEASE                       : ${RELEASE}")
