@@ -248,7 +248,7 @@ FIND_PACKAGE(Threads REQUIRED)
 # Check for build types and libraries
 IF(TILES)
 	# Find SDL, SDL_ttf & SDL_image for graphical install
-	MESSAGE(STATUS "Searching for SDL2 library --\n")
+	MESSAGE(STATUS "Searching for SDL2 library --")
 	FIND_PACKAGE(SDL2)
 	IF(NOT SDL2_FOUND)
         	MESSAGE(FATAL_ERROR
@@ -258,7 +258,7 @@ IF(TILES)
 
 	IF (NOT DYNAMIC_LINKING)
 		# SDL, SDL_Image, SDL_ttf deps are required for static build
-		MESSAGE(STATUS "Searching for SDL deps libraries --\n")
+		MESSAGE(STATUS "Searching for SDL deps libraries --")
 		FIND_PACKAGE(Freetype REQUIRED)
 		FIND_PACKAGE(PNG REQUIRED)
 		FIND_PACKAGE(JPEG REQUIRED)
@@ -266,9 +266,9 @@ IF(TILES)
 		FIND_PACKAGE(BZip2 REQUIRED)
 	ENDIF (NOT DYNAMIC_LINKING)
 
-	MESSAGE(STATUS "Searching for SDL2_image library --\n")
+	MESSAGE(STATUS "Searching for SDL2_image library --")
 
-	MESSAGE(STATUS "Searching for SDL2_TTF library --\n")
+	MESSAGE(STATUS "Searching for SDL2_TTF library --")
 	FIND_PACKAGE(SDL2_ttf)
 		IF(NOT SDL2_TTF_FOUND)
 		MESSAGE(FATAL_ERROR
