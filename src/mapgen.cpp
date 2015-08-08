@@ -1323,11 +1323,7 @@ bool mapgen_function_json::setup() {
 
        if ( jo.has_array("set") ) {
             parray = jo.get_array("set");
-            try {
-                setup_setmap( parray );
-            } catch (std::string smerr) {
-                throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
-            }
+            setup_setmap( parray );
        }
         if( jo.has_member( "rotation" ) ) {
             rotation = jmapgen_int( jo, "rotation" );
