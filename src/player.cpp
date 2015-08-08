@@ -4292,16 +4292,25 @@ void player::shout( std::string msg )
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
     int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
     if ( noise <= base ) {
         std::string dampened_shout;
         std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
-        noise = std::max( 2, noise );
+        noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }
 
-    // Screaming underwater is not good for oxygen
-    if ( underwater && !has_trait("GILLS") && !has_trait("GILLS_CEPH") ) {
-        mod_stat( "oxygen", -noise );
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if ( underwater ) {
+        if ( !has_trait("GILLS") && !has_trait("GILLS_CEPH") ) {
+            mod_stat( "oxygen", -noise );
+        }
+
+        noise = std::max(minimum_noise, noise / 2);
     }
 
     sounds::sound( pos(), noise, msg );
