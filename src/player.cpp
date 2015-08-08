@@ -1716,8 +1716,9 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 +
-        ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
+    movecost +=
+        ( ( encumb(bp_foot_l) + encumb(bp_foot_r) ) * 2.5 +
+          ( encumb(bp_leg_l) + encumb(bp_leg_r) ) * 1.5 ) / 10;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
