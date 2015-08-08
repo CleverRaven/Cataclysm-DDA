@@ -195,9 +195,23 @@ void monster::poly( const mtype_id& id )
     faction = type->default_faction;
     upgrades = type->upgrades;
 }
+void monster::acquire_xp(int amount){
+  Creature::acquire_xp(amount);
+  if(has_flag(MF_EXPERIENCE_UPGRADE)){
+    if(type->half_life<=get_xp()){
+      static const mtype_id mon_null( "mon_null" );
+      if(type->upgrade_into!=mon_null){
+	poly(type->upgrade_into);
+      }else{
+	const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
+	poly(random_entry(monsters));//this seems like the only option with pokemon like eevee.
+      }
+    }	
+  }
+}
 
 bool monster::can_upgrade() {
-    return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0);
+  return upgrades && (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0.0)&&!has_flag(MF_EXPERIENCE_UPGRADE);
 }
 
 // For master special attack.
@@ -1578,11 +1592,16 @@ void monster::die(Creature* nkiller) {
     }
     dead = true;
     set_killer( nkiller );
+
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }
     if (!no_extra_death_drops) {
         drop_items_on_death();
+    }
+    Creature *kill;
+    if((kill=get_killer())!=nullptr){
+      kill->acquire_xp(10*(1+power_rating()));
     }
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
@@ -1593,7 +1612,7 @@ void monster::die(Creature* nkiller) {
         }
         // TODO: add a kill counter to npcs?
         if( ch->is_player() ) {
-            g->increase_kill_count( type->id );
+            g->increase_kill_count( type->id);
         }
         if( type->difficulty >= 30 ) {
             ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),

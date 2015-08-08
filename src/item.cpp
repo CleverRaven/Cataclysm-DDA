@@ -2,6 +2,7 @@
 #include "player.h"
 #include "output.h"
 #include "skill.h"
+#include "monster.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -78,8 +79,7 @@ static itype *nullitem()
     return &nullitem_m;
 }
 
-item::item()
-{
+item::item(){
     init();
 }
 
@@ -110,7 +110,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             if(type_is_defined( gm ) ){
                 contents.push_back( item( gm, turn, rand, handed ) );
             }
-        } 
+        }
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -595,7 +595,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("BASE", string_format(_("Material: %s"), material_list.c_str())));
             }
         }
-
+        if(has_var("contained_name")){
+            dump->push_back(iteminfo("BASE",string_format(_("Contains: %s"),get_var("contained_name").c_str())));
+        }
         if ( debug == true ) {
             if( g != NULL ) {
                 dump->push_back(iteminfo("BASE", _("age: "), "",
@@ -1130,7 +1132,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
     for( const auto &quality : type->qualities ){
         const auto desc = string_format( _("Has level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name(quality.first).c_str() );
         dump->push_back( iteminfo( "QUALITIES", "", desc ) );
     }
@@ -1143,7 +1145,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
 
             const auto desc = string_format( _("  Level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name( quality.first ).c_str() );
             dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
@@ -5131,7 +5133,7 @@ std::string item::type_name( unsigned int quantity ) const
 std::string item::nname( const itype_id &id, unsigned int quantity )
 {
     const auto t = find_type( id );
-    return t->nname( quantity );
+    return t->nname(quantity);
 }
 
 bool item::count_by_charges( const itype_id &id )
@@ -5192,3 +5194,4 @@ bool item_category::operator!=( const item_category &rhs ) const
 {
     return !( *this == rhs );
 }
+

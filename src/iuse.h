@@ -119,6 +119,8 @@ public:
     int teleport            ( player*, item*, bool, const tripoint& );
     int can_goo             ( player*, item*, bool, const tripoint& );
     int throwable_extinguisher_act( player*, item*, bool, const tripoint& );
+    int capture_monster_act  ( player*, item*, bool, const tripoint&);
+    int potion_act          ( player*, item*, bool, const tripoint&);
     int pipebomb_act        ( player*, item*, bool, const tripoint& );
     int granade             ( player*, item*, bool, const tripoint& );
     int granade_act         ( player*, item*, bool, const tripoint& );

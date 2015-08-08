@@ -61,7 +61,11 @@ class Creature
 
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
-
+	/**acquire experience for level up and evolution. Probably useless unless pokemon. */
+	virtual void acquire_xp(int amount);
+	int get_xp()const{
+	  return xp;
+	}
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
@@ -537,8 +541,10 @@ class Creature
 
         int grab_resist;
         int throw_resist;
-
+	
         bool fake;
+
+	int xp;
 
         Creature();
         Creature(const Creature &) = default;

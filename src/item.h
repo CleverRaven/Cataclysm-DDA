@@ -3,6 +3,7 @@
 
 #include <climits>
 #include <string>
+#include <memory>
 #include <vector>
 #include <list>
 #include <bitset>
@@ -14,7 +15,6 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "line.h"
-
 class game;
 class Character;
 class player;
@@ -1221,10 +1221,9 @@ public:
  int player_id; // Only give a mission to the right player!
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
-
  int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
- int get_gun_ups_drain() const; 
+ int get_gun_ups_drain() const;
 };
 
 bool item_compare_by_charges( const item& left, const item& right);
