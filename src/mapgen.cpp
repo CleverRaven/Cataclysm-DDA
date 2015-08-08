@@ -900,7 +900,7 @@ public:
     {
         const trap_str_id sid( tid );
         if( !sid.is_valid() ) {
-            throw std::string( "unknown trap type" );
+            throw std::runtime_error( "unknown trap type" );
         }
         id = sid.id();
     }
@@ -931,7 +931,7 @@ public:
     {
         const auto iter = furnmap.find( tid );
         if( iter == furnmap.end() ) {
-            throw std::string( "unknown furniture type" );
+            throw std::runtime_error( "unknown furniture type" );
         }
         id = iter->second.loadid;
     }
@@ -961,7 +961,7 @@ public:
     {
         const auto iter = termap.find( tid );
         if( iter == termap.end() ) {
-            throw std::string( "unknown terrain type" );
+            throw std::runtime_error( "unknown terrain type" );
         }
         id = iter->second.loadid;
     }
@@ -1067,9 +1067,9 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
     if( pjo.has_string( key ) ) {
         try {
             vect.emplace_back( new PieceType( pjo.get_string( key ) ) );
-        } catch( const std::string &err ) {
+        } catch( const std::runtime_error &err ) {
             // Using the json object here adds nice formatting and context information
-            pjo.throw_error( err, key );
+            pjo.throw_error( err.what(), key );
         }
     } else if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
@@ -1079,9 +1079,9 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
             if( jarr.test_string() ) {
                 try {
                     vect.emplace_back( new PieceType( jarr.next_string() ) );
-                } catch( const std::string &err ) {
+                } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
-                    jarr.throw_error( err );
+                    jarr.throw_error( err.what() );
                 }
             } else {
                 load_place_mapings<PieceType>( jarr.next_object(), vect );
@@ -1106,9 +1106,9 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, 
             if( jarr.test_string() ) {
                 try {
                     alter->alternatives.emplace_back( jarr.next_string() );
-                } catch( const std::string &err ) {
+                } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
-                    jarr.throw_error( err );
+                    jarr.throw_error( err.what() );
                 }
             } else {
                 JsonObject jsi = jarr.next_object();
