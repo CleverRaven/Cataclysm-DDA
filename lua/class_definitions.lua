@@ -949,7 +949,7 @@ classes = {
             { name = "clear_spawns", rval = nil, args = { } },
             { name = "clear_traps", rval = nil, args = { } },
             { name = "close_door", rval = "bool", args = { "tripoint", "bool", "bool" } },
-            { name = "collapse_at", rval = nil, args = { "tripoint" } },
+            { name = "collapse_at", rval = nil, args = { "tripoint", "bool" } },
             { name = "collapse_check", rval = "int", args = { "tripoint" } },
             { name = "combined_movecost", rval = "int", args = { "tripoint", "tripoint" } },
             { name = "coord_to_angle", rval = "int", args = { "int", "int", "int", "int" } },

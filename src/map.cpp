@@ -2418,55 +2418,58 @@ void map::make_rubble( const tripoint &p, const furn_id rubble_type, const bool 
 
 void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
-    if (overwrite) {
+    if( overwrite ) {
         ter_set(p, floor_type);
         furn_set(p, rubble_type);
     } else {
         // First see if there is existing furniture to destroy
-        if (is_bashable_furn(p)) {
+        if( is_bashable_furn( p ) ) {
             destroy_furn( p, true );
         }
         // Leave the terrain alone unless it interferes with furniture placement
-        if (move_cost(p) <= 0 && is_bashable_ter(p)) {
+        if( move_cost(p) <= 0 && is_bashable_ter( p ) ) {
             destroy( p, true );
         }
         // Check again for new terrain after potential destruction
-        if (move_cost(p) <= 0) {
+        if( move_cost(p) <= 0 ) {
             ter_set(p, floor_type);
         }
 
         furn_set(p, rubble_type);
     }
-    if (items) {
-        //Still hardcoded, but a step up from the old stuff due to being in only one place
-        if (rubble_type == f_wreckage) {
-            item chunk("steel_chunk", calendar::turn);
-            item scrap("scrap", calendar::turn);
-            item pipe("pipe", calendar::turn);
-            item wire("wire", calendar::turn);
-            add_item_or_charges(p, chunk);
-            add_item_or_charges(p, scrap);
-            if (one_in(5)) {
-                add_item_or_charges(p, pipe);
-                add_item_or_charges(p, wire);
-            }
-        } else if (rubble_type == f_rubble_rock) {
-            item rock("rock", calendar::turn);
-            int rock_count = rng(1, 3);
-            for (int i = 0; i < rock_count; i++) {
-                add_item_or_charges(p, rock);
-            }
-        } else if (rubble_type == f_rubble) {
-            item splinter("splinter", calendar::turn);
-            item nail("nail", calendar::turn);
-            int splinter_count = rng(2, 8);
-            int nail_count = rng(5, 10);
-            for (int i = 0; i < splinter_count; i++) {
-                add_item_or_charges(p, splinter);
-            }
-            for (int i = 0; i < nail_count; i++) {
-                add_item_or_charges(p, nail);
-            }
+
+    if( !items ) {
+        return;
+    }
+
+    //Still hardcoded, but a step up from the old stuff due to being in only one place
+    if (rubble_type == f_wreckage) {
+        item chunk("steel_chunk", calendar::turn);
+        item scrap("scrap", calendar::turn);
+        item pipe("pipe", calendar::turn);
+        item wire("wire", calendar::turn);
+        add_item_or_charges(p, chunk);
+        add_item_or_charges(p, scrap);
+        if (one_in(5)) {
+            add_item_or_charges(p, pipe);
+            add_item_or_charges(p, wire);
+        }
+    } else if (rubble_type == f_rubble_rock) {
+        item rock("rock", calendar::turn);
+        int rock_count = rng(1, 3);
+        for (int i = 0; i < rock_count; i++) {
+            add_item_or_charges(p, rock);
+        }
+    } else if (rubble_type == f_rubble) {
+        item splinter("splinter", calendar::turn);
+        item nail("nail", calendar::turn);
+        int splinter_count = rng(2, 8);
+        int nail_count = rng(5, 10);
+        for (int i = 0; i < splinter_count; i++) {
+            add_item_or_charges(p, splinter);
+        }
+        for (int i = 0; i < nail_count; i++) {
+            add_item_or_charges(p, nail);
         }
     }
 }
@@ -2842,54 +2845,47 @@ void map::create_spores( const tripoint &p, Creature* source )
 
 int map::collapse_check( const tripoint &p )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
+    const bool collapses = has_flag( "COLLAPSES", p );
+    const bool supports_roof = has_flag( "SUPPORTS_ROOF", p );
+
     int num_supports = 0;
-    tripoint t( p );
-    int &i = t.x;
-    int &j = t.y;
-    for( i = x - 1; i <= x + 1; i++ ) {
-        for( j = y - 1; j <= y + 1; j++ ) {
-            if( p == t ) {
-                continue;
+
+    for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        if( p == t ) {
+            continue;
+        }
+
+        if( collapses ) {
+            if( has_flag( "COLLAPSES", t ) ) {
+                num_supports++;
+            } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
+                num_supports += 2;
             }
-            if( has_flag( "COLLAPSES", p ) ) {
-                if( has_flag( "COLLAPSES", t ) ) {
-                    num_supports++;
-                } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
-                    num_supports += 2;
-                }
-            } else if( has_flag( "SUPPORTS_ROOF", p ) ) {
-                if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
-                    num_supports += 3;
-                }
+        } else if( supports_roof ) {
+            if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
+                num_supports += 3;
             }
         }
     }
+
     return 1.7 * num_supports;
 }
 
-void map::collapse_at( const tripoint &p )
+void map::collapse_at( const tripoint &p, const bool silent )
 {
-    destroy ( p, false );
+    destroy( p, silent );
     crush( p );
     make_rubble( p );
-    tripoint t = p;
-    int &i = t.x;
-    int &j = t.y;
-    for( i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( j = p.y - 1; j <= p.y + 1; j++ ) {
-            if( p == t ) {
-                continue;
-            }
-            if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
-                destroy( t, false );
-            // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-            } else if( has_flag("FLAT", t ) && one_in( 8 ) ) {
-                crush( t );
-                make_rubble( t );
-            }
+    for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        if( p == t ) {
+            continue;
+        }
+        if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
+            destroy( t, silent );
+        // We only check for rubble spread if it doesn't already collapse to prevent double crushing
+        } else if( has_flag("FLAT", t ) && one_in( 8 ) ) {
+            crush( t );
+            make_rubble( t );
         }
     }
 }
@@ -3035,15 +3031,31 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         bash = &furn_at(p).bash;
         smash_furn = true;
     } else if( ter_at(p).bash.str_max != -1 ) {
-        bash = &ter_at(p).bash;
+        bash = &ter_at( p ).bash;
         smash_ter = true;
     }
 
     // Floor bashing check
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
-    if( smash_ter && bash->bash_below && !params.destroy && (!zlevels || !params.bash_floor ) ) {
-        smash_ter = false;
-        bash = nullptr;
+    // Unless we're destroying, then it gets a little weird
+    if( smash_ter && bash->bash_below && ( !zlevels || !params.bash_floor ) ) {
+        if( !params.destroy ) {
+            smash_ter = false;
+            bash = nullptr;
+        } else if( bash->ter_set == null_ter_t && zlevels ) {
+            // A hack for destroy && !bash_floor
+            // We have to check what would we create and cancel if it is what we have now
+            tripoint below( p.x, p.y, p.z - 1 );
+            const auto roof = get_roof( below, false );
+            if( roof == ter( p ) ) {
+                smash_ter = false;
+                bash = nullptr;
+            }
+        } else if( bash->ter_set == null_ter_t && ter( p ) == t_dirt ) {
+            // As above, except for no-z-levels case
+            smash_ter = false;
+            bash = nullptr;
+        }
     }
 
     // TODO: what if silent is true?
@@ -3251,7 +3263,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( collapses ) {
-        collapse_at( p );
+        collapse_at( p, params.silent );
     }
     // Check the flag again to ensure the new terrain doesn't support anything
     if( supports && !has_flag( "SUPPORTS_ROOF", p ) ) {
@@ -3261,7 +3273,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             }
 
             if( one_in( collapse_check( t ) ) ) {
-                collapse_at( t );
+                collapse_at( t, params.silent );
             }
         }
     }
@@ -3463,8 +3475,9 @@ void map::crush( const tripoint &p )
     }
 
     vehicle *veh = veh_at(p, veh_part);
-    if (veh) {
-        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), DT_BASH, false);
+    if( veh != nullptr ) {
+        // Arbitrary number is better than collapsing house roof crushing APCs
+        veh->damage(veh_part, rng(100, 1000), DT_BASH, false);
     }
 }
 
