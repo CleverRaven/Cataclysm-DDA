@@ -3007,17 +3007,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
+                s += run_cost_text( encumb( bp_leg_l ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s += run_cost_text( (encumb( bp_leg_r ) / 10) * 1.5 );
+                s += run_cost_text( encumb( bp_leg_r ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
-                s += run_cost_text( (encumb( bp_foot_l ) / 10) * 2.5 );
+                s += run_cost_text( encumb( bp_foot_l ) * 0.25 );
             } else if (line == 11) { //Right Foot
-                s += run_cost_text( (encumb( bp_foot_r ) / 10) * 2.5 );
+                s += run_cost_text( encumb( bp_foot_r ) * 0.25 );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
