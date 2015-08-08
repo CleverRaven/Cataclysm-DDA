@@ -1189,7 +1189,7 @@ bool mapgen_function_json::setup() {
         jsin.eat_whitespace();
         char ch = jsin.peek();
         if ( ch != '{' ) {
-            throw string_format("Bad json:\n%s\n",jdata.substr(0,796).c_str());
+            jsin.error( "Bad json" );
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
@@ -1242,7 +1242,7 @@ bool mapgen_function_json::setup() {
                     }
                 }
             } else {
-                throw string_format("  format: no terrain map\n%s\n",jo.str().substr(0,796).c_str());
+                jsin.error( "format: no terrain map" );
             }
             if ( jo.has_object("furniture") ) {
                 pjo = jo.get_object("furniture");

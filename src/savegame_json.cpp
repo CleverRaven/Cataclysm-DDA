@@ -1271,7 +1271,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
         if( pid.str() == "wheel_underbody" ) {
             pid = vpart_str_id( "wheel_wide" );
         } else {
-            throw (std::string)"bad vehicle part, id: %s" + pid.str();
+            data.throw_error( "bad vehicle part", "id" );
         }
     }
     set_id(pid);

@@ -1099,7 +1099,7 @@ void load_artifacts_from_ifstream(std::ifstream &f)
             it_artifact_armor *art = new it_artifact_armor(jo);
             item_controller->add_item_type( art );
         } else {
-            throw jo.line_number() + ": unrecognized artifact type.";
+            jo.throw_error( "unrecognized artifact type.", "type" );
         }
     }
 }
