@@ -17030,7 +17030,7 @@
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 35,
+        "quench" : 31,
         "healthy" : 2,
         "addiction_potential" : 0,
         "nutrition" : 4,
