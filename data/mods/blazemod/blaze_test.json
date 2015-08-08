@@ -9,24 +9,24 @@
         "broken_color" : "magenta",
         "damage_modifier" : 10,
         "durability" : 400,
-        "epower" : 100,
-		"power" : 1,
+        "epower" : 1000,
+    "power" : 1,
         "fuel_type" : "vpower",
         "item" : "vgen2",
         "difficulty" : 1,
-		"size": 1,
+    "size": 1,
         "location" : "engine_block",
         "flags" : ["ENGINE", "TOOL_NONE", "FUEL_TANK"],
         "breaks_into" : [
-			{"item": "foot_crank", "min": 0, "max": 2},
-			{"item": "chain", "min": 0, "max": 4},
-			{"item": "hose", "min": 0, "max": 4},
-			{"item": "scrap", "min": 4, "max": 12},
+            {"item": "foot_crank", "min": 0, "max": 2},
+            {"item": "chain", "min": 0, "max": 4},
+            {"item": "hose", "min": 0, "max": 4},
+            {"item": "scrap", "min": 4, "max": 12},
             {"item": "steel_chunk", "min": 2, "max": 5},
-			{"item": "plastic_chunk", "min": 2, "max": 8}
-						]
-    }, 	
-  {
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+         ]
+    },   
+    {
         "type" : "vehicle_part",
         "id" : "vgen2",
         "name" : "vortex engine",
@@ -36,25 +36,25 @@
         "broken_color" : "magenta",
         "damage_modifier" : 10,
         "durability" : 400,
-		"epower" : 1,
+        "epower" : 1,
         "fuel_type" : "vpower",
-		"power" : 200,
+        "power" : 350,
         "item" : "vgen",
         "location" : "engine_block",
         "difficulty" : 1,
-		"size": 1,
+        "size": 1,
         "flags" : ["ENGINE", "TOOL_NONE", "FUEL_TANK"],
         "breaks_into" : [
             {"item": "spiral_stone", "min": 1, "max": 1},
-			{"item": "foot_crank", "min": 0, "max": 2},
-			{"item": "chain", "min": 0, "max": 2},
-			{"item": "hose", "min": 0, "max": 4},
-			{"item": "scrap", "min": 4, "max": 12},
-			{"item": "plastic_chunk", "min": 2, "max": 8}
-						]
+            {"item": "foot_crank", "min": 0, "max": 2},
+            {"item": "chain", "min": 0, "max": 2},
+            {"item": "hose", "min": 0, "max": 4},
+            {"item": "scrap", "min": 4, "max": 12},
+            {"item": "plastic_chunk", "min": 2, "max": 8}
+        ]
     },{
         "type" : "vehicle_part",
-		"note" : "Keep away from Svarog detectors!",
+        "note" : "Keep away from Svarog detectors!",
         "id" : "space_anomaly",
         "name" : "cargo dimension",
         "symbol" : "O",
@@ -69,54 +69,54 @@
         "flags" : ["CARGO", "COVERED", "UNMOUNT_ON_DAMAGE"],
         "breaks_into" : []
     },
-	{
+    {
         "type" : "recipe",
-		"result": "vgen",
-		"category": "CC_OTHER",
-		"subcategory": "CSC_OTHER_MATERIALS",
-		"skill_used": "fabrication",
-		"byproducts": { "id" : "vpower", "amount" : 1 },
-		"skills_required": [ ["mechanics", 4], ["electronics", 4] ],
-		"difficulty": 5,
-		"time": 108000,
-		"reversible": false,
-		"autolearn": true,
-		"qualities":[
-			{"id":"HAMMER","level":2,"amount":1},
-			{"id":"SAW_M","level":1,"amount":1}
-		],
-		"tools": [
-			[
-			[ "goggles_welding", -1 ]
-			],
-			[
-			[ "welder", 60 ],
-			[ "welder_crude", 75 ],
-			[ "toolset", 75 ],
-			[ "oxy_torch", 6]
-			]
-		],
-		"components": [
-			[
-			[ "vortex_stone", 1 ],
-			[ "spiral_stone", 10]
-			],
-			[
-			[ "chain", 3 ]
-			],
-			[
-			[ "scrap", 5 ]
-			],
-			[
-			["foot_crank", 3]
-			],
-			[
-			[ "metal_tank", 1]
-			],
-			[
-			[ "plastic_chunk", 10]
-			]
-		]
+        "result": "vgen",
+        "category": "CC_OTHER",
+        "subcategory": "CSC_OTHER_MATERIALS",
+        "skill_used": "fabrication",
+        "byproducts": { "id" : "vpower", "amount" : 1 },
+        "skills_required": [ ["mechanics", 4], ["electronics", 4] ],
+        "difficulty": 5,
+        "time": 108000,
+        "reversible": false,
+        "autolearn": true,
+        "qualities":[
+          {"id":"HAMMER","level":2,"amount":1},
+          {"id":"SAW_M","level":1,"amount":1}
+        ],
+        "tools": [
+          [
+            [ "goggles_welding", -1 ]
+          ],
+          [
+            [ "welder", 60 ],
+            [ "welder_crude", 75 ],
+            [ "toolset", 75 ],
+            [ "oxy_torch", 6]
+          ]
+          ],
+          "components": [
+            [
+              [ "vortex_stone", 1 ],
+              [ "spiral_stone", 10]
+            ],
+            [
+              [ "chain", 3 ]
+            ],
+            [
+              [ "scrap", 5 ]
+            ],
+            [
+              ["foot_crank", 3]
+            ],
+            [
+              [ "metal_tank", 1]
+            ],
+            [
+              [ "plastic_chunk", 10]
+            ]
+          ]
 },{
         "type" : "recipe",
   "result": "vgen2",
@@ -141,35 +141,35 @@
       [ "welder", 60 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  [ "oxy_torch", 6 ]
+    [ "oxy_torch", 6 ]
     ]
   ],
   "components": [
     [
       [ "vortex_stone", 1 ],
-	  [ "spiral_stone", 10]
+    [ "spiral_stone", 10]
     ],
-	[
-	  [ "chain", 3 ]
+  [
+    [ "chain", 3 ]
     ],
-	[
-	  [ "scrap", 8 ]
+  [
+    [ "scrap", 8 ]
     ],
-	[
+  [
       ["foot_crank", 3]
     ],
-	[
-	  [ "metal_tank", 1]
-	],
-	[
-	  [ "plastic_chunk", 12]
-	],
-	[
-	  [ "alternator_truck", 3],
-	  [ "alternator_car", 3],
-	  [ "alternator_motorbike", 3]
-	  
-	]
+  [
+    [ "metal_tank", 1]
+  ],
+  [
+    [ "plastic_chunk", 12]
+  ],
+  [
+    [ "alternator_truck", 3],
+    [ "alternator_car", 3],
+    [ "alternator_motorbike", 3]
+    
+  ]
   ]
 },{
         "type" : "recipe",
@@ -194,22 +194,22 @@
       [ "welder", 60 ],
       [ "welder_crude", 75 ],
       [ "toolset", 75 ],
-	  [ "oxy_torch", 6 ]
+    [ "oxy_torch", 6 ]
     ]
   ],
   "components": [
     [
       [ "cargo_rack", 1 ]
     ],
-	[
-	  [ "teleporter", 1 ]
+  [
+    [ "teleporter", 1 ]
     ],
-	[
+  [
       [ "portal", 1]
     ],
-	[
-	  [ "plut_cell", 5]
-	]
+  [
+    [ "plut_cell", 5]
+  ]
   ]
 },
     {
@@ -243,10 +243,10 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1500000,
-		"rigid": true,
-		"watertight": true,
-		"seals": true,
-		"contains": 0
+    "rigid": true,
+    "watertight": true,
+    "seals": true,
+    "contains": 0
     },
     {
         "type":"CONTAINER",
@@ -263,10 +263,10 @@
         "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1500000,
-		"rigid": true,
-		"watertight": true,
-		"seals": true,
-		"contains": 0
+    "rigid": true,
+    "watertight": true,
+    "seals": true,
+    "contains": 0
     },
     {
         "type" : "ammunition_type",
@@ -274,8 +274,8 @@
         "name" : "vortex energy",
         "default" : "vpower"
     },
-	{
-		"type" : "AMMO",
+  {
+    "type" : "AMMO",
         "id" : "vpower",
         "category" : "chems",
         "price" : 0,

@@ -14,22 +14,22 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-		[
-			[ "soldering_iron", 40],
-			[ "toolset", 40]
-		]
+    [
+      [ "soldering_iron", 40],
+      [ "toolset", 40]
+    ]
   ],
   "components": [
-	[
-	  [ "foot_crank", 1]
+  [
+    [ "foot_crank", 1]
     ],
-	[
+  [
       [ "scrap", 12],
-	  [ "steel_chunk", 4]
+    [ "steel_chunk", 4]
     ],
-	[
-	  [ "nailrifle", 1]
-	]
+  [
+    [ "nailrifle", 1]
+  ]
   ]
 },{
         "type" : "recipe",
@@ -46,38 +46,38 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-	[ "soldering_iron", 40],
-	[ "toolset", 40]
-	]
+  [
+  [ "soldering_iron", 40],
+  [ "toolset", 40]
+  ]
   ],
   "components": [
-	[
+  [
       [ "v29", 1 ],
-	  [ "v29_cheap", 1],
-	  [ "bio_laser", 1],
-	  [ "laser_rifle", 1]
+    [ "v29_cheap", 1],
+    [ "bio_laser", 1],
+    [ "laser_rifle", 1]
     ],
     [
       ["lens", 2]
     ],
     [
       [ "UPS_off", 1],
-	  [ "small_storage_battery", 1]
+    [ "small_storage_battery", 1]
     ],
-	[
+  [
       ["scrap", 4]
     ],
-	[
+  [
       ["cable", 20]
     ],
-	[
+  [
       ["e_scrap", 4]
     ],
-	[
+  [
       ["amplifier", 4]
     ],
-	[
+  [
       ["power_supply", 4]
     ],
     [
@@ -102,31 +102,31 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+  [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+    ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       [ "lens", 2]
     ],
-	[
+  [
       [ "scrap", 9],
-	  [ "steel_chunk", 3]
+    [ "steel_chunk", 3]
     ],
-	[
+  [
       ["cable", 50]
     ],
     [
      [ "plastic_chunk", 2 ]
     ],
-	[
+  [
       ["amplifier", 2]
     ],
-	[
+  [
       ["power_supply", 2]
     ],
     [
@@ -152,35 +152,35 @@
     [
       [ "goggles_welding", -1 ]
     ],
-	[
+  [
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
       [ "toolset", 50 ],
-	  ["oxy_torch", 2]
+    ["oxy_torch", 2]
     ]
   ],
   "components": [
     [
       [ "UPS_off", 2],
-	  [ "small_storage_battery", 2]
+    [ "small_storage_battery", 2]
     ],
     [
       [ "lens", 4]
     ],
-	[
+  [
       [ "scrap", 9],
-	  [ "steel_chunk", 3]
+    [ "steel_chunk", 3]
     ],
-	[
+  [
       ["cable", 50]
     ],
     [
      [ "plastic_chunk", 8 ]
     ],
-	[
+  [
       ["amplifier", 8]
     ],
-	[
+  [
       ["power_supply", 8]
     ],
     [
@@ -204,10 +204,10 @@
     {"id":"SAW_W","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
   ], "tools": [
-	[
-		[ "soldering_iron", 20],
-		[ "toolset", 20]
-	]
+  [
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+  ]
   ],
   "components": [
     [
@@ -227,7 +227,7 @@
     [
       [ "nail", 60 ],
       [ "duct_tape", 100],
-	  [ "superglue", 5]
+    [ "superglue", 5]
     ]
   ]
 },{
@@ -245,10 +245,10 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
-	  [ "soldering_iron", 40],
-	  [ "toolset", 40]
-	]
+  [
+    [ "soldering_iron", 40],
+    [ "toolset", 40]
+  ]
   ],
   "components": [
     [
@@ -256,25 +256,25 @@
     ],
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+    ["small_storage_battery", 1]
     ],
     [
       ["lens", 2]
     ],
-	[
+  [
       ["scrap", 8],
-	  [ "steel_chunk", 3]
+    [ "steel_chunk", 3]
     ],
-	[
+  [
       ["cable", 20]
     ],
-	[
+  [
       ["e_scrap", 6]
     ],
-	[
+  [
       ["amplifier", 5]
     ],
-	[
+  [
       ["power_supply", 5]
     ],
     [
@@ -294,22 +294,22 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_W","level":1,"amount":1},
-	{"id":"CUT","level":1,"amount":1}
+  {"id":"CUT","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 20],
-	  [ "toolset", 20]
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
     ]
   ],
   "components": [
     [
       [ "hose", 6 ],
-	  [ "sinew", 300 ]
+    [ "sinew", 300 ]
     ],
     [
       [ "duct_tape", 300],
-	  [ "superglue", 3],
-	  [ "nail", 100]
+    [ "superglue", 3],
+    [ "nail", 100]
     ],
     [
       [ "foot_crank", 1 ]
@@ -338,20 +338,20 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
+  [
       ["foot_crank", 1]
     ],
-	[
+  [
       ["scrap", 12],
-	  ["steel_chunk", 4]
+    ["steel_chunk", 4]
     ],
-	[
-	  [ "tihar", 1]
+  [
+    [ "tihar", 1]
   ]
  ]
 },{
@@ -370,20 +370,20 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
+  [
       ["foot_crank", 1]
     ],
-	[
+  [
       ["scrap", 9],
-	  ["steel_chunk", 3]
+    ["steel_chunk", 3]
     ],
-	[
-	  [ "helsing", 1]
+  [
+    [ "helsing", 1]
   ]
  ]
 },{
@@ -402,9 +402,9 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 20],
-	  [ "toolset", 20]
-	]
+    [ "soldering_iron", 20],
+    [ "toolset", 20]
+  ]
   ],
   "components": [
     [
@@ -427,7 +427,7 @@
     [
       [ "nail", 20 ],
       [ "duct_tape", 50],
-	  [ "superglue", 1]
+    [ "superglue", 1]
     ]
   ]
 },{
@@ -446,33 +446,33 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 45],
-	  [ "toolset", 45]
+    [ "soldering_iron", 45],
+    [ "toolset", 45]
     ]
   ],
   "components": [
     [
-		["pipe", 3]
+    ["pipe", 3]
     ],
-	[
-		[ "foot_crank", 1 ]
-	],
+  [
+    [ "foot_crank", 1 ]
+  ],
     [
       ["duct_tape", 200],
       ["superglue", 2]
     ],
-	[
+  [
       [ "scrap", 18],
-	  [ "steel_chunk", 9],
-	  [ "steel_lump", 3]
+    [ "steel_chunk", 9],
+    [ "steel_lump", 3]
     ],
-	[
+  [
       ["element", 1],
-	  ["pilot_light", 1]
+    ["pilot_light", 1]
     ],
-	[
-	  ["chain", 2]
-	]
+  [
+    ["chain", 2]
+  ]
  ]
 },{
         "type" : "recipe",
@@ -489,36 +489,36 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-	[
+  [
       [ "welder", 200 ],
       [ "welder_crude", 200 ],
       [ "toolset", 200 ],
-	  [ "oxy_torch", 20]
-	]
+    [ "oxy_torch", 20]
+  ]
   ],
   "components": [
     [
-		[ "pipe", 6 ]
+    [ "pipe", 6 ]
     ],
     [
       ["duct_tape", 500],
       ["superglue", 5]
     ],
-	[
+  [
       [ "scrap", 54],
-	  [ "steel_chunk", 27],
-	  [ "steel_lump", 9]
+    [ "steel_chunk", 27],
+    [ "steel_lump", 9]
     ],
-	[
+  [
       ["element", 1],
-	  ["pilot_light", 1]
+    ["pilot_light", 1]
     ],
-	[
+  [
       ["spring", 6]
     ],
-	[
-	  ["chain", 2]
-	]
+  [
+    ["chain", 2]
+  ]
  ]
 },{
         "type" : "recipe",
@@ -536,34 +536,34 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+    ["small_storage_battery", 1]
     ],
     [
       ["tazer", 2]
     ],
-	[
+  [
       ["scrap", 4]
     ],
-	[
+  [
       ["antenna", 1]
     ],
-	[
+  [
       ["cable", 30]
     ],
     [
      [ "plastic_chunk", 8 ]
     ],
-	[
+  [
       ["amplifier", 3]
     ],
-	[
+  [
       ["power_supply", 1]
     ],
     [
@@ -586,29 +586,29 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+    ["small_storage_battery", 1]
     ],
-	[
+  [
       ["scrap", 8],
-	  [ "steel_chunk", 3]
+    [ "steel_chunk", 3]
     ],
-	[
+  [
       ["cable", 60]
     ],
     [
      [ "plastic_chunk", 8 ]
     ],
-	[
+  [
       ["amplifier", 3]
     ],
-	[
+  [
       ["power_supply", 3]
     ],
     [
@@ -631,29 +631,29 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
     [
       ["UPS_off", 1],
-	  ["small_storage_battery", 1]
+    ["small_storage_battery", 1]
     ],
-	[
+  [
       [ "scrap", 8],
-	  [ "steel_chunk", 3]
+    [ "steel_chunk", 3]
     ],
-	[
+  [
       ["cable", 100]
     ],
     [
      [ "plastic_chunk", 10 ]
     ],
-	[
+  [
       ["amplifier", 5]
     ],
-	[
+  [
       ["power_supply", 5]
     ],
     [
@@ -676,37 +676,37 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
     [
       ["UPS_off", 2],
-	  ["small_storage_battery", 2]
+    ["small_storage_battery", 2]
     ],
-	[
+  [
       ["scrap", 12],
-	  [ "steel_chunk", 3]
+    [ "steel_chunk", 3]
     ],
-	[
+  [
       ["cable", 200]
     ],
     [
      [ "plastic_chunk", 12 ]
     ],
-	[
+  [
       ["amplifier", 8]
     ],
-	[
+  [
       ["power_supply", 8]
     ],
     [
       [ "rebar_rifle", 1 ]
     ],
-	[
-	  [ "e_scrap", 20 ]
-	]
+  [
+    [ "e_scrap", 20 ]
+  ]
 ]
 },{
         "type" : "recipe",
@@ -724,22 +724,22 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
-	  [ "soldering_iron", 30],
-	  [ "toolset", 30]
+    [ "soldering_iron", 30],
+    [ "toolset", 30]
     ]
   ],
   "components": [
-	[
+  [
       [ "scrap", 24 ],
-	  [ "steel_chunk", 8 ],
-	  [ "steel_lump", 2 ]
+    [ "steel_chunk", 8 ],
+    [ "steel_lump", 2 ]
     ],
-	[
-	  [ "chain", 2 ]
-	],
+  [
+    [ "chain", 2 ]
+  ],
     [
       [ "rebar", 4 ],
-	  [ "pipe", 8 ]
+    [ "pipe", 8 ]
     ]
  ]
 }
