@@ -3777,7 +3777,7 @@ void vehicle::operate_scoop()
     auto veh_points = get_points();
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
-        int max_pickup_size = parts[scoop].info().bonus;
+        int max_pickup_size = parts[scoop].info().size/10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
         for( const tripoint &position : veh_points ) {
