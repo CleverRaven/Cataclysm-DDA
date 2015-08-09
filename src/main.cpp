@@ -362,7 +362,7 @@ int main(int argc, char *argv[])
     }
 
     // Options strings loaded with system locale
-    initOptions();
+    init_options();
     load_options();
 
     set_language(true);

@@ -16,7 +16,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "MANUAL"],
         "breaks_into" : [
-            {"item": "tank_gun_manual", "min": 0, "max": 1}
+            {"item": "tank_gun_manual", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -35,7 +35,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "MANUAL"],
         "breaks_into" : [
-            {"item": "tank_gun_auto", "min": 0, "max": 1}
+            {"item": "tank_gun_auto", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -54,7 +54,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "tank_gun_rws", "min": 0, "max": 1}
+            {"item": "tank_gun_rws", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -73,7 +73,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "MANUAL"],
         "breaks_into" : [
-            {"item": "howitzer_gun", "min": 0, "max": 1}
+            {"item": "howitzer_gun", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -91,9 +91,9 @@
         "location" : "structure",
         "flags" : ["CARGO", "PROTRUSION"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6}
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
         ]
     }
 ]

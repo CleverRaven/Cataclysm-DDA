@@ -15,6 +15,6 @@
     "difficulty" : 2,
     "location" : "under",
     "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "BOARDABLE"],
-    "breaks_into" : [ {"item": "splinter", "min": 10, "max": 20} ]
+    "breaks_into" : [ {"item": "splinter", "count": [10, 20]} ]
   }
 ]

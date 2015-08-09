@@ -8706,7 +8706,7 @@ void sendRadioSignal(player *p, std::string signal)
         item &it = p->inv.find_item(i);
 
         if (it.has_flag("RADIO_ACTIVATION") && it.has_flag(signal)) {
-            sounds::sound(p->pos(), 6, "beep.");
+            sounds::sound(p->pos(), 6, _("beep."));
 
             it_tool *tmp = dynamic_cast<it_tool *>(it.type);
             if( it.has_flag("RADIO_INVOKE_PROC") ) {

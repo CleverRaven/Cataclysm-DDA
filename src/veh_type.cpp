@@ -182,20 +182,11 @@ void vpart_info::load( JsonObject &jo )
         next_part.set_flag( jarr.next_string() );
     }
 
-    JsonArray breaks_into = jo.get_array("breaks_into");
-    while(breaks_into.has_more()) {
-        JsonObject next_entry = breaks_into.next_object();
-        break_entry next_break_entry;
-        next_break_entry.item_id = next_entry.get_string("item");
-        next_break_entry.min = next_entry.get_int("min");
-        next_break_entry.max = next_entry.get_int("max");
-        //Sanity check
-        if(next_break_entry.max < next_break_entry.min) {
-            debugmsg("For vehicle part %s: breaks_into item '%s' has min (%d) > max (%d)!",
-                     next_part.name.c_str(), next_break_entry.item_id.c_str(),
-                     next_break_entry.min, next_break_entry.max);
-        }
-        next_part.breaks_into.push_back(next_break_entry);
+    if( jo.has_member( "breaks_into" ) ) {
+        JsonIn& stream = *jo.get_raw( "breaks_into" );
+        next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
+    } else {
+        next_part.breaks_into_group = "EMPTY_GROUP";
     }
 
     //Calculate and cache z-ordering based off of location
@@ -270,11 +261,9 @@ void vpart_info::check()
 {
     for( auto &part_ptr : vehicle_part_int_types ) {
         auto &part = *part_ptr;
-        for( auto &component : part.breaks_into ) {
-            if( !item::type_is_defined( component.item_id ) ) {
-                debugmsg( "Vehicle part %s breaks into non-existent part %s.",
-                          part.id.c_str(), component.item_id.c_str() );
-            }
+        if( !item_group::group_is_defined( part.breaks_into_group ) ) {
+            debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
+                      part.id.c_str(), part.breaks_into_group.c_str() );
         }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
             debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());

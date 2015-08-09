@@ -2171,22 +2171,18 @@ void vehicle::part_removal_cleanup() {
  * @param scatter If true, pieces are scattered near the target square.
  */
 void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
-    std::vector<break_entry> break_info = part_info(p).breaks_into;
-    for( auto &elem : break_info ) {
-        int quantity = rng( elem.min, elem.max );
-        item piece( elem.item_id, calendar::turn );
-        if( piece.count_by_charges() ) {
-            piece.charges = 1;
-        }
+    const std::string& group = part_info(p).breaks_into_group;
+    if( group.empty() ) {
+        return;
+    }
+    for( item& piece : item_group::items_from( group, calendar::turn ) ) {
         // TODO: balance audit, ensure that less pieces are generated than one would need
         // to build the component (smash a veh box that took 10 lumps of steel,
         // find 12 steel lumps scattered after atom-smashing it with a tree trunk)
-        for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
             tripoint dest( actual_x, actual_y, smz );
             g->m.add_item_or_charges( dest, piece );
-        }
     }
 }
 
@@ -3160,8 +3156,8 @@ void vehicle::spew_smoke( double joules, int part )
 void vehicle::noise_and_smoke( double load, double time )
 {
     const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
-    const char *sound_msgs[] = { "", "hummm!", "whirrr!", "vroom!", "roarrr!", "ROARRR!",
-                                 "BRRROARRR!!", "BRUMBRUMBRUMBRUM!!!" };
+    const char *sound_msgs[] = { "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
+                                 _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!") };
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0, m;
@@ -3816,7 +3812,7 @@ void vehicle::alarm(){
 
         //if alarm found, make noise, else set alarm disabled
         if (found_alarm){
-            const char *sound_msgs[] = { "WHOOP WHOOP", "NEEeu NEEeu NEEeu", "BLEEEEEEP", "WREEP"};
+            const char *sound_msgs[] = { _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")};
             sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)]);
             if (one_in(1000)) is_alarm_on = false;
         } else{

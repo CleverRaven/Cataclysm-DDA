@@ -141,6 +141,7 @@ The syntax listed here is still valid.
 "vision_night" : 1,                 // Vision range in total darkness
 "luminance" : 0,					// Amount of light passively output by monster. Ranges from 0 to 10.
 "hp" : 10,							// Monster hit points
+"death_drops": "some-group-id",     // An item group that is used to spawn items when the monster dies. This can be an inlined item group, see ITEM_SPAWN.md. The default subtype is "distribution".
 "special_freq" : 0,					// Number of turns required to "charge" a monster's special attack
 "death_function" : "NORMAL",		// How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. Supports multiple death functions
 "special_attack" : "BITE",			// Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack
@@ -296,9 +297,10 @@ The syntax listed here is still valid.
 "fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
 "item": "wheel",              // The item used to install this part, and the item obtained when removing this part
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
-"breaks_into" : [             // When the vehicle part is destroyed, items from this list will be spawned around the part on the ground.
-  {"item": "scrap", "min": 0, "max": 5} // item is the item id, min/max is the amount of items to spawn, if item is counted by charges (like nails), it will create that many charges.
+"breaks_into" : [             // When the vehicle part is destroyed, items from this item group (see ITEM_SPAWN.md) will be spawned around the part on the ground.
+  {"item": "scrap", "count": [0,5]} // instead of an array, this can be an inline item group,
 ],
+"breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ]

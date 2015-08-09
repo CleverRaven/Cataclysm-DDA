@@ -4263,6 +4263,59 @@ void player::pause()
     search_surroundings();
 }
 
+void player::shout( std::string msg )
+{
+    int base = 10;
+    int shout_multiplier = 2;
+
+    // Mutations make shouting louder, they also define the defualt message
+    if ( has_trait("SHOUT2") ) {
+        base = 15;
+        shout_multiplier = 3;
+        if ( msg == "" ) {
+            msg = _("You scream loudly!");
+        }
+    }
+
+    if ( has_trait("SHOUT3") ) {
+        shout_multiplier = 4;
+        base = 20;
+        if ( msg == "" ) {
+            msg = _("You let out a piercing howl!");
+        }
+    }
+
+    if ( msg  == "" ) {
+        msg = _("You shout loudly!");
+    }
+    // Masks and such dampen the sound
+    // Balanced around  whisper for wearing bondage mask
+    // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
+    int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if ( noise <= base ) {
+        std::string dampened_shout;
+        std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
+        noise = std::max( minimum_noise, noise );
+        msg = std::move( dampened_shout );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if ( underwater ) {
+        if ( !has_trait("GILLS") && !has_trait("GILLS_CEPH") ) {
+            mod_stat( "oxygen", -noise );
+        }
+
+        noise = std::max(minimum_noise, noise / 2);
+    }
+
+    sounds::sound( pos(), noise, msg );
+}
+
 void player::toggle_move_mode()
 {
     if( move_mode == "walk" ) {
@@ -7804,7 +7857,7 @@ void player::suffer()
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
-                    sounds::sound( pos(), 10 + 2 * str_cur, "AHHHHHHH!");
+                    shout(_("AHHHHHHH!"));
                     break;
                 case 10:
                     add_msg(std::string(name + name + name + name + name + name + name +
@@ -7836,14 +7889,15 @@ void player::suffer()
         if (has_trait("VOMITOUS") && one_in(4200)) {
             vomit();
         }
+
         if (has_trait("SHOUT1") && one_in(3600)) {
-            sounds::sound( pos(), 10 + 2 * str_cur, _("You shout loudly!"));
+            shout();
         }
         if (has_trait("SHOUT2") && one_in(2400)) {
-            sounds::sound( pos(), 15 + 3 * str_cur, _("You scream loudly!"));
+            shout();
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
-            sounds::sound( pos(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+            shout();
         }
         if (has_trait("M_SPORES") && one_in(2400)) {
             spores();

@@ -39,4 +39,6 @@ std::vector<std::string> get_files_from_path(std::string const &pattern,
 std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
         std::string const &root_path = "", bool recursive_search = false);
 
+std::vector<std::string> get_directories_with(std::string const &pattern,
+        std::string const &root_path = "", bool const recurse = false);
 #endif //CATA_FILE_SYSTEM_H
