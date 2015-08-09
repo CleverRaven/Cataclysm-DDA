@@ -282,6 +282,30 @@ void line_to_comparison( const int iterations ) {
     }
 }
 
+// Check the boundaries of inputs we can give line_to without breaking it.
+TEST_CASE("line_to_boundaries") {
+    for( int i = -60; i < 60; ++i ) {
+        for( int j = -60; j < 60; ++j ) {
+            const int ax = abs(i) * 2;
+            const int ay = abs(j) * 2;
+            const int dominant = std::max(ax, ay);
+            const int minor = std::min(ax, ay);
+            const int ideal_start_offset = minor - (dominant / 2);
+            // get the sign of the start offset.
+            const int st( (ideal_start_offset > 0) - (ideal_start_offset < 0) );
+            const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
+            for( int k = -1; k <= max_start_offset; ++k ) {
+                auto line = line_to( 0, 0, i, j, k * st );
+                if( line.back() != point(i, j) ) {
+                    WARN( "Expected (" << i << "," << j << ") but got (" <<
+                          line.back().x << "," << line.back().y << ") with t == " << k );
+                }
+                CHECK( line.back() == point(i, j) );
+            }
+        }
+    }
+}
+
 TEST_CASE("line_to_regression") {
     line_to_comparison(1);
 }
