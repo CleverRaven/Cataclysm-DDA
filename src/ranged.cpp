@@ -1436,6 +1436,16 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
         int adj_recoil = recoil + driving_recoil;
         dispersion += rng( int(adj_recoil / 4), adj_recoil );
     }
+    
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at( pos(), vpart );
+    
+    if ( weapon->has_flag("MOUNTED_GUN") &&
+        !g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() ) &&
+        (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+        // Double dispersion of a mounted gun if there is no suitable terrain nearby.
+        dispersion *= 2;
+    }
 
     if (has_bionic("bio_targeting")) {
         dispersion *= 0.75;
@@ -1456,6 +1466,14 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
 int recoil_add(player &p, const item &gun)
 {
     int ret = gun.gun_recoil();
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at( pos(), vpart );
+    if ( weapon->has_flag("MOUNTED_GUN") &&
+        !g->m.has_flag_ter_or_furn( "MOUNTABLE", p.pos() ) &&
+        (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
+        // Double recoil of a mounted gun if there is no suitable terrain nearby.
+        ret *= 2;
+    }
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
     ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
     if (ret > 0) {
