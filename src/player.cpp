@@ -977,9 +977,8 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                int t1, t2;
                 if( heat_intensity > 0 &&
-                    g->m.sees( pos(), dest, -1, t1, t2 ) ) {
+                    g->m.sees( pos(), dest, -1 ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
@@ -13668,12 +13667,12 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const tripoint &t, int &bresen1, int &bresen2, bool ) const
+bool player::sees( const tripoint &t, bool ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos3(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t, bresen1, bresen2 );;
+        Creature::sees( t );;
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13690,7 +13689,7 @@ bool player::sees( const tripoint &t, int &bresen1, int &bresen2, bool ) const
     return can_see;
 }
 
-bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
+bool player::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos3(), critter.pos3() );
@@ -13704,7 +13703,7 @@ bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
         // to the ground. It also might need a range check.
         return true;
     }
-    return Creature::sees( critter, bresen1, bresen2 );
+    return Creature::sees( critter );
 }
 
 bool player::can_pickup(bool print_msg) const

@@ -225,11 +225,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             if( z.is_dead() ) {
                 continue;
             }
-            int tart1 = 0;
-            int tart2 = 0;
             // search for monsters in radius 4 around impact site
             if( rl_dist( z.pos(), tp ) <= 4 &&
-                g->m.sees( z.pos(), tp, -1, tart1, tart2 ) ) {
+                g->m.sees( z.pos(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced")) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
@@ -947,7 +945,6 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
 {
 
     std::vector<tripoint> ret;
-    int tart1, tart2;
     tripoint from = from_arg;
     if( from == tripoint_min ) {
         from = u.pos3();
@@ -1153,7 +1150,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             const Creature *critter = critter_at( p, true );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
-            } else if (m.sees(u.pos(), p, -1, tart1, tart2)) {
+            } else if( m.sees(u.pos(), p, -1 )) {
                 m.drawsq(w_terrain, u, p, false, true, center.x, center.y);
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');

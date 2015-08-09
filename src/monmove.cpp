@@ -88,10 +88,10 @@ bool monster::can_move_to( const tripoint &p ) const
 // to the destination p. t is used to choose which eligible line to use.
 // Currently, this assumes we can see p, so shouldn't be used in any other
 // circumstance (or else the monster will "phase" through solid terrain!)
-void monster::set_dest( const tripoint &p, int &t )
+void monster::set_dest( const tripoint &p )
 {
     plans.clear();
-    plans = line_to( pos(), p, t, 0 );
+    plans = g->m.find_clear_path( pos(), p );
 }
 
 // Move towards p for f more turns--generally if we hear a sound there
@@ -102,7 +102,7 @@ void monster::wander_to( const tripoint &p, int f )
     wandf = f;
 }
 
-float monster::rate_target( Creature &c, int &bresen1, int &bresen2, float best, bool smart ) const
+float monster::rate_target( Creature &c, float best, bool smart ) const
 {
     const int d = rl_dist( pos3(), c.pos3() );
     if( d <= 0 ) {
@@ -114,7 +114,7 @@ float monster::rate_target( Creature &c, int &bresen1, int &bresen2, float best,
         return INT_MAX;
     }
 
-    if( !sees( c, bresen1, bresen2 ) ) {
+    if( !sees( c ) ) {
         return INT_MAX;
     }
 
@@ -139,9 +139,6 @@ void monster::plan( const mfactions &factions )
     Creature *target = nullptr;
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !electronic ? 1000 : 8.6f;
-    int bresenham_slope = 0;
-    int bresen2 = 0; // Unused until FoV update
-    int selected_slope = 0;
     bool fleeing = false;
     bool docile = has_flag( MF_VERMIN ) || ( friendly != 0 && has_effect( "docile" ) );
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
@@ -152,11 +149,10 @@ void monster::plan( const mfactions &factions )
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee.
-    if( friendly == 0 && sees( g->u, bresenham_slope ) ) {
-        dist = rate_target( g->u, bresenham_slope, bresen2, dist, electronic );
+    if( friendly == 0 && sees( g->u ) ) {
+        dist = rate_target( g->u, dist, electronic );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
-        selected_slope = bresenham_slope;
         if( dist <= 5 ) {
             anger += angers_hostile_near;
             morale -= fears_hostile_near;
@@ -166,11 +162,10 @@ void monster::plan( const mfactions &factions )
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, bresenham_slope, bresen2, dist, electronic );
+                float rating = rate_target( tmp, dist, electronic );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
-                    selected_slope = bresenham_slope;
                 }
             }
         }
@@ -178,8 +173,7 @@ void monster::plan( const mfactions &factions )
 
     if( docile ) {
         if( friendly != 0 && target != nullptr ) {
-            int slope = rng( 0, 1 );
-            set_dest( target->pos(), slope );
+            set_dest( target->pos() );
         }
 
         return;
@@ -187,7 +181,7 @@ void monster::plan( const mfactions &factions )
 
     for( size_t i = 0; i < g->active_npc.size(); i++ ) {
         npc *me = g->active_npc[i];
-        float rating = rate_target( *me, bresenham_slope, bresen2, dist, electronic );
+        float rating = rate_target( *me, dist, electronic );
         bool fleeing_from = is_fleeing( *me );
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
@@ -195,7 +189,6 @@ void monster::plan( const mfactions &factions )
             ( !fleeing && fleeing_from ) ) {
             target = me;
             dist = rating;
-            selected_slope = bresenham_slope;
         }
         fleeing = fleeing || fleeing_from;
         if( rating <= 5 ) {
@@ -214,11 +207,10 @@ void monster::plan( const mfactions &factions )
 
             for( int i : fac.second ) { // mon indices
                 monster &mon = g->zombie( i );
-                float rating = rate_target( mon, bresenham_slope, bresen2, dist, electronic );
+                float rating = rate_target( mon, dist, electronic );
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
-                    selected_slope = bresenham_slope;
                 }
                 if( rating <= 5 ) {
                     anger += angers_hostile_near;
@@ -242,7 +234,7 @@ void monster::plan( const mfactions &factions )
     if( group_morale || swarms ) {
         for( const int i : myfaction_iter->second ) {
             monster &mon = g->zombie( i );
-            float rating = rate_target( mon, bresenham_slope, bresen2, dist, electronic );
+            float rating = rate_target( mon, dist, electronic );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
             }
@@ -256,25 +248,19 @@ void monster::plan( const mfactions &factions )
                 } else if( rating < INT_MAX && rating > dist && wandf <= 0 ) {
                     target = &mon;
                     dist = rating;
-                    selected_slope = bresenham_slope;
                 }
             }
         }
     }
 
     if( target != nullptr ) {
-        if( one_in( 2 ) ) { // Random for the diversity of the trajectory
-            ++selected_slope;
-        } else {
-            --selected_slope;
-        }
 
         tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
         if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
-            set_dest( dest, selected_slope );
+            set_dest( dest );
         } else if( fleeing ) {
-            set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ), selected_slope );
+            set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
@@ -285,9 +271,9 @@ void monster::plan( const mfactions &factions )
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( g->u, bresenham_slope ) ) {
+    } else if( friendly < 0 && sees( g->u ) ) {
         if( rl_dist( pos3(), g->u.pos3() ) > 2 ) {
-            set_dest( g->u.pos3(), bresenham_slope );
+            set_dest( g->u.pos3() );
         } else {
             plans.clear();
         }
@@ -1292,12 +1278,11 @@ void monster::stumble( )
     // Here we have to fix our plans[] list,
     // acquiring a new path to the previous target.
     // target == either end of current plan, or the player.
-    int bresenham_slope, junk;
     if( !plans.empty() ) {
-        if( g->m.sees( pos3(), plans.back(), -1, bresenham_slope, junk ) ) {
-            set_dest( plans.back(), bresenham_slope );
-        } else if( sees( g->u, bresenham_slope ) ) {
-            set_dest( g->u.pos(), bresenham_slope );
+        if( g->m.sees( pos3(), plans.back(), -1 ) ) {
+            set_dest( plans.back() );
+        } else if( sees( g->u ) ) {
+            set_dest( g->u.pos() );
         } else { //durr, i'm suddenly calm. what was i doing?
             plans.clear();
         }
@@ -1435,8 +1420,7 @@ bool monster::will_reach( int x, int y )
         return true;
     }
 
-    int t;
-    if( can_see() && g->m.sees( posx(), posy(), x, y, g->light_level(), t ) ) {
+    if( can_see() && g->m.sees( posx(), posy(), x, y, g->light_level() ) ) {
         return true;
     }
 

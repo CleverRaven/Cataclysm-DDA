@@ -243,14 +243,13 @@ std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius)
 {
     const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
     std::vector<tripoint> result;
-    int junk = 0, trash = 0;
     for( const auto &p : gas_sources ) {
         if (g->m.move_cost( p ) <= 0) {
             // A wall
             continue;
         }
         if( p != center ) {
-            if (!g->m.clear_path( center, p, radius, 1, 100, junk, trash)) {
+            if (!g->m.clear_path( center, p, radius, 1, 100)) {
                 // Can not splatter gas from center to that point, something is in the way
                 continue;
             }

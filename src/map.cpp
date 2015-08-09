@@ -5756,36 +5756,37 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
 }
 
 // TODO: Implement this function in FoV update
-bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
+bool map::sees( const int Fx, const int Fy, const int Tx, const int Ty, const int range ) const
 {
-    t2 = 0;
-    return sees( F.x, F.y, T.x, T.y, range, t1 );
+    return sees( {Fx, Fy, 0}, {Tx, Ty, 0}, range );
+}
+
+bool map::sees( const point F, const point T, const int range ) const
+{
+    return sees( {F.x, F.y, 0}, {T.x, T.y, 0}, range );
 }
 
 bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
 {
-    int t1 = 0;
-    return sees( F.x, F.y, T.x, T.y, range, t1 );
+    int dummy = 0;
+    return sees( F, T, range, dummy );
 }
 
-bool map::sees( const point F, const point T, const int range, int &bresenham_slope ) const
+/**
+ * This one is internal-only, we don't want to expose the slope tweaking ickiness outside the map class.
+ **/
+bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bresenham_slope ) const
 {
-    return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
-}
-
-bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
-               const int range, int &bresenham_slope) const
-{
-    if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
-        !INBOUNDS(Tx, Ty) ) {
+    if( (range >= 0 && range < rl_dist(F.x, F.y, T.x, T.y)) ||
+        !INBOUNDS(T.x, T.y) ) {
         bresenham_slope = 0;
         return false; // Out of range!
     }
     bool visible = true;
-    bresenham( Fx, Fy, Tx, Ty, bresenham_slope,
-               [this, &visible, &Tx, &Ty]( const point &new_point ) {
+    bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
+               [this, &visible, &T]( const point &new_point ) {
                    // Exit befre checking the last square, it's still visible even if opaque.
-                   if( new_point.x == Tx && new_point.y == Ty ) {
+                   if( new_point.x == T.x && new_point.y == T.y ) {
                        return false;
                    }
                    if( !this->trans(new_point.x, new_point.y) ) {
@@ -5799,7 +5800,8 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
 
 // This method tries a bunch of initial offsets for the line to try and find a clear one.
 // Basically it does, "Find a line from any point in the source that ends up in the target square".
-std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoint &destination ) {
+std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoint &destination ) const
+{
     // TODO: Push this junk down into the bresenham method, it's already doing it.
     const int dx = destination.x - source.x;
     const int dy = destination.y - source.y;
@@ -5807,8 +5809,6 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoi
     const int ay = std::abs(dy) * 2;
     const int dominant = std::max(ax, ay);
     const int minor = std::min(ax, ay);
-    // TODO: scan for a matching vertical offset too?
-    const int vertical_offset = 0;
     // This seems to be the method for finding the ideal start value for the error value.
     const int ideal_start_offset = minor - (dominant / 2);
     const int start_sign = (ideal_start_offset > 0) - (ideal_start_offset < 0);
@@ -5816,25 +5816,23 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoi
     const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
     for ( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
         int candidate_offset = horizontal_offset * start_sign;
-        if( sees( source, destination, rl_dist(source, destination),
-                  candidate_offset, vertical_offset ) ) {
-            return line_to( source, destination, candidate_offset, vertical_offset );
+        if( sees( source, destination, rl_dist(source, destination), candidate_offset ) ) {
+            return line_to( source, destination, candidate_offset, 0 );
         }
     }
     // If we couldn't find a clear LoS, just return the ideal one.
-    return line_to( source, destination, ideal_start_offset, vertical_offset );
+    return line_to( source, destination, ideal_start_offset, 0 );
 }
 
-bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max, int &bresenham_slope) const
+bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
+                      const int range, const int cost_min, const int cost_max ) const
 {
     if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
         !INBOUNDS(Tx, Ty) ) {
-        bresenham_slope = 0;
         return false; // Out of range!
     }
     bool is_clear = true;
-    bresenham( Fx, Fy, Tx, Ty, bresenham_slope,
+    bresenham( Fx, Fy, Tx, Ty, 0,
                [this, &is_clear, cost_min, cost_max](const point &new_point ) {
                    const int cost = this->move_cost( new_point.x, new_point.y );
                    if( cost < cost_min || cost > cost_max ) {
@@ -5848,22 +5846,13 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
 
 // TODO: Z
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max, int &bres1, int &bres2 ) const
+                      const int cost_min, const int cost_max ) const
 {
     if( f.z != t.z ) {
         return false;
     }
 
-    bres2 = 0;
-    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max, bres1 );
-}
-
-bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max ) const
-{
-    int t1 = 0;
-    int t2 = 0;
-    return clear_path( f, t, range, cost_min, cost_max, t1, t2 );
+    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max );
 }
 
 bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const

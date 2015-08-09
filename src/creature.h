@@ -94,11 +94,6 @@ class Creature
          * The functions check whether this creature can see the target.
          * The target may either be another creature (critter), or a specific point on the map.
          *
-         * The bresenham_slope parameter is only set when the target is actually visible. Its
-         * value must be passed to @ref line_to to get a line from this creature to the target
-         * which will pass through transparent terrain only. Using a different value for line_to
-         * may result in a line that passes through opaque terrain.
-         *
          * Different creatures types are supposed to only implement the two virtual functions.
          * The other functions are here to give the callers more freedom, they simply forward
          * to one of the virtual functions.
@@ -108,14 +103,9 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
-        bool sees( const Creature &critter, int &bresenham_slope ) const;
-        bool sees( const Creature &critter ) const;
-        bool sees( int cx, int cy, int &bresenham_slope ) const;
-        bool sees( int tx, int ty ) const;
-        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2, bool is_player = false ) const;
-        bool sees( const tripoint &t, int &bresen1 ) const;
-        bool sees( const tripoint &t ) const;
+        virtual bool sees( const Creature &critter ) const;
+        bool sees( int cx, int cy ) const;
+        virtual bool sees( const tripoint &t, bool is_player = false ) const;
         bool sees( point t ) const;
 
         /*@}*/

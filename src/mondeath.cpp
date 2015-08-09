@@ -713,16 +713,15 @@ void make_gibs(monster *z, int amount)
         // leave gibs, if there are any
         tripoint pt = random_pt( z->pos() );
         const int gibDensity = rng(1, i + 1);
-        int t1, t2;
         if( z->gibType() != fd_null ) {
-            if(  g->m.clear_path( z->pos(), pt, 2, 1, 100, t1, t2 ) ) {
+            if(  g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
                 // Only place gib if there's a clear path for it to get there.
                 g->m.add_field( pt, z->gibType(), gibDensity, 0 );
             }
         }
         pt = random_pt( z->pos() );
         if( type_blood != fd_null ) {
-            if( g->m.clear_path( z->pos(), pt, 2, 1, 100, t1, t2 ) ) {
+            if( g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
                 // Only place blood if there's a clear path for it to get there.
                 g->m.add_field( pt, type_blood, 1, 0 );
             }
