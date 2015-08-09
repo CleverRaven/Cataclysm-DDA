@@ -5773,10 +5773,6 @@ bool map::sees( const point F, const point T, const int range, int &bresenham_sl
     return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
 }
 
-/*
-map::sees based off code by Steve Register [arns@arns.freeservers.com]
-http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
-*/
 bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
                const int range, int &bresenham_slope) const
 {
@@ -5787,11 +5783,17 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
     }
     bool visible = true;
     bresenham( Fx, Fy, Tx, Ty, bresenham_slope,
-               [this, &visible](const point &new_point ) {
+               [this, &visible, &Tx, &Ty]( const point &new_point ) {
+                   // Exit befre checking the last square, it's still visible even if opaque.
+                   if( new_point.x == Tx && new_point.y == Ty ) {
+                       return false;
+                   }
                    if( !this->trans(new_point.x, new_point.y) ) {
                        visible = false;
+                       return false;
                    }
-               } );
+                   return true;
+               });
     return visible;
 }
 
@@ -5809,7 +5811,9 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                    const int cost = this->move_cost( new_point.x, new_point.y );
                    if( cost < cost_min || cost > cost_max ) {
                        is_clear = false;
+                       return false;
                    }
+                   return true;
                } );
     return is_clear;
 }

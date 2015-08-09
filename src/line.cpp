@@ -6,25 +6,27 @@
 #define SGN(a) (((a)<0) ? -1 : 1)
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
-                const std::function<void(const point &)> &interact )
+                const std::function<bool(const point &)> &interact )
 {
+    // The slope components.
     const int dx = x2 - x1;
     const int dy = y2 - y1;
-
-    point cur;
-    cur.x = x1;
-    cur.y = y1;
-
-    const int ax = abs(dx);
-    const int ay = abs(dy);
+    // Signs of slope values.
     const int sx = (dx == 0) ? 0 : SGN(dx);
     const int sy = (dy == 0) ? 0 : SGN(dy);
+    // Absolute values of slopes x2 to avoid rounding errors.
+    const int ax = abs(dx) * 2;
+    const int ay = abs(dy) * 2;
+
+    point cur(x1, y1);
 
     if( ax == ay ) {
         while( cur.x != x2 ) {
             cur.y += sy;
             cur.x += sx;
-            interact( cur );
+            if( !interact( cur ) ) {
+                break;
+            }
         }
     } else if( ax > ay ) {
         while( cur.x != x2 ) {
@@ -34,7 +36,9 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
             }
             cur.x += sx;
             t += ay;
-            interact( cur );
+            if( !interact( cur ) ) {
+                break;
+            }
         }
     } else {
         while( cur.y != y2 ) {
@@ -44,30 +48,39 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
             }
             cur.y += sy;
             t += ax;
-            interact( cur );
+            if( !interact( cur ) ) {
+                break;
+            }
         }
     }
 }
 
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
-                const std::function<void(const tripoint &)> &interact )
+                const std::function<bool(const tripoint &)> &interact )
 {
-    tripoint cur( loc1 );
+    // The slope components.
     const int dx = loc2.x - loc1.x;
     const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
-    const int ax = abs(dx);
-    const int ay = abs(dy);
-    const int az = abs(dz);
+    // The signs of the slopes.
     const int sx = (dx == 0 ? 0 : SGN(dx));
     const int sy = (dy == 0 ? 0 : SGN(dy));
     const int sz = (dz == 0 ? 0 : SGN(dz));
+    // Absolute values of slope components, x2 to avoid rounding errors.
+    const int ax = abs(dx) * 2;
+    const int ay = abs(dy) * 2;
+    const int az = abs(dz) * 2;
+
+    tripoint cur( loc1 );
+
     if( az == 0 ) {
         if( ax == ay ) {
           while( cur.x != loc2.x ) {
                 cur.y += sy;
                 cur.x += sx;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         } else if (ax > ay) {
             while( cur.x != loc2.x ) {
@@ -77,7 +90,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
                 cur.x += sx;
                 t += ay;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         } else {
             while( cur.y != loc2.y ) {
@@ -87,7 +102,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
                 cur.y += sy;
                 t += ax;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         }
     } else {
@@ -96,7 +113,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 cur.z += sz;
                 cur.y += sy;
                 cur.x += sx;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         } else if( (az > ax) && (az > ay) ) {
             while( cur.z != loc2.z ) {
@@ -111,7 +130,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 cur.z += sz;
                 t += ax;
                 t2 += ay;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         } else if( ax == ay ) {
             while( cur.x != loc2.x ) {
@@ -122,7 +143,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 cur.y += sy;
                 cur.x += sx;
                 t += az;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         } else if( ax > ay ) {
             while( cur.x != loc2.x ) {
@@ -137,7 +160,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 cur.x += sx;
                 t += ay;
                 t2 += az;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         } else { //dy > dx >= dz
             while( cur.y != loc2.y ) {
@@ -152,7 +177,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 cur.y += sy;
                 t += ax;
                 t2 += az;
-                interact( cur );
+                if( !interact( cur ) ) {
+                    break;
+                }
             }
         }
     }
@@ -169,7 +196,10 @@ std::vector<point> line_to(const int x1, const int y1, const int x2, const int y
         line.push_back( {x1, y1} );
     } else {
         line.reserve(numCells);
-        bresenham( x1, y1, x2, y2, t, [&line](const point &new_point){line.push_back(new_point);} );
+        bresenham( x1, y1, x2, y2, t, [&line]( const point &new_point ) {
+            line.push_back(new_point);
+            return true;
+        } );
     }
     return line;
 }
@@ -188,7 +218,10 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
         line.push_back( loc1 );
     } else {
         line.reserve(numCells);
-        bresenham( loc1, loc2, t, t2, [&line](const tripoint &new_point){line.push_back(new_point);} );
+        bresenham( loc1, loc2, t, t2, [&line]( const tripoint &new_point ) {
+            line.push_back(new_point);
+            return true;
+        } );
     }
     return line;
 }

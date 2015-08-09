@@ -67,9 +67,9 @@ std::string const& direction_name_short(direction dir);
  * and pass in an interact functor to iterate across a line between two points.
  */
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
-                const std::function<void(const point &)> &interact );
+                const std::function<bool(const point &)> &interact );
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
-                const std::function<void(const tripoint &)> &interact );
+                const std::function<bool(const tripoint &)> &interact );
 
 // The "t" value decides WHICH Bresenham line is used.
 std::vector<point> line_to(int x1, int y1, int x2, int y2, int t);

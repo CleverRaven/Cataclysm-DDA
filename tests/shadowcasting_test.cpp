@@ -83,12 +83,14 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
     bool visible = true;
     int junk = 0;
     bresenham( x, y, offsetX, offsetY, junk,
-	       [&transparency_cache, &visible](const point &new_point) {
-		 if( transparency_cache[new_point.x][new_point.y] <=
-		     LIGHT_TRANSPARENCY_SOLID ) {
-		   visible = false;
-		 }
-	       } );
+               [&transparency_cache, &visible](const point &new_point) {
+                   if( transparency_cache[new_point.x][new_point.y] <=
+                       LIGHT_TRANSPARENCY_SOLID ) {
+                       visible = false;
+                       return false;
+                   }
+                   return true;
+               } );
     return visible;
 }
 
