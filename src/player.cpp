@@ -4272,7 +4272,7 @@ void player::shout( std::string msg )
     if ( has_trait("SHOUT2") ) {
         base = 15;
         shout_multiplier = 3;
-        if ( msg == "" ) {
+        if ( msg.empty() ) {
             msg = _("You scream loudly!");
         }
     }
@@ -4280,12 +4280,12 @@ void player::shout( std::string msg )
     if ( has_trait("SHOUT3") ) {
         shout_multiplier = 4;
         base = 20;
-        if ( msg == "" ) {
+        if ( msg.empty() ) {
             msg = _("You let out a piercing howl!");
         }
     }
 
-    if ( msg  == "" ) {
+    if ( msg.empty() ) {
         msg = _("You shout loudly!");
     }
     // Masks and such dampen the sound

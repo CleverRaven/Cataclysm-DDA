@@ -11517,11 +11517,11 @@ void game::chat()
 
     if (available.empty()) {
         add_msg(m_info, _("There's no-one close enough to talk to."));
-        if ( query_yn(_("No one nearby. Yell?")) ) {
-            u.shout();
-            u.moves -= 100;
+        if ( !query_yn(_("No one nearby. Yell?")) ) {
+            return;
         }
-        return;
+        u.shout();
+
     } else if (available.size() == 1) {
         available[0]->talk_to_u();
     } else {
