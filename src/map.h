@@ -398,6 +398,13 @@ public:
     bool clear_path( const tripoint &f, const tripoint &t, const int range,
                      const int cost_min, const int cost_max ) const;
 
+    /**
+     * Iteratively tries bresenham lines with different biases
+     * until it finds a clear line or decides there isn't one.
+     * returns the line or an empty vector to indicate failure.
+     */
+    std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint&destination );
+
 
     /**
      * Check whether items in the target square are accessible from the source square

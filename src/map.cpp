@@ -5797,6 +5797,34 @@ bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
     return visible;
 }
 
+// This method tries a bunch of initial offsets for the line to try and find a clear one.
+// Basically it does, "Find a line from any point in the source that ends up in the target square".
+std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoint &destination ) {
+    // TODO: Push this junk down into the bresenham method, it's already doing it.
+    const int dx = destination.x - source.x;
+    const int dy = destination.y - source.y;
+    const int ax = std::abs(dx) * 2;
+    const int ay = std::abs(dy) * 2;
+    const int dominant = std::max(ax, ay);
+    const int minor = std::min(ax, ay);
+    // TODO: scan for a matching vertical offset too?
+    const int vertical_offset = 0;
+    // This seems to be the method for finding the ideal start value for the error value.
+    const int ideal_start_offset = minor - (dominant / 2);
+    const int start_sign = (ideal_start_offset > 0) - (ideal_start_offset < 0);
+    // Not totally sure of the derivation.
+    const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
+    for ( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
+        int candidate_offset = horizontal_offset * start_sign;
+        if( sees( source, destination, rl_dist(source, destination),
+                  candidate_offset, vertical_offset ) ) {
+            return line_to( source, destination, candidate_offset, vertical_offset );
+        }
+    }
+    // If we couldn't find a clear LoS, just return the ideal one.
+    return line_to( source, destination, ideal_start_offset, vertical_offset );
+}
+
 bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                      const int range, const int cost_min, const int cost_max, int &bresenham_slope) const
 {
