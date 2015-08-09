@@ -71,7 +71,7 @@ TEST_CASE("Player body temperatures converge on expected values.") {
     while( dummy.takeoff( -2, true, &taken_off_items) );
 
     // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
-    // As we aren't modelling metabolic rate, assume 2 METS when not sleeping.
+    // As we aren't modeling metabolic rate, assume 2 METS when not sleeping.
     // Obviously though 0.7 METS when sleeping is called for.
 
     // I'm not sure how to apply +1 METS as a temperature offset,
@@ -113,7 +113,7 @@ TEST_CASE("Player body temperatures converge on expected values.") {
         test_temperature_spread( &dummy, {{ -39, -14, 17, 46, 70, 84, 96 }} );
     }
 
-    SECTION("Artic gear target temperatures") {
+    SECTION("Arctic gear target temperatures") {
         equip_clothing( &dummy, "balclava");
         equip_clothing( &dummy, "goggles_ski");
         equip_clothing( &dummy, "hat_hunting");

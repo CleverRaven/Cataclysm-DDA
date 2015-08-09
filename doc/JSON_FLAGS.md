@@ -30,7 +30,7 @@ List of known flags, used in both terrain.json and furniture.json
 
 ### Flags
 
-- ```TRANSPARENT``` Players and monsters can see thorugh/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```FLAT``` Player can build and move furniture on.
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
@@ -223,7 +223,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
-- ```HIT_AND_RUN``` Flee for several turns after a melee atack.
+- ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```GUILT``` You feel guilty for killing it.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
@@ -865,7 +865,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.
 - ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```MOLOTOV``` Light the molotov cocktail.
+- ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
