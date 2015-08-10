@@ -70,9 +70,9 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
 }
 
 void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                       const int age, const double roll )
+                       const int age, const int roll )
 {
-    if( roll <= 0 ) {
+    if( roll < 0 ) {
         return;
     }
 
@@ -82,9 +82,9 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                        const int age, const double roll )
+                        const int age, const int roll )
 {
-    if( roll <= 0 ) {
+    if( roll < 0 ) {
         return;
     }
 

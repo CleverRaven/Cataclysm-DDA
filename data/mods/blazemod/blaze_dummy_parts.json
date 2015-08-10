@@ -14,8 +14,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "anx17p", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "anx17p"}
         ]
     },{
         "type" : "vehicle_part",
@@ -34,8 +34,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "aneedler", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "aneedler"}
         ]
     },
     {
@@ -55,8 +55,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 2, "max": 2},
-            {"item": "aneedler", "min": 2, "max": 2}
+            {"item": "turretframe", "count": 2},
+            {"item": "aneedler", "count": 2}
         ]
     },
     {
@@ -76,8 +76,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "SMGturret", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "SMGturret"}
         ]
     },
     {
@@ -97,8 +97,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 2, "max": 2},
-            {"item": "SMGturret", "min": 2, "max": 2}
+            {"item": "turretframe", "count": 2},
+            {"item": "SMGturret", "count": 2}
         ]
     },
     {
@@ -118,8 +118,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "SMGturret", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "SMGturret"}
         ]
     },
     {
@@ -139,8 +139,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 2, "max": 2},
-            {"item": "SMGturret", "min": 2, "max": 2}
+            {"item": "turretframe", "count": 2},
+            {"item": "SMGturret", "count": 2}
         ]
     },
     {
@@ -160,8 +160,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "SMGturret", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "SMGturret"}
         ]
     },
     {
@@ -181,8 +181,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 2, "max": 2},
-            {"item": "SMGturret", "min": 2, "max": 2}
+            {"item": "turretframe", "count": 2},
+            {"item": "SMGturret", "count": 2}
         ]
     },
     {
@@ -202,8 +202,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "am249", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "am249"}
         ]
     },
     {
@@ -223,8 +223,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE", "CARGO"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "am249", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "am249"}
         ]
     },    {
         "type" : "vehicle_part",
@@ -241,8 +241,8 @@
         "location" : "on_roof",
         "flags" : ["NOINSTALL", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "turretframe", "min": 1, "max": 1},
-            {"item": "alasgunp", "min": 1, "max": 1}
+            {"item": "turretframe"},
+            {"item": "alasgunp"}
         ]
     },
     {
@@ -551,7 +551,7 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "CARGO", "NOINSTALL"],
         "breaks_into" : [
-            {"item": "agattleranom1", "min": 1, "max": 1}
+            {"item": "agattleranom1"}
         ]
     },
     {
@@ -572,7 +572,7 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "CARGO", "NOINSTALL"],
         "breaks_into" : [
-            {"item": "agattleranom2", "min": 1, "max": 1}
+            {"item": "agattleranom2"}
         ]
     }
 ]

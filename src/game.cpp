@@ -11506,16 +11506,6 @@ void game::read()
 
 void game::chat()
 {
-    if (u.is_deaf()) {
-        add_msg(m_info, _("You can't chat while deaf!"));
-        return;
-    }
-
-    if (active_npc.empty()) {
-        add_msg(_("You talk to yourself for a moment."));
-        return;
-    }
-
     std::vector<npc *> available;
 
     for( auto &elem : active_npc ) {
@@ -11527,7 +11517,11 @@ void game::chat()
 
     if (available.empty()) {
         add_msg(m_info, _("There's no-one close enough to talk to."));
-        return;
+        if ( !query_yn(_("No one nearby. Yell?")) ) {
+            return;
+        }
+        u.shout();
+
     } else if (available.size() == 1) {
         available[0]->talk_to_u();
     } else {

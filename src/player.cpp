@@ -1618,26 +1618,13 @@ void player::recalc_speed_bonus()
 int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
+    const bool flatground = movecost < 105;
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
-    bool flatground = movecost < 105;
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    // If your floor is hard, flat, and otherwise skateable, list it here
+
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
-      (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
-      (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
-      (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
-      (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
-      (ter_at_pos == t_door_glass_o) || (ter_at_pos == t_utility_light) ||
-      (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
-      (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
-      (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
-      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) ||
-      (ter_at_pos == t_pit_glass_covered) || (ter_at_pos == t_sidewalk_bg_dp) ||
-      (ter_at_pos == t_pavement_bg_dp) || (ter_at_pos == t_pavement_y_bg_dp) ||
-      (ter_at_pos == t_linoleum_white) || (ter_at_pos == t_linoleum_gray))) );
+    const bool offroading = flatground && !g->m.has_flag( "ROAD", pos() );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1652,14 +1639,13 @@ int player::run_cost(int base_cost, bool diag)
 
     if (hp_cur[hp_leg_l] == 0) {
         movecost += 50;
-    }
-    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
+    } else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
         movecost += 25;
     }
+
     if (hp_cur[hp_leg_r] == 0) {
         movecost += 50;
-    }
-    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
+    } else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
         movecost += 25;
     }
 
@@ -1729,8 +1715,9 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 +
-        ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
+    movecost +=
+        ( ( encumb(bp_foot_l) + encumb(bp_foot_r) ) * 2.5 +
+          ( encumb(bp_leg_l) + encumb(bp_leg_r) ) * 1.5 ) / 10;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1745,7 +1732,7 @@ int player::run_cost(int base_cost, bool diag)
     }
 
     if( !footwear_factor() && has_trait("ROOTS3") &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) ) {
+        g->m.has_flag("DIGGABLE", pos()) ) {
         movecost += 10 * footwear_factor();
     }
 
@@ -3019,17 +3006,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
+                s += run_cost_text( encumb( bp_leg_l ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s += run_cost_text( (encumb( bp_leg_r ) / 10) * 1.5 );
+                s += run_cost_text( encumb( bp_leg_r ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
-                s += run_cost_text( (encumb( bp_foot_l ) / 10) * 2.5 );
+                s += run_cost_text( encumb( bp_foot_l ) * 0.25 );
             } else if (line == 11) { //Right Foot
-                s += run_cost_text( (encumb( bp_foot_r ) / 10) * 2.5 );
+                s += run_cost_text( encumb( bp_foot_r ) * 0.25 );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
@@ -4261,6 +4248,59 @@ void player::pause()
     }
 
     search_surroundings();
+}
+
+void player::shout( std::string msg )
+{
+    int base = 10;
+    int shout_multiplier = 2;
+
+    // Mutations make shouting louder, they also define the defualt message
+    if ( has_trait("SHOUT2") ) {
+        base = 15;
+        shout_multiplier = 3;
+        if ( msg.empty() ) {
+            msg = _("You scream loudly!");
+        }
+    }
+
+    if ( has_trait("SHOUT3") ) {
+        shout_multiplier = 4;
+        base = 20;
+        if ( msg.empty() ) {
+            msg = _("You let out a piercing howl!");
+        }
+    }
+
+    if ( msg.empty() ) {
+        msg = _("You shout loudly!");
+    }
+    // Masks and such dampen the sound
+    // Balanced around  whisper for wearing bondage mask
+    // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
+    int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if ( noise <= base ) {
+        std::string dampened_shout;
+        std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
+        noise = std::max( minimum_noise, noise );
+        msg = std::move( dampened_shout );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if ( underwater ) {
+        if ( !has_trait("GILLS") && !has_trait("GILLS_CEPH") ) {
+            mod_stat( "oxygen", -noise );
+        }
+
+        noise = std::max(minimum_noise, noise / 2);
+    }
+
+    sounds::sound( pos(), noise, msg );
 }
 
 void player::toggle_move_mode()
@@ -7804,7 +7844,7 @@ void player::suffer()
                     break;
                 case 9:
                     add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
-                    sounds::sound( pos(), 10 + 2 * str_cur, "AHHHHHHH!");
+                    shout(_("AHHHHHHH!"));
                     break;
                 case 10:
                     add_msg(std::string(name + name + name + name + name + name + name +
@@ -7836,14 +7876,15 @@ void player::suffer()
         if (has_trait("VOMITOUS") && one_in(4200)) {
             vomit();
         }
+
         if (has_trait("SHOUT1") && one_in(3600)) {
-            sounds::sound( pos(), 10 + 2 * str_cur, _("You shout loudly!"));
+            shout();
         }
         if (has_trait("SHOUT2") && one_in(2400)) {
-            sounds::sound( pos(), 15 + 3 * str_cur, _("You scream loudly!"));
+            shout();
         }
         if (has_trait("SHOUT3") && one_in(1800)) {
-            sounds::sound( pos(), 20 + 4 * str_cur, _("You let out a piercing howl!"));
+            shout();
         }
         if (has_trait("M_SPORES") && one_in(2400)) {
             spores();

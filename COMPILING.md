@@ -385,7 +385,7 @@ If you dont want localization you can change `LOCALIZE` to 0.
 
 This is a tentative step-by-step guide to building your own CDDA with Tiles, Localization and Lua using only MSYS2. You may want to follow it if the MinGW guide above doesn't work for you or you just feel adventurous. Feedback is very much welcome in terms of issues and/or pull-requests.
 
-This guide assumes you're building on a x86_64 build of Windows. If not adjust the invocations appropriately. It has been tested and proven to work on Windows XP and Windows 10. Your mileage may vary.
+This guide assumes you're building on a x86_64 build of Windows. If not adjust the invocations appropriately. It has been tested and proven to work on Windows XP, Windows 7 and Windows 10. Your mileage may vary.
 
 #### 1. Go to https://msys2.github.io/ and download appropriate MSYS (top of the page).
 
@@ -496,11 +496,11 @@ To:
    ifeq ($(TARGETSYSTEM),WINDOWS)
      ifndef DYNAMIC_LINKING
        # These differ depending on what SDL2 is configured to use.
-       LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg
+       LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
      else
 ```
 
-(Add `-lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg`). You'll need these libs for it to link.
+(Add `-lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid`). You'll need these libs for it to link.
 
 #### 10. Compile your CDDA by running:
 

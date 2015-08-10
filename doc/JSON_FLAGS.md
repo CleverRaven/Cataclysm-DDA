@@ -30,7 +30,7 @@ List of known flags, used in both terrain.json and furniture.json
 
 ### Flags
 
-- ```TRANSPARENT``` Players and monsters can see thorugh/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```FLAT``` Player can build and move furniture on.
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
@@ -72,6 +72,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
 Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
@@ -223,7 +224,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
-- ```HIT_AND_RUN``` Flee for several turns after a melee atack.
+- ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```GUILT``` You feel guilty for killing it.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
@@ -865,7 +866,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.
 - ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```MOLOTOV``` Light the molotov cocktail.
+- ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.

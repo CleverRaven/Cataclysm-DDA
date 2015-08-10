@@ -187,7 +187,9 @@ void Item_modifier::modify(item &new_item) const
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
-            new_item.charges = ch;
+            // count_by_charges requires that charges is at least 1. It makes no sense to
+            // spawn a "water (0)" item.
+            new_item.charges = std::max( 1l, ch );
         } else if(t != NULL) {
             new_item.charges = std::min(ch, t->max_charges);
         } else if (g == nullptr){
@@ -453,4 +455,52 @@ void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
                                   const std::string &subtype )
 {
     item_controller->load_item_group( jsobj, group_id, subtype );
+}
+
+Group_tag get_unique_group_id()
+{
+    // This is just a hint what id to use next. Overflow of it is defined and if the group
+    // name is already used, we simply go the next id.
+    static unsigned int next_id = 0;
+    // Prefixing with a character outside the ASCII range, so it is hopefully unique and
+    // (if actually printed somewhere) stands out. Theoretically those auto-generated group
+    // names should not be seen anywhere.
+    static const std::string unique_prefix = "\u01F7 ";
+    while( true ) {
+        const Group_tag new_group = unique_prefix + std::to_string( next_id++ );
+        if( !item_group::group_is_defined( new_group ) ) {
+            return new_group;
+        }
+    }
+}
+
+Group_tag item_group::load_item_group( JsonIn& stream, const std::string& default_subtype )
+{
+    if( stream.test_string() ) {
+        return stream.get_string();
+    } else if( stream.test_object() ) {
+        const Group_tag group = get_unique_group_id();
+
+        JsonObject jo = stream.get_object();
+        const std::string subtype = jo.get_string( "subtype", default_subtype );
+        item_controller->load_item_group( jo, group, subtype );
+
+        return group;
+    } else if( stream.test_array() ) {
+        const Group_tag group = get_unique_group_id();
+
+        JsonArray jarr = stream.get_array();
+        // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors
+        // from the caller of this function.
+        if( default_subtype != "collection" && default_subtype != "distribution" ) {
+            debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
+        }
+        item_controller->load_item_group( jarr, group, default_subtype == "collection" );
+
+        return group;
+    } else {
+        stream.error( "invalid item group, must be string (group id) or object/array (the group data)" );
+        // stream.error always throws, this is here to prevent a warning
+        return Group_tag{};
+    }
 }

@@ -615,12 +615,12 @@ void npc::talk_to_u()
     moves -= 100;
 
     if(g->u.is_deaf()) {
-        add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
         if(d.topic_stack.back() == "TALK_MUG") {
-            add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
             make_angry();
+            d.topic_stack.push_back("TALK_DEAF_MUG");
+        } else {
+            d.topic_stack.push_back("TALK_DEAF");
         }
-        return;
     }
 
     decide_needs();
@@ -663,6 +663,15 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return line;
         }
     }
+
+    if ( topic == "TALK_DEAF" ) {
+        return _("&You are deaf and can't talk.");
+
+    } else if ( topic == "TALK_DEAF_MUG" ) {
+        return string_format(_("&You are deaf and can't talk. When you don't respond, %s becomes angry!"),
+                beta->name.c_str());
+    }
+
     const auto p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
     static const std::unordered_set<std::string> mission_topics = { {
@@ -1532,6 +1541,14 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_DEMAND_LEAVE" ) {
         return _("Now get out of here, before I kill you.");
+
+    } else if( topic == "TALK_SHOUT" ) {
+        alpha->shout();
+        if ( alpha->is_deaf() ) {
+            return _("&You yell, but can't hear yourself.");
+        } else {
+            return _("&You yell.");
+        }
 
     } else if( topic == "TALK_SIZE_UP" ) {
         int ability = g->u.per_cur * 3 + g->u.int_cur;
@@ -2797,7 +2814,8 @@ void dialogue::gen_responses( const std::string &topic )
                     SUCCESS_OPINION(0, -1, 0, 0, 0);
                     SUCCESS_ACTION(&talk_function::player_leaving);
 
-    } else if( topic == "TALK_SIZE_UP" || topic == "TALK_LOOK_AT" || topic == "TALK_OPINION" ) {
+    } else if( topic == "TALK_SIZE_UP" || topic == "TALK_LOOK_AT" ||
+               topic == "TALK_OPINION" || topic == "TALK_SHOUT" ) {
             add_response_none( _("Okay.") );
 
     } else if( topic == "TALK_ALLOW_SLEEP" ) {
@@ -3000,7 +3018,7 @@ int topic_category( const std::string &topic )
         return 6;
     }
     static const std::unordered_set<std::string> topic_99 = { {
-        "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION"
+        "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
     } };
     if( topic_99.count( topic ) > 0 ) {
         return 99;
@@ -3688,6 +3706,7 @@ bool dialogue::print_responses( int const yoffset )
     // Those are always available, their key bindings are fixed as well.
     mvwprintz( win, curline + 2, xoffset, c_magenta, _( "L: Look at" ) );
     mvwprintz( win, curline + 3, xoffset, c_magenta, _( "S: Size up stats" ) );
+    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Y: Yell" ) );
     return curline > max_line; // whether there is more to print.
 }
 
@@ -3862,6 +3881,9 @@ std::string special_talk(char ch)
   case 'O':
   case 'o':
    return "TALK_OPINION";
+  case 'Y':
+  case 'y':
+   return "TALK_SHOUT";
   default:
    return "TALK_NONE";
  }

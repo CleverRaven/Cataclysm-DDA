@@ -490,6 +490,39 @@
         "post_terrain" : "t_window_alarm_taped"
     },{
         "type" : "construction",
+        "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 }
+        ] ],
+        "pre_terrain" : "t_window_taped",
+        "post_terrain" : "t_window"
+    },{
+        "type" : "construction",
+        "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 }
+        ] ],
+        "pre_terrain" : "t_window_domestic_taped",
+        "post_terrain" : "t_window_domestic"
+    },{
+        "type" : "construction",
+        "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 }
+        ] ],
+        "pre_terrain" : "t_window_alarm_taped",
+        "post_terrain" : "t_window_alarm"
+    },{
+        "type" : "construction",
         "description" : "Board Up Window", "//": "Board up normal window",
         "category" : "REINFORCE",
         "difficulty" : 1,
@@ -1208,39 +1241,6 @@
         ],
         "pre_special" : "check_support",
         "post_terrain" : "t_chaingate_c"
-    },{
-        "type" : "construction",
-        "description" : "Tape up window",
-        "category" : "REINFORCE",
-        "difficulty" : 0,
-        "time" : 5,
-        "components" : [
-            [ [ "duct_tape", 50 ] ]
-        ],
-        "pre_terrain" : "t_window",
-        "post_terrain" : "t_window_taped"
-    },{
-        "type" : "construction",
-        "description" : "Tape up window",
-        "category" : "REINFORCE",
-        "difficulty" : 0,
-        "time" : 5,
-        "components" : [
-            [ [ "duct_tape", 50 ] ]
-        ],
-        "pre_terrain" : "t_window_domestic",
-        "post_terrain" : "t_window_domestic_taped"
-    },{
-        "type" : "construction",
-        "description" : "Tape up window",
-        "category" : "REINFORCE",
-        "difficulty" : 0,
-        "time" : 5,
-        "components" : [
-            [ [ "duct_tape", 50 ] ]
-        ],
-        "pre_terrain" : "t_window_alarm",
-        "post_terrain" : "t_window_alarm_taped"
     },{
         "type" : "construction",
         "description" : "Seal Crate",

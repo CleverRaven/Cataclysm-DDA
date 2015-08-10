@@ -27,6 +27,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
+#include "item_group.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -3163,7 +3164,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         tripoint tentp = tripoint_min;
         furn_id center_type = f_null;
-        
+
         // Find the center of the tent
         // First check if we're not currently bashing the center
         if( centers.count( furn( p ) ) > 0 ) {
@@ -3182,7 +3183,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
         // Didn't find any tent center, wreck the current tile
         if( center_type == f_null || tentp == tripoint_min ) {
-            spawn_item_list( bash->items, p );
+            spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
             furn_set( p, bash->furn_set );
         } else {
             // Take the tent down
@@ -3199,7 +3200,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                     const furn_id cur_id = furnfind( center );
                     if( centers.count( cur_id ) > 0 ) {
                         // Found same center, wreck current tile
-                        spawn_item_list( recur_bash->items, pt );
+                        spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );
                         furn_set( pt, recur_bash->furn_set );
                         break;
                     }
@@ -3234,7 +3235,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( !tent ) {
-        spawn_item_list( bash->items, p );
+        spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
     if( smash_ter && ter( p ) == t_open_air ) {
@@ -3354,37 +3355,6 @@ void map::bash_field( const tripoint &p, bash_params &params )
         params.did_bash = true;
         params.bashed_solid = true; // To prevent bashing furniture/vehicles
         remove_field( p, fd_web );
-    }
-}
-
-void map::spawn_item_list( const std::vector<map_bash_item_drop> &items, const tripoint &p ) {
-    for( auto &items_i : items ) {
-        const map_bash_item_drop &drop = items_i;
-        int chance = drop.chance;
-        if ( chance == -1 || rng(0, 100) >= chance ) {
-            int numitems = drop.amount;
-
-            if ( drop.minamount != -1 ) {
-                numitems = rng( drop.minamount, drop.amount );
-            }
-            if ( numitems > 0 ) {
-                item new_item(drop.itemtype, calendar::turn);
-                if ( new_item.count_by_charges() ) {
-                    new_item.charges = numitems;
-                    numitems = 1;
-                }
-                const bool varsize = new_item.has_flag( "VARSIZE" );
-                for(int a = 0; a < numitems; a++ ) {
-                    if( varsize && one_in( 3 ) ) {
-                        new_item.item_tags.insert( "FIT" );
-                    } else if( varsize ) {
-                        // might have been added previously
-                        new_item.item_tags.erase( "FIT" );
-                    }
-                    add_item_or_charges(p, new_item);
-                }
-            }
-        }
     }
 }
 
@@ -4981,7 +4951,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
     bool trigger_item = false;
     // Check for charges != 0 not >0, so that -1 charge tools can still be used
     if( n->charges != 0 && n->has_flag("RADIO_ACTIVATION") && n->has_flag(signal) ) {
-        sounds::sound(pos, 6, "beep.");
+        sounds::sound(pos, 6, _("beep."));
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
             process_item( items, n, pos, true );

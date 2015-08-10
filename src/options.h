@@ -8,9 +8,13 @@
 #include <algorithm> //atoi
 
 enum copt_hide_t {
+    /** Don't hide this option */
     COPT_NO_HIDE,
+    /** Hide this option in SDL build */
     COPT_SDL_HIDE,
+    /** Show this option in SDL builds only */
     COPT_CURSES_HIDE,
+    /** Hide this option in non-Windows Curses builds */
     COPT_POSIX_CURSES_HIDE
 };
 
@@ -125,19 +129,21 @@ class cOpt
         float fStep;
 };
 
+/** A mapping(string:string) that stores all tileset values.
+ * Firsts string is tileset NAME from config.
+ * Second string is directory that contain tileset.
+ */
+extern std::map<std::string, std::string> TILESETS;
 extern std::unordered_map<std::string, cOpt> OPTIONS;
 extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 extern std::map<int, std::vector<std::string> > mPageItems;
 extern int iWorldOptPage;
 
 extern options_data optionsdata;
-void initOptions();
+void init_options();
 void load_options();
 void save_options(bool ingame = false);
 void show_options(bool ingame = false);
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
-
-std::string get_tileset_names(std::string dir_path);
-
 #endif

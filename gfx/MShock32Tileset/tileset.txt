@@ -9,6 +9,6 @@ NAME: MShock32
 #Viewing (Option) name of the tileset
 VIEW: MShock32
 #JSON Path - Default of gfx/tile_config.json
-JSON: MShock32Tileset/tile_config.json
+JSON: tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: MShock32Tileset/tiles.png
+TILESET: tiles.png

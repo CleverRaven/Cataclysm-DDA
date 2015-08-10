@@ -16,10 +16,10 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 2, "max": 8},
-            {"item": "cable", "min": 6, "max": 20},
-            {"item": "e_scrap", "min": 4, "max": 12},
-            {"item": "plastic_chunk", "min": 2, "max": 4}
+            {"item": "scrap", "count": [2, 8]},
+            {"item": "cable", "charges": [6, 20]},
+            {"item": "e_scrap", "count": [4, 12]},
+            {"item": "plastic_chunk", "count": [2, 4]}
         ]
     },
     {
@@ -39,11 +39,11 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 3, "max": 8},
-            {"item": "cable", "min": 10, "max": 20},
-            {"item": "e_scrap", "min": 12, "max": 20},
-            {"item": "plastic_chunk", "min": 4, "max": 8},
-            {"item": "burnt_out_bionic", "min": 0, "max": 1}
+            {"item": "scrap", "count": [3, 8]},
+            {"item": "cable", "charges": [10, 20]},
+            {"item": "e_scrap", "count": [12, 20]},
+            {"item": "plastic_chunk", "count": [4, 8]},
+            {"item": "burnt_out_bionic", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -63,11 +63,11 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "pipe", "min": 0, "max": 1},
-            {"item": "e_scrap", "min": 2, "max": 8},
-            {"item": "cable", "min": 10, "max": 20},
-            {"item": "plastic_chunk", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "pipe", "prob": 50},
+            {"item": "e_scrap", "count": [2, 8]},
+            {"item": "cable", "charges": [10, 20]},
+            {"item": "plastic_chunk", "count": [3, 6]}
         ]
     },
     {
@@ -88,12 +88,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -114,12 +114,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -140,12 +140,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -166,13 +166,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 20},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
-            
+            {"item": "scrap", "count": [12, 20]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -193,12 +192,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 20},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 20]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -219,12 +218,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 16]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -245,15 +244,15 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 16, "max": 20},
-            {"item": "pipe", "min": 1, "max": 4},
-            {"item": "plastic_chunk", "min": 3, "max": 6},
-            {"item": "spring", "min": 0, "max": 4},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [16, 20]},
+            {"item": "pipe", "count": [1, 4]},
+            {"item": "plastic_chunk", "count": [3, 6]},
+            {"item": "spring", "count": [0, 4]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -274,14 +273,14 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "pipe", "min": 0, "max": 6},
-            {"item": "spring", "min": 0, "max": 6},
-            {"item": "scrap", "min": 6, "max": 24},
-            {"item": "steel_chunk", "min": 0, "max": 6},
-            {"item": "splinter", "min": 0, "max": 12},
-            {"item": "foot_crank", "min": 0, "max": 1},
-            {"item": "rope_6", "min": 0, "max": 6},
-            {"item": "chain", "min": 0, "max": 1}
+            {"item": "pipe", "count": [0, 6]},
+            {"item": "spring", "count": [0, 6]},
+            {"item": "scrap", "count": [6, 24]},
+            {"item": "steel_chunk", "count": [0, 6]},
+            {"item": "splinter", "count": [0, 12]},
+            {"item": "foot_crank", "prob": 50},
+            {"item": "rope_6", "count": [0, 6]},
+            {"item": "chain", "prob": 50}
         ]
     },
     {
@@ -302,14 +301,14 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 2, "max": 6},
-            {"item": "hose", "min": 0, "max": 4},
-            {"item": "splinter", "min": 6, "max": 24},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [2, 6]},
+            {"item": "hose", "count": [0, 4]},
+            {"item": "splinter", "count": [6, 24]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -330,13 +329,13 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16},
-            {"item": "pipe", "min": 1, "max": 4},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 16]},
+            {"item": "pipe", "count": [1, 4]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -357,13 +356,13 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 6, "max": 26},
-            {"item": "steel_chunk", "min": 0, "max": 6},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [6, 26]},
+            {"item": "steel_chunk", "count": [0, 6]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -384,12 +383,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 16]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -410,12 +409,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 16]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -436,12 +435,12 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 16]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -462,13 +461,13 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 16, "max": 22},
-            {"item": "pipe", "min": 2, "max": 6},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [16, 22]},
+            {"item": "pipe", "count": [2, 6]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -489,13 +488,13 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 16},
-            {"item": "pipe", "min": 1, "max": 4},
-            {"item": "spring", "min": 0, "max": 2},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 16]},
+            {"item": "pipe", "count": [1, 4]},
+            {"item": "spring", "count": [0, 2]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },    {
         "type" : "vehicle_part",
@@ -514,13 +513,13 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 14},
-            {"item": "cable", "min": 20, "max": 40},
-            {"item": "e_scrap", "min": 8, "max": 16},
-            {"item": "plastic_chunk", "min": 6, "max": 8},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 14]},
+            {"item": "cable", "charges": [20, 40]},
+            {"item": "e_scrap", "count": [8, 16]},
+            {"item": "plastic_chunk", "count": [6, 8]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
         ]
     },    {
         "type" : "vehicle_part",
@@ -539,13 +538,13 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 14},
-            {"item": "cable", "min": 20, "max": 40},
-            {"item": "e_scrap", "min": 8, "max": 16},
-            {"item": "plastic_chunk", "min": 6, "max": 8},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 14]},
+            {"item": "cable", "charges": [20, 40]},
+            {"item": "e_scrap", "count": [8, 16]},
+            {"item": "plastic_chunk", "count": [6, 8]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
         ]
     },
     {
@@ -565,13 +564,13 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 12, "max": 14},
-            {"item": "cable", "min": 30, "max": 60},
-            {"item": "e_scrap", "min": 12, "max": 22},
-            {"item": "plastic_chunk", "min": 8, "max": 16},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6}
+            {"item": "scrap", "count": [12, 14]},
+            {"item": "cable", "charges": [30, 60]},
+            {"item": "e_scrap", "count": [12, 22]},
+            {"item": "plastic_chunk", "count": [8, 16]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
         ]
     },
     {
@@ -592,13 +591,13 @@
         "location" : "on_roof",
         "flags" : ["FOLDABLE", "TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 30},
-            {"item": "pipe", "min": 0, "max": 3},
-            {"item": "chain", "min": 0, "max": 1},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 30]},
+            {"item": "pipe", "count": [0, 3]},
+            {"item": "chain", "prob": 50},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -619,12 +618,12 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "cable", "min": 12, "max": 40},
-            {"item": "e_scrap", "min": 6, "max": 20},
-            {"item": "plastic_chunk", "min": 0, "max": 4},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "cable", "charges": [12, 40]},
+            {"item": "e_scrap", "count": [6, 20]},
+            {"item": "plastic_chunk", "count": [0, 4]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]}
         ]
     },
     {
@@ -646,12 +645,12 @@
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
 
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "cable", "min": 12, "max": 40},
-            {"item": "e_scrap", "min": 6, "max": 20},
-            {"item": "plastic_chunk", "min": 0, "max": 4},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "cable", "charges": [12, 40]},
+            {"item": "e_scrap", "count": [6, 20]},
+            {"item": "plastic_chunk", "count": [0, 4]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]}
         ]
     },
     {
@@ -672,12 +671,12 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 22},
-            {"item": "steel_chunk", "min": 2, "max": 6},
-            {"item": "pipe", "min": 0, "max": 4},
-            {"item": "cable", "min": 6, "max": 20},
-            {"item": "e_scrap", "min": 6, "max": 20},
-            {"item": "plastic_chunk", "min": 0, "max": 10}
+            {"item": "scrap", "count": [8, 22]},
+            {"item": "steel_chunk", "count": [2, 6]},
+            {"item": "pipe", "count": [0, 4]},
+            {"item": "cable", "charges": [6, 20]},
+            {"item": "e_scrap", "count": [6, 20]},
+            {"item": "plastic_chunk", "count": [0, 10]}
         ]
     },
     {
@@ -697,15 +696,15 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "plastic_chunk", "min": 0, "max": 4},
-            {"item": "metal_tank_little", "min": 0, "max": 1},
-            {"item": "hose", "min": 0, "max": 2},
-            {"item": "flamethrower_simple", "min": 0, "max": 1},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "plastic_chunk", "count": [0, 4]},
+            {"item": "metal_tank_little", "prob": 50},
+            {"item": "hose", "count": [0, 2]},
+            {"item": "flamethrower_simple", "prob": 50},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -725,15 +724,15 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "plastic_chunk", "min": 0, "max": 4},
-            {"item": "metal_tank_little", "min": 0, "max": 1},
-            {"item": "hose", "min": 0, "max": 2},
-            {"item": "flamethrower", "min": 0, "max": 1},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "plastic_chunk", "count": [0, 4]},
+            {"item": "metal_tank_little", "prob": 50},
+            {"item": "hose", "count": [0, 2]},
+            {"item": "flamethrower", "prob": 50},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -753,15 +752,15 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "scrap", "min": 8, "max": 12},
-            {"item": "plastic_chunk", "min": 0, "max": 4},
-            {"item": "metal_tank_little", "min": 0, "max": 1},
-            {"item": "hose", "min": 0, "max": 2},
-            {"item": "rm451_flamethrower", "min": 0, "max": 1},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "scrap", "count": [8, 12]},
+            {"item": "plastic_chunk", "count": [0, 4]},
+            {"item": "metal_tank_little", "prob": 50},
+            {"item": "hose", "count": [0, 2]},
+            {"item": "rm451_flamethrower", "prob": 50},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     },
     {
@@ -782,13 +781,13 @@
         "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT", "FOLDABLE"],
         "folded_volume": 19,
         "breaks_into" : [
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 12},
-            {"item": "chain", "min": 1, "max": 2},
-            {"item": "pipe", "min": 3, "max": 6},
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6},
-            {"item": "e_scrap", "min": 3, "max": 6}
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 12]},
+            {"item": "chain", "count": [1, 2]},
+            {"item": "pipe", "count": [3, 6]},
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [3, 6]}
         ]
     }
 ]

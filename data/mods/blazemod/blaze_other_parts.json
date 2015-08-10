@@ -14,7 +14,7 @@
         "location" : "structure",
         "flags" : ["FOLDABLE", "AISLE", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "wire", "min": 0, "max": 1}
+            {"item": "wire", "prob": 50}
         ]
     },
     {
@@ -32,9 +32,9 @@
         "difficulty" : 3,
         "flags" : ["CONTROLS", "REMOTE_CONTROLS", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "motor_small", "min": 1, "max": 1},
-            {"item": "steel_chunk", "min": 1, "max": 3},
-            {"item": "scrap", "min": 1, "max": 3}
+            {"item": "motor_small"},
+            {"item": "steel_chunk", "count": [1, 3]},
+            {"item": "scrap", "count": [1, 3]}
         ]
     },
     {
@@ -67,10 +67,10 @@
         "location" : "structure",
         "flags" : ["PROTRUSION"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6},
-            {"item": "ceramic_armor", "min": 0, "max": 4}
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]},
+            {"item": "ceramic_armor", "count": [0, 4]}
         ]
     },
     {
@@ -86,11 +86,7 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["PROTRUSION"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 2, "max": 4},
-            {"item": "steel_chunk", "min": 3, "max": 5},
-            {"item": "scrap", "min": 4, "max": 6}
-        ]
+        "breaks_into": "ig_vp_steel_plate"
     },
     {
         "type" : "vehicle_part",
@@ -105,9 +101,7 @@
         "difficulty" : 2,
         "location" : "structure",
         "flags" : ["PROTRUSION"],
-        "breaks_into" : [
-            {"item": "splinter", "min": 7, "max": 9}
-        ]
+        "breaks_into": "ig_vp_wood_plate"
     },
     {
         "type" : "vehicle_part",
@@ -123,9 +117,9 @@
         "location" : "structure",
         "flags" : ["PROTRUSION"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6}
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
         ]
     },
     {
@@ -142,9 +136,9 @@
         "location" : "structure",
         "flags" : ["PROTRUSION"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6}
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
         ]
     },
     {
@@ -194,10 +188,10 @@
         "location" : "structure",
         "flags" : ["PROTRUSION"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6},
-            {"item": "spike", "min": 0, "max": 2}
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]},
+            {"item": "spike", "count": [0, 2]}
         ]
     },
     {
@@ -232,8 +226,8 @@
         "location" : "armor",
         "flags" : ["ARMOR", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "rebar", "min": 1, "max": 2},
-            {"item": "scrap", "min": 4, "max": 8}
+            {"item": "rebar", "count": [1, 2]},
+            {"item": "scrap", "count": [4, 8]}
         ]
     },
     {
@@ -250,8 +244,8 @@
         "location" : "armor",
         "flags" : ["ARMOR"],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 5},
-            {"item": "spring", "min": 0, "max": 4}
+            {"item": "scrap", "count": [1, 5]},
+            {"item": "spring", "count": [0, 4]}
         ]
     },{
         "type" : "vehicle_part",
@@ -268,9 +262,9 @@
         "folded_volume": 25,
         "flags" : ["BATTERY_MOUNT", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 10, "max": 20},
-            {"item": "steel_chunk", "min": 4, "max": 10},
-            {"item": "spring", "min": 2, "max": 8}
+            {"item": "scrap", "count": [10, 20]},
+            {"item": "steel_chunk", "count": [4, 10]},
+            {"item": "spring", "count": [2, 8]}
         ]
     },{
         "type" : "vehicle_part",
@@ -288,11 +282,11 @@
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 3, "max": 6},
-            {"item": "steel_chunk", "min": 8, "max": 15},
-            {"item": "scrap", "min": 12, "max": 25},
-            {"item": "plastic_chunk", "min": 60, "max": 150},
-            {"item": "chain", "min": 2, "max": 6}
+            {"item": "steel_lump", "count": [3, 6]},
+            {"item": "steel_chunk", "count": [8, 15]},
+            {"item": "scrap", "count": [12, 25]},
+            {"item": "plastic_chunk", "count": [60, 150]},
+            {"item": "chain", "count": [2, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -310,10 +304,10 @@
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 12, "max": 20},
-            {"item": "steel_chunk", "min": 25, "max": 60},
-            {"item": "scrap", "min": 70, "max": 100},
-            {"item": "chain", "min": 4, "max": 6}
+            {"item": "steel_lump", "count": [12, 20]},
+            {"item": "steel_chunk", "count": [25, 60]},
+            {"item": "scrap", "count": [70, 100]},
+            {"item": "chain", "count": [4, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -331,10 +325,10 @@
         "location" : "under",
         "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 16, "max": 40},
-            {"item": "steel_chunk", "min": 35, "max": 80},
-            {"item": "scrap", "min": 80, "max": 150},
-            {"item": "chain", "min": 4, "max": 6}
+            {"item": "steel_lump", "count": [16, 40]},
+            {"item": "steel_chunk", "count": [35, 80]},
+            {"item": "scrap", "count": [80, 150]},
+            {"item": "chain", "count": [4, 6]}
         ]
     },
     {
@@ -354,8 +348,8 @@
         "difficulty" : 1,
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "cable", "min": 6, "max": 10}
+            {"item": "scrap", "count": [1, 4]},
+            {"item": "cable", "charges": [6, 10]}
         ]
     },
     {
@@ -376,8 +370,8 @@
         "difficulty" : 1,
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "TOOL_NONE", "PROTRUSION"],
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 4},
-            {"item": "cable", "min": 6, "max": 10}
+            {"item": "scrap", "count": [1, 4]},
+            {"item": "cable", "charges": [6, 10]}
         ]
     }
 ]

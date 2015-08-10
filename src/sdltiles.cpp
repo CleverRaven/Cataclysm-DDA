@@ -1439,7 +1439,7 @@ WINDOW *curses_init(void)
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = new cata_tiles(renderer);
     try {
-        tilecontext->init(FILENAMES["gfxdir"]);
+        tilecontext->init();
         dbg( D_INFO ) << "Tiles initialized successfully.";
     } catch(std::string err) {
         dbg( D_ERROR ) << "failed to initialize tile: " << err;

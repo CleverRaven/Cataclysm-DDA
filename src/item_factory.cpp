@@ -38,16 +38,6 @@ static t_string_set item_whitelist;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
-void remove_item(const std::string &itm, std::vector<map_bash_item_drop> &vec)
-{
-    for (size_t i = 0; i < vec.size(); i++) {
-        if (vec[i].itemtype == itm) {
-            vec.erase(vec.begin() + i);
-            i--;
-        }
-    }
-}
-
 bool item_is_blacklisted(const std::string &id)
 {
     if (item_whitelist.count(id) > 0) {
@@ -96,13 +86,6 @@ void Item_factory::finialize_item_blacklist()
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
         });
-
-        for( auto &elem : termap ) {
-            remove_item( itm, elem.second.bash.items );
-        }
-        for( auto &elem : furnmap ) {
-            remove_item( itm, elem.second.bash.items );
-        }
     }
 }
 
@@ -337,6 +320,10 @@ void Item_factory::init()
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
+
+    // An empty dummy group, it will not spawn anything. However, it makes that item group
+    // id valid, so it can be used all over the place without need to explicitly check for it.
+    m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100 );
 }
 
 void Item_factory::create_inital_categories()
@@ -1192,8 +1179,16 @@ template<typename T>
 bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
 {
     bool result = false;
-    result |= obj.read(name, pa.first);
-    result |= obj.read(name, pa.second);
+    if( obj.has_array( name ) ) {
+        // An array means first is min, second entry is max. Both are mandatory.
+        JsonArray arr = obj.get_array( name );
+        result |= arr.read_next( pa.first );
+        result |= arr.read_next( pa.second );
+    } else {
+        // Not an array, should be a single numeric value, which is set as min and max.
+        result |= obj.read( name, pa.first );
+        result |= obj.read( name, pa.second );
+    }
     result |= obj.read(name + "-min", pa.first);
     result |= obj.read(name + "-max", pa.second);
     return result;
@@ -1269,6 +1264,24 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
+void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
+{
+    while( entries.has_more() ) {
+        JsonObject subobj = entries.next_object();
+        add_entry( &ig, subobj );
+    }
+}
+
+void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
+                                    const bool is_collection )
+{
+    const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
+    Item_spawn_data *&isd = m_template_groups[group_id];
+    Item_group* const ig = make_group_or_throw( isd, type );
+
+    load_item_group_entries( *ig, entries );
+}
+
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
@@ -1301,10 +1314,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 
     if (jsobj.has_member("entries")) {
         JsonArray items = jsobj.get_array("entries");
-        while (items.has_more()) {
-            JsonObject subobj = items.next_object();
-            add_entry(ig, subobj);
-        }
+        load_item_group_entries( *ig, items );
     }
     if (jsobj.has_member("items")) {
         JsonArray items = jsobj.get_array("items");
