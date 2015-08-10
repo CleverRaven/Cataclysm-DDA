@@ -284,7 +284,7 @@ IF(TILES)
 			"This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
 		)
 	ENDIF(NOT SDL2_IMAGE_FOUND)
-	ADD_DEFINITIONS(-DTILES -DSDLTILES)
+	ADD_DEFINITIONS(-DTILES)
 ENDIF(TILES)
 
 IF(CURSES)

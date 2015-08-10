@@ -43,7 +43,6 @@
 					<Add option="-O2" />
 					<Add option="-DTILES" />
 					<Add option="-DRELEASE=1" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
 					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
@@ -72,7 +71,6 @@
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
 					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
@@ -129,7 +127,6 @@
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-pg" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
@@ -153,7 +150,6 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-g" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
