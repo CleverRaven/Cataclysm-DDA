@@ -1459,8 +1459,8 @@ WINDOW *curses_init(void)
     try {
         tilecontext->init();
         dbg( D_INFO ) << "Tiles initialized successfully.";
-    } catch( const JsonError &err ) {
-        dbg( D_ERROR ) << "failed to initialize tile: " << err;
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to initialize tile: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
         // Setting it to false disables this from getting used.
