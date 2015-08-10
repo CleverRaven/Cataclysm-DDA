@@ -180,6 +180,7 @@ extern pairs *colorpairs;
 extern std::map< std::string, std::vector<int> > consolecolors;
 // color names as read from the json file
 extern std::array<std::string, 16> main_color_names;
+// may throw std::exception
 WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow(WINDOW *win);
