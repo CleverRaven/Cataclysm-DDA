@@ -657,6 +657,12 @@
           "rotates": false
         },
         {
+          "id": "9x18mm_casing",
+          "fg": 102,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "arrowhead",
           "fg": 103,
           "bg": 505,
@@ -1953,6 +1959,12 @@
         },
         {
           "id": "elbow_pads",
+          "fg": 320,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "knee_pads",
           "fg": 320,
           "bg": 505,
           "rotates": false
@@ -4287,12 +4299,6 @@
           "rotates": false
         },
         {
-          "id": "box_cigarette",
-          "fg": 874,
-          "bg": 505,
-          "rotates": false
-        },
-        {
           "id": "brass_catcher",
           "fg": 1385,
           "bg": 505,
@@ -4640,6 +4646,18 @@
           "rotates": false
         },
         {
+          "id": "elec_chainsaw_off",
+          "fg": 2075,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "elec_chainsaw_on",
+          "fg": 2076,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "char_forge",
           "fg": 2077,
           "bg": 505,
@@ -4647,6 +4665,24 @@
         },
         {
           "id": "char_kiln",
+          "fg": 1058,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "kiln_full",
+          "fg": 1058,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "kiln_done",
+          "fg": 1058,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "brick_kiln",
           "fg": 1058,
           "bg": 505,
           "rotates": false
@@ -19383,6 +19419,11 @@
           "rotates": false
         },
         {
+          "id": "f_forge_rock",
+          "fg": 2505,
+          "rotates": false
+        },
+        {
           "id": "f_kiln_metal_empty",
           "fg": 1058,
           "rotates": false
@@ -20990,11 +21031,6 @@
           "rotates": false
         },
         {
-          "id": "vp_boat_board",
-          "fg": 2708,
-          "rotates": true
-        },
-        {
           "id": "vp_inflatable_section",
           "fg": 2709,
           "rotates": true
@@ -21067,6 +21103,172 @@
         {
           "id": "chemical_thrower",
           "fg": 2722,
+          "rotates": false
+        },
+        {
+          "id": "vp_boat_board",
+          "fg": 2723,
+          "rotates": true
+        },
+        {
+          "id": "t_sandmound",
+          "fg": 2724,
+          "rotates": false
+        },
+        {
+          "id": "combatsaw_off",
+          "fg": 2725,
+          "rotates": false
+        },
+        {
+          "id": "combatsaw_on",
+          "fg": 2726,
+          "rotates": false
+        },
+        {
+          "id": "kiln_lit",
+          "fg": 2727,
+          "rotates": false
+        },
+        {
+          "id": "polisher",
+          "fg": 2728,
+          "rotates": false
+        },
+        {
+          "id": "battleaxe",
+          "fg": 2729,
+          "rotates": false
+        },
+        {
+          "id": "primitive_axe",
+          "fg": 2730,
+          "rotates": false
+        },
+        {
+          "id": "primitive_adze",
+          "fg": 2731,
+          "rotates": false
+        },
+        {
+          "id": "con_mix",
+          "fg": 2732,
+          "rotates": false
+        },
+        {
+          "id": "scabbard",
+          "fg": 2733,
+          "rotates": false
+        },
+        {
+          "id": "brick",
+          "fg": 2734,
+          "rotates": false
+        },
+        {
+          "id": "crude_brick",
+          "fg": 2734,
+          "rotates": false
+        },
+        {
+          "id": "omnicamera",
+          "fg": 2735,
+          "rotates": false
+        },
+        {
+          "id": "gummy_vitamins",
+          "fg": 2736,
+          "rotates": false
+        },
+        {
+          "id": "diazepam",
+          "fg": 2737,
+          "rotates": false
+        },
+        {
+          "id": "vp_seat_wood",
+          "fg": 2738,
+          "bg": 551,
+          "rotates": true
+        },
+        {
+          "id": "vp_wood box",
+          "fg": 2739,
+          "rotates": true
+        },
+        {
+          "id": "clay_lump",
+          "fg": 2740,
+          "rotates": false
+        },
+        {
+          "id": "tanbark",
+          "fg": 2741,
+          "rotates": false
+        },
+        {
+          "id": "robe",
+          "fg": 2742,
+          "rotates": false
+        },
+        {
+          "id": "striped_shirt",
+          "fg": 2743,
+          "rotates": false
+        },
+        {
+          "id": "pot_copper",
+          "fg": 2744,
+          "rotates": false
+        },
+        {
+          "id": "pot_makeshift",
+          "fg": 2745,
+          "rotates": false
+        },
+        {
+          "id": "pot_makeshift_copper",
+          "fg": 2746,
+          "rotates": false
+        },
+        {
+          "id": "canteen_wood",
+          "fg": 2747,
+          "rotates": false
+        },
+        {
+          "id": "jacket_windbreaker",
+          "fg": 2748,
+          "rotates": false
+        },
+        {
+          "id": "jacket_evac",
+          "fg": 2748,
+          "rotates": false
+        },
+        {
+          "id": "greatcoat",
+          "fg": 2749,
+          "rotates": false
+        },
+        {
+          "id": "flatbread",
+          "fg": 2750,
+          "rotates": false
+        },
+        {
+          "id": "box_cigarette",
+          "fg": 2751,
+          "rotates": false
+        },
+        {
+          "id": "dusksword_one",
+          "fg": 2752,
+          "rotates": false
+        },
+        {
+          "id": "dusksword_two",
+          "fg": 2752,
           "rotates": false
         }
       ]
