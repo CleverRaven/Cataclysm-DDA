@@ -3024,6 +3024,10 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
     std::string sound;
     int sound_volume = 0;
+    std::string soundfxid;
+    std::string soundfxvariant;
+    const auto &terid = ter_at( p );
+    const auto &furnid = furn_at( p );
     bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
@@ -3063,7 +3067,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     // TODO: what if silent is true?
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
-        sounds::sound(p, 40, _("an alarm go off!"));
+        sounds::sound(p, 40, _("an alarm go off!"), false, "environment", "alarm");
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
@@ -3077,7 +3081,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Nothing bashable here
         if( move_cost( p ) <= 0 ) {
             if( !params.silent ) {
-                sounds::sound( p, 18, _("thump!"), false, "bash", _("thump!") );
+                sounds::sound( p, 18, _("thump!"), false, "smash_thump", "smash_success" );
             }
 
             params.did_bash = true;
@@ -3121,6 +3125,12 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
+    if( smash_furn ) {
+        soundfxvariant = furnid.id;
+    } else {
+        soundfxvariant = terid.id;
+    }
+
     if( !params.destroy && !success ) {
         if( sound_fail_vol == -1 ) {
             sound_volume = 12;
@@ -3131,7 +3141,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         sound = _(bash->sound_fail.c_str());
         params.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sound, false, "bash", sound );
+            sounds::sound( p, sound_volume, sound, false, "smash_fail", soundfxvariant );
         }
 
         return;
@@ -3157,6 +3167,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
+    soundfxid = "smash_success";
     sound = _(bash->sound.c_str());
     // Set this now in case the ter_set below changes this
     const bool collapses = smash_ter && has_flag("COLLAPSES", p);
@@ -3219,6 +3230,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 }
             }
         }
+        soundfxvariant = "smash_cloth";
     } else if( smash_furn ) {
         furn_set( p, bash->furn_set );
         // Hack alert.
@@ -3285,7 +3297,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sound, false, "bash", sound );
+        sounds::sound( p, sound_volume, sound, false, soundfxid, soundfxvariant );
     }
 }
 
@@ -3340,7 +3352,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, _("glass shattering"), false, "bash", _("glass shattering") );
+        sounds::sound( p, 12, _("glass shattering"), false, "smash_success", "smash_glass_contents" );
     }
 }
 
@@ -3352,7 +3364,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
     if( veh != nullptr ) {
         veh->damage( vpart, params.strength, DT_BASH );
         if( !params.silent ) {
-            sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
+            sounds::sound( p, 18, _("crash!"), false, "smash_success", "hit_vehicle" );
         }
 
         params.did_bash = true;
@@ -3787,7 +3799,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::sound(p, 6, "", true, "open_door", ter.id);
+            sounds::sound( p, 6, "", true, "open_door", ter.id );
             ter_set(p, ter.open );
         }
 
@@ -3803,7 +3815,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::sound(p, 6, "", true, "open_door", furn.id);
+            sounds::sound( p, 6, "", true, "open_door", furn.id );
             furn_set(p, furn.open );
         }
 
@@ -3885,7 +3897,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-        sounds::sound(p, 10, "", true, "close_door", ter.id);
+        sounds::sound( p, 10, "", true, "close_door", ter.id );
         ter_set(p, ter.close );
      }
      return true;
@@ -3898,7 +3910,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-         sounds::sound(p, 10, "", true, "close_door", furn.id);
+         sounds::sound( p, 10, "", true, "close_door", furn.id );
          furn_set(p, furn.close );
      }
      return true;

@@ -4124,6 +4124,12 @@ int toolweapon_off( player *p, item *it, bool fast_startup,
 {
     p->moves -= fast_startup ? 60 : 80;
     if (condition && it->charges > 0) {
+        if( it->typeId() == "chainsaw_off" ) {
+            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+            sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+            sfx::play_ambient_variant_sound("chainsaw_idle", "chainsaw_on", sfx::get_heard_volume(p->pos()), 18, 1000);
+            sfx::play_ambient_variant_sound("weapon_theme", "chainsaw", sfx::get_heard_volume(p->pos()), 19, 3000);
+        }
         sounds::sound(p->pos(), volume, msg_success);
         it->make(
             it->type->id.substr(0, it->type->id.size() - 4) +
@@ -4131,6 +4137,9 @@ int toolweapon_off( player *p, item *it, bool fast_startup,
             "_on");
         it->active = true;
     } else {
+        if( it->typeId() == "chainsaw_off" ) {
+            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+        }
         p->add_msg_if_player(msg_failure);
     }
     return it->type->charges_to_use();
@@ -4211,6 +4220,11 @@ int toolweapon_on( player *p, item *it, bool t,
             sounds::ambient_sound(p->pos(), volume, sound);
         }
     } else { // Toggling
+        if( it->typeId() == "chainsaw_on" ) {
+            sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume(p->pos()));
+            sfx::fade_audio_channel(18, 100);
+            sfx::fade_audio_channel(19, 3000);
+        }
         p->add_msg_if_player(_("Your %s goes quiet."), tname);
         it->make(off_type);
         it->active = false;

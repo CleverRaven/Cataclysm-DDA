@@ -107,6 +107,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         target.y += rng( -offset, offset );
         // Cap missed_by at 1.0
         missed_by = 1.0;
+        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
     }
 
@@ -190,6 +191,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // In this case hit_critter won't be set
             if( ret.hit_critter != nullptr ) {
                 splatter( blood_traj, dealt_dam.total_damage(), critter );
+                sfx::do_projectile_hit( *ret.hit_critter );
                 has_momentum = false;
             }
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
@@ -229,6 +231,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     z.add_effect("bounced", 1);
                     projectile_attack( proj, tp, z.pos(), shot_dispersion );
+                    sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()), sfx::get_heard_angle(z.pos()));
                     break;
                 }
             }
@@ -514,6 +517,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                         // Try not to drop the casing on a wall if at all possible.
                     } while( g->m.move_cost( brass ) == 0 && count < 10 );
                     g->m.add_item_or_charges(brass, casing);
+                    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( brass ), sfx::get_heard_angle( brass ));
                 }
             }
         }
@@ -589,6 +593,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
+        sfx::generate_gun_sound( *this, *used_weapon );
 
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
         int damage_factor = 21;
@@ -1279,7 +1284,7 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
     const auto data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
-        sounds::sound( p.pos(), data.volume, data.sound, false, "fire_gun", weapon->typeId() );
+        sounds::sound( p.pos(), data.volume, data.sound );
     }
 }
 

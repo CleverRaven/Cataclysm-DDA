@@ -21,6 +21,7 @@
 #include "map.h"
 #include "game.h"
 #include "lightmap.h"
+#include "rng.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -47,7 +48,8 @@
 #endif
 
 #ifdef SDL_SOUND
-#include "SDL_mixer.h"
+#include "SDL2/SDL_mixer.h"
+#include "sounds.h"
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -68,6 +70,32 @@ static bool needupdate = false;
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 int current_playlist_at = 0;
+
+struct sound_effect {
+    int volume;
+
+    struct deleter {
+        void operator()( Mix_Chunk* const c ) const {
+            Mix_FreeChunk( c );
+        };
+    };
+    std::unique_ptr<Mix_Chunk, deleter> chunk;
+};
+
+using id_and_variant = std::pair<std::string, std::string>;
+std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
+
+struct music_playlist {
+    // list of filenames relative to the soundpack location
+    std::vector<std::string> files;
+    std::vector<int> volumes;
+    bool shuffle;
+
+    music_playlist() : shuffle(false) {
+    }
+};
+
+std::map<std::string, music_playlist> playlists;
 #endif
 
 /**
@@ -119,7 +147,7 @@ protected:
             return (color == rhs.color) ? codepoints < rhs.codepoints : color < rhs.color;
         }
     };
-    
+
     struct cached_t {
         SDL_Texture* texture;
         int          width;
@@ -369,11 +397,19 @@ bool WinCreate()
     int audio_rate = 44100;
     Uint16 audio_format = AUDIO_S16;
     int audio_channels = 2;
-    int audio_buffers = 4096;
+    int audio_buffers = 2048;
 
     if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
         dbg( D_ERROR ) << "Failed to open audio mixer, sound won't work: " << Mix_GetError();
     }
+    Mix_AllocateChannels(128);
+    Mix_ReserveChannels(20);
+
+    // For the sound effects system.
+    Mix_GroupChannels( 2, 9, 1 );
+    Mix_GroupChannels( 0, 1, 2 );
+    Mix_GroupChannels( 11, 14, 3 );
+    Mix_GroupChannels( 15, 17, 4 );
 #endif
 
     return true;
@@ -512,7 +548,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 }
 
 void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
-{   
+{
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
     cached_t value;
 
@@ -1951,39 +1987,6 @@ bool is_draw_tiles_mode() {
 
 #ifdef SDL_SOUND
 
-struct music_playlist {
-    // list of filenames relative to the soundpack location
-    std::vector<std::string> files;
-    std::vector<int> volumes;
-    bool shuffle;
-
-    music_playlist() : shuffle(false) {
-    }
-};
-
-struct sound_effect_entry {
-    Mix_Chunk *chunk;
-    unsigned volume;
-};
-
-std::map<std::string, music_playlist> playlists;
-std::map<std::string, std::map<std::string, sound_effect_entry> > sound_effects;
-
-sound_effect_entry *get_sound_effect(std::string name, std::string variant) {
-    if(!sound_effects.count(name)) {
-        return NULL;
-    }
-
-    std::map<std::string, sound_effect_entry>& variants = sound_effects[name];
-    if(!variants.count(variant)) {
-        variant = "default";
-    }
-    if(!variants.count(variant)) {
-        return NULL;
-    }
-    return &(variants[variant]);
-};
-
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
@@ -2044,87 +2047,202 @@ void play_music(std::string playlist) {
 #endif
 }
 
-void play_sound_effect(std::string id, std::string variant, int volume) {
 #ifdef SDL_SOUND
-    sound_effect_entry *effect_to_play = get_sound_effect(id, variant);
-    if (!effect_to_play) {
+void sfx::load_sound_effects( JsonObject &jsobj ) {
+    const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant", "default" ) );
+    const int volume = jsobj.get_int( "volume", 100 );
+    auto &effects = sound_effects_p[key];
+
+    JsonArray jsarr = jsobj.get_array( "files" );
+    while( jsarr.has_more() ) {
+        sound_effect new_sound_effect;
+        const std::string file = jsarr.next_string();
+        std::string path = ( FILENAMES[ "datadir" ] + "/sound/" + file );
+        new_sound_effect.chunk.reset( Mix_LoadWAV( path.c_str() ) );
+        if( !new_sound_effect.chunk ) {
+            dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
+            continue; // don't want empty chunks in the map
+        }
+        new_sound_effect.volume = volume;
+
+        effects.push_back( std::move( new_sound_effect ) );
+    }
+}
+
+void sfx::load_playlist( JsonObject &jsobj )
+{
+    JsonArray jarr = jsobj.get_array( "playlists" );
+    while( jarr.has_more() ) {
+        JsonObject playlist = jarr.next_object();
+
+        const std::string playlist_id = playlist.get_string( "id" );
+        music_playlist playlist_to_load;
+        playlist_to_load.shuffle = playlist.get_bool( "shuffle", false );
+
+        JsonArray files = playlist.get_array( "files" );
+        while( files.has_more() ) {
+            JsonObject entry = files.next_object();
+            playlist_to_load.files.push_back( entry.get_string( "file" ) );
+            playlist_to_load.volumes.push_back( entry.get_int( "volume" ) );
+        }
+
+        playlists[playlist_id] = std::move( playlist_to_load );
+    }
+}
+
+// Returns a random sound effect matching given id and variant or `nullptr` if there is no
+// matching sound effect.
+const sound_effect* find_random_effect( const id_and_variant &id_variants_pair )
+{
+    const auto iter = sound_effects_p.find( id_variants_pair );
+    if( iter == sound_effects_p.end() ) {
+        return nullptr;
+    }
+    const auto &vector = iter->second;
+    if( vector.empty() ) {
+        return nullptr;
+    }
+    return &vector[rng( 0, vector.size() - 1 )];
+}
+// Same as above, but with fallback to "default" variant. May still return `nullptr`
+const sound_effect* find_random_effect( const std::string &id, const std::string& variant )
+{
+    const auto eff = find_random_effect( id_and_variant( id, variant ) );
+    if( eff != nullptr ) {
+        return eff;
+    }
+    return find_random_effect( id_and_variant( id, "default" ) );
+}
+
+// Contains the chunks that have been dynamically created via do_pitch_shift. It is used to
+// distinguish between dynamically created chunks and static chunks (the later must not be freed).
+std::set<Mix_Chunk*> dynamic_chunks;
+// Deletes the dynamically created chunk (if such a chunk had been played).
+void cleanup_when_channel_finished( int channel )
+{
+    Mix_Chunk *chunk = Mix_GetChunk( channel );
+    const auto iter = dynamic_chunks.find( chunk );
+    if( iter != dynamic_chunks.end() ) {
+        dynamic_chunks.erase( iter );
+        free( chunk->abuf );
+        free( chunk );
+    }
+}
+
+Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
+    Mix_Chunk *result;
+    Uint32 s_in = s->alen / 4;
+    Uint32 s_out = ( Uint32 )( ( float )s_in * pitch );
+    float pitch_real = ( float )s_out / ( float )s_in;
+    Uint32 i, j;
+    result = ( Mix_Chunk * )malloc( sizeof( Mix_Chunk ) );
+    dynamic_chunks.insert( result );
+    result->allocated = 1;
+    result->alen = s_out * 4;
+    result->abuf = ( Uint8* )malloc( result->alen * sizeof( Uint8 ) );
+    result->volume = s->volume;
+    for( i = 0; i < s_out; i++ ) {
+        Sint16 lt;
+        Sint16 rt;
+        Sint16 lt_out;
+        Sint16 rt_out;
+        Sint64 lt_avg = 0;
+        Sint64 rt_avg = 0;
+        Uint32 begin = ( Uint32 )( ( float )i / pitch_real );
+        Uint32 end = ( Uint32 )( ( float )( i + 1 ) / pitch_real );
+        for( j = begin; j <= end; j++ ) {
+            lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
+            rt = ( s->abuf[( 4 * j ) + 3] << 8 ) | ( s->abuf[( 4 * j ) + 2] );
+            lt_avg += lt;
+            rt_avg += rt;
+        }
+        lt_out = ( Sint16 )( ( float )lt_avg / ( float )( end - begin + 1 ) );
+        rt_out = ( Sint16 )( ( float )rt_avg / ( float )( end - begin + 1 ) );
+        result->abuf[( 4 * i ) + 1] = ( lt_out >> 8 ) & 0xFF;
+        result->abuf[( 4 * i ) + 0] = lt_out & 0xFF;
+        result->abuf[( 4 * i ) + 3] = ( rt_out >> 8 ) & 0xFF;
+        result->abuf[( 4 * i ) + 2] = rt_out & 0xFF;
+    }
+    return result;
+}
+
+void sfx::play_variant_sound( std::string id, std::string variant, int volume ) {
+    if( volume == 0 ) {
         return;
     }
-    Mix_VolumeChunk(effect_to_play->chunk, effect_to_play->volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / (100 * 100));
-    if (Mix_PlayChannel(-1, effect_to_play->chunk, 0) == -1) {
+
+    const sound_effect* eff = find_random_effect( id, variant );
+    if( eff == nullptr ) {
+        eff = find_random_effect( id, "default" );
+        if( eff == nullptr ) {
+            return;
+        }
+    }
+    const sound_effect& selected_sound_effect = *eff;
+
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
+    Mix_VolumeChunk( effect_to_play,
+                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+    Mix_PlayChannel( -1, effect_to_play, 0 );
+}
+
+void sfx::play_variant_sound( std::string id, std::string variant, int volume, int angle,
+                              float pitch_min, float pitch_max ) {
+    if( volume == 0 ) {
+        return;
+    }
+
+    const sound_effect* eff = find_random_effect( id, variant );
+    if( eff == nullptr ) {
+        return;
+    }
+    const sound_effect& selected_sound_effect = *eff;
+
+    Mix_ChannelFinished( cleanup_when_channel_finished );
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
+    float pitch_random = rng_float( pitch_min, pitch_max );
+    Mix_Chunk *shifted_effect = do_pitch_shift( effect_to_play, pitch_random );
+    Mix_VolumeChunk( shifted_effect,
+                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+    int channel = Mix_PlayChannel( -1, shifted_effect, 0 );
+    Mix_SetPosition( channel, angle, 1 );
+}
+
+void sfx::play_ambient_variant_sound( std::string id, std::string variant, int volume, int channel,
+                                      int duration ) {
+    if( volume == 0 ) {
+        return;
+    }
+
+    const sound_effect* eff = find_random_effect( id, variant );
+    if( eff == nullptr ) {
+        return;
+    }
+    const sound_effect& selected_sound_effect = *eff;
+
+    Mix_Chunk *effect_to_play = selected_sound_effect.chunk.get();
+    Mix_VolumeChunk( effect_to_play,
+                     selected_sound_effect.volume * OPTIONS["SOUND_EFFECT_VOLUME"] * volume / ( 100 * 100 ) );
+    if( Mix_FadeInChannel( channel, effect_to_play, -1, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
     }
-#else
-    (void)id;(void)variant;(void)volume;
-#endif
 }
+#endif
 
 void load_soundset() {
 #ifdef SDL_SOUND
-    std::string location = FILENAMES["datadir"] + "/sound/musicset.json";
-    std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
-    if (jsonstream.good()) {
-        JsonIn json(jsonstream);
-        JsonObject config = json.get_object();
-
-        // Load music playlists.
-        JsonArray playlists_json = config.get_array("playlists");
-        for (unsigned i=0; i < playlists_json.size(); i++) {
-            JsonObject playlist = playlists_json.get_object(i);
-
-            std::string playlist_id = playlist.get_string("id");
-            music_playlist playlist_to_load;
-            playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
-
-            JsonArray playlist_files = playlist.get_array("files");
-            for(unsigned j=0; j < playlist_files.size(); j++) {
-                JsonObject entry = playlist_files.get_object(j);
-                playlist_to_load.files.push_back(entry.get_string("file"));
-                playlist_to_load.volumes.push_back(entry.get_int("volume"));
-            }
-
-            playlists[playlist_id] = playlist_to_load;
-        }
-    }
-
-    // Load sound effects. This loads the sound effect chunks directly
-    // into memory.
-    location = FILENAMES["datadir"] + "/sound/soundset.json";
-    std::ifstream jsonstream2(location.c_str(), std::ifstream::binary);
-    if (jsonstream2.good()) {
-        JsonIn json(jsonstream2);
-        JsonObject config = json.get_object();
-        JsonArray sound_effects_json = config.get_array("sound_effects");
-        for (unsigned i=0; i < sound_effects_json.size(); i++) {
-            JsonObject sound_effect = sound_effects_json.get_object(i);
-
-            std::string sound_effect_id = sound_effect.get_string("id");
-            std::string sound_effect_variant = sound_effect.get_string("variant", "default");
-            sound_effect_entry sfx_to_load;
-
-            const std::string filename = sound_effect.get_string("file");
-            const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
-            Mix_Chunk *loaded_chunk = Mix_LoadWAV(path.c_str());
-            if (!loaded_chunk) {
-                dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
-            }
-            sfx_to_load.chunk = loaded_chunk;
-            sfx_to_load.volume = sound_effect.get_int("volume", 100);
-
-            sound_effects[sound_effect_id][sound_effect_variant] = sfx_to_load;
-        }
+    try {
+        DynamicDataLoader::get_instance().load_data_from_path( FILENAMES["datadir"] + "sound/" );
+    } catch(std::string err) {
+        dbg( D_ERROR ) << "failed to load sounds: " << err;
     }
 #endif
 }
 
 void cleanup_sound() {
 #ifdef SDL_SOUND
-    for(auto id_variants_pair : sound_effects) {
-        for(auto variant_soundeffect_pair : id_variants_pair.second) {
-            Mix_FreeChunk(variant_soundeffect_pair.second.chunk);
-        }
-    }
-    sound_effects.clear();
+    sound_effects_p.clear();
+    playlists.clear();
 #endif
 }
 

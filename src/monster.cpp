@@ -26,6 +26,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "sounds.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -959,6 +960,8 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
         if (target.is_player()) {
             if (u_see_me) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
+                sfx::play_variant_sound( "melee_attack", "monster_melee_hit", sfx::get_heard_volume(target.pos()) );
+                sfx::do_player_death_hurt( dynamic_cast<player&>( target ), 0 );
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name_accusative(bp_hit).c_str());
             } else {
