@@ -682,15 +682,14 @@ void add_corpse( const tripoint &p );
 // Destruction
      /** Keeps bashing a square until it can't be bashed anymore */
     void destroy( const tripoint &p, const bool silent = false);
-    void destroy( int, int ) = delete;
     /** Keeps bashing a square until there is no more furniture */
     void destroy_furn( const tripoint &p, const bool silent = false );
     void crush( const tripoint &p );
     void shoot( const tripoint &p, projectile &proj, const bool hit_items );
     /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
     int collapse_check( const tripoint &p );
-    /** Causes a collapse at (x, y), such as from destroying a wall */
-    void collapse_at( const tripoint &p );
+    /** Causes a collapse at p, such as from destroying a wall */
+    void collapse_at( const tripoint &p, bool silent );
     /** Tries to smash the items at the given tripoint. Used by the explosion code */
     void smash_items( const tripoint &p, const int power );
     /**

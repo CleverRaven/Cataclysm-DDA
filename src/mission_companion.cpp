@@ -1471,7 +1471,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
                     bay.ter_set( x, y, bash.ter_set);
                     bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-                    bay.collapse_at( p );
+                    bay.collapse_at( p, false );
             }
             //Smash easily breakable stuff
             else if ((bay.get_ter(x,y) == "t_window" || bay.get_ter(x,y) == "t_window_taped" ||
