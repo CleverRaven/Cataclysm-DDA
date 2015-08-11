@@ -1079,10 +1079,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
         if ((tool->max_charges)!=0) {
             int t_max;
-            const std::string t_ammo_name = _(ammo_name(tool->ammo_id).c_str());
             std::string temp_fmt;
-            std::string charges_line = _("Charges");
-            dump->push_back(iteminfo("TOOL",charges_line+ ": " + to_string(charges)));
+            const std::string t_ammo_name = _(ammo_name(tool->ammo_id).c_str());
+
+            dump->push_back(iteminfo("TOOL", string_format(_("Charges: %d"), charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
                 t_max = tool->max_charges * 2;
