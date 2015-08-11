@@ -193,7 +193,8 @@ item::~item()
 {
 }
 
-void item::init() {
+void item::init()
+{
     name = "";
     charges = -1;
     bday = 0;
@@ -507,7 +508,8 @@ void item::clear_vars()
     item_vars.clear();
 }
 
-bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
+bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
+{
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
         std::string var_name, val_decoded;
@@ -2264,7 +2266,8 @@ bool item::has_flag( const std::string &f ) const
     return ret;
 }
 
-bool item::has_quality(std::string quality_id) const {
+bool item::has_quality(std::string quality_id) const
+{
     return has_quality(quality_id, 1);
 }
 
@@ -3778,7 +3781,8 @@ int item::pick_reload_ammo( const player &u, bool interactive )
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
-static void eject_casings( player &p, item *reload_target, itype_id casing_type ) {
+static void eject_casings( player &p, item *reload_target, itype_id casing_type )
+{
     if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
         const int num_casings = reload_target->get_var( "CASINGS", 0 );
         if( num_casings > 0 ) {
@@ -4033,7 +4037,8 @@ itype_id item::typeId() const
     return type->id;
 }
 
-bool item::getlight(float & luminance, int & width, int & direction ) const {
+bool item::getlight(float & luminance, int & width, int & direction ) const
+{
     luminance = 0;
     width = 0;
     direction = 0;
@@ -4054,7 +4059,8 @@ bool item::getlight(float & luminance, int & width, int & direction ) const {
     return false;
 }
 
-int item::getlight_emit() const {
+int item::getlight_emit() const
+{
     float lumint = type->light_emission;
 
     if ( lumint == 0 ) {
@@ -4326,16 +4332,21 @@ bool item_matches_locator(const item &it, const itype_id &id, int)
 {
     return it.typeId() == id;
 }
+
 bool item_matches_locator(const item &, int locator_pos, int item_pos)
 {
     return item_pos == locator_pos;
 }
+
 bool item_matches_locator(const item &it, const item *other, int)
 {
     return &it == other;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, 
+                   double Value, bool _is_int, std::string Plus,
+                   bool NewLine, bool LowerIsBetter, bool DrawName)
+{
     sType = Type;
     sName = Name;
     sFmt = Fmt;
@@ -5149,6 +5160,7 @@ itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
 }
+
 int item::get_gun_ups_drain() const
 {
     int draincount = 0;
@@ -5162,6 +5174,7 @@ int item::get_gun_ups_drain() const
     }
     return draincount;
 }
+
 item_category::item_category() : id(), name(), sort_rank( 0 )
 {
 }
