@@ -1,0 +1,27 @@
+[{
+        "type" : "vehicle",
+        "id" : "survivor_bike",
+        "name" : "Survivor's Bicycle",
+        "blueprint" : "o#o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "folding_frame"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "small_controls"},
+            {"x": 0, "y": 0, "part": "horn_bicycle"},
+            {"x": 0, "y": 0, "part": "atomic_foot_pedals"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 0, "y": 0, "part": "sturdy_atomic_small_storage_battery"},
+            {"x": 1, "y": 0, "part": "folding_frame"},
+            {"x": 1, "y": 0, "part": "wheel_bicycle"},
+            {"x": 1, "y": 0, "part": "plutonium_headlight"},
+            {"x": -1, "y": 0, "part": "folding_frame"},
+            {"x": -1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "basketlg_folding"},
+            {"x": -1, "y": 0, "part": "medium_storage_battery"},
+            {"x": -1, "y": 0, "part": "engine_electric_small"},
+            {"x": -1, "y": 0, "part": "tiny_solar_panel"},
+            {"x": 1, "y": 0, "part": "part_microreactor"},
+		 {"x": 1, "y": 0, "part": "part_microfridge"}
+        ]
+    }
+]

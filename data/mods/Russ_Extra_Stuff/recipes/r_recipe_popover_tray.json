@@ -1,0 +1,35 @@
+[{
+  "type" : "recipe",
+  "result": "popover_tray",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "welder", 5 ],
+      [ "welder_crude", 20 ],
+      [ "toolset", 15 ],
+      [ "oxy_torch", 5]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "sheet_metal", 1 ]
+    ]
+  ]
+}
+]

@@ -1,0 +1,70 @@
+[{
+        "type" : "terrain",
+        "id" : "t_honeybee_hive",
+        "name": "honeybee hive",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 0,
+       "harvest_season": "SPRING",
+        "harvestable": "honeycomb",
+         "transforms_into": "t_honeybee_hive_empty",
+        "examine_action": "harvest_tree_shrub",
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "DECONSTRUCT","TRANSPARENT"],
+        "bash": {
+            "str_min": 1, "str_max": 5,
+            "sound": "poom!",
+            "sound_fail": "slap!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "honeycomb", "amount": 8, "minamount": 2 },
+                { "item": "wax", "amount": 10, "minamount": 3 },
+		{ "item": "bee_skep","amount":1, "minamount":1},
+		{ "item": "queen_bee", "amount":2, "minamount":2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_honeybee_hive_empty",
+        "name": "growing honeybee hive",
+        "symbol": "#",
+        "color": "yellow",
+        "move_cost": 0,
+        "harvest_season": "SPRING",
+        "harvestable": "honeycomb",
+         "transforms_into": "t_honeybee_hive",
+        "examine_action": "harvest_tree_shrub",
+        "flags": ["FLAMMABLE_ASH", "NOITEM","TRANSPARENT", "DECONSTRUCT","HARVESTED"],
+        "bash": {
+            "str_min": 1, "str_max": 5,
+            "sound": "poom!",
+            "sound_fail": "slap!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "wax", "amount": 2, "minamount": 0 },
+		{ "item": "bee_skep","amount":1, "minamount":1},
+		{ "item": "queen_bee", "amount":1, "minamount":1}
+            ]
+        }
+    },
+
+{
+        "type" : "terrain",
+        "id" : "t_tree_birch",
+        "name": "white birch tree",
+        "symbol": "5",
+        "color": "white",
+        "move_cost": 0,
+        "examine_action": "tree_blackjack",
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 60, "str_max": 120,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "amount": 10, "minamount": 3 },
+                { "item": "splinter", "amount": 25, "minamount": 10 }
+            ]
+        }
+    }
+]

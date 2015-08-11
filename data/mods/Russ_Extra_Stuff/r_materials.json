@@ -1,0 +1,22 @@
+[{
+        "type" : "material",
+        "ident" : "shieldgen",
+        "name" : "EM Field",
+        "bash_resist" : 2,
+        "cut_resist" : 1,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "buggy",
+            "wavering",
+            "stuttering",
+            "barely functional"
+        ],
+        "acid_resist" : 5,
+        "elec_resist" : 5,
+        "fire_resist" : 5,
+        "density" : 10
+    }
+
+
+]

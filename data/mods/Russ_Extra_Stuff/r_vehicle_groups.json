@@ -1,0 +1,18 @@
+[
+        
+     
+    {
+        "type" : "vehicle_group",
+        "id" : "city_parked",
+        "vehicles" : [
+		["survivor_bike",2]
+         ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "highway",
+        "vehicles" : [
+            ["survivor_bike", 2]
+                    ]
+    }
+]
+
