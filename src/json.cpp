@@ -39,7 +39,7 @@ std::string utf16_to_utf8(unsigned ch)
     } else {
         std::stringstream err;
         err << "unknown unicode: " << ch;
-        throw err.str();
+        throw std::runtime_error( err.str() );
     }
 
     buf += utf8Bytes;
@@ -1007,7 +1007,11 @@ std::string JsonIn::get_string()
                 // TODO: verify that unihex is in fact 4 hex digits.
                 char **endptr = 0;
                 unsigned u = (unsigned)strtoul(unihex, endptr, 16);
-                s += utf16_to_utf8(u);
+                try {
+                    s += utf16_to_utf8(u);
+                } catch( const std::exception &err ) {
+                    error( err.what() );
+                }
             } else {
                 // for anything else, just add the character, i suppose
                 s += ch;
