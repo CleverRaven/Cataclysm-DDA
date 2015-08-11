@@ -85,8 +85,16 @@ void input_manager::init()
     load_keyboard_settings(keymap, keymap_file_loaded_from, unbound_keymap);
     init_keycode_mapping();
 
-    load(FILENAMES["keybindings"], false);
-    load(FILENAMES["user_keybindings"], true);
+    try {
+        load(FILENAMES["keybindings"], false);
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+    }
+    try {
+        load(FILENAMES["user_keybindings"], true);
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["user_keybindings"] + ": " + err.what() );
+    }
 
     if (keymap_file_loaded_from.empty() || (keymap.empty() && unbound_keymap.empty())) {
         // No keymap file was loaded, or the file has no mappings and no unmappings,
