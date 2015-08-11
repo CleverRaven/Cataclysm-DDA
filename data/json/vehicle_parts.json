@@ -5066,5 +5066,22 @@
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "water_purifier",
+        "name" : "water purifier",
+        "symbol" : "&",
+        "color" : "blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 40,
+        "durability" : 200,
+        "item" : "water_purifier",
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["WATER_PURIFIER"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]}
+        ]
     }
 ]

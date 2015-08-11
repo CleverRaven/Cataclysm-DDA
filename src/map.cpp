@@ -4741,6 +4741,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 template <typename Stack>
 std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity)
 {
+    // TODO: Fix the bug with this function consuming liquid off the ground
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
         if( a->use_charges(type, quantity, ret) ) {
@@ -4799,147 +4800,145 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                                  const itype_id type, long &quantity)
 {
     std::list<item> ret;
-    for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
-        tripoint p( origin.x - radius, origin.y - radius, origin.z );
-        int &x = p.x;
-        int &y = p.y;
-        for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
-            for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
-                    use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
-                    if( quantity <= 0 ) {
-                        return ret;
-                    }
-                }
-                if( !accessible_items( origin, p, range) ) {
-                    continue;
-                }
-                if( rl_dist( origin, p ) >= radius ) {
-                    int vpart = -1;
-                    vehicle *veh = veh_at( p, vpart );
+    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
+        if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
+            use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
+            if( quantity <= 0 ) {
+                return ret;
+            }
+        }
 
-                    if( veh ) { // check if a vehicle part is present to provide water/power
-                        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-                        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-                        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-                        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-                        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-                        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        if( !accessible_items( origin, p, range ) ) {
+            continue;
+        }
 
-                        if (kpart >= 0) { // we have a kitchen, now to see what to drain
-                            ammotype ftype = "NULL";
+        std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity );
+        ret.splice(ret.end(), tmp);
+        if (quantity <= 0) {
+            return ret;
+        }
 
-                            if (type == "water_clean") {
-                                ftype = "water_clean";
-                            } else if (type == "hotplate") {
-                                ftype = "battery";
-                            }
+        int vpart = -1;
+        vehicle *veh = veh_at( p, vpart );
+        if( veh == nullptr ) {
+            continue;
+        }
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "water_clean") {
+                ftype = "water_clean";
+            } else if (type == "water") {
+                ftype = "water";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
 
-                            if (type == "welder") {
-                                ftype = "battery";
-                            } else if (type == "soldering_iron") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            // TODO: Handle water poison when crafting starts respecting it
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "welder") {
+                ftype = "battery";
+            } else if (type == "soldering_iron") {
+                ftype = "battery";
+            }
 
-                            if (type == "press") {
-                                ftype = "battery";
-                            } else if (type == "vac_sealer") {
-                                ftype = "battery";
-                            } else if (type == "dehydrator") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "press") {
+                ftype = "battery";
+            } else if (type == "vac_sealer") {
+                ftype = "battery";
+            } else if (type == "dehydrator") {
+                ftype = "battery";
+            }
 
-                            if (type == "forge") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "forge") {
+                ftype = "battery";
+            }
 
-                            if (type == "chemistry_set") {
-                                ftype = "battery";
-                            } else if (type == "hotplate") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (cargo >= 0) {
-                            std::list<item> tmp =
-                                use_charges_from_stack( veh->get_items(cargo), type, quantity );
-                            ret.splice(ret.end(), tmp);
-                            if (quantity <= 0) {
-                                return ret;
-                            }
-                        }
-                    }
+            if (type == "chemistry_set") {
+                ftype = "battery";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
 
-                    std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity );
-                    ret.splice(ret.end(), tmp);
-                    if (quantity <= 0) {
-                        return ret;
-                    }
-                }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (cargo >= 0) {
+            std::list<item> tmp =
+                use_charges_from_stack( veh->get_items(cargo), type, quantity );
+            ret.splice(ret.end(), tmp);
+            if (quantity <= 0) {
+                return ret;
             }
         }
     }
+
     return ret;
 }
 
