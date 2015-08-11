@@ -4741,10 +4741,9 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 template <typename Stack>
 std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity)
 {
-    // TODO: Fix the bug with this function consuming liquid off the ground
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_charges(type, quantity, ret) ) {
+        if( !a->made_of(LIQUID) && a->use_charges(type, quantity, ret) ) {
             a = stack.erase( a );
         } else {
             ++a;
