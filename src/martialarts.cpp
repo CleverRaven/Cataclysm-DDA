@@ -25,8 +25,14 @@ void load_technique(JsonObject &jo)
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array("messages");
-        tec.player_message = _(jsarr.get_string( 0 ).c_str());
-        tec.npc_message = _(jsarr.get_string( 1 ).c_str());
+        tec.player_message = jsarr.get_string( 0 );
+        if( !tec.player_message.empty() ) {
+            tec.player_message = _(tec.player_message.c_str());
+        }
+        tec.npc_message = jsarr.get_string( 1 );
+        if( !tec.npc_message.empty() ) {
+            tec.npc_message = _(tec.npc_message.c_str());
+        }
     }
 
     tec.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);

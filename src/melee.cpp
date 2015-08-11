@@ -2139,10 +2139,14 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     const int stab_dam = ddi.type_damage( DT_STAB );
 
     if( tec.id != tec_none ) {
+        std::string message;
         if (p.is_npc()) {
-            return tec.npc_message;
+            message = tec.npc_message;
         } else {
-            return tec.player_message;
+            message = tec.player_message;
+        }
+        if( !message.empty() ) {
+            return message;
         }
     }
 
