@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-11 17:49+0300\n"
+"POT-Creation-Date: 2015-08-11 20:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83624,7 +83624,8 @@ msgid "This container can store %.2f liters."
 msgstr ""
 
 #: src/item.cpp
-msgid "Charges"
+#, c-format
+msgid "Charges: %d"
 msgstr ""
 
 #. ~ "%s" is ammunition type. This types can't be plural.
