@@ -1097,7 +1097,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                         "Maximum <num> charges (doubled).",
                                          t_max);
                 }
-                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             } else if (has_flag("RECHARGE")) {
                 t_max = tool->max_charges;
                 if (tool->ammo_id != "NULL") {
@@ -1111,7 +1110,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                         "Maximum <num> charges (rechargeable).",
                                         t_max);
                 }
-                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
                 t_max = tool->max_charges * 2;
                 if (tool->ammo_id != "NULL") {
@@ -1139,7 +1137,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                         "Maximum <num> charges.",
                                         t_max);
                 }
-                dump->push_back(iteminfo("TOOL", "", temp_fmt , t_max));
             } else {
                 t_max = tool->max_charges;
                 if (tool->ammo_id != "NULL") {
@@ -1153,8 +1150,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                         "Maximum <num> charges.",
                                         t_max);
                 }
-                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             }
+            dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
         }
     }
 
