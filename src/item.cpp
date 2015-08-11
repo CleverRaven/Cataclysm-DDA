@@ -1078,34 +1078,82 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         it_tool* tool = dynamic_cast<it_tool*>(type);
 
         if ((tool->max_charges)!=0) {
-            std::string charges_line = _("Charges"); //;
+            int t_max;
+            const std::string t_ammo_name = _(ammo_name(tool->ammo_id).c_str());
+            std::string temp_fmt;
+            std::string charges_line = _("Charges");
             dump->push_back(iteminfo("TOOL",charges_line+ ": " + to_string(charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_id == "NULL") ?
-                    ngettext("Maximum <num> charge (doubled).", "Maximum <num> charges (doubled)", tool->max_charges * 2) :
-                    string_format(ngettext("Maximum <num> charge (doubled) of %s.", "Maximum <num> charges (doubled) of %s.", tool->max_charges * 2),
-                                  ammo_name(tool->ammo_id).c_str())), tool->max_charges * 2));
+                t_max = tool->max_charges * 2;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge (doubled) of %s.",
+                                        "Maximum <num> charges (doubled) of %s.",
+                                         t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge (doubled).",
+                                        "Maximum <num> charges (doubled).",
+                                         t_max);
+                }
+                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             } else if (has_flag("RECHARGE")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_id == "NULL") ?
-                    ngettext("Maximum <num> charge (rechargeable).", "Maximum <num> charges (rechargeable).", tool->max_charges) :
-                    string_format(ngettext("Maximum <num> charge (rechargeable) of %s", "Maximum <num> charges (rechargeable) of %s.", tool->max_charges),
-                    ammo_name(tool->ammo_id).c_str())), tool->max_charges));
+                t_max = tool->max_charges;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable) of %s",
+                                        "Maximum <num> charges (rechargeable) of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable).",
+                                        "Maximum <num> charges (rechargeable).",
+                                        t_max);
+                }
+                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_id == "NULL") ?
-                    ngettext("Maximum <num> charge (rechargeable) (doubled).", "Maximum <num> charges (rechargeable) (doubled).", tool->max_charges * 2) :
-                    string_format(ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.", "Maximum <num> charges (rechargeable) (doubled) of %s.", tool->max_charges * 2),
-                                  ammo_name(tool->ammo_id).c_str())), tool->max_charges * 2));
+                t_max = tool->max_charges * 2;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.",
+                                        "Maximum <num> charges (rechargeable) (doubled) of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable) (doubled).",
+                                        "Maximum <num> charges (rechargeable) (doubled).",
+                                        t_max);
+                }
+                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             } else if (has_flag("ATOMIC_AMMO")) {
-                dump->push_back(iteminfo("TOOL", "",
-                                         ((tool->ammo_id == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges * 100) :
-                                          string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges * 100),
-                                          ammo_name("plutonium").c_str())), tool->max_charges * 100));
+                t_max = tool->max_charges * 100;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge of %s.",
+                                        "Maximum <num> charges of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, _(ammo_name("plutonium").c_str()));
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge.",
+                                        "Maximum <num> charges.",
+                                        t_max);
+                }
+                dump->push_back(iteminfo("TOOL", "", temp_fmt , t_max));
             } else {
-                dump->push_back(iteminfo("TOOL", "",
-                    ((tool->ammo_id == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges) :
-                     string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges),
-                                   ammo_name(tool->ammo_id).c_str())), tool->max_charges));
+                t_max = tool->max_charges;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge of %s.",
+                                        "Maximum <num> charges of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge.",
+                                        "Maximum <num> charges.",
+                                        t_max);
+                }
+                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             }
         }
     }
