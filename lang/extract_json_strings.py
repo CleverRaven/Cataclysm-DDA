@@ -408,7 +408,10 @@ def extract(item, infilename):
     wrote = False
     if "name" in item:
         if "name_plural" in item:
-            writestr(outfile, item["name"], item["name_plural"], **kwargs)
+            if item["name_plural"] != "none":
+                writestr(outfile, item["name"], item["name_plural"], **kwargs)
+            else:
+                writestr(outfile, item["name"], **kwargs)
         else:
             if object_type in needs_plural:
                 # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp

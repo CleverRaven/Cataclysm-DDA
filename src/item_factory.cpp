@@ -918,7 +918,13 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
     new_item_template->sym = jo.get_string("symbol")[0];
     new_item_template->color = color_from_string(jo.get_string("color"));
-    new_item_template->description = _(jo.get_string("description").c_str());
+    std::string temp_desc;
+    temp_desc = jo.get_string("description");
+    if ( !temp_desc.empty() ) {
+        new_item_template->description = _(jo.get_string("description").c_str());
+    } else {
+        new_item_template->description = "";
+    }
     if( jo.has_member("material") ){
         set_material_from_json( jo, "material", new_item_template );
     } else {

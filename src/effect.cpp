@@ -615,7 +615,9 @@ std::string effect::disp_desc(bool reduced) const
     if( use_part_descs() ) {
         ret << string_format(_(tmp_str.c_str()), body_part_name(bp).c_str());
     } else {
-        ret << _(tmp_str.c_str());
+        if (!tmp_str.empty()) {
+            ret << _(tmp_str.c_str());
+        }
     }
 
     return ret.str();

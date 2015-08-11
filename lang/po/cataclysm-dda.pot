@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 10:00+0300\n"
+"POT-Creation-Date: 2015-08-10 22:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4067,7 +4067,7 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Hand-loaded ammunition for pistols, packed with extra powder. It trades "
+"Hand-loaded ammunition for pistols, packed with extra powder.  It trades "
 "improved damage for increased recoil."
 msgstr ""
 
@@ -4079,7 +4079,7 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Hand-loaded armor-piercing ammunition for pistols. It trades improved "
+"Hand-loaded armor-piercing ammunition for pistols.  It trades improved "
 "penetration for slightly reduced damage."
 msgstr ""
 
@@ -4163,7 +4163,7 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Hand-loaded armor-piercing ammunition for heavy machineguns and other "
-"military hardware. It trades improved penetration for slightly reduced "
+"military hardware.  It trades improved penetration for slightly reduced "
 "damage."
 msgstr ""
 
@@ -4250,7 +4250,7 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"High power ammunition for pistols, packed with extra powder. It trades "
+"High power ammunition for pistols, packed with extra powder.  It trades "
 "improved damage for increased recoil."
 msgstr ""
 
@@ -4262,7 +4262,7 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Armor piercing ammunition for pistols. It trades improved penetration for "
+"Armor piercing ammunition for pistols.  It trades improved penetration for "
 "slightly reduced damage."
 msgstr ""
 
@@ -4354,8 +4354,8 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Armor piercing ammunition for heavy machineguns and other military hardware. "
-"It trades improved penetration for slightly reduced damage."
+"Armor piercing ammunition for heavy machineguns and other military "
+"hardware.  It trades improved penetration for slightly reduced damage."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -22624,9 +22624,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "nearby fire"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
@@ -22638,21 +22636,15 @@ msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "muscle"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "a smoking device and a source of flame"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
 msgid "cvd machine"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: lang/json/GENERIC_from_json.py lang/json/ammunition_type_from_json.py
@@ -22660,9 +22652,7 @@ msgstr[1] ""
 #: lang/json/ammunition_type_from_json.py lang/json/trap_from_json.py
 #: src/advanced_inv.cpp src/melee.cpp
 msgid "none"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "withered plant"
@@ -25755,9 +25745,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "misc software"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A miscellaneous piece of hobby software.  Probably useless."
@@ -25765,9 +25753,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "hackPRO"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A piece of hacking software."
@@ -25775,9 +25761,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MediSoft"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A piece of medical software."
@@ -25785,9 +25769,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "MatheMAX"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "A piece of mathematical software."
@@ -25795,9 +25777,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "infection data"
-msgid_plural "none"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "Medical data on zombie blood."
@@ -29485,7 +29465,8 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A highly accurate lever-action hunting rifle chambered for the "
-"powerful .30-06 round."
+"powerful .30-06 round.  Notable for using a detachable magazine instead of a "
+"traditional tube, allowing the use of cartridges with spitzer-type bullets."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -29578,7 +29559,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, "
-"some minor improvements have been made, such as a tube feeding system for "
+"some minor improvements have been made, such as an integral magazine for "
 "rounds, and chambering the more powerful .308 rounds."
 msgstr ""
 
@@ -31401,7 +31382,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A home-made breech-loading gun made from a metal pipe. It can hold a single "
+"A home-made breech-loading gun made from a metal pipe.  It can hold a single "
 "revolver round."
 msgstr ""
 
@@ -31425,7 +31406,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A home-made gun. It is simply a pipe attached to a stock, with a hammer to "
+"A home-made gun.  It is simply a pipe attached to a stock, with a hammer to "
 "strike the single round it holds."
 msgstr ""
 
@@ -31472,7 +31453,7 @@ msgstr ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "Designed as a military sidearm, this massive autorevolver fires light rifle "
-"rounds. It has a heavy barrel to manage the recoil and a 5-chamber cylinder."
+"rounds.  It has a heavy barrel to manage the recoil and a 5-chamber cylinder."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31483,8 +31464,8 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A typical sidearm for the police, military, and licensed civilians. It holds "
-"15 rounds of pistol ammo in a detachable magazine."
+"A typical sidearm for the police, military, and licensed civilians.  It "
+"holds 15 rounds of pistol ammo in a detachable magazine."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31495,8 +31476,8 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A very small pistol meant to be concealed and fired at close range. It holds "
-"five rounds of pistol ammo."
+"A very small pistol meant to be concealed and fired at close range.  It "
+"holds five rounds of pistol ammo."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31508,7 +31489,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A selective fire carbine favored by vehicle crews, special police, and "
-"criminals. It holds thirty rounds of pistol ammo in a detachable magazine."
+"criminals.  It holds thirty rounds of pistol ammo in a detachable magazine."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31519,8 +31500,8 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"An exotic submachinegun with a larger ammo capacity and higher rate of fire. "
-"It holds fifty rounds of pistol ammo in a detachable magazine."
+"An exotic submachinegun with a larger ammo capacity and higher rate of "
+"fire.  It holds fifty rounds of pistol ammo in a detachable magazine."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31531,7 +31512,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A cheap carbine made for target practice or varmint hunting. It holds ten "
+"A cheap carbine made for target practice or varmint hunting.  It holds ten "
 "rounds of pistol ammo in a detachable magazine."
 msgstr ""
 
@@ -31543,8 +31524,8 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A refined and modernized version of the classic cowboy sidearm. Its cylinder "
-"holds six powerful revolver rounds."
+"A refined and modernized version of the classic cowboy sidearm.  Its "
+"cylinder holds six powerful revolver rounds."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31555,7 +31536,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A pump-action single-barreled shotgun. It holds six shells in an internal "
+"A pump-action single-barreled shotgun.  It holds six shells in an internal "
 "tubular magazine"
 msgstr ""
 
@@ -31567,7 +31548,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A military issue shotgun that can be fired in short bursts. It holds eight "
+"A military issue shotgun that can be fired in short bursts.  It holds eight "
 "shells in an internal magazine."
 msgstr ""
 
@@ -31579,7 +31560,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A compact and lightweight carbine favored by hunters and the police. It "
+"A compact and lightweight carbine favored by hunters and the police.  It "
 "holds ten rounds of light rifle ammo in a detachable magazine."
 msgstr ""
 
@@ -31592,7 +31573,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A lightweight assault rifle used by US military, it also has hundreds of "
-"commercial knockoffs for the civilian market. It holds thirty light rifle "
+"commercial knockoffs for the civilian market.  It holds thirty light rifle "
 "rounds in a detachable magazine."
 msgstr ""
 
@@ -31604,7 +31585,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A cheap but reliable assault rifle imported from overseas. It holds thirty "
+"A cheap but reliable assault rifle imported from overseas.  It holds thirty "
 "rounds of rifle ammo in a detachable magazine."
 msgstr ""
 
@@ -31617,7 +31598,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A portable lightweight machine gun built for laying down suppressive fire "
-"rather than placing accurate shots. It can hold two hundred light rifle "
+"rather than placing accurate shots.  It can hold two hundred light rifle "
 "rounds in a detachable belt drum."
 msgstr ""
 
@@ -31629,8 +31610,8 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A hefty machine gun meant to be fired from bipods or mounted to vehicles. It "
-"holds three hundred rounds of light rifle ammo in a detachable belt drum."
+"A hefty machine gun meant to be fired from bipods or mounted to vehicles.  "
+"It holds three hundred rounds of light rifle ammo in a detachable belt drum."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31642,8 +31623,8 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "Despite the name, this is a huge automatic weapon meant to be mounted on "
-"vehicles; it's only miniature compared to a cannon. It has six barrels that "
-"rotate to keep from overheating. It holds up to five hundred rounds of "
+"vehicles; it's only miniature compared to a cannon.  It has six barrels that "
+"rotate to keep from overheating.  It holds up to five hundred rounds of "
 "belted rifle ammo, and requires a UPS to power its electric motor."
 msgstr ""
 
@@ -31656,7 +31637,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A solid bolt action rifle made for hunting large game, but also used by "
-"police and military snipers. It holds five rounds of rifle ammo in an "
+"police and military snipers.  It holds five rounds of rifle ammo in an "
 "internal magazine."
 msgstr ""
 
@@ -31668,7 +31649,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"An old semiautomatic rifle still used in military drills and parades. It "
+"An old semiautomatic rifle still used in military drills and parades.  It "
 "holds ten rounds of rifle ammo in an internal magazine."
 msgstr ""
 
@@ -31680,7 +31661,7 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A selective fire battle rifle used by the US military. It holds thirty "
+"A selective fire battle rifle used by the US military.  It holds thirty "
 "rounds of rifle ammo in a detachable magazine."
 msgstr ""
 
@@ -31693,8 +31674,8 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A medium machine gun used by the US military, meant to be fired from bipods "
-"or mounted to vehicles. It holds up to two hundred rounds of rifle ammo in a "
-"detachable belt drum."
+"or mounted to vehicles.  It holds up to two hundred rounds of rifle ammo in "
+"a detachable belt drum."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -31706,7 +31687,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A powerful bolt-action sniper rifle meant to destroy vehicles, equipment, "
-"and enemy combatants. It holds ten rounds of heavy rifle ammo in a "
+"and enemy combatants.  It holds ten rounds of heavy rifle ammo in a "
 "detachable magazine."
 msgstr ""
 
@@ -31718,8 +31699,8 @@ msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid ""
-"A heavy automatic weapon that must be mounted to a vehicle to fire. It holds "
-"two hundred rounds of military ammo in a large belt drum."
+"A heavy automatic weapon that must be mounted to a vehicle to fire.  It "
+"holds two hundred rounds of military ammo in a large belt drum."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -43845,6 +43826,10 @@ msgid "Tape Up window"
 msgstr ""
 
 #: lang/json/construction_from_json.py
+msgid "Remove Tape from Window"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Board Up Window"
 msgstr ""
 
@@ -43946,10 +43931,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Wire Gate"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Tape up window"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -65897,6 +65878,11 @@ msgid "Almost there! Ten more minutes of work and you'll be through."
 msgstr ""
 
 #: src/activity_handlers.cpp
+#, c-format
+msgid "You discover a %s!"
+msgstr ""
+
+#: src/activity_handlers.cpp
 msgid "There's no corpse to butcher!"
 msgstr ""
 
@@ -65943,17 +65929,12 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 #, c-format
-msgid "You discover a CBM in the %s!"
+msgid "You discover a power storage in the %s!"
 msgstr ""
 
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You discover a fused lump of bio-circuitry in the %s!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-#, c-format
-msgid "You discover a power storage in the %s!"
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -65979,11 +65960,8 @@ msgid "You didn't catch anything."
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "You found some trash!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "You found something!"
+#, c-format
+msgid "You found: %s!"
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -70910,12 +70888,12 @@ msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "transparency: %f.2 visibility: %f.2"
+msgid "transparency: %.5f, visibility: %.5f,"
 msgstr ""
 
 #: src/editmap.cpp
 #, c-format
-msgid "apparent light: %f.2, light_at: %f.2"
+msgid "apparent light: %.2f, light_at: %.2f"
 msgstr ""
 
 #: src/editmap.cpp
@@ -73647,10 +73625,6 @@ msgid "Inventory:"
 msgstr ""
 
 #: src/game.cpp
-msgid "You can't effectively throw while you're in your shell."
-msgstr ""
-
-#: src/game.cpp
 msgid "You can't drop things to another tile while you're in your shell."
 msgstr ""
 
@@ -75385,6 +75359,10 @@ msgid "%s; enter new letter (press SPACE for none, ESCAPE to cancel)."
 msgstr ""
 
 #: src/game.cpp
+msgid "You can't effectively throw while you're in your shell."
+msgstr ""
+
+#: src/game.cpp
 msgid "Throw item:"
 msgstr ""
 
@@ -75653,15 +75631,11 @@ msgid "Read:"
 msgstr ""
 
 #: src/game.cpp
-msgid "You can't chat while deaf!"
-msgstr ""
-
-#: src/game.cpp
-msgid "You talk to yourself for a moment."
-msgstr ""
-
-#: src/game.cpp
 msgid "There's no-one close enough to talk to."
+msgstr ""
+
+#: src/game.cpp
+msgid "No one nearby. Yell?"
 msgstr ""
 
 #: src/game.cpp
@@ -83821,6 +83795,10 @@ msgstr ""
 msgid "You turned off your RC car"
 msgstr ""
 
+#: src/iuse.cpp src/map.cpp
+msgid "beep."
+msgstr ""
+
 #: src/iuse.cpp
 msgid "Take control of RC car."
 msgstr ""
@@ -91640,18 +91618,6 @@ msgstr ""
 msgid "we're a team, we've got this!"
 msgstr ""
 
-#: src/mutation.cpp src/player.cpp
-msgid "You shout loudly!"
-msgstr ""
-
-#: src/mutation.cpp src/player.cpp
-msgid "You scream loudly!"
-msgstr ""
-
-#: src/mutation.cpp src/player.cpp
-msgid "You let out a piercing howl!"
-msgstr ""
-
 #: src/mutation.cpp
 msgid "You detach a vine but don't have room to carry it, so you drop it."
 msgstr ""
@@ -94110,21 +94076,20 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s tries to talk to you, but you're deaf!"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
-msgid "When you don't respond, %s becomes angry!"
-msgstr ""
-
-#: src/npctalk.cpp
-#, c-format
 msgid "Dialogue with %s"
 msgstr ""
 
 #: src/npctalk.cpp
 msgid "Your response:"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "&You are deaf and can't talk."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "&You are deaf and can't talk. When you don't respond, %s becomes angry!"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -95269,6 +95234,14 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Now get out of here, before I kill you."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "&You yell, but can't hear yourself."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "&You yell."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -96556,6 +96529,10 @@ msgid "S: Size up stats"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Y: Yell"
+msgstr ""
+
+#: src/npctalk.cpp
 #, c-format
 msgid "<talk option>%1$c: [%2$s %3$d%%] %4$s"
 msgstr ""
@@ -96662,6 +96639,14 @@ msgstr ""
 #: src/options.cpp
 #, c-format
 msgid "Default: %.2f - Min: %.2f, Max: %.2f"
+msgstr ""
+
+#: src/options.cpp
+msgid "Deon's"
+msgstr ""
+
+#: src/options.cpp
+msgid "Hoder's"
 msgstr ""
 
 #: src/options.cpp
@@ -97571,14 +97556,6 @@ msgstr ""
 #: src/options.cpp
 #, c-format
 msgid "Failed to save the options to %s."
-msgstr ""
-
-#: src/options.cpp
-msgid "Deon's"
-msgstr ""
-
-#: src/options.cpp
-msgid "Hoder's"
 msgstr ""
 
 #: src/output.cpp
@@ -99022,6 +98999,18 @@ msgid "R"
 msgstr ""
 
 #: src/player.cpp
+msgid "You scream loudly!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You let out a piercing howl!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You shout loudly!"
+msgstr ""
+
+#: src/player.cpp
 msgid "You start running."
 msgstr ""
 
@@ -100287,6 +100276,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You have the sudden urge to SCREAM!"
+msgstr ""
+
+#: src/player.cpp
+msgid "AHHHHHHH!"
 msgstr ""
 
 #: src/player.cpp
@@ -102553,15 +102546,22 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
+"  You also need either a <color_%1$s>jack</color> or <color_%2$s>%3$d</"
+"color> strength to install tire."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
 "Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in "
-"mechanics.%5$s"
+"mechanics.%5$s%6$s"
 msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level "
-"<color_%4$s>%5$d</color> skill in mechanics.%6$s"
+"<color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -102569,7 +102569,7 @@ msgstr ""
 msgid ""
 "Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_"
 "%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and "
-"level <color_%6$s>%7$d</color> skill in mechanics.%8$s"
+"level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -102578,7 +102578,7 @@ msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a "
 "<color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) "
 "or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill "
-"in mechanics.%9$s"
+"in mechanics.%9$s%10$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -102749,8 +102749,9 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
-"You need a <color_%1$s>wrench</color>, a <color_%2$s>jack</color> and <color_"
-"%3$s>level %4$d</color> mechanics skill to remove this part."
+"You need a <color_%1$s>wrench</color>, either a <color_%2$s>jack</color> or "
+"<color_%3$s>%4$d</color> strength and <color_%5$s>level %6$d</color> "
+"mechanics skill to remove this part."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -102796,8 +102797,8 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
-"To change a wheel you need a <color_%1$s>wrench</color> and a <color_"
-"%2$s>jack</color>."
+"To change a wheel you need a <color_%1$s>wrench</color> and either a <color_"
+"%2$s>jack</color> or <color_%3$s>%4$d</color> strength."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -103633,6 +103634,34 @@ msgid "Label: %s"
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "ROARRR!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "hummm!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "roarrr!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "vroom!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "whirrr!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "BRRROARRR!!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "BRUMBRUMBRUMBRUM!!!"
+msgstr ""
+
+#: src/vehicle.cpp
 #, c-format
 msgid "The %s's reactor dies!"
 msgstr ""
@@ -103653,6 +103682,22 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Your engine emits a loud grinding sound."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "BLEEEEEEP"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "NEEeu NEEeu NEEeu"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "WHOOP WHOOP"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "WREEP"
 msgstr ""
 
 #: src/vehicle.cpp
