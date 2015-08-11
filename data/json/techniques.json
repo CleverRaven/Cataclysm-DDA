@@ -35,6 +35,9 @@
         "type" : "technique",
         "id" : "DEF_DISARM",
         "name" : "disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true,
         "messages" : [
             "You disarm %s",
             "<npcname> disarms %s"
