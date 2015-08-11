@@ -69,8 +69,9 @@ class ma_technique
 
         std::set<std::string> flags;
 
-        // message to be displayed when player (0) or npc (1) uses the technique
-        std::vector<std::string> messages;
+        // message to be displayed when player or npc uses the technique
+        std::string player_message;
+        std::string npc_message;
 
         bool defensive;
         bool dummy;

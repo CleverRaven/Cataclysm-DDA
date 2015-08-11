@@ -2139,12 +2139,10 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     const int stab_dam = ddi.type_damage( DT_STAB );
 
     if( tec.id != tec_none ) {
-        if (tec.messages.size() < 2) {
-            return "The bugs nibble %s";
-        } else if (p.is_npc()) {
-            return tec.messages[1];
+        if (p.is_npc()) {
+            return tec.npc_message;
         } else {
-            return tec.messages[0];
+            return tec.player_message;
         }
     }
 

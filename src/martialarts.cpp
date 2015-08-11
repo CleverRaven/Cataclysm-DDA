@@ -23,9 +23,10 @@ void load_technique(JsonObject &jo)
         tec.name = _(tec.name.c_str());
     }
 
-    JsonArray jsarr = jo.get_array("messages");
-    while (jsarr.has_more()) {
-        tec.messages.push_back(_(jsarr.next_string().c_str()));
+    if( jo.has_member( "messages" ) ) {
+        JsonArray jsarr = jo.get_array("messages");
+        tec.player_message = _(jsarr.get_string( 0 ).c_str());
+        tec.npc_message = _(jsarr.get_string( 1 ).c_str());
     }
 
     tec.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
@@ -692,9 +693,9 @@ std::string martialart::melee_verb(matec_id tec_id,  const player &u )
         const ma_technique &tec = elem.obj();
         if (tec.id == tec_id) {
             if (u.is_npc()) {
-                return tec.messages[1];
+                return tec.npc_message;
             } else {
-                return tec.messages[0];
+                return tec.player_message;
             }
         }
     }
