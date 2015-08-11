@@ -208,7 +208,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
     }
 
     if(menu_items[choice] == _("Get items on the ground")) {
-        from_vehicle = false;
+        return -1;
     }
 
     return from_vehicle ? cargo_part : -1;
