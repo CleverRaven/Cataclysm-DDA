@@ -115,7 +115,7 @@ void edit_json( SAVEOBJ *it )
                 SAVEOBJ tmp;
                 tmp.deserialize( dump );
                 *it = std::move( tmp );
-            } catch( std::string &err ) {
+            } catch( const JsonError &err ) {
                 popup( "Error on deserialization: %s", err.c_str() );
             }
             save2 = it->serialize();

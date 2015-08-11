@@ -167,8 +167,8 @@ void load_json_dir(std::string const &dirname)
         try {
             JsonIn jsin(iss);
             load_all_from_json(jsin);
-        } catch (std::string e) {
-            throw *(it) + ": " + e;
+        } catch( const JsonError &err ) {
+            throw *(it) + ": " + err.what();
         }
     }
 }

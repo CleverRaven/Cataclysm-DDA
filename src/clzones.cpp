@@ -215,7 +215,7 @@ void zone_manager::load_zones()
     try {
         JsonIn jsin( fin );
         deserialize( jsin );
-    } catch( std::string e ) {
+    } catch( const JsonError &e ) {
         DebugLog( D_ERROR, DC_ALL ) << "load_zones: " << e;
     }
 

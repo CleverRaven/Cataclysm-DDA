@@ -3273,7 +3273,7 @@ void game::load_uistate(std::string worldname)
     try {
         JsonIn jsin(fin);
         uistate.deserialize(jsin);
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         dbg(D_ERROR) << "load_uistate: " << e;
     }
     fin.close();

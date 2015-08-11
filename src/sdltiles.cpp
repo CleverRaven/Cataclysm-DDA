@@ -1459,7 +1459,7 @@ WINDOW *curses_init(void)
     try {
         tilecontext->init();
         dbg( D_INFO ) << "Tiles initialized successfully.";
-    } catch(std::string err) {
+    } catch( const JsonError &err ) {
         dbg( D_ERROR ) << "failed to initialize tile: " << err;
         // use_tiles is the cached value of the USE_TILES option.
         // most (all?) code refers to this to see if cata_tiles should be used.
@@ -1593,7 +1593,7 @@ int curses_start_color( void )
             load_colors( jo );
             jo.finish();
         }
-    } catch( std::string e ) {
+    } catch( const JsonError &e ) {
         dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
         return ERR;
     }

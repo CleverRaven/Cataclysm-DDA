@@ -1076,7 +1076,7 @@ void load_artifacts(const std::string &artfilename)
 
     try {
         load_artifacts_from_ifstream(file_test);
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("%s: %s", artfilename.c_str(), e.c_str());
     }
 

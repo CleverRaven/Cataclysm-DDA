@@ -1359,7 +1359,7 @@ bool mapgen_function_json::setup() {
        }
 #endif
 
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("Bad JSON mapgen, discarding:\n  %s\n", e.c_str() );
         jdata.clear(); // silently fail further attempts
         return false;

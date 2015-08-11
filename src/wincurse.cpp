@@ -693,9 +693,8 @@ int curses_start_color(void)
             // not an array?
             jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
         }
-    }
-    catch(std::string e){
-        throw FILENAMES["colors"] + ": " + e;
+    } catch( const JsonError &err ){
+        throw FILENAMES["colors"] + ": " + err.what();
     }
 
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);

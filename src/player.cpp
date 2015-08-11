@@ -1917,7 +1917,7 @@ void player::load_info(std::string data)
     JsonIn jsin(dump);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("Bad player json\n%s", jsonerr.c_str() );
     }
 }

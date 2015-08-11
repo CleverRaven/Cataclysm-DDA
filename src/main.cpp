@@ -409,6 +409,9 @@ int main(int argc, char *argv[])
             // is only for verifying that stage, so we exit.
             exit_handler(0);
         }
+    } catch( const JsonError &err ) {
+        debugmsg( "%s", err.what() );
+        exit_handler(-999);
     } catch(std::string &error_message) {
         if(!error_message.empty()) {
             debugmsg("%s", error_message.c_str());

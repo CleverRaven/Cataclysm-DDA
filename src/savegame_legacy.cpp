@@ -192,7 +192,7 @@ void item::load_info( const std::string &data )
         JsonIn jsin(dump);
         try {
             deserialize(jsin);
-        } catch (std::string jsonerr) {
+        } catch( const JsonError &jsonerr ) {
             debugmsg("Bad item json\n%s", jsonerr.c_str() );
         }
         return;
@@ -417,7 +417,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
                             }
                         }
                     }
-                } catch(std::string jsonerr) {
+                } catch( const JsonError &jsonerr ) {
                     debugmsg("load overmap: json error\n%s", jsonerr.c_str() );
                     // just continue with default region
                 }

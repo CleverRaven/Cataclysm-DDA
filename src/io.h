@@ -217,7 +217,7 @@ public:
      *
      * The io functions read a value from the archive and store it in the reference parameter.
      *
-     * @throw std::string (via the Json classes) if the value in the archive is of an incompatible
+     * @throw JsonError (via the Json classes) if the value in the archive is of an incompatible
      * type (e.g. reading a string, but the member is a Json object).
      * @return `false` if the archive did not contain the requested member, otherwise `true`.
      */
@@ -387,7 +387,7 @@ public:
      *
      * The io functions store a value (given as parameter) in the archive.
      *
-     * @throw std::string (via the Json classes) on any kind of error.
+     * @throw JsonError (via the Json classes) on any kind of error.
      *
      * @return All functions return `false`. Their signature should be compatible with the
      * functions in @ref JsonObjectInputArchive, so they can be used when the archive type is a
@@ -439,7 +439,7 @@ public:
     {
         if( pointer == nullptr ) {
             if( required ) {
-                throw std::string( "a required member is null: " ) + name;
+                throw JsonError( ( "a required member is null: " ) + name );
             }
             return false;
         }

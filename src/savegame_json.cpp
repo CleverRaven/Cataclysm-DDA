@@ -993,7 +993,7 @@ void inventory::json_load_invcache(JsonIn &jsin)
                 invlet_cache[member] = vect;
             }
         }
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("bad invcache json:\n%s", jsonerr.c_str() );
     }
 }
@@ -1021,7 +1021,7 @@ void inventory::json_load_items(JsonIn &jsin)
             JsonObject jo = ja.next_object();
             add_item(item( jo ), false, false);
         }
-    } catch (std::string &jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
     }
 }
