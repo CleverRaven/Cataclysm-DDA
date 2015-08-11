@@ -22,34 +22,24 @@
 // Returns -2 if a special interaction was performed and the menu should exit.
 int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
 {
-    bool from_vehicle = false;
+    if( veh == nullptr ) {
+        return -1;
+    }
 
-    int k_part = -1;
-    int wtr_part = -1;
-    int w_part = -1;
-    int craft_part = -1;
-    int cargo_part = -1;
-    int chempart = -1;
-    int ctrl_part = -1;
-    int purify_part = -1;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    if( veh == nullptr ) {
-        return -1;
-    }
-
-    k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
-    wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
-    w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
-    craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
-    chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
-    cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-    ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
-    purify_part = veh->part_with_feature(veh_root_part, "WATER_PURIFIER");
-    from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
+    const int k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
+    const int wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
+    const int w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
+    const int craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
+    const int chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
+    const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
+    const int ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
+    const int purify_part = veh->part_with_feature(veh_root_part, "WATER_PURIFIER");
+    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = (veh->tags.count("convertible") > 0);
     const bool remotely_controlled = g->remoteveh() == veh;
