@@ -693,21 +693,6 @@ bool martialart::has_weapon(itype_id item) const
     return weapons.count(item);
 }
 
-std::string martialart::melee_verb(matec_id tec_id,  const player &u )
-{
-    for( const auto &elem : techniques ) {
-        const ma_technique &tec = elem.obj();
-        if (tec.id == tec_id) {
-            if (u.is_npc()) {
-                return tec.npc_message;
-            } else {
-                return tec.player_message;
-            }
-        }
-    }
-    return std::string("%s is attacked by bugs");
-}
-
 // Player stuff
 
 // technique

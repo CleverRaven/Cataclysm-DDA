@@ -248,8 +248,6 @@ class martialart
         bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
         bool has_weapon(std::string item) const;
-        // gets custom melee string for a technique under this style
-        std::string melee_verb(matec_id tech,  const player &u );
 
         matype_id id;
         std::string name;
