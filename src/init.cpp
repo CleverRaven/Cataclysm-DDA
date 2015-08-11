@@ -258,7 +258,7 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch( const JsonError &err ) {
-            throw file + ": " + err.what();
+            throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }

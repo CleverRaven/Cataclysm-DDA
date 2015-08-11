@@ -247,8 +247,8 @@ void game::load_data_from_dir(const std::string &path)
 
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
-    } catch (std::string &err) {
-        debugmsg("Error loading data from json: %s", err.c_str());
+    } catch( const std::exception &err ) {
+        debugmsg("Error loading data from json: %s", err.what());
     }
 
 #ifdef LUA
