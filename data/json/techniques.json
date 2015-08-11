@@ -37,11 +37,7 @@
         "name" : "disarm",
         "min_unarmed" : 0,
         "melee_allowed" : true,
-        "disarms" : true,
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
+        "disarms" : true
     },{
         "type" : "technique",
         "id" : "GRAB",
