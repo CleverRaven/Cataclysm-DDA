@@ -1131,7 +1131,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     temp_fmt = ngettext("Maximum <num> charge of %s.",
                                         "Maximum <num> charges of %s.",
                                         t_max);
-                    temp_fmt = string_format(temp_fmt, _(ammo_name("plutonium").c_str()));
+                    temp_fmt = string_format(temp_fmt, ammo_name("plutonium").c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge.",
                                         "Maximum <num> charges.",
