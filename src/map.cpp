@@ -1569,6 +1569,17 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     const ter_t &old_t = old_id.obj();
     const ter_t &new_t = new_terrain.obj();
 
+    if( old_t.trap != tr_null ) {
+        auto &traps = traplocs[old_t.trap];
+        const auto iter = std::find( traps.begin(), traps.end(), p );
+        if( iter != traps.end() ) {
+            traps.erase( iter );
+        }
+    }
+    if( new_t.trap != tr_null ) {
+        traplocs[new_t.trap].push_back( p );
+    }
+
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
     }
@@ -6386,6 +6397,10 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
 
             const auto trap_here = tmpsub->get_trap( x, y );
             if( trap_here != tr_null ) {
+                traplocs[trap_here].push_back( pnt );
+            }
+            const ter_t &ter = tmpsub->get_ter( x, y ).obj();
+            if( ter.trap != tr_null ) {
                 traplocs[trap_here].push_back( pnt );
             }
 
