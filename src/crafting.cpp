@@ -1332,18 +1332,21 @@ void pick_recipes(const inventory &crafting_inv,
                     continue;
                 }
                 if(search_qualities) {
-                  bool match_found = false;
-                  itype *it = item::find_type(rec->result);
-
-                  for( auto & quality : it->qualities ) {
-                    if (lcmatch(quality::get_name(quality.first), filter)) {
-                      match_found = true;
-                      break;
+                    bool match_found = false;
+                    for( auto quality_reqs : rec->requirements.qualities ) {
+                        for( auto quality : quality_reqs ) {
+                            if(lcmatch( quality.to_string(), filter )) {
+                                match_found = true;
+                                break;
+                            }
+                        }
+                        if(match_found) {
+                            break;
+                        }
                     }
-                  }
-                  if (!match_found) {
-                    continue;
-                  }
+                    if(!match_found) {
+                        continue;
+                    }
                 }
                 if(search_skill) {
                     if( !rec->skill_used) {
