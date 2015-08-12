@@ -75,40 +75,6 @@
             ]
         },
         {
-            "id":"explosion_medium",
-            "bg": 5,
-            "multitile": true,
-            "rotates": true,
-            "additional_tiles":
-            [
-                {
-                    "id": "corner",
-                    "fg": 28
-                },
-                {
-                    "id": "edge",
-                    "fg": 44
-                }
-            ]
-        },
-        {
-            "id":"explosion_weak",
-            "bg": 5,
-            "multitile": true,
-            "rotates": true,
-            "additional_tiles":
-            [
-                {
-                    "id": "corner",
-                    "fg": 28
-                },
-                {
-                    "id": "edge",
-                    "fg": 44
-                }
-            ]
-        },
-        {
             "id":"animation_bullet_normal",
             "fg":0
         },

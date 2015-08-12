@@ -148,46 +148,6 @@
             ]
         },
         {
-            "id":"explosion_medium",
-            "fg": 17,
-            "bg": -1,
-            "multitile": true,
-            "rotates": true,
-            "additional_tiles":
-            [
-                {
-                    "id":"corner",
-                    "fg":18,
-                    "bg": -1
-                },
-                {
-                    "id":"edge",
-                    "fg":19,
-                    "bg": -1
-                }
-            ]
-        },
-        {
-            "id":"explosion_weak",
-            "fg": 17,
-            "bg": -1,
-            "multitile": true,
-            "rotates": true,
-            "additional_tiles":
-            [
-                {
-                    "id":"corner",
-                    "fg":18,
-                    "bg": -1
-                },
-                {
-                    "id":"edge",
-                    "fg":19,
-                    "bg": -1
-                }
-            ]
-        },
-        {
             "id":"t_skylight",
             "fg":17,
             "rotates":false
