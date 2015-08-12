@@ -70,9 +70,9 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
 }
 
 void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                       const int age, const double roll )
+                       const int age, const int roll )
 {
-    if( roll <= 0 ) {
+    if( roll < 0 ) {
         return;
     }
 
@@ -82,9 +82,9 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                        const int age, const double roll )
+                        const int age, const int roll )
 {
-    if( roll <= 0 ) {
+    if( roll < 0 ) {
         return;
     }
 
@@ -876,8 +876,9 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         if(reloadable->is_gun()) {
             islot_gun* gun = reloadable->type->gun.get();
             if( gun->reload_noise_volume > 0 ) {
-              sounds::sound( p->pos(), gun->reload_noise_volume, gun->reload_noise,
-                             true, "reload", reloadable->typeId() );
+
+              sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume(p->pos()));
+              sounds::ambient_sound( p->pos(), gun->reload_noise_volume, gun->reload_noise );
             }
         }
     } else {

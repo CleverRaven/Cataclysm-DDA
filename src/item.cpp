@@ -193,7 +193,8 @@ item::~item()
 {
 }
 
-void item::init() {
+void item::init()
+{
     name = "";
     charges = -1;
     bday = 0;
@@ -507,7 +508,8 @@ void item::clear_vars()
     item_vars.clear();
 }
 
-bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
+bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
+{
     size_t pos = item_tag.find('=');
     if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
         std::string var_name, val_decoded;
@@ -1076,35 +1078,80 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         it_tool* tool = dynamic_cast<it_tool*>(type);
 
         if ((tool->max_charges)!=0) {
-            std::string charges_line = _("Charges"); //;
-            dump->push_back(iteminfo("TOOL",charges_line+ ": " + to_string(charges)));
+            int t_max;
+            std::string temp_fmt;
+            const std::string t_ammo_name = _(ammo_name(tool->ammo_id).c_str());
+
+            dump->push_back(iteminfo("TOOL", string_format(_("Charges: %d"), charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_id == "NULL") ?
-                    ngettext("Maximum <num> charge (doubled).", "Maximum <num> charges (doubled)", tool->max_charges * 2) :
-                    string_format(ngettext("Maximum <num> charge (doubled) of %s.", "Maximum <num> charges (doubled) of %s.", tool->max_charges * 2),
-                                  ammo_name(tool->ammo_id).c_str())), tool->max_charges * 2));
+                t_max = tool->max_charges * 2;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge (doubled) of %s.",
+                                        "Maximum <num> charges (doubled) of %s.",
+                                         t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge (doubled).",
+                                        "Maximum <num> charges (doubled).",
+                                         t_max);
+                }
             } else if (has_flag("RECHARGE")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_id == "NULL") ?
-                    ngettext("Maximum <num> charge (rechargeable).", "Maximum <num> charges (rechargeable).", tool->max_charges) :
-                    string_format(ngettext("Maximum <num> charge (rechargeable) of %s", "Maximum <num> charges (rechargeable) of %s.", tool->max_charges),
-                    ammo_name(tool->ammo_id).c_str())), tool->max_charges));
+                t_max = tool->max_charges;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable) of %s",
+                                        "Maximum <num> charges (rechargeable) of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable).",
+                                        "Maximum <num> charges (rechargeable).",
+                                        t_max);
+                }
             } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
-                dump->push_back(iteminfo("TOOL", "", ((tool->ammo_id == "NULL") ?
-                    ngettext("Maximum <num> charge (rechargeable) (doubled).", "Maximum <num> charges (rechargeable) (doubled).", tool->max_charges * 2) :
-                    string_format(ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.", "Maximum <num> charges (rechargeable) (doubled) of %s.", tool->max_charges * 2),
-                                  ammo_name(tool->ammo_id).c_str())), tool->max_charges * 2));
+                t_max = tool->max_charges * 2;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.",
+                                        "Maximum <num> charges (rechargeable) (doubled) of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge (rechargeable) (doubled).",
+                                        "Maximum <num> charges (rechargeable) (doubled).",
+                                        t_max);
+                }
+                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
             } else if (has_flag("ATOMIC_AMMO")) {
-                dump->push_back(iteminfo("TOOL", "",
-                                         ((tool->ammo_id == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges * 100) :
-                                          string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges * 100),
-                                          ammo_name("plutonium").c_str())), tool->max_charges * 100));
+                t_max = tool->max_charges * 100;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge of %s.",
+                                        "Maximum <num> charges of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, _(ammo_name("plutonium").c_str()));
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge.",
+                                        "Maximum <num> charges.",
+                                        t_max);
+                }
             } else {
-                dump->push_back(iteminfo("TOOL", "",
-                    ((tool->ammo_id == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges) :
-                     string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges),
-                                   ammo_name(tool->ammo_id).c_str())), tool->max_charges));
+                t_max = tool->max_charges;
+                if (tool->ammo_id != "NULL") {
+                    //~ "%s" is ammunition type. This types can't be plural.
+                    temp_fmt = ngettext("Maximum <num> charge of %s.",
+                                        "Maximum <num> charges of %s.",
+                                        t_max);
+                    temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
+                } else {
+                    temp_fmt = ngettext("Maximum <num> charge.",
+                                        "Maximum <num> charges.",
+                                        t_max);
+                }
             }
+            dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
         }
     }
 
@@ -1130,7 +1177,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
 
     for( const auto &quality : type->qualities ){
         const auto desc = string_format( _("Has level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name(quality.first).c_str() );
         dump->push_back( iteminfo( "QUALITIES", "", desc ) );
     }
@@ -1143,7 +1190,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
 
             const auto desc = string_format( _("  Level %1$d %2$s quality."),
-                                         quality.second, 
+                                         quality.second,
                                          quality::get_name( quality.first ).c_str() );
             dump->push_back( iteminfo( "QUALITIES", "", desc ) );
         }
@@ -2264,7 +2311,8 @@ bool item::has_flag( const std::string &f ) const
     return ret;
 }
 
-bool item::has_quality(std::string quality_id) const {
+bool item::has_quality(std::string quality_id) const
+{
     return has_quality(quality_id, 1);
 }
 
@@ -3325,7 +3373,7 @@ std::string item::gun_skill() const
 
 std::string item::weap_skill() const
 {
-    if (! is_weap()) return "null";
+    if (! is_weap() && ! is_tool()) return "null";
 
     if (type->melee_dam >= type->melee_cut) return "bashing";
     if (has_flag("STAB")) return "stabbing";
@@ -3778,7 +3826,8 @@ int item::pick_reload_ammo( const player &u, bool interactive )
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
-static void eject_casings( player &p, item *reload_target, itype_id casing_type ) {
+static void eject_casings( player &p, item *reload_target, itype_id casing_type )
+{
     if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
         const int num_casings = reload_target->get_var( "CASINGS", 0 );
         if( num_casings > 0 ) {
@@ -4033,7 +4082,8 @@ itype_id item::typeId() const
     return type->id;
 }
 
-bool item::getlight(float & luminance, int & width, int & direction ) const {
+bool item::getlight(float & luminance, int & width, int & direction ) const
+{
     luminance = 0;
     width = 0;
     direction = 0;
@@ -4054,7 +4104,8 @@ bool item::getlight(float & luminance, int & width, int & direction ) const {
     return false;
 }
 
-int item::getlight_emit() const {
+int item::getlight_emit() const
+{
     float lumint = type->light_emission;
 
     if ( lumint == 0 ) {
@@ -4326,16 +4377,21 @@ bool item_matches_locator(const item &it, const itype_id &id, int)
 {
     return it.typeId() == id;
 }
+
 bool item_matches_locator(const item &, int locator_pos, int item_pos)
 {
     return item_pos == locator_pos;
 }
+
 bool item_matches_locator(const item &it, const item *other, int)
 {
     return &it == other;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, 
+                   double Value, bool _is_int, std::string Plus,
+                   bool NewLine, bool LowerIsBetter, bool DrawName)
+{
     sType = Type;
     sName = Name;
     sFmt = Fmt;
@@ -5149,6 +5205,7 @@ itype *item::find_type( const itype_id &type )
 {
     return item_controller->find_template( type );
 }
+
 int item::get_gun_ups_drain() const
 {
     int draincount = 0;
@@ -5162,6 +5219,7 @@ int item::get_gun_ups_drain() const
     }
     return draincount;
 }
+
 item_category::item_category() : id(), name(), sort_rank( 0 )
 {
 }

@@ -362,42 +362,44 @@ public:
 // 2D Sees:
     /**
     * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
-    *
-    * @param bresenham_slope Indicates the Bresenham line used to connect the two points, and may
-    *                        subsequently be used to form a path between them.
-    *                        Set to zero if the function returns false.
     */
-    bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-              const int range, int &bresenham_slope) const;
-    bool sees( point F, point T, int range, int &bresenham_slope ) const;
+    bool sees( const int Fx, const int Fy, const int Tx, const int Ty, const int range ) const;
+    bool sees( point F, point T, int range ) const;
 // 3D Sees:
     /**
     * Returns whether `F` sees `T` with a view range of `range`.
-    *
-    * @param t1 Indicates the x/y component of Bresenham line used to connect the two points, and may
-    *           subsequently be used to form a path between them. Set to zero if the function returns false.
-    * @param t2 Indicates the horizontal/vertical component of the Bresenham line.
-                Set to zero if the function returns false.
     */
-    bool sees( const tripoint &F, const tripoint &T, int range, int &t1, int &t2 ) const;
     bool sees( const tripoint &F, const tripoint &T, int range ) const;
-
- /**
-  * Check whether there's a direct line of sight between `(Fx, Fy)` and
-  * `(Tx, Ty)` with the additional movecost restraints.
-  *
-  * Checks two things:
-  * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)`
-  * 2. That moving over the line of sight would have a move_cost between
-  *    `cost_min` and `cost_max`.
-  */
- bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                 const int range, const int cost_min, const int cost_max, int &bresenham_slope) const;
-    bool clear_path( const tripoint &f, const tripoint &t, const int range,
-                     const int cost_min, const int cost_max, int &bres1, int &bres2 ) const;
+ private:
+    /**
+     * Don't expose the slope adjust outside map functions.
+     *
+     * @param bresenham_slope Indicates the start offset of Bresenham line used to connect
+     * the two points, and may subsequently be used to form a path between them.
+     * Set to zero if the function returns false.
+    **/
+    bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+ public:
+    /**
+     * Check whether there's a direct line of sight between `(Fx, Fy)` and
+     * `(Tx, Ty)` with the additional movecost restraints.
+     *
+     * Checks two things:
+     * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)`
+     * 2. That moving over the line of sight would have a move_cost between
+     *    `cost_min` and `cost_max`.
+     */
+    bool clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
+                     const int range, const int cost_min, const int cost_max ) const;
     bool clear_path( const tripoint &f, const tripoint &t, const int range,
                      const int cost_min, const int cost_max ) const;
 
+    /**
+     * Iteratively tries bresenham lines with different biases
+     * until it finds a clear line or decides there isn't one.
+     * returns the line found, which may be the staright line, but blocked.
+     */
+    std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint&destination ) const;
 
     /**
      * Check whether items in the target square are accessible from the source square
@@ -682,15 +684,14 @@ void add_corpse( const tripoint &p );
 // Destruction
      /** Keeps bashing a square until it can't be bashed anymore */
     void destroy( const tripoint &p, const bool silent = false);
-    void destroy( int, int ) = delete;
     /** Keeps bashing a square until there is no more furniture */
     void destroy_furn( const tripoint &p, const bool silent = false );
     void crush( const tripoint &p );
     void shoot( const tripoint &p, projectile &proj, const bool hit_items );
     /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
     int collapse_check( const tripoint &p );
-    /** Causes a collapse at (x, y), such as from destroying a wall */
-    void collapse_at( const tripoint &p );
+    /** Causes a collapse at p, such as from destroying a wall */
+    void collapse_at( const tripoint &p, bool silent );
     /** Tries to smash the items at the given tripoint. Used by the explosion code */
     void smash_items( const tripoint &p, const int power );
     /**

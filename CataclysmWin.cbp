@@ -43,6 +43,7 @@
 					<Add option="-O2" />
 					<Add option="-DTILES" />
 					<Add option="-DRELEASE=1" />
+					<Add option="-DSDL_SOUND" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
 					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
 					<Add directory="WinDepend/SDLImg_binVC/SDL_image-1.2.12/include" />
@@ -70,7 +71,6 @@
 					<Add option="-O2" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/include" />
 					<Add directory="WinDepend/SDL-1.2.15/include/SDL" />
@@ -127,7 +127,6 @@
 					<Add option="-Os" />
 					<Add option="-O2" />
 					<Add option="-pg" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
@@ -151,7 +150,6 @@
 					<Add option="-O2" />
 					<Add option="-pg" />
 					<Add option="-g" />
-					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="3rdparty/include/SDL" />
 				</Compiler>
@@ -283,8 +281,8 @@
         <Unit filename="src/item_location.cpp" />
 		<Unit filename="src/item_location.h" />
 		<Unit filename="src/item_stack.h" />
-		<Unit filename="src/itype.h" />
 		<Unit filename="src/itype.cpp" />
+		<Unit filename="src/itype.h" />
 		<Unit filename="src/iuse.cpp" />
 		<Unit filename="src/iuse.h" />
 		<Unit filename="src/iuse_actor.cpp" />
@@ -345,6 +343,8 @@
 		<Unit filename="src/mondeath.h" />
 		<Unit filename="src/mondefense.cpp" />
 		<Unit filename="src/mondefense.h" />
+		<Unit filename="src/monfaction.cpp" />
+		<Unit filename="src/monfaction.h" />
 		<Unit filename="src/mongroup.h" />
 		<Unit filename="src/mongroup.cpp" />
 		<Unit filename="src/monmove.cpp" />
@@ -352,12 +352,10 @@
 		<Unit filename="src/monster.h" />
 		<Unit filename="src/monstergenerator.cpp" />
 		<Unit filename="src/monstergenerator.h" />
-		<Unit filename="src/monfaction.cpp" />
-		<Unit filename="src/monfaction.h" />
 		<Unit filename="src/morale.h" />
 		<Unit filename="src/moraledata.h" />
-		<Unit filename="src/mtype.h" />
 		<Unit filename="src/mtype.cpp" />
+		<Unit filename="src/mtype.h" />
 		<Unit filename="src/mutation.cpp" />
 		<Unit filename="src/mutation.h" />
 		<Unit filename="src/mutation_data.cpp" />
@@ -381,7 +379,7 @@
 		<Unit filename="src/overmapbuffer.h" />
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
-        <Unit filename="src/pathfinding.cpp" />
+		<Unit filename="src/pathfinding.cpp" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
 		<Unit filename="src/platform_win.h" />

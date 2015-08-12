@@ -19,12 +19,10 @@ LDFLAGS += -L.
 # Catch sections throw unused variable warnings.
 CXXFLAGS += -I../src -Wno-unused-variable
 
-LD := $(CROSS)g++
-
 tests: cata_test
 
 cata_test: $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
 check: cata_test

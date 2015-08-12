@@ -50,7 +50,7 @@ static std::string long_to_str(long number)
 
 bool is_mouse_enabled()
 {
-#if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
+#if ((defined _WIN32 || defined WINDOWS) && !(defined TILES))
     return false;
 #else
     return true;
@@ -1056,7 +1056,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
     previously_pressed_key = 0;
     long key = getch();
     // Our current tiles and Windows code doesn't have ungetch()
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if !(defined TILES || defined _WIN32 || defined WINDOWS)
     if (key != ERR) {
         long newch;
         // Clear the buffer of characters that match the one we're going to act on.
@@ -1078,7 +1078,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
         } else {
             rval.type = CATA_INPUT_ERROR;
         }
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
+#if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
         // ncurses mouse handling
     } else if (key == KEY_MOUSE) {
         MEVENT event;
@@ -1177,7 +1177,7 @@ bool input_context::get_coordinates(WINDOW *capture_win, int &x, int &y)
 }
 #endif
 
-#ifndef SDLTILES
+#ifndef TILES
 void init_interface()
 {
 #if !(defined TILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)

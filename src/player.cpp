@@ -43,9 +43,9 @@
 
 #include <map>
 
-#ifdef SDLTILES
+#ifdef TILES
 #include "SDL2/SDL.h"
-#endif // SDLTILES
+#endif // TILES
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -977,9 +977,8 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                int t1, t2;
                 if( heat_intensity > 0 &&
-                    g->m.sees( pos(), dest, -1, t1, t2 ) ) {
+                    g->m.sees( pos(), dest, -1 ) ) {
                     // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
                     int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
                     if (frostbite_timer[i] > 0) {
@@ -1618,26 +1617,13 @@ void player::recalc_speed_bonus()
 int player::run_cost(int base_cost, bool diag)
 {
     float movecost = float(base_cost);
+    const bool flatground = movecost < 105;
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
-    bool flatground = movecost < 105;
-    const ter_id ter_at_pos = g->m.ter(posx(), posy());
-    // If your floor is hard, flat, and otherwise skateable, list it here
+
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    bool offroading = ( flatground && (!((ter_at_pos == t_rock_floor) ||
-      (ter_at_pos == t_pit_covered) || (ter_at_pos == t_metal_floor) ||
-      (ter_at_pos == t_pit_spiked_covered) || (ter_at_pos == t_pavement) ||
-      (ter_at_pos == t_pavement_y) || (ter_at_pos == t_sidewalk) ||
-      (ter_at_pos == t_concrete) || (ter_at_pos == t_floor) ||
-      (ter_at_pos == t_door_glass_o) || (ter_at_pos == t_utility_light) ||
-      (ter_at_pos == t_door_o) || (ter_at_pos == t_rdoor_o) ||
-      (ter_at_pos == t_door_frame) || (ter_at_pos == t_mdoor_frame) ||
-      (ter_at_pos == t_fencegate_o) || (ter_at_pos == t_chaingate_o) ||
-      (ter_at_pos == t_door_metal_o) || (ter_at_pos == t_door_bar_o) ||
-      (ter_at_pos == t_pit_glass_covered) || (ter_at_pos == t_sidewalk_bg_dp) ||
-      (ter_at_pos == t_pavement_bg_dp) || (ter_at_pos == t_pavement_y_bg_dp) ||
-      (ter_at_pos == t_linoleum_white) || (ter_at_pos == t_linoleum_gray))) );
+    const bool offroading = flatground && !g->m.has_flag( "ROAD", pos() );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1652,14 +1638,13 @@ int player::run_cost(int base_cost, bool diag)
 
     if (hp_cur[hp_leg_l] == 0) {
         movecost += 50;
-    }
-    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
+    } else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
         movecost += 25;
     }
+
     if (hp_cur[hp_leg_r] == 0) {
         movecost += 50;
-    }
-    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
+    } else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
         movecost += 25;
     }
 
@@ -1729,8 +1714,9 @@ int player::run_cost(int base_cost, bool diag)
         }
     }
 
-    movecost += ((encumb(bp_foot_l) / 10) + (encumb(bp_foot_r) / 10)) * 2.5 +
-        ((encumb(bp_leg_l) / 10) + (encumb(bp_leg_r) / 10)) * 1.5;
+    movecost +=
+        ( ( encumb(bp_foot_l) + encumb(bp_foot_r) ) * 2.5 +
+          ( encumb(bp_leg_l) + encumb(bp_leg_r) ) * 1.5 ) / 10;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1745,7 +1731,7 @@ int player::run_cost(int base_cost, bool diag)
     }
 
     if( !footwear_factor() && has_trait("ROOTS3") &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) ) {
+        g->m.has_flag("DIGGABLE", pos()) ) {
         movecost += 10 * footwear_factor();
     }
 
@@ -3019,17 +3005,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( (encumb( bp_leg_l ) / 10) * 1.5 );
+                s += run_cost_text( encumb( bp_leg_l ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
-                s += run_cost_text( (encumb( bp_leg_r ) / 10) * 1.5 );
+                s += run_cost_text( encumb( bp_leg_r ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - skillLevel( "swimming" ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
-                s += run_cost_text( (encumb( bp_foot_l ) / 10) * 2.5 );
+                s += run_cost_text( encumb( bp_foot_l ) * 0.25 );
             } else if (line == 11) { //Right Foot
-                s += run_cost_text( (encumb( bp_foot_r ) / 10) * 2.5 );
+                s += run_cost_text( encumb( bp_foot_r ) * 0.25 );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
@@ -4272,7 +4258,7 @@ void player::shout( std::string msg )
     if ( has_trait("SHOUT2") ) {
         base = 15;
         shout_multiplier = 3;
-        if ( msg == "" ) {
+        if ( msg.empty() ) {
             msg = _("You scream loudly!");
         }
     }
@@ -4280,12 +4266,12 @@ void player::shout( std::string msg )
     if ( has_trait("SHOUT3") ) {
         shout_multiplier = 4;
         base = 20;
-        if ( msg == "" ) {
+        if ( msg.empty() ) {
             msg = _("You let out a piercing howl!");
         }
     }
 
-    if ( msg  == "" ) {
+    if ( msg.empty() ) {
         msg = _("You shout loudly!");
     }
     // Masks and such dampen the sound
@@ -7326,11 +7312,11 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "sleep") {
         set_moves(0);
-        #ifdef SDLTILES
+        #ifdef TILES
         if( calendar::once_every(MINUTES(10)) ) {
             SDL_PumpEvents();
         }
-        #endif // SDLTILES
+        #endif // TILES
         // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
         // as a safety catch.  One test subject managed to get two Colds during hibernation;
         // since those add fatigue and dry out the character, the subject went for the full 10 days plus
@@ -11579,7 +11565,7 @@ void player::read(int inventory_position)
         // We're just skimming, so it's 10x faster.
         time /= 10;
 
-        activity = player_activity(ACT_READ, time - moves, -1, inventory_position, "");
+        assign_activity( ACT_READ, time - moves, -1, inventory_position );
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
@@ -11655,7 +11641,7 @@ void player::read(int inventory_position)
         time += (tmp->time * (tmp->intel - get_int()) * 100);
     }
 
-    activity = player_activity(ACT_READ, time, -1, inventory_position, "");
+    assign_activity( ACT_READ, time, -1, inventory_position );
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
@@ -13681,12 +13667,12 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
+bool player::sees( const tripoint &t, bool ) const
 {
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos3(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t, bresen1, bresen2 );;
+        Creature::sees( t );;
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13703,7 +13689,7 @@ bool player::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
     return can_see;
 }
 
-bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
+bool player::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos3(), critter.pos3() );
@@ -13717,7 +13703,7 @@ bool player::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
         // to the ground. It also might need a range check.
         return true;
     }
-    return Creature::sees( critter, bresen1, bresen2 );
+    return Creature::sees( critter );
 }
 
 bool player::can_pickup(bool print_msg) const

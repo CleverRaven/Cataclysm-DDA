@@ -141,13 +141,18 @@ def extract_material(item):
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
     writestr(outfile, item["name"])
-    writestr(outfile, item["description"])
+    writestr(outfile, item["description"],
+             comment="Description for martial art '%s'" % item["name"])
     onhit_buffs = item.get("onhit_buffs", list())
     static_buffs = item.get("static_buffs", list())
     buffs = onhit_buffs + static_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
-        writestr(outfile, buff["description"])
+        if buff["name"] == item["name"]:
+            c="Description of buff for martial art '%s'" % item["name"]
+        else:
+            c="Description of buff '%s' for martial art '%s'" % (buff["name"], item["name"])
+        writestr(outfile, buff["description"], comment=c)
 
 def extract_effect_type(item):
     outfile = get_outfile("effects")
@@ -363,7 +368,7 @@ def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
     if len(string) > 0:
         fs.write("#~ ")
-        fs.write(string)
+        fs.write(string.encode('utf-8'))
         fs.write("\n")
 
 def get_outfile(json_object_type):
@@ -406,21 +411,29 @@ def extract(item, infilename):
     elif object_type not in automatically_convertible:
         raise WrongJSONItem("ERROR: Unrecognized object type '{0}'!".format(object_type), item)
     wrote = False
-    if "name" in item:
+    name = item.get("name") # Used in gettext comments below.
+    if name:
         if "name_plural" in item:
-            writestr(outfile, item["name"], item["name_plural"], **kwargs)
+            if item["name_plural"] != "none":
+                writestr(outfile, name, item["name_plural"], **kwargs)
+            else:
+                writestr(outfile, name, **kwargs)
         else:
             if object_type in needs_plural:
                 # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, item["name"], "%ss" % item["name"], **kwargs)
+                writestr(outfile, name, "%ss" % name, **kwargs)
             else:
-                writestr(outfile, item["name"], **kwargs)
+                writestr(outfile, name, **kwargs)
         wrote = True
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], kwargs)
         wrote = True
     if "description" in item:
-        writestr(outfile, item["description"], **kwargs)
+        if name:
+            c = "Description for %s" % name
+        else:
+            c = None
+        writestr(outfile, item["description"], comment=c, **kwargs)
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)

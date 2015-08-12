@@ -1962,9 +1962,5 @@ bool is_draw_tiles_mode()
 void play_music(std::string)
 {
 }
-
-void play_sound_effect(std::string, std::string, int)
-{
-}
 #endif
 

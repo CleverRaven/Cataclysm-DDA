@@ -37,7 +37,9 @@ void mdeath::normal(monster *z)
         add_msg(m_good, _("The %s dies!"),
                 z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
-
+    if ( z->type->in_species("ZOMBIE")) {
+            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
+        }
     m_size monSize = (z->type->size);
     bool leaveCorpse = !((z->type->has_flag(MF_VERMIN)) || (z->no_corpse_quiet));
 
@@ -69,6 +71,7 @@ void mdeath::normal(monster *z)
             make_mon_corpse(z, int(floor(corpseDamage)));
         } else if (monSize >= MS_MEDIUM) {
             gibAmount += rng(1, 6);
+            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume(z->pos()));
         }
         // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
         bool leaveGibs = (z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") ||
@@ -103,7 +106,7 @@ void mdeath::boomer(monster *z)
             g->m.add_field( dest, fd_bile, 1, 0 );
             int mondex = g->mon_at( dest );
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -127,7 +130,7 @@ void mdeath::boomer_glow(monster *z)
             int mondex = g->mon_at(dest);
             Creature *critter = g->critter_at(dest);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
             if (critter != nullptr){
@@ -554,7 +557,7 @@ void mdeath::gas(monster *z)
             g->m.add_field(dest, fd_toxic_gas, 3, 0);
             int mondex = g->mon_at(dest);
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -571,7 +574,7 @@ void mdeath::smokeburst(monster *z)
             g->m.add_field( dest, fd_smoke, 3, 0 );
             int mondex = g->mon_at( dest );
             if (mondex != -1) {
-                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).stumble();
                 g->zombie(mondex).moves -= 250;
             }
         }
@@ -710,16 +713,15 @@ void make_gibs(monster *z, int amount)
         // leave gibs, if there are any
         tripoint pt = random_pt( z->pos() );
         const int gibDensity = rng(1, i + 1);
-        int t1, t2;
         if( z->gibType() != fd_null ) {
-            if(  g->m.clear_path( z->pos(), pt, 2, 1, 100, t1, t2 ) ) {
+            if(  g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
                 // Only place gib if there's a clear path for it to get there.
                 g->m.add_field( pt, z->gibType(), gibDensity, 0 );
             }
         }
         pt = random_pt( z->pos() );
         if( type_blood != fd_null ) {
-            if( g->m.clear_path( z->pos(), pt, 2, 1, 100, t1, t2 ) ) {
+            if( g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
                 // Only place blood if there's a clear path for it to get there.
                 g->m.add_field( pt, type_blood, 1, 0 );
             }

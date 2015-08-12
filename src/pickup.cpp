@@ -22,183 +22,195 @@
 // Returns -2 if a special interaction was performed and the menu should exit.
 int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
 {
-    bool from_vehicle = false;
+    if( veh == nullptr ) {
+        return -1;
+    }
 
-    int k_part = 0;
-    int wtr_part = 0;
-    int w_part = 0;
-    int craft_part = 0;
-    int cargo_part = 0;
-    int chempart = 0;
-    int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    if( veh ) {
-        k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
-        wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
-        w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
-        craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
-        chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
-        cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-        ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
-        from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
-        const bool can_be_folded = veh->is_foldable();
-        const bool is_convertible = (veh->tags.count("convertible") > 0);
-        const bool remotely_controlled = g->remoteveh() == veh;
+    const int k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
+    const int wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
+    const int w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
+    const int craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
+    const int chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
+    const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
+    const int ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
+    const int purify_part = veh->part_with_feature(veh_root_part, "WATER_PURIFIER");
+    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
+    const bool can_be_folded = veh->is_foldable();
+    const bool is_convertible = (veh->tags.count("convertible") > 0);
+    const bool remotely_controlled = g->remoteveh() == veh;
 
-        menu_items.push_back(_("Examine vehicle"));
-        options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
+    menu_items.push_back(_("Examine vehicle"));
+    options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
 
-        if (ctrl_part >= 0) {
-            menu_items.push_back(_("Control vehicle"));
-            options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
-        }
-
-        if( from_vehicle ) {
-            menu_items.push_back(_("Get items"));
-            options_message.push_back(uimenu_entry(_("Get items"), 'g'));
-        }
-
-        if( has_items_on_ground && !items_are_sealed ) {
-            menu_items.push_back(_("Get items on the ground"));
-            options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
-        }
-
-        if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
-            menu_items.push_back(_("Fold vehicle"));
-            options_message.push_back(uimenu_entry(_("Fold vehicle"), 'f'));
-        }
-
-        if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
-            menu_items.push_back(_("Use the hotplate"));
-            options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
-        }
-
-        if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water_clean") > 0) {
-            menu_items.push_back(_("Fill a container with water"));
-            options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
-
-            menu_items.push_back(_("Have a drink"));
-            options_message.push_back(uimenu_entry(_("Have a drink"), 'd'));
-        }
-
-        if(w_part >= 0 && veh->fuel_left("battery") > 0) {
-            menu_items.push_back(_("Use the welding rig?"));
-            options_message.push_back(uimenu_entry(_("Use the welding rig?"), 'w'));
-        }
-
-        if(craft_part >= 0 && veh->fuel_left("battery") > 0) {
-            menu_items.push_back(_("Use the water purifier?"));
-            options_message.push_back(uimenu_entry(_("Use the water purifier?"), 'p'));
-        }
-
-        int choice;
-        if( menu_items.size() == 1 ) {
-            choice = 0;
-        } else {
-            uimenu selectmenu;
-            selectmenu.return_invalid = true;
-            selectmenu.text = _("Select an action");
-            selectmenu.entries = options_message;
-            selectmenu.selected = 0;
-            selectmenu.query();
-            choice = selectmenu.ret;
-        }
-
-        if(choice < 0) {
-            return -2;
-        }
-        if(menu_items[choice] == _("Use the hotplate")) {
-            //Will be -1 if no battery at all
-            item tmp_hotplate( "hotplate", 0 );
-            // Drain a ton of power
-            tmp_hotplate.charges = veh->drain( "battery", 100 );
-            if( tmp_hotplate.is_tool() ) {
-                it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
-                if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                    g->u.invoke_item( &tmp_hotplate );
-                    tmp_hotplate.charges -= tmptool->charges_per_use;
-                    veh->refill( "battery", tmp_hotplate.charges );
-                }
-            }
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Fill a container with water")) {
-            int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
-            item fill_water( "water_clean", calendar::turn );
-            fill_water.charges = amt;
-            int back = g->move_liquid(fill_water);
-            if (back >= 0) {
-                veh->refill("water_clean", back);
-            } else {
-                veh->refill("water_clean", amt);
-            }
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Have a drink")) {
-            veh->drain("water_clean", 1);
-            item water( "water_clean", 0 );
-            g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
-            g->u.moves -= 250;
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Use the welding rig?")) {
-            //Will be -1 if no battery at all
-            item tmp_welder( "welder", 0 );
-            // Drain a ton of power
-            tmp_welder.charges = veh->drain( "battery", 1000 );
-            if( tmp_welder.is_tool() ) {
-                it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
-                if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                    g->u.invoke_item( &tmp_welder );
-                    tmp_welder.charges -= tmptool->charges_per_use;
-                    veh->refill( "battery", tmp_welder.charges );
-                }
-            }
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Use the water purifier?")) {
-            //Will be -1 if no battery at all
-            item tmp_purifier( "water_purifier", 0 );
-            // Drain a ton of power
-            tmp_purifier.charges = veh->drain( "battery", veh->fuel_left("battery"));
-            if( tmp_purifier.is_tool() ) {
-                it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
-                if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                    g->u.invoke_item( &tmp_purifier );
-                    tmp_purifier.charges -= tmptool->charges_per_use;
-                    veh->refill( "battery", tmp_purifier.charges );
-                }
-            }
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Fold vehicle")) {
-            veh->fold_up();
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Control vehicle") && veh->interact_vehicle_locked()) {
-            veh->use_controls();
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Examine vehicle")) {
-            g->exam_vehicle(*veh, pos );
-            return -2;
-        }
-
-        if(menu_items[choice] == _("Get items on the ground")) {
-            from_vehicle = false;
-        }
+    if (ctrl_part >= 0) {
+        menu_items.push_back(_("Control vehicle"));
+        options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
     }
+
+    if( from_vehicle ) {
+        menu_items.push_back(_("Get items"));
+        options_message.push_back(uimenu_entry(_("Get items"), 'g'));
+    }
+
+    if( has_items_on_ground && !items_are_sealed ) {
+        menu_items.push_back(_("Get items on the ground"));
+        options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
+    }
+
+    if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
+        menu_items.push_back(_("Fold vehicle"));
+        options_message.push_back(uimenu_entry(_("Fold vehicle"), 'f'));
+    }
+
+    if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
+        menu_items.push_back(_("Use the hotplate"));
+        options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
+    }
+
+    if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water_clean") > 0) {
+        menu_items.push_back(_("Fill a container with water"));
+        options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
+
+        menu_items.push_back(_("Have a drink"));
+        options_message.push_back(uimenu_entry(_("Have a drink"), 'd'));
+    }
+
+    if(w_part >= 0 && veh->fuel_left("battery") > 0) {
+        menu_items.push_back(_("Use the welding rig?"));
+        options_message.push_back(uimenu_entry(_("Use the welding rig?"), 'w'));
+    }
+
+    if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 ) {
+        menu_items.push_back(_("Purify water in carried container"));
+        options_message.push_back(uimenu_entry(_("Purify water in carried container"), 'p'));
+    }
+
+    if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 &&
+        veh->fuel_left("water") > 0 &&
+        veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
+        menu_items.push_back(_("Purify water in vehicle's tank"));
+        options_message.push_back(uimenu_entry(_("Purify water in vehicle's tank"), 'P'));
+    }
+
+    int choice;
+    if( menu_items.size() == 1 ) {
+        choice = 0;
+    } else {
+        uimenu selectmenu;
+        selectmenu.return_invalid = true;
+        selectmenu.text = _("Select an action");
+        selectmenu.entries = options_message;
+        selectmenu.selected = 0;
+        selectmenu.query();
+        choice = selectmenu.ret;
+    }
+
+    if(choice < 0) {
+        return -2;
+    }
+    if(menu_items[choice] == _("Use the hotplate")) {
+        //Will be -1 if no battery at all
+        item tmp_hotplate( "hotplate", 0 );
+        // Drain a ton of power
+        tmp_hotplate.charges = veh->drain( "battery", 100 );
+        if( tmp_hotplate.is_tool() ) {
+            it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
+            if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
+                g->u.invoke_item( &tmp_hotplate );
+                tmp_hotplate.charges -= tmptool->charges_per_use;
+                veh->refill( "battery", tmp_hotplate.charges );
+            }
+        }
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Fill a container with water")) {
+        int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
+        item fill_water( "water_clean", calendar::turn );
+        fill_water.charges = amt;
+        int back = g->move_liquid(fill_water);
+        if (back >= 0) {
+            veh->refill("water_clean", back);
+        } else {
+            veh->refill("water_clean", amt);
+        }
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Have a drink")) {
+        veh->drain("water_clean", 1);
+        item water( "water_clean", 0 );
+        g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
+        g->u.moves -= 250;
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Use the welding rig?")) {
+        //Will be -1 if no battery at all
+        item tmp_welder( "welder", 0 );
+        // Drain a ton of power
+        tmp_welder.charges = veh->drain( "battery", 1000 );
+        if( tmp_welder.is_tool() ) {
+            it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
+            if ( tmp_welder.charges >= tmptool->charges_per_use ) {
+                g->u.invoke_item( &tmp_welder );
+                tmp_welder.charges -= tmptool->charges_per_use;
+                veh->refill( "battery", tmp_welder.charges );
+            }
+        }
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Purify water in carried container")) {
+        //Will be -1 if no battery at all
+        item tmp_purifier( "water_purifier", 0 );
+        // Drain a ton of power
+        tmp_purifier.charges = veh->drain( "battery", veh->fuel_left("battery"));
+        if( tmp_purifier.is_tool() ) {
+            it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
+            if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
+                g->u.invoke_item( &tmp_purifier );
+                tmp_purifier.charges -= tmptool->charges_per_use;
+                veh->refill( "battery", tmp_purifier.charges );
+            }
+        }
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Purify water in vehicle's tank")) {
+        const int max_water = std::min( veh->fuel_left("water"),
+            veh->fuel_capacity("water_clean") - veh->fuel_left("water_clean") );
+        const int purify_amount = std::min( veh->fuel_left("battery"), max_water );
+        veh->drain( "battery", purify_amount );
+        veh->drain( "water", purify_amount );
+        veh->refill( "water_clean", purify_amount );
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Fold vehicle")) {
+        veh->fold_up();
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Control vehicle") && veh->interact_vehicle_locked()) {
+        veh->use_controls();
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Examine vehicle")) {
+        g->exam_vehicle(*veh, pos );
+        return -2;
+    }
+
+    if(menu_items[choice] == _("Get items on the ground")) {
+        return -1;
+    }
+
     return from_vehicle ? cargo_part : -1;
 }
 

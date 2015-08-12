@@ -15,6 +15,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
+#include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN
@@ -246,11 +247,7 @@ void npc::execute_action(npc_action action, int target)
 
     std::vector<tripoint> line;
     if( tar != pos3() ) {
-        int linet1, linet2;
-        int dist = sight_range( g->light_level() );
-        // Call sees only for the bresenham slopes
-        g->m.sees( pos3(), tar, dist, linet1, linet2 );
-        line = line_to( pos3(), tar, linet1, linet2 );
+        line = g->m.find_clear_path( pos3(), tar );
     }
 
     switch (action) {
@@ -269,6 +266,7 @@ void npc::execute_action(npc_action action, int target)
         if (g->u.sees( *this )) {
             add_msg(_("%s reloads their %s."), name.c_str(),
                     weapon.tname().c_str());
+            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos3()), sfx::get_heard_angle( pos3()));
         }
     }
     break;
@@ -985,16 +983,12 @@ int npc::confident_range(int position)
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
 {
-    int dist = sight_range(g->light_level());
     int confident = confident_range(weapon_index);
     if( rl_dist( pos3(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    std::vector<tripoint> traj;
-    int linet1, linet2;
-    g->m.sees( pos3(), tar, dist, linet1, linet2 ); // Just for the slope
-    traj = line_to( pos3(), tar, linet1, linet2 );
+    std::vector<tripoint> traj = g->m.find_clear_path( pos3(), tar );
 
     for( auto &i : traj ) {
         int dist = rl_dist( pos3(), i );
@@ -1170,10 +1164,7 @@ void npc::move_to( const tripoint &pt )
     // "Long steps" are allowed when crossing z-levels
     // Stairs teleport the player too
     if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
-        int linet1, linet2;
-        std::vector<tripoint> newpath;
-        g->m.sees( pos3(), p, -1, linet1, linet2 );
-        newpath = line_to( pos3(), p, linet1, linet2 );
+        std::vector<tripoint> newpath = g->m.find_clear_path( pos3(), p );
 
         p = newpath[0];
     }
@@ -1229,10 +1220,10 @@ void npc::move_to( const tripoint &pt )
         } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
             moves -= 100;
         } else {
-        bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
+            bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
             if (ter_or_furn) {
-            bool u_see_me = g->u.sees( *this );
-            int climb = dex_cur;
+                bool u_see_me = g->u.sees( *this );
+                int climb = dex_cur;
                 if (one_in( climb )) {
                     if( u_see_me ) {
                         add_msg( m_neutral, _( "%s falls tries to climb the %1$s but slips." ), name.c_str(),
@@ -1253,8 +1244,13 @@ void npc::move_to( const tripoint &pt )
                 int smashskill = str_cur + weapon.type->melee_dam;
                 g->m.bash( p, smashskill );
             } else {
-            attitude = NPCATT_FLEE;
-            moves -= 100;
+                if( attitude == NPCATT_MUG ||
+                    attitude == NPCATT_KILL ||
+                    attitude == NPCATT_WAIT_FOR_LEAVE ) {
+                    attitude = NPCATT_FLEE;
+                }
+
+                moves -= 100;
             }
         }
     }

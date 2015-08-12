@@ -2421,55 +2421,58 @@ void map::make_rubble( const tripoint &p, const furn_id rubble_type, const bool 
 
 void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_id floor_type, bool overwrite)
 {
-    if (overwrite) {
+    if( overwrite ) {
         ter_set(p, floor_type);
         furn_set(p, rubble_type);
     } else {
         // First see if there is existing furniture to destroy
-        if (is_bashable_furn(p)) {
+        if( is_bashable_furn( p ) ) {
             destroy_furn( p, true );
         }
         // Leave the terrain alone unless it interferes with furniture placement
-        if (move_cost(p) <= 0 && is_bashable_ter(p)) {
+        if( move_cost(p) <= 0 && is_bashable_ter( p ) ) {
             destroy( p, true );
         }
         // Check again for new terrain after potential destruction
-        if (move_cost(p) <= 0) {
+        if( move_cost(p) <= 0 ) {
             ter_set(p, floor_type);
         }
 
         furn_set(p, rubble_type);
     }
-    if (items) {
-        //Still hardcoded, but a step up from the old stuff due to being in only one place
-        if (rubble_type == f_wreckage) {
-            item chunk("steel_chunk", calendar::turn);
-            item scrap("scrap", calendar::turn);
-            item pipe("pipe", calendar::turn);
-            item wire("wire", calendar::turn);
-            add_item_or_charges(p, chunk);
-            add_item_or_charges(p, scrap);
-            if (one_in(5)) {
-                add_item_or_charges(p, pipe);
-                add_item_or_charges(p, wire);
-            }
-        } else if (rubble_type == f_rubble_rock) {
-            item rock("rock", calendar::turn);
-            int rock_count = rng(1, 3);
-            for (int i = 0; i < rock_count; i++) {
-                add_item_or_charges(p, rock);
-            }
-        } else if (rubble_type == f_rubble) {
-            item splinter("splinter", calendar::turn);
-            item nail("nail", calendar::turn);
-            int splinter_count = rng(2, 8);
-            int nail_count = rng(5, 10);
-            for (int i = 0; i < splinter_count; i++) {
-                add_item_or_charges(p, splinter);
-            }
-            for (int i = 0; i < nail_count; i++) {
-                add_item_or_charges(p, nail);
-            }
+
+    if( !items ) {
+        return;
+    }
+
+    //Still hardcoded, but a step up from the old stuff due to being in only one place
+    if (rubble_type == f_wreckage) {
+        item chunk("steel_chunk", calendar::turn);
+        item scrap("scrap", calendar::turn);
+        item pipe("pipe", calendar::turn);
+        item wire("wire", calendar::turn);
+        add_item_or_charges(p, chunk);
+        add_item_or_charges(p, scrap);
+        if (one_in(5)) {
+            add_item_or_charges(p, pipe);
+            add_item_or_charges(p, wire);
+        }
+    } else if (rubble_type == f_rubble_rock) {
+        item rock("rock", calendar::turn);
+        int rock_count = rng(1, 3);
+        for (int i = 0; i < rock_count; i++) {
+            add_item_or_charges(p, rock);
+        }
+    } else if (rubble_type == f_rubble) {
+        item splinter("splinter", calendar::turn);
+        item nail("nail", calendar::turn);
+        int splinter_count = rng(2, 8);
+        int nail_count = rng(5, 10);
+        for (int i = 0; i < splinter_count; i++) {
+            add_item_or_charges(p, splinter);
+        }
+        for (int i = 0; i < nail_count; i++) {
+            add_item_or_charges(p, nail);
         }
     }
 }
@@ -2845,54 +2848,47 @@ void map::create_spores( const tripoint &p, Creature* source )
 
 int map::collapse_check( const tripoint &p )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
+    const bool collapses = has_flag( "COLLAPSES", p );
+    const bool supports_roof = has_flag( "SUPPORTS_ROOF", p );
+
     int num_supports = 0;
-    tripoint t( p );
-    int &i = t.x;
-    int &j = t.y;
-    for( i = x - 1; i <= x + 1; i++ ) {
-        for( j = y - 1; j <= y + 1; j++ ) {
-            if( p == t ) {
-                continue;
+
+    for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        if( p == t ) {
+            continue;
+        }
+
+        if( collapses ) {
+            if( has_flag( "COLLAPSES", t ) ) {
+                num_supports++;
+            } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
+                num_supports += 2;
             }
-            if( has_flag( "COLLAPSES", p ) ) {
-                if( has_flag( "COLLAPSES", t ) ) {
-                    num_supports++;
-                } else if( has_flag( "SUPPORTS_ROOF", t ) ) {
-                    num_supports += 2;
-                }
-            } else if( has_flag( "SUPPORTS_ROOF", p ) ) {
-                if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
-                    num_supports += 3;
-                }
+        } else if( supports_roof ) {
+            if( has_flag( "SUPPORTS_ROOF", t ) && !has_flag( "COLLAPSES", t ) ) {
+                num_supports += 3;
             }
         }
     }
+
     return 1.7 * num_supports;
 }
 
-void map::collapse_at( const tripoint &p )
+void map::collapse_at( const tripoint &p, const bool silent )
 {
-    destroy ( p, false );
+    destroy( p, silent );
     crush( p );
     make_rubble( p );
-    tripoint t = p;
-    int &i = t.x;
-    int &j = t.y;
-    for( i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( j = p.y - 1; j <= p.y + 1; j++ ) {
-            if( p == t ) {
-                continue;
-            }
-            if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
-                destroy( t, false );
-            // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-            } else if( has_flag("FLAT", t ) && one_in( 8 ) ) {
-                crush( t );
-                make_rubble( t );
-            }
+    for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        if( p == t ) {
+            continue;
+        }
+        if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
+            destroy( t, silent );
+        // We only check for rubble spread if it doesn't already collapse to prevent double crushing
+        } else if( has_flag("FLAT", t ) && one_in( 8 ) ) {
+            crush( t );
+            make_rubble( t );
         }
     }
 }
@@ -3028,6 +3024,10 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 {
     std::string sound;
     int sound_volume = 0;
+    std::string soundfxid;
+    std::string soundfxvariant;
+    const auto &terid = ter_at( p );
+    const auto &furnid = furn_at( p );
     bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
@@ -3038,20 +3038,36 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         bash = &furn_at(p).bash;
         smash_furn = true;
     } else if( ter_at(p).bash.str_max != -1 ) {
-        bash = &ter_at(p).bash;
+        bash = &ter_at( p ).bash;
         smash_ter = true;
     }
 
     // Floor bashing check
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
-    if( smash_ter && bash->bash_below && !params.destroy && (!zlevels || !params.bash_floor ) ) {
-        smash_ter = false;
-        bash = nullptr;
+    // Unless we're destroying, then it gets a little weird
+    if( smash_ter && bash->bash_below && ( !zlevels || !params.bash_floor ) ) {
+        if( !params.destroy ) {
+            smash_ter = false;
+            bash = nullptr;
+        } else if( bash->ter_set == null_ter_t && zlevels ) {
+            // A hack for destroy && !bash_floor
+            // We have to check what would we create and cancel if it is what we have now
+            tripoint below( p.x, p.y, p.z - 1 );
+            const auto roof = get_roof( below, false );
+            if( roof == ter( p ) ) {
+                smash_ter = false;
+                bash = nullptr;
+            }
+        } else if( bash->ter_set == null_ter_t && ter( p ) == t_dirt ) {
+            // As above, except for no-z-levels case
+            smash_ter = false;
+            bash = nullptr;
+        }
     }
 
     // TODO: what if silent is true?
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
-        sounds::sound(p, 40, _("an alarm go off!"));
+        sounds::sound(p, 40, _("an alarm go off!"), false, "environment", "alarm");
         // Blame nearby player
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
@@ -3065,7 +3081,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Nothing bashable here
         if( move_cost( p ) <= 0 ) {
             if( !params.silent ) {
-                sounds::sound( p, 18, _("thump!"), false, "bash", _("thump!") );
+                sounds::sound( p, 18, _("thump!"), false, "smash_thump", "smash_success" );
             }
 
             params.did_bash = true;
@@ -3109,6 +3125,12 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
+    if( smash_furn ) {
+        soundfxvariant = furnid.id;
+    } else {
+        soundfxvariant = terid.id;
+    }
+
     if( !params.destroy && !success ) {
         if( sound_fail_vol == -1 ) {
             sound_volume = 12;
@@ -3119,7 +3141,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         sound = _(bash->sound_fail.c_str());
         params.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sound, false, "bash", sound );
+            sounds::sound( p, sound_volume, sound, false, "smash_fail", soundfxvariant );
         }
 
         return;
@@ -3145,6 +3167,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
     }
 
+    soundfxid = "smash_success";
     sound = _(bash->sound.c_str());
     // Set this now in case the ter_set below changes this
     const bool collapses = smash_ter && has_flag("COLLAPSES", p);
@@ -3207,6 +3230,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 }
             }
         }
+        soundfxvariant = "smash_cloth";
     } else if( smash_furn ) {
         furn_set( p, bash->furn_set );
         // Hack alert.
@@ -3254,7 +3278,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( collapses ) {
-        collapse_at( p );
+        collapse_at( p, params.silent );
     }
     // Check the flag again to ensure the new terrain doesn't support anything
     if( supports && !has_flag( "SUPPORTS_ROOF", p ) ) {
@@ -3264,7 +3288,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             }
 
             if( one_in( collapse_check( t ) ) ) {
-                collapse_at( t );
+                collapse_at( t, params.silent );
             }
         }
     }
@@ -3273,7 +3297,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     params.success |= success; // Not always true, so that we can tell when to stop destroying
     params.bashed_solid = true;
     if( !sound.empty() && !params.silent ) {
-        sounds::sound( p, sound_volume, sound, false, "bash", sound );
+        sounds::sound( p, sound_volume, sound, false, soundfxid, soundfxvariant );
     }
 }
 
@@ -3328,7 +3352,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
 
     // Add a glass sound even when something else also breaks
     if( smashed_glass && !params.silent ) {
-        sounds::sound( p, 12, _("glass shattering"), false, "bash", _("glass shattering") );
+        sounds::sound( p, 12, _("glass shattering"), false, "smash_success", "smash_glass_contents" );
     }
 }
 
@@ -3340,7 +3364,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
     if( veh != nullptr ) {
         veh->damage( vpart, params.strength, DT_BASH );
         if( !params.silent ) {
-            sounds::sound( p, 18, _("crash!"), false, "bash", _("crash!") );
+            sounds::sound( p, 18, _("crash!"), false, "smash_success", "hit_vehicle" );
         }
 
         params.did_bash = true;
@@ -3435,8 +3459,9 @@ void map::crush( const tripoint &p )
     }
 
     vehicle *veh = veh_at(p, veh_part);
-    if (veh) {
-        veh->damage(veh_part, rng(0, veh->parts[veh_part].hp), DT_BASH, false);
+    if( veh != nullptr ) {
+        // Arbitrary number is better than collapsing house roof crushing APCs
+        veh->damage(veh_part, rng(100, 1000), DT_BASH, false);
     }
 }
 
@@ -3774,7 +3799,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::sound(p, 6, "", true, "open_door", ter.id);
+            sounds::sound( p, 6, "", true, "open_door", ter.id );
             ter_set(p, ter.open );
         }
 
@@ -3790,7 +3815,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::sound(p, 6, "", true, "open_door", furn.id);
+            sounds::sound( p, 6, "", true, "open_door", furn.id );
             furn_set(p, furn.open );
         }
 
@@ -3872,7 +3897,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-        sounds::sound(p, 10, "", true, "close_door", ter.id);
+        sounds::sound( p, 10, "", true, "close_door", ter.id );
         ter_set(p, ter.close );
      }
      return true;
@@ -3885,7 +3910,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-         sounds::sound(p, 10, "", true, "close_door", furn.id);
+         sounds::sound( p, 10, "", true, "close_door", furn.id );
          furn_set(p, furn.close );
      }
      return true;
@@ -4718,7 +4743,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_charges(type, quantity, ret) ) {
+        if( !a->made_of(LIQUID) && a->use_charges(type, quantity, ret) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4774,147 +4799,145 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                                  const itype_id type, long &quantity)
 {
     std::list<item> ret;
-    for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
-        tripoint p( origin.x - radius, origin.y - radius, origin.z );
-        int &x = p.x;
-        int &y = p.y;
-        for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
-            for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
-                    use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
-                    if( quantity <= 0 ) {
-                        return ret;
-                    }
-                }
-                if( !accessible_items( origin, p, range) ) {
-                    continue;
-                }
-                if( rl_dist( origin, p ) >= radius ) {
-                    int vpart = -1;
-                    vehicle *veh = veh_at( p, vpart );
+    for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
+        if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
+            use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
+            if( quantity <= 0 ) {
+                return ret;
+            }
+        }
 
-                    if( veh ) { // check if a vehicle part is present to provide water/power
-                        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-                        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-                        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-                        const int forgepart = veh->part_with_feature(vpart, "FORGE");
-                        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-                        const int cargo = veh->part_with_feature(vpart, "CARGO");
+        if( !accessible_items( origin, p, range ) ) {
+            continue;
+        }
 
-                        if (kpart >= 0) { // we have a kitchen, now to see what to drain
-                            ammotype ftype = "NULL";
+        std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity );
+        ret.splice(ret.end(), tmp);
+        if (quantity <= 0) {
+            return ret;
+        }
 
-                            if (type == "water_clean") {
-                                ftype = "water_clean";
-                            } else if (type == "hotplate") {
-                                ftype = "battery";
-                            }
+        int vpart = -1;
+        vehicle *veh = veh_at( p, vpart );
+        if( veh == nullptr ) {
+            continue;
+        }
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "water_clean") {
+                ftype = "water_clean";
+            } else if (type == "water") {
+                ftype = "water";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
 
-                            if (type == "welder") {
-                                ftype = "battery";
-                            } else if (type == "soldering_iron") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            // TODO: Handle water poison when crafting starts respecting it
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (weldpart >= 0) { // we have a weldrig, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "welder") {
+                ftype = "battery";
+            } else if (type == "soldering_iron") {
+                ftype = "battery";
+            }
 
-                            if (type == "press") {
-                                ftype = "battery";
-                            } else if (type == "vac_sealer") {
-                                ftype = "battery";
-                            } else if (type == "dehydrator") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (craftpart >= 0) { // we have a craftrig, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "press") {
+                ftype = "battery";
+            } else if (type == "vac_sealer") {
+                ftype = "battery";
+            } else if (type == "dehydrator") {
+                ftype = "battery";
+            }
 
-                            if (type == "forge") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-                            ammotype ftype = "NULL";
+            if (type == "forge") {
+                ftype = "battery";
+            }
 
-                            if (type == "chemistry_set") {
-                                ftype = "battery";
-                            } else if (type == "hotplate") {
-                                ftype = "battery";
-                            }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
 
-                            item tmp(type, 0); //TODO add a sane birthday arg
-                            tmp.charges = veh->drain(ftype, quantity);
-                            quantity -= tmp.charges;
-                            ret.push_back(tmp);
+            if (quantity == 0) {
+                return ret;
+            }
+        }
 
-                            if (quantity == 0) {
-                                return ret;
-                            }
-                        }
+        if (chempart >= 0) { // we have a chem_lab, now to see what to drain
+            ammotype ftype = "NULL";
 
-                        if (cargo >= 0) {
-                            std::list<item> tmp =
-                                use_charges_from_stack( veh->get_items(cargo), type, quantity );
-                            ret.splice(ret.end(), tmp);
-                            if (quantity <= 0) {
-                                return ret;
-                            }
-                        }
-                    }
+            if (type == "chemistry_set") {
+                ftype = "battery";
+            } else if (type == "hotplate") {
+                ftype = "battery";
+            }
 
-                    std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity );
-                    ret.splice(ret.end(), tmp);
-                    if (quantity <= 0) {
-                        return ret;
-                    }
-                }
+            item tmp(type, 0); //TODO add a sane birthday arg
+            tmp.charges = veh->drain(ftype, quantity);
+            quantity -= tmp.charges;
+            ret.push_back(tmp);
+
+            if (quantity == 0) {
+                return ret;
+            }
+        }
+
+        if (cargo >= 0) {
+            std::list<item> tmp =
+                use_charges_from_stack( veh->get_items(cargo), type, quantity );
+            ret.splice(ret.end(), tmp);
+            if (quantity <= 0) {
+                return ret;
             }
         }
     }
+
     return ret;
 }
 
@@ -5731,180 +5754,103 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
 }
 
 // TODO: Implement this function in FoV update
-bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
+bool map::sees( const int Fx, const int Fy, const int Tx, const int Ty, const int range ) const
 {
-    t2 = 0;
-    return sees( F.x, F.y, T.x, T.y, range, t1 );
+    return sees( {Fx, Fy, 0}, {Tx, Ty, 0}, range );
+}
+
+bool map::sees( const point F, const point T, const int range ) const
+{
+    return sees( {F.x, F.y, 0}, {T.x, T.y, 0}, range );
 }
 
 bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
 {
-    int t1 = 0;
-    return sees( F.x, F.y, T.x, T.y, range, t1 );
+    int dummy = 0;
+    return sees( F, T, range, dummy );
 }
 
-bool map::sees( const point F, const point T, const int range, int &bresenham_slope ) const
+/**
+ * This one is internal-only, we don't want to expose the slope tweaking ickiness outside the map class.
+ **/
+bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bresenham_slope ) const
 {
-    return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
-}
-
-/*
-map::sees based off code by Steve Register [arns@arns.freeservers.com]
-http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
-*/
-bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
-               const int range, int &bresenham_slope) const
-{
-    const int dx = Tx - Fx;
-    const int dy = Ty - Fy;
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int sx = SGN(dx);
-    const int sy = SGN(dy);
-    int x = Fx;
-    int y = Fy;
-    int t = 0;
-    int st;
-
-    if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+    if( (range >= 0 && range < rl_dist(F.x, F.y, T.x, T.y)) ||
+        !INBOUNDS(T.x, T.y) ) {
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    if (ax > ay) { // Mostly-horizontal line
-        st = SGN(ay - (ax / 2));
-        // Doing it "backwards" prioritizes straight lines before diagonal.
-        // This will help avoid creating a string of zombies behind you and will
-        // promote "mobbing" behavior (zombies surround you to beat on you)
-        for (bresenham_slope = abs(ay - (ax / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    y += sy;
-                    t -= ax;
-                }
-                x += sx;
-                t += ay;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while ((trans(x, y)) && (INBOUNDS(x,y)));
-        }
-        // Zero the slope when returning false - simplifies many if-elses in code
-        bresenham_slope = 0;
-        return false;
-    } else { // Same as above, for mostly-vertical lines
-        st = SGN(ax - (ay / 2));
-        for (bresenham_slope = abs(ax - (ay / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    x += sx;
-                    t -= ay;
-                }
-                y += sy;
-                t += ax;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while ((trans(x, y)) && (INBOUNDS(x,y)));
-        }
-        bresenham_slope = 0;
-        return false;
-    }
-    bresenham_slope = 0;
-    return false; // Shouldn't ever be reached, but there it is.
+    bool visible = true;
+    bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
+               [this, &visible, &T]( const point &new_point ) {
+                   // Exit befre checking the last square, it's still visible even if opaque.
+                   if( new_point.x == T.x && new_point.y == T.y ) {
+                       return false;
+                   }
+                   if( !this->trans(new_point.x, new_point.y) ) {
+                       visible = false;
+                       return false;
+                   }
+                   return true;
+               });
+    return visible;
 }
 
-bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max, int &bresenham_slope) const
+// This method tries a bunch of initial offsets for the line to try and find a clear one.
+// Basically it does, "Find a line from any point in the source that ends up in the target square".
+std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoint &destination ) const
 {
-    const int dx = Tx - Fx;
-    const int dy = Ty - Fy;
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int sx = SGN(dx);
-    const int sy = SGN(dy);
-    int x = Fx;
-    int y = Fy;
-    int t = 0;
-    int st;
+    // TODO: Push this junk down into the bresenham method, it's already doing it.
+    const int dx = destination.x - source.x;
+    const int dy = destination.y - source.y;
+    const int ax = std::abs(dx) * 2;
+    const int ay = std::abs(dy) * 2;
+    const int dominant = std::max(ax, ay);
+    const int minor = std::min(ax, ay);
+    // This seems to be the method for finding the ideal start value for the error value.
+    const int ideal_start_offset = minor - (dominant / 2);
+    const int start_sign = (ideal_start_offset > 0) - (ideal_start_offset < 0);
+    // Not totally sure of the derivation.
+    const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
+    for ( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
+        int candidate_offset = horizontal_offset * start_sign;
+        if( sees( source, destination, rl_dist(source, destination), candidate_offset ) ) {
+            return line_to( source, destination, candidate_offset, 0 );
+        }
+    }
+    // If we couldn't find a clear LoS, just return the ideal one.
+    return line_to( source, destination, ideal_start_offset, 0 );
+}
 
-    if (range >= 0 &&  range < rl_dist(Fx, Fy, Tx, Ty) ) {
+bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
+                      const int range, const int cost_min, const int cost_max ) const
+{
+    if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
+        !INBOUNDS(Tx, Ty) ) {
         return false; // Out of range!
     }
-    if (ax > ay) { // Mostly-horizontal line
-        st = SGN(ay - (ax / 2));
-        // Doing it "backwards" prioritizes straight lines before diagonal.
-        // This will help avoid creating a string of zombies behind you and will
-        // promote "mobbing" behavior (zombies surround you to beat on you)
-        for (bresenham_slope = abs(ay - (ax / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    y += sy;
-                    t -= ax;
-                }
-                x += sx;
-                t += ay;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-                     INBOUNDS(x, y));
-        }
-        return false;
-    } else { // Same as above, for mostly-vertical lines
-        st = SGN(ax - (ay / 2));
-        for (bresenham_slope = abs(ax - (ay / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    x += sx;
-                    t -= ay;
-                }
-                y += sy;
-                t += ax;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-                     INBOUNDS(x,y));
-        }
-        return false;
-    }
-    return false; // Shouldn't ever be reached, but there it is.
+    bool is_clear = true;
+    bresenham( Fx, Fy, Tx, Ty, 0,
+               [this, &is_clear, cost_min, cost_max](const point &new_point ) {
+                   const int cost = this->move_cost( new_point.x, new_point.y );
+                   if( cost < cost_min || cost > cost_max ) {
+                       is_clear = false;
+                       return false;
+                   }
+                   return true;
+               } );
+    return is_clear;
 }
 
 // TODO: Z
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max, int &bres1, int &bres2 ) const
+                      const int cost_min, const int cost_max ) const
 {
     if( f.z != t.z ) {
         return false;
     }
 
-    bres2 = 0;
-    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max, bres1 );
-}
-
-bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max ) const
-{
-    int t1 = 0;
-    int t2 = 0;
-    return clear_path( f, t, range, cost_min, cost_max, t1, t2 );
+    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max );
 }
 
 bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const

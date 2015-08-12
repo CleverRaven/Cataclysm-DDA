@@ -41,5 +41,12 @@ int main( int argc, char* const argv[] )
 
   int result = Catch::Session().run( argc, argv );
 
+  auto world_name = world_generator->active_world->world_name;
+  if (result == 0) {
+      g->delete_world(world_name, true);
+  } else {
+      printf("Test world \"%s\" left for inspection.\n", world_name.c_str());
+  }
+
   return result;
 }

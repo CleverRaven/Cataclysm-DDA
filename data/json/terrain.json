@@ -355,7 +355,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "ROAD"],
         "bash": {
                 "sound": "thump",
                 "ter_set": "t_null",
@@ -390,7 +390,7 @@
         "symbol": "#",
         "color": "ltred",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "ROAD"],
         "bash": {
                 "sound": "thump",
                 "ter_set": "t_null",
@@ -425,7 +425,7 @@
         "symbol": "#",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "ROAD"],
         "bash": {
                 "sound": "thump",
                 "ter_set": "t_null",
@@ -442,7 +442,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT", "ROAD"],
         "bash": {
             "ter_set": "t_null",
             "str_min": 75,
@@ -473,7 +473,7 @@
         "symbol": ".",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "INDOORS", "FLAT"],
+        "flags": ["TRANSPARENT", "INDOORS", "FLAT", "ROAD"],
         "bash": {
                 "sound": "thump",
                 "ter_set": "t_null",
@@ -488,7 +488,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "ter_set": "t_null",
             "str_min": 50,
@@ -507,7 +507,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "ter_set": "t_null",
             "str_min": 50,
@@ -526,7 +526,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "ter_set": "t_null",
             "str_min": 50,
@@ -544,7 +544,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "ter_set": "t_null",
             "str_min": 50,
@@ -565,7 +565,7 @@
         "move_cost": 2,
         "roof": "t_flat_roof",
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
             "sound": "SMASH!!",
@@ -654,7 +654,7 @@
         "color": "white",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
         ],
         "bash": {
             "sound": "SMASH!!",
@@ -1122,7 +1122,8 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT",
-            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL"
+            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL",
+            "ROAD"
         ],
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -1235,7 +1236,7 @@
         "color": "red",
         "move_cost": 2,
         "flags": [
-            "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD"
         ],
         "deconstruct": {
             "ter_set": "t_door_c",
@@ -1348,7 +1349,7 @@
         "symbol": ".",
         "color": "brown",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "bash": {
             "str_min": 6, "str_max": 25,
             "sound": "crunch!",
@@ -1367,7 +1368,7 @@
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "bash": {
             "str_min": 18, "str_max": 75,
             "sound": "metal screeching!",
@@ -1424,7 +1425,8 @@
         "color": "brown",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE_ASH", "FLAT"],
+            "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD"
+        ],
         "close": "t_fencegate_c",
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -1464,7 +1466,7 @@
         "symbol": ".",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "close": "t_chaingate_c",
         "bash": {
             "str_min": 5, "str_max": 150,
@@ -1620,7 +1622,7 @@
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "close": "t_door_metal_c",
         "bash": {
             "str_min": 80, "str_max": 250,
@@ -1699,7 +1701,7 @@
         "symbol": "'",
         "color": "cyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "close": "t_door_bar_c",
         "bash": {
             "str_min": 20, "str_max": 210, "str_min_blocked": 30, "str_max_blocked": 240,
@@ -1737,7 +1739,8 @@
         "symbol": "+",
         "color": "ltcyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        "flags": [
+            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "ROAD"
         ],
         "open": "t_door_glass_o",
         "deconstruct": {
@@ -4453,7 +4456,8 @@
         "color": "white",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
+        ],
         "bash": {
             "sound": "SMASH!!",
             "ter_set": "t_null",
@@ -4473,7 +4477,8 @@
         "color": "ltgray",
         "move_cost": 2,
         "flags": [
-            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
+        ],
         "bash": {
             "sound": "SMASH!!",
             "ter_set": "t_null",
@@ -5199,7 +5204,7 @@
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -5217,7 +5222,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT"],
+        "flags": ["TRANSPARENT", "FLAT", "ROAD"],
         "bash": {
             "str_min": 70, "str_max": 300,
             "sound": "concrete cracking and metal screeching!",
@@ -5235,7 +5240,7 @@
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THINOBSTACLE", "ROAD"],
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",

@@ -4583,8 +4583,8 @@
         "recoil" : 0,
         "count" : 1
     },
-    {   
-	    "type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "pointer_fake_ammo",
         "price" : 0,
         "name" : "point",
@@ -4606,8 +4606,8 @@
         "recoil" : 0,
         "count" : 1
     },
-    {   
-	    "type" : "AMMO",
+    {
+        "type" : "AMMO",
         "id" : "gas_fungicidal",
         "category" : "chems",
         "price" : 3500,
