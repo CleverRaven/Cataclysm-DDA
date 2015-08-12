@@ -168,7 +168,7 @@ void load_json_dir(std::string const &dirname)
             JsonIn jsin(iss);
             load_all_from_json(jsin);
         } catch( const JsonError &err ) {
-            throw *(it) + ": " + err.what();
+            throw std::runtime_error( *(it) + ": " + err.what() );
         }
     }
 }
@@ -178,11 +178,9 @@ int main(int, char **)
     setlocale(LC_ALL, "");
     try {
        load_json_dir("data/json");
-     } catch(std::string &error_message) {
-     if(!error_message.empty()) {
-        printf("%s\n", error_message.c_str() );
-     }
-     return 1;
-   }
+    } catch( const std::exception &err ) {
+        printf( "Error: %s\n", err.what() );
+        return 1;
+    }
    return 0;
 }
