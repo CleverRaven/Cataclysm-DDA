@@ -110,9 +110,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         missed_by = 1.0;
         sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
-	int junk = 0;
-	// If we missed, just draw a straight line.
-	trajectory = line_to( source, target, junk, junk );
+        int junk = 0;
+        // If we missed, just draw a straight line.
+        trajectory = line_to( source, target, junk, junk );
     } else {
         // Go around obstacles a little if we're on target.
         trajectory = g->m.find_clear_path( source, target );
