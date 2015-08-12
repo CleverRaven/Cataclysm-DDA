@@ -1,0 +1,70 @@
+[
+    {
+        "type" : "item_group",
+        "id" : "jewelry_back",
+        "items":[
+            ["brooch", 15],
+            ["chisel", 60],
+            ["copper_ear", 25],
+            ["crucible", 40],
+            ["diamond", 5],
+            ["diamond_dental_grill", 2],
+            ["diamond_ring", 5],
+            ["forge", 40],
+            ["gold", 20],
+            ["gold_bracelet", 15],
+            ["gold_dental_grill", 15],
+            ["gold_ear", 15],
+            ["gold_small", 25],
+            ["gold_watch", 15],
+            ["hammer", 60],
+            ["necklace", 20],
+            ["pearl_collar", 15],
+            ["pocketwatch", 15],
+            ["polisher", 10],
+            ["ring", 15],
+            ["sf_watch", 5],
+            ["silver", 30],
+            ["silver_bracelet", 20],
+            ["silver_ear", 20],
+            ["silver_small", 35],
+            ["solder_wire", 60],
+            ["soldering_iron", 60],
+            ["tieclip", 15]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "jewelry_front",
+        "items":[
+            ["brooch", 30],
+            ["copper_ear", 50],
+            ["diamond", 10],
+            ["diamond_dental_grill", 5],
+            ["diamond_ring", 10],
+            ["gold_bracelet", 30],
+            ["gold_dental_grill", 10],
+            ["gold_ear", 30],
+            ["gold_watch", 30],
+            ["holy_symbol", 20],
+            ["necklace", 40],
+            ["pearl_collar", 30],
+            ["pocketwatch", 30],
+            ["ring", 30],
+            ["sf_watch", 10],
+            ["silver_bracelet", 40],
+            ["silver_ear", 40],
+            ["tieclip", 35]
+          ]
+    },{
+        "type" : "item_group",
+        "id" : "jewelry_safe",
+        "items":[
+            ["diamond", 75],
+            ["gold", 80],
+            ["gold_small", 90],
+            ["silver", 85],
+            ["silver_small", 95]
+          ]
+    }
+]
+
