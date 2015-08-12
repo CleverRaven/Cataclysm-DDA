@@ -883,11 +883,14 @@ const recipe *select_crafting_recipe( int &batch_size )
                                                 "  [q] search qualities\n"
                                                 "  [s] search skills\n"
                                                 "  [S] search skill used only\n"
+                                                "Special prefixes for results:\n"
+                                                "  [Q] search qualities\n"
                                                 "Examples:\n"
                                                 "  t:soldering iron\n"
                                                 "  c:two by four\n"
                                                 "  q:metal sawing\n"
-                                                "  s:cooking"
+                                                "  s:cooking\n"
+                                                "  Q:fine bolt turning"
                                                 ));
             redraw = true;
         } else if (action == "QUIT") {
@@ -1276,6 +1279,7 @@ void pick_recipes(const inventory &crafting_inv,
     bool search_skill = false;
     bool search_skill_primary_only = false;
     bool search_qualities = false;
+    bool search_result_qualities = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -1293,6 +1297,8 @@ void pick_recipes(const inventory &crafting_inv,
                 search_skill_primary_only = true;
             } else if( elem == 'q' ) {
                 search_qualities = true;
+            } else if( elem == 'Q' ) {
+                search_result_qualities = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1331,8 +1337,20 @@ void pick_recipes(const inventory &crafting_inv,
                  || (search_component && !lcmatch_any( rec->requirements.components, filter )) ) {
                     continue;
                 }
+                bool match_found = false;
+                if(search_result_qualities) {
+                    itype *it = item::find_type(rec->result);
+                    for( auto & quality : it->qualities ) {
+                        if(lcmatch(quality::get_name(quality.first), filter)) {
+                            match_found = true;
+                            break;
+                        }
+                    }
+                    if(!match_found) {
+                        continue;
+                    }
+                }
                 if(search_qualities) {
-                    bool match_found = false;
                     for( auto quality_reqs : rec->requirements.qualities ) {
                         for( auto quality : quality_reqs ) {
                             if(lcmatch( quality.to_string(), filter )) {
