@@ -365,7 +365,7 @@ inline int ammo_type_defined(const std::string &ammo)
     if (ammo == "NULL" || ammo == "generic_no_ammo") {
         return 1; // Known ammo type
     }
-    if (ammo_name(ammo) != "XXX") {
+    if (ammo_name(ammo) != "none") {
         return 1; // Known ammo type
     }
     if (!item_controller->has_template(ammo)) {
@@ -379,7 +379,7 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
     if (ammo == "NULL" || ammo == "generic_no_ammo") {
         return;
     }
-    if (ammo_name(ammo) == "XXX") {
+    if (ammo_name(ammo) == "none") {
         msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
     }
     if (ammo == "UPS") {
