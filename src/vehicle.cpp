@@ -3784,11 +3784,14 @@ void vehicle::operate_scoop()
                 size_t itemdex = 0;
                 for( auto it : q ) {
                     if( it.volume() < max_pickup_size ) {
+                        that_item_there = g->m.item_from( position, itemdex );
                         break;
                     }
                     itemdex++;
                 }
-                that_item_there = g->m.item_from( position, itemdex );
+                if(!that_item_there){
+                    continue;
+                }
                 if( one_in( chance_to_damage_item ) &&
                    that_item_there->damage < 4){//The scoop will not destroy the item, but it may damage it a bit.
                         that_item_there->damage += 1;
