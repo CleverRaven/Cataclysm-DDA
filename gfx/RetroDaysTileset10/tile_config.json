@@ -95,6 +95,72 @@
             "rotates":false
         },
         {
+            "id":"explosion_medium",
+            "fg":28,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 28
+                },
+                {
+                    "id": "corner",
+                    "fg": 27
+                },
+                {
+                    "id": "edge",
+                    "fg": 28
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 28
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 28
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 28
+                }
+            ],
+            "rotates":false
+        },
+        {
+            "id":"explosion_weak",
+            "fg":28,
+            "multitile":true,
+            "additional_tiles":
+            [
+                {
+                    "id": "center",
+                    "fg": 28
+                },
+                {
+                    "id": "corner",
+                    "fg": 27
+                },
+                {
+                    "id": "edge",
+                    "fg": 28
+                },
+                {
+                    "id": "t_connection",
+                    "fg": 28
+                },
+                {
+                    "id": "end_piece",
+                    "fg": 28
+                },
+                {
+                    "id": "unconnected",
+                    "fg": 28
+                }
+            ],
+            "rotates":false
+        },
+        {
             "id":"animation_bullet_normal",
             "fg":273
         },
