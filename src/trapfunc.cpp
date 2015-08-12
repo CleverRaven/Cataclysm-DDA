@@ -172,7 +172,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( z != nullptr ) {
-            z->stumble( false );
+            z->stumble();
             if( rng( 0, 10 ) > z->get_dodge() ) {
                 z->apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }

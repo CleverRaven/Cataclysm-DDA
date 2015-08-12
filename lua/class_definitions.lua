@@ -1457,7 +1457,7 @@ classes = {
             { name = "skin_name", rval = "string", args = { } },
             { name = "spawn", rval = nil, args = { "tripoint" } },
             { name = "stability_roll", rval = "int", args = { } },
-            { name = "stumble", rval = nil, args = { "bool" } },
+            { name = "stumble", rval = nil, args = { } },
             { name = "symbol", rval = "string", args = { } },
             { name = "symbol_color", rval = "int", args = { } },
             { name = "turns_to_reach", rval = "int", args = { "int", "int" } },

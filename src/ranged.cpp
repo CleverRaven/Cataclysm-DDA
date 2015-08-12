@@ -98,6 +98,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
 
     tripoint target = target_arg;
+    std::vector<tripoint> trajectory;
     if( missed_by >= 1.0 ) {
         // We missed D:
         // Shoot a random nearby space?
@@ -109,12 +110,13 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         missed_by = 1.0;
         sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ), sfx::get_heard_angle( target ));
         // TODO: Z dispersion
+	int junk = 0;
+	// If we missed, just draw a straight line.
+	trajectory = line_to( source, target, junk, junk );
+    } else {
+        // Go around obstacles a little if we're on target.
+        trajectory = g->m.find_clear_path( source, target );
     }
-
-    std::vector<tripoint> trajectory;
-    int tart1 = 0, tart2 = 0;
-    g->m.sees( source, target, -1, tart1, tart2 );
-    trajectory = line_to( source, target, tart1, tart2 );
 
     // Trace the trajectory, doing damage in order
     tripoint &tp = ret.end_point;
@@ -225,7 +227,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             }
             // search for monsters in radius 4 around impact site
             if( rl_dist( z.pos(), tp ) <= 4 &&
-                g->m.sees( z.pos(), tp, -1, tart1, tart2 ) ) {
+                g->m.sees( z.pos(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced")) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
@@ -427,13 +429,14 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
     // If the dispersion from the weapon is greater than the dispersion from your skill,
     // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion + used_weapon->gun_dispersion(false);
+    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion +
+        used_weapon->gun_dispersion(false);
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + 15 * rng(0, get_per());
     if( train_skill ) {
-        practice( skill_used, 8 + 2*num_shots );
+        practice( skill_used, 8 + 2 * num_shots );
     } else if( one_in(30) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
@@ -942,7 +945,6 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
 {
 
     std::vector<tripoint> ret;
-    int tart1, tart2;
     tripoint from = from_arg;
     if( from == tripoint_min ) {
         from = u.pos3();
@@ -1006,8 +1008,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     }
 
     do {
-        m.sees( from, p, -1, tart1, tart2 ); // For tart1/2
-        ret = line_to( from, p, tart1, tart2 );
+        ret = g->m.find_clear_path( from, p );
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
@@ -1149,7 +1150,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             const Creature *critter = critter_at( p, true );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
-            } else if (m.sees(u.pos(), p, -1, tart1, tart2)) {
+            } else if( m.sees(u.pos(), p, -1 )) {
                 m.drawsq(w_terrain, u, p, false, true, center.x, center.y);
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');

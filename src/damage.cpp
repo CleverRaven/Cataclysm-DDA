@@ -173,9 +173,8 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
         g->explosion( p, 450, 0, false );
-        int junk1, junk2;
         for( auto &&pt : g->m.points_in_radius( p, 6, 0 ) ) {
-            if( g->m.sees( p, pt, 3, junk1, junk2 ) &&
+            if( g->m.sees( p, pt, 3 ) &&
                 g->m.move_cost( pt ) > 0 ) {
                 g->m.add_field( pt, fd_nuke_gas, 3, 0 );
             }

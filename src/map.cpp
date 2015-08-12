@@ -5754,180 +5754,103 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
 }
 
 // TODO: Implement this function in FoV update
-bool map::sees( const tripoint &F, const tripoint &T, const int range, int &t1, int &t2 ) const
+bool map::sees( const int Fx, const int Fy, const int Tx, const int Ty, const int range ) const
 {
-    t2 = 0;
-    return sees( F.x, F.y, T.x, T.y, range, t1 );
+    return sees( {Fx, Fy, 0}, {Tx, Ty, 0}, range );
+}
+
+bool map::sees( const point F, const point T, const int range ) const
+{
+    return sees( {F.x, F.y, 0}, {T.x, T.y, 0}, range );
 }
 
 bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
 {
-    int t1 = 0;
-    return sees( F.x, F.y, T.x, T.y, range, t1 );
+    int dummy = 0;
+    return sees( F, T, range, dummy );
 }
 
-bool map::sees( const point F, const point T, const int range, int &bresenham_slope ) const
+/**
+ * This one is internal-only, we don't want to expose the slope tweaking ickiness outside the map class.
+ **/
+bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bresenham_slope ) const
 {
-    return sees( F.x, F.y, T.x, T.y, range, bresenham_slope );
-}
-
-/*
-map::sees based off code by Steve Register [arns@arns.freeservers.com]
-http://roguebasin.roguelikedevelopment.org/index.php?title=Simple_Line_of_Sight
-*/
-bool map::sees(const int Fx, const int Fy, const int Tx, const int Ty,
-               const int range, int &bresenham_slope) const
-{
-    const int dx = Tx - Fx;
-    const int dy = Ty - Fy;
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int sx = SGN(dx);
-    const int sy = SGN(dy);
-    int x = Fx;
-    int y = Fy;
-    int t = 0;
-    int st;
-
-    if (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty) ) {
+    if( (range >= 0 && range < rl_dist(F.x, F.y, T.x, T.y)) ||
+        !INBOUNDS(T.x, T.y) ) {
         bresenham_slope = 0;
         return false; // Out of range!
     }
-    if (ax > ay) { // Mostly-horizontal line
-        st = SGN(ay - (ax / 2));
-        // Doing it "backwards" prioritizes straight lines before diagonal.
-        // This will help avoid creating a string of zombies behind you and will
-        // promote "mobbing" behavior (zombies surround you to beat on you)
-        for (bresenham_slope = abs(ay - (ax / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    y += sy;
-                    t -= ax;
-                }
-                x += sx;
-                t += ay;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while ((trans(x, y)) && (INBOUNDS(x,y)));
-        }
-        // Zero the slope when returning false - simplifies many if-elses in code
-        bresenham_slope = 0;
-        return false;
-    } else { // Same as above, for mostly-vertical lines
-        st = SGN(ax - (ay / 2));
-        for (bresenham_slope = abs(ax - (ay / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    x += sx;
-                    t -= ay;
-                }
-                y += sy;
-                t += ax;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while ((trans(x, y)) && (INBOUNDS(x,y)));
-        }
-        bresenham_slope = 0;
-        return false;
-    }
-    bresenham_slope = 0;
-    return false; // Shouldn't ever be reached, but there it is.
+    bool visible = true;
+    bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
+               [this, &visible, &T]( const point &new_point ) {
+                   // Exit befre checking the last square, it's still visible even if opaque.
+                   if( new_point.x == T.x && new_point.y == T.y ) {
+                       return false;
+                   }
+                   if( !this->trans(new_point.x, new_point.y) ) {
+                       visible = false;
+                       return false;
+                   }
+                   return true;
+               });
+    return visible;
 }
 
-bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max, int &bresenham_slope) const
+// This method tries a bunch of initial offsets for the line to try and find a clear one.
+// Basically it does, "Find a line from any point in the source that ends up in the target square".
+std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoint &destination ) const
 {
-    const int dx = Tx - Fx;
-    const int dy = Ty - Fy;
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int sx = SGN(dx);
-    const int sy = SGN(dy);
-    int x = Fx;
-    int y = Fy;
-    int t = 0;
-    int st;
+    // TODO: Push this junk down into the bresenham method, it's already doing it.
+    const int dx = destination.x - source.x;
+    const int dy = destination.y - source.y;
+    const int ax = std::abs(dx) * 2;
+    const int ay = std::abs(dy) * 2;
+    const int dominant = std::max(ax, ay);
+    const int minor = std::min(ax, ay);
+    // This seems to be the method for finding the ideal start value for the error value.
+    const int ideal_start_offset = minor - (dominant / 2);
+    const int start_sign = (ideal_start_offset > 0) - (ideal_start_offset < 0);
+    // Not totally sure of the derivation.
+    const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
+    for ( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
+        int candidate_offset = horizontal_offset * start_sign;
+        if( sees( source, destination, rl_dist(source, destination), candidate_offset ) ) {
+            return line_to( source, destination, candidate_offset, 0 );
+        }
+    }
+    // If we couldn't find a clear LoS, just return the ideal one.
+    return line_to( source, destination, ideal_start_offset, 0 );
+}
 
-    if (range >= 0 &&  range < rl_dist(Fx, Fy, Tx, Ty) ) {
+bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
+                      const int range, const int cost_min, const int cost_max ) const
+{
+    if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
+        !INBOUNDS(Tx, Ty) ) {
         return false; // Out of range!
     }
-    if (ax > ay) { // Mostly-horizontal line
-        st = SGN(ay - (ax / 2));
-        // Doing it "backwards" prioritizes straight lines before diagonal.
-        // This will help avoid creating a string of zombies behind you and will
-        // promote "mobbing" behavior (zombies surround you to beat on you)
-        for (bresenham_slope = abs(ay - (ax / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    y += sy;
-                    t -= ax;
-                }
-                x += sx;
-                t += ay;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-                     INBOUNDS(x, y));
-        }
-        return false;
-    } else { // Same as above, for mostly-vertical lines
-        st = SGN(ax - (ay / 2));
-        for (bresenham_slope = abs(ax - (ay / 2)) * 2 + 1; bresenham_slope >= -1; bresenham_slope--) {
-            t = bresenham_slope * st;
-            x = Fx;
-            y = Fy;
-            do {
-                if (t > 0) {
-                    x += sx;
-                    t -= ay;
-                }
-                y += sy;
-                t += ax;
-                if (x == Tx && y == Ty) {
-                    bresenham_slope *= st;
-                    return true;
-                }
-            } while (move_cost(x, y) >= cost_min && move_cost(x, y) <= cost_max &&
-                     INBOUNDS(x,y));
-        }
-        return false;
-    }
-    return false; // Shouldn't ever be reached, but there it is.
+    bool is_clear = true;
+    bresenham( Fx, Fy, Tx, Ty, 0,
+               [this, &is_clear, cost_min, cost_max](const point &new_point ) {
+                   const int cost = this->move_cost( new_point.x, new_point.y );
+                   if( cost < cost_min || cost > cost_max ) {
+                       is_clear = false;
+                       return false;
+                   }
+                   return true;
+               } );
+    return is_clear;
 }
 
 // TODO: Z
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max, int &bres1, int &bres2 ) const
+                      const int cost_min, const int cost_max ) const
 {
     if( f.z != t.z ) {
         return false;
     }
 
-    bres2 = 0;
-    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max, bres1 );
-}
-
-bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max ) const
-{
-    int t1 = 0;
-    int t2 = 0;
-    return clear_path( f, t, range, cost_min, cost_max, t1, t2 );
+    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max );
 }
 
 bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const

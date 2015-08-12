@@ -247,11 +247,7 @@ void npc::execute_action(npc_action action, int target)
 
     std::vector<tripoint> line;
     if( tar != pos3() ) {
-        int linet1, linet2;
-        int dist = sight_range( g->light_level() );
-        // Call sees only for the bresenham slopes
-        g->m.sees( pos3(), tar, dist, linet1, linet2 );
-        line = line_to( pos3(), tar, linet1, linet2 );
+        line = g->m.find_clear_path( pos3(), tar );
     }
 
     switch (action) {
@@ -987,16 +983,12 @@ int npc::confident_range(int position)
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
 {
-    int dist = sight_range(g->light_level());
     int confident = confident_range(weapon_index);
     if( rl_dist( pos3(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    std::vector<tripoint> traj;
-    int linet1, linet2;
-    g->m.sees( pos3(), tar, dist, linet1, linet2 ); // Just for the slope
-    traj = line_to( pos3(), tar, linet1, linet2 );
+    std::vector<tripoint> traj = g->m.find_clear_path( pos3(), tar );
 
     for( auto &i : traj ) {
         int dist = rl_dist( pos3(), i );
@@ -1172,10 +1164,7 @@ void npc::move_to( const tripoint &pt )
     // "Long steps" are allowed when crossing z-levels
     // Stairs teleport the player too
     if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
-        int linet1, linet2;
-        std::vector<tripoint> newpath;
-        g->m.sees( pos3(), p, -1, linet1, linet2 );
-        newpath = line_to( pos3(), p, linet1, linet2 );
+        std::vector<tripoint> newpath = g->m.find_clear_path( pos3(), p );
 
         p = newpath[0];
     }

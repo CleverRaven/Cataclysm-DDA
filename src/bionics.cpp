@@ -653,7 +653,6 @@ bool player::activate_bionic(int b, bool eff_only)
         add_msg(m_info, _("You activate your %s."), bionics[bio.id].name.c_str());
     }
 
-    std::vector<point> traj;
     std::vector<std::string> good;
     std::vector<std::string> bad;
     tripoint dirp = pos();
@@ -952,17 +951,13 @@ bool player::activate_bionic(int b, bool eff_only)
             charge_power(bionics["bio_water_extractor"].power_activate);
         }
     } else if(bio.id == "bio_magnet") {
+        std::vector<tripoint> traj;
         for (int i = posx() - 10; i <= posx() + 10; i++) {
             for (int j = posy() - 10; j <= posy() + 10; j++) {
                 if (g->m.i_at(i, j).size() > 0) {
-                    int t; //not sure why map:sees really needs this, but w/e
-                    if (g->m.sees(i, j, posx(), posy(), -1, t)) {
-                        traj = line_to(i, j, posx(), posy(), t);
-                    } else {
-                        traj = line_to(i, j, posx(), posy(), 0);
-                    }
+                    traj = g->m.find_clear_path( {i, j, posz()}, pos3() );
                 }
-                traj.insert(traj.begin(), point(i, j));
+                traj.insert(traj.begin(), {i, j, posz()});
                 if( g->m.has_flag( "SEALED", i, j ) ) {
                     continue;
                 }
@@ -971,9 +966,9 @@ bool player::activate_bionic(int b, bool eff_only)
                     if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
                         tmp_item.weight() < weight_capacity() ) {
                         g->m.i_rem(i, j, k);
-                        std::vector<point>::iterator it;
+                        std::vector<tripoint>::iterator it;
                         for (it = traj.begin(); it != traj.end(); ++it) {
-                            int index = g->mon_at({it->x, it->y, posz()});
+                            int index = g->mon_at(*it);
                             if (index != -1) {
                                 g->zombie(index).apply_damage( this, bp_torso, tmp_item.weight() / 225 );
                                 g->zombie(index).check_dead_state();
@@ -987,7 +982,7 @@ bool player::activate_bionic(int b, bool eff_only)
                                         break;
                                     }
                                 } else {
-                                    g->m.bash( tripoint( it->x, it->y, posz() ), tmp_item.weight() / 225 );
+                                    g->m.bash( *it, tmp_item.weight() / 225 );
                                     if (g->m.move_cost(it->x, it->y) == 0) {
                                         break;
                                     }

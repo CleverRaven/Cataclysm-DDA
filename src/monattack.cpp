@@ -504,15 +504,12 @@ void mattack::boomer(monster *z, int index)
         return;
     }
 
-    int t;
     Creature *target = z->attack_target();
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > 3 ||
-        !z->sees( *target, t ) ) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return;
     }
 
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u.sees( *z );
@@ -547,15 +544,12 @@ void mattack::boomer_glow(monster *z, int index)
         return;
     }
 
-    int t;
     Creature *target = z->attack_target();
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > 3 ||
-        !z->sees( *target, t ) ) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return;
     }
 
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
     z->reset_special(index); // Reset timer
     z->moves -= 250;   // It takes a while
     bool u_see = g->u.sees( *z );
@@ -1369,7 +1363,6 @@ void mattack::fungus(monster *z, int index)
         }
     }
 
-    int bres1 = 0, bres2 = 0;
     for (int i = -radius; i <= radius; i++) {
         for (int j = -radius; j <= radius; j++) {
             if( i == 0 && j == 0 ) {
@@ -1380,7 +1373,7 @@ void mattack::fungus(monster *z, int index)
             const int dist = rl_dist( z->pos(), sporep );
             if( !one_in( dist ) ||
                 g->m.move_cost(sporep) <= 0 ||
-                ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10, bres1, bres2 ) ) ) {
+                ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
                 continue;
             }
 
@@ -1751,7 +1744,6 @@ void mattack::leap(monster *z, int index)
         return;
     }
 
-    int t1 = 0, t2 = 0;
     std::vector<tripoint> options;
     tripoint target = z->move_target();
     int best = rl_dist( z->pos(), target );
@@ -1762,7 +1754,7 @@ void mattack::leap(monster *z, int index)
             if( dest == z->pos() ) {
                 continue;
             }
-            if( !z->sees( dest, t1, t2 ) ) {
+            if( !z->sees( dest ) ) {
                 continue;
             }
             if (!g->is_empty( dest )) {
@@ -1773,7 +1765,7 @@ void mattack::leap(monster *z, int index)
             }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
-            std::vector<tripoint> line = line_to( z->pos(), dest, t1, t2 );
+            std::vector<tripoint> line = g->m.find_clear_path( z->pos(), dest );
             for (auto &i : line) {
                 if (g->m.move_cost( i ) == 0) {
                     blocked_path = true;
@@ -1890,7 +1882,7 @@ void mattack::dermatik(monster *z, int index)
         if( target == &g->u ) {
             add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         }
-        z->stumble(false);
+        z->stumble();
         target->on_dodge( z, z->type->melee_skill * 2 );
         return;
     }
@@ -1910,7 +1902,7 @@ void mattack::dermatik(monster *z, int index)
             z->check_dead_state();
         }
         if (player_swat > dodge_roll * 1.5) {
-            z->stumble(false);
+            z->stumble();
         }
         return;
     }
@@ -2082,8 +2074,7 @@ void mattack::callblobs(monster *z, int index)
             int assigned_spot = (nearby_points.size() * guards) / num_guards;
             post = nearby_points[ assigned_spot ];
         }
-        int trash = 0;
-        (*ally)->set_dest( post, trash );
+        (*ally)->set_dest( post );
         if (!(*ally)->has_effect("controlled")) {
             (*ally)->add_effect("controlled", 1, num_bp, true);
         }
@@ -2120,8 +2111,7 @@ void mattack::jackson(monster *z, int index)
             (*ally)->poly( mon_zombie_dancer );
             converted = true;
         }
-        int trash = 0;
-        (*ally)->set_dest( post, trash );
+        (*ally)->set_dest( post );
         if (!(*ally)->has_effect("controlled")) {
             (*ally)->add_effect("controlled", 1, num_bp, true);
         }
@@ -2205,8 +2195,7 @@ void mattack::tentacle(monster *z, int index)
         return; // TODO: handle friendly monsters
     }
     Creature *target = &g->u;
-    int t;
-    if (!z->sees( g->u, t )) {
+    if (!z->sees( g->u )) {
         return;
     }
     add_msg(m_bad, _("The %s lashes its tentacle at you!"), z->name().c_str());
@@ -2236,16 +2225,14 @@ void mattack::tentacle(monster *z, int index)
 
 void mattack::ranged_pull(monster *z, int index)
 {
-    int t = 0;
-    int t2 = 0;
     Creature *target = z->attack_target();
     if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 ||
-        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target, t ) ) {
+        rl_dist( z->pos(), target->pos() ) <= 1 || !z->sees( *target ) ) {
         return;
     }
 
     player *foe = dynamic_cast< player* >( target );
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, t2 );
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
     bool seen = g->u.sees( *z );
 
     for( auto &i : line ) {
@@ -3302,39 +3289,38 @@ void mattack::flamethrower(monster *z, int index)
 
 void mattack::flame( monster *z, Creature *target )
 {
-    int bres1, bres2;
     int dist = rl_dist( z->pos(), target->pos() );
     if( target != &g->u ) {
-      // friendly
-      z->moves -= 500;   // It takes a while
-      if( !g->m.sees( z->pos(), target->pos(), dist, bres1, bres2 ) ) {
-        // shouldn't happen
-        debugmsg( "mattack::flame invoked on invisible target" );
-      }
-      std::vector<tripoint> traj = line_to( z->pos(), target->pos(), bres1, bres2 );
+        // friendly
+        z->moves -= 500;   // It takes a while
+        if( !g->m.sees( z->pos(), target->pos(), dist ) ) {
+            // shouldn't happen
+            debugmsg( "mattack::flame invoked on invisible target" );
+        }
+        std::vector<tripoint> traj = g->m.find_clear_path( z->pos(), target->pos() );
 
-      for (auto &i : traj) {
-          // break out of attack if flame hits a wall
-          // TODO: Z
-          if (g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) )) {
-              if (g->u.sees( i ))
-                  add_msg(_("The tongue of flame hits the %s!"),
-                          g->m.tername(i.x, i.y).c_str());
-              return;
-          }
-          g->m.add_field( i, fd_fire, 1, 0 );
-      }
-      target->add_effect("onfire", 8);
+        for (auto &i : traj) {
+            // break out of attack if flame hits a wall
+            // TODO: Z
+            if (g->m.hit_with_fire( tripoint( i.x, i.y, z->posz() ) )) {
+                if (g->u.sees( i ))
+                    add_msg(_("The tongue of flame hits the %s!"),
+                            g->m.tername(i.x, i.y).c_str());
+                return;
+            }
+            g->m.add_field( i, fd_fire, 1, 0 );
+        }
+        target->add_effect("onfire", 8);
 
-      return;
+        return;
     }
 
     z->moves -= 500;   // It takes a while
-    if( !g->m.sees( z->pos(), target->pos(), dist + 1, bres1, bres2 ) ) {
+    if( !g->m.sees( z->pos(), target->pos(), dist + 1 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<tripoint> traj = line_to( z->pos(), target->pos(), bres1, bres2 );
+    std::vector<tripoint> traj = g->m.find_clear_path( z->pos(), target->pos() );
 
     for (auto &i : traj) {
         // break out of attack if flame hits a wall
@@ -3775,14 +3761,12 @@ void mattack::stretch_bite(monster *z, int index)
 
     // Let it be used on non-player creatures
     // can be used at close range too!
-    int t;
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3
-            || !z->sees(*target, t)) {
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees(*target)) {
         return;
     }
 
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t, 0 );
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
 
     z->reset_special(index); // Reset timer
     z->moves -= 150;
@@ -4793,14 +4777,13 @@ void mattack::stretch_attack(monster *z, int index){
         return;
     }
 
-    int t1, t2;
     Creature *target = z->attack_target();
 
-    if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target, t1, t2)){
+    if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target)){
         return;
     }
     int distance = rl_dist( z->pos(), target->pos() );
-    std::vector<tripoint> line = line_to( z->pos(), target->pos(), t1, t2 );
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
     int dam = rng(5, 10);
     if (distance < 2 && distance > 3) {
         return;
