@@ -149,6 +149,23 @@ void Character::load(JsonObject &data)
 {
     Creature::load( data );
 
+    jsin.read( "str_cur", str_cur );
+    jsin.read( "str_max", str_max );
+    jsin.read( "dex_cur", dex_cur );
+    jsin.read( "dex_max", dex_max );
+    jsin.read( "int_cur", int_cur );
+    jsin.read( "int_max", int_max );
+    jsin.read( "per_cur", per_cur );
+    jsin.read( "per_max", per_max );
+
+    jsin.read( "str_bonus", str_bonus );
+    jsin.read( "dex_bonus", dex_bonus );
+    jsin.read( "per_bonus", per_bonus );
+    jsin.read( "int_bonus", int_bonus );
+
+    jsin.read( "healthy", healthy );
+    jsin.read( "healthy_mod", healthy_mod );
+
     JsonArray parray;
 
     data.read("underwater", underwater);
@@ -232,6 +249,23 @@ void Character::load(JsonObject &data)
 void Character::store(JsonOut &json) const
 {
     Creature::store( json );
+
+    jsout.member( "str_cur", str_cur );
+    jsout.member( "str_max", str_max );
+    jsout.member( "dex_cur", dex_cur );
+    jsout.member( "dex_max", dex_max );
+    jsout.member( "int_cur", int_cur );
+    jsout.member( "int_max", int_max );
+    jsout.member( "per_cur", per_cur );
+    jsout.member( "per_max", per_max );
+
+    jsout.member( "str_bonus", str_bonus );
+    jsout.member( "dex_bonus", dex_bonus );
+    jsout.member( "per_bonus", per_bonus );
+    jsout.member( "int_bonus", int_bonus );
+
+    jsout.member( "healthy", healthy );
+    jsout.member( "healthy_mod", healthy_mod );
 
     // breathing
     json.member( "underwater", underwater );
@@ -1623,15 +1657,6 @@ void faction::serialize(JsonOut &json) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member( "str_cur", str_cur );
-    jsout.member( "str_max", str_max );
-    jsout.member( "dex_cur", dex_cur );
-    jsout.member( "dex_max", dex_max );
-    jsout.member( "int_cur", int_cur );
-    jsout.member( "int_max", int_max );
-    jsout.member( "per_cur", per_cur );
-    jsout.member( "per_max", per_max );
-
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
 
@@ -1651,14 +1676,6 @@ void Creature::store( JsonOut &jsout ) const
 
 
     jsout.member( "values", values );
-
-    jsout.member( "str_bonus", str_bonus );
-    jsout.member( "dex_bonus", dex_bonus );
-    jsout.member( "per_bonus", per_bonus );
-    jsout.member( "int_bonus", int_bonus );
-
-    jsout.member( "healthy", healthy );
-    jsout.member( "healthy_mod", healthy_mod );
 
     jsout.member( "blocks_left", num_blocks );
     jsout.member( "dodges_left", num_dodges );
@@ -1689,15 +1706,6 @@ void Creature::store( JsonOut &jsout ) const
 
 void Creature::load( JsonObject &jsin )
 {
-    jsin.read( "str_cur", str_cur );
-    jsin.read( "str_max", str_max );
-    jsin.read( "dex_cur", dex_cur );
-    jsin.read( "dex_max", dex_max );
-    jsin.read( "int_cur", int_cur );
-    jsin.read( "int_max", int_max );
-    jsin.read( "per_cur", per_cur );
-    jsin.read( "per_max", per_max );
-
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 
@@ -1726,14 +1734,6 @@ void Creature::load( JsonObject &jsin )
         }
     }
     jsin.read( "values", values );
-
-    jsin.read( "str_bonus", str_bonus );
-    jsin.read( "dex_bonus", dex_bonus );
-    jsin.read( "per_bonus", per_bonus );
-    jsin.read( "int_bonus", int_bonus );
-
-    jsin.read( "healthy", healthy );
-    jsin.read( "healthy_mod", healthy_mod );
 
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );
