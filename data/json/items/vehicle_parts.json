@@ -21,7 +21,7 @@
         "category" : "veh_parts",
         "price" : 4000
     },
-	{
+    {
         "type":"GENERIC",
         "id" : "foldwoodframe",
         "name" : "foldable wooden frame",

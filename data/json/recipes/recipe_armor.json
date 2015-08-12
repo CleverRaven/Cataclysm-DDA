@@ -9220,13 +9220,11 @@
     "time" : 1500,
     "reversible" : false,
     "autolearn" : true,
-    "qualities": [
-    	{"id" : "HAMMER", "level" : 3, "amount":1}
-    ],
+    "qualities": [ {"id" : "HAMMER", "level" : 3, "amount":1} ],
     "components" : [
-	[["rag" , 6], ["leather", 6], ["string_6", 3]],
-	[["duct_tape", 35], ["superglue", 5]],
-	[["jerrycan", 1]]
+        [["rag" , 6], ["leather", 6], ["string_6", 3]],
+        [["duct_tape", 35], ["superglue", 5]],
+        [["jerrycan", 1]]
     ]
-  }	
+  }
 ]

@@ -170,9 +170,9 @@
     "death_function":"SMOKEBURST",
     "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT", "FIREPROOF", "NO_BREATHE", "POISON"],
-	"special_attacks":[["SMOKECLOUD", 1], ["BITE", 5]],
+    "special_attacks":[["SMOKECLOUD", 1], ["BITE", 5]],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
-    "placate_triggers":["MEAT"],    
+    "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
     },{
     "type" : "MONSTER",
