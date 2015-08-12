@@ -23,9 +23,16 @@ void load_technique(JsonObject &jo)
         tec.name = _(tec.name.c_str());
     }
 
-    JsonArray jsarr = jo.get_array("messages");
-    while (jsarr.has_more()) {
-        tec.messages.push_back(_(jsarr.next_string().c_str()));
+    if( jo.has_member( "messages" ) ) {
+        JsonArray jsarr = jo.get_array("messages");
+        tec.player_message = jsarr.get_string( 0 );
+        if( !tec.player_message.empty() ) {
+            tec.player_message = _(tec.player_message.c_str());
+        }
+        tec.npc_message = jsarr.get_string( 1 );
+        if( !tec.npc_message.empty() ) {
+            tec.npc_message = _(tec.npc_message.c_str());
+        }
     }
 
     tec.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
@@ -684,21 +691,6 @@ bool martialart::has_technique( const player &u , matec_id tec_id) const
 bool martialart::has_weapon(itype_id item) const
 {
     return weapons.count(item);
-}
-
-std::string martialart::melee_verb(matec_id tec_id,  const player &u )
-{
-    for( const auto &elem : techniques ) {
-        const ma_technique &tec = elem.obj();
-        if (tec.id == tec_id) {
-            if (u.is_npc()) {
-                return tec.messages[1];
-            } else {
-                return tec.messages[0];
-            }
-        }
-    }
-    return std::string("%s is attacked by bugs");
 }
 
 // Player stuff

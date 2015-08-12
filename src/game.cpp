@@ -7423,7 +7423,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         case 'c':
             time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);;
         }
-        u.activity = player_activity(ACT_VEHICLE, time, (int)vehint.sel_cmd, INT_MIN, "");
+        u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
         u.activity.values.push_back(veh.global_x());    // values[0]
         u.activity.values.push_back(veh.global_y());    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]

@@ -716,7 +716,6 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
 {
     items.push_back(an_item);
     assert( stacks >= 1 );
-    assert( stacks == 1 || !an_item->count_by_charges() );
 }
 
 advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int index,
@@ -735,7 +734,6 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
     from_vehicle(veh)
 {
     assert(stacks >= 1);
-    assert(stacks == 1 || !items.front()->count_by_charges());
 }
 
 advanced_inv_listitem::advanced_inv_listitem()

@@ -284,8 +284,8 @@
     {
         "type" : "ammunition_type",
         "id" : "water",
-        "name" : "clean water",
-        "default" : "water_clean"
+        "name" : "water",
+        "default" : "water"
     },
     {
         "type" : "ammunition_type",

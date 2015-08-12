@@ -2323,15 +2323,22 @@ void remove_ammo(std::list<item> &dis_items, player &p)
 
 void remove_ammo(item *dis_item, player &p)
 {
-    if( dis_item->is_gun() ) {
+    auto &contents = dis_item->contents;
+    const bool is_gun = dis_item->is_gun();
+    for( size_t i = 0; i < contents.size(); ) {
         // Gun with gunmods, remove gunmods, remove their ammo
-        while( !dis_item->contents.empty() ) {
-            p.remove_gunmod( dis_item, 0 );
+        if( is_gun ) {
+            // integrated mods stay in the gun, they are part of the item type itself.
+            if( contents[i].has_flag( "IRREMOVABLE" ) ) {
+                remove_ammo( &contents[i], p );
+                i++;
+            } else {
+                p.remove_gunmod( dis_item, i );
+            }
+            continue;
         }
-    }
-    while( !dis_item->contents.empty() ) {
-        item tmp = dis_item->contents.front();
-        dis_item->contents.erase( dis_item->contents.begin() );
+        item tmp = contents[i];
+        contents.erase( contents.begin() + i );
         if( tmp.made_of( LIQUID ) && &p == &g->u ) {
             while( !g->handle_liquid( tmp, false, false ) ) {
                 // Allow selecting several containers
