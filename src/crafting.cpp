@@ -877,16 +877,16 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Special prefixes:\n"
+                                              _("Special prefixes for requirements:\n"
                                                 "  [t] search tools\n"
                                                 "  [c] search components\n"
                                                 "  [q] search qualities\n"
                                                 "  [s] search skills\n"
                                                 "  [S] search skill used only\n"
                                                 "Examples:\n"
-                                                "  t:hammer\n"
+                                                "  t:soldering iron\n"
                                                 "  c:two by four\n"
-                                                "  q:butchering\n"
+                                                "  q:metal sawing\n"
                                                 "  s:cooking"
                                                 ));
             redraw = true;
