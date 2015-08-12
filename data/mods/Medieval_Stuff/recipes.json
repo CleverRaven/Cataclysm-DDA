@@ -31,8 +31,7 @@
       [ "solder_wire", 10 ]
     ],
     [
-      [ "copper", 50 ],
-      [ "cu_pipe", 1 ]
+      [ "copper", 50 ]
     ]
   ]
 },
@@ -87,7 +86,7 @@
     ]
 },{
   "type" : "recipe",
-  "result": "longsword_one",
+  "result": "longsword",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
@@ -136,7 +135,7 @@
     ]
 },{
   "type" : "recipe",
-  "result": "estoc_one",
+  "result": "estoc",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
