@@ -5472,7 +5472,7 @@ void player::update_needs()
             fatigue = -1000;
         }
 
-        const bool wasnt_fatigued = fatigue < 192;
+        const bool wasnt_fatigued = fatigue < 384;
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (fatigue < 1050 && !in_sleep_state() && !has_trait("DEBUG_LS") ) {
             fatigue++;
@@ -5508,7 +5508,7 @@ void player::update_needs()
                 fatigue++;
             }
         }
-        if( is_player() && wasnt_fatigued && fatigue >= 192 && !in_sleep_state() ) {
+        if( is_player() && wasnt_fatigued && fatigue >= 384 && !in_sleep_state() ) {
             if (activity.type == ACT_NULL) {
                 add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                         press_x(ACTION_SLEEP).c_str());
