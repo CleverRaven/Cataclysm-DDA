@@ -384,7 +384,7 @@ public:
     void beeper_sound();
     void play_music();
     void play_chimes();
-
+    void operate_plow();
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -910,6 +910,7 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    bool plow_on                    = false; // Is the vehicle running a plow?
 };
 
 #endif
