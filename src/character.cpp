@@ -7,6 +7,7 @@
 #include "options.h"
 #include "map_iterator.h"
 #include "field.h"
+#include "messages.h"
 
 #include <map>
 
@@ -850,6 +851,12 @@ void Character::reset_stats()
 
     // Does nothing! TODO: Remove
     Creature::reset_stats();
+}
+
+void Character::reset()
+{
+    // TODO: Move reset_stats here, remove it from Creature
+    Creature::reset();
 }
 
 bool Character::has_nv()
