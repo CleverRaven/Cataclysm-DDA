@@ -3214,24 +3214,20 @@ void talk_function::insult_combat(npc *p)
 
 void talk_function::give_equipment(npc *p)
 {
-    std::vector<item*> giving;
-    std::vector<int> prices;
-    p->init_selling(giving, prices);
+    std::vector<npc::item_pricing> giving = p->init_selling();
     int chosen = -1;
     if (giving.empty()) {
         invslice slice = p->inv.slice();
         for (auto &i : slice) {
-            giving.push_back(&i->front());
-            prices.push_back(i->front().price());
+            giving.push_back( npc::item_pricing { &i->front(), i->front().price(), false } );
         }
     }
     while (chosen == -1 && giving.size() > 1) {
         int index = rng(0, giving.size() - 1);
-        if (prices[index] < p->op_of_u.owed) {
+        if (giving[index].price < p->op_of_u.owed) {
             chosen = index;
         }
         giving.erase(giving.begin() + index);
-        prices.erase(prices.begin() + index);
     }
     if (giving.empty()) {
         popup(_("%s has nothing to give!"), p->name.c_str());
@@ -3240,11 +3236,11 @@ void talk_function::give_equipment(npc *p)
     if (chosen == -1) {
         chosen = 0;
     }
-    item it = p->i_rem(giving[chosen]);
+    item it = p->i_rem(giving[chosen].itm);
     popup(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str());
 
     g->u.i_add( it );
-    p->op_of_u.owed -= prices[chosen];
+    p->op_of_u.owed -= giving[chosen].price;
     p->add_effect("asked_for_item", 1800);
 }
 
@@ -3907,6 +3903,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 ? to get information on an item.");
     mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
 
+    constexpr size_t ENTRIES_PER_PAGE = 17;
+
     // Set up line drawings
     for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
         mvwputch(w_head, 3, i, c_white, LINE_OXOX);
@@ -3916,31 +3914,27 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
     // Populate the list of what the NPC is willing to buy, and the prices they pay
     // Note that the NPC's barter skill is factored into these prices.
-    std::vector<item*> theirs, yours;
-    std::vector<int> their_price, your_price;
-    p->init_selling(theirs, their_price);
-    p->init_buying(g->u.inv, yours, your_price);
-    std::vector<bool> getting_theirs, getting_yours;
-    getting_theirs.resize(theirs.size());
-    getting_yours.resize(yours.size());
+    using item_pricing = npc::item_pricing;
+    std::vector<item_pricing> theirs = p->init_selling();
+    std::vector<item_pricing> yours = p->init_buying( g->u.inv );
 
     // Adjust the prices based on your barter skill.
-    for (size_t i = 0; i < their_price.size(); i++) {
-        their_price[i] *= (price_adjustment(p->skillLevel("barter") - g->u.skillLevel("barter")) +
-                     (p->int_cur - g->u.int_cur) / 20.0);
-        getting_theirs[i] = false;
+    const auto their_adjust = (price_adjustment(p->skillLevel("barter") - g->u.skillLevel("barter")) +
+                              (p->int_cur - g->u.int_cur) / 20.0);
+    for( item_pricing &p : theirs ) {
+        p.price *= their_adjust;
     }
-    for (size_t i = 0; i < your_price.size(); i++) {
-        your_price[i] *= (price_adjustment(g->u.skillLevel("barter") - p->skillLevel("barter")) +
-                    (g->u.int_cur - p->int_cur) / 20.0);
-        getting_yours[i] = false;
+    const auto your_adjust = (price_adjustment(g->u.skillLevel("barter") - p->skillLevel("barter")) +
+                             (g->u.int_cur - p->int_cur) / 20.0);
+    for( item_pricing &p : yours ) {
+        p.price *= your_adjust;
     }
 
     long cash = cost;       // How much cash you get in the deal (negative = losing money)
     bool focus_them = true; // Is the focus on them?
     bool update = true;     // Re-draw the screen?
-    int  them_off = 0, you_off = 0; // Offset from the start of the list
-    signed char ch, help;
+    size_t them_off = 0, you_off = 0; // Offset from the start of the list
+    size_t ch, help;
 
     do {
         if (update) { // Time to re-draw
@@ -3967,38 +3961,40 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             mvwprintz(w_you,  0, 2, (cash > 0 || (int)g->u.cash >= cash*-1 ? c_green:c_red),
                         _("You: $%.2f"), (double)g->u.cash/100);
             // Draw their list of items, starting from them_off
-            for (int i = them_off; i < (int)theirs.size() && i < (17 + them_off); i++) {
+            for( size_t i = them_off; i < theirs.size() && i < (ENTRIES_PER_PAGE + them_off); i++ ) {
+                const item_pricing &ip = theirs[i];
                 trim_and_print(w_them, i - them_off + 1, 1, 30,
-                        (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s",
-                        char((i -them_off) + 'a'), (getting_theirs[i] ? '+' : '-'),
-                        theirs[i]->tname().c_str());
+                        (ip.selected ? c_white : c_ltgray), "%c %c %s",
+                        char((i -them_off) + 'a'), (ip.selected ? '+' : '-'),
+                        ip.itm->tname().c_str());
 
-                mvwprintz(w_them, i - them_off + 1, 32,
-                        (getting_theirs[i] ? c_white : c_ltgray), "$%.2f",
-                        (double)their_price[i]/100);
+                mvwprintz(w_them, i - them_off + 1, 35 - to_string(ip.price / 100).length(),
+                        (ip.selected ? c_white : c_ltgray), "$%.2f",
+                        (double)ip.price/100);
             }
             if (them_off > 0) {
-                mvwprintw(w_them, 19, 1, "< Back");
+                mvwprintw(w_them, ENTRIES_PER_PAGE + 2, 1, "< Back");
             }
-            if (them_off + 17 < (int)theirs.size()) {
-                mvwprintw(w_them, 19, 9, "More >");
+            if (them_off + ENTRIES_PER_PAGE < theirs.size()) {
+                mvwprintw(w_them, ENTRIES_PER_PAGE + 2, 9, "More >");
             }
             // Draw your list of items, starting from you_off
-            for (int i = you_off; i < (int)yours.size() && (i < (17 + you_off)) ; i++) {
+            for( size_t i = you_off; i < yours.size() && (i < (ENTRIES_PER_PAGE + you_off)) ; i++ ) {
+                const item_pricing &ip = yours[i];
                 trim_and_print(w_you, i - you_off + 1, 1, 30,
-                        (getting_yours[i] ? c_white : c_ltgray), "%c %c %s",
-                        char((i -you_off) + 'a'), (getting_yours[i] ? '+' : '-'),
-                        yours[i]->tname().c_str());
+                        (ip.selected ? c_white : c_ltgray), "%c %c %s",
+                        char((i -you_off) + 'a'), (ip.selected? '+' : '-'),
+                        ip.itm->tname().c_str());
 
-                mvwprintz(w_you, i - you_off + 1, 32,
-                        (getting_yours[i] ? c_white : c_ltgray), "$%.2f",
-                        (double)your_price[i]/100);
+                mvwprintz(w_you, i - you_off + 1, 35 - to_string(ip.price / 100).length(),
+                        (ip.selected ? c_white : c_ltgray), "$%.2f",
+                        (double)ip.price/100);
             }
             if (you_off > 0) {
-                mvwprintw(w_you, 19, 1, _("< Back"));
+                mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 1, _("< Back"));
             }
-            if (you_off + 17 < (int)yours.size()) {
-                mvwprintw(w_you, 19, 9, _("More >"));
+            if (you_off + ENTRIES_PER_PAGE < yours.size()) {
+                mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 9, _("More >"));
             }
             wrefresh(w_head);
             wrefresh(w_them);
@@ -4013,25 +4009,25 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '<':
                 if (focus_them) {
                     if (them_off > 0) {
-                        them_off -= 17;
+                        them_off -= ENTRIES_PER_PAGE;
                         update = true;
                     }
                 } else {
                     if (you_off > 0) {
-                        you_off -= 17;
+                        you_off -= ENTRIES_PER_PAGE;
                         update = true;
                     }
                 }
                 break;
             case '>':
                 if (focus_them) {
-                    if (them_off + 17 < (int)theirs.size()) {
-                        them_off += 17;
+                    if (them_off + ENTRIES_PER_PAGE < theirs.size()) {
+                        them_off += ENTRIES_PER_PAGE;
                         update = true;
                     }
                 } else {
-                    if (you_off + 17 < (int)yours.size()) {
-                        you_off += 17;
+                    if (you_off + ENTRIES_PER_PAGE < yours.size()) {
+                        you_off += ENTRIES_PER_PAGE;
                         update = true;
                     }
                 }
@@ -4042,8 +4038,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 mvwprintz(w_tmp, 1, 1, c_red, _("Examine which item?"));
                 draw_border(w_tmp);
                 wrefresh(w_tmp);
-                help = getch();
-                help -= 'a';
+                help = getch() - 'a';
                 werase(w_tmp);
                 delwin(w_tmp);
                 mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
@@ -4051,13 +4046,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 update = true;
                 if (focus_them) {
                     help += them_off;
-                    if (help >= 0 && help < (int)theirs.size()) {
-                        popup(theirs[help]->info(), PF_NONE);
+                    if( help < theirs.size() ) {
+                        popup(theirs[help].itm->info(), PF_NONE);
                     }
                 } else {
                     help += you_off;
-                    if (help >= 0 && help < (int)yours.size()) {
-                        popup(yours[help]->info(), PF_NONE);
+                    if( help < yours.size() ) {
+                        popup(yours[help].itm->info(), PF_NONE);
                     }
                 }
                 break;
@@ -4081,23 +4076,25 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     ch -= 'a';
                     if (focus_them) {
                         ch += them_off;
-                        if (ch < (int)theirs.size()) {
-                            getting_theirs[ch] = !getting_theirs[ch];
-                            if (getting_theirs[ch]) {
-                                cash -= their_price[ch];
+                        if (ch < theirs.size()) {
+                            item_pricing &ip = theirs[ch];
+                            ip.selected = !ip.selected;
+                            if (ip.selected) {
+                                cash -= ip.price;
                             } else {
-                                cash += their_price[ch];
+                                cash += ip.price;
                             }
                             update = true;
                         }
                     } else { // Focus is on the player's inventory
                         ch += you_off;
-                        if (ch < (int)yours.size()) {
-                            getting_yours[ch] = !getting_yours[ch];
-                            if (getting_yours[ch]) {
-                                cash += your_price[ch];
+                        if (ch < yours.size()) {
+                            item_pricing &ip = yours[ch];
+                            ip.selected = !ip.selected;
+                            if (ip.selected) {
+                                cash += ip.price;
                             } else {
-                                cash -= your_price[ch];
+                                cash -= ip.price;
                             }
                             update = true;
                         }
@@ -4112,10 +4109,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         int practice = 0;
         std::vector<item*> removing;
         for (size_t i = 0; i < yours.size(); i++) {
-            if (getting_yours[i]) {
-                newinv.push_back(*yours[i]);
+            if (yours[i].selected) {
+                newinv.push_back(*yours[i].itm);
                 practice++;
-                removing.push_back(yours[i]);
+                removing.push_back(yours[i].itm);
             }
         }
         // Do it in two passes, so removing items doesn't corrupt yours[]
@@ -4124,8 +4121,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         }
 
         for (size_t i = 0; i < theirs.size(); i++) {
-            item tmp = *theirs[i];
-            if (getting_theirs[i]) {
+            item tmp = *theirs[i].itm;
+            if (theirs[i].selected) {
                 practice += 2;
                 g->u.inv.push_back(tmp);
             } else {

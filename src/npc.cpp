@@ -1519,33 +1519,36 @@ void npc::say(std::string line, ...) const
     }
 }
 
-void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
+std::vector<npc::item_pricing> npc::init_selling()
 {
+    std::vector<npc::item_pricing> result;
     bool found_lighter = false;
     invslice slice = inv.slice();
     for (auto &i : slice) {
         if (i->front().type->id == "lighter" && !found_lighter) {
             found_lighter = true;
         } else {
-            int val = value(i->front()) - (i->front().price() / 50);
+            const int price = i->front().price();
+            int val = value(i->front()) - (price / 50);
             if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
-                items.push_back(&i->front());
-                prices.push_back(i->front().price());
+                result.push_back( item_pricing{ &i->front(), price, false } );
             }
         }
     }
+    return result;
 }
 
-void npc::init_buying(inventory& you, std::vector<item*> &items, std::vector<int> &prices)
+std::vector<npc::item_pricing> npc::init_buying(inventory& you)
 {
+    std::vector<npc::item_pricing> result;
     invslice slice = you.slice();
     for (auto &i : slice) {
         int val = value(i->front());
         if (val >= NPC_HI_VALUE) {
-            items.push_back(&i->front());
-            prices.push_back(i->front().price());
+            result.push_back( item_pricing{ &i->front(), i->front().price(), false } );
         }
     }
+    return result;
 }
 
 void npc::shop_restock(){
