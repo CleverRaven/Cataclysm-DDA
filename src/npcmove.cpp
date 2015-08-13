@@ -750,13 +750,13 @@ npc_action npc::address_needs(int danger)
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger == 0 && fatigue > 191 ) {
+    if( danger == 0 && fatigue > TIRED ) {
         if( !is_following() ) {
             fatigue = 0; // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
         }
 
-        if( has_effect( "allow_sleep" ) || fatigue > 1000 ) {
+        if( has_effect( "allow_sleep" ) || fatigue > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {

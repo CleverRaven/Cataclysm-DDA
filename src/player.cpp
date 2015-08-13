@@ -688,7 +688,7 @@ void player::update_mental_focus()
 
     // Fatigue should at least prevent high focus
     // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if (fatigue >= 383 && focus_pool > 60) {
+    if (fatigue >= DEAD_TIRED && focus_pool > 60) {
         focus_pool = 60;
     }
 }
@@ -3608,11 +3608,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         wprintz(w, c_green,  _("Turgid"));
 
     wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
-    if (fatigue > 575)
+    if (fatigue > EXAUSTED)
         wprintz(w, c_red,    _("Exhausted"));
-    else if (fatigue > 383)
+    else if (fatigue > DEAD_TIRED)
         wprintz(w, c_ltred,  _("Dead tired"));
-    else if (fatigue > 191)
+    else if (fatigue > TIRED)
         wprintz(w, c_yellow, _("Tired"));
 
     wmove(w, sideStyle ? 4 : 2, sideStyle ? 0 : 41);
@@ -5389,8 +5389,8 @@ void player::update_needs()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( fatigue >= 600 && !in_sleep_state() ) {
-        if( fatigue >= 1000 ) {
+    if( fatigue >= EXAUSTED + 25 && !in_sleep_state() ) {
+        if( fatigue >= MASSIVE_FATIGUE ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
@@ -5405,7 +5405,7 @@ void player::update_needs()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( fatigue >= 383 && !in_sleep_state() ) {
+    if( fatigue >= DEAD_TIRED && !in_sleep_state() ) {
         if( fatigue >= 700 ) {
            if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
@@ -5415,7 +5415,7 @@ void player::update_needs()
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
             }
-        } else if( fatigue >= 575 ) {
+        } else if( fatigue >= EXAUSTED ) {
             if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
@@ -5423,7 +5423,7 @@ void player::update_needs()
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if (fatigue >= 383 && calendar::once_every(MINUTES(5))) {
+        } else if (fatigue >= DEAD_TIRED && calendar::once_every(MINUTES(5))) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect("lack_sleep", 50);
         }
@@ -5472,7 +5472,7 @@ void player::update_needs()
             fatigue = -1000;
         }
 
-        const bool wasnt_fatigued = fatigue < 384;
+        const bool wasnt_fatigued = fatigue <= DEAD_TIRED;
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (fatigue < 1050 && !in_sleep_state() && !has_trait("DEBUG_LS") ) {
             fatigue++;
@@ -5508,7 +5508,7 @@ void player::update_needs()
                 fatigue++;
             }
         }
-        if( is_player() && wasnt_fatigued && fatigue >= 384 && !in_sleep_state() ) {
+        if( is_player() && wasnt_fatigued && fatigue > DEAD_TIRED && !in_sleep_state() ) {
             if (activity.type == ACT_NULL) {
                 add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                         press_x(ACTION_SLEEP).c_str());
@@ -7619,7 +7619,7 @@ void player::suffer()
             }
             if (mdata.fatigue){
                 fatigue += mdata.cost;
-                if (fatigue >= 575) { // Exhausted
+                if (fatigue >= EXAUSTED) { // Exhausted
                     add_msg(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
@@ -8336,7 +8336,7 @@ void player::mend()
             // Bed rest speeds up mending
             if(has_effect("sleep")) {
                 healing_factor *= 4.0;
-            } else if(fatigue > 383) {
+            } else if(fatigue > DEAD_TIRED) {
             // but being dead tired does not...
                 healing_factor *= 0.75;
             }
@@ -12116,10 +12116,10 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy -= 999;
         }
     }
-    if (fatigue < 192) {
-        sleepy -= int( (192 - fatigue) / 4);
+    if (fatigue < TIRED + 1) {
+        sleepy -= int( (TIRED + 1 - fatigue) / 4);
     } else {
-        sleepy += int((fatigue - 192) / 16);
+        sleepy += int((fatigue - TIRED + 1) / 16);
     }
 
     if( stim > 0 || !has_trait("INSOMNIA") ) {
