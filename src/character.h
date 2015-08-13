@@ -81,18 +81,18 @@ class Character : public Creature
         virtual void mod_stat( const std::string &stat, int modifier ) override;
 
         /** Combat getters */
-        virtual int get_dodge_base() const;
-        virtual int get_hit_base() const;
+        virtual int get_dodge_base() const override;
+        virtual int get_hit_base() const override;
 
         /** Handles health fluctuations over time */
         virtual void update_health(int base_threshold = 0);
 
         /** Resets the value of all bonus fields to 0. */
-        virtual void reset_bonuses();
+        virtual void reset_bonuses() override;
         /** Resets stats, and applies effects in an idempotent manner */
-        virtual void reset_stats();
+        virtual void reset_stats() override;
         /** Handles stat and bonus reset. */
-        virtual void reset();
+        virtual void reset() override;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
