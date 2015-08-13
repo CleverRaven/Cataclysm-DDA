@@ -901,7 +901,11 @@ public:
     int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
+<<<<<<< 096f771f0af8b834cbecf785c32bbda65cbb83e5
     int scoop_epower        = 0;
+=======
+    int plow_friction       = 0; //The amount of friction applied by plows on the vehicle.
+>>>>>>> added friction to plough
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off

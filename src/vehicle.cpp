@@ -3313,7 +3313,7 @@ float vehicle::k_friction() const
 {
     // calculate safe speed reduction due to wheel friction
     float fr0 = 1000.0;
-    float kf = ( fr0 / (fr0 + wheels_area()) );
+    float kf = ( fr0 / (fr0 + wheels_area() + plow_on? plow_friction : 0.0f ) );
     return kf;
 }
 
@@ -3899,7 +3899,7 @@ void vehicle::operate_plow(){
         auto part_pos = global_pos3() + parts[plow_id].precalc[0];
         if( g->m.has_flag("DIGGABLE", part_pos) ){
             g->m.ter_set(part_pos, t_dirtmound);
-            sounds::sound(part_pos, rng(20,30), _("Turtle"));//summons zombies from out of state.
+            sounds::sound(part_pos, rng(20,30), _("Turtle"));
             bool found_item = false;
             for(int cargo_id : cargoes){
                 vehicle_stack items = get_items( cargo_id );
@@ -4862,6 +4862,7 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
+    plow_friction = 0;
     has_atomic_lights = false;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -4933,6 +4934,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
+        }
+        if( vpi.has_flag( "PLOW" ) ){
+            plow_friction += 10;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
