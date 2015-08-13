@@ -3903,6 +3903,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 ? to get information on an item.");
     mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
 
+    constexpr int ENTRIES_PER_PAGE = 17;
+
     // Set up line drawings
     for (int i = 0; i < FULL_SCREEN_WIDTH; i++) {
         mvwputch(w_head, 3, i, c_white, LINE_OXOX);
@@ -3959,7 +3961,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             mvwprintz(w_you,  0, 2, (cash > 0 || (int)g->u.cash >= cash*-1 ? c_green:c_red),
                         _("You: $%.2f"), (double)g->u.cash/100);
             // Draw their list of items, starting from them_off
-            for (int i = them_off; i < (int)theirs.size() && i < (17 + them_off); i++) {
+            for (int i = them_off; i < (int)theirs.size() && i < (ENTRIES_PER_PAGE + them_off); i++) {
                 const item_pricing &ip = theirs[i];
                 trim_and_print(w_them, i - them_off + 1, 1, 30,
                         (ip.selected ? c_white : c_ltgray), "%c %c %s",
@@ -3971,13 +3973,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         (double)ip.price/100);
             }
             if (them_off > 0) {
-                mvwprintw(w_them, 19, 1, "< Back");
+                mvwprintw(w_them, ENTRIES_PER_PAGE + 2, 1, "< Back");
             }
-            if (them_off + 17 < (int)theirs.size()) {
-                mvwprintw(w_them, 19, 9, "More >");
+            if (them_off + ENTRIES_PER_PAGE < (int)theirs.size()) {
+                mvwprintw(w_them, ENTRIES_PER_PAGE + 2, 9, "More >");
             }
             // Draw your list of items, starting from you_off
-            for (int i = you_off; i < (int)yours.size() && (i < (17 + you_off)) ; i++) {
+            for (int i = you_off; i < (int)yours.size() && (i < (ENTRIES_PER_PAGE + you_off)) ; i++) {
                 const item_pricing &ip = yours[i];
                 trim_and_print(w_you, i - you_off + 1, 1, 30,
                         (ip.selected ? c_white : c_ltgray), "%c %c %s",
@@ -3989,10 +3991,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         (double)ip.price/100);
             }
             if (you_off > 0) {
-                mvwprintw(w_you, 19, 1, _("< Back"));
+                mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 1, _("< Back"));
             }
-            if (you_off + 17 < (int)yours.size()) {
-                mvwprintw(w_you, 19, 9, _("More >"));
+            if (you_off + ENTRIES_PER_PAGE < (int)yours.size()) {
+                mvwprintw(w_you, ENTRIES_PER_PAGE + 2, 9, _("More >"));
             }
             wrefresh(w_head);
             wrefresh(w_them);
@@ -4007,25 +4009,25 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             case '<':
                 if (focus_them) {
                     if (them_off > 0) {
-                        them_off -= 17;
+                        them_off -= ENTRIES_PER_PAGE;
                         update = true;
                     }
                 } else {
                     if (you_off > 0) {
-                        you_off -= 17;
+                        you_off -= ENTRIES_PER_PAGE;
                         update = true;
                     }
                 }
                 break;
             case '>':
                 if (focus_them) {
-                    if (them_off + 17 < (int)theirs.size()) {
-                        them_off += 17;
+                    if (them_off + ENTRIES_PER_PAGE < (int)theirs.size()) {
+                        them_off += ENTRIES_PER_PAGE;
                         update = true;
                     }
                 } else {
-                    if (you_off + 17 < (int)yours.size()) {
-                        you_off += 17;
+                    if (you_off + ENTRIES_PER_PAGE < (int)yours.size()) {
+                        you_off += ENTRIES_PER_PAGE;
                         update = true;
                     }
                 }
