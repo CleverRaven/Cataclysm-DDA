@@ -3968,7 +3968,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         char((i -them_off) + 'a'), (ip.selected ? '+' : '-'),
                         ip.itm->tname().c_str());
 
-                mvwprintz(w_them, i - them_off + 1, 32,
+                mvwprintz(w_them, i - them_off + 1, 35 - to_string(ip.price / 100).length(),
                         (ip.selected ? c_white : c_ltgray), "$%.2f",
                         (double)ip.price/100);
             }
@@ -3986,7 +3986,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         char((i -you_off) + 'a'), (ip.selected? '+' : '-'),
                         ip.itm->tname().c_str());
 
-                mvwprintz(w_you, i - you_off + 1, 32,
+                mvwprintz(w_you, i - you_off + 1, 35 - to_string(ip.price / 100).length(),
                         (ip.selected ? c_white : c_ltgray), "$%.2f",
                         (double)ip.price/100);
             }
