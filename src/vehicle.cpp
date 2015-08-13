@@ -3918,7 +3918,10 @@ void vehicle::operate_plow(){
                 }
             }
         }else{
-            sounds::sound( part_pos, rng(40,50),_("Chiiiing!"));
+            sounds::sound( part_pos, rng(40,50),_("Chiiiing!"));//This is the sound the world makes when it dies. Remember this sound, as it is all you will have to remember what was by.
+            add_msg(_("You have the impression that you might remember the world that was."));
+            add_msg(_("If only because the sound of the plow hitting a rock is the sound the world made when it died."));
+            plow_on = false;
         }
     }
 }
