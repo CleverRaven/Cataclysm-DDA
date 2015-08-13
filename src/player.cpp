@@ -1917,7 +1917,7 @@ void player::load_info(std::string data)
     JsonIn jsin(dump);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("Bad player json\n%s", jsonerr.c_str() );
     }
 }
@@ -2274,7 +2274,7 @@ stats player::get_stats() const
     return player_stats;
 }
 
-void player::mod_stat( std::string stat, int modifier )
+void player::mod_stat( const std::string &stat, int modifier )
 {
     if( stat == "hunger" ) {
         hunger += modifier;
@@ -2290,7 +2290,7 @@ void player::mod_stat( std::string stat, int modifier )
         stamina = std::max( 0, stamina );
     } else {
         // Fall through to the creature method.
-        Creature::mod_stat( stat, modifier );
+        Character::mod_stat( stat, modifier );
     }
 }
 
@@ -5319,7 +5319,7 @@ void player::update_health(int base_threshold)
     if (has_artifact_with(AEP_SICK)) {
         base_threshold += 50;
     }
-    Creature::update_health(base_threshold);
+    Character::update_health(base_threshold);
 }
 
 void player::update_needs()

@@ -1176,7 +1176,7 @@ Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
     if (ig == NULL) {
         isd = ig = new Item_group(t, 100);
     } else if (ig->type != t) {
-        throw std::string("item group already definded with different type");
+        throw std::runtime_error("item group already defined with different type");
     }
     return ig;
 }

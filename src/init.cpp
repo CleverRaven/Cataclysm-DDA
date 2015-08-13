@@ -77,10 +77,7 @@ void DynamicDataLoader::load_object(JsonObject &jo)
     std::string type = jo.get_string("type");
     t_type_function_map::iterator it = type_function_map.find(type);
     if (it == type_function_map.end()) {
-        std::stringstream err;
-        err << jo.line_number() << ": ";
-        err << "unrecognized JSON object, type: \"" << type << "\"";
-        throw err.str();
+        jo.throw_error( "unrecognized JSON object", "type" );
     }
     (*it->second)(jo);
 }
@@ -260,8 +257,8 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             // parse it
             JsonIn jsin(iss);
             load_all_from_json(jsin);
-        } catch (std::string e) {
-            throw file + ": " + e;
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
@@ -280,11 +277,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
         if (jsin.good()) {
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected single-object file but found '";
-            err << jsin.peek() << "'";
-            throw err.str();
+            jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
         }
     } else if (ch == '[') {
         jsin.start_array();
@@ -293,11 +286,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
             jsin.eat_whitespace();
             ch = jsin.peek();
             if (ch != '{') {
-                std::stringstream err;
-                err << jsin.line_number() << ": ";
-                err << "expected array of objects but found '";
-                err << ch << "', not '{'";
-                throw err.str();
+                jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
             }
             JsonObject jo = jsin.get_object();
             load_object(jo);
@@ -305,10 +294,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         }
     } else {
         // not an object or an array?
-        std::stringstream err;
-        err << jsin.line_number() << ": ";
-        err << "expected object or array, but found '" << ch << "'";
-        throw err.str();
+        jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
     }
 }
 

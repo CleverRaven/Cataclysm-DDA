@@ -281,7 +281,7 @@ void vehicle::load (std::ifstream &stin)
     JsonIn jsin(derp);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("Bad vehicle json\n%s", jsonerr.c_str() );
     }
     refresh(); // part index lists are lost on save??
@@ -1300,7 +1300,7 @@ bool vehicle::fold_up() {
         JsonOut json(veh_data);
         json.write(parts);
         bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
-    } catch(std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("Error storing vehicle: %s", e.c_str());
     }
 
@@ -6054,7 +6054,7 @@ bool vehicle::restore(const std::string &data)
         JsonIn json(veh_data);
         parts.clear();
         json.read(parts);
-    } catch(std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("Error restoring vehicle: %s", e.c_str());
         return false;
     }

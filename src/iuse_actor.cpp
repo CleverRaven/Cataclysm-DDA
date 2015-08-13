@@ -325,7 +325,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 dst.amount = src.amount;
                 dst.flags = src.flags;
             }
-        } catch(std::string e) {
+        } catch( const JsonError &e ) {
             debugmsg("Error restoring vehicle: %s", e.c_str());
         }
     }

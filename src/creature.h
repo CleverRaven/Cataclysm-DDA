@@ -52,12 +52,12 @@ class Creature
         virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
-        /** Handles both reset steps. Should be called instead of each individual reset function generally. */
-        virtual void reset();
         /** Resets the value of all bonus fields to 0. */
         virtual void reset_bonuses();
-        /** Resets creature stats to normal levels for the start of each turn. Should be idempotent. */
+        /** Does NOTHING, exists to simplify cleanup and should be removed */
         virtual void reset_stats();
+        /** Handles stat and bonus reset. */
+        virtual void reset();
 
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
@@ -303,9 +303,6 @@ class Creature
         /** Returns true if the player has the entered trait, returns false for non-humans */
         virtual bool has_trait(const std::string &flag) const;
 
-        /** Handles health fluctuations over time */
-        virtual void update_health(int base_threshold = 0);
-
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
@@ -320,27 +317,9 @@ class Creature
         virtual Creature *get_killer() const;
 
         /*
-         * getters for stats - combat-related stats will all be held within
+         * Getters for stats - combat-related stats will all be held within
          * the Creature and re-calculated during every normalize() call
          */
-        virtual int get_str() const;
-        virtual int get_dex() const;
-        virtual int get_per() const;
-        virtual int get_int() const;
-
-        virtual int get_str_base() const;
-        virtual int get_dex_base() const;
-        virtual int get_per_base() const;
-        virtual int get_int_base() const;
-
-        virtual int get_str_bonus() const;
-        virtual int get_dex_bonus() const;
-        virtual int get_per_bonus() const;
-        virtual int get_int_bonus() const;
-
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
-
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
         virtual int get_num_blocks_bonus() const;
@@ -400,22 +379,9 @@ class Creature
         virtual int get_throw_resist() const;
 
         /*
-         * setters for stats and boni
+         * Setters for stats and bonuses
          */
-        virtual void set_str_bonus(int nstr);
-        virtual void set_dex_bonus(int ndex);
-        virtual void set_per_bonus(int nper);
-        virtual void set_int_bonus(int nint);
-        virtual void mod_str_bonus(int nstr);
-        virtual void mod_dex_bonus(int ndex);
-        virtual void mod_per_bonus(int nper);
-        virtual void mod_int_bonus(int nint);
-        virtual void mod_stat( std::string stat, int modifier );
-
-        virtual void set_healthy(int nhealthy);
-        virtual void set_healthy_mod(int nhealthy_mod);
-        virtual void mod_healthy(int nhealthy);
-        virtual void mod_healthy_mod(int nhealthy_mod);
+        virtual void mod_stat( const std::string &stat, int modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -445,11 +411,6 @@ class Creature
         virtual void set_throw_resist(int nthrowres);
 
         virtual int weight_capacity() const;
-
-        // innate stats, slowly move these to protected as we rewrite more of
-        // the codebase
-        int str_max, dex_max, per_max, int_max,
-            str_cur, dex_cur, per_cur, int_cur;
 
         int moves, pain;
         bool underwater;
@@ -495,14 +456,6 @@ class Creature
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
-
-        int str_bonus;
-        int dex_bonus;
-        int per_bonus;
-        int int_bonus;
-
-        int healthy; //How healthy the creature is, currently only used by players
-        int healthy_mod;
 
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;

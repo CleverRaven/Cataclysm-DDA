@@ -85,8 +85,16 @@ void input_manager::init()
     load_keyboard_settings(keymap, keymap_file_loaded_from, unbound_keymap);
     init_keycode_mapping();
 
-    load(FILENAMES["keybindings"], false);
-    load(FILENAMES["user_keybindings"], true);
+    try {
+        load(FILENAMES["keybindings"], false);
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["keybindings"] + ": " + err.what() );
+    }
+    try {
+        load(FILENAMES["user_keybindings"], true);
+    } catch( const JsonError &err ) {
+        throw std::runtime_error( FILENAMES["user_keybindings"] + ": " + err.what() );
+    }
 
     if (keymap_file_loaded_from.empty() || (keymap.empty() && unbound_keymap.empty())) {
         // No keymap file was loaded, or the file has no mappings and no unmappings,
@@ -127,9 +135,6 @@ void input_manager::init()
     } catch(std::exception &err) {
         debugmsg("Could not write imported keybindings: %s", err.what());
         return;
-    } catch(std::string err) {
-        debugmsg("Could not write imported keybindings: %s", err.c_str());
-        return;
     }
     // Finally if we did import a file, and saved it to the new keybindings
     // file, delete the old keymap file to prevent re-importing it.
@@ -146,7 +151,7 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if (action_contexts.empty()) {
-            throw "Could not read " + file_name;
+            throw std::runtime_error( std::string( "Could not read " ) + file_name );
         }
         return;
     }
@@ -289,7 +294,7 @@ void input_manager::save()
 
     data_file.close();
     if(!rename_file(file_name_tmp, file_name)) {
-        throw std::string("Could not rename file to ") + file_name;
+        throw std::runtime_error( std::string( "Could not rename " ) + file_name_tmp + " to " + file_name );
     }
 }
 
@@ -1028,8 +1033,6 @@ void input_context::display_help()
             inp_mngr.save();
         } catch(std::exception &err) {
             popup(_("saving keybindings failed: %s"), err.what());
-        } catch(std::string &err) {
-            popup(_("saving keybindings failed: %s"), err.c_str());
         }
     } else if(changed) {
         inp_mngr.action_contexts.swap(old_action_contexts);

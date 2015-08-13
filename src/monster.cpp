@@ -545,7 +545,7 @@ void monster::load_info(std::string data)
     JsonIn jsin(dump);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
     }
 }
