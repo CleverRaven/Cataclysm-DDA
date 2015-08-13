@@ -5104,5 +5104,22 @@
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "plow",
+        "name" : "Plow",
+        "symbol" : "&",
+        "color" : "blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 40,
+        "durability" : 200,
+        "item" : "sheet_metal",
+        "difficulty" : 4,
+        "location" : "under",
+        "flags" : ["PLOW"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]}
+        ]
     }
 ]
