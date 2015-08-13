@@ -9368,6 +9368,7 @@
 },{
   "type" : "recipe",
   "result": "juice",
+  "result_mult": 2,
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -9432,6 +9433,47 @@
     ],
     [
       [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "juice",
+  "id_suffix": "fresh",
+  "byproducts": { "id" : "juice_pulp", "charges_mult" : 2 },
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "tools": [ [ ["rag", -1] ] ],
+  "components": [
+    [
+      ["apple", 4],
+      ["apricot", 4],
+      ["blackberries", 4],
+      ["blueberries", 4],
+      ["cherries", 6],
+      ["cranberries", 12],
+      ["grapefruit", 2],
+      ["grapes", 4],
+      ["kiwi", 6],
+      ["mango", 4],
+      ["melon", 6],
+      ["papaya", 3],
+      ["peach", 5],
+      ["pear", 4],
+      ["pineapple", 3],
+      ["plums", 4],
+      ["pomegranate", 2],
+      ["raspberries", 4],
+      ["strawberries", 4],
+      ["watermelon", 2]
     ]
   ]
 },{
