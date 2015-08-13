@@ -877,17 +877,20 @@ const recipe *select_crafting_recipe( int &batch_size )
             keepline = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring,
-                                              _("Special prefixes:\n"
+                                              _("Special prefixes for requirements:\n"
                                                 "  [t] search tools\n"
                                                 "  [c] search components\n"
                                                 "  [q] search qualities\n"
                                                 "  [s] search skills\n"
                                                 "  [S] search skill used only\n"
+                                                "Special prefixes for results:\n"
+                                                "  [Q] search qualities\n"
                                                 "Examples:\n"
-                                                "  t:hammer\n"
+                                                "  t:soldering iron\n"
                                                 "  c:two by four\n"
-                                                "  q:butchering\n"
-                                                "  s:cooking"
+                                                "  q:metal sawing\n"
+                                                "  s:cooking\n"
+                                                "  Q:fine bolt turning"
                                                 ));
             redraw = true;
         } else if (action == "QUIT") {
@@ -1276,6 +1279,7 @@ void pick_recipes(const inventory &crafting_inv,
     bool search_skill = false;
     bool search_skill_primary_only = false;
     bool search_qualities = false;
+    bool search_result_qualities = false;
     size_t pos = filter.find(":");
     if(pos != std::string::npos) {
         search_name = false;
@@ -1293,6 +1297,8 @@ void pick_recipes(const inventory &crafting_inv,
                 search_skill_primary_only = true;
             } else if( elem == 'q' ) {
                 search_qualities = true;
+            } else if( elem == 'Q' ) {
+                search_result_qualities = true;
             }
         }
         filter = filter.substr(pos + 1);
@@ -1331,19 +1337,34 @@ void pick_recipes(const inventory &crafting_inv,
                  || (search_component && !lcmatch_any( rec->requirements.components, filter )) ) {
                     continue;
                 }
-                if(search_qualities) {
-                  bool match_found = false;
-                  itype *it = item::find_type(rec->result);
-
-                  for( auto & quality : it->qualities ) {
-                    if (lcmatch(quality::get_name(quality.first), filter)) {
-                      match_found = true;
-                      break;
+                bool match_found = false;
+                if(search_result_qualities) {
+                    itype *it = item::find_type(rec->result);
+                    for( auto & quality : it->qualities ) {
+                        if(lcmatch(quality::get_name(quality.first), filter)) {
+                            match_found = true;
+                            break;
+                        }
                     }
-                  }
-                  if (!match_found) {
-                    continue;
-                  }
+                    if(!match_found) {
+                        continue;
+                    }
+                }
+                if(search_qualities) {
+                    for( auto quality_reqs : rec->requirements.qualities ) {
+                        for( auto quality : quality_reqs ) {
+                            if(lcmatch( quality.to_string(), filter )) {
+                                match_found = true;
+                                break;
+                            }
+                        }
+                        if(match_found) {
+                            break;
+                        }
+                    }
+                    if(!match_found) {
+                        continue;
+                    }
                 }
                 if(search_skill) {
                     if( !rec->skill_used) {
