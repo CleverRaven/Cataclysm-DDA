@@ -26,7 +26,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
-
+#include "map_iterator.h"
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
@@ -3770,48 +3770,46 @@ void vehicle::idle(bool on_map) {
 void vehicle::operate_scoop()
 {
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
-    auto veh_points = get_points();
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
         int max_pickup_size = parts[scoop].info().size/10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
-        std::vector<tripoint> part_points;
-        for(int x = -1;x <= 1;x++){
-            for(int y = -1; y <= 1; y++){
-                tripoint current(x,y,global_pos3().z);
-                part_points.push_back(current);
-            }
+        std::vector<tripoint> parts_points;
+        for(const tripoint &current = g->m.points_in_radius(global_pos3() + parts[scoop].precalc[0],1)){
+            parts_points.push_back(current);
         }
-        for( const tripoint &position : part_points ) {
+        for( const tripoint &position : parts_points ) {
             g->m.mop_spills( position );
-            if( g->m.has_items( position ) ) {
-                item* that_item_there = NULL;
-                const map_stack q = g->m.i_at( position );
-                size_t itemdex = 0;
-                for( auto it : q ) {
-                    if( it.volume() < max_pickup_size ) {
-                        that_item_there = g->m.item_from( position, itemdex );
-                        break;
-                    }
-                    itemdex++;
-                }
-                if(!that_item_there){
-                    continue;
-                }
-                if( one_in( chance_to_damage_item ) &&
-                   that_item_there->damage < 4){//The scoop will not destroy the item, but it may damage it a bit.
-                        that_item_there->damage += 1;
-                        sounds::sound( position, 50, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
-                }
-                const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
-                if( battery_deficit == 0
-                        && add_item( scoop, *that_item_there ) ) {
-                    g->m.i_rem( position, itemdex );
-                } else {
-                    break;//otherwise move on to the next scoop.
-                }
+            if(! g->m.has_items( position ) ) {
+                continue;
             }
+            item* that_item_there = NULL;
+            const map_stack q = g->m.i_at( position );
+            size_t itemdex = 0;
+            for( auto it : q ) {
+                if( it.volume() < max_pickup_size ) {
+                    that_item_there = g->m.item_from( position, itemdex );
+                    break;
+                }
+                itemdex++;
+            }
+            if(!that_item_there){
+                continue;
+            }
+            if( one_in( chance_to_damage_item ) &&
+               that_item_there->damage < 4){//The scoop will not destroy the item, but it may damage it a bit.
+                    that_item_there->damage += 1;
+                    sounds::sound( position, 50, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
+            }
+            const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
+            if( battery_deficit == 0
+                    && add_item( scoop, *that_item_there ) ) {
+                g->m.i_rem( position, itemdex );
+            } else {
+                break;//otherwise move on to the next scoop.
+            }
+
         }
     }
 }
