@@ -8691,6 +8691,9 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                             bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
+    // TODO: Make this `true`
+    const bool allow_zlev_move = m.has_zlevels() &&
+        ( debug_mode || u.has_trait( "DEBUG_NIGHTVISION" ) );
 
     temp_exit_fullscreen();
 
@@ -8890,8 +8893,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
             } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-                if( !m.has_zlevels() || !debug_mode ) {
-                    continue; // TODO: Make this work in z-level FOV update
+                if( !allow_zlev_move ) {
+                    continue;
                 }
 
                 int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
