@@ -3940,7 +3940,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     bool focus_them = true; // Is the focus on them?
     bool update = true;     // Re-draw the screen?
     int  them_off = 0, you_off = 0; // Offset from the start of the list
-    signed char ch, help;
+    int ch, help;
 
     do {
         if (update) { // Time to re-draw
