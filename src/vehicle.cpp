@@ -103,6 +103,7 @@ enum vehicle_controls {
  release_remote_control,
  toggle_chimes,
  toggle_scoop
+ toggle_plow
 };
 
 class vehicle::turret_ammo_data {
@@ -890,6 +891,8 @@ void vehicle::use_controls()
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
     bool has_scoop = false;
+    bool has_plow = false;
+
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -945,6 +948,8 @@ void vehicle::use_controls()
             }
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
+        } else if( part_flag(p,"PLOW") ) {
+            has_plow = true;
         }
     }
 
@@ -1060,6 +1065,9 @@ void vehicle::use_controls()
     if( has_scoop ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
+    }
+    if( has_plow ) {
+        menu.addentry( toggle_plow, true, 'p', _("Toggle Plow") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1246,6 +1254,10 @@ void vehicle::use_controls()
         } else {
             add_msg( _("Camera system won't turn on") );
         }
+        break;
+    case toggle_plow:
+        add_msg( plow_on ? _("Plow System stopped"): _("Plow system started"));
+        plow_on = !plow_on;
         break;
     case control_cancel:
         break;
@@ -3815,8 +3827,11 @@ void vehicle::idle(bool on_map) {
 
     if( on_map ) {
         update_time();
-        if(scoop_on){
+        if( scoop_on ) {
             operate_scoop();
+        }
+        if( plow_on ){
+            operate_plow();
         }
     }
 }
@@ -3838,7 +3853,7 @@ void vehicle::operate_scoop()
         for( const tripoint &position : parts_points ) {
             g->m.mop_spills( position );
             if( !g->m.has_items( position ) ) {
-	        continue;
+                continue;
             }
             item *that_item_there = nullptr;
             const map_stack q = g->m.i_at( position );
@@ -3876,6 +3891,37 @@ void vehicle::operate_scoop()
     }
 }
 
+void vehicle::operate_plow(){
+    std::vector<int> plows = all_parts_with_feature("PLOW");
+    std::vector<int> cargoes = all_parts_with_feature("CARGO");
+
+    for(int plow_id : plows){
+        auto part_pos = global_pos3() + parts[plow_id].precalc[0];
+        if( g->m.has_flag("DIGGABLE", part_pos) ){
+            g->m.ter_set(part_pos, t_dirtmound);
+            sounds::sound(part_pos, rng(20,30), _("Turtle"));//summons zombies from out of state.
+            bool found_item = false;
+            for(int cargo_id : cargoes){
+                vehicle_stack items = get_items( cargo_id );
+                for(auto i = items.begin();
+                    i != items.end(); i++){
+                    if( i->is_seed() &&  g->m.i_at(part_pos).empty() ){
+                        g->m.add_item(part_pos, *i);
+                        g->m.set(part_pos, t_dirt,f_plant_seed);
+                        items.erase(i);
+                        found_item = true;
+                        break;
+                    }
+                }
+                if( found_item ){
+                    break;
+                }
+            }
+        }else{
+            sounds::sound( part_pos, rng(40,50),_("Chiiiing!"));
+        }
+    }
+}
 void vehicle::alarm(){
     if (one_in(4)) {
         //first check if the alarm is still installed
