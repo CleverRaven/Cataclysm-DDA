@@ -3837,7 +3837,7 @@ void player::set_cat_level_rec(const std::string &sMut)
     if (!has_base_trait(sMut)) { //Skip base traits
         const auto &mdata = mutation_branch::get( sMut );
         for( auto &elem : mdata.category ) {
-            mutation_category_level[elem] += 8;
+            mutation_category_level[elem] += 1;
         }
 
         for (auto &i : mdata.prereqs) {
