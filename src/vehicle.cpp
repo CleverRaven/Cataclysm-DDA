@@ -3776,7 +3776,14 @@ void vehicle::operate_scoop()
         int max_pickup_size = parts[scoop].info().size/10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
-        for( const tripoint &position : veh_points ) {
+        std::vector<tripoint> part_points;
+        for(int x = -1;x <= 1;x++){
+            for(int y = -1; y <= 1; y++){
+                tripoint current(x,y,global_pos3().z);
+                part_points.push_back(current);
+            }
+        }
+        for( const tripoint &position : part_points ) {
             g->m.mop_spills( position );
             if( g->m.has_items( position ) ) {
                 item* that_item_there = NULL;
