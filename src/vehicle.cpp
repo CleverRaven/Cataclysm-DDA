@@ -3776,7 +3776,7 @@ void vehicle::operate_scoop()
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ), sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
-        for(const tripoint &current = g->m.points_in_radius(global_pos3() + parts[scoop].precalc[0],1)){
+        for(const tripoint &current : g->m.points_in_radius(global_pos3() + parts[scoop].precalc[0],1)){
             parts_points.push_back(current);
         }
         for( const tripoint &position : parts_points ) {
@@ -3800,7 +3800,7 @@ void vehicle::operate_scoop()
             if( one_in( chance_to_damage_item ) &&
                that_item_there->damage < 4){//The scoop will not destroy the item, but it may damage it a bit.
                     that_item_there->damage += 1;
-                    sounds::sound( position, 50, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
+                    sounds::sound( position, rng(10,that_item_there->volume() * 2 + 10, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
             if( battery_deficit == 0
