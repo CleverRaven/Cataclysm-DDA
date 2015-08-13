@@ -5081,7 +5081,7 @@
         "damage_modifier":10,
         "item" : "v_scoop_item",
         "difficulty" : 1,
-        "flags": ["SCOOP","CARGO","OBSTACLE"],
+        "flags": ["SCOOP","CARGO","BOARDABLE"],
         "location":"center",
         "breaks_into" : [
             {"item": "scrap", "min": 2, "max": 5},
