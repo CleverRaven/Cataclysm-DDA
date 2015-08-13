@@ -3973,7 +3973,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         char((i -them_off) + 'a'), (getting_theirs[i] ? '+' : '-'),
                         theirs[i]->tname().c_str());
 
-                mvwprintz(w_them, i - them_off + 1, 32,
+                mvwprintz(w_them, i - them_off + 1, 35 - to_string(their_price[i] / 100).length(),
                         (getting_theirs[i] ? c_white : c_ltgray), "$%.2f",
                         (double)their_price[i]/100);
             }
@@ -3990,7 +3990,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         char((i -you_off) + 'a'), (getting_yours[i] ? '+' : '-'),
                         yours[i]->tname().c_str());
 
-                mvwprintz(w_you, i - you_off + 1, 32,
+                mvwprintz(w_you, i - you_off + 1, 35 - to_string(your_price[i] / 100).length(),
                         (getting_yours[i] ? c_white : c_ltgray), "$%.2f",
                         (double)your_price[i]/100);
             }
