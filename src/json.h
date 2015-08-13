@@ -30,7 +30,12 @@ class JsonObject;
 class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
-class JsonError;
+
+class JsonError : public std::runtime_error {
+public:
+    JsonError( const std::string &msg );
+    const char *c_str() const noexcept { return what(); }
+};
 
 /* JsonIn
  * ======
@@ -867,11 +872,6 @@ class JsonDeserializer
         JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
 
-class JsonError : public std::runtime_error {
-public:
-    JsonError( const std::string &msg );
-    const char *c_str() const noexcept { return what(); }
-};
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 #endif

@@ -200,7 +200,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     }
 
-    mod_type m_type;
+    mod_type m_type = MT_CORE;
     if (t_type == "CORE") {
         m_type = MT_CORE;
     } else if (t_type == "SUPPLEMENTAL") {
