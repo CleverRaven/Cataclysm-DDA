@@ -360,20 +360,6 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-inline int ammo_type_defined(const std::string &ammo)
-{
-    if (ammo == "NULL" || ammo == "generic_no_ammo") {
-        return 1; // Known ammo type
-    }
-    if (ammo_name(ammo) != "none") {
-        return 1; // Known ammo type
-    }
-    if (!item_controller->has_template(ammo)) {
-        return 0; // Unknown ammo type
-    }
-    return 2; // Unknown from ammo_name, but defined as itype
-}
-
 static bool fake_ammo_type(const std::string &ammo)
 {
     if (  ammo == "NULL" || ammo == "generic_no_ammo" ||
