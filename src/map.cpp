@@ -5794,7 +5794,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     bool visible = true;
     bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
                [this, &visible, &T]( const point &new_point ) {
-                   // Exit befre checking the last square, it's still visible even if opaque.
+                   // Exit before checking the last square, it's still visible even if opaque.
                    if( new_point.x == T.x && new_point.y == T.y ) {
                        return false;
                    }
@@ -5842,7 +5842,12 @@ bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
     }
     bool is_clear = true;
     bresenham( Fx, Fy, Tx, Ty, 0,
-               [this, &is_clear, cost_min, cost_max](const point &new_point ) {
+               [this, &is_clear, cost_min, cost_max, Tx, Ty](const point &new_point ) {
+                   // Exit before checking the last square, it's still reachable even if it is an obstacle.
+                   if( new_point.x == Tx && new_point.y == Ty ) {
+                       return false;
+                   }
+
                    const int cost = this->move_cost( new_point.x, new_point.y );
                    if( cost < cost_min || cost > cost_max ) {
                        is_clear = false;
