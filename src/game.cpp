@@ -2140,9 +2140,9 @@ vehicle *game::remoteveh()
         ( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
-        int vx, vy;
-        remote_veh_string >> vx >> vy;
-        vehicle *veh = m.veh_at( vx, vy );
+        tripoint vp;
+        remote_veh_string >> vp.x >> vp.y >> vp.z;
+        vehicle *veh = m.veh_at( vp );
         if( veh && veh->fuel_left( "battery", true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
@@ -2167,7 +2167,8 @@ void game::setremoteveh(vehicle *veh)
     }
 
     std::stringstream remote_veh_string;
-    remote_veh_string << veh->global_x() << ' ' << veh->global_y();
+    const tripoint vehpos = veh->global_pos3();
+    remote_veh_string << vehpos.x << ' ' << vehpos.y << ' ' << vehpos.z;
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
@@ -5009,8 +5010,8 @@ void game::draw_veh_dir_indicator(void)
     // don't draw indicator if doing look_around()
     if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
         vehicle *veh = m.veh_at(u.pos());
-        if (!veh) {
-            debugmsg("game::draw_veh_dir_indicator: no vehicle!");
+        if( veh == nullptr ) {
+            // Exit silently
             return;
         }
         rl_vec2d face = veh->face_vec();
@@ -12091,20 +12092,20 @@ bool game::plmove(int dx, int dy)
                         u.setx( player_prev_x );
                         u.sety( player_prev_y );
 
-                        int gx = grabbed_vehicle->global_x();
-                        int gy = grabbed_vehicle->global_y();
+                        tripoint gp = grabbed_vehicle->global_pos3();
                         std::vector<int> wheel_indices =
                             grabbed_vehicle->all_parts_with_feature( "WHEEL", false );
                         for( auto p : wheel_indices ) {
                             if( one_in(2) ) {
                                 tripoint wheel_p(
-                                    gx + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
-                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh,
+                                    gp.x + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
+                                    gp.y + grabbed_vehicle->parts[p].precalc[0].y + dyVeh,
                                     grabbed_vehicle->smz );
                                 grabbed_vehicle->handle_trap( wheel_p, p );
                             }
                         }
-                        m.displace_vehicle(gx, gy, dxVeh, dyVeh);
+                        tripoint gpd( dxVeh, dyVeh, 0 );
+                        m.displace_vehicle( gp, gpd );
                     } else {
                         //We are moving around the veh
                         u.grab_point.x = (dx + dxVeh) * (-1);
@@ -13668,7 +13669,7 @@ void game::teleport(player *p, bool add_teleglow)
     } while (tries < 15 && m.move_cost(newx, newy) == 0);
     bool can_see = (is_u || u.sees(newx, newy));
     if (p->in_vehicle) {
-        m.unboard_vehicle(p->posx(), p->posy());
+        m.unboard_vehicle(p->pos());
     }
     p->setx( newx );
     p->sety( newy );

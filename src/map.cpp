@@ -379,10 +379,10 @@ const vehicle *map::vehproceed()
         return veh;
     }
 
-    bool pl_ctrl = veh->player_in_control(g->u);
+    const bool pl_ctrl = veh->player_in_control( g->u );
 
     // k slowdown second.
-    int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
+    int slowdown = veh->skidding ? 200 : 20; // mph lost per tile when coasting
     float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
     slowdown = (int) ceil(kslw * slowdown);
     if( abs(slowdown) > abs(veh->velocity) ) {
@@ -484,12 +484,13 @@ const vehicle *map::vehproceed()
             veh->turn (one_in(2) ? -15 : 15);
         }
     }
-    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
+    else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
         add_msg(m_warning, _("You fumble with the %s's controls."), veh->name.c_str());
         veh->turn (one_in(2) ? -15 : 15);
     }
-    // eventually send it skidding if no control
-    if (!veh->boarded_parts().size() && one_in (10)) {
+    // Eventually send it skidding if no control
+    // But not if it's remotely controlled
+    if( !pl_ctrl && !veh->boarded_parts().size() && one_in(10) ) {
         veh->skidding = true;
     }
     tileray mdir; // the direction we're moving
@@ -699,8 +700,7 @@ const vehicle *map::vehproceed()
                     add_msg(m_bad, _("%s is hurled from the %s's seat by the power of the impact!"),
                                    psg->name.c_str(), veh->name.c_str());
                 }
-                unboard_vehicle( pt.x + veh->parts[ps].precalc[0].x,
-                                 pt.y + veh->parts[ps].precalc[0].y);
+                unboard_vehicle( pt + veh->parts[ps].precalc[0] );
                 g->fling_creature(psg, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
                                             vel1 - psg->str_cur));
@@ -840,26 +840,6 @@ point map::veh_part_coordinates(const int x, const int y)
     }
 
     return veh->parts[part_num].mount;
-}
-
-void map::board_vehicle(int x, int y, player *p)
-{
-    board_vehicle( tripoint( x, y, abs_sub.z ), p );
-}
-
-void map::unboard_vehicle(const int x, const int y)
-{
-    unboard_vehicle( tripoint( x, y, abs_sub.z ) );
-}
-
-bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
-{
-    tripoint p( x, y, abs_sub.z );
-    tripoint dp( dx, dy, 0 );
-    bool ret = displace_vehicle( p, dp, test );
-    x = p.x;
-    y = p.y;
-    return ret;
 }
 
 // 3D vehicle functions
@@ -1121,30 +1101,38 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
 
     bool need_update = false;
     int upd_x, upd_y, z_change = 0;
-    // move passengers
+    // Move passengers
+    const tripoint old_veh_pos = veh->global_pos3();
     for( size_t i = 0; i < psg_parts.size(); i++ ) {
         player *psg = psgs[i];
         const int prt = psg_parts[i];
+        const tripoint part_pos = old_veh_pos + veh->parts[prt].precalc[0];
         if( psg == nullptr ) {
-            debugmsg( "empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
-                         prt,
-                         veh->global_x() + veh->parts[prt].precalc[0].x,
-                         veh->global_y() + veh->parts[prt].precalc[0].y,
-                         p.z,
-                         g->u.posx(), g->u.posy(), g->u.posz() );
+            debugmsg( "Empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
+                prt,
+                part_pos.x, part_pos.y, part_pos.z,
+                g->u.posx(), g->u.posy(), g->u.posz() );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
 
-        // add recoil
-        psg->driving_recoil = rec;
-        // displace passenger taking in account vehicle movement (dx, dy)
-        // and turning: precalc[0] contains previous frame direction,
-        // and precalc[1] should contain next direction
-        tripoint psgp( psg->posx() + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
-                       psg->posy() + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
+        if( psg->pos() != part_pos ) {
+            debugmsg( "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
+                g->u.posx(), g->u.posy(), g->u.posz(),
+                prt,
+                part_pos.x, part_pos.y, part_pos.z );
+            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            continue;
+        }
+
+        // Place passenger on the new part location
+        tripoint psgp( part_pos.x + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
+                       part_pos.y + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
                        psg->posz() );
-        if( psg == &g->u ) { // if passenger is you, we need to update the map
+        // Add recoil
+        psg->driving_recoil = rec;
+        if( psg == &g->u ) {
+            // If passenger is you, we need to update the map
             psg->setpos( psgp );
             need_update = true;
             upd_x = psgp.x;
