@@ -3771,7 +3771,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %d", movecounter);
 
-    wprintz(w, c_white, " %s", move_mode == "walk" ? _("W") : _("R"));
+    const auto str_walk = pgettext( "abbr. for character is walking", "W" );
+    const auto str_run = pgettext( "abbr. for character is running", "R" );
+    wprintz(w, c_white, " %s", move_mode == "walk" ? str_walk : str_run);
     if( sideStyle ) {
         mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
         print_stamina_bar(w);
