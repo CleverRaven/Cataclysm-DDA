@@ -1542,14 +1542,34 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     item dropped_item = drop_item;
 
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
-    // Try to embed the projectile in monster
-    // Don't embed on miss, in player/NPCs, when we didn't stab/cut properly
-    //  or when the item simply shouldn't be embedded (for example, it is active)
-    if( mon == nullptr || mon->is_dead_state() ||
-        ( attack.dealt_dam.type_damage( DT_STAB ) +
-          attack.dealt_dam.type_damage( DT_CUT ) <=
-            attack.dealt_dam.type_damage( DT_BASH ) ) ||
-        effects.count( "NO_EMBED" ) != 0 ) {
+
+    // We can only embed in monsters
+    bool embed = mon != nullptr && !mon->is_dead_state();
+    // And if we actually want to embed
+    embed = embed && effects.count( "NO_EMBED" ) == 0;
+    // Don't embed in small creatures
+    if( embed ) {
+        const m_size critter_size = mon->get_size();
+        const int vol = dropped_item.volume( true, false );
+        embed = embed && ( critter_size > MS_TINY || vol < 1 );
+        embed = embed && ( critter_size > MS_SMALL || vol < 2 );
+        // And if we deal enough damage
+        // Item volume bumps up the required damage too
+        embed = embed &&
+                 ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
+                   attack.dealt_dam.type_damage( DT_STAB ) >
+                     attack.dealt_dam.type_damage( DT_BASH ) +
+                     vol * 3 + rng( 0, 5 );
+    }
+
+    if( embed ) {
+        mon->add_item( dropped_item );
+        if( g->u.sees( *mon ) ) {
+            add_msg( _("The %s embeds in %s!"),
+                     dropped_item.tname().c_str(),
+                     mon->disp_name().c_str() );
+        }
+    } else {
         bool do_drop = true;
         if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
             // Don't drop if it exploded
@@ -1566,17 +1586,10 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             } else {
                 sounds::sound( pt, 8, _("thud.") );
             }
-            const trap &tr = g->m.tr_at(pt);
+            const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
                 tr.trigger( pt, nullptr );
             }
-        }
-    } else {
-        mon->add_item( dropped_item );
-        if( g->u.sees( *mon ) ) {
-            add_msg( _("The %s embeds in %s!"),
-                     dropped_item.tname().c_str(),
-                     mon->disp_name().c_str() );
         }
     }
 }
