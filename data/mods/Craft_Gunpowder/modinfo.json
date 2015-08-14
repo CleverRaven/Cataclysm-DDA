@@ -1,0 +1,9 @@
+{
+  "type": "MOD_INFO",
+  "mod-type": "SUPPLEMENTAL",
+  "ident": "craftgp",
+  "name": "Craftable Gunpowder",
+  "author": "Zaweri",
+  "description": "Restores the old gunpowder crafting recipe.  WARNING: Breaks intended balance.",
+  "path": ""
+}
