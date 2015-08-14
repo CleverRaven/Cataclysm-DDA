@@ -360,31 +360,38 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-inline int ammo_type_defined(const std::string &ammo)
+/**
+ * Checks that ammo type is fake type or not.
+ * @param ammo type for check.
+ * @return true if ammo type is a fake, false otherwise.
+ */
+static bool fake_ammo_type(const std::string &ammo)
 {
-    if (ammo == "NULL" || ammo == "generic_no_ammo") {
-        return 1; // Known ammo type
+    if (  ammo == "NULL" || ammo == "generic_no_ammo" ||
+          ammo == "pointer_fake_ammo" ) {
+        return true;
     }
-    if (ammo_name(ammo) != "XXX") {
-        return 1; // Known ammo type
-    }
-    if (!item_controller->has_template(ammo)) {
-        return 0; // Unknown ammo type
-    }
-    return 2; // Unknown from ammo_name, but defined as itype
+    return false;
 }
 
 void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) const
 {
-    if (ammo == "NULL" || ammo == "generic_no_ammo") {
+    // Skip fake types
+    if ( fake_ammo_type(ammo) ) {
         return;
     }
-    if (ammo_name(ammo) == "XXX") {
+
+    // Should be skipped too.
+    if ( ammo == "UPS" ) {
+        return;
+    }
+
+    // Check for valid ammo type name.
+    if (ammo_name(ammo) == "none") {
         msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
     }
-    if (ammo == "UPS") {
-        return;
-    }
+
+    // Search ammo type.
     for( const auto &elem : m_templates ) {
         const auto ammot = elem.second;
         if( !ammot->ammo ) {

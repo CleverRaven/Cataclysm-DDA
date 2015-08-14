@@ -412,6 +412,9 @@ def extract(item, infilename):
         raise WrongJSONItem("ERROR: Unrecognized object type '{0}'!".format(object_type), item)
     wrote = False
     name = item.get("name") # Used in gettext comments below.
+    # Don't extract any record with name = "none".
+    if name and name == "none":
+        return
     if name:
         if "name_plural" in item:
             if item["name_plural"] != "none":

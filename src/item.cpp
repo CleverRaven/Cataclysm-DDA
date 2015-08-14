@@ -1080,7 +1080,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if ((tool->max_charges)!=0) {
             int t_max;
             std::string temp_fmt;
-            const std::string t_ammo_name = _(ammo_name(tool->ammo_id).c_str());
+            const std::string t_ammo_name = ammo_name(tool->ammo_id);
 
             dump->push_back(iteminfo("TOOL", string_format(_("Charges: %d"), charges)));
 
@@ -1131,7 +1131,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     temp_fmt = ngettext("Maximum <num> charge of %s.",
                                         "Maximum <num> charges of %s.",
                                         t_max);
-                    temp_fmt = string_format(temp_fmt, _(ammo_name("plutonium").c_str()));
+                    temp_fmt = string_format(temp_fmt, ammo_name("plutonium").c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge.",
                                         "Maximum <num> charges.",
