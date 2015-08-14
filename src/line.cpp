@@ -218,7 +218,11 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
         line.push_back( loc1 );
     } else {
         line.reserve(numCells);
-        bresenham( loc1, loc2, t, t2, [&line]( const tripoint &new_point ) {
+        int cnt = 0;
+        bresenham( loc1, loc2, t, t2, [&line,&numCells,&cnt]( const tripoint &new_point ) {
+            if( ++cnt > numCells ) {
+                return false;
+            }
             line.push_back(new_point);
             return true;
         } );
