@@ -482,6 +482,9 @@ public:
 
     // Executes vehicle-vehicle collision based on vehicle::collision results
     void vehicle_vehicle_collision( vehicle *veh, veh_collision &c );
+    // Throws vehicle passengers about the vehicle, possibly out of it
+    // Returns change in vehicle orientation due to lost control
+    int shake_vehicle( vehicle *veh, int velocity_before, int direction );
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);

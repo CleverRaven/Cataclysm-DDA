@@ -534,14 +534,14 @@ const vehicle *map::vehproceed()
         }
     }
 
-    if (veh->skidding) {
-        if (one_in(4)) { // might turn uncontrollably while skidding
-            veh->turn (one_in(2) ? -15 : 15);
+    if( veh->skidding ) {
+        if( one_in( 4 ) ) { // might turn uncontrollably while skidding
+            veh->turn( one_in( 2 ) ? -15 : 15 );
         }
     }
     else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
-        add_msg(m_warning, _("You fumble with the %s's controls."), veh->name.c_str());
-        veh->turn (one_in(2) ? -15 : 15);
+        add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
+        veh->turn( one_in( 2 ) ? -15 : 15 );
     }
     // Eventually send it skidding if no control
     // But not if it's remotely controlled
@@ -555,9 +555,9 @@ const vehicle *map::vehproceed()
     } else if( veh->skidding ) {
         // if skidding, it's the move vector
         mdir = veh->move;
-    } else if (veh->turn_dir != veh->face.dir()) {
+    } else if( veh->turn_dir != veh->face.dir() ) {
         // driver turned vehicle, get turn_dir
-        mdir.init (veh->turn_dir); 
+        mdir.init( veh->turn_dir ); 
     } else {
         // not turning, keep face.dir
         mdir = veh->face;
@@ -567,11 +567,12 @@ const vehicle *map::vehproceed()
         mdir.advance( veh->velocity < 0 ? -1 : 1 );
     }
 
-    const int dx = mdir.dx();           // where do we go
-    const int dy = mdir.dy();           // where do we go
+    // Where do we go
+    const int dx = mdir.dx();
+    const int dy = mdir.dy();
     bool can_move = true;
-    // calculate parts' mount points @ next turn (put them into precalc[1])
-    veh->precalc_mounts(1, veh->skidding ? veh->turn_dir : mdir.dir());
+    // Calculate parts' mount points @ next turn (put them into precalc[1])
+    veh->precalc_mounts( 1, veh->skidding ? veh->turn_dir : mdir.dir() );
 
     int dmg_1 = 0;
 
@@ -583,7 +584,7 @@ const vehicle *map::vehproceed()
     }
     // Find collisions
     // Velocity of car before collision
-    const int vel1 = veh->velocity / 100;
+    const int velocity_before = veh->velocity;
     veh->collision( veh_veh_colls, veh_misc_colls, dx, dy, can_move, dmg_1 );
 
     const bool veh_veh_coll_flag = !veh_veh_colls.empty();
@@ -598,65 +599,12 @@ const vehicle *map::vehproceed()
         const point collision_point = veh->parts[veh_misc_coll.part].mount;
         int coll_dmg = veh_misc_coll.imp;
         // Shock damage
-        veh->damage_all(coll_dmg / 2, coll_dmg, DT_BASH, collision_point);
+        veh->damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
     }
 
     int coll_turn = 0;
     if( dmg_1 > 0 ) {
-        int vel1_a = veh->velocity / 100; //velocity of car after collision
-        int d_vel = abs(vel1 - vel1_a);
-
-        std::vector<int> ppl = veh->boarded_parts();
-
-        for( auto &ps : ppl ) {
-            player *psg = veh->get_passenger (ps);
-            if( psg == nullptr ) {
-                debugmsg( "throw passenger: empty passenger at part %d", ps );
-                continue;
-            }
-
-            bool throw_from_seat = false;
-            if( veh->part_with_feature (ps, VPFLAG_SEATBELT) == -1 ) {
-                throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
-            }
-
-            // Damage passengers if d_vel is too high
-            if( d_vel > 60* rng(50,100)/100 && !throw_from_seat ) {
-                int dmg = d_vel/4*rng(70,100)/100;
-                psg->hurtall(dmg, nullptr);
-                psg->add_msg_player_or_npc( m_bad,
-                    _("You take %d damage by the power of the impact!"),
-                    _("<npcname> takes %d damage by the power of the impact!", dmg );
-            }
-
-            if( throw_from_seat ) {
-                psg->add_msg(m_bad,
-                    _("You are hurled from the %s's seat by the power of the impact!"),
-                    _("<npcname> is hurled from the %s's seat by the power of the impact!"),
-                    veh->name.c_str());
-                unboard_vehicle( pt + veh->parts[ps].precalc[0] );
-                g->fling_creature(psg, mdir.dir() + rng(0, 60) - 30,
-                                           (vel1 - psg->str_cur < 10 ? 10 :
-                                            vel1 - psg->str_cur));
-            } else if( veh->player_in_control( *psg ) ) {
-                const int lose_ctrl_roll = rng (0, dmg_1);
-                if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3 ) {
-                    add_msg( m_warning,
-                        _("You lose control of the %s."),
-                        _("<npcname> loses control of the %s."),
-                        veh->name.c_str() );
-                    int turn_amount = (rng(1, 3) * sqrt((double)vel1_a) / 2) / 15;
-                    if (turn_amount < 1) {
-                        turn_amount = 1;
-                    }
-                    turn_amount *= 15;
-                    if (turn_amount > 120) {
-                        turn_amount = 120;
-                    }
-                    coll_turn = one_in( 2 ) ? turn_amount : -turn_amount;
-                }
-            }
-        }
+        shake_vehicle( veh, velocity_before, mdir.dir() );
     }
 
     if( veh_veh_coll_flag ) {
@@ -708,9 +656,9 @@ const vehicle *map::vehproceed()
         }
 
         veh->move = mdir;
-        if( coll_turn ) {
+        if( coll_turn != 0 ) {
             veh->skidding = true;
-            veh->turn (coll_turn);
+            veh->turn( coll_turn );
         }
         // Actually change position
         tripoint dp( dx, dy, 0 );
@@ -730,7 +678,77 @@ const vehicle *map::vehproceed()
     return veh;
 }
 
-void vehicle_vehicle_collision( vehicle *veh, const veh_collision &c )
+int map::shake_vehicle( vehicle *veh, const int velocity_before, const int direction )
+{
+    const int d_vel = abs( veh->velocity - velocity_before ) / 100;
+
+    const std::vector<int> boarded = veh->boarded_parts();
+
+    int coll_turn = 0;
+    for( const auto &ps : boarded ) {
+        player *psg = veh->get_passenger( ps );
+        if( psg == nullptr ) {
+            debugmsg( "throw passenger: empty passenger at part %d", ps );
+            continue;
+        }
+
+        const tripoint part_pos = pt + veh->parts[ps].precalc[0];
+        if( psg->pos() != part_pos ) {
+            debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
+                psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
+            veh->parts[ps].remove_flag( vehicle_part::passenger_flag );
+            continue;
+        }
+
+        bool throw_from_seat = false;
+        if( veh->part_with_feature( ps, VPFLAG_SEATBELT ) == -1 ) {
+            throw_from_seat = d_vel * rng( 80, 120 ) / 100 > ( psg->str_cur * 1.5 + 5 );
+        }
+
+        // Damage passengers if d_vel is too high
+        if( d_vel > 60 * rng( 50,100 ) / 100 && !throw_from_seat ) {
+            const int dmg = d_vel / 4 * rng( 70,100 ) / 100;
+            psg->hurtall( dmg, nullptr );
+            psg->add_msg_player_or_npc( m_bad,
+                _("You take %d damage by the power of the impact!"),
+                _("<npcname> takes %d damage by the power of the impact!", dmg );
+        }
+
+        if( veh->player_in_control( *psg ) ) {
+            const int lose_ctrl_roll = rng (0, dmg_1);
+            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3 ) {
+                add_msg( m_warning,
+                    _("You lose control of the %s."),
+                    _("<npcname> loses control of the %s."),
+                    veh->name.c_str() );
+                int turn_amount = (rng(1, 3) * sqrt((double)velocity_after) / 2) / 15;
+                if (turn_amount < 1) {
+                    turn_amount = 1;
+                }
+                turn_amount *= 15;
+                if (turn_amount > 120) {
+                    turn_amount = 120;
+                }
+                coll_turn = one_in( 2 ) ? turn_amount : -turn_amount;
+            }
+        }
+
+        if( throw_from_seat ) {
+            psg->add_msg(m_bad,
+                _("You are hurled from the %s's seat by the power of the impact!"),
+                _("<npcname> is hurled from the %s's seat by the power of the impact!"),
+                veh->name.c_str());
+            unboard_vehicle( part_pos );
+            g->fling_creature(psg, direction + rng(0, 60) - 30,
+                                       (vel1 - psg->str_cur < 10 ? 10 :
+                                        vel1 - psg->str_cur));
+        }
+    }
+
+    return coll_turn;
+}
+
+void map::vehicle_vehicle_collision( vehicle *veh, const veh_collision &c )
 {
     // effects of colliding with another vehicle:
     // transfers of momentum, skidding,
