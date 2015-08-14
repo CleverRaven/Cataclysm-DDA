@@ -9208,7 +9208,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     if ( bRadiusSort ) {
         sSort += _("dist");
     } else {
-        sSort += _("cat");
+        sSort += pgettext("abbr. for word category", "cat");
     }
 
     int letters = utf8_width(sSort.c_str());
