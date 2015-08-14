@@ -7623,18 +7623,10 @@
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "scissors", 1 ]
-    ],
-    [
-      [ "mirror", 1 ]
-    ],
-    [
-      [ "string_6", 4 ]
-    ]
+    [ [ "rag", 1 ] ],
+    [ [ "scissors", 1 ] ],
+    [ [ "mirror", 1 ] ],
+    [ [ "string_6", 4 ] ]
   ]
 },{
   "type" : "recipe",
@@ -7646,11 +7638,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "charcoal", 1 ]
-    ]
-  ]
+  "components": [ [ [ "charcoal", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "plant_fibre",
@@ -7677,10 +7665,9 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -7689,18 +7676,10 @@
     ]
   ],
   "components": [
-    [
-      [ "pipe", 2 ]
-    ],
-    [
-      [ "sheet_metal",2]
-    ],
-    [
-         [ "motor",2]
-    ],
-    [
-        [ "processor",1]
-    ]
+    [ [ "pipe", 2 ] ],
+    [ [ "sheet_metal", 2 ] ],
+    [ [ "motor", 2 ] ],
+    [ [ "processor", 1 ] ]
   ]
 }
 ]

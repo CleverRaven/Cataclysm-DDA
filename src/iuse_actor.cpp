@@ -786,12 +786,12 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
         bool has_unactivated_brazier = false;
         for( const auto &i : g->m.i_at( pos ) ) {
             if( i.type->id == "brazier" ) {
-                 has_unactivated_brazier = true;
+                has_unactivated_brazier = true;
             }
         }
-        if( has_unactivated_brazier
-            && !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?"))) {
-              return false;
+        if( has_unactivated_brazier &&
+            !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?")) ) {
+            return false;
         }
         return true;
     } else {
