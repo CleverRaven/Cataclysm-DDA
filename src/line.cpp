@@ -124,8 +124,8 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                     t -= az;
                 }
                 if( t2 > 0 ) {
-                    cur.z += sz;
-                    t2 -= ax;
+                    cur.y += sy;
+                    t2 -= az;
                 }
                 cur.z += sz;
                 t += ax;
