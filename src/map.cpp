@@ -1569,6 +1569,18 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     const ter_t &old_t = old_id.obj();
     const ter_t &new_t = new_terrain.obj();
 
+    // Hack around ledges in traplocs or else it gets NASTY in z-level mode
+    if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
+        auto &traps = traplocs[old_t.trap];
+        const auto iter = std::find( traps.begin(), traps.end(), p );
+        if( iter != traps.end() ) {
+            traps.erase( iter );
+        }
+    }
+    if( new_t.trap != tr_null && new_t.trap != tr_ledge ) {
+        traplocs[new_t.trap].push_back( p );
+    }
+
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
     }
@@ -5783,7 +5795,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     bool visible = true;
     bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
                [this, &visible, &T]( const point &new_point ) {
-                   // Exit befre checking the last square, it's still visible even if opaque.
+                   // Exit before checking the last square, it's still visible even if opaque.
                    if( new_point.x == T.x && new_point.y == T.y ) {
                        return false;
                    }
@@ -5831,7 +5843,12 @@ bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
     }
     bool is_clear = true;
     bresenham( Fx, Fy, Tx, Ty, 0,
-               [this, &is_clear, cost_min, cost_max](const point &new_point ) {
+               [this, &is_clear, cost_min, cost_max, Tx, Ty](const point &new_point ) {
+                   // Exit before checking the last square, it's still reachable even if it is an obstacle.
+                   if( new_point.x == Tx && new_point.y == Ty ) {
+                       return false;
+                   }
+
                    const int cost = this->move_cost( new_point.x, new_point.y );
                    if( cost < cost_min || cost > cost_max ) {
                        is_clear = false;
@@ -6388,6 +6405,10 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             if( trap_here != tr_null ) {
                 traplocs[trap_here].push_back( pnt );
             }
+            const ter_t &ter = tmpsub->get_ter( x, y ).obj();
+            if( ter.trap != tr_null && ter.trap != tr_ledge ) {
+                traplocs[trap_here].push_back( pnt );
+            }
 
             if( do_funnels ) {
                 fill_funnels( pnt );
@@ -6425,8 +6446,6 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
 
 void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
-    const int gx = gp.x;
-    const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
     int pop = group.population;
     std::vector<tripoint> locations;
@@ -6437,20 +6456,40 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // the player has still their *old* (not shifted) coordinates.
         // That makes the submaps that have come into view visible (if the sight range
         // is big enough).
-        if( gx == 0 || gy == 0 || gx + 1 == MAPSIZE || gy + 1 == MAPSIZE ) {
+        if( gp.x == 0 || gp.y == 0 || gp.x + 1 == MAPSIZE || gp.y + 1 == MAPSIZE ) {
             ignore_sight = true;
         }
     }
+
+    if( gp.z != g->u.posz() ) {
+        // Note: this is only OK because 3D vision isn't a thing yet
+        ignore_sight = true;
+    }
+
+    // If the submap is uniform, we can skip many checks
+    const submap *current_submap = get_submap_at_grid( gp );
+    bool ignore_terrain_checks = false;
+    if( current_submap->is_uniform ) {
+        const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
+        if( move_cost( upper_left ) == 0 || has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) {
+            dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
+                " at uniform submap " << gp.x << "," << gp.y << "," << gp.z;
+            return;
+        }
+
+        ignore_terrain_checks = true;
+    }
+
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            int fx = x + SEEX * gx;
-            int fy = y + SEEY * gy;
+            int fx = x + SEEX * gp.x;
+            int fy = y + SEEY * gp.y;
             tripoint fp{ fx, fy, gp.z };
             if( g->critter_at( fp ) != nullptr ) {
                 continue; // there is already some creature
             }
 
-            if( move_cost( fp ) == 0 ) {
+            if( !ignore_terrain_checks && move_cost( fp ) == 0 ) {
                 continue; // solid area, impassable
             }
 
@@ -6458,23 +6497,28 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // monster must spawn outside the viewing range of the player
             }
 
-            if( has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
+            if( !ignore_terrain_checks && has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
                 continue; // monster must spawn outside.
             }
+
             locations.push_back( fp );
         }
     }
+
     if( locations.empty() ) {
         // TODO: what now? there is now possible place to spawn monsters, most
         // likely because the player can see all the places.
-        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() << " at " << gx << "," << gy;
+        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
+            " at " << gp.x << "," << gp.y << "," << gp.z;
         return;
     }
+
     for( int m = 0; m < pop; m++ ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
         if( spawn_details.name == mon_null ) {
             continue;
         }
+
         monster tmp( spawn_details.name );
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {

@@ -1847,6 +1847,32 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+// Helper to handle the logic of removing some random mutations.
+static void do_purify( player *p )
+{
+    std::vector<std::string> valid; // Which flags the player has
+    for( auto &traits_iter : mutation_branch::get_all() ) {
+        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+            //Looks for active mutation
+            valid.push_back( traits_iter.first );
+        }
+    }
+    if( valid.empty() ) {
+        p->add_msg_if_player(_("You feel cleansed."));
+        return;
+    }
+    int num_cured = rng( 1, valid.size() );
+    num_cured = std::min( 4, num_cured );
+    for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
+        const std::string id = random_entry_removed( valid );
+        if( p->purifiable( id ) ) {
+            p->remove_mutation( id );
+        } else {
+            p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
+        }
+    }
+}
+
 int iuse::purifier(player *p, item *it, bool, const tripoint& )
 {
     if (p->has_trait("MUTAGEN_AVOID")) {
@@ -1863,30 +1889,7 @@ int iuse::purifier(player *p, item *it, bool, const tripoint& )
     if( marloss_reject_mutagen( p, it ) ) {
         it->type->charges_to_use();
     }
-
-    std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
-            //Looks for active mutation
-            valid.push_back( traits_iter.first );
-        }
-    }
-    if (valid.empty()) {
-        p->add_msg_if_player(_("You feel cleansed."));
-        return it->type->charges_to_use();
-    }
-    int num_cured = rng(1, valid.size());
-    if (num_cured > 4) {
-        num_cured = 4;
-    }
-    for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        const std::string id = random_entry_removed( valid );
-        if (p->purifiable( id )) {
-            p->remove_mutation( id );
-        } else {
-            p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
-        }
-    }
+    do_purify( p );
     return it->type->charges_to_use();
 }
 
@@ -4901,6 +4904,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             g->active_npc[npc_hit]->environmental_revert_effect();
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             g->u.environmental_revert_effect();
+                            do_purify( &(g->u) );
                         }
                     }
                 }

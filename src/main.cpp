@@ -409,10 +409,8 @@ int main(int argc, char *argv[])
             // is only for verifying that stage, so we exit.
             exit_handler(0);
         }
-    } catch(std::string &error_message) {
-        if(!error_message.empty()) {
-            debugmsg("%s", error_message.c_str());
-        }
+    } catch( const std::exception &err ) {
+        debugmsg( "%s", err.what() );
         exit_handler(-999);
     }
 

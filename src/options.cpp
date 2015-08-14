@@ -1459,8 +1459,8 @@ void show_options(bool ingame)
                 g->refresh_all();
                 tilecontext->do_tile_loading_report();
             }
-        } catch(std::string err) {
-            popup(_("Loading the tileset failed: %s"), err.c_str());
+        } catch( const std::exception &err ) {
+            popup(_("Loading the tileset failed: %s"), err.what());
             use_tiles = false;
         }
     }
