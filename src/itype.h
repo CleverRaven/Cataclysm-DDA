@@ -34,7 +34,7 @@ enum bigness_property_aspect : int {
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string const& ammo_name(std::string const &t);
+std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 std::string const& default_ammo(std::string const &guntype);
 

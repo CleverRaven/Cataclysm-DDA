@@ -40,7 +40,13 @@ int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-n
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-    stdscr = curses_init();
+    // initscr is a ncurses function, it is not supposed to throw.
+    try {
+        stdscr = curses_init();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error while initializing: %s\n", err.what() );
+        return nullptr;
+    }
     return stdscr;
 }
 
@@ -626,7 +632,13 @@ int getcury(WINDOW *win)
 
 int start_color(void)
 {
-    return curses_start_color();
+    // start_color is a ncurses function, it is not supposed to throw.
+    try {
+        return curses_start_color();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error loading color definitions: %s\n", err.what() );
+        return -1;
+    }
 }
 
 int keypad(WINDOW *, bool)

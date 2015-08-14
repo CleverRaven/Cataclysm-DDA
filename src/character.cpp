@@ -7,11 +7,23 @@
 #include "options.h"
 #include "map_iterator.h"
 #include "field.h"
+#include "messages.h"
 
 #include <map>
 
 Character::Character()
 {
+    str_max = 0;
+    dex_max = 0;
+    per_max = 0;
+    int_max = 0;
+    str_cur = 0;
+    dex_cur = 0;
+    per_cur = 0;
+    int_cur = 0;
+    healthy = 0;
+    healthy_mod = 0;
+
     name = "";
     Creature::set_speed_base(100);
 }
@@ -42,6 +54,41 @@ const std::string &Character::symbol() const
 {
     static const std::string character_symbol("@");
     return character_symbol;
+}
+
+void Character::mod_stat( const std::string &stat, int modifier )
+{
+    if( stat == "str" ) {
+        mod_str_bonus( modifier );
+    } else if( stat == "dex" ) {
+        mod_dex_bonus( modifier );
+    } else if( stat == "per" ) {
+        mod_per_bonus( modifier );
+    } else if( stat == "int" ) {
+        mod_int_bonus( modifier );
+    } else if( stat == "healthy" ) {
+        mod_healthy( modifier );
+    } else if( stat == "healthy_mod" ) {
+        mod_healthy_mod( modifier );
+    } else if( stat == "speed" ) {
+        mod_speed_bonus( modifier );
+    } else if( stat == "dodge" ) {
+        mod_dodge_bonus( modifier );
+    } else if( stat == "block" ) {
+        mod_block_bonus( modifier );
+    } else if( stat == "hit" ) {
+        mod_hit_bonus( modifier );
+    } else if( stat == "bash" ) {
+        mod_bash_bonus( modifier );
+    } else if( stat == "cut" ) {
+        mod_cut_bonus( modifier );
+    } else if( stat == "pain" ) {
+        mod_pain( modifier );
+    } else if( stat == "moves" ) {
+        mod_moves( modifier );
+    } else {
+        Creature::mod_stat( stat, modifier );
+    }
 }
 
 bool Character::move_effects(bool attacking)
@@ -522,6 +569,7 @@ int Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
+    ret += get_str() * 4000;
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
     }
@@ -777,8 +825,38 @@ void Character::reset_stats()
 
     nv_cached = false;
 
-    // Has to be at the end because it applies the bonuses
+    // Reset our stats to normal levels
+    // Any persistent buffs/debuffs will take place in effects,
+    // player::suffer(), etc.
+
+    // repopulate the stat fields
+    str_cur = str_max + get_str_bonus();
+    dex_cur = dex_max + get_dex_bonus();
+    per_cur = per_max + get_per_bonus();
+    int_cur = int_max + get_int_bonus();
+
+    // Floor for our stats.  No stat changes should occur after this!
+    if( dex_cur < 0 ) {
+        dex_cur = 0;
+    }
+    if( str_cur < 0 ) {
+        str_cur = 0;
+    }
+    if( per_cur < 0 ) {
+        per_cur = 0;
+    }
+    if( int_cur < 0 ) {
+        int_cur = 0;
+    }
+
+    // Does nothing! TODO: Remove
     Creature::reset_stats();
+}
+
+void Character::reset()
+{
+    // TODO: Move reset_stats here, remove it from Creature
+    Creature::reset();
 }
 
 bool Character::has_nv()
@@ -792,4 +870,165 @@ bool Character::has_nv()
     }
 
     return nv;
+}
+
+/*
+ * Innate stats getters
+ */
+
+// get_stat() always gets total (current) value, NEVER just the base
+// get_stat_bonus() is always just the bonus amount
+int Character::get_str() const
+{
+    return std::max(0, str_max + str_bonus);
+}
+int Character::get_dex() const
+{
+    return std::max(0, dex_max + dex_bonus);
+}
+int Character::get_per() const
+{
+    return std::max(0, per_max + per_bonus);
+}
+int Character::get_int() const
+{
+    return std::max(0, int_max + int_bonus);
+}
+
+int Character::get_str_base() const
+{
+    return str_max;
+}
+int Character::get_dex_base() const
+{
+    return dex_max;
+}
+int Character::get_per_base() const
+{
+    return per_max;
+}
+int Character::get_int_base() const
+{
+    return int_max;
+}
+
+
+
+int Character::get_str_bonus() const
+{
+    return str_bonus;
+}
+int Character::get_dex_bonus() const
+{
+    return dex_bonus;
+}
+int Character::get_per_bonus() const
+{
+    return per_bonus;
+}
+int Character::get_int_bonus() const
+{
+    return int_bonus;
+}
+
+int Character::get_healthy() const
+{
+    return healthy;
+}
+int Character::get_healthy_mod() const
+{
+    return healthy_mod;
+}
+
+/*
+ * Innate stats setters
+ */
+
+void Character::set_str_bonus(int nstr)
+{
+    str_bonus = nstr;
+}
+void Character::set_dex_bonus(int ndex)
+{
+    dex_bonus = ndex;
+}
+void Character::set_per_bonus(int nper)
+{
+    per_bonus = nper;
+}
+void Character::set_int_bonus(int nint)
+{
+    int_bonus = nint;
+}
+void Character::mod_str_bonus(int nstr)
+{
+    str_bonus += nstr;
+}
+void Character::mod_dex_bonus(int ndex)
+{
+    dex_bonus += ndex;
+}
+void Character::mod_per_bonus(int nper)
+{
+    per_bonus += nper;
+}
+void Character::mod_int_bonus(int nint)
+{
+    int_bonus += nint;
+}
+
+void Character::set_healthy(int nhealthy)
+{
+    healthy = nhealthy;
+}
+void Character::mod_healthy(int nhealthy)
+{
+    healthy += nhealthy;
+}
+void Character::set_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod = nhealthy_mod;
+}
+void Character::mod_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod += nhealthy_mod;
+}
+
+void Character::reset_bonuses()
+{
+    // Reset all bonuses to 0 and mults to 1.0
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
+
+    Creature::reset_bonuses();
+}
+
+void Character::update_health(int base_threshold)
+{
+    if( get_healthy_mod() > 200 ) {
+        set_healthy_mod( 200 );
+    } else if( get_healthy_mod() < -200 ) {
+        set_healthy_mod( -200 );
+    }
+    const int roll = rng( -100, 100 );
+    base_threshold += get_healthy() - get_healthy_mod();
+    if( roll > base_threshold ) {
+        mod_healthy( 1 );
+    } else if( roll < base_threshold ) {
+        mod_healthy( -1 );
+    }
+    set_healthy_mod( get_healthy_mod() * 3 / 4 );
+
+    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
+}
+
+int Character::get_dodge_base() const
+{
+    return Creature::get_dodge_base() + (get_dex() / 2);
+}
+int Character::get_hit_base() const
+{
+    return Creature::get_hit_base() + (get_dex() / 4) + 3;
 }

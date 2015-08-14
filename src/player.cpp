@@ -1917,7 +1917,7 @@ void player::load_info(std::string data)
     JsonIn jsin(dump);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("Bad player json\n%s", jsonerr.c_str() );
     }
 }
@@ -2274,7 +2274,7 @@ stats player::get_stats() const
     return player_stats;
 }
 
-void player::mod_stat( std::string stat, int modifier )
+void player::mod_stat( const std::string &stat, int modifier )
 {
     if( stat == "hunger" ) {
         hunger += modifier;
@@ -2290,7 +2290,7 @@ void player::mod_stat( std::string stat, int modifier )
         stamina = std::max( 0, stamina );
     } else {
         // Fall through to the creature method.
-        Creature::mod_stat( stat, modifier );
+        Character::mod_stat( stat, modifier );
     }
 }
 
@@ -3447,7 +3447,7 @@ std::string player::print_recoil() const
 
 int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
 {
-    vehicle *veh = g->m.veh_at( pos3() );
+    vehicle *veh = g->m.veh_at( pos() );
     if( veh == nullptr ) {
         debugmsg( "Tried to aim turret while outside vehicle" );
         return line_number;
@@ -3651,7 +3651,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
-        veh = g->m.veh_at (posx(), posy());
+        veh = g->m.veh_at( pos() );
     }
     if( veh ) {
   veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
@@ -3771,7 +3771,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %d", movecounter);
 
-    wprintz(w, c_white, " %s", move_mode == "walk" ? _("W") : _("R"));
+    const auto str_walk = pgettext( "abbr. for character is walking", "W" );
+    const auto str_run = pgettext( "abbr. for character is running", "R" );
+    wprintz(w, c_white, " %s", move_mode == "walk" ? str_walk : str_run);
     if( sideStyle ) {
         mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
         print_stamina_bar(w);
@@ -3912,7 +3914,7 @@ bool player::in_climate_control()
     {
         next_climate_control_check=int(calendar::turn)+20;  // save cpu and similate acclimation.
         int vpart = -1;
-        vehicle *veh = g->m.veh_at(posx(), posy(), vpart);
+        vehicle *veh = g->m.veh_at( pos(), vpart );
         if(veh)
         {
             regulated_area=(
@@ -4189,8 +4191,8 @@ bool player::has_alarm_clock()
 {
     return ( has_item_with_flag("ALARMCLOCK") ||
              (
-               ( g->m.veh_at( posx(), posy() ) != nullptr ) &&
-               !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
+               ( g->m.veh_at( pos() ) != nullptr ) &&
+               !g->m.veh_at( pos() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
              ) ||
              has_bionic("bio_watch")
            );
@@ -4200,8 +4202,8 @@ bool player::has_watch()
 {
     return ( has_item_with_flag("WATCH") ||
              (
-               ( g->m.veh_at( posx(), posy() ) != nullptr ) &&
-               !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "WATCH", true ).empty()
+               ( g->m.veh_at( pos() ) != nullptr ) &&
+               !g->m.veh_at( pos() )->all_parts_with_feature( "WATCH", true ).empty()
              ) ||
              has_bionic("bio_watch")
            );
@@ -5319,7 +5321,7 @@ void player::update_health(int base_threshold)
     if (has_artifact_with(AEP_SICK)) {
         base_threshold += 50;
     }
-    Creature::update_health(base_threshold);
+    Character::update_health(base_threshold);
 }
 
 void player::update_needs()
@@ -10932,7 +10934,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     if( items != nullptr ) {
         items->push_back( w );
         taken_off = true;
-    } else if (autodrop || volume_capacity() - w.get_storage() > volume_carried() + w.volume()) {
+    } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
         inv.add_item_keep_invlet(w);
         taken_off = true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
@@ -11514,8 +11516,8 @@ void player::read(int inventory_position)
         }
     }
 
-    vehicle *veh = g->m.veh_at (posx(), posy());
-    if (veh && veh->player_in_control(*this)) {
+    vehicle *veh = g->m.veh_at( pos() );
+    if( veh != nullptr && veh->player_in_control(*this) ) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
         return;
     }
@@ -11935,7 +11937,7 @@ bool player::try_study_recipe( const itype &book )
 void player::try_to_sleep()
 {
     int vpart = -1;
-    vehicle *veh = g->m.veh_at (pos(), vpart);
+    vehicle *veh = g->m.veh_at( pos(), vpart );
     const trap &trap_at_pos = g->m.tr_at(pos());
     const ter_id ter_at_pos = g->m.ter(pos());
     const furn_id furn_at_pos = g->m.furn(pos());

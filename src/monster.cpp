@@ -545,7 +545,7 @@ void monster::load_info(std::string data)
     JsonIn jsin(dump);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
     }
 }
@@ -1590,7 +1590,7 @@ void monster::die(Creature* nkiller) {
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
-        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt(this);
         }

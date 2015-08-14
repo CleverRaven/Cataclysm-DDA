@@ -197,7 +197,8 @@ maptile map::maptile_at_internal( const tripoint &p )
 
 VehicleList map::get_vehicles() {
     if( !zlevels ) {
-        return get_vehicles( 0, 0, SEEX * my_MAPSIZE, SEEY * my_MAPSIZE );
+        return get_vehicles( tripoint( 0, 0, abs_sub.z ),
+                             tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, abs_sub.z ) );
     }
 
     return get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
@@ -379,10 +380,10 @@ const vehicle *map::vehproceed()
         return veh;
     }
 
-    bool pl_ctrl = veh->player_in_control(g->u);
+    const bool pl_ctrl = veh->player_in_control( g->u );
 
     // k slowdown second.
-    int slowdown = veh->skidding? 200 : 20; // mph lost per tile when coasting
+    int slowdown = veh->skidding ? 200 : 20; // mph lost per tile when coasting
     float kslw = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
     slowdown = (int) ceil(kslw * slowdown);
     if( abs(slowdown) > abs(veh->velocity) ) {
@@ -484,12 +485,13 @@ const vehicle *map::vehproceed()
             veh->turn (one_in(2) ? -15 : 15);
         }
     }
-    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
+    else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
         add_msg(m_warning, _("You fumble with the %s's controls."), veh->name.c_str());
         veh->turn (one_in(2) ? -15 : 15);
     }
-    // eventually send it skidding if no control
-    if (!veh->boarded_parts().size() && one_in (10)) {
+    // Eventually send it skidding if no control
+    // But not if it's remotely controlled
+    if( !pl_ctrl && !veh->boarded_parts().size() && one_in(10) ) {
         veh->skidding = true;
     }
     tileray mdir; // the direction we're moving
@@ -699,8 +701,7 @@ const vehicle *map::vehproceed()
                     add_msg(m_bad, _("%s is hurled from the %s's seat by the power of the impact!"),
                                    psg->name.c_str(), veh->name.c_str());
                 }
-                unboard_vehicle( pt.x + veh->parts[ps].precalc[0].x,
-                                 pt.y + veh->parts[ps].precalc[0].y);
+                unboard_vehicle( pt + veh->parts[ps].precalc[0] );
                 g->fling_creature(psg, mdir.dir() + rng(0, 60) - 30,
                                            (vel1 - psg->str_cur < 10 ? 10 :
                                             vel1 - psg->str_cur));
@@ -794,72 +795,6 @@ const vehicle *map::vehproceed()
     // redraw scene
     g->draw();
     return veh;
-}
-
-// 2D vehicle functions
-
-VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const int ey)
-{
-    return get_vehicles( tripoint( sx, sy, abs_sub.z ), tripoint( ex, ey, abs_sub.z ) );
-}
-
-vehicle* map::veh_at(const int x, const int y, int &part_num)
-{
-    return veh_at( tripoint( x, y, abs_sub.z ), part_num );
-}
-
-const vehicle* map::veh_at(const int x, const int y, int &part_num) const
-{
-    return veh_at( tripoint( x, y, abs_sub.z ), part_num );
-}
-
-const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) const
-{
-    return veh_at_internal( tripoint( x, y, abs_sub.z ), part_num );
-}
-
-vehicle* map::veh_at(const int x, const int y)
-{
-    int part = 0;
-    return veh_at(x, y, part);
-}
-
-const vehicle* map::veh_at(const int x, const int y) const
-{
-    int part = 0;
-    return veh_at(x, y, part);
-}
-
-point map::veh_part_coordinates(const int x, const int y)
-{
-    int part_num;
-    vehicle* veh = veh_at(x, y, part_num);
-
-    if(veh == nullptr) {
-        return point(0,0);
-    }
-
-    return veh->parts[part_num].mount;
-}
-
-void map::board_vehicle(int x, int y, player *p)
-{
-    board_vehicle( tripoint( x, y, abs_sub.z ), p );
-}
-
-void map::unboard_vehicle(const int x, const int y)
-{
-    unboard_vehicle( tripoint( x, y, abs_sub.z ) );
-}
-
-bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
-{
-    tripoint p( x, y, abs_sub.z );
-    tripoint dp( dx, dy, 0 );
-    bool ret = displace_vehicle( p, dp, test );
-    x = p.x;
-    y = p.y;
-    return ret;
 }
 
 // 3D vehicle functions
@@ -1121,30 +1056,38 @@ bool map::displace_vehicle( tripoint &p, const tripoint &dp, bool test )
 
     bool need_update = false;
     int upd_x, upd_y, z_change = 0;
-    // move passengers
+    // Move passengers
+    const tripoint old_veh_pos = veh->global_pos3();
     for( size_t i = 0; i < psg_parts.size(); i++ ) {
         player *psg = psgs[i];
         const int prt = psg_parts[i];
+        const tripoint part_pos = old_veh_pos + veh->parts[prt].precalc[0];
         if( psg == nullptr ) {
-            debugmsg( "empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
-                         prt,
-                         veh->global_x() + veh->parts[prt].precalc[0].x,
-                         veh->global_y() + veh->parts[prt].precalc[0].y,
-                         p.z,
-                         g->u.posx(), g->u.posy(), g->u.posz() );
+            debugmsg( "Empty passenger part %d pcoord=%d,%d,%d u=%d,%d,%d?",
+                prt,
+                part_pos.x, part_pos.y, part_pos.z,
+                g->u.posx(), g->u.posy(), g->u.posz() );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
             continue;
         }
 
-        // add recoil
-        psg->driving_recoil = rec;
-        // displace passenger taking in account vehicle movement (dx, dy)
-        // and turning: precalc[0] contains previous frame direction,
-        // and precalc[1] should contain next direction
-        tripoint psgp( psg->posx() + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
-                       psg->posy() + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
+        if( psg->pos() != part_pos ) {
+            debugmsg( "Passenger/part position mismatch: passenger %d,%d,%d, part %d %d,%d,%d",
+                g->u.posx(), g->u.posy(), g->u.posz(),
+                prt,
+                part_pos.x, part_pos.y, part_pos.z );
+            veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            continue;
+        }
+
+        // Place passenger on the new part location
+        tripoint psgp( part_pos.x + dp.x + veh->parts[prt].precalc[1].x - veh->parts[prt].precalc[0].x,
+                       part_pos.y + dp.y + veh->parts[prt].precalc[1].y - veh->parts[prt].precalc[0].y,
                        psg->posz() );
-        if( psg == &g->u ) { // if passenger is you, we need to update the map
+        // Add recoil
+        psg->driving_recoil = rec;
+        if( psg == &g->u ) {
+            // If passenger is you, we need to update the map
             psg->setpos( psgp );
             need_update = true;
             upd_x = psgp.x;
@@ -1569,6 +1512,18 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     const ter_t &old_t = old_id.obj();
     const ter_t &new_t = new_terrain.obj();
 
+    // Hack around ledges in traplocs or else it gets NASTY in z-level mode
+    if( old_t.trap != tr_null && old_t.trap != tr_ledge ) {
+        auto &traps = traplocs[old_t.trap];
+        const auto iter = std::find( traps.begin(), traps.end(), p );
+        if( iter != traps.end() ) {
+            traps.erase( iter );
+        }
+    }
+    if( new_t.trap != tr_null && new_t.trap != tr_ledge ) {
+        traplocs[new_t.trap].push_back( p );
+    }
+
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
     }
@@ -1655,19 +1610,7 @@ int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const
 
 int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) const
 {
-    if( !INBOUNDS( x, y ) ) {
-        return 0;
-    }
-
-    int part;
-    const furn_t &furniture = furn_at( x, y );
-    const ter_t &terrain = ter_at( x, y );
-    const vehicle *veh = veh_at( x, y, part );
-    if( veh == ignored_vehicle ) {
-        veh = nullptr;
-    }
-
-    return move_cost_internal( furniture, terrain, veh, part );
+    return move_cost( tripoint( x, y, abs_sub.z ), ignored_vehicle );
 }
 
 int map::move_cost_ter_furn(const int x, const int y) const
@@ -5783,7 +5726,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     bool visible = true;
     bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
                [this, &visible, &T]( const point &new_point ) {
-                   // Exit befre checking the last square, it's still visible even if opaque.
+                   // Exit before checking the last square, it's still visible even if opaque.
                    if( new_point.x == T.x && new_point.y == T.y ) {
                        return false;
                    }
@@ -5831,7 +5774,12 @@ bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
     }
     bool is_clear = true;
     bresenham( Fx, Fy, Tx, Ty, 0,
-               [this, &is_clear, cost_min, cost_max](const point &new_point ) {
+               [this, &is_clear, cost_min, cost_max, Tx, Ty](const point &new_point ) {
+                   // Exit before checking the last square, it's still reachable even if it is an obstacle.
+                   if( new_point.x == Tx && new_point.y == Ty ) {
+                       return false;
+                   }
+
                    const int cost = this->move_cost( new_point.x, new_point.y );
                    if( cost < cost_min || cost > cost_max ) {
                        is_clear = false;
@@ -6388,6 +6336,10 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             if( trap_here != tr_null ) {
                 traplocs[trap_here].push_back( pnt );
             }
+            const ter_t &ter = tmpsub->get_ter( x, y ).obj();
+            if( ter.trap != tr_null && ter.trap != tr_ledge ) {
+                traplocs[trap_here].push_back( pnt );
+            }
 
             if( do_funnels ) {
                 fill_funnels( pnt );
@@ -6425,8 +6377,6 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
 
 void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
-    const int gx = gp.x;
-    const int gy = gp.y;
     const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
     int pop = group.population;
     std::vector<tripoint> locations;
@@ -6437,20 +6387,40 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // the player has still their *old* (not shifted) coordinates.
         // That makes the submaps that have come into view visible (if the sight range
         // is big enough).
-        if( gx == 0 || gy == 0 || gx + 1 == MAPSIZE || gy + 1 == MAPSIZE ) {
+        if( gp.x == 0 || gp.y == 0 || gp.x + 1 == MAPSIZE || gp.y + 1 == MAPSIZE ) {
             ignore_sight = true;
         }
     }
+
+    if( gp.z != g->u.posz() ) {
+        // Note: this is only OK because 3D vision isn't a thing yet
+        ignore_sight = true;
+    }
+
+    // If the submap is uniform, we can skip many checks
+    const submap *current_submap = get_submap_at_grid( gp );
+    bool ignore_terrain_checks = false;
+    if( current_submap->is_uniform ) {
+        const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
+        if( move_cost( upper_left ) == 0 || has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) {
+            dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
+                " at uniform submap " << gp.x << "," << gp.y << "," << gp.z;
+            return;
+        }
+
+        ignore_terrain_checks = true;
+    }
+
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            int fx = x + SEEX * gx;
-            int fy = y + SEEY * gy;
+            int fx = x + SEEX * gp.x;
+            int fy = y + SEEY * gp.y;
             tripoint fp{ fx, fy, gp.z };
             if( g->critter_at( fp ) != nullptr ) {
                 continue; // there is already some creature
             }
 
-            if( move_cost( fp ) == 0 ) {
+            if( !ignore_terrain_checks && move_cost( fp ) == 0 ) {
                 continue; // solid area, impassable
             }
 
@@ -6458,23 +6428,28 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // monster must spawn outside the viewing range of the player
             }
 
-            if( has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
+            if( !ignore_terrain_checks && has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
                 continue; // monster must spawn outside.
             }
+
             locations.push_back( fp );
         }
     }
+
     if( locations.empty() ) {
         // TODO: what now? there is now possible place to spawn monsters, most
         // likely because the player can see all the places.
-        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() << " at " << gx << "," << gy;
+        dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
+            " at " << gp.x << "," << gp.y << "," << gp.z;
         return;
     }
+
     for( int m = 0; m < pop; m++ ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
         if( spawn_details.name == mon_null ) {
             continue;
         }
+
         monster tmp( spawn_details.name );
         for( int i = 0; i < spawn_details.pack_size; i++) {
             for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {

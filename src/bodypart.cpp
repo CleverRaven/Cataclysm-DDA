@@ -247,6 +247,7 @@ std::string get_body_part_id(body_part bp)
     case bp_foot_r:
         return "FOOT_R";
     default:
-        throw std::string("bad body part: %d", bp);
+        debugmsg( "bad body part: %d", bp );
+        return "HEAD";
     }
 }

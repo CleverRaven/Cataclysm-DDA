@@ -543,7 +543,7 @@ action_id handle_action_menu()
         int veh_part = 0;
         vehicle *veh = NULL;
 
-        veh = g->m.veh_at( g->u.posx(), g->u.posy(), veh_part );
+        veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;

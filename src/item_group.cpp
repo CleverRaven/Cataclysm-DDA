@@ -467,7 +467,7 @@ Group_tag get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Group_tag new_group = unique_prefix + std::to_string( next_id++ );
+        const Group_tag new_group = unique_prefix + to_string( next_id++ );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }

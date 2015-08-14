@@ -1034,7 +1034,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Record of player stats, for posterity only
         stats *lifetime_stats();
         stats get_stats() const; // for serialization
-        void mod_stat( std::string stat, int modifier ) override;
+        void mod_stat( const std::string &stat, int modifier ) override;
 
         int getID () const;
         // sets the ID, will *only* succeed when the current id is 0 (=not initialized)

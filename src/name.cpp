@@ -159,7 +159,7 @@ void load_names_from_file(const std::string &filename)
     std::ifstream data_file;
     data_file.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
     if(!data_file.good()) {
-        throw "Could not read " + filename;
+        throw std::runtime_error( std::string( "Could not read " ) + filename );
     }
 
     NameGenerator &gen = NameGenerator::generator();

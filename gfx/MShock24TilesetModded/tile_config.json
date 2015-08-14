@@ -9642,6 +9642,42 @@
           ]
         },
         {
+          "id": "explosion_medium",
+          "bg": 506,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 1600,
+              "bg": 506
+            },
+            {
+              "id": "edge",
+              "fg": 1601,
+              "bg": 506
+            }
+          ]
+        },
+        {
+          "id": "explosion_weak",
+          "bg": 506,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 1600,
+              "bg": 506
+            },
+            {
+              "id": "edge",
+              "fg": 1601,
+              "bg": 506
+            }
+          ]
+        },
+        {
           "id": "f_counter",
           "fg": 921,
           "bg": 506,

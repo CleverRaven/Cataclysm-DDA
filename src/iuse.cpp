@@ -1847,6 +1847,32 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+// Helper to handle the logic of removing some random mutations.
+static void do_purify( player *p )
+{
+    std::vector<std::string> valid; // Which flags the player has
+    for( auto &traits_iter : mutation_branch::get_all() ) {
+        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+            //Looks for active mutation
+            valid.push_back( traits_iter.first );
+        }
+    }
+    if( valid.empty() ) {
+        p->add_msg_if_player(_("You feel cleansed."));
+        return;
+    }
+    int num_cured = rng( 1, valid.size() );
+    num_cured = std::min( 4, num_cured );
+    for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
+        const std::string id = random_entry_removed( valid );
+        if( p->purifiable( id ) ) {
+            p->remove_mutation( id );
+        } else {
+            p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
+        }
+    }
+}
+
 int iuse::purifier(player *p, item *it, bool, const tripoint& )
 {
     if (p->has_trait("MUTAGEN_AVOID")) {
@@ -1863,30 +1889,7 @@ int iuse::purifier(player *p, item *it, bool, const tripoint& )
     if( marloss_reject_mutagen( p, it ) ) {
         it->type->charges_to_use();
     }
-
-    std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
-            //Looks for active mutation
-            valid.push_back( traits_iter.first );
-        }
-    }
-    if (valid.empty()) {
-        p->add_msg_if_player(_("You feel cleansed."));
-        return it->type->charges_to_use();
-    }
-    int num_cured = rng(1, valid.size());
-    if (num_cured > 4) {
-        num_cured = 4;
-    }
-    for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        const std::string id = random_entry_removed( valid );
-        if (p->purifiable( id )) {
-            p->remove_mutation( id );
-        } else {
-            p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
-        }
-    }
+    do_purify( p );
     return it->type->charges_to_use();
 }
 
@@ -4102,13 +4105,12 @@ void act_vehicle_siphon(vehicle *); // veh_interact.cpp
 
 int iuse::siphon(player *p, item *it, bool, const tripoint& )
 {
-    int posx = 0;
-    int posy = 0;
-    if (!choose_adjacent(_("Siphon from where?"), posx, posy)) {
+    tripoint posp;
+    if (!choose_adjacent(_("Siphon from where?"), posp)) {
         return 0;
     }
 
-    vehicle *veh = g->m.veh_at(posx, posy);
+    vehicle *veh = g->m.veh_at(posp);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no vehicle there."));
         return 0;
@@ -4901,6 +4903,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             g->active_npc[npc_hit]->environmental_revert_effect();
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             g->u.environmental_revert_effect();
+                            do_purify( &(g->u) );
                         }
                     }
                 }
@@ -9334,17 +9337,17 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
     std::string initial_state = it->get_var( "state", "attach_first" );
 
     if(initial_state == "attach_first") {
-        int posx, posy;
-        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+        tripoint posp;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posp)) {
             return 0;
         }
-        auto veh = g->m.veh_at(posx, posy);
-        auto ter = g->m.ter_at(posx, posy);
-        if (veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
+        auto veh = g->m.veh_at( posp );
+        auto ter = g->m.ter_at( posp );
+        if( veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
-            point abspos = g->m.getabs(posx, posy);
+            const auto abspos = g->m.getabs( posp );
             it->active = true;
             it->set_var( "state", "pay_out_cable" );
             it->set_var( "source_x", abspos.x );
@@ -9376,7 +9379,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        auto target_veh = g->m.veh_at( vpos);
+        auto target_veh = g->m.veh_at( vpos );
         if (target_veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
@@ -9410,13 +9413,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             // a iuse_actor class, or add a check in item_factory.
             const vpart_str_id vpid( it->typeId() );
 
-            point vcoords = g->m.veh_part_coordinates( source_local.x, source_local.y );
+            point vcoords = g->m.veh_part_coordinates( source_local );
             vehicle_part source_part(vpid, vcoords.x, vcoords.y, it);
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
-            vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
+            vcoords = g->m.veh_part_coordinates( target_local );
             vehicle_part target_part(vpid, vcoords.x, vcoords.y, it);
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
