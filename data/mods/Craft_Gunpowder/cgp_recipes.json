@@ -32,5 +32,217 @@
       [ "charcoal", 5 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "rifle_40",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "rifle_44",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "rifle_38",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "rifle_45",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 1 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_22",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 3 ]
+    ],
+      [ "scrap", 2]
+    [
+      [ "2x4", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_38",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 3 ]
+    ],
+      [ "scrap", 2]
+    [
+      [ "2x4", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_9mm",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 3 ]
+    ],
+      [ "scrap", 2]
+    [
+      [ "2x4", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_40",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 3 ]
+    ],
+      [ "scrap", 2]
+    [
+      [ "2x4", 2 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "smg_45",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 36000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 3 ]
+    ],
+      [ "scrap", 2]
+    [
+      [ "2x4", 2 ]
+    ]
+  ]
 }
 ]
