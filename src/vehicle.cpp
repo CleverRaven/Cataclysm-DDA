@@ -3800,7 +3800,7 @@ void vehicle::operate_scoop()
             if( one_in( chance_to_damage_item ) &&
                that_item_there->damage < 4){//The scoop will not destroy the item, but it may damage it a bit.
                     that_item_there->damage += 1;
-                    sounds::sound( position, rng(10,that_item_there->volume() * 2 + 10, _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
+                    sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10), _("BEEEThump") );//The scoop gets a lot louder when breaking an item.
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() * scoop_epower / rng( 8, 15 ) );
             if( battery_deficit == 0
