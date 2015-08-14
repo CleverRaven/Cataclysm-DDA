@@ -4040,8 +4040,9 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     int mondex = g->mon_at( p );
     int npcind = g->npc_at( p );
     bool u_here = p == g->u.pos() && !g->u.in_vehicle;
-    monster *z = mondex >= 0? &g->zombie(mondex) : nullptr;
-    player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
+    monster *z = mondex >= 0 ? &g->zombie(mondex) : nullptr;
+    player *ph = npcind >= 0 ? g->active_npc[npcind] : (u_here ? &g->u : 0);
+    Creature *critter = z != nullptr ? z : ph;
 
     // if in a vehicle assume it's this one
     if( ph != nullptr && ph->in_vehicle ) {
@@ -4050,8 +4051,8 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
 
     int target_part = -1;
     vehicle *oveh = g->m.veh_at( p, target_part );
-    bool is_veh_collision = oveh != nullptr && (oveh->posx != posx || oveh->posy != posy);
-    bool is_body_collision = ph != nullptr || mondex >= 0;
+    const bool is_veh_collision = oveh != nullptr && (oveh->posx != posx || oveh->posy != posy);
+    const bool is_body_collision = critter != nullptr;
 
     veh_coll_type collision_type = veh_coll_nothing;
     std::string obs_name = g->m.name( p ).c_str();
@@ -4082,34 +4083,30 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     // e = 1 -> inelastic collision
     int part_dens = 0; //part density
 
-    if (is_body_collision) {
+    if( is_body_collision ) {
         // then, check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
         e=0.30;
         part_dens = 15;
-        if (z) {
-            switch (z->type->size) {
-            case MS_TINY:    // Rodent
-                mass2 = 1;
-                break;
-            case MS_SMALL:   // Half human
-                mass2 = 41;
-                break;
-            default:
-            case MS_MEDIUM:  // Human
-                mass2 = 82;
-                break;
-            case MS_LARGE:   // Cow
-                mass2 = 120;
-                break;
-            case MS_HUGE:     // TAAAANK
-                mass2 = 200;
-                break;
-            }
-        } else {
-            mass2 = 82;// player or NPC
+        switch( critter->get_size() ) {
+        case MS_TINY:    // Rodent
+            mass2 = 1;
+            break;
+        case MS_SMALL:   // Half human
+            mass2 = 41;
+            break;
+        default:
+        case MS_MEDIUM:  // Human
+            mass2 = 82;
+            break;
+        case MS_LARGE:   // Cow
+            mass2 = 120;
+            break;
+        case MS_HUGE:     // TAAAANK
+            mass2 = 200;
+            break;
         }
-    } else if ( g->m.is_bashable_ter_furn( p ) && g->m.move_cost_ter_furn( p ) != 2 &&
+    } else if( g->m.is_bashable_ter_furn( p ) && g->m.move_cost_ter_furn( p ) != 2 &&
                 // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                 (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
                  !g->m.has_flag_ter_or_furn("TINY", p)) &&
@@ -4125,14 +4122,15 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         //Just a rough rescale for now to obtain approximately equal numbers
         mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
         part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
-    } else if (g->m.move_cost_ter_furn(p) == 0) {
+    } else if( g->m.move_cost_ter_furn(p) == 0 ) {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
         e=0.10;
         part_dens = 80;
     }
 
-    if (collision_type == veh_coll_nothing) {  // hit nothing
+    if( collision_type == veh_coll_nothing ) {
+        // Hit nothing
         veh_collision ret;
         ret.type = veh_coll_nothing;
         return ret;
@@ -4142,7 +4140,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         return ret;
     }
 
-    int degree = rng (70, 100);
+    int degree = rng( 70, 100 );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( parm ).item );
@@ -4156,17 +4154,18 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
     float material_factor = (part_dens - vpart_dens)*0.5;
-    if ( material_factor >= 25) material_factor = 25; //saturation
-    if ( material_factor < -25) material_factor = -25;
+    material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
     float weight_factor;
     //factor = -25 if mass is much greater than mass2
-    if ( mass >= mass2 ) weight_factor = -25 * ( log(mass) - log(mass2) ) / log(mass);
-    //factor = +25 if mass2 is much greater than mass
-    else weight_factor = 25 * ( log(mass2) - log(mass) ) / log(mass2) ;
+    if ( mass >= mass2 ) {
+        weight_factor = -25 * ( log(mass) - log(mass2) ) / log(mass);
+    } else {
+        //factor = +25 if mass2 is much greater than mass
+        weight_factor = 25 * ( log(mass2) - log(mass) ) / log(mass2) ;
+    }
 
     float k = 50 + material_factor + weight_factor;
-    if(k > 90) k = 90;  //saturation
-    if(k < 10) k = 10;
+    k = std::max( 10.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
     std::string snd;
@@ -4199,7 +4198,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         //damage for object
         const float obj_dmg  = dmg * (100-k)/100;
 
-        if (collision_type == veh_coll_other) {
+        if( collision_type == veh_coll_other ) {
             smashed = false;
         } else if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
@@ -4254,15 +4253,14 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             }
 
             int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
-            if (z) {
-                z->apply_damage( nullptr, bp_torso, dam); // TODO: get the driver and make them responsible.
-
+            if( z != nullptr ) {
+                // TODO: get the driver and make them responsible.
+                z->apply_damage( nullptr, bp_torso, dam );
             } else {
-                ph->hitall (dam, 40, nullptr);
+                ph->hitall( dam, 40, nullptr );
             }
             if (vel2_a > rng (10, 20)) {
-                g->fling_creature( z != nullptr ? static_cast<Creature*>( z)  : ph,
-                                   move.dir() + angle, vel2_a );
+                g->fling_creature( critter, move.dir() + angle, vel2_a );
             }
         }
 
@@ -4271,30 +4269,10 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     } while( !smashed && velocity != 0 );
 
     // Apply special effects from collision.
-    if (!is_body_collision) {
-        if (pl_ctrl) {
-            if (snd.length() > 0) {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
-                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s with a %4$s"),
-                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
-            } else {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
-                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s."),
-                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str());
-            }
-        } else if (snd.length() > 0) {
-            add_msg (m_warning, _("You hear a %s"), snd.c_str());
-        }
-        sounds::sound(p, smashed? 80 : 50, "");
-    } else {
-        std::string dname;
-        if (z) {
-            dname = z->name().c_str();
-        } else {
-            dname = ph->name;
-        }
-        if (pl_ctrl) {
-            if (turns_stunned > 0 && z) {
+    if( critter != nullptr ) {
+        std::string dname = critter->name();
+        if( pl_ctrl ) {
+            if( turns_stunned > 0 ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
                          name.c_str(), part_info(part).name.c_str(), dname.c_str());
@@ -4305,15 +4283,28 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             }
         }
 
-        if (part_flag(part, "SHARP")) {
+        if( part_flag( part, "SHARP" ) ) {
             g->m.adjust_field_strength( p, fd_blood, 1 );
         } else {
             sounds::sound(p, 20, "");
         }
+    } else {
+        if( pl_ctrl ) {
+            if( snd.length() > 0 ) {
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
+                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s with a %4$s"),
+                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
+            } else {
+                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
+                add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s."),
+                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str());
+            }
+        }
+
+        sounds::sound(p, smashed ? 80 : 50, snd );
     }
 
     if( smashed ) {
-
         int turn_amount = rng (1, 3) * sqrt ((double)dmg);
         turn_amount /= 15;
         if (turn_amount < 1) {

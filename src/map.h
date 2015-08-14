@@ -475,12 +475,13 @@ public:
     void board_vehicle( const tripoint &p, player *pl );
     void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
     // Change vehicle coords and move vehicle's driver along.
-    // Returns true, if there was a submap change.
-    // If test is true, function only checks for submap change, no displacement
     // WARNING: not checking collisions!
-    bool displace_vehicle( tripoint &p, const tripoint &dp, bool test = false );
+    void displace_vehicle( tripoint &p, const tripoint &dp );
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
+
+    // Executes vehicle-vehicle collision based on vehicle::collision results
+    void vehicle_vehicle_collision( vehicle *veh, veh_collision &c );
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
