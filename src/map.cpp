@@ -197,7 +197,8 @@ maptile map::maptile_at_internal( const tripoint &p )
 
 VehicleList map::get_vehicles() {
     if( !zlevels ) {
-        return get_vehicles( 0, 0, SEEX * my_MAPSIZE, SEEY * my_MAPSIZE );
+        return get_vehicles( tripoint( 0, 0, abs_sub.z ),
+                             tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, abs_sub.z ) );
     }
 
     return get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
@@ -794,52 +795,6 @@ const vehicle *map::vehproceed()
     // redraw scene
     g->draw();
     return veh;
-}
-
-// 2D vehicle functions
-
-VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const int ey)
-{
-    return get_vehicles( tripoint( sx, sy, abs_sub.z ), tripoint( ex, ey, abs_sub.z ) );
-}
-
-vehicle* map::veh_at(const int x, const int y, int &part_num)
-{
-    return veh_at( tripoint( x, y, abs_sub.z ), part_num );
-}
-
-const vehicle* map::veh_at(const int x, const int y, int &part_num) const
-{
-    return veh_at( tripoint( x, y, abs_sub.z ), part_num );
-}
-
-const vehicle* map::veh_at_internal( const int x, const int y, int &part_num) const
-{
-    return veh_at_internal( tripoint( x, y, abs_sub.z ), part_num );
-}
-
-vehicle* map::veh_at(const int x, const int y)
-{
-    int part = 0;
-    return veh_at(x, y, part);
-}
-
-const vehicle* map::veh_at(const int x, const int y) const
-{
-    int part = 0;
-    return veh_at(x, y, part);
-}
-
-point map::veh_part_coordinates(const int x, const int y)
-{
-    int part_num;
-    vehicle* veh = veh_at(x, y, part_num);
-
-    if(veh == nullptr) {
-        return point(0,0);
-    }
-
-    return veh->parts[part_num].mount;
 }
 
 // 3D vehicle functions
@@ -1655,19 +1610,7 @@ int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const
 
 int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) const
 {
-    if( !INBOUNDS( x, y ) ) {
-        return 0;
-    }
-
-    int part;
-    const furn_t &furniture = furn_at( x, y );
-    const ter_t &terrain = ter_at( x, y );
-    const vehicle *veh = veh_at( x, y, part );
-    if( veh == ignored_vehicle ) {
-        veh = nullptr;
-    }
-
-    return move_cost_internal( furniture, terrain, veh, part );
+    return move_cost( tripoint( x, y, abs_sub.z ), ignored_vehicle );
 }
 
 int map::move_cost_ter_furn(const int x, const int y) const

@@ -1336,11 +1336,10 @@ void veh_interact::move_cursor (int dx, int dy)
     int vdy = -ddy;
     int vx, vy;
     veh->coord_translate (vdx, vdy, vx, vy);
-    int vehx = veh->global_x() + vx;
-    int vehy = veh->global_y() + vy;
-    bool obstruct = g->m.move_cost_ter_furn (vehx, vehy) == 0;
-    vehicle *oveh = g->m.veh_at (vehx, vehy);
-    if (oveh && oveh != veh) {
+    tripoint vehp = veh->global_pos3() + point( vx, vy );
+    bool obstruct = g->m.move_cost_ter_furn( vehp ) == 0;
+    vehicle *oveh = g->m.veh_at( vehp );
+    if( oveh != nullptr && oveh != veh ) {
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
@@ -2124,10 +2123,10 @@ void act_vehicle_siphon(vehicle* veh) {
     if(foundv.size() == 1) {
         fillv = foundv.front();
     } else {
-        int posx, posy;
+        tripoint posp;
         g->draw_ter();
-        if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
-            fillv = g->m.veh_at(posx, posy);
+        if(choose_adjacent( _("Fill which vehicle?"), posp ) ) {
+            fillv = g->m.veh_at( posp );
         } else {
             add_msg(m_info, _("Never mind."));
             return; // Bailed out of vehicle selection.
@@ -2166,7 +2165,7 @@ void complete_vehicle ()
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }
-    vehicle *veh = g->m.veh_at (g->u.activity.values[0], g->u.activity.values[1]);
+    vehicle *veh = g->m.veh_at( tripoint( g->u.activity.values[0], g->u.activity.values[1], g->u.posz() ) );
     if (!veh) {
         debugmsg ("Activity ACT_VEHICLE: vehicle not found");
         return;
