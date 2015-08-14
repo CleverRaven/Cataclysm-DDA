@@ -138,7 +138,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
                     cur.z += sz;
-                    t -= ax; // to clarify, ax and az are equivalent in this case
+                    t -= ax;
                 }
                 cur.y += sy;
                 cur.x += sx;
