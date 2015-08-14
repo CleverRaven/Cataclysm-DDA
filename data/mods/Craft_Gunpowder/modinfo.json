@@ -2,8 +2,8 @@
   "type": "MOD_INFO",
   "mod-type": "SUPPLEMENTAL",
   "ident": "craftgp",
-  "name": "Craftable Gunpowder",
+  "name": "Craftable Gun Pack",
   "author": "Zaweri",
-  "description": "Restores the old gunpowder crafting recipe.  WARNING: Breaks intended balance.",
+  "description": "Adds more craftable firearms, and gunpowder.  WARNING: Breaks intended balance.",
   "path": ""
 }
