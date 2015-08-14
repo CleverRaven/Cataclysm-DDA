@@ -857,7 +857,7 @@ void vehicle::use_controls()
     // Always have this option
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.posx(), g->u.posy(), vpart) == this) {
+        g->m.veh_at(g->u.pos(), vpart) == this) {
         menu.addentry( release_control, true, 'l', _("Let go of controls") );
     } else if( remotely_controlled ) {
         menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
@@ -2107,7 +2107,7 @@ bool vehicle::remove_part (int p)
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = g->u.activity;
     if( act.type == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
-        if( g->m.veh_at( act.values[0], act.values[1] ) == this ) {
+        if( g->m.veh_at( tripoint( act.values[0], act.values[1], g->u.posz() ) ) == this ) {
             if( act.values[6] >= p ) {
                 g->u.cancel_activity();
                 add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
@@ -2867,7 +2867,7 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
-        vehicle *veh = g->m.veh_at(g->u.posx(), g->u.posy(), part_under_player);
+        vehicle *veh = g->m.veh_at( g->u.pos(), part_under_player );
         bool player_controlling = player_in_control(g->u);
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle

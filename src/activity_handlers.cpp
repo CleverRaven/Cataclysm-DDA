@@ -537,10 +537,10 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 }
 
 
-void activity_handlers::hotwire_finish( player_activity *act, player *)
+void activity_handlers::hotwire_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at(act->values[0], act->values[1]);
+    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
     if( veh ) {
         int mech_skill = act->values[2];
         if( mech_skill > (int)rng(1, 6) ) {
@@ -951,10 +951,10 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     act->type = ACT_NULL;
 }
 
-void activity_handlers::vehicle_finish( player_activity *act, player *)
+void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 {
     //Grab this now, in case the vehicle gets shifted
-    vehicle *veh = g->m.veh_at(act->values[0], act->values[1]);
+    vehicle *veh = g->m.veh_at( tripoint( act->values[0], act->values[1], pl->posz() ) );
     complete_vehicle();
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and

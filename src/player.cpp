@@ -3447,7 +3447,7 @@ std::string player::print_recoil() const
 
 int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
 {
-    vehicle *veh = g->m.veh_at( pos3() );
+    vehicle *veh = g->m.veh_at( pos() );
     if( veh == nullptr ) {
         debugmsg( "Tried to aim turret while outside vehicle" );
         return line_number;
@@ -3651,7 +3651,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
-        veh = g->m.veh_at (posx(), posy());
+        veh = g->m.veh_at( pos() );
     }
     if( veh ) {
   veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
@@ -3912,7 +3912,7 @@ bool player::in_climate_control()
     {
         next_climate_control_check=int(calendar::turn)+20;  // save cpu and similate acclimation.
         int vpart = -1;
-        vehicle *veh = g->m.veh_at(posx(), posy(), vpart);
+        vehicle *veh = g->m.veh_at( pos(), vpart );
         if(veh)
         {
             regulated_area=(
@@ -4189,8 +4189,8 @@ bool player::has_alarm_clock()
 {
     return ( has_item_with_flag("ALARMCLOCK") ||
              (
-               ( g->m.veh_at( posx(), posy() ) != nullptr ) &&
-               !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
+               ( g->m.veh_at( pos() ) != nullptr ) &&
+               !g->m.veh_at( pos() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
              ) ||
              has_bionic("bio_watch")
            );
@@ -4200,8 +4200,8 @@ bool player::has_watch()
 {
     return ( has_item_with_flag("WATCH") ||
              (
-               ( g->m.veh_at( posx(), posy() ) != nullptr ) &&
-               !g->m.veh_at( posx(), posy() )->all_parts_with_feature( "WATCH", true ).empty()
+               ( g->m.veh_at( pos() ) != nullptr ) &&
+               !g->m.veh_at( pos() )->all_parts_with_feature( "WATCH", true ).empty()
              ) ||
              has_bionic("bio_watch")
            );
@@ -11514,8 +11514,8 @@ void player::read(int inventory_position)
         }
     }
 
-    vehicle *veh = g->m.veh_at (posx(), posy());
-    if (veh && veh->player_in_control(*this)) {
+    vehicle *veh = g->m.veh_at( pos() );
+    if( veh != nullptr && veh->player_in_control(*this) ) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
         return;
     }
@@ -11935,7 +11935,7 @@ bool player::try_study_recipe( const itype &book )
 void player::try_to_sleep()
 {
     int vpart = -1;
-    vehicle *veh = g->m.veh_at (pos(), vpart);
+    vehicle *veh = g->m.veh_at( pos(), vpart );
     const trap &trap_at_pos = g->m.tr_at(pos());
     const ter_id ter_at_pos = g->m.ter(pos());
     const furn_id furn_at_pos = g->m.furn(pos());

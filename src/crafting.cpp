@@ -2184,8 +2184,8 @@ void player::complete_disassemble()
     float component_success_chance = std::min(std::pow(0.8f, dis_item.damage), 1.0);
 
     int veh_part = -1;
-    vehicle *veh = g->m.veh_at(posx(), posy(), veh_part);
-    if(veh != 0) {
+    vehicle *veh = g->m.veh_at( pos(), veh_part );
+    if( veh != nullptr ) {
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
 
