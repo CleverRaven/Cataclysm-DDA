@@ -782,6 +782,17 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
     if( g->m.flammable_items_at( pos ) ||
         g->m.has_flag( "FLAMMABLE", pos ) || g->m.has_flag( "FLAMMABLE_ASH", pos ) ||
         g->m.get_field_strength( pos, fd_web ) > 0 ) {
+        // Check for a brazier.
+        bool has_unactivated_brazier = false;
+        for( const auto &i : g->m.i_at( pos ) ) {
+            if( i.type->id == "brazier" ) {
+                 has_unactivated_brazier = true;
+            }
+        }
+        if( has_unactivated_brazier
+            && !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?"))) {
+              return false;
+        }
         return true;
     } else {
         p->add_msg_if_player(m_info, _("There's nothing to light there."));
