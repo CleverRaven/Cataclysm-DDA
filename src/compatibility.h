@@ -44,6 +44,15 @@ inline std::string to_string(int const n)
     return buffer;
 }
 
+inline std::string to_string(unsigned int const n)
+{
+    //+ and \0 (no -)
+    constexpr int size = std::numeric_limits<unsigned int>::digits10 + 2;
+    char buffer[size];
+    snprintf(buffer, size, "%u", n);
+    return buffer;
+}
+
 inline std::string to_string(double const n)
 {
     //- . \0 + snprintf default precision.
