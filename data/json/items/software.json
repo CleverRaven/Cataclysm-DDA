@@ -1,0 +1,112 @@
+[
+    {
+        "type":"GENERIC",
+        "id": "software_useless",
+        "symbol": " ",
+        "color": "white",
+        "name": "misc software",
+        "name_plural": "none",
+        "description": "A miscellaneous piece of hobby software.  Probably useless.",
+        "price": 300,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "software_data": {
+            "power": 0,
+            "type": "USELESS"
+        },
+        "spawn_data": {
+            "container": "usb_drive"
+        }
+    },
+    {
+        "type":"GENERIC",
+        "id": "software_hacking",
+        "symbol": " ",
+        "color": "white",
+        "name": "hackPRO",
+        "name_plural": "none",
+        "description": "A piece of hacking software.",
+        "price": 800,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "software_data": {
+            "power": 2,
+            "type": "HACKING"
+        },
+        "spawn_data": {
+            "container": "usb_drive"
+        }
+    },
+    {
+        "type":"GENERIC",
+        "id": "software_medical",
+        "symbol": " ",
+        "color": "white",
+        "name": "MediSoft",
+        "name_plural": "none",
+        "description": "A piece of medical software.",
+        "price": 600,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "software_data": {
+            "power": 2,
+            "type": "MEDICAL"
+        },
+        "spawn_data": {
+            "container": "usb_drive"
+        }
+    },
+    {
+        "type":"GENERIC",
+        "id": "software_math",
+        "symbol": " ",
+        "color": "white",
+        "name": "MatheMAX",
+        "name_plural": "none",
+        "description": "A piece of mathematical software.",
+        "price": 500,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "software_data": {
+            "power": 3,
+            "type": "SCIENCE"
+        },
+        "spawn_data": {
+            "container": "usb_drive"
+        }
+    },
+    {
+        "type":"GENERIC",
+        "id": "software_blood_data",
+        "symbol": " ",
+        "color": "white",
+        "name": "infection data",
+        "name_plural": "none",
+        "description": "Medical data on zombie blood.",
+        "price": 200,
+        "weight": 0,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "software_data": {
+            "power": 5,
+            "type": "DATA"
+        },
+        "spawn_data": {
+            "container": "usb_drive"
+        }
+    }
+]

@@ -28,21 +28,21 @@ struct MOD_INFORMATION {
     std::string description;
     mod_type _type;
     std::vector<std::string> dependencies;
+    bool obsolete;
 
-    MOD_INFORMATION()
-        : _type(MT_SUPPLEMENTAL)
+    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false)
     {
     }
 
     std::string type()
     {
         switch (_type) {
-            case MT_CORE:
-                return "CORE";
-                break;
-            case MT_SUPPLEMENTAL:
-                return "SUPPLEMENTAL";
-                break;
+        case MT_CORE:
+            return "CORE";
+            break;
+        case MT_SUPPLEMENTAL:
+            return "SUPPLEMENTAL";
+            break;
         }
     }
 };
@@ -165,4 +165,4 @@ class mod_ui
         void set_usable_mods();
 };
 
-#endif // MOD_MANAGER_H
+#endif

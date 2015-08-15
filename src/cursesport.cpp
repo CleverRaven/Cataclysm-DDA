@@ -6,6 +6,24 @@
 
 #include <cstring> // strlen
 
+/**
+ * Whoever cares, btw. not my base design, but this is how it works:
+ * In absent of a native curses library, this is a simple implementation to
+ * store the data that would be given to the curses system.
+ * It is later displayed using code in sdltiles.cpp. This file only contains
+ * the curses interface.
+ *
+ * The struct WINDOW is the base. It acts as the normal curses window, having
+ * width/height, current cursor location, current coloring (background/foreground)
+ * and the actual text.
+ * The text is split into lines (curseline), which contains cells (cursecell).
+ * Each cell has individual foreground and background, and a character. The
+ * character is an UTF-8 encoded string. It should be one or two console cells
+ * width. If it's two cells width, the next cell in the line must be completely
+ * empty (the string must not contain anything). Also the last cell of a line
+ * must not contain a two cell width string.
+ */
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -22,7 +40,13 @@ int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-n
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-    stdscr = curses_init();
+    // initscr is a ncurses function, it is not supposed to throw.
+    try {
+        stdscr = curses_init();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error while initializing: %s\n", err.what() );
+        return nullptr;
+    }
     return stdscr;
 }
 
@@ -40,7 +64,6 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
         nlines = TERMY - begin_y;
     }
 
-    int i, j;
     WINDOW *newwindow = new WINDOW;
     newwindow->x = begin_x;
     newwindow->y = begin_y;
@@ -52,22 +75,11 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
     newwindow->FG = 8;
     newwindow->cursorx = 0;
     newwindow->cursory = 0;
-    newwindow->line = new curseline[nlines];
+    newwindow->line.resize(nlines);
 
-    for (j = 0; j < nlines; j++) {
-        newwindow->line[j].chars = new char[ncols * 4];
-        newwindow->line[j].FG = new char[ncols];
-        newwindow->line[j].BG = new char[ncols];
+    for (int j = 0; j < nlines; j++) {
+        newwindow->line[j].chars.resize(ncols);
         newwindow->line[j].touched = true; //Touch them all !?
-        newwindow->line[j].width_in_bytes = ncols;
-        for (i = 0; i < ncols; i++) {
-            newwindow->line[j].chars[i] = 0;
-            newwindow->line[j].chars[i + 1] = 0;
-            newwindow->line[j].chars[i + 2] = 0;
-            newwindow->line[j].chars[i + 3] = 0;
-            newwindow->line[j].FG[i] = 0;
-            newwindow->line[j].BG[i] = 0;
-        }
     }
     return newwindow;
 }
@@ -78,18 +90,7 @@ int delwin(WINDOW *win)
     if (win == NULL) {
         return 1;
     }
-
-    int j;
-    win->inuse = false;
-    win->draw = false;
-    for (j = 0; j < win->height; j++) {
-        delete[] win->line[j].chars;
-        delete[] win->line[j].FG;
-        delete[] win->line[j].BG;
-    }
-    delete[] win->line;
     delete win;
-    win = NULL;
     return 1;
 }
 
@@ -103,11 +104,13 @@ inline int newline(WINDOW *win)
     return 0;
 }
 
+// move the cursor a single cell, jumps to the next line if the
+// end of a line has been reached, also sets the touched flag.
 inline void addedchar(WINDOW *win)
 {
     win->cursorx++;
     win->line[win->cursory].touched = true;
-    if (win->cursorx > win->width) {
+    if (win->cursorx >= win->width) {
         newline(win);
     }
 }
@@ -328,64 +331,136 @@ int getnstr(char *str, int size)
     return count;
 }
 
-//The core printing function, prints characters to the array, and sets colors
-inline int printstring(WINDOW *win, char *fmt)
+// Get a sequence of Unicode code points, store them in target
+// return the display width of the extracted string.
+inline int fill(const char *&fmt, int &len, std::string &target)
 {
-    int size = strlen(fmt);
-    if(size > 0) {
-        int j, i, p = win->cursorx;
-        int x = (win->line[win->cursory].width_in_bytes == win->width) ? win->cursorx : cursorx_to_position(
-                    win->line[win->cursory].chars, win->cursorx, &p);
-
-        if(p != x) { //so we start inside a wide character, erase it for good
-            const char *ts = win->line[win->cursory].chars + p;
-            int len = ANY_LENGTH;
-            unsigned tc = UTF8_getch(&ts, &len);
-            int tw = mk_wcwidth(tc);
-            erease_utf8_by_cw(win->line[win->cursory].chars + p, tw, tw, win->width * 4 - p - 1);
-            x = p + tw - 1;
+    const char *const start = fmt;
+    int dlen = 0; // display width
+    const char *tmpptr = fmt; // pointer for UTF8_getch, which increments it
+    int tmplen = len;
+    while( tmplen > 0 ) {
+        const unsigned ch = UTF8_getch(&tmpptr, &tmplen);
+        // UNKNOWN_UNICODE is most likely a (vertical/horizontal) line or similar
+        const int cw = (ch == UNKNOWN_UNICODE) ? 1 : mk_wcwidth(ch);
+        if( cw > 0 && dlen > 0 ) {
+            // Stop at the *second* non-zero-width character
+            break;
+        } else if( cw == -1 && start == fmt ) {
+            // First char is a control character: they only disturb the screen,
+            // so replace it with a single space (e.g. instead of a '\t').
+            // Newlines at the begin of a sequence are handled in printstring
+            target.assign( " ", 1 );
+            len = tmplen;
+            fmt = tmpptr;
+            return 1; // the space
+        } else if( cw == -1 ) {
+            // Control character but behind some other characters, finish the sequence.
+            // The character will either by handled by printstring (if it's a newline),
+            // or by the next call to this function (replaced with a space).
+            break;
         }
-        for (j = 0; j < size; j++) {
-            if (!(fmt[j] == 10)) { //check that this isnt a newline char
-                const char *utf8str = fmt + j;
-                int len = ANY_LENGTH;
-                unsigned ch = UTF8_getch(&utf8str, &len);
-                int cw = mk_wcwidth(ch);
-                len = ANY_LENGTH - len;
-                if(cw < 1) {
-                    cw = 1;
-                }
-                if(len < 1) {
-                    len = 1;
-                }
-                if (win->cursorx + cw <= win->width && win->cursory <= win->height - 1) {
-                    win->line[win->cursory].width_in_bytes += erease_utf8_by_cw(win->line[win->cursory].chars + x, cw,
-                            len, win->width * 4 - x - 1);
-                    for(i = 0; i < len; i++) {
-                        win->line[win->cursory].chars[x + i] = fmt[j + i];
-                    }
-                    for(i = 0; i < cw; i++) {
-                        win->line[win->cursory].FG[win->cursorx] = win->FG;
-                        win->line[win->cursory].BG[win->cursorx] = win->BG;
-                        addedchar(win);
-                    }
-                    win->line[win->cursory].touched = true;
-                    j += len - 1;
-                    x += len;
-                } else if (win->cursory <= win->height - 1) {
-                    // don't write outside the window, but don't abort if there are still lines to write.
-                } else {
-                    return 0; //if we try and write anything outside the window, abort completely
-                }
-            } else {// if the character is a newline, make sure to move down a line
-                if (newline(win) == 0) {
-                    return 0;
-                }
-                x = 0;
-            }
+        fmt = tmpptr;
+        dlen += cw;
+    }
+    target.assign(start, fmt - start);
+    len -= target.length();
+    return dlen;
+}
+
+// The current cell of the window, pointed to by the cursor. The next character
+// written to that window should go in this cell.
+// Returns nullptr if the cursor is invalid (outside the window).
+inline cursecell *cur_cell(WINDOW *win)
+{
+    if( win->cursory >= win->height || win->cursorx >= win->width ) {
+        return nullptr;
+    }
+    return &(win->line[win->cursory].chars[win->cursorx]);
+}
+
+//The core printing function, prints characters to the array, and sets colors
+inline int printstring(WINDOW *win, const std::string &text)
+{
+    win->draw = true;
+    int len = text.length();
+    if( len == 0 ) {
+        return 1;
+    }
+    const char *fmt = text.c_str();
+    // avoid having an invalid cursorx, so that cur_cell will only return nullptr
+    // when the bottom of the window has been reached.
+    if( win->cursorx >= win->width ) {
+        if( newline( win ) == 0 ) {
+            return 0;
         }
     }
-    win->draw = true;
+    if( win->cursory >= win->height || win->cursorx >= win->width ) {
+        return 0;
+    }
+    if( win->cursorx > 0 && win->line[win->cursory].chars[win->cursorx].ch.empty() ) {
+        // start inside a wide character, erase it for good
+        win->line[win->cursory].chars[win->cursorx - 1].ch.assign(" ");
+    }
+    while( len > 0 ) {
+        if( *fmt == '\n' ) {
+            if( newline(win) == 0 ) {
+                return 0;
+            }
+            fmt++;
+            len--;
+            continue;
+        }
+        cursecell *curcell = cur_cell( win );
+        if( curcell == nullptr ) {
+            return 0;
+        }
+        const int dlen = fill(fmt, len, curcell->ch);
+        if( dlen >= 1 ) {
+            curcell->FG = win->FG;
+            curcell->BG = win->BG;
+            addedchar( win );
+        }
+        if( dlen == 1 ) {
+            // a wide character was converted to a narrow character leaving a null in the
+            // following cell ~> clear it
+            cursecell *seccell = cur_cell( win );
+            if (seccell && seccell->ch.empty()) {
+                seccell->ch.assign(' ', 1);
+            }
+        } else if( dlen == 2 ) {
+            // the second cell, per definition must be empty
+            cursecell *seccell = cur_cell( win );
+            if( seccell == nullptr ) {
+                // the previous cell was valid, this one is outside of the window
+                // --> the previous was the last cell of the last line
+                // --> there should not be a two-cell width character in the last cell
+                curcell->ch.assign(' ', 1);
+                return 0;
+            }
+            seccell->FG = win->FG;
+            seccell->BG = win->BG;
+            seccell->ch.erase();
+            addedchar( win );
+            // Have just written a wide-character into the last cell, it would not
+            // display correctly if it was the last *cell* of a line
+            if( win->cursorx == 1 ) {
+                // So make that last cell a space, move the width
+                // character in the first cell of the line
+                seccell->ch = curcell->ch;
+                curcell->ch.assign(1, ' ');
+                // and make the second cell on the new line empty.
+                addedchar( win );
+                cursecell *thicell = cur_cell( win );
+                if( thicell != nullptr ) {
+                    thicell->ch.erase();
+                }
+            }
+        }
+        if( win->cursory >= win->height ) {
+            return 0;
+        }
+    }
     return 1;
 }
 
@@ -394,8 +469,7 @@ int wprintw(WINDOW *win, const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    char printbuf[2048];
-    vsnprintf(printbuf, 2047, fmt, args);
+    const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
     return printstring(win, printbuf);
 }
@@ -405,8 +479,7 @@ int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    char printbuf[2048];
-    vsnprintf(printbuf, 2047, fmt, args);
+    const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
     if (wmove(win, y, x) == 0) {
         return 0;
@@ -419,8 +492,7 @@ int mvprintw(int y, int x, const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    char printbuf[2048];
-    vsnprintf(printbuf, 2047, fmt, args);
+    const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
     if (move(y, x) == 0) {
         return 0;
@@ -433,8 +505,7 @@ int printw(const char *fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    char printbuf[2078];
-    vsnprintf(printbuf, 2047, fmt, args);
+    const std::string printbuf = vstring_format(fmt, args);
     va_end(args);
     return printstring(mainwin, printbuf);
 }
@@ -442,18 +513,9 @@ int printw(const char *fmt, ...)
 //erases a window of all text and attributes
 int werase(WINDOW *win)
 {
-    int j, i;
-    for (j = 0; j < win->height; j++) {
-        for (i = 0; i < win->width; i++)   {
-            win->line[j].chars[i] = 0;
-            win->line[j].chars[i + 1] = 0;
-            win->line[j].chars[i + 2] = 0;
-            win->line[j].chars[i + 3] = 0;
-            win->line[j].FG[i] = 0;
-            win->line[j].BG[i] = 0;
-        }
+    for (int j = 0; j < win->height; j++) {
+        win->line[j].chars.assign(win->width, cursecell());
         win->line[j].touched = true;
-        win->line[j].width_in_bytes = win->width;
     }
     win->draw = true;
     wmove(win, 0, 0);
@@ -526,8 +588,8 @@ int wclear(WINDOW *win)
 
 int clearok(WINDOW *win)
 {
-    for (int i = 0; i < win->y; i++) {
-        win->line[i].touched = true;
+    for (int i = 0; i < win->y && i < stdscr->height; i++) {
+        stdscr->line[i].touched = true;
     }
     return 1;
 }
@@ -570,10 +632,16 @@ int getcury(WINDOW *win)
 
 int start_color(void)
 {
-    return curses_start_color();
+    // start_color is a ncurses function, it is not supposed to throw.
+    try {
+        return curses_start_color();
+    } catch( const std::exception &err ) {
+        fprintf( stderr, "Error loading color definitions: %s\n", err.what() );
+        return -1;
+    }
 }
 
-int keypad(WINDOW*, bool)
+int keypad(WINDOW *, bool)
 {
     return 1;
 }
@@ -631,71 +699,45 @@ int waddch(WINDOW *win, const chtype ch)
     charcode = ch;
 
     switch (ch) {       //LINE_NESW  - X for on, O for off
-        case LINE_XOXO:   //#define LINE_XOXO 4194424
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:   //#define LINE_OXOX 4194417
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:   //#define LINE_XXOO 4194413
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:   //#define LINE_OXXO 4194412
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:   //#define LINE_OOXX 4194411
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:   //#define LINE_XOOX 4194410
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:   //#define LINE_XXOX 4194422
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:   //#define LINE_XXXO 4194420
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:   //#define LINE_XOXX 4194421
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:   //#define LINE_OXXX 4194423
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:   //#define LINE_XXXX 4194414
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            charcode = (char)ch;
-            break;
+    case LINE_XOXO:
+        charcode = LINE_XOXO_C;
+        break;
+    case LINE_OXOX:
+        charcode = LINE_OXOX_C;
+        break;
+    case LINE_XXOO:
+        charcode = LINE_XXOO_C;
+        break;
+    case LINE_OXXO:
+        charcode = LINE_OXXO_C;
+        break;
+    case LINE_OOXX:
+        charcode = LINE_OOXX_C;
+        break;
+    case LINE_XOOX:
+        charcode = LINE_XOOX_C;
+        break;
+    case LINE_XXOX:
+        charcode = LINE_XXOX_C;
+        break;
+    case LINE_XXXO:
+        charcode = LINE_XXXO_C;
+        break;
+    case LINE_XOXX:
+        charcode = LINE_XOXX_C;
+        break;
+    case LINE_OXXX:
+        charcode = LINE_OXXX_C;
+        break;
+    case LINE_XXXX:
+        charcode = LINE_XXXX_C;
+        break;
+    default:
+        charcode = (char)ch;
+        break;
     }
-
-
-    int cury = win->cursory;
-    int p = win->cursorx;
-    int curx = (win->line[cury].width_in_bytes == win->width) ? win->cursorx : cursorx_to_position(
-                   win->line[cury].chars, win->cursorx, &p);
-
-    if(curx != p) {
-        const char *ts = win->line[cury].chars + p;
-        int len = ANY_LENGTH;
-        unsigned tc = UTF8_getch(&ts, &len);
-        int tw = mk_wcwidth(tc);
-        win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars + p, tw, tw,
-                                          win->width * 4 - p - 1);
-        curx = p + tw - 1;
-    } else if(win->line[cury].width_in_bytes != win->width) {
-        win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars + p, 1, 1,
-                                          win->width * 4 - p - 1);
-    }
-
-    win->line[cury].chars[curx] = charcode;
-    win->line[cury].FG[win->cursorx] = win->FG;
-    win->line[cury].BG[win->cursorx] = win->BG;
-
-
-    win->draw = true;
-    addedchar(win);
-    return 1;
+    char buffer[2] = { charcode, '\0' };
+    return printstring( win, buffer );
 }
 
 //Move the cursor of the main window

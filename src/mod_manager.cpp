@@ -1,30 +1,57 @@
 #include "mod_manager.h"
-#include "file_finder.h"
+#include "filesystem.h"
 #include "debug.h"
 #include "output.h"
-#include "file_wrapper.h"
 #include "worldfactory.h"
 #include "path_info.h"
+#include "translations.h"
 
 #include <math.h>
 #include <queue>
 #include <iostream>
 #include <fstream>
-// FILE I/O
+#include <unordered_set>
+
 #include "json.h"
 #include <fstream>
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif
 
 #define MOD_SEARCH_FILE "modinfo.json"
 
+static std::unordered_set<std::string> obsolete_mod_list;
+
+static void load_obsolete_mods( const std::string path )
+{
+    // info_file_path is the fully qualified path to the information file for this mod
+    std::ifstream infile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+    if( !infile ) {
+        // fail silently?
+        return;
+    }
+    try {
+        JsonIn jsin( infile );
+        jsin.eat_whitespace();
+        char ch = jsin.peek();
+        if( ch == '[' ) {
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                obsolete_mod_list.insert( jsin.get_string() );
+            }
+        } else {
+            // not an object or an array?
+            jsin.error( string_format( "expected array, but found '%c'", ch ) );
+        }
+    } catch( const JsonError &e ) {
+        debugmsg("%s", e.c_str());
+    }
+}
+
 mod_manager::mod_manager()
 {
+    // Insure obsolete_mod_list is initialized.
+    if( obsolete_mod_list.empty() && file_exist(FILENAMES["obsolete-mods"]) ) {
+        load_obsolete_mods(FILENAMES["obsolete-mods"]);
+    }
 }
 
 mod_manager::~mod_manager()
@@ -40,8 +67,8 @@ dependency_tree &mod_manager::get_tree()
 void mod_manager::clear()
 {
     tree.clear();
-    for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
-        delete a->second;
+    for( auto &elem : mod_map ) {
+        delete elem.second;
     }
     mod_map.clear();
     default_mods.clear();
@@ -59,8 +86,8 @@ void mod_manager::refresh_mod_list()
     // remove these mods from the list, so they do not appear to the user
     remove_mod("user:default");
     remove_mod("dev:default");
-    for(t_mod_map::iterator a = mod_map.begin(); a != mod_map.end(); ++a) {
-        mod_dependency_map[a->second->ident] = a->second->dependencies;
+    for( auto &elem : mod_map ) {
+        mod_dependency_map[elem.second->ident] = elem.second->dependencies;
     }
     tree.init(mod_dependency_map);
 }
@@ -91,15 +118,14 @@ bool mod_manager::has_mod(const std::string &ident) const
 
 void mod_manager::load_mods_from(std::string path)
 {
-    std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
-    for (size_t i = 0; i < mod_files.size(); ++i) {
-        load_mod_info(mod_files[i]);
+    for( auto &mod_file : get_files_from_path(MOD_SEARCH_FILE, path, true) ) {
+        load_mod_info( mod_file );
     }
     if (file_exist(FILENAMES["mods-dev-default"])) {
         load_mod_info(FILENAMES["mods-dev-default"]);
     }
-    if (file_exist(FILENAMES["mods-user-defaults"])) {
-        load_mod_info(FILENAMES["mods-user-defaults"]);
+    if (file_exist(FILENAMES["mods-user-default"])) {
+        load_mod_info(FILENAMES["mods-user-default"]);
     }
 }
 
@@ -116,6 +142,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
     }
+
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
     std::vector<std::string> m_authors;
     if (jo.has_array("authors")) {
@@ -173,13 +200,13 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     }
 
-    mod_type m_type;
+    mod_type m_type = MT_CORE;
     if (t_type == "CORE") {
         m_type = MT_CORE;
     } else if (t_type == "SUPPLEMENTAL") {
         m_type = MT_SUPPLEMENTAL;
     } else {
-        throw std::string("Invalid mod type: ") + t_type + " for mod " + m_ident;
+        jo.throw_error( std::string("Invalid mod type: ") + t_type + " for mod " + m_ident );
     }
 
     MOD_INFORMATION *modfile = new MOD_INFORMATION;
@@ -199,7 +226,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
     default_mods = mods;
     std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
-        popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Can not open %s for writing"), FILENAMES["mods-user-default"].c_str());
         return false;
     }
     try {
@@ -214,8 +241,8 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         return true;
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-defaults"].c_str());
-    } catch(std::string e) {
+        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-default"].c_str());
+    } catch( const JsonError &e ) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());
     }
@@ -232,10 +259,11 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
     std::vector<std::string> search_extensions;
     search_extensions.push_back(".json");
 
-    DebugLog() << "Copying mod contents into directory: " << output_base_path << "\n";
+    DebugLog( D_INFO, DC_ALL ) << "Copying mod contents into directory: " << output_base_path;
 
     if (!assure_dir_exist(output_base_path)) {
-        DebugLog() << "Unable to create or open mod directory at [" << output_base_path << "] for saving\n";
+        DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" << output_base_path <<
+                                    "] for saving";
         return false;
     }
 
@@ -249,10 +277,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         size_t start_index = mod->path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        std::vector<std::string> input_files = file_finder::get_files_from_path(".json", mod->path, true,
-                                               true);
-        std::vector<std::string> input_dirs  = file_finder::get_directories_with(search_extensions,
-                                               mod->path, true);
+        auto input_files = get_files_from_path(".json", mod->path, true, true);
+        auto input_dirs  = get_directories_with(search_extensions, mod->path, true);
 
         if (input_files.empty() && mod->path.find(MOD_SEARCH_FILE) != std::string::npos) {
             // Self contained mod, all data is inside the modinfo.json file
@@ -273,14 +299,14 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        for (size_t j = 0; j < input_dirs.size(); ++j) {
-            dir_to_make.push(cur_mod_dir.str() + "/" + input_dirs[j].substr(start_index));
+        for( auto &input_dir : input_dirs ) {
+            dir_to_make.push( cur_mod_dir.str() + "/" + input_dir.substr( start_index ) );
         }
 
         while (!dir_to_make.empty()) {
             if (!assure_dir_exist(dir_to_make.front())) {
-                DebugLog() << "Unable to create or open mod directory at [" << dir_to_make.front() <<
-                           "] for saving\n";
+                DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open mod directory at [" <<
+                                            dir_to_make.front() << "] for saving";
             }
 
             dir_to_make.pop();
@@ -288,11 +314,11 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         std::ofstream fout;
         // trim file paths from full length down to just /data forward
-        for (size_t j = 0; j < input_files.size(); ++j) {
-            std::string output_path = input_files[j];
+        for( auto &input_file : input_files ) {
+            std::string output_path = input_file;
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
 
-            std::ifstream infile(input_files[j].c_str(), std::ifstream::in | std::ifstream::binary);
+            std::ifstream infile( input_file.c_str(), std::ifstream::in | std::ifstream::binary );
             // and stuff it into ram
             std::istringstream iss(
                 std::string(
@@ -346,12 +372,9 @@ void mod_manager::load_mod_info(std::string info_file_path)
             }
         } else {
             // not an object or an array?
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected object or array, but found '" << ch << "'";
-            throw err.str();
+            jsin.error( string_format( "expected array, but found '%c'", ch ) );
         }
-    } catch(std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("%s", e.c_str());
     }
 }
@@ -363,10 +386,18 @@ std::string mod_manager::get_mods_list_file(const WORLDPTR world)
 
 void mod_manager::save_mods_list(WORLDPTR world) const
 {
-    if (world == NULL || world->active_mod_order.empty()) {
+    if( world == NULL ) {
         return;
     }
     const std::string path = get_mods_list_file(world);
+    if( world->active_mod_order.empty() ) {
+        // If we were called from load_mods_list to prune the list,
+        // and it's empty now, delete the file.
+        if( file_exist(path) ) {
+            remove_file(path);
+        }
+        return;
+    }
     std::ofstream mods_list_file(path.c_str(), std::ios::out | std::ios::binary);
     if(!mods_list_file) {
         popup(_("Can not open %s for writing"), path.c_str());
@@ -378,8 +409,8 @@ void mod_manager::save_mods_list(WORLDPTR world) const
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
         popup(_("Failed to write to %s"), path.c_str());
-    } catch (std::string e) {
-        DebugLog() << "worldfactory: failed to write list of mods to world folder\n";
+    } catch( const JsonError &e ) {
+        popup( _( "Failed to write list of mods to %s: %s" ), path.c_str(), e.c_str() );
     }
 }
 
@@ -390,22 +421,33 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     }
     std::vector<std::string> &amo = world->active_mod_order;
     amo.clear();
-    std::ifstream mods_list_file(get_mods_list_file(world).c_str(), std::ios::in | std::ios::binary);
+    std::ifstream mods_list_file( get_mods_list_file(world).c_str(),
+                                  std::ios::in | std::ios::binary );
     if (!mods_list_file) {
         return;
     }
+    bool obsolete_mod_found = false;
     try {
         JsonIn jsin(mods_list_file);
         JsonArray ja = jsin.get_array();
         while (ja.has_more()) {
             const std::string mod = ja.next_string();
-            if (mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end()) {
+            if( mod.empty() || std::find(amo.begin(), amo.end(), mod) != amo.end() ) {
                 continue;
             }
+            if( obsolete_mod_list.count( mod ) ) {
+                obsolete_mod_found = true;
+                continue;
+            }
+
             amo.push_back(mod);
         }
-    } catch (std::string e) {
-        DebugLog() << "worldfactory: loading mods list failed: " << e;
+    } catch( const JsonError &e ) {
+        DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
+    }
+    if( obsolete_mod_found ) {
+        // If we found an obsolete mod, overwrite the mod list without the obsolete one.
+        save_mods_list(world);
     }
 }
 

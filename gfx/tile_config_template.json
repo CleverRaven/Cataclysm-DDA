@@ -73,6 +73,20 @@
             "multitile":false
         },
         {
+            "id":"explosion_medium",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id":"explosion_weak",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id":"animation_bullet_normal",
             "fg":-1,
             "bg":-1,
@@ -228,7 +242,21 @@
             "multitile":false
         },
         {
+            "id": "t_pit_glass",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id": "t_pit_spiked_covered",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
+            "id": "t_pit_glass_covered",
             "fg":-1,
             "bg":-1,
             "rotates":false,
@@ -9257,20 +9285,6 @@
         },
         {
             "id": "rifle_9mm",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "smg_9mm",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
-            "id": "smg_45",
             "fg":-1,
             "bg":-1,
             "rotates":false,

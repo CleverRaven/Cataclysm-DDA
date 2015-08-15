@@ -1,72 +1,78 @@
-#ifndef _INIT_H_
-#define _INIT_H_
+#ifndef INIT_H
+#define INIT_H
 
 #include "json.h"
 
 #include <string>
 #include <vector>
+#include <memory>
 
 //********** Functor Base, Static and Class member accessors
 class TFunctor
 {
-public:
-    virtual void operator ()(JsonObject &jo) = 0; // virtual () operator
-    virtual void Call(JsonObject &jo) = 0; // what will be getting called
-    virtual ~TFunctor() {};
+    public:
+        virtual void operator ()(JsonObject &jo) = 0; // virtual () operator
+        virtual void Call(JsonObject &jo) = 0; // what will be getting called
+        virtual ~TFunctor() {};
 };
 
 class StaticFunctionAccessor : public TFunctor
 {
-private:
-    void (*_fptr)(JsonObject &jo);
+    private:
+        void (*_fptr)(JsonObject &jo);
 
-public:
-    virtual void operator()(JsonObject &jo)
-    {
-        (*_fptr)(jo);
-    }
-    virtual void Call(JsonObject &jo)
-    {
-        (*_fptr)(jo);
-    }
+    public:
+        virtual void operator()(JsonObject &jo) override
+        {
+            (*_fptr)(jo);
+        }
+        virtual void Call(JsonObject &jo) override
+        {
+            (*_fptr)(jo);
+        }
 
-    StaticFunctionAccessor(void (*fptr)(JsonObject &jo))
-    {
-        _fptr = fptr;
-    }
+        StaticFunctionAccessor(void (*fptr)(JsonObject &jo))
+        {
+            _fptr = fptr;
+        }
 
-    ~StaticFunctionAccessor()
-    {
-        _fptr = NULL;
-    }
+        ~StaticFunctionAccessor()
+        {
+            _fptr = NULL;
+        }
 };
 template <class TClass> class ClassFunctionAccessor : public TFunctor
 {
-private:
-    void (TClass::*_fptr)(JsonObject &jo);
-    TClass *ptr_to_obj;
+    private:
+        void (TClass::*_fptr)(JsonObject &jo);
+        TClass *ptr_to_obj;
 
-public:
-    virtual void operator()(JsonObject &jo)
-    {
-        (*ptr_to_obj.*_fptr)(jo);
-    }
-    virtual void Call(JsonObject &jo)
-    {
-        (*ptr_to_obj.*_fptr)(jo);
-    }
+    public:
+        virtual void operator()(JsonObject &jo) override
+        {
+            (*ptr_to_obj.*_fptr)(jo);
+        }
+        virtual void Call(JsonObject &jo) override
+        {
+            (*ptr_to_obj.*_fptr)(jo);
+        }
 
-    ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
-    {
-        ptr_to_obj = ptr2obj;
-        _fptr = fptr;
-    }
+        ClassFunctionAccessor(TClass *ptr2obj, void (TClass::*fptr)(JsonObject &jo))
+        {
+            ptr_to_obj = ptr2obj;
+            _fptr = fptr;
+        }
+        ClassFunctionAccessor(const std::unique_ptr<TClass> &ptr2obj, void (TClass::*fptr)(JsonObject &jo))
+        {
+            ptr_to_obj = ptr2obj.get();
+            _fptr = fptr;
+        }
 
-    ~ClassFunctionAccessor()
-    {
-        _fptr = NULL;
-        ptr_to_obj = NULL;
-    }
+        ~ClassFunctionAccessor()
+        {
+            _fptr = NULL;
+            ptr_to_obj = NULL;
+        }
 };
 //********** END - Functor Base, Static and Class member accessors
 
@@ -127,15 +133,13 @@ class DynamicDataLoader
          * @param jsin Might contain single object,
          * or an array of objects. Each object must have a
          * "type", that is part of the @ref type_function_map
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws std::exception on all kind of errors.
          */
         void load_all_from_json(JsonIn &jsin);
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws std::exception on all kind of errors.
          */
         void load_object(JsonObject &jo);
 
@@ -167,8 +171,7 @@ class DynamicDataLoader
          * @param path Either a folder (recursively load all
          * files with the extension .json), or a file (load only
          * that file, don't check extension).
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws std::exception on all kind of errors.
          */
         void load_data_from_path(const std::string &path);
         /**
@@ -188,4 +191,4 @@ class DynamicDataLoader
 
 void init_names();
 
-#endif // _INIT_H_
+#endif

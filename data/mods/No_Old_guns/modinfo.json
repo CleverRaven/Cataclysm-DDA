@@ -1,0 +1,40 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "no_olg_guns",
+    "name": "No Antique Firearms",
+    "author": "Rivet-the-Zombie",
+    "description": "Removes antique firearms and those that are no longer in production.",
+    "path": "modinfo.json"
+},{
+    "type": "ITEM_BLACKLIST",
+    "items": [
+        "win70",
+        "weatherby_5",
+        "mosin91_30",
+        "mosin44",
+        "sig_p230",
+        "walther_ppk",
+        "tokarev",
+        "ppsh",
+        "colt_navy",
+        "colt_army",
+        "36navy",
+        "44army",
+        "rifle_flintlock",
+        "carbine_flintlock",
+        "pistol_flintlock",
+        "flintlock_ammo",
+        "32_acp",
+        "762_54R",
+        "32_casing",
+        "flintlock_ammo",
+        "32_acp",
+        "762_25",
+        "762R_casing",
+        "reloaded_32_acp",
+        "reloaded_762_54R"
+    ]
+}
+]

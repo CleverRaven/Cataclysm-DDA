@@ -13,9 +13,15 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "pointer_fake_ammo",
+        "name" : "none", 
+        "default" : "pointer_fake_ammo"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
-        "default" : ""
+        "default" : "700nx"
     },
     {
         "type" : "ammunition_type",
@@ -27,7 +33,7 @@
         "type" : "ammunition_type",
         "id" : "nail",
         "name" : "nails",
-        "default" : ""
+        "default" : "nail"
     },
     {
         "type" : "ammunition_type",
@@ -51,13 +57,19 @@
         "type" : "ammunition_type",
         "id" : "pebble",
         "name" : "pebbles",
-        "default" : ""
+        "default" : "pebble"
     },
     {
         "type" : "ammunition_type",
         "id" : "shot",
         "name" : "shot",
         "default" : "shot_00"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "blunderbuss",
+        "name" : "blunderbuss",
+        "default" : "blun_shot"
     },
     {
         "type" : "ammunition_type",
@@ -70,6 +82,12 @@
         "id" : "9mm",
         "name" : "9mm",
         "default" : "9mm"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "9x18",
+        "name" : "9x18mm",
+        "default" : "9x18mm"
     },
     {
         "type" : "ammunition_type",
@@ -127,6 +145,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "545x39",
+        "name" : "5.45x39mm",
+        "default" : "545"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "223",
         "name" : ".223",
         "default" : "223"
@@ -157,6 +181,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "120mm",
+        "name" : "High Explosive Anti Tank warhead",
+        "default" : "120mm_HEAT"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "84x246mm",
         "name" : "84mm recoilless projectile",
         "default" : "84x246mm_he"
@@ -175,6 +205,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "diesel",
+        "name" : "diesel",
+        "default" : "diesel"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "lamp_oil",
         "name" : "lamp oil",
         "default" : "lamp_oil"
@@ -184,6 +220,12 @@
         "id" : "thread",
         "name" : "thread",
         "default" : "thread"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "soap",
+        "name" : "soap",
+        "default" : "soap"
     },
     {
         "type" : "ammunition_type",
@@ -207,7 +249,7 @@
         "type" : "ammunition_type",
         "id" : "laser_capacitor",
         "name" : "charge",
-        "default" : ""
+        "default" : "laser_pack"
     },
     {
         "type" : "ammunition_type",
@@ -217,9 +259,9 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "muscle",
-        "name" : "muscle",
-        "default" : ""
+        "id" : "reactor_slurry",
+        "name" : "plutonium slurry",
+        "default" : "plut_slurry"
     },
     {
         "type" : "ammunition_type",
@@ -242,8 +284,14 @@
     {
         "type" : "ammunition_type",
         "id" : "water",
-        "name" : "clean water",
-        "default" : "water_clean"
+        "name" : "water",
+        "default" : "water"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "conc_alcohol",
+        "name" : "concentrated alcohol",
+        "default" : "denat_alcohol"
     },
     {
         "type" : "ammunition_type",
@@ -283,6 +331,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "small_charcoal",
+        "name" : "charcoal pieces",
+        "default" : "small_charcoal"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "metal_rail",
         "name" : "ferrous rail projectile",
         "default" : "rebar_rail"
@@ -307,6 +361,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "stimpack_ammo",
+        "name" : "stimulant module",
+        "default" : "stimpack_ammo"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "components",
         "name" : "components",
         "default" : "components"
@@ -315,13 +375,13 @@
         "type" : "ammunition_type",
         "id" : "RPG-7",
         "name" : "RPG-7",
-        "default" : ""
+        "default" : "RPG-7_ammo"
     },
     {
         "type" : "ammunition_type",
         "id" : "dart",
         "name" : "dart",
-        "default" : ""
+        "default" : "dart"
     },
     {
         "type" : "ammunition_type",
@@ -331,8 +391,74 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "300",
+        "name" : ".300",
+        "default" : "300_winmag"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "32",
+        "name" : ".32",
+        "default" : "32_acp"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "762x25",
+        "name" : "7.62x25mm",
+        "default" : "762_25"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "ammo_flintlock",
+        "name" : "paper cartridge",
+        "default" : "flintlock_ammo"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "36paper",
+        "name" : ".36 cap & ball",
+        "default" : "36navy"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "44paper",
+        "name" : ".44 cap & ball",
+        "default" : "44army"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "762R",
+        "name": "7.62x54mm",
+        "default": "762_54R"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "fishspear",
         "name" : "speargun spear",
         "default" : "fishspear"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "fish_bait",
+        "name" : "fish bait",
+        "default" : "fish_bait_meat"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "homebrew_rocket",
+        "name" : "homebrew rocket",
+        "default" : "spiked_rocket"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "unfinished_char",
+        "name" : "semi-charred fuel",
+        "default" : "unfinished_charcoal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "chemical_spray",
+        "name" : "sprayable chemical",
+        "default" : "gas_fungicidal"
     }
 ]

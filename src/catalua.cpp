@@ -1,8 +1,11 @@
 #include "catalua.h"
 
 #include <sys/stat.h>
+#include <memory>
 
 #include "game.h"
+#include "player.h"
+#include "action.h"
 #include "item_factory.h"
 #include "item.h"
 #include "pldata.h"
@@ -13,13 +16,32 @@
 #include "monstergenerator.h"
 #include "messages.h"
 #include "debug.h"
+#include "translations.h"
+#include "line.h"
+#include "weather_gen.h"
 
 #ifdef LUA
+#include "ui.h"
+#include "mongroup.h"
+#include "itype.h"
+#include "morale.h"
+#include "trap.h"
+#include "overmap.h"
+#include "mtype.h"
+#include "field.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
 }
+
+#include <type_traits>
+
+#if LUA_VERSION_NUM < 502
+#define LUA_OK 0
+#endif
+
+using item_stack_iterator = std::list<item>::iterator;
 
 lua_State *lua_state;
 
@@ -27,23 +49,45 @@ lua_State *lua_state;
 // we know where to load files from.
 std::string lua_file_path = "";
 
+#if LUA_VERSION_NUM < 502
+// Compatibility, for before Lua 5.2, which does not have luaL_setfuncs
+static void luaL_setfuncs( lua_State * const L, const luaL_Reg arrary[], int const nup )
+{
+    for( ; arrary->name != nullptr; arrary++ ) {
+        lua_pushstring( L, arrary->name );
+        // Need to copy the up-values because lua_pushcclosure removes them, they need
+        // to be set for each C-function.
+        for( int i = 0; i < nup; i++ ) {
+            lua_pushvalue( L, -(nup + 1) );
+        }
+        lua_pushcclosure( L, arrary->func, nup );
+        lua_settable( L, -(nup + 3) );
+    }
+    // Remove up-values as per definition of luaL_setfuncs in 5.2
+    lua_pop( L, nup );
+}
+#endif
+
 // Helper functions for making working with the lua API more straightforward.
 // --------------------------------------------------------------------------
 
 // Stores item at the given stack position into the registry.
-int luah_store_in_registry(lua_State* L, int stackpos) {
+int luah_store_in_registry(lua_State *L, int stackpos)
+{
     lua_pushvalue(L, stackpos);
     return luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
 // Removes item from registry and pushes on the top of stack.
-void luah_remove_from_registry(lua_State* L, int item_index) {
+void luah_remove_from_registry(lua_State *L, int item_index)
+{
     lua_rawgeti(L, LUA_REGISTRYINDEX, item_index);
     luaL_unref(L, LUA_REGISTRYINDEX, item_index);
 }
 
 // Sets the metatable for the element on top of the stack.
-void luah_setmetatable(lua_State* L, const char* metatable_name) {
+void luah_setmetatable(lua_State *L, const char *metatable_name)
+{
     // Push the metatable on top of the stack.
     lua_getglobal(L, metatable_name);
 
@@ -51,166 +95,700 @@ void luah_setmetatable(lua_State* L, const char* metatable_name) {
     lua_setmetatable(L, -2);
 }
 
-void luah_setglobal(lua_State*L, const char* name, int index) {
+void luah_setglobal(lua_State *L, const char *name, int index)
+{
     lua_pushvalue(L, index);
     lua_setglobal(L, name);
 }
 
-void update_globals(lua_State *L) {
-    // Make sure the player reference is up to date.
+/** Safe wrapper to get a Lua string as std::string. Handles nullptr and binary data. */
+std::string lua_tostring_wrapper( lua_State* const L, int const stack_position )
+{
+    size_t length = 0;
+    const char* const result = lua_tolstring( L, stack_position, &length );
+    if( result == nullptr || length == 0 ) {
+        return std::string{};
+    }
+    return std::string( result, length );
+}
+
+// Given a Lua return code and a file that it happened in, print a debugmsg with the error and path.
+// Returns true if there was an error, false if there was no error at all.
+bool lua_report_error(lua_State *L, int err, const char *path) {
+    if( err == LUA_OK || err == LUA_ERRRUN ) {
+        // No error or error message already shown via traceback function.
+        return err != LUA_OK;
+    }
+    const std::string error = lua_tostring_wrapper( L, -1 );
+    switch(err) {
+        case LUA_ERRSYNTAX:
+            debugmsg( "Lua returned syntax error for %s\n%s", path, error.c_str() );
+            break;
+        case LUA_ERRMEM:
+            debugmsg( "Lua is out of memory" );
+            break;
+        case LUA_ERRFILE:
+            debugmsg( "Lua returned file io error for %s\n%s", path, error.c_str() );
+            break;
+        default:
+            debugmsg( "Lua returned unknown error %d for %s\n%s", err, path, error.c_str() );
+            break;
+    }
+    return true;
+}
+
+/**
+ * Base interface for values, that are copied into Luas own memory (and thereby managed by Lua).
+ * The class creates a metatable for the wrapped objects, this is all set up via
+ * generate_bindings.lua.
+ * Usage: there are two main functions you might need: @ref push and @ref get.
+ * - @ref push copies the object into Luas memory and pushes a reference to it on the stack.
+ *   It is like @ref lua_pushnumber, only it pushes a whole object.
+ * - @ref get reads a value from the stack and returns a reference to it (the memory of the object
+ *   is managed by Lua and is kept until the garbage collector frees it).
+ *
+ * You can expect the following behavior:
+ * \code
+ * const Foo &myfoo = get_my_foo( ... );
+ * LuaValue<Foo>::push( L, myfoo ); // copies myfoo
+ * ... // give control back to Lua, wait for a callback from it,
+ * Foo &thefoo = LuaValue<Foo>::get( L, 1 ); // get the first argument of the callback
+ * thefoo.something(); // do something with it, not that myfoo and thefoo are different objects
+ * \endcode
+ *
+ * @param T is the type of object that should be managed. It must be copy-constructable.
+ */
+template<typename T>
+class LuaValue {
+private:
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    static const char * const METATABLE_NAME;
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    static const luaL_Reg FUNCTIONS[];
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    using MRMap = std::map<std::string, int(*)(lua_State*)>;
+    static const MRMap READ_MEMBERS;
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    using MWMap = std::map<std::string, int(*)(lua_State*)>;
+    static const MWMap WRITE_MEMBERS;
+
+    /*@{*/
+    /**
+     * @name Dynamic type conversion for Lua, or so.
+     *
+     * (Disclaimer: don't feel bad for not understanding this, I don't either.)
+     *
+     * get_subclass is a generated function, it checks whether the value at stack_index
+     * is one of the direct subclasses of T (this check is recursive).
+     * If one type matches, it returns a pointer to the object.
+     *
+     * Normally the function would be defined as `T* get_subclass(...)`, but if T is
+     * already a pointer (e.g. Creature*), we end with `Creature** get_subclass`.
+     * The problem is that a `monster**` can not be converted to `Creature**` and thereby
+     * not be returned via this function (trust me, I tried, one may be able to use a
+     * reinterpret_cast, but that is evil).
+     * We need a simple pointer (not a pointer-to-pointer).
+     *
+     * We get the simple pointer by removing the pointer from T via the std thingy, which gives us
+     * @ref Type. A reference to that is returned by @ref get.
+     *
+     * Reading user data from Lua gives a T*, so it must be converted to Type&, which may either
+     * be just one dereferencing (if T*==Type*) or two (if T*==Type**).
+     * One dereferencing is always done int @ref get, the (conditional) second is done in @ref cast.
+     * The two overloads match either a Type* (which dereferences the parameter) or a Type&
+     * (which just returns the reference without any changes).
+     *
+     * Maybe an example will help:
+     * For T = monster* the function monster::die(Creature*) needs a Creature as parameter.
+     * Try this in Lua: `game.zombie(0):die(player)`
+     * Lua will check the parameter to be of type LuaValue<Creature*>, this means checking the
+     * metatable (whether it's the very same as the one generated by LuaValue<Creature*>::get_metatable)
+     * However, `player` has a different table (from LuaValue<player*>), so Lua would complain
+     * about the wrong of the argument.
+     * `LuaValue<Creature*>::get_subclass` is hard coded (via the code generator) to
+     * check whether the value is actually a `Character*`, or a `monster*` (direct subclasses).
+     * If so, a pointer the those objects (converted to `Creature*`) is returned. `cast()` will
+     * simply pass that pointer through and the caller can return the `Creature*`.
+     *
+     * Now assume T = point (and assume tripoint inherit from point, why not?)
+     * A function calls for a `point`, the input is a tripoint, so the metatables don't match.
+     * `get_subclass` is called and successfully extract a tripoint from the userdata. It
+     * returns a pointer to the tripoint (converted to `point*`). The caller needs a point (or
+     * a point reference), so the `point*` must be converted back to a reference.
+     * This is done by the first `cast()` overload.
+     */
+    using Type = typename std::remove_pointer<T>::type;
+    static Type* get_subclass( lua_State* S, int stack_index );
+    template<typename P>
+    static Type& cast( P* ptr )
     {
-        player** player_userdata = (player**) lua_newuserdata(L, sizeof(player*));
-        *player_userdata = &g->u;
+        return *ptr;
+    }
+    template<typename P>
+    static Type& cast( P& ptr )
+    {
+        return ptr;
+    }
+    /*@}*/
 
-        // Set the metatable for the player.
-        luah_setmetatable(L, "player_metatable");
+    static int gc( lua_State* const L )
+    {
+        T *object = static_cast<T*>( lua_touserdata( L, 1 ) );
+        object->T::~T();
+        lua_pop( L, 1 );
+        return 0;
+    }
+    /**
+     * Wrapper for the Lua __index entry in the metatable of the userdata.
+     * It queries the actual metatable in case the call goes to a function (and does not request
+     * and actual class member) and returns that function (if found).
+     * If there is no function of the requested name, it looks up the name in @ref READ_MEMBERS,
+     * if it's there, it calls the function that the entry refers to (which acts as a getter).
+     * Finally it returns nil, which is what Lua would have used anyway.
+     */
+    static int index( lua_State * const L )
+    {
+        // -2 is the userdata, -1 is the key (funtion to call)
+        const char * const key = lua_tostring( L, -1 );
+        if( key == nullptr ) {
+            luaL_error( L, "Invalid input to __index: key is not a string." );
+        }
+        if( luaL_getmetafield( L, -2, key ) != 0 ) {
+            // There is an entry of that name, return it.
+            lua_remove( L, -3 ); // remove userdata
+            lua_remove( L, -2 ); // remove key
+            // -1 is now the things we have gotten from luaL_getmetafield, return it.
+            return 1;
+        }
+        const auto iter = READ_MEMBERS.find( key );
+        if( iter == READ_MEMBERS.end() ) {
+            // No such member or function
+            lua_pushnil( L );
+            return 1;
+        }
+        lua_remove( L, -1 ); // remove key
+        // userdata is still there (now on -1, where it is expected by the getter)
+        return iter->second( L );
+    }
+    /**
+     * Wrapper for the Lua __newindex entry in the metatable of the userdata.
+     * It looks up the name of the requested member in @ref WRITE_MEMBERS and (if found),
+     * calls the function that the entry refers to (which acts as a setter).
+     */
+    static int newindex( lua_State * const L )
+    {
+        // -3 is the userdata, -2 is the key (name of the member), -1 is the value
+        const char * const key = lua_tostring( L, -2 );
+        if( key == nullptr ) {
+            luaL_error( L, "Invalid input to __newindex: key is not a string." );
+        }
+        const auto iter = WRITE_MEMBERS.find( key );
+        if( iter == WRITE_MEMBERS.end() ) {
+            luaL_error( L, "Unknown attribute" );
+        }
+        lua_remove( L, -2 ); // key, userdata is still there, but now on -2, and the value is on -1
+        return iter->second( L );
+    }
+    /**
+     * This loads the metatable (and adds the available functions) and pushes it on the stack.
+     */
+    static void get_metatable( lua_State* const L )
+    {
+        // Create table (if it does not already exist), pushes it on the stack.
+        // If the table already exists, we have already filled it, so we can return
+        // without doing it again.
+        if( luaL_newmetatable( L, METATABLE_NAME ) == 0 ) {
+            return;
+        }
+        // Push the metatable itself, the stack now contains two pointers to the same metatable
+        lua_pushvalue( L, -1 );
+        // Set the metatable of the new metatable (-2 on the stack) to be itself. Pretty meta, hu?
+        // It also pops one value from the stack.
+        lua_setmetatable( L, -2 );
+        // Now set the actual functions of the metatable.
+        luaL_setfuncs( L, &FUNCTIONS[0], 0 );
 
-        luah_setglobal(L, "player", -1);
+        // Push function pointer
+        lua_pushcfunction( L, &gc );
+        // -1 would be the function pointer, -2 is the metatable, the function pointer is popped
+        lua_setfield( L, -2, "__gc" );
+        lua_pushcfunction( L, &index );
+        lua_setfield( L, -2, "__index" );
+        lua_pushcfunction( L, &newindex );
+        lua_setfield( L, -2, "__newindex" );
+    }
+    /**
+     * Checks the metatable that of value at stack_index against the metatable of this
+     * object (matching type T). Returns the stack in the same state as it was when called.
+     */
+    static bool has_matching_metatable( lua_State* const L, int const stack_index )
+    {
+        if( lua_getmetatable( L, stack_index ) == 0 ) {
+            // value does not have a metatable, can not be valid at all.
+            return false;
+        }
+        get_metatable( L );
+        const bool is_correct_metatable = lua_rawequal( L, -1, -2 );
+        lua_remove( L, -1 );
+        lua_remove( L, -1 );
+        return is_correct_metatable;
     }
 
-    // Make sure the map reference is up to date.
+public:
+    static void load_metatable( lua_State* const L, const char * const global_name )
     {
-        map** map_userdata = (map**) lua_newuserdata(L, sizeof(map*));
-        *map_userdata = &g->m;
-
-        // Set the metatable for the player.
-        luah_setmetatable(L, "map_metatable");
-
-        luah_setglobal(L, "map", -1);
+        // Create the metatable for the first time (or just retrieve it)
+        get_metatable( L );
+        if( global_name == nullptr ) {
+            // remove the table from stack, setglobal does this in the other branch,
+            // make it here manually to leave the stack in the same state.
+            lua_remove( L, -1 );
+        } else {
+            lua_setglobal( L, global_name );
+        }
     }
+    static void push( lua_State* const L, const T& value )
+    {
+        // Push user data,
+        T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
+        // Push metatable,
+        get_metatable( L );
+        // -1 would the the metatable, -2 is the uservalue, the table is popped
+        lua_setmetatable( L, -2 );
+        // This is where the copy happens:
+        new (value_in_lua) T( value );
+    }
+    static int push_reg( lua_State* const L, const T& value )
+    {
+        push( L, value );
+        return luah_store_in_registry( L, -1 );
+    }
+    static Type& get( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TUSERDATA );
+        T* user_data = static_cast<T*>( lua_touserdata( L, stack_index ) );
+        if( user_data == nullptr ) {
+            // luaL_error does not return at all.
+            luaL_error( L, "First argument to function is not a class" );
+        }
+        if( has_matching_metatable( L, stack_index ) ) {
+            return cast( *user_data );
+        }
+        Type* const subobject = get_subclass( L, stack_index );
+        if( subobject == nullptr ) {
+            // luaL_argerror does not return at all.
+            luaL_argerror( L, stack_index, METATABLE_NAME );
+        }
+        return *subobject;
+    }
+    /** Checks whether the value at stack_index is of the type T. If so, @ref get can be used to get it. */
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        if( !lua_isuserdata( L, stack_index ) ) {
+            return false;
+        }
+        if( has_matching_metatable( L, stack_index ) ) {
+            return true;
+        }
+        return get_subclass( L, stack_index ) != nullptr;
+    }
+    /** Raises a Lua error if the type of the value at stack_index is not compatible with T. */
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TUSERDATA );
+        if( !has( L, stack_index ) ) {
+            // METATABLE_NAME is used here as the name of the type we expect.
+            luaL_argerror( L, stack_index, METATABLE_NAME );
+        }
+    }
+};
+
+/**
+ * This is special wrapper (an extension) for references to objects which are not stored in Lua,
+ * but are kept in the memory managed by C++. This class only stores and retrieves the pointers,
+ * you have to make sure those pointers stay valid.
+ *
+ * Example (an @ref itype is loaded when a world is loaded and stays valid until the game ends):
+ * \code
+ * itype *it = type::find_type( "water" );
+ * LuaReference<itype>::push( L, it ); // copies the pointer it
+ * ... // give control back to Lua, wait for a callback from it,
+ * itype &it = LuaValue<itype*>::get( L, 1 ); // get the first argument of the callback
+ * assert(it.id == "water");
+ * \endcode
+ *
+ * This class extends LuaValue by some pointer specific behavior:
+ * - @ref push is overloaded to accept a reference to T (which will be converted to a pointer
+ *   and stored). Additionally, if the pointer passed to @ref push is nullptr, nil will be pushed
+ *   (this obviously does not work for references).
+ *   \code
+ *   Foo *x = ...;
+ *   LuaReference<Foo>::push( L, x );
+ *   LuaReference<Foo>::push( L, *x ); // both push calls do exactly the same.
+ *   \endcode
+ *   push is also overloaded to accept const and non-const references / pointers. The templated
+ *   third parameter there makes sure that this is only done when T is not const. Otherwise we
+ *   would end up with 2 identical push functions, both taking a const references.
+ * - @ref get returns a proxy object. It contains the pointer to T. It will automatically convert
+ *   to a reference / a pointer to T:
+ *   \code
+ *   void f_ptr( itype* );
+ *   void f_ref( itype& );
+ *   auto proxy = LuaReference<itype>::get( L, 1 );
+ *   f_ptr( proxy ); // proxy converts to itype*
+ *   f_ref( proxy ); // proxy converts to itype&
+ *   itype *it = proxy;
+ *   \endcode
+ *   If you only need a reference (e.g. to call member functions or access members), use
+ *   @ref LuaValue<T*>::get instead:
+ *   \code
+ *   itype &it = LuaValue<itype*>::get( L, 1 );
+ *   std::string name = it.nname();
+ *   \endcode
+ */
+template<typename T>
+class LuaReference : private LuaValue<T*> {
+public:
+    template<typename U = T>
+    static void push( lua_State* const L, T* const value, typename std::enable_if<!std::is_const<U>::value>::value_type* = nullptr )
+    {
+        if( value == nullptr ) {
+            lua_pushnil( L );
+            return;
+        }
+        LuaValue<T*>::push( L, value );
+    }
+    // HACK: because Lua does not known what const is.
+    static void push( lua_State* const L, const T* const value )
+    {
+        if( value == nullptr ) {
+            lua_pushnil( L );
+            return;
+        }
+        LuaValue<T*>::push( L, const_cast<T*>( value ) );
+    }
+    template<typename U = T>
+    static void push( lua_State* const L, T& value, typename std::enable_if<!std::is_const<U>::value>::value_type* = nullptr )
+    {
+        LuaValue<T*>::push( L, &value );
+    }
+    // HACK: because Lua does not known what const is.
+    static void push( lua_State* const L, const T& value )
+    {
+        LuaValue<T*>::push( L, const_cast<T*>( &value ) );
+    }
+    static int push_reg( lua_State* const L, T* const value )
+    {
+        push( L, value );
+        return luah_store_in_registry( L, -1 );
+    }
+    static int push_reg( lua_State* const L, T& value )
+    {
+        return LuaValue<T*>::push_reg( L, &value );
+    }
+    /** A proxy object that allows to convert the reference to a pointer on-demand. The proxy object can
+     * be used as argument to functions that expect either a pointer and to functions expecting a
+     * reference. */
+    struct proxy {
+        T *ref;
+        operator T*() { return ref; }
+        operator T&() { return *ref; }
+        T* operator &() { return ref; }
+    };
+    /** Same as calling @ref get, but returns a @ref proxy containing the reference. */
+    static proxy get( lua_State* const L, int const stack_position )
+    {
+        return proxy{ &LuaValue<T*>::get( L, stack_position ) };
+    }
+    using LuaValue<T*>::has;
+    using LuaValue<T*>::check;
+};
+
+/**
+ * This is the basic type-checking interface for the Lua bindings generator.
+ * Instead of "if type is string, call lua_isstring, if it's int, call lua_isnumber, ...", the
+ * generator can just call "LuaType<"..type..">::has".
+ * The C++ classes do the actual separation based on the type through the template parameter.
+ *
+ * Each implementation contains function like the LuaValue has:
+ * - @ref has checks whether the object at given stack index is of the requested type.
+ * - @ref check calls @ref has and issues a Lua error if the types is not as requested.
+ * - @ref get returns the value at given stack_index. This is like @ref LuaValue::get.
+ *   If you need to store the value, use \code auto && val = LuaType<X>::get(...); \endcode
+ * - @ref push puts the value on the stack, like @ref LuaValue::push
+ */
+template<typename T>
+struct LuaType;
+
+template<>
+struct LuaType<int> {
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return lua_isnumber( L, stack_index );
+    }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TNUMBER );
+    }
+    static int get( lua_State* const L, int const stack_index )
+    {
+        return lua_tonumber( L, stack_index );
+    }
+    static void push( lua_State* const L, int const value )
+    {
+        lua_pushnumber( L, value );
+    }
+};
+template<>
+struct LuaType<bool> {
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return lua_isboolean( L, stack_index );
+    }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TBOOLEAN );
+    }
+    static bool get( lua_State* const L, int const stack_index )
+    {
+        return lua_toboolean( L, stack_index );
+    }
+    static void push( lua_State* const L, bool const value )
+    {
+        lua_pushboolean( L, value );
+    }
+};
+template<>
+struct LuaType<std::string> {
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return lua_isstring( L, stack_index );
+    }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        luaL_checktype( L, stack_index, LUA_TSTRING );
+    }
+    static std::string get( lua_State* const L, int const stack_index )
+    {
+        return lua_tostring_wrapper( L, stack_index );
+    }
+    static void push( lua_State* const L, const std::string &value )
+    {
+        lua_pushlstring( L, value.c_str(), value.length() );
+    }
+    // For better performance: if the input is a c-string, forward it as such without wrapping
+    // it into a std::string first.
+    static void push( lua_State* const L, const char *value )
+    {
+        lua_pushstring( L, value );
+    }
+};
+template<>
+struct LuaType<float> : public LuaType<int> { // inherit checking because it's all the same to Lua
+    static float get( lua_State* const L, int const stack_index )
+    {
+        return lua_tonumber( L, stack_index );
+    }
+    static void push( lua_State* const L, float const value )
+    {
+        lua_pushnumber( L, value );
+    }
+};
+template<typename T>
+struct LuaType<LuaValue<T>> : public LuaValue<T> {
+};
+template<typename T>
+struct LuaType<LuaReference<T>> : public LuaReference<T> {
+};
+
+/** This basically transforms a string (therefor inheriting from LuaType<string>) into a C++
+ * enumeration value. It simply contains a table of string-to-enum-values. */
+template<typename E>
+class LuaEnum : private LuaType<std::string> {
+private:
+    using Parent = LuaType<std::string>;
+    /** Defined by generate_bindings.lua in catabindings.cpp */
+    using EMap = std::map<std::string, E>;
+    static const EMap BINDINGS;
+    static E from_string( const std::string &value )
+    {
+        const auto iter = BINDINGS.find( value );
+        if( iter == BINDINGS.end() ) {
+            // This point shall not be reached. Always call this with valid input.
+            return BINDINGS.begin()->second;
+        }
+        return iter->second;
+    }
+    static const std::string &to_string( E const value )
+    {
+        for( auto & e : BINDINGS ) {
+            if( e.second == value ) {
+                return e.first;
+            }
+        }
+        // This point shall not be reached. Always call this with valid input.
+        return BINDINGS.begin()->first;
+    }
+    static bool has( const std::string &value )
+    {
+        return BINDINGS.count( value ) > 0;
+    }
+    static int index( lua_State * const L )
+    {
+        // -1 is the key (funtion to call)
+        const char * const key = lua_tostring( L, -1 );
+        if( key == nullptr ) {
+            luaL_error( L, "Invalid input to __index: key is not a string." );
+        }
+        const auto iter = BINDINGS.find( key );
+        if( iter == BINDINGS.end() ) {
+            return luaL_error( L, "Invalid enum value." );
+        }
+        lua_remove( L, -1 ); // remove key
+        // Push the enum as string, it will be converted back to the enum later. This way, it can
+        // be specified both ways in Lua code: either as string or via an entry here.
+        lua_pushlstring( L, iter->first.c_str(), iter->first.length() );
+        return 1;
+    }
+public:
+    static bool has( lua_State* const L, int const stack_index )
+    {
+        return Parent::has( L, stack_index ) && has( Parent::get( L, stack_index ) );
+    }
+    static void check( lua_State* const L, int const stack_index )
+    {
+        Parent::check( L, stack_index );
+        if( !has( Parent::get( L, stack_index ) ) ) {
+            luaL_argerror( L, stack_index, "invalid value for enum" );
+        }
+    }
+    static E get( lua_State* const L, int const stack_index )
+    {
+        return from_string( Parent::get( L, stack_index ) );
+    }
+    static void push( lua_State* const L, E const value )
+    {
+        Parent::push( L, to_string( value ) );
+    }
+    /** Export the enum values as entries of a global metatable */
+    static void export_global( lua_State* const L, const char *global_name )
+    {
+        lua_createtable( L, 0, 1 ); // +1
+        lua_pushvalue( L, -1 ); // + 1
+        // Set the new table to have itself as metatable
+        lua_setmetatable( L, -2 ); // -1
+        // Setup the __index entry, which will translate the entry to a enum value
+        lua_pushcfunction( L, &index ); // +1
+        lua_setfield( L, -2, "__index" ); // -1
+        // And register as a global value
+        lua_setglobal( L, global_name ); // -1
+    }
+};
+template<typename E>
+struct LuaType<LuaEnum<E>> : public LuaEnum<E> {
+};
+
+void update_globals(lua_State *L)
+{
+    LuaReference<player>::push( L, g->u );
+    luah_setglobal( L, "player", -1 );
+
+    LuaReference<map>::push( L, g->m );
+    luah_setglobal( L, "map", -1 );
+
+    LuaReference<game>::push( L, g );
+    luah_setglobal( L, "g", -1 );
 }
 
 // iuse abstraction to make iuse's both in lua and C++ possible
 // ------------------------------------------------------------
-void Item_factory::register_iuse_lua(const char* name, int lua_function) {
+void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
+{
+    if( iuse_function_list.count( name ) > 0 ) {
+        DebugLog(D_INFO, D_MAIN) << "lua iuse function " << name << " overrides existing iuse function";
+    }
     iuse_function_list[name] = use_function(lua_function);
 }
 
 // Call the given string directly, used in the lua debug command.
-int call_lua(std::string tocall) {
-    lua_State* L = lua_state;
+int call_lua(std::string tocall)
+{
+    lua_State *L = lua_state;
 
     update_globals(L);
     int err = luaL_dostring(L, tocall.c_str());
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error in lua command: %s", error);
-    }
+    lua_report_error(L, err, tocall.c_str());
     return err;
 }
 
 
-void lua_callback(lua_State *, const char* callback_name) {
-    call_lua(std::string("mod_callback(\"")+std::string(callback_name)+"\")");
+void lua_callback(lua_State *, const char *callback_name)
+{
+    call_lua(std::string("mod_callback(\"") + std::string(callback_name) + "\")");
 }
 
 //
-int lua_mapgen(map * m, std::string terrain_type, mapgendata, int t, float, const std::string & scr) {
-    lua_State* L = lua_state;
-    {
-        map** map_userdata = (map**) lua_newuserdata(L, sizeof(map*));
-        *map_userdata = m;
-        luah_setmetatable(L, "map_metatable");
-        luah_setglobal(L, "map", -1);
+int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const std::string &scr)
+{
+    if( lua_state == nullptr ) {
+        return 0;
     }
+    lua_State *L = lua_state;
+    LuaReference<map>::push( L, m );
+    luah_setglobal(L, "map", -1);
 
     int err = luaL_loadstring(L, scr.c_str() );
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error loading lua mapgen: %s", error);
+    if( lua_report_error( L, err, scr.c_str() ) ) {
         return err;
     }
-//    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
-//    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
+    //    int function_index = luaL_ref(L, LUA_REGISTRYINDEX); // todo; make use of this
+    //    lua_rawgeti(L, LUA_REGISTRYINDEX, function_index);
 
     lua_pushstring(L, terrain_type.c_str());
     lua_setglobal(L, "tertype");
     lua_pushinteger(L, t);
     lua_setglobal(L, "turn");
 
-    err=lua_pcall(L, 0 , LUA_MULTRET, 0);
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error running lua mapgen: %s", error);
-    }
+    err = lua_pcall(L, 0 , LUA_MULTRET, 0);
+    lua_report_error( L, err, scr.c_str() );
 
-//    luah_remove_from_registry(L, function_index); // todo: make use of this
+    //    luah_remove_from_registry(L, function_index); // todo: make use of this
 
     return err;
 }
 
-// Lua monster movement override
-int lua_monster_move(monster* m) {
-    lua_State *L = lua_state;
-
-    update_globals(L);
-
-    lua_getglobal(L, "monster_move");
-    lua_getfield(L, -1, m->type->name.c_str());
-
-    // OK our function should now be at the top.
-    if(lua_isnil(L, -1)) {
-        lua_settop(L, 0);
-        return 0;
-    }
-
-    // Push the monster on top of the stack.
-    monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
-    *monster_userdata = m;
-
-    // Set the metatable for the monster.
-    luah_setmetatable(L, "monster_metatable");
-
-    // Call the function
-    int err = lua_pcall(lua_state, 1, 0, 0);
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error in lua monster move function: %s", error);
-    }
-    lua_settop(L, 0);
-
-    return 1;
-}
-
 // Custom functions that are to be wrapped from lua.
 // -------------------------------------------------
-static uimenu uimenu_instance;
-uimenu* create_uimenu() {
-    uimenu_instance = uimenu();
-    return &uimenu_instance;
+static std::unique_ptr<uimenu> uimenu_instance;
+uimenu *create_uimenu()
+{
+    uimenu_instance = std::unique_ptr<uimenu>(new uimenu());
+    return uimenu_instance.get();
 }
 
-ter_t* get_terrain_type(int id) {
-    return (ter_t*) &terlist[id];
+const ter_t &get_terrain_type(int id)
+{
+    return ter_id( id ).obj();
 }
 
-overmap *get_current_overmap() {
-    return g->cur_om;
+/** Create a new monster of the given type. */
+monster *create_monster( const mtype_id &mon_type, const tripoint &p )
+{
+    monster new_monster( mon_type, p );
+    if(!g->add_zombie(new_monster)) {
+        return NULL;
+    } else {
+        return &(g->zombie(g->mon_at( p )));
+    }
 }
 
-mongroup *create_monster_group(overmap *map, std::string type, int overmap_x, int overmap_y, int z, int radius, int population) {
-    map->zg.push_back(mongroup(type, overmap_x * 2, overmap_y * 2, z, radius, population));
-    return &(map->zg.back());
+it_comest *get_comestible_type(std::string name)
+{
+    return dynamic_cast<it_comest *>(item::find_type(name));
 }
-
-it_comest *get_comestible_type(std::string name) {
-    return dynamic_cast<it_comest*>(item_controller->find_template(name));
-}
-it_tool *get_tool_type(std::string name) {
-    return dynamic_cast<it_tool*>(item_controller->find_template(name));
-}
-it_gun *get_gun_type(std::string name) {
-    return dynamic_cast<it_gun*>(item_controller->find_template(name));
-}
-it_gunmod *get_gunmod_type(std::string name) {
-    return dynamic_cast<it_gunmod*>(item_controller->find_template(name));
-}
-it_armor *get_armor_type(std::string name) {
-    return dynamic_cast<it_armor*>(item_controller->find_template(name));
+it_tool *get_tool_type(std::string name)
+{
+    return dynamic_cast<it_tool *>(item::find_type(name));
 }
 
 
@@ -247,29 +825,26 @@ static int game_get_monsters(lua_State *L) {
 }
 */
 
-// mtype = game.monster_type(name)
-static int game_monster_type(lua_State *L) {
-    const char* parameter1 = (const char*) lua_tostring(L, 1);
+static void popup_wrapper(const std::string &text) {
+    popup( "%s", text.c_str() );
+}
 
-    mtype** monster_type = (mtype**) lua_newuserdata(L, sizeof(mtype*));
-    *monster_type = GetMType(parameter1);
-    luah_setmetatable(L, "mtype_metatable");
-
-    return 1; // 1 return values
-
+static void add_msg_wrapper(const std::string &text) {
+    add_msg( "%s", text.c_str() );
 }
 
 // items = game.items_at(x, y)
-static int game_items_at(lua_State *L) {
+static int game_items_at(lua_State *L)
+{
     int x = lua_tointeger(L, 1);
     int y = lua_tointeger(L, 2);
 
-    std::vector<item>& items = g->m.i_at(x, y);
-
+    auto items = g->m.i_at(x, y);
     lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
 
     // Iterate over the monster list and insert each monster into our returned table.
-    for( size_t i = 0; i < items.size(); ++i ) {
+    int i = 0;
+    for( auto &an_item : items ) {
         // The stack will look like this:
         // 1 - t, table containing item
         // 2 - k, index at which the next item will be inserted
@@ -277,9 +852,10 @@ static int game_items_at(lua_State *L) {
         //
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
-        lua_pushnumber(L, i + 1);
-        item** item_userdata = (item**) lua_newuserdata(L, sizeof(item*));
-        *item_userdata = &(items[i]);
+        lua_pushnumber(L, i++ + 1);
+        item **item_userdata = (item **) lua_newuserdata(L, sizeof(item *));
+        *item_userdata = &an_item;
+        // TODO: update using LuaReference<item>
         luah_setmetatable(L, "item_metatable");
         lua_rawset(L, -3);
     }
@@ -288,7 +864,8 @@ static int game_items_at(lua_State *L) {
 }
 
 // item_groups = game.get_item_groups()
-static int game_get_item_groups(lua_State *L) {
+static int game_get_item_groups(lua_State *L)
+{
     std::vector<std::string> items = item_controller->get_all_group_names();
 
     lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
@@ -310,36 +887,10 @@ static int game_get_item_groups(lua_State *L) {
     return 1; // 1 return values
 }
 
-// monstergroups = game.monstergroups(overmap)
-static int game_monstergroups(lua_State *L) {
-    overmap **userdata = (overmap**) lua_touserdata(L, 1);
-
-    std::vector<mongroup>& mongroups = (*userdata)->zg;
-
-    lua_createtable(L, mongroups.size(), 0); // Preallocate enough space for all our monster groups.
-
-    // Iterate over the monster group list and insert each monster group into our returned table.
-    for( size_t i = 0; i < mongroups.size(); ++i ) {
-        // The stack will look like this:
-        // 1 - t, table containing group
-        // 2 - k, index at which the next group will be inserted
-        // 3 - v, next group to insert
-        //
-        // lua_rawset then does t[k] = v and pops v and k from the stack
-
-        lua_pushnumber(L, i + 1);
-        mongroup** mongroup_userdata = (mongroup**) lua_newuserdata(L, sizeof(mongroup*));
-        *mongroup_userdata = &(mongroups[i]);
-        luah_setmetatable(L, "mongroup_metatable");
-        lua_rawset(L, -3);
-    }
-
-    return 1; // 1 return values
-}
-
 // monster_types = game.get_monster_types()
-static int game_get_monster_types(lua_State *L) {
-    std::vector<std::string> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
+static int game_get_monster_types(lua_State *L)
+{
+    std::vector<mtype_id> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
 
     lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
 
@@ -353,63 +904,17 @@ static int game_get_monster_types(lua_State *L) {
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
         lua_pushnumber(L, i + 1);
-        lua_pushstring(L, mtypes[i].c_str());
+        LuaValue<mtype_id>::push( L, mtypes[i] );
         lua_rawset(L, -3);
     }
 
     return 1; // 1 return values
 }
 
-// monster = game.monster_at(x, y)
-static int game_monster_at(lua_State *L) {
-    int parameter1 = (int) lua_tonumber(L, 1);
-    int parameter2 = (int) lua_tonumber(L, 2);
-    int monster_idx = g->mon_at(parameter1, parameter2);
-
-    monster& mon_ref = g->zombie(monster_idx);
-    monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
-    *monster_userdata = &mon_ref;
-    luah_setmetatable(L, "monster_metatable");
-
-    return 1; // 1 return values
-}
-
-// type = game.item_type(item)
-static int game_item_type(lua_State *L) {
-    // Create a table of the form
-    // t["id"] = item.type.id
-    // t["name"] = item.type.name
-    // then return t
-
-    item** item_instance = (item**) lua_touserdata(L, 1);
-
-    lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
-
-    lua_pushstring(L, "name");
-    lua_pushstring(L, (*item_instance)->type->name.c_str());
-    lua_rawset(L, -3);
-
-    lua_pushstring(L, "id");
-    lua_pushstring(L, (*item_instance)->type->id.c_str());
-    lua_rawset(L, -3);
-
-    return 1; // 1 return values
-}
-
-// game.remove_item(x, y, item)
-void game_remove_item(int x, int y, item *it) {
-    std::vector<item>& items = g->m.i_at(x, y);
-
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if(&(items[i]) == it) {
-            items.erase(items.begin() + i);
-        }
-    }
-}
-
 // x, y = choose_adjacent(query_string, x, y)
-static int game_choose_adjacent(lua_State *L) {
-    const char* parameter1 = (const char*) lua_tostring(L, 1);
+static int game_choose_adjacent(lua_State *L)
+{
+    const std::string parameter1 = lua_tostring_wrapper( L, 1 );
     int parameter2 = (int) lua_tonumber(L, 2);
     int parameter3 = (int) lua_tonumber(L, 3);
     bool success = (bool) choose_adjacent(parameter1, parameter2, parameter3);
@@ -424,9 +929,10 @@ static int game_choose_adjacent(lua_State *L) {
 }
 
 // game.register_iuse(string, function_object)
-static int game_register_iuse(lua_State *L) {
+static int game_register_iuse(lua_State *L)
+{
     // Make sure the first argument is a string.
-    const char* name = luaL_checkstring(L, 1);
+    const char *name = luaL_checkstring(L, 1);
     if(!name) {
         return luaL_error(L, "First argument to game.register_iuse is not a string.");
     }
@@ -447,7 +953,8 @@ static int game_register_iuse(lua_State *L) {
 #include "lua/catabindings.cpp"
 
 // Load the main file of a mod
-void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name) {
+void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name)
+{
     std::string full_path = base_path + "/" + main_file_name;
 
     // Check if file exists first
@@ -462,42 +969,53 @@ void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name
 }
 
 // Custom error handler
-static int traceback(lua_State *L) {
+static int traceback(lua_State *L)
+{
     // Get the error message
-    const char* error = lua_tostring(L, -1);
+    const std::string error = lua_tostring_wrapper( L, -1 );
 
     // Get the lua stack trace
+#if LUA_VERSION_NUM < 502
     lua_getfield(L, LUA_GLOBALSINDEX, "debug");
     lua_getfield(L, -1, "traceback");
+#else
+    lua_getglobal(L, "debug");
+    lua_getfield(L, -1, "traceback");
+    lua_remove(L, -2);
+#endif
     lua_pushvalue(L, 1);
     lua_pushinteger(L, 2);
     lua_call(L, 2, 1);
 
-    const char* stacktrace = lua_tostring(L, -1);
+    const std::string stacktrace = lua_tostring_wrapper( L, -1 );
 
     // Print a debug message.
-    debugmsg("Error in lua module: %s", error);
+    debugmsg("Error in lua module: %s", error.c_str());
 
     // Print the stack trace to our debug log.
-    std::ofstream debug_out;
-    debug_out.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
-    debug_out << stacktrace << "\n";
-    debug_out.close();
+    DebugLog( D_ERROR, DC_ALL ) << stacktrace;
     return 1;
 }
 
 // Load an arbitrary lua file
-void lua_dofile(lua_State *L, const char* path) {
+void lua_dofile(lua_State *L, const char *path)
+{
     lua_pushcfunction(L, &traceback);
-    luaL_loadfile(L, path) || lua_pcall(L, 0, LUA_MULTRET, -2);
+    int err = luaL_loadfile(L, path);
+    if( lua_report_error( L, err, path ) ) {
+        return;
+    }
+    err = lua_pcall(L, 0, LUA_MULTRET, -2);
+    lua_report_error( L, err, path );
 }
 
 // game.dofile(file)
 //
 // Method to load files from lua, later should be made "safe" by
 // ensuring it's being loaded from a valid path etc.
-static int game_dofile(lua_State *L) {
-    const char* path = luaL_checkstring(L, 1);
+static int game_dofile(lua_State *L)
+{
+    const char *path = luaL_checkstring(L, 1);
 
     std::string full_path = lua_file_path + "/" + path;
     lua_dofile(L, full_path.c_str());
@@ -510,41 +1028,62 @@ static const struct luaL_Reg global_funcs [] = {
     {"register_iuse", game_register_iuse},
     //{"get_monsters", game_get_monsters},
     {"items_at", game_items_at},
-    {"item_type", game_item_type},
-    {"monster_at", game_monster_at},
     {"choose_adjacent", game_choose_adjacent},
-    {"monster_type", game_monster_type},
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
-    {"monstergroups", game_monstergroups},
     {"get_item_groups", game_get_item_groups},
     {NULL, NULL}
 };
 
 // Lua initialization.
-void game::init_lua() {
+void game::init_lua()
+{
     lua_state = luaL_newstate();
+    if( lua_state == nullptr ) {
+        debugmsg( "Failed to start Lua. Lua scripting won't be available." );
+        return;
+    }
 
     luaL_openlibs(lua_state); // Load standard lua libs
 
     // Load our custom "game" module
+#if LUA_VERSION_NUM < 502
     luaL_register(lua_state, "game", gamelib);
     luaL_register(lua_state, "game", global_funcs);
+#else
+    std::vector<luaL_Reg> lib_funcs;
+    for( auto x = gamelib; x->name != nullptr; ++x ) {
+        lib_funcs.push_back(*x);
+    }
+    for( auto x = global_funcs; x->name != nullptr; ++x ) {
+        lib_funcs.push_back(*x);
+    }
+    lib_funcs.push_back( luaL_Reg { NULL, NULL } );
+    luaL_newmetatable(lua_state, "game");
+    lua_pushvalue(lua_state, -1);
+    luaL_setfuncs(lua_state, &lib_funcs.front(), 0);
+    lua_setglobal(lua_state, "game");
+#endif
+
+    load_metatables( lua_state );
+    LuaEnum<body_part>::export_global( lua_state, "body_part" );
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, FILENAMES["class_defslua"].c_str());
-    luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
+    lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
+    lua_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 }
+
 #endif // #ifdef LUA
 
-use_function::~use_function() {
+use_function::~use_function()
+{
     if (function_type == USE_FUNCTION_ACTOR_PTR) {
         delete actor_ptr;
     }
 }
 
 use_function::use_function(const use_function &other)
-: function_type(other.function_type)
+    : function_type(other.function_type)
 {
     if (function_type == USE_FUNCTION_CPP) {
         cpp_function = other.cpp_function;
@@ -574,7 +1113,8 @@ void use_function::operator=(const use_function &other)
 }
 
 // If we're not using lua, need to define Use_function in a way to always call the C++ function
-int use_function::call(player* player_instance, item* item_instance, bool active) const {
+long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
+{
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {
             add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
@@ -582,14 +1122,14 @@ int use_function::call(player* player_instance, item* item_instance, bool active
     } else if (function_type == USE_FUNCTION_CPP) {
         // If it's a C++ function, simply call it with the given arguments.
         iuse tmp;
-        return (tmp.*cpp_function)(player_instance, item_instance, active);
+        return (tmp.*cpp_function)(player_instance, item_instance, active, pos);
     } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
-        return actor_ptr->use(player_instance, item_instance, active);
+        return actor_ptr->use(player_instance, item_instance, active, pos);
     } else {
-        #ifdef LUA
+#ifdef LUA
 
         // We'll be using lua_state a lot!
-        lua_State* L = lua_state;
+        lua_State *L = lua_state;
 
         // If it's a lua function, the arguments have to be wrapped in
         // lua userdata's and passed on the lua stack.
@@ -600,46 +1140,37 @@ int use_function::call(player* player_instance, item* item_instance, bool active
         // Push the lua function on top of the stack
         lua_rawgeti(L, LUA_REGISTRYINDEX, lua_function);
 
+        // TODO: also pass the player object, because of NPCs and all
+        //       I guess
+
         // Push the item on top of the stack.
-        int item_in_registry;
-        {
-            item** item_userdata = (item**) lua_newuserdata(L, sizeof(item*));
-            *item_userdata = item_instance;
-
-            // Save a reference to the item in the registry so that we can deallocate it
-            // when we're done.
-            item_in_registry = luah_store_in_registry(L, -1);
-
-            // Set the metatable for the item.
-            luah_setmetatable(L, "item_metatable");
-        }
-
+        const int item_in_registry = LuaReference<item>::push_reg( L, item_instance );
         // Push the "active" parameter on top of the stack.
         lua_pushboolean(L, active);
+        // Push the location of the item.
+        const int tripoint_in_registry = LuaValue<tripoint>::push_reg( L, pos );
 
         // Call the iuse function
-        int err = lua_pcall(L, 2, 1, 0);
-        if(err) {
-            // Error handling.
-            const char* error = lua_tostring(L, -1);
-            debugmsg("Error in lua iuse function: %s", error);
-        }
+        int err = lua_pcall(L, 3, 1, 0);
+        lua_report_error( L, err, "iuse function" );
 
         // Make sure the now outdated parameters we passed to lua aren't
         // being used anymore by setting a metatable that will error on
         // access.
         luah_remove_from_registry(L, item_in_registry);
         luah_setmetatable(L, "outdated_metatable");
+        luah_remove_from_registry(L, tripoint_in_registry);
+        luah_setmetatable(L, "outdated_metatable");
 
         return lua_tointeger(L, -1);
 
-        #else
+#else
 
         // If LUA isn't defined and for some reason we registered a lua function,
         // simply do nothing.
         return 0;
 
-        #endif
+#endif
 
     }
     return 0;

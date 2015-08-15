@@ -1,8 +1,50 @@
-#ifndef _OVERMAPBUFFER_H_
-#define _OVERMAPBUFFER_H_
+#ifndef OVERMAPBUFFER_H
+#define OVERMAPBUFFER_H
 
+#include "enums.h"
 #include <set>
-#include "overmap.h"
+#include <list>
+#include <memory>
+#include <vector>
+#include <unordered_map>
+
+class monster;
+class overmap;
+struct radio_tower;
+struct oter_id;
+struct regional_settings;
+class vehicle;
+class npc;
+struct om_vehicle;
+struct mongroup;
+
+struct radio_tower_reference {
+    /** Overmap the radio tower is on. */
+    overmap *om;
+    /** The radio tower itself, points into @ref overmap::radios */
+    radio_tower *tower;
+    /** The global absolute position of the tower (in submap coordinates) */
+    point abs_sm_pos;
+    /** Perceived signal strength (tower output strength minus distance) */
+    int signal_strength;
+    operator bool() const {
+        return tower != nullptr;
+    }
+};
+
+struct city_reference {
+    /** Overmap the city is on. */
+    overmap *om;
+    /** The city itself, points into @ref overmap::cities */
+    struct city *city;
+    /** The global absolute position of the city (in submap coordinates!) */
+    tripoint abs_sm_pos;
+    /** Distance to center of the search */
+    int distance;
+    operator bool() const {
+        return city != nullptr;
+    }
+};
 
 /**
  * Coordinate systems used here are:
@@ -75,22 +117,49 @@ public:
     /**
      * Uses global overmap terrain coordinates.
      */
-    bool has_note(int x, int y, int z) const;
-    bool has_note(const tripoint& p) const { return has_note(p.x, p.y, p.z); }
-    const std::string& note(int x, int y, int z) const;
-    const std::string& note(const tripoint& p) const { return note(p.x, p.y, p.z); }
+    bool has_note(int x, int y, int z);
+    bool has_note(const tripoint& p) { return has_note(p.x, p.y, p.z); }
+    const std::string& note(int x, int y, int z);
+    const std::string& note(const tripoint& p) { return note(p.x, p.y, p.z); }
     void add_note(int x, int y, int z, const std::string& message);
     void add_note(const tripoint& p, const std::string& message) { add_note(p.x, p.y, p.z, message); }
     void delete_note(int x, int y, int z);
     void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
-    bool seen(int x, int y, int z) const;
+    bool is_explored(int x, int y, int z);
+    void toggle_explored(int x, int y, int z);
+    bool seen(int x, int y, int z);
     void set_seen(int x, int y, int z, bool seen = true);
     bool has_npc(int x, int y, int z);
-    bool has_vehicle(int x, int y, int z, bool require_pda = true) const;
+    bool has_vehicle(int x, int y, int z, bool require_pda = true);
+    bool has_horde(int x, int y, int z);
+    std::vector<om_vehicle> get_vehicle(int x, int y, int z, bool require_pda = true);
     const regional_settings& get_settings(int x, int y, int z);
+
+    /**
+     * Check for any dangerous monster groups at the global overmap terrain coordinates.
+     * If there are any, it's not safe.
+     */
     bool is_safe(int x, int y, int z);
     bool is_safe(const tripoint& p) { return is_safe(p.x, p.y, p.z); }
 
+    /**
+     * Move the tracking mark of the given vehicle.
+     * @param veh The vehicle whose tracking device is active and
+     * that has been moved.
+     * @param old_msp The previous position (before the movement) of the
+     * vehicle. In map square coordinates (see vehicle::real_global_pos), it's
+     * used to remove the vehicle from the old overmap if the new position is
+     * on another overmap.
+     */
+    void move_vehicle(vehicle *veh, const point &old_msp);
+    /**
+     * Add the vehicle to be tracked in the overmap.
+     */
+    void add_vehicle(vehicle *veh);
+    /**
+     * Remove the vehicle from being tracked in the overmap.
+     */
+    void remove_vehicle(const vehicle *veh);
     /**
      * Get all npcs in a area with given radius around (x, y).
      * Only npcs on the given z-level are considered.
@@ -128,6 +197,13 @@ public:
     void remove_npc(int id);
 
     /**
+     * Find npc by id and if found, erase it from the npc list
+     * but not delete the npc object. This is used for missions
+     * that dispatch an npc on an abstracted quest.
+     */
+    void hide_npc(int id);
+
+    /**
      * Find all places with the specific overmap terrain type.
      * The function only searches on the z-level indicated by
      * origin.
@@ -137,7 +213,7 @@ public:
      * @param must_be_seen If true, only terrain seen by the player
      * should be searched.
      */
-    std::vector<point> find_all(const tripoint& origin, const std::string& type,
+    std::vector<tripoint> find_all(const tripoint& origin, const std::string& type,
         int dist, bool must_be_seen);
 
     /**
@@ -150,21 +226,18 @@ public:
      * @return true if something has actually been revealed.
      */
     bool reveal(const point &center, int radius, int z);
+    bool reveal( const tripoint &center, int radius );
     /**
      * Returns the closest point of terrain type.
-     * This function may greate a new overmap if needed.
-     * @param dist This gets set to the distance between the origin
-     * and the returned point.
-     * You can give dist an initial value, which will be used as
-     * the maximum distance for point to be searched.
-     * A value of 0 will search an entire overmap area.
-     * @returns If no matching tile can be found,
-     * overmap::invalid_point is returned.
+     * This function may create new overmaps if needed.
+     * @param radius The maximal radius of the area to search for the desired terrain.
+     * A value of 0 will search an area equal to 4 entire overmaps.
+     * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
      * @param origin uses overmap terrain coordinates.
      * @param must_be_seen If true, only terrain seen by the player
      * should be searched.
      */
-    point find_closest(const tripoint& origin, const std::string& type, int& dist, bool must_be_seen);
+    tripoint find_closest(const tripoint& origin, const std::string& type, int radius, bool must_be_seen);
 
     /* These 4 functions return the overmap that contains the given
      * overmap terrain coordinate.
@@ -175,34 +248,86 @@ public:
      * The parameters x and y will be cropped to be local to the
      * returned overmap, the parameter p will not be changed.
      */
-    const overmap* get_existing_om_global(int& x, int& y) const;
-    const overmap* get_existing_om_global(const point& p) const;
+    overmap* get_existing_om_global(int& x, int& y);
+    overmap* get_existing_om_global(const point& p);
+    overmap* get_existing_om_global( const tripoint& p );
     overmap& get_om_global(int& x, int& y);
     overmap& get_om_global(const point& p);
+    overmap& get_om_global( const tripoint& p );
     /**
      * (x,y) are global overmap coordinates (same as @ref get).
      * @returns true if the buffer has a overmap with
      * the given coordinates.
      */
-    bool has(int x, int y) const;
+    bool has(int x, int y);
     /**
      * Get an existing overmap, does not create a new one
      * and may return NULL if the requested overmap does not
      * exist.
      * (x,y) are global overmap coordinates (same as @ref get).
      */
-    const overmap *get_existing(int x, int y) const;
+    overmap *get_existing(int x, int y);
 
     typedef std::pair<point, std::string> t_point_with_note;
     typedef std::vector<t_point_with_note> t_notes_vector;
-    t_notes_vector get_all_notes(int z) const {
+    t_notes_vector get_all_notes(int z) {
         return get_notes(z, NULL); // NULL => don't filter notes
     }
-    t_notes_vector find_notes(int z, const std::string& pattern) const {
+    t_notes_vector find_notes(int z, const std::string& pattern) {
         return get_notes(z, &pattern); // filter with pattern
     }
-    // hordes
+    /**
+     * Signal nearby hordes to move to given location.
+     * @param center The origin of the signal, hordes (that recognize the signal) want to go
+     * to there. In global submap coordinates.
+     * @param sig_power The signal strength, higher values means it visible farther away.
+     */
+    void signal_hordes( const tripoint &center, int sig_power );
+    /**
+     * Process nearby monstergroups (dying mostly).
+     */
+    void process_mongroups();
+    /**
+     * Let hordes move a step. Note that this may move monster groups inside the reality bubble,
+     * therefor you should probably call @ref map::spawn_monsters to spawn them.
+     */
+    void move_hordes();
+    // hordes -- this uses overmap terrain coordinates!
     std::vector<mongroup*> monsters_at(int x, int y, int z);
+    /**
+     * Monster groups at (x,y,z) - absolute submap coordinates.
+     * Groups with no population are not included.
+     */
+    std::vector<mongroup*> groups_at(int x, int y, int z);
+
+    /**
+     * Spawn monsters from the overmap onto the main map (game::m).
+     * (x,y,z) is an absolute *submap* coordinate.
+     */
+    void spawn_monster(const int x, const int y, const int z);
+    /**
+     * Despawn the monster back onto the overmap. The monsters position
+     * (monster::pos()) is interpreted as relative to the main map.
+     */
+    void despawn_monster(const monster &critter);
+    /**
+     * Find radio station with given frequency, search an unspecified area around
+     * the current player location.
+     * If no matching tower has been found, it returns an object with the tower pointer set
+     * to null.
+     */
+    radio_tower_reference find_radio_station( int frequency );
+    /**
+     * Find all radio stations that can be received around the current player location.
+     * All entries in the returned vector are valid (have a valid tower pointer).
+     */
+    std::vector<radio_tower_reference> find_all_radio_stations();
+    /**
+     * Find the closest city. If no city is close, returns an object with city set to nullptr.
+     * @param center The center of the search, the distance for determining the closest city is
+     * calculated as distance to this point. In global submap coordinates!
+     */
+    city_reference closest_city( const tripoint &center );
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);
@@ -222,6 +347,15 @@ public:
     static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
     static point sm_to_omt_remain(int &x, int &y);
     static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
+    // submap to overmap, basically: x / (OMAPX * 2)
+    static point sm_to_om_copy(int x, int y);
+    static point sm_to_om_copy(const point& p) { return sm_to_om_copy(p.x, p.y); }
+    static tripoint sm_to_om_copy(const tripoint& p);
+    static void sm_to_om(int &x, int &y);
+    static void sm_to_om(point& p) { sm_to_om(p.x, p.y); }
+    static void sm_to_om(tripoint& p) { sm_to_om(p.x, p.y); }
+    static point sm_to_om_remain(int &x, int &y);
+    static point sm_to_om_remain(point& p) { return sm_to_om_remain(p.x, p.y); }
     // overmap terrain to submap, basically: x *= 2
     static point omt_to_sm_copy(int x, int y);
     static point omt_to_sm_copy(const point& p) { return omt_to_sm_copy(p.x, p.y); }
@@ -245,6 +379,15 @@ public:
     static void ms_to_sm(tripoint& p) { ms_to_sm(p.x, p.y); }
     static point ms_to_sm_remain(int &x, int &y);
     static point ms_to_sm_remain(point& p) { return ms_to_sm_remain(p.x, p.y); }
+    // submap back to map squares, basically: x *= SEEX
+    // Note: this gives you the map square coords of the top-left corner
+    // of the given submap.
+    static point sm_to_ms_copy(int x, int y);
+    static point sm_to_ms_copy(const point& p) { return sm_to_ms_copy(p.x, p.y); }
+    static tripoint sm_to_ms_copy(const tripoint& p);
+    static void sm_to_ms(int &x, int &y);
+    static void sm_to_ms(point& p) { sm_to_ms(p.x, p.y); }
+    static void sm_to_ms(tripoint& p) { sm_to_ms(p.x, p.y); }
     // map squares to overmap terrain, basically: x /= SEEX * 2
     static point ms_to_omt_copy(int x, int y);
     static point ms_to_omt_copy(const point& p) { return ms_to_omt_copy(p.x, p.y); }
@@ -258,12 +401,14 @@ public:
     static tripoint omt_to_seg_copy(const tripoint& p);
 
 private:
-    std::list<overmap> overmap_list;
+    std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
     /**
      * Set of overmap coordinates of overmaps that are known
      * to not exist on disk. See @ref get_existing for usage.
      */
     mutable std::set<point> known_non_existing;
+    // Cached result of previous call to overmapbuffer::get_existing
+    overmap mutable * last_requested_overmap;
 
     /**
      * Get a list of notes in the (loaded) overmaps.
@@ -271,15 +416,28 @@ private:
      * @param pattern only notes that contain this pattern are returned.
      * If the pattern is NULL, every note matches.
      */
-    t_notes_vector get_notes(int z, const std::string* pattern) const;
+    t_notes_vector get_notes(int z, const std::string* pattern);
+public:
     /**
      * See overmap::check_ot_type, this uses global
      * overmap terrain coordinates.
-     * This function may greate a new overmap if needed.
+     * This function may create a new overmap if needed.
      */
     bool check_ot_type(const std::string& otype, int x, int y, int z);
+private:
+    /**
+     * Go thorough the monster groups of the overmap and move out-of-bounds
+     * groups to the correct overmap (if it exists), also removes empty groups.
+     */
+    void fix_mongroups(overmap &new_overmap);
+    /**
+     * Retrieve overmaps that overlap the bounding box defined by the location and radius.
+     * The location is in absolute submap coordinates, the radius is in the same system.
+     */
+    std::vector<overmap *> get_overmaps_near( const point &location, int radius );
+    std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
 };
 
 extern overmapbuffer overmap_buffer;
 
-#endif /* _OVERMAPBUFFER_H_ */
+#endif

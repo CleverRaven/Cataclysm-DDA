@@ -1,11 +1,16 @@
+#include "gamemode.h"
 #include "game.h"
+#include "map.h"
 #include "output.h"
 #include "action.h"
 #include "tutorial.h"
 #include "overmapbuffer.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "profession.h"
+#include "overmap.h"
+#include "trap.h"
+
+const mtype_id mon_zombie( "mon_zombie" );
 
 std::vector<std::string> tut_text;
 
@@ -14,12 +19,12 @@ bool tutorial_game::init()
     // TODO: clean up old tutorial
 
  calendar::turn = HOURS(12); // Start at noon
- for (int i = 0; i < NUM_LESSONS; i++)
-  tutorials_seen[i] = false;
+ for( auto &elem : tutorials_seen )
+     elem = false;
 // Set the scent map to 0
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEX * MAPSIZE; j++)
-   g->scent(i, j) = 0;
+   g->scent( { i, j, g->get_levz() } ) = 0;
  }
  g->temperature = 65;
 // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
@@ -29,30 +34,39 @@ bool tutorial_game::init()
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
  g->u.dex_cur = g->u.dex_max;
+
+ for (int i = 0; i < num_hp_parts; i++) {
+     g->u.hp_cur[i] = g->u.hp_max[i];
+ }
+
  //~ default name for the tutorial
  g->u.name = _("John Smith");
  g->u.prof = profession::generic();
- g->levx = 100;
- g->levy = 100;
- g->cur_om = &overmap_buffer.get(0, 0);
- g->cur_om->make_tutorial();
- g->cur_om->save();
+    int lx = 50, ly = 50; // overmap terrain coordinates
+    auto &starting_om = overmap_buffer.get(0, 0);
+    for (int i = 0; i < OMAPX; i++) {
+        for (int j = 0; j < OMAPY; j++) {
+            starting_om.ter( i, j, -1 ) = "rock";
+            // Start with the overmap revealed
+            starting_om.seen( i, j, 0 ) = true;
+        }
+    }
+    starting_om.ter(lx, ly, 0) = "tutorial";
+    starting_om.ter(lx, ly, -1) = "tutorial";
+    starting_om.clear_mon_groups();
+
  g->u.toggle_trait("QUICK");
- g->u.inv.push_back(item("lighter", 0, 'e'));
+ item lighter("lighter", 0);
+ lighter.invlet = 'e';
+ g->u.inv.add_item(lighter);
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
-// Start with the overmap revealed
- for (int x = 0; x < OMAPX; x++) {
-  for (int y = 0; y < OMAPY; y++)
-   g->cur_om->seen(x, y, 0) = true;
- }
- g->m.load(g->levx, g->levy, 0);
- g->levz = 0;
- g->u.posx = 2;
- g->u.posy = 4;
+    g->load_map( overmapbuffer::omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
+ g->u.setx( 2 );
+ g->u.sety( 4 );
 
  // This shifts the view to center the players pos
- g->update_map(g->u.posx, g->u.posy);
+ g->update_map(&(g->u));
  return true;
 }
 
@@ -74,21 +88,21 @@ void tutorial_game::per_turn()
  if (g->u.pain > 0)
   add_message(LESSON_PAIN);
 
- if (g->u.recoil >= 5)
+ if (g->u.recoil >= MIN_RECOIL)
   add_message(LESSON_RECOIL);
 
  if (!tutorials_seen[LESSON_BUTCHER]) {
-  for (size_t i = 0; i < g->m.i_at(g->u.posx, g->u.posy).size(); i++) {
-   if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == "corpse") {
+  for( size_t i = 0; i < g->m.i_at(g->u.posx(), g->u.posy()).size(); i++ ) {
+   if( g->m.i_at(g->u.posx(), g->u.posy())[i].is_corpse() ) {
     add_message(LESSON_BUTCHER);
-    i = g->m.i_at(g->u.posx, g->u.posy).size();
+    i = g->m.i_at(g->u.posx(), g->u.posy()).size();
    }
   }
  }
 
  bool showed_message = false;
- for (int x = g->u.posx - 1; x <= g->u.posx + 1 && !showed_message; x++) {
-  for (int y = g->u.posy - 1; y <= g->u.posy + 1 && !showed_message; y++) {
+ for (int x = g->u.posx() - 1; x <= g->u.posx() + 1 && !showed_message; x++) {
+  for (int y = g->u.posy() - 1; y <= g->u.posy() + 1 && !showed_message; y++) {
    if (g->m.ter(x, y) == t_door_o) {
     add_message(LESSON_OPEN);
     showed_message = true;
@@ -111,28 +125,35 @@ void tutorial_game::per_turn()
   }
  }
 
- if (!g->m.i_at(g->u.posx, g->u.posy).empty())
+ if (!g->m.i_at(g->u.posx(), g->u.posy()).empty())
   add_message(LESSON_PICKUP);
 }
 
-void tutorial_game::pre_action( action_id &)
+void tutorial_game::pre_action( action_id &act )
 {
+    switch( act ) {
+        case ACTION_SAVE:
+        case ACTION_QUICKSAVE:
+            popup( _( "You're saving a tutorial - the tutorial world lacks certain features of normal worlds. "
+                      "Weird things might happen when you load this save. You have been warned." ) );
+            break;
+        default:
+            // Other actions are fine.
+            break;
+    }
 }
 
 void tutorial_game::post_action(action_id act)
 {
  switch (act) {
- case ACTION_RELOAD:
-  if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
-   monster tmp(GetMType("mon_zombie"), g->u.posx, g->u.posy - 6);
-   g->add_zombie(tmp);
-   tmp.spawn(g->u.posx + 2, g->u.posy - 5);
-   g->add_zombie(tmp);
-   tmp.spawn(g->u.posx - 2, g->u.posy - 5);
-   g->add_zombie(tmp);
-   add_message(LESSON_GUN_FIRE);
-  }
-  break;
+    case ACTION_RELOAD:
+    if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
+        g->summon_mon( mon_zombie, tripoint(g->u.posx(), g->u.posy() - 6, g->u.posz()));
+        g->summon_mon( mon_zombie, tripoint(g->u.posx() + 2, g->u.posy() - 5, g->u.posz()));
+        g->summon_mon( mon_zombie, tripoint(g->u.posx() - 2, g->u.posy() - 5, g->u.posz()));
+        add_message(LESSON_GUN_FIRE);
+    }
+    break;
 
  case ACTION_OPEN:
   add_message(LESSON_CLOSE);
@@ -145,9 +166,9 @@ void tutorial_game::post_action(action_id act)
  case ACTION_USE:
   if (g->u.has_amount("grenade_act", 1))
    add_message(LESSON_ACT_GRENADE);
-  for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
-   for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-    if (g->m.tr_at(x, y) == tr_bubblewrap)
+  for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
+   for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
+    if (g->m.tr_at({x, y, g->u.posz()}).id == trap_str_id( "tr_bubblewrap" ))
      add_message(LESSON_ACT_BUBBLEWRAP);
    }
   }
@@ -163,14 +184,13 @@ void tutorial_game::post_action(action_id act)
   break;
 
  case ACTION_WEAR: {
-  itype *it = itypes[ g->u.last_item];
-  if (it->is_armor()) {
-   it_armor *armor = dynamic_cast<it_armor*>(it);
-   if (armor->coverage >= 2 || armor->thickness >= 2)
+  item it( g->u.last_item, 0 );
+  if (it.is_armor()) {
+   if (it.get_coverage() >= 2 || it.get_thickness() >= 2)
     add_message(LESSON_WORE_ARMOR);
-   if (armor->storage >= 20)
+   if (it.get_storage() >= 20)
     add_message(LESSON_WORE_STORAGE);
-   if (armor->env_resist >= 2)
+   if (it.get_env_resist() >= 2)
     add_message(LESSON_WORE_MASK);
   }
  } break;
@@ -184,22 +204,20 @@ void tutorial_game::post_action(action_id act)
   add_message(LESSON_INTERACT);
 // Fall through to...
  case ACTION_PICKUP: {
-  itype *it = itypes[ g->u.last_item ];
-  if (it->is_armor())
+  item it( g->u.last_item, 0 );
+  if (it.is_armor())
    add_message(LESSON_GOT_ARMOR);
-  else if (it->is_gun())
+  else if (it.is_gun())
    add_message(LESSON_GOT_GUN);
-  else if (it->is_ammo())
+  else if (it.is_ammo())
    add_message(LESSON_GOT_AMMO);
-  else if (it->is_tool())
+  else if (it.is_tool())
    add_message(LESSON_GOT_TOOL);
-  else if (it->is_food())
+  else if (it.is_food())
    add_message(LESSON_GOT_FOOD);
-  else if (it->melee_dam > 7 || it->melee_cut > 5)
+  else if (it.is_weap())
    add_message(LESSON_GOT_WEAPON);
 
-  if (g->u.volume_carried() > g->u.volume_capacity() - 2)
-   add_message(LESSON_OVERLOADED);
  } break;
 
  default: //TODO: add more actions here

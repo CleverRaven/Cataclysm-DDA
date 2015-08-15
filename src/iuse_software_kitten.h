@@ -1,5 +1,8 @@
-#ifndef _SOFTWARE_KITTEN_H_
-#define _SOFTWARE_KITTEN_H_
+#ifndef SOFTWARE_KITTEN_H
+#define SOFTWARE_KITTEN_H
+
+#include "cursesdef.h"
+#include "color.h"
 
 #include <string>
 #include <cassert>
@@ -41,4 +44,5 @@ class robot_finds_kitten
         int rfkLINES;
         int rfkCOLS;
 };
+
 #endif

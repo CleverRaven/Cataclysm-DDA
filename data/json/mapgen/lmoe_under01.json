@@ -1,0 +1,101 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "lmoe_under"
+        ],
+        "method": "json",
+        "weight": 100,
+        "comment": "<--- these fields ignored --->", "author": "",
+        "comment": "actual mapgen json definition begins below ---v",
+        "object": {
+            "rows": [
+                "########################",
+                "########################",
+                "########################",
+                "###{{{{].......|}..BB###",
+                "###....].......|}..BB###",
+                "###....].......|}....###",
+                "###==*=].......+.....###",
+                "###.......1..1.|...CD###",
+                "###............|.....###",
+                "###{{{{{.......------###",
+                "###............^^|.K.###",
+                "###{{{{{.........+..t###",
+                "###--------++--------###",
+                "###c.}}}}.|..|C..XXXX###",
+                "###c......|..|....XXX###",
+                "###c.TT...|..|.....X~###",
+                "###c.TTC..+..+...S.~^###",
+                "###c.TT...|..|....~^^###",
+                "###c......|..|C..~^^^###",
+                "###c......|..|..~^^^^###",
+                "###ccccccc|<<|.~^^^^^###",
+                "########################",
+                "########################",
+                "########################"
+            ],
+            "terrain": {
+                "#": "t_rock",
+                ".": "t_rock_floor",
+                "{": "t_rock_floor",
+                "}": "t_rock_floor",
+                "c": "t_rock_floor",
+                "|": "t_wall_metal",
+                "-": "t_wall_metal",
+                "+": "t_door_metal_c",
+                "1": "t_column",
+                "^": "t_rock_floor",
+                "X": "t_rock_floor",
+                "~": "t_water_sh",
+                "<": "t_stairs_up",
+                "*": "t_chaingate_c",
+                "=": "t_chainfence_h",
+                "]": "t_chainfence_v",
+                "S": "t_rock_floor",
+                "C": "t_rock_floor",
+                "T": "t_rock_floor",
+                "B": "t_rock_floor",
+                "D": "t_rock_floor",
+                "K": "t_rock_floor",
+                "t": "t_rock_floor"
+            },
+            "furniture": {
+                "{": "f_rack",
+                "}": "f_bookcase",
+                "c": "f_counter",
+                "^": "f_rubble",
+                "X": "f_crate_c",
+                "S": "f_woodstove",
+                "C": "f_chair",
+                "T": "f_table",
+                "B": "f_bed",
+                "D": "f_desk",
+                "K": "f_sink"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "comment": "randomly picked items from a group ---v",
+            "place_items": [
+                { "item": "lmoe_guns", "chance": 80, "x": [3,6], "y": [3,3] },
+                { "item": "ammo", "chance": 80, "x": [3,6], "y": [3,3] },
+                { "item": "cannedfood", "chance": 90, "x": [3,7], "y": [9,9] },
+                { "item": "survival_tools", "chance": 80, "x": [3,7], "y": [11,11] },
+                { "item": "bags", "chance": 50, "x": [3,7], "y": [11,11] },
+                { "item": "softdrugs", "chance": 50, "x": [3,7], "y": [11,11] },
+                { "item": "manuals", "chance": 60, "x": [5,8], "y": [13,13] },
+                { "item": "textbooks", "chance": 60, "x": [5,8], "y": [13,13] },
+                { "item": "tools", "chance": 90, "x": [5,6], "y": [15,17] },
+                { "item": "hardware", "chance": 70, "x": [3,3], "y": [13,20] },
+                { "item": "stash_wood", "chance": 70, "x": [3,9], "y": [20,20] },
+                { "item": "shelter", "chance": 70, "x": [18,20], "y": [13,14] },
+                { "item": "novels", "chance": 70, "x": [16,16], "y": [3,5] },
+                { "item": "office", "chance": 50, "x": [20,20], "y": [7,7] },
+                { "item": "bed", "chance": 60, "x": [19,20], "y": [3,4] }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]

@@ -37,7 +37,7 @@
     },{
         "type" : "speech",
         "speaker" : "doll",
-        "sound" : "Om nom nom! Delicious!",
+        "sound" : "Om nom nom!  Delicious!",
         "volume" : 10
     },{
         "type" : "speech",
@@ -142,7 +142,7 @@
     },{
         "type" : "speech",
         "speaker" : "creepy_doll",
-        "sound" : "Hey kids. Want some candy?",
+        "sound" : "Hey kids.  Want some candy?",
         "volume" : 10
    },{
         "type" : "speech",

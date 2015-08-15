@@ -36,13 +36,13 @@ The game decides based on the existence of either the `item` or the `group` valu
 
 Each entry can have more values (shown above as `...`). They allow further properties of the item(s):
 ```
-"damage": <number>,
+"damage": <number>|<array>,
 "damage-min": <number>,
 "damage-max": <number>,
-"count": <number>,
+"count": <number>|<array>,
 "count-min": <number>,
 "count-max": <number>,
-"charges": <number>,
+"charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
 "contents-item": "<item-id>",
@@ -59,8 +59,9 @@ Each entry can have more values (shown above as `...`). They allow further prope
 "damage-min": 0,
 "damage-max": 3,
 "count": 4
+"charges": [10, 100]
 ```
-This will create 4 items, they can have different damage levels as the damage value is rolled separately for each of these items.
+This will create 4 items, they can have different damage levels as the damage value is rolled separately for each of these items. Each item has charges in the range of 10 to 100 (inclusive). Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values. In other words `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
 
 The ammo type is checked and applied only to weapon / gunmods.
 The container is checked and the item is put inside the container, and the charges of the item are capped/increased to match the size of the container.
@@ -112,8 +113,55 @@ Another example. The group "milk" spawns a container (taken from milk_containers
 },
 ```
 
+Inlined item groups
+====
+
+At some places one can define an item group directly instead of giving the id of a group. One can not refer to that group as it has no visible id (it has an unspecific/random id internally). This is most useful when the group is very specific to the place it is used and wont ever appear anywhere else.
+
+As an example: monster death drops ("death_drops" entry in the "MONSTER" object, see JSON_INFO.md) can do this. If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death wont (in that form) appear in any other group.
+
+Therefor this snippet:
+```JSON
+{
+    "type": "item_group",
+    "id": "specific_group_id",
+    "subtype": "distribution",
+    "items": [ "a", "b" ]
+},
+{
+    "death_drops": "specific_group_id"
+}
+```
+is equivalent to:
+
+```JSON
+{
+    "death_drops": {
+        "subtype": "distribution",
+        "items": [ "a", "b" ]
+    }
+}
+```
+
+The inline group is read like any other group and one can use all the properties mentioned above. Its "type" and its "id" members are always ignored.
+
+Instead of a full JSON object, one can also write a JSON array. The default subtype is used and the array is read like the "entries" array (see above). Each entry of that array must be a JSON object. Example:
+```JSON
+{
+    "death_drops": [
+        { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
+    ]
+}
+```
+
+----
+
 You can test your item groups in the game:
 - enable the debug menu (use '?' -> '1' to go to the keybindings and bind a key to "Debug menu"),
 - load a game and call the debug menu,
 - choose "item spawn debug".
 - select the item group you want to debug. It will spawn items based on that 100 times and count the spawned items. They are displayed, sorted by their frequency.
+
+----
+
+You should not add items to the item group "EMPTY_GROUP". This group can be used when the game requires a group id, but you don't want to spawn any items there. The group will never spawn items.

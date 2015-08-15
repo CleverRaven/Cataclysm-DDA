@@ -2,7 +2,7 @@
     {
         "type" : "material",
         "ident" : "null",
-        "name" : "Null",
+        "name" : "Unknown",
         "bash_resist" : 0,
         "cut_resist" : 0,
         "bash_dmg_verb" : "damaged",
@@ -15,7 +15,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -31,9 +31,9 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 2,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -49,9 +49,9 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 2,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -67,9 +67,9 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -103,9 +103,9 @@
             "very damaged",
             "thoroughly damaged"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 2,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
@@ -123,7 +123,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 5
     },{
         "type" : "material",
@@ -159,7 +159,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -177,7 +177,7 @@
         ],
         "acid_resist" : 0,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 1
     },{
         "type" : "material",
@@ -195,7 +195,7 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 5
         },{
         "type" : "material",
@@ -213,12 +213,13 @@
         ],
         "acid_resist" : 1,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 5
     },{
         "type" : "material",
         "ident" : "cotton",
         "name" : "Cotton",
+        "salvage_id": "rag",
         "bash_resist" : 1,
         "cut_resist" : 1,
         "bash_dmg_verb" : "ripped",
@@ -229,7 +230,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 3,
         "elec_resist" : 2,
         "fire_resist" : 0,
         "density" : 3
@@ -237,6 +238,7 @@
         "type" : "material",
         "ident" : "wool",
         "name" : "Wool",
+        "salvage_id": "felt_patch",
         "bash_resist" : 1,
         "cut_resist" : 1,
         "bash_dmg_verb" : "torn",
@@ -247,7 +249,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 4,
         "elec_resist" : 2,
         "fire_resist" : 0,
         "density" : 9
@@ -255,6 +257,7 @@
         "type" : "material",
         "ident" : "leather",
         "name" : "Leather",
+        "salvage_id": "leather",
         "bash_resist" : 2,
         "cut_resist" : 2,
         "bash_dmg_verb" : "ripped",
@@ -265,14 +268,15 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 4,
         "elec_resist" : 2,
-        "fire_resist" : 1,
+        "fire_resist" : 2,
         "density" : 6
     },{
         "type" : "material",
         "ident" : "kevlar",
         "name" : "Kevlar",
+        "salvage_id": "kevlar_plate",
         "bash_resist" : 2,
         "cut_resist" : 4,
         "bash_dmg_verb" : "ripped",
@@ -283,9 +287,9 @@
             "scarred",
             "broken"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 7,
         "elec_resist" : 2,
-        "fire_resist" : 1,
+        "fire_resist" : 3,
         "density" : 10
     },{
         "type" : "material",
@@ -301,7 +305,7 @@
             "split",
             "broken"
         ],
-        "acid_resist" : 6,
+        "acid_resist" : 10,
         "elec_resist" : 10,
         "fire_resist" : 10,
         "density" : 8
@@ -309,6 +313,7 @@
         "type" : "material",
         "ident" : "fur",
         "name" : "Fur",
+        "salvage_id": "fur",
         "bash_resist" : 2,
         "cut_resist" : 2,
         "bash_dmg_verb" : "ripped",
@@ -319,9 +324,9 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 3,
         "elec_resist" : 2,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 9
     },{
         "type" : "material",
@@ -337,7 +342,7 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 6,
         "elec_resist" : 2,
         "fire_resist" : 2,
         "density" : 10
@@ -355,9 +360,9 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 7,
         "elec_resist" : 2,
-        "fire_resist" : 4,
+        "fire_resist" : 1,
         "density" : 7
     },{
         "type" : "material",
@@ -373,9 +378,9 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 8,
         "elec_resist" : 2,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 17
     },{
         "type" : "material",
@@ -399,6 +404,8 @@
         "type" : "material",
         "ident" : "wood",
         "name" : "Wood",
+        "salvage_id": "skewer",
+        "salvage_multiplier": 1,
         "bash_resist" : 3,
         "cut_resist" : 2,
         "bash_dmg_verb" : "splintered",
@@ -409,14 +416,15 @@
             "cracked",
             "splintered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 4,
         "elec_resist" : 2,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 4
     },{
         "type" : "material",
         "ident" : "plastic",
         "name" : "Plastic",
+        "salvage_id": "plastic_chunk",
         "bash_resist" : 2,
         "cut_resist" : 2,
         "bash_dmg_verb" : "dented",
@@ -427,9 +435,9 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 9,
         "elec_resist" : 2,
-        "fire_resist" : 0,
+        "fire_resist" : 1,
         "density" : 8
     },{
         "type" : "material",
@@ -445,9 +453,9 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 10,
         "elec_resist" : 2,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 14
     },{
         "type" : "material",
@@ -463,9 +471,9 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 5,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 52
     },{
         "type" : "material",
@@ -481,9 +489,9 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 7,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 30
     },{
         "type" : "material",
@@ -499,9 +507,9 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 5,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 26
     },{
         "type" : "material",
@@ -517,9 +525,9 @@
             "cracked",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 10,
         "elec_resist" : 3,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 14
     },{
         "type" : "material",
@@ -535,9 +543,9 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 1,
+        "acid_resist" : 6,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 40
     },{
         "type" : "material",
@@ -553,14 +561,15 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 10,
         "elec_resist" : 0,
-        "fire_resist" : 2,
+        "fire_resist" : 3,
         "density" : 70
     },{
         "type" : "material",
         "ident" : "nomex",
         "name" : "Nomex",
+        "salvage_id": "nomex",
         "bash_resist" : 1,
         "cut_resist" : 1,
         "bash_dmg_verb" : "ripped",
@@ -571,7 +580,7 @@
             "shredded",
             "tattered"
         ],
-        "acid_resist" : 2,
+        "acid_resist" : 5,
         "elec_resist" : 4,
         "fire_resist" : 20,
         "density" : 4
@@ -589,9 +598,9 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 3,
+        "acid_resist" : 10,
         "elec_resist" : 0,
-        "fire_resist" : 1,
+        "fire_resist" : 3,
         "density" : 130
     },{
         "type" : "material",
@@ -607,9 +616,9 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 4,
         "elec_resist" : 0,
-        "fire_resist" : 0,
+        "fire_resist" : 2,
         "density" : 10
     },{
         "type" : "material",
@@ -625,10 +634,28 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 0,
+        "acid_resist" : 8,
         "elec_resist" : 1,
-        "fire_resist" : 0,
+        "fire_resist" : 3,
         "density" : 100
+    },{
+        "type" : "material",
+        "ident" : "copper",
+        "name" : "Copper",
+        "bash_resist" : 2,
+        "cut_resist" : 3,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "smashed",
+            "shattered"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 1,
+        "density" : 59
     },{
         "type" : "material",
         "ident" : "egg",
@@ -643,9 +670,99 @@
             "smashed",
             "crushed"
         ],
+        "acid_resist" : 1,
+        "elec_resist" : 0,
+        "fire_resist" : 1,
+        "density" : 3
+    },{
+        "type" : "material",
+        "ident" : "freshclay",
+        "name" : "Fresh Clay",
+        "bash_resist" : 1,
+        "cut_resist" : 1,
+        "bash_dmg_verb" : "squished",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 4,
+        "elec_resist" : 2,
+        "fire_resist" : 3,
+        "density" : 4
+    },{
+        "type" : "material",
+        "ident" : "clay",
+        "name" : "Clay",
+        "bash_resist" : 2,
+        "cut_resist" : 3,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "chipped",
+            "scratched",
+            "cracked",
+            "shattered"
+        ],
+        "acid_resist" : 6,
+        "elec_resist" : 2,
+        "fire_resist" : 3,
+        "density" : 8
+    },{
+        "type" : "material",
+        "ident" : "alcohol",
+        "name" : "Alcohol",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
         "acid_resist" : 0,
         "elec_resist" : 0,
         "fire_resist" : 0,
-        "density" : 3
+        "density" : 1
+    },{
+        "type" : "material",
+        "ident" : "oil",
+        "name" : "Oil",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
+        "ident" : "hydrocarbons",
+        "name" : "Hydrocarbons",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 1
     }
 ]

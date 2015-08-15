@@ -1,0 +1,52 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "NC_NINJA_shirt_male",
+    "items":[
+      ["null", 50],
+      ["tshirt", 10],
+      ["polo_shirt", 10],
+      ["dress_shirt", 10],
+      ["tank_top", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_NINJA_shirt_female",
+    "items":[
+      ["tshirt", 10],
+      ["polo_shirt", 10],
+      ["dress_shirt", 10],
+      ["tank_top", 90]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_NINJA_gloves",
+    "items":[
+      ["null", 20],
+      ["gloves_leather", 60],
+      ["gloves_fingerless", 20],
+      ["fire_gauntlets", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_NINJA_masks",
+    "items":[
+      ["null", 10],
+      ["mask_dust", 10],
+      ["bandana", 70],
+      ["mask_filter", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_NINJA_hat",
+    "items":[
+      ["null", 90],
+      ["hat_ball", 5],
+      ["hat_hard", 5],
+      ["helmet_bike", 5],
+      ["helmet_riot", 5],
+      ["helmet_motor", 5],
+      ["hat_hunting", 5]
+    ]
+  }
+]

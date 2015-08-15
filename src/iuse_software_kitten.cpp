@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "posix_time.h"
 #include "iuse_software_kitten.h"
+#include "translations.h"
 
 #include <iostream>
 
@@ -231,7 +232,7 @@ std::string robot_finds_kitten::getmessage(int idx)
     } else {
         return std::string(rfimessages[idx]);
     }
-};
+}
 
 robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 {
@@ -244,7 +245,6 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     rfkCOLS = 60;
 
     const int numbogus = 20;
-    const int maxcolor = 15;
     nummessages = 201;
     empty.x = -1;
     empty.y = -1;
@@ -266,7 +266,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     robot.x = rand() % rfkCOLS;
     robot.y = rand() % (rfkLINES - 3) + 3;
     robot.character = '#';
-    robot.color = int_to_color(1);
+    robot.color = c_white;
     rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
@@ -279,7 +279,11 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     do {
         kitten.character = ktile[rand() % 82];
     } while (kitten.character == '#' || kitten.character == ' ');
-    kitten.color = int_to_color( ( rand() % (maxcolor - 2) ) + 2);
+
+    do {
+        kitten.color = all_colors.get_random();
+    } while ( kitten.color == c_black );
+
     rfkscreen[kitten.x][kitten.y] = KITTEN;
 
     /* Now, initialize non-kitten OBJECTs. */
@@ -295,7 +299,10 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
         do {
             bogus[c].character = ktile[rand() % 82];
         } while (bogus[c].character == '#' || bogus[c].character == ' ');
-        bogus[c].color = int_to_color((rand() % (maxcolor - 2)) + 2);
+
+        do {
+            bogus[c].color = all_colors.get_random();
+        } while ( bogus[c].color == c_black );
 
         /* Assign a unique message. */
         int index = 0;
@@ -384,28 +391,28 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
     int check_y = robot.y;
 
     switch (input) {
-        case KEY_UP: /* up */
-            check_y--;
-            break;
-        case KEY_DOWN: /* down */
-            check_y++;
-            break;
-        case KEY_LEFT: /* left */
-            check_x--;
-            break;
-        case KEY_RIGHT: /* right */
-            check_x++;
-            break;
-        case 0:
-            break;
-        default: { /* invalid command */
-            for (int c = 0; c < rfkCOLS; c++) {
-                mvwputch (w, 0, c, c_white, ' ');
-                mvwputch (w, 1, c, c_white, ' ');
-            }
-            mvwprintz (w, 0, 0, c_white, _("Invalid command: Use direction keys or press 'q'."));
-            return;
+    case KEY_UP: /* up */
+        check_y--;
+        break;
+    case KEY_DOWN: /* down */
+        check_y++;
+        break;
+    case KEY_LEFT: /* left */
+        check_x--;
+        break;
+    case KEY_RIGHT: /* right */
+        check_x++;
+        break;
+    case 0:
+        break;
+    default: { /* invalid command */
+        for (int c = 0; c < rfkCOLS; c++) {
+            mvwputch (w, 0, c, c_white, ' ');
+            mvwputch (w, 1, c, c_white, ' ');
         }
+        mvwprintz (w, 0, 0, c_white, _("Invalid command: Use direction keys or press 'q'."));
+        return;
+    }
     }
 
     if (check_y < 3 || check_y > rfkLINES - 1 || check_x < 0 || check_x > rfkCOLS - 1) {

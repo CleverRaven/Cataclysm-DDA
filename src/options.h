@@ -1,5 +1,5 @@
-#ifndef _OPTIONS_H_
-#define _OPTIONS_H_
+#ifndef OPTIONS_H
+#define OPTIONS_H
 
 #include <string>
 #include <map>
@@ -7,10 +7,20 @@
 #include <vector>
 #include <algorithm> //atoi
 
-class regional_settings;
+enum copt_hide_t {
+    /** Don't hide this option */
+    COPT_NO_HIDE,
+    /** Hide this option in SDL build */
+    COPT_SDL_HIDE,
+    /** Show this option in SDL builds only */
+    COPT_CURSES_HIDE,
+    /** Hide this option in non-Windows Curses builds */
+    COPT_POSIX_CURSES_HIDE
+};
+
 class options_data
 {
-        friend class regional_settings;
+        friend struct regional_settings;
     public:
         void add_retry(const std::string &var, const std::string &val);
         void add_value(const std::string &myoption, const std::string &myval, std::string myvaltxt = "" );
@@ -29,24 +39,34 @@ class cOpt
 
         //string constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const std::string sItemsIn, std::string sDefaultIn);
+             const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide);
 
         //bool constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const bool bDefaultIn);
+             const bool bDefaultIn, copt_hide_t opt_hide);
 
         //int constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const int iMinIn, int iMaxIn, int iDefaultIn);
+             const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide);
 
         //float constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn);
+             const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide);
 
         //Default deconstructor
         ~cOpt() {};
 
+        void setSortPos(const std::string sPageIn);
+
         //helper functions
+        int getSortPos();
+
+        /**
+         * Option should be hidden in current build.
+         * @return true if option should be hidden, false if not.
+         */
+        bool is_hidden();
+
         std::string getPage();
         std::string getMenuText();
         std::string getTooltip();
@@ -54,7 +74,7 @@ class cOpt
 
         std::string getValue();
         std::string getValueName();
-        std::string getDefaultText();
+        std::string getDefaultText(const bool bTranslated = true);
 
         int getItemPos(const std::string sSearch);
 
@@ -68,6 +88,10 @@ class cOpt
 
         //Set default class behaviour to float
         operator float() const;
+        // return integer via int
+        explicit operator int() const;
+        //allow (explicit) boolean conversions
+        explicit operator bool() const;
         // if (class == "string")
         bool operator==(const std::string sCompare) const;
         // if (class != "string")
@@ -78,6 +102,9 @@ class cOpt
         std::string sMenuText;
         std::string sTooltip;
         std::string sType;
+
+        copt_hide_t hide;
+        int iSortPos;
 
         //sType == "string"
         std::string sSet;
@@ -102,18 +129,21 @@ class cOpt
         float fStep;
 };
 
+/** A mapping(string:string) that stores all tileset values.
+ * Firsts string is tileset NAME from config.
+ * Second string is directory that contain tileset.
+ */
+extern std::map<std::string, std::string> TILESETS;
 extern std::unordered_map<std::string, cOpt> OPTIONS;
 extern std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+extern std::map<int, std::vector<std::string> > mPageItems;
+extern int iWorldOptPage;
 
 extern options_data optionsdata;
-void initOptions();
+void init_options();
 void load_options();
 void save_options(bool ingame = false);
 void show_options(bool ingame = false);
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
-
-std::string get_tileset_names(std::string dir_path);
-
-
 #endif

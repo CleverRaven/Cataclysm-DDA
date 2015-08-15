@@ -1,5 +1,7 @@
-#ifndef _SOFTWARE_SOKOBAN_H_
-#define _SOFTWARE_SOKOBAN_H_
+#ifndef SOFTWARE_SOKOBAN_H
+#define SOFTWARE_SOKOBAN_H
+
+#include "cursesdef.h"
 
 #include <string>
 #include <vector>
@@ -15,14 +17,16 @@ class sokoban_game
                 int iOldX;
                 std::string sTileOld;
 
-                cUndo() {
+                cUndo()
+                {
                     iOldY = 0;
                     iOldX = 0;
 
                     sTileOld = " ";
                 }
 
-                cUndo(const int arg_y, const int arg_x, const std::string arg_tile) {
+                cUndo(const int arg_y, const int arg_x, const std::string arg_tile)
+                {
                     iOldY = arg_y;
                     iOldX = arg_x;
                     sTileOld = arg_tile;
@@ -49,4 +53,5 @@ class sokoban_game
         int start_game();
         sokoban_game();
 };
+
 #endif

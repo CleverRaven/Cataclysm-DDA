@@ -1,18 +1,10 @@
-{
-    "playlists" : [
-        {
-            "id" : "title",
-            "shuffle" : false,
-            "files" : [
-                {
-                    "file": "Dark_Days_Ahead_demo_2.ogg",
-                    "volume": 128
-                },
-                {
-                    "file": "cataclysmthemeREV6.ogg",
-                    "volume": 90
-                }
-            ]
-        }
-    ]
-}
+[
+    {
+        "type": "sound_effect",
+        "id" : "menu_move",
+        "volume" : 100,
+        "files" : [
+            "nenadsimic_menu_selection_click.wav"
+        ]
+    }
+]

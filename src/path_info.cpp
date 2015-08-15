@@ -1,5 +1,8 @@
-#include <cstdlib>
 #include "path_info.h"
+#include "options.h"
+#include "filesystem.h"
+#include <cstdlib>
+#include <locale.h>
 
 // create map where we will store the FILENAMES
 std::map<std::string, std::string> FILENAMES;
@@ -28,6 +31,16 @@ void PATH_INFO::init_user_dir(const char *ud)
         user_dir = getenv("LOCALAPPDATA");
         // On Windows userdir without dot
         dir = std::string(user_dir) + "/cataclysm-dda/";
+#elif defined MACOSX && defined TILES
+        user_dir = getenv( "HOME" );
+        dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
+#elif (defined USE_XDG_DIR)
+        if ( (user_dir = getenv("XDG_DATA_HOME")) ) {
+            dir = std::string(user_dir) + "/cataclysm-dda/";
+        } else {
+            user_dir = getenv("HOME");
+            dir = std::string(user_dir) + "/.local/share/cataclysm-dda/";
+        }
 #else
         user_dir = getenv("HOME");
         dir = std::string(user_dir) + "/.cataclysm-dda/";
@@ -39,7 +52,7 @@ void PATH_INFO::init_user_dir(const char *ud)
 
 void PATH_INFO::update_pathname(std::string name, std::string path)
 {
-    std::map<std::string,std::string>::iterator iter;
+    std::map<std::string, std::string>::iterator iter;
 
     iter = FILENAMES.find(name);
     if (iter != FILENAMES.end()) {
@@ -63,11 +76,14 @@ void PATH_INFO::update_datadir()
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("titledir", FILENAMES["datadir"] + "title/");
+    update_pathname("motddir", FILENAMES["datadir"] + "motd/");
+    update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
 
     // Shared files
-    update_pathname("motd", FILENAMES["datadir"] + "motd");
-    update_pathname("credits", FILENAMES["datadir"] + "credits");
-    // TODO Load localized names
+    update_pathname("title", FILENAMES["titledir"] + "en.title");
+    update_pathname("motd", FILENAMES["motddir"] + "en.motd");
+    update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
@@ -77,6 +93,7 @@ void PATH_INFO::update_datadir()
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
+    update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
 }
 
 void PATH_INFO::update_config_dir()
@@ -87,15 +104,22 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
-void PATH_INFO::set_standart_filenames(void)
+void PATH_INFO::set_standard_filenames(void)
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
+#ifdef DATA_DIR_PREFIX
         update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
         update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
         update_pathname("luadir", FILENAMES["datadir"] + "lua/");
+#else
+        update_pathname("datadir", FILENAMES["base_path"] + "data/");
+        update_pathname("gfxdir", FILENAMES["base_path"] + "gfx/");
+        update_pathname("luadir", FILENAMES["base_path"] +"lua/");
+#endif
     } else {
         update_pathname("datadir", "data/");
         update_pathname("gfxdir", "gfx/");
@@ -111,11 +135,15 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
     update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+    update_pathname("titledir", FILENAMES["datadir"] + "title/");
+    update_pathname("motddir", FILENAMES["datadir"] + "motd/");
+    update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
+    update_pathname("color_templates", FILENAMES["rawdir"] + "color_templates/");
 
     // Shared files
-    update_pathname("motd", FILENAMES["datadir"] + "motd");
-    update_pathname("credits", FILENAMES["datadir"] + "credits");
-    // TODO Load localized names
+    update_pathname("title", FILENAMES["titledir"] + "en.title");
+    update_pathname("motd", FILENAMES["motddir"] + "en.motd");
+    update_pathname("credits", FILENAMES["creditsdir"] + "en.credits");
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
@@ -124,11 +152,25 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
+    update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
 
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
+#ifdef USE_XDG_DIR
+    const char *user_dir;
+    std::string dir;
+    if ( (user_dir = getenv("XDG_CONFIG_HOME")) ) {
+        dir = std::string(user_dir) + "/cataclysm-dda/";
+    } else {
+        user_dir = getenv("HOME");
+        dir = std::string(user_dir) + "/.config/cataclysm-dda/";
+    }
+    update_pathname("config_dir", dir);
+#else
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+#endif
+    update_pathname("graveyarddir", FILENAMES["user_dir"] + "graveyard/");
 
     update_pathname("options", FILENAMES["config_dir"] + "options.txt");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
@@ -137,10 +179,57 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");
     update_pathname("legacy_keymap", "data/keymap.txt");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
+#ifdef TILES
+    // Default tileset config file.
+    update_pathname("tileset-conf", "tileset.txt");
+#endif
+}
+
+std::string PATH_INFO::find_translated_file( const std::string &pathid,
+        const std::string &extension, const std::string &fallbackid )
+{
+    const std::string base_path = FILENAMES[pathid];
+
+#if defined LOCALIZE && ! defined __CYGWIN__
+    std::string local_path_1; // complete locale: en_NZ
+    std::string local_path_2; // only the first part: en
+    std::string loc_name;
+    if( OPTIONS["USE_LANG"].getValue().empty() ) {
+        const char *v = setlocale( LC_ALL, NULL );
+        if( v != NULL ) {
+            loc_name = v;
+        }
+    } else {
+        loc_name = OPTIONS["USE_LANG"].getValue();
+    }
+    if( loc_name == "C" ) {
+        loc_name = "en";
+    }
+    if( !loc_name.empty() ) {
+        const size_t dotpos = loc_name.find( '.' );
+        if( dotpos != std::string::npos ) {
+            loc_name.erase( dotpos );
+        }
+        const std::string local_path_1 = base_path + loc_name + extension;
+        if( file_exist( local_path_1 ) ) {
+            return local_path_1;
+        }
+        const size_t p = loc_name.find( '_' );
+        if( p != std::string::npos ) {
+            const std::string local_path_2 = base_path + loc_name.substr( 0, p ) + extension;
+            if( file_exist( local_path_2 ) ) {
+                return local_path_2;
+            }
+        }
+    }
+#endif
+    (void) extension;
+    return FILENAMES[fallbackid];
 }

@@ -4,7 +4,7 @@ Certain features of the game can be modified without rebuilding the game from
 source code; you should be able to just modify the pertinent files and run the
 game to see your changes.  This attempts to document these features.
 
-An in-depth review of all json files and their appropriate fields is avaliable in
+An in-depth review of all json files and their appropriate fields is available in
 JSON_INFO.txt.
 
 1) Adding a profession.
@@ -17,8 +17,8 @@ following entries:
    {
       "ident" : "survivalist"
       "name": "Wilderness Survivalist",
-      "description": "You live off the wild and wander the world; you've never
-                      had\na place to live or items other than what you can
+      "description": "You live off the wild and wander the world; you've never 
+                      had a place to live or items other than what you can
                       scavenge off the land.  People called you crazy; now,
                       after the disaster, you're the sane one."
 

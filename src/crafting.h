@@ -1,112 +1,116 @@
-#ifndef _CRAFTING_H_
-#define _CRAFTING_H_
+#ifndef CRAFTING_H
+#define CRAFTING_H
+
+#include "item.h"         // item
+#include "requirements.h" // requirement_data
+#include "bodypart.h"     // handedness::NONE
+#include "cursesdef.h"    // WINDOW
 
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
-#include "itype.h"
-#include "skill.h"
-#include "rng.h"
-#include "json.h"
 
-#define MAX_DISPLAYED_RECIPES 18
+class JsonObject;
+class Skill;
+class inventory;
+class player;
+struct recipe;
 
-typedef std::string craft_cat;
-typedef std::string craft_subcat;
+enum body_part : int; // From bodypart.h
+typedef int nc_color; // From color.h
 
-struct component
-{
- itype_id type;
- int count;
- int available; // -1 means the player doesn't have the item, 1 means they do,
-            // 0 means they have item but not enough for both tool and component
- component() { type = "null"; count = 0; available = -1;}
- component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
-};
+using itype_id     = std::string; // From itype.h
 
-struct quality_requirement
-{
-  std::string id;
-  int count;
-  bool available;
-  int level;
+// Global list of valid recipes
+extern std::map<std::string, std::vector<recipe *>> recipes;
+// Global reverse lookup
+extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
-  quality_requirement() { id = "UNKNOWN"; count = 0; available = false; level = 0;}
-  quality_requirement(std::string new_id, int new_count, int new_level){
-    id = new_id;
-    count = new_count;
-    level = new_level;
-    available = false;
-  }
-};
+struct byproduct {
+    itype_id result;
+    int charges_mult;
+    int amount;
 
-struct quality
-{
-    std::string id;
-    std::string name;
+    byproduct() : byproduct("null") {}
+
+    byproduct(itype_id res, int mult = 1, int amnt = 1)
+        : result(res), charges_mult(mult), amount(amnt)
+    {
+    }
 };
 
 struct recipe {
-  std::string ident;
-  int id;
-  itype_id result;
-  craft_cat cat;
-  craft_subcat subcat;
-  Skill *skill_used;
-  std::map<Skill*,int> required_skills;
-  int difficulty;
-  int time;
-  bool reversible; // can the item be disassembled?
-  bool autolearn; // do we learn it just by leveling skills?
-  int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
-  int result_mult; // used by certain batch recipes that create more than one stack of the result
+    std::string ident;
+    int id;
+    itype_id result;
+    int time; // in movement points (100 per turn)
+    int difficulty;
+    requirement_data requirements;
+    std::vector<byproduct> byproducts;
+    std::string cat;
+    bool contained; // Does the item spawn contained?
+    std::string subcat;
+    const Skill* skill_used;
+    std::map<const Skill*, int> required_skills;
+    bool reversible; // can the item be disassembled?
+    bool autolearn; // do we learn it just by leveling skills?
+    int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
-  std::vector<std::vector<component> > tools;
-  std::vector<quality_requirement> qualities;
-  std::vector<std::vector<component> > components;
-  // only used during loading json data: books and the skill needed
-  // to learn this recipe from.
-  std::vector<std::pair<std::string, int> > booksets;
+    // maximum achievable time reduction, as percentage of the original time.
+    // if zero then the recipe has no batch crafting time reduction.
+    double batch_rscale;
+    int batch_rsize; // minimum batch size to needed to reach batch_rscale
+    int result_mult; // used by certain batch recipes that create more than one stack of the result
+    bool paired;
 
-  //Create a string list to describe the skill requirements fir this recipe
-  // Format: skill_name(amount), skill_name(amount)
-  std::string required_skills_string();
+    // only used during loading json data: book_id is the id of an book item, other stuff is copied
+    // into @ref islot_book::recipes.
+    struct bookdata_t {
+        std::string book_id;
+        int skill_level;
+        std::string recipe_name;
+        bool hidden;
+    };
+    std::vector<bookdata_t> booksets;
 
-  recipe() {
-    id = 0;
-    result = "null";
-    skill_used = NULL;
-    difficulty = 0;
-    time = 0;
-    reversible = false;
-    autolearn = false;
-    learn_by_disassembly = -1;
-    result_mult = 1;
-  }
+    //Create a string list to describe the skill requirements fir this recipe
+    // Format: skill_name(amount), skill_name(amount)
+    std::string required_skills_string() const;
 
-recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat psubcat, std::string &to_use,
-       std::map<std::string,int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
-       int plearn_dis, int pmult) :
-  ident (pident), id (pid), result (pres), cat(pcat), subcat(psubcat), difficulty (pdiff), time (ptime),
-  reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis), result_mult(pmult) {
-    skill_used = to_use.size()?Skill::skill(to_use):NULL;
-    if(!to_require.empty()){
-        for(std::map<std::string,int>::iterator iter=to_require.begin(); iter!=to_require.end(); ++iter){
-            required_skills[Skill::skill(iter->first)] = iter->second;
-        }
-    }
-  }
+    ~recipe();
+    recipe();
+    recipe(std::string pident, int pid, itype_id pres, std::string pcat,
+           bool pcontained,std::string psubcat, std::string &to_use,
+           std::map<std::string, int> &to_require,
+           bool preversible, bool pautolearn, int plearn_dis,
+           int pmult, bool ppaired, std::vector<byproduct> &bps,
+           int time, int difficulty, double batch_rscale,
+           int batch_rsize);
 
-  // Create an item instance as if the recipe was just finished,
-  // Contain charges multiplier
-  item create_result() const;
+    // Create an item instance as if the recipe was just finished,
+    // Contain charges multiplier
+    item create_result(handedness handed = NONE) const;
+    std::vector<item> create_results(int batch = 1, handedness handed = NONE) const;
+
+    // Create byproduct instances as if the recipe was just finished
+    std::vector<item> create_byproducts(int batch = 1) const;
+
+    bool has_byproducts() const;
+
+    bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
+    bool check_eligible_containers_for_crafting(int batch = 1) const;
+
+    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
+    void print_item(WINDOW *w, int ypos, int xpos, nc_color col,
+                    const byproduct &bp, int batch = 1) const;
+    int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                   int batch = 1) const;
+
+    int batch_time(int batch = 1) const;
+
 };
 
-typedef std::vector<recipe*> recipe_list;
-typedef std::map<craft_cat, recipe_list> recipe_map;
-
-class item;
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
 void remove_ammo(item *dis_item, player &p);
@@ -117,18 +121,28 @@ void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
-recipe* recipe_by_name(std::string name);
+const recipe *recipe_by_index(int index);
+const recipe *recipe_by_name(const std::string &name);
+const recipe *get_disassemble_recipe(const itype_id &type);
 void finalize_recipes();
-void reset_recipes_qualities();
+// Show the "really disassemble?" query along with a list of possible results.
+// Returns false if the player answered no to the query.
+bool query_dissamble(const item &dis_item);
+const recipe *select_crafting_recipe(int &batch_size);
+void pick_recipes(const inventory &crafting_inv,
+                  std::vector<const recipe *> &current,
+                  std::vector<bool> &available, std::string tab,
+                  std::string subtab, std::string filter);
+void batch_recipes(const inventory &crafting_inv,
+                   std::vector<const recipe *> &current,
+                   std::vector<bool> &available, const recipe* r);
 
-extern recipe_map recipes; // The list of valid recipes
-
-void load_quality(JsonObject &jo);
-extern std::map<std::string,quality> qualities;
-
+const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
-// Check that all components are known, print a message if not containing the display_name name
-void check_component_list(const std::vector<std::vector<component> > &vec, const std::string &display_name);
+void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
+void set_item_food(item &newit);
+void set_item_inventory(item &newit);
+void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count);
 
 #endif

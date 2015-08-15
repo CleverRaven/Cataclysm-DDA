@@ -2,33 +2,43 @@
 #define MONSTER_GENERATOR_H
 
 #include "json.h"
-#include "mtype.h"
+#include "enums.h"
+#include "string_id.h"
 
 #include <map>
 #include <set>
 
-typedef void (mdeath::*MonDeathFunction)(monster*);
-typedef void (mattack::*MonAttackFunction)(monster*);
-typedef void (mdefense::*MonDefenseFunction)(monster*, const projectile*);
+class Creature;
+struct mtype;
+enum m_flag : int;
+enum monster_trigger : int;
+enum m_size : int;
+class monster;
+class Creature;
+struct projectile;
+using mon_action_death  = void (*)(monster*);
+using mon_action_attack = void (*)(monster*, int);
+using mon_action_defend = void (*)(monster*, Creature*, projectile const*);
+using mtype_id = string_id<mtype>;
 
-#define GetMType(x) MonsterGenerator::generator().get_mtype(x)
-
-struct species_type
-{
+struct species_type {
+    int short_id;
     std::string id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type():id("null_species")
+    species_type(): short_id(0), id("null_species")
     {
 
     }
-    species_type(std::string _id,
+    species_type(int _short_id,
+                 std::string _id,
                  std::set<m_flag> _flags,
                  std::set<monster_trigger> _anger,
                  std::set<monster_trigger> _fear,
                  std::set<monster_trigger> _placate)
     {
+        short_id = _short_id;
         id = _id;
         flags = _flags;
         anger_trig = _anger;
@@ -40,7 +50,8 @@ struct species_type
 class MonsterGenerator
 {
     public:
-        static MonsterGenerator &generator(){
+        static MonsterGenerator &generator()
+        {
             static MonsterGenerator generator;
 
             return generator;
@@ -57,16 +68,16 @@ class MonsterGenerator
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
+        
 
         void check_monster_definitions() const;
 
-        mtype *get_mtype(std::string mon);
-        mtype *get_mtype(int mon);
-        bool has_mtype(const std::string& mon) const;
-        bool has_species(const std::string& species) const;
-        std::map<std::string, mtype*> get_all_mtypes() const;
-        std::vector<std::string> get_all_mtype_ids() const;
-        mtype *get_valid_hallucination();
+        mtype &get_mtype( const mtype_id& id );
+        bool has_mtype( const mtype_id &id ) const;
+        bool has_species(const std::string &species) const;
+        std::map<mtype_id, mtype *> get_all_mtypes() const;
+        std::vector<mtype_id> get_all_mtype_ids() const;
+        const mtype_id &get_valid_hallucination() const;
         friend struct mtype;
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
@@ -82,31 +93,37 @@ class MonsterGenerator
         void init_defense();
         void init_trigger();
         void init_flags();
+        void init_mf_attitude();
 
         // data acquisition
         std::set<std::string> get_tags(JsonObject &jo, std::string member);
-        std::vector<void (mdeath::*)(monster*)> get_death_functions(JsonObject &jo, std::string member);
-        MonAttackFunction get_attack_function(JsonObject &jo, std::string member);
-        MonDefenseFunction get_defense_function(JsonObject &jo, std::string member);
-        template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback);
-        template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map, T fallback);
+        std::vector<mon_action_death> get_death_functions(JsonObject &jo, std::string member);
+        void load_special_defense(mtype *m, JsonObject &jo, std::string member);
+        void load_special_attacks(mtype *m, JsonObject &jo, std::string member);
+        template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags,
+                std::map<std::string, T> conversion_map, T fallback);
+        template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
+                                                T fallback);
+        
+        
 
         // finalization
         void apply_species_attributes(mtype *mon);
         void set_mtype_flags(mtype *mon);
+        void set_species_ids(mtype *mon);
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
-        std::map<std::string, mtype*> mon_templates;
-        std::map<std::string, species_type*> mon_species;
+        std::map<mtype_id, mtype *> mon_templates;
+        std::map<std::string, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, m_size> size_map;
-        std::map<std::string, MonDeathFunction> death_map;
-        std::map<std::string, MonAttackFunction> attack_map;
-        std::map<std::string, MonDefenseFunction> defense_map;
+        std::map<std::string, mon_action_death> death_map;
+        std::map<std::string, mon_action_attack> attack_map;
+        std::map<std::string, mon_action_defend> defense_map;
         std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, m_flag> flag_map;
 };
 
-#endif // MONSTER_GENERATOR_H
+#endif

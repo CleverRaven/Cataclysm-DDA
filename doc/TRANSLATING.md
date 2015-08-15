@@ -11,6 +11,7 @@ You can join to your language translation project:
 
 On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
 * Russian
+* German
 
 On [Launchpad](https://translations.launchpad.net/cdda):
 * Brazilian
@@ -19,7 +20,6 @@ On [Launchpad](https://translations.launchpad.net/cdda):
 * Chinese (Traditional)
 * Czech
 * French
-* German
 * Italian
 * Japanese
 * Korean

@@ -1,7 +1,7 @@
 #include "init.h"
 
 #include "json.h"
-#include "file_finder.h"
+#include "filesystem.h"
 
 // can load from json
 #include "effect.h"
@@ -12,12 +12,14 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "item_factory.h"
+#include "vehicle_group.h"
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
 #include "mapdata.h"
 #include "color.h"
 #include "trap.h"
+#include "mission.h"
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
@@ -31,17 +33,26 @@
 #include "debug.h"
 #include "path_info.h"
 #include "start_location.h"
+#include "scenario.h"
 #include "omdata.h"
 #include "options.h"
 #include "game.h"
+#include "faction.h"
+#include "npc.h"
+#include "item_action.h"
+#include "dialogue.h"
+#include "mongroup.h"
+#include "monfaction.h"
+#include "martialarts.h"
+#include "veh_type.h"
+#include "clzones.h"
+#include "sounds.h"
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <locale> // for loading names
-
-#include "savegame.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -61,53 +72,12 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     return theDynamicDataLoader;
 }
 
-std::map<int, int> reverse_legacy_ter_id;
-std::map<int, int> reverse_legacy_furn_id;
-/*
- * Populate optional ter_id and furn_id variables
- */
-void init_data_mappings()
-{
-    set_ter_ids();
-    set_furn_ids();
-    set_oter_ids();
-    set_trap_ids();
-    // temporary (reliable) kludge until switch statements are rewritten
-    std::map<std::string, int> legacy_lookup;
-    for(int i = 0; i < num_legacy_ter; i++) {
-        legacy_lookup[ legacy_ter_id[i] ] = i;
-    }
-    reverse_legacy_ter_id.clear();
-    for( size_t i = 0; i < terlist.size(); ++i ) {
-        if ( legacy_lookup.find(terlist[i].id) != legacy_lookup.end() ) {
-            reverse_legacy_ter_id[ i ] = legacy_lookup[ terlist[i].id ];
-        } else {
-            reverse_legacy_ter_id[ i ] = 0;
-        }
-    }
-    legacy_lookup.clear();
-    for(int i = 0; i < num_legacy_furn; i++) {
-        legacy_lookup[ legacy_furn_id[i] ] = i;
-    }
-    reverse_legacy_furn_id.clear();
-    for( size_t i = 0; i < furnlist.size(); ++i ) {
-        if ( legacy_lookup.find(furnlist[i].id) != legacy_lookup.end() ) {
-            reverse_legacy_furn_id[ i ] = legacy_lookup[ furnlist[i].id ];
-        } else {
-            reverse_legacy_furn_id[ i ] = 0;
-        }
-    }
-}
-
 void DynamicDataLoader::load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
     t_type_function_map::iterator it = type_function_map.find(type);
     if (it == type_function_map.end()) {
-        std::stringstream err;
-        err << jo.line_number() << ": ";
-        err << "unrecognized JSON object, type: \"" << type << "\"";
-        throw err.str();
+        jo.throw_error( "unrecognized JSON object", "type" );
     }
     (*it->second)(jo);
 }
@@ -131,7 +101,8 @@ void DynamicDataLoader::initialize()
     type_function_map["profession"] = new StaticFunctionAccessor(&profession::load_profession);
     type_function_map["skill"] = new StaticFunctionAccessor(&Skill::load_skill);
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
-    type_function_map["mutation"] = new StaticFunctionAccessor(&load_mutation);
+    type_function_map["mutation_category"] = new StaticFunctionAccessor(&load_mutation_category);
+    type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
     type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
@@ -145,6 +116,7 @@ void DynamicDataLoader::initialize()
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
     type_function_map["ammunition_type"] = new StaticFunctionAccessor(
         &ammunition_type::load_ammunition_type);
+    type_function_map["scenario"] = new StaticFunctionAccessor(&scenario::load_scenario);
     type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
@@ -153,10 +125,16 @@ void DynamicDataLoader::initialize()
             &snippet_library::load_snippet);
     type_function_map["item_group"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_group);
+    type_function_map["item_action"] = new ClassFunctionAccessor<item_action_generator>
+    ( &item_action_generator::generator(), &item_action_generator::load_item_action );
 
-    type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
-    type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
-    type_function_map["trap"] = new StaticFunctionAccessor(&load_trap);
+    type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
+    type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
+    type_function_map["vehicle_group"] = new StaticFunctionAccessor( &VehicleGroup::load );
+    type_function_map["vehicle_placement"] = new StaticFunctionAccessor( &VehiclePlacement::load );
+    type_function_map["vehicle_spawn"] = new StaticFunctionAccessor( &VehicleSpawn::load );
+
+    type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -181,8 +159,6 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_bionic);
     type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_veh_part);
-    type_function_map["STATIONARY_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_stationary);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
 
@@ -193,7 +169,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&load_quality);
+    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
@@ -209,6 +185,7 @@ void DynamicDataLoader::initialize()
         new StaticFunctionAccessor(&load_overmap_specials);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
+    type_function_map["region_overlay"] = new StaticFunctionAccessor(&load_region_overlay);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -221,13 +198,27 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
     type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
+
+    type_function_map["faction"] = new StaticFunctionAccessor(
+        &faction::load_faction);
+    type_function_map["npc"] = new StaticFunctionAccessor(
+        &npc::load_npc);
+    type_function_map["talk_topic"] = new StaticFunctionAccessor(
+        &load_talk_topic);
+    type_function_map["epilogue"] = new StaticFunctionAccessor(
+        &epilogue::load_epilogue);
+
+    type_function_map["MONSTER_FACTION"] =
+        new StaticFunctionAccessor(&monfactions::load_monster_faction);
+    type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
+    type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
+
 }
 
 void DynamicDataLoader::reset()
 {
-    for(t_type_function_map::iterator a = type_function_map.begin(); a != type_function_map.end();
-        ++a) {
-        delete a->second;
+    for( auto &elem : type_function_map ) {
+        delete elem.second;
     }
     type_function_map.clear();
 }
@@ -241,7 +232,7 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = file_finder::get_files_from_path(".json", path, true, true);
+    str_vec files = get_files_from_path(".json", path, true, true);
     if (files.empty()) {
         std::ifstream tmp(path.c_str(), std::ios::in);
         if (tmp) {
@@ -251,8 +242,8 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
         }
     }
     // iterate over each file
-    for (size_t i = 0; i < files.size(); i++) {
-        const std::string &file = files[i];
+    for( auto &files_i : files ) {
+        const std::string &file = files_i;
         // open the file as a stream
         std::ifstream infile(file.c_str(), std::ifstream::in | std::ifstream::binary);
         // and stuff it into ram
@@ -266,9 +257,8 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             // parse it
             JsonIn jsin(iss);
             load_all_from_json(jsin);
-        } catch (std::string e) {
-            DebugLog() << file << ": " << e << "\n";
-            throw file + ": " + e;
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
@@ -276,7 +266,6 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
 void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 {
     char ch;
-    std::string type = "";
     jsin.eat_whitespace();
     // examine first non-whitespace char
     ch = jsin.peek();
@@ -288,11 +277,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
         if (jsin.good()) {
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected single-object file but found '";
-            err << jsin.peek() << "'";
-            throw err.str();
+            jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
         }
     } else if (ch == '[') {
         jsin.start_array();
@@ -301,11 +286,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
             jsin.eat_whitespace();
             ch = jsin.peek();
             if (ch != '{') {
-                std::stringstream err;
-                err << jsin.line_number() << ": ";
-                err << "expected array of objects but found '";
-                err << ch << "', not '{'";
-                throw err.str();
+                jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
             }
             JsonObject jo = jsin.get_object();
             load_object(jo);
@@ -313,51 +294,16 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         }
     } else {
         // not an object or an array?
-        std::stringstream err;
-        err << jsin.line_number() << ": ";
-        err << "expected object or array, but found '" << ch << "'";
-        throw err.str();
+        jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
     }
 }
 
-#if defined LOCALIZE && ! defined __CYGWIN__
-// load names depending on current locale
 void init_names()
 {
-    std::locale loc;
-
-    try {
-        loc = std::locale("");
-    }
-    catch( std::exception ) {
-        loc = std::locale("C");
-    }
-
-    std::string loc_name = loc.name();
-    if (loc_name == "C") {
-        loc_name = "en";
-    }
-    size_t dotpos = loc_name.find('.');
-    if (dotpos != std::string::npos) {
-        loc_name = loc_name.substr(0, dotpos);
-    }
-    // test if a local version exists
-    std::string filename = FILENAMES["namesdir"] + loc_name + ".json";
-    std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.good()) {
-        // if not, use "en.json"
-        filename = FILENAMES["names"];
-    }
-    fin.close();
-
+    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
+                                 ".json", "names" );
     load_names_from_file(filename);
 }
-#else
-void init_names()
-{
-    load_names_from_file(FILENAMES["names"]);
-}
-#endif
 
 void DynamicDataLoader::unload_data()
 {
@@ -371,26 +317,23 @@ void DynamicDataLoader::unload_data()
     clear_techniques_and_martial_arts();
     // Mission types are not loaded from json, but they depend on
     // the overmap terrain + items and that gets loaded from json.
-    g->mission_types.clear();
-    item_controller->clear_items_and_groups();
+    mission_type::reset();
+    item_controller->reset();
     mutations_category.clear();
-    mutation_data.clear();
-    traits.clear();
+    mutation_category_traits.clear();
+    mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
-    furnlist.clear();
-    furnmap.clear();
-    terlist.clear();
-    termap.clear();
+    reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
-    g->reset_vehicles();
-    g->reset_vehicleparts();
+    vehicle_prototype::reset();
+    vpart_info::reset();
     MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
-    reset_recipes_qualities();
-    release_traps();
+    quality::reset();
+    trap::reset();
     reset_constructions();
     reset_overmap_terrain();
     reset_region_settings();
@@ -399,35 +342,46 @@ void DynamicDataLoader::unload_data()
     reset_speech();
     iuse::reset_bullet_pulling();
     clear_overmap_specials();
+    ammunition_type::reset();
+    unload_talk_topics();
 
-    // artifacts are not loaded from json, but must be unloaded anyway.
-    artifact_itype_ids.clear();
     // TODO:
     //    NameGenerator::generator().clear_names();
 }
 
 extern void calculate_mapgen_weights();
-extern void init_data_mappings();
-void DynamicDataLoader::finalize_loaded_data() {
-    g->init_missions(); // Needs overmap terrain.
-    init_data_mappings();
+void DynamicDataLoader::finalize_loaded_data()
+{
+    mission_type::initialize(); // Needs overmap terrain.
+    set_ter_ids();
+    set_furn_ids();
+    set_oter_ids();
+    trap::finalize();
     finalize_overmap_terrain();
+    vehicle_prototype::finalize();
     calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
-    g->finalize_vehicles();
+    monfactions::finalize();
     item_controller->finialize_item_blacklist();
     finalize_recipes();
+    finialize_martial_arts();
     check_consistency();
 }
 
-void DynamicDataLoader::check_consistency() {
-    item_controller->check_itype_definitions();
-    item_controller->check_items_of_groups_exist();
+void DynamicDataLoader::check_consistency()
+{
+    item_controller->check_definitions();
+    vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
     check_furniture_and_terrain();
     check_constructions();
     profession::check_definitions();
+    scenario::check_definitions();
+    check_martialarts();
+    mutation_branch::check_consistency();
+    ammunition_type::check_consistency();
+    trap::check_consistency();
 }

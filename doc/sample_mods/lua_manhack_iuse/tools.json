@@ -1,0 +1,24 @@
+[
+  {
+    "id": "bot_manhack_lua",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "inactive manhack(lua)",
+    "description": "This is an inactive manhack. Manhacks are fist-sized robots that fly through the air. They are covered with whirring blades and attack by throwing themselves against their target. Use this item to activate the manhack.",
+    "price": 60000,
+    "material": ["aluminum", "plastic"],
+    "weight": 300,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "IUSE_LUA_MANHACK"
+  }
+]

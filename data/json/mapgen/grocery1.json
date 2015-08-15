@@ -1,0 +1,270 @@
+[
+    {
+        "type"  : "item_group",
+        "id"    : "groce_bread",
+        "items" : [
+            ["bread", 65],
+            ["cornbread", 35],
+            ["brioche", 50],
+            ["hardtack", 30],
+            ["biscuit", 50],
+            ["crackers", 40]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_premade",
+        "items" : [
+            ["blt", 50],
+            ["sandwich_pbj", 50],
+            ["sandwich_pbh", 20],
+            ["sandwich_pb", 35],
+            ["fish_sandwich", 20],
+            ["sandwich_t", 50],
+            ["frozen_burrito", 30],
+            ["taco", 40],
+            ["insta_salad", 60],
+            ["yoghurt", 50],
+            ["macaroni_cooked", 20]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_cereal",
+        "items" : [
+            ["oatmeal", 50],
+            ["cereal", 65],
+            ["cereal2", 55],
+            ["cereal3", 65],
+            ["toastem", 30],
+            ["toastem2", 25],
+            ["toastem3", 20]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_pasta",
+        "items" : [
+            ["spaghetti_raw", 60],
+            ["lasagne_raw", 50],
+            ["macaroni_raw", 60],
+            ["noodles_fast", 50]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_ingredient",
+        "items" : [
+            ["flour", 65],
+            ["cornmeal", 50],
+            ["yeast", 40],
+            ["powder_eggs", 55],
+            ["milk_powder", 45],
+            ["salt", 50],
+            ["sugar", 60],
+            ["dry_rice", 65]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_softdrink",
+        "items" : [
+            ["lemonade", 30],
+            ["sports_drink", 40],
+            ["energy_drink", 40],
+            ["energy_drink_atomic", 5],
+            ["cola", 65],
+            ["creamsoda", 50],
+            ["lemonlime", 60],
+            ["orangesoda", 50],
+            ["colamdew", 50],
+            ["rootbeer", 50],
+            ["spezi", 10],
+            ["crispycran", 35],
+            ["purple_drink", 50]
+        ]
+    },
+    {
+        "type"  : "item_group", "comment": "might split this into two categories; condiments and seasonings, and preserves",
+        "id"    : "groce_condiment",
+        "items" : [
+            ["mayonnaise", 40],
+            ["ketchup", 60],
+            ["mustard", 60],
+            ["honey_bottled", 35],
+            ["honey_glassed", 35],
+            ["peanutbutter", 60],
+            ["pickle", 40],
+            ["coffee_syrup", 35],
+            ["coffee_raw", 45],
+            ["salt", 50],
+            ["pepper", 50],
+            ["syrup", 50],
+            ["seasoning_salt", 45],
+            ["seasoning_italian", 50],
+            ["curry_powder", 40],
+            ["can_cheese", 30],
+            ["sauce_red", 40],
+            ["sauce_pesto", 20]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_frozen",
+        "items" : [
+            ["frozen_dinner", 80],
+            ["pizza_veggy", 50],
+            ["pizza_meat", 50],
+            ["frozen_burrito", 50]
+        ]
+    },
+    {
+        "type"  : "item_group",
+        "id"    : "groce_meat",
+        "items" : [
+            ["bologna", 50],
+            ["sausage", 50],
+            ["hotdogs_frozen", 50],
+            ["lunchmeat", 60],
+            ["meat", 60]
+        ]
+    },
+    {
+        "type"    : "item_group",
+        "id"      : "groce_dairyegg",
+        "subtype" : "distribution",
+        "entries" : [
+            { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12},
+            { "item": "milk", "prob": 80},
+            { "item": "cheese", "prob": 60},
+            { "item": "yoghurt", "prob": 40},
+            { "item": "pudding", "prob": 30}
+        ]
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_grocery"
+        ],
+        "method": "json",
+        "weight": 500,
+        "object": {
+            "rows": [
+                    "ssssssssssssssssssssssss",
+                    "ssWWWWWWWWssssssssssssss",
+                    "sswsssssssssssssssssssss",
+                    "sswsssssssssssssssssssss",
+                    "__|====-====-=[[=-====|_",
+                    "__|tttt^ttttt^RR^#    |_",
+                    "__|t             #%## |_",
+                    "__|t  rrr  rrr        |_",
+                    "__|r  r|r  r|r  f|rrr |_",
+                    "__|r  r|r  r|r  f|777 |_",
+                    "__|r  r|r  r|r  f|7   |_",
+                    "__|r  r|r  r|r  f|7   |_",
+                    "__|r  r|r  r|r  f|t   |_",
+                    "|---                  |_",
+                    "|ll+   |r  r|t  t|r  r|_",
+                    "|TS|^  |r  r|t  t|r  r|_",
+                    "|---   |r  r|t  t|r  r|_",
+                    "|TS|^ A|r  r|t  t|r  r|_",
+                    "|ll+  A|r  r|t  t|r  r|_",
+                    "|--|-I--              |_",
+                    "___|**C|[[[[-[[[[-[[[[|_",
+                    "___|**C|]]]]]]]]]]]]]]|_",
+                    "___L***+**************|_",
+                    "___|------------------|_"
+            ],
+            "terrain": {
+                "_": "t_pavement",
+                " ": "t_linoleum_white",
+                "-": "t_wall",
+                "=": "t_wall_glass",
+                "|": "t_wall",
+                "[": "t_door_glass_c",
+                "+": "t_door_c",
+                "L": "t_door_locked",
+                "I": "t_door_locked_interior",
+                "W": "t_chainfence_h",
+                "w": "t_chainfence_v",
+                "R": "t_carpet_red",
+                "l": "t_linoleum_gray",
+                "T": "t_linoleum_gray",
+                "S": "t_linoleum_gray",
+                "*": "t_floor",
+                "C": "t_floor",
+                "]": "t_floor",
+                "s": "t_sidewalk",
+                "%": "t_console_broken",
+                "A": "t_atm",
+                "^": "t_linoleum_white",
+                "t": "t_linoleum_white",
+                "r": "t_linoleum_white",
+                "#": "t_linoleum_white",
+                "7": "t_linoleum_white",
+                "f": "t_linoleum_white"
+            },
+            "furniture": {
+                "S": "f_sink",
+                "C": "f_crate_c",
+                "]": "f_rack",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "r": "f_rack",
+                "#": "f_counter",
+                "7": "f_bookcase",
+                "f": "f_glass_fridge"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "place_vehicles": [
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 3,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 4,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 5,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 6,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 7,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 8,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 9,       "y": 2 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 3,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 4,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 5,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 6,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 7,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 8,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 10,  "x": 9,       "y": 3 },
+                { "vehicle": "shopping_cart", "chance": 15,  "x": [4,21],  "y": 13 }
+            ],
+            "place_items": [
+                { "item": "produce",          "chance": 65, "x": [3,6],   "y": 5,       "repeat": [1,2] },
+                { "item": "produce",          "chance": 65, "x": [8,12],  "y": 5,       "repeat": [1,2] },
+                { "item": "produce",          "chance": 65, "x": 3,       "y": [6,7],   "repeat": [1,2] },
+                { "item": "snacks",           "chance": 60, "x": [6,8],   "y": 7,       "repeat": [1,2] },
+                { "item": "snacks",           "chance": 60, "x": [11,13], "y": 7,       "repeat": [1,2] },
+                { "item": "cannedfood",       "chance": 60, "x": 3,       "y": [8,12],  "repeat": [1,2] },
+                { "item": "cannedfood",       "chance": 60, "x": 6,       "y": [8,12],  "repeat": [1,2] },
+                { "item": "snacks",           "chance": 60, "x": 8,       "y": [8,12],  "repeat": [1,2] },
+                { "item": "snacks",           "chance": 60, "x": 11,      "y": [8,12],  "repeat": [1,2] },
+                { "item": "snacks",           "chance": 60, "x": 13,      "y": [8,12],  "repeat": [1,2] },
+                { "item": "groce_premade",    "chance": 60, "x": 16,      "y": [8,12],  "repeat": [1,2] },
+                { "item": "behindcounter",    "chance": 60, "x": [18,20], "y": 8,       "repeat": [1,2] },
+                { "item": "magazines",        "chance": 60, "x": [18,20], "y": 9,       "repeat": [1,2] },
+                { "item": "novels",           "chance": 60, "x": 18,      "y": [10,12], "repeat": [1,2] },
+                { "item": "groce_cereal",     "chance": 60, "x": 8,       "y": [14,15], "repeat": [1,2] },
+                { "item": "groce_bread",      "chance": 60, "x": 8,       "y": [16,18], "repeat": [1,2] },
+                { "item": "groce_pasta",      "chance": 60, "x": 11,      "y": [14,15], "repeat": [1,2] },
+                { "item": "groce_ingredient", "chance": 60, "x": 11,      "y": [16,18], "repeat": [1,2] },
+                { "item": "alcohol",          "chance": 60, "x": 13,      "y": [14,18], "repeat": [1,2] },
+                { "item": "groce_softdrink",  "chance": 60, "x": 16,      "y": [14,18], "repeat": [1,2] },
+                { "item": "groce_condiment",  "chance": 60, "x": 18,      "y": [14,18], "repeat": [1,2] },
+                { "item": "softdrugs",        "chance": 60, "x": 21,      "y": [14,15], "repeat": [1,2] },
+                { "item": "cleaning",         "chance": 60, "x": 21,      "y": [16,18], "repeat": [1,2] },
+                { "item": "groce_frozen",     "chance": 60, "x": [8,12],  "y": 21,      "repeat": [1,2] },
+                { "item": "groce_meat",       "chance": 60, "x": [13,17], "y": 21,      "repeat": [1,2] },
+                { "item": "groce_dairyegg",   "chance": 60, "x": [18,21], "y": 21,      "repeat": [1,2] }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]

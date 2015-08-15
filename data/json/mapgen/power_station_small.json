@@ -1,0 +1,97 @@
+[
+    {
+        "type"  : "item_group",
+        "id"    : "pwr_equipment",
+        "items" : [
+            ["hat_hard",         80],
+            ["boots",            60],
+            ["glasses_safety",   40],
+            ["flashlight",       20],
+            ["screwdriver",      20],
+            ["wrench",           30]
+        ]
+    },
+        {
+        "type"  : "item_group",
+        "id"    : "pwr_supplies",
+        "items" : [
+            ["amplifier",        20],
+            ["power_supply",     20],
+            ["cable",            40]
+        ]
+    },
+    {
+        "type" : "mapgen",
+        "om_terrain" : ["pwr_sub_s"],
+        "method": "json",
+        "weight": 10,
+        "object": {
+            "fill_ter": "t_concrete",
+            "rows": [
+            "........................",
+            "------------------------",
+            "|   T                  |",
+            "|                      |",
+            "|   }                  |",
+            "| T hST                |",
+            "|              wwwwdwwww",
+            "| T {BT        vc******v",
+            "|              Wc******v",
+            "| T hsT{BT     vC******W",
+            "|              vC******W",
+            "|        8S    vC******W",
+            "| T      T     Wc******v",
+            "|    888       Wc******v",
+            "|    888       wwwwdwwww",
+            "| T  888 T             |",
+            "|        8S            |",
+            "|                      |",
+            "| T hST{BT             |",
+            "|   {              -++--",
+            "|   B              |  ..",
+            "| T hST            |  ..",
+            "|   }              |  ..",
+            "--------------------...."
+            ],
+            "terrain": {
+            ".": "t_grass",
+            " ": "t_concrete",
+            "-": "t_chainfence_h",
+            "|": "t_chainfence_v",
+            "x": "t_chainfence_posts",
+            "+": "t_chaingate_c",
+            "T": "t_support_l",
+            "B": "t_oil_circ_brkr_l",
+            "S": "t_switchgear_l",
+            "s": "t_switchgear_s",
+            "w": "t_wall",
+            "v": "t_wall",
+            "d": "t_door_locked",
+            "C": "t_console_broken",
+            "*": "t_floor",
+            "c": "t_floor",
+            "}": "t_lgtn_arrest",
+            "h": "t_station_disc",
+            "{": "t_current_trans",
+            "8": "t_potential_trans",
+            "W": "t_window"
+            },
+            "furniture": {
+            "c": "f_counter"
+            },
+              "place_items": [
+                { "item": "pwr_equipment",  "x": 16, "y": 7, "chance": 40 },
+                { "item": "pwr_supplies",   "x": 16, "y": 7, "chance": 60 },
+                
+                { "item": "pwr_equipment",  "x": 16, "y": 8, "chance": 20 },
+                { "item": "pwr_supplies",   "x": 16, "y": 8, "chance": 40 },
+                
+                { "item": "pwr_equipment",  "x": 16, "y": 12, "chance": 40 },
+                { "item": "pwr_supplies",   "x": 16, "y": 12, "chance": 40 },
+                
+                { "item": "pwr_equipment",  "x": 16, "y": 13, "chance": 20 },
+                { "item": "pwr_supplies",   "x": 16, "y": 13, "chance": 20 }
+            ]
+        }
+    }
+]

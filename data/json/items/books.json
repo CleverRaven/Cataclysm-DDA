@@ -4,7 +4,7 @@
         "id" : "mag_porn",
         "name" : "Playboy",
         "max_level" : 0,
-        "description" : "You can read it for the articles. Or not.",
+        "description" : "You can read it for the articles.  Or not.",
         "weight" : 60,
         "to_hit" : 1,
         "color" : "pink",
@@ -17,16 +17,41 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 3000,
+        "price" : 400,
         "required_level" : 0,
         "chapters": 4
+    },
+    {
+        "type" : "GENERIC",
+        "id" : "note",
+        "name" : "note",
+        "description" : "A hand-written paper note.",
+        "weight" : 0,
+        "to_hit" : 0,
+        "color" : "white",
+        "symbol" : "?",
+        "material" : ["paper"],
+        "volume" : 3,
+        "bashing" : 0,
+        "cutting" : 0,
+        "price" : 0,
+        "book_data" : {
+            "max_level" : 0,
+            "intelligence" : 0,
+            "time" : 1,
+            "fun" : 0,
+            "skill" : "none",
+            "required_level" : 0,
+            "chapters": 0,
+            "use_action": "MCG_NOTE"
+        }
     },
     {
         "type" : "BOOK",
         "id" : "photo_album",
         "name" : "photo album",
         "max_level" : 0,
-        "description" : "A leather album full of photos of somebody's family. You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
+        "description" : "A leather album full of photos of somebody's family.  You don't know any of the people in them, but seeing these pictures still makes you think of happier times.",
         "weight" : 180,
         "to_hit" : 1,
         "color" : "light_gray",
@@ -41,7 +66,8 @@
         "skill" : "none",
         "price" : 3000,
         "required_level" : 0,
-        "chapters": 4
+        "chapters": 4,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -84,13 +110,14 @@
         "time" : 8,
         "fun" : 0,
         "skill" : "barter",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "mag_computer",
         "name" : "Computer World",
+        "name_plural" : "Computer World",
         "max_level" : 1,
         "description" : "An informative magazine all about computers, both hardware and software.",
         "weight" : 80,
@@ -105,13 +132,14 @@
         "time" : 8,
         "fun" : 0,
         "skill" : "computer",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "mag_electronics",
         "name" : "Ham Radio Illustrated",
+        "name_plural" : "Ham Radio Illustrated",
         "max_level" : 1,
         "description" : "An amusing magazine about ham radio, with lots of diagrams and illustrations for making your own electronic devices.",
         "weight" : 45,
@@ -126,7 +154,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "electronics",
-        "price" : 4000,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -135,7 +163,7 @@
         "name" : "Popular Mechanics",
         "name_plural" : "Popular Mechanics",
         "max_level" : 1,
-        "description" : "A magazine about mechanical innovations. Full of entertaining articles and advertisements for esoteric gadgets.",
+        "description" : "A magazine about mechanical innovations.  Full of entertaining articles and advertisements for esoteric gadgets.",
         "weight" : 70,
         "to_hit" : 1,
         "color" : "pink",
@@ -148,7 +176,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "mechanics",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -157,7 +185,7 @@
         "name" : "Outdoor Adventures",
         "name_plural" : "Outdoor Adventures",
         "max_level" : 1,
-        "description" : "A glossy magazine about surviving and hunting in the wilderness. There's an exciting article about a bear attack in the back pages.",
+        "description" : "A glossy magazine about surviving and hunting in the wilderness.  There's an exciting article about a bear attack in the back pages.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
@@ -170,7 +198,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "survival",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -179,7 +207,7 @@
         "name" : "Through the Lens",
         "name_plural" : "Through the Lens",
         "max_level" : 3,
-        "description" : "A colorful digest devoted to backpacking and wilderness photography. The photos are beautiful, though the terminology in the sections on survivalcraft assume some proficiency.",
+        "description" : "A colorful digest devoted to backpacking and wilderness photography.  The photos are beautiful, though the terminology in the sections on survivalcraft assume some proficiency.",
         "weight" : 440,
         "to_hit" : 1,
         "color" : "pink",
@@ -192,15 +220,16 @@
         "time" : 8,
         "fun" : 3,
         "skill" : "survival",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 1
     },
     {
         "type" : "BOOK",
         "id" : "mag_traps",
         "name" : "Trapper's Life",
+        "name_plural" : "Trapper's Life",
         "max_level" : 1,
-        "description" : "An in-depth magazine about trapping game. There are lots of articles and diagrams that explain simple trap designs.",
+        "description" : "An in-depth magazine about trapping game.  There are lots of articles and diagrams that explain simple trap designs.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
@@ -213,15 +242,16 @@
         "time" : 8,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "atomic_survival",
         "name" : "Survival Under Atomic Attack",
+        "name_plural" : "copies of Survival Under Atomic Attack",
         "max_level" : 8,
-        "description" : "A wordy and intricate guide to wilderness and urban survival in a worst case scenario. While filled with loads of useful information, the madman who wrote this was a terrible writer, and gleaning knowledge from the rants is a chore.",
+        "description" : "A wordy and intricate guide to wilderness and urban survival in a worst case scenario.  While filled with loads of useful information, the madman who wrote this was a terrible writer, and gleaning knowledge from the rants is a chore.",
         "weight" : 1920,
         "to_hit" : 1,
         "color" : "blue",
@@ -234,15 +264,16 @@
         "time" : 55,
         "fun" : -3,
         "skill" : "survival",
-        "price" : 92000,
+        "price" : 920,
         "required_level" : 1
     },
     {
         "type" : "BOOK",
         "id" : "trappers_companion",
         "name" : "The Trapper's Companion",
+        "name_plural" : "copies of The Trapper's Companion",
         "max_level" : 8,
-        "description" : "A folksy guide to trapping wild game using time-tested methods. A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",
+        "description" : "A folksy guide to trapping wild game using time-tested methods.  A bit in-depth for the beginner, it can provide a wealth of information to a knowledgeable trapper.",
         "weight" : 1920,
         "to_hit" : 1,
         "color" : "blue",
@@ -255,7 +286,7 @@
         "time" : 55,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 92000,
+        "price" : 920,
         "required_level" : 5
     },
     {
@@ -264,7 +295,7 @@
         "name" : "Batter Up!",
         "name_plural" : "Batter Up!",
         "max_level" : 1,
-        "description" : "A baseball magazine that focuses on batting tips. There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
+        "description" : "A baseball magazine that focuses on batting tips.  There are lots of colorful, full-page photos of skilled athletes demonstrating proper form and technique.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
@@ -277,7 +308,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "bashing",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -285,7 +316,7 @@
         "id" : "manual_bashing",
         "name" : "tactical baton defense manual",
         "max_level" : 3,
-        "description" : "An informative guide to self-defense using clubs and batons. Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",
+        "description" : "An informative guide to self-defense using clubs and batons.  Aimed at the law enforcement and military market, it is packed with time tested, no-nonsense information and written to be understandable for beginners.",
         "weight" : 454,
         "to_hit" : 0,
         "color" : "green",
@@ -298,7 +329,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "bashing",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -320,7 +351,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "cutting",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -329,7 +360,7 @@
         "name" : "knife fighter's notes",
         "name_plural" : "knife fighter's notes",
         "max_level" : 3,
-        "description" : "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral- bound paper. Still, there are lots of useful tips for beginners.",
+        "description" : "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral- bound paper.  Still, there are lots of useful tips for beginners.",
         "weight" : 454,
         "to_hit" : 0,
         "color" : "green",
@@ -342,7 +373,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "cutting",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -351,7 +382,7 @@
         "name" : "CQB Monthly",
         "name_plural" : "CQB Monthlies",
         "max_level" : 1,
-        "description" : "An in-depth look at various styles of close quarters fighting. There's an amusing essay about dirty tricks in the front section.",
+        "description" : "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section.",
         "weight" : 70,
         "to_hit" : 1,
         "color" : "pink",
@@ -364,7 +395,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "melee",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -385,7 +416,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "melee",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -393,7 +424,7 @@
         "id" : "mag_stabbing",
         "name" : "Duelist's Annual",
         "max_level" : 1,
-        "description" : "An annual publication about fencing and dueling. There are many good illustrations which describe proper technique and form.",
+        "description" : "An annual publication about fencing and dueling.  There are many good illustrations which describe proper technique and form.",
         "weight" : 80,
         "to_hit" : 1,
         "color" : "pink",
@@ -406,7 +437,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "stabbing",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -415,7 +446,7 @@
         "name" : "Boxing Monthly",
         "name_plural" : "Boxing Monthlies",
         "max_level" : 1,
-        "description" : "An exciting monthly magazine about boxing. There are lots of large, colorful photos of pugilistic exploits.",
+        "description" : "An exciting monthly magazine about boxing.  There are lots of large, colorful photos of pugilistic exploits.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "pink",
@@ -428,7 +459,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "unarmed",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -437,7 +468,7 @@
         "name" : "High Explosives Quarterly",
         "name_plural" : "High Explosives Quarterlies",
         "max_level" : 1,
-        "description" : "An interesting quarterly report about rocket launchers and recoilless rifles. There are lots of large, exciting photos of explosions and weaponry.",
+        "description" : "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "pink",
@@ -450,16 +481,16 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "launcher",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "manual_launcher",
         "name" : "Jane's Mortars and Rocket Launchers",
-        "name_plural" : "Jane's Mortars and Rocket Launchers",
+        "name_plural" : "copies of Jane's Mortars and Rocket Launchers",
         "max_level" : 3,
-        "description" : "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry. Lavishly illustrated with color photographs, it contains a wealth of information.",
+        "description" : "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry.  Lavishly illustrated with color photographs, it contains a wealth of information.",
         "weight" : 734,
         "to_hit" : 0,
         "color" : "green",
@@ -472,7 +503,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "launcher",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -480,7 +511,7 @@
         "id" : "mag_pistol",
         "name" : "Tactical Handgun Digest",
         "max_level" : 1,
-        "description" : "A glossy magazine all about handguns and shooting. There is a good article about proper sighting near the middle.",
+        "description" : "A glossy magazine all about handguns and shooting.  There is a good article about proper sighting near the middle.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "pink",
@@ -493,13 +524,14 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "pistol",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "manual_pistol",
         "name" : "The Tao of the Handgun",
+        "name_plural" : "copies of The Tao of the Handgun",
         "max_level" : 3,
         "description" : "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
         "weight" : 440,
@@ -514,15 +546,16 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "pistol",
-        "price" : 18000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
         "type" : "BOOK",
         "id" : "mag_rifle",
         "name" : "Modern Rifleman",
+        "name_plural" : "Modern Rifleman",
         "max_level" : 1,
-        "description" : "An informative magazine all about rifles and shooting. There is an excellent article about proper maintenance in this issue.",
+        "description" : "An informative magazine all about rifles and shooting.  There is an excellent article about proper maintenance in this issue.",
         "weight" : 100,
         "to_hit" : 1,
         "color" : "pink",
@@ -535,7 +568,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "rifle",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -556,7 +589,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "rifle",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -564,7 +597,7 @@
         "id" : "mag_shotgun",
         "name" : "Trap and Field",
         "max_level" : 1,
-        "description" : "An in-depth magazine all about shotguns and shooting. There is an informative article about proper shooting stance in the back pages.",
+        "description" : "An in-depth magazine all about shotguns and shooting.  There is an informative article about proper shooting stance in the back pages.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "pink",
@@ -577,7 +610,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "shotgun",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -598,7 +631,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "shotgun",
-        "price" : 18000,
+        "price" : 2100,
         "required_level" : 0
     },
     {
@@ -606,7 +639,7 @@
         "id" : "mag_smg",
         "name" : "Submachine Gun Enthusiast",
         "max_level" : 1,
-        "description" : "An in-depth magazine about submachine guns and shooting. There is an exhaustive article about close quarter combat techniques in the front.",
+        "description" : "An in-depth magazine about submachine guns and shooting.  There is an exhaustive article about close quarter combat techniques in the front.",
         "weight" : 90,
         "to_hit" : 1,
         "color" : "pink",
@@ -619,7 +652,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "smg",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -640,7 +673,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "smg",
-        "price" : 18000,
+        "price" : 2100,
         "required_level" : 0
     },
     {
@@ -661,7 +694,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 60000,
+        "price" : 8500, "//" : "College-level textbooks are Cheap at $60.  Med book is likely more expensive.",
         "required_level" : 3
     },
     {
@@ -682,7 +715,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "speech",
-        "price" : 60000,
+        "price" : 4000,
         "required_level" : 3
     },
     {
@@ -703,7 +736,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "survival",
-        "price" : 60000,
+        "price" : 6000,
         "required_level" : 3
     },
     {
@@ -724,10 +757,11 @@
         "time" : 55,
         "fun" : 1,
         "skill" : "survival",
-        "price" : 92000,
+        "price" : 920, "//" : "Since it's a novel, price point is much more reasonable.",
         "required_level" : 5
     },
     {
+        "comment": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
         "type" : "BOOK",
         "id" : "textbook_traps",
         "name" : "The Compleat Trapper",
@@ -745,7 +779,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 60000,
+        "price" : 6000,
         "required_level" : 3
     },
     {
@@ -767,7 +801,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "speech",
-        "price" : 4000,
+        "price" : 400,
         "required_level" : 0
     },
     {
@@ -788,7 +822,7 @@
         "time" : 10,
         "fun" : 2,
         "skill" : "none",
-        "price" : 4000,
+        "price" : 400,
         "required_level" : 0
     },
     {
@@ -809,7 +843,7 @@
         "time" : 5,
         "fun" : 1,
         "skill" : "none",
-        "price" : 3500,
+        "price" : 350,
         "required_level" : 0
     },
     {
@@ -830,7 +864,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "driving",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -838,7 +872,7 @@
         "id" : "mag_cooking",
         "name" : "Bon Appetit",
         "max_level" : 1,
-        "description" : "Exciting recipes and restaurant reviews. Full of handy tips about cooking.",
+        "description" : "Exciting recipes and restaurant reviews.  Full of handy tips about cooking.",
         "weight" : 60,
         "to_hit" : 1,
         "color" : "pink",
@@ -851,7 +885,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -859,7 +893,7 @@
         "id" : "mag_glam",
         "name" : "Glamopolitan",
         "max_level" : 1,
-        "description" : "This is a full-size glossy women's magazine. There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
+        "description" : "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
         "weight" : 160,
         "to_hit" : 1,
         "color" : "pink",
@@ -872,7 +906,7 @@
         "time" : 24,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -880,7 +914,7 @@
         "id" : "mag_beauty",
         "name" : "Beauty Magazine",
         "max_level" : 1,
-        "description" : "This is a full-size glossy women's magazine. There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
+        "description" : "This is a full-size glossy women's magazine.  There are a few simple patterns and basic sewing tips somewhere in between the fashion photos and the makeup advertisements.",
         "weight" : 180,
         "to_hit" : 1,
         "color" : "pink",
@@ -893,7 +927,7 @@
         "time" : 24,
         "fun" : 1,
         "skill" : "tailor",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -902,7 +936,7 @@
         "name" : "Alpha Male Quarterly",
         "name_plural" : "Alpha Male Quarterlies",
         "max_level" : 1,
-        "description" : "This is a full-size glossy men's magazine. There's a brief article about hiking and a list of simple wilderness survival tips somewhere in between the photos of bikini-clad women and the gadget advertisements.",
+        "description" : "This is a full-size glossy men's magazine.  There's a brief article about hiking and a list of simple wilderness survival tips somewhere in between the photos of bikini-clad women and the gadget advertisements.",
         "weight" : 180,
         "to_hit" : 1,
         "color" : "pink",
@@ -915,7 +949,7 @@
         "time" : 24,
         "fun" : 1,
         "skill" : "survival",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -937,7 +971,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "carpentry",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -958,7 +992,7 @@
         "time" : 7,
         "fun" : 1,
         "skill" : "gun",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -979,7 +1013,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "gun",
-        "price" : 18000,
+        "price" : 3800,
         "required_level" : 0
     },
     {
@@ -1000,7 +1034,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 20000,
+        "price" : 12000,
         "required_level" : 3
     },
     {
@@ -1022,7 +1056,7 @@
         "time" : 7,
         "fun" : 1,
         "skill" : "archery",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -1043,7 +1077,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "archery",
-        "price" : 20000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -1064,7 +1098,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "archery",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -1072,7 +1106,7 @@
         "id" : "recipe_arrows",
         "name" : "The Fletcher's Friend",
         "max_level" : 4,
-        "description" : "This hefty book is devoted to folks looking to handcraft their own arrows. It starts with a hip and snappy disclaimer about the risks, both physical and legal, of using explosives and flammable materials. Look for its companion, \"The Bowyer's Buddy\"!",
+        "description" : "This hefty book is devoted to folks looking to handcraft their own arrows.  It starts with a hip and snappy disclaimer about the risks, both physical and legal, of using explosives and flammable materials.  Look for its companion, \"The Bowyer's Buddy\"!",
         "weight" : 1454,
         "to_hit" : 0,
         "color" : "blue",
@@ -1085,7 +1119,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 4800,
         "required_level" : 2
     },
     {
@@ -1093,7 +1127,7 @@
         "id" : "recipe_bows",
         "name" : "The Bowyer's Buddy",
         "max_level" : 5,
-        "description" : "This hefty book is dedicated to craftsfolk and outdoors-y types looking to make their own bows. It recommends its companion volume \"The Fletcher's Friend\" for instructions on producing their ammunition.",
+        "description" : "This hefty book is dedicated to craftsfolk and outdoors-y types looking to make their own bows.  It recommends its companion volume \"The Fletcher's Friend\" for instructions on producing their ammunition.",
         "weight" : 1454,
         "to_hit" : 0,
         "color" : "blue",
@@ -1106,7 +1140,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 4800,
         "required_level" : 3
     },
     {
@@ -1127,7 +1161,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "none",
-        "price" : 3000,
+        "price" : 300,
         "required_level" : 0
     },
     {
@@ -1148,7 +1182,7 @@
         "time" : 7,
         "fun" : 2,
         "skill" : "none",
-        "price" : 3000,
+        "price" : 300,
         "required_level" : 0
     },
     {
@@ -1170,7 +1204,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "firstaid",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -1192,7 +1226,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "dodge",
-        "price" : 4800,
+        "price" : 490,
         "required_level" : 0
     },
     {
@@ -1201,7 +1235,7 @@
         "name" : "The Book of Dances",
         "name_plural" : "Books of Dances",
         "max_level" : 3,
-        "description" : "This massive antique book documents dances from all around the world in great detail. A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
+        "description" : "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
         "weight" : 2330,
         "to_hit" : 0,
         "color" : "green",
@@ -1214,7 +1248,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "dodge",
-        "price" : 20000,
+        "price" : 7200,
         "required_level" : 0
     },
     {
@@ -1236,7 +1270,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "throw",
-        "price" : 4800,
+        "price" : 480,
         "required_level" : 0
     },
     {
@@ -1258,7 +1292,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "throw",
-        "price" : 18000,
+        "price" : 2800,
         "required_level" : 0
     },
     {
@@ -1279,7 +1313,7 @@
         "time" : 8,
         "fun" : 1,
         "skill" : "swimming",
-        "price" : 4800,
+        "price" : 460,
         "required_level" : 0
     },
     {
@@ -1300,7 +1334,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "swimming",
-        "price" : 18000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -1321,7 +1355,7 @@
         "time" : 15,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1343,7 +1377,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 20
     },
@@ -1365,7 +1399,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 20
     },
@@ -1387,7 +1421,7 @@
         "time" : 20,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1409,7 +1443,7 @@
         "time" : 20,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1431,7 +1465,7 @@
         "time" : 25,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1453,7 +1487,7 @@
         "time" : 20,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1475,7 +1509,7 @@
         "time" : 20,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1497,7 +1531,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1519,7 +1553,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 16
     },
@@ -1528,7 +1562,7 @@
         "id" : "novel_experimental",
         "name" : "experimental novel",
         "max_level" : 0,
-        "description" : "A bizarre play about the philosophy of existential absurdity. Or maybe it's about two guys waiting for their friend to show up. It's confusing.",
+        "description" : "A bizarre play about the philosophy of existential absurdity.  Or maybe it's about two guys waiting for their friend to show up.  It's confusing.",
         "weight" : 142,
         "to_hit" : 0,
         "color" : "light_blue",
@@ -1541,7 +1575,7 @@
         "time" : 20,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 20
     },
@@ -1550,7 +1584,7 @@
         "id" : "child_book",
         "name" : "children's book",
         "max_level" : 0,
-        "description" : "A little book for little readers. The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
+        "description" : "A little book for little readers.  The colorful cartoon characters and sweet stories contained herein belong to a different time, before the dead walked and the world moved on.",
         "weight" : 52,
         "to_hit" : 0,
         "color" : "light_cyan",
@@ -1563,7 +1597,7 @@
         "time" : 4,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 550,
         "required_level" : 0,
         "chapters": 4
     },
@@ -1585,7 +1619,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1607,7 +1641,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1629,7 +1663,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1651,7 +1685,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1673,7 +1707,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1695,7 +1729,7 @@
         "time" : 20,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1717,7 +1751,7 @@
         "time" : 18,
         "fun" : 4,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1739,7 +1773,7 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1761,7 +1795,7 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1784,7 +1818,7 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1050,
         "required_level" : 0,
         "chapters": 36
     },
@@ -1807,7 +1841,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1050,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1830,7 +1864,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 950,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1852,7 +1886,7 @@
         "time" : 18,
         "fun" : 1,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 750,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1875,7 +1909,7 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1150,
         "required_level" : 0,
         "chapters": 36
     },
@@ -1897,7 +1931,7 @@
         "time" : 18,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 650,
         "required_level" : 0,
         "chapters": 24
     },
@@ -1920,7 +1954,7 @@
         "time" : 26,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1250,
         "required_level" : 0,
         "chapters": 40
     },
@@ -1943,7 +1977,7 @@
         "time" : 36,
         "fun" : 3,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1250,
         "required_level" : 0,
         "chapters": 44
     },
@@ -1952,7 +1986,7 @@
         "id" : "novel_satire",
         "name" : "satire novel",
         "max_level" : 0,
-        "description" : "A political satire of the pre-apocalypse world. Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
+        "description" : "A political satire of the pre-apocalypse world.  Looking back on it from this side of Armageddon makes it seem all the more ridiculous.",
         "weight" : 520,
         "to_hit" : 0,
         "color" : "light_blue",
@@ -1965,7 +1999,7 @@
         "time" : 36,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 850,
         "required_level" : 0,
         "chapters": 28
     },
@@ -1988,7 +2022,7 @@
         "time" : 48,
         "fun" : 5,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1400,
         "required_level" : 0,
         "chapters": 28
     },
@@ -2010,7 +2044,7 @@
         "time" : 18,
         "fun" : 2,
         "skill" : "none",
-        "price" : 5500,
+        "price" : 1290,
         "required_level" : 0,
         "chapters": 28
     },
@@ -2020,7 +2054,7 @@
         "name" : "101 Wrestling Moves",
         "name_plural" : "101 Wrestling Moves",
         "max_level" : 3,
-        "description" : "It seems to be a wrestling manual, poorly photocopied and released on spiral- bound paper. Still, there are lots of useful tips for unarmed combat.",
+        "description" : "It seems to be a wrestling manual, poorly photocopied and released on spiral- bound paper.  Still, there are lots of useful tips for unarmed combat.",
         "weight" : 227,
         "to_hit" : 0,
         "color" : "green",
@@ -2033,7 +2067,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "unarmed",
-        "price" : 18000,
+        "price" : 3800,
         "required_level" : 0
     },
     {
@@ -2041,7 +2075,7 @@
         "id" : "recipe_melee",
         "name" : "The Streetfighter's Sidekick",
         "max_level" : 6,
-        "description" : "A sizable how-to guide for making hand-to-hand combat weapons. Though the processes are thoroughly detailed and several illustrations are provided, they rely heavily on technical jargon. More for machinists-turned-weaponsmiths than streetfighters, really.",
+        "description" : "A sizable how-to guide for making hand-to-hand combat weapons.  Though the processes are thoroughly detailed and several illustrations are provided, they rely heavily on technical jargon.  More for machinists-turned-weaponsmiths than streetfighters, really.",
         "weight" : 954,
         "to_hit" : 0,
         "color" : "blue",
@@ -2054,7 +2088,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 8300,
         "required_level" : 5
     },
     {
@@ -2076,7 +2110,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "cutting",
-        "price" : 20000,
+        "price" : 5200,
         "required_level" : 1
     },
     {
@@ -2097,7 +2131,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "stabbing",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -2118,7 +2152,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "mechanics",
-        "price" : 19000,
+        "price" : 5500,
         "required_level" : 0
     },
     {
@@ -2139,7 +2173,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "survival",
-        "price" : 20000,
+        "price" : 2900,
         "required_level" : 0
     },
     {
@@ -2161,7 +2195,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "speech",
-        "price" : 16000,
+        "price" : 1600,
         "required_level" : 0
     },
     {
@@ -2183,7 +2217,7 @@
         "time" : 25,
         "fun" : -1,
         "skill" : "barter",
-        "price" : 18000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -2205,7 +2239,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 20000,
+        "price" : 2500,
         "required_level" : 0
     },
     {
@@ -2227,7 +2261,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "firstaid",
-        "price" : 40000,
+        "price" : 4000,
         "required_level" : 0
     },
     {
@@ -2248,7 +2282,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "survival",
-        "price" : 40000,
+        "price" : 4000,
         "required_level" : 0
     },
     {
@@ -2270,7 +2304,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "gun",
-        "price" : 40000,
+        "price" : 4000,
         "required_level" : 0
     },
     {
@@ -2291,7 +2325,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "computer",
-        "price" : 17000,
+        "price" : 1700,
         "required_level" : 0
     },
     {
@@ -2313,7 +2347,7 @@
         "time" : 15,
         "fun" : 0,
         "skill" : "computer",
-        "price" : 17000,
+        "price" : 5500, "//" : "College-level textbooks are Cheap at $60.",
         "required_level" : 0
     },
     {
@@ -2334,7 +2368,7 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "cooking",
-        "price" : 16000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -2342,7 +2376,7 @@
         "id" : "cookbook_human",
         "name" : "To Serve Man",
         "max_level" : 4,
-        "description" : "It's... it's a cookbook!",
+        "description" : "It's...  it's a cookbook!",
         "weight" : 454,
         "to_hit" : 0,
         "color" : "blue",
@@ -2355,7 +2389,7 @@
         "time" : 10,
         "fun" : -5,
         "skill" : "cooking",
-        "price" : 40000,
+        "price" : 40000, "//" : "Wasn't commercially traded.  ('Parody' only covers so much.)  Should get a serious price modifier for non-Cannibals.",
         "required_level" : 2
     },
     {
@@ -2376,7 +2410,7 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "cooking",
-        "price" : 20000,
+        "price" : 2000,
         "required_level" : 3
     },
     {
@@ -2397,7 +2431,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "electronics",
-        "price" : 20000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -2418,7 +2452,7 @@
         "time" : 18,
         "fun" : 0,
         "skill" : "tailor",
-        "price" : 19000,
+        "price" : 1900,
         "required_level" : 0
     },
     {
@@ -2427,7 +2461,7 @@
         "name" : "Sew Awesome Monthly",
         "name_plural" : "Sew Awesome Monthlies",
         "max_level" : 1,
-        "description" : "A well presented monthly magazine all about knitting, crocheting, and needlepoint. Filled with ideas and project patterns.",
+        "description" : "A well presented monthly magazine all about knitting, crocheting, and needlepoint.  Filled with ideas and project patterns.",
         "weight" : 75,
         "to_hit" : 1,
         "color" : "pink",
@@ -2440,7 +2474,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "tailor",
-        "price" : 4000,
+        "price" : 400,
         "required_level" : 0
     },
     {
@@ -2462,7 +2496,29 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "tailor",
-        "price" : 60000,
+        "price" : 6000,
+        "required_level" : 3
+    },
+    {
+        "type" : "BOOK",
+        "id" : "textbook_biodiesel",
+        "name" : "Biodiesel: Renewable Fuel Resource",
+        "name_plural" : "Biodiesel: Renewable Fuel Resource",
+        "max_level" : 6,
+        "description" : "A large textbook for college students about biodiesel.",
+        "weight" : 1200,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 9,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 8,
+        "bashing" : 4,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : 0,
+        "skill" : "mechanics",
+        "price" : 1500,
         "required_level" : 3
     },
     {
@@ -2470,7 +2526,7 @@
         "id" : "tailor_portfolio",
         "name" : "clothing designer's portfolio",
         "max_level" : 8,
-        "description" : "A leather bound portfolio that once belonged to a clothing designer. Filled with sketches and notes, a skilled tailor could learn a lot from this volume.",
+        "description" : "A leather bound portfolio that once belonged to a clothing designer.  Filled with sketches and notes, a skilled tailor could learn a lot from this volume.",
         "weight" : 2063,
         "to_hit" : 1,
         "color" : "light_gray",
@@ -2483,7 +2539,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "tailor",
-        "price" : 92000,
+        "price" : 9200,
         "required_level" : 5
     },
     {
@@ -2504,7 +2560,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 24000,
+        "price" : 2400,
         "required_level" : 0
     },
     {
@@ -2525,7 +2581,7 @@
         "time" : 20,
         "fun" : 0,
         "skill" : "traps",
-        "price" : 24000,
+        "price" : 2400,
         "required_level" : 0
     },
     {
@@ -2547,7 +2603,7 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "carpentry",
-        "price" : 22000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -2569,7 +2625,7 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "carpentry",
-        "price" : 22000,
+        "price" : 1800,
         "required_level" : 0
     },
     {
@@ -2578,7 +2634,7 @@
         "name" : "The Rules of the Road",
         "name_plural" : "The Rules of the Road",
         "max_level" : 3,
-        "description" : "A thick textbook for beginning drivers. It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
+        "description" : "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
         "weight" : 404,
         "to_hit" : 0,
         "color" : "green",
@@ -2591,7 +2647,7 @@
         "time" : 16,
         "fun" : 0,
         "skill" : "driving",
-        "price" : 22000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -2613,7 +2669,7 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "computer",
-        "price" : 50000,
+        "price" : 8500,
         "required_level" : 3
     },
     {
@@ -2635,7 +2691,7 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "computer",
-        "price" : 50000,
+        "price" : 7900,
         "required_level" : 3
     },
     {
@@ -2657,7 +2713,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 52000,
+        "price" : 8200,
         "required_level" : 2
     },
     {
@@ -2679,7 +2735,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 53000,
+        "price" : 9300,
         "required_level" : 3
     },
     {
@@ -2688,7 +2744,7 @@
         "name" : "Amateur Home Radio for Enthusiasts",
         "name_plural" : "Amateur Home Radio for Enthusiasts",
         "max_level" : 8,
-        "description" : "A book about ham radio and citizen's band radio. It contains numerous diagrams and illustrations explaining the science behind the electronics.",
+        "description" : "A book about ham radio and citizen's band radio.  It contains numerous diagrams and illustrations explaining the science behind the electronics.",
         "weight" : 1587,
         "to_hit" : 1,
         "color" : "blue",
@@ -2701,7 +2757,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 53000,
+        "price" : 3300,
         "required_level" : 4
     },
     {
@@ -2723,7 +2779,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "barter",
-        "price" : 48000,
+        "price" : 9800, "//" : "Biz majors can afford it.  Surely you're gonna make US$60K/yr out of school, and twice that in five years?",
         "required_level" : 3
     },
     {
@@ -2745,7 +2801,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "mechanics",
-        "price" : 49500,
+        "price" : 4950,
         "required_level" : 3
     },
     {
@@ -2767,7 +2823,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "mechanics",
-        "price" : 49500,
+        "price" : 5950,
         "required_level" : 4
     },
     {
@@ -2788,7 +2844,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
-        "price" : 49500,
+        "price" : 7950,
         "required_level" : 3
     },
     {
@@ -2796,7 +2852,7 @@
         "id" : "brewing_cookbook",
         "name" : "The Homebrewer's Bible",
         "max_level" : 4,
-        "description" : "A book full of easy-to-follow recipes and useful advice on homebrewing, malting, and fermenting. It even smells faintly of booze.",
+        "description" : "A book full of easy-to-follow recipes and useful advice on homebrewing, malting, and fermenting.  It even smells faintly of booze.",
         "weight" : 1587,
         "to_hit" : 1,
         "color" : "blue",
@@ -2809,7 +2865,7 @@
         "time" : 15,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 495,
+        "price" : 4950,
         "required_level" : 2
     },
     {
@@ -2817,7 +2873,7 @@
         "id" : "family_cookbook",
         "name" : "family cookbook",
         "max_level" : 5,
-        "description" : "A big binder full of somebody's family recipes. The well-turned pages and creased corners speak volumes of the culinary knowledge contained within. You could probably learn a lot about cooking from studying this domestic artifact.",
+        "description" : "A big binder full of somebody's family recipes.  The well-turned pages and creased corners speak volumes of the culinary knowledge contained within.  You could probably learn a lot about cooking from studying this domestic artifact.",
         "weight" : 1887,
         "to_hit" : 1,
         "color" : "light_gray",
@@ -2830,8 +2886,30 @@
         "time" : 45,
         "fun" : 1,
         "skill" : "cooking",
-        "price" : 49500,
+        "price" : 1950,
         "required_level" : 1
+    },
+    {
+        "type" : "BOOK",
+        "id" : "scots_cookbook",
+        "name" : "Ye Scots Beuk o Cuikery", "//" : "That would translate out to The Scottish Book of Cookery, or The Scottish Cookbook.",
+        "name_plural" : "copies of Ye Scots Beuk o Cuikery",
+        "max_level" : 4,
+        "description" : "A semi-translated cookbook from thirteenth century Scotland.  While a bit difficult to read, as there are a disquieting number of illustrations of people stabbing each other mixed amongst the recipes, it provides insights into medieval Scottish culture and fashion as well as new uses for oatmeal, fish, and sheep liver.",
+        "weight" : 1887,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "intelligence" : 10,
+        "symbol" : "?",
+        "material" : ["paper", "leather"],
+        "volume" : 5,
+        "bashing" : 5,
+        "cutting" : 0,
+        "time" : 45,
+        "fun" : -1,
+        "skill" : "cooking",
+        "price" : 1950,
+        "required_level" : 2
     },
     {
         "type" : "BOOK",
@@ -2852,7 +2930,7 @@
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
-        "price" : 49500,
+        "price" : 7950,
         "required_level" : 5
     },
     {
@@ -2874,7 +2952,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "carpentry",
-        "price" : 55000,
+        "price" : 6500,
         "required_level" : 3
     },
     {
@@ -2895,7 +2973,7 @@
         "time" : 50,
         "fun" : -1,
         "skill" : "computer",
-        "price" : 78000,
+        "price" : 7800,
         "required_level" : 5
     },
     {
@@ -2917,7 +2995,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "electronics",
-        "price" : 92000,
+        "price" : 9200,
         "required_level" : 5
     },
     {
@@ -2939,7 +3017,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "firstaid",
-        "price" : 92000,
+        "price" : 9200,
         "required_level" : 5
     },
     {
@@ -2961,7 +3039,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "carpentry",
-        "price" : 92000,
+        "price" : 8200,
         "required_level" : 5
     },
     {
@@ -3026,7 +3104,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "price" : 10000,
+        "price" : 2000,
         "required_level" : 0
     },
     {
@@ -3047,7 +3125,7 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "price" : 50000,
+        "price" : 5000, "//" : "ooh, military records, probably Classified!",
         "required_level" : 0
     },
     {
@@ -3060,7 +3138,7 @@
         "weight" : 340,
         "to_hit" : 1,
         "color" : "light_gray",
-        "intelligence" : 0,
+        "intelligence" : 15,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 3,
@@ -3069,8 +3147,9 @@
         "time" : 30,
         "fun" : -1,
         "skill" : "none",
-        "price" : 50000,
-        "required_level" : 0
+        "price" : 1500,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3091,8 +3170,75 @@
         "time" : 30,
         "fun" : 2,
         "skill" : "none",
-        "price" : 90000,
+        "price" : 2900,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
+    },
+    {
+        "type" : "BOOK",
+        "id" : "necropolis_freq",
+        "name" : "frequency list",
+        "name_plural" : "frequency lists",
+        "max_level" : 0,
+        "description" : "A notepad with a number of frequencies scribbled on it.",
+        "weight" : 1,
+        "to_hit" : 1,
+        "color" : "light_cyan",
+        "intelligence" : 0,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : 0,
+        "skill" : "none",
+        "price" : 3000,
         "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "commune_prospectus",
+        "name" : "Ranch Prospectus",
+        "name_plural" : "Ranch Prospectus",
+        "max_level" : 0,
+        "description" : "A short paper of the economic viability of constructing an agricultural outpost.",
+        "weight" : 1,
+        "to_hit" : 1,
+        "color" : "light_cyan",
+        "intelligence" : 5,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 0,
+        "time" : 10,
+        "fun" : 0,
+        "skill" : "none",
+        "price" : 3000,
+        "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "repeater_mod_guide",
+        "name" : "plans for a radio repeater mod",
+        "name_plural" : "plans for a radio repeater mod",
+        "max_level" : 0,
+        "description" : "Instructions on how to create a mod for a radio station terminal which converts the entire system into a repeater.",
+        "weight" : 5,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 10,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "cutting" : 0,
+        "time" : 20,
+        "fun" : -1,
+        "skill" : "electronics",
+        "price" : 5000,
+        "required_level" : 2
     },
     {
         "type" : "BOOK",
@@ -3113,7 +3259,7 @@
         "time" : 8,
         "fun" : 2,
         "skill" : "fabrication",
-        "price" : 4500,
+        "price" : 450,
         "required_level" : 0
     },
     {
@@ -3135,7 +3281,7 @@
         "time" : 16,
         "fun" : 1,
         "skill" : "fabrication",
-        "price" : 22000,
+        "price" : 2200,
         "required_level" : 0
     },
     {
@@ -3156,7 +3302,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 55000,
+        "price" : 4500,
         "required_level" : 3
     },
     {
@@ -3178,7 +3324,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 55000,
+        "price" : 6500,
         "required_level" : 4
     },
     {
@@ -3191,7 +3337,7 @@
         "weight" : 654,
         "to_hit" : 0,
         "color" : "blue",
-        "intelligence" : 8,
+        "intelligence" : 9,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 5,
@@ -3200,7 +3346,7 @@
         "time" : 55,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3213,16 +3359,16 @@
         "weight" : 654,
         "to_hit" : 0,
         "color" : "blue",
-        "intelligence" : 8,
+        "intelligence" : 9,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 5,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 10,
+        "time" : 55,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3235,16 +3381,16 @@
         "weight" : 654,
         "to_hit" : 0,
         "color" : "blue",
-        "intelligence" : 8,
+        "intelligence" : 9,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 5,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 10,
+        "time" : 60,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3257,16 +3403,16 @@
         "weight" : 654,
         "to_hit" : 0,
         "color" : "blue",
-        "intelligence" : 8,
+        "intelligence" : 9,
         "symbol" : "?",
         "material" : ["paper", "null"],
         "volume" : 5,
         "bashing" : -2,
         "cutting" : 0,
-        "time" : 10,
+        "time" : 60,
         "fun" : -1,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6400,
         "required_level" : 5
     },
     {
@@ -3288,7 +3434,7 @@
         "time" : 35,
         "fun" : -2,
         "skill" : "cooking",
-        "price" : 50000,
+        "price" : 62000,
         "required_level" : 8
     },
     {
@@ -3319,7 +3465,7 @@
         "name" : "Art and Science of Chemical Warfare",
         "name_plural" : "Art and Science of Chemical Warfare",
         "max_level" : 7,
-        "description" : "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries. The photographs the author chose make it a difficult read at times, though the information is top-notch.",
+        "description" : "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries.  The photographs the author chose make it a difficult read at times, though the information is top-notch.",
         "weight" : 854,
         "to_hit" : 0,
         "color" : "blue",
@@ -3332,7 +3478,7 @@
         "time" : 10,
         "fun" : -2,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 400,
         "required_level" : 4
     },
     {
@@ -3342,7 +3488,7 @@
         "description" : "This Rivtech binder warns that \"Unauthorized readers are our best test subjects.\" With good reason: it contains complete design specs and technical drawings for their entire line of products.",
         "weight" : 1409,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 84000,
         "time" : 45,
         "fun" : 1,
         "skill" : "fabrication",
@@ -3362,7 +3508,7 @@
         "name" : "238-NK: Practicality Enhancement",
         "name_plural" : "238-NK: Practicality Enhancement",
         "max_level" : 5,
-        "description" : "The authors of this thoroughly researched and documented proposal make a very persuasive case for the adoption of spring-driven nuclear shells. It's stamped \"DENIED\".",
+        "description" : "The authors of this thoroughly researched and documented proposal make a very persuasive case for the adoption of spring-driven nuclear shells.  It's stamped \"DENIED\".",
         "weight" : 854,
         "to_hit" : 0,
         "color" : "light_green",
@@ -3405,7 +3551,7 @@
         "id" : "recipe_creepy",
         "name" : "lab journal-Smythe",
         "name_plural" : "lab journals-Smythe",
-        "description" : "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037. The results look promising but the procurement methods seem awfully vague...",
+        "description" : "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037.  The results look promising but the procurement methods seem awfully vague...",
         "weight" : 1700,
         "volume" : 2,
         "price" : 50000,
@@ -3427,7 +3573,7 @@
         "id" : "recipe_animal",
         "name" : "lab journal-Dionne",
         "name_plural" : "lab journals-Dionne",
-        "description" : "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna. The team seems quite enthusiastic--if not eager--about their results.",
+        "description" : "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna.  The team seems quite enthusiastic--if not eager--about their results.",
         "weight" : 1700,
         "volume" : 2,
         "price" : 50000,
@@ -3471,10 +3617,10 @@
         "id" : "recipe_labchem",
         "name" : "chemical reference-CLASSIFIED",
         "name_plural" : "chemical references-CLASSIFIED",
-        "description" : "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\". It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
+        "description" : "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
         "weight" : 2000,
         "volume" : 2,
-        "price" : 60000,
+        "price" : 64000,
         "time" : 35,
         "fun" : -1,
         "skill" : "cooking",
@@ -3493,10 +3639,10 @@
         "id" : "recipe_lab_elec",
         "name" : "lab journal-Herrera",
         "name_plural" : "lab journals-Herrera",
-        "description" : "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials. Some of the diagrams use symbols you've not seen before...",
+        "description" : "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some of the diagrams use symbols you've not seen before...",
         "weight" : 2000,
         "volume" : 2,
-        "price" : 50000,
+        "price" : 56000,
         "time" : 45,
         "fun" : -2,
         "skill" : "electronics",
@@ -3518,7 +3664,7 @@
         "description" : "This annual publication covers the various ways in which people use technology to improve their bodies.  There are a few in-depth and thoroughly illustrated articles on bionic systems, though they tend to use too much jargon.",
         "weight" : 1909,
         "volume" : 2,
-        "price" : 30000,
+        "price" : 3000,
         "time" : 45,
         "fun" : 1,
         "skill" : "electronics",
@@ -3537,10 +3683,10 @@
         "id" : "recipe_lab_cvd",
         "name" : "lab journal-Gustav",
         "name_plural" : "lab journals-Gustav",
-        "description" : "This paper notebook is mostly full of boring logs, experimental observations and notes. Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals. The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
+        "description" : "This paper notebook is mostly full of boring logs, experimental observations and notes.  Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals.  The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
         "weight" : 2000,
         "volume" : 2,
-        "price" : 500,
+        "price" : 50000,
         "time" : 45,
         "fun" : -1,
         "skill" : "fabrication",
@@ -3559,10 +3705,10 @@
         "id" : "recipe_mil_augs",
         "name" : "2XI design binder-CLASSIFIED",
         "name_plural" : "2XI design binders-CLASSIFIED",
-        "description" : "This Doubletech Industries binder has several intimidating security warnings on the cover. Probably because it contains complete design specs, technical drawings, and test results for their military-grade bionic implants.",
+        "description" : "This Doubletech Industries binder has several intimidating security warnings on the cover.  Probably because it contains complete design specs, technical drawings, and test results for their military-grade bionic implants.",
         "weight" : 1409,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 74000,
         "time" : 45,
         "fun" : 1,
         "skill" : "electronics",
@@ -3584,7 +3730,7 @@
         "description" : "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
         "weight" : 223,
         "volume" : 2,
-        "price" : 50000,
+        "price" : 5000,
         "time" : 45,
         "fun" : 1,
         "skill" : "driving",
@@ -3606,7 +3752,7 @@
         "description" : "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
         "weight" : 220,
         "volume" : 2,
-        "price" : 20000,
+        "price" : 2000,
         "time" : 30,
         "fun" : 2,
         "skill" : "driving",
@@ -3628,7 +3774,7 @@
         "description" : "This sheaf of papers-dated two weeks before all this started-describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"...",
         "weight" : 50,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 125000,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3650,7 +3796,7 @@
         "description" : "This sheaf of papers-dated the day before you evacuated-describes a new chemical formula in detail and supplies instructions for its use as some sort of ...crowd-control catalyst?  That can't be right...",
         "weight" : 50,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 125000,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3671,7 +3817,7 @@
         "description" : "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with...a chemical formula?",
         "weight" : 400,
         "volume" : 3,
-        "price" : 40000,
+        "price" : 400,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3692,7 +3838,7 @@
         "description" : "This binder details the scheduled maintenance for several plumbing systems throughout the facility.",
         "weight" : 400,
         "volume" : 3,
-        "price" : 40000,
+        "price" : 400,
         "time" : 45,
         "fun" : -2,
         "skill" : "none",
@@ -3725,7 +3871,7 @@
         "time" : 10,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 30000,
+        "price" : 6500,
         "required_level" : 7
     },
     {
@@ -3736,7 +3882,7 @@
         "description" : "This sheaf of papers (dated the day you left the shelter!) is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
         "weight" : 50,
         "volume" : 2,
-        "price" : 40000,
+        "price" : 125000,
         "time" : 45,
         "fun" : -2,
         "skill" : "cooking",
@@ -3769,7 +3915,7 @@
         "time" : 30,
         "fun" : 0,
         "skill" : "fabrication",
-        "price" : 45000,
+        "price" : 4500,
         "required_level" : 4
     },
     {
@@ -3790,8 +3936,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3811,8 +3958,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3832,8 +3980,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3853,8 +4002,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3874,8 +4024,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3895,8 +4046,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -3916,14 +4068,15 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_vedas",
         "name" : "The Four Vedas",
-        "name_plural" : "The Four Vedas",
+        "name_plural" : "copies of The Four Vedas",
         "max_level" : 0,
         "description" : "A single volume containing all four Vedas, which are the oldest scriptures of Hinduism.",
         "weight" : 540,
@@ -3938,14 +4091,15 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_upanishads",
         "name" : "The Upanishads",
-        "name_plural" : "The Upanishads",
+        "name_plural" : "copies of The Upanishads",
         "max_level" : 0,
         "description" : "A collection of sacred Hindu writings regarding the nature of reality and describing the character and form of human salvation.",
         "weight" : 482,
@@ -3960,13 +4114,15 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_tripitaka",
         "name" : "The Tripitaka",
+        "name_plural" : "copies of the Tripitaka",
         "max_level" : 0,
         "description" : "A collection of sacred Buddhist writings describing their canons of scriptures.",
         "weight" : 513,
@@ -3981,14 +4137,15 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_sutras",
         "name" : "The Sutras of the Buddha",
-        "name_plural" : "The Sutras of the Buddha",
+        "name_plural" : "copies of The Sutras of the Buddha",
         "max_level" : 0,
         "description" : "A collection of discourses attributed to the Buddha and his close disciples.",
         "weight" : 496,
@@ -4003,14 +4160,15 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_granth",
         "name" : "The Guru Granth Sahib",
-        "name_plural" : "The Guru Granth Sahib",
+        "name_plural" : "copies of The Guru Granth Sahib",
         "max_level" : 0,
         "description" : "A single-volume copy of the central religious texts of Sikhism.",
         "weight" : 590,
@@ -4025,14 +4183,15 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_mormon",
         "name" : "The Book of Mormon",
-        "name_plural" : "Books of Mormon",
+        "name_plural" : "copies of The Book of Mormon",
         "max_level" : 0,
         "description" : "The sacred text of the Latter Day Saint movement of Christianity, originally published in 1830 by Joseph Smith.",
         "weight" : 368,
@@ -4047,16 +4206,17 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_kojiki",
         "name" : "The Kojiki",
-        "name_plural" : "Kojikis",
+        "name_plural" : "copies of The Kojiki",
         "max_level" : 0,
-        "description" : "The the oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
+        "description" : "The oldest extant chronicle of Japan's myths and history, the stories contained in the Kojiki are part of the inspiration behind Shinto practices.",
         "weight" : 368,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4069,16 +4229,17 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_pastafarian",
         "name" : "The Gospel of the Flying Spaghetti Monster",
-        "name_plural" : "The Gospel of the Flying Spaghetti Monster",
+        "name_plural" : "copies of The Gospel of the Flying Spaghetti Monster",
         "max_level" : 0,
-        "description" : "A book that embodies the main beliefs of the Church of the Flying Spaghetti Monster. It seems to involve a lot of pirates and some sort of invisible drunken monster made of pasta.",
+        "description" : "A book that embodies the main beliefs of the Church of the Flying Spaghetti Monster.  It seems to involve a lot of pirates and some sort of invisible drunken monster made of pasta.",
         "weight" : 292,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4091,16 +4252,17 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_slack",
         "name" : "The Book of the SubGenius",
-        "name_plural" : "Books of the SubGenius",
+        "name_plural" : "copies of The Book of the SubGenius",
         "max_level" : 0,
-        "description" : "A book about the Church of the SubGenius. It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
+        "description" : "A book about the Church of the SubGenius.  It seems to involve a salesman named J. R. \"Bob\" Dobbs and a concept called 'slack'.",
         "weight" : 292,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4113,16 +4275,17 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_kallisti",
         "name" : "Principia Discordia",
-        "name_plural" : "Principia Discordia",
+        "name_plural" : "copies of Principia Discordia",
         "max_level" : 0,
-        "description" : "A book that embodies the main beliefs of Discordianism. It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
+        "description" : "A book that embodies the main beliefs of Discordianism.  It seems to primarily concern chaos, and features a card in the back which informs you that you are now a 'genuine and authorized Pope of Discordia'.",
         "weight" : 292,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4135,16 +4298,17 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
         "id" : "holybook_scientology",
         "name" : "Dianetics",
-        "name_plural" : "Dianetics",
+        "name_plural" : "copies of Dianetics",
         "max_level" : 0,
-        "description" : "The book is the canonical text of Scientology. Written by a science fiction author, it contains self-improvement techniques and musing on psychology called Dianetics.",
+        "description" : "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
         "weight" : 486,
         "to_hit" : 0,
         "color" : "dark_gray",
@@ -4157,8 +4321,9 @@
         "time" : 10,
         "fun" : 1,
         "skill" : "none",
-        "price" : 55,
-        "required_level" : 0
+        "price" : 550,
+        "required_level" : 0,
+        "flags" : "INSPIRATIONAL"
     },
     {
         "type" : "BOOK",
@@ -4180,5 +4345,49 @@
         "bashing" : -3,
         "cutting" : 0,
         "to_hit" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "cookbook_sushi",
+        "name" : "Sushi Made Easy",
+        "name_plural" : "copies of Sushi Made Easy",
+        "max_level" : 4,
+        "description" : "A simple text for the aspiring sushi lover, this easy to read guide is filled with lots of helpful illustrations for everything from basic rice preparation to setting a proper Japanese table.",
+        "weight" : 921,
+        "to_hit" : 1,
+        "color" : "light_green",
+        "intelligence" : 7,
+        "symbol" : "?",
+        "material" : "paper",
+        "volume" : 3,
+        "bashing" : 1,
+        "cutting" : 0,
+        "time" : 20,
+        "fun" : 0,
+        "skill" : "cooking",
+        "price" : 3500,
+        "required_level" : 1
+    },
+    {
+        "type" : "BOOK",
+        "id" : "modern_tanner",
+        "name" : "The Modern Tanner",
+        "name_plural" : "copies of The Modern Tanner",
+        "max_level" : 4,
+        "description" : "A in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
+        "weight" : 568,
+        "to_hit" : 0,
+        "color" : "brown",
+        "intelligence" : 4,
+        "symbol" : "?",
+        "material" : ["paper", "leather"],
+        "volume" : 3,
+        "bashing" : -3,
+        "cutting" : 0,
+        "time" : 18,
+        "fun" : 0,
+        "skill" : "cooking",
+        "price" : 2000,
+        "required_level" : 3
     }
 ]

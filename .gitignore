@@ -1,6 +1,7 @@
+tests/cata_test
 cataclysm
 cataclysm-tiles
-chkjson
+chkjson*
 !src/chkjson
 data/*.template
 templates/
@@ -23,6 +24,8 @@ CataclysmWin.layout
 WinDepend/
 *.7z
 *.zip
+build/
+dep/
 
 data/font/
 config/
@@ -40,6 +43,8 @@ data/mods/user-default-mods.json
 Release*/
 Debug*/
 *.opensdf
+*.user
+*.vcxproj.filters
 
 # Temporary and backup files
 *~
@@ -59,6 +64,39 @@ cscope.*
 # Compiled binary translations
 lang/mo/
 
+# Directory for translatable strings
+lang/json/*
+!lang/json/README
+
 # Netbeans IDE folders
 nbproject/
 
+# Python runtime files
+*.pyc
+
+# vim files
+*.vim
+*.session
+
+# taskwarrior files
+*.task*
+
+# GitEye files
+*.project
+
+# vimdiff backup
+*.orig
+
+# OSX
+Cataclysm.app
+data/osx/AppIcon.icns
+
+# Jetbrains CLion
+.idea/
+
+# linked test executable
+tests/line_test
+tests/map_iterator_test
+tests/shadowcasting_test
+# static library used to link the test executable
+cataclysm.a
