@@ -9,7 +9,7 @@
     "price": 100000,
     "material": "steel",
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
-    "techniques": ["RAPID", "WBLOCK_1"],
+    "techniques": ["WBLOCK_1"],
     "weight": 2721,
     "volume": 10,
     "bashing": 13,
