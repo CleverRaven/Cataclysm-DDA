@@ -117,7 +117,7 @@
             {"x": 0, "y": 0, "part": "roof"},
             {"x": -1, "y": 0, "part": "frame_vertical_2"},
             {"x": -1, "y": 0, "part": "roof"},
-            {"x": -1, "y": 0, "part": "trunk"},
+            {"x": -1, "y": 0, "part": "vehicle_scoop"},
             {"x": -2, "y": 0, "part": "frame_horizontal"},
             {"x": -2, "y": 0, "part": "hatch"},
             {"x": 1, "y": 0, "part": "frame_horizontal"},

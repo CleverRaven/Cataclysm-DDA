@@ -1250,5 +1250,22 @@
         "cutting": 0,
         "category" : "veh_parts",
         "price": 3500
+    },
+    {  
+        "type":"GENERIC",
+        "id":"v_scoop_item",
+        "name":"vehicle scoop",
+        "symbol":"u",
+        "color":"light_gray",
+        "name_plural":"vehicle scoops",
+        "description":"An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
+        "weight":22666,
+        "bashing":1,
+        "cutting":0,
+        "to_hit":0,
+        "material":"steel",
+        "category": "veh_parts",
+        "price": 3500,
+        "volume":28
     }
 ]
