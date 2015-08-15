@@ -5956,26 +5956,29 @@ void vehicle::open_or_close(int const part_index, bool const opening)
     }
 }
 
-// a chance to stop skidding if moving in roughly the faced direction
-void vehicle::possibly_recover_from_skid(){
-   if (last_turn > 13)
-      //turning on the initial skid is delayed, so move==face, initially. This filters out that case.
-      return;
-   rl_vec2d mv = move_vec();
-   rl_vec2d fv = face_vec();
-   float dot = mv.dot_product(fv);
-   //threshold of recovery is gaussianesque.
+// A chance to stop skidding if moving in roughly the faced direction
+void vehicle::possibly_recover_from_skid() {
+    if( last_turn > 13 ) {
+        // Turning on the initial skid is delayed, so move==face, initially. This filters out that case.
+        return;
+    }
 
-   if (fabs(dot) * 100 > dice(9,20)){
-      add_msg(_("The %s recovers from its skid."), name.c_str());
-      skidding = false; //face_vec takes over.
-      velocity *= dot; //wheels absorb horizontal velocity.
-      if(dot < -.8){
-         //pointed backwards, velo-wise.
-         velocity *= -1; //move backwards.
-      }
-      move = face;
-   }
+    rl_vec2d mv = move_vec();
+    rl_vec2d fv = face_vec();
+    float dot = mv.dot_product(fv);
+    // Threshold of recovery is gaussianesque.
+
+    if( fabs( dot ) * 100 > dice( 9,20 ) ){
+        add_msg(_("The %s recovers from its skid."), name.c_str());
+        skidding = false; // face_vec takes over.
+        velocity *= dot; // Wheels absorb horizontal velocity.
+        if(dot < -.8){
+            // Pointed backwards, velo-wise.
+            velocity *= -1; // Move backwards.
+        }
+
+        move = face;
+    }
 }
 
 // if not skidding, move_vec == face_vec, mv <dot> fv == 1, velocity*1 is returned.

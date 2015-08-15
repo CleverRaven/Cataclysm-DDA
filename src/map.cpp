@@ -357,153 +357,111 @@ void map::vehmove()
 const vehicle *map::vehproceed()
 {
     VehicleList vehs = get_vehicles();
-    vehicle* veh = nullptr;
+    vehicle* cur_veh = nullptr;
     float max_of_turn = 0;
     tripoint pt;
     for( auto &vehs_v : vehs ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
-            veh = vehs_v.v;
+            cur_veh = vehs_v.v;
             pt.x = vehs_v.x;
             pt.y = vehs_v.y;
             pt.z = vehs_v.z;
-            max_of_turn = veh->of_turn;
+            max_of_turn = cur_veh->of_turn;
         }
     }
-    if( veh == nullptr ) {
+    if( cur_veh == nullptr ) {
         return nullptr;
     }
 
+    vehicle &veh = *cur_veh;
     if( !inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z << ")";
-        veh->stop();
-        veh->of_turn = 0;
-        veh->falling = false;
-        return veh;
+        veh.stop();
+        veh.of_turn = 0;
+        veh.falling = false;
+        return &veh;
     }
 
-    bool supported = true;
-    if( veh->falling ) {
-        // Find center of mass, a "center of wheels" and a "center of wheel support"
-        point mass_center( 0, 0 );
-        veh->center_of_mass( mass_center.x, mass_center.y );
-        float total_area = 0.0f;
-        float total_x = 0.0f;
-        float total_y = 0.0f;
-        float supported_area = 0.0f;
-        float supported_x = 0.0f;
-        float supported_y = 0.0f;
-        const auto wheel_indices = veh->all_parts_with_feature( VPFLAG_WHEEL, false );
-        for( const auto &p : wheel_indices ) {
-            const tripoint pp = pt + veh->parts[p].precalc[0];
-            const int width = veh->part_info(p).wheel_width;
-            const int bigness = veh->parts[p].bigness;
-            const float wheel_area = width * bigness;
-            total_area += wheel_area;
-            total_x += pp.x * wheel_area;
-            total_y += pp.y * wheel_area;
-            if( has_floor( pp ) ||
-                supports_above( tripoint( pp.x, pp.y, pp.z - 1 ) ) ) {
-                supported_area += wheel_area;
-                supported_x += pp.x * wheel_area;
-                supported_y += pp.y * wheel_area;
-            }
-        }
+    const tripoint fall_dir = handle_falling_vehicle( veh );
+    const bool supported = fall_dir.x == 0 && fall_dir.y == 0 && fall_dir.z == 0;
+    const bool falling = fall_dir.z != 0;
 
-        if( total_area > 0 ) {
-            total_x /= total_area;
-            total_y /= total_area;
-        } else {
-            total_x = mass_center.x;
-            total_y = mass_center.y;
-        }
-
-        if( supported_area > 0.5f * total_area ) {
-            supported_x /= supported_area;
-            supported_y /= supported_area;
-        } else {
-            // If not enough wheels are supported, the veh is resting on something else
-            supported_x = mass_center.x;
-            supported_y = mass_center.y;
-        }
-
-        
-        return veh;
-    }
-
-    const bool pl_ctrl = supported && veh->player_in_control( g->u );
+    const bool pl_ctrl = supported && veh.player_in_control( g->u );
 
     // mph lost per tile when coasting
-    const int base_slowdown = veh->skidding ? 200 : 20;
+    const int base_slowdown = veh.skidding ? 200 : 20;
     // k slowdown second.
-    const float k_slowdown = (0.1 + veh->k_dynamics()) / ((0.1) + veh->k_mass());
+    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
     const int slowdown = (int)ceil( k_slowdown * base_slowdown );
-    if( !supported && abs( veh->velocity ) < slowdown ) {
+    if( !supported && abs( veh.velocity ) < slowdown ) {
         // Do nothing, vehicle should slide
-    } else if( slowdown > abs(veh->velocity) ) {
-        veh->stop();
-    } else if( veh->velocity < 0 ) {
-        veh->velocity += slowdown;
+    } else if( slowdown > abs( veh.velocity ) ) {
+        veh.stop();
+    } else if( veh.velocity < 0 ) {
+        veh.velocity += slowdown;
     } else {
-        veh->velocity -= slowdown;
+        veh.velocity -= slowdown;
     }
 
     // Low enough for bicycles to go in reverse.
-    if( supported && abs( veh->velocity ) < 20 ) {
-        veh->stop();
+    if( supported && abs( veh.velocity ) < 20 ) {
+        veh.stop();
     }
 
-    if( supported && veh->velocity == 0 ) {
-        veh->of_turn -= .321f;
-        return veh;
+    if( supported && veh.velocity == 0 ) {
+        veh.of_turn -= .321f;
+        return &veh;
     }
 
     // TODO: Handle wheels in the air
-    std::vector<int> float_indices = veh->all_parts_with_feature(VPFLAG_FLOATS, false);
+    std::vector<int> float_indices = veh.all_parts_with_feature(VPFLAG_FLOATS, false);
     if( !supported ) {
-        // Unsupported vehicles 
+        // Unsupported vehicles don't need water/lack of it to slide/fall
     } else if( float_indices.empty() ) {
         // sink in water?
-        std::vector<int> wheel_indices = veh->all_parts_with_feature(VPFLAG_WHEEL, false);
-        int num_wheels = wheel_indices.size(), submerged_wheels = 0;
+        std::vector<int> wheel_indices = veh.all_parts_with_feature(VPFLAG_WHEEL, false);
+        int num_wheels = wheel_indices.size();
+        int submerged_wheels = 0;
         for (int w = 0; w < num_wheels; w++) {
             const int p = wheel_indices[w];
-            const tripoint pp = pt + veh->parts[p].precalc[0];
+            const tripoint pp = pt + veh.parts[p].precalc[0];
             // deep water
             if (ter_at(pp).has_flag(TFLAG_DEEP_WATER)) {
                 submerged_wheels++;
             }
         }
         // submerged wheels threshold is 2/3.
-        if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
-            add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
+        if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
+            add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
             if( pl_ctrl ) {
-                veh->unboard_all();
+                veh.unboard_all();
             }
-            if( g->remoteveh() == veh ) {
+            if( g->remoteveh() == &veh ) {
                 g->setremoteveh( nullptr );
             }
             // destroy vehicle (sank to nowhere)
-            destroy_vehicle(veh);
-            return veh;
+            destroy_vehicle( &veh );
+            // The returned pointer is always a dangling one!
+            return &veh;
         }
     } else {
         int num = float_indices.size(), moored = 0;
-        for (int w = 0; w < num; w++) {
+        for( int w = 0; w < num; w++ ) {
             const int p = float_indices[w];
-            const tripoint pp = pt + veh->parts[p].precalc[0];
+            const tripoint pp = pt + veh.parts[p].precalc[0];
 
-            if (!has_flag("SWIMMABLE", pp)) {
+            if( !has_flag( "SWIMMABLE", pp ) ) {
                 moored++;
             }
         }
 
-        if (moored > num - 1) {
-            veh->stop();
-            veh->of_turn = 0;
+        if( moored > num - 1 ) {
+            veh.stop();
+            veh.of_turn = 0;
 
-            add_msg(m_info, _("Your %s is beached."), veh->name.c_str());
+            add_msg(m_info, _("Your %s is beached."), veh.name.c_str());
 
-            return veh;
+            return &veh;
         }
 
     }
@@ -511,119 +469,142 @@ const vehicle *map::vehproceed()
     //  terrain cost is 1000 on roads.
     // This is stupid btw, it makes veh magically seem
     //  to accelerate when exiting rubble areas.
-    float ter_turn_cost = 500.0 * move_cost_ter_furn (pt) / abs(veh->velocity);
-
-    //can't afford it this turn?
-    if(ter_turn_cost >= veh->of_turn) {
-        veh->of_turn_carry = veh->of_turn;
-        veh->of_turn = 0;
-        return veh;
+    float ter_turn_cost = 0.0f;
+    if( supported ) {
+        ter_turn_cost = 500.0 * move_cost_ter_furn( pt ) / abs(veh.velocity);
     }
 
-    veh->of_turn -= ter_turn_cost;
+    // Can't afford it this turn?
+    if( ter_turn_cost >= veh.of_turn ) {
+        veh.of_turn_carry = veh.of_turn;
+        veh.of_turn = 0;
+        return &veh;
+    }
 
-    // if not enough wheels, mess up the ground a bit.
-    if (!veh->valid_wheel_config()) {
-        veh->velocity += veh->velocity < 0 ? 2000 : -2000;
-        for (auto &p : veh->parts) {
+    veh.of_turn -= ter_turn_cost;
+
+    if( veh.skidding ) {
+        if( one_in( 4 ) ) { // might turn uncontrollably while skidding
+            veh.turn( one_in( 2 ) ? -15 : 15 );
+        }
+    } else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
+        add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
+        veh.turn( one_in( 2 ) ? -15 : 15 );
+    }
+    // Eventually send it skidding if no control
+    // But not if it's remotely controlled
+    if( !pl_ctrl && veh.boarded_parts().empty() && one_in(10) ) {
+        veh.skidding = true;
+    }
+
+    tripoint dp;
+    int facing = 0;
+    // Where do we go
+    if( !falling ) {
+        tileray mdir; // the direction we're moving
+        if( falling ) {
+            mdir = veh.move;
+        } else if( !supported ) {
+            // Sliding off
+            mdir = coord_to_angle( 0, 0, fall_dir.x, fall_dir.y );
+        } else if( veh.skidding ) {
+            // if skidding, it's the move vector
+            mdir = veh.move;
+        } else if( veh.turn_dir != veh.face.dir() ) {
+            // driver turned vehicle, get turn_dir
+            mdir.init( veh.turn_dir ); 
+        } else {
+            // not turning, keep face.dir
+            mdir = veh.face;
+        }
+
+        if( veh.velocity != 0 ) {
+            mdir.advance( veh.velocity < 0 ? -1 : 1 );
+        }
+        dp.x = mdir.dx();
+        dp.y = mdir.dy();
+        facing = mdir.dir();
+    } else {
+        dp.z = -1;
+        facing = veh.move.dir();
+    }
+
+    move_vehicle( veh, dp, facing );
+    return &veh;
+}
+
+void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
+{
+    tripoint pt = veh.global_pos3();
+    bool can_move = true;
+    // Calculate parts' mount points @ next turn (put them into precalc[1])
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing );
+
+    int impulse = 0;
+
+    std::vector<veh_collision> veh_veh_colls;
+    std::vector<veh_collision> veh_misc_colls;
+
+    if( veh.velocity == 0 ) {
+        can_move = false;
+    }
+    // Find collisions
+    // Velocity of car before collision
+    const int velocity_before = veh.velocity;
+    veh.collision( veh_veh_colls, veh_misc_colls, dp.x, dp.y, can_move, impulse );
+
+    const bool veh_veh_coll_flag = !veh_veh_colls.empty();
+    if( !veh_veh_colls.empty() ) {
+        // Only collide with each vehicle once
+        std::set<vehicle*> coll_targets;
+        for( const auto &col : veh_veh_colls ) {
+            coll_targets.insert( static_cast<vehicle*>( col.target ) );
+        }
+
+        for( vehicle *other_veh : coll_targets ) {
+            impulse += vehicle_vehicle_collision( veh, *other_veh, veh_veh_colls );
+        }
+    }
+
+    for( auto &veh_misc_coll : veh_misc_colls ) {
+        const point collision_point = veh.parts[veh_misc_coll.part].mount;
+        int coll_dmg = veh_misc_coll.imp;
+        // Shock damage
+        veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+    }
+
+    int coll_turn = 0;
+    if( impulse > 0 ) {
+        shake_vehicle( veh, velocity_before, facing );
+    }
+
+    if( veh_veh_coll_flag ) {
+        return;
+    }
+
+    // If not enough wheels, mess up the ground a bit.
+    if( !veh.valid_wheel_config() ) {
+        veh.velocity += veh.velocity < 0 ? 2000 : -2000;
+        for (auto &p : veh.parts) {
             const tripoint pp = pt + p.precalc[0];
             const ter_id &pter = ter(pp);
-            if (pter == t_dirt || pter == t_grass) {
+            if( pter == t_dirt || pter == t_grass ) {
                 ter_set(pp, t_dirtmound);
             }
         }
     }
 
-    if( veh->skidding ) {
-        if( one_in( 4 ) ) { // might turn uncontrollably while skidding
-            veh->turn( one_in( 2 ) ? -15 : 15 );
-        }
-    }
-    else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
-        add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
-        veh->turn( one_in( 2 ) ? -15 : 15 );
-    }
-    // Eventually send it skidding if no control
-    // But not if it's remotely controlled
-    if( !pl_ctrl && !veh->boarded_parts().size() && one_in(10) ) {
-        veh->skidding = true;
-    }
-    tileray mdir; // the direction we're moving
-    if( !supported ) {
-        // Sliding off
-        mdir = slide_dir;
-    } else if( veh->skidding ) {
-        // if skidding, it's the move vector
-        mdir = veh->move;
-    } else if( veh->turn_dir != veh->face.dir() ) {
-        // driver turned vehicle, get turn_dir
-        mdir.init( veh->turn_dir ); 
-    } else {
-        // not turning, keep face.dir
-        mdir = veh->face;
-    }
-
-    if( veh->velocity != 0 ) {
-        mdir.advance( veh->velocity < 0 ? -1 : 1 );
-    }
-
-    // Where do we go
-    const int dx = mdir.dx();
-    const int dy = mdir.dy();
-    bool can_move = true;
-    // Calculate parts' mount points @ next turn (put them into precalc[1])
-    veh->precalc_mounts( 1, veh->skidding ? veh->turn_dir : mdir.dir() );
-
-    int dmg_1 = 0;
-
-    std::vector<veh_collision> veh_veh_colls;
-    std::vector<veh_collision> veh_misc_colls;
-
-    if( supported && veh->velocity == 0 ) {
-        can_move = false;
-    }
-    // Find collisions
-    // Velocity of car before collision
-    const int velocity_before = veh->velocity;
-    veh->collision( veh_veh_colls, veh_misc_colls, dx, dy, can_move, dmg_1 );
-
-    const bool veh_veh_coll_flag = !veh_veh_colls.empty();
-    for( const auto &c : veh_veh_colls ) {
-        // May (will?) act weirdly if >1 collision
-        vehicle_vehicle_collision( veh, c );
-        // Add the impulse set in function above to total impulse
-        dmg_1 += c.imp;
-    }
-
-    for( auto &veh_misc_coll : veh_misc_colls ) {
-        const point collision_point = veh->parts[veh_misc_coll.part].mount;
-        int coll_dmg = veh_misc_coll.imp;
-        // Shock damage
-        veh->damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
-    }
-
-    int coll_turn = 0;
-    if( dmg_1 > 0 ) {
-        shake_vehicle( veh, velocity_before, mdir.dir() );
-    }
-
-    if( veh_veh_coll_flag ) {
-        return veh;
-    }
-
     // Now we're gonna handle traps we're standing on (if we're still moving).
-    if( supported && can_move ) {
-        std::vector<int> wheel_indices = veh->all_parts_with_feature("WHEEL", false);
+    if( can_move ) {
+        std::vector<int> wheel_indices = veh.all_parts_with_feature("WHEEL", false);
         for (auto &w : wheel_indices) {
-            const tripoint wheel_p( pt.x + veh->parts[w].precalc[0].x,
-                                    pt.y + veh->parts[w].precalc[0].y,
-                                    veh->smz );
+            const tripoint wheel_p = pt + veh.parts[w].precalc[0];
             if (one_in(2)) {
-                if( displace_water( wheel_p ) && pl_ctrl ) {
-                    add_msg(m_warning, _("You hear a splash!"));
+                if( displace_water( wheel_p ) ) {
+                    sounds::sound( wheel_p, 4, _("splash!"), false, "environment", "splash");
                 }
             }
-            veh->handle_trap( wheel_p, w );
+            veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
                 // TODO: Make this value depend on the wheel
                 smash_items( wheel_p, 5 );
@@ -632,76 +613,135 @@ const vehicle *map::vehproceed()
     }
 
     const int last_turn_dec = 1;
-    if( veh->last_turn < 0 ) {
-        veh->last_turn += last_turn_dec;
-        if( veh->last_turn > -last_turn_dec ) {
-            veh->last_turn = 0;
+    if( veh.last_turn < 0 ) {
+        veh.last_turn += last_turn_dec;
+        if( veh.last_turn > -last_turn_dec ) {
+            veh.last_turn = 0;
         }
-    } else if( veh->last_turn > 0 ) {
-        veh->last_turn -= last_turn_dec;
-        if( veh->last_turn < last_turn_dec ) {
-            veh->last_turn = 0;
+    } else if( veh.last_turn > 0 ) {
+        veh.last_turn -= last_turn_dec;
+        if( veh.last_turn < last_turn_dec ) {
+            veh.last_turn = 0;
         }
     }
 
     if( can_move ) {
         // accept new direction
-        if( veh->skidding ) {
-            veh->face.init( veh->turn_dir );
-            if( pl_ctrl ) {
-                veh->possibly_recover_from_skid();
-            }
+        if( veh.skidding ) {
+            veh.face.init( veh.turn_dir );
         } else {
-            veh->face = mdir;
+            veh.face = facing;
         }
 
-        veh->move = mdir;
+        veh.move = facing;
         if( coll_turn != 0 ) {
-            veh->skidding = true;
-            veh->turn( coll_turn );
+            veh.skidding = true;
+            veh.turn( coll_turn );
         }
         // Actually change position
-        tripoint dp( dx, dy, 0 );
         displace_vehicle( pt, dp );
     } else {
-        // can_move
-        veh->stop();
+        // can't_move
+        veh.stop();
     }
     // If the PC is in the currently moved vehicle, adjust the
     // view offset.
-    if( g->u.controlling_vehicle && veh_at( g->u.pos() ) == veh ) {
-        g->calc_driving_offset(veh);
+    if( g->u.controlling_vehicle && veh_at( g->u.pos() ) == &veh ) {
+        g->calc_driving_offset( &veh );
+        if( veh.skidding ) {
+            veh.possibly_recover_from_skid();
+        }
     }
     // Redraw scene
     // TODO: Make this not happen on unseen vehicles
     g->draw();
-    return veh;
 }
 
-int map::shake_vehicle( vehicle *veh, const int velocity_before, const int direction )
+tripoint map::handle_falling_vehicle( vehicle &veh )
 {
-    const int d_vel = abs( veh->velocity - velocity_before ) / 100;
+    if( veh.falling ) {
+        // Not falling or sliding
+        return tripoint( 0, 0, 0 );
+    }
 
-    const std::vector<int> boarded = veh->boarded_parts();
+    return tripoint( 0, 0, 0 );
+    // TODO: Enable all the crap below
+
+    const tripoint &pt = veh.global_pos3();
+    // Find center of mass, a "center of wheels" and a "center of wheel support"
+    point mass_center( 0, 0 );
+    veh.center_of_mass( mass_center.x, mass_center.y );
+    float total_area = 0.0f;
+    float total_x = 0.0f;
+    float total_y = 0.0f;
+    float supported_area = 0.0f;
+    float supported_x = 0.0f;
+    float supported_y = 0.0f;
+    const auto wheel_indices = veh.all_parts_with_feature( VPFLAG_WHEEL, false );
+    for( const auto &p : wheel_indices ) {
+        const tripoint pp = pt + veh.parts[p].precalc[0];
+        const int width = veh.part_info(p).wheel_width;
+        const int bigness = veh.parts[p].bigness;
+        const float wheel_area = width * bigness;
+        total_area += wheel_area;
+        total_x += pp.x * wheel_area;
+        total_y += pp.y * wheel_area;
+        if( has_floor( pp ) ||
+            supports_above( tripoint( pp.x, pp.y, pp.z - 1 ) ) ) {
+            supported_area += wheel_area;
+            supported_x += pp.x * wheel_area;
+            supported_y += pp.y * wheel_area;
+        }
+    }
+
+    if( total_area > 0 ) {
+        total_x /= total_area;
+        total_y /= total_area;
+    } else {
+        total_x = mass_center.x;
+        total_y = mass_center.y;
+    }
+
+    if( supported_area > 0.5f * total_area ) {
+        supported_x /= supported_area;
+        supported_y /= supported_area;
+    } else {
+        // If not enough wheels are supported, the veh is resting on something else
+        supported_x = mass_center.x;
+        supported_y = mass_center.y;
+    }
+
+    (void)supported_x;
+    (void)supported_y;
+    (void)total_x;
+    (void)total_y;
+}
+
+int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
+{
+    const tripoint &pt = veh.global_pos3();
+    const int d_vel = abs( veh.velocity - velocity_before ) / 100;
+
+    const std::vector<int> boarded = veh.boarded_parts();
 
     int coll_turn = 0;
     for( const auto &ps : boarded ) {
-        player *psg = veh->get_passenger( ps );
+        player *psg = veh.get_passenger( ps );
         if( psg == nullptr ) {
             debugmsg( "throw passenger: empty passenger at part %d", ps );
             continue;
         }
 
-        const tripoint part_pos = pt + veh->parts[ps].precalc[0];
+        const tripoint part_pos = pt + veh.parts[ps].precalc[0];
         if( psg->pos() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                 psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
-            veh->parts[ps].remove_flag( vehicle_part::passenger_flag );
+            veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 
         bool throw_from_seat = false;
-        if( veh->part_with_feature( ps, VPFLAG_SEATBELT ) == -1 ) {
+        if( veh.part_with_feature( ps, VPFLAG_SEATBELT ) == -1 ) {
             throw_from_seat = d_vel * rng( 80, 120 ) / 100 > ( psg->str_cur * 1.5 + 5 );
         }
 
@@ -711,22 +751,22 @@ int map::shake_vehicle( vehicle *veh, const int velocity_before, const int direc
             psg->hurtall( dmg, nullptr );
             psg->add_msg_player_or_npc( m_bad,
                 _("You take %d damage by the power of the impact!"),
-                _("<npcname> takes %d damage by the power of the impact!", dmg );
+                _("<npcname> takes %d damage by the power of the impact!"),  dmg );
         }
 
-        if( veh->player_in_control( *psg ) ) {
-            const int lose_ctrl_roll = rng (0, dmg_1);
+        if( veh.player_in_control( *psg ) ) {
+            const int lose_ctrl_roll = rng( 0, d_vel );
             if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3 ) {
                 add_msg( m_warning,
                     _("You lose control of the %s."),
                     _("<npcname> loses control of the %s."),
-                    veh->name.c_str() );
-                int turn_amount = (rng(1, 3) * sqrt((double)velocity_after) / 2) / 15;
-                if (turn_amount < 1) {
+                    veh.name.c_str() );
+                int turn_amount = (rng(1, 3) * sqrt((double)abs( veh.velocity ) ) / 2) / 15;
+                if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }
                 turn_amount *= 15;
-                if (turn_amount > 120) {
+                if( turn_amount > 120 ) {
                     turn_amount = 120;
                 }
                 coll_turn = one_in( 2 ) ? turn_amount : -turn_amount;
@@ -734,30 +774,30 @@ int map::shake_vehicle( vehicle *veh, const int velocity_before, const int direc
         }
 
         if( throw_from_seat ) {
-            psg->add_msg(m_bad,
+            psg->add_msg_player_or_npc(m_bad,
                 _("You are hurled from the %s's seat by the power of the impact!"),
                 _("<npcname> is hurled from the %s's seat by the power of the impact!"),
-                veh->name.c_str());
+                veh.name.c_str());
             unboard_vehicle( part_pos );
             g->fling_creature(psg, direction + rng(0, 60) - 30,
-                                       (vel1 - psg->str_cur < 10 ? 10 :
-                                        vel1 - psg->str_cur));
+                ( d_vel - psg->str_cur < 10 ) ? 10 : d_vel - psg->str_cur );
         }
     }
 
     return coll_turn;
 }
 
-void map::vehicle_vehicle_collision( vehicle *veh, const veh_collision &c )
+float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
+                                      const std::vector<veh_collision> &collisions )
 {
-    // effects of colliding with another vehicle:
-    // transfers of momentum, skidding,
-    // parts are damaged/broken on both sides,
-    // remaining times are normalized,
-    vehicle* veh2 = (vehicle*)c.target;
+    // Effects of colliding with another vehicle:
+    //  transfers of momentum, skidding,
+    //  parts are damaged/broken on both sides,
+    //  remaining times are normalized
+    const veh_collision &c = collisions[0];
     add_msg(m_bad, _("The %1$s's %2$s collides with the %3$s's %4$s."),
-                   veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
-                   veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
+                   veh.name.c_str(),  veh.part_info(c.part).name.c_str(),
+                   veh2.name.c_str(), veh2.part_info(c.target_part).name.c_str());
 
     // Used to calculate the epicenter of the collision.
     point epicenter1(0, 0);
@@ -765,22 +805,22 @@ void map::vehicle_vehicle_collision( vehicle *veh, const veh_collision &c )
 
     // For reference, a cargo truck weighs ~25300, a bicycle 690,
     //  and 38mph is 3800 'velocity'
-    rl_vec2d velo_veh1 = veh->velo_vec();
-    rl_vec2d velo_veh2 = veh2->velo_vec();
-    float m1 = veh->total_mass();
-    float m2 = veh2->total_mass();
+    rl_vec2d velo_veh1 = veh.velo_vec();
+    rl_vec2d velo_veh2 = veh2.velo_vec();
+    float m1 = veh.total_mass();
+    float m2 = veh2.total_mass();
     //Energy of vehicle1 annd vehicle2 before collision
     float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
         0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
 
     // Collision_axis
     int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
-    veh ->center_of_mass(x_cof1, y_cof1);
-    veh2->center_of_mass(x_cof2, y_cof2);
+    veh .center_of_mass(x_cof1, y_cof1);
+    veh2.center_of_mass(x_cof2, y_cof2);
     rl_vec2d collision_axis_y;
 
-    collision_axis_y.x = ( veh->global_x() + x_cof1 ) -  ( veh2->global_x() + x_cof2 );
-    collision_axis_y.y = ( veh->global_y() + y_cof1 ) -  ( veh2->global_y() + y_cof2 );
+    collision_axis_y.x = ( veh.global_x() + x_cof1 ) -  ( veh2.global_x() + x_cof2 );
+    collision_axis_y.y = ( veh.global_y() + y_cof1 ) -  ( veh2.global_y() + y_cof2 );
     collision_axis_y = collision_axis_y.normalized();
     rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
     // imp? & delta? & final? reworked:
@@ -817,38 +857,35 @@ void map::vehicle_vehicle_collision( vehicle *veh, const veh_collision &c )
     float dmg_veh2 = dmg * 0.5;
 
     int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
-    for( auto &veh_veh_coll : veh_veh_colls ) {
-        veh_collision tmp_c = veh_veh_coll;
-        if( veh2 == (vehicle*) tmp_c.target ) {
+    for( const auto &veh_veh_coll : collisions ) {
+        if( &veh2 == (vehicle*)veh_veh_coll.target ) {
             coll_parts_cnt++;
         }
     }
 
-    float dmg1_part = dmg_veh1 / coll_parts_cnt;
-    float dmg2_part = dmg_veh2 / coll_parts_cnt;
+    const float dmg1_part = dmg_veh1 / coll_parts_cnt;
+    const float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
     //damage colliding parts (only veh1 and veh2 parts)
-    for( auto &veh_veh_coll : veh_veh_colls ) {
-        const veh_collision &tmp_c = veh_veh_coll;
-
-        if( veh2 != (vehicle*)tmp_c.target ) {
+    for( const auto &veh_veh_coll : collisions ) {
+        if( &veh2 != (vehicle*)veh_veh_coll.target ) {
             continue;
         }
 
-        int parm1 = veh->part_with_feature (tmp_c.part, VPFLAG_ARMOR);
+        int parm1 = veh.part_with_feature (veh_veh_coll.part, VPFLAG_ARMOR);
         if( parm1 < 0 ) {
-            parm1 = tmp_c.part;
+            parm1 = veh_veh_coll.part;
         }
-        int parm2 = veh2->part_with_feature (tmp_c.target_part, VPFLAG_ARMOR);
+        int parm2 = veh2.part_with_feature (veh_veh_coll.target_part, VPFLAG_ARMOR);
         if( parm2 < 0 ) {
-            parm2 = tmp_c.target_part;
+            parm2 = veh_veh_coll.target_part;
         }
 
-        epicenter1 += veh->parts[parm1].mount;
-        veh->damage( parm1, dmg1_part, DT_BASH );
+        epicenter1 += veh.parts[parm1].mount;
+        veh.damage( parm1, dmg1_part, DT_BASH );
 
-        epicenter2 += veh2->parts[parm2].mount;
-        veh2->damage( parm2, dmg2_part, DT_BASH );
+        epicenter2 += veh2.parts[parm2].mount;
+        veh2.damage( parm2, dmg2_part, DT_BASH );
     }
 
     epicenter1.x /= coll_parts_cnt;
@@ -858,30 +895,30 @@ void map::vehicle_vehicle_collision( vehicle *veh, const veh_collision &c )
 
     if( dmg2_part > 100 ) {
         // shake veh because of collision
-        veh2->damage_all(dmg2_part / 2, dmg2_part, DT_BASH, epicenter2);
+        veh2.damage_all(dmg2_part / 2, dmg2_part, DT_BASH, epicenter2);
     }
 
-    veh->move.init (final1.x, final1.y);
-    veh->velocity = final1.norm();
+    veh.move.init (final1.x, final1.y);
+    veh.velocity = final1.norm();
     // shrug it off if the change is less than 8mph.
     if(dmg_veh1 > 800) {
-        veh->skidding = true;
+        veh.skidding = true;
     }
-    veh2->move.init(final2.x, final2.y);
-    veh2->velocity = final2.norm();
+    veh2.move.init(final2.x, final2.y);
+    veh2.velocity = final2.norm();
     if(dmg_veh2 > 800) {
-        veh2->skidding = true;
+        veh2.skidding = true;
     }
     //give veh2 the initiative to proceed next before veh1
-    float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
+    float avg_of_turn = (veh2.of_turn + veh.of_turn) / 2;
     if( avg_of_turn < .1f ) {
         avg_of_turn = .1f;
     }
 
-    veh->of_turn = avg_of_turn * .9;
-    veh2->of_turn = avg_of_turn * 1.1;
-    // Set the impulse of the collision, so that it can be used above
-    c.imp = dmg_veh1;
+    veh.of_turn = avg_of_turn * .9;
+    veh2.of_turn = avg_of_turn * 1.1;
+    // Return the impulse of the collision
+    return dmg_veh1;
 }
 
 // 3D vehicle functions
@@ -1082,7 +1119,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( !inbounds( src ) ) {
         add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d,%d->%d,%d,%d",
                         src.x, src.y, src.z, dst.x, dst.y, dst.z );
-        return false;
+        return;
     }
 
     int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;

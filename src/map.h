@@ -46,6 +46,7 @@ using furn_id = int_id<furn_t>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 struct projectile;
+struct veh_collision;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -481,10 +482,20 @@ public:
     bool displace_water( const tripoint &dp );
 
     // Executes vehicle-vehicle collision based on vehicle::collision results
-    void vehicle_vehicle_collision( vehicle *veh, veh_collision &c );
+    // Returns impulse of the executed collision
+    // If vector contains collisions with vehicles other than veh2, they will be ignored
+    float vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
+                                     const std::vector<veh_collision> &collisions );
     // Throws vehicle passengers about the vehicle, possibly out of it
     // Returns change in vehicle orientation due to lost control
-    int shake_vehicle( vehicle *veh, int velocity_before, int direction );
+    int shake_vehicle( vehicle &veh, int velocity_before, int direction );
+    // Handles vehicle balancing on edge or actually falling
+    // Returns direction in which the vehicle falls or slides
+    tripoint handle_falling_vehicle( vehicle &veh );
+
+    // Actually moves the vehicle
+    // Unlike displace_vehicle, this one handles collisions
+    void move_vehicle( vehicle &veh, const tripoint &dp, int facing );
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
