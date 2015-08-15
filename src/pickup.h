@@ -31,7 +31,11 @@ class Pickup
                                  bool &got_water, bool &offered_swap,
                                  PickupMap &mapPickup, bool autopickup );
 
-        static int interact_with_vehicle( vehicle *veh, const tripoint &vpos, int veh_root_part );
+        typedef enum {
+            DONE, ITEMS_FROM_CARGO, ITEMS_FROM_GROUND,
+        } interact_results;
+
+        static interact_results interact_with_vehicle( vehicle *veh, const tripoint &vpos, int veh_root_part );
 
         static int handle_quiver_insertion( item &here, int &moves_to_decrement, bool &picked_up );
         static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
