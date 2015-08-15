@@ -4042,8 +4042,9 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
 
     Creature *driver = pl_ctrl ? &g->u : nullptr;
 
-    // if in a vehicle assume it's this one
+    // If in a vehicle assume it's this one
     if( ph != nullptr && ph->in_vehicle ) {
+        critter = nullptr;
         ph = nullptr;
     }
 
@@ -4068,23 +4069,23 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
        return ret;
     }
 
-    //Damage armor before damaging any other parts
-    int parm = part_with_feature (part, VPFLAG_ARMOR);
-    if (parm < 0) {
+    // Damage armor before damaging any other parts
+    // Actually target, not just damage - spiked plating will "hit back", for example
+    int parm = part_with_feature( part, VPFLAG_ARMOR );
+    if( parm < 0 ) {
         parm = part;
     }
     int dmg_mod = part_info(parm).dmg_mod;
-    // let's calculate type of collision & mass of object we hit
-    float mass = total_mass();
-    float mass2=0;
-    float e= 0.3; // e = 0 -> plastic collision
+    // Let's calculate type of collision & mass of object we hit
+    float mass2 = 0;
+    float e = 0.3; // e = 0 -> plastic collision
     // e = 1 -> inelastic collision
     int part_dens = 0; //part density
 
     if( is_body_collision ) {
         // then, check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
-        e=0.30;
+        e = 0.30;
         part_dens = 15;
         switch( critter->get_size() ) {
         case MS_TINY:    // Rodent
@@ -4138,6 +4139,9 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         return ret;
     }
 
+    // Calculate mass AFTER checking for collision
+    //  because it involves iterating over all cargo
+    const float mass = total_mass();
     int degree = rng( 70, 100 );
 
     //Calculate damage resulting from d_E
@@ -4153,37 +4157,34 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     //k=0 -> 100% damage on obj
     float material_factor = (part_dens - vpart_dens)*0.5;
     material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
-    float weight_factor;
-    //factor = -25 if mass is much greater than mass2
-    if ( mass >= mass2 ) {
-        weight_factor = -25 * ( log(mass) - log(mass2) ) / log(mass);
-    } else {
-        //factor = +25 if mass2 is much greater than mass
-        weight_factor = 25 * ( log(mass2) - log(mass) ) / log(mass2) ;
-    }
+    // factor = -25 if mass is much greater than mass2
+    // factor = +25 if mass2 is much greater than mass
+    const float weight_factor = mass >= mass2 ?
+        -25 * ( log(mass) - log(mass2) ) / log(mass) :
+         25 * ( log(mass2) - log(mass) ) / log(mass2);
 
     float k = 50 + material_factor + weight_factor;
     k = std::max( 10.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
-    std::string snd;
+    std::string snd; // NOTE: Unused!
     float part_dmg = 0.0;
     float dmg = 0.0;
-    //Calculate Impulse of car
+    // Calculate Impulse of car
     const float prev_velocity = velocity / 100;
     int turns_stunned = 0;
 
     do {
-        //Impulse of object
+        // Impulse of object
         const float vel1 = velocity / 100;
 
-        //Assumption: velocity of hit object = 0 mph
+        // Assumption: velocity of hit object = 0 mph
         const float vel2 = 0;
-        //lost energy at collision -> deformation energy -> damage
+        // Lost energy at collision -> deformation energy -> damage
         const float d_E = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);
-        //velocity of car after collision
+        // Velocity of car after collision
         const float vel1_a = (mass2*vel2*(1+e) + vel1*(mass - e*mass2)) / (mass + mass2);
-        //velocity of object after collision
+        // Velocity of object after collision
         const float vel2_a = (mass*vel1*(1+e) + vel2*(mass2 - e*mass)) / (mass + mass2);
 
         //Damage calculation
@@ -4275,7 +4276,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         if( part_flag( part, "SHARP" ) ) {
             g->m.adjust_field_strength( p, fd_blood, 1 );
         } else {
-            sounds::sound(p, 20, "");
+            sounds::sound( p, 20, snd );
         }
     } else {
         if( pl_ctrl ) {
@@ -4294,7 +4295,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     }
 
     if( smashed ) {
-        int turn_amount = rng (1, 3) * sqrt ((double)dmg);
+        int turn_amount = rng( 1, 3 ) * sqrt ((double)dmg);
         turn_amount /= 15;
         if( turn_amount < 1 ) {
             turn_amount = 1;
@@ -4310,7 +4311,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
             skidding = true;
-            turn (one_in (2)? turn_amount : -turn_amount);
+            turn( one_in( 2 ) ? turn_amount : -turn_amount );
         }
     }
 
