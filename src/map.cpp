@@ -546,9 +546,10 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
     }
 
     for( auto &veh_misc_coll : veh_misc_colls ) {
-        const point collision_point = veh.parts[veh_misc_coll.part].mount;
-        int coll_dmg = veh_misc_coll.imp;
+        const point &collision_point = veh.parts[veh_misc_coll.part].mount;
+        const int coll_dmg = veh_misc_coll.imp;
         // Shock damage
+        veh.damage( veh_misc_coll.part, coll_dmg, DT_BASH );
         veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
     }
 
@@ -627,7 +628,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
     // view offset.
     if( g->u.controlling_vehicle && veh_at( g->u.pos() ) == &veh ) {
         g->calc_driving_offset( &veh );
-        if( veh.skidding ) {
+        if( veh.skidding && can_move ) {
             veh.possibly_recover_from_skid();
         }
     }
@@ -814,7 +815,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
     if( dmg2_part > 100 ) {
         // shake veh because of collision
-        veh2.damage_all(dmg2_part / 2, dmg2_part, DT_BASH, epicenter2);
+        veh2.damage_all( dmg2_part / 2, dmg2_part, DT_BASH, epicenter2 );
     }
 
     veh.move.init (final1.x, final1.y);

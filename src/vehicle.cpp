@@ -4190,16 +4190,17 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         //Damage calculation
         //damage dealt overall
         dmg += std::abs(d_E / k_mvel);
-        //damage for vehicle-part - only if not a hallucination
-        if( critter != nullptr && !critter->is_hallucination() ) {
+        // Damage for vehicle-part
+        // Always if no critters, otherwise if critter is real
+        if( critter == nullptr || !critter->is_hallucination() ) {
             part_dmg = dmg * k / 100;
         }
-        //damage for object
+        // Damage for object
         const float obj_dmg  = dmg * (100-k)/100;
 
         if( collision_type == veh_coll_other ) {
             smashed = false;
-        } else if (collision_type == veh_coll_bashable) {
+        } else if( collision_type == veh_coll_bashable ) {
             // something bashable -- use map::bash to determine outcome
             smashed = g->m.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
@@ -4249,7 +4250,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
                 critter->apply_damage( driver, bp_torso, dam - armor );
             }
 
-            if( vel2_a > rng ( 10, 20 ) ) {
+            if( vel2_a > rng( 10, 20 ) ) {
                 g->fling_creature( critter, move.dir() + angle, vel2_a );
             }
         }
@@ -4295,7 +4296,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     }
 
     if( smashed ) {
-        int turn_amount = rng( 1, 3 ) * sqrt ((double)dmg);
+        int turn_amount = rng( 1, 3 ) * sqrt((double)dmg);
         turn_amount /= 15;
         if( turn_amount < 1 ) {
             turn_amount = 1;
@@ -4314,8 +4315,6 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             turn( one_in( 2 ) ? turn_amount : -turn_amount );
         }
     }
-
-    damage( parm, part_dmg, DT_BASH );
 
     veh_collision ret;
     ret.part = part;
