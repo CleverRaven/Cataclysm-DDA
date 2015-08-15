@@ -182,7 +182,7 @@ void Item_modifier::modify(item &new_item) const
     }
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
     const auto g = new_item.type->gun.get();
-    it_tool *t = dynamic_cast<it_tool *>(new_item.type);
+    const auto t = dynamic_cast<const it_tool *>(new_item.type);
    
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {

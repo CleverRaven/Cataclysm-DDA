@@ -119,7 +119,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         // Drain a ton of power
         tmp_hotplate.charges = veh->drain( "battery", 100 );
         if( tmp_hotplate.is_tool() ) {
-            it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_hotplate)->type);
+            const auto tmptool = dynamic_cast<const it_tool *>((&tmp_hotplate)->type);
             if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
                 g->u.invoke_item( &tmp_hotplate );
                 tmp_hotplate.charges -= tmptool->charges_per_use;
@@ -145,7 +145,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
     if(menu_items[choice] == _("Have a drink")) {
         veh->drain("water_clean", 1);
         item water( "water_clean", 0 );
-        g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
+        g->u.eat(&water, dynamic_cast<const it_comest *>(water.type));
         g->u.moves -= 250;
         return -2;
     }
@@ -156,7 +156,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         // Drain a ton of power
         tmp_welder.charges = veh->drain( "battery", 1000 );
         if( tmp_welder.is_tool() ) {
-            it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_welder)->type);
+            const auto tmptool = dynamic_cast<const it_tool *>((&tmp_welder)->type);
             if ( tmp_welder.charges >= tmptool->charges_per_use ) {
                 g->u.invoke_item( &tmp_welder );
                 tmp_welder.charges -= tmptool->charges_per_use;
@@ -172,7 +172,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         // Drain a ton of power
         tmp_purifier.charges = veh->drain( "battery", veh->fuel_left("battery"));
         if( tmp_purifier.is_tool() ) {
-            it_tool *tmptool = dynamic_cast<it_tool *>((&tmp_purifier)->type);
+            const auto tmptool = dynamic_cast<const it_tool *>((&tmp_purifier)->type);
             if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
                 g->u.invoke_item( &tmp_purifier );
                 tmp_purifier.charges -= tmptool->charges_per_use;

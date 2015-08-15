@@ -650,7 +650,7 @@ public:
     std::string components_to_string() const;
 
  itype_id typeId() const;
- itype* type;
+ const itype* type;
  std::vector<item> contents;
 
         /**

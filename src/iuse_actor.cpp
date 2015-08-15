@@ -1543,7 +1543,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
 
     if( extinguish ) {
         it->active = false;
-        it_tool *tool = dynamic_cast<it_tool *>( it->type );
+        const auto tool = dynamic_cast<const it_tool *>( it->type );
         if( tool == nullptr ) {
             debugmsg( "Non-tool has fireweapon_on actor" );
             it->make( "none" );

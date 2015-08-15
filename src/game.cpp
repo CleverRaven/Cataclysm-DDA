@@ -6781,7 +6781,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
+        if( it->is_tool() && ( dynamic_cast<const it_tool *>( it->type ) )->ammo_id == "battery" ) {
             it->charges = 0;
         }
     }
@@ -10199,7 +10199,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         long max = 0;
 
         if (cont->is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+            const auto tool = dynamic_cast<const it_tool *>(cont->type);
             ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
@@ -10284,7 +10284,7 @@ int game::move_liquid(item &liquid)
             int max = 0;
 
             if (cont->is_tool()) {
-                it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+                const auto tool = dynamic_cast<const it_tool *>(cont->type);
                 ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
@@ -11264,7 +11264,7 @@ void game::reload(int pos)
         u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
 
     } else if (it->is_tool()) { // tools are simpler
-        it_tool *tool = dynamic_cast<it_tool *>(it->type);
+        const auto tool = dynamic_cast<const it_tool *>(it->type);
 
         // see if its actually reloadable.
         if (tool->ammo_id == "NULL") {
@@ -14113,10 +14113,10 @@ void game::process_artifact(item *it, player *p)
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     if( worn && it->is_armor() ) {
-        it_artifact_armor *armor = dynamic_cast<it_artifact_armor *>(it->type);
+        const auto armor = dynamic_cast<const it_artifact_armor *>(it->type);
         effects = armor->effects_worn;
     } else if (it->is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool *>(it->type);
+        const auto tool = dynamic_cast<const it_artifact_tool *>(it->type);
         effects = tool->effects_carried;
         if (wielded) {
             effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );

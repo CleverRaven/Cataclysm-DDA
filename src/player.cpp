@@ -10982,7 +10982,7 @@ hint_rating player::rate_action_reload(item *it) {
         }
         return HINT_GOOD;
     } else if (it->is_tool()) {
-        it_tool* tool = dynamic_cast<it_tool*>(it->type);
+        const auto tool = dynamic_cast<const it_tool*>(it->type);
         if (tool->ammo_id == "NULL") {
             return HINT_CANT;
         }
@@ -11068,7 +11068,7 @@ hint_rating player::rate_action_disassemble(item *it) {
 hint_rating player::rate_action_use(const item *it) const
 {
     if (it->is_tool()) {
-        it_tool *tool = dynamic_cast<it_tool*>(it->type);
+        const auto tool = dynamic_cast<const it_tool*>(it->type);
         if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
             return HINT_IFFY;
         } else {
@@ -11131,7 +11131,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges(item *used, long charges_used)
 {
-    it_tool *tool = dynamic_cast<it_tool*>(used->type);
+    const auto tool = dynamic_cast<const it_tool*>(used->type);
     if( tool == nullptr || charges_used <= 0 ) {
         // Non-tools don't use charges
         // Canceled or not used up or whatever
@@ -13223,7 +13223,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 
 std::string player::weapname(bool charges)
 {
-    if (!(weapon.is_tool() && dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
+    if (!(weapon.is_tool() && dynamic_cast<const it_tool*>(weapon.type)->max_charges <= 0) &&
           weapon.charges >= 0 && charges) {
         std::stringstream dump;
         int spare_mag = weapon.has_gunmod("spare_mag");

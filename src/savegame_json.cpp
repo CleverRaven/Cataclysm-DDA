@@ -1207,7 +1207,7 @@ void item::io( Archive& archive )
         }
     };
 
-    archive.template io<itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
+    archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
     archive.io( "charges", charges, -1l );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -1250,7 +1250,7 @@ void item::io( Archive& archive )
         // if it's already rotten, no need to do this.
         active = true;
     }
-    if( active && dynamic_cast<it_comest*>(type) && (rotten() || !goes_bad()) ) {
+    if( active && dynamic_cast<const it_comest*>(type) && (rotten() || !goes_bad()) ) {
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
