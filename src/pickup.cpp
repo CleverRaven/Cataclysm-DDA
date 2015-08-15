@@ -18,12 +18,10 @@
 #include <cstring>
 
 // Handles interactions with a vehicle in the examine menu.
-// Returns the part number that will accept items if any, or -1 to indicate no cargo part.
-// Returns -2 if a special interaction was performed and the menu should exit.
-int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
+Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
 {
     if( veh == nullptr ) {
-        return -1;
+        return ITEMS_FROM_GROUND;
     }
 
     std::vector<std::string> menu_items;
@@ -117,7 +115,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
                 veh->refill( "battery", tmp_hotplate.charges );
             }
         }
-        return -2;
+        return DONE;
         }
 
     case FILL_CONTAINER: {
@@ -130,7 +128,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         } else {
             veh->refill("water_clean", amt);
         }
-        return -2;
+        return DONE;
         }
 
     case DRINK: {
@@ -138,7 +136,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         item water( "water_clean", 0 );
         g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
         g->u.moves -= 250;
-        return -2;
+        return DONE;
         }
 
     case USE_WELDER: {
@@ -154,7 +152,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
                 veh->refill( "battery", tmp_welder.charges );
             }
         }
-        return -2;
+        return DONE;
         }
 
     case USE_PURIFIER: {
@@ -170,7 +168,7 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
                 veh->refill( "battery", tmp_purifier.charges );
             }
         }
-        return -2;
+        return DONE;
         }
 
     case PURIFY_TANK: {
@@ -180,31 +178,31 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         veh->drain( "battery", purify_amount );
         veh->drain( "water", purify_amount );
         veh->refill( "water_clean", purify_amount );
-        return -2;
+        return DONE;
         }
 
     case FOLD_VEHICLE:
         veh->fold_up();
-        return -2;
+        return DONE;
 
     case CONTROL:
         if( veh->interact_vehicle_locked() ) {
             veh->use_controls();
         }
-        return -2;
+        return DONE;
 
     case EXAMINE:
         g->exam_vehicle(*veh, pos );
-        return -2;
+        return DONE;
 
     case GET_ITEMS_ON_GROUND:
-        return -1;
+        return ITEMS_FROM_GROUND;
 
     case GET_ITEMS:
-        return from_vehicle ? cargo_part : -1;
+        return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
     }
 
-    return -2; // canceled
+    return DONE;
 }
 
 static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> &getitem )
@@ -459,11 +457,16 @@ void Pickup::pick_up( const tripoint &pos, int min )
     bool from_vehicle = false;
 
     if( min != -1 ) {
-        cargo_part = interact_with_vehicle( veh, pos, veh_root_part );
-        from_vehicle = cargo_part >= 0;
-        if( cargo_part == -2 ) {
-            // -2 indicates that we already interacted with the vehicle.
+        switch( interact_with_vehicle( veh, pos, veh_root_part ) ) {
+        case DONE:
             return;
+        case ITEMS_FROM_CARGO:
+            cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+            from_vehicle = cargo_part >= 0;
+            break;
+        case ITEMS_FROM_GROUND:
+            // Nothing to change, default is to pick from ground anyway.
+            break;
         }
     }
 
