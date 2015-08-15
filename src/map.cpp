@@ -555,7 +555,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
 
     int coll_turn = 0;
     if( impulse > 0 ) {
-        shake_vehicle( veh, velocity_before, facing );
+        coll_turn = shake_vehicle( veh, velocity_before, facing );
     }
 
     if( veh_veh_coll_flag ) {
