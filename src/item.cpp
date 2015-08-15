@@ -5030,8 +5030,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         }
     }
     if( activate ) {
-        const auto tmp = dynamic_cast<const it_tool *>( type );
-        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+        return type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
