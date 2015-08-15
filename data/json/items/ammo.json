@@ -4207,7 +4207,7 @@
         "type" : "AMMO",
         "id" : "flintlock_shot",
         "price" : 5000,
-        "name" : "paper cartridge shot",
+        "name" : "paper shot cartridge",
         "symbol" : "=",
         "color" : "white",
         "description" : "A paper cartridge containing black powder and metallic shot.  Historically used to reload muzzleloaders in a more reasonable time.",
