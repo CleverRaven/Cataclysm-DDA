@@ -6781,7 +6781,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<const it_tool *>( it->type ) )->ammo_id == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == "battery" ) {
             it->charges = 0;
         }
     }
@@ -11264,10 +11264,10 @@ void game::reload(int pos)
         u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
 
     } else if (it->is_tool()) { // tools are simpler
-        const auto tool = dynamic_cast<const it_tool *>(it->type);
+        const ammotype ammo = it->ammo_type();
 
         // see if its actually reloadable.
-        if (tool->ammo_id == "NULL") {
+        if (ammo == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11280,7 +11280,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(ammo).c_str());
             return;
         }else if (am_pos == INT_MIN + 2) {
             //cancelled or invalid selection
