@@ -9615,12 +9615,12 @@
           "additional_tiles": [
             {
               "id": "corner",
-              "fg": 1600,
+              "fg": 2754,
               "bg": 506
             },
             {
               "id": "edge",
-              "fg": 1601,
+              "fg": 2755,
               "bg": 506
             }
           ]
@@ -9651,12 +9651,12 @@
           "additional_tiles": [
             {
               "id": "corner",
-              "fg": 1600,
+              "fg": 2756,
               "bg": 506
             },
             {
               "id": "edge",
-              "fg": 1601,
+              "fg": 2757,
               "bg": 506
             }
           ]
@@ -11753,6 +11753,11 @@
         {
           "id": "t_dirtfloor",
           "fg": 2637,
+          "rotates": false
+        },
+        {
+          "id": "t_raincatcher",
+          "fg": 2753,
           "rotates": false
         },
         {
@@ -21286,6 +21291,36 @@
         {
           "id": "dusksword_two",
           "fg": 2752,
+          "rotates": false
+        },
+        {
+          "id": "dusksword",
+          "fg": 2752,
+          "rotates": false
+        },
+        {
+          "id": "tr_raincatcher",
+          "fg": 513,
+          "rotates": false
+        },
+        {
+          "id": "spiral_stone",
+          "fg": 2754,
+          "rotates": false
+        },
+        {
+          "id": "vortex_stone",
+          "fg": 2754,
+          "rotates": false
+        },
+        {
+          "id": "makeshift_shovel",
+          "fg": 2755,
+          "rotates": false
+        },
+        {
+          "id": "makeshift_axe",
+          "fg": 2756,
           "rotates": false
         }
       ]
