@@ -5678,7 +5678,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         return;
     }
 
-    itype *am_type = items.front().type;
+    const itype *am_type = items.front().type;
     if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
         return;
     }

@@ -4447,7 +4447,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             if( !n.has_flag("RECHARGE") ) {
                 continue;
             }
-            int full_charge = dynamic_cast<it_tool*>(n.type)->max_charges;
+            int full_charge = dynamic_cast<const it_tool*>(n.type)->max_charges;
             if( n.has_flag("DOUBLE_AMMO") ) {
                 full_charge = full_charge * 2;
             }

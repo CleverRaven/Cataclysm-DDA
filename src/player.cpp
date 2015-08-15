@@ -8737,7 +8737,7 @@ int player::morale_level()
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
-                        bool cap_existing, itype* item_type)
+                        bool cap_existing, const itype* item_type)
 {
     bool placed = false;
 
@@ -8817,7 +8817,7 @@ int player::has_morale( morale_type type ) const
     return 0;
 }
 
-void player::rem_morale(morale_type type, itype* item_type)
+void player::rem_morale(morale_type type, const itype* item_type)
 {
     for( size_t i = 0; i < morale.size(); ++i ) {
         if (morale[i].type == type && morale[i].item_type == item_type) {
@@ -9500,7 +9500,7 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-    it_comest *comest = dynamic_cast<it_comest*>( to_eat->type );
+    const auto comest = dynamic_cast<const it_comest*>( to_eat->type );
 
     int amount_used = 1;
     if (comest != NULL) {
@@ -9624,7 +9624,7 @@ bool player::consume(int target_position)
     return true;
 }
 
-bool player::eat(item *eaten, it_comest *comest)
+bool player::eat(item *eaten, const it_comest *comest)
 {
     int to_eat = 1;
     if (comest == NULL) {
@@ -10043,7 +10043,7 @@ int player::nutrition_for(const it_comest *comest)
     return (int)nutr;
 }
 
-void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
+void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
         return;
@@ -10982,7 +10982,7 @@ hint_rating player::rate_action_reload(item *it) {
         }
         return HINT_GOOD;
     } else if (it->is_tool()) {
-        it_tool* tool = dynamic_cast<it_tool*>(it->type);
+        const auto tool = dynamic_cast<const it_tool*>(it->type);
         if (tool->ammo_id == "NULL") {
             return HINT_CANT;
         }
@@ -11068,7 +11068,7 @@ hint_rating player::rate_action_disassemble(item *it) {
 hint_rating player::rate_action_use(const item *it) const
 {
     if (it->is_tool()) {
-        it_tool *tool = dynamic_cast<it_tool*>(it->type);
+        const auto tool = dynamic_cast<const it_tool*>(it->type);
         if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
             return HINT_IFFY;
         } else {
@@ -11131,7 +11131,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges(item *used, long charges_used)
 {
-    it_tool *tool = dynamic_cast<it_tool*>(used->type);
+    const auto tool = dynamic_cast<const it_tool*>(used->type);
     if( tool == nullptr || charges_used <= 0 ) {
         // Non-tools don't use charges
         // Canceled or not used up or whatever
@@ -13223,7 +13223,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 
 std::string player::weapname(bool charges)
 {
-    if (!(weapon.is_tool() && dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
+    if (!(weapon.is_tool() && dynamic_cast<const it_tool*>(weapon.type)->max_charges <= 0) &&
           weapon.charges >= 0 && charges) {
         std::stringstream dump;
         int spare_mag = weapon.has_gunmod("spare_mag");

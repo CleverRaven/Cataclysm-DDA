@@ -312,7 +312,7 @@ void player::fire_gun( const tripoint &targ, long burst_size )
 void player::fire_gun( const tripoint &targ_arg, bool burst )
 {
     item *gunmod = weapon.active_gunmod();
-    itype *curammo = NULL;
+    const itype *curammo = NULL;
     item *used_weapon = NULL;
 
     if( gunmod != nullptr ) {
