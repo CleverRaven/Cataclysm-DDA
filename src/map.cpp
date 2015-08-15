@@ -382,20 +382,14 @@ const vehicle *map::vehproceed()
         return &veh;
     }
 
-    const tripoint fall_dir = handle_falling_vehicle( veh );
-    const bool supported = fall_dir.x == 0 && fall_dir.y == 0 && fall_dir.z == 0;
-    const bool falling = fall_dir.z != 0;
-
-    const bool pl_ctrl = supported && veh.player_in_control( g->u );
+    const bool pl_ctrl = veh.player_in_control( g->u );
 
     // mph lost per tile when coasting
     const int base_slowdown = veh.skidding ? 200 : 20;
     // k slowdown second.
     const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
     const int slowdown = (int)ceil( k_slowdown * base_slowdown );
-    if( !supported && abs( veh.velocity ) < slowdown ) {
-        // Do nothing, vehicle should slide
-    } else if( slowdown > abs( veh.velocity ) ) {
+    if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
         veh.velocity += slowdown;
@@ -404,20 +398,18 @@ const vehicle *map::vehproceed()
     }
 
     // Low enough for bicycles to go in reverse.
-    if( supported && abs( veh.velocity ) < 20 ) {
+    if( abs( veh.velocity ) < 20 ) {
         veh.stop();
     }
 
-    if( supported && veh.velocity == 0 ) {
+    if( veh.velocity == 0 ) {
         veh.of_turn -= .321f;
         return &veh;
     }
 
     // TODO: Handle wheels in the air
     std::vector<int> float_indices = veh.all_parts_with_feature(VPFLAG_FLOATS, false);
-    if( !supported ) {
-        // Unsupported vehicles don't need water/lack of it to slide/fall
-    } else if( float_indices.empty() ) {
+    if( float_indices.empty() ) {
         // sink in water?
         std::vector<int> wheel_indices = veh.all_parts_with_feature(VPFLAG_WHEEL, false);
         int num_wheels = wheel_indices.size();
@@ -469,10 +461,7 @@ const vehicle *map::vehproceed()
     //  terrain cost is 1000 on roads.
     // This is stupid btw, it makes veh magically seem
     //  to accelerate when exiting rubble areas.
-    float ter_turn_cost = 0.0f;
-    if( supported ) {
-        ter_turn_cost = 500.0 * move_cost_ter_furn( pt ) / abs(veh.velocity);
-    }
+    float ter_turn_cost = 500.0 * move_cost_ter_furn( pt ) / abs(veh.velocity);
 
     // Can't afford it this turn?
     if( ter_turn_cost >= veh.of_turn ) {
@@ -497,37 +486,27 @@ const vehicle *map::vehproceed()
         veh.skidding = true;
     }
 
-    tripoint dp;
-    int facing = 0;
     // Where do we go
-    if( !falling ) {
-        tileray mdir; // the direction we're moving
-        if( falling ) {
-            mdir = veh.move;
-        } else if( !supported ) {
-            // Sliding off
-            mdir = coord_to_angle( 0, 0, fall_dir.x, fall_dir.y );
-        } else if( veh.skidding ) {
-            // if skidding, it's the move vector
-            mdir = veh.move;
-        } else if( veh.turn_dir != veh.face.dir() ) {
-            // driver turned vehicle, get turn_dir
-            mdir.init( veh.turn_dir ); 
-        } else {
-            // not turning, keep face.dir
-            mdir = veh.face;
-        }
-
-        if( veh.velocity != 0 ) {
-            mdir.advance( veh.velocity < 0 ? -1 : 1 );
-        }
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
-        facing = mdir.dir();
+    tileray mdir; // the direction we're moving
+    if( veh.skidding ) {
+        // if skidding, it's the move vector
+        mdir = veh.move;
+    } else if( veh.turn_dir != veh.face.dir() ) {
+        // driver turned vehicle, get turn_dir
+        mdir.init( veh.turn_dir ); 
     } else {
-        dp.z = -1;
-        facing = veh.move.dir();
+        // not turning, keep face.dir
+        mdir = veh.face;
     }
+
+    if( veh.velocity != 0 ) {
+        mdir.advance( veh.velocity < 0 ? -1 : 1 );
+    }
+
+    tripoint dp;
+    dp.x = mdir.dx();
+    dp.y = mdir.dy();
+    const int facing = mdir.dir();
 
     move_vehicle( veh, dp, facing );
     return &veh;
@@ -655,66 +634,6 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
     // Redraw scene
     // TODO: Make this not happen on unseen vehicles
     g->draw();
-}
-
-tripoint map::handle_falling_vehicle( vehicle &veh )
-{
-    if( veh.falling ) {
-        // Not falling or sliding
-        return tripoint( 0, 0, 0 );
-    }
-
-    return tripoint( 0, 0, 0 );
-    // TODO: Enable all the crap below
-
-    const tripoint &pt = veh.global_pos3();
-    // Find center of mass, a "center of wheels" and a "center of wheel support"
-    point mass_center( 0, 0 );
-    veh.center_of_mass( mass_center.x, mass_center.y );
-    float total_area = 0.0f;
-    float total_x = 0.0f;
-    float total_y = 0.0f;
-    float supported_area = 0.0f;
-    float supported_x = 0.0f;
-    float supported_y = 0.0f;
-    const auto wheel_indices = veh.all_parts_with_feature( VPFLAG_WHEEL, false );
-    for( const auto &p : wheel_indices ) {
-        const tripoint pp = pt + veh.parts[p].precalc[0];
-        const int width = veh.part_info(p).wheel_width;
-        const int bigness = veh.parts[p].bigness;
-        const float wheel_area = width * bigness;
-        total_area += wheel_area;
-        total_x += pp.x * wheel_area;
-        total_y += pp.y * wheel_area;
-        if( has_floor( pp ) ||
-            supports_above( tripoint( pp.x, pp.y, pp.z - 1 ) ) ) {
-            supported_area += wheel_area;
-            supported_x += pp.x * wheel_area;
-            supported_y += pp.y * wheel_area;
-        }
-    }
-
-    if( total_area > 0 ) {
-        total_x /= total_area;
-        total_y /= total_area;
-    } else {
-        total_x = mass_center.x;
-        total_y = mass_center.y;
-    }
-
-    if( supported_area > 0.5f * total_area ) {
-        supported_x /= supported_area;
-        supported_y /= supported_area;
-    } else {
-        // If not enough wheels are supported, the veh is resting on something else
-        supported_x = mass_center.x;
-        supported_y = mass_center.y;
-    }
-
-    (void)supported_x;
-    (void)supported_y;
-    (void)total_x;
-    (void)total_y;
 }
 
 int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direction )
