@@ -246,6 +246,7 @@
   ], "components": [
     [
       [ "pipe", 3 ]
+    ],
     [
       [ "scrap", 2]
     ],
