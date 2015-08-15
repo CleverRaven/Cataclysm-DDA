@@ -3695,6 +3695,7 @@ void game::debug()
                       _("Display weather"), // 25
                       _("Change time"), // 26
                       _("Set automove route"), // 27
+                      _("Show mutation category levels"), // 28
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4241,7 +4242,13 @@ void game::debug()
         }
     }
     break;
-
+    case 28:
+    {
+        for( const auto &elem : u.mutation_category_level ) {
+            add_msg("%s: %d", elem.first.c_str(), elem.second);
+        }
+    }
+    break;
     }
     erase();
     refresh_all();
@@ -9211,7 +9218,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     if ( bRadiusSort ) {
         sSort += _("dist");
     } else {
-        sSort += _("cat");
+        sSort += pgettext("abbr. for word category", "cat");
     }
 
     int letters = utf8_width(sSort.c_str());

@@ -7623,18 +7623,10 @@
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "scissors", 1 ]
-    ],
-    [
-      [ "mirror", 1 ]
-    ],
-    [
-      [ "string_6", 4 ]
-    ]
+    [ [ "rag", 1 ] ],
+    [ [ "scissors", 1 ] ],
+    [ [ "mirror", 1 ] ],
+    [ [ "string_6", 4 ] ]
   ]
 },{
   "type" : "recipe",
@@ -7646,11 +7638,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "charcoal", 1 ]
-    ]
-  ]
+  "components": [ [ [ "charcoal", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "plant_fibre",
@@ -7663,6 +7651,35 @@
   "autolearn": true,
   "components": [
     [ [ "dogbane", 1 ] , [ "cattail_stalk", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "v_scoop_item",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "difficulty": 5,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
+    ]
+  ],
+  "components": [
+    [ [ "pipe", 2 ] ],
+    [ [ "sheet_metal", 2 ] ],
+    [ [ "motor", 2 ] ],
+    [ [ "processor", 1 ] ]
   ]
 }
 ]

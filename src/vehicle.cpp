@@ -26,13 +26,14 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "weather.h"
-
+#include "map_iterator.h"
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
 #include <set>
 #include <queue>
 #include <math.h>
+#include <array>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -98,7 +99,8 @@ enum vehicle_controls {
  manual_fire,
  toggle_camera,
  release_remote_control,
- toggle_chimes
+ toggle_chimes,
+ toggle_scoop
 };
 
 class vehicle::turret_ammo_data {
@@ -882,7 +884,7 @@ void vehicle::use_controls()
     bool has_camera_control = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
-
+    bool has_scoop = false;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -936,6 +938,8 @@ void vehicle::use_controls()
             } else {
                 has_camera = true;
             }
+        } else if( part_flag(p,"SCOOP") ) {
+            has_scoop = true;
         }
     }
 
@@ -1048,7 +1052,10 @@ void vehicle::use_controls()
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
-
+    if( has_scoop ) {
+        menu.addentry( toggle_scoop, true, 'S', scoop_on ?
+                       _("Turn off scoop system") : _("Turn on scoop system") );
+    }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
     menu.query();
@@ -1236,6 +1243,9 @@ void vehicle::use_controls()
         }
         break;
     case control_cancel:
+        break;
+    case toggle_scoop:
+        scoop_on = !scoop_on;
         break;
     }
 }
@@ -3440,7 +3450,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     if( camera_on ) epower += camera_epower;
     if( dome_lights_on ) epower += dome_lights_epower;
     if( aisle_lights_on ) epower += aisle_lights_epower;
-
+    if( scoop_on ) epower += scoop_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     int engine_epower = 0;
@@ -3535,6 +3545,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         camera_on = false;
         dome_lights_on = false;
         aisle_lights_on = false;
+        scoop_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
         }
@@ -3752,6 +3763,61 @@ void vehicle::idle(bool on_map) {
 
     if( on_map ) {
         update_time();
+        if(scoop_on){
+            operate_scoop();
+        }
+    }
+}
+
+void vehicle::operate_scoop()
+{
+    std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
+    for( int scoop : scoops ) {
+        const int chance_to_damage_item = 9;
+        int max_pickup_size = parts[scoop].info().size/10;
+        const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
+        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
+                       sound_msgs[rng( 0, 3 )] );
+        std::vector<tripoint> parts_points;
+        for( const tripoint &current :
+             g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+            parts_points.push_back( current );
+        }
+        for( const tripoint &position : parts_points ) {
+            g->m.mop_spills( position );
+            if( !g->m.has_items( position ) ) {
+	        continue;
+            }
+            item *that_item_there = nullptr;
+            const map_stack q = g->m.i_at( position );
+            size_t itemdex = 0;
+            for( auto it : q ) {
+                if( it.volume() < max_pickup_size ) {
+                    that_item_there = g->m.item_from( position, itemdex );
+                    break;
+                }
+                itemdex++;
+            }
+            if( !that_item_there ) {
+                continue;
+            }
+            if( one_in( chance_to_damage_item ) &&
+                that_item_there->damage < 4) {
+                //The scoop will not destroy the item, but it may damage it a bit.
+                that_item_there->damage++;
+                //The scoop gets a lot louder when breaking an item.
+                sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
+                               _("BEEEThump") );
+            }
+            const int battery_deficit = discharge_battery( that_item_there->weight() *
+                                                           scoop_epower / rng( 8, 15 ) );
+            if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
+                g->m.i_rem( position, itemdex );
+            } else {
+                //otherwise move on to the next scoop.
+                break;
+            }
+        }
     }
 }
 
@@ -4713,7 +4779,6 @@ void vehicle::refresh()
     alternator_load = 0;
     camera_epower = 0;
     has_atomic_lights = false;
-
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
@@ -4754,6 +4819,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );
+        }
+        if( vpi.has_flag("SCOOP") ) {
+            scoop_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
             fuel.push_back( p );

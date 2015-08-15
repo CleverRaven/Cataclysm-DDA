@@ -741,6 +741,9 @@ void iexamine::chainfence( player *p, map *m, const tripoint &examp )
         }
         if( one_in( climb ) ) {
             add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
+            if( climb <= 1 ) {
+                add_msg( m_bad, _( "Climbing this is impossible in your current state." ) );
+            }
             return;
         }
         p->moves += climb * 10;
