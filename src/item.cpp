@@ -4542,7 +4542,7 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-itype *item::get_curammo() const
+const itype *item::get_curammo() const
 {
     return curammo;
 }
@@ -4593,7 +4593,7 @@ void item::set_curammo( const item &ammo )
                   tname().c_str() );
         return;
     }
-    curammo = const_cast<itype*>( at );
+    curammo = at;
 }
 
 std::string item::components_to_string() const
