@@ -44,76 +44,67 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
     const bool is_convertible = (veh->tags.count("convertible") > 0);
     const bool remotely_controlled = g->remoteveh() == veh;
 
-    menu_items.push_back(_("Examine vehicle"));
-    options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
+    typedef enum {
+        EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
+        FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK,
+    } options;
+    uimenu selectmenu;
+
+    selectmenu.addentry( EXAMINE, true, 'e', _("Examine vehicle") );
 
     if (ctrl_part >= 0) {
-        menu_items.push_back(_("Control vehicle"));
-        options_message.push_back(uimenu_entry(_("Control vehicle"), 'v'));
+        selectmenu.addentry( CONTROL, true, 'v', _("Control vehicle") );
     }
 
     if( from_vehicle ) {
-        menu_items.push_back(_("Get items"));
-        options_message.push_back(uimenu_entry(_("Get items"), 'g'));
+        selectmenu.addentry( GET_ITEMS, true, 'g', _("Get items") );
     }
 
     if( has_items_on_ground && !items_are_sealed ) {
-        menu_items.push_back(_("Get items on the ground"));
-        options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
+        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _("Get items on the ground") );
     }
 
     if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
-        menu_items.push_back(_("Fold vehicle"));
-        options_message.push_back(uimenu_entry(_("Fold vehicle"), 'f'));
+        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _("Fold vehicle") );
     }
 
     if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
-        menu_items.push_back(_("Use the hotplate"));
-        options_message.push_back(uimenu_entry(_("Use the hotplate"), 'h'));
+        selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
     }
 
     if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water_clean") > 0) {
-        menu_items.push_back(_("Fill a container with water"));
-        options_message.push_back(uimenu_entry(_("Fill a container with water"), 'c'));
+        selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
 
-        menu_items.push_back(_("Have a drink"));
-        options_message.push_back(uimenu_entry(_("Have a drink"), 'd'));
+        selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
     }
 
     if(w_part >= 0 && veh->fuel_left("battery") > 0) {
-        menu_items.push_back(_("Use the welding rig?"));
-        options_message.push_back(uimenu_entry(_("Use the welding rig?"), 'w'));
+        selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
     }
 
     if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 ) {
-        menu_items.push_back(_("Purify water in carried container"));
-        options_message.push_back(uimenu_entry(_("Purify water in carried container"), 'p'));
+        selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
     }
 
     if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 &&
         veh->fuel_left("water") > 0 &&
         veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
-        menu_items.push_back(_("Purify water in vehicle's tank"));
-        options_message.push_back(uimenu_entry(_("Purify water in vehicle's tank"), 'P'));
+        selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );
     }
 
     int choice;
-    if( menu_items.size() == 1 ) {
-        choice = 0;
+    if( selectmenu.entries.size() == 1 ) {
+        choice = selectmenu.entries.front().retval;
     } else {
-        uimenu selectmenu;
         selectmenu.return_invalid = true;
         selectmenu.text = _("Select an action");
-        selectmenu.entries = options_message;
         selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
     }
 
-    if(choice < 0) {
-        return -2;
-    }
-    if(menu_items[choice] == _("Use the hotplate")) {
+    switch( static_cast<options>( choice ) ) {
+    case USE_HOTPLATE: {
         //Will be -1 if no battery at all
         item tmp_hotplate( "hotplate", 0 );
         // Drain a ton of power
@@ -127,9 +118,9 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             }
         }
         return -2;
-    }
+        }
 
-    if(menu_items[choice] == _("Fill a container with water")) {
+    case FILL_CONTAINER: {
         int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
         item fill_water( "water_clean", calendar::turn );
         fill_water.charges = amt;
@@ -140,17 +131,17 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             veh->refill("water_clean", amt);
         }
         return -2;
-    }
+        }
 
-    if(menu_items[choice] == _("Have a drink")) {
+    case DRINK: {
         veh->drain("water_clean", 1);
         item water( "water_clean", 0 );
         g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
         g->u.moves -= 250;
         return -2;
-    }
+        }
 
-    if(menu_items[choice] == _("Use the welding rig?")) {
+    case USE_WELDER: {
         //Will be -1 if no battery at all
         item tmp_welder( "welder", 0 );
         // Drain a ton of power
@@ -164,9 +155,9 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             }
         }
         return -2;
-    }
+        }
 
-    if(menu_items[choice] == _("Purify water in carried container")) {
+    case USE_PURIFIER: {
         //Will be -1 if no battery at all
         item tmp_purifier( "water_purifier", 0 );
         // Drain a ton of power
@@ -180,9 +171,9 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
             }
         }
         return -2;
-    }
+        }
 
-    if(menu_items[choice] == _("Purify water in vehicle's tank")) {
+    case PURIFY_TANK: {
         const int max_water = std::min( veh->fuel_left("water"),
             veh->fuel_capacity("water_clean") - veh->fuel_left("water_clean") );
         const int purify_amount = std::min( veh->fuel_left("battery"), max_water );
@@ -190,28 +181,30 @@ int Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_ro
         veh->drain( "water", purify_amount );
         veh->refill( "water_clean", purify_amount );
         return -2;
-    }
+        }
 
-    if(menu_items[choice] == _("Fold vehicle")) {
+    case FOLD_VEHICLE:
         veh->fold_up();
         return -2;
-    }
 
-    if(menu_items[choice] == _("Control vehicle") && veh->interact_vehicle_locked()) {
-        veh->use_controls();
+    case CONTROL:
+        if( veh->interact_vehicle_locked() ) {
+            veh->use_controls();
+        }
         return -2;
-    }
 
-    if(menu_items[choice] == _("Examine vehicle")) {
+    case EXAMINE:
         g->exam_vehicle(*veh, pos );
         return -2;
-    }
 
-    if(menu_items[choice] == _("Get items on the ground")) {
+    case GET_ITEMS_ON_GROUND:
         return -1;
+
+    case GET_ITEMS:
+        return from_vehicle ? cargo_part : -1;
     }
 
-    return from_vehicle ? cargo_part : -1;
+    return -2; // canceled
 }
 
 static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> &getitem )
