@@ -8737,7 +8737,7 @@ int player::morale_level()
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
-                        bool cap_existing, itype* item_type)
+                        bool cap_existing, const itype* item_type)
 {
     bool placed = false;
 
@@ -8817,7 +8817,7 @@ int player::has_morale( morale_type type ) const
     return 0;
 }
 
-void player::rem_morale(morale_type type, itype* item_type)
+void player::rem_morale(morale_type type, const itype* item_type)
 {
     for( size_t i = 0; i < morale.size(); ++i ) {
         if (morale[i].type == type && morale[i].item_type == item_type) {
