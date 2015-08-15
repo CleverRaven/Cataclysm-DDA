@@ -4036,13 +4036,11 @@ bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
 veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect )
 {
     const tripoint p{ x, y, smz };
-    bool pl_ctrl = player_in_control (g->u);
-    int mondex = g->mon_at( p );
-    int npcind = g->npc_at( p );
-    bool u_here = p == g->u.pos() && !g->u.in_vehicle;
-    monster *z = mondex >= 0 ? &g->zombie(mondex) : nullptr;
-    player *ph = npcind >= 0 ? g->active_npc[npcind] : (u_here ? &g->u : 0);
-    Creature *critter = z != nullptr ? z : ph;
+    const bool pl_ctrl = player_in_control( g->u );
+    Creature *critter = g->critter_at( p, true );
+    player *ph = dynamic_cast<player*>( critter );
+
+    Creature *driver = pl_ctrl ? &g->u : nullptr;
 
     // if in a vehicle assume it's this one
     if( ph != nullptr && ph->in_vehicle ) {
@@ -4192,7 +4190,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
         //damage dealt overall
         dmg += std::abs(d_E / k_mvel);
         //damage for vehicle-part - only if not a hallucination
-        if(!z || !z->is_hallucination()) {
+        if( critter != nullptr && !critter->is_hallucination() ) {
             part_dmg = dmg * k / 100;
         }
         //damage for object
@@ -4204,14 +4202,14 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
             // something bashable -- use map::bash to determine outcome
             smashed = g->m.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
-                if (g->m.is_bashable_ter_furn(p)) {
+                if( g->m.is_bashable_ter_furn( p ) ) {
                     // There's new terrain there to smash
                     smashed = false;
                     e = 0.30;
                     //Just a rough rescale for now to obtain approximately equal numbers
                     mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
                     part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
-                } else if (g->m.move_cost_ter_furn(p) == 0) {
+                } else if( g->m.move_cost_ter_furn(p) == 0 ) {
                     // There's new terrain there, but we can't smash it!
                     smashed = false;
                     collision_type = veh_coll_other;
@@ -4220,46 +4218,37 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
                     part_dens = 80;
                 }
             }
-        } else if (collision_type == veh_coll_body) {
+        } else if( collision_type == veh_coll_body ) {
             int dam = obj_dmg*dmg_mod/100;
-            if (z) {
-                int z_armor = part_flag(part, "SHARP")? z->type->armor_cut : z->type->armor_bash;
-                if (z_armor < 0) {
-                    z_armor = 0;
-                }
-                dam -= z_armor;
-            }
-            if (dam < 0) { dam = 0; }
 
-            //No blood from hallucinations
-            if(z && !z->is_hallucination()) {
-                if (part_flag(part, "SHARP")) {
+            // No blood from hallucinations
+            if( !critter->is_hallucination() ) {
+                if( part_flag( part, "SHARP" ) ) {
                     parts[part].blood += (20 + dam) * 5;
-                } else if (dam > rng (10, 30)) {
+                } else if( dam > rng ( 10, 30 ) ) {
                     parts[part].blood += (10 + dam / 2) * 5;
                 }
+
                 check_environmental_effects = true;
             }
 
-            turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
-            if (part_flag(part, "SHARP")) {
-                turns_stunned = 0;
-            }
-            if (turns_stunned > 6) {
-                turns_stunned = 6;
-            }
-            if (turns_stunned > 0 && z) {
-                z->add_effect("stunned", turns_stunned);
+            turns_stunned = ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 );
+            if( turns_stunned > 0 ) {
+                critter->add_effect( "stunned", turns_stunned );
             }
 
-            int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
-            if( z != nullptr ) {
-                // TODO: get the driver and make them responsible.
-                z->apply_damage( nullptr, bp_torso, dam );
+            const int angle = (100 - degree) * 2 * ( one_in( 2 ) ? 1 : -1 );
+            if( ph != nullptr ) {
+                ph->hitall( dam, 40, driver );
             } else {
-                ph->hitall( dam, 40, nullptr );
+                const int armor = part_flag( part, "SHARP" ) ?
+                    critter->get_armor_cut( bp_torso ) :
+                    critter->get_armor_bash( bp_torso );
+                dam = std::max( 0, dam - armor );
+                critter->apply_damage( driver, bp_torso, dam - armor );
             }
-            if (vel2_a > rng (10, 20)) {
+
+            if( vel2_a > rng ( 10, 20 ) ) {
                 g->fling_creature( critter, move.dir() + angle, vel2_a );
             }
         }
@@ -4270,7 +4259,7 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
 
     // Apply special effects from collision.
     if( critter != nullptr ) {
-        std::string dname = critter->name();
+        std::string dname = critter->disp_name();
         if( pl_ctrl ) {
             if( turns_stunned > 0 ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
@@ -4307,16 +4296,16 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     if( smashed ) {
         int turn_amount = rng (1, 3) * sqrt ((double)dmg);
         turn_amount /= 15;
-        if (turn_amount < 1) {
+        if( turn_amount < 1 ) {
             turn_amount = 1;
         }
         turn_amount *= 15;
-        if (turn_amount > 120) {
+        if( turn_amount > 120 ) {
             turn_amount = 120;
         }
-        int turn_roll = rng (0, 100);
+        int turn_roll = rng( 0, 100 );
         //probability of skidding increases with higher delta_v
-        if (turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
+        if( turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
