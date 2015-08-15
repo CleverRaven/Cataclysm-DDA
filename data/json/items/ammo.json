@@ -4222,7 +4222,7 @@
         "damage" : 35,
         "pierce" : 0,
         "range" : 6,
-        "dispersion" : 0,
+        "dispersion" : 20,
         "recoil" : 420,
         "count" : 25,
         "effects" : ["COOKOFF", "SHOT"]
