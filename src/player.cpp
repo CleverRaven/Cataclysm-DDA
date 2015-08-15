@@ -9500,7 +9500,7 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-    it_comest *comest = dynamic_cast<it_comest*>( to_eat->type );
+    const auto comest = dynamic_cast<const it_comest*>( to_eat->type );
 
     int amount_used = 1;
     if (comest != NULL) {
@@ -9624,7 +9624,7 @@ bool player::consume(int target_position)
     return true;
 }
 
-bool player::eat(item *eaten, it_comest *comest)
+bool player::eat(item *eaten, const it_comest *comest)
 {
     int to_eat = 1;
     if (comest == NULL) {
@@ -10043,7 +10043,7 @@ int player::nutrition_for(const it_comest *comest)
     return (int)nutr;
 }
 
-void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
+void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
         return;

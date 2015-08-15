@@ -629,11 +629,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat(item *eat, it_comest *comest);
+        bool eat(item *eat, const it_comest *comest);
         /** Handles the nutrition value for a comestible **/
         int nutrition_for(const it_comest *comest);
         /** Handles the effects of consuming an item */
-        void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
+        void consume_effects(item *eaten, const it_comest *comest, bool rotten = false);
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
