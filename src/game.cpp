@@ -4994,7 +4994,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                  POSX + (final_destination.x - (u.posx() + u.view_offset.x)), c_white, 'X');
     }
 
-    if (u.controlling_vehicle && !looking) {
+    if( u.controlling_vehicle && !looking ) {
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
@@ -5012,20 +5012,26 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 }
 
+tripoint game::get_veh_dir_indicator_location() const
+{
+    if( !OPTIONS["VEHICLE_DIR_INDICATOR"] ) {
+        return tripoint_min;
+    }
+    vehicle *veh = m.veh_at( u.pos() );
+    if( !veh ) {
+        return tripoint_min;
+    }
+    rl_vec2d face = veh->face_vec();
+    float r = 10.0;
+    return { static_cast<int>(r * face.x), static_cast<int>(r * face.y), u.pos().z };
+}
+
 void game::draw_veh_dir_indicator(void)
 {
-    // don't draw indicator if doing look_around()
-    if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
-        vehicle *veh = m.veh_at(u.pos());
-        if( veh == nullptr ) {
-            // Exit silently
-            return;
-        }
-        rl_vec2d face = veh->face_vec();
-        float r = 10.0;
-        int x = static_cast<int>(r * face.x);
-        int y = static_cast<int>(r * face.y);
-        mvwputch(w_terrain, POSY + y - u.view_offset.y, POSX + x - u.view_offset.x, c_white, 'X');
+    tripoint indicator_offset = get_veh_dir_indicator_location();
+    if( indicator_offset != tripoint_min ) {
+        mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
+                  POSX + indicator_offset.x - u.view_offset.x, c_white, 'X' );
     }
 }
 

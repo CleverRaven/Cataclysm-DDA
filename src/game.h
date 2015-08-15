@@ -170,6 +170,12 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+        /**
+         * Returns the location where the indicator should go relative to the reality bubble,
+         * or tripoint_min to indicate no indicator should be drawn.
+         * Based on the vehicle the player is driving, if any.
+         */
+        tripoint get_veh_dir_indicator_location() const;
         void draw_veh_dir_indicator(void);
 
         /** Make map a reference here, to avoid map.h in game.h */
