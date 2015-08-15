@@ -1,0 +1,147 @@
+[
+{
+  "type" : "recipe",
+  "result": "crossbow",
+  "override": true,
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 3 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ], [ "textbook_armschina", 5 ]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+    ],
+    [ [ "scrap", 1 ] ],
+    [ [ "string_36", 3 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armor_blarmor",
+  "override": true,
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 3 ],
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ], ["textbook_survival", 3], ["trappers_companion", 3], ["survival_book", 3], ["textbook_armwest", 6], ["textbook_armschina", 6]],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "toolset", 20 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 10 ],
+      [ "water_clean", 10 ]
+    ],
+    [
+      [ "wax", 2 ],
+      [ "tallow", 8 ],
+      [ "tallow_tainted", 8 ],
+      [ "vinegar", 10 ],
+      [ "pine_bough", 20 ]
+    ],
+    [ [ "salt", 5 ] ],
+    [ [ "armor_larmor", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armor_plarmor",
+  "override": true,
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "skills_required": [ "tailor", 3 ],
+  "time": 28000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armwest", 4], ["textbook_armschina", 4]],
+  "tools": [
+    [
+      [ "needle_bone", 22 ],
+      [ "needle_wood", 22 ],
+      [ "tailors_kit", 22 ],
+      [ "sewing_kit", 22 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 6 ],
+      [ "scrap", 18 ]
+    ],
+    [ [ "armor_larmor", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "boots_larmor",
+  "override": true,
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ], [ "tailor_portfolio", 4 ], ["textbook_survival", 3], ["trappers_companion", 3], ["survival_book", 3], ["textbook_armwest", 5], ["textbook_armschina", 5]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "tailors_kit", 24 ],
+      [ "sewing_kit", 24 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 18 ],
+      [ "tanned_hide", 3 ],
+      [ "fur", 18 ],
+      [ "tanned_pelt", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chem_black_powder",
+  "override": true,
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], ["textbook_chemistry", 5], ["textbook_armschina", 5]],
+  "qualities" : 
+    [
+      {"id":"CONTAIN","level":1,"amount":1}
+    ],
+  "components": [
+    [ [ "chem_saltpetre", 75 ] ],
+    [ [ "chem_sulphur", 10 ] ] ,
+    [ [ "charcoal", 15 ] ]
+  ]
+}
+]
