@@ -8650,7 +8650,7 @@
     {
         "type" : "ARMOR",
         "id" : "jedi_cloak",
-        "name" : "jedi cloak",
+        "name" : "Jedi cloak",
         "weight" : 1587,
         "color" : "brown",
         "covers" : ["TORSO", "HEAD", "ARMS", "HANDS", "LEGS"],
