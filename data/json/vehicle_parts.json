@@ -5096,7 +5096,9 @@
         "item" : "sheet_metal",
         "difficulty" : 4,
         "location" : "under",
+        "bonus": 150,
         "flags" : ["PLOW"],
+        "//":"Bonus for a plow part determines the friction added in k_friction while active",
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
