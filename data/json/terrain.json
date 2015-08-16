@@ -3114,7 +3114,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS", "NOCOLLIDE"],
         "bash": {
             "sound": "smash", "//": "muffled because fungus",
             "ter_set": "t_null",
