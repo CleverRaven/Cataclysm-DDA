@@ -87,7 +87,6 @@ class MonsterGenerator
 
         // Init functions
         void init_phases();
-        void init_sizes();
         void init_death();
         void init_attack();
         void init_defense();
@@ -104,8 +103,6 @@ class MonsterGenerator
                 std::map<std::string, T> conversion_map, T fallback);
         template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
                                                 T fallback);
-        
-        
 
         // finalization
         void apply_species_attributes(mtype *mon);
@@ -118,7 +115,6 @@ class MonsterGenerator
         std::map<std::string, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;
-        std::map<std::string, m_size> size_map;
         std::map<std::string, mon_action_death> death_map;
         std::map<std::string, mon_action_attack> attack_map;
         std::map<std::string, mon_action_defend> defense_map;

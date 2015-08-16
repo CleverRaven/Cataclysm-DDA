@@ -20,6 +20,7 @@ class monfaction;
 struct projectile;
 enum field_id : int;
 enum body_part : int;
+enum m_size : int;
 
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
@@ -31,14 +32,6 @@ using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 
 typedef std::string itype_id;
-
-enum m_size : int {
-    MS_TINY = 0,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
-};
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
