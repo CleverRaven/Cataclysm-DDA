@@ -25,7 +25,7 @@ enum vision_modes {
 enum fatigue_levels {
     TIRED = 191,
     DEAD_TIRED = 383,
-    EXAUSTED = 575,
+    EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
 

@@ -1586,7 +1586,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         if( ability >= 100 - ( p->fatigue / 10 ) ) {
             std::string how_tired;
-            if( p->fatigue > EXAUSTED ) {
+            if( p->fatigue > EXHAUSTED ) {
                 how_tired = _("Exhausted");
             } else if( p->fatigue > DEAD_TIRED) {
                 how_tired = _("Dead tired");
@@ -1613,7 +1613,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_ALLOW_SLEEP" ) {
         // TODO: Factor in stats, stimms etc.
-        if( p->fatigue > EXAUSTED ) {
+        if( p->fatigue > EXHAUSTED ) {
             return _("...");
         } else if( p->fatigue > DEAD_TIRED) {
             return _("Finally!");
@@ -1625,7 +1625,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_WAKE_UP" ) {
         if( p->has_effect( "sleep" ) ) {
-            if( p->fatigue > EXAUSTED ) {
+            if( p->fatigue > EXHAUSTED ) {
                 return _("No, just <swear> no...");
             } else if( p->fatigue > DEAD_TIRED) {
                 return _("Just let me sleep, <name_b>!");

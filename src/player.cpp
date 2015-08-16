@@ -3608,7 +3608,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         wprintz(w, c_green,  _("Turgid"));
 
     wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
-    if (fatigue > EXAUSTED)
+    if (fatigue > EXHAUSTED)
         wprintz(w, c_red,    _("Exhausted"));
     else if (fatigue > DEAD_TIRED)
         wprintz(w, c_ltred,  _("Dead tired"));
@@ -5391,7 +5391,7 @@ void player::update_needs()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( fatigue >= EXAUSTED + 25 && !in_sleep_state() ) {
+    if( fatigue >= EXHAUSTED + 25 && !in_sleep_state() ) {
         if( fatigue >= MASSIVE_FATIGUE ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
@@ -5417,7 +5417,7 @@ void player::update_needs()
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
             }
-        } else if( fatigue >= EXAUSTED ) {
+        } else if( fatigue >= EXHAUSTED ) {
             if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
@@ -7621,7 +7621,7 @@ void player::suffer()
             }
             if (mdata.fatigue){
                 fatigue += mdata.cost;
-                if (fatigue >= EXAUSTED) { // Exhausted
+                if (fatigue >= EXHAUSTED) { // Exhausted
                     add_msg(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
