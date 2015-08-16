@@ -272,11 +272,12 @@ void builtin_policepileup(map& m, const std::string&)
 void builtin_parkinglot(map& m, const std::string&)
 {
     for(int v = 0; v < rng(1,4); v++) {
-        point pos_p;
+        tripoint pos_p;
         pos_p.x = rng(0, 1) * 15 + rng(4,5);
         pos_p.y = rng(0, 4) * 4 + rng(2,4);
+        pos_p.z = m.get_abs_sub().z;
 
-        if (!m.veh_at(pos_p.x,pos_p.y)) {
+        if( !m.veh_at( pos_p ) ) {
             m.add_vehicle(vgroup_id("parkinglot"), pos_p, (one_in(2)?0:180) + (one_in(10)*rng(0,179)), -1, -1);
         }
     }

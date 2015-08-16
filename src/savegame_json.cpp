@@ -149,6 +149,23 @@ void Character::load(JsonObject &data)
 {
     Creature::load( data );
 
+    data.read( "str_cur", str_cur );
+    data.read( "str_max", str_max );
+    data.read( "dex_cur", dex_cur );
+    data.read( "dex_max", dex_max );
+    data.read( "int_cur", int_cur );
+    data.read( "int_max", int_max );
+    data.read( "per_cur", per_cur );
+    data.read( "per_max", per_max );
+
+    data.read( "str_bonus", str_bonus );
+    data.read( "dex_bonus", dex_bonus );
+    data.read( "per_bonus", per_bonus );
+    data.read( "int_bonus", int_bonus );
+
+    data.read( "healthy", healthy );
+    data.read( "healthy_mod", healthy_mod );
+
     JsonArray parray;
 
     data.read("underwater", underwater);
@@ -232,6 +249,23 @@ void Character::load(JsonObject &data)
 void Character::store(JsonOut &json) const
 {
     Creature::store( json );
+
+    json.member( "str_cur", str_cur );
+    json.member( "str_max", str_max );
+    json.member( "dex_cur", dex_cur );
+    json.member( "dex_max", dex_max );
+    json.member( "int_cur", int_cur );
+    json.member( "int_max", int_max );
+    json.member( "per_cur", per_cur );
+    json.member( "per_max", per_max );
+
+    json.member( "str_bonus", str_bonus );
+    json.member( "dex_bonus", dex_bonus );
+    json.member( "per_bonus", per_bonus );
+    json.member( "int_bonus", int_bonus );
+
+    json.member( "healthy", healthy );
+    json.member( "healthy_mod", healthy_mod );
 
     // breathing
     json.member( "underwater", underwater );
@@ -993,7 +1027,7 @@ void inventory::json_load_invcache(JsonIn &jsin)
                 invlet_cache[member] = vect;
             }
         }
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("bad invcache json:\n%s", jsonerr.c_str() );
     }
 }
@@ -1021,7 +1055,7 @@ void inventory::json_load_items(JsonIn &jsin)
             JsonObject jo = ja.next_object();
             add_item(item( jo ), false, false);
         }
-    } catch (std::string &jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
     }
 }
@@ -1173,7 +1207,7 @@ void item::io( Archive& archive )
         }
     };
 
-    archive.template io<itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
+    archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
     archive.io( "charges", charges, -1l );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -1193,7 +1227,7 @@ void item::io( Archive& archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
+    archive.template io<const itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
     archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
@@ -1216,7 +1250,7 @@ void item::io( Archive& archive )
         // if it's already rotten, no need to do this.
         active = true;
     }
-    if( active && dynamic_cast<it_comest*>(type) && (rotten() || !goes_bad()) ) {
+    if( active && dynamic_cast<const it_comest*>(type) && (rotten() || !goes_bad()) ) {
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
@@ -1271,7 +1305,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
         if( pid.str() == "wheel_underbody" ) {
             pid = vpart_str_id( "wheel_wide" );
         } else {
-            throw (std::string)"bad vehicle part, id: %s" + pid.str();
+            data.throw_error( "bad vehicle part", "id" );
         }
     }
     set_id(pid);
@@ -1374,7 +1408,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("dome_lights_on", dome_lights_on);
     data.read("aisle_lights_on", aisle_lights_on);
     data.read("has_atomic_lights", has_atomic_lights);
-
+    data.read("scoop_on",scoop_on);
     int last_updated = calendar::turn;
     data.read( "last_update_turn", last_updated );
     last_update_turn = last_updated;
@@ -1457,6 +1491,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "aisle_lights_on", aisle_lights_on );
     json.member( "has_atomic_lights", has_atomic_lights );
     json.member( "last_update_turn", last_update_turn.get_turn() );
+    json.member("scoop_on",scoop_on);
     json.end_object();
 }
 
@@ -1623,15 +1658,6 @@ void faction::serialize(JsonOut &json) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member( "str_cur", str_cur );
-    jsout.member( "str_max", str_max );
-    jsout.member( "dex_cur", dex_cur );
-    jsout.member( "dex_max", dex_max );
-    jsout.member( "int_cur", int_cur );
-    jsout.member( "int_max", int_max );
-    jsout.member( "per_cur", per_cur );
-    jsout.member( "per_max", per_max );
-
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
 
@@ -1651,14 +1677,6 @@ void Creature::store( JsonOut &jsout ) const
 
 
     jsout.member( "values", values );
-
-    jsout.member( "str_bonus", str_bonus );
-    jsout.member( "dex_bonus", dex_bonus );
-    jsout.member( "per_bonus", per_bonus );
-    jsout.member( "int_bonus", int_bonus );
-
-    jsout.member( "healthy", healthy );
-    jsout.member( "healthy_mod", healthy_mod );
 
     jsout.member( "blocks_left", num_blocks );
     jsout.member( "dodges_left", num_dodges );
@@ -1689,15 +1707,6 @@ void Creature::store( JsonOut &jsout ) const
 
 void Creature::load( JsonObject &jsin )
 {
-    jsin.read( "str_cur", str_cur );
-    jsin.read( "str_max", str_max );
-    jsin.read( "dex_cur", dex_cur );
-    jsin.read( "dex_max", dex_max );
-    jsin.read( "int_cur", int_cur );
-    jsin.read( "int_max", int_max );
-    jsin.read( "per_cur", per_cur );
-    jsin.read( "per_max", per_max );
-
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 
@@ -1726,14 +1735,6 @@ void Creature::load( JsonObject &jsin )
         }
     }
     jsin.read( "values", values );
-
-    jsin.read( "str_bonus", str_bonus );
-    jsin.read( "dex_bonus", dex_bonus );
-    jsin.read( "per_bonus", per_bonus );
-    jsin.read( "int_bonus", int_bonus );
-
-    jsin.read( "healthy", healthy );
-    jsin.read( "healthy_mod", healthy_mod );
 
     jsin.read( "blocks_left", num_blocks );
     jsin.read( "dodges_left", num_dodges );

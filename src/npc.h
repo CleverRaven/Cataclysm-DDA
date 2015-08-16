@@ -656,11 +656,17 @@ public:
  void talk_to_u();
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp
-// init_buying() fills <indices> with the indices of items in <you>
- void init_buying(inventory& you, std::vector<item*> &items,
-                  std::vector<int> &prices);
-// init_selling() fills <indices> with the indices of items in our inventory
- void init_selling(std::vector<item*> &items, std::vector<int> &prices);
+    struct item_pricing {
+        item *itm;
+        int price;
+        // Whether this is selected for trading, init_buying and init_selling initialize
+        // this to `false`.
+        bool selected;
+    };
+// returns prices for items in `you`
+    std::vector<item_pricing> init_buying( inventory& you );
+// returns prices and items in the inventory of this NPC
+    std::vector<item_pricing> init_selling();
 // Re-roll the inventory of a shopkeeper
  void shop_restock();
 // Use and assessment of items

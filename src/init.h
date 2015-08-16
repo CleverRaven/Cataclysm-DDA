@@ -133,15 +133,13 @@ class DynamicDataLoader
          * @param jsin Might contain single object,
          * or an array of objects. Each object must have a
          * "type", that is part of the @ref type_function_map
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws std::exception on all kind of errors.
          */
         void load_all_from_json(JsonIn &jsin);
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws std::exception on all kind of errors.
          */
         void load_object(JsonObject &jo);
 
@@ -173,8 +171,7 @@ class DynamicDataLoader
          * @param path Either a folder (recursively load all
          * files with the extension .json), or a file (load only
          * that file, don't check extension).
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws std::exception on all kind of errors.
          */
         void load_data_from_path(const std::string &path);
         /**

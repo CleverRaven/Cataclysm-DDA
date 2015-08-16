@@ -947,7 +947,7 @@ void color_manager::load_custom(const std::string &sPath)
     try {
         JsonIn jsin(fin);
         deserialize(jsin);
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
     }
 

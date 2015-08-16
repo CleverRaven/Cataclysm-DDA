@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-11 20:30+0300\n"
+"POT-Creation-Date: 2015-08-12 15:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15612,6 +15612,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+#: lang/json/ammunition_type_from_json.py
 msgid "water"
 msgid_plural "water"
 msgstr[0] ""
@@ -15623,7 +15624,6 @@ msgid "Water, the stuff of life, the best thirst-quencher available."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-#: lang/json/ammunition_type_from_json.py
 msgid "clean water"
 msgid_plural "clean water"
 msgstr[0] ""
@@ -24677,10 +24677,8 @@ msgstr ""
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
 #. ~ Description for cvd machine
-#. ~ Description for none
 #. ~ Description for seeing this is a bug
 #: lang/json/GENERIC_from_json.py
-#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/TOOL_from_json.py
 msgid "seeing this is a bug"
 msgid_plural "seeing this is a bugs"
@@ -24697,14 +24695,6 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
 msgid "cvd machine"
-msgstr ""
-
-#. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
-#: lang/json/GENERIC_from_json.py lang/json/ammunition_type_from_json.py
-#: lang/json/ammunition_type_from_json.py
-#: lang/json/ammunition_type_from_json.py lang/json/trap_from_json.py
-#: src/advanced_inv.cpp src/melee.cpp
-msgid "none"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -41129,7 +41119,7 @@ msgid ""
 "wounds, if you had to."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py
+#: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "water purifier"
 msgid_plural "water purifiers"
 msgstr[0] ""
@@ -59141,10 +59131,6 @@ msgid "home improvement superstore"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
-msgid "home improvment superstore"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
 msgid "pond"
 msgstr ""
 
@@ -66370,16 +66356,6 @@ msgstr ""
 
 #: lang/json/technique_from_json.py
 #, python-format
-msgid "You disarm %s"
-msgstr ""
-
-#: lang/json/technique_from_json.py
-#, python-format
-msgid "<npcname> disarms %s"
-msgstr ""
-
-#: lang/json/technique_from_json.py
-#, python-format
 msgid "You grab %s"
 msgstr ""
 
@@ -66684,6 +66660,16 @@ msgstr ""
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> feints at %s"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+#, python-format
+msgid "You disarm %s"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+#, python-format
+msgid "<npcname> disarms %s"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -70772,6 +70758,11 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "Worn Items"
+msgstr ""
+
+#. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
+#: src/advanced_inv.cpp src/melee.cpp
+msgid "none"
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -102063,7 +102054,11 @@ msgid "Use the welding rig?"
 msgstr ""
 
 #: src/pickup.cpp
-msgid "Use the water purifier?"
+msgid "Purify water in carried container"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "Purify water in vehicle's tank"
 msgstr ""
 
 #: src/pickup.cpp

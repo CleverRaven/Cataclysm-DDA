@@ -4430,6 +4430,7 @@
       ["carbine_flintlock", 4],
       ["pistol_flintlock", 9],
       ["flintlock_ammo", 7],
+      ["flintlock_shot", 3],
       ["mosin44", 5],
       ["mosin91_30", 5],
       ["mosin91_30_ebr", 1],
@@ -6737,18 +6738,19 @@
   },{
     "type" : "item_group",
     "id" : "grenades",
+    "comment" : "Super-high numbers here are to make the granade joke item rare enough.",
     "items":[
-      ["grenade", 3],
-      ["grenade_inc", 3],
-      ["flashbang", 3],
-      ["EMPbomb", 2],
-      ["gasbomb", 3],
-      ["smokebomb", 5],
-      ["dynamite", 5],
-      ["mininuke", 1],
+      ["grenade", 300],
+      ["grenade_inc", 300],
+      ["flashbang", 300],
+      ["EMPbomb", 200],
+      ["gasbomb", 300],
+      ["smokebomb", 500],
+      ["dynamite", 500],
+      ["mininuke", 50],
       ["granade", 1],
-      ["c4", 5],
-      ["tool_black_powder_bomb", 1]
+      ["c4", 500],
+      ["tool_black_powder_bomb", 100]
     ]
   },{
     "type" : "item_group",
@@ -9821,6 +9823,7 @@
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 60],
       ["flintlock_ammo", 60],
+      ["flintlock_shot", 40],
       ["colt_army", 50],
       ["colt_navy", 50],
       ["36navy", 50],

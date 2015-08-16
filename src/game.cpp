@@ -247,8 +247,8 @@ void game::load_data_from_dir(const std::string &path)
 
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
-    } catch (std::string &err) {
-        debugmsg("Error loading data from json: %s", err.c_str());
+    } catch( const std::exception &err ) {
+        debugmsg("Error loading data from json: %s", err.what());
     }
 
 #ifdef LUA
@@ -2140,9 +2140,9 @@ vehicle *game::remoteveh()
         ( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
-        int vx, vy;
-        remote_veh_string >> vx >> vy;
-        vehicle *veh = m.veh_at( vx, vy );
+        tripoint vp;
+        remote_veh_string >> vp.x >> vp.y >> vp.z;
+        vehicle *veh = m.veh_at( vp );
         if( veh && veh->fuel_left( "battery", true ) > 0 ) {
             remoteveh_cache = veh;
         } else {
@@ -2167,7 +2167,8 @@ void game::setremoteveh(vehicle *veh)
     }
 
     std::stringstream remote_veh_string;
-    remote_veh_string << veh->global_x() << ' ' << veh->global_y();
+    const tripoint vehpos = veh->global_pos3();
+    remote_veh_string << vehpos.x << ' ' << vehpos.y << ' ' << vehpos.z;
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
@@ -3273,7 +3274,7 @@ void game::load_uistate(std::string worldname)
     try {
         JsonIn jsin(fin);
         uistate.deserialize(jsin);
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         dbg(D_ERROR) << "load_uistate: " << e;
     }
     fin.close();
@@ -3694,6 +3695,7 @@ void game::debug()
                       _("Display weather"), // 25
                       _("Change time"), // 26
                       _("Set automove route"), // 27
+                      _("Show mutation category levels"), // 28
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4240,7 +4242,13 @@ void game::debug()
         }
     }
     break;
-
+    case 28:
+    {
+        for( const auto &elem : u.mutation_category_level ) {
+            add_msg("%s: %d", elem.first.c_str(), elem.second);
+        }
+    }
+    break;
     }
     erase();
     refresh_all();
@@ -4986,7 +4994,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                  POSX + (final_destination.x - (u.posx() + u.view_offset.x)), c_white, 'X');
     }
 
-    if (u.controlling_vehicle && !looking) {
+    if( u.controlling_vehicle && !looking ) {
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
@@ -5004,20 +5012,26 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 }
 
+tripoint game::get_veh_dir_indicator_location() const
+{
+    if( !OPTIONS["VEHICLE_DIR_INDICATOR"] ) {
+        return tripoint_min;
+    }
+    vehicle *veh = m.veh_at( u.pos() );
+    if( !veh ) {
+        return tripoint_min;
+    }
+    rl_vec2d face = veh->face_vec();
+    float r = 10.0;
+    return { static_cast<int>(r * face.x), static_cast<int>(r * face.y), u.pos().z };
+}
+
 void game::draw_veh_dir_indicator(void)
 {
-    // don't draw indicator if doing look_around()
-    if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
-        vehicle *veh = m.veh_at(u.pos());
-        if (!veh) {
-            debugmsg("game::draw_veh_dir_indicator: no vehicle!");
-            return;
-        }
-        rl_vec2d face = veh->face_vec();
-        float r = 10.0;
-        int x = static_cast<int>(r * face.x);
-        int y = static_cast<int>(r * face.y);
-        mvwputch(w_terrain, POSY + y - u.view_offset.y, POSX + x - u.view_offset.x, c_white, 'X');
+    tripoint indicator_offset = get_veh_dir_indicator_location();
+    if( indicator_offset != tripoint_min ) {
+        mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
+                  POSX + indicator_offset.x - u.view_offset.x, c_white, 'X' );
     }
 }
 
@@ -6773,7 +6787,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == "battery" ) {
             it->charges = 0;
         }
     }
@@ -7040,17 +7054,17 @@ bool game::revive_corpse( const tripoint &p, const item &it )
 
 void game::open()
 {
-    int openx, openy;
-    if (!choose_adjacent_highlight(_("Open where?"), openx, openy, ACTION_OPEN)) {
+    tripoint openp;
+    if (!choose_adjacent_highlight(_("Open where?"), openp, ACTION_OPEN)) {
         return;
     }
 
     u.moves -= 100;
 
     int vpart;
-    vehicle *veh = m.veh_at(openx, openy, vpart);
+    vehicle *veh = m.veh_at(openp, vpart);
 
-    if (veh) {
+    if( veh != nullptr ) {
         int openable = veh->next_part_to_open(vpart);
         if (openable >= 0) {
             const vehicle *player_veh = m.veh_at(u.pos());
@@ -7083,11 +7097,10 @@ void game::open()
         return;
     }
 
-    tripoint openp( openx, openy, u.posz() );
     bool didit = m.open_door( openp, !m.is_outside( u.pos3() ) );
 
     if (!didit) {
-        const std::string terid = m.get_ter(openx, openy);
+        const std::string terid = m.get_ter( openp );
         if (terid.find("t_door") != std::string::npos) {
             if (terid.find("_locked") != std::string::npos) {
                 add_msg(m_info, _("The door is locked!"));
@@ -7106,19 +7119,22 @@ void game::open()
 
 void game::close(int closex, int closey)
 {
+    tripoint closep( closex, closey, u.posz() );
     if (closex == -1) {
-        if (!choose_adjacent_highlight(_("Close where?"), closex, closey, ACTION_CLOSE)) {
+        if (!choose_adjacent_highlight(_("Close where?"), closep, ACTION_CLOSE)) {
             return;
         }
+
+        closex = closep.x;
+        closey = closep.y;
     }
 
     bool didit = false;
-    const bool inside = !m.is_outside(u.pos3());
-    tripoint closep( closex, closey, u.posz() );
+    const bool inside = !m.is_outside(u.pos());
 
     auto items_in_way = m.i_at(closex, closey);
     int vpart;
-    vehicle *veh = m.veh_at(closex, closey, vpart);
+    vehicle *veh = m.veh_at(closep, vpart);
     int zid = mon_at(closep);
     if (zid != -1) {
         monster &critter = critter_tracker->find(zid);
@@ -7518,13 +7534,13 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
         }
     }
     int vpart = -1;
-    vehicle *veh = m.veh_at(x, y, vpart);
-    if (veh != NULL) {
+    vehicle *veh = m.veh_at( p, vpart );
+    if( veh != nullptr ) {
         if (bash_dmg <= 0) {
             return false;
         }
         veh->damage(vpart, bash_dmg);
-        if (m.veh_at(x, y, vpart) != NULL) {
+        if( m.veh_at( p, vpart) != nullptr ) {
             // Check again in case all parts at the door tile
             // have been destroyed, if there is still a vehicle
             // there, the door can not be closed
@@ -8691,6 +8707,9 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                             bool has_first_point, bool select_zone )
 {
     bVMonsterLookFire = false;
+    // TODO: Make this `true`
+    const bool allow_zlev_move = m.has_zlevels() &&
+        ( debug_mode || u.has_trait( "DEBUG_NIGHTVISION" ) );
 
     temp_exit_fullscreen();
 
@@ -8890,8 +8909,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             } else if (action == "TOGGLE_FAST_SCROLL") {
                 fast_scroll = !fast_scroll;
             } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-                if( !m.has_zlevels() || !debug_mode ) {
-                    continue; // TODO: Make this work in z-level FOV update
+                if( !allow_zlev_move ) {
+                    continue;
                 }
 
                 int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
@@ -9205,7 +9224,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     if ( bRadiusSort ) {
         sSort += _("dist");
     } else {
-        sSort += _("cat");
+        sSort += pgettext("abbr. for word category", "cat");
     }
 
     int letters = utf8_width(sSort.c_str());
@@ -10029,10 +10048,11 @@ int game::list_monsters(const int iLastState)
 // Establish or release a grab on a vehicle
 void game::grab()
 {
-    int grabx = 0;
-    int graby = 0;
+    tripoint grabp( 0, 0, 0 );
+    int &grabx = grabp.x;
+    int &graby = grabp.y;
     if (0 != u.grab_point.x || 0 != u.grab_point.y) {
-        vehicle *veh = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
+        vehicle *veh = m.veh_at( u.pos() + u.grab_point );
         if (veh) {
             add_msg(_("You release the %s."), veh->name.c_str());
         } else if (m.has_furn(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y)) {
@@ -10044,9 +10064,8 @@ void game::grab()
         u.grab_type = OBJECT_NONE;
         return;
     }
-    if (choose_adjacent(_("Grab where?"), grabx, graby)) {
-        const tripoint grabp( grabx, graby, u.posz() );
-        vehicle *veh = m.veh_at(grabx, graby);
+    if (choose_adjacent(_("Grab where?"), grabp )) {
+        vehicle *veh = m.veh_at( grabp );
         if (veh != NULL) { // If there's a vehicle, grab that.
             u.grab_point.x = grabx - u.posx();
             u.grab_point.y = graby - u.posy();
@@ -10186,7 +10205,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         long max = 0;
 
         if (cont->is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+            const auto tool = dynamic_cast<const it_tool *>(cont->type);
             ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
@@ -10271,7 +10290,7 @@ int game::move_liquid(item &liquid)
             int max = 0;
 
             if (cont->is_tool()) {
-                it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+                const auto tool = dynamic_cast<const it_tool *>(cont->type);
                 ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
@@ -10697,7 +10716,7 @@ void game::plfire( bool burst, const tripoint &default_target )
     if( !u.is_armed() ) {
         // Vehicle turret first, if on our tile
         int part = -1;
-        vehicle *veh = m.veh_at( u.pos3(), part );
+        vehicle *veh = m.veh_at( u.pos(), part );
         if( veh != nullptr ) {
             int vpturret = veh->part_with_feature( part, "TURRET", true );
             int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
@@ -10758,7 +10777,7 @@ void game::plfire( bool burst, const tripoint &default_target )
     bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) &&
                         ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
-    vehicle *veh = m.veh_at(u.pos3());
+    vehicle *veh = m.veh_at(u.pos());
     if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
@@ -10860,7 +10879,7 @@ void game::plfire( bool burst, const tripoint &default_target )
 
         if (u.weapon.has_flag("MOUNTED_GUN")) {
             int vpart = -1;
-            vehicle *veh = m.veh_at( u.pos3(), vpart );
+            vehicle *veh = m.veh_at( u.pos(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos3() ) &&
                 (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
                 add_msg(m_info,
@@ -10917,7 +10936,7 @@ void game::cycle_item_mode( bool force_gun )
         u.weapon.next_mode();
     } else if( !force_gun ) {
         int part = -1;
-        vehicle *veh = m.veh_at( u.pos3(), part );
+        vehicle *veh = m.veh_at( u.pos(), part );
         if( veh == nullptr ) {
             return;
         }
@@ -11251,10 +11270,10 @@ void game::reload(int pos)
         u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
 
     } else if (it->is_tool()) { // tools are simpler
-        it_tool *tool = dynamic_cast<it_tool *>(it->type);
+        const ammotype ammo = it->ammo_type();
 
         // see if its actually reloadable.
-        if (tool->ammo_id == "NULL") {
+        if (ammo == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11267,7 +11286,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(ammo).c_str());
             return;
         }else if (am_pos == INT_MIN + 2) {
             //cancelled or invalid selection
@@ -11840,8 +11859,8 @@ bool game::plmove(int dx, int dy)
 
     // GRAB: pre-action checking.
     int vpart0 = -1, vpart1 = -1, dpart = -1;
-    vehicle *veh0 = m.veh_at(u.pos(), vpart0);
-    vehicle *veh1 = m.veh_at(x, y, vpart1);
+    vehicle *veh0 = m.veh_at( u.pos(), vpart0 );
+    vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
@@ -11850,7 +11869,7 @@ bool game::plmove(int dx, int dy)
 
     if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
         if (u.grab_type == OBJECT_VEHICLE) { // default; assume OBJECT_VEHICLE
-            vehicle *grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
+            vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
             // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
             // actually the current tile.
             // If there's a vehicle there, it will actually result in failed movement.
@@ -11963,7 +11982,7 @@ bool game::plmove(int dx, int dy)
         if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
             // vehicle: pulling, pushing, or moving around the grabbed object.
             if (u.grab_type == OBJECT_VEHICLE) {
-                grabbed_vehicle = m.veh_at(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y);
+                grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
                 if (NULL != grabbed_vehicle) {
                     if (grabbed_vehicle == veh0) {
                         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
@@ -12088,20 +12107,20 @@ bool game::plmove(int dx, int dy)
                         u.setx( player_prev_x );
                         u.sety( player_prev_y );
 
-                        int gx = grabbed_vehicle->global_x();
-                        int gy = grabbed_vehicle->global_y();
+                        tripoint gp = grabbed_vehicle->global_pos3();
                         std::vector<int> wheel_indices =
                             grabbed_vehicle->all_parts_with_feature( "WHEEL", false );
                         for( auto p : wheel_indices ) {
                             if( one_in(2) ) {
                                 tripoint wheel_p(
-                                    gx + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
-                                    gy + grabbed_vehicle->parts[p].precalc[0].y + dyVeh,
+                                    gp.x + grabbed_vehicle->parts[p].precalc[0].x + dxVeh,
+                                    gp.y + grabbed_vehicle->parts[p].precalc[0].y + dyVeh,
                                     grabbed_vehicle->smz );
                                 grabbed_vehicle->handle_trap( wheel_p, p );
                             }
                         }
-                        m.displace_vehicle(gx, gy, dxVeh, dyVeh);
+                        tripoint gpd( dxVeh, dyVeh, 0 );
+                        m.displace_vehicle( gp, gpd );
                     } else {
                         //We are moving around the veh
                         u.grab_point.x = (dx + dxVeh) * (-1);
@@ -13665,7 +13684,7 @@ void game::teleport(player *p, bool add_teleglow)
     } while (tries < 15 && m.move_cost(newx, newy) == 0);
     bool can_see = (is_u || u.sees(newx, newy));
     if (p->in_vehicle) {
-        m.unboard_vehicle(p->posx(), p->posy());
+        m.unboard_vehicle(p->pos());
     }
     p->setx( newx );
     p->sety( newy );
@@ -14100,10 +14119,10 @@ void game::process_artifact(item *it, player *p)
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     if( worn && it->is_armor() ) {
-        it_artifact_armor *armor = dynamic_cast<it_artifact_armor *>(it->type);
+        const auto armor = dynamic_cast<const it_artifact_armor *>(it->type);
         effects = armor->effects_worn;
     } else if (it->is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool *>(it->type);
+        const auto tool = dynamic_cast<const it_artifact_tool *>(it->type);
         effects = tool->effects_carried;
         if (wielded) {
             effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );

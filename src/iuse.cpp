@@ -647,7 +647,7 @@ int iuse::xanax(player *p, item *it, bool, const tripoint& )
 
 int iuse::caff(player *p, item *it, bool, const tripoint& )
 {
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
+    const auto food = dynamic_cast<const it_comest *> (it->type);
     p->fatigue -= food->stim * 3;
     return it->type->charges_to_use();
 }
@@ -655,7 +655,7 @@ int iuse::caff(player *p, item *it, bool, const tripoint& )
 int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(m_good, _("Wow! This %s has a kick."), it->tname().c_str());
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
+    const auto food = dynamic_cast<const it_comest *> (it->type);
     p->fatigue -= food->stim * 12;
     p->radiation += 8;
     return it->type->charges_to_use();
@@ -743,7 +743,7 @@ int alcohol(player *p, item *it, int strength)
 {
     // Weaker characters are cheap drunks
     int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
-    it_comest *food = dynamic_cast<it_comest *> (it->type);
+    const auto food = dynamic_cast<const it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
@@ -1303,7 +1303,7 @@ int iuse::poison(player *p, item *it, bool, const tripoint& )
  */
 int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
 {
-    it_comest *comest = dynamic_cast<it_comest *>(it->type);
+    const auto comest = dynamic_cast<const it_comest *>(it->type);
 
    //Fake a normal food morale effect
     if (p->has_trait("SPIRITUAL")) {
@@ -1376,7 +1376,7 @@ int iuse::iodine(player *p, item *it, bool, const tripoint& )
 
 int iuse::datura(player *p, item *it, bool, const tripoint& )
 {
-    it_comest *comest = dynamic_cast<it_comest *>(it->type);
+    const auto comest = dynamic_cast<const it_comest *>(it->type);
 
 {
     p->add_effect("datura", rng(2000, 8000));
@@ -1461,7 +1461,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         } else{
             p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
         }
-        it_comest *food = dynamic_cast<it_comest*>(it->type);
+        const auto food = dynamic_cast<const it_comest*>(it->type);
         //reverses the harmful values of drinking fertilizer
         p->hunger += p->nutrition_for(food) * multiplier;
         p->thirst -= food->quench * multiplier;
@@ -1847,6 +1847,32 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+// Helper to handle the logic of removing some random mutations.
+static void do_purify( player *p )
+{
+    std::vector<std::string> valid; // Which flags the player has
+    for( auto &traits_iter : mutation_branch::get_all() ) {
+        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
+            //Looks for active mutation
+            valid.push_back( traits_iter.first );
+        }
+    }
+    if( valid.empty() ) {
+        p->add_msg_if_player(_("You feel cleansed."));
+        return;
+    }
+    int num_cured = rng( 1, valid.size() );
+    num_cured = std::min( 4, num_cured );
+    for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
+        const std::string id = random_entry_removed( valid );
+        if( p->purifiable( id ) ) {
+            p->remove_mutation( id );
+        } else {
+            p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
+        }
+    }
+}
+
 int iuse::purifier(player *p, item *it, bool, const tripoint& )
 {
     if (p->has_trait("MUTAGEN_AVOID")) {
@@ -1863,30 +1889,7 @@ int iuse::purifier(player *p, item *it, bool, const tripoint& )
     if( marloss_reject_mutagen( p, it ) ) {
         it->type->charges_to_use();
     }
-
-    std::vector<std::string> valid; // Which flags the player has
-    for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
-            //Looks for active mutation
-            valid.push_back( traits_iter.first );
-        }
-    }
-    if (valid.empty()) {
-        p->add_msg_if_player(_("You feel cleansed."));
-        return it->type->charges_to_use();
-    }
-    int num_cured = rng(1, valid.size());
-    if (num_cured > 4) {
-        num_cured = 4;
-    }
-    for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        const std::string id = random_entry_removed( valid );
-        if (p->purifiable( id )) {
-            p->remove_mutation( id );
-        } else {
-            p->add_msg_if_player(m_warning, _("You feel a slight itching inside, but it passes."));
-        }
-    }
+    do_purify( p );
     return it->type->charges_to_use();
 }
 
@@ -2818,7 +2821,7 @@ void remove_battery_mods( item &modded, player &p )
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        const auto tl = dynamic_cast<const it_tool *>(itm.type);
         return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -2832,7 +2835,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (tool->ammo_id != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
@@ -2853,7 +2856,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        const auto tl = dynamic_cast<const it_tool *>(itm.type);
         return tl != nullptr && tl->ammo_id == "plutonium";
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -2867,7 +2870,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (tool->ammo_id != "plutonium") {
         p->add_msg_if_player(m_info, _("That item does not use plutonium!"));
         return 0;
@@ -2882,7 +2885,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        const auto tl = dynamic_cast<const it_tool *>(itm.type);
         return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -2896,7 +2899,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (tool->ammo_id != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
@@ -2921,7 +2924,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        const auto tl = dynamic_cast<const it_tool *>(itm.type);
         return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -2935,7 +2938,7 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(m_info,
                              _("That item has already had its battery modified to accept plutonium cells."));
@@ -2961,7 +2964,7 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        const auto tl = dynamic_cast<const it_tool *>(itm.type);
         return tl != nullptr && tl->ammo_id == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -2975,7 +2978,7 @@ int iuse::ups_battery(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    it_tool *tool = dynamic_cast<it_tool *>(modded->type);
+    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (tool->ammo_id != "battery") {
         p->add_msg_if_player(_("That item does not use batteries!"));
         return 0;
@@ -3058,7 +3061,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
-        it_tool *tl = dynamic_cast<it_tool *>(itm.type);
+        const auto tl = dynamic_cast<const it_tool *>(itm.type);
         return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
                                   itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
     } );
@@ -3420,7 +3423,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    int charges_used = dynamic_cast<it_tool*>( it->type )->charges_to_use();
+    int charges_used = dynamic_cast<const it_tool*>( it->type )->charges_to_use();
     if( it->charges <= charges_used ) {
         p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
         return 0;
@@ -4102,13 +4105,12 @@ void act_vehicle_siphon(vehicle *); // veh_interact.cpp
 
 int iuse::siphon(player *p, item *it, bool, const tripoint& )
 {
-    int posx = 0;
-    int posy = 0;
-    if (!choose_adjacent(_("Siphon from where?"), posx, posy)) {
+    tripoint posp;
+    if (!choose_adjacent(_("Siphon from where?"), posp)) {
         return 0;
     }
 
-    vehicle *veh = g->m.veh_at(posx, posy);
+    vehicle *veh = g->m.veh_at(posp);
     if (veh == NULL) {
         p->add_msg_if_player(m_info, _("There's no vehicle there."));
         return 0;
@@ -4628,7 +4630,7 @@ int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
         return it->type->charges_to_use();
     }
     // Otherwise, we're activating the geiger counter
-    it_tool *type = dynamic_cast<it_tool *>(it->type);
+    const auto type = dynamic_cast<const it_tool *>(it->type);
     bool is_on = (type->id == "geiger_on");
     if (is_on) {
         add_msg(_("The geiger counter's SCANNING LED turns off."));
@@ -4901,6 +4903,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             g->active_npc[npc_hit]->environmental_revert_effect();
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             g->u.environmental_revert_effect();
+                            do_purify( &(g->u) );
                         }
                     }
                 }
@@ -5681,7 +5684,7 @@ int iuse::vibe(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     }
-    if (p->fatigue >= 383) {
+    if (p->fatigue >= DEAD_TIRED) {
         p->add_msg_if_player(m_info, _("*Your* batteries are dead."));
         return 0;
     } else {
@@ -6285,7 +6288,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                             pgettext("memorial_female", "Activated the %s."),
                             it->tname( 1, false ).c_str());
     }
-    it_artifact_tool *art = dynamic_cast<it_artifact_tool *>(it->type);
+    const auto art = dynamic_cast<const it_artifact_tool *>(it->type);
     size_t num_used = rng(1, art->effects_activated.size());
     if (num_used < art->effects_activated.size()) {
         num_used += rng(1, art->effects_activated.size() - num_used);
@@ -6800,8 +6803,9 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
     if (it->contents.empty()) {
         int maxvol = 0;
         // TODO: extract into an item function
-        if( it->type->properties["holster_size"] != "0" ) {
-            maxvol = std::atoi( it->type->properties["holster_size"].c_str() );
+        const auto iter = it->type->properties.find( "holster_size" );
+        if( iter != it->type->properties.end() && iter->second != "0" ) {
+            maxvol = std::atoi( iter->second.c_str() );
         }
         int minvol = maxvol / 3;
 
@@ -8721,13 +8725,13 @@ void sendRadioSignal(player *p, std::string signal)
         if (it.has_flag("RADIO_ACTIVATION") && it.has_flag(signal)) {
             sounds::sound(p->pos(), 6, _("beep."));
 
-            it_tool *tmp = dynamic_cast<it_tool *>(it.type);
+            auto tmp = dynamic_cast<const it_tool *>(it.type);
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
                 tmp->invoke( p, &it, p->pos3() );
                 it.charges = 0;
                 // The type changed
-                tmp = dynamic_cast<it_tool *>(it.type);
+                tmp = dynamic_cast<const it_tool *>(it.type);
             }
 
             tmp->invoke(p, &it, p->pos3());
@@ -9234,7 +9238,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     mealtime = meal->time * 2 ;
                 }
 
-                it_tool *tmp = dynamic_cast<it_tool *>(it->type);
+                const auto tmp = dynamic_cast<const it_tool *>(it->type);
                 const int all_charges = 50 + mealtime / (tmp->turns_per_charge * 100);
 
                 if (it->charges < all_charges) {
@@ -9334,17 +9338,17 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
     std::string initial_state = it->get_var( "state", "attach_first" );
 
     if(initial_state == "attach_first") {
-        int posx, posy;
-        if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+        tripoint posp;
+        if(!choose_adjacent(_("Attach cable to vehicle where?"),posp)) {
             return 0;
         }
-        auto veh = g->m.veh_at(posx, posy);
-        auto ter = g->m.ter_at(posx, posy);
-        if (veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
+        auto veh = g->m.veh_at( posp );
+        auto ter = g->m.ter_at( posp );
+        if( veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
-            point abspos = g->m.getabs(posx, posy);
+            const auto abspos = g->m.getabs( posp );
             it->active = true;
             it->set_var( "state", "pay_out_cable" );
             it->set_var( "source_x", abspos.x );
@@ -9376,7 +9380,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         if(!choose_adjacent(_("Attach cable to vehicle where?"), vpos)) {
             return 0;
         }
-        auto target_veh = g->m.veh_at( vpos);
+        auto target_veh = g->m.veh_at( vpos );
         if (target_veh == nullptr) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
@@ -9410,13 +9414,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             // a iuse_actor class, or add a check in item_factory.
             const vpart_str_id vpid( it->typeId() );
 
-            point vcoords = g->m.veh_part_coordinates( source_local.x, source_local.y );
+            point vcoords = g->m.veh_part_coordinates( source_local );
             vehicle_part source_part(vpid, vcoords.x, vcoords.y, it);
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
-            vcoords = g->m.veh_part_coordinates(target_local.x, target_local.y);
+            vcoords = g->m.veh_part_coordinates( target_local );
             vehicle_part target_part(vpid, vcoords.x, vcoords.y, it);
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();

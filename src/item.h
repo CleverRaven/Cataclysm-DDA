@@ -650,7 +650,7 @@ public:
     std::string components_to_string() const;
 
  itype_id typeId() const;
- itype* type;
+ const itype* type;
  std::vector<item> contents;
 
         /**
@@ -659,7 +659,7 @@ public:
          * If non-null, the returned itype is quaranted to have an ammo slot:
          * @code itm.get_curammo()->ammo->damage @endcode will work.
          */
-        itype* get_curammo() const;
+        const itype* get_curammo() const;
         /**
          * Returns the item type id of the currently loaded ammo.
          * Returns "null" if the item is not loaded.
@@ -1196,7 +1196,7 @@ public:
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
-        itype* curammo;
+        const itype* curammo;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse;
         std::set<matec_id> techniques; // item specific techniques

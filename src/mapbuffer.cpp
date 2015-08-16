@@ -89,8 +89,6 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
     if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
-        } catch (std::string &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.c_str());
         } catch (const std::exception &err) {
             debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what());
         }

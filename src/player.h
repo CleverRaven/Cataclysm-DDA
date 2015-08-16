@@ -629,11 +629,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat(item *eat, it_comest *comest);
+        bool eat(item *eat, const it_comest *comest);
         /** Handles the nutrition value for a comestible **/
         int nutrition_for(const it_comest *comest);
         /** Handles the effects of consuming an item */
-        void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
+        void consume_effects(item *eaten, const it_comest *comest, bool rotten = false);
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -756,9 +756,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int morale_level(); // Modified by traits, &c
         void add_morale(morale_type type, int bonus, int max_bonus = 0,
                         int duration = 60, int decay_start = 30,
-                        bool cap_existing = false, itype *item_type = NULL);
+                        bool cap_existing = false, const itype *item_type = NULL);
         int has_morale( morale_type type ) const;
-        void rem_morale(morale_type type, itype *item_type = NULL);
+        void rem_morale(morale_type type, const itype *item_type = NULL);
 
         std::string weapname(bool charges = true);
 
@@ -1034,7 +1034,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Record of player stats, for posterity only
         stats *lifetime_stats();
         stats get_stats() const; // for serialization
-        void mod_stat( std::string stat, int modifier ) override;
+        void mod_stat( const std::string &stat, int modifier ) override;
 
         int getID () const;
         // sets the ID, will *only* succeed when the current id is 0 (=not initialized)

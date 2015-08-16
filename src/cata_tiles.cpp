@@ -185,7 +185,7 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
     SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
     if(!tile_atlas) {
-        throw std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError();
+        throw std::runtime_error( std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError() );
     }
 
         /** get dimensions of the atlas image */
@@ -258,7 +258,7 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
     std::ifstream config_file(json_path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
-        throw std::string("Failed to open tile info json: ") + json_path;
+        throw std::runtime_error( std::string("Failed to open tile info json: ") + json_path );
     }
 
     load_tilejson_from_file(tileset_root, config_file, img_path);
@@ -671,6 +671,15 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     else if (g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
              g->u.posy() + g->u.view_offset.y != g->ter_view_y) {
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
+    }
+    if( g->u.controlling_vehicle ) {
+        // TODO: interaction with look_around cursor is a little weird.
+        tripoint indicator_offset = g->get_veh_dir_indicator_location();
+        if( indicator_offset != tripoint_min ) {
+            draw_from_id_string( "cursor", C_NONE, empty_string,
+                                 indicator_offset.x + g->u.posx() + g->u.view_offset.x,
+                                 indicator_offset.y + g->u.posy() + g->u.view_offset.y, 0, 0 );
+        }
     }
 
     SDL_RenderSetClipRect(renderer, NULL);

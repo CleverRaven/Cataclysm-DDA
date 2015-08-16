@@ -448,17 +448,6 @@ public:
     void vehmove();          // Vehicle movement
     const vehicle *vehproceed(); // Returns the vehicle that moved
 
-// 2D overloads for vehicles
-    VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
-    vehicle* veh_at(const int x, const int y, int &part_num);
-    const vehicle* veh_at(const int x, const int y, int &part_num) const;
-    const vehicle* veh_at_internal(const int x, const int y, int &part_num) const;
-    vehicle* veh_at(const int x, const int y);
-    const vehicle* veh_at(const int x, const int y) const;
-    point veh_part_coordinates(const int x, const int y);
-    void board_vehicle(int x, int y, player *p);
-    void unboard_vehicle(const int x, const int y);
-    bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
     /**
@@ -1016,15 +1005,18 @@ public:
  void add_spawn(const mtype_id& type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
- vehicle *add_vehicle(const vgroup_id & type, const point &p, const int dir,
+ vehicle *add_vehicle(const vgroup_id &type, const point &p, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
- vehicle *add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
+ vehicle *add_vehicle(const vproto_id &type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
     void build_map_cache( int zlev, bool skip_lightmap = false );
 
-    vehicle *add_vehicle( const std::string &type, const tripoint &p, const int dir,
+    vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
+                          const int init_veh_fuel = -1, const int init_veh_status = -1,
+                          const bool merge_wrecks = true);
+    vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const int dir,
                           const int init_veh_fuel = -1, const int init_veh_status = -1,
                           const bool merge_wrecks = true);
 

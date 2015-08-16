@@ -39,12 +39,9 @@ static void load_obsolete_mods( const std::string path )
             }
         } else {
             // not an object or an array?
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected array, but found '" << ch << "'";
-            throw err.str();
+            jsin.error( string_format( "expected array, but found '%c'", ch ) );
         }
-    } catch(std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("%s", e.c_str());
     }
 }
@@ -203,13 +200,13 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         }
     }
 
-    mod_type m_type;
+    mod_type m_type = MT_CORE;
     if (t_type == "CORE") {
         m_type = MT_CORE;
     } else if (t_type == "SUPPLEMENTAL") {
         m_type = MT_SUPPLEMENTAL;
     } else {
-        throw std::string("Invalid mod type: ") + t_type + " for mod " + m_ident;
+        jo.throw_error( std::string("Invalid mod type: ") + t_type + " for mod " + m_ident );
     }
 
     MOD_INFORMATION *modfile = new MOD_INFORMATION;
@@ -245,7 +242,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
         popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-default"].c_str());
-    } catch(std::string e) {
+    } catch( const JsonError &e ) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());
     }
@@ -375,12 +372,9 @@ void mod_manager::load_mod_info(std::string info_file_path)
             }
         } else {
             // not an object or an array?
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected object or array, but found '" << ch << "'";
-            throw err.str();
+            jsin.error( string_format( "expected array, but found '%c'", ch ) );
         }
-    } catch(std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("%s", e.c_str());
     }
 }
@@ -415,7 +409,7 @@ void mod_manager::save_mods_list(WORLDPTR world) const
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
         popup(_("Failed to write to %s"), path.c_str());
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         popup( _( "Failed to write list of mods to %s: %s" ), path.c_str(), e.c_str() );
     }
 }
@@ -448,7 +442,7 @@ void mod_manager::load_mods_list(WORLDPTR world) const
 
             amo.push_back(mod);
         }
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
     }
     if( obsolete_mod_found ) {

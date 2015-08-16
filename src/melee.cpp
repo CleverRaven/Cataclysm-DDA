@@ -164,8 +164,8 @@ int player::get_hit_base() const
         best_bonus = std::max( best_bonus, stabbing_skill / 3.0f );
     }
 
-    // Creature::get_hit_base includes stat calculations already
-    return Creature::get_hit_base() + int(melee_skill / 2.0f + best_bonus);
+    // Character::get_hit_base includes stat calculations already
+    return Character::get_hit_base() + int(melee_skill / 2.0f + best_bonus);
 }
 
 int player::hit_roll() const
@@ -546,7 +546,7 @@ bool player::scored_crit(int target_dodge)
 
 int player::get_dodge_base() const {
     // Creature::get_dodge_base includes stat calculations already
-    return Creature::get_dodge_base() + get_skill_level("dodge");
+    return Character::get_dodge_base() + get_skill_level("dodge");
 }
 
 //Returns 1/2*DEX + dodge skill level + static bonuses from mutations

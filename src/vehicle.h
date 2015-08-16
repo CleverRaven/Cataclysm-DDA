@@ -754,7 +754,8 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
-
+    //scoop operation,pickups, battery drain, etc.
+    void operate_scoop();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
@@ -889,6 +890,7 @@ public:
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int plow_friction       = 0; //The amount of friction applied by plows on the vehicle.
+    int scoop_epower        = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off
@@ -912,6 +914,7 @@ public:
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
     bool plow_on                    = false; // Is the vehicle running a plow?
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
+    bool scoop_on                   = false;//Does the vehicle have a scoop? Which picks up items.
 };
 
 #endif

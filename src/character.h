@@ -22,6 +22,13 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
+enum fatigue_levels {
+    TIRED = 191,
+    DEAD_TIRED = 383,
+    EXHAUSTED = 575,
+    MASSIVE_FATIGUE = 1000
+};
+
 class Character : public Creature
 {
     public:
@@ -31,6 +38,68 @@ class Character : public Creature
         field_id gibType() const override;
         virtual bool is_warm() const override;
         virtual const std::string &symbol() const override;
+
+        // Character stats
+        // TODO: Make those protected
+        int str_max;
+        int dex_max;
+        int int_max;
+        int per_max;
+
+        int str_cur;
+        int dex_cur;
+        int int_cur;
+        int per_cur;
+
+        /** Stat getters for stats exclusive to characters */
+        virtual int get_str() const;
+        virtual int get_dex() const;
+        virtual int get_per() const;
+        virtual int get_int() const;
+
+        virtual int get_str_base() const;
+        virtual int get_dex_base() const;
+        virtual int get_per_base() const;
+        virtual int get_int_base() const;
+
+        virtual int get_str_bonus() const;
+        virtual int get_dex_bonus() const;
+        virtual int get_per_bonus() const;
+        virtual int get_int_bonus() const;
+
+        virtual int get_healthy() const;
+        virtual int get_healthy_mod() const;
+
+        /** Setters for stats exclusive to characters */
+        virtual void set_str_bonus(int nstr);
+        virtual void set_dex_bonus(int ndex);
+        virtual void set_per_bonus(int nper);
+        virtual void set_int_bonus(int nint);
+        virtual void mod_str_bonus(int nstr);
+        virtual void mod_dex_bonus(int ndex);
+        virtual void mod_per_bonus(int nper);
+        virtual void mod_int_bonus(int nint);
+
+        virtual void set_healthy(int nhealthy);
+        virtual void set_healthy_mod(int nhealthy_mod);
+        virtual void mod_healthy(int nhealthy);
+        virtual void mod_healthy_mod(int nhealthy_mod);
+
+        virtual void mod_stat( const std::string &stat, int modifier ) override;
+
+        /** Combat getters */
+        virtual int get_dodge_base() const override;
+        virtual int get_hit_base() const override;
+
+        /** Handles health fluctuations over time */
+        virtual void update_health(int base_threshold = 0);
+
+        /** Resets the value of all bonus fields to 0. */
+        virtual void reset_bonuses() override;
+        /** Resets stats, and applies effects in an idempotent manner */
+        virtual void reset_stats() override;
+        /** Handles stat and bonus reset. */
+        virtual void reset() override;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
@@ -313,9 +382,6 @@ class Character : public Creature
         virtual void normalize() override;
         virtual void die(Creature *nkiller) override;
 
-        /** Resets stats, and applies effects in an idempotent manner */
-        virtual void reset_stats() override;
-
         /** Returns true if the player has some form of night vision */
         bool has_nv();
 
@@ -370,6 +436,16 @@ class Character : public Creature
             using JsonDeserializer::deserialize;
             void deserialize( JsonIn &jsin ) override;
         };
+
+        /** Bonuses to stats, calculated each turn */
+        int str_bonus;
+        int dex_bonus;
+        int per_bonus;
+        int int_bonus;
+
+        int healthy; //How healthy the character is
+        int healthy_mod;
+
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.

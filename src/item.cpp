@@ -72,7 +72,7 @@ light_emission nolight = {0, 0, 0};
 
 // Returns the default item type, used for the null item (default constructed),
 // the returned pointer is always valid, it's never cleared by the @ref Item_factory.
-static itype *nullitem()
+static const itype *nullitem()
 {
     static itype nullitem_m;
     return &nullitem_m;
@@ -116,14 +116,14 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
         charges = type->ammo->def_charges;
     }
     if( type->is_food() ) {
-        it_comest* comest = dynamic_cast<it_comest*>(type);
+        const auto comest = dynamic_cast<const it_comest*>(type);
         active = goes_bad() && !rotten();
         if( comest->count_by_charges() && !has_random_charges ) {
             charges = comest->def_charges;
         }
     }
     if( type->is_tool() ) {
-        it_tool* tool = dynamic_cast<it_tool*>(type);
+        const auto tool = dynamic_cast<const it_tool*>(type);
         if( tool->max_charges != 0 ) {
             if( !has_random_charges ) {
                 charges = tool->def_charges;
@@ -317,7 +317,7 @@ long item::liquid_charges( long units ) const
     if( is_ammo() ) {
         return type->ammo->def_charges * units;
     } else if( is_food() ) {
-        return dynamic_cast<it_comest *>( type )->def_charges * units;
+        return dynamic_cast<const it_comest *>( type )->def_charges * units;
     } else {
         return units;
     }
@@ -328,7 +328,7 @@ long item::liquid_units( long charges ) const
     if( is_ammo() ) {
         return charges / type->ammo->def_charges;
     } else if( is_food() ) {
-        return charges / dynamic_cast<it_comest *>( type )->def_charges;
+        return charges / dynamic_cast<const it_comest *>( type )->def_charges;
     } else {
         return charges;
     }
@@ -606,11 +606,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 const item *food = NULL;
                 if( goes_bad() ) {
                     food = this;
-                    maxrot = dynamic_cast<it_comest*>(type)->spoils;
+                    maxrot = dynamic_cast<const it_comest*>(type)->spoils;
                 } else if(is_food_container()) {
                     food = &contents[0];
                     if ( food->goes_bad() ) {
-                        maxrot =dynamic_cast<it_comest*>(food->type)->spoils;
+                        maxrot =dynamic_cast<const it_comest*>(food->type)->spoils;
                     }
                 }
                 if ( food != NULL && maxrot != 0 ) {
@@ -1075,12 +1075,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         dump->push_back( iteminfo( "CONTAINER", string_format( _( "This container can store %.2f liters." ), c.contains / 4.0 ) ) );
     }
     if( is_tool() ) {
-        it_tool* tool = dynamic_cast<it_tool*>(type);
+        const auto tool = dynamic_cast<const it_tool*>(type);
 
         if ((tool->max_charges)!=0) {
             int t_max;
             std::string temp_fmt;
-            const std::string t_ammo_name = _(ammo_name(tool->ammo_id).c_str());
+            const std::string t_ammo_name = ammo_name(tool->ammo_id);
 
             dump->push_back(iteminfo("TOOL", string_format(_("Charges: %d"), charges)));
 
@@ -1131,7 +1131,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     temp_fmt = ngettext("Maximum <num> charge of %s.",
                                         "Maximum <num> charges of %s.",
                                         t_max);
-                    temp_fmt = string_format(temp_fmt, _(ammo_name("plutonium").c_str()));
+                    temp_fmt = string_format(temp_fmt, ammo_name("plutonium").c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge.",
                                         "Maximum <num> charges.",
@@ -1901,7 +1901,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     ret.str("");
     if (is_food())
     {
-        food_type = dynamic_cast<it_comest*>(type);
+        food_type = dynamic_cast<const it_comest*>(type);
 
         if (food_type->spoils != 0)
         {
@@ -2567,7 +2567,7 @@ int item::get_warmth() const
 int item::brewing_time() const
 {
     float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
-    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
+    unsigned int b_time = dynamic_cast<const it_comest*>(type)->brewtime;
     int ret = b_time * season_mult;
     return ret;
 }
@@ -2614,7 +2614,7 @@ bool item::goes_bad() const
     if (!is_food()) {
         return false;
     }
-    it_comest* food = dynamic_cast<it_comest*>(type);
+    const auto food = dynamic_cast<const it_comest*>(type);
     return (food->spoils != 0);
 }
 
@@ -3627,7 +3627,7 @@ ammotype item::ammo_type() const
         }
         return ret;
     } else if (is_tool()) {
-        it_tool* tool = dynamic_cast<it_tool*>(type);
+        const auto tool = dynamic_cast<const it_tool*>(type);
         if (has_flag("ATOMIC_AMMO")) {
             return "plutonium";
         }
@@ -3933,7 +3933,7 @@ bool item::reload(player &u, int pos)
             }
         }
     } else if (is_tool()) {
-        it_tool* tool = dynamic_cast<it_tool*>(type);
+        const auto tool = dynamic_cast<const it_tool*>(type);
         reload_target = this;
         single_load = false;
         max_load = tool->max_charges;
@@ -4112,7 +4112,7 @@ int item::getlight_emit() const
         return 0;
     }
     if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
-        it_tool * tool = dynamic_cast<it_tool *>(type);
+        const auto tool = dynamic_cast<const it_tool *>(type);
         int maxcharge = tool->max_charges;
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         if( maxcharge > 0 && charges < maxcharge / 5 ) {
@@ -4132,7 +4132,7 @@ long item::get_remaining_capacity_for_liquid(const item &liquid) const
         // for filling up chainsaws, jackhammers and flamethrowers
         long max = 0;
         if (is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(type);
+            const auto tool = dynamic_cast<const it_tool *>(type);
             max = tool->max_charges;
         } else {
             max = type->gun->clip;
@@ -4157,7 +4157,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
         int max = 0;
 
         if (is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(type);
+            const auto tool = dynamic_cast<const it_tool *>(type);
             ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
@@ -4291,7 +4291,7 @@ long item::charges_of(const itype_id &it) const
 {
     long count = 0;
 
-    if (((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) && contents.empty()) {
+    if (((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) && contents.empty()) {
         // If we're specifically looking for a container, only say we have it if it's empty.
         if (charges < 0) {
             count++;
@@ -4317,7 +4317,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
         }
     }
     // Now check the item itself
-    if( !((type->id == it) || (is_tool() && (dynamic_cast<it_tool *>(type))->subtype == it)) ||
+    if( !((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) ||
         quantity <= 0 || !contents.empty() ) {
         return false;
     }
@@ -4542,7 +4542,7 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-itype *item::get_curammo() const
+const itype *item::get_curammo() const
 {
     return curammo;
 }
@@ -4851,7 +4851,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    it_tool *tmp = dynamic_cast<it_tool *>( type );
+    const auto tmp = dynamic_cast<const it_tool *>( type );
     long charges_used = 0;
     // Some tools (bombs) use charges as a countdown timer.
     if( tmp->turns_per_charge > 0 && int( calendar::turn ) % tmp->turns_per_charge == 0 ) {
@@ -5030,8 +5030,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         }
     }
     if( activate ) {
-        it_tool *tmp = dynamic_cast<it_tool *>( type );
-        return tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+        return type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,

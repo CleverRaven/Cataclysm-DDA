@@ -823,7 +823,11 @@ overmap::overmap(int const x, int const y): loc(x, y), nullret(""), nullbool(fal
     settings = rsit->second;
 
     init_layers();
-    open();
+    try {
+        open();
+    } catch( const std::exception &err ) {
+        debugmsg( "overmap (%d,%d) failed to load: %s", loc.x, loc.y, err.what() );
+    }
 }
 
 overmap::overmap(): loc(0, 0), nullret(""), nullbool(false)
