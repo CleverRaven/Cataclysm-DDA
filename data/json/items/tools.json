@@ -43,6 +43,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CAPTURE_MONSTER_ACT",
+    "properties": [["monster_size_capacity", "SMALL"]],
     "material": ["steel", "plastic"]
   },
   {

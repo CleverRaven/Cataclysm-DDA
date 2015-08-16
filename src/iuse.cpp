@@ -9564,9 +9564,21 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         int mon_dex = g->mon_at( target );
         if( mon_dex != -1 ) {
             monster f = g->zombie( mon_dex );
+            const auto iter = it->type->properties.find( "monster_size_capacity" );
+            if( iter == it->type->properties.end() ) {
+                debugmsg( _("%s has no monster_size_capacity."), it->tname().c_str() );
+            }
+
+            if( f.get_size() > Creature::size_map.at(iter->second) ) {
+                p->add_msg_if_player( m_info, _("The %s is too big to put in your %s."),
+                                      f.type->nname().c_str(), it->tname().c_str() );
+                return 0;
+            }
+            // TODO: replace this with some kind of melee check.
             int chance = f.hp_percentage() / 10;
             // A weaker monster is easier to capture.
-            // If the monster is friendly, then put it in the item without checking if it rolled a success
+            // If the monster is friendly, then put it in the item
+            // without checking if it rolled a success.
             if( f.friendly != 0 || one_in( chance ) ) {
                 std::string serialized_monster;
                 try {
