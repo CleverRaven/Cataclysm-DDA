@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
@@ -102,8 +103,9 @@ enum vehicle_controls {
  toggle_camera,
  release_remote_control,
  toggle_chimes,
- toggle_scoop
- toggle_plow
+ toggle_scoop,
+ toggle_plow,
+ toggle_planter
 };
 
 class vehicle::turret_ammo_data {
@@ -892,7 +894,7 @@ void vehicle::use_controls()
     bool has_dome_lights = false;
     bool has_scoop = false;
     bool has_plow = false;
-
+    bool has_planter = false;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -950,6 +952,8 @@ void vehicle::use_controls()
             has_scoop = true;
         } else if( part_flag(p,"PLOW") ) {
             has_plow = true;
+        }else if( part_flag(p,"PLANTER") ){
+            has_planter = true;
         }
     }
 
@@ -1068,6 +1072,9 @@ void vehicle::use_controls()
     }
     if( has_plow ) {
         menu.addentry( toggle_plow, true, 'p', _("Toggle Plow") );
+    }
+    if( has_planter ){
+        menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1256,8 +1263,12 @@ void vehicle::use_controls()
         }
         break;
     case toggle_plow:
-        add_msg( plow_on ? _("Plow System stopped"): _("Plow system started"));
+        add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
         plow_on = !plow_on;
+        break;
+    case toggle_planter:
+        add_msg(planter_on ? _("Planter system stopped"): _("Planter system started"));
+        planter_on = !planter_on;
         break;
     case control_cancel:
         break;
@@ -3313,7 +3324,9 @@ float vehicle::k_friction() const
 {
     // calculate safe speed reduction due to wheel friction
     float fr0 = 1000.0;
-    float kf = ( fr0 / (fr0 + wheels_area() + plow_on? plow_friction : 0.0f ) );
+    //Calculate safe speed reduction due to plow friction
+    float pf = plow_on ? plow_friction : 0.0f;
+    float kf = ( fr0 / (fr0 + wheels_area() + pf ))  ;
     return kf;
 }
 
@@ -3362,9 +3375,10 @@ float vehicle::k_mass() const
        return 0;
 
     float ma0 = 50.0;
-
+    //5.8 is the average weight in kilograms of soil that would normally be plowed over a square meter
+    float pw  = 5.8 * (plow_on?all_parts_with_feature( "PLOW" ).size():0);
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
+    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa + pw));
 
     return km;
 }
@@ -3833,6 +3847,9 @@ void vehicle::idle(bool on_map) {
         if( plow_on ){
             operate_plow();
         }
+        if( planter_on ){
+            operate_planter();
+        }
     }
 }
 
@@ -3913,15 +3930,26 @@ void vehicle::operate_plow(){
                         break;
                     }
                 }
-                if( found_item ){
-                    break;
+            }
+        }
+    }
+}
+void vehicle::operate_planter(){
+    std::vector<int> planters = all_parts_with_feature("PLANTER");
+    for( int planter_id : planters ){
+        for( const tripoint& loc :
+                 g->m.points_in_radius(global_pos3()
+                                       + parts[planter_id].precalc[0], 1) ){
+            vehicle_stack v = get_items(planter_id);
+            for(auto i = v.begin(); i != v.end(); i++ ){
+                if(i->is_seed()){
+                    if(g->m.ter(loc) == t_dirtmound ){
+                        g->m.furn_set(loc, f_plant_seed);
+                        g->m.add_item(loc,*i);
+                    }
+                    i = v.erase(i);
                 }
             }
-        }else{
-            sounds::sound( part_pos, rng(40,50),_("Chiiiing!"));//This is the sound the world makes when it dies. Remember this sound, as it is all you will have to remember what was by.
-            add_msg(_("You have the impression that you might remember the world that was."));
-            add_msg(_("If only because the sound of the plow hitting a rock is the sound the world made when it died."));
-            plow_on = false;
         }
     }
 }
@@ -4935,8 +4963,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
         }
-        if( vpi.has_flag( "PLOW" ) ){
-            plow_friction += 10;
+        if( vpi.has_flag( "PLOW" ) ) {
+            plow_friction += vpi.bonus;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
