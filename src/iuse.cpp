@@ -9601,7 +9601,11 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 it->set_var( "weight", new_weight );
                 g->remove_zombie( mon_dex );
                 return 0;
+            } else {
+                p->add_msg_if_player( m_bad, _("The %s avoids your attempts to put it in the %s."),
+                                      f.type->nname().c_str(), it->type->nname(1).c_str() );
             }
+            p->moves -= 100;
         } else {
             add_msg(_("The %s can't capture nothing"),it->tname().c_str());
             return 0;
