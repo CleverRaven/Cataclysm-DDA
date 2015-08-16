@@ -322,6 +322,27 @@
   ]
 },{
   "type" : "recipe",
+  "result": "fire_lance",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armschina", 3 ]],
+  "qualities" : [
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ],
+  "components": [
+    [ [ "qiang", 1 ] ],
+    [ [ "pipe", 1 ] ],
+    [ [ "scrap", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "scimitar",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",

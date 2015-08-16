@@ -45,7 +45,10 @@
       ["sword_xiphos", 4],
       ["khopesh", 4],
       ["spear_dory", 3],
-      ["naginata", 3]
+      ["naginata", 3],
+      ["fire_lance", 2],
+      ["lance_charge", 1]
+      ["lance_charge_shot", 1]
     ]
   },{
 "type" : "item_group",
@@ -74,9 +77,25 @@
     ]
   },{
       "type" : "item_group",
+    "id" : "museum_guns",
+    "items":[
+      ["fire_lance", 20],
+      ["lance_charge", 10]
+      ["lance_charge_shot", 5]
+    ]
+  },{
+      "type" : "item_group",
     "id" : "textbooks",
     "items":[
       ["textbook_armschina", 3]
+    ]
+  },{
+      "type" : "item_group",
+    "id" : "mansion_guns",
+    "items":[
+      ["fire_lance", 2],
+      ["lance_charge", 1]
+      ["lance_charge_shot", 1]
     ]
   },{
       "type" : "item_group",
