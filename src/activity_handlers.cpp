@@ -1007,7 +1007,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
-    if( p->fatigue >= 383 ) { // Dead Tired: different kind of relaxation needed
+    if( p->fatigue >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }

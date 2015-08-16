@@ -22,6 +22,13 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
+enum fatigue_levels {
+    TIRED = 191,
+    DEAD_TIRED = 383,
+    EXAUSTED = 575,
+    MASSIVE_FATIGUE = 1000
+};
+
 class Character : public Creature
 {
     public:
