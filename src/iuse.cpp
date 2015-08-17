@@ -6635,20 +6635,35 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
         }
     }
 
-    std::string message = string_input_popup(ismarker ? _("Write what?") : _("Spray what?"),
-                          0, "", "", "graffiti");
+    return handle_ground_graffiti(p, it, ismarker ? _("Write what?") : _("Spray what?"));
+}
 
-    if (message.empty()) {
+int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
+{
+    const auto suffix = pgettext("mind the starting space", " (To delete, input one '.')");
+    std::string message = string_input_popup( prefix + suffix, 0, "", "", "graffiti" );
+
+    if( message.empty() ) {
         return 0;
     } else {
-        g->m.set_graffiti( p->pos3(), message );
-            add_msg(
-                ismarker ?
-                _("You write a message on the ground.") :
-                _("You spray a message on the ground.")
-            );
-            p->moves -= 2 * message.length();
+        const auto where = p->pos3();
+        int move_cost = 0;
+        if( message == "." ) {
+            if( g->m.has_graffiti_at( where ) ) {
+                move_cost = 3 * g->m.graffiti_at( where ).length();
+                g->m.delete_graffiti( where );
+                add_msg( _("You manage to get rid of the message on the ground.") );
+            } else {
+                add_msg( _("There isn't anything to erase here.") );
+            }
+        } else {
+            g->m.set_graffiti( where, message );
+            add_msg( _("You write a message on the ground.") );
+            move_cost = 2 * message.length();
+        }
+        p->moves -= move_cost;
     }
+
     return it->type->charges_to_use();
 }
 
