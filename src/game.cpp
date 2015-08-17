@@ -9219,12 +9219,13 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
-    std::string sSort = _("<s>ort: ");
-
+    std::string sSort;
     if ( bRadiusSort ) {
-        sSort += _("dist");
+        //~ Sort type: distance.
+        sSort = _("<s>ort: dist");
     } else {
-        sSort += pgettext("abbr. for word category", "cat");
+        //~ Sort type: category.
+        sSort = _("<s>ort: cat");
     }
 
     int letters = utf8_width(sSort.c_str());
