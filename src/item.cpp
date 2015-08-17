@@ -1499,6 +1499,39 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
         }
 
+        // TODO: Give it a good non-debug switch
+        // One that doesn't involve giving the player the item
+        // Maybe create a temporary player copy and use that?
+        if( debug_mode && &g->u.weapon == this ) {
+            damage_instance non_crit;
+            g->u.roll_all_damage( false, non_crit, true );
+            damage_instance crit;
+            g->u.roll_all_damage( true, crit, true );
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("When used as a weapon:") ) ) );
+            dump->push_back(iteminfo("DESCRIPTION",
+                        string_format(_( "Crit chance vs slow %d"),
+                                         int(g->u.crit_chance( 100, 0 ) * 100) )));
+            dump->push_back(iteminfo("DESCRIPTION",
+                        string_format(_( "Crit chance vs fast %d"),
+                                         int(g->u.crit_chance( 0, 100 ) * 100) )));
+            dump->push_back(iteminfo("DESCRIPTION",
+                        string_format(_("%d bashing, %d on a crit."),
+                                      int(non_crit.type_damage(DT_BASH)),
+                                      int(crit.type_damage(DT_BASH)) )));
+            if( non_crit.type_damage(DT_CUT) > 0.0f || crit.type_damage(DT_CUT) > 0.0f ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                            string_format(_("%d cutting, %d on a crit."),
+                                          int(non_crit.type_damage(DT_CUT)),
+                                          int(crit.type_damage(DT_CUT)) )));
+            }
+            if( non_crit.type_damage(DT_STAB) > 0.0f || crit.type_damage(DT_STAB) > 0.0f ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                            string_format(_("%d piercing, %d on a crit."),
+                                          int(non_crit.type_damage(DT_STAB)),
+                                          int(crit.type_damage(DT_STAB)) )));
+            }
+        }
+
         for( auto &u : type->use_methods ) {
             const auto tt = dynamic_cast<const delayed_transform_iuse*>( u.get_actor_ptr() );
             if( tt == nullptr ) {
@@ -2653,50 +2686,36 @@ long item::num_charges()
     return 0;
 }
 
-int item::weapon_value(player *p) const
+double item::weapon_value( const player &p ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
-
-    int my_value = 0;
-    if (is_gun()) {
+    double my_value = 0;
+    if( is_gun() ) {
         int gun_value = 14;
         const islot_gun* gun = type->gun.get();
         gun_value += gun->damage;
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
         gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * p->skillLevel("gun")));
-        gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
+        gun_value *= (.5 + (.3 * p.get_skill_level("gun")));
+        gun_value *= (.3 + (.7 * p.get_skill_level(gun->skill_used)));
         my_value += gun_value;
     }
 
-    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                       .1 * p->skillLevel("melee")    ));
-
-    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                       .1 * p->skillLevel("melee")    ));
-
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value = std::max( my_value, melee_value( p ) );
 
     return my_value;
 }
 
-int item::melee_value(player *p)
+double item::melee_value( const player &p ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
-
     int my_value = 0;
-    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_dam * (1   + .3 * p.get_skill_level("bashing") +
+                                       .1 * p.get_skill_level("melee")    ));
 
-    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p.get_skill_level("cutting") +
+                                       .1 * p.get_skill_level("melee")    ));
 
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p.get_skill_level("melee")));
 
     return my_value;
 }
@@ -3221,7 +3240,7 @@ bool item::operator<(const item& other) const
     }
 }
 
-int item::reload_time(player &u) const
+int item::reload_time( const player &u ) const
 {
     int ret = 0;
 
@@ -3234,7 +3253,7 @@ int item::reload_time(player &u) const
                 ret -= int(double(ret) * 0.9);
             }
         }
-        double skill_bonus = double(u.skillLevel(reloading->skill_used)) * .075;
+        double skill_bonus = double(u.get_skill_level(reloading->skill_used)) * .075;
         if (skill_bonus > .75) {
             skill_bonus = .75;
         }
