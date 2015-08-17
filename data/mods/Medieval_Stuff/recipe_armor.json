@@ -211,25 +211,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "shendyt",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_LEGS",
-  "skill_used": "tailor",
-  "difficulty": 3,
-  "time": 90000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
-      [ "sewing_kit", 30 ]
-    ]
-  ],
-  "components": [ [ [ "rag", 16 ] ] ]
-},{
-  "type" : "recipe",
   "result": "legguard_bronze",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
@@ -332,6 +313,7 @@
       [ "string_36", 4 ],
       [ "string_6", 16 ]
     ],
+    [ [ "rag", 4 ] ],
     [
       [ "leather", 42 ],
       [ "tanned_hide", 7 ],
