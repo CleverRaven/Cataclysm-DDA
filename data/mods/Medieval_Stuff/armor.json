@@ -217,7 +217,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },{
         "type" : "ARMOR",
         "id" : "legguard_bronze",

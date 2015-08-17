@@ -3264,7 +3264,7 @@
         "symbol" : "[",
         "description" : "An extremely heavy ornamental suit of armor.",
         "price" : 780000,
-        "material" : ["iron", "null"],
+        "material" : ["steel", "leather"],
         "volume" : 120,
         "cutting" : 0,
         "warmth" : 20,
@@ -7015,7 +7015,7 @@
         "symbol" : "[",
         "description" : "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.",
         "price" : 40000,
-        "material" : ["iron", "null"],
+        "material" : ["steel", "leather"],
         "volume" : 11,
         "cutting" : 0,
         "warmth" : 10,
@@ -9447,7 +9447,7 @@
         "bashing" : 7,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY", "BOOTS"],
         "coverage" : 100,
-        "material_thickness" : 5,
+        "material_thickness" : 4,
         "use_action" : "BOOTS"
     },
     {
@@ -9474,7 +9474,7 @@
         "bashing" : 7,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 5
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10263,7 +10263,7 @@
         "symbol" : "[",
         "description" : "A suit of Gothic plate armor.",
         "price" : 60000,
-        "material" : ["iron", "leather"],
+        "material" : ["steel", "leather"],
         "volume" : 70,
         "cutting" : 0,
         "warmth" : 20,
@@ -10289,7 +10289,7 @@
         "symbol" : "[",
         "description" : "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.",
         "price" : 30000,
-        "material" : ["iron", "null"],
+        "material" : ["steel", "leather"],
         "volume" : 10,
         "cutting" : 0,
         "warmth" : 10,
@@ -10299,7 +10299,7 @@
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 90,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10351,7 +10351,7 @@
         "bashing" : 8,
         "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 75,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10378,7 +10378,7 @@
         "bashing" : 6,
         "flags" : ["STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12606,7 +12606,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12630,7 +12630,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12654,7 +12654,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12679,7 +12679,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12704,7 +12704,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
