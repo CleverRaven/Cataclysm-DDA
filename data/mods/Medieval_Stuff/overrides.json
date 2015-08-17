@@ -19,7 +19,7 @@
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
-        "environmental_protection" : 1,
+        "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : -5,
         "coverage" : 70,
