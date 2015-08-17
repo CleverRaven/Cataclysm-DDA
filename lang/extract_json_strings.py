@@ -249,9 +249,19 @@ def extract_professions(item):
 def extract_scenarios(item):
     outfile = get_outfile("scenario")
     # writestr will not write string if it is None.
-    for f in [ "name", "description", "start_name"]:
-        found = item.get(f, None)
-        writestr(outfile, found)
+    name = item.get("name")
+    writestr(outfile, name)
+    if name:
+        msg = item.get("description")
+        if msg:
+            writestr(outfile, msg, comment="Description for scenario '{}'.".format(name))
+        msg = item.get("start_name")
+        if msg:
+            writestr(outfile, msg, comment="Start name for scenario '{}'.".format(name))
+    else:
+        for f in ["description", "start_name"]:
+            found = item.get(f, None)
+            writestr(outfile, found)
 
 def extract_mapgen(item):
     outfile = get_outfile("mapgen")
