@@ -443,6 +443,7 @@ use_action_msgs = {
     "deactive_msg",
     "out_of_power_msg",
     "msg",
+    "message",
     "friendly_msg",
     "hostile_msg",
     "need_fire_msg",
@@ -452,11 +453,13 @@ use_action_msgs = {
     "activation_message"
 }
 
-def extract_use_action_msgs(outfile, use_action, kwargs):
+def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
     """Extract messages for iuse_actor objects. """
     for f in use_action_msgs:
         if f in use_action:
-            writestr(outfile, use_action[f], **kwargs)
+            if it_name:
+                writestr(outfile, use_action[f],
+                  comment="Use action {} for {}.".format(f, it_name), **kwargs)
 
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
@@ -493,7 +496,7 @@ def extract(item, infilename):
                 writestr(outfile, name, **kwargs)
         wrote = True
     if "use_action" in item:
-        extract_use_action_msgs(outfile, item["use_action"], kwargs)
+        extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
         wrote = True
     if "description" in item:
         if name:
