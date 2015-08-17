@@ -9592,7 +9592,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 it->set_var( "name", string_format(_("%s holding %s"), it->type->nname(1).c_str(),
                                                    f.type->nname().c_str()));
                 m_size mon_size = f.get_size();
-                int new_weight;
+                int new_weight = 0;
                 switch( mon_size ) {
                 case MS_TINY:
                     new_weight = 1000;
