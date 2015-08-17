@@ -5809,9 +5809,13 @@ void player::print_health()
     if( has_trait( "SELFAWARE" ) ) {
         add_msg( "Your current health value is: %d", current_health );
     }
+    bool ill = false;
+    if( has_effect( "common_cold" ) || has_effect( "flu" ) ) {
+        ill = true;
+    }
     int roll = rng(0,4);
     std::string message = "";
-    if (current_health > 100) {
+    if (!ill && current_health > 100) {
         switch (roll) {
         case 0:
             message = _("You feel great! It doesn't seem like wounds could even slow you down for more than a day.");
@@ -5829,7 +5833,7 @@ void player::print_health()
             message = _("You're up and you feel fantastic. No sickness is going to keep you down today!");
             break;
         }
-    } else if (current_health > 50) {
+    } else if (!ill && current_health > 50) {
         switch (roll) {
         case 0:
             message = _("You're up and going rather quickly, and all the little aches from yesterday are gone.");
@@ -5847,7 +5851,7 @@ void player::print_health()
             message = _("Awareness comes fast, your body coming quickly to attention after your rest.");
             break;
         }
-    } else if (current_health > 10) {
+    } else if (!ill && current_health > 10) {
         switch (roll) {
         case 0:
             message = _("You feel good. Healthy living does seem to have some rewards.");
