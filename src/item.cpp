@@ -26,6 +26,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
+#include "morale.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1500,20 +1501,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
 
         // TODO: Give it a good non-debug switch
-        // One that doesn't involve giving the player the item
-        // Maybe create a temporary player copy and use that?
-        if( debug_mode && &g->u.weapon == this ) {
+        if( debug_mode ) {
+            player copy_u = g->u;
+            copy_u.weapon = *this;
             damage_instance non_crit;
-            g->u.roll_all_damage( false, non_crit, true );
+            copy_u.roll_all_damage( false, non_crit, true );
             damage_instance crit;
-            g->u.roll_all_damage( true, crit, true );
+            copy_u.roll_all_damage( true, crit, true );
             dump->push_back(iteminfo("DESCRIPTION", string_format(_("When used as a weapon:") ) ) );
             dump->push_back(iteminfo("DESCRIPTION",
-                        string_format(_( "Crit chance vs slow %d"),
-                                         int(g->u.crit_chance( 100, 0 ) * 100) )));
+                        string_format(_( "Crit chance vs slow %d%%"),
+                                         int(copy_u.crit_chance( 100, 0 ) * 100) )));
             dump->push_back(iteminfo("DESCRIPTION",
-                        string_format(_( "Crit chance vs fast %d"),
-                                         int(g->u.crit_chance( 0, 100 ) * 100) )));
+                        string_format(_( "Crit chance vs fast %d%%"),
+                                         int(copy_u.crit_chance( 0, 100 ) * 100) )));
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_("%d bashing, %d on a crit."),
                                       int(non_crit.type_damage(DT_BASH)),

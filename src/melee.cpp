@@ -470,7 +470,7 @@ bool player::scored_crit(int target_dodge) const
     return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge );
 }
 
-double player::crit_chance( int hit_roll, int target_dodge ) const
+double player::crit_chance( int roll_hit, int target_dodge ) const
 {
     int unarmed_skill = get_skill_level("unarmed");
     int bashing_skill = get_skill_level("bashing");
@@ -496,7 +496,7 @@ double player::crit_chance( int hit_roll, int target_dodge ) const
         // Don't let unarmed bonus stack with good unarmed weapons (it gets crazy high)
         weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weapon.type->m_to_hit );
     } else if( weapon.type->m_to_hit < 0 ) {
-        weapon_crit_chance -= 0.1 * weapon.type->m_to_hit;
+        weapon_crit_chance += 0.1 * weapon.type->m_to_hit;
     }
 
     // Dexterity and perception
@@ -524,7 +524,7 @@ double player::crit_chance( int hit_roll, int target_dodge ) const
 
     best_skill += melee_skill / 2.5;
 
-    const int skill_crit_chance = 0.25 + best_skill * 0.025;
+    const double skill_crit_chance = 0.25 + best_skill * 0.025;
 
     // Examples (survivor stats/chances of each crit):
     // Fresh (skill-less) 8/8/8/8, unarmed:
@@ -541,7 +541,7 @@ double player::crit_chance( int hit_roll, int target_dodge ) const
     // Chance to get all 3 crits (a guaranteed crit regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
     // Only check double crit (one that requries hit/dodge comparison) if we have good hit vs dodge
-    if( hit_roll > target_dodge * 3 / 2 ) {
+    if( roll_hit > target_dodge * 3 / 2 ) {
         const double chance_double = 0.5 * (
             weapon_crit_chance * stat_crit_chance +
             stat_crit_chance * skill_crit_chance +
@@ -661,7 +661,7 @@ int player::base_damage(bool real_life, int stat) const
         dam += int( (stat - 9) / 2 );
     }
     // Big bonus for super-human characters
-    if (stat > 20) {
+    if( stat > 20 ) {
         dam += int( (stat - 20) * 1.5 );
     }
 
@@ -685,7 +685,8 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average ) co
 
     const int skill = unarmed_attack() ? unarmed_skill : bashing_skill;
 
-    bash_dam = base_damage( true, stat );
+    // Kinda ugly
+    bash_dam = average ? base_damage( false, stat ) - (stat + 1) / 2 : base_damage( true, stat );
 
     // Drunken Master damage bonuses
     if( has_trait("DRUNKEN") && has_effect("drunk") ) {
