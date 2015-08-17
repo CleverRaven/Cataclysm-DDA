@@ -1500,37 +1500,36 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
         }
 
-        // TODO: Give it a good non-debug switch
-        if( debug_mode ) {
+        if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
             player copy_u = g->u;
             copy_u.weapon = *this;
             damage_instance non_crit;
             copy_u.roll_all_damage( false, non_crit, true );
             damage_instance crit;
             copy_u.roll_all_damage( true, crit, true );
-            dump->push_back(iteminfo("DESCRIPTION", string_format(_("When used as a weapon:") ) ) );
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Average damage when used as a melee weapon:") ) ) );
             dump->push_back(iteminfo("DESCRIPTION",
-                        string_format(_( "Crit chance vs slow %d%%"),
+                        string_format(_( "Critical hit chance %d%% - %d%%"),
+                                         int(copy_u.crit_chance( 0, 100 ) * 100),
                                          int(copy_u.crit_chance( 100, 0 ) * 100) )));
             dump->push_back(iteminfo("DESCRIPTION",
-                        string_format(_( "Crit chance vs fast %d%%"),
-                                         int(copy_u.crit_chance( 0, 100 ) * 100) )));
-            dump->push_back(iteminfo("DESCRIPTION",
-                        string_format(_("%d bashing, %d on a crit."),
+                        string_format(_("%d bashing (%d on a critical hit)"),
                                       int(non_crit.type_damage(DT_BASH)),
                                       int(crit.type_damage(DT_BASH)) )));
             if( non_crit.type_damage(DT_CUT) > 0.0f || crit.type_damage(DT_CUT) > 0.0f ) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                            string_format(_("%d cutting, %d on a crit."),
+                            string_format(_("%d cutting (%d on a critical hit)"),
                                           int(non_crit.type_damage(DT_CUT)),
                                           int(crit.type_damage(DT_CUT)) )));
             }
             if( non_crit.type_damage(DT_STAB) > 0.0f || crit.type_damage(DT_STAB) > 0.0f ) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                            string_format(_("%d piercing, %d on a crit."),
+                            string_format(_("%d piercing (%d on a critical hit)"),
                                           int(non_crit.type_damage(DT_STAB)),
                                           int(crit.type_damage(DT_STAB)) )));
             }
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
         }
 
         for( auto &u : type->use_methods ) {
