@@ -3272,7 +3272,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 45,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "OUTER"],
+        "flags" : ["VARSIZE", "OUTER", "FANCY"],
         "coverage" : 90,
         "material_thickness" : 5
     },
@@ -10272,7 +10272,7 @@
         "encumbrance" : 35,
         "bashing" : 8,
         "flags" : ["VARSIZE", "OUTER", "STURDY"],
-        "coverage" : 100,
+        "coverage" : 90,
         "material_thickness" : 4
     },
     {
