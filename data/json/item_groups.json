@@ -5258,6 +5258,7 @@
       ["chainmail_vest", 3],
       ["chainmail_arms", 3],
       ["chainmail_legs", 3],
+      ["legguard_metal", 1],
       ["textbook_weapwest", 5],
       ["textbook_weapeast", 5],
       ["textbook_armwest", 5],
@@ -9785,7 +9786,8 @@
       ["helmet_kabuto", 50],
       ["helmet_larmor", 40],
       ["boots_larmor", 40],
-      ["armor_larmor", 40]
+      ["armor_larmor", 40],
+      ["legguard_metal", 10]
     ]
   },{
 "type" : "item_group",
