@@ -9505,3 +9505,108 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::capture_monster_act(player *p, item *it, bool, const tripoint& pos)
+{
+    if(it->has_var("contained_name")) {
+        try {
+            tripoint target;
+            if(g->is_empty(pos)) {
+                target = pos;//it's been activated somewhere where there isn't a player or monster, good.=
+            } else {
+                if(it->has_flag("PLACE_RANDOMLY")) {
+                    std::vector<tripoint> valid;
+                    for(int x = p->posx()-1; x <= p->posx() + 1; x++) {
+                        for(int y = p->posy() - 1; y <= p->posy() + 1; y++) {
+                            tripoint dest(x,y,pos.z);
+                            if(g->is_empty(dest)) {
+                                valid.push_back(dest);
+                            }
+                        }
+                    }
+                    if(valid.size() == 0) {
+                        p->add_msg_if_player(_("There is no place to put the %s"),it->get_var("contained_name","").c_str());
+                        return 0;
+                    }
+                    target = random_entry(valid);
+                } else {
+                    const std::string query = string_format(_("Place the %s where?"),it->get_var("contained_name","").c_str());
+                    if(!choose_adjacent(query,target)) {
+                        return 0;
+                    }
+                    if(!g->is_empty(target)) {
+                        p->add_msg_if_player(m_info,_("You cannot place the %s there!"),it->get_var("contained_name","").c_str());
+                        return 0;
+                    }
+                }
+            }
+            monster new_monster;
+            new_monster.deserialize(it->get_var("contained_json",""));
+            new_monster.spawn(target);
+            g->add_zombie(new_monster);
+            it->erase_var("contained_name");
+            it->erase_var("contained_json");
+            it->erase_var("name");
+            it->erase_var("weight");
+            return 0;
+        } catch(const std::string &e) {
+            debugmsg(_("Error restoring monster: %s"),e.c_str());
+        }
+    } else {
+        tripoint target = pos;
+        const std::string query = string_format(_("Capture what with the %s?"),it->tname().c_str());
+        if(!choose_adjacent(query,target)) {
+            p->add_msg_if_player(m_info,_("You cannot use a %s there."),it->tname().c_str());
+            return 0;
+        }
+        //capture the thing, if it's on the same square.
+        int mon_dex = g->mon_at( target );
+        if(mon_dex != -1) {
+            monster f = g->zombie( mon_dex );
+            int chance = f.hp_percentage()/10;
+            if(one_in( chance )//a weaker monster is easier to capture.
+                    || f.friendly != 0//If the monster is friendly, then put it in the item without checking if it rolled a success
+                    || it->has_flag( "NO_FAIL" )) {
+                try {
+                    it->set_var("contained_json",f.serialize());
+                    it->set_var("contained_name",f.type->nname());
+                    it->set_var("name",string_format(_("%s holding %s"),
+                                                     it->type->nname(1).c_str(),
+                                                     f.type->nname().c_str()));
+                    m_size mon_size = f.get_size();
+                    int new_weight;
+                    switch(mon_size) {
+                    case MS_TINY:
+                        new_weight = 1000;
+                        break;
+                    case MS_SMALL:
+                        new_weight = 40750;
+                        break;
+                    case MS_MEDIUM:
+                        new_weight = 81500;
+                        break;
+                    case MS_LARGE:
+                        new_weight = 120000;
+                        break;
+                    case MS_HUGE:
+                        new_weight = 200000;
+                        break;
+                    }
+                    if(!it->has_flag("NO_WEIGHT_ADJUST")) {
+                        it->set_var("weight",new_weight);
+                    }
+                    g->remove_zombie( mon_dex );
+                } catch(const std::string &e) {
+                    debugmsg(_("Error storing monster: %s"),e.c_str());
+                }
+                return 0;
+            } else {
+                add_msg(_("The %s broke free from the %s"),f.name().c_str(),it->tname().c_str());
+                return it->has_flag("NO_BREAK_ON_FAIL")?1:0;
+            }
+        } else {
+            add_msg(_("The %s can't capture nothing"),it->tname().c_str());
+            return 0;
+        }
+    }
+    return 0;
+}

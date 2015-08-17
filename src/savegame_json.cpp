@@ -1233,7 +1233,6 @@ void item::io( Archive& archive )
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
-
     if( !Archive::is_input::value ) {
         return;
     }
@@ -1285,6 +1284,7 @@ void item::deserialize(JsonObject &data)
 void item::serialize(JsonOut &json, bool save_contents) const
 {
     (void) save_contents;
+
     io::JsonObjectOutputArchive archive( json );
     const_cast<item*>(this)->io( archive );
 }

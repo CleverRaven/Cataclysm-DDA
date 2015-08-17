@@ -110,7 +110,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
             if(type_is_defined( gm ) ){
                 contents.push_back( item( gm, turn, rand, handed ) );
             }
-        } 
+        }
     }
     if( type->ammo ) {
         charges = type->ammo->def_charges;
@@ -597,7 +597,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("BASE", string_format(_("Material: %s"), material_list.c_str())));
             }
         }
-
+        if(has_var("contained_name")){
+            dump->push_back(iteminfo("BASE",string_format(_("Contains: %s"),get_var("contained_name").c_str())));
+        }
         if ( debug == true ) {
             if( g != NULL ) {
                 dump->push_back(iteminfo("BASE", _("age: "), "",
@@ -1207,7 +1209,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else {
             dump->push_back(iteminfo("DESCRIPTION", type->description));
         }
-
         std::ostringstream tec_buffer;
         for( const auto &elem : type->techniques ) {
             const ma_technique &tec = elem.obj();
@@ -5249,3 +5250,4 @@ bool item_category::operator!=( const item_category &rhs ) const
 {
     return !( *this == rhs );
 }
+

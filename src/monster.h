@@ -48,7 +48,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         {
             return true;
         }
-
         void poly( const mtype_id& id );
         bool can_upgrade();
         void hasten_upgrade();

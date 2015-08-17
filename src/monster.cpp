@@ -1089,7 +1089,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
-    
+
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));
@@ -1581,6 +1581,7 @@ void monster::die(Creature* nkiller) {
     }
     dead = true;
     set_killer( nkiller );
+
     if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
         explode(); // Explode them if it was big overkill
     }
