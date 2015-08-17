@@ -1529,7 +1529,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                           int(non_crit.type_damage(DT_STAB)),
                                           int(crit.type_damage(DT_STAB)) )));
             }
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
         }
 
         for( auto &u : type->use_methods ) {
@@ -1616,8 +1615,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 }
             }
             if (known_recipes.size() > 24) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
             } else if (known_recipes.size() > 12) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
             } else {
                 bool found_recipe = false;
@@ -1637,6 +1638,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     }
                 }
                 if (found_recipe) {
+                    dump->push_back(iteminfo("DESCRIPTION", "--"));
                     dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
                 }
             }
