@@ -101,12 +101,20 @@ void mod_manager::remove_mod(const std::string &ident)
     }
 }
 
+void mod_manager::remove_invalid_mods( std::vector<std::string> &m ) const
+{
+    m.erase( std::remove_if( m.begin(), m.end(), [this]( const std::string &mod ) {
+        return !has_mod( mod );
+    } ), m.end() );
+}
+
 bool mod_manager::set_default_mods(const std::string &ident)
 {
     if (!has_mod(ident)) {
         return false;
     }
     MOD_INFORMATION *mod = mod_map[ident];
+    remove_invalid_mods( mod->dependencies );
     default_mods = mod->dependencies;
     return true;
 }
