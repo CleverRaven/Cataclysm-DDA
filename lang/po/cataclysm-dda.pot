@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-17 14:26+0300\n"
+"POT-Creation-Date: 2015-08-17 14:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104376,13 +104376,13 @@ msgstr ""
 msgid "Spd %d"
 msgstr ""
 
-#. ~ Movement type: "walking". Max string lenght: one letter.
+#. ~ Movement type: "walking". Max string length: one letter.
 #: src/player.cpp
 msgctxt "movement-type"
 msgid "W"
 msgstr ""
 
-#. ~ Movement type: "running". Max string lenght: one letter.
+#. ~ Movement type: "running". Max string length: one letter.
 #: src/player.cpp
 msgctxt "movement-type"
 msgid "R"

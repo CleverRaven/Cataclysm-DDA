@@ -3771,9 +3771,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %d", movecounter);
 
-    //~ Movement type: "walking". Max string lenght: one letter.
+    //~ Movement type: "walking". Max string length: one letter.
     const auto str_walk = pgettext( "movement-type", "W" );
-    //~ Movement type: "running". Max string lenght: one letter.
+    //~ Movement type: "running". Max string length: one letter.
     const auto str_run = pgettext( "movement-type", "R" );
     wprintz(w, c_white, " %s", move_mode == "walk" ? str_walk : str_run);
     if( sideStyle ) {
