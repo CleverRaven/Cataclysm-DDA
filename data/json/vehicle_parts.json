@@ -5123,5 +5123,23 @@
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "seed_drill",
+        "name" : "seed drill",
+        "symbol" : "8",
+        "color" : "blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 40,
+        "durability" : 200,
+        "item" : "v_planter_item",
+        "difficulty" : 4,
+        "location" : "structure",
+        "size":50,
+        "flags" : ["PLANTER","PROTRUSION","CARGO"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]}
+        ]
     }
 ]

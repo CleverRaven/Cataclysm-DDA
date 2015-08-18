@@ -3833,6 +3833,27 @@ void vehicle::idle(bool on_map) {
     }
 }
 
+void vehicle::operate_planter(){
+    std::vector<int> planters = all_parts_with_feature("PLANTER");
+    for( int planter_id : planters ){
+        for( const tripoint& loc :
+             g->m.points_in_radius(global_pos3()
+                                   + parts[planter_id].precalc[0], 1) ){
+                vehicle_stack v = get_items(planter_id);
+                for(auto i = v.begin(); i != v.end(); i++ ){
+                    if(i->is_seed()){
+                        if(g->m.ter(loc) == t_dirtmound ){
+                            g->m.furn_set(loc, f_plant_seed);
+                            g->m.add_item(loc,*i);
+                        }
+                        i = v.erase(i);
+                        break;
+                    }
+                }
+       }
+    }
+}
+
 void vehicle::operate_scoop()
 {
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
