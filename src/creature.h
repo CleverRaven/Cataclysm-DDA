@@ -18,14 +18,23 @@ class game;
 class JsonObject;
 class JsonOut;
 struct trap;
-enum m_size : int;
 enum m_flag : int;
 enum field_id : int;
+
+enum m_size : int {
+    MS_TINY = 0,    // Squirrel
+    MS_SMALL,      // Dog
+    MS_MEDIUM,    // Human
+    MS_LARGE,    // Cow
+    MS_HUGE     // TAAAANK
+};
 
 class Creature
 {
     public:
         virtual ~Creature();
+
+        static const std::map<std::string, m_size> size_map;
 
         virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"

@@ -1,4 +1,5 @@
 #include "mtype.h"
+#include "creature.h"
 #include "translations.h"
 #include "monstergenerator.h"
 #include "mondeath.h"

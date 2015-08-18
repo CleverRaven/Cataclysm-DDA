@@ -354,6 +354,10 @@ If we want to compile with Tiles (SDL) we have to download a few libraries.
 * `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
 * `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
 
+#### Bundled Libraries
+The following archives were pre-bundled for convienience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
+* `64-bit SDL \ Tiles \ Sound \ Lua \ Localization` http://dev.narc.ro/cataclysm/cdda-win64-codeblocks.7z
+
 #### Installing Tiles(SDL) libraries.
 For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installtion folder. (Reccomended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
 

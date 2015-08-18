@@ -9,6 +9,13 @@
       ["halberd", 20],
       ["glaive", 10],
       ["scimitar", 20],
+      ["helmet_nasal", 1],
+      ["helmet_galea", 1],
+      ["helmet_conical", 1],
+      ["legguard_metal", 1],
+      ["gambeson", 3],
+      ["armor_lamellar", 2],
+      ["tunic", 1],
       ["textbook_armschina", 5]
     ]
   },{
@@ -20,7 +27,9 @@
       ["estoc", 15],
       ["halberd", 20],
       ["glaive", 10],
-      ["scimitar", 20]
+      ["scimitar", 20],
+      ["armor_lamellar", 2],
+      ["helmet_conical", 1]
     ]
   },{
     "type"  : "item_group",
@@ -109,6 +118,20 @@
     "items":[
       ["textbook_armschina", 2]
     ]
+  },{
+"type" : "item_group",
+"id" : "museum_armor",
+"items" : [
+      ["helmet_nasal", 50],
+      ["helmet_corinthian", 45],
+      ["helmet_galea", 40],
+      ["helmet_conical", 30],
+      ["gambeson", 50],
+      ["armor_lamellar", 20],
+      ["armor_cuirass", 25],
+      ["armor_lorica", 25],
+      ["legguard_bronze", 20],
+      ["legguard_metal", 20]
+    ]
   }
 ]
-

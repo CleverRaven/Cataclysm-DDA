@@ -7,7 +7,10 @@
 */
 
 #ifndef WIN32STDTHREAD_H
+#ifndef _GLIBCXX_THREAD
+
 #define WIN32STDTHREAD_H
+#define _GLIBCXX_THREAD 1
 
 #include <windows.h>
 #include <functional>
@@ -121,4 +124,5 @@ namespace this_thread
 }
 
 }
+#endif // _GLIBCXX_THREAD
 #endif // WIN32STDTHREAD_H
