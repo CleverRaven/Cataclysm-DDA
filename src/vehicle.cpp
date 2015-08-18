@@ -3812,6 +3812,7 @@ void vehicle::operate_planter(){
                             g->m.add_item(loc,*i);
                         }
                         i = v.erase(i);
+                        break;
                     }
                 }
        }
