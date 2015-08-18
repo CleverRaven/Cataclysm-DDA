@@ -115,7 +115,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p, const st
                 continue;
             }
 
-            it_tool *tool = dynamic_cast<it_tool*>( actual_item->type );
+            const auto tool = dynamic_cast<const it_tool*>( actual_item->type );
             const use_function *ufunc = actual_item->get_use( use );
             // Can't just test for charges_per_use > charges, because charges can be -1
             if( ufunc == nullptr ||
@@ -133,7 +133,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p, const st
             if( found == candidates.end() ) {
                 better = true;
             } else {
-                it_tool *other = dynamic_cast<it_tool*>(found->second->type);
+                const auto other = dynamic_cast<const it_tool*>(found->second->type);
                 if( other == nullptr || would_use_charges > other->charges_per_use ) {
                     continue; // Other item consumes less charges
                 }
@@ -236,7 +236,7 @@ void game::item_action_menu()
     kmenu.callback = &callback;
     int num = 0;
     for( auto &p : iactions ) {
-        it_tool *tool = dynamic_cast<it_tool*>( p.second->type );
+        const auto tool = dynamic_cast<const it_tool*>( p.second->type );
         int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
         
         std::stringstream ss;

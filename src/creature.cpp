@@ -62,6 +62,10 @@ struct weight_compare {
     }
 };
 
+const std::map<std::string, m_size> Creature::size_map = {
+    {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
+    {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE} };
+
 Creature::Creature()
 {
     moves = 0;

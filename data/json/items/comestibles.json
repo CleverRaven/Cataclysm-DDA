@@ -1708,7 +1708,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "long_island",
-        "name" : "long island iced tea",
+        "name" : "Long Island iced tea",
         "weight" : 42,
         "color" : "brown",
         "addiction_type" : "alcohol",
@@ -15258,7 +15258,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "blt",
-        "name" : "blt",
+        "name" : "BLT",
         "weight" : 250,
         "color" : "brown",
         "addiction_type" : "none",

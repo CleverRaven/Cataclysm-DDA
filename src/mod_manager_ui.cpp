@@ -140,6 +140,10 @@ void mod_ui::try_add(const std::string &mod_to_add,
         // The same mod can not be added twice. That makes no sense.
         return;
     }
+    if( active_manager->mod_map.count(mod_to_add) == 0 ) {
+        debugmsg("Unable to load mod \"%s\".", mod_to_add.c_str());
+        return;
+    }
     MOD_INFORMATION &mod = *active_manager->mod_map[mod_to_add];
     bool errs;
     try {

@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 
+#include <math.h>
 #include <sstream>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -69,6 +70,14 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
     g->m.destroy( pos, true );
 }
 
+bool check_butcher_cbm( const int roll ) {
+    // 2/3 chance of failure with a roll of 0, 2/6 with a roll of 1, 2/9 etc.
+    // The roll is usually b/t 0 and survival-3, so survival 4 will succeed
+    // 50%, survival 5 will succeed 61%, survival 6 will succeed 67%, etc.
+    bool failed = x_in_y( 2, 3 + roll * 3 );
+    return !failed;
+}
+
 void butcher_cbm_item( const std::string &what, const tripoint &pos,
                        const int age, const int roll )
 {
@@ -76,7 +85,7 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
         return;
     }
 
-    item cbm( one_in( 2 ) ? what : "burnt_out_bionic", age );
+    item cbm( check_butcher_cbm(roll) ? what : "burnt_out_bionic", age );
     add_msg( m_good, _( "You discover a %s!" ), cbm.tname().c_str() );
     g->m.add_item( pos, cbm );
 }
@@ -89,7 +98,7 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 
     //To see if it spawns a random additional CBM
-    if( one_in( 2 ) ) {
+    if( check_butcher_cbm( roll ) ) {
         //The CBM works
         const auto spawned = g->m.put_items_from_loc( group, pos, age );
         for( const auto &it : spawned ) {
@@ -185,7 +194,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             skill_shift -= rng_float( 0, -factor / 5.0 );
         }
 
-        return static_cast<int>( skill_shift );
+        return static_cast<int>( round( skill_shift ) );
     };
 
     int practice = std::max( 0, 4 + pieces + roll_butchery());
@@ -327,18 +336,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     //Add a chance of CBM power storage recovery.
     if( corpse->has_flag(MF_CBM_POWER) ) {
-        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-        if( roll_butchery() >= 0 ) {
-            //To see if it spawns a battery
-            if( one_in(3) ) { //The battery works 33% of the time.
-                add_msg(m_good, _("You discover a power storage in the %s!"), corpse->nname().c_str());
-                g->m.spawn_item( p->pos(), "bio_power_storage", 1, 0, age);
-            } else { //There is a burnt out CBM
-                add_msg(m_good, _("You discover a fused lump of bio-circuitry in the %s!"),
-                        corpse->nname().c_str());
-                g->m.spawn_item( p->pos(), "burnt_out_bionic", 1, 0, age);
-            }
-        }
+        butcher_cbm_item( "bio_power_storage", p->pos(), age, roll_butchery() );
     }
 
 
@@ -1009,7 +1007,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
-    if( p->fatigue >= 383 ) { // Dead Tired: different kind of relaxation needed
+    if( p->fatigue >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }

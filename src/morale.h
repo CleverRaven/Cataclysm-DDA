@@ -80,13 +80,13 @@ class morale_point : public JsonSerializer, public JsonDeserializer
 {
     public:
         morale_type type;
-        itype *item_type;
+        const itype *item_type;
         int bonus;
         int duration;
         int decay_start;
         int age;
 
-        morale_point(morale_type T = MORALE_NULL, itype *I = NULL, int B = 0,
+        morale_point(morale_type T = MORALE_NULL, const itype *I = NULL, int B = 0,
                      int D = 60, int DS = 30, int A = 0) :
             type (T), item_type (I), bonus (B), duration(D), decay_start(DS), age(A) {};
 

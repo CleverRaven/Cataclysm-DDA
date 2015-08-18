@@ -3695,6 +3695,7 @@ void game::debug()
                       _("Display weather"), // 25
                       _("Change time"), // 26
                       _("Set automove route"), // 27
+                      _("Show mutation category levels"), // 28
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4241,7 +4242,13 @@ void game::debug()
         }
     }
     break;
-
+    case 28:
+    {
+        for( const auto &elem : u.mutation_category_level ) {
+            add_msg("%s: %d", elem.first.c_str(), elem.second);
+        }
+    }
+    break;
     }
     erase();
     refresh_all();
@@ -4987,7 +4994,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                  POSX + (final_destination.x - (u.posx() + u.view_offset.x)), c_white, 'X');
     }
 
-    if (u.controlling_vehicle && !looking) {
+    if( u.controlling_vehicle && !looking ) {
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
@@ -5005,20 +5012,26 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 }
 
+tripoint game::get_veh_dir_indicator_location() const
+{
+    if( !OPTIONS["VEHICLE_DIR_INDICATOR"] ) {
+        return tripoint_min;
+    }
+    vehicle *veh = m.veh_at( u.pos() );
+    if( !veh ) {
+        return tripoint_min;
+    }
+    rl_vec2d face = veh->face_vec();
+    float r = 10.0;
+    return { static_cast<int>(r * face.x), static_cast<int>(r * face.y), u.pos().z };
+}
+
 void game::draw_veh_dir_indicator(void)
 {
-    // don't draw indicator if doing look_around()
-    if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
-        vehicle *veh = m.veh_at(u.pos());
-        if( veh == nullptr ) {
-            // Exit silently
-            return;
-        }
-        rl_vec2d face = veh->face_vec();
-        float r = 10.0;
-        int x = static_cast<int>(r * face.x);
-        int y = static_cast<int>(r * face.y);
-        mvwputch(w_terrain, POSY + y - u.view_offset.y, POSX + x - u.view_offset.x, c_white, 'X');
+    tripoint indicator_offset = get_veh_dir_indicator_location();
+    if( indicator_offset != tripoint_min ) {
+        mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
+                  POSX + indicator_offset.x - u.view_offset.x, c_white, 'X' );
     }
 }
 
@@ -6774,7 +6787,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == "battery" ) {
             it->charges = 0;
         }
     }
@@ -9211,7 +9224,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     if ( bRadiusSort ) {
         sSort += _("dist");
     } else {
-        sSort += _("cat");
+        sSort += pgettext("abbr. for word category", "cat");
     }
 
     int letters = utf8_width(sSort.c_str());
@@ -10192,7 +10205,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         long max = 0;
 
         if (cont->is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+            const auto tool = dynamic_cast<const it_tool *>(cont->type);
             ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
@@ -10277,7 +10290,7 @@ int game::move_liquid(item &liquid)
             int max = 0;
 
             if (cont->is_tool()) {
-                it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+                const auto tool = dynamic_cast<const it_tool *>(cont->type);
                 ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
@@ -11257,10 +11270,10 @@ void game::reload(int pos)
         u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
 
     } else if (it->is_tool()) { // tools are simpler
-        it_tool *tool = dynamic_cast<it_tool *>(it->type);
+        const ammotype ammo = it->ammo_type();
 
         // see if its actually reloadable.
-        if (tool->ammo_id == "NULL") {
+        if (ammo == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11273,7 +11286,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(ammo).c_str());
             return;
         }else if (am_pos == INT_MIN + 2) {
             //cancelled or invalid selection
@@ -14106,10 +14119,10 @@ void game::process_artifact(item *it, player *p)
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     if( worn && it->is_armor() ) {
-        it_artifact_armor *armor = dynamic_cast<it_artifact_armor *>(it->type);
+        const auto armor = dynamic_cast<const it_artifact_armor *>(it->type);
         effects = armor->effects_worn;
     } else if (it->is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool *>(it->type);
+        const auto tool = dynamic_cast<const it_artifact_tool *>(it->type);
         effects = tool->effects_carried;
         if (wielded) {
             effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );

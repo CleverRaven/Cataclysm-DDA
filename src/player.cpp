@@ -688,7 +688,7 @@ void player::update_mental_focus()
 
     // Fatigue should at least prevent high focus
     // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if (fatigue >= 383 && focus_pool > 60) {
+    if (fatigue >= DEAD_TIRED && focus_pool > 60) {
         focus_pool = 60;
     }
 }
@@ -3608,11 +3608,11 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         wprintz(w, c_green,  _("Turgid"));
 
     wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
-    if (fatigue > 575)
+    if (fatigue > EXHAUSTED)
         wprintz(w, c_red,    _("Exhausted"));
-    else if (fatigue > 383)
+    else if (fatigue > DEAD_TIRED)
         wprintz(w, c_ltred,  _("Dead tired"));
-    else if (fatigue > 191)
+    else if (fatigue > TIRED)
         wprintz(w, c_yellow, _("Tired"));
 
     wmove(w, sideStyle ? 4 : 2, sideStyle ? 0 : 41);
@@ -3771,7 +3771,9 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %d", movecounter);
 
-    wprintz(w, c_white, " %s", move_mode == "walk" ? _("W") : _("R"));
+    const auto str_walk = pgettext( "abbr. for character is walking", "W" );
+    const auto str_run = pgettext( "abbr. for character is running", "R" );
+    wprintz(w, c_white, " %s", move_mode == "walk" ? str_walk : str_run);
     if( sideStyle ) {
         mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
         print_stamina_bar(w);
@@ -5389,8 +5391,8 @@ void player::update_needs()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( fatigue >= 600 && !in_sleep_state() ) {
-        if( fatigue >= 1000 ) {
+    if( fatigue >= EXHAUSTED + 25 && !in_sleep_state() ) {
+        if( fatigue >= MASSIVE_FATIGUE ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
@@ -5405,7 +5407,7 @@ void player::update_needs()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( fatigue >= 383 && !in_sleep_state() ) {
+    if( fatigue >= DEAD_TIRED && !in_sleep_state() ) {
         if( fatigue >= 700 ) {
            if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
@@ -5415,7 +5417,7 @@ void player::update_needs()
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
             }
-        } else if( fatigue >= 575 ) {
+        } else if( fatigue >= EXHAUSTED ) {
             if( calendar::once_every(MINUTES(5)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
@@ -5423,7 +5425,7 @@ void player::update_needs()
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if (fatigue >= 383 && calendar::once_every(MINUTES(5))) {
+        } else if (fatigue >= DEAD_TIRED && calendar::once_every(MINUTES(5))) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect("lack_sleep", 50);
         }
@@ -5472,7 +5474,7 @@ void player::update_needs()
             fatigue = -1000;
         }
 
-        const bool wasnt_fatigued = fatigue < 192;
+        const bool wasnt_fatigued = fatigue <= DEAD_TIRED;
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (fatigue < 1050 && !in_sleep_state() && !has_trait("DEBUG_LS") ) {
             fatigue++;
@@ -5508,7 +5510,7 @@ void player::update_needs()
                 fatigue++;
             }
         }
-        if( is_player() && wasnt_fatigued && fatigue >= 192 && !in_sleep_state() ) {
+        if( is_player() && wasnt_fatigued && fatigue > DEAD_TIRED && !in_sleep_state() ) {
             if (activity.type == ACT_NULL) {
                 add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                         press_x(ACTION_SLEEP).c_str());
@@ -5807,9 +5809,13 @@ void player::print_health()
     if( has_trait( "SELFAWARE" ) ) {
         add_msg( "Your current health value is: %d", current_health );
     }
+    bool ill = false;
+    if( has_effect( "common_cold" ) || has_effect( "flu" ) ) {
+        ill = true;
+    }
     int roll = rng(0,4);
     std::string message = "";
-    if (current_health > 100) {
+    if (!ill && current_health > 100) {
         switch (roll) {
         case 0:
             message = _("You feel great! It doesn't seem like wounds could even slow you down for more than a day.");
@@ -5827,7 +5833,7 @@ void player::print_health()
             message = _("You're up and you feel fantastic. No sickness is going to keep you down today!");
             break;
         }
-    } else if (current_health > 50) {
+    } else if (!ill && current_health > 50) {
         switch (roll) {
         case 0:
             message = _("You're up and going rather quickly, and all the little aches from yesterday are gone.");
@@ -5845,7 +5851,7 @@ void player::print_health()
             message = _("Awareness comes fast, your body coming quickly to attention after your rest.");
             break;
         }
-    } else if (current_health > 10) {
+    } else if (!ill && current_health > 10) {
         switch (roll) {
         case 0:
             message = _("You feel good. Healthy living does seem to have some rewards.");
@@ -7619,7 +7625,7 @@ void player::suffer()
             }
             if (mdata.fatigue){
                 fatigue += mdata.cost;
-                if (fatigue >= 575) { // Exhausted
+                if (fatigue >= EXHAUSTED) { // Exhausted
                     add_msg(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
@@ -8336,7 +8342,7 @@ void player::mend()
             // Bed rest speeds up mending
             if(has_effect("sleep")) {
                 healing_factor *= 4.0;
-            } else if(fatigue > 383) {
+            } else if(fatigue > DEAD_TIRED) {
             // but being dead tired does not...
                 healing_factor *= 0.75;
             }
@@ -8735,7 +8741,7 @@ int player::morale_level()
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
-                        bool cap_existing, itype* item_type)
+                        bool cap_existing, const itype* item_type)
 {
     bool placed = false;
 
@@ -8815,7 +8821,7 @@ int player::has_morale( morale_type type ) const
     return 0;
 }
 
-void player::rem_morale(morale_type type, itype* item_type)
+void player::rem_morale(morale_type type, const itype* item_type)
 {
     for( size_t i = 0; i < morale.size(); ++i ) {
         if (morale[i].type == type && morale[i].item_type == item_type) {
@@ -9498,7 +9504,7 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-    it_comest *comest = dynamic_cast<it_comest*>( to_eat->type );
+    const auto comest = dynamic_cast<const it_comest*>( to_eat->type );
 
     int amount_used = 1;
     if (comest != NULL) {
@@ -9622,7 +9628,7 @@ bool player::consume(int target_position)
     return true;
 }
 
-bool player::eat(item *eaten, it_comest *comest)
+bool player::eat(item *eaten, const it_comest *comest)
 {
     int to_eat = 1;
     if (comest == NULL) {
@@ -10041,7 +10047,7 @@ int player::nutrition_for(const it_comest *comest)
     return (int)nutr;
 }
 
-void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
+void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
 {
     if (has_trait("THRESH_PLANT") && comest->can_use( "PLANTBLECH" )) {
         return;
@@ -10980,7 +10986,7 @@ hint_rating player::rate_action_reload(item *it) {
         }
         return HINT_GOOD;
     } else if (it->is_tool()) {
-        it_tool* tool = dynamic_cast<it_tool*>(it->type);
+        const auto tool = dynamic_cast<const it_tool*>(it->type);
         if (tool->ammo_id == "NULL") {
             return HINT_CANT;
         }
@@ -11066,7 +11072,7 @@ hint_rating player::rate_action_disassemble(item *it) {
 hint_rating player::rate_action_use(const item *it) const
 {
     if (it->is_tool()) {
-        it_tool *tool = dynamic_cast<it_tool*>(it->type);
+        const auto tool = dynamic_cast<const it_tool*>(it->type);
         if (tool->charges_per_use != 0 && it->charges < tool->charges_per_use) {
             return HINT_IFFY;
         } else {
@@ -11129,7 +11135,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges(item *used, long charges_used)
 {
-    it_tool *tool = dynamic_cast<it_tool*>(used->type);
+    const auto tool = dynamic_cast<const it_tool*>(used->type);
     if( tool == nullptr || charges_used <= 0 ) {
         // Non-tools don't use charges
         // Canceled or not used up or whatever
@@ -12116,10 +12122,10 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy -= 999;
         }
     }
-    if (fatigue < 192) {
-        sleepy -= int( (192 - fatigue) / 4);
+    if (fatigue < TIRED + 1) {
+        sleepy -= int( (TIRED + 1 - fatigue) / 4);
     } else {
-        sleepy += int((fatigue - 192) / 16);
+        sleepy += int((fatigue - TIRED + 1) / 16);
     }
 
     if( stim > 0 || !has_trait("INSOMNIA") ) {
@@ -13221,7 +13227,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 
 std::string player::weapname(bool charges)
 {
-    if (!(weapon.is_tool() && dynamic_cast<it_tool*>(weapon.type)->max_charges <= 0) &&
+    if (!(weapon.is_tool() && dynamic_cast<const it_tool*>(weapon.type)->max_charges <= 0) &&
           weapon.charges >= 0 && charges) {
         std::stringstream dump;
         int spare_mag = weapon.has_gunmod("spare_mag");

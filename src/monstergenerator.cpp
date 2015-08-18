@@ -1,5 +1,6 @@
 #include "monstergenerator.h"
 #include "color.h"
+#include "creature.h"
 #include "translations.h"
 #include "rng.h"
 #include "debug.h"
@@ -42,7 +43,6 @@ MonsterGenerator::MonsterGenerator()
     init_death();
     init_flags();
     init_trigger();
-    init_sizes();
 }
 
 MonsterGenerator::~MonsterGenerator()
@@ -131,15 +131,6 @@ void MonsterGenerator::init_phases()
     phase_map["LIQUID"] = LIQUID;
     phase_map["GAS"] = GAS;
     phase_map["PLASMA"] = PLASMA;
-}
-
-void MonsterGenerator::init_sizes()
-{
-    size_map["TINY"] = MS_TINY; // Rodent
-    size_map["SMALL"] = MS_SMALL; // Half human
-    size_map["MEDIUM"] = MS_MEDIUM; // Human
-    size_map["LARGE"] = MS_LARGE; // Cow
-    size_map["HUGE"] = MS_HUGE; // TAAAANK
 }
 
 void MonsterGenerator::init_death()
@@ -421,7 +412,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
         newmon->color = color_from_string(jo.get_string("color"));
-        newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), size_map, MS_MEDIUM);
+        newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), Creature::size_map, MS_MEDIUM);
         newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);
 
         newmon->difficulty = jo.get_int("diff", 0);

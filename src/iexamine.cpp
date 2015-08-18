@@ -741,6 +741,9 @@ void iexamine::chainfence( player *p, map *m, const tripoint &examp )
         }
         if( one_in( climb ) ) {
             add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
+            if( climb <= 1 ) {
+                add_msg( m_bad, _( "Climbing this is impossible in your current state." ) );
+            }
             return;
         }
         p->moves += climb * 10;
@@ -2093,7 +2096,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
             return;
 
         case HAVE_A_DRINK:
-            if( !p->eat( &*drink, dynamic_cast<it_comest *>(drink->type) ) ) {
+            if( !p->eat( &*drink, dynamic_cast<const it_comest *>(drink->type) ) ) {
                 return; // They didn't actually drink
             }
 

@@ -119,6 +119,7 @@ public:
     int teleport            ( player*, item*, bool, const tripoint& );
     int can_goo             ( player*, item*, bool, const tripoint& );
     int throwable_extinguisher_act( player*, item*, bool, const tripoint& );
+    int capture_monster_act ( player*, item*, bool, const tripoint& );
     int pipebomb_act        ( player*, item*, bool, const tripoint& );
     int granade             ( player*, item*, bool, const tripoint& );
     int granade_act         ( player*, item*, bool, const tripoint& );
@@ -226,6 +227,9 @@ public:
 
     // Helper for listening to music, might deserve a better home, but not sure where.
     static void play_music( player *p, const tripoint &source, int volume, int max_morale );
+
+    // Helper for handling pesky wannabe-artists
+    static int handle_ground_graffiti( player *p, item *it, const std::string prefix );
 
     static void reset_bullet_pulling();
     static void load_bullet_pulling(JsonObject &jo);

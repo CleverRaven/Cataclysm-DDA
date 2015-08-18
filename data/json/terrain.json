@@ -3114,7 +3114,7 @@
         "symbol": ".",
         "color": "ltgray",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FUNGUS", "NOCOLLIDE"],
         "bash": {
             "sound": "smash", "//": "muffled because fungus",
             "ter_set": "t_null",
@@ -3920,7 +3920,7 @@
     },{
         "type" : "terrain",
         "id" : "t_cvdbody",
-        "name": "cvd machine",
+        "name": "CVD machine",
         "symbol": "%",
         "color": "dkgray",
         "move_cost": 0,
@@ -3939,7 +3939,7 @@
     },{
         "type" : "terrain",
         "id" : "t_cvdmachine",
-        "name": "cvd control panel",
+        "name": "CVD control panel",
         "symbol": "&",
         "color": "cyan",
         "move_cost": 0,

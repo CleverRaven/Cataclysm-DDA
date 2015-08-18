@@ -750,13 +750,13 @@ npc_action npc::address_needs(int danger)
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger == 0 && fatigue > 191 ) {
+    if( danger == 0 && fatigue > TIRED ) {
         if( !is_following() ) {
             fatigue = 0; // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
         }
 
-        if( has_effect( "allow_sleep" ) || fatigue > 1000 ) {
+        if( has_effect( "allow_sleep" ) || fatigue > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
@@ -879,9 +879,9 @@ int npc::choose_escape_item()
     for (size_t i = 0; i < slice.size(); i++) {
         item &it = slice[i]->front();
         for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
-            it_comest *food = NULL;
+            const it_comest *food = NULL;
             if (it.is_food()) {
-                food = dynamic_cast<it_comest *>(it.type);
+                food = dynamic_cast<const it_comest *>(it.type);
             }
             if (it.type->id == ESCAPE_ITEMS[j] &&
                 (food == NULL || stim < food->stim ||            // Avoid guzzling down
@@ -1913,10 +1913,10 @@ void npc::activate_item(int item_index)
     const int oldmoves = moves;
     item *it = &i_at(item_index);
     if (it->is_tool()) {
-        it_tool *tool = dynamic_cast<it_tool *>(it->type);
+        const auto tool = dynamic_cast<const it_tool *>(it->type);
         tool->invoke( this, it, pos3() );
     } else if (it->is_food()) {
-        it_comest *comest = dynamic_cast<it_comest *>(it->type);
+        const auto comest = dynamic_cast<const it_comest *>(it->type);
         comest->invoke( this, it, pos3() );
     }
 
@@ -2104,12 +2104,12 @@ void npc::pick_and_eat()
     invslice slice = inv.slice();
     for (size_t i = 0; i < slice.size(); i++) {
         int eaten_hunger = -1, eaten_thirst = -1;
-        it_comest *food = NULL;
+        const it_comest *food = NULL;
         item &it = slice[i]->front();
         if (it.is_food()) {
-            food = dynamic_cast<it_comest *>(it.type);
+            food = dynamic_cast<const it_comest *>(it.type);
         } else if (it.is_food_container()) {
-            food = dynamic_cast<it_comest *>(it.contents[0].type);
+            food = dynamic_cast<const it_comest *>(it.contents[0].type);
         }
         if (food != NULL) {
             eaten_hunger = hunger - food->nutr;
