@@ -677,7 +677,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
         if( veh.player_in_control( *psg ) ) {
             const int lose_ctrl_roll = rng( 0, d_vel );
             if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3 ) {
-                add_msg( m_warning,
+                psg->add_msg_player_or_npc( m_warning,
                     _("You lose control of the %s."),
                     _("<npcname> loses control of the %s."),
                     veh.name.c_str() );
