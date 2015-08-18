@@ -3858,21 +3858,21 @@ void vehicle::operate_planter(){
     for( int planter_id : planters ){
         const tripoint& loc = global_pos3()
                                    + parts[planter_id].precalc[0], 1;
-            vehicle_stack v = get_items(planter_id);
-            for(auto i = v.begin(); i != v.end(); i++ ){
-                if(i->is_seed()){
-                    if( g->m.ter(loc) != t_dirtmound && !parts[planter_id].has_flag( "ADVANCED" ))) {//If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                        break;//then don't put the item there.
-                    }else if(g->m.ter(loc) == t_dirtmound ){
-                        g->m.furn_set(loc, f_plant_seed);
-                    }else if( !g->m.has_flag("DIGGABLE") ){//If it isn't diggable terrain, then it will most likely be damaged.
-                        damage(planter_id, rng(1,10), DT_BASH, false);
-                    }
-                    g->m.add_item(loc,*i);
-                    i = v.erase(i);
-                    break;
+        vehicle_stack v = get_items(planter_id);
+        for(auto i = v.begin(); i != v.end(); i++ ){
+            if(i->is_seed()){
+                if( g->m.ter(loc) != t_dirtmound && !parts[planter_id].has_flag( "ADVANCED" ))) {//If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
+                    break;//then don't put the item there.
+                }else if(g->m.ter(loc) == t_dirtmound ) {
+                    g->m.furn_set(loc, f_plant_seed);
+                }else if( !g->m.has_flag("DIGGABLE") ) {//If it isn't diggable terrain, then it will most likely be damaged.
+                    damage(planter_id, rng(1,10), DT_BASH, false);
                 }
+                g->m.add_item(loc,*i);
+                i = v.erase(i);
+                break;
             }
+        }
     }
 }
 
