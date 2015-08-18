@@ -601,8 +601,8 @@ public:
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_info(std::string data) override;// Overloaded from player
- virtual std::string save_info() override;
+    virtual void load_info(std::string data) override;// Overloaded from player
+    virtual std::string save_info() const override;
 
     using player::deserialize;
     virtual void deserialize(JsonIn &jsin) override;
