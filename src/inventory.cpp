@@ -122,7 +122,7 @@ inventory inventory::operator+ (const item &rhs)
 
 /*static*/ bool inventory::has_activation(const item &it, const player &u)
 {
-    return u.rate_action_use(&it) != HINT_CANT;
+    return u.rate_action_use( it ) != HINT_CANT;
 }
 
 /*static*/ bool inventory::has_capacity_for_liquid(const item &it, const item &liquid)
@@ -731,16 +731,21 @@ void inventory::dump(std::vector<item *> &dest)
     }
 }
 
-item &inventory::find_item(int position)
+const item &inventory::find_item(int position) const
 {
     if (position < 0 || position >= (int)items.size()) {
         return nullitem;
     }
-    invstack::iterator iter = items.begin();
+    invstack::const_iterator iter = items.begin();
     for (int j = 0; j < position; ++j) {
         ++iter;
     }
     return iter->front();
+}
+
+item &inventory::find_item(int position)
+{
+    return const_cast<item&>( const_cast<const inventory*>(this)->find_item( position ) );
 }
 
 int inventory::invlet_to_position( char invlet ) const

@@ -730,10 +730,10 @@ bool player::has_grab_break_tec() const
     return false;
 }
 
-bool player::can_leg_block()
+bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
-    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level("unarmed");
 
     // Success conditions.
     if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
@@ -747,10 +747,10 @@ bool player::can_leg_block()
     return false;
 }
 
-bool player::can_arm_block()
+bool player::can_arm_block() const
 {
     const martialart &ma = style_selected.obj();
-    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level("unarmed");
 
     // Success conditions.
     if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
@@ -764,7 +764,7 @@ bool player::can_arm_block()
     return false;
 }
 
-bool player::can_limb_block()
+bool player::can_limb_block() const
 {
     return can_arm_block() || can_leg_block();
 }

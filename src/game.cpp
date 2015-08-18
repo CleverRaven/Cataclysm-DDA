@@ -1619,17 +1619,17 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         std::vector< std::tuple<std::string,std::string,std::string,double> >
             menuItems {
-                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)),
-                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem)),
-                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)),
-                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)),
+                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use( oThisItem )),
+                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read( oThisItem )),
+                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat( oThisItem )),
+                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear( oThisItem )),
                 std::make_tuple("MENU", "w", _("<w>ield"), -999),
                 std::make_tuple("MENU", "t", _("<t>hrow"), -999),
-                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)),
+                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff( oThisItem )),
                 std::make_tuple("MENU", "d", _("<d>rop"), rate_drop_item),
                 std::make_tuple("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )),
-                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)),
-                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)),
+                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload( oThisItem )),
+                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble( oThisItem )),
                 std::make_tuple("MENU", "=", _("<=> reassign"),-999)
             };
 
@@ -10778,7 +10778,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                         ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
+    if( veh != nullptr && veh->player_in_control(u) && u.weapon.is_two_handed(u) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }

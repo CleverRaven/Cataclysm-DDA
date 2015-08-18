@@ -463,7 +463,7 @@ nc_color monster::color_with_effects() const
     return ret;
 }
 
-bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
+bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
 {
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
