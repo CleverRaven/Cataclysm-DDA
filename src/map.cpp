@@ -822,7 +822,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         // TODO: Allow vehicles to get displaced vertically
         const tripoint &veh_start=veh->global_pos3();
         tripoint dp( dx, dy, 0 );
-        for( int plow_id : veh->all_parts_with_feature( "PLOW" ) ){
+        for( const int plow_id : veh->all_parts_with_feature( "PLOW" ) ){
             if( !veh->plow_on ){
                 break;
             }
@@ -834,6 +834,11 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
             for( const tripoint& plow_pt : plow_line ){
                 if( has_flag("DIGGABLE", plow_pt) ){
                     ter_set( plow_pt, t_dirtmound );
+                }else{
+                    const int speed = dp.x + dp.y;
+                    const int damage = rng( 3, speed );
+                    veh->damage( plow_id, damage, DT_BASH, false );
+                    sounds::sound( plow_pt, damage, _("Clanggggg!") );
                 }
             }
         }
