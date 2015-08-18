@@ -4126,7 +4126,8 @@ int player::clairvoyance() const
 
 bool player::sight_impaired()
 {
- return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+ return ((( has_effect("boomered") || has_effect("darkness") ) &&
+          (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
               !worn_with_flag("SWIM_GOGGLES") && !has_trait("PER_SLIME_OK") &&
               !has_trait("CEPH_EYES") ) ||
@@ -12223,7 +12224,7 @@ float player::fine_detail_vision_mod()
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
     if( has_effect("blind") || worn_with_flag("BLIND") ||
-        (has_effect("boomered") && !has_trait("PER_SLIME_OK")) ) {
+        (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
         return 5.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
