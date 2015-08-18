@@ -130,6 +130,7 @@ int mvwhline(WINDOW *win, int y, int x, chtype ch, int n);
 int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
 
 int wrefresh(WINDOW *win);
+int redrawwin(WINDOW *win);
 int refresh(void);
 int getch(void);
 int wgetch(WINDOW *win);

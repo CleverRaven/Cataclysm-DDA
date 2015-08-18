@@ -716,6 +716,7 @@ const std::string &input_context::handle_input()
         // Special help action
         if(action == "HELP_KEYBINDINGS") {
             display_help();
+            redraw_windows();
             return HELP_KEYBINDINGS;
         }
 
@@ -1257,4 +1258,17 @@ std::string input_context::press_x(const std::string &action_id, const std::stri
     }
     keyed << key_bound_suf;
     return keyed.str();
+}
+
+void input_context::assign_windows(const std::vector<WINDOW *const*>& windows)
+{
+    context_windows = windows;
+}
+
+void input_context::redraw_windows()
+{
+    for (auto win : context_windows) {
+        redrawwin(*win);
+        wrefresh(*win);
+    }
 }

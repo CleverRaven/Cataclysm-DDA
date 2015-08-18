@@ -439,8 +439,8 @@ class input_context
          */
         std::vector<char> keys_bound_to(const std::string &action_id) const;
     private:
-
         std::vector<std::string> registered_actions;
+
     public:
         const std::string &input_to_action(input_event &inp);
     private:
@@ -475,6 +475,19 @@ class input_context
          * keybindings.
          */
         void clear_conflicting_keybindings(const input_event &event);
+
+    public:
+        /**
+         * Assigns windows that are displayed when context is used
+         */
+        void assign_windows(const std::vector<WINDOW*const*>& windows);
+        /**
+         * Redraws all assigned windows
+         */
+        void redraw_windows();
+    private:
+        std::vector<WINDOW*const*> context_windows;
+
 };
 
 /**
