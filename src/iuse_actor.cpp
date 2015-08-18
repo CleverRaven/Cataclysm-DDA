@@ -1231,16 +1231,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        std::string message = string_input_popup( _("Write what?"), 0, "", "", "graffiti");
-        if( message.empty() ) {
-            return 0;
-        } else {
-            g->m.set_graffiti( p->pos3(), message );
-            add_msg( _("You write a message on the ground.") );
-            p->moves -= 2 * message.length();
-        }
-
-        return it->type->charges_to_use();
+        return iuse::handle_ground_graffiti( p, it, _("Write what?") );
     }
 
     int pos = g->inv( _("Inscribe which item?") );
