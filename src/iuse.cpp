@@ -6640,14 +6640,14 @@ int iuse::spray_can(player *p, item *it, bool, const tripoint& )
 
 int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
 {
-    const auto suffix = pgettext("mind the starting space", " (To delete, input one '.')");
-    std::string message = string_input_popup( prefix + suffix, 0, "", "", "graffiti" );
+    std::string message = string_input_popup( prefix + " " + _("(To delete, input one '.')"),
+                                              0, "", "", "graffiti" );
 
     if( message.empty() ) {
         return 0;
     } else {
         const auto where = p->pos3();
-        int move_cost = 0;
+        int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
                 move_cost = 3 * g->m.graffiti_at( where ).length();
@@ -6655,6 +6655,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
                 add_msg( _("You manage to get rid of the message on the ground.") );
             } else {
                 add_msg( _("There isn't anything to erase here.") );
+                return 0;
             }
         } else {
             g->m.set_graffiti( where, message );
