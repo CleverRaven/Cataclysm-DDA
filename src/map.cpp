@@ -489,13 +489,13 @@ const vehicle *map::vehproceed()
     // Where do we go
     tileray mdir; // the direction we're moving
     if( veh.skidding ) {
-        // if skidding, it's the move vector
+        // If skidding, it's the move vector
         mdir = veh.move;
     } else if( veh.turn_dir != veh.face.dir() ) {
-        // driver turned vehicle, get turn_dir
+        // Driver turned vehicle, get turn_dir
         mdir.init( veh.turn_dir ); 
     } else {
-        // not turning, keep face.dir
+        // Not turning, keep face.dir
         mdir = veh.face;
     }
 
@@ -506,18 +506,17 @@ const vehicle *map::vehproceed()
     tripoint dp;
     dp.x = mdir.dx();
     dp.y = mdir.dy();
-    const int facing = mdir.dir();
 
-    move_vehicle( veh, dp, facing );
+    move_vehicle( veh, dp, mdir );
     return &veh;
 }
 
-void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
+void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
     tripoint pt = veh.global_pos3();
     bool can_move = true;
     // Calculate parts' mount points @ next turn (put them into precalc[1])
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir() );
 
     int impulse = 0;
 
@@ -555,7 +554,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
 
     int coll_turn = 0;
     if( impulse > 0 ) {
-        coll_turn = shake_vehicle( veh, velocity_before, facing );
+        coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
     }
 
     if( veh_veh_coll_flag ) {
@@ -579,11 +578,12 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
         std::vector<int> wheel_indices = veh.all_parts_with_feature("WHEEL", false);
         for (auto &w : wheel_indices) {
             const tripoint wheel_p = pt + veh.parts[w].precalc[0];
-            if (one_in(2)) {
+            if( one_in( 2 ) ) {
                 if( displace_water( wheel_p ) ) {
                     sounds::sound( wheel_p, 4, _("splash!"), false, "environment", "splash");
                 }
             }
+
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
                 // TODO: Make this value depend on the wheel

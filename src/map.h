@@ -47,6 +47,7 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
+class tileray;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -492,7 +493,7 @@ public:
 
     // Actually moves the vehicle
     // Unlike displace_vehicle, this one handles collisions
-    void move_vehicle( vehicle &veh, const tripoint &dp, int facing );
+    void move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
