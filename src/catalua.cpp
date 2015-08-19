@@ -1177,3 +1177,28 @@ long use_function::call( player *player_instance, item *item_instance, bool acti
     }
     return 0;
 }
+
+#ifndef LUA
+/* Empty functions for builds without Lua: */
+int lua_monster_move( monster * )
+{
+    return 0;
+}
+int call_lua( std::string ) {
+    popup( "This binary was not compiled with Lua support." );
+    return 0;
+}
+int lua_mapgen( map *, std::string, mapgendata, int, float, const std::string & )
+{
+    return 0;
+}
+void lua_callback( const char * )
+{
+}
+void lua_loadmod( std::string, std::string )
+{
+}
+void game::init_lua()
+{
+}
+#endif

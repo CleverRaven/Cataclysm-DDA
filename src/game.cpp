@@ -158,9 +158,7 @@ game::game() :
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
-#ifdef LUA
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
-#endif
     // UI stuff, not mod-specific per definition
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
@@ -237,13 +235,10 @@ void game::load_core_data()
 
 void game::load_data_from_dir(const std::string &path)
 {
-#ifdef LUA
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
     // the items that need them are parsed
-
     lua_loadmod( path, "preload.lua" );
-#endif
 
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
@@ -251,12 +246,9 @@ void game::load_data_from_dir(const std::string &path)
         debugmsg("Error loading data from json: %s", err.what());
     }
 
-#ifdef LUA
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
-
     lua_loadmod( path, "main.lua" );
-#endif
 }
 
 game::~game()
@@ -1202,9 +1194,7 @@ bool game::do_turn()
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
         overmap_buffer.process_mongroups();
-#ifdef LUA
         lua_callback("on_day_passed");
-#endif
     }
 
     if( calendar::once_every(MINUTES(5)) ) { //move hordes every 5 min
@@ -4208,12 +4198,8 @@ void game::debug()
     break;
 
     case 24: {
-#ifdef LUA
         std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
-#else
-        popup( "This binary was not compiled with Lua support." );
-#endif
     }
     break;
     case 25:

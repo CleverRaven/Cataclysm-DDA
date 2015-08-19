@@ -3,19 +3,9 @@
 
 #include <string>
 
-#ifdef LUA
-
 class map;
 class monster;
 struct mapgendata;
-
-extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-}
-
-extern lua_State *lua_state;
 
 /** If this returns 0, no lua function was defined to override behavior.
  *  If this returns 1, lua behavior was called and regular behavior should be omitted.
@@ -41,7 +31,5 @@ void lua_callback(const char *callback_name);
  * @param main_file_name The file name of the lua file, usually "main.lua"
  */
 void lua_loadmod(std::string base_path, std::string main_file_name);
-
-#endif
 
 #endif
