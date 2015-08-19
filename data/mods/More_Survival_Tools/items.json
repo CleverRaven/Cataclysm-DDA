@@ -406,7 +406,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 5,
-        "cutting" : 13,
+        "cutting" : 14,
         "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 1300,
         "qualities": [["COOK", 1]]
@@ -423,8 +423,8 @@
         "material" : ["copper", "wood"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 6,
-        "bashing" : 6,
-        "cutting" : 13,
+        "bashing" : 5,
+        "cutting" : 16,
         "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 1400,
         "qualities": [["COOK", 1]]
@@ -825,23 +825,5 @@
     "revert_to": "null",
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
-    },
-    {
-        "type":"GENERIC",
-        "id" : "spear_wood",
-        "name" : "wooden spear",
-        "description" : "A stout pole with an improvised grip and a fire-hardened point.",
-        "weight" : 898,
-        "to_hit" : 1,
-        "color" : "brown",
-        "symbol" : "/",
-        "material" : ["wood", "null"],
-        "techniques" : "WBLOCK_1",
-        "volume" : 5,
-        "bashing" : 5,
-        "cutting" : 12,
-        "flags" : ["SPEAR", "REACH_ATTACK"],
-        "price" : 4000,
-        "qualities": [["COOK", 1]]
     }
 ]
