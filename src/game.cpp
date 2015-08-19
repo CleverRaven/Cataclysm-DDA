@@ -668,8 +668,10 @@ void game::start_game(std::string worldname)
     load_map( lev );
 
     m.build_map_cache( get_levz() );
-    // Do this after the map cache has been build!
+    // Do this after the map cache has been built!
     start_loc.place_player( u );
+    // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 
@@ -695,12 +697,14 @@ void game::start_game(std::string worldname)
 
     // Make sure that no monsters are near the player
     // This can happen in lab starts
-    for( size_t i = 0; i < num_zombies(); ) {
-        if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
-            m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-            despawn_monster( i );
-        } else {
-            i++;
+    if( !spawn_near ) {
+        for( size_t i = 0; i < num_zombies(); ) {
+            if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
+                m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
+                remove_zombie( i );
+            } else {
+                i++;
+            }
         }
     }
 
@@ -1194,7 +1198,7 @@ bool game::do_turn()
         return cleanup_at_end();
     }
     // Actual stuff
-    if (new_game) {
+    if( new_game ) {
         new_game = false;
     } else {
         gamemode->per_turn();
@@ -1210,7 +1214,8 @@ bool game::do_turn()
 #endif
     }
 
-    if( calendar::once_every(MINUTES(5)) ) { //move hordes every 5 min
+    // Move hordes every 5 min
+    if( calendar::once_every(MINUTES(5)) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
