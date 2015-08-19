@@ -535,13 +535,13 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
     const bool veh_veh_coll_flag = !veh_veh_colls.empty();
     if( !veh_veh_colls.empty() ) {
         // Only collide with each vehicle once
-        std::set<vehicle*> coll_targets;
+        std::map<vehicle*, std::vector<veh_collision> > coll_targets;
         for( const auto &col : veh_veh_colls ) {
-            coll_targets.insert( static_cast<vehicle*>( col.target ) );
+            coll_targets[ static_cast<vehicle*>( col.target ) ].push_back( col );
         }
 
-        for( vehicle *other_veh : coll_targets ) {
-            impulse += vehicle_vehicle_collision( veh, *other_veh, veh_veh_colls );
+        for( auto &pair : coll_targets ) {
+            impulse += vehicle_vehicle_collision( veh, *pair.first, pair.second );
         }
     }
 
@@ -565,7 +565,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const int facing )
     // If not enough wheels, mess up the ground a bit.
     if( !veh.valid_wheel_config() ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
-        for (auto &p : veh.parts) {
+        for( auto &p : veh.parts ) {
             const tripoint pp = pt + p.precalc[0];
             const ter_id &pter = ter(pp);
             if( pter == t_dirt || pter == t_grass ) {
