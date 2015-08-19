@@ -43,7 +43,7 @@ extern "C" {
 
 using item_stack_iterator = std::list<item>::iterator;
 
-lua_State *lua_state;
+lua_State *lua_state = nullptr;
 
 // Keep track of the current mod from which we are executing, so that
 // we know where to load files from.
@@ -1040,6 +1040,11 @@ static const struct luaL_Reg global_funcs [] = {
 // Lua initialization.
 void game::init_lua()
 {
+    // This is called on each new-game, the old state (if any) is closed to dispose any data
+    // introduced by mods of the previously loaded world.
+    if( lua_state != nullptr ) {
+        lua_close( lua_state );
+    }
     lua_state = luaL_newstate();
     if( lua_state == nullptr ) {
         debugmsg( "Failed to start Lua. Lua scripting won't be available." );

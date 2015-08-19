@@ -158,7 +158,6 @@ game::game() :
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
-    init_lua();                 // Set up lua                       (SEE catalua.cpp)
     // UI stuff, not mod-specific per definition
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
@@ -230,6 +229,7 @@ void game::load_core_data()
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
+    init_lua();
     load_data_from_dir(FILENAMES["jsondir"]);
 }
 
