@@ -242,7 +242,7 @@ void game::load_data_from_dir(const std::string &path)
     // so that custom IUSE's can be defined before
     // the items that need them are parsed
 
-    lua_loadmod(lua_state, path, "preload.lua");
+    lua_loadmod( path, "preload.lua" );
 #endif
 
     try {
@@ -255,7 +255,7 @@ void game::load_data_from_dir(const std::string &path)
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
 
-    lua_loadmod(lua_state, path, "main.lua");
+    lua_loadmod( path, "main.lua" );
 #endif
 }
 

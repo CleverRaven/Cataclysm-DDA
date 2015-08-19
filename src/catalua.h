@@ -45,7 +45,7 @@ void lua_callback(lua_State *L, const char *callback_name);
  * @param base_path The base path of the mod.
  * @param main_file_name The file name of the lua file, usually "main.lua"
  */
-void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name);
+void lua_loadmod(std::string base_path, std::string main_file_name);
 
 #endif
 

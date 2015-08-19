@@ -953,7 +953,7 @@ static int game_register_iuse(lua_State *L)
 #include "lua/catabindings.cpp"
 
 // Load the main file of a mod
-void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name)
+void lua_loadmod(std::string base_path, std::string main_file_name)
 {
     std::string full_path = base_path + "/" + main_file_name;
 
@@ -962,7 +962,7 @@ void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name
     int file_exists = stat(full_path.c_str(), &buffer) == 0;
     if(file_exists) {
         lua_file_path = base_path;
-        lua_dofile(L, full_path.c_str());
+        lua_dofile( lua_state, full_path.c_str() );
         lua_file_path = "";
     }
     // debugmsg("Loading from %s", full_path.c_str());
