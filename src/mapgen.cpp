@@ -1465,7 +1465,6 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
-void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::string & scr);
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
@@ -1481,7 +1480,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     }
 #ifdef LUA
     if ( ! luascript.empty() ) {
-        mapgen_lua(m, terrain_type, md, t, d, luascript);
+        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript );
     }
 #else
     (void)md;
@@ -1546,7 +1545,7 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 
 #ifdef LUA
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    mapgen_lua(m, terrain_type, dat, t, d, scr );
+    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr );
 }
 #endif
 
