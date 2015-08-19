@@ -1188,10 +1188,8 @@ int call_lua( std::string ) {
     popup( "This binary was not compiled with Lua support." );
     return 0;
 }
-int lua_mapgen( map *, std::string, mapgendata, int, float, const std::string & )
-{
-    return 0;
-}
+// Implemented in mapgen.cpp:
+// int lua_mapgen( map *, std::string, mapgendata, int, float, const std::string & )
 void lua_callback( const char * )
 {
 }

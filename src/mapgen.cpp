@@ -1516,14 +1516,9 @@ void jmapgen_objects::apply(map *m, float density) const {
 ///// lua mapgen functions
 // wip: need moar bindings. Basic stuff works
 
-/*
- * Apply interpreted script; slowest, more versatile eventually.
- */
-void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::string & scr) {
-#ifdef LUA
-    lua_mapgen(m, std::string(id), md, t, d, scr);
-#else
-    (void)scr;
+#ifndef LUA
+int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string & )
+{
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_simple(m, 0, 6,
 "\
@@ -1538,10 +1533,10 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::basic_bind("")); // should never happen: overmap loader skips lua mapgens on !LUA builds.
-
-#endif
+", mapf::basic_bind("*", t_paper), mapf::basic_bind(""));
+    return 0;
 }
+#endif
 
 #ifdef LUA
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
