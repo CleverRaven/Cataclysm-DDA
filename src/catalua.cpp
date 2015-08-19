@@ -68,6 +68,8 @@ static void luaL_setfuncs( lua_State * const L, const luaL_Reg arrary[], int con
 }
 #endif
 
+void lua_dofile(lua_State *L, const char *path);
+
 // Helper functions for making working with the lua API more straightforward.
 // --------------------------------------------------------------------------
 
