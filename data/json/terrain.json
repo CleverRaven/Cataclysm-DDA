@@ -2309,7 +2309,7 @@
     },{
         "type" : "terrain",
         "id" : "t_tree",
-        "name": "tree",
+        "name": "oak tree",
         "symbol": "7",
         "color": "green",
         "move_cost": 0,
