@@ -6417,7 +6417,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     // If the submap is uniform, we can skip many checks
     const submap *current_submap = get_submap_at_grid( gp );
     bool ignore_terrain_checks = false;
-    bool ignore_inside_checks = !group.horde;
+    bool ignore_inside_checks = gp.z < 0;
     if( current_submap->is_uniform ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
         if( move_cost( upper_left ) == 0 ||
