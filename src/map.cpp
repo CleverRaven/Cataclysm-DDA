@@ -6417,9 +6417,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     // If the submap is uniform, we can skip many checks
     const submap *current_submap = get_submap_at_grid( gp );
     bool ignore_terrain_checks = false;
+    bool ignore_inside_checks = !group.horde;
     if( current_submap->is_uniform ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
-        if( move_cost( upper_left ) == 0 || has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) {
+        if( move_cost( upper_left ) == 0 ||
+            ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
             dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
                 " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
@@ -6428,6 +6430,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         }
 
         ignore_terrain_checks = true;
+        ignore_inside_checks = true;
     }
 
     for( int x = 0; x < SEEX; ++x ) {
@@ -6447,7 +6450,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // monster must spawn outside the viewing range of the player
             }
 
-            if( !ignore_terrain_checks && has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
+            if( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
                 continue; // monster must spawn outside.
             }
 
@@ -6463,7 +6466,11 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
             " at " << gp.x << "," << gp.y << "," << gp.z <<
             " global " << glp.x << "," << glp.y << "," << glp.z;
         // Just kill the group. It's not like we're removing existing monsters
-        group.population = 0;
+        // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
+        if( !group.horde ) {
+            group.population = 0;
+        }
+
         return;
     }
 
