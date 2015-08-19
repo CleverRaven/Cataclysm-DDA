@@ -96,7 +96,10 @@
                     ],
                     "furniture": "f_locker"
                 }
-            }
+            },
+            "place_monster": [
+                { "x": 8, "y": 10, "monster": "mon_darkman" }
+            ]
         }
     },
     {

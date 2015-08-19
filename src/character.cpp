@@ -302,6 +302,8 @@ void Character::recalc_sight_limits()
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
+    } else if( has_effect( "darkness" ) ) {
+        sight_max = 10;
     }
 
     vision_mode_cache.reset();
