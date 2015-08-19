@@ -6395,7 +6395,6 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
 
 void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
-    const int s_range = std::min(SEEX * (MAPSIZE / 2), g->u.sight_range( g->light_level() ) );
     int pop = group.population;
     std::vector<tripoint> locations;
     if( !ignore_sight ) {
@@ -6421,8 +6420,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( current_submap->is_uniform ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
         if( move_cost( upper_left ) == 0 || has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) {
+            const tripoint glp = getabs( gp );
             dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                " at uniform submap " << gp.x << "," << gp.y << "," << gp.z;
+                " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
+                " global " << glp.x << "," << glp.y << "," << glp.z;
             return;
         }
 
@@ -6442,7 +6443,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // solid area, impassable
             }
 
-            if( !ignore_sight && sees( g->u.pos(), fp, s_range ) ) {
+            if( !ignore_sight && g->u.sees( fp, true ) ) {
                 continue; // monster must spawn outside the viewing range of the player
             }
 
@@ -6457,8 +6458,12 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( locations.empty() ) {
         // TODO: what now? there is now possible place to spawn monsters, most
         // likely because the player can see all the places.
+        const tripoint glp = getabs( gp );
         dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-            " at " << gp.x << "," << gp.y << "," << gp.z;
+            " at " << gp.x << "," << gp.y << "," << gp.z <<
+            " global " << glp.x << "," << glp.y << "," << glp.z;
+        // Just kill the group. It's not like we're removing existing monsters
+        group.population = 0;
         return;
     }
 

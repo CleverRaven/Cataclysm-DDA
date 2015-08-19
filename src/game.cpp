@@ -688,13 +688,16 @@ void game::start_game(std::string worldname)
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    //spawn the monsters
-    m.spawn_monsters( true ); // Static monsters
+    // Spawn the monsters
+    const bool spawn_near =
+        ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START");
+    m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
     // This can happen in lab starts
     for( size_t i = 0; i < num_zombies(); ) {
-        if( m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
+        if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
+            m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
             despawn_monster( i );
         } else {
             i++;
