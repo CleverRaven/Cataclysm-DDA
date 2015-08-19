@@ -724,7 +724,7 @@ int call_lua(std::string tocall)
 }
 
 
-void lua_callback(lua_State *, const char *callback_name)
+void lua_callback(const char *callback_name)
 {
     call_lua(std::string("mod_callback(\"") + std::string(callback_name) + "\")");
 }

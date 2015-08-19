@@ -32,7 +32,7 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata md, int t, float d,
 /**
  * Execute a callback that can be overriden by all mods.
  */
-void lua_callback(lua_State *L, const char *callback_name);
+void lua_callback(const char *callback_name);
 
 /**
  * Load the main file of a lua mod.

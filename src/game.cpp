@@ -1203,7 +1203,7 @@ bool game::do_turn()
         calendar::turn.seconds() == 0) { // Midnight!
         overmap_buffer.process_mongroups();
 #ifdef LUA
-        lua_callback(lua_state, "on_day_passed");
+        lua_callback("on_day_passed");
 #endif
     }
 
