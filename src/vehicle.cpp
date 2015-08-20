@@ -3868,18 +3868,27 @@ void vehicle::idle(bool on_map) {
                         for(int j : adjacent){
                             if( part_flag(j,"CARGO") ) {
                                 if( seed_data.spawn_seeds ){
-                                    tmp=item( seedType, calendar::turn );
+                                    tmp = item( seedType, calendar::turn );
                                     while( add_item(j,tmp) && seed_count > 0){
                                         seed_count--;
                                     }
                                 }
-                                tmp=item(seed_data.fruit_id,calendar::turn);
-                                while(add_item(j,tmp) && plant_count > 0){
+                                tmp = item(seed_data.fruit_id, calendar::turn);
+                                while( add_item(j,tmp) && plant_count > 0){
                                     plant_count--;
                                 }
                             }
                         }
-                    }
+                        tmp = item( seed_data.fruit_id, calendar_turn );
+                        while(plant_count > 0){
+                            g->m.add_item_or_charges(harvest_pt, tmp);
+                            plant_count--;
+                        }
+                        tmp = item( seedType, calendar::turn );
+                        while( seed_data.spawn_seeds && seed_count > 0)
+                            g->m.add_item_or_charges(harvest_pt, tmp);
+                            seed_count--;
+                        }
                 }
             }
         }
