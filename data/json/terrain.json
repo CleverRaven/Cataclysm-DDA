@@ -2346,7 +2346,7 @@
         "id" : "t_tree_apple",
         "name": "apple tree",
         "symbol": "7",
-        "color": "red_green",
+        "color": "red_ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "AUTUMN",
