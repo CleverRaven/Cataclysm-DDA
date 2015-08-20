@@ -43,7 +43,7 @@ extern "C" {
 
 using item_stack_iterator = std::list<item>::iterator;
 
-lua_State *lua_state;
+lua_State *lua_state = nullptr;
 
 // Keep track of the current mod from which we are executing, so that
 // we know where to load files from.
@@ -67,6 +67,8 @@ static void luaL_setfuncs( lua_State * const L, const luaL_Reg arrary[], int con
     lua_pop( L, nup );
 }
 #endif
+
+void lua_dofile(lua_State *L, const char *path);
 
 // Helper functions for making working with the lua API more straightforward.
 // --------------------------------------------------------------------------
@@ -722,7 +724,7 @@ int call_lua(std::string tocall)
 }
 
 
-void lua_callback(lua_State *, const char *callback_name)
+void lua_callback(const char *callback_name)
 {
     call_lua(std::string("mod_callback(\"") + std::string(callback_name) + "\")");
 }
@@ -953,7 +955,7 @@ static int game_register_iuse(lua_State *L)
 #include "lua/catabindings.cpp"
 
 // Load the main file of a mod
-void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name)
+void lua_loadmod(std::string base_path, std::string main_file_name)
 {
     std::string full_path = base_path + "/" + main_file_name;
 
@@ -962,7 +964,7 @@ void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name
     int file_exists = stat(full_path.c_str(), &buffer) == 0;
     if(file_exists) {
         lua_file_path = base_path;
-        lua_dofile(L, full_path.c_str());
+        lua_dofile( lua_state, full_path.c_str() );
         lua_file_path = "";
     }
     // debugmsg("Loading from %s", full_path.c_str());
@@ -1038,6 +1040,11 @@ static const struct luaL_Reg global_funcs [] = {
 // Lua initialization.
 void game::init_lua()
 {
+    // This is called on each new-game, the old state (if any) is closed to dispose any data
+    // introduced by mods of the previously loaded world.
+    if( lua_state != nullptr ) {
+        lua_close( lua_state );
+    }
     lua_state = luaL_newstate();
     if( lua_state == nullptr ) {
         debugmsg( "Failed to start Lua. Lua scripting won't be available." );
@@ -1175,3 +1182,26 @@ long use_function::call( player *player_instance, item *item_instance, bool acti
     }
     return 0;
 }
+
+#ifndef LUA
+/* Empty functions for builds without Lua: */
+int lua_monster_move( monster * )
+{
+    return 0;
+}
+int call_lua( std::string ) {
+    popup( "This binary was not compiled with Lua support." );
+    return 0;
+}
+// Implemented in mapgen.cpp:
+// int lua_mapgen( map *, std::string, mapgendata, int, float, const std::string & )
+void lua_callback( const char * )
+{
+}
+void lua_loadmod( std::string, std::string )
+{
+}
+void game::init_lua()
+{
+}
+#endif

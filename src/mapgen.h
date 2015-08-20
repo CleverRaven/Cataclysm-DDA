@@ -226,10 +226,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-#if defined(LUA)
-    // Prevents instantiating this class in non-lua builds
     virtual void generate(map*, oter_id, mapgendata, int, float) override;
-#endif
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
