@@ -158,9 +158,6 @@ game::game() :
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
-#ifdef LUA
-    init_lua();                 // Set up lua                       (SEE catalua.cpp)
-#endif
     // UI stuff, not mod-specific per definition
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
@@ -232,18 +229,16 @@ void game::load_core_data()
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
+    init_lua();
     load_data_from_dir(FILENAMES["jsondir"]);
 }
 
 void game::load_data_from_dir(const std::string &path)
 {
-#ifdef LUA
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
     // the items that need them are parsed
-
-    lua_loadmod(lua_state, path, "preload.lua");
-#endif
+    lua_loadmod( path, "preload.lua" );
 
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
@@ -251,12 +246,9 @@ void game::load_data_from_dir(const std::string &path)
         debugmsg("Error loading data from json: %s", err.what());
     }
 
-#ifdef LUA
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
-
-    lua_loadmod(lua_state, path, "main.lua");
-#endif
+    lua_loadmod( path, "main.lua" );
 }
 
 game::~game()
@@ -1202,9 +1194,7 @@ bool game::do_turn()
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
         overmap_buffer.process_mongroups();
-#ifdef LUA
-        lua_callback(lua_state, "on_day_passed");
-#endif
+        lua_callback("on_day_passed");
     }
 
     if( calendar::once_every(MINUTES(5)) ) { //move hordes every 5 min
@@ -1619,17 +1609,17 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         std::vector< std::tuple<std::string,std::string,std::string,double> >
             menuItems {
-                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)),
-                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem)),
-                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)),
-                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)),
+                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use( oThisItem )),
+                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read( oThisItem )),
+                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat( oThisItem )),
+                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear( oThisItem )),
                 std::make_tuple("MENU", "w", _("<w>ield"), -999),
                 std::make_tuple("MENU", "t", _("<t>hrow"), -999),
-                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)),
+                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff( oThisItem )),
                 std::make_tuple("MENU", "d", _("<d>rop"), rate_drop_item),
                 std::make_tuple("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )),
-                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)),
-                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)),
+                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload( oThisItem )),
+                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble( oThisItem )),
                 std::make_tuple("MENU", "=", _("<=> reassign"),-999)
             };
 
@@ -4208,12 +4198,8 @@ void game::debug()
     break;
 
     case 24: {
-#ifdef LUA
         std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
-#else
-        popup( "This binary was not compiled with Lua support." );
-#endif
     }
     break;
     case 25:
@@ -10778,7 +10764,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                         ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
+    if( veh != nullptr && veh->player_in_control(u) && u.weapon.is_two_handed(u) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }

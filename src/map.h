@@ -46,6 +46,8 @@ using furn_id = int_id<furn_t>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 struct projectile;
+struct veh_collision;
+class tileray;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -475,12 +477,23 @@ public:
     void board_vehicle( const tripoint &p, player *pl );
     void unboard_vehicle( const tripoint &p );//remove player from vehicle at p
     // Change vehicle coords and move vehicle's driver along.
-    // Returns true, if there was a submap change.
-    // If test is true, function only checks for submap change, no displacement
     // WARNING: not checking collisions!
-    bool displace_vehicle( tripoint &p, const tripoint &dp, bool test = false );
+    void displace_vehicle( tripoint &p, const tripoint &dp );
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
+
+    // Executes vehicle-vehicle collision based on vehicle::collision results
+    // Returns impulse of the executed collision
+    // If vector contains collisions with vehicles other than veh2, they will be ignored
+    float vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
+                                     const std::vector<veh_collision> &collisions );
+    // Throws vehicle passengers about the vehicle, possibly out of it
+    // Returns change in vehicle orientation due to lost control
+    int shake_vehicle( vehicle &veh, int velocity_before, int direction );
+
+    // Actually moves the vehicle
+    // Unlike displace_vehicle, this one handles collisions
+    void move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);

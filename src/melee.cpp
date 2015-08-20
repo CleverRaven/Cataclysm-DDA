@@ -1300,7 +1300,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 }
 
 // this would be i2amroy's fix, but it's kinda handy
-bool player::can_weapon_block()
+bool player::can_weapon_block() const
 {
     return (weapon.has_technique( WBLOCK_1 ) ||
             weapon.has_technique( WBLOCK_2 ) ||
@@ -1589,9 +1589,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     //Hurting the wielder from poorly-chosen weapons
     if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
         add_msg_if_player(m_bad, _("The %s cuts your hand!"), weapon.tname().c_str());
-        deal_damage(NULL, bp_hand_r, damage_instance::physical(0, weapon.damage_cut(), 0));
-        if (weapon.is_two_handed(this)) { // Hurt left hand too, if it was big
-            deal_damage(NULL, bp_hand_l, damage_instance::physical(0, weapon.damage_cut(), 0));
+        deal_damage( nullptr, bp_hand_r, damage_instance::physical(0, weapon.damage_cut(), 0) );
+        if( weapon.is_two_handed(*this) ) { // Hurt left hand too, if it was big
+            deal_damage( nullptr, bp_hand_l, damage_instance::physical(0, weapon.damage_cut(), 0) );
         }
     }
 
@@ -1612,10 +1612,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             g->m.add_item_or_charges( pos3(), elem );
         }
         // Take damage
-        deal_damage(this, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
-        if (weapon.is_two_handed(this)) {// Hurt left arm too, if it was big
+        deal_damage( nullptr, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0) );
+        if( weapon.is_two_handed(*this) ) {// Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
-            deal_damage(this, bp_arm_l, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0));
+            deal_damage( nullptr, bp_arm_l, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0) );
         }
         d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
         remove_weapon();
@@ -1706,7 +1706,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     return dump.str();
 }
 
-std::vector<special_attack> player::mutation_attacks(Creature &t)
+std::vector<special_attack> player::mutation_attacks(Creature &t) const
 {
     std::vector<special_attack> ret;
 
@@ -2073,7 +2073,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         if (has_trait("ARM_TENTACLES_8")) {
             num_attacks = 7;
         }
-        if (weapon.is_two_handed(this)) {
+        if( weapon.is_two_handed( *this ) ) {
             num_attacks--;
         }
 

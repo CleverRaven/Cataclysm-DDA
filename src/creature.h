@@ -97,7 +97,7 @@ class Creature
          * @param tr is the trap that was triggered.
          * @param pos is the location of the trap (not necessarily of the creature) in the main map.
          */
-        virtual bool avoid_trap( const tripoint &pos, const trap &tr ) = 0;
+        virtual bool avoid_trap( const tripoint &pos, const trap &tr ) const = 0;
 
         /**
          * The functions check whether this creature can see the target.

@@ -1002,7 +1002,7 @@ classes = {
             { name = "destroy", rval = nil, args = { "tripoint", "bool" } },
             { name = "destroy_furn", rval = nil, args = { "tripoint", "bool" } },
             { name = "disarm_trap", rval = nil, args = { "tripoint" } },
-            { name = "displace_vehicle", rval = "bool", args = { "tripoint", "tripoint", "bool" } },
+            { name = "displace_vehicle", rval = nil, args = { "tripoint", "tripoint" } },
             { name = "displace_water", rval = "bool", args = { "tripoint" } },
             { name = "draw_fill_background", rval = nil, args = { "ter_id" } },
             { name = "draw_fill_background", rval = nil, args = { "string" } },

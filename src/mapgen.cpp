@@ -32,9 +32,7 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-#ifdef LUA
 #include "catalua.h"
-#endif
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -308,7 +306,6 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
                 debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
             }
         } else if ( mgtype == "lua" ) { // lua script
-#ifdef LUA
             if ( jio.has_string("script") ) { // minified into one\nline
                 const std::string mgscript = jio.get_string("script");
                 ret = new mapgen_function_lua( mgscript, mgweight );
@@ -327,8 +324,8 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
             } else {
                 debugmsg("oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
             }
-#else
-            debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
+#ifndef LUA
+            dbg( D_ERROR ) << "oter_t " << id_base << ": mapgen entry requires a build with LUA=1.";
 #endif
         } else if ( mgtype == "json" ) {
             if ( jio.has_object("object") ) {
@@ -1345,8 +1342,6 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_monster>( jo, "place_monster" );
         objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
 
-#ifdef LUA
-       // silently ignore if unsupported in build
        if ( jo.has_string("lua") ) { // minified into one\nline
            luascript = jo.get_string("lua");
        } else if ( jo.has_array("lua") ) { // or 1 line per entry array
@@ -1357,7 +1352,6 @@ bool mapgen_function_json::setup() {
                luascript += "\n";
            }
        }
-#endif
 
     } catch( const JsonError &e ) {
         debugmsg("Bad JSON mapgen, discarding:\n  %s\n", e.c_str() );
@@ -1465,7 +1459,6 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
-void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::string & scr);
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
@@ -1479,14 +1472,9 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     for( auto &elem : setmap_points ) {
         elem.apply( m );
     }
-#ifdef LUA
     if ( ! luascript.empty() ) {
-        mapgen_lua(m, terrain_type, md, t, d, luascript);
+        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript );
     }
-#else
-    (void)md;
-    (void)t;
-#endif
 
     objects.apply(m, d);
 
@@ -1517,14 +1505,9 @@ void jmapgen_objects::apply(map *m, float density) const {
 ///// lua mapgen functions
 // wip: need moar bindings. Basic stuff works
 
-/*
- * Apply interpreted script; slowest, more versatile eventually.
- */
-void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::string & scr) {
-#ifdef LUA
-    lua_mapgen(m, std::string(id), md, t, d, scr);
-#else
-    (void)scr;
+#ifndef LUA
+int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string & )
+{
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_simple(m, 0, 6,
 "\
@@ -1539,16 +1522,14 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::basic_bind("")); // should never happen: overmap loader skips lua mapgens on !LUA builds.
-
-#endif
+", mapf::basic_bind("*", t_paper), mapf::basic_bind(""));
+    return 0;
 }
+#endif
 
-#ifdef LUA
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    mapgen_lua(m, terrain_type, dat, t, d, scr );
+    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr );
 }
-#endif
 
 /////////////
 // TODO: clean up variable shadowing in this function
