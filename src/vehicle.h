@@ -787,7 +787,6 @@ public:
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
-
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec() const;
     //normalized vectors, from tilerays face & move
@@ -914,7 +913,8 @@ public:
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
     bool plow_on                    = false; // Is the vehicle running a plow?
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
-    bool scoop_on                   = false;//Does the vehicle have a scoop? Which picks up items.
+    bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
+    bool harvester_on               = false; //Is the combine harvester active?
 };
 
 #endif

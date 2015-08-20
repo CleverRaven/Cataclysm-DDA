@@ -103,6 +103,7 @@ enum vehicle_controls {
  toggle_chimes,
  toggle_plow,
  toggle_planter,
+ toggle_harvester,
  toggle_scoop
 };
 
@@ -890,6 +891,7 @@ void vehicle::use_controls()
     bool has_plow = false;
     bool has_planter = false;
     bool has_scoop = false;
+    bool has_harvester = false;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -949,6 +951,8 @@ void vehicle::use_controls()
             has_planter = true;
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
+        }else if( part_flag(p,"HARVESTER") ){
+            has_harvester = true;
         }
     }
 
@@ -1070,6 +1074,9 @@ void vehicle::use_controls()
     if( has_scoop ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
+    }
+    if( has_harvester ){
+        menu.addentry( toggle_harvester, true, 'H', harvester_on? _("Turn off harvester"):_("Turn on harvester") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1266,6 +1273,10 @@ void vehicle::use_controls()
         planter_on = !planter_on;
         break;
     case control_cancel:
+        break;
+    case toggle_harvester:
+        add_msg(harvester_on ?_("Harvester turned off"):_("Harvester turned oon"));
+        harvester_on = true;
         break;
     case toggle_scoop:
         scoop_on = !scoop_on;
@@ -3795,6 +3806,47 @@ void vehicle::idle(bool on_map) {
         if(scoop_on){
             operate_scoop();
         }
+        if( harvester_on ){
+            auto get_adjacent_parts=
+                [=](const int dx,const int dy){
+                std::vector<int> results;
+                for(int x = -1; x <= 1;x++){
+                    for(int y = -1; y <=1; y++){
+                        const std::vector<int> at_point=parts_at_relative(dx + x,dy + y, false);
+                        results.insert( results.end(), at_point.begin(), at_point.end());
+                    }
+                }
+                return results;
+            };
+            for( int i : all_parts_with_feature( "HARVESTER" ) ) {
+                const std::vector<int> adjacent = get_adjacent_parts(parts[i].mount.x,parts[i].mount.y);
+                for(const tripoint &harvest_pt : g->m.points_in_radius(global_pos3()+parts[i].precalc[0],1,0) ){
+                    if( g->m.furn(harvest_pt) == f_plant_harvest ) {
+                        islot_seed &seed_data=*g->m.i_at(harvest_pt).front().type->seed;
+                        const std::string& seedType=g->m.i_at(harvest_pt).front().typeId();
+                        g->m.i_clear(harvest_pt);
+                        g->m.furn_set(harvest_pt,f_null);
+                        int seed_count=rng(1, 3);
+                        int plant_count = rng(1, 12);
+                        item tmp;
+                        for(int j : adjacent){
+                            if( part_flag(j,"CARGO") ) {
+                                if( seed_data.spawn_seeds ){
+                                    tmp=item( seedType, calendar::turn );
+                                    while( add_item(j,tmp) && seed_count > 0){
+                                        seed_count--;
+                                    }
+                                }
+                                tmp=item(seed_data.fruit_id,calendar::turn);
+                                while(add_item(j,tmp) && plant_count > 0){
+                                    plant_count--;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -3873,6 +3925,8 @@ void vehicle::operate_scoop()
         }
     }
 }
+
+
 void vehicle::alarm(){
     if (one_in(4)) {
         //first check if the alarm is still installed
