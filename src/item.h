@@ -460,10 +460,10 @@ public:
 
  int brewing_time() const;
  void detonate( const tripoint &p ) const;
-// Our value as a weapon, given particular skills
- int  weapon_value(player *p) const;
-// As above, but discounts its use as a ranged weapon
- int  melee_value (player *p);
+    // Our value as a weapon, given particular skills
+    double weapon_value( const player &p ) const;
+    // As above, but discounts its use as a ranged weapon
+    double melee_value( const player &p ) const;
 
     /**
      * @name Material(s) of the item
@@ -1004,8 +1004,7 @@ public:
          * How much moves (@ref Creature::moves) it takes to reload this item.
          * This also applies to tools.
          */
-        // TODO: constify u
-        int reload_time(player &u) const;
+        int reload_time( const player &u ) const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without

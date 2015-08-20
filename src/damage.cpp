@@ -46,7 +46,7 @@ float damage_instance::type_damage( damage_type dt ) const
     float ret = 0;
     for( const auto &elem : damage_units ) {
         if( elem.type == dt ) {
-            ret += elem.amount;
+            ret += elem.amount * elem.damage_multiplier;
         }
     }
     return ret;

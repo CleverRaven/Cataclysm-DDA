@@ -155,22 +155,76 @@ def extract_martial_art(item):
         writestr(outfile, buff["description"], comment=c)
 
 def extract_effect_type(item):
-    outfile = get_outfile("effects")
     # writestr will not write string if it is None.
-    for f in ["name", "desc", "reduced_desc"]:
-        for i in item.get(f, ()):
-            writestr(outfile, i)
-    for f in ["apply_message", "remove_message"]:
-        found = item.get(f, ())
-        writestr(outfile, found)
-    for f in ["miss_messages", "decay_messages"]:
-        for i in item.get(f, ()):
-            writestr(outfile, i[0])
-    for m in [ "remove_memorial_log", "apply_memorial_log"]:
-        found = item.get(m, ())
-        writestr(outfile, found, context="memorial_male")
-        writestr(outfile, found, context="memorial_female")
+    outfile = get_outfile("effects")
+    name = item.get("name", ())
 
+    if name:
+        if len(name) == len(item.get("desc", ())):
+            for nm_desc in zip(name, item.get("desc", ())):
+                writestr(outfile, nm_desc[0])
+                writestr(outfile, nm_desc[1], format_strings=True,
+                         comment="Description of effect '{}'.".format(nm_desc[0]))
+        else:
+            for i in item.get("name", ()):
+                writestr(outfile, i)
+            for f in ["desc", "reduced_desc"]:
+                for i in item.get(f, ()):
+                    writestr(outfile, i, format_strings=True)
+
+    # apply_message
+    msg = item.get("apply_message")
+    if not name:
+        writestr(outfile, msg, format_strings=True)
+    else:
+        writestr(outfile, msg, format_strings=True,
+          comment="Apply message for effect(s) '{}'.".format(', '.join(name)))
+
+    # remove_message
+    msg = item.get("remove_message")
+    if not name:
+        writestr(outfile, msg, format_strings=True)
+    else:
+        writestr(outfile, msg, format_strings=True,
+          comment="Remove message for effect(s) '{}'.".format(', '.join(name)))
+
+    # miss messages
+    msg = item.get("miss_messages", ())
+    if not name:
+        for m in msg:
+            writestr(outfile, m[0])
+    else:
+        for m in msg:
+            writestr(outfile, m[0],
+              comment="Miss message for effect(s) '{}'.".format(', '.join(name)))
+    msg = item.get("decay_messages", ())
+    if not name:
+        for m in msg:
+            writestr(outfile, m[0])
+    else:
+        for m in msg:
+            writestr(outfile, m[0],
+              comment="Decay message for effect(s) '{}'.".format(', '.join(name)))
+
+    # aplly and remove memorial messages.
+    msg = item.get("apply_memorial_log")
+    if not name:
+        writestr(outfile, msg, context="memorial_male")
+        writestr(outfile, msg, context="memorial_female")
+    else:
+        writestr(outfile, msg, context="memorial_male",
+          comment="Male memorial apply log for effect(s) '{}'.".format(', '.join(name)))
+        writestr(outfile, msg, context="memorial_female",
+          comment="Female memorial apply log for effect(s) '{}'.".format(', '.join(name)))
+    msg = item.get("remove_memorial_log")
+    if not name:
+        writestr(outfile, msg, context="memorial_male")
+        writestr(outfile, msg, context="memorial_female")
+    else:
+        writestr(outfile, msg, context="memorial_male",
+          comment="Male memorial remove log for effect(s) '{}'.".format(', '.join(name)))
+        writestr(outfile, msg, context="memorial_female",
+          comment="Female memorial remove log for effect(s) '{}'.".format(', '.join(name)))
 
 def extract_professions(item):
     outfile = get_outfile("professions")
@@ -195,9 +249,19 @@ def extract_professions(item):
 def extract_scenarios(item):
     outfile = get_outfile("scenario")
     # writestr will not write string if it is None.
-    for f in [ "name", "description", "start_name"]:
-        found = item.get(f, None)
-        writestr(outfile, found)
+    name = item.get("name")
+    writestr(outfile, name)
+    if name:
+        msg = item.get("description")
+        if msg:
+            writestr(outfile, msg, comment="Description for scenario '{}'.".format(name))
+        msg = item.get("start_name")
+        if msg:
+            writestr(outfile, msg, comment="Start name for scenario '{}'.".format(name))
+    else:
+        for f in ["description", "start_name"]:
+            found = item.get(f, None)
+            writestr(outfile, found)
 
 def extract_mapgen(item):
     outfile = get_outfile("mapgen")
@@ -379,6 +443,7 @@ use_action_msgs = {
     "deactive_msg",
     "out_of_power_msg",
     "msg",
+    "message",
     "friendly_msg",
     "hostile_msg",
     "need_fire_msg",
@@ -388,11 +453,13 @@ use_action_msgs = {
     "activation_message"
 }
 
-def extract_use_action_msgs(outfile, use_action, kwargs):
+def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
     """Extract messages for iuse_actor objects. """
     for f in use_action_msgs:
         if f in use_action:
-            writestr(outfile, use_action[f], **kwargs)
+            if it_name:
+                writestr(outfile, use_action[f],
+                  comment="Use action {} for {}.".format(f, it_name), **kwargs)
 
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
@@ -429,7 +496,7 @@ def extract(item, infilename):
                 writestr(outfile, name, **kwargs)
         wrote = True
     if "use_action" in item:
-        extract_use_action_msgs(outfile, item["use_action"], kwargs)
+        extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
         wrote = True
     if "description" in item:
         if name:

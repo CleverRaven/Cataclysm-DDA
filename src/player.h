@@ -460,22 +460,27 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the base damage the player deals based on their stats */
-        int base_damage(bool real_life = true, int stat = -999);
+        int base_damage(bool real_life = true, int stat = -999) const;
         /** Returns Creature::get_hit_base() modified by weapon skill */
         int get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         int hit_roll() const override;
+        /** Returns the chance to crit given a hit roll and target's dodge roll */
+        double crit_chance( int hit_roll, int target_dodge ) const;
         /** Returns true if the player scores a critical hit */
-        bool scored_crit(int target_dodge = 0);
+        bool scored_crit(int target_dodge = 0) const;
 
+        // If average == true, adds expected values of random rolls instead of rolling.
+        /** Adds all 3 types of physical damage to instance */
+        void roll_all_damage( bool crit, damage_instance &di, bool average ) const; 
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di );
+        void roll_bash_damage( bool crit, damage_instance &di, bool average ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di );
+        void roll_cut_damage( bool crit, damage_instance &di, bool average ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di );
+        void roll_stab_damage( bool crit, damage_instance &di, bool average ) const;
         /** Returns the number of moves unsticking a weapon will penalize for */
-        int roll_stuck_penalty(bool stabbing, const ma_technique &tec);
+        int roll_stuck_penalty( bool stabbing, const ma_technique &tec ) const;
         std::vector<matec_id> get_all_techniques() const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
