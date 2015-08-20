@@ -2223,6 +2223,16 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
     m->ter_set(examp, t_tree_deadpine);
 }
 
+void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
+{
+    if(!query_yn(_("Dig up %s?"), m->tername(examp).c_str())) {
+        none(p, m, examp);
+        return;
+    }
+    m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
+    m->ter_set(examp, t_tree_deadhickory);
+}
+
 void iexamine::tree_blackjack(player *p, map *m, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {

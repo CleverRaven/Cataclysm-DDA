@@ -6425,7 +6425,8 @@
   "components": [
     [
       [ "lye_powder", 100 ],
-      [ "bleach", 2 ]
+      [ "bleach", 2 ],
+      [ "hickory_root", 2 ] 
     ],
     [
       [ "water_clean", 1 ],
