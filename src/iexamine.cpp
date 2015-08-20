@@ -3298,6 +3298,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("tree_marloss" == function_name) {
         return &iexamine::tree_marloss;
     }
+    if ("tree_hickory" == function_name) {
+        return &iexamine::tree_hickory;
+    }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;
     }
