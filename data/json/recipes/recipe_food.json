@@ -6425,7 +6425,37 @@
   "components": [
     [
       [ "lye_powder", 100 ],
-      [ "bleach", 2 ],
+      [ "bleach", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "salt",
+  "id_suffix": "from_hickory",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 48000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
       [ "hickory_root", 2 ] 
     ],
     [
