@@ -275,8 +275,7 @@ public:
     /**
      * Whether the character needs both hands to wield this item.
      */
-    // TODO: make a reference. Make a const reference.
-    bool is_two_handed(player *u);
+    bool is_two_handed( const player &u ) const;
     /** The weapon is considered a suitable melee weapon. */
     bool is_weap() const;
     /** The item is considered a bashing weapon (inflicts a considerable bash damage). */

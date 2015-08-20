@@ -1658,11 +1658,12 @@ int player::num_bionics() const
     return my_bionics.size();
 }
 
-std::pair<int, int> player::amount_of_storage_bionics() {
+std::pair<int, int> player::amount_of_storage_bionics() const
+{
     int lvl = max_power_level;
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
-    for (auto it : my_bionics) {
+    for( auto it : my_bionics ) {
         lvl -= bionics[it.id].capacity;
     }
 

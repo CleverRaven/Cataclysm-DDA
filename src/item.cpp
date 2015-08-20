@@ -2808,13 +2808,12 @@ int item::acid_resist() const
     return lround(resist);
 }
 
-bool item::is_two_handed(player *u)
+bool item::is_two_handed( const player &u ) const
 {
-    if (has_flag("ALWAYS_TWOHAND"))
-    {
+    if( has_flag("ALWAYS_TWOHAND") ) {
         return true;
     }
-    return ((weight() / 113) > u->str_cur * 4);
+    return ((weight() / 113) > u.str_cur * 4);
 }
 
 const std::vector<std::string> &item::made_of() const

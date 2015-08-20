@@ -1987,6 +1987,24 @@ const recipe *get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
+bool player::can_disassemble( const item &dis_item, const inventory &crafting_inv,
+                              const bool print_msg ) const
+{
+    if( dis_item.is_book() ) {
+        return true;
+    }
+
+    for( auto &recipes_cat_iter : recipes ) {
+        for( auto cur_recipe : recipes_cat_iter.second ) {
+            if( dis_item.type->id == cur_recipe->result && cur_recipe->reversible ) {
+                return can_disassemble( dis_item, cur_recipe, crafting_inv, print_msg );
+            }
+        }
+    }
+
+    return false;
+}
+
 bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const
 {

@@ -7,10 +7,11 @@
 */
 
 #ifndef WIN32STDTHREAD_H
-#ifndef _GLIBCXX_THREAD
+#ifndef _GLIBCXX_HAS_GTHREADS
 
 #define WIN32STDTHREAD_H
 #define _GLIBCXX_THREAD 1
+#define _GLIBCXX_HAS_GTHREADS 1
 
 #include <windows.h>
 #include <functional>

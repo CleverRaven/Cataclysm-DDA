@@ -732,7 +732,7 @@
         "name_plural" : ".22 CB",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "Conical Ball .22 is a variety of .22 ammunition with a very small propellant charge and generally lacks gunpowder.  The end result is a subsonic round.  It is nearly silent, but is so weak as to be nearly useless.",
+        "description" : "Conical Ball .22 is a variety of .22 ammunition with a very small propellant charge and generally lacks gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
         "material" : ["steel", "powder"],
         "volume" : 1,
         "weight" : 2,

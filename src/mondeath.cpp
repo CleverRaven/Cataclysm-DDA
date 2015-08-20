@@ -2,6 +2,7 @@
 #include "monster.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "rng.h"
 #include "line.h"
 #include "messages.h"
@@ -99,16 +100,13 @@ void mdeath::boomer(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-            g->m.bash( dest, 10 );
-            g->m.add_field( dest, fd_bile, 1, 0 );
-            int mondex = g->mon_at( dest );
-            if (mondex != -1) {
-                g->zombie(mondex).stumble();
-                g->zombie(mondex).moves -= 250;
-            }
+    for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+        g->m.bash( dest, 10 );
+        g->m.add_field( dest, fd_bile, 1, 0 );
+        int mondex = g->mon_at( dest );
+        if (mondex != -1) {
+            g->zombie(mondex).stumble();
+            g->zombie(mondex).moves -= 250;
         }
     }
     if (rl_dist( z->pos(), g->u.pos() ) == 1) {
@@ -121,26 +119,22 @@ void mdeath::boomer_glow(monster *z)
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
 
-
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-            g->m.bash(dest , 10 );
-            g->m.add_field(dest , fd_bile, 1, 0);
-            int mondex = g->mon_at(dest);
-            Creature *critter = g->critter_at(dest);
-            if (mondex != -1) {
-                g->zombie(mondex).stumble();
-                g->zombie(mondex).moves -= 250;
-            }
-            if (critter != nullptr){
-                critter->add_env_effect("boomered", bp_eyes, 5, 25);
-                for (int i = 0; i < rng(2,4); i++){
-                    body_part bp = random_body_part();
-                    critter->add_env_effect("glowing", bp, 4, 40);
-                    if (critter != nullptr && critter->has_effect("glowing")){
-                        break;
-                    }
+    for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+        g->m.bash(dest , 10 );
+        g->m.add_field(dest , fd_bile, 1, 0);
+        int mondex = g->mon_at(dest);
+        Creature *critter = g->critter_at(dest);
+        if (mondex != -1) {
+            g->zombie(mondex).stumble();
+            g->zombie(mondex).moves -= 250;
+        }
+        if (critter != nullptr){
+            critter->add_env_effect("boomered", bp_eyes, 5, 25);
+            for (int i = 0; i < rng(2,4); i++){
+                body_part bp = random_body_part();
+                critter->add_env_effect("glowing", bp, 4, 40);
+                if (critter != nullptr && critter->has_effect("glowing")){
+                    break;
                 }
             }
         }
@@ -161,7 +155,7 @@ void mdeath::kill_vines(monster *z)
         }
     }
 
-    for (auto &i : vines) {
+    for( auto &i : vines ) {
         monster *vine = &(g->zombie(i));
         int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
@@ -229,13 +223,13 @@ void mdeath::fungus(monster *z)
     //~ the sound of a fungus dying
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
-            // z is dead, don't credit it with the kill
-            // Maybe credit z's killer?
-            g->m.fungalize( sporep, nullptr, 0.25 );
+    for( auto &&sporep : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if( g->m.move_cost( sporep ) == 0 ) {
+            continue;
         }
+        // z is dead, don't credit it with the kill
+        // Maybe credit z's killer?
+        g->m.fungalize( sporep, nullptr, 0.25 );
     }
 }
 
@@ -257,12 +251,9 @@ void mdeath::worm(monster *z)
     }
 
     std::vector <tripoint> wormspots;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint wormp( z->posx() + i, z->posy() + j, z->posz() );
-            if (g->m.has_flag("DIGGABLE", wormp) && g->is_empty( wormp ) ) {
-                wormspots.push_back(wormp);
-            }
+    for( auto &&wormp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if (g->m.has_flag("DIGGABLE", wormp) && g->is_empty( wormp ) ) {
+            wormspots.push_back(wormp);
         }
     }
     int worms = 0;
@@ -368,15 +359,12 @@ void mdeath::blobsplit(monster *z)
     }
     std::vector <tripoint> valid;
 
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-            bool moveOK = (g->m.move_cost( dest ) > 0);
-            bool monOK = g->mon_at( dest ) == -1;
-            bool posOK = (g->u.pos() != dest);
-            if (moveOK && monOK && posOK) {
-                valid.push_back( dest );
-            }
+    for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+        bool moveOK = (g->m.move_cost( dest ) > 0);
+        bool monOK = g->mon_at( dest ) == -1;
+        bool posOK = (g->u.pos() != dest);
+        if (moveOK && monOK && posOK) {
+            valid.push_back( dest );
         }
     }
 
@@ -526,12 +514,9 @@ void mdeath::ratking(monster *z)
     }
 
     std::vector <tripoint> ratspots;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint ratp( z->posx() + i, z->posy() + j, z->posz() );
-            if (g->is_empty(ratp)) {
-                ratspots.push_back(ratp);
-            }
+    for( auto &&ratp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if (g->is_empty(ratp)) {
+            ratspots.push_back(ratp);
         }
     }
     for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
@@ -551,15 +536,12 @@ void mdeath::gas(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for (int i = -2; i <= 2; i++) {
-        for (int j = -2; j <= 2; j++) {
-            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-            g->m.add_field(dest, fd_toxic_gas, 3, 0);
-            int mondex = g->mon_at(dest);
-            if (mondex != -1) {
-                g->zombie(mondex).stumble();
-                g->zombie(mondex).moves -= 250;
-            }
+    for( auto &&dest : g->m.points_in_radius( z->pos(), 2 ) ) {
+        g->m.add_field(dest, fd_toxic_gas, 3, 0);
+        int mondex = g->mon_at(dest);
+        if (mondex != -1) {
+            g->zombie(mondex).stumble();
+            g->zombie(mondex).moves -= 250;
         }
     }
 }
@@ -568,15 +550,12 @@ void mdeath::smokeburst(monster *z)
 {
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
     sounds::sound(z->pos(), 24, explode);
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-            g->m.add_field( dest, fd_smoke, 3, 0 );
-            int mondex = g->mon_at( dest );
-            if (mondex != -1) {
-                g->zombie(mondex).stumble();
-                g->zombie(mondex).moves -= 250;
-            }
+    for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+        g->m.add_field( dest, fd_smoke, 3, 0 );
+        int mondex = g->mon_at( dest );
+        if (mondex != -1) {
+            g->zombie(mondex).stumble();
+            g->zombie(mondex).moves -= 250;
         }
     }
 }
