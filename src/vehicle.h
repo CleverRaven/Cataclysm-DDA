@@ -799,7 +799,6 @@ public:
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
-
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec() const;
     //normalized vectors, from tilerays face & move
@@ -901,11 +900,8 @@ public:
     int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
-<<<<<<< 096f771f0af8b834cbecf785c32bbda65cbb83e5
     int scoop_epower        = 0;
-=======
     int plow_friction       = 0; //The amount of friction applied by plows on the vehicle.
->>>>>>> added friction to plough
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off
@@ -927,9 +923,10 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
-    bool scoop_on                   = false;//Does the vehicle have a scoop? Which picks up items.
     bool plow_on                    = false; // Is the vehicle running a plow?
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
+    bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
+    bool harvester_on               = false; //Is the combine harvester active?
 };
 
 #endif
