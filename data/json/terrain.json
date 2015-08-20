@@ -2434,7 +2434,7 @@
         "id" : "t_tree_cherry",
         "name": "cherry tree",
         "symbol": "7",
-        "color": "red_ltred",
+        "color": "red_ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
