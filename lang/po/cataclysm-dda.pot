@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-17 14:54+0300\n"
+"POT-Creation-Date: 2015-08-20 09:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -374,8 +374,8 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Conical Ball .22 is a variety of .22 ammunition with a very small propellant "
-"charge and generally lacks gunpowder.  The end result is a subsonic round.  "
-"It is nearly silent, but is so weak as to be nearly useless."
+"charge and generally lacks gunpowder.  The end result is a subsonic round "
+"that is so weak as to be nearly useless given your predicament."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -88219,12 +88219,20 @@ msgstr ""
 msgid "Write what?"
 msgstr ""
 
-#: src/iuse.cpp src/iuse_actor.cpp
-msgid "You write a message on the ground."
+#: src/iuse.cpp
+msgid "(To delete, input one '.')"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You spray a message on the ground."
+msgid "You manage to get rid of the message on the ground."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "There isn't anything to erase here."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You write a message on the ground."
 msgstr ""
 
 #: src/iuse.cpp
@@ -91074,9 +91082,8 @@ msgstr ""
 msgid "You fumble with the %s's controls."
 msgstr ""
 
-#: src/map.cpp
-#, c-format
-msgid "The %1$s's %2$s collides with the %3$s's %4$s."
+#: src/map.cpp src/ranged.cpp
+msgid "splash!"
 msgstr ""
 
 #: src/map.cpp
@@ -91086,17 +91093,7 @@ msgstr ""
 
 #: src/map.cpp
 #, c-format
-msgid "%s takes %d damage by the power of the impact!"
-msgstr ""
-
-#: src/map.cpp
-#, c-format
-msgid "You are hurled from the %s's seat by the power of the impact!"
-msgstr ""
-
-#: src/map.cpp
-#, c-format
-msgid "%s is hurled from the %s's seat by the power of the impact!"
+msgid "<npcname> takes %d damage by the power of the impact!"
 msgstr ""
 
 #: src/map.cpp
@@ -91106,11 +91103,22 @@ msgstr ""
 
 #: src/map.cpp
 #, c-format
-msgid "%s loses control of the %s."
+msgid "<npcname> loses control of the %s."
 msgstr ""
 
 #: src/map.cpp
-msgid "You hear a splash!"
+#, c-format
+msgid "You are hurled from the %s's seat by the power of the impact!"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "<npcname> is hurled from the %s's seat by the power of the impact!"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "The %1$s's %2$s collides with the %3$s's %4$s."
 msgstr ""
 
 #: src/map.cpp src/melee.cpp src/monster.cpp src/vehicle.cpp
@@ -107199,10 +107207,6 @@ msgid "The %s embeds in %s!"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "splash!"
-msgstr ""
-
-#: src/ranged.cpp
 msgid "thud."
 msgstr ""
 
@@ -109138,23 +109142,6 @@ msgstr ""
 msgid "The %s's engine emits a sneezing sound."
 msgstr ""
 
-#. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
-#: src/vehicle.cpp
-#, c-format
-msgid "Your %1$s's %2$s rams into a %3$s with a %4$s"
-msgstr ""
-
-#. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
-#: src/vehicle.cpp
-#, c-format
-msgid "Your %1$s's %2$s rams into a %3$s."
-msgstr ""
-
-#: src/vehicle.cpp
-#, c-format
-msgid "You hear a %s"
-msgstr ""
-
 #. ~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
 #: src/vehicle.cpp
 #, c-format
@@ -109165,6 +109152,18 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "Your %1$s's %2$s rams into %3$s!"
+msgstr ""
+
+#. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
+#: src/vehicle.cpp
+#, c-format
+msgid "Your %1$s's %2$s rams into a %3$s with a %4$s"
+msgstr ""
+
+#. ~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
+#: src/vehicle.cpp
+#, c-format
+msgid "Your %1$s's %2$s rams into a %3$s."
 msgstr ""
 
 #: src/vehicle.cpp
