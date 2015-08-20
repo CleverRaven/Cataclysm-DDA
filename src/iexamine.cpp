@@ -2229,6 +2229,11 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
+    bool has_digging_tool = p->has_items_with_quality( "DIG", 1, 1 );
+    if( !has_digging_tool ) {
+        add_msg(m_info, _("If only you had a shovel..."));
+        return;
+    }
     m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
     m->ter_set(examp, t_tree_deadhickory);
 }
