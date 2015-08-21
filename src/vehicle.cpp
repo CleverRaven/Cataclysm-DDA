@@ -3790,11 +3790,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             const map_stack q = g->m.i_at( position );
-            furn_id furniture_considered=g->m.furn( position );
-            if( furniture_considered == f_plant_seed ||
-                furniture_considered == f_plant_mature ||
-                furniture_considered == f_plant_seedling ||
-                furniture_considered == f_plant_harvest ){
+            if( g->m.has_flag( "SEALED", position) ){
                 continue;//ignore it. Street sweepers are not known for their ability to harvest crops.
             }
             size_t itemdex = 0;
