@@ -1686,7 +1686,7 @@
         "type" : "construction",
         "description" : "Build Water Well",
         "category" : "CONSTRUCT",
-        "difficulty" : 9,
+        "difficulty" : 8,
         "time" : 480,
         "qualities": [
             [

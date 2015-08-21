@@ -1616,7 +1616,7 @@ int npc::value(const item &it)
  int ret = it.price() / 50;
  const Skill* best = best_skill();
     if( best != nullptr && best->ident() != "unarmed" ) {
-  int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
+  int weapon_val = it.weapon_value(*this) - weapon.weapon_value(*this);
   if (weapon_val > 0)
    ret += weapon_val;
  }

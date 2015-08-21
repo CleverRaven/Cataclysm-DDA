@@ -1047,7 +1047,7 @@ item *inventory::best_for_melee(player *p)
     item *ret = &nullitem;
     int best = 0;
     for( auto &elem : items ) {
-        int score = elem.front().melee_value( p );
+        int score = elem.front().melee_value( *p );
         if (score > best) {
             best = score;
             ret = &( elem.front() );
