@@ -2650,7 +2650,9 @@
         "color": "ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_birch",
+        "examine_action": "tree_bark",
+        "harvestable": "birchbark",
+        "transforms_into": "t_tree_birch_harvested",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2687,7 +2689,9 @@
         "color": "ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_willow",
+        "examine_action": "tree_bark",
+        "harvestable": "willowbark",
+        "transforms_into": "t_tree_willow_harvested",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -5350,7 +5354,9 @@
         "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "examine_action": "tree_blackjack",
+        "examine_action": "tree_bark",
+        "harvestable": "tanbark",
+        "transforms_into": "t_tree",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
