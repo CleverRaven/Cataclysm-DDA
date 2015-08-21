@@ -3843,6 +3843,7 @@ void vehicle::idle(bool on_map) {
             operate_scoop();
         }
         if( harvester_on ){
+
             auto get_adjacent_parts=
                 [=](const int dx,const int dy){
                 std::vector<int> results;
@@ -3874,7 +3875,7 @@ void vehicle::idle(bool on_map) {
                                     }
                                 }
                                 tmp = item(seed_data.fruit_id, calendar::turn);
-                                while( add_item(j,tmp) && plant_count > 0){
+                                while( add_item(j, tmp) && plant_count > 0){
                                     plant_count--;
                                 }
                             }
@@ -3889,6 +3890,7 @@ void vehicle::idle(bool on_map) {
                             g->m.add_item_or_charges(harvest_pt, tmp);
                             seed_count--;
                         }
+                    }
                 }
             }
         }
