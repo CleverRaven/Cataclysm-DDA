@@ -5156,7 +5156,6 @@
         "item" : "v_reaper",
         "difficulty" : 4,
         "location" : "structure",
-        "size":50,
         "flags" : ["REAPER","PROTRUSION"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
