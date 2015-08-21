@@ -5139,7 +5139,8 @@
         "size":50,
         "flags" : ["PLANTER","PROTRUSION","CARGO"],
         "breaks_into" : [
-            {"item": "plastic_chunk", "count": [1, 2]}
+            {"item": "plastic_chunk", "count": [1, 2]},
+            {"item": "scrap", "count" : [1,2] }
         ]
     },{
         "type" : "vehicle_part",
@@ -5150,6 +5151,7 @@
         "broken_symbol" : "*",
         "broken_color" : "light_blue",
         "damage_modifier" : 120,
+        "bonus":7,
         "durability" : 200,
         "item" : "v_reaper",
         "difficulty" : 4,
@@ -5157,7 +5159,8 @@
         "size":50,
         "flags" : ["REAPER","PROTRUSION"],
         "breaks_into" : [
-            {"item": "plastic_chunk", "count": [1, 2]}
+            {"item": "plastic_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [2,4]}
         ]
     }
 ]
