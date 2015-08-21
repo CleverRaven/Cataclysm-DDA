@@ -2225,7 +2225,7 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {
-    if( !p->skillLevel("survival") > 1 ) {
+    if( p->skillLevel("survival") < 1 ) {
         none(p, m, examp);
         return;
     }
