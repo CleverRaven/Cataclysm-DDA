@@ -3824,7 +3824,7 @@ void vehicle::operate_planter(){
                     g->m.furn_set(loc, f_plant_seed);
                 }else if( !g->m.has_flag( "DIGGABLE", loc ) ) {//If it isn't diggable terrain, then it will most likely be damaged.
                     damage(planter_id, rng(1, 10), DT_BASH, false);
-                    sounds::sound(parts[planter_id].precalc[0]+global_pos3(),rng(10,20), _("Clink"));
+                    sounds::sound(global_pos3() + parts[planter_id].precalc[0], rng(10,20), _("Clink"));
                 }
                 i->bday = calendar::turn;
                 g->m.add_item(loc, *i);
