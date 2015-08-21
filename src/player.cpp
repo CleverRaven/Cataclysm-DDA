@@ -3662,7 +3662,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-  veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
+  veh->print_fuel_indicators(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
   nc_color col_indf1 = c_ltgray;
 
   float strain = veh->strain();
