@@ -1083,7 +1083,7 @@ void vehicle::use_controls()
         menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
     }
     if( has_harvester ){
-        menu.addentry( toggle_harvester, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
+        menu.addentry( toggle_reaper, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1282,7 +1282,7 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     case toggle_reaper:
-        add_msg(harvester_on ?_("Reaper turned off"):_("Reaper turned on"));
+        add_msg(harvester_on?_("Reaper turned off"):_("Reaper turned on"));
         harvester_on = !harvester_on;
         break;
     case toggle_scoop:
