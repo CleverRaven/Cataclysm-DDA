@@ -3913,6 +3913,7 @@ void vehicle::operate_planter(){
                 }else if( !g->m.has_flag( "DIGGABLE", loc ) ) {//If it isn't diggable terrain, then it will most likely be damaged.
                     damage(planter_id, rng(1,10), DT_BASH, false);
                 }
+                i->bday = calendar::turn;
                 g->m.add_item(loc,*i);
                 i = v.erase(i);
                 break;
