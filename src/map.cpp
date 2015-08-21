@@ -621,15 +621,14 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         // accept new position
         // if submap changed, we need to process grid from the beginning.
         // TODO: Allow vehicles to get displaced vertically
-        const tripoint &veh_start=veh->global_pos3();
-        tripoint dp( dx, dy, 0 );
-        for( const int plow_id : veh->all_parts_with_feature( "PLOW" ) ){
-            if( !veh->plow_on ){
+        const tripoint &veh_start=veh.global_pos3();
+        for( const int plow_id : veh.all_parts_with_feature( "PLOW" ) ){
+            if( !veh.plow_on ){
                 break;
             }
             //draw a line between the start point and end point of where the plow ends up, and try to till it if it is diggable.
-            const tripoint start_plow(veh->parts[plow_id].precalc[0].x + veh_start.x,
-                                      veh->parts[plow_id].precalc[0].y + veh_start.y,
+            const tripoint start_plow(veh.parts[plow_id].precalc[0].x + veh_start.x,
+                                      veh.parts[plow_id].precalc[0].y + veh_start.y,
                                       veh_start.z);
             const std::vector<tripoint> & plow_line = line_to(start_plow,start_plow+dp);
             for( const tripoint& plow_pt : plow_line ){
@@ -638,7 +637,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
                 }else{
                     const int speed = dp.x + dp.y;
                     const int damage = rng( 3, speed );
-                    veh->damage( plow_id, damage, DT_BASH, false );
+                    veh.damage( plow_id, damage, DT_BASH, false );
                     sounds::sound( plow_pt, damage, _("Clanggggg!") );
                 }
             }
