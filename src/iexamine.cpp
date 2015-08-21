@@ -2252,17 +2252,17 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
             add_msg(m_info, _("You feel that the nuts will not be ripe until fall."));
             return;
         }
-        if( !p->stamina > 0 && !p->has_effect("winded") ) {
+        if( p->stamina < 250 || p->has_effect("winded") ) {
             add_msg(m_info, _("You are too exhausted to shake the tree!"));
             return;
         }
-        
         add_msg(m_info, _("You shake the tree vigorously."));
         m->spawn_item(p->pos(), "hickory_nut", rng(0,2) );
+        sounds::sound(examp, 6, _("rustling."));
         p->moves -= 1000;
-        p->stamina -= 100;
-        if( one_in( p->stamina ) ) {
-            p->add_effect("winded", 3);
+        p->mod_stat( "stamina", -500);
+        if( one_in( p->stamina - 250) ) {
+            p->add_effect("winded", 2);
         }
         return;
     
@@ -2271,7 +2271,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
             add_msg(m_info, _("You have no tool to dig with..."));
             return;
         }
-        if(!query_yn(_("Dig up %s? This kills the %s!"), m->tername(examp).c_str())) {
+        if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
             return;
         }
         m->spawn_item(p->pos(), "hickory_root", rng(1,4) );

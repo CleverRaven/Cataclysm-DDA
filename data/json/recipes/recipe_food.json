@@ -4648,14 +4648,15 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "skills_required": [ "survival", 2 ],
-  "difficulty": 2,
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":1,"amount":1}
+  ],
   "tools": [
     [
       ["hotplate", 5],
@@ -6474,7 +6475,8 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":1,"amount":1}
-  ], "tools": [
+  ], 
+  "tools": [
     [
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
