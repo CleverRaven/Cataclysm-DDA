@@ -2987,9 +2987,9 @@
         "symbol" : "{",
         "material" : ["superalloy", "null"],
         "volume" : 2,
-        "bashing" : 8,
-        "cutting" : 16,
-        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
+        "bashing" : 3,
+        "cutting" : 24,
+        "flags" : ["UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0,
         "qualities": [["BUTCHER", 12]]
     },
