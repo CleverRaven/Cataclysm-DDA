@@ -105,7 +105,7 @@ enum vehicle_controls {
  toggle_chimes,
  toggle_plow,
  toggle_planter,
- toggle_harvester,
+ toggle_reaper,
  toggle_scoop
 };
 
@@ -1281,9 +1281,9 @@ void vehicle::use_controls()
         break;
     case control_cancel:
         break;
-    case toggle_harvester:
+    case toggle_reaper:
         add_msg(harvester_on ?_("Reaper turned off"):_("Reaper turned on"));
-        harvester_on = true;
+        harvester_on = !harvester_on;
         break;
     case toggle_scoop:
         scoop_on = !scoop_on;
