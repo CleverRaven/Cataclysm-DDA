@@ -4713,9 +4713,8 @@
     ],
     [
       [ "water", 1 ],
-      [ "water_clean", 1 
+      [ "water_clean", 1 ]
     ]
-  ]
   ]
 },{
   "type" : "recipe",
