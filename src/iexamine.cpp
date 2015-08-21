@@ -2225,17 +2225,64 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {
-    if(!query_yn(_("Dig up %s?"), m->tername(examp).c_str())) {
-        none(p, m, examp);
+    if( !p->skillLevel("survival") > 1 ) {
         return;
     }
-    bool has_digging_tool = p->has_items_with_quality( "DIG", 1, 1 );
-    if( !has_digging_tool ) {
-        add_msg(m_info, _("If only you had a shovel..."));
+    
+    std::vector<std::string> menu_items;
+    enum options {
+        HARVEST_NUTS,
+        DIG_ROOTS,
+        CANCEL,
+    };
+    uimenu selectmenu;
+    selectmenu.addentry( HARVEST_NUTS, true, MENU_AUTOASSIGN, _("Shake tree.") );
+    selectmenu.addentry( DIG_ROOTS, true, MENU_AUTOASSIGN, _("Dig up roots.") );
+    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
+
+    selectmenu.return_invalid = true;
+    selectmenu.text = _("Select an action");
+    selectmenu.selected = 0;
+    selectmenu.query();
+
+    switch( static_cast<options>( selectmenu.ret ) ) {
+    case HARVEST_NUTS:
+        if( !calendar::turn.get_season() == FALL ) {
+            add_msg(m_info, _("You feel that the nuts will not be ripe until fall.");
+            none(p, m, examp);
+            return;
+        }
+        if( !p->stamina > 0 && !p->has_effect("winded") ) {
+            add_msg(m_info, _("You are too exhausted to shake the tree!");
+            return;
+        }
+        
+        add_msg(m_info, _("You shake the tree vigorously.");
+        m->spawn_item(p->pos(), "hickory_nut", rng(0,2) );
+        p->moves -= 1000;
+        p->stamina -= 100;
+        if( one_in( p->stamina ) ) {
+            p->add_effect("winded", 3);
+        }
+        return;
+    
+    case DIG_ROOTS: {
+        if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+            add_msg(m_info, _("You have no tool to dig with..."));
+            none(p, m, examp);
+            return;
+        }
+        if(!query_yn(_("Dig up %s? This kills the %s!"), m->tername(examp).c_str())) {
+            none(p, m, examp);
+            return;
+        }
+        m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
+        m->ter_set(examp, t_tree_deadhickory);
+        p->moves -= 10000 / (p->skillLevel("survival") * 5) + 100;
         return;
     }
-    m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
-    m->ter_set(examp, t_tree_deadhickory);
+    case CANCEL:
+        return;
 }
 
 void iexamine::tree_blackjack(player *p, map *m, const tripoint &examp)

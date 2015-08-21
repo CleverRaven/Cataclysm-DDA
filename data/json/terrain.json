@@ -2701,7 +2701,7 @@
         "id" : "t_tree_hickory",
         "name": "hickory tree",
         "symbol": "7",
-        "color": "green",
+        "color": "brown_green",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_hickory",
