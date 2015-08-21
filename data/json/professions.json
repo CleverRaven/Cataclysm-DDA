@@ -4191,7 +4191,7 @@
             "type": "profession",
             "ident": "miner",
             "name": "Miner",
-            "description": "You're a miner, not a minor! Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
+            "description": "You're a miner, not a minor! Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...  ",
             "points": 0,
             "items": {
                 "both": [
