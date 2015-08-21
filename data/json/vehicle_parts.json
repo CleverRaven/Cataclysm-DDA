@@ -5143,19 +5143,19 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "harvester",
-        "name" : "Harvester",
-        "symbol" : "H",
-        "color" : "yellow",
+        "id" : "reaper",
+        "name" : "reaper",
+        "symbol" : "/",
+        "color" : "light_grey",
         "broken_symbol" : "*",
         "broken_color" : "light_blue",
         "damage_modifier" : 40,
         "durability" : 200,
-        "item" : "v_harvester",
+        "item" : "v_reaper",
         "difficulty" : 4,
         "location" : "structure",
         "size":50,
-        "flags" : ["HARVESTER","PROTRUSION","CARGO"],
+        "flags" : ["REAPER","PROTRUSION"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
