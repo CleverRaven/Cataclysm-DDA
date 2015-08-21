@@ -2233,6 +2233,26 @@ void iexamine::tree_blackjack(player *p, map *m, const tripoint &examp)
     m->ter_set(examp, t_tree);
 }
 
+void iexamine::tree_birch(player *p, map *m, const tripoint &examp)
+{
+    if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
+        none(p, m, examp);
+        return;
+    }
+    m->spawn_item( p->pos(), "birchbark", rng( 1, 2 ) );
+    m->ter_set(examp, t_tree_birch_harvested);
+}
+
+void iexamine::tree_willow(player *p, map *m, const tripoint &examp)
+{
+    if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
+        none(p, m, examp);
+        return;
+    }
+    m->spawn_item( p->pos(), "willowbark", rng( 1, 2 ) );
+    m->ter_set(examp, t_tree_willow_harvested);
+}
+
 void iexamine::shrub_marloss(player *p, map *m, const tripoint &examp)
 {
     if (p->has_trait("THRESH_MYCUS")) {
@@ -3281,6 +3301,12 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("tree_blackjack" == function_name) {
         return &iexamine::tree_blackjack;
+    }
+    if ("tree_birch" == function_name) {
+        return &iexamine::tree_birch;
+    }
+    if ("tree_willow" == function_name) {
+        return &iexamine::tree_willow;
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;

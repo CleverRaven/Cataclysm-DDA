@@ -2650,6 +2650,25 @@
         "color": "ltgreen",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_birch",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_birch_harvested",
+        "name": "birch tree",
+        "symbol": "7",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -2666,6 +2685,25 @@
         "name": "willow tree",
         "symbol": "4",
         "color": "ltgreen",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "examine_action": "tree_willow",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_willow_harvested",
+        "name": "willow tree",
+        "symbol": "4",
+        "color": "brown",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {

@@ -8405,7 +8405,12 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 5 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 5 ],
+      [ "birchbark", 5 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_sandals",
@@ -8416,7 +8421,12 @@
   "time": 28000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 4 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 4 ],
+      [ "birchbark", 4 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_hat",
@@ -8427,7 +8437,12 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 3 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 3 ],
+      [ "birchbark", 3 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_fedora",
@@ -8439,9 +8454,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
-  "components": [ [ [ "straw_pile", 7 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 7 ],
+      [ "birchbark", 7 ]
+    ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "patchwork_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
