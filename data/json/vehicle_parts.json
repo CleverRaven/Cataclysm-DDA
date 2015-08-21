@@ -5149,7 +5149,7 @@
         "color" : "light_grey",
         "broken_symbol" : "*",
         "broken_color" : "light_blue",
-        "damage_modifier" : 40,
+        "damage_modifier" : 120,
         "durability" : 200,
         "item" : "v_reaper",
         "difficulty" : 4,
