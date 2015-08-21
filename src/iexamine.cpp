@@ -2237,7 +2237,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
         CANCEL,
     };
     uimenu selectmenu;
-    selectmenu.addentry( HARVEST_NUTS, true, MENU_AUTOASSIGN, _("Shake tree.") );
+    selectmenu.addentry( HARVEST_NUTS, true, MENU_AUTOASSIGN, _("Harvest nuts.") );
     selectmenu.addentry( DIG_ROOTS, true, MENU_AUTOASSIGN, _("Dig up roots.") );
     selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 
@@ -2248,22 +2248,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 
     switch( static_cast<options>( selectmenu.ret ) ) {
     case HARVEST_NUTS:
-        if( calendar::turn.get_season() != AUTUMN ) {
-            add_msg(m_info, _("You feel that the nuts will not be ripe until fall."));
-            return;
-        }
-        if( p->stamina < 250 || p->has_effect("winded") ) {
-            add_msg(m_info, _("You are too exhausted to shake the tree!"));
-            return;
-        }
-        add_msg(m_info, _("You shake the tree vigorously."));
-        m->spawn_item(p->pos(), "hickory_nut", rng(0,2) );
-        sounds::sound(examp, 6, _("rustling."));
-        p->moves -= 1000;
-        p->mod_stat( "stamina", -500);
-        if( one_in( p->stamina - 250) ) {
-            p->add_effect("winded", 2);
-        }
+        harvest_tree_shrub(p,m,examp);
         return;
     
     case DIG_ROOTS:
