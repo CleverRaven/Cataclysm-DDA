@@ -951,7 +951,7 @@ void vehicle::use_controls()
             has_planter = true;
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
-        }else if( part_flag(p,"HARVESTER") ){
+        }else if( part_flag(p,"REAPER") ){
             has_harvester = true;
         }
     }
@@ -1076,7 +1076,7 @@ void vehicle::use_controls()
                        _("Turn off scoop system") : _("Turn on scoop system") );
     }
     if( has_harvester ){
-        menu.addentry( toggle_harvester, true, 'H', harvester_on? _("Turn off harvester"):_("Turn on harvester") );
+        menu.addentry( toggle_harvester, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1275,7 +1275,7 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     case toggle_harvester:
-        add_msg(harvester_on ?_("Harvester turned off"):_("Harvester turned oon"));
+        add_msg(harvester_on ?_("Reaper turned off"):_("Reaper turned on"));
         harvester_on = true;
         break;
     case toggle_scoop:
@@ -3805,48 +3805,6 @@ void vehicle::idle(bool on_map) {
         }
         if(scoop_on){
             operate_scoop();
-        }
-        if( harvester_on ){
-
-            auto get_adjacent_parts=
-                [=](const int dx,const int dy){
-                std::vector<int> results;
-                for(int x = -1; x <= 1;x++){
-                    for(int y = -1; y <=1; y++){
-                        const std::vector<int> at_point=parts_at_relative(dx + x,dy + y, false);
-                        results.insert( results.end(), at_point.begin(), at_point.end());
-                    }
-                }
-                return results;
-            };
-            for( int i : all_parts_with_feature( "HARVESTER" ) ) {
-                const std::vector<int> adjacent = get_adjacent_parts(parts[i].mount.x,parts[i].mount.y);
-                for(const tripoint &harvest_pt : g->m.points_in_radius(global_pos3()+parts[i].precalc[0],1,0) ){
-                    if( g->m.furn(harvest_pt) == f_plant_harvest ) {
-                        islot_seed &seed_data=*g->m.i_at(harvest_pt).front().type->seed;
-                        const std::string& seedType=g->m.i_at(harvest_pt).front().typeId();
-                        g->m.i_clear(harvest_pt);
-                        g->m.furn_set(harvest_pt,f_null);
-                        int seed_count=rng(1, 3);
-                        int plant_count = rng(1, 12);
-                        item tmp;
-                        for(int j : adjacent){
-                            if( part_flag(j,"CARGO") ) {
-                                if( seed_data.spawn_seeds ){
-                                    tmp = item( seedType, calendar::turn );
-                                    while( add_item(j,tmp) && seed_count > 0){
-                                        seed_count--;
-                                    }
-                                }
-                                tmp = item(seed_data.fruit_id, calendar::turn);
-                                while( add_item(j, tmp) && plant_count > 0){
-                                    plant_count--;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
