@@ -3779,8 +3779,10 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
     wprintz(w, col_time, " %d", movecounter);
 
-    const auto str_walk = pgettext( "abbr. for character is walking", "W" );
-    const auto str_run = pgettext( "abbr. for character is running", "R" );
+    //~ Movement type: "walking". Max string length: one letter.
+    const auto str_walk = pgettext( "movement-type", "W" );
+    //~ Movement type: "running". Max string length: one letter.
+    const auto str_run = pgettext( "movement-type", "R" );
     wprintz(w, c_white, " %s", move_mode == "walk" ? str_walk : str_run);
     if( sideStyle ) {
         mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));

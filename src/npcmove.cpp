@@ -693,7 +693,7 @@ npc_action npc::method_of_attack(int target, int danger)
         } else if (allowed && enough_time_to_reload(target, it)) {
             has_empty_gun = true;
             empty_guns.push_back(&it);
-        } else if (it.melee_value(this) > weapon.melee_value(this) * 1.1) {
+        } else if (it.melee_value(*this) > weapon.melee_value(*this) * 1.1) {
             has_better_melee = true;
         }
     }
@@ -1713,7 +1713,7 @@ npc_action npc::scan_new_items(int target)
         } else if (allowed && enough_time_to_reload(target, it)) {
             has_empty_gun = true;
             empty_guns.push_back(&it);
-        } else if (it.melee_value(this) > weapon.melee_value(this) * 1.1) {
+        } else if (it.melee_value(*this) > weapon.melee_value(*this) * 1.1) {
             has_better_melee = true;
         }
     }

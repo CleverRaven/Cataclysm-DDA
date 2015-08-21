@@ -660,8 +660,10 @@ void game::start_game(std::string worldname)
     load_map( lev );
 
     m.build_map_cache( get_levz() );
-    // Do this after the map cache has been build!
+    // Do this after the map cache has been built!
     start_loc.place_player( u );
+    // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 
@@ -680,16 +682,21 @@ void game::start_game(std::string worldname)
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    //spawn the monsters
-    m.spawn_monsters( true ); // Static monsters
+    // Spawn the monsters
+    const bool spawn_near =
+        ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START");
+    m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
     // This can happen in lab starts
-    for( size_t i = 0; i < num_zombies(); ) {
-        if( m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-            despawn_monster( i );
-        } else {
-            i++;
+    if( !spawn_near ) {
+        for( size_t i = 0; i < num_zombies(); ) {
+            if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
+                m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
+                remove_zombie( i );
+            } else {
+                i++;
+            }
         }
     }
 
@@ -1183,7 +1190,7 @@ bool game::do_turn()
         return cleanup_at_end();
     }
     // Actual stuff
-    if (new_game) {
+    if( new_game ) {
         new_game = false;
     } else {
         gamemode->per_turn();
@@ -1197,7 +1204,8 @@ bool game::do_turn()
         lua_callback("on_day_passed");
     }
 
-    if( calendar::once_every(MINUTES(5)) ) { //move hordes every 5 min
+    // Move hordes every 5 min
+    if( calendar::once_every(MINUTES(5)) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -9205,12 +9213,13 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
-    std::string sSort = _("<s>ort: ");
-
+    std::string sSort;
     if ( bRadiusSort ) {
-        sSort += _("dist");
+        //~ Sort type: distance.
+        sSort = _("<s>ort: dist");
     } else {
-        sSort += pgettext("abbr. for word category", "cat");
+        //~ Sort type: category.
+        sSort = _("<s>ort: cat");
     }
 
     int letters = utf8_width(sSort.c_str());
