@@ -1076,7 +1076,7 @@ void vehicle::use_controls()
                        _("Turn off scoop system") : _("Turn on scoop system") );
     }
     if( has_harvester ){
-        menu.addentry( toggle_harvester, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
+        menu.addentry( toggle_reaper, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1275,7 +1275,7 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     case toggle_reaper:
-        add_msg(harvester_on ?_("Reaper turned off"):_("Reaper turned on"));
+        add_msg(harvester_on?_("Reaper turned off"):_("Reaper turned on"));
         harvester_on = !harvester_on;
         break;
     case toggle_scoop:
