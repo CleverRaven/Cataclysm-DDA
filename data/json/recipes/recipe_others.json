@@ -7748,7 +7748,7 @@
   "difficulty": 5,
   "time": 10000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
@@ -7777,7 +7777,7 @@
   "difficulty": 5,
   "time": 10000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
@@ -7824,6 +7824,35 @@
   "components": [
     [ [ "pipe", 2 ] ],
     [ [ "sheet_metal", 2 ] ],
+    [ [ "frame", 1] ],
+    [ [ "wheel", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "v_plow_item",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "difficulty": 5,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [ [ "goggles_welding", -1 ] ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
+    ]
+  ],
+  "components": [
+    [ [ "pipe", 2 ] ],
+    [ [ "steel_plate", 2 ] ],
     [ [ "frame", 1] ],
     [ [ "wheel", 1 ] ]
   ]
