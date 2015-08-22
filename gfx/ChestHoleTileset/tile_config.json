@@ -12,8 +12,7 @@
         {
           "id": "10mm",
           "fg": 1,
-          "bg": 632,
-          "rotates": false
+          "bg": 632
         },
         {
           "id": "12mm",
