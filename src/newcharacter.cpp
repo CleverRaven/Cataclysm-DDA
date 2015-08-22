@@ -1292,6 +1292,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     } while (retval == 0);
 
     delwin(w_description);
+    delwin(w_sorting);
     delwin(w_items);
     delwin(w_genderswap);
     return retval;
@@ -1460,6 +1461,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW *w_sorting = newwin(2, (FULL_SCREEN_WIDTH / 2) - 1,
                                5 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_sortingptr( w_sorting );
 
     WINDOW *w_profession = newwin(4, (FULL_SCREEN_WIDTH / 2) - 1,
                                   7 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
