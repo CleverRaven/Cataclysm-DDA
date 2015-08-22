@@ -2742,7 +2742,7 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_tree_deadhickory",
+        "id" : "t_tree_hickory_dead",
         "name": "dead hickory tree",
         "symbol": "7",
         "color": "brown",

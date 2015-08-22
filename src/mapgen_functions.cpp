@@ -538,7 +538,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                         { 350, t_tree_peach },
                         { 350, t_tree_plum },
                         { 128, t_tree_deadpine },
-                        { 128, t_tree_deadhickory },
+                        { 128, t_tree_hickory_dead },
                         { 32, t_tree_hickory },
                         { 16, t_tree_pine },
                         { 16, t_tree_blackjack },

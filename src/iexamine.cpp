@@ -2255,7 +2255,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
             return;
         }
         m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
-        m->ter_set(examp, t_tree_deadhickory);
+        m->ter_set(examp, t_tree_hickory_dead);
         p->moves -= 2000 / p->skillLevel("survival") + 100;
         return;
         
