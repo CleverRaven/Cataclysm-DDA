@@ -1066,7 +1066,7 @@ void vehicle::use_controls()
                        _("Turn off camera system") : _("Turn on camera system") );
     }
     if( has_plow ){
-        menu.addentry( toggle_plow, true, 'p', _("Toggle Plow"));
+        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, _("Toggle Plow"));
     }
     if( has_planter ){
         menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
