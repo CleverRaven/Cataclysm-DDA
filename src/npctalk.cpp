@@ -2059,7 +2059,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I'll try and find your commander then..."), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO_FREQ" ) {
-            popup(_("%s gives you a %s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
+            popup(_("%1$s gives you a %2$s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
             g->u.i_add( item("necropolis_freq", 0) );
             p->add_effect("gave_quest_item", 9999);
             add_response( _("Thanks."), "TALK_OLD_GUARD_NEC_COMMO" );
@@ -2181,7 +2181,7 @@ void dialogue::gen_responses( const std::string &topic )
                 SUCCESS_ACTION(&talk_function::companion_mission);
             add_response( _("I've got to go..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
-            popup(_("%s gives you a %s"), p->name.c_str(), item("commune_prospectus", 0).tname().c_str());
+            popup(_("%1$s gives you a %2$s"), p->name.c_str(), item("commune_prospectus", 0).tname().c_str());
             g->u.i_add( item("commune_prospectus", 0) );
             p->add_effect("gave_quest_item", 9999);
             add_response( _("Thanks."), "TALK_RANCH_FOREMAN" );
@@ -3156,7 +3156,7 @@ void talk_function::assign_base(npc *p)
         return;
     }
 
-    add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
+    add_msg(_("%1$s waits at %2$s"), p->name.c_str(), camp->camp_name().c_str());
     p->mission = NPC_MISSION_BASE;
     p->attitude = NPCATT_NULL;
 }
@@ -3237,7 +3237,7 @@ void talk_function::give_equipment(npc *p)
         chosen = 0;
     }
     item it = p->i_rem(giving[chosen].itm);
-    popup(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str());
+    popup(_("%1$s gives you a %2$s"), p->name.c_str(), it.tname().c_str());
 
     g->u.i_add( it );
     p->op_of_u.owed -= giving[chosen].price;

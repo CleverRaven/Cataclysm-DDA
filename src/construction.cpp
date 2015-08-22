@@ -1614,7 +1614,7 @@ std::string construction::get_time_string() const
             const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
             const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
             //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
-            text = string_format( _( "%s and %s" ), h.c_str(), m.c_str() );
+            text = string_format( _( "%1$s and %2$s" ), h.c_str(), m.c_str() );
         }
     }
     text = string_format( _( "Time to complete: %s" ), text.c_str() );
