@@ -5172,7 +5172,7 @@
         "damage_modifier" : 120,
         "bonus":7,
         "durability" : 200,
-        "item" : "v_reaper",
+        "item" : "v_reaper_item",
         "difficulty" : 4,
         "location" : "structure",
         "flags" : ["REAPER","PROTRUSION"],
