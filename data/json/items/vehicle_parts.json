@@ -1285,7 +1285,7 @@
         "volume":28
     },{
         "type":"GENERIC",
-        "id":"v_reaper",
+        "id":"v_reaper_item",
         "symbol":"/",
         "name":"reaper",
         "name_plural":"reapers",
