@@ -9788,7 +9788,10 @@
       ["carding_paddles", 2],
       ["scythe", 40],
       ["material_quicklime", 30],
-      ["pitchfork", 40]
+      ["pitchfork", 40],
+    ["v_plow_item",41],
+    ["v_planter_item",41],
+    ["v_reaper_item",41]
     ]
   },{
 "type" : "item_group",
