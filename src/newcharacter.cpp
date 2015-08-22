@@ -333,13 +333,13 @@ int player::create(character_type type, std::string tempname)
             tab += set_scenario   (w, this, points);
             break;
         case 1:
-            tab += set_stats      (w, this, points);
+            tab += set_profession (w, this, points);
             break;
         case 2:
             tab += set_traits     (w, this, points, max_trait_points);
             break;
         case 3:
-            tab += set_profession (w, this, points);
+            tab += set_stats      (w, this, points);
             break;
         case 4:
             tab += set_skills     (w, this, points);
@@ -523,9 +523,9 @@ void draw_tabs(WINDOW *w, std::string sTab)
 
     std::vector<std::string> tab_captions;
     tab_captions.push_back(_("SCENARIO"));
-    tab_captions.push_back(_("STATS"));
-    tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("PROFESSION"));
+    tab_captions.push_back(_("TRAITS"));
+    tab_captions.push_back(_("STATS"));
     tab_captions.push_back(_("SKILLS"));
     tab_captions.push_back(_("DESCRIPTION"));
 
