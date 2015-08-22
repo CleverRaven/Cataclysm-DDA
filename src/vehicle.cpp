@@ -3800,15 +3800,64 @@ void vehicle::idle(bool on_map) {
 
     if( on_map ) {
         update_time();
-        if( planter_on ){
-            operate_planter();
-        }
-        if(scoop_on){
-            operate_scoop();
-        }
     }
 }
 
+void vehicle::on_move(){
+    if(scoop_on){
+        operate_scoop();
+    }
+    if( planter_on ){
+        operate_planter();
+    }
+    if( plow_on ){
+        operate_plow();
+    }
+    if( harvester_on ){
+        operate_reaper();
+    }
+}
+void vehicle::operate_plow(){
+    const tripoint &veh_start=global_pos3();
+    for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
+        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+        if( g->m.has_flag("DIGGABLE", start_plow) ){
+            g->m.ter_set( start_plow, t_dirtmound );
+        }else{
+            const int speed = velocity;
+            const int v_damage = rng( 3, speed );
+            damage( plow_id, v_damage, DT_BASH, false );
+            sounds::sound( start_plow, v_damage, _("Clanggggg!") );
+        }
+    }
+}
+void vehicle::operate_reaper(){
+    const tripoint &veh_start=global_pos3();
+    for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
+        const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
+        const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
+        const int seed_produced = rng(1, 3);
+        item tmp;
+        const tripoint &reaper_pos = start_reaper + parts[reaper_id].precalc[0];
+        if( g->m.furn(reaper_pos) != f_plant_harvest ){
+            continue;
+        }
+        islot_seed &seed_data = *g->m.i_at(reaper_pos).front().type->seed;
+        const std::string &seedType= g->m.i_at(reaper_pos).front().typeId();
+        g->m.furn_set( reaper_pos, f_null );
+        g->m.i_clear( reaper_pos );
+        if( seed_data.spawn_seeds ){
+            tmp = item( seedType, calendar::turn );
+            for(int j=0;j < seed_produced; j++ ){
+                g->m.add_item_or_charges(reaper_pos, tmp);
+            }
+        }
+        tmp = item( seed_data.fruit_id, calendar::turn );
+        for(int j = 0; j < plant_produced; j++){
+            g->m.add_item_or_charges( reaper_pos, tmp );
+        }
+    }
+}
 void vehicle::operate_planter(){
     std::vector<int> planters = all_parts_with_feature("PLANTER");
     for( int planter_id : planters ){
