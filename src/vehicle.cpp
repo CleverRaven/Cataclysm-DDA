@@ -1076,8 +1076,8 @@ void vehicle::use_controls()
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
     }
-    if( has_plow ) {
-        menu.addentry( toggle_plow, true, 'p', _("Toggle Plow") );
+    if( has_plow ){
+        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, _("Toggle Plow"));
     }
     if( has_planter ){
         menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
