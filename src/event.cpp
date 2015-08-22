@@ -125,7 +125,7 @@ void event::actualize()
 
     case EVENT_AMIGARA: {
         g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
-                                pgettext("memorial_female", "Angered a group of amigara horrors!"));
+                              pgettext("memorial_female", "Angered a group of amigara horrors!"));
         int num_horrors = rng(3, 5);
         int faultx = -1, faulty = -1;
         bool horizontal = false;
@@ -134,11 +134,7 @@ void event::actualize()
                 if (g->m.ter(x, y) == t_fault) {
                     faultx = x;
                     faulty = y;
-                    if (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault) {
-                        horizontal = true;
-                    } else {
-                        horizontal = false;
-                    }
+                    horizontal = (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault);
                 }
             }
         }
