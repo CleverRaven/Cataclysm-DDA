@@ -614,7 +614,7 @@
     {
     "type":"GENERIC",
     "id": "hickory_nut",
-    "symbol": ".",
+    "symbol": ",",
     "color": "brown",
     "name": "hickory nut",
     "description": "A hard nut from a hickory tree.",
