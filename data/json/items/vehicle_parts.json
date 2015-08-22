@@ -1313,5 +1313,20 @@
         "material":["steel","plastic"],
         "price":3500,
         "volume":29
+    },{
+        "type":"GENERIC",
+        "id":"v_plow_item",
+        "symbol":"&",
+        "name":"plow",
+        "name_plural":"plows",
+        "color":"dark_gray",
+        "description":"A heavy assembly of wheels and steel blades that plow through the ground like a plow.",
+        "weight":32666,
+        "bashing":1,
+        "cutting":0,
+        "to_hit":0,
+        "material":["steel","plastic"],
+        "price":3500,
+        "volume":29
     }
 ]
