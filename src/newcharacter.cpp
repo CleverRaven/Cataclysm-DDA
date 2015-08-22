@@ -1442,6 +1442,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
     WINDOW_PTR w_descriptionptr( w_description );
 
+    WINDOW *w_sorting = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
+                               5 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_sortingptr( w_sorting );
+
     WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
                                   7 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
     WINDOW_PTR w_professionptr( w_profession );
@@ -1556,9 +1560,17 @@ int set_scenario(WINDOW *w, player *u, int &points)
             scen_gender_items = sorted_scens[cur_id]->items_female();
         }
         scen_items.insert( scen_items.end(), scen_gender_items.begin(), scen_gender_items.end() );
+        werase(w_sorting);
         werase(w_profession);
         werase(w_location);
         werase(w_flags);
+
+        wprintz(w_sorting, COL_HEADER, _("Sort by:"));
+        auto const sort_order = scenario_sorter.sort_by_points ? _("points") : _("name");
+        auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
+                                               ctxt.get_desc("SORT").c_str() );
+        wprintz(w_sorting, c_ltgray, " %s", sort_order);
+        fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
 
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
         wprintz(w_profession, c_ltgray, _("\n"));
@@ -1617,6 +1629,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
         wrefresh(w);
         wrefresh(w_description);
+        wrefresh(w_sorting);
         wrefresh(w_profession);
         wrefresh(w_location);
         wrefresh(w_flags);
