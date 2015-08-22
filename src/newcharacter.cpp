@@ -563,6 +563,17 @@ void draw_tabs(WINDOW *w, std::string sTab)
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
 
+template <class Compare>
+void draw_sorting_indicator(WINDOW *w_sorting, input_context ctxt, Compare sorter)
+{
+    auto const sort_order = sorter.sort_by_points ? _("points") : _("name");
+    auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
+                                           ctxt.get_desc("SORT").c_str() );
+    wprintz(w_sorting, COL_HEADER, _("Sort by:"));
+    wprintz(w_sorting, c_ltgray, " %s", sort_order);
+    fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
+}
+
 int set_stats(WINDOW *w, player *u, int &points)
 {
     unsigned char sel = 1;
@@ -1221,12 +1232,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
 
         werase(w_sorting);
-        wprintz(w_sorting, COL_HEADER, _("Sort by:"));
-        auto const sort_order = profession_sorter.sort_by_points ? _("points") : _("name");
-        auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
-                                               ctxt.get_desc("SORT").c_str() );
-        wprintz(w_sorting, c_ltgray, " %s", sort_order);
-        fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
+        draw_sorting_indicator(w_sorting, ctxt, profession_sorter);
 
         werase(w_genderswap);
         //~ Gender switch message. 1s - change key name, 2s - profession name.
@@ -1454,7 +1460,6 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW *w_sorting = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
                                5 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
-    WINDOW_PTR w_sortingptr( w_sorting );
 
     WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
                                   7 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
@@ -1575,12 +1580,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         werase(w_location);
         werase(w_flags);
 
-        wprintz(w_sorting, COL_HEADER, _("Sort by:"));
-        auto const sort_order = scenario_sorter.sort_by_points ? _("points") : _("name");
-        auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
-                                               ctxt.get_desc("SORT").c_str() );
-        wprintz(w_sorting, c_ltgray, " %s", sort_order);
-        fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
+        draw_sorting_indicator(w_sorting, ctxt, scenario_sorter);
 
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
         wprintz(w_profession, c_ltgray, _("\n"));
