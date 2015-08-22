@@ -1443,11 +1443,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
     WINDOW_PTR w_descriptionptr( w_description );
 
     WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
-                                  6 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+                                  7 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
     WINDOW_PTR w_professionptr( w_profession );
 
     WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
-                                  10 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+                                  11 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     WINDOW_PTR w_locationptr( w_location );
 
