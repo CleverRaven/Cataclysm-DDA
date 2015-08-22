@@ -3851,7 +3851,6 @@ void vehicle::on_move(){
     }
 }
 void vehicle::operate_plow(){
-    const tripoint &veh_start=global_pos3();
     for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
         const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
         if( g->m.has_flag("DIGGABLE", start_plow) ){
