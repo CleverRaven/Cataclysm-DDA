@@ -1458,19 +1458,20 @@ int set_scenario(WINDOW *w, player *u, int &points)
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
     WINDOW_PTR w_descriptionptr( w_description );
 
-    WINDOW *w_sorting = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
+    WINDOW *w_sorting = newwin(2, (FULL_SCREEN_WIDTH / 2) - 1,
                                5 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
-    WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
+    WINDOW *w_profession = newwin(4, (FULL_SCREEN_WIDTH / 2) - 1,
                                   7 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
     WINDOW_PTR w_professionptr( w_profession );
 
-    WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
+    WINDOW *w_location =   newwin(3, (FULL_SCREEN_WIDTH / 2) - 1,
                                   11 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     WINDOW_PTR w_locationptr( w_location );
 
-    WINDOW *w_flags = newwin(iContentHeight - 10, (FULL_SCREEN_WIDTH / 2) - 1,
+    // 9 = 2 + 4 + 3, so we use rest of space for flags
+    WINDOW *w_flags = newwin(iContentHeight - 9, (FULL_SCREEN_WIDTH / 2) - 1,
                              14 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     WINDOW_PTR w_flagsptr( w_flags );
