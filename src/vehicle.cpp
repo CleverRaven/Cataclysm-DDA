@@ -3900,7 +3900,7 @@ void vehicle::operate_planter(){
         for(auto i = v.begin(); i != v.end(); i++ ){
             if(i->is_seed()){
                 if( g->m.ter(loc) != t_dirtmound
-                   && part_flag(planter_id,  "ADVANCED" ) ) {//If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
+                   && part_flag(planter_id,  "ADVANCED_PLANTER" ) ) {//If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
                     break;//then don't put the item there.
                 }else if(g->m.ter(loc) == t_dirtmound ) {
                     g->m.furn_set(loc, f_plant_seed);

@@ -5156,7 +5156,7 @@
         "difficulty" : 4,
         "location" : "structure",
         "size":70,
-        "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED"],
+        "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED_PLANTER"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
             {"item": "scrap", "count" : [1,2] }
