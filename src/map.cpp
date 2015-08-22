@@ -629,48 +629,40 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
                 break;
             }
             //draw a line between the start point and end point of where the plow ends up, and try to till it if it is diggable.
-            const tripoint start_plow(veh.parts[plow_id].precalc[0].x + veh_start.x,
-                                      veh.parts[plow_id].precalc[0].y + veh_start.y,
-                                      veh_start.z);
-            const std::vector<tripoint> & plow_line = line_to(start_plow,start_plow+dp);
-            for( const tripoint& plow_pt : plow_line ){
-                if( has_flag("DIGGABLE", plow_pt) ){
-                    ter_set( plow_pt, t_dirtmound );
-                }else{
-                    const int speed = dp.x + dp.y;
-                    const int damage = rng( 3, speed );
-                    veh.damage( plow_id, damage, DT_BASH, false );
-                    sounds::sound( plow_pt, damage, _("Clanggggg!") );
-                }
+            const tripoint start_plow = veh.global_pos3() + veh.parts[plow_id].precalc[0];
+            if( has_flag("DIGGABLE", start_plow) ){
+                ter_set( start_plow, t_dirtmound );
+            }else{
+                const int speed = veh.velocity;
+                const int damage = rng( 3, speed );
+                veh.damage( plow_id, damage, DT_BASH, false );
+                sounds::sound( plow_pt, damage, _("Clanggggg!") );
             }
         }
         if( veh.harvester_on ){
             for( const int reaper_id : veh.all_parts_with_feature( "REAPER" ) ){
-                const tripoint start_reaper( veh.parts[reaper_id].precalc[0].x + veh_start.x,
-                                             veh.parts[reaper_id].precalc[0].y + veh_start.y,
-                                             veh_start.z );
-                const std::vector<tripoint> &reaper_line = line_to( start_reaper,start_reaper+dp );
-                const int plant_produced =  rng(1,veh.parts[reaper_id].info().bonus);
+                const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
+                const std::vector<tripoint> &reaper_line = line_to( start_reaper,start_reaper + dp );
+                const int plant_produced =  rng( 1, veh.parts[reaper_id].info().bonus );
                 const int seed_produced = rng(1, 3);
                 item tmp;
-                for(const tripoint& i : reaper_line){
-                    if( furn(i) != f_plant_harvest ){
-                        continue;
+                const tripoint &reaper_pos = start_reaper + veh.parts[reaper_id].precalc[0];
+                if( furn(reaper_pos) != f_plant_harvest ){
+                    continue;
+                }
+                islot_seed &seed_data = *i_at(reaper_pos).front().type->seed;
+                const std::string &seedType= i_at(reaper_pos).front().typeId();
+                furn_set( i, f_null );
+                i_clear( i );
+                if( seed_data.spawn_seeds ){
+                    tmp = item( seedType, calendar::turn );
+                    for(int j=0;j < seed_produced; j++ ){
+                        add_item_or_charges(reaper_pos, tmp);
                     }
-                    islot_seed &seed_data = *i_at(i).front().type->seed;
-                    const std::string &seedType= i_at(i).front().typeId();
-                    furn_set( i, f_null );
-                    i_clear( i );
-                    if( seed_data.spawn_seeds ){
-                        tmp = item( seedType, calendar::turn );
-                        for(int j=0;j < seed_produced; j++ ){
-                            add_item_or_charges(i,tmp);
-                        }
-                    }
-                    tmp = item( seed_data.fruit_id, calendar::turn );
-                    for(int j = 0; j < plant_produced; j++){
-                        add_item_or_charges( i, tmp );
-                    }
+                }
+                tmp = item( seed_data.fruit_id, calendar::turn );
+                for(int j = 0; j < plant_produced; j++){
+                    add_item_or_charges( i, tmp );
                 }
             }
         }
