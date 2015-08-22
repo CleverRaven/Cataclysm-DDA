@@ -445,7 +445,7 @@ void advanced_inventory::menu_square( uimenu *menu )
     for( int i = 1; i < 10; i++ ) {
         char key = ( char )( i + 48 );
         bool in_vehicle = squares[i].can_store_in_vehicle();
-        const char *bracket = (in_vehicle == true) ? "<>" : "[]";
+        const char *bracket = (in_vehicle) ? "<>" : "[]";
         // always show storage option for vehicle storage, if applicable
         bool canputitems = (menu->entries[i - 1].enabled && squares[i].canputitems());
         nc_color bcolor = ( canputitems ? ( sel == i ? h_white : c_ltgray ) : c_dkgray );
@@ -499,7 +499,6 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
 {
     WINDOW *window = pane.window;
     int area = pane.get_area();
-    auto other = ( pane.window == left_window ) ? panes[left] : panes[right];
     int wwidth = getmaxx( window );
     int ofs = wwidth - 25 - 2 - 14;
     for( int i = 0; i < NUM_AIM_LOCATIONS; ++i ) {
@@ -886,7 +885,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
         }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && (in_vehicle() || vehicle_override);
-        const itemstack &stacks = (is_in_vehicle == true) ? 
+        const itemstack &stacks = (is_in_vehicle) ?
                                   i_stacked( square.veh->get_items( square.vstor ) ) : 
                                   i_stacked( m.i_at( square.pos ) );
 
@@ -2141,7 +2140,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             bool is_in_vehicle = uistate.adv_inv_container_in_vehicle || 
                 (can_store_in_vehicle() && in_vehicle);
 
-            const itemstack &stacks = (is_in_vehicle == true) ? 
+            const itemstack &stacks = (is_in_vehicle) ?
                 i_stacked( veh->get_items( vstor ) ) : 
                 i_stacked( m.i_at( pos ) );
 
@@ -2387,5 +2386,5 @@ void advanced_inventory::do_return_entry()
 
 bool advanced_inventory::is_processing() const
 {
-    return !(uistate.adv_inv_re_enter_move_all == ENTRY_START);
+    return (uistate.adv_inv_re_enter_move_all != ENTRY_START);
 }
