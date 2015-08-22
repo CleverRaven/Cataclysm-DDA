@@ -1045,8 +1045,9 @@ int set_profession(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight - 1, 55,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_sorting =     newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_genderswap =  newwin(1,                  55,  6 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 2, 55,  7 + getbegy(w), 24 + getbegx(w));
 
     std::vector<const profession *> sorted_profs;
     for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
@@ -1219,6 +1220,14 @@ int set_profession(WINDOW *w, player *u, int &points)
                                                ctxt.get_desc("RIGHT").c_str() );
         const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
 
+        werase(w_sorting);
+        wprintz(w_sorting, COL_HEADER, _("Sort by:"));
+        auto const sort_order = profession_sorter.sort_by_points ? _("points") : _("name");
+        auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
+                                               ctxt.get_desc("SORT").c_str() );
+        wprintz(w_sorting, c_ltgray, " %s", sort_order);
+        fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
+
         werase(w_genderswap);
         //~ Gender switch message. 1s - change key name, 2s - profession name.
         std::string g_switch_msg = u->male ? _("Press %1$s to switch to %2$s(female).") :
@@ -1234,6 +1243,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         wrefresh(w_description);
         wrefresh(w_items);
         wrefresh(w_genderswap);
+        wrefresh(w_sorting);
 
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
