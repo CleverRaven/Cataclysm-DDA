@@ -1590,10 +1590,14 @@ int set_scenario(WINDOW *w, player *u, int &points)
         } else {
             wprintz(w_profession, c_ltgray, _("All"));
         }
-        wprintz(w_profession, c_ltgray, (", default:\n"));
+        wprintz(w_profession, c_ltgray, _(", default:\n"));
         auto const scenario_prof = sorted_scens[cur_id]->get_profession();
-        auto const prof_color = scenario_prof->point_cost() > 0 ? c_green : c_ltgray;
+        auto const prof_points = scenario_prof->point_cost();
+        auto const prof_color = prof_points > 0 ? c_green : c_ltgray;
         wprintz(w_profession, prof_color, scenario_prof->gender_appropriate_name(u->male).c_str());
+        if ( prof_points > 0 ) {
+            wprintz(w_profession, c_green, " (+%d)", prof_points);
+        }
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
         wprintz(w_location, c_ltgray, ("\n"));
