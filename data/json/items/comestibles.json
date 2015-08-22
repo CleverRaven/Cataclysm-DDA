@@ -8159,7 +8159,7 @@
         "quench" : -1,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 5,
+        "nutrition" : 10,
         "description" : "A roasted nut from a hickory tree.",
         "price" : 90,
         "material" : "veggy",
@@ -8169,7 +8169,8 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 2
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8185,9 +8186,9 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 40,
-        "healthy" : 1,
+        "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 5,
+        "nutrition" : 8,
         "description" : "Delicious hickory nut ambrosia. A drink worthy of the gods.",
         "price" : 100,
         "material" : ["veggy","milk"],
@@ -8198,7 +8199,7 @@
         "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 6
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
