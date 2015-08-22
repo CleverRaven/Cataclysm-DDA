@@ -360,7 +360,7 @@ std::string base64_decode(std::string str)
     }
 
     int output_length = input_length / 4 * 3;
-    const char *data = (const char *)instr.c_str();
+    const char *data = instr.c_str();
 
     if (data[input_length - 1] == '=') {
         output_length--;

@@ -1383,7 +1383,6 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     add_msg( m_debug, "difference = %d", szdif );
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
-    std::map<body_part, double>::iterator iter;
 
     // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
     // Any hit modifiers to locations should go here. (Tags, attack style, etc)

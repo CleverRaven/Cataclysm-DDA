@@ -107,7 +107,6 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     }
     if (bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time) {
         if(hasPreviousText){
-            hasPreviousText = false;
             power_desc << ", ";
         }
         power_desc << string_format(_("%d PU act"),
@@ -116,7 +115,6 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     }
     if (bionics[bio.id].power_deactivate > 0 && !bionics[bio.id].charge_time) {
         if(hasPreviousText){
-            hasPreviousText = false;
             power_desc << ", ";
         }
         power_desc << string_format(_("%d PU deact"),
@@ -125,7 +123,6 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     }
     if (bionics[bio.id].toggled) {
         if(hasPreviousText){
-            hasPreviousText = false;
             power_desc << ", ";
         }
         power_desc << (bio.powered ? _("ON") : _("OFF"));
