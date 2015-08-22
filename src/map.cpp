@@ -623,49 +623,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         // accept new position
         // if submap changed, we need to process grid from the beginning.
         // TODO: Allow vehicles to get displaced vertically
-        const tripoint &veh_start=veh.global_pos3();
-        for( const int plow_id : veh.all_parts_with_feature( "PLOW" ) ){
-            if( !veh.plow_on ){
-                break;
-            }
-            //draw a line between the start point and end point of where the plow ends up, and try to till it if it is diggable.
-            const tripoint start_plow = veh.global_pos3() + veh.parts[plow_id].precalc[0];
-            if( has_flag("DIGGABLE", start_plow) ){
-                ter_set( start_plow, t_dirtmound );
-            }else{
-                const int speed = veh.velocity;
-                const int damage = rng( 3, speed );
-                veh.damage( plow_id, damage, DT_BASH, false );
-                sounds::sound( plow_pt, damage, _("Clanggggg!") );
-            }
-        }
-        if( veh.harvester_on ){
-            for( const int reaper_id : veh.all_parts_with_feature( "REAPER" ) ){
-                const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
-                const std::vector<tripoint> &reaper_line = line_to( start_reaper,start_reaper + dp );
-                const int plant_produced =  rng( 1, veh.parts[reaper_id].info().bonus );
-                const int seed_produced = rng(1, 3);
-                item tmp;
-                const tripoint &reaper_pos = start_reaper + veh.parts[reaper_id].precalc[0];
-                if( furn(reaper_pos) != f_plant_harvest ){
-                    continue;
-                }
-                islot_seed &seed_data = *i_at(reaper_pos).front().type->seed;
-                const std::string &seedType= i_at(reaper_pos).front().typeId();
-                furn_set( i, f_null );
-                i_clear( i );
-                if( seed_data.spawn_seeds ){
-                    tmp = item( seedType, calendar::turn );
-                    for(int j=0;j < seed_produced; j++ ){
-                        add_item_or_charges(reaper_pos, tmp);
-                    }
-                }
-                tmp = item( seed_data.fruit_id, calendar::turn );
-                for(int j = 0; j < plant_produced; j++){
-                    add_item_or_charges( i, tmp );
-                }
-            }
-        }
+        veh.on_move();
         // Actually change position
         displace_vehicle( pt, dp );
     } else {
