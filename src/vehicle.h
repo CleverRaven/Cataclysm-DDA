@@ -768,6 +768,8 @@ public:
     void interact ();
     //scoop operation,pickups, battery drain, etc.
     void operate_scoop();
+    void operate_reaper();
+    void operate_plow();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
@@ -804,7 +806,7 @@ public:
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
-
+    void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
      * (if enabled).
