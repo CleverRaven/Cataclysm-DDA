@@ -1559,14 +1559,19 @@ int set_scenario(WINDOW *w, player *u, int &points)
         werase(w_profession);
         werase(w_location);
         werase(w_flags);
-        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
 
+        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
         wprintz(w_profession, c_ltgray, _("\n"));
         if (sorted_scens[cur_id]->profsize() > 0) {
             wprintz(w_profession, c_ltgray, _("Limited"));
         } else {
             wprintz(w_profession, c_ltgray, _("All"));
         }
+        wprintz(w_profession, c_ltgray, (", default:\n"));
+        auto const scenario_prof = sorted_scens[cur_id]->get_profession();
+        auto const prof_color = scenario_prof->point_cost() > 0 ? c_green : c_ltgray;
+        wprintz(w_profession, prof_color, scenario_prof->gender_appropriate_name(u->male).c_str());
+
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
         wprintz(w_location, c_ltgray, ("\n"));
         wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
