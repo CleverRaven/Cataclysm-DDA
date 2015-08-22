@@ -3388,10 +3388,7 @@ float vehicle::k_mass() const
 
     float ma0 = 50.0;
     //5.8 is the average weight in kilograms of soil that would normally be plowed over a square meter
-    float pw  = 0;
-    for(int i : all_parts_with_feature("PLOW") ){
-        pw += parts[i].info().bonus;
-    }
+    float pw  = plow_on ? plow_friction : 0;
     // calculate safe speed reduction due to mass
     float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa + pw));
 
