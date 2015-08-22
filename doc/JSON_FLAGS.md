@@ -430,6 +430,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
   - Uses the ```bonus``` tag to determine the maximum size of the item picked up
+- ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. 
+  - ```ADVANCED_PLANTER``` This planter doesn't spill seeds
+- ```REAPER``` Cuts down mature crops, depositing them on the square
+  - The ```bonus``` tag defines how productive the harvest can be.
+- ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
+  - The ```bonus``` tag defines the level of friction added to the vehicle.
 
 ## Ammo
 
