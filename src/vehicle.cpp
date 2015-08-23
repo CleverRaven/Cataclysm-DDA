@@ -3084,9 +3084,7 @@ int vehicle::total_power(bool const fueled) const
         }
     }
     if( plow_on ){
-        for( size_t a : all_parts_with_feature("PLOW") ){
-            pwr += part_power(a);
-        }
+        pwr += plow_engine_drag;
     }
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
@@ -3341,9 +3339,7 @@ float vehicle::k_friction() const
 {
     // calculate safe speed reduction due to wheel friction
     float fr0 = 1000.0;
-    //Calculate safe speed reduction due to plow friction
-    float pf = plow_on ? plow_friction : 0.0f;
-    float kf = ( fr0 / (fr0 + wheels_area() + pf ))  ;
+    float kf = ( fr0 / (fr0 + wheels_area() ))  ;
     return kf;
 }
 
@@ -3393,9 +3389,8 @@ float vehicle::k_mass() const
 
     float ma0 = 50.0;
     //5.8 is the average weight in kilograms of soil that would normally be plowed over a square meter
-    float pw  = plow_on ? plow_friction : 0;
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa + pw));
+    float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa ));
 
     return km;
 }
@@ -4979,8 +4974,8 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
-    plow_friction = 0;
     has_atomic_lights = false;
+    plow_engine_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
@@ -5052,8 +5047,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
         }
-        if(vpi.has_flag( "PLOW" )){
-            plow_friction += vpi.bonus;
+        if( vpi.has_flag( "PLOW" ) ){
+            plow_engine_drag += vpi.power;
         }
 
         // Build map of point -> all parts in that point
