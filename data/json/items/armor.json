@@ -3174,7 +3174,7 @@
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 3,
+        "encumbrance" : 0,
         "bashing" : -3,
         "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 30,
