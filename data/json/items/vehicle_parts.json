@@ -1320,7 +1320,7 @@
         "name":"plow",
         "name_plural":"plows",
         "color":"dark_gray",
-        "description":"A heavy assembly of wheels and steel blades that plow through the ground like a plow.",
+        "description":"A heavy assembly of wheels and steel blades that turn up the ground.",
         "weight":32666,
         "bashing":1,
         "cutting":0,
