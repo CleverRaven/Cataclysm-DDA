@@ -3100,8 +3100,10 @@ int vehicle::total_power(bool const fueled) const
             pwr += part_power(p); // alternators have negative power
         }
     }
-    for( size_t a : all_parts_with_feature("PLOW") ){
-        pwr += part_power(a);
+    if( plow_on ){
+        for( size_t a : all_parts_with_feature("PLOW") ){
+            pwr += part_power(a);
+        }
     }
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
