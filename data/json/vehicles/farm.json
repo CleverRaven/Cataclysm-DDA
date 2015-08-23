@@ -2,7 +2,7 @@
     {
 	"type":"vehicle",
 	"id":"tractor_seed",
-	"name":"planter tractor",
+	"name":"Planter Tractor",
 	"blueprint":[
 	    ["&       "],
 	    ["&OO    O"],
@@ -44,7 +44,7 @@
     },{
 	"type":"vehicle",
 	"id":"tractor_plow",
-	"name":"Plow tractor",
+	"name":"Plow Tractor",
 	"blueprint":[
 	    ["&       "],
 	    ["&OO    O"],
@@ -87,7 +87,7 @@
     {
 	"type":"vehicle",
 	"id":"tractor_reaper",
-	"name":"reaper tractor",
+	"name":"Reaper Tractor",
 	"blueprint":[
 	    ["&       "],
 	    ["&OO    O"],
