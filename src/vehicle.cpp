@@ -3641,7 +3641,6 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         dome_lights_on = false;
         aisle_lights_on = false;
         scoop_on = false;
-        plow_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
         }
