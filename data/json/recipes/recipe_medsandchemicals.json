@@ -1812,13 +1812,16 @@
   ],
   "components": [
     [
-      [ "mutagen_slime", 2 ]
+      [ "mutagen_slime", 2 ],
+      [ "iv_mutagen_slime", 1 ]
     ],
     [
-      [ "mutagen_plant", 2 ]
+      [ "mutagen_plant", 2 ],
+      [ "iv_mutagen_plant", 1 ]
     ],
     [
-      [ "mutagen_bird", 2 ]
+      [ "mutagen_bird", 2 ],
+      [ "iv_mutagen_bird", 1 ]
     ],
     [
       [ "purifier", 4 ],
@@ -1876,7 +1879,8 @@
   ],
   "components": [
     [
-      [ "mutagen_slime", 2 ]
+      [ "mutagen_slime", 2 ],
+      [ "iv_mutagen_slime", 1 ]
     ],
     [
       [ "mutagen_plant", 1 ]
