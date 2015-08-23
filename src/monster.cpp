@@ -463,7 +463,7 @@ nc_color monster::color_with_effects() const
     return ret;
 }
 
-bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
+bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
 {
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
@@ -1590,7 +1590,7 @@ void monster::die(Creature* nkiller) {
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
-        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt(this);
         }

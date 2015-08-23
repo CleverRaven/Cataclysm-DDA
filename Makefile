@@ -282,13 +282,12 @@ ifdef LUA
     # Windows expects to have lua unpacked at a specific location
     LDFLAGS += -llua
   else
+    LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
+    LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
+        $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
     # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs lua5.2)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags lua5.2)
-    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs lua-5.2)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags lua-5.2)
-    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs lua)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags lua)
+    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_FOUND))
+    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_FOUND))
   endif
 
   CXXFLAGS += -DLUA

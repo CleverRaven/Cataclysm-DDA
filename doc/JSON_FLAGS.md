@@ -428,6 +428,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
+- ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
+  - Uses the ```bonus``` tag to determine the maximum size of the item picked up
 
 ## Ammo
 
@@ -945,8 +947,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
-
-
+- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
+  -```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 
 ## Generic
 

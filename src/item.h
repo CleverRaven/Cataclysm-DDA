@@ -275,8 +275,7 @@ public:
     /**
      * Whether the character needs both hands to wield this item.
      */
-    // TODO: make a reference. Make a const reference.
-    bool is_two_handed(player *u);
+    bool is_two_handed( const player &u ) const;
     /** The weapon is considered a suitable melee weapon. */
     bool is_weap() const;
     /** The item is considered a bashing weapon (inflicts a considerable bash damage). */
@@ -461,10 +460,10 @@ public:
 
  int brewing_time() const;
  void detonate( const tripoint &p ) const;
-// Our value as a weapon, given particular skills
- int  weapon_value(player *p) const;
-// As above, but discounts its use as a ranged weapon
- int  melee_value (player *p);
+    // Our value as a weapon, given particular skills
+    double weapon_value( const player &p ) const;
+    // As above, but discounts its use as a ranged weapon
+    double melee_value( const player &p ) const;
 
     /**
      * @name Material(s) of the item
@@ -650,7 +649,7 @@ public:
     std::string components_to_string() const;
 
  itype_id typeId() const;
- itype* type;
+ const itype* type;
  std::vector<item> contents;
 
         /**
@@ -659,7 +658,7 @@ public:
          * If non-null, the returned itype is quaranted to have an ammo slot:
          * @code itm.get_curammo()->ammo->damage @endcode will work.
          */
-        itype* get_curammo() const;
+        const itype* get_curammo() const;
         /**
          * Returns the item type id of the currently loaded ammo.
          * Returns "null" if the item is not loaded.
@@ -1005,8 +1004,7 @@ public:
          * How much moves (@ref Creature::moves) it takes to reload this item.
          * This also applies to tools.
          */
-        // TODO: constify u
-        int reload_time(player &u) const;
+        int reload_time( const player &u ) const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
@@ -1196,7 +1194,7 @@ public:
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
-        itype* curammo;
+        const itype* curammo;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse;
         std::set<matec_id> techniques; // item specific techniques

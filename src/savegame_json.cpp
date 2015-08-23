@@ -1207,7 +1207,7 @@ void item::io( Archive& archive )
         }
     };
 
-    archive.template io<itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
+    archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
     archive.io( "charges", charges, -1l );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
@@ -1227,7 +1227,7 @@ void item::io( Archive& archive )
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.template io<itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
+    archive.template io<const itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
     archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
     archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
@@ -1250,7 +1250,7 @@ void item::io( Archive& archive )
         // if it's already rotten, no need to do this.
         active = true;
     }
-    if( active && dynamic_cast<it_comest*>(type) && (rotten() || !goes_bad()) ) {
+    if( active && dynamic_cast<const it_comest*>(type) && (rotten() || !goes_bad()) ) {
         // There was a bug that set all comestibles active, this reverses that.
         active = false;
     }
@@ -1408,7 +1408,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("dome_lights_on", dome_lights_on);
     data.read("aisle_lights_on", aisle_lights_on);
     data.read("has_atomic_lights", has_atomic_lights);
-
+    data.read("scoop_on",scoop_on);
     int last_updated = calendar::turn;
     data.read( "last_update_turn", last_updated );
     last_update_turn = last_updated;
@@ -1491,6 +1491,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "aisle_lights_on", aisle_lights_on );
     json.member( "has_atomic_lights", has_atomic_lights );
     json.member( "last_update_turn", last_update_turn.get_turn() );
+    json.member("scoop_on",scoop_on);
     json.end_object();
 }
 

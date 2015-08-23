@@ -302,6 +302,8 @@ void Character::recalc_sight_limits()
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
+    } else if( has_effect( "darkness" ) ) {
+        sight_max = 10;
     }
 
     vision_mode_cache.reset();
@@ -454,6 +456,46 @@ std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> f
         }
     }
     return result;
+}
+
+// Negative positions indicate weapon/clothing, 0 & positive indicate inventory
+const item& Character::i_at(int position) const
+{
+    if( position == -1 ) {
+        return weapon;
+    }
+    if( position < -1 ) {
+        int worn_index = worn_position_to_index(position);
+        if (size_t(worn_index) < worn.size()) {
+            auto iter = worn.begin();
+            std::advance( iter, worn_index );
+            return *iter;
+        }
+    }
+
+    return inv.find_item(position);
+}
+
+item& Character::i_at(int position)
+{
+    return const_cast<item&>( const_cast<const Character*>(this)->i_at( position ) );
+}
+
+int Character::get_item_position( const item *it ) const
+{
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
+    if( inventory::has_item_with_recursive( weapon, filter ) ) {
+        return -1;
+    }
+    auto iter = worn.begin();
+    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
+        if( inventory::has_item_with_recursive( *iter, filter ) ) {
+            return worn_position_to_index( i );
+        }
+    }
+    return inv.position_by_item( it );
 }
 
 item Character::i_rem(int pos)

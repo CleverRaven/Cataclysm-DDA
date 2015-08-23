@@ -322,7 +322,7 @@ void player::activate_mutation( const std::string &mut )
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if ((mdata.hunger && hunger >= 700) || (mdata.thirst && thirst >= 260) ||
-      (mdata.fatigue && fatigue >= 575)) {
+      (mdata.fatigue && fatigue >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
         return;

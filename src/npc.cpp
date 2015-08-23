@@ -141,7 +141,7 @@ void npc::load_npc_template(std::string ident)
 
 npc::~npc() { }
 
-std::string npc::save_info()
+std::string npc::save_info() const
 {
     return serialize(); // also saves contents
 }
@@ -1465,11 +1465,11 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - thirst;
     invslice slice = inv.slice();
     for (auto &i : slice) {
-        it_comest* food = NULL;
+        const it_comest* food = NULL;
         if (i->front().is_food()) {
-            food = dynamic_cast<it_comest*>(i->front().type);
+            food = dynamic_cast<const it_comest*>(i->front().type);
         } else if (i->front().is_food_container()) {
-            food = dynamic_cast<it_comest*>(i->front().contents[0].type);
+            food = dynamic_cast<const it_comest*>(i->front().contents[0].type);
         }
         if (food != NULL) {
             needrank[need_food] += food->nutr / 4;
@@ -1616,13 +1616,13 @@ int npc::value(const item &it)
  int ret = it.price() / 50;
  const Skill* best = best_skill();
     if( best != nullptr && best->ident() != "unarmed" ) {
-  int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
+  int weapon_val = it.weapon_value(*this) - weapon.weapon_value(*this);
   if (weapon_val > 0)
    ret += weapon_val;
  }
 
  if (it.is_food()) {
-  it_comest* comest = dynamic_cast<it_comest*>(it.type);
+  const auto comest = dynamic_cast<const it_comest*>(it.type);
   if (comest->nutr > 0 || comest->quench > 0)
    ret++;
   if (hunger > 40)
@@ -1661,7 +1661,7 @@ int npc::value(const item &it)
 // TODO: Artifact hunting from relevant factions
 // ALSO TODO: Bionics hunting from relevant factions
  if (fac_has_job(FACJOB_DRUGS) && it.is_food() &&
-     (dynamic_cast<it_comest*>(it.type))->addict >= 5)
+     (dynamic_cast<const it_comest*>(it.type))->addict >= 5)
   ret += 10;
  if (fac_has_job(FACJOB_DOCTORS) && it.type->id >= "bandages" &&
      it.type->id <= "prozac")

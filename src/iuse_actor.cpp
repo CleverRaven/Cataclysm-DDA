@@ -786,12 +786,12 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
         bool has_unactivated_brazier = false;
         for( const auto &i : g->m.i_at( pos ) ) {
             if( i.type->id == "brazier" ) {
-                 has_unactivated_brazier = true;
+                has_unactivated_brazier = true;
             }
         }
-        if( has_unactivated_brazier
-            && !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?"))) {
-              return false;
+        if( has_unactivated_brazier &&
+            !query_yn(_("There's a brazier there but you haven't set it up to contain the fire. Continue?")) ) {
+            return false;
         }
         return true;
     } else {
@@ -1231,16 +1231,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        std::string message = string_input_popup( _("Write what?"), 0, "", "", "graffiti");
-        if( message.empty() ) {
-            return 0;
-        } else {
-            g->m.set_graffiti( p->pos3(), message );
-            add_msg( _("You write a message on the ground.") );
-            p->moves -= 2 * message.length();
-        }
-
-        return it->type->charges_to_use();
+        return iuse::handle_ground_graffiti( p, it, _("Write what?") );
     }
 
     int pos = g->inv( _("Inscribe which item?") );
@@ -1543,7 +1534,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
 
     if( extinguish ) {
         it->active = false;
-        it_tool *tool = dynamic_cast<it_tool *>( it->type );
+        const auto tool = dynamic_cast<const it_tool *>( it->type );
         if( tool == nullptr ) {
             debugmsg( "Non-tool has fireweapon_on actor" );
             it->make( "none" );

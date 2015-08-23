@@ -22,6 +22,13 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
+enum fatigue_levels {
+    TIRED = 191,
+    DEAD_TIRED = 383,
+    EXHAUSTED = 575,
+    MASSIVE_FATIGUE = 1000
+};
+
 class Character : public Creature
 {
     public:
@@ -291,6 +298,17 @@ class Character : public Creature
          * If the filter function returns true, the item is removed.
          */
         std::list<item> remove_worn_items_with( std::function<bool(item &)> filter );
+
+        item &i_at(int position);  // Returns the item with a given inventory position.
+        const item &i_at(int position) const;
+        /**
+         * Returns the item position (suitable for @ref i_at or similar) of a
+         * specific item. Returns INT_MIN if the item is not found.
+         * Note that this may lose some information, for example the returned position is the
+         * same when the given item points to the container and when it points to the item inside
+         * the container. All items that are part of the same stack have the same item position.
+         */
+        int get_item_position( const item *it ) const;
 
         item &i_add(item it);
         /**

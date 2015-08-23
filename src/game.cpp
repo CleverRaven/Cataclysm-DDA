@@ -158,9 +158,6 @@ game::game() :
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
-#ifdef LUA
-    init_lua();                 // Set up lua                       (SEE catalua.cpp)
-#endif
     // UI stuff, not mod-specific per definition
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
@@ -232,18 +229,16 @@ void game::load_core_data()
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
+    init_lua();
     load_data_from_dir(FILENAMES["jsondir"]);
 }
 
 void game::load_data_from_dir(const std::string &path)
 {
-#ifdef LUA
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
     // the items that need them are parsed
-
-    lua_loadmod(lua_state, path, "preload.lua");
-#endif
+    lua_loadmod( path, "preload.lua" );
 
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
@@ -251,12 +246,9 @@ void game::load_data_from_dir(const std::string &path)
         debugmsg("Error loading data from json: %s", err.what());
     }
 
-#ifdef LUA
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
-
-    lua_loadmod(lua_state, path, "main.lua");
-#endif
+    lua_loadmod( path, "main.lua" );
 }
 
 game::~game()
@@ -668,8 +660,10 @@ void game::start_game(std::string worldname)
     load_map( lev );
 
     m.build_map_cache( get_levz() );
-    // Do this after the map cache has been build!
+    // Do this after the map cache has been built!
     start_loc.place_player( u );
+    // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 
@@ -688,16 +682,21 @@ void game::start_game(std::string worldname)
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    //spawn the monsters
-    m.spawn_monsters( true ); // Static monsters
+    // Spawn the monsters
+    const bool spawn_near =
+        ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START");
+    m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
     // This can happen in lab starts
-    for( size_t i = 0; i < num_zombies(); ) {
-        if( m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-            despawn_monster( i );
-        } else {
-            i++;
+    if( !spawn_near ) {
+        for( size_t i = 0; i < num_zombies(); ) {
+            if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
+                m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
+                remove_zombie( i );
+            } else {
+                i++;
+            }
         }
     }
 
@@ -1191,7 +1190,7 @@ bool game::do_turn()
         return cleanup_at_end();
     }
     // Actual stuff
-    if (new_game) {
+    if( new_game ) {
         new_game = false;
     } else {
         gamemode->per_turn();
@@ -1202,12 +1201,11 @@ bool game::do_turn()
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
         overmap_buffer.process_mongroups();
-#ifdef LUA
-        lua_callback(lua_state, "on_day_passed");
-#endif
+        lua_callback("on_day_passed");
     }
 
-    if( calendar::once_every(MINUTES(5)) ) { //move hordes every 5 min
+    // Move hordes every 5 min
+    if( calendar::once_every(MINUTES(5)) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1619,17 +1617,17 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         std::vector< std::tuple<std::string,std::string,std::string,double> >
             menuItems {
-                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)),
-                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem)),
-                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)),
-                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)),
+                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use( oThisItem )),
+                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read( oThisItem )),
+                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat( oThisItem )),
+                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear( oThisItem )),
                 std::make_tuple("MENU", "w", _("<w>ield"), -999),
                 std::make_tuple("MENU", "t", _("<t>hrow"), -999),
-                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)),
+                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff( oThisItem )),
                 std::make_tuple("MENU", "d", _("<d>rop"), rate_drop_item),
                 std::make_tuple("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )),
-                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)),
-                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)),
+                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload( oThisItem )),
+                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble( oThisItem )),
                 std::make_tuple("MENU", "=", _("<=> reassign"),-999)
             };
 
@@ -3695,6 +3693,7 @@ void game::debug()
                       _("Display weather"), // 25
                       _("Change time"), // 26
                       _("Set automove route"), // 27
+                      _("Show mutation category levels"), // 28
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4207,12 +4206,8 @@ void game::debug()
     break;
 
     case 24: {
-#ifdef LUA
         std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
-#else
-        popup( "This binary was not compiled with Lua support." );
-#endif
     }
     break;
     case 25:
@@ -4241,7 +4236,13 @@ void game::debug()
         }
     }
     break;
-
+    case 28:
+    {
+        for( const auto &elem : u.mutation_category_level ) {
+            add_msg("%s: %d", elem.first.c_str(), elem.second);
+        }
+    }
+    break;
     }
     erase();
     refresh_all();
@@ -4987,7 +4988,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                  POSX + (final_destination.x - (u.posx() + u.view_offset.x)), c_white, 'X');
     }
 
-    if (u.controlling_vehicle && !looking) {
+    if( u.controlling_vehicle && !looking ) {
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
@@ -5005,20 +5006,26 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 }
 
+tripoint game::get_veh_dir_indicator_location() const
+{
+    if( !OPTIONS["VEHICLE_DIR_INDICATOR"] ) {
+        return tripoint_min;
+    }
+    vehicle *veh = m.veh_at( u.pos() );
+    if( !veh ) {
+        return tripoint_min;
+    }
+    rl_vec2d face = veh->face_vec();
+    float r = 10.0;
+    return { static_cast<int>(r * face.x), static_cast<int>(r * face.y), u.pos().z };
+}
+
 void game::draw_veh_dir_indicator(void)
 {
-    // don't draw indicator if doing look_around()
-    if (OPTIONS["VEHICLE_DIR_INDICATOR"]) {
-        vehicle *veh = m.veh_at(u.pos());
-        if( veh == nullptr ) {
-            // Exit silently
-            return;
-        }
-        rl_vec2d face = veh->face_vec();
-        float r = 10.0;
-        int x = static_cast<int>(r * face.x);
-        int y = static_cast<int>(r * face.y);
-        mvwputch(w_terrain, POSY + y - u.view_offset.y, POSX + x - u.view_offset.x, c_white, 'X');
+    tripoint indicator_offset = get_veh_dir_indicator_location();
+    if( indicator_offset != tripoint_min ) {
+        mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
+                  POSX + indicator_offset.x - u.view_offset.x, c_white, 'X' );
     }
 }
 
@@ -6774,7 +6781,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && ( dynamic_cast<it_tool *>( it->type ) )->ammo_id == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == "battery" ) {
             it->charges = 0;
         }
     }
@@ -9206,12 +9213,13 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
-    std::string sSort = _("<s>ort: ");
-
+    std::string sSort;
     if ( bRadiusSort ) {
-        sSort += _("dist");
+        //~ Sort type: distance.
+        sSort = _("<s>ort: dist");
     } else {
-        sSort += _("cat");
+        //~ Sort type: category.
+        sSort = _("<s>ort: cat");
     }
 
     int letters = utf8_width(sSort.c_str());
@@ -10192,7 +10200,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         long max = 0;
 
         if (cont->is_tool()) {
-            it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+            const auto tool = dynamic_cast<const it_tool *>(cont->type);
             ammo = tool->ammo_id;
             max = tool->max_charges;
         } else {
@@ -10277,7 +10285,7 @@ int game::move_liquid(item &liquid)
             int max = 0;
 
             if (cont->is_tool()) {
-                it_tool *tool = dynamic_cast<it_tool *>(cont->type);
+                const auto tool = dynamic_cast<const it_tool *>(cont->type);
                 ammo = tool->ammo_id;
                 max = tool->max_charges;
             } else {
@@ -10765,7 +10773,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                         ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
+    if( veh != nullptr && veh->player_in_control(u) && u.weapon.is_two_handed(u) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
@@ -11257,10 +11265,10 @@ void game::reload(int pos)
         u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
 
     } else if (it->is_tool()) { // tools are simpler
-        it_tool *tool = dynamic_cast<it_tool *>(it->type);
+        const ammotype ammo = it->ammo_type();
 
         // see if its actually reloadable.
-        if (tool->ammo_id == "NULL") {
+        if (ammo == "NULL") {
             add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
             return;
         } else if (it->has_flag("NO_RELOAD")) {
@@ -11273,7 +11281,7 @@ void game::reload(int pos)
 
         if (am_pos == INT_MIN) {
             // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(tool->ammo_id).c_str());
+            add_msg(m_info, _("Out of %s!"), ammo_name(ammo).c_str());
             return;
         }else if (am_pos == INT_MIN + 2) {
             //cancelled or invalid selection
@@ -14106,10 +14114,10 @@ void game::process_artifact(item *it, player *p)
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     if( worn && it->is_armor() ) {
-        it_artifact_armor *armor = dynamic_cast<it_artifact_armor *>(it->type);
+        const auto armor = dynamic_cast<const it_artifact_armor *>(it->type);
         effects = armor->effects_worn;
     } else if (it->is_tool()) {
-        it_artifact_tool *tool = dynamic_cast<it_artifact_tool *>(it->type);
+        const auto tool = dynamic_cast<const it_artifact_tool *>(it->type);
         effects = tool->effects_carried;
         if (wielded) {
             effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );
