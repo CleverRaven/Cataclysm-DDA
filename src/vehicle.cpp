@@ -3541,6 +3541,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     if( dome_lights_on ) epower += dome_lights_epower;
     if( aisle_lights_on ) epower += aisle_lights_epower;
     if( scoop_on ) epower += scoop_epower;
+    if( plow_on ) epower += plow_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     int engine_epower = 0;
@@ -3636,6 +3637,7 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
         dome_lights_on = false;
         aisle_lights_on = false;
         scoop_on = false;
+        plow_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
         }
@@ -4974,6 +4976,7 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
+    plow_epower = 0;
     plow_friction = 0;
     has_atomic_lights = false;
     // Used to sort part list so it displays properly when examining
@@ -5049,6 +5052,7 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "PLOW" ) ) {
             plow_friction += vpi.bonus;
+            plow_epower += vpi.epower;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;

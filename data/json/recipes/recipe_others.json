@@ -7767,7 +7767,8 @@
     [ [ "pipe", 2 ] ],
     [ [ "steel_plate", 2 ] ],
     [ [ "frame", 1] ],
-    [ [ "wheel", 1 ] ]
+    [ [ "wheel", 1 ] ],
+    [ [ "motor", 1 ] ]
   ]
 }
 ]

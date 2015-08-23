@@ -5117,7 +5117,8 @@
         "item" : "v_plow_item",
         "difficulty" : 4,
         "location" : "under",
-        "bonus": 15000,
+        "bonus": 1500,
+        "epower" : -29000,
         "flags" : ["PLOW"],
         "//":"Bonus for a plow part determines the friction added in k_friction while active",
         "breaks_into" : [
