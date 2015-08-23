@@ -7671,7 +7671,7 @@ void player::suffer()
         if (oxygen < 12 && worn_with_flag("REBREATHER")) {
                 oxygen += 12;
             }
-        if (oxygen < 0) {
+        if (oxygen <= 5) {
             if (has_bionic("bio_gills") && power_level >= 25) {
                 oxygen += 5;
                 charge_power(-25);
