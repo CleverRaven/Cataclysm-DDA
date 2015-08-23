@@ -5047,7 +5047,6 @@ void vehicle::refresh()
     aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
-    plow_epower = 0;
     plow_friction = 0;
     has_atomic_lights = false;
     // Used to sort part list so it displays properly when examining
@@ -5130,8 +5129,8 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "PLOW" ) ) {
             plow_friction += vpi.bonus;
-            plow_epower += vpi.epower;
         }
+
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
         // This will keep the parts at point pt sorted
