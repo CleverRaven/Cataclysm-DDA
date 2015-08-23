@@ -1091,7 +1091,6 @@ void load_artifacts_from_ifstream(std::ifstream &f)
     while (!artifact_json.end_array()) {
         JsonObject jo = artifact_json.get_object();
         std::string type = jo.get_string("type");
-        std::string id = jo.get_string("id");
         if (type == "artifact_tool") {
             it_artifact_tool *art = new it_artifact_tool(jo);
             item_controller->add_item_type( art );

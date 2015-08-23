@@ -13898,10 +13898,10 @@ void player::place_corpse()
 
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for (int i = 0; i <= storage_modules.first; ++i) {
+    for (int i = 0; i < storage_modules.first; ++i) {
         body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
     }
-    for (int i = 0; i <= storage_modules.second; ++i) {
+    for (int i = 0; i < storage_modules.second; ++i) {
         body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
     }
     g->m.add_item_or_charges( pos(), body );

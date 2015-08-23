@@ -430,7 +430,9 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = g->u.butcher_factor();
     auto items = g->m.i_at( p );
-    bool has_corpse, has_item = false;
+    bool has_item = false;
+    bool has_corpse = false;
+
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
         if( items_it.is_corpse() ) {
