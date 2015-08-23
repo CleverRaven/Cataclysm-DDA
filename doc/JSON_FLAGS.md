@@ -721,7 +721,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
-- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
+- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 - ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
