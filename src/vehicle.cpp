@@ -3083,6 +3083,9 @@ int vehicle::total_power(bool const fueled) const
             pwr += part_power(p); // alternators have negative power
         }
     }
+    for( size_t a : all_parts_with_feature("PLOW") ){
+        pwr += part_power(a);
+    }
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
     }
@@ -3541,7 +3544,6 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     if( dome_lights_on ) epower += dome_lights_epower;
     if( aisle_lights_on ) epower += aisle_lights_epower;
     if( scoop_on ) epower += scoop_epower;
-    if( plow_on ) epower += plow_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
     int engine_epower = 0;
