@@ -617,18 +617,18 @@
                 "knife_butter"
             ],
             "male": [
-                "tux",
-                "dress_shoes",
                 "briefs",
-                "socks"
+                "socks",
+                "dress_shoes",
+                "tux"
             ],
             "female": [
-                "maid_hat",
-                "maid_dress",
-                "boots",
-                "bra",
                 "panties",
-                "stockings"
+                "bra",
+                "stockings",
+                "boots",
+                "maid_dress",
+                "maid_hat"
             ]
         }
     },
