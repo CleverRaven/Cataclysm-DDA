@@ -13617,44 +13617,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "willowbark",
-        "name" : "willow bark",
-        "weight" : 323,
-        "color" : "brown",
-        "addiction_type" : "none",
-        "spoils_in" : 0,
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You eat some willow bark.",
-            "effects" : [
-                {
-                    "id": "pkill_l",
-                    "duration": 450
-                }
-            ]
-        },
-        "stim" : 0,
-        "container" : "null",
-        "to_hit" : 0,
-        "comestible_type" : "MED",
-        "symbol" : ",",
-        "quench" : -3,
-        "healthy" : -1,
-        "addiction_potential" : 0,
-        "nutrition" : 0,
-        "description" : "A sheet of bark taken from a willow tree.  A natural source of salicin, used in the production of aspirin.",
-        "price" : 0,
-        "material" : "wood",
-        "tool" : "null",
-        "volume" : 1,
-        "cutting" : 0,
-        "phase" : "solid",
-        "charges" : 1,
-        "bashing" : 0,
-        "fun" : -1
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "xanax",
         "name" : "Xanax",
         "name_plural" : "Xanax",

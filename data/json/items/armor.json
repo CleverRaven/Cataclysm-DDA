@@ -11842,7 +11842,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATERPROOF"],
+        "flags" : ["VARSIZE"],
         "coverage" : 50,
         "material_thickness" : 1
     },
