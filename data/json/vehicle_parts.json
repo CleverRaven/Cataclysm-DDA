@@ -5117,10 +5117,8 @@
         "item" : "v_plow_item",
         "difficulty" : 4,
         "location" : "under",
-        "bonus": 1500,
         "power" : -100,
         "flags" : ["PLOW"],
-        "//":"Bonus for a plow part determines the friction added in k_friction while active",
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
@@ -5138,6 +5136,7 @@
         "difficulty" : 4,
         "location" : "structure",
         "size":50,
+        "power":-25,
         "flags" : ["PLANTER","PROTRUSION","CARGO"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
@@ -5156,6 +5155,7 @@
         "item" : "v_planter_item",
         "difficulty" : 4,
         "location" : "structure",
+        "power":-25,
         "size":70,
         "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED_PLANTER"],
         "breaks_into" : [
@@ -5172,6 +5172,7 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 120,
         "bonus":7,
+        "power":-25,
         "durability" : 200,
         "item" : "v_reaper_item",
         "difficulty" : 4,
