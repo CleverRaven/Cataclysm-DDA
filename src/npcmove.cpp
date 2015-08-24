@@ -264,7 +264,7 @@ void npc::execute_action(npc_action action, int target)
         }
         recoil = MIN_RECOIL;
         if (g->u.sees( *this )) {
-            add_msg(_("%s reloads their %s."), name.c_str(),
+            add_msg(_("%1$s reloads their %2$s."), name.c_str(),
                     weapon.tname().c_str());
             sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos3()), sfx::get_heard_angle( pos3()));
         }
@@ -1226,13 +1226,13 @@ void npc::move_to( const tripoint &pt )
                 int climb = dex_cur;
                 if (one_in( climb )) {
                     if( u_see_me ) {
-                        add_msg( m_neutral, _( "%s falls tries to climb the %1$s but slips." ), name.c_str(),
+                        add_msg( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ), name.c_str(),
                                  ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                     }
                     moves -= 400;
                 } else {
                     if( u_see_me ) {
-                        add_msg( m_neutral, _( "%s climbs over the %s." ), name.c_str(),
+                        add_msg( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
                              ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
                     }
                     moves -= (500 - (rng(0,climb) * 20));
@@ -1549,14 +1549,14 @@ void npc::pick_up_item()
     if( u_see_me ) {
         if( pickup.size() == 1 ) {
             if (u_see_items) {
-                add_msg(_("%s picks up a %s."), name.c_str(),
+                add_msg(_("%1$s picks up a %2$s."), name.c_str(),
                         items[pickup[0]].tname().c_str());
             } else {
                 add_msg(_("%s picks something up."), name.c_str());
             }
         } else if( pickup.size() == 2 ) {
             if (u_see_items) {
-                add_msg(_("%s picks up a %s and a %s."), name.c_str(),
+                add_msg(_("%1$s picks up a %2$s and a %3$s."), name.c_str(),
                         items[pickup[0]].tname().c_str(),
                         items[pickup[1]].tname().c_str());
             } else {
@@ -1572,7 +1572,7 @@ void npc::pick_up_item()
             add_msg(_("Someone picks up a %s."),
                     items[pickup[0]].tname().c_str());
         } else if( pickup.size() == 2 ) {
-            add_msg(_("Someone picks up a %s and a %s"),
+            add_msg(_("Someone picks up a %1$s and a %2$s"),
                     items[pickup[0]].tname().c_str(),
                     items[pickup[1]].tname().c_str());
         } else if( pickup.size() > 2 ) {
@@ -1689,7 +1689,7 @@ void npc::drop_items(int weight, int volume)
                              num_items_dropped), name.c_str(),
                     num_items_dropped);
         } else {
-            add_msg(_("%s drops a %s."), name.c_str(),
+            add_msg(_("%1$s drops a %2$s."), name.c_str(),
                     item_name_str.c_str());
         }
     }
@@ -1821,7 +1821,7 @@ void npc::alt_attack(int target)
     } else { // We are throwing it!
         if (dist <= confident_range(weapon_index) && wont_hit_friend( tar, weapon_index )) {
             if (g->u.sees( *this )) {
-                add_msg(_("%s throws a %s."),
+                add_msg(_("%1$s throws a %2$s."),
                         name.c_str(), used->tname().c_str());
             }
 
@@ -1880,7 +1880,7 @@ void npc::alt_attack(int target)
                  * fire is better than holding on to a live grenade / whatever.
                  */
                 if (g->u.sees( *this )) {
-                    add_msg(_("%s throws a %s."), name.c_str(),
+                    add_msg(_("%1$s throws a %2$s."), name.c_str(),
                             used->tname().c_str());
                 }
 
@@ -1967,7 +1967,7 @@ void npc::heal_player(player &patient)
         if (patient.is_npc()) {
             if (u_see_me) {
                 if (u_see_patient) {
-                    add_msg(_("%s heals %s."),
+                    add_msg(_("%1$s heals %2$s."),
                             name.c_str(), patient.name.c_str());
                 } else {
                     add_msg(_("%s heals someone."), name.c_str());
@@ -2090,7 +2090,7 @@ void npc::use_painkiller()
         move_pause();
     } else {
         if (g->u.sees( *this )) {
-            add_msg(_("%s takes some %s."), name.c_str(), it->tname().c_str());
+            add_msg(_("%1$s takes some %2$s."), name.c_str(), it->tname().c_str());
         }
         consume(inv.position_by_item(it));
         moves = 0;
@@ -2156,7 +2156,7 @@ void npc::mug_player(player &mark)
             if (mark.is_npc()) {
                 if (u_see_me) {
                     if (u_see_mark) {
-                        add_msg(_("%s takes %s's money!"),
+                        add_msg(_("%1$s takes %2$s's money!"),
                                 name.c_str(), mark.name.c_str());
                     } else {
                         add_msg(_("%s takes someone's money!"),
@@ -2207,7 +2207,7 @@ void npc::mug_player(player &mark)
                 if (mark.is_npc()) {
                     if (u_see_me) {
                         if (u_see_mark)
-                            add_msg(_("%s takes %s's %s."), name.c_str(),
+                            add_msg(_("%1$s takes %2$s's %3$s."), name.c_str(),
                                     mark.name.c_str(),
                                     stolen.tname().c_str());
                         else {
@@ -2215,11 +2215,11 @@ void npc::mug_player(player &mark)
                                     name.c_str());
                         }
                     } else if (u_see_mark)
-                        add_msg(_("Someone takes %s's %s."),
+                        add_msg(_("Someone takes %1$s's %2$s."),
                                 mark.name.c_str(), stolen.tname().c_str());
                 } else {
                     if (u_see_me) {
-                        add_msg(m_bad, _("%s takes your %s."),
+                        add_msg(m_bad, _("%1$s takes your %2$s."),
                                 name.c_str(), stolen.tname().c_str());
                     } else {
                         add_msg(m_bad, _("Someone takes your %s."),
