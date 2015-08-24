@@ -472,7 +472,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average ) const; 
+        void roll_all_damage( bool crit, damage_instance &di, bool average ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average ) const;
         /** Adds player's total cut damage to the damage instance */
@@ -970,7 +970,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string move_mode;
         int power_level, max_power_level;
         int hunger, thirst, fatigue;
-        int stomach_food, stomach_water;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;

@@ -23,6 +23,8 @@ Character::Character()
     int_cur = 0;
     healthy = 0;
     healthy_mod = 0;
+    stomach_food = 0;
+    stomach_water = 0;
 
     name = "";
     Creature::set_speed_base(100);
@@ -1034,6 +1036,31 @@ void Character::set_healthy_mod(int nhealthy_mod)
 void Character::mod_healthy_mod(int nhealthy_mod)
 {
     healthy_mod += nhealthy_mod;
+}
+
+int Character::get_stomach_food()
+{
+    return stomach_food;
+}
+void Character::mod_stomach_food(int n_stomach_food)
+{
+    stomach_food = std::max(0, stomach_food + n_stomach_food);
+}
+void Character::set_stomach_food(int n_stomach_food)
+{
+    stomach_food = std::max(0, n_stomach_food);
+}
+int Character::get_stomach_water()
+{
+    return stomach_water;
+}
+void Character::mod_stomach_water(int n_stomach_water)
+{
+    stomach_water = std::max(0, stomach_water + n_stomach_water);
+}
+void Character::set_stomach_water(int n_stomach_water)
+{
+    stomach_water = std::max(0, n_stomach_water);
 }
 
 void Character::reset_bonuses()

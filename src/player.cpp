@@ -188,8 +188,6 @@ player::player() : Character()
  max_power_level = 0;
  hunger = 0;
  thirst = 0;
- stomach_food = 0;
- stomach_water = 0;
  fatigue = 0;
  stamina = get_stamina_max();
  stim = 0;
@@ -5566,14 +5564,12 @@ void player::update_needs()
             focus_pool -= 1;
         }
 
-        int dec_stom_food = stomach_food * 0.2;
-        int dec_stom_water = stomach_water * 0.2;
+        int dec_stom_food = get_stomach_food() * 0.2;
+        int dec_stom_water = get_stomach_water() * 0.2;
         dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
         dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
-        stomach_food -= dec_stom_food;
-        stomach_water -= dec_stom_water;
-        stomach_food = stomach_food < 0 ? 0 : stomach_food;
-        stomach_water = stomach_water < 0 ? 0 : stomach_water;
+        mod_stomach_food(-dec_stom_food);
+        mod_stomach_water(-dec_stom_water);
     }
 }
 
@@ -8457,17 +8453,15 @@ void player::vomit()
     add_memorial_log(pgettext("memorial_male", "Threw up."),
                      pgettext("memorial_female", "Threw up."));
 
-    if (stomach_food != 0 || stomach_water != 0) {
+    if (get_stomach_food() != 0 || get_stomach_water() != 0) {
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
         add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
     }
-    int nut_loss = stomach_food;
-    int quench_loss = stomach_water;
-    stomach_food = 0;
-    stomach_water = 0;
-    hunger += nut_loss;
-    thirst += quench_loss;
+    hunger += get_stomach_food();
+    thirst += get_stomach_water();
+    set_stomach_food(0);
+    set_stomach_water(0);
     moves -= 100;
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -10006,7 +10000,7 @@ bool player::eat(item *eaten, const it_comest *comest)
     if( (has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
         (eaten->made_of("flesh") || eaten->made_of("egg")) ) {
         add_msg_if_player(m_bad, _("Your stomach immediately revolts, you can't keep this disgusting stuff down."));
-        if( !one_in(3) && (stomach_food || stomach_water) ) {
+        if( !one_in(3) ) {
             vomit();
         }
     }
@@ -10050,74 +10044,47 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
         // No good can come of this.
         return;
     }
-    if ( !(has_trait("GIZZARD")) && (rotten) && !(has_trait("SAPROPHAGE")) ) {
-        hunger -= rng(0, nutrition_for(comest));
-        thirst -= comest->quench;
+    float factor = 1.0;
+    float hunger_factor = 1.0;
+    bool unhealthy_allowed = true;
+
+    if (has_trait("GIZZARD")) {
+        factor *= .6;
+    }
+    if (has_trait("CARNIVORE")) {
+        // At least partially edible
+        if(eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") ||
+              eaten->made_of("milk") || eaten->made_of("egg")) {
+            // Other things are in it, we only get partial benefits
+            if ((eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat"))) {
+                factor *= .5;
+            } else {
+                // Carnivores don't get unhealthy off pure meat diets
+                unhealthy_allowed = false;
+            }
+        }
+    }
+    // Saprophages get full nutrition from rotting food
+    if (rotten && !has_trait("SAPROPHAGE")) {
+        // everyone else only gets a portion of the nutrition
+        hunger_factor *= rng_float(0, 1);
+        // and takes a health penalty if they aren't adapted
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
             mod_healthy_mod(-30);
         }
-    } else if (has_trait("GIZZARD")) {
-        // Carrion-eating Birds might have Saprovore; Saprophage is unlikely,
-        // but best to code defensively.
-        // Thanks for the warning, i2amroy.
-        if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
-            int nut = (rng(0, nutrition_for(comest)) * 0.66 );
-            int que = (comest->quench) * 0.66;
-            hunger -= nut;
-            thirst -= que;
-            stomach_food += nut;
-            stomach_water += que;
-            if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-                mod_healthy_mod(-30);
-            }
-        } else {
-        // Shorter GI tract, so less nutrients captured.
-            int giz_nutr = (nutrition_for(comest)) * 0.66;
-            int giz_quench = (comest->quench) * 0.66;
-            int giz_healthy = (comest->healthy) * 0.66;
-            hunger -= (giz_nutr);
-            thirst -= (giz_quench);
-            mod_healthy_mod(giz_healthy);
-            stomach_food += (giz_nutr);
-            stomach_water += (giz_quench);
-        }
-    } else if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("wheat")) &&
-      (eaten->made_of("flesh") || eaten->made_of("hflesh") || eaten->made_of("iflesh") || eaten->made_of("milk") ||
-      eaten->made_of("egg")) ) {
-          // Carnivore is stripping the good stuff out of that plant crap it's mixed up with.
-          // They WILL eat the Meat Pizza.
-          int carn_nutr = (nutrition_for(comest)) * 0.5;
-          int carn_quench = (comest->quench) * 0.5;
-          int carn_healthy = (comest->healthy) * 0.5;
-          hunger -= (carn_nutr);
-          thirst -= (carn_quench);
-          mod_healthy_mod(carn_healthy);
-          stomach_food += (carn_nutr);
-          stomach_water += (carn_quench);
-          add_msg_if_player(m_good, _("You eat the good parts and leave that indigestible plant stuff behind."));
-    } else if (has_trait("CARNIVORE") && ((eaten->made_of("flesh") || eaten->made_of("hflesh") ||
-      eaten->made_of("iflesh") || eaten->made_of("egg"))) ) {
-          // Carnivores, being specialized to consume meat, get more nutrients from a wholly-meat or egg meal.
-          if (comest->healthy < 1) {
-              int carn_healthy = (comest->healthy) + 1;
-              mod_healthy_mod(carn_healthy);
-          }
-          hunger -= nutrition_for(comest);
-          thirst -= comest->quench;
-          mod_healthy_mod(comest->healthy);
-          stomach_food += nutrition_for(comest);
-          stomach_water += comest->quench;
-    } else {
-    // Saprophages get the same boost from rotten food that others get from fresh.
-        hunger -= nutrition_for(comest);
-        thirst -= comest->quench;
-        mod_healthy_mod(comest->healthy);
-        stomach_food += nutrition_for(comest);
-        stomach_water += comest->quench;
     }
 
+    // Bio-digestion gives extra nutrition
     if (has_bionic("bio_digestion")) {
-        hunger -= rng(0, nutrition_for(comest));
+        hunger_factor += rng_float(0, 1);
+    }
+
+    hunger -= nutrition_for(comest) * factor * hunger_factor;
+    thirst -= comest->quench * factor;
+    mod_stomach_food(nutrition_for(comest) * factor * hunger_factor);
+    mod_stomach_water(comest->quench * factor);
+    if (unhealthy_allowed || comest->healthy > 0) {
+        mod_healthy_mod(comest->healthy);
     }
 
     if (comest->stim != 0) {
