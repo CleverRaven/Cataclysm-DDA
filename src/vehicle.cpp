@@ -2701,8 +2701,10 @@ void vehicle::print_fuel_indicators (void *w, int y, int x, int start_index, boo
         }
     }
 
-    if( max_size > max_gauge ) {
-        wprintz(win, c_ltgray, "..." );
+    // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
+    if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) && fullsize) {
+        mvwprintz(win, y + yofs, x, c_ltgreen, ">");
+        wprintz(win, c_ltgray, " for more");
     }
 }
 
