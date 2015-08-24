@@ -19096,6 +19096,11 @@
           "rotates": true
         },
         {
+          "id": "vp_mounted_30mm_autocannon",
+          "fg": 2436,
+          "rotates": true
+        },
+        {
           "id": "vp_mounted_rm614",
           "fg": 2437,
           "rotates": true
@@ -21007,6 +21012,11 @@
         },
         {
           "id": "vp_mounted_tank_rws",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_tow_turret",
           "fg": 2691,
           "rotates": true
         },
