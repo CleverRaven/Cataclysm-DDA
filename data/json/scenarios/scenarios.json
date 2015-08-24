@@ -161,7 +161,7 @@
     "type": "scenario",
     "ident": "heli_crash",
     "name": "Helicopter crash",
-    "points" : -5,
+    "points" : -2,
     "description": "You've crashed your precious helicopter, it'll never fly again.  Monsters don't bother you, life without your Loach is worthless anyway.",
     "start_name": "Crash site",
     "professions" : ["soldier", "specops", "bio_soldier"],
