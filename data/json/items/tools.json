@@ -3969,8 +3969,7 @@
      "ammo" : "battery",
      "revert_to" : "null",
      "category": "weapons",
-     "use_action" : "TAZER",
-     "flags": ["SHEATH_KNIFE"]
+     "use_action" : "TAZER"
   },
 
   {
@@ -4095,8 +4094,7 @@
      "turns_per_charge": 0,
      "ammo": "battery",
      "revert_to": "null",
-     "use_action": "PORTABLE_GAME",
-     "flags": ["SHEATH_KNIFE"]
+     "use_action": "PORTABLE_GAME"
   },
 
   {
@@ -4728,7 +4726,7 @@
     "volume": 3,
     "bashing": 1,
     "cutting": 16,
-    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
+    "flags" : ["STAB", "DURABLE_MELEE", "IAIJUTSU", "SHEATH_SWORD"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4755,7 +4753,7 @@
     "volume": 3,
     "bashing": 1,
     "cutting": 14,
-    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -8529,7 +8527,7 @@
     "description": "This massive combat knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.",
     "price": 2000,
     "material": ["steel", "plastic"],
-    "flags" : ["STAB", "SHEATH_KNIFE"],
+    "flags" : ["STAB"],
     "techniques": ["WBLOCK_1"],
     "weight": 612,
     "volume": 4,

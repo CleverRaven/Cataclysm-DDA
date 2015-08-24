@@ -4242,7 +4242,7 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 2,
-    "flags" : ["BASH", "SHEATH_KNIFE"],
+    "flags" : ["BASH", "SHEATH_SWORD"],
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
