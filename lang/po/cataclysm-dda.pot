@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-24 12:11+0300\n"
+"POT-Creation-Date: 2015-08-24 12:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63690,7 +63690,7 @@ msgid ""
 "safety in one of the many government evac shelters."
 msgstr ""
 
-#. ~ Start name for scenario 'Evacuee'.
+#. ~ Starting location for scenario 'Evacuee'.
 #: lang/json/scenario_from_json.py
 msgid "Evac Shelter"
 msgstr ""
@@ -63706,7 +63706,7 @@ msgid ""
 "the evacuation, and are stuck in a city full of the risen dead."
 msgstr ""
 
-#. ~ Start name for scenario 'Missed'.
+#. ~ Starting location for scenario 'Missed'.
 #: lang/json/scenario_from_json.py
 msgid "In Town"
 msgstr ""
@@ -63718,9 +63718,9 @@ msgid ""
 "didn't get proper medical care, and now the wound has started turning green."
 msgstr ""
 
-#. ~ Start name for scenario 'Infected'.
-#. ~ Start name for scenario 'Burning Building'.
-#. ~ Start name for scenario 'Challenge-Really Bad Day'.
+#. ~ Starting location for scenario 'Infected'.
+#. ~ Starting location for scenario 'Burning Building'.
+#. ~ Starting location for scenario 'Challenge-Really Bad Day'.
 #: lang/json/scenario_from_json.py
 msgid "Anywhere"
 msgstr ""
@@ -63759,9 +63759,9 @@ msgid ""
 "legges and the knyf at youre syde and youre prayeres to Marie moder of God."
 msgstr ""
 
-#. ~ Start name for scenario 'Challenge-Medieval Peasant'.
-#. ~ Start name for scenario 'Experiment'.
-#. ~ Start name for scenario 'Wilderness'.
+#. ~ Starting location for scenario 'Challenge-Medieval Peasant'.
+#. ~ Starting location for scenario 'Experiment'.
+#. ~ Starting location for scenario 'Wilderness'.
 #: lang/json/scenario_from_json.py
 msgid "Forest"
 msgstr ""
@@ -63777,7 +63777,7 @@ msgid ""
 "or starve to death."
 msgstr ""
 
-#. ~ Start name for scenario 'Challenge-Lab'.
+#. ~ Starting location for scenario 'Challenge-Lab'.
 #: lang/json/scenario_from_json.py
 msgid "Locked Lab"
 msgstr ""
@@ -63794,7 +63794,7 @@ msgid ""
 "movement in the woods."
 msgstr ""
 
-#. ~ Start name for scenario 'Ambush'.
+#. ~ Starting location for scenario 'Ambush'.
 #: lang/json/scenario_from_json.py
 msgid "Abandoned Cabin"
 msgstr ""
@@ -63812,7 +63812,7 @@ msgid ""
 "cataclysm, you will be forced to face the outside world."
 msgstr ""
 
-#. ~ Start name for scenario 'Sheltered'.
+#. ~ Starting location for scenario 'Sheltered'.
 #: lang/json/scenario_from_json.py
 msgid "Enclosed Shelter"
 msgstr ""
@@ -63829,7 +63829,7 @@ msgid ""
 "were a lost cause.  You awaken to the sound of movement around the hospital."
 msgstr ""
 
-#. ~ Start name for scenario 'Challenge-Abandoned'.
+#. ~ Starting location for scenario 'Challenge-Abandoned'.
 #: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
 #: src/defense.cpp
 msgid "Hospital"
@@ -63858,7 +63858,7 @@ msgid ""
 "a security guard.  Find a way out and try your best to survive."
 msgstr ""
 
-#. ~ Start name for scenario 'Mall Cop'.
+#. ~ Starting location for scenario 'Mall Cop'.
 #: lang/json/scenario_from_json.py
 msgid "Mall"
 msgstr ""
@@ -63875,7 +63875,7 @@ msgid ""
 "you never leave it again."
 msgstr ""
 
-#. ~ Start name for scenario 'The Last Firefighter'.
+#. ~ Starting location for scenario 'The Last Firefighter'.
 #: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
 msgid "Fire Station"
 msgstr ""
@@ -63892,12 +63892,12 @@ msgid ""
 "station house looks bad, real bad.  This is going to be an all-nighter."
 msgstr ""
 
-#. ~ Start name for scenario 'Assault on Precinct Z'.
+#. ~ Starting location for scenario 'Assault on Precinct Z'.
 #: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
 msgid "Police Station"
 msgstr ""
 
-#. ~ Start name for scenario 'School'.
+#. ~ Starting location for scenario 'School'.
 #: lang/json/scenario_from_json.py
 #: lang/json/start_location_from_json.py
 msgid "School"
@@ -63933,7 +63933,7 @@ msgid ""
 "don't bother you, life without your Loach is worthless anyway."
 msgstr ""
 
-#. ~ Start name for scenario 'Helicopter crash'.
+#. ~ Starting location for scenario 'Helicopter crash'.
 #: lang/json/scenario_from_json.py
 msgid "Crash site"
 msgstr ""
