@@ -526,6 +526,7 @@ class game
 
         const int dangerous_proximity;
         bool narrow_sidebar;
+        bool right_sidebar;
         bool fullscreen;
         bool was_fullscreen;
         void exam_vehicle(vehicle &veh, const tripoint &p, int cx = 0,

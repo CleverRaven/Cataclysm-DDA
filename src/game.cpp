@@ -165,6 +165,7 @@ void game::load_static_data()
     // Only need to load names once, they do not depend on mods
     init_names();
     narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
+    right_sidebar = OPTIONS["SIDEBAR_POSITION"] == "right";
     fullscreen = false;
     was_fullscreen = false;
 
