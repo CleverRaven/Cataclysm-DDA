@@ -397,71 +397,48 @@ const vehicle *map::vehproceed()
         veh.velocity -= slowdown;
     }
 
+    const bool should_fall = veh.falling && vehicle_falling( veh );
+
     // Low enough for bicycles to go in reverse.
     if( abs( veh.velocity ) < 20 ) {
         veh.stop();
     }
 
-    if( veh.velocity == 0 ) {
+    if( veh.velocity == 0 && !should_fall ) {
         veh.of_turn -= .321f;
         return &veh;
     }
 
-    // TODO: Handle wheels in the air
-    std::vector<int> float_indices = veh.all_parts_with_feature(VPFLAG_FLOATS, false);
-    if( float_indices.empty() ) {
-        // sink in water?
-        std::vector<int> wheel_indices = veh.all_parts_with_feature(VPFLAG_WHEEL, false);
-        int num_wheels = wheel_indices.size();
-        int submerged_wheels = 0;
-        for (int w = 0; w < num_wheels; w++) {
-            const int p = wheel_indices[w];
-            const tripoint pp = pt + veh.parts[p].precalc[0];
-            // deep water
-            if (ter_at(pp).has_flag(TFLAG_DEEP_WATER)) {
-                submerged_wheels++;
-            }
+    const float traction = vehicle_traction( veh );
+    // TODO: Remove this hack, have vehicle sink a z-level
+    if( traction < 0 ) {
+        add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
+        if( pl_ctrl ) {
+            veh.unboard_all();
         }
-        // submerged wheels threshold is 2/3.
-        if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
-            add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
-            if( pl_ctrl ) {
-                veh.unboard_all();
-            }
-            if( g->remoteveh() == &veh ) {
-                g->setremoteveh( nullptr );
-            }
-            // destroy vehicle (sank to nowhere)
-            destroy_vehicle( &veh );
-            // The returned pointer is always a dangling one!
-            return &veh;
+        if( g->remoteveh() == &veh ) {
+            g->setremoteveh( nullptr );
         }
-    } else {
-        int num = float_indices.size(), moored = 0;
-        for( int w = 0; w < num; w++ ) {
-            const int p = float_indices[w];
-            const tripoint pp = pt + veh.parts[p].precalc[0];
-
-            if( !has_flag( "SWIMMABLE", pp ) ) {
-                moored++;
-            }
-        }
-
-        if( moored > num - 1 ) {
-            veh.stop();
-            veh.of_turn = 0;
-
+        // destroy vehicle (sank to nowhere)
+        destroy_vehicle( &veh );
+        // The returned pointer is always a dangling one!
+        return &veh;
+    } else if( traction == 0 && !should_fall ) {
+        veh.stop();
+        veh.of_turn = 0;
+        // TODO: Remove this hack
+        // TODO: Amphibious vehicles
+        if( veh.all_parts_with_feature(VPFLAG_FLOATS, false).empty() ) {
+            add_msg(m_info, _("Your %s can't move on this terrain."), veh.name.c_str());
+        } else {
             add_msg(m_info, _("Your %s is beached."), veh.name.c_str());
-
-            return &veh;
         }
-
     }
     // One-tile step take some of movement
     //  terrain cost is 1000 on roads.
     // This is stupid btw, it makes veh magically seem
     //  to accelerate when exiting rubble areas.
-    float ter_turn_cost = 500.0 * move_cost_ter_furn( pt ) / abs(veh.velocity);
+    const float ter_turn_cost = 1000.0f * traction / abs(veh.velocity);
 
     // Can't afford it this turn?
     if( ter_turn_cost >= veh.of_turn ) {
@@ -509,6 +486,93 @@ const vehicle *map::vehproceed()
 
     move_vehicle( veh, dp, mdir );
     return &veh;
+}
+
+float map::vehicle_traction( vehicle &veh ) const
+{
+    // TODO: Remove this and allow amphibious vehicles
+    std::vector<int> float_indices = veh.all_parts_with_feature(VPFLAG_FLOATS, false);
+    if( !float_indices.empty() ) {
+        return vehicle_buoyancy( veh );
+    }
+
+    // Sink in water?
+    std::vector<int> wheel_indices = veh.all_parts_with_feature(VPFLAG_WHEEL, false);
+    int num_wheels = wheel_indices.size();
+    if( num_wheels == 0 ) {
+        // TODO: Assume it is digging in dirt and return something
+        //  that could be reused for dragging
+        return 1.0f;
+    }
+
+    int submerged_wheels = 0;
+    int traction_wheel_area = 0;
+    int total_wheel_area = 0;
+    for( int w = 0; w < num_wheels; w++ ) {
+        const int p = wheel_indices[w];
+        const tripoint pp = pt + veh.parts[p].precalc[0];
+
+        // Not using vehicle::wheels_area so that if it changes,
+        //  this section will stay correct (ie. proportion of wheel area/total area)
+        const int width = part_info( p ).wheel_width;
+        const int bigness = parts[p].bigness;
+        const int wheel_area = ((float)width / 9) * bigness;
+        total_wheel_area += wheel_area;
+
+        const auto &tr = ter_at( pp );
+        // Deep water and air
+        if( tr.has_flag( TFLAG_DEEP_WATER ) ) {
+            submerged_wheels++;
+            // No traction from wheel in water
+            continue;
+        } else if( tr.has_flag( TFLAG_NO_FLOOR ) ) {
+            // Ditto for air, but with no submerging
+            continue;
+        }
+
+        const int move_mod = move_cost_ter_furn( pp );
+        if( move_mod == 0 ) {
+            // Vehicle locked in wall
+            // Shouldn't happen, but does
+            return 0.0f;
+        } else {
+            traction_wheel_area += 2 * wheel_area / move_mod;
+        }
+    }
+
+    // Submerged wheels threshold is 2/3.
+    if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
+        return -1;
+    }
+
+    if( total_wheel_area == 0 ) {
+        // Happens when the vehicle wheels are too small
+        return 1.0f;
+    }
+
+    return static_cast<float>( traction_wheel_area ) / total_wheel_area;
+}
+
+float map::vehicle_buoyancy( vehicle &veh ) const
+{
+    std::vector<int> float_indices = veh.all_parts_with_feature(VPFLAG_FLOATS, false);
+    const int num = float_indices.size();
+    int moored = 0;
+    for( int w = 0; w < num; w++ ) {
+        const int p = float_indices[w];
+        const tripoint pp = pt + veh.parts[p].precalc[0];
+
+        if( !has_flag( "SWIMMABLE", pp ) ) {
+            moored++;
+        }
+    }
+
+    if( moored > num - 1 ) {
+        return 0.0f;
+    }
+
+    // TODO: Actually implement buoyancy
+    return 1.0f;
 }
 
 void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )

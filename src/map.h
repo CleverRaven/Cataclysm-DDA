@@ -482,6 +482,21 @@ public:
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
 
+    // Returns the modifier on wheel area due to bad surface
+    // 1.0 on road, 0.0 in air
+    // <0.0 when the vehicle should be destroyed (sunk in water)
+    // TODO: Add the values between 0.0 and 1.0 for offroading
+    // TODO: Remove the ugly sinking vehicle hack
+    float vehicle_traction( vehicle &veh ) const;
+
+    // Like traction, except for water
+    // TODO: Actually implement (this is a stub)
+    // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
+    float vehicle_buoyancy( vehicle &veh ) const;
+
+    // Returns if the vehicle should fall down a z-level
+    bool vehicle_falling( vehicle &veh );
+
     // Executes vehicle-vehicle collision based on vehicle::collision results
     // Returns impulse of the executed collision
     // If vector contains collisions with vehicles other than veh2, they will be ignored
