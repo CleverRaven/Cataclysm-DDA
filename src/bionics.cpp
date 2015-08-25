@@ -107,7 +107,6 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     }
     if (bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time) {
         if(hasPreviousText){
-            hasPreviousText = false;
             power_desc << ", ";
         }
         power_desc << string_format(_("%d PU act"),
@@ -116,7 +115,6 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     }
     if (bionics[bio.id].power_deactivate > 0 && !bionics[bio.id].charge_time) {
         if(hasPreviousText){
-            hasPreviousText = false;
             power_desc << ", ";
         }
         power_desc << string_format(_("%d PU deact"),
@@ -125,7 +123,6 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     }
     if (bionics[bio.id].toggled) {
         if(hasPreviousText){
-            hasPreviousText = false;
             power_desc << ", ";
         }
         power_desc << (bio.powered ? _("ON") : _("OFF"));
@@ -437,7 +434,7 @@ void player::power_bionics()
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
             tmp = bionic_by_invlet(ch);
-            if(tmp == 0) {
+            if(tmp == nullptr) {
                 // Selected an non-existing bionic (or escape, or ...)
                 continue;
             }
@@ -451,12 +448,12 @@ void player::power_bionics()
             bionic *otmp = bionic_by_invlet(newch);
             // if there is already a bionic with the new invlet, the invlet
             // is considered valid.
-            if(otmp == 0 && inv_chars.find(newch) == std::string::npos) {
+            if(otmp == nullptr && inv_chars.find(newch) == std::string::npos) {
                 // TODO separate list of letters for bionics
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;
             }
-            if(otmp != 0) {
+            if(otmp != nullptr) {
                 std::swap(tmp->invlet, otmp->invlet);
             } else {
                 tmp->invlet = newch;
@@ -518,7 +515,7 @@ void player::power_bionics()
                 tmp = bio_list[cursor];
             }else{
                 tmp = bionic_by_invlet(ch);
-                if(tmp != NULL && tmp != bio_last) {
+                if(tmp && tmp != bio_last) {
                     // new bionic selected, update cursor and scroll position
                     for(cursor = 0; cursor < (int)bio_list.size(); cursor++) {
                         if(bio_list[cursor] == tmp) {
@@ -531,7 +528,7 @@ void player::power_bionics()
                     }
                 }
             }
-            if(tmp == 0) {
+            if(!tmp) {
                 // entered a key that is not mapped to any bionic,
                 // -> leave screen
                 break;
@@ -1702,7 +1699,7 @@ bionic* player::bionic_by_invlet(char ch) {
             return &elem;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 // Returns true if a bionic was removed.

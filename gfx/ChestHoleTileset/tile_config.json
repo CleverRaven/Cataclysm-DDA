@@ -20200,6 +20200,60 @@
           "rotates": false
         },
         {
+          "id": "t_tree_birch",
+          "fg": 3559,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_season_autumn",
+          "fg": 3564,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_season_winter",
+          "fg": 3570,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow",
+          "fg": 3557,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_season_autumn",
+          "fg": 3566,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_season_winter",
+          "fg": 3568,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple",
+          "fg": 3558,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple_season_autumn",
+          "fg": 3565,
+          "bg": 640,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple_season_winter",
+          "fg": 3569,
+          "bg": 669,
+          "rotates": false
+        },
+        {
           "id": "t_tree_apple",
           "fg": 2176,
           "bg": 640
@@ -20522,8 +20576,18 @@
           "bg": 640
         },
         {
+          "id": "t_tree_apple_season_summer",
+          "fg": 3560,
+          "bg": 640
+        },
+        {
           "id": "t_tree_pear_season_autumn",
           "fg": 2188,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_pear_season_summer",
+          "fg": 3560,
           "bg": 640
         },
         {
@@ -20532,8 +20596,28 @@
           "bg": 640
         },
         {
+          "id": "t_tree_apricot_season_spring",
+          "fg": 3560,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_apricot_season_autumn",
+          "fg": 3562,
+          "bg": 640
+        },
+        {
           "id": "t_tree_cherry_season_summer",
           "fg": 2182,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_cherry_season_spring",
+          "fg": 3560,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_cherry_season_autumn",
+          "fg": 3562,
           "bg": 640
         },
         {
@@ -20542,8 +20626,28 @@
           "bg": 640
         },
         {
+          "id": "t_tree_peach_season_spring",
+          "fg": 3560,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_peach_season_autumn",
+          "fg": 3562,
+          "bg": 640
+        },
+        {
           "id": "t_tree_plum_season_summer",
           "fg": 2191,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_plum_season_spring",
+          "fg": 3560,
+          "bg": 640
+        },
+        {
+          "id": "t_tree_plum_season_autumn",
+          "fg": 3562,
           "bg": 640
         },
         {
@@ -23849,9 +23953,21 @@
           "rotates": false
         },
         {
+          "id": "t_tree_young_season_autumn",
+          "fg": 3567,
+          "bg": 640,
+          "rotates": false
+        },
+        {
           "id": "t_tree_season_winter",
           "fg": 2192,
           "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_season_autumn",
+          "fg": 3561,
+          "bg": 640,
           "rotates": false
         },
         {
@@ -24065,6 +24181,12 @@
           "id": "t_tree_blackjack_season_winter",
           "fg": 2181,
           "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_blackjack_season_autumn",
+          "fg": 3563,
+          "bg": 640,
           "rotates": false
         },
         {
