@@ -1074,7 +1074,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
     bool recalc_profs = true;
     int profs_length;
-    std::string filterstring = "";
+    std::string filterstring;
     std::vector<const profession *> sorted_profs;
 
     do {
@@ -1083,10 +1083,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
                 if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
                     g->scen->profquery(&(iter->second)) == true) {
-                    if (!filterstring.empty()) {
-                        if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
-                            continue;
-                        }
+                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+                        continue;
                     }
                     sorted_profs.push_back(&(iter->second));
                 }
@@ -1101,16 +1099,16 @@ int set_profession(WINDOW *w, player *u, int &points)
             // Sort professions by points.
             // profession_display_sort() keeps "unemployed" at the top.
             profession_sorter.male = u->male;
-            std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+            std::stable_sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
 
             // Select the current profession, if possible.
-            for (size_t i = 0; i < profs_length; ++i) {
+            for (int i = 0; i < profs_length; ++i) {
                 if (sorted_profs[i]->ident() == u->prof->ident()) {
                     cur_id = i;
                     break;
                 }
             }
-            if (cur_id > profs_length + 1) {
+            if (cur_id > profs_length - 1) {
                 cur_id = 0;
             }
 
@@ -1172,11 +1170,12 @@ int set_profession(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description(u->male));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, profs_length);
         //Draw options
+        calcStartPos(iStartPos, cur_id, iContentHeight, profs_length);
+        const int end_pos = iStartPos + ((iContentHeight > profs_length) ?
+                            profs_length : iContentHeight);
         int i;
-        for (i = iStartPos; i < (int)iStartPos + ((iContentHeight > (int)profs_length) ?
-                (int)profs_length : (int)iContentHeight); i++) {
+        for (i = iStartPos; i < end_pos; i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
@@ -1535,17 +1534,15 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     bool recalc_scens = true;
     int scens_length;
-    std::string filterstring = "";
+    std::string filterstring;
     std::vector<const scenario *> sorted_scens;
 
     do {
         if (recalc_scens) {
             sorted_scens.clear();
             for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
-                if (!filterstring.empty()) {
-                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
-                        continue;
-                    }
+                if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+                    continue;
                 }
                 sorted_scens.push_back(&(iter->second));
             }
@@ -1559,10 +1556,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
             // Sort scenarios by points.
             // scenario_display_sort() keeps "Evacuee" at the top.
             scenario_sorter.male = u->male;
-            std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+            std::stable_sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
 
             // Select the current scenario, if possible.
-            for (size_t i = 0; i < scens_length; ++i) {
+            for (int i = 0; i < scens_length; ++i) {
                 if (sorted_scens[i]->ident() == g->scen->ident()) {
                     cur_id = i;
                     break;
@@ -1630,11 +1627,12 @@ int set_scenario(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        _(sorted_scens[cur_id]->description(u->male).c_str()));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
         //Draw options
+        calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
+        const int end_pos = iStartPos + ((iContentHeight > scens_length) ?
+                            scens_length : iContentHeight);
         int i;
-        for (i = iStartPos; i < iStartPos + ((iContentHeight > scens_length) ?
-                scens_length : iContentHeight); i++) {
+        for (i = iStartPos; i < end_pos; i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              ");
             nc_color col;
