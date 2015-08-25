@@ -389,7 +389,9 @@ void game::init_ui()
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     // Set up the main UI windows.
-    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
+                       VIEW_OFFSET_Y, right_sidebar ? VIEW_OFFSET_X :
+                       VIEW_OFFSET_X + sidebarWidth);
     werase(w_terrain);
 
     /**
@@ -477,7 +479,7 @@ void game::init_ui()
     }
 
     int _y = VIEW_OFFSET_Y;
-    int _x = TERMX - VIEW_OFFSET_X - sidebarWidth;
+    int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
 
     w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
     werase(w_minimap);
