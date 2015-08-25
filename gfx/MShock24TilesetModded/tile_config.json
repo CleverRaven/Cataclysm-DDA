@@ -21016,6 +21016,11 @@
           "rotates": true
         },
         {
+          "id": "vp_tow_launcher",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
           "id": "vp_tow_turret",
           "fg": 2691,
           "rotates": true
