@@ -1038,7 +1038,7 @@ void Character::mod_healthy_mod(int nhealthy_mod)
     healthy_mod += nhealthy_mod;
 }
 
-int Character::get_stomach_food()
+int Character::get_stomach_food() const
 {
     return stomach_food;
 }
@@ -1050,7 +1050,7 @@ void Character::set_stomach_food(int n_stomach_food)
 {
     stomach_food = std::max(0, n_stomach_food);
 }
-int Character::get_stomach_water()
+int Character::get_stomach_water() const
 {
     return stomach_water;
 }
