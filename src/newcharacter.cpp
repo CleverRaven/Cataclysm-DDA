@@ -67,6 +67,8 @@ const Skill* random_skill();
 
 void save_template(player *u);
 
+bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
+
 void Character::pick_name()
 {
     name = Name::generate(male);
@@ -1478,24 +1480,6 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
     WINDOW_PTR w_flagsptr( w_flags );
 
-    std::vector<const scenario *> sorted_scens;
-    for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
-        sorted_scens.push_back(&(iter->second));
-    }
-
-    // Sort scenarios by points.
-    // scenario_display_sort() keeps "Evacuee" at the top.
-    scenario_sorter.male = u->male;
-    std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
-
-    // Select the current scenario, if possible.
-    for (size_t i = 0; i < sorted_scens.size(); ++i) {
-        if (sorted_scens[i]->ident() == g->scen->ident()) {
-            cur_id = i;
-            break;
-        }
-    }
-
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -1503,8 +1487,50 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("FILTER");
+
+    bool recalc_scens = true;
+    int scens_length;
+    std::string filterstring = "";
+    std::vector<const scenario *> sorted_scens;
 
     do {
+        if (recalc_scens) {
+            sorted_scens.clear();
+            for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
+                if (!filterstring.empty()) {
+                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+                        continue;
+                    }
+                }
+                sorted_scens.push_back(&(iter->second));
+            }
+            scens_length = sorted_scens.size();
+            if (scens_length == 0) {
+                popup(_("Nothing found.")); // another case of black box in tiles
+                filterstring.clear();
+                continue;
+            }
+
+            // Sort scenarios by points.
+            // scenario_display_sort() keeps "Evacuee" at the top.
+            scenario_sorter.male = u->male;
+            std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+
+            // Select the current scenario, if possible.
+            for (size_t i = 0; i < scens_length; ++i) {
+                if (sorted_scens[i]->ident() == g->scen->ident()) {
+                    cur_id = i;
+                    break;
+                }
+            }
+            if (cur_id > scens_length - 1) {
+                cur_id = 0;
+            }
+
+            recalc_scens = false;
+        }
+
         int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
         bool can_pick = sorted_scens[cur_id]->can_pick(points);
         const std::string empty_line(getmaxx(w_description), ' ');
@@ -1552,12 +1578,13 @@ int set_scenario(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        _(sorted_scens[cur_id]->description(u->male).c_str()));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, scenario::count());
+        calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > scenario::count()) ?
-                scenario::count() : iContentHeight); i++) {
+        int i;
+        for (i = iStartPos; i < iStartPos + ((iContentHeight > scens_length) ?
+                scens_length : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
-                                             "); // Clear the line
+                                             ");
             nc_color col;
             if (g->scen != sorted_scens[i]) {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
@@ -1567,6 +1594,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       _(sorted_scens[i]->gender_appropriate_name(u->male).c_str()));
 
+        }
+        //Clear rest of space in case stuff got filtered out
+        for (; i < iStartPos + iContentHeight; ++i) {
+            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+                                             "); // Clear the line
         }
 
         std::vector<std::string> scen_items = sorted_scens[cur_id]->items();
@@ -1643,7 +1675,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             wprintz(w_flags, c_ltgray, ("\n"));
         }
 
-        draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
+        draw_scrollbar(w, cur_id, iContentHeight, scens_length, 5);
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_sorting);
@@ -1654,13 +1686,13 @@ int set_scenario(WINDOW *w, player *u, int &points)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_id++;
-            if (cur_id > scenario::count() - 1) {
+            if (cur_id > scens_length - 1) {
                 cur_id = 0;
             }
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
-                cur_id = scenario::count() - 1;
+                cur_id = scens_length - 1;
             }
         } else if (action == "CONFIRM") {
             u->start_location = sorted_scens[cur_id]->start_location();
@@ -1683,6 +1715,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
         } else if (action == "SORT") {
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
             std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+        } else if (action == "FILTER") {
+            filterstring = string_input_popup(_("Search:"), 60, filterstring,
+                _("Search by scenario name."));
+            recalc_scens = true;
         }
     } while (retval == 0);
 
