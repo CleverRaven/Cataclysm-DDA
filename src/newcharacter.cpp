@@ -1328,7 +1328,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             retval = 1;
         } else if (action == "SORT") {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
-            std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+            recalc_profs = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by profession name."));
@@ -1766,7 +1766,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             retval = 1;
         } else if (action == "SORT") {
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
-            std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+            recalc_scens = true;
         } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by scenario name."));
