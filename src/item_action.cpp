@@ -92,8 +92,8 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
 item_action_map item_action_generator::map_actions_to_items( player &p, const std::vector<item*> &pseudos ) const
 {
     std::set< item_action_id > unmapped_actions;
-    for( auto &p : item_actions ) { // Get ids of wanted actions
-        unmapped_actions.insert( p.first );
+    for( auto &ia_ptr : item_actions ) { // Get ids of wanted actions
+        unmapped_actions.insert( ia_ptr.first );
     }
 
     item_action_map candidates;
@@ -251,7 +251,6 @@ void game::item_action_menu()
         num++;
     }
 
-    std::set< item_action_id > itemless;
     for( auto &p : item_actions ) {
         if( iactions.find( p.first ) == iactions.end() ) {
             char bind = key_bound_to( ctxt, p.first );

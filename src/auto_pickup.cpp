@@ -493,10 +493,10 @@ void load_auto_pickup(bool bCharacter)
                         sRule = sTemp;
 
                     } else if (iCol == 2) {
-                        bActive = (sTemp == "T" || sTemp == "True") ? true : false;
+                        bActive = sTemp == "T" || sTemp == "True";
 
                     } else if (iCol == 3) {
-                        bExclude = (sTemp == "T" || sTemp == "True") ? true : false;
+                        bExclude = sTemp == "T" || sTemp == "True";
                     }
 
                     iCol++;
@@ -773,15 +773,10 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
     if (iNum == 0) { //should never happen
         return false;
     } else if (iNum == 1) { // no * found
-        if (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1) {
-            return true;
-        }
-
-        return false;
+        return (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1);
     }
 
-    for (std::vector<std::string>::iterator it = vPattern.begin();
-         it != vPattern.end(); ++it) {
+    for (std::vector<std::string>::iterator it = vPattern.begin(); it != vPattern.end(); ++it) {
         if (it == vPattern.begin() && *it != "") { //beginning: ^vPat[i]
             if (sText.length() < it->length() ||
                 ci_find_substr(sText.substr(0, it->length()), *it) == -1) {
