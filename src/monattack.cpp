@@ -167,7 +167,7 @@ void mattack::antqueen(monster *z, int index)
         z->moves -= 100; // It takes a while
         monster *ant = &(g->zombie( random_entry( ants ) ) );
         if (g->u.sees( *z ) && g->u.sees( *ant ))
-            add_msg(m_warning, _("The %s feeds an %s and it grows!"), z->name().c_str(),
+            add_msg(m_warning, _("The %1$s feeds an %2$s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
         if (ant->type->id == mon_ant_larva) {
             ant->poly( mon_ant );
@@ -708,7 +708,7 @@ void mattack::smash(monster *z, int index)
         return;
     }
 
-    target->add_msg_player_or_npc( _("A blow from the %s sends %s flying!"),
+    target->add_msg_player_or_npc( _("A blow from the %1$s sends %2$s flying!"),
                                    _("A blow from the %s sends <npcname> flying!"),
                                    z->name().c_str(), target->disp_name().c_str() );
     // TODO: Make this parabolic
@@ -896,7 +896,7 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
         // if the player can see it
         if (g->u.sees(*z)) {
             // TODO: mutate() doesn't like non-players right now
-            add_msg(m_bad, _("The %s opens its mouth and a beam shoots towards %s!"),
+            add_msg(m_bad, _("The %1$s opens its mouth and a beam shoots towards %2$s!"),
                 z->name().c_str(), target->disp_name().c_str());
         }
 
@@ -1188,12 +1188,14 @@ void mattack::vine(monster *z, int index)
                     if( critter == &g->u ) {
                         add_msg( m_bad, _("The %1$s lashes your %2$s!"), z->name().c_str(),
                                  body_part_name_accusative(bphit).c_str() );
+			//~ 1$s shooter, 2$s - target, 3$s bodypart in accusative
                     } else if( seen && foe != nullptr ) {
-                        add_msg( _("The %1$s lashes %s's %2$s!"), z->name().c_str(),
+                        add_msg( _("The %1$s lashes %2$s's %3$s!"), z->name().c_str(),
                                  foe->disp_name().c_str(),
                                  body_part_name_accusative(bphit).c_str() );
+			//~ 1$s monster name, 2$s bodypart in accusative
                     } else if( seen ) {
-                        add_msg( _("The %1$s lashes %s!"), z->name().c_str(),
+                        add_msg( _("The %1$s lashes %2$s!"), z->name().c_str(),
                                  critter->disp_name().c_str() );
                     }
                     damage_instance d;
@@ -1524,7 +1526,7 @@ void mattack::fungus_bristle(monster *z, int index)
     auto msg_type = target == &g->u ? m_warning : m_neutral;
     z->reset_special(index); // Reset timer
 
-    add_msg( msg_type, _("The %s swipes at %s with a barbed tendril!"), z->name().c_str(), target->disp_name().c_str() );
+    add_msg( msg_type, _("The %1$s swipes at %2$s with a barbed tendril!"), z->name().c_str(), target->disp_name().c_str() );
     z->moves -= 150;
 
     if( target->uncanny_dodge() ) {
@@ -2296,7 +2298,7 @@ void mattack::ranged_pull(monster *z, int index)
         }
     }
     if( seen ) {
-        add_msg( _("The %s's arms fly out and pull and grab %s!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg( _("The %1$s's arms fly out and pull and grab %2$s!"), z->name().c_str(), target->disp_name().c_str() );
     }
 
     const int prev_effect = target->get_effect_int("grabbed");
@@ -2662,7 +2664,7 @@ void mattack::taze( monster *z, Creature *target )
         mon->moves -= shock * 100;
         mon->apply_damage( z, bp_torso, shock );
         if( g->u.sees( *z ) && g->u.sees( *mon ) ) {
-            add_msg( _("The %s shocks the %s!"), z->name().c_str(), mon->name().c_str() );
+            add_msg( _("The %1$s shocks the %2$s!"), z->name().c_str(), mon->name().c_str() );
         }
         mon->check_dead_state();
     }
@@ -3782,8 +3784,8 @@ void mattack::stretch_bite(monster *z, int index)
         //head's not going to fit through the bars
         if (terrain.movecost == 0 ){
             z->add_effect("stunned", 6);
-            target->add_msg_player_or_npc( _("The %s stretches its head at you, but bounces off the %s"),
-                                           _("The %s stretches its head at <npcname>, but bounces off the %s"),
+            target->add_msg_player_or_npc( _("The %1$s stretches its head at you, but bounces off the %2$s"),
+                                           _("The %1$s stretches its head at <npcname>, but bounces off the %2$s"),
                                            z->name().c_str(), terrain.name.c_str() );
             return;
         }
@@ -3876,7 +3878,7 @@ void mattack::flesh_golem(monster *z, int index)
     }
     z->reset_special(index); // Reset timer
     if( g->u.sees( *z ) ) {
-        add_msg(_("The %s swings a massive claw at %s!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg(_("The %1$s swings a massive claw at %2$s!"), z->name().c_str(), target->disp_name().c_str() );
     }
     z->moves -= 100;
 
@@ -3926,7 +3928,7 @@ void mattack::lunge(monster *z, int index)
             z->moves += 200;
             z->reset_special(index); // Reset timer
             if( seen ) {
-                add_msg(_("The %s lunges for %s!"), z->name().c_str(), target->disp_name().c_str() );
+                add_msg(_("The %1$s lunges for %2$s!"), z->name().c_str(), target->disp_name().c_str() );
             }
         }
         return;
@@ -3940,7 +3942,7 @@ void mattack::lunge(monster *z, int index)
 
     z->reset_special(index); // Reset timer
     if( seen ) {
-        add_msg(_("The %s lunges straight into %s!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg(_("The %1$s lunges straight into %2$s!"), z->name().c_str(), target->disp_name().c_str() );
     }
     z->moves -= 100;
 
@@ -4404,7 +4406,7 @@ void mattack::bio_op_takedown(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     z->reset_special(index); // Reset timer
     if( seen ) {
-        add_msg(_("The %s mechanically grabs at %s!"), z->name().c_str(), target->disp_name().c_str() );
+        add_msg(_("The %1$s mechanically grabs at %2$s!"), z->name().c_str(), target->disp_name().c_str() );
     }
     z->moves -= 100;
 
@@ -4427,7 +4429,7 @@ void mattack::bio_op_takedown(monster *z, int index)
         target->deal_damage( z, bp_torso, damage_instance( DT_BASH, dam ) );
         target->add_effect("downed", 3);
         if( seen ) {
-            add_msg(_("%s slams %s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
+            add_msg(_("%1$s slams %2$s to the ground!"), z->name().c_str(), target->disp_name().c_str() );
         }
         target->check_dead_state();
         return;
@@ -4800,7 +4802,7 @@ void mattack::stretch_attack(monster *z, int index){
     for (auto &i : line){
             terrain = g->m.ter_at( i );
             if (!(terrain.id == "t_bars") && terrain.movecost == 0 ){
-                add_msg( _("The %s thrusts its arm at you but bounces off the %s"), z->name().c_str(), terrain.name.c_str() );
+                add_msg( _("The %1$s thrusts its arm at you but bounces off the %2$s"), z->name().c_str(), terrain.name.c_str() );
                 return;
             }
     }
