@@ -1114,6 +1114,14 @@ int set_profession(WINDOW *w, player *u, int &points)
                 cur_id = 0;
             }
 
+            // Draw filter indicator
+            for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
+                mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+            }
+            const auto filter_indicator = filterstring.empty() ? _("no filter")
+                                          : filterstring;
+            mvwprintz(w, getmaxy(w) - 1, 2, c_ltgray, "<%s>", filter_indicator.c_str());
+
             recalc_profs = false;
         }
 
@@ -1563,6 +1571,14 @@ int set_scenario(WINDOW *w, player *u, int &points)
             if (cur_id > scens_length - 1) {
                 cur_id = 0;
             }
+
+            // Draw filter indicator
+            for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
+                mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+            }
+            const auto filter_indicator = filterstring.empty() ? _("no filter")
+                                          : filterstring;
+            mvwprintz(w, getmaxy(w) - 1, 2, c_ltgray, "<%s>", filter_indicator.c_str());
 
             recalc_scens = false;
         }
