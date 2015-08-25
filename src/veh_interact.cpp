@@ -2147,10 +2147,10 @@ void act_vehicle_siphon(vehicle* veh) {
     g->u.moves -= 200;
 
     if(got < want) {
-        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, draining the tank."),
+        add_msg(m_info, _("Siphoned %d units of %1$s from the %2$s into the %3$s, draining the tank."),
                 got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
     } else {
-        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
+        add_msg(m_info, _("Siphoned %d units of %1$s from the %2$s into the %3$s, receiving tank is full."),
                 got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
     }
 }
@@ -2259,7 +2259,7 @@ void complete_vehicle ()
             veh->parts[partnum].direction = dir;
         }
 
-        add_msg (m_good, _("You install a %s into the %s."),
+        add_msg (m_good, _("You install a %1$s into the %2$s."),
                  vpinfo.name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
@@ -2289,7 +2289,7 @@ void complete_vehicle ()
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
         g->u.consume_tools(tools, 1, repair_hotkeys);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
-        add_msg (m_good, _("You repair the %s's %s."),
+        add_msg (m_good, _("You repair the %1$s's %2$s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
         g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
@@ -2344,11 +2344,11 @@ void complete_vehicle ()
             g->m.destroy_vehicle (veh);
         } else {
             if (broken) {
-                add_msg(_("You remove the broken %s from the %s."),
+                add_msg(_("You remove the broken %1$s from the %2$s."),
                         veh->part_info(vehicle_part).name.c_str(),
                         veh->name.c_str());
             } else {
-                add_msg(_("You remove the %s from the %s."),
+                add_msg(_("You remove the %1$s from the %2$s."),
                         veh->part_info(vehicle_part).name.c_str(),
                         veh->name.c_str());
             }
@@ -2372,7 +2372,7 @@ void complete_vehicle ()
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            add_msg( _("You replace one of the %s's tires with a %s."),
+            add_msg( _("You replace one of the %1$s's tires with a %2$s."),
                      veh->name.c_str(), vpinfo.name.c_str() );
             used_item = consume_vpart_item( part_id );
             partnum = veh->install_part( dx, dy, part_id, used_item );

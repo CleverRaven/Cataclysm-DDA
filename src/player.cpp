@@ -1967,7 +1967,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     std::string kill_place;
     if( !closest_city ) {
         //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-        kill_place = string_format(_("%s was killed in a %s in the middle of nowhere."),
+        kill_place = string_format(_("%1$s was killed in a %2$s in the middle of nowhere."),
                      pronoun.c_str(), tername.c_str());
     } else {
         const auto &nearest_city = *closest_city.city;
@@ -1975,16 +1975,16 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         const int distance_from_city = closest_city.distance - nearest_city.s;
         if(distance_from_city > nearest_city.s + 4) {
             //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-            kill_place = string_format(_("%s was killed in a %s in the wilderness."),
+            kill_place = string_format(_("%1$s was killed in a %2$s in the wilderness."),
                          pronoun.c_str(), tername.c_str());
 
         } else if(distance_from_city >= nearest_city.s) {
             //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format(_("%s was killed in a %s on the outskirts of %s."),
+            kill_place = string_format(_("%1$s was killed in a %2$s on the outskirts of %3$s."),
                          pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         } else {
             //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format(_("%s was killed in a %s in %s."),
+            kill_place = string_format(_("%1$s was killed in a %2$s in %3$s."),
                          pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
         }
     }
@@ -1999,9 +1999,9 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         memorial_file << string_format(pgettext("epitaph","\"%s\""), epitaph.c_str()) << "\n\n";
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
-    memorial_file << string_format("%s was %s when the apocalypse began.",
+    memorial_file << string_format("%1$s was %2$s when the apocalypse began.",
                                    pronoun.c_str(), profession_name.c_str()) << "\n";
-    memorial_file << string_format("%s died on %s of year %d, day %d, at %s.",
+    memorial_file << string_format("%1$s died on %2$s of year %d, day %d, at %3$s.",
                      pronoun.c_str(), season_name_upper(calendar::turn.get_season()).c_str(), (calendar::turn.years() + 1),
                      (calendar::turn.days() + 1), calendar::turn.print_time().c_str()) << "\n";
     memorial_file << kill_place << "\n";
@@ -4361,7 +4361,7 @@ void player::search_surroundings()
                     // Only bug player about traps that aren't trivial to spot.
                     const std::string direction = direction_name(
                         direction_from(posx(), posy(), x, y));
-                    add_msg_if_player(_("You've spotted a %s to the %s!"),
+                    add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
                                       tr.name.c_str(), direction.c_str());
                 }
                 add_known_trap( tripoint( x, y, z ), tr);
@@ -4606,7 +4606,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
             add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
                             source->disp_name().c_str());
         } else if (u_see) {
-            add_msg(_("%s's offensive defense system shocks %s in mid-attack!"),
+            add_msg(_("%1$s's offensive defense system shocks %2$s in mid-attack!"),
                         disp_name().c_str(),
                         source->disp_name().c_str());
         }
@@ -4618,12 +4618,12 @@ void player::on_hit( Creature *source, body_part bp_hit,
         int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
         if (!is_player()) {
             if( u_see ) {
-                add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
+                add_msg(_("%1$s's %2$s puncture %3$s in mid-attack!"), name.c_str(),
                             (has_trait("QUILLS") ? _("quills") : _("spines")),
                             source->disp_name().c_str());
             }
         } else {
-            add_msg(m_good, _("Your %s puncture %s in mid-attack!"),
+            add_msg(m_good, _("Your %1$s puncture %2$s in mid-attack!"),
                             (has_trait("QUILLS") ? _("quills") : _("spines")),
                             source->disp_name().c_str());
         }
@@ -4634,7 +4634,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     if ((!(wearing_something_on(bp_hit))) && (has_trait("THORNS")) && (!(source->has_weapon()))) {
         if (!is_player()) {
             if( u_see ) {
-                add_msg(_("%1$s's %2$s scrape %s in mid-attack!"), name.c_str(),
+                add_msg(_("%1$s's %2$s scrape %3$s in mid-attack!"), name.c_str(),
                             _("thorns"), source->disp_name().c_str());
             }
         } else {
@@ -4650,7 +4650,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     if ((!(wearing_something_on(bp_hit))) && (has_trait("CF_HAIR"))) {
         if (!is_player()) {
             if( u_see ) {
-                add_msg(_("%1$s gets a load of %2$s's %s stuck in!"), source->disp_name().c_str(),
+                add_msg(_("%1$s gets a load of %2$s's %3$s stuck in!"), source->disp_name().c_str(),
                   name.c_str(), (_("hair")));
             }
         } else {
@@ -4769,7 +4769,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
             add_msg(m_good, _("Your acidic blood splashes %s in mid-attack!"),
                             source->disp_name().c_str());
         } else if (u_see) {
-            add_msg(_("%s's acidic blood splashes on %s in mid-attack!"),
+            add_msg(_("%1$s's acidic blood splashes on %2$s in mid-attack!"),
                         disp_name().c_str(),
                         source->disp_name().c_str());
         }
@@ -5746,8 +5746,8 @@ bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
     int siphoned = liquid_amount - extra;
     veh->refill( desired_liquid, extra );
     if( siphoned > 0 ) {
-        add_msg(ngettext("Siphoned %d unit of %s from the %s.",
-                            "Siphoned %d units of %s from the %s.",
+        add_msg(ngettext("Siphoned %d unit of %1$s from the %2$s.",
+                            "Siphoned %d units of %1$s from the %2$s.",
                             siphoned),
                    siphoned, used_item.tname().c_str(), veh->name.c_str());
         //Don't consume turns if we decided not to siphon
@@ -8174,7 +8174,7 @@ void player::suffer()
                 continue;
             }
 
-            add_msg_if_player(m_warning, _("Your radiation badge changes from %s to %s!"),
+            add_msg_if_player(m_warning, _("Your radiation badge changes from %1$s to %2$s!"),
                 col_before.c_str(), col_after.c_str() );
         }
     }
@@ -11188,14 +11188,14 @@ can install this mod."), mod->req_skill);
             return;
         } else if ( !mod->acceptible_ammo_types.empty() &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
-                add_msg(m_info, _("That %s cannot be used on a %s."), used->tname().c_str(),
+                add_msg(m_info, _("That %1$s cannot be used on a %2$s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
         } else if (guntype->valid_mod_locations.count(mod->location) == 0) {
             add_msg(m_info, _("Your %s doesn't have a slot for this mod."), gun->tname().c_str());
             return;
         } else if (gun->get_free_mod_locations(mod->location) <= 0) {
-            add_msg(m_info, _("Your %s doesn't have enough room for another %s mod. To remove the mods, \
+            add_msg(m_info, _("Your %1$s doesn't have enough room for another %2$s mod. To remove the mods, \
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             return;
         }
@@ -11232,7 +11232,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         }
         for (auto &i : gun->contents) {
             if (i.type->id == used->type->id) {
-                add_msg(m_info, _("Your %s already has a %s."), gun->tname().c_str(),
+                add_msg(m_info, _("Your %1$s already has a %2$s."), gun->tname().c_str(),
                            used->tname().c_str());
                 return;
             } else if ((used->typeId() == "clip" || used->typeId() == "clip2") &&
@@ -11242,7 +11242,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
                 return;
             }
         }
-        add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
+        add_msg(_("You attach the %1$s to your %2$s."), used->tname().c_str(),
                    gun->tname().c_str());
         gun->contents.push_back(i_rem(used));
         return;
@@ -11295,7 +11295,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         if (choice < int(mods.size())) {
             const std::string mod = used->contents[choice].tname();
             remove_gunmod(used, unsigned(choice));
-            add_msg(_("You remove your %s from your %s."), mod.c_str(), used->tname().c_str());
+            add_msg(_("You remove your %1$s from your %2$s."), mod.c_str(), used->tname().c_str());
         } else if (choice == int(mods.size())) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
                 if( !used->contents[i].has_flag("IRREMOVABLE") ){
@@ -11880,7 +11880,7 @@ bool player::try_study_recipe( const itype &book )
             if (r->skill_used == NULL ||
                 rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2) {
                 learn_recipe( r );
-                add_msg(m_good, _("Learned a recipe for %s from the %s."),
+                add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
                                 item::nname( r->result ).c_str(), book.nname(1).c_str());
                 return true;
             } else {
@@ -12579,7 +12579,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
 
         // add "further" if the damage adjective and verb are the same
         std::string format_string = ( pre_damage_adj == damage_verb ) ?
-            _("Your %s is %s further!") : _("Your %s is %s!");
+            _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
         add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
                            damage_verb.c_str());
         //item is damaged
@@ -13988,7 +13988,7 @@ int player::add_ammo_to_worn_quiver( item &ammo )
         item *quiver = *it;
         int stored = quiver->quiver_store_arrow( ammo);
         if( stored > 0) {
-            add_msg_if_player( ngettext( "You store %d %s in your %s.", "You store %d %s in your %s.", stored),
+            add_msg_if_player( ngettext( "You store %d %1$s in your %2$s.", "You store %d %1$s in your %2$s.", stored),
                                stored, quiver->contents[0].type_name(stored).c_str(), quiver->type_name().c_str());
         }
         moves -= std::min( 100, stored * move_cost_per_arrow);

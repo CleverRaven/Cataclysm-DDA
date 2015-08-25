@@ -1360,7 +1360,7 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_muscle ) {
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
-            add_msg( _("Looks like the %s is out of %s."), einfo.name.c_str(),
+            add_msg( _("Looks like the %1$s is out of %2$s."), einfo.name.c_str(),
                 item::nname( einfo.fuel_type ).c_str() );
         }
         return false;
@@ -4469,10 +4469,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
     if( g->u.sees(p) ) {
         if( g->u.knows_trap( p ) ) {
-            add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
+            add_msg(m_bad, _("The %1$s's %2$s runs over %3$s."), name.c_str(),
                     part_info(part).name.c_str(), tr.name.c_str() );
         } else {
-            add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
+            add_msg(m_bad, _("The %1$s's %2$s runs over something."), name.c_str(),
                     part_info(part).name.c_str() );
         }
     }
@@ -5099,14 +5099,14 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                         if(parts[parts_in_square[index]].hp == 0) {
                             //Tearing off a broken part - break it up
                             if(g->u.sees( pos )) {
-                                add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
+                                add_msg(m_bad, _("The %1$s's %2$s breaks into pieces!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             break_part_into_pieces(parts_in_square[index], pos.x, pos.y, true);
                         } else {
                             //Intact (but possibly damaged) part - remove it in one piece
                             if(g->u.sees( pos )) {
-                                add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
+                                add_msg(m_bad, _("The %1$s's %2$s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
@@ -5122,7 +5122,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                  * vehicles from the split parts) would be ideal. */
                 if(can_unmount(p)) {
                     if(g->u.sees( pos )) {
-                        add_msg(m_bad, _("The %s's %s is destroyed!"),
+                        add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
                                 name.c_str(), part_info(p).name.c_str());
                     }
                     break_part_into_pieces(p, pos.x, pos.y, true);
@@ -5131,7 +5131,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             } else {
                 //Just break it off
                 if(g->u.sees( pos )) {
-                    add_msg(m_bad, _("The %s's %s is destroyed!"),
+                    add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                 }
                 break_part_into_pieces(p, pos.x, pos.y, true);
@@ -5850,7 +5850,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     }
     // notify player if player can see the shot
     if( g->u.sees( pos ) ) {
-        add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
+        add_msg(_("The %1$s fires its %2$s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( "fake_UPS", 0 );
