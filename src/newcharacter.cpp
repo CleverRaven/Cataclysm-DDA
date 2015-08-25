@@ -1062,26 +1062,6 @@ int set_profession(WINDOW *w, player *u, int &points)
     WINDOW *w_genderswap =  newwin(1,                  55,  6 + getbegy(w), 24 + getbegx(w));
     WINDOW *w_items =       newwin(iContentHeight - 2, 55,  7 + getbegy(w), 24 + getbegx(w));
 
-    std::vector<const profession *> sorted_profs;
-    for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-        if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
-            g->scen->profquery(&(iter->second)) == true) {
-            sorted_profs.push_back(&(iter->second));
-        }
-    }
-
-    // Sort professions by points.
-    // profession_display_sort() keeps "unemployed" at the top.
-    profession_sorter.male = u->male;
-    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
-
-    // Select the current profession, if possible.
-    for (size_t i = 0; i < sorted_profs.size(); ++i) {
-        if (sorted_profs[i]->ident() == u->prof->ident()) {
-            cur_id = i;
-            break;
-        }
-    }
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -1090,8 +1070,53 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("FILTER");
+
+    bool recalc_profs = true;
+    int profs_length;
+    std::string filterstring = "";
+    std::vector<const profession *> sorted_profs;
 
     do {
+        if (recalc_profs) {
+            sorted_profs.clear();
+            for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
+                if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
+                    g->scen->profquery(&(iter->second)) == true) {
+                    if (!filterstring.empty()) {
+                        if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+                            continue;
+                        }
+                    }
+                    sorted_profs.push_back(&(iter->second));
+                }
+            }
+            profs_length = sorted_profs.size();
+            if (profs_length == 0) {
+                popup(_("Nothing found.")); // another case of black box in tiles
+                filterstring.clear();
+                continue;
+            }
+
+            // Sort professions by points.
+            // profession_display_sort() keeps "unemployed" at the top.
+            profession_sorter.male = u->male;
+            std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+
+            // Select the current profession, if possible.
+            for (size_t i = 0; i < profs_length; ++i) {
+                if (sorted_profs[i]->ident() == u->prof->ident()) {
+                    cur_id = i;
+                    break;
+                }
+            }
+            if (cur_id > profs_length + 1) {
+                cur_id = 0;
+            }
+
+            recalc_profs = false;
+        }
+
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
         bool can_pick = sorted_profs[cur_id]->can_pick(u, points);
         // Magic number. Strongly related to window width (w_width - borders).
@@ -1139,10 +1164,11 @@ int set_profession(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description(u->male));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
+        calcStartPos(iStartPos, cur_id, iContentHeight, profs_length);
         //Draw options
-        for (int i = iStartPos; i < (int)iStartPos + ((iContentHeight > (int)sorted_profs.size()) ?
-                (int)sorted_profs.size() : (int)iContentHeight); i++) {
+        int i;
+        for (i = iStartPos; i < (int)iStartPos + ((iContentHeight > (int)profs_length) ?
+                (int)profs_length : (int)iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
@@ -1153,6 +1179,11 @@ int set_profession(WINDOW *w, player *u, int &points)
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_profs[i]->gender_appropriate_name(u->male).c_str());
+        }
+        //Clear rest of space in case stuff got filtered out
+        for (; i < iStartPos + iContentHeight; ++i) {
+            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+                                             "); // Clear the line
         }
 
         std::ostringstream buffer;
@@ -1245,7 +1276,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                   sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_id, iContentHeight, sorted_profs.size(), 5);
+        draw_scrollbar(w, cur_id, iContentHeight, profs_length, 5);
 
         wrefresh(w);
         wrefresh(w_description);
@@ -1256,14 +1287,14 @@ int set_profession(WINDOW *w, player *u, int &points)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_id++;
-            if (cur_id > (int)sorted_profs.size() - 1) {
+            if (cur_id > (int)profs_length - 1) {
                 cur_id = 0;
             }
             desc_offset = 0;
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
-                cur_id = sorted_profs.size() - 1;
+                cur_id = profs_length - 1;
             }
             desc_offset = 0;
         } else if( action == "LEFT" ) {
@@ -1290,7 +1321,12 @@ int set_profession(WINDOW *w, player *u, int &points)
         } else if (action == "SORT") {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+        } else if (action == "FILTER") {
+            filterstring = string_input_popup(_("Search:"), 60, filterstring,
+                _("Search by profession name."));
+            recalc_profs = true;
         }
+
     } while (retval == 0);
 
     delwin(w_description);
