@@ -3422,7 +3422,10 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-
+    if (p->fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to solder!"));
+        return 0;
+    }
     int charges_used = dynamic_cast<const it_tool*>( it->type )->charges_to_use();
     if( it->charges <= charges_used ) {
         p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
