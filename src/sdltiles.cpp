@@ -1988,6 +1988,9 @@ void musicFinished() {
         return;
     }
     const music_playlist &list = iter->second;
+    if( list.entries.empty() ) {
+        return;
+    }
 
     // Load the next file to play.
     current_playlist_at++;
