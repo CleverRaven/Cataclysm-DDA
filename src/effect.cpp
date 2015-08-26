@@ -26,7 +26,7 @@ void weed_msg(player *p) {
         case 2:
             if(smarts > 8) { // Timothy Leary
                 p->add_msg_if_player(_("Science is all metaphor."));
-            } else if(smarts < 3){ // It's Always Sunny in Phildelphia
+            } else if(smarts < 3){ // It's Always Sunny in Philadelphia
                 p->add_msg_if_player(_("Science is a liar sometimes."));
             } else { // Durr
                 p->add_msg_if_player(_("Science is... wait, what was I talking about again?"));

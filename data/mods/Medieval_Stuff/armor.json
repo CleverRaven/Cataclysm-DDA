@@ -207,7 +207,7 @@
         "symbol" : "[",
         "description" : "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
         "price" : 30000,
-        "material" : ["steel", "leather"],
+        "material" : ["iron", "leather"],
         "volume" : 10,
         "cutting" : 0,
         "warmth" : 0,
@@ -217,7 +217,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },{
         "type" : "ARMOR",
         "id" : "legguard_bronze",

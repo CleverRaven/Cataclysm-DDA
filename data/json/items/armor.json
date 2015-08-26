@@ -2753,7 +2753,7 @@
         "warmth" : 20,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 30,
+        "encumbrance" : 28,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 85,
@@ -2803,7 +2803,7 @@
         "warmth" : 25,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 35,
+        "encumbrance" : 30,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 90,
@@ -3264,7 +3264,7 @@
         "symbol" : "[",
         "description" : "An extremely heavy ornamental suit of armor.",
         "price" : 780000,
-        "material" : ["iron", "null"],
+        "material" : ["steel", "leather"],
         "volume" : 120,
         "cutting" : 0,
         "warmth" : 20,
@@ -3272,7 +3272,7 @@
         "environmental_protection" : 0,
         "encumbrance" : 45,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "OUTER"],
+        "flags" : ["VARSIZE", "OUTER", "FANCY"],
         "coverage" : 90,
         "material_thickness" : 5
     },
@@ -7015,7 +7015,7 @@
         "symbol" : "[",
         "description" : "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.",
         "price" : 40000,
-        "material" : ["iron", "null"],
+        "material" : ["steel", "leather"],
         "volume" : 11,
         "cutting" : 0,
         "warmth" : 10,
@@ -9020,8 +9020,8 @@
   {
         "type" : "ARMOR",
         "id" : "legguard_metal",
-        "name" : "pair of metal leg guards",
-        "name_plural" : "pairs of metal leg guards",
+        "name" : "pair of iron greaves",
+        "name_plural" : "pairs of iron greaves",
         "category" : "armor",
         "weight" : 2260,
         "color" : "light_gray",
@@ -9029,15 +9029,15 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A pair of leg guards hammered out from metal.  Very stylish.",
+        "description" : "A pair of iron leg guards with a simple leather lining.",
         "flags" : ["BELTED"],
         "price" : 40000,
-        "material" : ["iron", "null"],
+        "material" : ["iron", "leather"],
         "volume" : 22,
         "cutting" : 0,
         "warmth" : 10,
         "phase" : "solid",
-        "environmental_protection" : 1,
+        "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : -5,
         "coverage" : 70,
@@ -9082,7 +9082,7 @@
         "encumbrance" : 0,
         "price" : 12000,
         "material" : ["steel", "null"],
-        "flags" : ["WATCH", "WATERFRIENDLY", "THERMOMETER"],
+        "flags" : ["WATCH", "WATER_FRIENDLY", "THERMOMETER"],
         "coverage" : 1,
         "symbol" : "[",
         "bashing" : 0,
@@ -9447,7 +9447,7 @@
         "bashing" : 7,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY", "BOOTS"],
         "coverage" : 100,
-        "material_thickness" : 5,
+        "material_thickness" : 4,
         "use_action" : "BOOTS"
     },
     {
@@ -9474,7 +9474,7 @@
         "bashing" : 7,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 5
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10263,17 +10263,17 @@
         "symbol" : "[",
         "description" : "A suit of Gothic plate armor.",
         "price" : 60000,
-        "material" : ["iron", "leather"],
+        "material" : ["steel", "leather"],
         "volume" : 70,
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 35,
+        "encumbrance" : 30,
         "bashing" : 8,
         "flags" : ["VARSIZE", "OUTER", "STURDY"],
-        "coverage" : 100,
-        "material_thickness" : 3
+        "coverage" : 90,
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10289,7 +10289,7 @@
         "symbol" : "[",
         "description" : "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.",
         "price" : 30000,
-        "material" : ["iron", "null"],
+        "material" : ["steel", "leather"],
         "volume" : 10,
         "cutting" : 0,
         "warmth" : 10,
@@ -10299,7 +10299,7 @@
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 90,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10351,7 +10351,7 @@
         "bashing" : 8,
         "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 75,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -10378,7 +10378,7 @@
         "bashing" : 6,
         "flags" : ["STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12596,7 +12596,7 @@
         "symbol" : "[",
         "description" : "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
         "price" : 30000,
-        "material" : ["steel", "leather"],
+        "material" : ["iron", "leather"],
         "volume" : 12,
         "cutting" : 0,
         "warmth" : 0,
@@ -12606,7 +12606,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12620,7 +12620,7 @@
         "symbol" : "[",
         "description" : "A customized chainmail hood.  Can be worn comfortably under helmets.",
         "price" : 5012,
-        "material" : ["steel", "leather"],
+        "material" : ["iron", "leather"],
         "volume" : 2,
         "cutting" : 0,
         "warmth" : 0,
@@ -12630,7 +12630,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12644,7 +12644,7 @@
         "symbol" : "[",
         "description" : "A customized chainmail vest.  It's a sleeveless piece of chainmail with small leather straps to better distribute the weight.",
         "price" : 10000,
-        "material" : ["steel", "leather"],
+        "material" : ["iron", "leather"],
         "volume" : 4,
         "cutting" : 0,
         "warmth" : 0,
@@ -12654,7 +12654,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12669,7 +12669,7 @@
         "symbol" : "[",
         "description" : "Customized chainmail arms.  Each sleeve has leather straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
         "price" : 7500,
-        "material" : ["steel", "leather"],
+        "material" : ["iron", "leather"],
         "volume" : 3,
         "cutting" : 0,
         "warmth" : 0,
@@ -12679,7 +12679,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -12694,7 +12694,7 @@
         "symbol" : "[",
         "description" : "Customized chainmail legs.  Their leather straps keep everything in place and the lack of toes and heels allows them to work perfectly well with footwear.",
         "price" : 7500,
-        "material" : ["steel", "leather"],
+        "material" : ["iron", "leather"],
         "volume" : 6,
         "cutting" : 0,
         "warmth" : 0,
@@ -12704,7 +12704,7 @@
         "bashing" : -3,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
-        "material_thickness" : 3
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
