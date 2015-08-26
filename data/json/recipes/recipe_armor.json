@@ -2203,10 +2203,17 @@
   "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
-  ], "components": [
+  ],
+  "components": [
     [
       [ "string_36", 4 ],
       [ "string_6", 16 ]
+    ],
+    [
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ],
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "steel_chunk", 4 ],
