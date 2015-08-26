@@ -1715,7 +1715,7 @@
         "id": "broken_EMP_hack",
         "symbol": ",",
         "color": "cyan",
-        "name": "broken grenade hack",
+        "name": "broken EMP hack",
         "category": "other",
         "description": "A broken EMP hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
         "price": 9000,
