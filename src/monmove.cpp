@@ -367,9 +367,6 @@ void monster::move()
         return;
     }
 
-    bool moved = false;
-    tripoint next;
-
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !plans.empty() ) {
@@ -400,9 +397,14 @@ void monster::move()
         plans.clear();
     }
 
+    bool moved = false;
+    tripoint next;
+    tripoint destination;
+
     // CONCRETE PLANS - Most likely based on sight
     if( !plans.empty() ) {
-        next = plans[0];
+        destination = plans.back();
+        next = plans.front();
         moved = true;
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
@@ -411,6 +413,7 @@ void monster::move()
         plans.clear();
         tripoint tmp = scent_move();
         if( tmp.x != -1 ) {
+            destination = tmp;
             next = tmp;
             moved = true;
         }
@@ -419,12 +422,14 @@ void monster::move()
         plans.clear();
         tripoint tmp = wander_next();
         if( tmp != pos() ) {
+            destination = tmp;
             next = tmp;
             moved = true;
         }
     }
 
     if( moved ) {
+        moved = false;
         const Creature *target = g->critter_at( next, is_hallucination() );
         // When attacking an adjacent enemy, we're direct.
         if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
@@ -432,14 +437,7 @@ void monster::move()
         } else {
             // If the direct path is blocked, go around.
             int switch_chance = 1;
-            std::vector<point> squares = squares_in_direction( pos().x, pos().y, next.x, next.y );
-            for( point &square : squares ) {
-                const tripoint candidate = { square.x, square.y, pos().z };
-                // Bail out if the move doesn't get us closer to the target.
-                if( !plans.empty() && rl_dist( candidate, plans.back() ) >=
-                    rl_dist( pos(), plans.back() ) ) {
-                    continue;
-                }
+            for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
                 // Bail out if we can't move there and we can't bash.
                 if( !can_move_to( candidate ) &&
                     !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
@@ -453,6 +451,7 @@ void monster::move()
                 }
                 // Randomly pick one of the viable squares to move to.
                 if( one_in(switch_chance) ) {
+                    moved = true;
                     next = candidate;
                     switch_chance++;
                     // If we stumble, pick a random square, otherwise take the first one,
