@@ -3229,6 +3229,7 @@
       ["tights", 20],
       ["stockings", 20],
       ["knee_high_boots", 20],
+      ["thigh_high_boots", 20],
       ["boots", 70],
       ["flip_flops", 35],
       ["lowtops", 45],
@@ -3413,6 +3414,7 @@
     "items":[
       ["sneakers", 100],
       ["knee_high_boots", 40],
+      ["thigh_high_boots", 40],
       ["boots", 100],
       ["flip_flops", 50],
       ["lowtops", 100],
@@ -4470,6 +4472,7 @@
     "id" : "swimmer_pants",
     "items":[
       ["trunks", 80],
+      ["bikini_bottom", 35],
       ["hot_pants", 30]
     ]
   },{
@@ -10299,6 +10302,7 @@
     "id" : "college_lake",
     "items":[
       ["bikini_top", 100],
+      ["bikini_bottom", 100],
       ["trunks", 100],
       ["towel", 100],
       ["goggles_swim", 30],
