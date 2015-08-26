@@ -13074,5 +13074,30 @@
         "flags" : ["VARSIZE", "SKINTIGHT", "WATER_FRIENDLY"],
         "coverage" : 15,
         "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "long_glove_white",
+        "name" : "pair of extra long white gloves",
+        "name_plural" : "pairs of extra long white gloves",
+        "weight" : 400,
+        "color" : "light_blue",
+        "covers" : ["HANDS", "ARMS"],
+        "to_hit" : 1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "Long white costume gloves.",
+        "price" : 1100,
+        "material" : ["cotton", "null"],
+        "volume" : 4,
+        "cutting" : 0,
+        "warmth" : 30,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "bashing" : -5,
+        "flags" : ["VARSIZE"],
+        "coverage" : 60,
+        "material_thickness" : 2
     }
 ]
