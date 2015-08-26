@@ -83,8 +83,11 @@ std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
 
 struct music_playlist {
     // list of filenames relative to the soundpack location
-    std::vector<std::string> files;
-    std::vector<int> volumes;
+    struct entry {
+        std::string file;
+        int volume;
+    };
+    std::vector<entry> entries;
     bool shuffle;
 
     music_playlist() : shuffle(false) {
@@ -1984,19 +1987,19 @@ void musicFinished() {
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if(current_playlist_at >= (int)playlists[current_playlist].files.size()) {
+    if(current_playlist_at >= (int)playlists[current_playlist].entries.size()) {
         current_playlist_at = 0;
     }
 
-    std::string filename = playlists[current_playlist].files[current_playlist_at];
-    play_music_file(filename, playlists[current_playlist].volumes[current_playlist_at]);
+    const auto &next = playlists[current_playlist].entries[current_playlist_at];
+    play_music_file( next.file, next.volume );
 }
 #endif
 
 void play_music(std::string playlist) {
 #ifdef SDL_SOUND
 
-    if(playlists[playlist].files.size() == 0) {
+    if(playlists[playlist].entries.size() == 0) {
         return;
     }
 
@@ -2005,13 +2008,11 @@ void play_music(std::string playlist) {
         return;
     }
 
-    std::string filename = playlists[playlist].files[0];
-    int volume = playlists[playlist].volumes[0];
-
     current_playlist = playlist;
     current_playlist_at = 0;
 
-    play_music_file(filename, volume);
+    const auto &next = playlists[current_playlist].entries[0];
+    play_music_file( next.file, next.volume );
 #else
     (void)playlist;
 #endif
@@ -2052,8 +2053,8 @@ void sfx::load_playlist( JsonObject &jsobj )
         JsonArray files = playlist.get_array( "files" );
         while( files.has_more() ) {
             JsonObject entry = files.next_object();
-            playlist_to_load.files.push_back( entry.get_string( "file" ) );
-            playlist_to_load.volumes.push_back( entry.get_int( "volume" ) );
+            const music_playlist::entry e{ entry.get_string( "file" ),  entry.get_int( "volume" ) };
+            playlist_to_load.entries.push_back( e );
         }
 
         playlists[playlist_id] = std::move( playlist_to_load );
