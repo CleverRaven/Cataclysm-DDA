@@ -65,7 +65,7 @@ static bool needupdate = false;
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
-int current_playlist_at = 0;
+size_t current_playlist_at = 0;
 
 struct sound_effect {
     int volume;
@@ -1987,7 +1987,7 @@ void musicFinished() {
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if(current_playlist_at >= (int)playlists[current_playlist].entries.size()) {
+    if( current_playlist_at >= playlists[current_playlist].entries.size() ) {
         current_playlist_at = 0;
     }
 
