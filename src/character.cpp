@@ -21,6 +21,7 @@ Character::Character()
     int_cur = 0;
     healthy = 0;
     healthy_mod = 0;
+    hunger = 0;
     stomach_food = 0;
     stomach_water = 0;
 
@@ -1035,6 +1036,19 @@ void Character::set_healthy_mod(int nhealthy_mod)
 void Character::mod_healthy_mod(int nhealthy_mod)
 {
     healthy_mod += nhealthy_mod;
+}
+
+int Character::get_hunger() const
+{
+    return hunger;
+}
+void Character::mod_hunger(int nhunger)
+{
+    hunger += nhunger;
+}
+void Character::set_hunger(int nhunger)
+{
+    hunger = nhunger;
 }
 
 int Character::get_stomach_food() const

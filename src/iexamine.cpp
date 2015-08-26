@@ -1281,14 +1281,14 @@ void iexamine::flower_poppy(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->hunger) > 0) &&
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->get_hunger()) > 0) &&
          (!(p->wearing_something_on(bp_mouth))) ) {
         if (!query_yn(_("You feel woozy as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
             return;
         }
         p->moves -= 150; // You take your time...
         add_msg(_("You slowly suck up the nectar."));
-        p->hunger -= 25;
+        p->mod_hunger(-25);
         p->add_effect("pkill2", 70);
         p->fatigue += 20;
         // Please drink poppy nectar responsibly.
@@ -1332,10 +1332,10 @@ void iexamine::flower_bluebell(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1354,10 +1354,10 @@ void iexamine::flower_dahlia(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1381,10 +1381,10 @@ void iexamine::flower_datura(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1402,10 +1402,10 @@ void iexamine::flower_dandelion(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1434,7 +1434,7 @@ void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) ) {
+         ((p->get_hunger()) > 0) ) {
             if (!(p->wearing_something_on(bp_mouth))) {
                 if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
             return;
@@ -1590,7 +1590,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         } else if (seedType == "marloss_seed") {
             fungus(p, m, examp);
             m->i_clear(examp);
-            if (p->has_trait("M_DEPENDENT") && ((p->hunger > 500) || p->thirst > 300 )) {
+            if (p->has_trait("M_DEPENDENT") && ((p->get_hunger() > 500) || p->thirst > 300 )) {
                 m->ter_set(examp, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
@@ -2186,11 +2186,11 @@ void pick_plant(player *p, map *m, const tripoint &examp,
 void iexamine::harvest_tree_shrub(player *p, map *m, const tripoint &examp)
 {
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
          (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
         p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
         add_msg(_("You find a flower and drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     //if the fruit is not ripe yet
     if (calendar::turn.get_season() != m->get_ter_harvest_season(examp)) {

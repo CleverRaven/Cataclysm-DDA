@@ -5,6 +5,7 @@
 #include "item.h"
 #include "player_activity.h"
 #include "weighted_list.h"
+#include "morale.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -756,7 +757,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void cancel_activity();
 
         double convert_weight(int weight) const;
-        bool can_eat(const item &i) const;
         int net_morale(morale_point effect) const;
         int morale_level() const; // Modified by traits, &c
         void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -969,7 +969,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
-        int hunger, thirst, fatigue;
+        int thirst, fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;

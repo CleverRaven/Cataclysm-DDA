@@ -95,14 +95,17 @@ class Character : public Creature
         virtual void set_healthy_mod(int nhealthy_mod);
 
         /** Getter for need values exclusive to characters */
+        virtual int get_hunger() const;
         virtual int get_stomach_food() const;
         virtual int get_stomach_water() const;
 
         /** Modifiers for need values exclusive to characters */
+        virtual void mod_hunger(int nhunger);
         virtual void mod_stomach_food(int n_stomach_food);
         virtual void mod_stomach_water(int n_stomach_water);
 
         /** Setters for need values exclusive to characters */
+        virtual void set_hunger(int nhunger);
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
@@ -496,7 +499,7 @@ class Character : public Creature
 
         // --------------- Values ---------------
         /** Needs (hunger, thirst, fatigue, etc.) */
-        int stomach_food, stomach_water;
+        int hunger, stomach_food, stomach_water;
 
         std::map<const Skill*, SkillLevel> _skills;
 

@@ -41,7 +41,6 @@ npc::npc()
  guard_pos = no_goal_point;
  goal = no_goal_point;
  fatigue = 0;
- hunger = 0;
  thirst = 0;
  fetching_item = false;
  has_new_items = false;
@@ -1461,7 +1460,7 @@ void npc::decide_needs()
                             skillLevel("bashing") + skillLevel("cutting") -
                             skillLevel("gun") * 2 + 5;
     }
-    needrank[need_food] = 15 - hunger;
+    needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - thirst;
     invslice slice = inv.slice();
     for (auto &i : slice) {
@@ -1625,8 +1624,8 @@ int npc::value(const item &it)
   const auto comest = dynamic_cast<const it_comest*>(it.type);
   if (comest->nutr > 0 || comest->quench > 0)
    ret++;
-  if (hunger > 40)
-   ret += (comest->nutr + hunger - 40) / 6;
+  if (get_hunger() > 40)
+   ret += (comest->nutr + get_hunger() - 40) / 6;
   if (thirst > 40)
    ret += (comest->quench + thirst - 40) / 4;
  }

@@ -21,7 +21,7 @@ void weed_msg(player *p) {
             return;
         case 1: // Simpsons
             p->add_msg_if_player(_("Could Jesus microwave a burrito so hot, that he himself couldn't eat it?"));
-            p->hunger += 2;
+            p->mod_hunger(2);
             return;
         case 2:
             if(smarts > 8) { // Timothy Leary
@@ -109,7 +109,7 @@ void weed_msg(player *p) {
             return;
         case 1: // Real Life
             p->add_msg_if_player(_("Man, a cheeseburger sounds SO awesome right now."));
-            p->hunger += 4;
+            p->mod_hunger(4);
             if(p->has_trait("VEGETARIAN")) {
                 p->add_msg_if_player(_("Eh... maybe not."));
             } else if(p->has_trait("LACTOSE")) {
