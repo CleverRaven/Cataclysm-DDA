@@ -454,6 +454,43 @@ std::string const& direction_name_short(direction const dir)
     return direction_name_impl(dir, true);
 }
 
+// Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.
+// Sub-Cardinals are sub-cardinals && abs(x) == abs(y). Result is sub-cardinal and adjacent cardinals.
+// Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
+// Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
+// e.g. if the direction is NNE, also include E.
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+{
+    std::vector<tripoint> adjacent_closer_squares;
+    const int dx = to.x - from.x;
+    const int dy = to.y - from.y;
+    const int ax = std::abs( dx );
+    const int ay = std::abs( dy );
+    if( ax > ay ) {
+        // X dominant.
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y - 1, from.z } );
+        if( dy != 0 ) {
+            adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        }
+    } else if( ax < ay ) {
+        // Y dominant.
+        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + 1, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x - 1, from.y + SGN(dy), from.z } );
+        if( dx != 0 ) {
+            adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        }
+    } else {
+        // Pure diagonal.
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+    }
+    return adjacent_closer_squares;
+}
+
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
 std::vector<point> squares_in_direction( const int x1, const int y1, const int x2, const int y2 )
