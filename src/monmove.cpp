@@ -398,13 +398,11 @@ void monster::move()
     }
 
     bool moved = false;
-    tripoint next;
     tripoint destination;
 
     // CONCRETE PLANS - Most likely based on sight
     if( !plans.empty() ) {
         destination = plans.back();
-        next = plans.front();
         moved = true;
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
@@ -414,7 +412,6 @@ void monster::move()
         tripoint tmp = scent_move();
         if( tmp.x != -1 ) {
             destination = tmp;
-            next = tmp;
             moved = true;
         }
     }
@@ -423,42 +420,42 @@ void monster::move()
         tripoint tmp = wander_next();
         if( tmp != pos() ) {
             destination = tmp;
-            next = tmp;
             moved = true;
         }
     }
 
     if( moved ) {
+        // Implement both avoiding obstacles and staggering.
         moved = false;
-        const Creature *target = g->critter_at( next, is_hallucination() );
-        // When attacking an adjacent enemy, we're direct.
-        if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
-            // No change, stick with the plan.
-        } else {
-            // If the direct path is blocked, go around.
-            int switch_chance = 1;
-            for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
-                // Bail out if we can't move there and we can't bash.
-                if( !can_move_to( candidate ) &&
-                    !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
-                    continue;
-                }
-                const Creature *target = g->critter_at( candidate, is_hallucination() );
-                // Bail out if there's a non-hostile monster in the way and we're not pushy.
-                if( target != nullptr && attitude_to( *target ) == A_HOSTILE &&
-                    !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
-                    continue;
-                }
-                // Randomly pick one of the viable squares to move to.
-                if( one_in(switch_chance) ) {
-                    moved = true;
-                    next = candidate;
-                    switch_chance++;
-                    // If we stumble, pick a random square, otherwise take the first one,
-                    // which is the most direct path.
-                    if( !has_flag( MF_STUMBLES ) ) {
-                        break;
-                    }
+        int switch_chance = 1;
+        for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            const Creature *target = g->critter_at( candidate, is_hallucination() );
+            // When attacking an adjacent enemy, we're direct.
+            if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
+                moved = true;
+                destination = candidate;
+                break;
+            }
+            // Bail out if we can't move there and we can't bash.
+            if( !can_move_to( candidate ) &&
+                !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
+                continue;
+            }
+            const Creature *target = g->critter_at( candidate, is_hallucination() );
+            // Bail out if there's a non-hostile monster in the way and we're not pushy.
+            if( target != nullptr && attitude_to( *target ) == A_HOSTILE &&
+                !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                continue;
+            }
+            // Randomly pick one of the viable squares to move to.
+            if( one_in(switch_chance) ) {
+                moved = true;
+                destination = candidate;
+                switch_chance++;
+                // If we stumble, pick a random square, otherwise take the first one,
+                // which is the most direct path.
+                if( !has_flag( MF_STUMBLES ) ) {
+                    break;
                 }
             }
         }
@@ -467,18 +464,15 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( next ) ) ||
-            ( !pacified && bash_at( next ) ) ||
-            ( !pacified && push_to( next, 0, 0 ) ) ||
-            move_to( next );
+            ( !pacified && attack_at( destination ) ) ||
+            ( !pacified && bash_at( destination ) ) ||
+            ( !pacified && push_to( destination, 0, 0 ) ) ||
+            move_to( destination );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
     } else {
         moves -= 100;
-    }
-    // Stumble around if we're not moving
-    if( !moved ) {
         stumble();
     }
 }
