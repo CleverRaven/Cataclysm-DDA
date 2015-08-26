@@ -9233,5 +9233,29 @@
         [["duct_tape", 35], ["superglue", 5]],
         [["jerrycan", 1]]
     ]
-  }
+  },{
+  "type" : "recipe",
+  "result": "bikini_bottom",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
+  "tools": [
+    [
+      [ "needle_bone", 15 ],
+      [ "needle_wood", 15 ],
+      [ "tailors_kit", 15 ],
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
+    ]
+  ]
+}
 ]
