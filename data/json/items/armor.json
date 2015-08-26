@@ -11832,7 +11832,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "Simple shoes woven from strips of birch bark.  Not very confortable, but fairly water-resistant.",
+        "description" : "Simple shoes woven from strips of birch bark.  Not very comfortable, but better than going barefoot.",
         "price" : 3500,
         "material" : ["wood", "null"],
         "volume" : 2,
