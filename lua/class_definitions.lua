@@ -82,9 +82,9 @@ classes = {
             male = { type = "bool", writable = true },
             name = { type = "string", writable = true },
             nv_cached = { type = "bool", writable = true },
-            hunger = { type = "int", writable = true },
-            stomach_food = { type = "int", writable = true },
-            stomach_water = { type = "int", writable = true },
+            hunger = { type = "int", writable = false },
+            stomach_food = { type = "int", writable = false },
+            stomach_water = { type = "int", writable = false },
         },
         functions = {
             { name = "add_effect", rval = nil, args = { "string", "int" } },
