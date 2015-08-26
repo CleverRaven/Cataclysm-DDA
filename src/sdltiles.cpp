@@ -1983,23 +1983,33 @@ void musicFinished() {
     Mix_FreeMusic(current_music);
     current_music = NULL;
 
+    const auto iter = playlists.find( current_playlist );
+    if( iter == playlists.end() ) {
+        return;
+    }
+    const music_playlist &list = iter->second;
+
     // Load the next file to play.
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if( current_playlist_at >= playlists[current_playlist].entries.size() ) {
+    if( current_playlist_at >= list.entries.size() ) {
         current_playlist_at = 0;
     }
 
-    const auto &next = playlists[current_playlist].entries[current_playlist_at];
+    const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 }
 #endif
 
 void play_music(std::string playlist) {
 #ifdef SDL_SOUND
-
-    if( playlists[playlist].entries.empty() ) {
+    const auto iter = playlists.find( playlist );
+    if( iter == playlists.end() ) {
+        return;
+    }
+    const music_playlist &list = iter->second;
+    if( list.entries.empty() ) {
         return;
     }
 
@@ -2011,7 +2021,7 @@ void play_music(std::string playlist) {
     current_playlist = playlist;
     current_playlist_at = 0;
 
-    const auto &next = playlists[current_playlist].entries[0];
+    const auto &next = list.entries[0];
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;
