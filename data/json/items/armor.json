@@ -9082,7 +9082,7 @@
         "encumbrance" : 0,
         "price" : 12000,
         "material" : ["steel", "null"],
-        "flags" : ["WATCH", "WATERFRIENDLY", "THERMOMETER"],
+        "flags" : ["WATCH", "WATER_FRIENDLY", "THERMOMETER"],
         "coverage" : 1,
         "symbol" : "[",
         "bashing" : 0,
