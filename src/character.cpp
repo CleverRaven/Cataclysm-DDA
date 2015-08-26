@@ -9,8 +9,6 @@
 #include "field.h"
 #include "messages.h"
 
-#include <map>
-
 Character::Character()
 {
     str_max = 0;
@@ -96,7 +94,7 @@ void Character::mod_stat( const std::string &stat, int modifier )
 bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
-        if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
+        if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
             add_msg_player_or_npc(m_good, _("You stand up."),
@@ -176,7 +174,7 @@ bool Character::move_effects(bool attacking)
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect("in_pit")) {
-        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+        if (rng(0, 40) > get_str() + get_dex() / 2) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
         } else {
@@ -192,7 +190,7 @@ bool Character::move_effects(bool attacking)
                 zed_number ++;
             }
         }
-        if (attacking == true || zed_number == 0){
+        if (attacking || zed_number == 0){
             return true;
         }
         if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
@@ -351,7 +349,7 @@ float Character::get_vision_threshold(int light_level) const {
     if( vision_mode_cache.none() || light_level > LIGHT_AMBIENT_LIT ) {
         return LIGHT_AMBIENT_LOW;
     }
-    // As ligt_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
+    // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
     const float dimming_from_light = 1.0 + (((float)light_level - LIGHT_AMBIENT_MINIMAL) /
                                             (LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL));
@@ -491,11 +489,12 @@ int Character::get_item_position( const item *it ) const
     if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    auto iter = worn.begin();
-    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
-        if( inventory::has_item_with_recursive( *iter, filter ) ) {
+    int i = 0;
+    for( auto &iter : worn ) {
+        if( inventory::has_item_with_recursive( iter, filter ) ) {
             return worn_position_to_index( i );
         }
+        i++;
     }
     return inv.position_by_item( it );
 }
@@ -1081,7 +1080,7 @@ void Character::update_health(int base_threshold)
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
-    const int roll = rng( -100, 100 );
+    const long roll = rng( -100, 100 );
     base_threshold += get_healthy() - get_healthy_mod();
     if( roll > base_threshold ) {
         mod_healthy( 1 );
