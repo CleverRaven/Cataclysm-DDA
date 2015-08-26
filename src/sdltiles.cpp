@@ -1999,7 +1999,7 @@ void musicFinished() {
 void play_music(std::string playlist) {
 #ifdef SDL_SOUND
 
-    if(playlists[playlist].entries.size() == 0) {
+    if( playlists[playlist].entries.empty() ) {
         return;
     }
 
