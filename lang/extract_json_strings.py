@@ -452,6 +452,7 @@ use_action_msgs = {
     "unfold_msg",
     "sound_msg",
     "no_deactivate_msg",
+    "not_ready_msg",
     "activation_message"
 }
 
