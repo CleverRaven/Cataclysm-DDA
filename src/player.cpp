@@ -13010,7 +13010,7 @@ void player::practice( const Skill* s, int amount, int cap )
     skillLevel(s).practice();
 }
 
-void player::practice( std::string s, int amount, int cap )
+void player::practice( const skill_id &s, int amount, int cap )
 {
     const Skill* aSkill = Skill::skill(s);
     practice( aSkill, amount, cap );
@@ -13182,7 +13182,7 @@ std::string player::weapname(bool charges) const
 }
 
 void player::wield_contents(item *container, bool force_invlet,
-                            std::string /*skill_used*/, int /*volume_factor*/)
+                            const skill_id &/*skill_used*/, int /*volume_factor*/)
 {
     if(!(container->contents.empty())) {
         item& weap = container->contents[0];
@@ -13194,7 +13194,7 @@ void player::wield_contents(item *container, bool force_invlet,
     }
 }
 
-void player::store(item* container, item* put, std::string skill_used, int volume_factor)
+void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)
 {
     const int lvl = get_skill_level(skill_used);
     moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
@@ -13224,7 +13224,7 @@ void player::set_skill_level(Skill const &_skill, int level)
     set_skill_level(&_skill, level);
 }
 
-void player::set_skill_level(std::string ident, int level)
+void player::set_skill_level(const skill_id &ident, int level)
 {
     skillLevel(ident).level(level);
 }
@@ -13234,7 +13234,7 @@ void player::boost_skill_level(const Skill* _skill, int level)
     skillLevel(_skill).level(level+skillLevel(_skill));
 }
 
-void player::boost_skill_level(std::string ident, int level)
+void player::boost_skill_level(const skill_id &ident, int level)
 {
     skillLevel(ident).level(level+skillLevel(ident));
 }

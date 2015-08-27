@@ -666,9 +666,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it,
          * taking moves based on skill and volume of item being wielded. */
-        void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
+        void wield_contents(item *container, bool force_invlet, const skill_id &skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
-        void store(item *container, item *put, std::string skill_used, int volume_factor);
+        void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
@@ -758,7 +758,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int adjust_for_focus(int amount) const;
         void practice( const Skill* s, int amount, int cap = 99 );
-        void practice( std::string s, int amount, int cap = 99 );
+        void practice( const skill_id &s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
@@ -1010,10 +1010,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void set_skill_level(const Skill* _skill, int level);
         void set_skill_level(Skill const &_skill, int level);
-        void set_skill_level(std::string ident, int level);
+        void set_skill_level(const skill_id &ident, int level);
 
         void boost_skill_level(const Skill* _skill, int level);
-        void boost_skill_level(std::string ident, int level);
+        void boost_skill_level(const skill_id &ident, int level);
 
         std::map<std::string, const recipe *> learned_recipes;
 
