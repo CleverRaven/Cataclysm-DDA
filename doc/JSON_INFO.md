@@ -707,6 +707,10 @@ The contents of use_action fields can either be a string indicating a built-in f
     "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
 },
 "use_action": {
+    "type": "firestarter", // Start a fire, like with a lighter.
+    "moves_cost": 15 // Number of moves it takes to start the fire.
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
