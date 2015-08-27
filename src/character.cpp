@@ -735,7 +735,7 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
-SkillLevel& Character::skillLevel(std::string ident)
+SkillLevel& Character::skillLevel(const skill_id &ident)
 {
     return _skills[Skill::skill(ident)];
 }
@@ -767,7 +767,7 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
     return get_skill_level(&_skill);
 }
 
-SkillLevel const& Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
     const Skill* sk = Skill::skill(ident);
     return get_skill_level(sk);

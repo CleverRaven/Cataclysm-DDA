@@ -8,6 +8,8 @@
 
 #include <map>
 
+using skill_id = std::string;
+
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -390,12 +392,12 @@ class Character : public Creature
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
         SkillLevel &skillLevel(Skill const &_skill);
-        SkillLevel &skillLevel(std::string ident);
+        SkillLevel &skillLevel(const skill_id &ident);
 
         /** for serialization */
         SkillLevel const& get_skill_level(const Skill* _skill) const;
         SkillLevel const& get_skill_level(const Skill &_skill) const;
-        SkillLevel const& get_skill_level(const std::string &ident) const;
+        SkillLevel const& get_skill_level(const skill_id &ident) const;
 
         // --------------- Other Stuff ---------------
 
