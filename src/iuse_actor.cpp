@@ -198,7 +198,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            sounds::sound(pos, sound_volume, sound_msg);
+            sounds::sound(pos, sound_volume, sound_msg.empty() ? "" : _(sound_msg.c_str()) );
         }
         return 0;
     }

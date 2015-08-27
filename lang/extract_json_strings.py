@@ -450,6 +450,7 @@ use_action_msgs = {
     "need_charges_msg",
     "non_interactive_msg",
     "unfold_msg",
+    "sound_msg",
     "activation_message"
 }
 
