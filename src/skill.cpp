@@ -10,11 +10,11 @@
 std::vector<Skill> Skill::skills;
 
 Skill::Skill()
-  : Skill(0, "null", "nothing", "The zen-most skill there is.", std::set<std::string> {})
+  : Skill(0, skill_id( "null" ), "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
-Skill::Skill(size_t id, std::string ident, std::string name, std::string description,
+Skill::Skill(size_t id, skill_id ident, std::string name, std::string description,
              std::set<std::string> tags)
   : _id(std::move(id)), _ident(std::move(ident)), _name(std::move(name)),
     _description(std::move(description)), _tags(std::move(tags))
@@ -45,7 +45,7 @@ void Skill::reset()
 
 void Skill::load_skill(JsonObject &jsobj)
 {
-    std::string ident = jsobj.get_string("ident");
+    skill_id ident = skill_id( jsobj.get_string("ident") );
     skills.erase(std::remove_if(begin(skills), end(skills), [&](Skill const &s) {
         return s._ident == ident; }), end(skills));
 
@@ -59,7 +59,7 @@ void Skill::load_skill(JsonObject &jsobj)
                         std::move(tags));
 }
 
-const Skill* Skill::skill(const std::string& ident)
+const Skill* Skill::skill(const skill_id& ident)
 {
     for( auto &skill : Skill::skills ) {
         if( skill._ident == ident ) {

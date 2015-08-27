@@ -10,10 +10,12 @@
 #include <set>
 #include <iosfwd>
 
+using skill_id = std::string;
+
 class Skill
 {
         size_t _id;
-        std::string _ident;
+        skill_id _ident;
 
         std::string _name;
         std::string _description;
@@ -22,7 +24,7 @@ class Skill
     public:
         static std::vector<Skill> skills;
         static void load_skill(JsonObject &jsobj);
-        static const Skill* skill(const std::string& ident);
+        static const Skill* skill(const skill_id& ident);
         static const Skill* skill(size_t id);
 
         static const Skill* random_skill_with_tag(const std::string& tag);
@@ -35,7 +37,7 @@ class Skill
             std::function<bool (Skill const&, Skill const&)> pred);
 
         Skill();
-        Skill(size_t id, std::string ident, std::string name, std::string description,
+        Skill(size_t id, skill_id ident, std::string name, std::string description,
               std::set<std::string> tags);
 
         //DEBUG
@@ -44,7 +46,7 @@ class Skill
             return _id;
         }
 
-        std::string const& ident() const
+        skill_id const& ident() const
         {
             return _ident;
         }
