@@ -6876,7 +6876,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
           return 0;
         }
 
-        std::string const gun_skill = put.gun_skill();
+        const skill_id gun_skill = put.gun_skill();
         int const lvl = p->skillLevel( gun_skill );
         std::string message;
         if (lvl < 2) {

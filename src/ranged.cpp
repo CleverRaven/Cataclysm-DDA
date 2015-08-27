@@ -1401,7 +1401,7 @@ static int rand_or_max( bool random, int max )
 
 int player::skill_dispersion( item *weapon, bool random ) const
 {
-    const std::string skill_used = weapon->gun_skill();
+    const skill_id skill_used = weapon->gun_skill();
     const int weapon_skill_level = get_skill_level(skill_used);
     int dispersion = 0; // Measured in Minutes of Arc.
     // Up to 0.75 degrees for each skill point < 10.

@@ -3348,7 +3348,7 @@ int item::spare_mag_size() const
     }
 }
 
-std::string item::gun_skill() const
+skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
         return "null";
@@ -3356,7 +3356,7 @@ std::string item::gun_skill() const
     return type->gun->skill_used->ident();
 }
 
-std::string item::weap_skill() const
+skill_id item::weap_skill() const
 {
     if (! is_weap() && ! is_tool()) return "null";
 
@@ -3365,7 +3365,7 @@ std::string item::weap_skill() const
     return "cutting";
 }
 
-std::string item::skill() const
+skill_id item::skill() const
 {
     if( is_gunmod() ) {
         return type->gunmod->skill_used->ident();
