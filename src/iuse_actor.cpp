@@ -464,8 +464,8 @@ void place_monster_iuse::load( JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
-    obj.read( "skill1", skill1 );
-    obj.read( "skill2", skill2 );
+    skill1 = skill_id( obj.get_string( "skill1", skill1 ) );
+    skill2 = skill_id( obj.get_string( "skill2", skill2 ) );
 }
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const

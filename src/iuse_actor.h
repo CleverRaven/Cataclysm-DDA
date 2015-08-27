@@ -13,6 +13,7 @@ enum field_id : int;
 struct mtype;
 using mtype_id = string_id<mtype>;
 class JsonObject;
+using skill_id = std::string;
 
 /**
  * Transform an item into a specific type.
@@ -275,8 +276,8 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        std::string skill1 = "none";
-        std::string skill2 = "none";
+        skill_id skill1 = "none";
+        skill_id skill2 = "none";
 
         place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
         virtual ~place_monster_iuse();
