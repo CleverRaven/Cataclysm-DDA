@@ -851,7 +851,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.range = jo.get_int( "range", 0 );
     slot.clip = jo.get_int( "clip_size_modifier", 0 );
     slot.acceptible_ammo_types = jo.get_tags( "acceptable_ammo" );
-    slot.skill_used = Skill::skill( jo.get_string( "skill", "gun" ) );
+    slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.req_skill = jo.get_int( "skill_required", 0 );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
 }

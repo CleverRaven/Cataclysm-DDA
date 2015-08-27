@@ -298,9 +298,8 @@ struct islot_gunmod : common_firing_data {
     int req_skill = 0;
     /**
      * TODO: document me
-     * TODO: this should be a pointer to const Skill.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = skill_id( "none" );
     /**
      * TODO: document me
      */
