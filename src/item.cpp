@@ -775,7 +775,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                  gun->reload_time, true, "", true, true));
 
         if (mod->burst_size() == 0) {
-            if (skill == Skill::skill("pistol") && has_flag("RELOAD_ONE")) {
+            if (skill->ident() == skill_id( "pistol" ) && has_flag("RELOAD_ONE")) {
                 dump->push_back(iteminfo("GUN", _("Revolver.")));
             } else {
                 dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
@@ -3359,7 +3359,7 @@ skill_id item::gun_skill() const
     if( !is_gun() ) {
         return "null";
     }
-    return type->gun->skill_used->ident();
+    return type->gun->skill_used;
 }
 
 skill_id item::weap_skill() const
@@ -3376,7 +3376,7 @@ skill_id item::skill() const
     if( is_gunmod() ) {
         return type->gunmod->skill_used->ident();
     } else if ( is_gun() ) {
-        return type->gun->skill_used->ident();
+        return type->gun->skill_used;
     } else if( type->book && type->book->skill != nullptr ) {
         return type->book->skill->ident();
     }

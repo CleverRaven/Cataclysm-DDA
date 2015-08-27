@@ -11136,31 +11136,31 @@ can install this mod."), mod->req_skill);
             return;
         }
         islot_gun* guntype = gun->type->gun.get();
-        if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
+        if (guntype->skill_used == skill_id("pistol") && !mod->used_on_pistol) {
             add_msg(m_info, _("That %s cannot be attached to a handgun."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
+        } else if (guntype->skill_used == skill_id("shotgun") && !mod->used_on_shotgun) {
             add_msg(m_info, _("That %s cannot be attached to a shotgun."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
+        } else if (guntype->skill_used == skill_id("smg") && !mod->used_on_smg) {
             add_msg(m_info, _("That %s cannot be attached to a submachine gun."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
+        } else if (guntype->skill_used == skill_id("rifle") && !mod->used_on_rifle) {
             add_msg(m_info, _("That %s cannot be attached to a rifle."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_bow && guntype->ammo == "arrow") {
+        } else if (guntype->skill_used == skill_id("archery") && !mod->used_on_bow && guntype->ammo == "arrow") {
             add_msg(m_info, _("That %s cannot be attached to a bow."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("archery") && !mod->used_on_crossbow && guntype->ammo == "bolt") {
+        } else if (guntype->skill_used == skill_id("archery") && !mod->used_on_crossbow && guntype->ammo == "bolt") {
             add_msg(m_info, _("That %s cannot be attached to a crossbow."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == Skill::skill("launcher") && !mod->used_on_launcher) {
+        } else if (guntype->skill_used == skill_id("launcher") && !mod->used_on_launcher) {
             add_msg(m_info, _("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;

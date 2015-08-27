@@ -460,8 +460,10 @@ void Item_factory::check_definitions() const
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
-            if( type->gun->skill_used == nullptr ) {
+            if( type->gun->skill_used == skill_id( "none" ) ) {
                 msg << string_format("uses no skill") << "\n";
+            } else {
+                Skill::skill( type->gun->skill_used ); // fires a debugmsg upon invalid skill
             }
             if( type->item_tags.count( "BURST_ONLY" ) > 0 && type->item_tags.count( "MODE_BURST" ) < 1 ) {
                 msg << string_format("has BURST_ONLY but no MODE_BURST") << "\n";
@@ -616,7 +618,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
-    slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
+    slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );

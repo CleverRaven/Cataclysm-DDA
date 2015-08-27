@@ -261,8 +261,8 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    if (firing->skill_used != Skill::skill("archery") &&
-        firing->skill_used != Skill::skill("throw")) {
+    if (firing->skill_used != skill_archery &&
+        firing->skill_used != skill_throw ) {
         if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
             add_msg_player_or_npc(_("Your %s misfires with a wet click!"),
                                   _("<npcname>'s %s misfires with a wet click!"),
@@ -347,7 +347,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                  used_weapon->tname().c_str());
         return;
     }
-    const Skill* skill_used = Skill::skill( used_weapon->gun_skill() );
+    const skill_id skill_used = used_weapon->gun_skill();
 
     projectile proj; // damage will be set later
     proj.speed = 1000;
@@ -583,7 +583,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         }
 
         // rifle has less range penalty past LONG_RANGE
-        if (skill_used == Skill::skill("rifle") && range > LONG_RANGE) {
+        if (skill_used == skill_rifle && range > LONG_RANGE) {
             total_dispersion *= 1 - 0.4 * double(range - LONG_RANGE) / double(range);
         }
 
@@ -1279,11 +1279,11 @@ int time_to_fire(player &p, const itype &firingt)
         {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    auto const &skill_used = firingt.gun.get()->skill_used;
-    auto const it = map.find(skill_used->ident());
+    const skill_id &skill_used = firingt.gun.get()->skill_used;
+    auto const it = map.find( skill_used );
     if (it == std::end(map)) {
         debugmsg("Why is shooting %s using %s skill?",
-            firingt.nname(1).c_str(), skill_used->name().c_str());
+            firingt.nname(1).c_str(), Skill::skill( skill_used )->name().c_str());
         return 0;
     }
 

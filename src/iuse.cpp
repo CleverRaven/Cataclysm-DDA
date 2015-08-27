@@ -6922,7 +6922,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
             }
 
             p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
-            p->wield_contents(it, true, t_gun->skill_used->ident(), 13);
+            p->wield_contents(it, true, t_gun->skill_used, 13);
         }
     }
     return it->type->charges_to_use();
