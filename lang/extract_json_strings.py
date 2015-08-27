@@ -459,6 +459,7 @@ use_action_msgs = {
     "descriptions",
     "noise_message",
     "voluntary_extinguish_message",
+    "charges_extinguish_message",
     "activation_message"
 }
 
