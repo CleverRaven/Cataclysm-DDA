@@ -225,7 +225,7 @@ void load_recipe(JsonObject &jsobj)
     rec->subcat = subcategory;
     rec->skill_used = skill_used;
     for( const auto &elem : requires_skills ) {
-        rec->required_skills[Skill::skill( elem.first )] = elem.second;
+        rec->required_skills[skill_id( elem.first )] = elem.second;
     }
     rec->reversible = reversible;
     rec->autolearn = autolearn;
@@ -2421,7 +2421,7 @@ std::string recipe::required_skills_string() const
     std::ostringstream skills_as_stream;
     if(!required_skills.empty()) {
         for( auto iter = required_skills.begin(); iter != required_skills.end(); ) {
-            skills_as_stream << iter->first->name() << "(" << iter->second << ")";
+            skills_as_stream << iter->first.obj().name() << "(" << iter->second << ")";
             ++iter;
             if(iter != required_skills.end()) {
                 skills_as_stream << ", ";

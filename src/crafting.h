@@ -54,7 +54,7 @@ struct recipe {
     bool contained; // Does the item spawn contained?
     std::string subcat;
     skill_id skill_used;
-    std::map<const Skill*, int> required_skills;
+    std::map<skill_id, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
