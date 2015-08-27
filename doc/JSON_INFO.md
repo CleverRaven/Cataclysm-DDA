@@ -729,6 +729,21 @@ The contents of use_action fields can either be a string indicating a built-in f
     ]
 },
 "use_action": {
+    "type": "inscribe", // Inscribe a message on an item or on the ground.
+    "on_items": true, // Whether the item can inscribe on an item.
+    "on_terrain": false, // Whether the item can inscribe on the ground.
+    "material_restricted": true, // Whether the item can only inscribe on certain item materials. Not used when inscribing on the ground.
+    "material_whitelist": [ // List of material ids (not item ids!) that can be inscribed on.
+        "wood",             // Only used when inscribing on an item, and only when material_restricted is true.
+        "plastic",          // The list here is the default that is used when no explicit list is given.
+        "glass",
+        "chitin",
+        "iron",
+        "steel",
+        "silver"
+    ]
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
