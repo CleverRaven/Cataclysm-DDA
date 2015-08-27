@@ -458,6 +458,7 @@ use_action_msgs = {
     "failure_message",
     "descriptions",
     "noise_message",
+    "voluntary_extinguish_message",
     "activation_message"
 }
 
