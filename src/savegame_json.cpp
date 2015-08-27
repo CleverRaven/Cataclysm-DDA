@@ -827,7 +827,7 @@ void npc_favor::deserialize(JsonIn &jsin)
     jo.read("itype_id", item_id);
     skill = NULL;
     if (jo.has_int("skill_id")) {
-        skill = Skill::skill(jo.get_int("skill_id"));
+        skill = Skill::from_legacy_int( jo.get_int("skill_id") );
     } else if (jo.has_string("skill_id")) {
         skill = Skill::skill(jo.get_string("skill_id"));
     }

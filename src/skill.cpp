@@ -72,9 +72,22 @@ const Skill* Skill::skill(const skill_id& ident)
     return nullptr;
 }
 
-const Skill* Skill::skill(size_t id)
+const Skill *Skill::from_legacy_int( const int legacy_id )
 {
-    return &Skill::skills[id];
+    static const std::array<skill_id, 28> legacy_skills = { {
+        skill_id("null"), skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
+        skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
+        skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
+        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
+        skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
+        skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
+    } };
+    if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
+        return skill( legacy_skills[legacy_id] );
+    }
+    debugmsg( "legacy skill id %d is invalid", legacy_id );
+    return &skills.front(); // return a non-null pointer because callers might not expect a nullptr
 }
 
 const Skill* Skill::random_skill_with_tag(const std::string& tag)

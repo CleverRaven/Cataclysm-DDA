@@ -423,7 +423,7 @@ void mission::load_info(std::istream &data)
     follow_up = mission_type_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
-    reward.skill = Skill::skill( rew_skill );
+    reward.skill = Skill::from_legacy_int( rew_skill );
     item_id = itype_id(itemid);
     item_count = int(item_num);
 }

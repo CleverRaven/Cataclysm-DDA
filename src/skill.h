@@ -25,7 +25,8 @@ class Skill
         static std::vector<Skill> skills;
         static void load_skill(JsonObject &jsobj);
         static const Skill* skill(const skill_id& ident);
-        static const Skill* skill(size_t id);
+        // For loading old saves that still have integer-based ids.
+        static const Skill *from_legacy_int( int legacy_id );
 
         static const Skill* random_skill_with_tag(const std::string& tag);
         static const Skill* random_skill();
