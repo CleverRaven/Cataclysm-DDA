@@ -2297,9 +2297,9 @@ void melee_practice( player &u, bool hit, bool unarmed,
 {
     int min = 2;
     int max = 2;
-    skill_id first;
-    skill_id second;
-    skill_id third;
+    skill_id first = NULL_ID;
+    skill_id second = NULL_ID;
+    skill_id third = NULL_ID;
 
     if (hit) {
         min = 5;
@@ -2336,9 +2336,9 @@ void melee_practice( player &u, bool hit, bool unarmed,
     }
 
     if (unarmed) u.practice( skill_unarmed, rng(min, max) );
-    if (!first.str().empty())  u.practice( first, rng(min, max) );
-    if (!second.str().empty()) u.practice( second, rng(min, max) );
-    if (!third.str().empty())  u.practice( third, rng(min, max) );
+    if( first )  u.practice( first, rng(min, max) );
+    if( second ) u.practice( second, rng(min, max) );
+    if( third )  u.practice( third, rng(min, max) );
 }
 
 int player::attack_speed( const item &weap, const bool average ) const
