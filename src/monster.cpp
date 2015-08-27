@@ -1706,7 +1706,7 @@ void monster::process_effects()
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             // Monsters don't get trait-based reduction, but they do get effect based reduction
-            bool reduced = has_effect(it.get_resist_effect());
+            bool reduced = resists_effect(it);
 
             mod_speed_bonus(it.get_mod("SPEED", reduced));
 
