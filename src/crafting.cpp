@@ -60,27 +60,6 @@ recipe::recipe() :
 {
 }
 
-recipe::recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-               bool pcontained,std::string psubcat, std::string &to_use,
-               std::map<std::string, int> &to_require,
-               bool preversible, bool pautolearn, int plearn_dis,
-               int pmult, bool ppaired, std::vector<byproduct> &bps,
-               int ptime, int pdiff, double pb_rscale,
-               int pb_rsize) :
-    ident(pident), id(pid), result(pres), time(ptime), difficulty(pdiff),
-    byproducts(bps), cat(pcat),
-    contained(pcontained),subcat(psubcat), reversible(preversible), autolearn(pautolearn),
-    learn_by_disassembly(plearn_dis), batch_rscale(pb_rscale),
-    batch_rsize(pb_rsize), result_mult(pmult), paired(ppaired)
-{
-    skill_used = to_use.size() ? Skill::skill(to_use) : NULL;
-    if(!to_require.empty()) {
-        for( auto &elem : to_require ) {
-            required_skills[Skill::skill( elem.first )] = elem.second;
-        }
-    }
-}
-
 const recipe *find_recipe( std::string id )
 {
     for( auto recipe_list : recipes ) {
@@ -233,10 +212,28 @@ void load_recipe(JsonObject &jsobj)
     std::string rec_name = result + id_suffix;
     int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
-    recipe *rec = new recipe(rec_name, id, result, category,contained, subcategory, skill_used,
-                             requires_skills, reversible, autolearn,
-                             learn_by_disassembly, result_mult, paired, bps,
-                             time, difficulty, batch_rscale, batch_rsize);
+    recipe *rec = new recipe();
+
+    rec->ident = rec_name;
+    rec->id = id;
+    rec->result = result;
+    rec->time = time;
+    rec->difficulty = difficulty;
+    rec->byproducts = bps;
+    rec->cat = category;
+    rec->contained = contained;
+    rec->subcat = subcategory;
+    rec->skill_used = skill_used.empty() ? nullptr : Skill::skill( skill_used );
+    for( const auto &elem : requires_skills ) {
+        rec->required_skills[Skill::skill( elem.first )] = elem.second;
+    }
+    rec->reversible = reversible;
+    rec->autolearn = autolearn;
+    rec->learn_by_disassembly = learn_by_disassembly;
+    rec->batch_rscale = batch_rscale;
+    rec->batch_rsize = batch_rsize;
+    rec->result_mult = result_mult;
+    rec->paired = paired;
 
     rec->requirements.load(jsobj);
 

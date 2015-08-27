@@ -80,13 +80,6 @@ struct recipe {
 
     ~recipe();
     recipe();
-    recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-           bool pcontained,std::string psubcat, std::string &to_use,
-           std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis,
-           int pmult, bool ppaired, std::vector<byproduct> &bps,
-           int time, int difficulty, double batch_rscale,
-           int batch_rsize);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
