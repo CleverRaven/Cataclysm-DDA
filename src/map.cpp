@@ -380,7 +380,10 @@ const vehicle *map::vehproceed()
         return &veh;
     }
 
-    const bool should_fall = veh.falling && vehicle_falling( veh );
+    // It needs to fall when it has no support OR was falling before
+    //  so that vertical collisions happen.
+    const bool should_fall = veh.falling &&
+        ( veh.vertical_velocity != 0 || vehicle_falling( veh ) );
     const bool pl_ctrl = veh.player_in_control( g->u );
 
     // Mph lost per tile when coasting
@@ -503,11 +506,23 @@ const vehicle *map::vehproceed()
     dp.y = mdir.dy();
     if( should_fall ) {
         dp.z = -1;
+        const float tile_height = 4; // 4 meters
+        const float g = 9.8f; // 9.8 m/s^2
+        // Convert from 100*mph to m/s
+        const float old_vel = veh.vertical_velocity / 2.23694 / 100;
+        // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
+        // Note: That drops the sign
+        const float new_vel = -sqrt( 2 * tile_height * g +
+                                     old_vel * old_vel );
+        veh.vertical_velocity = new_vel * 2.23694 * 100;
     }
+
+add_msg( "%s has %d vvel, %.1f of_turn", veh.name.c_str(), veh.vertical_velocity, veh.of_turn );
 
     move_vehicle( veh, dp, mdir );
     // Need one more check, after movement
     if( veh.falling && veh.of_turn <= 0 && vehicle_falling( veh ) ) {
+        // Give it enough of_turn to fall, but not enough to move otherwise
         veh.of_turn = 0.0001f;
     }
 
@@ -526,15 +541,15 @@ bool map::vehicle_falling( vehicle &veh )
     //  when it's not properly supported
     for( const tripoint &p : veh.get_points() ) {
         if( has_floor( p ) ) {
-            veh.falling = false;
-            veh.vertical_velocity = 0;
+            if( veh.vertical_velocity == 0 ) {
+                veh.falling = false;
+            }
+
             return false;
         }
 
         tripoint below( p.x, p.y, p.z - 1 );
         if( p.z <= -OVERMAP_DEPTH || supports_above( below ) ) {
-            // Keep it "falling", it isn't supported properly
-            veh.vertical_velocity = 0;
             return false;
         }
     }
@@ -644,7 +659,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     // Velocity of car before collision
     const int velocity_before = veh.velocity;
     veh.collision( collisions, dp, false );
-    const bool can_move = veh.velocity != 0;
+    const bool can_move = dp.z == 0 ? veh.velocity != 0 : veh.vertical_velocity != 0;
 
     // Vehicle collisions
     std::map<vehicle*, std::vector<veh_collision> > veh_collisions;
@@ -680,6 +695,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     int coll_turn = 0;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
+        veh.vertical_velocity = 0;
     }
 
     if( veh_veh_coll_flag ) {
@@ -700,7 +716,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     // Now we're gonna handle traps we're standing on (if we're still moving).
     if( can_move ) {
-        std::vector<int> wheel_indices = veh.all_parts_with_feature("WHEEL", false);
+        const auto &wheel_indices = veh.wheelcache;
         for (auto &w : wheel_indices) {
             const tripoint wheel_p = pt + veh.parts[w].precalc[0];
             if( one_in( 2 ) ) {
@@ -921,7 +937,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = veh.total_mass();
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = veh.vertical_velocity * m1;
+        dmg = abs(veh.vertical_velocity) * m1;
     }
 
     float dmg_veh1 = dmg * 0.5;

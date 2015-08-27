@@ -4098,8 +4098,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     return !colls.empty();
 }
 
-veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_detect )
+veh_collision vehicle::part_collision( int part, const tripoint &pt, bool just_detect )
 {
+    // Vertical collisions need to be handled differently
+    // TODO: Diagonal (vertical+horizontal) collisions
+    const bool vert_coll = pt.z != smz;
+    const tripoint p = vert_coll ? tripoint( pt.x, pt.y, smz ) : pt;
     const bool pl_ctrl = player_in_control( g->u );
     Creature *critter = g->critter_at( p, true );
     player *ph = dynamic_cast<player*>( critter );
@@ -4135,7 +4139,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
 
     // Non-vehicle collisions can't happen when the vehicle is not moving
     // TODO: Some better check for vertical movement?
-    if( velocity == 0 && p.z == smz ) {
+    if( velocity == 0 && vertical_velocity == 0 ) {
         veh_collision ret;
         ret.type = veh_coll_nothing;
         return ret;
@@ -4150,12 +4154,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
     int dmg_mod = part_info(parm).dmg_mod;
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0;
-    float e = 0.3; // e = 0 -> plastic collision
-    // e = 1 -> inelastic collision
+    float e = 0.3; // e = 1 -> plastic collision
+    // e = 0 -> inelastic collision
     int part_dens = 0; //part density
 
     if( is_body_collision ) {
-        // then, check any monster/NPC/player on the way
+        // Check any monster/NPC/player on the way
         collision_type = veh_coll_body; // body
         e = 0.30;
         part_dens = 15;
@@ -4177,6 +4181,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
             mass2 = 200;
             break;
         }
+    } else if( vert_coll && g->m.is_bashable_ter_furn( p, true ) ) {
+        // Way bigger numbers than for horizontal collision
+        collision_type = veh_coll_bashable;
+        e = 0.10;
+        mass2 = 100 + std::max(0, g->m.bash_strength( p, true ) - 30);
+        part_dens = 100 + int(float( g->m.bash_strength( p, true ) ) / 300 * 70);
     } else if( g->m.is_bashable_ter_furn( p ) && g->m.move_cost_ter_furn( p ) != 2 &&
                 // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                 (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
@@ -4187,13 +4197,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
                   g->m.has_flag_ter_or_furn("SHORT", p)) &&
                 // These are bashable, but don't interact with vehicles.
                 !g->m.has_flag_ter_or_furn("NOCOLLIDE", p) ) {
-        // movecost 2 indicates flat terrain like a floor, no collision there.
+        // Movecost 2 indicates flat terrain like a floor, no collision there.
         collision_type = veh_coll_bashable;
         e = 0.30;
-        //Just a rough rescale for now to obtain approximately equal numbers
+        // Just a rough rescale for now to obtain approximately equal numbers
         mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
         part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
-    } else if( g->m.move_cost_ter_furn(p) == 0 ) {
+    } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
         e=0.10;
@@ -4247,8 +4257,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
     int turns_stunned = 0;
 
     do {
-        // Impulse of object
-        const float vel1 = velocity / 100;
+        // Impulse of vehicle
+        const float coll_velocity = vert_coll ? vertical_velocity : velocity;
+        const float vel1 = coll_velocity / 100;
 
         // Assumption: velocity of hit object = 0 mph
         const float vel2 = 0;
@@ -4262,6 +4273,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
         //Damage calculation
         //damage dealt overall
         dmg += std::abs(d_E / k_mvel);
+add_msg( "dmg %.1f, d_E %.1f", dmg, d_E );
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
@@ -4276,7 +4288,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
             // something bashable -- use map::bash to determine outcome
             smashed = g->m.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
-                if( g->m.is_bashable_ter_furn( p ) ) {
+                if( g->m.is_bashable_ter_furn( p, vert_coll ) ) {
                     // There's new terrain there to smash
                     smashed = false;
                     e = 0.30;
@@ -4327,9 +4339,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
             }
         }
 
-        velocity = vel1_a*100;
-
-    } while( !smashed && velocity != 0 );
+        if( !vert_coll ) {
+            velocity = vel1_a * 100;
+        } else {
+            // TODO: Fix
+            vertical_velocity = vel1_a * 100;
+        }
+    } while( !smashed && ( vert_coll ? vertical_velocity != 0 : velocity != 0 ) );
 
     // Apply special effects from collision.
     if( critter != nullptr ) {
@@ -4379,7 +4395,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_de
         }
         int turn_roll = rng( 0, 100 );
         //probability of skidding increases with higher delta_v
-        if( turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
+        if( vert_coll || turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
