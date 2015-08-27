@@ -12074,22 +12074,19 @@ bool game::plmove(int dx, int dy)
                             u.grab_point.y = dyVeh * (-1);
                         }
 
+                        tripoint dp_veh( dxVeh, dyVeh, 0 );
                         mdir.init(dxVeh, dyVeh);
                         mdir.advance(1);
                         grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
                         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
                         grabbed_vehicle->precalc_mounts(1, mdir.dir());
-                        int imp = 0;
-                        std::vector<veh_collision> veh_veh_colls;
-                        std::vector<veh_collision> veh_misc_colls;
-                        bool can_move = true;
+                        std::vector<veh_collision> colls;
                         // Set player location to illegal value so it can't collide with vehicle.
                         int player_prev_x = u.posx();
                         int player_prev_y = u.posy();
                         u.setx( 0 );
                         u.sety( 0 );
-                        if (grabbed_vehicle->collision(veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
-                                                       can_move, imp, true)) {
+                        if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
                             // TODO: figure out what we collided with.
                             add_msg(_("The %s collides with something."), grabbed_vehicle->name.c_str());
                             u.moves -= 10;

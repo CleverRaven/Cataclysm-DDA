@@ -630,13 +630,14 @@ public:
     // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    bool collision( std::vector<veh_collision> &veh_veh_colls,
-                    std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
-                    bool &can_move, int &imp, bool just_detect = false );
+    // Returns if any collision occured
+    bool collision( std::vector<veh_collision> &colls,
+                    const tripoint &dp,
+                    bool just_detect );
 
-    // handle given part collision with vehicle, monster/NPC/player or terrain obstacle
-    // return collision, which has type, impulse, part, & target.
-    veh_collision part_collision (int part, int x, int y, bool just_detect);
+    // Handle given part collision with vehicle, monster/NPC/player or terrain obstacle
+    // Returns collision, which has type, impulse, part, & target.
+    veh_collision part_collision( int part, const tripoint &p, bool just_detect );
 
     // Process the trap beneath
     void handle_trap( const tripoint &p, int part );
@@ -824,8 +825,9 @@ public:
     std::vector<int> solar_panels;     // List of solar panel indices
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
-    std::vector<int> wheelcache;
-    std::vector<int> speciality;        //List of parts that will not be on a vehicle very often, or which only one will be present
+    std::vector<int> wheelcache;       // List of wheels
+    std::vector<int> speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
+    std::vector<int> floating;         // List of parts that provide buoyancy to boats
     std::set<std::string> tags;        // Properties of the vehicle
 
     active_item_cache active_items;
@@ -870,6 +872,7 @@ public:
     tileray move;       // direction we are moving
     int velocity = 0;       // vehicle current velocity, mph * 100
     int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
+    int vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
     std::string music_id;    // what music storage device is in the stereo
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move

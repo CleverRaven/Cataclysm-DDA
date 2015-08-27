@@ -3225,7 +3225,7 @@ float vehicle::wheels_area (int *const cnt) const
 {
     int count = 0;
     int total_area = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
+    const auto &wheel_indices = wheelcache;
     for( auto &wheel_indice : wheel_indices ) {
         int p = wheel_indice;
         int width = part_info(p).wheel_width;
@@ -3874,7 +3874,7 @@ void vehicle::slow_leak()
     }
 }
 
-void vehicle::thrust (int thd) {
+void vehicle::thrust( int thd ) {
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
     if( velocity == 0 ) {
@@ -3893,17 +3893,17 @@ void vehicle::thrust (int thd) {
         play_chimes();
     }
 
-    //no need to change velocity
+    // No need to change velocity
     if( !thd ) {
         return;
     }
 
     bool pl_ctrl = player_in_control( g->u );
 
-    //no need to change velocity if there are no wheels
+    // No need to change velocity if there are no wheels
     if( !valid_wheel_config() && velocity == 0 ) {
-        if (pl_ctrl) {
-            if (all_parts_with_feature(VPFLAG_FLOATS).empty()) {
+        if( pl_ctrl ) {
+            if( floating.empty() ) {
                 add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
             } else {
                 add_msg(_("The %s is too leaky!"), name.c_str());
@@ -3912,7 +3912,7 @@ void vehicle::thrust (int thd) {
         return;
     }
 
-    //accelerate (true) or brake (false)
+    // Accelerate (true) or brake (false)
     bool thrusting = true;
     if( velocity ) {
        int sgn = velocity < 0? -1 : 1;
@@ -3986,7 +3986,7 @@ void vehicle::thrust (int thd) {
 
     //wheels aren't facing the right way to change velocity properly
     //lower down, since engines should be getting damaged anyway
-    if (skidding) {
+    if( skidding ) {
         return;
     }
 
@@ -4009,7 +4009,7 @@ void vehicle::thrust (int thd) {
 
 void vehicle::cruise_thrust (int amount)
 {
-    if (!amount) {
+    if( amount == 0 ) {
         return;
     }
     int safe_vel = safe_velocity();
@@ -4073,38 +4073,33 @@ void vehicle::stop ()
     of_turn_carry = 0;
 }
 
-bool vehicle::collision( std::vector<veh_collision> &veh_veh_colls,
-                         std::vector<veh_collision> &veh_misc_colls, int dx, int dy,
-                         bool &can_move, int &imp, bool just_detect )
+bool vehicle::collision( std::vector<veh_collision> &colls,
+                         const tripoint &dp,
+                         bool just_detect )
 {
     std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
-    for( size_t i = 0; i < structural_indices.size() && can_move; i++ ) {
+    for( size_t i = 0; i < structural_indices.size(); i++ ) {
         const int p = structural_indices[i];
-        // coords of where part will go due to movement (dx/dy)
+        // coords of where part will go due to movement (dx/dy/dz)
         // and turning (precalc[1])
-        const int dsx = global_x() + dx + parts[p].precalc[1].x;
-        const int dsy = global_y() + dy + parts[p].precalc[1].y;
-        veh_collision coll = part_collision( p, dsx, dsy, just_detect );
-        if( coll.type != veh_coll_nothing && just_detect ) {
-            return true;
-        } else if( coll.type == veh_coll_veh ) {
-            veh_veh_colls.push_back( coll );
-        } else if( coll.type != veh_coll_nothing ) { //run over someone?
-            veh_misc_colls.push_back(coll);
-            if( can_move ) {
-                imp += coll.imp;
-            }
-            if( velocity == 0 ) {
-                can_move = false;
-            }
+        const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
+        veh_collision coll = part_collision( p, dsp, just_detect );
+        if( coll.type == veh_coll_nothing ) {
+            continue;
         }
+
+        if( just_detect ) {
+            return true;
+        }
+
+        colls.push_back( coll );
     }
-    return false;
+
+    return !colls.empty();
 }
 
-veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect )
+veh_collision vehicle::part_collision( int part, const tripoint &p, bool just_detect )
 {
-    const tripoint p{ x, y, smz };
     const bool pl_ctrl = player_in_control( g->u );
     Creature *critter = g->critter_at( p, true );
     player *ph = dynamic_cast<player*>( critter );
@@ -4125,8 +4120,8 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
     veh_coll_type collision_type = veh_coll_nothing;
     std::string obs_name = g->m.name( p ).c_str();
 
-    // vehicle collisions are a special case. just return the collision.
-    // the map takes care of the dynamic stuff.
+    // Vehicle collisions are a special case. just return the collision.
+    // The map takes care of the dynamic stuff.
     if( is_veh_collision ) {
        veh_collision ret;
        ret.type = veh_coll_veh;
@@ -4136,6 +4131,14 @@ veh_collision vehicle::part_collision( int part, int x, int y, bool just_detect 
        ret.target_part = target_part;
        ret.target_name = oveh->name.c_str();
        return ret;
+    }
+
+    // Non-vehicle collisions can't happen when the vehicle is not moving
+    // TODO: Some better check for vertical movement?
+    if( velocity == 0 && p.z == smz ) {
+        veh_collision ret;
+        ret.type = veh_coll_nothing;
+        return ret;
     }
 
     // Damage armor before damaging any other parts
@@ -4463,7 +4466,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
         part_damage = 500;
     } else if( t == tr_ledge ) {
         falling = true;
-        part_damage = 500;
+        // Don't print message
+        return;
     } else {
         return;
     }
@@ -4734,6 +4738,10 @@ void vehicle::gain_moves()
             turret_mode = turret_mode_off;
         }
     }
+
+    if( velocity < 0 ) {
+        beeper_sound();
+    }
 }
 
 /**
@@ -4751,7 +4759,9 @@ void vehicle::refresh()
     funnels.clear();
     relative_parts.clear();
     loose_parts.clear();
+    wheelcache.clear();
     speciality.clear();
+    floating.clear();
     lights_epower = 0;
     overhead_epower = 0;
     tracking_epower = 0;
@@ -4774,8 +4784,9 @@ void vehicle::refresh()
     // Main loop over all vehicle parts.
     for( size_t p = 0; p < parts.size(); p++ ) {
         const vpart_info& vpi = part_info( p );
-        if( parts[p].removed )
+        if( parts[p].removed ) {
             continue;
+        }
         if( vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT) ) {
             lights.push_back( p );
             lights_epower += vpi.epower;
@@ -4824,6 +4835,9 @@ void vehicle::refresh()
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
         }
+        if( vpi.has_flag( VPFLAG_WHEEL ) ) {
+            wheelcache.push_back( p );
+        }
         if (vpi.has_flag("SECURITY")){
             speciality.push_back(p);
         }
@@ -4832,6 +4846,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
+        }
+        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
+            floating.push_back( p );
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
