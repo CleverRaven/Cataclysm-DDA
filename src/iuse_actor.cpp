@@ -1507,15 +1507,16 @@ bool fireweapon_off_actor::can_use( const player *p, const item *it, bool, const
 
 void fireweapon_on_actor::load( JsonObject &obj )
 {
-    static const std::string bugmsg = "Your weapon bugs itself!";
-    noise_message                   = obj.get_string( "noise_message", bugmsg );
-    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message", bugmsg );
-    charges_extinguish_message      = obj.get_string( "charges_extinguish_message", bugmsg );
-    water_extinguish_message        = obj.get_string( "water_extinguish_message", bugmsg );
-    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );
+    noise_message                   = obj.get_string( "noise_message" );
+    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message" );
+    charges_extinguish_message      = obj.get_string( "charges_extinguish_message" );
+    water_extinguish_message        = obj.get_string( "water_extinguish_message" );
     noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
     auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
+    if( auto_extinguish_chance > 0 ) {
+        auto_extinguish_message         = obj.get_string( "auto_extinguish_message" );
+    }
 }
 
 iuse_actor *fireweapon_on_actor::clone() const
