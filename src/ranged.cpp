@@ -1268,15 +1268,15 @@ int time_to_fire(player &p, const itype &firingt)
         int reduction; // the reduction in time given per skill level.
     };
 
-    static std::map<std::string, time_info_t> const map {
-        {std::string {"pistol"},   {10, 80,  10}},
-        {std::string {"shotgun"},  {70, 150, 25}},
-        {std::string {"smg"},      {20, 80,  10}},
-        {std::string {"rifle"},    {30, 150, 15}},
-        {std::string {"archery"},  {20, 220, 25}},
-        {std::string {"throw"},    {50, 220, 25}},
-        {std::string {"launcher"}, {30, 200, 20}},
-        {std::string {"melee"},    {50, 200, 20}}
+    static std::map<skill_id, time_info_t> const map {
+        {skill_id {"pistol"},   {10, 80,  10}},
+        {skill_id {"shotgun"},  {70, 150, 25}},
+        {skill_id {"smg"},      {20, 80,  10}},
+        {skill_id {"rifle"},    {30, 150, 15}},
+        {skill_id {"archery"},  {20, 220, 25}},
+        {skill_id {"throw"},    {50, 220, 25}},
+        {skill_id {"launcher"}, {30, 200, 20}},
+        {skill_id {"melee"},    {50, 200, 20}}
     };
 
     auto const &skill_used = firingt.gun.get()->skill_used;
