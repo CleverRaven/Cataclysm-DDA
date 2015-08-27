@@ -2470,15 +2470,15 @@ void dialogue::gen_responses( const std::string &topic )
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
-                // TODO: add a Skill::exists or is_defined or similar function
-                const Skill* skillt = Skill::skill(backlog.name);
-                if(skillt == NULL) {
+                const skill_id skillt( backlog.name );
+                // TODO: This is potentially dangerous. A skill and a martial art could have the same ident!
+                if( !skillt.is_valid() ) {
                     auto &style = matype_id( backlog.name ).obj();
                     resume << style.name;
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 } else {
-                    resume << skillt->name();
-                    add_response( resume.str(), "TALK_TRAIN_START", skillt );
+                    resume << skillt.obj().name();
+                    add_response( resume.str(), "TALK_TRAIN_START", &skillt.obj() ); // TODO: should be a const reference not a pointer
                 }
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);

@@ -928,8 +928,8 @@ void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p
 
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
-    const Skill *skill = Skill::skill(act->name);
-    if( skill == NULL ) {
+    const skill_id sk( act->name );
+    if( !sk.is_valid() ) {
         auto &mastyle = matype_id( act->name ).obj();
         // Trained martial arts,
         add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
@@ -939,6 +939,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                             mastyle.name.c_str());
         p->add_martialart( mastyle.id );
     } else {
+        const Skill *skill = &sk.obj();
         int new_skill_level = p->skillLevel(skill) + 1;
         p->skillLevel(skill).level(new_skill_level);
         add_msg(m_good, _("You finish training %s to level %d."),
