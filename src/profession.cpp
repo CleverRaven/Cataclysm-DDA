@@ -204,8 +204,9 @@ void profession::check_definition() const
     }
 
     for( const auto &elem : _starting_skills ) {
-        // Skill::skill shows a debug message if the skill is unknown
-        Skill::skill( elem.first );
+        if( !elem.first.is_valid() ) {
+            debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), _ident.c_str() );
+        }
     }
 }
 

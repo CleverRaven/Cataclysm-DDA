@@ -462,8 +462,8 @@ void Item_factory::check_definitions() const
             check_ammo_type( msg, type->gun->ammo );
             if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
-            } else {
-                Skill::skill( type->gun->skill_used ); // fires a debugmsg upon invalid skill
+            } else if( !type->gun->skill_used.is_valid() ) {
+                msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             if( type->item_tags.count( "BURST_ONLY" ) > 0 && type->item_tags.count( "MODE_BURST" ) < 1 ) {
                 msg << string_format("has BURST_ONLY but no MODE_BURST") << "\n";

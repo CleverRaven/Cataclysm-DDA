@@ -1544,7 +1544,7 @@ void check_constructions()
         const std::string display_name = std::string("construction ") + c->description;
         // Note: print the description as the id is just a generated number,
         // the description can be searched for in the json files.
-        if (!c->skill.str().empty() && Skill::skill(c->skill) == NULL) {
+        if( !c->skill.is_valid() ) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
         c->requirements.check_consistency(display_name);
