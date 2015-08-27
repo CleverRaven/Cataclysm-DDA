@@ -772,6 +772,19 @@ The contents of use_action fields can either be a string indicating a built-in f
     "auto_extinguish_message": "Your No. 9 cuts out!" // Message that appears if the item goes out on its own (only required if auto_extinguish_chance is > 0).
 },
 "use_action": {
+    "type": "musical_instrument", // The character plays an instrument (this item) while walking around.
+    "speed_penalty": 10, // This is subtracted from the characters speed.
+    "volume": 12, // Volume of the sound of the instrument.
+    "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
+    "fun_bonus": 2,
+    "description_frequency": 20, // Once every Nth turn, a randomly chosen description (from the that array) is displayed.
+    "descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your flute that sounds harmonious with nature."
+    ]
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
