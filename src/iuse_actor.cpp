@@ -1629,7 +1629,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
 
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
-    if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
+    if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
         if( !descriptions.empty() ) {
             desc = _( random_entry( descriptions ).c_str() );
         }
