@@ -1015,8 +1015,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void boost_skill_level(const Skill* _skill, int level);
         void boost_skill_level(std::string ident, int level);
 
-        void copy_skill_levels(const player *rhs);
-
         std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;

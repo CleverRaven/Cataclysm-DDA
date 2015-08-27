@@ -411,7 +411,6 @@ classes = {
             { name = "consume_charges", rval = "bool", args = { "item", "int" } },
             { name = "consume_item", rval = "bool", args = { "item" } },
             { name = "convert_weight", rval = "float", args = { "int" } },
-            { name = "copy_skill_levels", rval = nil, args = { "player" } },
             { name = "cough", rval = nil, args = { "bool" } },
             { name = "cough", rval = nil, args = { "bool", "int" } },
             { name = "cough", rval = nil, args = { } },

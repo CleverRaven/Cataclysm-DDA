@@ -13214,11 +13214,6 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-void player::copy_skill_levels(const player *rhs)
-{
-    _skills = rhs->_skills;
-}
-
 void player::set_skill_level(const Skill* _skill, int level)
 {
     skillLevel(_skill).level(level);
