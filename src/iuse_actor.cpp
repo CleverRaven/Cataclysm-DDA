@@ -1481,9 +1481,13 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
         return 0;
     }
 
+    if( it->charges <= 0 ) {
+        p->add_msg_if_player( _(lacks_fuel_message.c_str()) );
+        return 0;
+    }
+
     p->moves -= moves;
-    if( rng( 0, 10 ) - it->damage > success_chance &&
-          it->charges > 0 && !p->is_underwater() ) {
+    if( rng( 0, 10 ) - it->damage > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(success_message.c_str()) );
         } else {
