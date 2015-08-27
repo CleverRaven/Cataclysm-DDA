@@ -457,6 +457,7 @@ use_action_msgs = {
     "lacks_fuel_message",
     "failure_message",
     "descriptions",
+    "noise_message",
     "activation_message"
 }
 
