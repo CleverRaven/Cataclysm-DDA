@@ -761,6 +761,17 @@ The contents of use_action fields can either be a string indicating a built-in f
     "success_chance": 0 // How likely it is to succeed the action. Default is to always succeed. Try numbers in the range of 0-10.
 },
 "use_action": {
+    "type": "fireweapon_on", // Function for active (burning) fire based weapons.
+    "noise_chance": 1, // The chance (one in X) that the item will make a noise, rolled on each turn.
+    "noise": 0, // The sound volume it makes, if it makes a noise at all. If 0, no sound is made, but the noise message is still printed.
+    "noise_message": "Your No. 9 hisses.", // The message / sound description (if noise is > 0), that appears when the item makes a sound.
+    "voluntary_extinguish_message": "Your No. 9 goes dark.", // Message that appears when the item is turned of by player.
+    "charges_extinguish_message": "Out of ammo!", // Message that appears when the item runs out of charges.
+    "water_extinguish_message": "Your No. 9 hisses in the water and goes out.", // Message that appears if the character walks into water and the fire of the item is extinguished.
+    "auto_extinguish_chance": 0, // If > 0, this is the (one in X) chance that the item goes out on its own.
+    "auto_extinguish_message": "Your No. 9 cuts out!" // Message that appears if the item goes out on its own (only required if auto_extinguish_chance is > 0).
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
