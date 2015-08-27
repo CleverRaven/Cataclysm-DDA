@@ -7671,7 +7671,7 @@ void player::suffer()
         if (oxygen < 12 && worn_with_flag("REBREATHER")) {
                 oxygen += 12;
             }
-        if (oxygen < 0) {
+        if (oxygen <= 5) {
             if (has_bionic("bio_gills") && power_level >= 25) {
                 oxygen += 5;
                 charge_power(-25);
@@ -7684,7 +7684,7 @@ void player::suffer()
 
     if(has_active_mutation("WINGS_INSECT")){
         //~Sound of buzzing Insect Wings
-        sounds::sound( pos(), 10, "BZZZZZ");
+        sounds::sound( pos(), 10, _("BZZZZZ"));
     }
 
     double shoe_factor = footwear_factor();
@@ -13898,10 +13898,10 @@ void player::place_corpse()
 
     // Restore amount of installed pseudo-modules of Power Storage Units
     std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for (int i = 0; i <= storage_modules.first; ++i) {
+    for (int i = 0; i < storage_modules.first; ++i) {
         body.contents.push_back( item( "bio_power_storage", calendar::turn ) );
     }
-    for (int i = 0; i <= storage_modules.second; ++i) {
+    for (int i = 0; i < storage_modules.second; ++i) {
         body.contents.push_back( item( "bio_power_storage_mkII", calendar::turn ) );
     }
     g->m.add_item_or_charges( pos(), body );
