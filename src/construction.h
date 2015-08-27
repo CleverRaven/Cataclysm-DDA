@@ -11,12 +11,13 @@
 
 class JsonObject;
 typedef int nc_color;
+using skill_id = std::string;
 
 struct construction
 {
     std::string category; //Construction type category
     std::string description; // how the action is displayed to the player
-    std::string skill;
+    skill_id skill;
     std::string pre_terrain; // beginning terrain for construction
     std::string post_terrain;// final terrain after construction
 

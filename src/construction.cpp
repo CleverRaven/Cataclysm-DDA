@@ -1451,7 +1451,7 @@ void load_construction(JsonObject &jo)
     construction con;
 
     con.description = _(jo.get_string("description").c_str());
-    con.skill = jo.get_string("skill", "carpentry");
+    con.skill = skill_id( jo.get_string( "skill", "carpentry" ) );
     con.difficulty = jo.get_int("difficulty");
     con.category = jo.get_string("category", "OTHER");
     con.requirements.load(jo);
