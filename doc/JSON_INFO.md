@@ -715,6 +715,20 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
+    "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
+    "moves_per_part": 25, // Number of moves it takes (optional).
+    "material_whitelist": [ // List of material ids (not item ids!) that can be salvage from.
+        "cotton",           // The list here is the default list, used when there is no explicit martial list given.
+        "leather",          // If the item (that is to be cut up) has any material not in the list, it can not be cut up.
+        "fur",
+        "nomex",
+        "kevlar",
+        "plastic",
+        "wood",
+        "wool"
+    ]
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
