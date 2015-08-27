@@ -748,6 +748,9 @@ The contents of use_action fields can either be a string indicating a built-in f
     "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
 },
 "use_action": {
+    "type": "enzlave" // Make a zlave.
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
