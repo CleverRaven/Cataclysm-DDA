@@ -54,7 +54,7 @@ recipe::~recipe()
 }
 
 recipe::recipe() :
-    id(0), result("null"), contained(false),skill_used(NULL), reversible(false),
+    id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1),
     paired(false)
 {
@@ -161,7 +161,7 @@ void load_recipe(JsonObject &jsobj)
     bool contained = jsobj.get_bool("contained",false);
     std::string subcategory = jsobj.get_string("subcategory", "");
     bool reversible = jsobj.get_bool("reversible", false);
-    std::string skill_used = jsobj.get_string("skill_used", "");
+    skill_id skill_used( jsobj.get_string("skill_used", skill_id::NULL_ID.str() ) );
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
     double batch_rscale = 0.0;
@@ -223,7 +223,7 @@ void load_recipe(JsonObject &jsobj)
     rec->cat = category;
     rec->contained = contained;
     rec->subcat = subcategory;
-    rec->skill_used = skill_used.empty() ? nullptr : Skill::skill( skill_used );
+    rec->skill_used = skill_used;
     for( const auto &elem : requires_skills ) {
         rec->required_skills[Skill::skill( elem.first )] = elem.second;
     }
@@ -766,13 +766,13 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if(display_mode == 0) {
                 mvwprintz(w_data, ypos++, 30, col, _("Skills used: %s"),
-                          (current[line]->skill_used == NULL ? _("N/A") :
-                           current[line]->skill_used->name().c_str()));
+                          (!current[line]->skill_used ? _("N/A") :
+                           current[line]->skill_used.obj().name().c_str()));
 
                 mvwprintz(w_data, ypos++, 30, col, _("Required skills: %s"),
                           (current[line]->required_skills_string().c_str()));
                 mvwprintz(w_data, ypos++, 30, col, _("Difficulty: %d"), current[line]->difficulty);
-                if (current[line]->skill_used == NULL) {
+                if( !current[line]->skill_used ) {
                     mvwprintz(w_data, ypos++, 30, col, _("Your skill level: N/A"));
                 } else {
                     mvwprintz(w_data, ypos++, 30, col, _("Your skill level: %d"),
@@ -1366,7 +1366,7 @@ void pick_recipes(const inventory &crafting_inv,
                 if(search_skill) {
                     if( !rec->skill_used) {
                         continue;
-                    } else if( !lcmatch( rec->skill_used->name(), filter ) &&
+                    } else if( !lcmatch( rec->skill_used.obj().name(), filter ) &&
                                !lcmatch( rec->required_skills_string(), filter )) {
                         continue;
                     }
@@ -1374,7 +1374,7 @@ void pick_recipes(const inventory &crafting_inv,
                 if(search_skill_primary_only) {
                     if( !rec->skill_used ) {
                         continue;
-                    } else if( !lcmatch( rec->skill_used->name(), filter )) {
+                    } else if( !lcmatch( rec->skill_used.obj().name(), filter )) {
                         continue;
                     }
                 }
@@ -1558,9 +1558,9 @@ void player::complete_craft()
     if( has_trait("HYPEROPIC") && !is_wearing("glasses_reading") &&
         !is_wearing("glasses_bifocal") && !has_effect("contacts") ) {
         int main_rank_penalty = 0;
-        if (making->skill_used == Skill::skill("electronics")) {
+        if (making->skill_used == skill_id("electronics")) {
             main_rank_penalty = 2;
-        } else if (making->skill_used == Skill::skill("tailor")) {
+        } else if (making->skill_used == skill_id("tailor")) {
             main_rank_penalty = 1;
         }
         skill_dice -= main_rank_penalty * 4;
@@ -1573,9 +1573,9 @@ void player::complete_craft()
         if (has_trait("PAWS_LARGE")) {
             paws_rank_penalty += 1;
         }
-        if ( making->skill_used == Skill::skill("electronics")
-          || making->skill_used == Skill::skill("tailor")
-          || making->skill_used == Skill::skill("mechanics")) {
+        if ( making->skill_used == skill_id("electronics")
+          || making->skill_used == skill_id("tailor")
+          || making->skill_used == skill_id("mechanics")) {
             paws_rank_penalty += 1;
         }
         skill_dice -= paws_rank_penalty * 4;
@@ -2300,7 +2300,7 @@ void player::complete_disassemble()
     }
 
     if (dis->learn_by_disassembly >= 0 && !knows_recipe(dis)) {
-        if (dis->skill_used == NULL || dis->learn_by_disassembly <= skillLevel(dis->skill_used)) {
+        if( !dis->skill_used || dis->learn_by_disassembly <= skillLevel(dis->skill_used)) {
             if (one_in(4)) {
                 learn_recipe((recipe *)dis);
                 add_msg(m_good, _("You learned a recipe from disassembling it!"));

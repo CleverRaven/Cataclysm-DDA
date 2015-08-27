@@ -5,6 +5,7 @@
 #include "requirements.h" // requirement_data
 #include "bodypart.h"     // handedness::NONE
 #include "cursesdef.h"    // WINDOW
+#include "string_id.h"
 
 #include <string>
 #include <vector>
@@ -13,6 +14,7 @@
 
 class JsonObject;
 class Skill;
+using skill_id = string_id<Skill>;
 class inventory;
 class player;
 struct recipe;
@@ -51,7 +53,7 @@ struct recipe {
     std::string cat;
     bool contained; // Does the item spawn contained?
     std::string subcat;
-    const Skill* skill_used;
+    skill_id skill_used;
     std::map<const Skill*, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?

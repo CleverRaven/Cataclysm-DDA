@@ -11823,7 +11823,7 @@ bool player::can_study_recipe(const itype &book) const
     for( auto const &elem : book.book->recipes ) {
         auto const r = elem.recipe;
         if( !knows_recipe( r ) &&
-            ( r->skill_used == nullptr ||
+            ( !r->skill_used ||
               get_skill_level( r->skill_used ) >= elem.skill_level ) ) {
             return true;
         }
@@ -11854,8 +11854,8 @@ bool player::try_study_recipe( const itype &book )
         if( knows_recipe( r ) ) {
             continue;
         }
-        if( r->skill_used == nullptr || get_skill_level( r->skill_used ) >= elem.skill_level ) {
-            if (r->skill_used == NULL ||
+        if( !r->skill_used || get_skill_level( r->skill_used ) >= elem.skill_level ) {
+            if( !r->skill_used ||
                 rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2) {
                 learn_recipe( r );
                 add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
@@ -13033,7 +13033,7 @@ bool player::knows_recipe(const recipe *rec) const
     if( rec->autolearn ) {
         // Can the skill being trained can handle the difficulty of the task
         bool meets_requirements = false;
-        if(rec->skill_used == NULL || get_skill_level(rec->skill_used) >= rec->difficulty){
+        if( !rec->skill_used || get_skill_level(rec->skill_used) >= rec->difficulty){
             meets_requirements = true;
             //If there are required skills, insure their requirements are met, or we can't craft
             if(!rec->required_skills.empty()){
@@ -13071,7 +13071,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
                 if( elem.recipe != r ) {
                     continue;
                 }
-                if( ( r->skill_used == NULL ||
+                if( ( !r->skill_used ||
                       get_skill_level(r->skill_used) >= r->difficulty ) &&
                     ( difficulty == -1 || r->difficulty < difficulty ) ) {
                     difficulty = r->difficulty;
