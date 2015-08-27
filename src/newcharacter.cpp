@@ -63,8 +63,6 @@ int set_skills(WINDOW *w, player *u, int &points);
 
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-const Skill* random_skill();
-
 void save_template(player *u);
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
@@ -286,7 +284,7 @@ int player::create(character_type type, std::string tempname)
                 case 7:
                 case 8:
                 case 9:
-                    const Skill* aSkill = random_skill();
+                    const Skill* aSkill = Skill::random_skill();
                     int level = skillLevel(aSkill);
 
                     if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
@@ -2128,11 +2126,6 @@ std::string Character::random_bad_trait()
     }
 
     return random_entry( vTraitsBad );
-}
-
-const Skill* random_skill()
-{
-    return Skill::skill(rng(0, Skill::skill_count() - 1));
 }
 
 void save_template(player *u)

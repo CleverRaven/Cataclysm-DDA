@@ -28,6 +28,7 @@ class Skill
         static const Skill* skill(size_t id);
 
         static const Skill* random_skill_with_tag(const std::string& tag);
+        static const Skill* random_skill();
 
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!

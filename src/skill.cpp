@@ -92,6 +92,11 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
     return random_entry( valid );
 }
 
+const Skill* Skill::random_skill()
+{
+    return &skills[rng( 0, skills.size() - 1 )];
+}
+
 size_t Skill::skill_count()
 {
     return Skill::skills.size();
