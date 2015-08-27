@@ -1161,9 +1161,8 @@ void inscribe_actor::load( JsonObject &obj )
         material_whitelist.push_back("silver");
     }
 
-    if( !on_items && on_terrain ) {
-        debugmsg( "Tried to create an useless inscribe_actor" );
-        on_items = true;
+    if( !on_items && !on_terrain ) {
+        obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
     }
 }
 
