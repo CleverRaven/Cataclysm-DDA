@@ -11525,7 +11525,7 @@ void player::read(int inventory_position)
         return;
     } else if( get_skill_level( skill ) < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
-                   Skill::skill( skill )->name().c_str());
+                   skill.obj().name().c_str());
         if (tmp->recipes.empty()) {
             return;
         } else {
@@ -11535,13 +11535,13 @@ void player::read(int inventory_position)
                !query_yn(tmp->fun > 0 ?
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
-                         Skill::skill( skill )->name().c_str())) {
+                         skill.obj().name().c_str())) {
         return;
     } else if( !continuous && ( get_skill_level(skill) < tmp->level || can_study_recipe(*it->type) ) &&
                          !query_yn( get_skill_level(skill) < tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
                          _("Study the book until you learn all recipes?"),
-                         Skill::skill( skill )->name().c_str()) ) {
+                         skill.obj().name().c_str()) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
@@ -11611,10 +11611,10 @@ void player::do_read( item *book )
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
         if( skill ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
-                    Skill::skill( skill )->name().c_str(), reading->level);
+                    skill.obj().name().c_str(), reading->level);
             if( reading->req != 0 ){
                 add_msg(m_info, _("Requires %s level %d to understand."),
-                        Skill::skill( skill )->name().c_str(), reading->req);
+                        skill.obj().name().c_str(), reading->req);
             }
         }
 
@@ -11730,7 +11730,7 @@ void player::do_read( item *book )
 
         skillLevel(skill).readBook( min_ex, max_ex, reading->level );
 
-        add_msg(_("You learn a little about %s! (%d%%)"), Skill::skill( skill )->name().c_str(),
+        add_msg(_("You learn a little about %s! (%d%%)"), skill.obj().name().c_str(),
                 skillLevel(skill).exercise());
 
         if (get_skill_level(skill) == originalSkillLevel && activity.get_value(0) == 1) {
@@ -11759,14 +11759,14 @@ void player::do_read( item *book )
         int new_skill_level = get_skill_level(skill);
         if (new_skill_level > originalSkillLevel) {
             add_msg(m_good, _("You increase %s to level %d."),
-                    Skill::skill( skill )->name().c_str(),
+                    skill.obj().name().c_str(),
                     new_skill_level);
 
             if(new_skill_level % 4 == 0) {
                 //~ %s is skill name. %d is skill level
                 add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
                                    pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                   new_skill_level, Skill::skill( skill )->name().c_str());
+                                   new_skill_level, skill.obj().name().c_str());
             }
         }
 
@@ -13023,8 +13023,7 @@ void player::practice( const Skill* s, int amount, int cap )
 
 void player::practice( const skill_id &s, int amount, int cap )
 {
-    const Skill* aSkill = Skill::skill(s);
-    practice( aSkill, amount, cap );
+    practice( &s.obj(), amount, cap );
 }
 
 bool player::knows_recipe(const recipe *rec) const

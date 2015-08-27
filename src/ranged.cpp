@@ -1283,7 +1283,7 @@ int time_to_fire(player &p, const itype &firingt)
     auto const it = map.find( skill_used );
     if (it == std::end(map)) {
         debugmsg("Why is shooting %s using %s skill?",
-            firingt.nname(1).c_str(), Skill::skill( skill_used )->name().c_str());
+            firingt.nname(1).c_str(), skill_used.obj().name().c_str());
         return 0;
     }
 

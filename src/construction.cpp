@@ -372,7 +372,7 @@ void construction_menu()
                         int pskill = g->u.skillLevel(current_con->skill);
                         int diff = (current_con->difficulty > 0) ? current_con->difficulty : 0;
 
-                        current_line << "<color_" << string_from_color((pskill >= diff ? c_white : c_red)) << ">" << string_format(_("Skill Req: %d (%s)"), diff, Skill::skill(current_con->skill)->name().c_str() ) << "</color>";
+                        current_line << "<color_" << string_from_color((pskill >= diff ? c_white : c_red)) << ">" << string_format(_("Skill Req: %d (%s)"), diff, current_con->skill.obj().name().c_str() ) << "</color>";
                         current_buffer.push_back(current_line.str());
                         // TODO: Textify pre_flags to provide a bit more information.
                         // Example: First step of dig pit could say something about

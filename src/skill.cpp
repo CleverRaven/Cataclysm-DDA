@@ -88,24 +88,6 @@ void Skill::load_skill(JsonObject &jsobj)
                         std::move(tags));
 }
 
-const Skill* Skill::skill(const std::string& ident)
-{
-    return skill( skill_id( ident ) );
-}
-
-const Skill* Skill::skill(const skill_id& ident)
-{
-    for( auto &skill : Skill::skills ) {
-        if( skill._ident == ident ) {
-            return &skill;
-        }
-    }
-    if( ident != NULL_ID ) {
-        debugmsg("unknown skill %s", ident.c_str());
-    }
-    return nullptr;
-}
-
 const Skill *Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
@@ -118,7 +100,7 @@ const Skill *Skill::from_legacy_int( const int legacy_id )
         skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
     } };
     if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
-        return skill( legacy_skills[legacy_id] );
+        return &legacy_skills[legacy_id].obj();
     }
     debugmsg( "legacy skill id %d is invalid", legacy_id );
     return &skills.front(); // return a non-null pointer because callers might not expect a nullptr

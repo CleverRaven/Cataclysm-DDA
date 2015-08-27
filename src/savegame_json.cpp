@@ -751,7 +751,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     }
 
     if ( data.read("skill", skill_ident) ) {
-        skill = Skill::skill(skill_ident);
+        skill = &skill_id( skill_ident ).obj();
     }
 
     std::vector<int> tmpmissions;
@@ -829,7 +829,7 @@ void npc_favor::deserialize(JsonIn &jsin)
     if (jo.has_int("skill_id")) {
         skill = Skill::from_legacy_int( jo.get_int("skill_id") );
     } else if (jo.has_string("skill_id")) {
-        skill = Skill::skill(jo.get_string("skill_id"));
+        skill = &skill_id( jo.get_string("skill_id") ).obj();
     }
 }
 

@@ -26,9 +26,6 @@ class Skill
     public:
         static std::vector<Skill> skills;
         static void load_skill(JsonObject &jsobj);
-        static const Skill* skill(const skill_id& ident);
-        // Only temporary for compatibility.
-        static const Skill* skill(const std::string& ident);
         // For loading old saves that still have integer-based ids.
         static const Skill *from_legacy_int( int legacy_id );
 

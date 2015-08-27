@@ -737,7 +737,7 @@ bool Character::worn_with_flag( std::string flag ) const
 
 SkillLevel& Character::skillLevel(const skill_id &ident)
 {
-    return skillLevel( Skill::skill( ident ) );
+    return skillLevel( &ident.obj() );
 }
 
 SkillLevel& Character::skillLevel(const Skill* _skill)
@@ -768,7 +768,7 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
 
 SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
-    return get_skill_level( Skill::skill( ident ) );
+    return get_skill_level( &ident.obj() );
 }
 
 void Character::normalize()

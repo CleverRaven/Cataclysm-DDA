@@ -701,7 +701,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             ammo_pierce = curammo->pierce;
             ammo_dispersion = curammo->dispersion;
         }
-        const auto skill = Skill::skill( mod->gun_skill() );
+        const auto skill = &mod->gun_skill().obj();
 
         dump->push_back(iteminfo("GUN", _("Skill used: "), skill->name()));
         dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
@@ -995,12 +995,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             if( book->skill ) {
                 dump->push_back(iteminfo("BOOK", "",
                                          string_format(_("Can bring your %s skill to <num>"),
-                                                       Skill::skill( book->skill )->name().c_str()), book->level));
+                                                       book->skill.obj().name().c_str()), book->level));
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
                                              string_format(_("Requires %s level <num> to understand."),
-                                                           Skill::skill( book->skill )->name().c_str()),
+                                                           book->skill.obj().name().c_str()),
                                              book->req, true, "", true, true));
                 }
             }
