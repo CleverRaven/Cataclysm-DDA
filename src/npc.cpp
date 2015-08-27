@@ -1705,7 +1705,7 @@ int npc::value(const item &it)
         auto &book = *it.type->book;
         if( book.intel <= int_cur ) {
             ret += book.fun;
-            if( book.skill != nullptr && skillLevel( book.skill ) < book.level &&
+            if( book.skill && skillLevel( book.skill ) < book.level &&
                 skillLevel( book.skill ) >= book.req ) {
                 ret += book.level * 3;
             }

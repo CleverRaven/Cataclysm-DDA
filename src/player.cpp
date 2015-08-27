@@ -9562,7 +9562,7 @@ bool player::consume_item( item &target )
             to_eat->tname().c_str());
         } else if (!to_eat->is_food() && !to_eat->is_food_container(this)) {
             if (to_eat->is_book()) {
-                if (to_eat->type->book->skill != NULL && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
+                if (to_eat->type->book->skill && !query_yn(_("Really eat %s?"), to_eat->tname().c_str())) {
                     return false;
                 }
             }
@@ -11511,8 +11511,8 @@ void player::read(int inventory_position)
     }
 
 
-    const auto skill = tmp->skill;
-    if( skill == nullptr ) {
+    const skill_id &skill = tmp->skill;
+    if( !skill ) {
         // special guidebook effect: print a misc. hint when read
         if (it->typeId() == "guidebook") {
             add_msg(m_info, get_hint().c_str());
@@ -11525,7 +11525,7 @@ void player::read(int inventory_position)
         return;
     } else if( get_skill_level( skill ) < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
-                   skill->name().c_str());
+                   Skill::skill( skill )->name().c_str());
         if (tmp->recipes.empty()) {
             return;
         } else {
@@ -11535,13 +11535,13 @@ void player::read(int inventory_position)
                !query_yn(tmp->fun > 0 ?
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
-                         skill->name().c_str())) {
+                         Skill::skill( skill )->name().c_str())) {
         return;
     } else if( !continuous && ( get_skill_level(skill) < tmp->level || can_study_recipe(*it->type) ) &&
                          !query_yn( get_skill_level(skill) < tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
                          _("Study the book until you learn all recipes?"),
-                         skill->name().c_str()) ) {
+                         Skill::skill( skill )->name().c_str()) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
@@ -11602,19 +11602,19 @@ void player::read(int inventory_position)
 void player::do_read( item *book )
 {
     auto reading = book->type->book.get();
-    const auto skill = reading->skill;
+    const skill_id &skill = reading->skill;
 
     if( !has_identified( book->type->id ) ) {
         // Note that we've read the book.
         items_identified.insert( book->type->id );
 
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
-        if( skill != nullptr ) {
+        if( skill ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
-                    skill->name().c_str(), reading->level);
+                    Skill::skill( skill )->name().c_str(), reading->level);
             if( reading->req != 0 ){
                 add_msg(m_info, _("Requires %s level %d to understand."),
-                        skill->name().c_str(), reading->req);
+                        Skill::skill( skill )->name().c_str(), reading->req);
             }
         }
 
@@ -11698,7 +11698,7 @@ void player::do_read( item *book )
 
         // for books that the player cannot yet read due to skill level or have no skill component,
         // but contain lower level recipes, break out once recipe has been studied
-        if( skill == nullptr || (get_skill_level(skill) < reading->req) ) {
+        if( !skill || (get_skill_level(skill) < reading->req) ) {
             if( recipe_learned ) {
                 add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
             }
@@ -11708,7 +11708,7 @@ void player::do_read( item *book )
         }
     }
 
-    if( skill != nullptr && get_skill_level(skill) < reading->level ) {
+    if( skill && get_skill_level(skill) < reading->level ) {
         int originalSkillLevel = get_skill_level( skill );
         int min_ex = reading->time / 10 + int_cur / 4;
         int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
@@ -11730,7 +11730,7 @@ void player::do_read( item *book )
 
         skillLevel(skill).readBook( min_ex, max_ex, reading->level );
 
-        add_msg(_("You learn a little about %s! (%d%%)"), skill->name().c_str(),
+        add_msg(_("You learn a little about %s! (%d%%)"), Skill::skill( skill )->name().c_str(),
                 skillLevel(skill).exercise());
 
         if (get_skill_level(skill) == originalSkillLevel && activity.get_value(0) == 1) {
@@ -11759,14 +11759,14 @@ void player::do_read( item *book )
         int new_skill_level = get_skill_level(skill);
         if (new_skill_level > originalSkillLevel) {
             add_msg(m_good, _("You increase %s to level %d."),
-                    skill->name().c_str(),
+                    Skill::skill( skill )->name().c_str(),
                     new_skill_level);
 
             if(new_skill_level % 4 == 0) {
                 //~ %s is skill name. %d is skill level
                 add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
                                    pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                   new_skill_level, skill->name().c_str());
+                                   new_skill_level, Skill::skill( skill )->name().c_str());
             }
         }
 

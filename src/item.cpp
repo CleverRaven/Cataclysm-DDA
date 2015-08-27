@@ -995,12 +995,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             if( book->skill ) {
                 dump->push_back(iteminfo("BOOK", "",
                                          string_format(_("Can bring your %s skill to <num>"),
-                                                       book->skill->name().c_str()), book->level));
+                                                       Skill::skill( book->skill )->name().c_str()), book->level));
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
                                              string_format(_("Requires %s level <num> to understand."),
-                                                           book->skill->name().c_str()),
+                                                           Skill::skill( book->skill )->name().c_str()),
                                              book->req, true, "", true, true));
                 }
             }
@@ -3379,8 +3379,8 @@ skill_id item::skill() const
         return type->gunmod->skill_used;
     } else if ( is_gun() ) {
         return type->gun->skill_used;
-    } else if( type->book && type->book->skill != nullptr ) {
-        return type->book->skill->ident();
+    } else if( type->book && type->book->skill ) {
+        return type->book->skill;
     }
     return NULL_ID;
 }

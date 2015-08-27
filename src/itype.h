@@ -114,10 +114,9 @@ struct islot_armor {
 
 struct islot_book {
     /**
-     * Which skill it upgrades, if any. Can be NULL.
-     * TODO: this should be a pointer to const
+     * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = NULL_ID;
     /**
      * The skill level the book provides.
      */
