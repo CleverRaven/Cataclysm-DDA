@@ -751,6 +751,16 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "enzlave" // Make a zlave.
 },
 "use_action": {
+    "type": "fireweapon_off", // Activate a fire based weapon.
+    "target_id": "firemachete_on", // The item type to transform this item into.
+    "success_message": "Your No. 9 glows!", // A message that is shows if the action succeeds.
+    "failure_message": "", // A message that is shown if the action fails, for whatever reason. (Optional, if not given, no message will be printed.)
+    "lacks_fuel_message": "Out of fuel", // Message that is shown if the item has no charges.
+    "noise": 0, // The noise it makes to active the item, Optional, 0 means no sound at all.
+    "moves": 0, // The number of moves it takes the character to even try this action (independent of the result).
+    "success_chance": 0 // How likely it is to succeed the action. Default is to always succeed. Try numbers in the range of 0-10.
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
