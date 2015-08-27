@@ -461,6 +461,7 @@ use_action_msgs = {
     "voluntary_extinguish_message",
     "charges_extinguish_message",
     "water_extinguish_message",
+    "auto_extinguish_message",
     "activation_message"
 }
 
