@@ -454,6 +454,7 @@ use_action_msgs = {
     "no_deactivate_msg",
     "not_ready_msg",
     "success_message",
+    "lacks_fuel_message",
     "activation_message"
 }
 
