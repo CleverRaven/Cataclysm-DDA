@@ -322,7 +322,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                     if( !offered_swap ) {
                         offered_swap = true;
                         if ( g->u.weapon.type->id != newit.type->id &&
-                             query_yn(_("No space for %s; wield instead? (drops %s)"),
+                             query_yn(_("No space for %1$s; wield instead? (drops %2$s)"),
                                       newit.display_name().c_str(),
                                       g->u.weapon.display_name().c_str()) ) {
                             picked_up = true;
