@@ -2687,10 +2687,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         int level_num = (int)level;
         int exercise = level.exercise();
 
+        // TODO: this skill list here is used in other places as well. Useless redundancy and
+        // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
+        // by the bionic?
+        static const std::array<skill_id, 5> cqb_skills = { {
+            skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
+            skill_id( "bashing" ), skill_id( "stabbing" ),
+        } };
         if( has_active_bionic( "bio_cqb" ) &&
-            ( ( elem )->ident() == "melee" || ( elem )->ident() == "unarmed" ||
-              ( elem )->ident() == "cutting" || ( elem )->ident() == "bashing" ||
-              ( elem )->ident() == "stabbing" ) ) {
+            std::find( cqb_skills.begin(), cqb_skills.end(), elem->ident() ) != cqb_skills.end() ) {
             level_num = 5;
             exercise = 0;
             text_color = c_yellow;
