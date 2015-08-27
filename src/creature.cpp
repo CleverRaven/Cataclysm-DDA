@@ -607,7 +607,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
             }
         } else if( dealt_dam.total_damage() == 0 ) {
-            add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
+            //~ 1$ - monster name, 2$ - monster's bodypart
+            add_msg(_("The shot reflects off %1$s %2$s!"), disp_name(true).c_str(),
                     skin_name().c_str());
         } else if( is_player() ) {
                 //monster hits player ranged
@@ -636,7 +637,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 add_msg(m_good, _("You hit %s for %d damage."),
                         disp_name().c_str(), dealt_dam.total_damage());
             } else if( u_see_this ) {
-                add_msg(_("%s shoots %s."),
+                //~ 1$ - shooter, 2$ - target
+                add_msg(_("%1$s shoots %2$s."),
                         source->disp_name().c_str(), disp_name().c_str());
             }
         }

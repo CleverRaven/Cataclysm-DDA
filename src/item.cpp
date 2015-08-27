@@ -3888,11 +3888,11 @@ bool item::reload(player &u, int pos)
         int archery = u.skillLevel( "archery" );
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
-            u.add_msg_if_player( _( "You try to pull a %s from your %s, but fail!" ),
+            u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
                                 ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
             return false;
         }
-        u.add_msg_if_player( _( "You pull a %s from your %s and nock it." ),
+        u.add_msg_if_player( _( "You pull a %1$s from your %2$s and nock it." ),
                              ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
     }
 
@@ -4278,7 +4278,7 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
             return false;
         case L_ERR_NOT_CONTAINER:
-            err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
+            err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         case L_ERR_NOT_WATERTIGHT:
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
@@ -4287,7 +4287,7 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "You can't seal that %s!" ), tname().c_str());
             return false;
         case L_ERR_FULL:
-            err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
+            err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         default:
             err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
