@@ -453,6 +453,7 @@ use_action_msgs = {
     "sound_msg",
     "no_deactivate_msg",
     "not_ready_msg",
+    "success_message",
     "activation_message"
 }
 
