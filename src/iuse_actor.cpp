@@ -518,8 +518,14 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         }
     }
     newmon.init_from_item( *it );
-    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
-        rng( 0, difficulty ) ) {
+    int skill_offset = 0;
+    if( skill1 != "none" ) {
+        skill_offset += p->skillLevel( skill1 ) / 2;
+    }
+    if( skill2 != "none" ) {
+        skill_offset += p->skillLevel( skill2 );
+    }
+    if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
                                   newmon.name().c_str() );
