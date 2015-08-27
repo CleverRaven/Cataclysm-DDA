@@ -2223,15 +2223,15 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
     m->ter_set(examp, t_tree_deadpine);
 }
 
- void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
- {
-     if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
-         none(p, m, examp);
-         return;
-     }
-     m->spawn_item( p->pos(), m->get_ter_harvestable(examp), rng( 1, 2 ) );
-     m->ter_set(examp, m->get_ter_transforms_into(examp));
- }
+void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
+{
+    if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
+        none(p, m, examp);
+        return;
+    }
+    m->spawn_item( p->pos(), m->get_ter_harvestable(examp), rng( 1, 2 ) );
+    m->ter_set(examp, m->get_ter_transforms_into(examp));
+}
 
 void iexamine::shrub_marloss(player *p, map *m, const tripoint &examp)
 {
