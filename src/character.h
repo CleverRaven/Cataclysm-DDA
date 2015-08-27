@@ -4,6 +4,7 @@
 #include "creature.h"
 #include "inventory.h"
 #include "bionics.h"
+#include "skill.h"
 
 #include <map>
 
