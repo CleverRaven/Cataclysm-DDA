@@ -76,6 +76,9 @@ std::map<vpart_str_id, vpart_info> vehicle_part_types;
 std::vector<const vpart_info*> vehicle_part_int_types;
 
 template<>
+const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
+
+template<>
 const vpart_info &int_id<vpart_info>::obj() const
 {
     if( static_cast<size_t>( _id ) >= vehicle_part_int_types.size() ) {
@@ -380,8 +383,6 @@ void vehicle_prototype::reset()
 {
     vtypes.clear();
 }
-
-const vpart_str_id vpart_info::null( "null" );
 
 /**
  *Works through cached vehicle definitions and creates vehicle objects from them.

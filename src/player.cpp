@@ -63,7 +63,6 @@
 #include <fstream>
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
@@ -13886,7 +13885,7 @@ void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
     item body;
-    body.make_corpse( mon_null, calendar::turn, name );
+    body.make_corpse( NULL_ID, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

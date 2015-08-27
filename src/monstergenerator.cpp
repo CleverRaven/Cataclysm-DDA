@@ -15,6 +15,9 @@
 #include "mtype.h"
 
 template<>
+const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
+
+template<>
 const mtype& string_id<mtype>::obj() const
 {
     return MonsterGenerator::generator().get_mtype( *this );
@@ -26,15 +29,13 @@ bool string_id<mtype>::is_valid() const
     return MonsterGenerator::generator().has_mtype( *this );
 }
 
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_generator( "mon_generator" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
-const mongroup_id GROUP_NULL( "GROUP_NULL" );
 
 MonsterGenerator::MonsterGenerator()
 {
-    mon_templates[mon_null] = new mtype();
+    mon_templates[NULL_ID] = new mtype();
     mon_species["spec_null"] = new species_type();
     //ctor
     init_phases();
@@ -60,7 +61,7 @@ void MonsterGenerator::reset()
         delete elem.second;
     }
     mon_species.clear();
-    mon_templates[mon_null] = new mtype();
+    mon_templates[NULL_ID] = new mtype();
     mon_species["spec_null"] = new species_type();
 }
 
@@ -456,8 +457,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         if (jo.has_member("upgrades")) {
             JsonObject upgrades = jo.get_object("upgrades");
             newmon->half_life = upgrades.get_int("half_life", -1);
-            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", GROUP_NULL.str() ) );
-            newmon->upgrade_into = mtype_id( upgrades.get_string("into", mon_null.str() ) );
+            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", mongroup_id::NULL_ID.str() ) );
+            newmon->upgrade_into = mtype_id( upgrades.get_string("into", mtype_id::NULL_ID.str() ) );
             newmon->upgrades = true;
         }
 
@@ -523,7 +524,7 @@ mtype &MonsterGenerator::get_mtype( const mtype_id& id )
 
     // this is most unlikely and therefor checked last.
     debugmsg( "Could not find monster with type %s", id.c_str() );
-    return *mon_templates[mon_null];
+    return *mon_templates[NULL_ID];
 }
 
 bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
@@ -552,7 +553,7 @@ const mtype_id &MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
     for( auto &elem : mon_templates ) {
-        if( elem.first != mon_null && elem.first != mon_generator ) {
+        if( elem.first != NULL_ID && elem.first != mon_generator ) {
             potentials.push_back( elem.first );
         }
     }
@@ -684,10 +685,10 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
             }
-            if( mon->upgrade_into == mon_null && mon->upgrade_group == GROUP_NULL ) {
+            if( mon->upgrade_into == NULL_ID && mon->upgrade_group == NULL_ID ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
             }
-            if( mon->upgrade_into != mon_null && mon->upgrade_group != GROUP_NULL ) {
+            if( mon->upgrade_into != NULL_ID && mon->upgrade_group != NULL_ID ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
             if( !has_mtype( mon->upgrade_into ) ) {

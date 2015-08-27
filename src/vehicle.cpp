@@ -1534,7 +1534,7 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
             return parts[index].info();
         }
     }
-    return vpart_info::null.obj();
+    return vpart_str_id::NULL_ID.obj();
 }
 
 // engines & alternators all have power.
@@ -2482,7 +2482,7 @@ const vpart_str_id &vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
-        return vpart_info::null;
+        return NULL_ID;
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
@@ -6248,7 +6248,7 @@ void vehicle::update_time()
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part( int const dx, int const dy )
-: id( vpart_info::null )
+: id( NULL_ID )
 , mount( dx, dy )
 , precalc( { { point( -1, -1 ), point( -1, -1 ) } } )
 , amount( 0 )
