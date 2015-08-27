@@ -1627,7 +1627,9 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
-        desc = _( random_entry( descriptions ).c_str() );
+        if( !descriptions.empty() ) {
+            desc = _( random_entry( descriptions ).c_str() );
+        }
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         desc = _("You produce an annoying sound");
