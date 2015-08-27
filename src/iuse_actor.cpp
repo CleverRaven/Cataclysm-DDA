@@ -1072,8 +1072,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // Time based on number of components.
     p->moves -= moves_per_part * count;
     // Not much practice, and you won't get very far ripping things up.
-    const Skill* isFab = Skill::skill("fabrication");
-    p->practice(isFab, rng(0, 5), 1);
+    p->practice( "fabrication", rng(0, 5), 1 );
 
     // Higher fabrication, less chance of entropy, but still a chance.
     if( rng(1, 10) <= entropy_threshold ) {
