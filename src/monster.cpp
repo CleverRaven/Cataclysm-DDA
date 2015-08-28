@@ -550,17 +550,6 @@ void monster::load_info(std::string data)
     }
 }
 
-void monster::debug(player &u)
-{
-    debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
-    debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, get_speed(), hp);
-    for (size_t i = 0; i < plans.size(); i++) {
-        const int digit = '0' + (i % 10);
-        mvaddch(plans[i].y - SEEY + u.posy(), plans[i].x - SEEX + u.posx(), digit);
-    }
-    getch();
-}
-
 void monster::shift(int sx, int sy)
 {
     const int xshift = sx * SEEX;

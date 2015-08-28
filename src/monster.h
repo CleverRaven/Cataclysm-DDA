@@ -108,8 +108,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         using JsonDeserializer::deserialize;
         virtual void deserialize(JsonIn &jsin) override;
 
-        void debug(player &u);      // Gives debug info
-
         tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
@@ -150,7 +148,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void plan(const mfactions &factions);
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
-        void friendly_move();
 
         tripoint scent_move();
         tripoint wander_next();

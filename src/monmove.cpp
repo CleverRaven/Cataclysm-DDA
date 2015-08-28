@@ -359,12 +359,8 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( friendly != 0 ) {
-        if( friendly > 0 ) {
-            friendly--;
-        }
-        friendly_move();
-        return;
+    if( friendly > 0 ) {
+        --friendly;
     }
 
     // Set attitude to attitude to our current target
@@ -512,42 +508,6 @@ void monster::footsteps( const tripoint &p )
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this );
     return;
-}
-
-/*
-Function: friendly_move
-The per-turn movement and action calculation of any friendly monsters.
-*/
-void monster::friendly_move()
-{
-    tripoint p;
-    bool moved = false;
-    //If we successfully calculated a plan in the generic monster movement function, begin executing it.
-    if( !plans.empty() && ( plans[0] != g->u.pos3() ) &&
-        ( can_move_to( plans[0] ) ||
-          ( ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) ) &&
-            g->m.bash_rating( bash_estimate(), plans[0] ) >= 0 ) ) ) {
-        p = plans[0];
-        plans.erase( plans.begin() );
-        moved = true;
-    } else {
-        //Otherwise just stumble around randomly until we formulate a plan.
-        moves -= 100;
-        stumble();
-    }
-    if( moved ) {
-        const bool pacified = has_effect( "pacified" );
-        const bool did_something =
-            ( !pacified && attack_at( p ) ) ||
-            ( !pacified && bash_at( p ) ) ||
-            move_to( p );
-
-        //If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
-        if( !did_something ) {
-            stumble();
-            moves -= 100;
-        }
-    }
 }
 
 tripoint monster::scent_move()
