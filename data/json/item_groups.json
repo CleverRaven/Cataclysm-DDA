@@ -938,6 +938,8 @@
       ["flask_hip", 5],
       ["vibrator", 5],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["corset", 15],
@@ -1148,6 +1150,8 @@
       ["boxer_briefs", 45],
       ["panties", 70],
       ["boy_shorts", 25],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["tshirt", 80],
@@ -3322,6 +3326,8 @@
       ["waistcoat", 70],
       ["tophat", 30],
       ["tux", 50]
+      ["gown", 50],
+      ["long_glove_white", 30]    
     ]
   },{
     "type" : "item_group",
@@ -3465,6 +3471,7 @@
     "items":[
       ["dress", 55],
       ["sundress", 43],
+      ["gown", 10],
       ["dress_wedding", 2]
     ]
   },{
@@ -3609,6 +3616,8 @@
       ["winter_gloves_army", 10],
       ["army_top", 20],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["porkpie", 5],
