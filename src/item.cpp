@@ -27,6 +27,7 @@
 #include "field.h"
 #include "weather.h"
 #include "morale.h"
+#include "catacharset.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -3810,8 +3811,8 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     }
 
     amenu.text = std::string( _( "Choose ammo type:" ) );
-    if( ( int )amenu.text.length() < namelen ) {
-        amenu.text += std::string( namelen - amenu.text.length(), ' ' );
+    if( utf8_width(amenu.text.c_str()) < namelen ) {
+        amenu.text += std::string( namelen - utf8_width(amenu.text.c_str()), ' ' );
     } else {
         amenu.text.erase( namelen, amenu.text.length() - namelen );
     }
