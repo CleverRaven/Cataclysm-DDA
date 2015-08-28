@@ -3811,10 +3811,10 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     }
 
     amenu.text = std::string( _( "Choose ammo type:" ) );
-    if( utf8_width(amenu.text.c_str()) < namelen ) {
-        amenu.text += std::string( namelen - utf8_width(amenu.text.c_str()), ' ' );
+    if( utf8_width(amenu.text) < namelen ) {
+        amenu.text += std::string( namelen - utf8_width(amenu.text), ' ' );
     } else {
-        utf8_truncate(amenu.text, utf8_width(amenu.text.c_str()) - namelen);
+        utf8_truncate( amenu.text, utf8_width(amenu.text) - namelen );
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
@@ -3825,10 +3825,10 @@ int item::pick_reload_ammo( const player &u, bool interactive )
         const long charges = std::get<2>( ammo_list[i] );
         const auto &ammo_def = *type.ammo;
         std::string row = type.nname( charges ) + string_format( " (%d)", charges );
-        if( ( int )row.length() < namelen ) {
-            row += std::string( namelen - row.length(), ' ' );
+        if( utf8_width(row) < namelen ) {
+            row += std::string( namelen - utf8_width(row), ' ' );
         } else {
-            row.erase( namelen, row.length() - namelen );
+            utf8_truncate( row, utf8_width(row) - namelen );
         }
         row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                               ammo_def.damage, ammo_def.pierce,
