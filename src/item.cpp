@@ -3814,7 +3814,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     if( utf8_width(amenu.text.c_str()) < namelen ) {
         amenu.text += std::string( namelen - utf8_width(amenu.text.c_str()), ' ' );
     } else {
-        amenu.text.erase( namelen, amenu.text.length() - namelen );
+        utf8_truncate(amenu.text, utf8_width(amenu.text.c_str()) - namelen);
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
