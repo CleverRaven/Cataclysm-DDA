@@ -3325,7 +3325,7 @@
       ["suit", 100],
       ["waistcoat", 70],
       ["tophat", 30],
-      ["tux", 50]
+      ["tux", 50],
       ["gown", 50],
       ["long_glove_white", 30]    
     ]
