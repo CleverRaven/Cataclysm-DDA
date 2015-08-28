@@ -887,7 +887,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         } else if(ch == KEY_F(2)) {
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width( tmp );
-            if(tmplen > 0 && (tmplen + utf8_width(ret) <= max_length || max_length == 0)) {
+            if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
         } else if( ch == ERR ) {
