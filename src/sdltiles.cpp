@@ -825,7 +825,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int FG = cell.FG;
             const int BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
-                const int cw = utf8_width( cell.ch.c_str() );
+                const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {
                     // utf8_width() may return a negative width
                     continue;

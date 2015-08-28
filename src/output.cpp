@@ -147,7 +147,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
     va_end(ap);
 
     std::string sText;
-    if ( utf8_width( remove_color_tags( text ).c_str() ) > width ) {
+    if ( utf8_width( remove_color_tags(text) ) > width ) {
 
         int iLength = 0;
         std::string sTempText;
@@ -167,7 +167,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
                 sTempText = seg;
             }
 
-            const int iTempLen = utf8_width( sTempText.c_str() );
+            const int iTempLen = utf8_width( sTempText );
             iLength += iTempLen;
 
             if ( iLength > width ) {
@@ -309,8 +309,8 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
 // returns single string with left aligned name and right aligned value
 std::string name_and_value (std::string name, std::string value, int field_width)
 {
-    int name_width = utf8_width(name.c_str());
-    int value_width = utf8_width(value.c_str());
+    int name_width = utf8_width( name );
+    int value_width = utf8_width( value );
     std::stringstream result;
     result << name.c_str();
     for (int i = (name_width + value_width);
@@ -334,7 +334,7 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
     va_end(ap);
 
     int window_width = getmaxx(w);
-    int string_width = utf8_width(text.c_str());
+    int string_width = utf8_width( text );
     int x;
     if (string_width >= window_width) {
         x = 0;
@@ -617,7 +617,7 @@ bool query_yn(const char *mes, ...)
             // utf8_width uses the same text as it will be printed in the window.
             std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 2 );
             for( auto &s : textformatted ) {
-                win_width = std::max( win_width, utf8_width( remove_color_tags( s ).c_str() ) );
+                win_width = std::max( win_width, utf8_width(remove_color_tags(s)) );
             }
             w = newwin( textformatted.size() + 2, win_width + 2, (TERMY - 3) / 2,
                         std::max( TERMX - win_width, 0 ) / 2 );
@@ -657,7 +657,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
     std::vector<std::string> descformatted;
 
-    int titlesize = utf8_width(title.c_str());
+    int titlesize = utf8_width( title );
     int startx = titlesize + 2;
     if ( max_length == 0 ) {
         max_length = width;
@@ -668,7 +668,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
     if ( !desc.empty() ) {
-        int twidth = utf8_width( remove_color_tags( desc) .c_str() );
+        int twidth = utf8_width( remove_color_tags(desc) );
         if ( twidth > iPopupWidth - 4 ) {
             twidth = iPopupWidth - 4;
         }
@@ -886,8 +886,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             }
         } else if(ch == KEY_F(2)) {
             std::string tmp = get_input_string_from_file();
-            int tmplen = utf8_width(tmp.c_str());
-            if(tmplen > 0 && (tmplen + utf8_width(ret.c_str()) <= max_length || max_length == 0)) {
+            int tmplen = utf8_width( tmp );
+            if(tmplen > 0 && (tmplen + utf8_width(ret) <= max_length || max_length == 0)) {
                 ret.append(tmp);
             }
         } else if( ch == ERR ) {
@@ -969,7 +969,7 @@ long popup(const std::string &text, PopupFlags flags)
     std::vector<std::string> folded = foldstring(text, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
     for( auto &elem : folded ) {
-        int cw = utf8_width( elem.c_str() );
+        int cw = utf8_width( elem );
         if(cw > width) {
             width = cw;
         }
@@ -1336,7 +1336,7 @@ std::string word_rewrap (const std::string &in, int width)
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {
-    int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
+    int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
     mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
     mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|
@@ -1368,7 +1368,7 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate)
 {
-    int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
+    int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
     mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
@@ -1586,15 +1586,15 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
         std::string poststring = fmt.substr(pos2 + 1, std::string::npos);
         std::string shortcut = fmt.substr(pos + 1, sep - pos - 1);
         mvwprintz(w, y, x, color, "%s", prestring.c_str());
-        len = utf8_width(prestring.c_str());
+        len = utf8_width( prestring );
         mvwprintz(w, y, x + len, colork, "%s", shortcut.c_str());
-        len += utf8_width(shortcut.c_str());
+        len += utf8_width( shortcut );
         mvwprintz(w, y, x + len, color, "%s", poststring.c_str());
-        len += utf8_width(poststring.c_str());
+        len += utf8_width( poststring );
     } else {
         // no shortcut?
         mvwprintz(w, y, x, color, "%s", fmt.c_str());
-        len = utf8_width(fmt.c_str());
+        len = utf8_width( fmt );
     }
     return len;
 }
@@ -1697,7 +1697,7 @@ void display_table(WINDOW *w, const std::string &title, int columns,
     const int col_width = width / columns;
     int offset = 0;
 
-    const int title_length = utf8_width(title.c_str());
+    const int title_length = utf8_width( title );
     for (;;) {
         werase(w);
         draw_border(w);

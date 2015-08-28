@@ -1633,7 +1633,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         for (auto &i: menuItems){
             vMenu.push_back(iteminfo(std::get<0>(i), std::get<1>(i), std::get<2>(i), std::get<3>(i)));
-            max_text_length = std::max(max_text_length, utf8_width(std::get<2>(i).c_str()));
+            max_text_length = std::max( max_text_length, utf8_width(std::get<2>(i)) );
         }
 
         max_text_length = std::max(max_text_length, utf8_width(_("<-> Autopickup")));
@@ -4269,7 +4269,7 @@ void game::disp_kills()
         buffer << "<color_" << string_from_color(m.color) << ">";
         buffer << m.sym << " " << m.nname();
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m.nname().c_str());
+        const int w = colum_width - utf8_width(m.nname());
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << elem.second;
@@ -5692,8 +5692,8 @@ int game::mon_info(WINDOW *w)
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    xcoords[2] -= utf8_width(_("East:")) - utf8_width(
-                      _("NE:"));//for the alignment of the 1,2,3 rows on the right edge
+    //for the alignment of the 1,2,3 rows on the right edge
+    xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                      : (dangerous[i] ? c_ltred : c_ltgray);
@@ -5773,7 +5773,7 @@ int game::mon_info(WINDOW *w)
             const std::string name = mt.nname();
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
-            if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
+            if (pr.x + 2 + utf8_width(name) >= width) {
                 pr.y++;
                 pr.x = 0;
             }
@@ -5793,7 +5793,7 @@ int game::mon_info(WINDOW *w)
                     danger = c_ltgray;
                 }
                 mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
-                pr.x += utf8_width(name.c_str()) + namesep;
+                pr.x += utf8_width(name) + namesep;
             }
         }
     }
@@ -9222,7 +9222,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
         sSort = _("<s>ort: cat");
     }
 
-    int letters = utf8_width(sSort.c_str());
+    int letters = utf8_width(sSort);
 
     shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort.c_str());
 
@@ -9240,7 +9240,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     letters = 0;
     int n = tokens.size();
     for (int i = 0; i < n; i++) {
-        letters += utf8_width(tokens[i].c_str()) - 2; //length ignores < >
+        letters += utf8_width(tokens[i]) - 2; //length ignores < >
     }
 
     int usedwidth = letters;
