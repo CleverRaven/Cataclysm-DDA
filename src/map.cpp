@@ -357,13 +357,24 @@ const vehicle *map::vehproceed()
     vehicle* cur_veh = nullptr;
     float max_of_turn = 0;
     tripoint pt;
+    // First horizontal movement
     for( auto &vehs_v : vehs ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
             cur_veh = vehs_v.v;
-            pt.x = vehs_v.x;
-            pt.y = vehs_v.y;
-            pt.z = vehs_v.z;
+            pt = tripoint( vehs_v.x, vehs_v.y, vehs_v.z );
             max_of_turn = cur_veh->of_turn;
+        }
+    }
+
+    // Then vertical-only movement
+    if( cur_veh == nullptr ) {
+        for( auto &vehs_v : vehs ) {
+            vehicle &cveh = *vehs_v.v;
+            if( cveh.falling && cveh.vertical_velocity != 0 ) {
+                cur_veh = vehs_v.v;
+                pt = tripoint( vehs_v.x, vehs_v.y, vehs_v.z );
+                break;
+            }
         }
     }
 
@@ -385,6 +396,21 @@ const vehicle *map::vehproceed()
     const bool should_fall = veh.falling &&
         ( veh.vertical_velocity != 0 || vehicle_falling( veh ) );
     const bool pl_ctrl = veh.player_in_control( g->u );
+
+    // TODO: Saner diagonal movement, so that you can jump off cliffs properly
+    // The ratio of vertical to horizontal movement should be vertical_velocity/velocity
+    //  for as long as of_turn doesn't run out.
+    if( should_fall ) {
+        const float tile_height = 4; // 4 meters
+        const float g = 9.8f; // 9.8 m/s^2
+        // Convert from 100*mph to m/s
+        const float old_vel = veh.vertical_velocity / 2.23694 / 100;
+        // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
+        // Note: That drops the sign
+        const float new_vel = -sqrt( 2 * tile_height * g +
+                                     old_vel * old_vel );
+        veh.vertical_velocity = new_vel * 2.23694 * 100;
+    }
 
     // Mph lost per tile when coasting
     int base_slowdown = veh.skidding ? 200 : 20;
@@ -409,7 +435,7 @@ const vehicle *map::vehproceed()
         veh.stop();
     }
 
-    if( veh.velocity == 0 && !should_fall ) {
+    if( !should_fall && abs( veh.velocity ) < 20 ) {
         veh.of_turn -= .321f;
         return &veh;
     }
@@ -428,15 +454,17 @@ const vehicle *map::vehproceed()
         destroy_vehicle( &veh );
         // The returned pointer is always a dangling one!
         return &veh;
-    } else if( traction == 0 && !should_fall ) {
-        veh.stop();
+    } else if( traction < 0.001f ) {
         veh.of_turn = 0;
-        // TODO: Remove this hack
-        // TODO: Amphibious vehicles
-        if( veh.floating.empty() ) {
-            add_msg(m_info, _("Your %s can't move on this terrain."), veh.name.c_str());
-        } else {
-            add_msg(m_info, _("Your %s is beached."), veh.name.c_str());
+        if( !should_fall ) {
+            veh.stop();
+            // TODO: Remove this hack
+            // TODO: Amphibious vehicles
+            if( veh.floating.empty() ) {
+                add_msg(m_info, _("Your %s can't move on this terrain."), veh.name.c_str());
+            } else {
+                add_msg(m_info, _("Your %s is beached."), veh.name.c_str());
+            }
         }
     }
     // One-tile step take some of movement
@@ -444,7 +472,7 @@ const vehicle *map::vehproceed()
     // This is stupid btw, it makes veh magically seem
     //  to accelerate when exiting rubble areas.
     // TODO: Replicate this in vehicle::thrust and above in slowdown
-    const float ter_turn_cost = 1000.0f * traction / abs(veh.velocity);
+    const float ter_turn_cost = 1000.0f / std::max<float>( 0.0001f, traction * abs( veh.velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
@@ -464,11 +492,11 @@ const vehicle *map::vehproceed()
         veh.of_turn -= ter_turn_cost;
     }
 
-    if( veh.skidding || should_fall ) {
+    if( veh.skidding ) {
         if( one_in( 4 ) ) { // might turn uncontrollably while skidding
             veh.turn( one_in( 2 ) ? -15 : 15 );
         }
-    } else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
+    } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
         add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
         veh.turn( one_in( 2 ) ? -15 : 15 );
     }
@@ -484,7 +512,7 @@ const vehicle *map::vehproceed()
     }
 
     // Where do we go
-    tileray mdir; // the direction we're moving
+    tileray mdir; // The direction we're moving
     if( veh.skidding || should_fall ) {
         // If skidding, it's the move vector
         // Same for falling - no air control
@@ -497,7 +525,7 @@ const vehicle *map::vehproceed()
         mdir = veh.face;
     }
 
-    if( veh.velocity != 0 && !falling_only ) {
+    if( abs( veh.velocity ) >= 20 && !falling_only ) {
         mdir.advance( veh.velocity < 0 ? -1 : 1 );
     }
 
@@ -506,24 +534,17 @@ const vehicle *map::vehproceed()
     dp.y = mdir.dy();
     if( should_fall ) {
         dp.z = -1;
-        const float tile_height = 4; // 4 meters
-        const float g = 9.8f; // 9.8 m/s^2
-        // Convert from 100*mph to m/s
-        const float old_vel = veh.vertical_velocity / 2.23694 / 100;
-        // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
-        // Note: That drops the sign
-        const float new_vel = -sqrt( 2 * tile_height * g +
-                                     old_vel * old_vel );
-        veh.vertical_velocity = new_vel * 2.23694 * 100;
     }
 
 add_msg( "%s has %d vvel, %.1f of_turn", veh.name.c_str(), veh.vertical_velocity, veh.of_turn );
 
-    move_vehicle( veh, dp, mdir );
-    // Need one more check, after movement
-    if( veh.falling && veh.of_turn <= 0 && vehicle_falling( veh ) ) {
-        // Give it enough of_turn to fall, but not enough to move otherwise
-        veh.of_turn = 0.0001f;
+    // Split the movement into horizontal and vertical for easier processing
+    if( dp.x != 0 || dp.y != 0 ) {
+        move_vehicle( veh, tripoint( dp.x, dp.y, 0 ), mdir );
+    }
+
+    if( dp.z != 0 ) {
+        move_vehicle( veh, tripoint( 0, 0, dp.z ), mdir );
     }
 
     return &veh;
@@ -647,6 +668,14 @@ float map::vehicle_buoyancy( vehicle &veh ) const
 
 void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
+    const bool vertical = dp.z != 0;
+    if( ( dp.x == 0 && dp.y == 0 && dp.z == 0 ) ||
+        ( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) ||
+        ( vertical && ( dp.x != 0 || dp.y != 0 ) ) ) {
+        debugmsg( "move_vehicle called with %d,%d,%d displacement vector", dp.x, dp.y, dp.z );
+        return;
+    }
+
     tripoint pt = veh.global_pos3();
     // Calculate parts' mount points @ next turn (put them into precalc[1])
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir() );
@@ -657,9 +686,9 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     // Find collisions
     // Velocity of car before collision
-    const int velocity_before = veh.velocity;
+    // Split into vertical and horizontal movement
+    const int velocity_before = vertical ? veh.vertical_velocity : veh.velocity;
     veh.collision( collisions, dp, false );
-    const bool can_move = dp.z == 0 ? veh.velocity != 0 : veh.vertical_velocity != 0;
 
     // Vehicle collisions
     std::map<vehicle*, std::vector<veh_collision> > veh_collisions;
@@ -692,32 +721,41 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
     }
 
-    int coll_turn = 0;
-    if( impulse > 0 ) {
-        coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
+    if( vertical && !collisions.empty() ) {
+        // A big hack, should be removed when possible
         veh.vertical_velocity = 0;
     }
 
+    const int velocity_after = vertical ? veh.vertical_velocity : veh.velocity;
+    const bool can_move = velocity_after != 0;
+
+add_msg("moved. vel_before: %d, after: %d", velocity_before, velocity_after );
+
+    int coll_turn = 0;
+    if( impulse > 0 ) {
+        coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
+    }
+
     if( veh_veh_coll_flag ) {
+        // Break here to let the hit vehicle move away
         return;
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !veh.valid_wheel_config() ) {
+    if( !vertical && !veh.valid_wheel_config() ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
-        for( auto &p : veh.parts ) {
-            const tripoint pp = pt + p.precalc[0];
-            const ter_id &pter = ter(pp);
+        for( const auto &p : veh.get_points() ) {
+            const ter_id &pter = ter( p );
             if( pter == t_dirt || pter == t_grass ) {
-                ter_set(pp, t_dirtmound);
+                ter_set( p, t_dirtmound );
             }
         }
     }
 
     // Now we're gonna handle traps we're standing on (if we're still moving).
-    if( can_move ) {
+    if( !vertical && can_move ) {
         const auto &wheel_indices = veh.wheelcache;
-        for (auto &w : wheel_indices) {
+        for( auto &w : wheel_indices ) {
             const tripoint wheel_p = pt + veh.parts[w].precalc[0];
             if( one_in( 2 ) ) {
                 if( displace_water( wheel_p ) ) {
@@ -770,6 +808,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     if( g->u.controlling_vehicle && veh_at( g->u.pos() ) == &veh ) {
         g->calc_driving_offset( &veh );
         if( veh.skidding && can_move ) {
+            // TODO: Make skid recovery in air hard
             veh.possibly_recover_from_skid();
         }
     }
@@ -851,6 +890,11 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
                                       const std::vector<veh_collision> &collisions )
 {
+    if( &veh == &veh2 ) {
+        debugmsg( "Vehicle %s collided with itself", veh.name.c_str() );
+        return 0.0f;
+    }
+
     // Effects of colliding with another vehicle:
     //  transfers of momentum, skidding,
     //  parts are damaged/broken on both sides,
@@ -937,12 +981,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = veh.total_mass();
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = abs(veh.vertical_velocity) * m1;
+        dmg = abs(veh.vertical_velocity / 100) * m1 / 10;
+        veh.vertical_velocity = 0;
     }
 
     float dmg_veh1 = dmg * 0.5;
     float dmg_veh2 = dmg * 0.5;
-add_msg( "dmg_veh1: %.0f, dmg_veh2: %.0f", dmg_veh1, dmg_veh2 );
 
     int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
     for( const auto &veh_veh_coll : collisions ) {

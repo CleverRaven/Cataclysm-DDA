@@ -633,11 +633,12 @@ public:
     // Returns if any collision occured
     bool collision( std::vector<veh_collision> &colls,
                     const tripoint &dp,
-                    bool just_detect );
+                    bool just_detect, bool bash_floor = false );
 
     // Handle given part collision with vehicle, monster/NPC/player or terrain obstacle
     // Returns collision, which has type, impulse, part, & target.
-    veh_collision part_collision( int part, const tripoint &p, bool just_detect );
+    veh_collision part_collision( int part, const tripoint &p,
+                                  bool just_detect, bool bash_floor );
 
     // Process the trap beneath
     void handle_trap( const tripoint &p, int part );
