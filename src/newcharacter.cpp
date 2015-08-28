@@ -1073,7 +1073,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("FILTER");
 
     bool recalc_profs = true;
-    int profs_length;
+    int profs_length = 0;
     std::string filterstring;
     std::vector<const profession *> sorted_profs;
 
@@ -1533,7 +1533,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("FILTER");
 
     bool recalc_scens = true;
-    int scens_length;
+    int scens_length = 0;
     std::string filterstring;
     std::vector<const scenario *> sorted_scens;
 
