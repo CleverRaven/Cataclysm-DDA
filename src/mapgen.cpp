@@ -34,10 +34,6 @@
 #include "vehicle_group.h"
 #include "catalua.h"
 
-#ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : 1)
-#endif
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
@@ -11739,7 +11735,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
 
         auto &ch = get_cache( placed_vehicle->smz );
         ch.vehicle_list.insert(placed_vehicle);
-        update_vehicle_cache(placed_vehicle, true);
+        add_vehicle_to_cache( placed_vehicle );
 
         //debugmsg ("grid[%d]->vehicles.size=%d veh.parts.size=%d", nonant, grid[nonant]->vehicles.size(),veh.parts.size());
     }

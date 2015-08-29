@@ -2157,7 +2157,7 @@ void vehicle::part_removal_cleanup() {
             g->m.destroy_vehicle(this);
             return;
         } else {
-            g->m.update_vehicle_cache(this, false);
+            g->m.update_vehicle_cache( this, smz );
         }
     }
     shift_if_needed();
@@ -4073,17 +4073,6 @@ void vehicle::stop ()
     of_turn_carry = 0;
 }
 
-inline int sign( const int x )
-{
-    if( x > 0 ) {
-        return 1;
-    } else if( x < 0 ) {
-        return -1;
-    }
-
-    return 0;
-}
-
 bool vehicle::collision( std::vector<veh_collision> &colls,
                          const tripoint &dp,
                          bool just_detect, bool bash_floor )
@@ -4105,48 +4094,66 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     if( dp.z != 0 && ( dp.x != 0 || dp.y != 0 ) ) {
         // Split into horizontal + vertical
-        return collision( colls, tripoint( dp.x, dp.y, 0    ), just_detect ) ||
-               collision( colls, tripoint( 0,    0,    dp.z ), just_detect );
+        return collision( colls, tripoint( dp.x, dp.y, 0    ), just_detect, bash_floor ) ||
+               collision( colls, tripoint( 0,    0,    dp.z ), just_detect, bash_floor );
     }
 
     if( dp.z == -1 && !bash_floor ) {
-        // First check current level, then the one below.
+        // First check current level, then the one below if current had no collisions
         // Bash floors on the current one, but not on the one below.
-        collision( colls, tripoint( dp.x, dp.y, 0 ), just_detect, true );
+        if( collision( colls, tripoint( 0, 0, 0 ), just_detect, true ) ) {
+            return true;
+        }
     }
 
-    const bool vertical = dp.z != 0;
+    const bool vertical = bash_floor || dp.z != 0;
     const int &coll_velocity = vertical ? vertical_velocity : velocity;
+    if( !just_detect && coll_velocity == 0 ) {
+        debugmsg( "Collision check on stationary vehicle %s", name.c_str() );
+        just_detect = true;
+    }
+
     const int velocity_before = coll_velocity;
-    const int sign_before = sign( velocity_before );
+    const int sign_before = sgn( velocity_before );
     std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
     for( size_t i = 0; i < structural_indices.size(); i++ ) {
         const int p = structural_indices[i];
         // Coords of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
-        veh_collision coll = part_collision( p, dsp, just_detect );
+        veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing ) {
             continue;
         }
 
+        colls.push_back( coll );
+
         if( just_detect ) {
+            // DO insert the first collision so we can tell what was it
             return true;
         }
-
-        colls.push_back( coll );
 
         const int velocity_after = coll_velocity;
         // A hack for falling vehicles: restore the velocity so that it hits at full force everywhere
         // TODO: Make this more elegant
         if( vertical ) {
             vertical_velocity = velocity_before;
-        } else if( !vertical && sign( velocity_after ) != sign_before ) {
+        } else if( !just_detect && sgn( velocity_after ) != sign_before ) {
             // Sign of velocity inverted, collisions would be in wrong direction
             break;
         }
     }
 
+    if( structural_indices.empty() ) {
+        // Hack for dirty vehicles that didn't yet get properly removed
+        veh_collision fake_coll;
+        fake_coll.type = veh_coll_other;
+        colls.push_back( fake_coll );
+        velocity = 0;
+        vertical_velocity = 0;
+        return true;
+    }
+if(!colls.empty())debugmsg("%d", colls.size());
     return !colls.empty();
 }
 
@@ -4170,39 +4177,40 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     int target_part = -1;
     vehicle *oveh = g->m.veh_at( p, target_part );
-    const bool is_veh_collision = oveh != nullptr && oveh != this;
-    const bool is_body_collision = critter != nullptr;
+    // Disable veh/critter collisions when bashing floor
+    // TODO: More elegant code
+    const bool is_veh_collision = !bash_floor && oveh != nullptr && oveh != this;
+    const bool is_body_collision = !bash_floor && critter != nullptr;
 
-    veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.name( p ).c_str();
+    veh_collision ret;
+    ret.type = veh_coll_nothing;
+    ret.part = part;
 
     // Vehicle collisions are a special case. just return the collision.
     // The map takes care of the dynamic stuff.
     if( is_veh_collision ) {
-       veh_collision ret;
        ret.type = veh_coll_veh;
        //"imp" is too simplistic for veh-veh collisions
-       ret.part = part;
        ret.target = oveh;
        ret.target_part = target_part;
-       ret.target_name = oveh->name.c_str();
+       ret.target_name = oveh->disp_name();
        return ret;
     }
 
     // Non-vehicle collisions can't happen when the vehicle is not moving
-    if( velocity == 0 && vertical_velocity == 0 ) {
-        veh_collision ret;
-        ret.type = veh_coll_nothing;
+    const int &coll_velocity = vert_coll ? vertical_velocity : velocity;
+    if( !just_detect && coll_velocity == 0 ) {
         return ret;
     }
 
     // Damage armor before damaging any other parts
     // Actually target, not just damage - spiked plating will "hit back", for example
-    int parm = part_with_feature( part, VPFLAG_ARMOR );
-    if( parm < 0 ) {
-        parm = part;
+    const int armor_part = part_with_feature( ret.part, VPFLAG_ARMOR );
+    if( armor_part >= 0 ) {
+        ret.part = armor_part;
     }
-    int dmg_mod = part_info(parm).dmg_mod;
+
+    int dmg_mod = part_info( ret.part ).dmg_mod;
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0;
     float e = 0.3; // e = 0 -> plastic collision
@@ -4211,7 +4219,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     if( is_body_collision ) {
         // Check any monster/NPC/player on the way
-        collision_type = veh_coll_body; // body
+        ret.type = veh_coll_body; // body
+        ret.target = critter;
         e = 0.30;
         part_dens = 15;
         switch( critter->get_size() ) {
@@ -4232,43 +4241,47 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             mass2 = 200;
             break;
         }
-    } else if( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) {
-        // Way bigger numbers than for horizontal collision
-        collision_type = veh_coll_bashable;
-        e = 0.90;
-        mass2 = g->m.bash_strength( p, true ) * 10;
-        part_dens = int( float( g->m.bash_strength( p, true ) ) );
-    } else if( g->m.is_bashable_ter_furn( p ) && g->m.move_cost_ter_furn( p ) != 2 &&
+        ret.target_name = critter->disp_name();
+    } else if( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
                 // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
-                (part_with_feature(part, VPFLAG_WHEEL) >= 0 ||
+                (part_with_feature(ret.part, VPFLAG_WHEEL) >= 0 ||
                  !g->m.has_flag_ter_or_furn("TINY", p)) &&
                 // Protrusions don't collide with short terrain.
                 // Tiny also doesn't, but it's already excluded unless there's a wheel present.
-                !(part_with_feature(part, "PROTRUSION") >= 0 &&
+                !(part_with_feature(ret.part, "PROTRUSION") >= 0 &&
                   g->m.has_flag_ter_or_furn("SHORT", p)) &&
                 // These are bashable, but don't interact with vehicles.
                 !g->m.has_flag_ter_or_furn("NOCOLLIDE", p) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
-        collision_type = veh_coll_bashable;
+        ret.type = veh_coll_bashable;
         e = 0.30;
         // Just a rough rescale for now to obtain approximately equal numbers
         mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
         part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
+        ret.target_name = g->m.disp_name( p );
+    } else if( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) {
+        // Way bigger numbers than for horizontal collision 
+        ret.type = veh_coll_bashable;
+        e = 0.90;
+        mass2 = g->m.bash_strength( p, true ) * 10;
+        part_dens = int( float( g->m.bash_strength( p, true ) ) );
+        ret.target_name = g->m.disp_name( p );
     } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
-        collision_type = veh_coll_other; // not destructible
+        ret.type = veh_coll_other; // not destructible
         mass2 = 1000;
-        e=0.10;
+        e = 0.10;
         part_dens = 80;
+        ret.target_name = g->m.disp_name( p );
+    } else if( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+        ret.type = veh_coll_other; // not destructible
+        mass2 = 1000;
+        e = 0.10;
+        part_dens = 80;
+        ret.target_name = g->m.disp_name( p );
     }
 
-    if( collision_type == veh_coll_nothing ) {
-        // Hit nothing
-        veh_collision ret;
-        ret.type = veh_coll_nothing;
-        return ret;
-    } else if( just_detect ) {
-        veh_collision ret;
-        ret.type = collision_type;
+    if( ret.type == veh_coll_nothing || just_detect ) {
+        // Hit nothing or we aren't actually hitting
         return ret;
     }
 
@@ -4278,7 +4291,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     int degree = rng( 70, 100 );
 
     //Calculate damage resulting from d_E
-    const itype *type = item::find_type( part_info( parm ).item );
+    const itype *type = item::find_type( part_info( ret.part ).item );
     std::vector<std::string> vpart_item_mats = type->materials;
     int vpart_dens = 0;
     for( auto mat_id : vpart_item_mats ) {
@@ -4304,11 +4317,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float part_dmg = 0.0;
     float dmg = 0.0;
     // Calculate Impulse of car
-    const float prev_velocity = velocity / 100;
+    const float prev_velocity = velocity / 100.0f;
     int turns_stunned = 0;
 
-    const int &coll_velocity = vert_coll ? vertical_velocity : velocity;
-    const int vel_sign = sign( coll_velocity );
+    const int vel_sign = sgn( coll_velocity );
     do {
         // Impulse of vehicle
         const float vel1 = coll_velocity / 100.0f;
@@ -4325,7 +4337,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage calculation
         // Damage dealt overall
         // Vertical collision damage is 20 times as high as horizontal at same velocity
-        dmg += std::abs( d_E / ( vert_coll ? 10 : k_mvel ) );
+        dmg += std::abs( d_E / ( bash_floor ? 1 : k_mvel ) );
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
@@ -4334,9 +4346,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage for object
         const float obj_dmg = dmg * (100-k)/100;
 
-        if( collision_type == veh_coll_other ) {
+        if( ret.type == veh_coll_other ) {
             smashed = false;
-        } else if( collision_type == veh_coll_bashable ) {
+        } else if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
             smashed = g->m.bash( p, obj_dmg, false, false, bash_floor, this ).success;
             if( smashed ) {
@@ -4347,24 +4359,26 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     //Just a rough rescale for now to obtain approximately equal numbers
                     mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
                     part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
+                    ret.target_name = g->m.disp_name( p );
                 } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
                     // There's new terrain there, but we can't smash it!
                     smashed = false;
-                    collision_type = veh_coll_other;
+                    ret.type = veh_coll_other;
                     mass2 = 1000;
                     e = 0.10;
                     part_dens = 80;
+                    ret.target_name = g->m.disp_name( p );
                 }
             }
-        } else if( collision_type == veh_coll_body ) {
+        } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg*dmg_mod/100;
 
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
-                if( part_flag( part, "SHARP" ) ) {
-                    parts[part].blood += (20 + dam) * 5;
+                if( part_flag( ret.part, "SHARP" ) ) {
+                    parts[ret.part].blood += (20 + dam) * 5;
                 } else if( dam > rng ( 10, 30 ) ) {
-                    parts[part].blood += (10 + dam / 2) * 5;
+                    parts[ret.part].blood += (10 + dam / 2) * 5;
                 }
 
                 check_environmental_effects = true;
@@ -4379,7 +4393,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( ph != nullptr ) {
                 ph->hitall( dam, 40, driver );
             } else {
-                const int armor = part_flag( part, "SHARP" ) ?
+                const int armor = part_flag( ret.part, "SHARP" ) ?
                     critter->get_armor_cut( bp_torso ) :
                     critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
@@ -4398,24 +4412,23 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             vertical_velocity = vel1_a * 100;
         }
         // Stop processing when sign inverts, not when we reach 0
-    } while( !smashed && sign( coll_velocity ) == vel_sign );
+    } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
     // Apply special effects from collision.
     if( critter != nullptr ) {
-        std::string dname = critter->disp_name();
         if( pl_ctrl ) {
             if( turns_stunned > 0 ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
-                         name.c_str(), part_info(part).name.c_str(), dname.c_str());
+                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str());
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
-                         name.c_str(), part_info(part).name.c_str(), dname.c_str());
+                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str());
             }
         }
 
-        if( part_flag( part, "SHARP" ) ) {
+        if( part_flag( ret.part, "SHARP" ) ) {
             g->m.adjust_field_strength( p, fd_blood, 1 );
         } else {
             sounds::sound( p, 20, snd );
@@ -4425,11 +4438,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( snd.length() > 0 ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s with a %4$s"),
-                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
+                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str(), snd.c_str());
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
                 add_msg (m_warning, _("Your %1$s's %2$s rams into a %3$s."),
-                         name.c_str(), part_info(part).name.c_str(), obs_name.c_str());
+                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str());
             }
         }
 
@@ -4457,9 +4470,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     }
 
-    veh_collision ret;
-    ret.part = part;
-    ret.type = collision_type;
     ret.imp = part_dmg;
     return ret;
 }

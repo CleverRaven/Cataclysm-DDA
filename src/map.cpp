@@ -212,11 +212,11 @@ void map::reset_vehicle_cache( const int zlev )
     auto &ch = get_cache( zlev );
     ch.veh_in_active_range = false;
     for( const auto & elem : ch.vehicle_list ) {
-        update_vehicle_cache( elem, true );
+        add_vehicle_to_cache( elem );
     }
 }
 
-void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
+void map::add_vehicle_to_cache( vehicle *veh )
 {
     if( veh == nullptr ) {
         debugmsg( "Tried to add null vehicle to cache" );
@@ -225,23 +225,6 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
 
     auto &ch = get_cache( veh->smz );
     ch.veh_in_active_range = true;
-
-    if( !brand_new ) {
-        // Existing must be cleared
-        auto it = ch.veh_cached_parts.begin();
-        const auto end = ch.veh_cached_parts.end();
-        while( it != end ) {
-            if( it->second.first == veh ) {
-                const auto &p = it->first;
-                if( inbounds( p.x, p.y ) ) {
-                    ch.veh_exists_at[p.x][p.y] = false;
-                }
-                ch.veh_cached_parts.erase( it++ );
-            } else {
-                ++it;
-            }
-        }
-    }
     // Get parts
     std::vector<vehicle_part> &parts = veh->parts;
     const tripoint gpos = veh->global_pos3();
@@ -258,6 +241,32 @@ void map::update_vehicle_cache( vehicle *veh, const bool brand_new )
             ch.veh_exists_at[p.x][p.y] = true;
         }
     }
+}
+
+void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
+{
+    if( veh == nullptr ) {
+        debugmsg( "Tried to add null vehicle to cache" );
+        return;
+    }
+
+    // Existing must be cleared
+    auto &ch = get_cache( old_zlevel );
+    auto it = ch.veh_cached_parts.begin();
+    const auto end = ch.veh_cached_parts.end();
+    while( it != end ) {
+        if( it->second.first == veh ) {
+            const auto &p = it->first;
+            if( inbounds( p.x, p.y ) ) {
+                ch.veh_exists_at[p.x][p.y] = false;
+            }
+            ch.veh_cached_parts.erase( it++ );
+        } else {
+            ++it;
+        }
+    }
+
+    add_vehicle_to_cache( veh );
 }
 
 void map::clear_vehicle_cache( const int zlev )
@@ -536,8 +545,6 @@ const vehicle *map::vehproceed()
         dp.z = -1;
     }
 
-add_msg( "%s has %d vvel, %.1f of_turn", veh.name.c_str(), veh.vertical_velocity, veh.of_turn );
-
     // Split the movement into horizontal and vertical for easier processing
     if( dp.x != 0 || dp.y != 0 ) {
         move_vehicle( veh, tripoint( dp.x, dp.y, 0 ), mdir );
@@ -676,6 +683,10 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         return;
     }
 
+    if( dp.z + veh.smz < -OVERMAP_DEPTH || dp.z + veh.smz > OVERMAP_HEIGHT ) {
+        return;
+    }
+
     tripoint pt = veh.global_pos3();
     // Calculate parts' mount points @ next turn (put them into precalc[1])
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir() );
@@ -688,6 +699,11 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     // Velocity of car before collision
     // Split into vertical and horizontal movement
     const int velocity_before = vertical ? veh.vertical_velocity : veh.velocity;
+    if( velocity_before == 0 ) {
+        debugmsg( "%s tried to move with no velocity", veh.name.c_str() );
+        return;
+    }
+
     veh.collision( collisions, dp, false );
 
     // Vehicle collisions
@@ -727,9 +743,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     const int velocity_after = vertical ? veh.vertical_velocity : veh.velocity;
-    const bool can_move = velocity_after != 0;
-
-add_msg("moved. vel_before: %d, after: %d", velocity_before, velocity_after );
+    const bool can_move = velocity_after != 0 && sgn(velocity_after) == sgn(velocity_before);
 
     int coll_turn = 0;
     if( impulse > 0 ) {
@@ -900,7 +914,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  parts are damaged/broken on both sides,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
-    add_msg(m_bad, _("The %1$s's %2$s collides with the %3$s's %4$s."),
+    add_msg(m_bad, _("The %1$s's %2$s collides with %3$s's %4$s."),
                    veh.name.c_str(),  veh.part_info(c.part).name.c_str(),
                    veh2.name.c_str(), veh2.part_info(c.target_part).name.c_str());
 
@@ -1146,21 +1160,21 @@ point map::veh_part_coordinates( const tripoint &p )
 
 void map::board_vehicle( const tripoint &pos, player *p )
 {
-    if( !p ) {
+    if( p == nullptr ) {
         debugmsg ("map::board_vehicle: null player");
         return;
     }
 
     int part = 0;
     vehicle *veh = veh_at( pos, part );
-    if( !veh ) {
+    if( veh == nullptr ) {
         if( p->grab_point.x == 0 && p->grab_point.y == 0 ) {
             debugmsg ("map::board_vehicle: vehicle not found");
         }
         return;
     }
 
-    const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE);
+    const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE );
     if( seat_part < 0 ) {
         debugmsg( "map::board_vehicle: boarding %s (not boardable)",
                   veh->part_info(part).name.c_str() );
@@ -1175,18 +1189,10 @@ void map::board_vehicle( const tripoint &pos, player *p )
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
 
-    p->setx( pos.x );
-    p->sety( pos.y );
-    p->setz( pos.z );
+    p->setpos( pos );
     p->in_vehicle = true;
-    if( p == &g->u &&
-        ( pos.x < SEEX * int(my_MAPSIZE / 2) ||
-          pos.y < SEEY * int(my_MAPSIZE / 2) ||
-          pos.x >= SEEX * (1 + int(my_MAPSIZE / 2) ) ||
-          pos.y >= SEEY * (1 + int(my_MAPSIZE / 2) ) ) ) {
-        int tempx = pos.x;
-        int tempy = pos.y;
-        g->update_map( tempx, tempy );
+    if( p == &g->u ) {
+        g->update_map( &g->u );
     }
 }
 
@@ -1234,8 +1240,8 @@ void map::unboard_vehicle( const tripoint &p )
 void map::displace_vehicle( tripoint &p, const tripoint &dp )
 {
     const tripoint p2 = p + dp;
-    tripoint src = p;
-    tripoint dst = p2;
+    const tripoint src = p;
+    const tripoint dst = p2;
 
     if( !inbounds( src ) ) {
         add_msg( m_debug, "map::displace_vehicle: coords out of bounds %d,%d,%d->%d,%d,%d",
@@ -1358,7 +1364,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
 
     p = p2;
 
-    update_vehicle_cache(veh);
+    update_vehicle_cache( veh, src.z );
 
     if( need_update ) {
         g->update_map( &g->u );
@@ -6404,7 +6410,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
             // Only add if not tracking already.
             if( map_cache.vehicle_list.find( it ) == map_cache.vehicle_list.end() ) {
                 map_cache.vehicle_list.insert( it );
-                update_vehicle_cache( it, gridz );
+                add_vehicle_to_cache( it );
             }
         }
     }

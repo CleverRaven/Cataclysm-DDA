@@ -440,10 +440,11 @@ public:
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
 // Vehicles: Common to 2D and 3D
     VehicleList get_vehicles();
-    void update_vehicle_cache(vehicle *, const bool brand_new = false);
-    void reset_vehicle_cache( const int zlev );
-    void clear_vehicle_cache( const int zlev );
-    void clear_vehicle_list( const int zlev );
+    void add_vehicle_to_cache( vehicle * );
+    void update_vehicle_cache( vehicle *, int old_zlevel );
+    void reset_vehicle_cache( int zlev );
+    void clear_vehicle_cache( int zlev );
+    void clear_vehicle_list( int zlev );
     void update_vehicle_list( submap * const to, const int zlev );
 
     void destroy_vehicle (vehicle *veh);

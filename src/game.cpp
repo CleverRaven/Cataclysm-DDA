@@ -3706,7 +3706,7 @@ void game::debug()
     case 2:
     {
         if( u.in_vehicle ) {
-            m.unboard_vehicle( u.pos3() );
+            m.unboard_vehicle( u.pos() );
         }
 
         auto pt = look_around();
@@ -3716,16 +3716,23 @@ void game::debug()
             pt = u.pos();
             add_msg( _("You teleport to point (%d,%d,%d)"), pt.x, pt.y, pt.z );
         }
+
+        if( m.veh_at( u.pos() ) != nullptr ) {
+            m.board_vehicle( u.pos(), &u );
+        }
     }
         break;
 
     case 3: {
         tripoint tmp = overmap::draw_overmap();
-        if (tmp != overmap::invalid_tripoint) {
+        if( tmp != overmap::invalid_tripoint ) {
             //First offload the active npcs.
             active_npc.clear();
             while( num_zombies() > 0 ) {
                 despawn_monster( 0 );
+            }
+            if( u.in_vehicle ) {
+                m.unboard_vehicle( u.pos3() );
             }
             const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
             const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
@@ -12087,8 +12094,8 @@ bool game::plmove(int dx, int dy)
                         u.setx( 0 );
                         u.sety( 0 );
                         if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
-                            // TODO: figure out what we collided with.
-                            add_msg(_("The %s collides with something."), grabbed_vehicle->name.c_str());
+                            add_msg( _("The %s collides with %s."),
+                                grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
                             u.moves -= 10;
                             u.setx( player_prev_x );
                             u.sety( player_prev_y );
@@ -12100,8 +12107,8 @@ bool game::plmove(int dx, int dy)
                         u.sety( player_prev_y );
 
                         tripoint gp = grabbed_vehicle->global_pos3();
-                        std::vector<int> wheel_indices =
-                            grabbed_vehicle->all_parts_with_feature( "WHEEL", false );
+                        const auto &wheel_indices =
+                            grabbed_vehicle->wheelcache;
                         for( auto p : wheel_indices ) {
                             if( one_in(2) ) {
                                 tripoint wheel_p(
@@ -12111,8 +12118,7 @@ bool game::plmove(int dx, int dy)
                                 grabbed_vehicle->handle_trap( wheel_p, p );
                             }
                         }
-                        tripoint gpd( dxVeh, dyVeh, 0 );
-                        m.displace_vehicle( gp, gpd );
+                        m.displace_vehicle( gp, dp_veh );
                     } else {
                         //We are moving around the veh
                         u.grab_point.x = (dx + dxVeh) * (-1);
