@@ -7136,6 +7136,10 @@ void game::close(int closex, int closey)
     } else if (veh) {
         int openable = veh->next_part_to_close(vpart);
         if (openable >= 0) {
+            if (closex == u.posx() && closey == u.posy()) {
+                add_msg(m_info, _("There's some buffoon in the way!"));
+                return;
+            }
             const char *name = veh->part_info(openable).name.c_str();
             if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.pos());
