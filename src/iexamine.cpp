@@ -2225,7 +2225,6 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {    
-    std::vector<std::string> menu_items;
     enum options {
         HARVEST_NUTS,
         DIG_ROOTS,
@@ -2256,7 +2255,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
         }
         m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
         m->ter_set(examp, t_tree_hickory_dead);
-        p->moves -= 2000 / p->skillLevel("survival") + 100;
+        p->moves -= 2000 / ( p->skillLevel("survival") + 1 ) + 100;
         return;
         
     case CANCEL:
