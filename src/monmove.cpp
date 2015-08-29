@@ -423,7 +423,9 @@ void monster::move()
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
-        int switch_chance = 1;
+        int switch_chance = 0;
+        const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+        const int distance_to_target = rl_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             // When attacking an adjacent enemy, we're direct.
@@ -437,17 +439,17 @@ void monster::move()
                 !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
                 continue;
             }
-            const Creature *target = g->critter_at( candidate, is_hallucination() );
             // Bail out if there's a non-hostile monster in the way and we're not pushy.
-            if( target != nullptr && attitude_to( *target ) == A_HOSTILE &&
+            if( target != nullptr && attitude_to( *target ) != A_HOSTILE &&
                 !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                 continue;
             }
-            // Randomly pick one of the viable squares to move to.
-            if( one_in(switch_chance) ) {
+            int progress = distance_to_target - rl_dist( candidate, destination );
+            switch_chance += progress;
+            // Randomly pick one of the viable squares to move to weighted by distance.
+            if( x_in_y( progress, switch_chance ) ) {
                 moved = true;
                 destination = candidate;
-                switch_chance++;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 if( !has_flag( MF_STUMBLES ) ) {
