@@ -261,6 +261,8 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
                 ch.veh_exists_at[p.x][p.y] = false;
             }
             ch.veh_cached_parts.erase( it++ );
+            // If something was resting on veh, drop it
+            support_dirty( tripoint( p.x, p.y, old_zlevel + 1 ) );
         } else {
             ++it;
         }
@@ -352,6 +354,7 @@ void map::vehmove()
         } else {
             on_vehicle_moved( veh->smz );
         }
+break;
     }
     // Process item removal on the vehicles that were modified this turn.
     for( const auto &elem : dirty_vehicle_list ) {
@@ -379,7 +382,7 @@ const vehicle *map::vehproceed()
     if( cur_veh == nullptr ) {
         for( auto &vehs_v : vehs ) {
             vehicle &cveh = *vehs_v.v;
-            if( cveh.falling && cveh.vertical_velocity != 0 ) {
+            if( cveh.falling ) {
                 cur_veh = vehs_v.v;
                 pt = tripoint( vehs_v.x, vehs_v.y, vehs_v.z );
                 break;
@@ -419,6 +422,9 @@ const vehicle *map::vehproceed()
         const float new_vel = -sqrt( 2 * tile_height * g +
                                      old_vel * old_vel );
         veh.vertical_velocity = new_vel * 2.23694 * 100;
+    } else {
+        // Not actually falling, was just marked for fall test
+        veh.falling = false;
     }
 
     // Mph lost per tile when coasting
@@ -560,19 +566,14 @@ const vehicle *map::vehproceed()
 bool map::vehicle_falling( vehicle &veh )
 {
     if( !zlevels ) {
-        veh.falling = false;
-        veh.vertical_velocity = 0;
         return false;
     }
 
     // TODO: Make the vehicle "slide" towards its center of weight
     //  when it's not properly supported
-    for( const tripoint &p : veh.get_points() ) {
+    const auto &pts = veh.get_points( true );
+    for( const tripoint &p : pts ) {
         if( has_floor( p ) ) {
-            if( veh.vertical_velocity == 0 ) {
-                veh.falling = false;
-            }
-
             return false;
         }
 
@@ -580,6 +581,11 @@ bool map::vehicle_falling( vehicle &veh )
         if( p.z <= -OVERMAP_DEPTH || supports_above( below ) ) {
             return false;
         }
+    }
+
+    if( pts.empty() ) {
+        // Dirty vehicle with no parts
+        return false;
     }
 
     return true;
@@ -688,7 +694,6 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     tripoint pt = veh.global_pos3();
-    // Calculate parts' mount points @ next turn (put them into precalc[1])
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir() );
 
     int impulse = 0;
@@ -771,10 +776,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         const auto &wheel_indices = veh.wheelcache;
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = pt + veh.parts[w].precalc[0];
-            if( one_in( 2 ) ) {
-                if( displace_water( wheel_p ) ) {
-                    sounds::sound( wheel_p, 4, _("splash!"), false, "environment", "splash");
-                }
+            if( one_in( 2 ) && displace_water( wheel_p ) ) {
+                sounds::sound( wheel_p, 4, _("splash!"), false, "environment", "splash");
             }
 
             veh.handle_trap( wheel_p, w );
@@ -799,7 +802,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     if( can_move ) {
-        // accept new direction
+        // Accept new direction
         if( veh.skidding ) {
             veh.face.init( veh.turn_dir );
         } else {
@@ -813,12 +816,11 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
         // Actually change position
         displace_vehicle( pt, dp );
-    } else {
-        // can't_move
+    } else if( !vertical ) {
         veh.stop();
     }
     // If the PC is in the currently moved vehicle, adjust the
-    // view offset.
+    //  view offset.
     if( g->u.controlling_vehicle && veh_at( g->u.pos() ) == &veh ) {
         g->calc_driving_offset( &veh );
         if( veh.skidding && can_move ) {
@@ -1377,6 +1379,10 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( remote ) {
         // Has to be after update_map or coords won't be valid
         g->setremoteveh( veh );
+    }
+
+    if( !veh->falling ) {
+        veh->falling = vehicle_falling( *veh );
     }
 }
 

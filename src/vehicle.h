@@ -735,7 +735,7 @@ public:
                              const itype &ammotype, long &charges );
 
     // Update the set of occupied points and return a reference to it
-    std::set<tripoint> &get_points();
+    std::set<tripoint> &get_points( bool force_refresh = false );
 
     // opens/closes doors or multipart doors
     void open(int part_index);

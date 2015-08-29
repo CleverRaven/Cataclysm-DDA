@@ -4151,9 +4151,10 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         colls.push_back( fake_coll );
         velocity = 0;
         vertical_velocity = 0;
+        add_msg( m_debug, "Collision check on a dirty vehicle %s", name.c_str() );
         return true;
     }
-if(!colls.empty())debugmsg("%d", colls.size());
+
     return !colls.empty();
 }
 
@@ -4259,20 +4260,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
         part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
         ret.target_name = g->m.disp_name( p );
-    } else if( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) {
-        // Way bigger numbers than for horizontal collision 
-        ret.type = veh_coll_bashable;
-        e = 0.90;
-        mass2 = g->m.bash_strength( p, true ) * 10;
-        part_dens = int( float( g->m.bash_strength( p, true ) ) );
-        ret.target_name = g->m.disp_name( p );
-    } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
-        ret.type = veh_coll_other; // not destructible
-        mass2 = 1000;
-        e = 0.10;
-        part_dens = 80;
-        ret.target_name = g->m.disp_name( p );
-    } else if( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+    } else if( g->m.move_cost_ter_furn( p ) == 0 ||
+               ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
         ret.type = veh_coll_other; // not destructible
         mass2 = 1000;
         e = 0.10;
@@ -4337,7 +4326,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage calculation
         // Damage dealt overall
         // Vertical collision damage is 20 times as high as horizontal at same velocity
-        dmg += std::abs( d_E / ( bash_floor ? 1 : k_mvel ) );
+        dmg += std::abs( d_E / ( bash_floor ? 10 : k_mvel ) );
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
@@ -4401,8 +4390,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
 
             // Don't fling if vertical - critter got smashed into the ground
-            if( !vert_coll && vel2_a > rng( 10, 20 ) ) {
-                g->fling_creature( critter, move.dir() + angle, vel2_a );
+            if( !vert_coll ) {
+                if( vel2_a > rng( 10, 20 ) ) {
+                    g->fling_creature( critter, move.dir() + angle, vel2_a );
+                } else if( !critter->is_dead_state() ) {
+                    smashed = false;
+                }
             }
         }
 
@@ -4449,7 +4442,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         sounds::sound(p, smashed ? 80 : 50, snd );
     }
 
-    if( smashed ) {
+    if( smashed && !vert_coll ) {
         int turn_amount = rng( 1, 3 ) * sqrt((double)dmg);
         turn_amount /= 15;
         if( turn_amount < 1 ) {
@@ -4461,7 +4454,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
         int turn_roll = rng( 0, 100 );
         //probability of skidding increases with higher delta_v
-        if( vert_coll || turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
+        if( turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
@@ -6235,9 +6228,9 @@ int vehicle::obstacle_at_part( int p ) const
     return part;
 }
 
-std::set<tripoint> &vehicle::get_points()
+std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 {
-    if( occupied_cache_turn != calendar::turn ) {
+    if( force_refresh || occupied_cache_turn != calendar::turn ) {
         occupied_cache_turn = calendar::turn;
         occupied_points.clear();
         tripoint pos = global_pos3();
