@@ -198,7 +198,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
 {
     if (t) {
         if (sound_volume >= 0) {
-            sounds::sound(pos, sound_volume, sound_msg);
+            sounds::sound(pos, sound_volume, sound_msg.empty() ? "" : _(sound_msg.c_str()) );
         }
         return 0;
     }
@@ -518,8 +518,14 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
         }
     }
     newmon.init_from_item( *it );
-    if( rng( 0, p->int_cur / 2 ) + p->skillLevel( skill1 ) / 2 + p->skillLevel( skill2 ) <
-        rng( 0, difficulty ) ) {
+    int skill_offset = 0;
+    if( skill1 != "none" ) {
+        skill_offset += p->skillLevel( skill1 ) / 2;
+    }
+    if( skill2 != "none" ) {
+        skill_offset += p->skillLevel( skill2 );
+    }
+    if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
                                   newmon.name().c_str() );
@@ -1155,9 +1161,8 @@ void inscribe_actor::load( JsonObject &obj )
         material_whitelist.push_back("silver");
     }
 
-    if( !on_items && on_terrain ) {
-        debugmsg( "Tried to create an useless inscribe_actor" );
-        on_items = true;
+    if( !on_items && !on_terrain ) {
+        obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
     }
 }
 
@@ -1476,9 +1481,13 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
         return 0;
     }
 
+    if( it->charges <= 0 ) {
+        p->add_msg_if_player( _(lacks_fuel_message.c_str()) );
+        return 0;
+    }
+
     p->moves -= moves;
-    if( rng( 0, 10 ) - it->damage > success_chance &&
-          it->charges > 0 && !p->is_underwater() ) {
+    if( rng( 0, 10 ) - it->damage > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(success_message.c_str()) );
         } else {
@@ -1501,15 +1510,16 @@ bool fireweapon_off_actor::can_use( const player *p, const item *it, bool, const
 
 void fireweapon_on_actor::load( JsonObject &obj )
 {
-    static const std::string bugmsg = "Your weapon bugs itself!";
-    noise_message                   = obj.get_string( "noise_message", bugmsg );
-    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message", bugmsg );
-    charges_extinguish_message      = obj.get_string( "charges_extinguish_message", bugmsg );
-    water_extinguish_message        = obj.get_string( "water_extinguish_message", bugmsg );
-    auto_extinguish_message         = obj.get_string( "auto_extinguish_message", bugmsg );
+    noise_message                   = obj.get_string( "noise_message" );
+    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message" );
+    charges_extinguish_message      = obj.get_string( "charges_extinguish_message" );
+    water_extinguish_message        = obj.get_string( "water_extinguish_message" );
     noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
     auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
+    if( auto_extinguish_chance > 0 ) {
+        auto_extinguish_message         = obj.get_string( "auto_extinguish_message" );
+    }
 }
 
 iuse_actor *fireweapon_on_actor::clone() const
@@ -1619,8 +1629,10 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
 
     std::string desc = "";
     const int morale_effect = fun + fun_bonus * p->per_cur;
-    if( morale_effect >= 0 && int(calendar::turn) % description_frequency == 0 ) {
-        desc = _( random_entry( descriptions ).c_str() );
+    if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
+        if( !descriptions.empty() ) {
+            desc = _( random_entry( descriptions ).c_str() );
+        }
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         desc = _("You produce an annoying sound");
