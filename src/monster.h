@@ -53,7 +53,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade(bool pin_time);
-        void spawn( const tripoint &p); // All this does is moves the monster to p
+        void spawn( const tripoint &p);
         m_size get_size() const override;
         int get_hp( hp_part ) const override
         {
@@ -127,7 +127,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool will_reach(int x, int y); // Do we have plans to get to (x, y)?
         int  turns_to_reach(int x, int y); // How long will it take?
 
-        void set_dest( const tripoint &p ); // Go in a straight line to p
+        // Go in a straight line to p
+        void set_dest( const tripoint &p );
+        // Reset our plans, we've become aimless.
+        void unset_dest();
 
         /**
          * Set p as wander destination.
@@ -380,7 +383,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     private:
         int hp;
         std::vector<int> sp_timeout;
-        std::vector <tripoint> plans;
+        tripoint goal;
         tripoint position;
         bool dead;
         /** Attack another monster */

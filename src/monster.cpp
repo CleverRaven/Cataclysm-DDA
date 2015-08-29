@@ -80,84 +80,87 @@ const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 monster::monster()
 {
- position.x = 20;
- position.y = 10;
- position.z = -500; // Some arbitrary number that will cause debugmsgs
- wandf = 0;
- hp = 60;
- moves = 0;
- def_chance = 0;
- friendly = 0;
- anger = 0;
- morale = 2;
- faction = mfaction_id( 0 );
- mission_id = -1;
- no_extra_death_drops = false;
- dead = false;
- made_footstep = false;
- unique_name = "";
- hallucination = false;
- ignoring = 0;
- upgrades = false;
- upgrade_time = -1;
+    position.x = 20;
+    position.y = 10;
+    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    unset_dest();
+    wandf = 0;
+    hp = 60;
+    moves = 0;
+    def_chance = 0;
+    friendly = 0;
+    anger = 0;
+    morale = 2;
+    faction = mfaction_id( 0 );
+    mission_id = -1;
+    no_extra_death_drops = false;
+    dead = false;
+    made_footstep = false;
+    unique_name = "";
+    hallucination = false;
+    ignoring = 0;
+    upgrades = false;
+    upgrade_time = -1;
 }
 
 monster::monster( const mtype_id& id )
 {
- position.x = 20;
- position.y = 10;
- position.z = -500; // Some arbitrary number that will cause debugmsgs
- wandf = 0;
- type = &id.obj();
- moves = type->speed;
- Creature::set_speed_base(type->speed);
- hp = type->hp;
- for( auto &elem : type->sp_freq ) {
-     sp_timeout.push_back( rng( 0, elem ) );
- }
- def_chance = type->def_chance;
- friendly = 0;
- anger = type->agro;
- morale = type->morale;
- faction = type->default_faction;
- mission_id = -1;
- no_extra_death_drops = false;
- dead = false;
- made_footstep = false;
- unique_name = "";
- hallucination = false;
- ignoring = 0;
- ammo = type->starting_ammo;
- upgrades = type->upgrades;
- upgrade_time = -1;
+    position.x = 20;
+    position.y = 10;
+    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    unset_dest();
+    wandf = 0;
+    type = &id.obj();
+    moves = type->speed;
+    Creature::set_speed_base(type->speed);
+    hp = type->hp;
+    for( auto &elem : type->sp_freq ) {
+        sp_timeout.push_back( rng( 0, elem ) );
+    }
+    def_chance = type->def_chance;
+    friendly = 0;
+    anger = type->agro;
+    morale = type->morale;
+    faction = type->default_faction;
+    mission_id = -1;
+    no_extra_death_drops = false;
+    dead = false;
+    made_footstep = false;
+    unique_name = "";
+    hallucination = false;
+    ignoring = 0;
+    ammo = type->starting_ammo;
+    upgrades = type->upgrades;
+    upgrade_time = -1;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p )
 {
- position = p;
- wandf = 0;
- type = &id.obj();
- moves = type->speed;
- Creature::set_speed_base(type->speed);
- hp = type->hp;
- for( auto &elem : type->sp_freq ) {
-     sp_timeout.push_back( elem );
- }
- def_chance = type->def_chance;
- friendly = 0;
- anger = type->agro;
- morale = type->morale;
- faction = type->default_faction;
- mission_id = -1;
- no_extra_death_drops = false;
- dead = false;
- made_footstep = false;
- unique_name = "";
- hallucination = false;
- ignoring = 0;
- ammo = type->starting_ammo;
- upgrades = type->upgrades;
- upgrade_time = -1;
+    position = p;
+    unset_dest();
+    wandf = 0;
+    type = &id.obj();
+    moves = type->speed;
+    Creature::set_speed_base(type->speed);
+    hp = type->hp;
+    for( auto &elem : type->sp_freq ) {
+        sp_timeout.push_back( elem );
+    }
+    def_chance = type->def_chance;
+    friendly = 0;
+    anger = type->agro;
+    morale = type->morale;
+    faction = type->default_faction;
+    mission_id = -1;
+    no_extra_death_drops = false;
+    dead = false;
+    made_footstep = false;
+    unique_name = "";
+    hallucination = false;
+    ignoring = 0;
+    ammo = type->starting_ammo;
+    upgrades = type->upgrades;
+    upgrade_time = -1;
 }
 
 monster::~monster()
@@ -170,8 +173,12 @@ void monster::setpos( const tripoint &p )
         return;
     }
 
+    bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
+    if( wandering ) {
+        unset_dest();
+    }
 }
 
 const tripoint &monster::pos() const
@@ -287,6 +294,7 @@ void monster::try_upgrade(bool pin_time) {
 void monster::spawn(const tripoint &p)
 {
     position = p;
+    unset_dest();
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -556,11 +564,8 @@ void monster::shift(int sx, int sy)
     const int yshift = sy * SEEY;
     position.x -= xshift;
     position.y -= yshift;
-    for (auto &i : plans) {
-        i.x -= xshift;
-        i.y -= yshift;
-    }
-
+    goal.x -= xshift;
+    goal.y -= yshift;
     if( wandf > 0 ) {
         wander_pos.x -= xshift;
         wander_pos.y -= yshift;
@@ -569,16 +574,12 @@ void monster::shift(int sx, int sy)
 
 tripoint monster::move_target()
 {
-    if( plans.empty() ) {
-        // if we have no plans, pretend it's intentional
-        return pos3();
-    }
-    return plans.back();
+    return goal;
 }
 
 Creature *monster::attack_target()
 {
-    if( plans.empty() ) {
+    if( wander() ) {
         return nullptr;
     }
 
@@ -593,11 +594,11 @@ Creature *monster::attack_target()
 
 bool monster::is_fleeing(player &u) const
 {
- if (has_effect("run"))
-  return true;
- monster_attitude att = attitude(&u);
- return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
+    if( has_effect("run") ) {
+        return true;
+    }
+    monster_attitude att = attitude(&u);
+    return (att == MATT_FLEE || (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1846,8 +1847,8 @@ bool monster::make_fungus()
 
 void monster::make_friendly()
 {
- plans.clear();
- friendly = rng(5, 30) + rng(0, 20);
+    unset_dest();
+    friendly = rng(5, 30) + rng(0, 20);
 }
 
 void monster::make_ally(monster *z) {
@@ -1857,7 +1858,7 @@ void monster::make_ally(monster *z) {
 
 void monster::add_item(item it)
 {
- inv.push_back(it);
+    inv.push_back(it);
 }
 
 bool monster::is_hallucination() const
