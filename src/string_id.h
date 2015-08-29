@@ -142,6 +142,23 @@ class string_id {
         {
             return operator==( NULL_ID );
         }
+        /**
+         * Same as `!is_null`, basically one can use it to check for the id referring to an actual
+         * object. This avoids explicitly comparing it with NULL_ID. The id may still be invalid,
+         * but that should have been checked when the world data was loaded.
+         * \code
+         * string_id<X> id = ...;
+         * if( id ) {
+         *     apply_id( id );
+         * } else {
+         *     // was the null-id, ignore it.
+         * }
+         * \endcode
+         */
+        explicit operator bool() const
+        {
+            return !is_null();
+        }
     private:
         std::string _id;
 };

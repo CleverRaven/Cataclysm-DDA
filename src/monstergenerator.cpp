@@ -685,10 +685,10 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
             }
-            if( mon->upgrade_into == NULL_ID && mon->upgrade_group == NULL_ID ) {
+            if( !mon->upgrade_into && !mon->upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
             }
-            if( mon->upgrade_into != NULL_ID && mon->upgrade_group != NULL_ID ) {
+            if( mon->upgrade_into && mon->upgrade_group ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
             if( !has_mtype( mon->upgrade_into ) ) {

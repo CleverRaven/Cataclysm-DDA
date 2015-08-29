@@ -6466,7 +6466,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     bug = mon_wasp;
                     num = rng(1, 2);
                 }
-                if (bug != NULL_ID) {
+                if( bug ) {
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         const tripoint spawnp = random_entry_removed( empty );
                         if (g->summon_mon(bug, spawnp)) {

@@ -6476,7 +6476,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
     for( int m = 0; m < pop; m++ ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-        if( spawn_details.name == NULL_ID ) {
+        if( !spawn_details.name ) {
             continue;
         }
 

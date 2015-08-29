@@ -262,12 +262,12 @@ void monster::try_upgrade(bool pin_time) {
             return;
         }
 
-        if( type->upgrade_into != NULL_ID ) {
+        if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
             const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
             const mtype_id &new_type = random_entry( monsters );
-            if( new_type != NULL_ID ) {
+            if( new_type ) {
                 poly( new_type );
             }
         }
