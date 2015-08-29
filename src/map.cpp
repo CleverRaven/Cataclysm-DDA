@@ -5360,7 +5360,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
-                const tripoint sm( gridx, gridy, g->get_levz() );
+                const tripoint sm( gridx, gridy, 0 );
                 const auto abs_sm = map::abs_sub + sm;
                 const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
                 overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
