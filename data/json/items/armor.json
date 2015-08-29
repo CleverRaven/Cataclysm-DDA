@@ -2940,7 +2940,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A luxurious evening gown. It accentuates your curves, or lack thereof.",
+        "description" : "A luxurious evening gown.  It accentuates your curves, or lack thereof.",
         "price" : 21000,
         "material" : ["cotton", "null"],
         "volume" : 20,
