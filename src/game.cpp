@@ -8356,14 +8356,17 @@ void game::zones_manager()
 
     int zone_ui_height = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW *w_zones = newwin(TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
-                             TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW *w_zones_border = newwin(TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
-                                    TERMX - width - VIEW_OFFSET_X);
-    WINDOW *w_zones_info = newwin(zone_ui_height - 1, width - 2, TERMY - zone_ui_height - VIEW_OFFSET_Y,
-                                  TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW *w_zones_info_border = newwin(zone_ui_height, width, TERMY - zone_ui_height - VIEW_OFFSET_Y,
-                                         TERMX - width - VIEW_OFFSET_X);
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
+                                        VIEW_OFFSET_X;
+
+    WINDOW *w_zones = newwin(TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2, width - 2,
+                             VIEW_OFFSET_Y + 1, offsetX + 1);
+    WINDOW *w_zones_border = newwin(TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
+                                    VIEW_OFFSET_Y, offsetX);
+    WINDOW *w_zones_info = newwin(zone_ui_height - 1, width - 2,
+                                  TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
+    WINDOW *w_zones_info_border = newwin(zone_ui_height, width,
+                                         TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
     zones_manager_shortcuts(w_zones_info);
