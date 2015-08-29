@@ -2223,14 +2223,14 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
     m->ter_set(examp, t_tree_deadpine);
 }
 
-void iexamine::tree_blackjack(player *p, map *m, const tripoint &examp)
+void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
         none(p, m, examp);
         return;
     }
-    m->spawn_item( p->pos(), "tanbark", rng( 1, 2 ) );
-    m->ter_set(examp, t_tree);
+    m->spawn_item( p->pos(), m->get_ter_harvestable(examp), rng( 1, 2 ) );
+    m->ter_set(examp, m->get_ter_transforms_into(examp));
 }
 
 void iexamine::shrub_marloss(player *p, map *m, const tripoint &examp)
@@ -3279,8 +3279,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("tree_pine" == function_name) {
         return &iexamine::tree_pine;
     }
-    if ("tree_blackjack" == function_name) {
-        return &iexamine::tree_blackjack;
+    if ("tree_bark" == function_name) {
+        return &iexamine::tree_bark;
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;
