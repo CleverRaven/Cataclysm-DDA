@@ -3088,15 +3088,7 @@ int vehicle::total_power(bool const fueled) const
             pwr += part_power(p); // alternators have negative power
         }
     }
-    if( plow_on ){
-        pwr += plow_engine_drag;
-    }
-    if( harvester_on ){
-        pwr += reaper_engine_drag;
-    }
-    if( planter_on ){
-        pwr += planter_engine_drag;
-    }
+    pwr += extra_drag;
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
     }
@@ -4940,9 +4932,7 @@ void vehicle::refresh()
     alternator_load = 0;
     camera_epower = 0;
     has_atomic_lights = false;
-    plow_engine_drag = 0;
-    reaper_engine_drag = 0;
-    planter_engine_drag = 0;
+    extra_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
@@ -5014,14 +5004,8 @@ void vehicle::refresh()
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
         }
-        if( vpi.has_flag( "PLOW" ) ){
-            plow_engine_drag += vpi.power;
-        }
-        if( vpi.has_flag( "PLANTER" ) ){
-            planter_engine_drag += vpi.power;
-        }
-        if( vpi.has_flag( "REAPER" ) ){
-            reaper_engine_drag += vpi.power;
+        if( vpi.has_flag( "EXTRA_DRAG" ) ){
+            extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;

@@ -314,7 +314,7 @@ private:
 
     // Whether a fuel indicator should be printed
     bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
-    
+
     // Vehical fuel indicator (by fuel)
     void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
                                bool verbose = false, bool desc = false) const;
@@ -903,9 +903,7 @@ public:
     int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
-    int plow_engine_drag    = 0;
-    int planter_engine_drag = 0;
-    int reaper_engine_drag  = 0;
+    int extra_drag          = 0;
     int scoop_epower        = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
