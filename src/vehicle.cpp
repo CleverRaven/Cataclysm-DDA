@@ -4243,7 +4243,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             break;
         }
         ret.target_name = critter->disp_name();
-    } else if( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
+    } else if( ( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) ||
+               ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
                 // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                 (part_with_feature(ret.part, VPFLAG_WHEEL) >= 0 ||
                  !g->m.has_flag_ter_or_furn("TINY", p)) &&
@@ -4252,7 +4253,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 !(part_with_feature(ret.part, "PROTRUSION") >= 0 &&
                   g->m.has_flag_ter_or_furn("SHORT", p)) &&
                 // These are bashable, but don't interact with vehicles.
-                !g->m.has_flag_ter_or_furn("NOCOLLIDE", p) ) {
+                !g->m.has_flag_ter_or_furn("NOCOLLIDE", p) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
         ret.type = veh_coll_bashable;
         e = 0.30;
@@ -4325,8 +4326,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
         // Damage calculation
         // Damage dealt overall
-        // Vertical collision damage is 20 times as high as horizontal at same velocity
-        dmg += std::abs( d_E / ( bash_floor ? 10 : k_mvel ) );
+        dmg += std::abs( d_E / k_mvel );
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
@@ -4339,7 +4339,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             smashed = false;
         } else if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
-            smashed = g->m.bash( p, obj_dmg, false, false, bash_floor, this ).success;
+            // NOTE: Floor bashing disabled for balance reasons
+            //       Floor values are still used to set damage dealt to vehicle
+            smashed = g->m.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
                 if( g->m.is_bashable_ter_furn( p, bash_floor ) ) {
                     // There's new terrain there to smash
@@ -4391,8 +4393,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // Don't fling if vertical - critter got smashed into the ground
             if( !vert_coll ) {
-                if( vel2_a > rng( 10, 20 ) ) {
-                    g->fling_creature( critter, move.dir() + angle, vel2_a );
+                if( abs(vel2_a) > rng( 10, 20 ) ) {
+                    const int angle_sum = vel2_a > 0 ?
+                        move.dir() + angle : -(move.dir() + angle);
+                    g->fling_creature( critter, angle_sum, abs(vel2_a) );
                 } else if( !critter->is_dead_state() ) {
                     smashed = false;
                 }

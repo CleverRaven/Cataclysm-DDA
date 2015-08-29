@@ -354,7 +354,6 @@ void map::vehmove()
         } else {
             on_vehicle_moved( veh->smz );
         }
-break;
     }
     // Process item removal on the vehicles that were modified this turn.
     for( const auto &elem : dirty_vehicle_list ) {
