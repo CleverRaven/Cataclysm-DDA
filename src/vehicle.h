@@ -309,6 +309,16 @@ private:
 
     int total_folded_volume() const;
 
+    // Gets the fuel color for a given fuel
+    nc_color get_fuel_color ( const itype_id &fuel_type ) const;
+
+    // Whether a fuel indicator should be printed
+    bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
+    
+    // Vehical fuel indicator (by fuel)
+    void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
+                               bool verbose = false, bool desc = false) const;
+
     // Calculate how long it takes to attempt to start an engine
     int engine_start_time( const int e );
 
@@ -485,8 +495,11 @@ public:
     // Vehicle parts description
     int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1) const;
 
-    // Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
-    void print_fuel_indicator (void *w, int y, int x, bool fullsize = false,
+    // Get all printable fuel types
+    std::vector< itype_id > get_printable_fuel_types (bool fullsize) const;
+
+    // Vehicle fuel indicators (all of them)
+    void print_fuel_indicators (void *w, int y, int x, int startIndex = 0, bool fullsize = false,
                                bool verbose = false, bool desc = false, bool isHorizontal = false) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction

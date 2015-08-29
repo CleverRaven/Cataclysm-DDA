@@ -367,9 +367,6 @@ void monster::move()
         return;
     }
 
-    bool moved = false;
-    tripoint next;
-
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !plans.empty() ) {
@@ -400,9 +397,14 @@ void monster::move()
         plans.clear();
     }
 
+    bool moved = false;
+    tripoint next;
+    tripoint destination;
+
     // CONCRETE PLANS - Most likely based on sight
     if( !plans.empty() ) {
-        next = plans[0];
+        destination = plans.back();
+        next = plans.front();
         moved = true;
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
@@ -411,6 +413,7 @@ void monster::move()
         plans.clear();
         tripoint tmp = scent_move();
         if( tmp.x != -1 ) {
+            destination = tmp;
             next = tmp;
             moved = true;
         }
@@ -419,12 +422,14 @@ void monster::move()
         plans.clear();
         tripoint tmp = wander_next();
         if( tmp != pos() ) {
+            destination = tmp;
             next = tmp;
             moved = true;
         }
     }
 
     if( moved ) {
+        moved = false;
         const Creature *target = g->critter_at( next, is_hallucination() );
         // When attacking an adjacent enemy, we're direct.
         if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
@@ -432,14 +437,7 @@ void monster::move()
         } else {
             // If the direct path is blocked, go around.
             int switch_chance = 1;
-            std::vector<point> squares = squares_in_direction( pos().x, pos().y, next.x, next.y );
-            for( point &square : squares ) {
-                const tripoint candidate = { square.x, square.y, pos().z };
-                // Bail out if the move doesn't get us closer to the target.
-                if( !plans.empty() && rl_dist( candidate, plans.back() ) >=
-                    rl_dist( pos(), plans.back() ) ) {
-                    continue;
-                }
+            for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
                 // Bail out if we can't move there and we can't bash.
                 if( !can_move_to( candidate ) &&
                     !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
@@ -453,6 +451,7 @@ void monster::move()
                 }
                 // Randomly pick one of the viable squares to move to.
                 if( one_in(switch_chance) ) {
+                    moved = true;
                     next = candidate;
                     switch_chance++;
                     // If we stumble, pick a random square, otherwise take the first one,
@@ -952,14 +951,14 @@ bool monster::move_to( const tripoint &p, bool force )
                 moves -= 100;
                 force = true;
                 if (g->u.sees( *this )){
-                    add_msg(_("The %s flies over the %s."), name().c_str(),
+                    add_msg(_("The %1$s flies over the %2$s."), name().c_str(),
                     g->m.has_flag_furn("CLIMBABLE", p) ? g->m.furnname(p).c_str() : g->m.tername(p).c_str());
                 }
             } else if (has_flag(MF_CLIMBS)) {
                 moves -= 150;
                 force = true;
                 if (g->u.sees( *this )){
-                    add_msg(_("The %s climbs over the %s."), name().c_str(),
+                    add_msg(_("The %1$s climbs over the %2$s."), name().c_str(),
                     g->m.has_flag_furn("CLIMBABLE", p) ? g->m.furnname(p).c_str() : g->m.tername(p).c_str());
                 }
             }
@@ -995,11 +994,11 @@ bool monster::move_to( const tripoint &p, bool force )
 
     if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
-        add_msg( m_warning, _( "A %s %s from the %s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name().c_str(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
                  g->m.tername( pos() ).c_str() );
     } else if( !was_water && will_be_water && g->u.sees( p ) ) {
-        add_msg( m_warning, _( "A %s %s into the %s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name().c_str(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
                  g->m.tername( p ).c_str() );
     }
@@ -1213,7 +1212,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     critter->add_effect( "stunned", rng( 0, 2 ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
-        add_msg( m_warning, _("The %s tramples %s"),
+        add_msg( m_warning, _("The %1$s tramples %2$s"),
                  name().c_str(), critter->disp_name().c_str() );
     }
 
@@ -1331,7 +1330,7 @@ void monster::knock_back_from( const tripoint &p )
         z->check_dead_state();
 
         if( u_see ) {
-            add_msg( _( "The %s bounces off a %s!" ), name().c_str(), z->name().c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s!" ), name().c_str(), z->name().c_str() );
         }
 
         return;
@@ -1344,7 +1343,7 @@ void monster::knock_back_from( const tripoint &p )
         add_effect( "stunned", 1 );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
-            add_msg( _( "The %s bounces off %s!" ), name().c_str(), p->name.c_str() );
+            add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
         }
 
         p->check_dead_state();
@@ -1373,7 +1372,7 @@ void monster::knock_back_from( const tripoint &p )
         apply_damage( nullptr, bp_torso, type->size );
         add_effect( "stunned", 2 );
         if( u_see ) {
-            add_msg( _( "The %s bounces off a %s." ), name().c_str(),
+            add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
                      g->m.tername( to ).c_str() );
         }
 

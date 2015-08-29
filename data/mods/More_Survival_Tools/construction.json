@@ -85,7 +85,7 @@
         ],
         "components" : [
             [ [ "2x4", 5 ], [ "stick", 10 ] ],
-            [ [ "straw_pile", 15 ], [ "pine_bough", 15 ] ]
+            [ [ "straw_pile", 15 ], [ "pine_bough", 15 ], [ "birchbark", 15 ] ]
         ],
         "pre_special" : "check_support",
         "post_terrain" : "t_dirtfloor"

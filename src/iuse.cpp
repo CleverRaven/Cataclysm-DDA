@@ -3050,7 +3050,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
     remove_radio_mod( modded, *p );
 
-    p->add_msg_if_player( _( "You modify your %s to listen for %s activation signal on the radio." ),
+    p->add_msg_if_player( _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
     modded.item_tags.insert( "RADIO_MOD" );
@@ -3422,7 +3422,10 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-
+    if (p->fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to solder!"));
+        return 0;
+    }
     int charges_used = dynamic_cast<const it_tool*>( it->type )->charges_to_use();
     if( it->charges <= charges_used ) {
         p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
@@ -4379,7 +4382,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
     }
     p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
     p->activity.placement = tripoint(dirx, diry, p->posz()); // TODO: Z
-    p->add_msg_if_player(_("You attack the %s with your %s."),
+    p->add_msg_if_player(_("You attack the %1$s with your %2$s."),
                          g->m.tername(dirx, diry).c_str(), it->tname().c_str());
     return 0; // handled when the activity finishes
 }
@@ -6739,7 +6742,7 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         if (choice == 2) {
             item &arrows = it->contents[0];
             int arrowsRemoved = arrows.charges;
-            p->add_msg_if_player(ngettext("You remove the %s from the %s.", "You remove the %s from the %s.",
+            p->add_msg_if_player(ngettext("You remove the %1$s from the %2$s.", "You remove the %1$s from the %2$s.",
                                           arrowsRemoved),
                                  arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
             p->inv.assign_empty_invlet(arrows, false);
@@ -6802,7 +6805,7 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         }
 
         arrowsStored = it->contents[0].charges - arrowsStored;
-        p->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.",
+        p->add_msg_if_player(ngettext("You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.",
                                       arrowsStored),
                              arrowsStored, it->contents[0].type_name( arrowsStored ).c_str(), it->tname().c_str());
         p->moves -= 10 * arrowsStored;
@@ -6883,11 +6886,11 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
             int lvl = p->skillLevel(t_gun->skill_used);
             std::string message;
             if (lvl < 2) {
-                message = _("You clumsily draw your %s from the %s.");
+                message = _("You clumsily draw your %1$s from the %2$s.");
             } else if (lvl >= 7) {
-                message = _("You quickly draw your %s from the %s.");
+                message = _("You quickly draw your %1$s from the %2$s.");
             } else {
-                message = _("You draw your %s from the %s.");
+                message = _("You draw your %1$s from the %2$s.");
             }
 
             p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
@@ -6933,11 +6936,11 @@ int iuse::sheath_knife(player *p, item *it, bool, const tripoint& )
         int lvl = p->skillLevel("cutting");
         std::string message;
         if (lvl < 2) {
-            message = _("You clumsily shove your %s into the %s.");
+            message = _("You clumsily shove your %1$s into the %2$s.");
         } else if (lvl >= 5) {
-            message = _("You deftly insert your %s into the %s.");
+            message = _("You deftly insert your %1$s into the %2$s.");
         } else {
-            message = _("You put your %s into the %s.");
+            message = _("You put your %1$s into the %2$s.");
         }
 
         p->add_msg_if_player(message.c_str(), put->tname().c_str(), it->tname().c_str());
@@ -6954,11 +6957,11 @@ int iuse::sheath_knife(player *p, item *it, bool, const tripoint& )
             int lvl = p->skillLevel("cutting");
             std::string message;
             if (lvl < 2) {
-                message = _("You clumsily draw your %s from the %s.");
+                message = _("You clumsily draw your %1$s from the %2$s.");
             } else if (lvl >= 5) {
-                message = _("You deftly draw your %s from the %s.");
+                message = _("You deftly draw your %1$s from the %2$s.");
             } else {
-                message = _("You draw your %s from the %s.");
+                message = _("You draw your %1$s from the %2$s.");
             }
 
             p->add_msg_if_player(message.c_str(), p->weapon.tname().c_str(), it->tname().c_str());
@@ -7051,7 +7054,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                         }
                     }
                     monster &zed = g->zombie(mon_num);
-                    p->add_msg_if_player(m_good, _("You slash at the %s as you draw your %s."),
+                    p->add_msg_if_player(m_good, _("You slash at the %1$s as you draw your %2$s."),
                                          zed.name().c_str(), p->weapon.tname().c_str());
                     p->melee_attack(zed, true);
                 } else {
@@ -8347,7 +8350,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                             p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
                         } else {
-                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                            p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
                                              z.name().c_str());
                         }
                     } else {
@@ -8402,7 +8405,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                             p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                         } else {
-                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                            p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
                                              guy->name.c_str());
                         }
                     } else {
@@ -9443,7 +9446,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
             if( p != nullptr && p->has_item(it) ) {
-                p->add_msg_if_player(m_good, _("You link up the electric systems of the %s and the %s."),
+                p->add_msg_if_player(m_good, _("You link up the electric systems of the %1$s and the %2$s."),
                                      source_veh->name.c_str(), target_veh->name.c_str());
             }
 
@@ -9483,21 +9486,21 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
     }
     if (it->has_flag("THERMOMETER")) {
         if (it->type->id == "thermometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
+            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         }
     }
     if (it->has_flag("HYGROMETER")) {
         if (it->type->id == "hygrometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
+            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         }
     }
     if (it->has_flag("BAROMETER")) {
         if (it->type->id == "barometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
+            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         }
@@ -9586,7 +9589,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             }
 
             if( f.get_size() > Creature::size_map.at(iter->second) ) {
-                p->add_msg_if_player( m_info, _("The %s is too big to put in your %s."),
+                p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;
             }
@@ -9630,7 +9633,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 g->remove_zombie( mon_dex );
                 return 0;
             } else {
-                p->add_msg_if_player( m_bad, _("The %s avoids your attempts to put it in the %s."),
+                p->add_msg_if_player( m_bad, _("The %1$s avoids your attempts to put it in the %2$s."),
                                       f.type->nname().c_str(), it->type->nname(1).c_str() );
             }
             p->moves -= 100;
