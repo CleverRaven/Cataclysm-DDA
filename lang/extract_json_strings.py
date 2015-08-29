@@ -257,7 +257,7 @@ def extract_scenarios(item):
             writestr(outfile, msg, comment="Description for scenario '{}'.".format(name))
         msg = item.get("start_name")
         if msg:
-            writestr(outfile, msg, comment="Start name for scenario '{}'.".format(name))
+            writestr(outfile, msg, comment="Starting location for scenario '{}'.".format(name))
     else:
         for f in ["description", "start_name"]:
             found = item.get(f, None)

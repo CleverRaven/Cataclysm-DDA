@@ -154,7 +154,7 @@
         ] ],
         "components" : [
             [ [ "stick", 12 ], [ "2x4", 6 ] ],
-            [ [ "pine_bough", 24 ] ]
+            [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ]
         ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_improvised_shelter"

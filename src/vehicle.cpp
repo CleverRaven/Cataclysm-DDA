@@ -1394,7 +1394,7 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_muscle ) {
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
-            add_msg( _("Looks like the %s is out of %s."), einfo.name.c_str(),
+            add_msg( _("Looks like the %1$s is out of %2$s."), einfo.name.c_str(),
                 item::nname( einfo.fuel_type ).c_str() );
         }
         return false;
@@ -2658,63 +2658,121 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     return y;
 }
 
-void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose, bool desc, bool isHorizontal) const
+/**
+ * Return whether a fuel_type should be printed
+ * @param fuel_type ID of the fuel to be checked
+ * @param fullsize true if it's expected to print multiple rows
+ * @return true if the fuel will/should display
+ */
+bool vehicle::should_print_fuel_indicator (itype_id fuel_type, bool fullsize) const
 {
-    WINDOW *win = (WINDOW *) w;
+    return fuel_capacity( fuel_type ) > 0 && ( basic_consumption( fuel_type ) > 0 || fullsize );
+}
 
-    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
-    nc_color col_indf1 = c_ltgray;
-    int yofs = 0;
-    int max_gauge = (isHorizontal) ? 12 : 5;
-    int cur_gauge = 0;
+/**
+ * Returns an array of fuel types that can be printed
+ * @param fullsize true if it's expected to print multiple rows
+ * @return An array of printable fuel type ids
+ */
+std::vector< itype_id > vehicle::get_printable_fuel_types (bool fullsize) const
+{
     std::vector< itype_id > fuels;
     for( auto &ft : get_fuel_types() ) {
-        fuels.push_back( ft.id );
+        if(should_print_fuel_indicator(ft.id, fullsize)) {
+            fuels.push_back(ft.id);
+        }
     }
-    // Find non-hardcoded fuel types, add them after the hardcoded
+
     for( int p : fuel ) {
         const itype_id ft = part_info( p ).fuel_type;
-        if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() ) {
-            fuels.push_back( ft );
+        if( std::find( fuels.begin(), fuels.end(), ft ) == fuels.end() && should_print_fuel_indicator(ft, fullsize)) {
+            fuels.push_back(ft);
         }
     }
 
-    for( int i = 0; i < (int)fuels.size(); i++ ) {
-        const itype_id &f = fuels[i];
-        int cap = fuel_capacity( f );
-        int f_left = fuel_left( f );
-        nc_color f_color;
-        if( i < static_cast<int>( get_fuel_types().size() ) ) {
-            f_color = get_fuel_types()[i].color;
-        } else {
-            // Get color of the default item of this type
-            f_color = item::find_type( f )->color;
-        }
+    return fuels;
+}
 
-        if( cap > 0 && ( basic_consumption( f ) > 0 || fullsize ) ) {
-            if( cur_gauge++ >= max_gauge ) {
-                wprintz(win, c_ltgray, "..." );
-                break;
-            }
-            mvwprintz(win, y + yofs, x, col_indf1, "E...F");
-            int amnt = cap > 0 ? fuel_left( f ) * 99 / cap : 0;
-            int indf = (amnt / 20) % 5;
-            mvwprintz( win, y + yofs, x + indf, f_color, "%c", fsyms[indf] );
-            if (verbose) {
-                if( debug_mode ) {
-                    mvwprintz( win, y + yofs, x + 6, f_color, "%d/%d", f_left, cap );
-                } else {
-                    mvwprintz( win, y + yofs, x + 6, f_color, "%d", (f_left * 100) / cap );
-                    wprintz( win, c_ltgray, "%c", 045 );
-                }
-            }
-            if (desc) {
-                wprintz(win, c_ltgray, " - %s", item::nname( f ).c_str() );
-            }
-            if (fullsize) {
-                yofs++;
-            }
+/**
+ * Returns the color of a fuel type
+ * @param fuel_type The ID of the fuel type
+ * @return the color corresponding to the fuel type
+ */
+nc_color vehicle::get_fuel_color ( const itype_id &fuel_type ) const
+{
+    for( auto &f : get_fuel_types() ) {
+        if( f.id == fuel_type ) {
+            return f.color;
         }
+    }
+    return item::find_type( fuel_type )->color;
+}
+
+/**
+ * Prints all of the fuel indicators of the vehical
+ * @param w Pointer to the window to draw in.
+ * @param y Y location to draw at.
+ * @param x X location to draw at.
+ * @param start_index Starting index in array of fuel gauges to start reading from
+ * @param fullsize true if it's expected to print multiple rows
+ * @param verbose true if there should be anything after the gauge (either the %, or number)
+ * @param desc true if the name of the fuel should be at the end
+ * @param isHorizontal true if the menu is not vertical
+ */
+void vehicle::print_fuel_indicators (void *w, int y, int x, int start_index, bool fullsize, bool verbose, bool desc, bool isHorizontal) const
+{
+    WINDOW *win = (WINDOW *) w;
+    int yofs = 0;
+    std::vector< itype_id > fuels = get_printable_fuel_types(fullsize);
+    int max_gauge = ((isHorizontal) ? 12 : 5) + start_index;
+    int max_size = std::min((int)fuels.size(), max_gauge);
+
+    for( int i = start_index; i < max_size; i++ ) {
+        const itype_id &f = fuels[i];
+        print_fuel_indicator(w, y + yofs, x, f, verbose, desc);
+        if (fullsize) {
+            yofs++;
+        }
+    }
+
+    // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
+    if((start_index < (int)fuels.size() -  ((isHorizontal) ? 12 : 5)) && fullsize) {
+        mvwprintz(win, y + yofs, x, c_ltgreen, ">");
+        wprintz(win, c_ltgray, " for more");
+    }
+}
+
+/**
+ * Prints a fuel gauge for a vehicle
+ * @param w Pointer to the window to draw in.
+ * @param y Y location to draw at.
+ * @param x X location to draw at.
+ * @param fuel_type ID of the fuel type to draw
+ * @param verbose true if there should be anything after the gauge (either the %, or number)
+ * @param desc true if the name of the fuel should be at the end
+ */
+void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, bool verbose, bool desc) const
+{
+    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
+    WINDOW *win = (WINDOW *) w;
+    nc_color col_indf1 = c_ltgray;
+    int cap = fuel_capacity( fuel_type );
+    int f_left = fuel_left( fuel_type );
+    nc_color f_color = get_fuel_color(fuel_type);
+    mvwprintz(win, y, x, col_indf1, "E...F");
+    int amnt = cap > 0 ? f_left * 99 / cap : 0;
+    int indf = (amnt / 20) % 5;
+    mvwprintz( win, y, x + indf, f_color, "%c", fsyms[indf] );
+    if (verbose) {
+        if( debug_mode ) {
+            mvwprintz( win, y, x + 6, f_color, "%d/%d", f_left, cap );
+        } else {
+            mvwprintz( win, y, x + 6, f_color, "%d", (f_left * 100) / cap );
+            wprintz( win, c_ltgray, "%c", 045 );
+        }
+    }
+    if (desc) {
+        wprintz(win, c_ltgray, " - %s", item::nname( fuel_type ).c_str() );
     }
 }
 
@@ -4589,10 +4647,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
     if( g->u.sees(p) ) {
         if( g->u.knows_trap( p ) ) {
-            add_msg(m_bad, _("The %s's %s runs over %s."), name.c_str(),
+            add_msg(m_bad, _("The %1$s's %s runs over %2$s."), name.c_str(),
                     part_info(part).name.c_str(), tr.name.c_str() );
         } else {
-            add_msg(m_bad, _("The %s's %s runs over something."), name.c_str(),
+            add_msg(m_bad, _("The %1$s's %2$s runs over something."), name.c_str(),
                     part_info(part).name.c_str() );
         }
     }
@@ -5238,7 +5296,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                         } else {
                             //Intact (but possibly damaged) part - remove it in one piece
                             if(g->u.sees( pos )) {
-                                add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
+                                add_msg(m_bad, _("The %1$s's %2$s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
@@ -5254,7 +5312,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                  * vehicles from the split parts) would be ideal. */
                 if(can_unmount(p)) {
                     if(g->u.sees( pos )) {
-                        add_msg(m_bad, _("The %s's %s is destroyed!"),
+                        add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
                                 name.c_str(), part_info(p).name.c_str());
                     }
                     break_part_into_pieces(p, pos.x, pos.y, true);
@@ -5263,7 +5321,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             } else {
                 //Just break it off
                 if(g->u.sees( pos )) {
-                    add_msg(m_bad, _("The %s's %s is destroyed!"),
+                    add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                 }
                 break_part_into_pieces(p, pos.x, pos.y, true);
@@ -5982,7 +6040,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     }
     // notify player if player can see the shot
     if( g->u.sees( pos ) ) {
-        add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
+        add_msg(_("The %1$s fires its %2$s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( "fake_UPS", 0 );

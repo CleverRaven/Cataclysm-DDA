@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 09:24+0300\n"
+"POT-Creation-Date: 2015-08-26 20:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4551,12 +4551,12 @@ msgid "An empty casing from a pistol round."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "revovler ammo casing"
-msgid_plural "revovler ammo casings"
+msgid "revolver ammo casing"
+msgid_plural "revolver ammo casings"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for revovler ammo casing
+#. ~ Description for revolver ammo casing
 #: lang/json/AMMO_from_json.py
 msgid "An empty casing from a revolver round."
 msgstr ""
@@ -9686,14 +9686,14 @@ msgid "A pair of knee pads made of stout plastic and cloth."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "pair of metal leg guards"
-msgid_plural "pairs of metal leg guards"
+msgid "pair of iron greaves"
+msgid_plural "pairs of iron greaves"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for pair of metal leg guards
+#. ~ Description for pair of iron greaves
 #: lang/json/ARMOR_from_json.py
-msgid "A pair of leg guards hammered out from metal.  Very stylish."
+msgid "A pair of iron leg guards with a simple leather lining."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -11887,17 +11887,6 @@ msgstr[1] ""
 msgid ""
 "A suit of armor made of multiple pieces of tough leather, laced together for "
 "durable yet flexible protection."
-msgstr ""
-
-#: lang/json/ARMOR_from_json.py
-msgid "pair of iron greaves"
-msgid_plural "pairs of iron greaves"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for pair of iron greaves
-#: lang/json/ARMOR_from_json.py
-msgid "A pair of iron leg guards with a simple leather lining."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -26128,7 +26117,13 @@ msgid ""
 "solid ground.  Could be gutted for parts."
 msgstr ""
 
-#. ~ Description for broken grenade hack
+#: lang/json/GENERIC_from_json.py
+msgid "broken EMP hack"
+msgid_plural "broken EMP hacks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for broken EMP hack
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A broken EMP hack.  Much less threatening now that it lies quiet on solid "
@@ -50987,7 +50982,7 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -57055,8 +57050,7 @@ msgstr ""
 msgid ""
 "You have grown large, curved, and wickedly sharp talons in place of your big "
 "toes.  Fortunately, they don't get in the way of your walking.  "
-"Unfortunately, they do prevent you from wearing footgear, which does cause "
-"some problems."
+"Unfortunately, they do prevent you from wearing footgear."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -63690,7 +63684,7 @@ msgid ""
 "safety in one of the many government evac shelters."
 msgstr ""
 
-#. ~ Start name for scenario 'Evacuee'.
+#. ~ Starting location for scenario 'Evacuee'.
 #: lang/json/scenario_from_json.py
 msgid "Evac Shelter"
 msgstr ""
@@ -63706,7 +63700,7 @@ msgid ""
 "the evacuation, and are stuck in a city full of the risen dead."
 msgstr ""
 
-#. ~ Start name for scenario 'Missed'.
+#. ~ Starting location for scenario 'Missed'.
 #: lang/json/scenario_from_json.py
 msgid "In Town"
 msgstr ""
@@ -63718,9 +63712,9 @@ msgid ""
 "didn't get proper medical care, and now the wound has started turning green."
 msgstr ""
 
-#. ~ Start name for scenario 'Infected'.
-#. ~ Start name for scenario 'Burning Building'.
-#. ~ Start name for scenario 'Challenge-Really Bad Day'.
+#. ~ Starting location for scenario 'Infected'.
+#. ~ Starting location for scenario 'Burning Building'.
+#. ~ Starting location for scenario 'Challenge-Really Bad Day'.
 #: lang/json/scenario_from_json.py
 msgid "Anywhere"
 msgstr ""
@@ -63759,9 +63753,9 @@ msgid ""
 "legges and the knyf at youre syde and youre prayeres to Marie moder of God."
 msgstr ""
 
-#. ~ Start name for scenario 'Challenge-Medieval Peasant'.
-#. ~ Start name for scenario 'Experiment'.
-#. ~ Start name for scenario 'Wilderness'.
+#. ~ Starting location for scenario 'Challenge-Medieval Peasant'.
+#. ~ Starting location for scenario 'Experiment'.
+#. ~ Starting location for scenario 'Wilderness'.
 #: lang/json/scenario_from_json.py
 msgid "Forest"
 msgstr ""
@@ -63777,7 +63771,7 @@ msgid ""
 "or starve to death."
 msgstr ""
 
-#. ~ Start name for scenario 'Challenge-Lab'.
+#. ~ Starting location for scenario 'Challenge-Lab'.
 #: lang/json/scenario_from_json.py
 msgid "Locked Lab"
 msgstr ""
@@ -63794,7 +63788,7 @@ msgid ""
 "movement in the woods."
 msgstr ""
 
-#. ~ Start name for scenario 'Ambush'.
+#. ~ Starting location for scenario 'Ambush'.
 #: lang/json/scenario_from_json.py
 msgid "Abandoned Cabin"
 msgstr ""
@@ -63812,7 +63806,7 @@ msgid ""
 "cataclysm, you will be forced to face the outside world."
 msgstr ""
 
-#. ~ Start name for scenario 'Sheltered'.
+#. ~ Starting location for scenario 'Sheltered'.
 #: lang/json/scenario_from_json.py
 msgid "Enclosed Shelter"
 msgstr ""
@@ -63829,7 +63823,7 @@ msgid ""
 "were a lost cause.  You awaken to the sound of movement around the hospital."
 msgstr ""
 
-#. ~ Start name for scenario 'Challenge-Abandoned'.
+#. ~ Starting location for scenario 'Challenge-Abandoned'.
 #: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
 #: src/defense.cpp
 msgid "Hospital"
@@ -63858,7 +63852,7 @@ msgid ""
 "a security guard.  Find a way out and try your best to survive."
 msgstr ""
 
-#. ~ Start name for scenario 'Mall Cop'.
+#. ~ Starting location for scenario 'Mall Cop'.
 #: lang/json/scenario_from_json.py
 msgid "Mall"
 msgstr ""
@@ -63875,7 +63869,7 @@ msgid ""
 "you never leave it again."
 msgstr ""
 
-#. ~ Start name for scenario 'The Last Firefighter'.
+#. ~ Starting location for scenario 'The Last Firefighter'.
 #: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
 msgid "Fire Station"
 msgstr ""
@@ -63892,12 +63886,12 @@ msgid ""
 "station house looks bad, real bad.  This is going to be an all-nighter."
 msgstr ""
 
-#. ~ Start name for scenario 'Assault on Precinct Z'.
+#. ~ Starting location for scenario 'Assault on Precinct Z'.
 #: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
 msgid "Police Station"
 msgstr ""
 
-#. ~ Start name for scenario 'School'.
+#. ~ Starting location for scenario 'School'.
 #: lang/json/scenario_from_json.py
 #: lang/json/start_location_from_json.py
 msgid "School"
@@ -63933,7 +63927,7 @@ msgid ""
 "don't bother you, life without your Loach is worthless anyway."
 msgstr ""
 
-#. ~ Start name for scenario 'Helicopter crash'.
+#. ~ Starting location for scenario 'Helicopter crash'.
 #: lang/json/scenario_from_json.py
 msgid "Crash site"
 msgstr ""
@@ -68969,7 +68963,7 @@ msgid "paper wall"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "tree"
+msgid "oak tree"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -69006,6 +69000,18 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "dead pine tree"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "birch tree"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "willow tree"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "maple tree"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -71228,9 +71234,10 @@ msgstr ""
 msgid "You harvest some fat!"
 msgstr ""
 
+#. ~ %1$s - item name, %2$s - monster name
 #: src/activity_handlers.cpp
 #, c-format
-msgid "You discover a %s in the %s!"
+msgid "You discover a %1$s in the %2$s!"
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -71836,7 +71843,7 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-#: src/advanced_inv.cpp
+#: src/advanced_inv.cpp src/newcharacter.cpp
 msgid "name"
 msgstr ""
 
@@ -75143,7 +75150,7 @@ msgstr[1] ""
 #. ~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
 #: src/construction.cpp src/crafting.cpp
 #, c-format
-msgid "%s and %s"
+msgid "%1$s and %2$s"
 msgstr ""
 
 #: src/construction.cpp src/crafting.cpp
@@ -75632,9 +75639,10 @@ msgstr ""
 msgid "You fail to recover %s."
 msgstr ""
 
+#. ~ %1s - material, %2$s - disassembled item
 #: src/crafting.cpp
 #, c-format
-msgid "You fail to recover %s from the %s."
+msgid "You fail to recover %1$s from the %2$s."
 msgstr ""
 
 #: src/crafting.cpp
@@ -75705,9 +75713,10 @@ msgstr ""
 msgid "You miss!"
 msgstr ""
 
+#. ~ 1$ - monster name, 2$ - monster's bodypart
 #: src/creature.cpp
 #, c-format
-msgid "The shot reflects off %s %s!"
+msgid "The shot reflects off %1$s %2$s!"
 msgstr ""
 
 #. ~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
@@ -75726,9 +75735,10 @@ msgstr ""
 msgid "You hit %s for %d damage."
 msgstr ""
 
+#. ~ 1$ - shooter, 2$ - target
 #: src/creature.cpp
 #, c-format
-msgid "%s shoots %s."
+msgid "%1$s shoots %2$s."
 msgstr ""
 
 #: src/defense.cpp
@@ -76312,8 +76322,7 @@ msgid "-clear-"
 msgstr ""
 
 #. ~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
-#. ~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-#: src/editmap.cpp src/game.cpp
+#: src/editmap.cpp
 #, c-format
 msgid "%s (%s)"
 msgstr ""
@@ -77474,7 +77483,7 @@ msgstr ""
 
 #: src/faction.cpp
 #, c-format
-msgid "%s have the ultimate goal of %s."
+msgid "%1$s have the ultimate goal of %2$s."
 msgstr ""
 
 #: src/faction.cpp
@@ -77484,7 +77493,7 @@ msgstr ""
 
 #: src/faction.cpp
 #, c-format
-msgid " Their primary concern is %s, but they are also involved in %s."
+msgid " Their primary concern is %1$s, but they are also involved in %2$s."
 msgstr ""
 
 #: src/faction.cpp
@@ -78460,12 +78469,12 @@ msgstr ""
 
 #: src/field.cpp
 #, c-format
-msgid "A %s hits %s!"
+msgid "A %1$s hits %2$s!"
 msgstr ""
 
 #: src/field.cpp
 #, c-format
-msgid "A %s hits the %s!"
+msgid "A %1$s hits the %2$s!"
 msgstr ""
 
 #: src/field.cpp
@@ -78621,7 +78630,7 @@ msgstr ""
 
 #: src/field.cpp src/trapfunc.cpp
 #, c-format
-msgid "The %s teleports into a %s, killing them both!"
+msgid "The %1$s teleports into a %2$s, killing them both!"
 msgstr ""
 
 #: src/game.cpp
@@ -79275,6 +79284,12 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "%s's head implodes!"
+msgstr ""
+
+#. ~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+#: src/game.cpp
+#, c-format
+msgid "%1$s (%2$s)"
 msgstr ""
 
 #: src/game.cpp
@@ -80013,7 +80028,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s hits the %s."
+msgid "The %1$s hits the %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -80180,7 +80195,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You mount the %s on your %s, ready to store gear."
+msgid "You mount the %1$s on your %2$s, ready to store gear."
 msgstr ""
 
 #: src/game.cpp
@@ -80195,12 +80210,12 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "%s is overburdened. You can't transfer your %s"
+msgid "%1$s is overburdened. You can't transfer your %2$s"
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "There's no room in your %s's %s for that, it's too bulky!"
+msgid "There's no room in your %1$s's %2$s for that, it's too bulky!"
 msgstr ""
 
 #: src/game.cpp
@@ -80524,9 +80539,10 @@ msgstr ""
 msgid "There isn't any vehicle there."
 msgstr ""
 
+#. ~ %1$s - transport name, %2$s liquid fuel name
 #: src/game.cpp
 #, c-format
-msgid "The %s doesn't use %s."
+msgid "The %1$s doesn't use %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -80540,12 +80556,12 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You refill the %s with %s."
+msgid "You refill the %1$s with %2$s."
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You refill the %s with %s to its maximum."
+msgid "You refill the %1$s with %2$s to its maximum."
 msgstr ""
 
 #: src/game.cpp
@@ -80569,12 +80585,12 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Your %s won't hold %s."
+msgid "Your %1$s won't hold %2$s."
 msgstr ""
 
 #: src/game.cpp src/item.cpp
 #, c-format
-msgid "Your %s can't hold any more %s."
+msgid "Your %1$s can't hold any more %2$s."
 msgstr ""
 
 #: src/game.cpp src/item.cpp
@@ -80584,7 +80600,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You pour %s into the %s."
+msgid "You pour %1$s into the %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -80593,12 +80609,17 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You pour %s into your %s."
+msgid "You pour %1$ss into your %2$s."
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You fill your %s with some of the %s."
+msgid "You pour %1$s into your %2$s."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You fill your %1$s with some of the %2$s."
 msgstr ""
 
 #: src/game.cpp src/inventory_ui.cpp
@@ -80623,21 +80644,21 @@ msgstr[1] ""
 
 #: src/game.cpp
 #, c-format
-msgid "You drop your %s on the %s."
-msgid_plural "You drop your %s on the %s."
+msgid "You drop your %1$s on the %2$s."
+msgid_plural "You drop your %1$s on the %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
 #: src/game.cpp
 #, c-format
-msgid "You put your %s in the %s."
-msgid_plural "You put your %s in the %s."
+msgid "You put your %1$s in the %2$s."
+msgid_plural "You put your %1$s in the %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
 #: src/game.cpp
 #, c-format
-msgid "You put several items in the %s's %s."
+msgid "You put several items in the %1$s's %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -80715,7 +80736,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You pull your %s from its %s and ready it to fire."
+msgid "You pull your %1$s from its %2$s and ready it to fire."
 msgstr ""
 
 #: src/game.cpp
@@ -81157,7 +81178,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You let go of the %s as it slides past %s"
+msgid "You let go of the %1$s as it slides past %2$s"
 msgstr ""
 
 #: src/game.cpp
@@ -81283,7 +81304,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You open the %s's %s."
+msgid "You open the %1$s's %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -81469,12 +81490,12 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s is almost at the top of the %s!"
+msgid "The %1$s is almost at the top of the %2$s!"
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s is almost at the bottom of the %s!"
+msgid "The %1$s is almost at the bottom of the %2$s!"
 msgstr ""
 
 #: src/game.cpp
@@ -81483,12 +81504,12 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s comes down the %s!"
+msgid "The %1$s comes down the %2$s!"
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s comes up the %s!"
+msgid "The %1$s comes up the %2$s!"
 msgstr ""
 
 #: src/game.cpp
@@ -81513,12 +81534,12 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s pushed the %s hard."
+msgid "The %1$s pushed the %2$s hard."
 msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s pushed the %s."
+msgid "The %1$s pushed the %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -81604,7 +81625,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "%s teleports into the middle of a %s!"
+msgid "%1$s teleports into the middle of a %2$s!"
 msgstr ""
 
 #: src/game.cpp
@@ -83743,17 +83764,17 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Fill the %s with %s?"
+msgid "Fill the %1$s with %2$s?"
 msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "You completely fill the %s with %s."
+msgid "You completely fill the %1$s with %2$s."
 msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "You fill the %s with %s."
+msgid "You fill the %1$s with %2$s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -83775,7 +83796,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "You squeeze the last drops of %s from the %s."
+msgid "You squeeze the last drops of %1$s from the %2$s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -83785,7 +83806,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "You don't have any %s to fill the %s with."
+msgid "You don't have any %1$s to fill the %2$s with."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -83799,7 +83820,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "%s ripen in %s."
+msgid "%1$s ripen in %2$s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -83906,22 +83927,22 @@ msgstr ""
 msgid "This %s can not be reloaded!"
 msgstr ""
 
-#. ~ The <piece of furniture> contains <number> <items>.
+#. ~ %1$s - furniture, %2$d - number, %3$s items.
 #: src/iexamine.cpp
 #, c-format
-msgid "The %s contains %d %s."
+msgid "The %1$s contains %2$d %3$s."
 msgstr ""
 
 #. ~ Reloading or restocking a piece of furniture, for example a forge.
 #: src/iexamine.cpp
 #, c-format
-msgid "You need some %s to reload this %s."
+msgid "You need some %1$s to reload this %2$s."
 msgstr ""
 
 #. ~ Loading fuel or other items into a piece of furniture.
 #: src/iexamine.cpp
 #, c-format
-msgid "Put how many of the %s into the %s?"
+msgid "Put how many of the %1$s into the %2$s?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -85062,6 +85083,30 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
+msgid "Average damage when used as a melee weapon:"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "Critical hit chance %d%% - %d%%"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "%d bashing (%d on a critical hit)"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "%d cutting (%d on a critical hit)"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
+msgid "%d piercing (%d on a critical hit)"
+msgstr ""
+
+#: src/item.cpp
 msgid "It's done and can be activated."
 msgstr ""
 
@@ -85321,17 +85366,17 @@ msgstr ""
 
 #: src/item.cpp
 #, c-format
-msgid "You try to pull a %s from your %s, but fail!"
+msgid "You try to pull a %1$s from your %2$s, but fail!"
 msgstr ""
 
 #: src/item.cpp
 #, c-format
-msgid "You pull a %s from your %s and nock it."
+msgid "You pull a %1$s from your %2$s and nock it."
 msgstr ""
 
 #: src/item.cpp
 #, c-format
-msgid "That %s won't hold %s."
+msgid "That %1$s won't hold %2$s."
 msgstr ""
 
 #: src/item.cpp
@@ -86706,7 +86751,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You modify your %s to listen for %s activation signal on the radio."
+msgid "You modify your %1$s to listen for %2$s activation signal on the radio."
 msgstr ""
 
 #: src/iuse.cpp
@@ -87336,7 +87381,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You attack the %s with your %s."
+msgid "You attack the %1$s with your %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -88273,8 +88318,8 @@ msgstr ""
 
 #: src/iuse.cpp src/veh_interact.cpp
 #, c-format
-msgid "You remove the %s from the %s."
-msgid_plural "You remove the %s from the %s."
+msgid "You remove the %1$s from the %2$s."
+msgid_plural "You remove the %1$s from the %2$s."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -88297,8 +88342,8 @@ msgstr ""
 
 #: src/iuse.cpp src/player.cpp
 #, c-format
-msgid "You store %d %s in your %s."
-msgid_plural "You store %d %s in your %s."
+msgid "You store %1$d %2$s in your %3$s."
+msgid_plural "You store %1$d %2$s in your %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -88347,17 +88392,17 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You clumsily draw your %s from the %s."
+msgid "You clumsily draw your %1$s from the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You quickly draw your %s from the %s."
+msgid "You quickly draw your %1$s from the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You draw your %s from the %s."
+msgid "You draw your %1$s from the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -88380,22 +88425,22 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You clumsily shove your %s into the %s."
+msgid "You clumsily shove your %1$s into the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You deftly insert your %s into the %s."
+msgid "You deftly insert your %1$s into the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You put your %s into the %s."
+msgid "You put your %1$s into the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You deftly draw your %s from the %s."
+msgid "You deftly draw your %1$s from the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -88433,7 +88478,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You slash at the %s as you draw your %s."
+msgid "You slash at the %1$s as you draw your %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -88992,7 +89037,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You took a %s photo of %s."
+msgid "You took a %1$s photo of %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89383,7 +89428,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You link up the electric systems of the %s and the %s."
+msgid "You link up the electric systems of the %1$s and the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89405,7 +89450,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "The %s reads %s."
+msgid "The %1$s reads %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89445,7 +89490,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "The %s is too big to put in your %s."
+msgid "The %1$s is too big to put in your %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89460,7 +89505,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "The %s avoids your attempts to put it in the %s."
+msgid "The %1$s avoids your attempts to put it in the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89484,7 +89529,7 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 #, c-format
-msgid "You need %s to consume %s!"
+msgid "You need %1$s to consume %2$s!"
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -89499,14 +89544,15 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 #, c-format
-msgid "If you had standard factory-built %s bullets, you could load the %s."
+msgid ""
+"If you had standard factory-built %1$s bullets, you could load the %2$s."
 msgstr ""
 
 #. ~ First %s is the ammo item (with plural form and count included), second is the monster name
 #: src/iuse_actor.cpp
 #, c-format
-msgid "You load %d x %s round into the %s."
-msgid_plural "You load %d x %s rounds into the %s."
+msgid "You load %1$d x %2$s round into the %3$s."
+msgid_plural "You load %1$d x %2$s rounds into the %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -91664,12 +91710,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "You block %s of the damage with your %s!"
+msgid "You block %1$s of the damage with your %2$s!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "<npcname> blocks %s of the damage with their %s!"
+msgid "<npcname> blocks %1$s of the damage with their %2$s!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91733,7 +91779,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "Your %s gets stuck in %s, pulling it out of your hands!"
+msgid "Your %1$s gets stuck in %2$s, pulling it out of your hands!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91743,7 +91789,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "Your %s gets stuck in %s but you yank it free!"
+msgid "Your %1$s gets stuck in %2$s but you yank it free!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91753,12 +91799,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s tears into %s with his saber teeth!"
+msgid "%1$s tears into %2$s with his saber teeth!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s tears into %s with her saber teeth!"
+msgid "%1$s tears into %2$s with her saber teeth!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91768,12 +91814,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s sinks his fangs into %s!"
+msgid "%1$s sinks his fangs into %2$s!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s sinks her fangs into %s!"
+msgid "%1$s sinks her fangs into %2$s!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91783,12 +91829,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s bites %s with his ratlike incisors!"
+msgid "%1$s bites %2$s with his ratlike incisors!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s bites %s with her ratlike incisors!"
+msgid "%1$s bites %2$s with her ratlike incisors!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91798,7 +91844,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s nips and harries %s!"
+msgid "%1$s nips and harries %2$s!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91808,7 +91854,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s bites %s!"
+msgid "%1$s bites %2$s!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91818,7 +91864,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s bites a chunk out of %s!"
+msgid "%1$s bites a chunk out of %2$s!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91828,12 +91874,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s slices %s with his mandibles!"
+msgid "%1$s slices %2$s with his mandibles!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s slices %s with her mandibles!"
+msgid "%1$s slices %2$s with her mandibles!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91843,12 +91889,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s bites %s with his fangs!"
+msgid "%1$s bites %2$s with his fangs!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s bites %s with her fangs!"
+msgid "%1$s bites %2$s with her fangs!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91858,7 +91904,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s pecks %s!"
+msgid "%1$s pecks %2$s!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91868,12 +91914,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s jackhammers into %s with his beak!"
+msgid "%1$s jackhammers into %2$s with his beak!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s jackhammers into %s with her beak!"
+msgid "%1$s jackhammers into %2$s with her beak!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91883,12 +91929,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s kicks %s with his hooves!"
+msgid "%1$s kicks %2$s with his hooves!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s kicks %s with her hooves!"
+msgid "%1$s kicks %2$s with her hooves!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91898,7 +91944,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s slashes %s with a talon!"
+msgid "%1$s slashes %2$s with a talon!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91908,12 +91954,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s headbutts %s with his horns!"
+msgid "%1$s headbutts %2$s with his horns!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s headbutts %s with her horns!"
+msgid "%1$s headbutts %2$s with her horns!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91923,12 +91969,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s headbutts %s with his curled horns!"
+msgid "%1$s headbutts %2$s with his curled horns!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s headbutts %s with her curled horns!"
+msgid "%1$s headbutts %2$s with her curled horns!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91938,7 +91984,7 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s stabs %s with their pointed horns!"
+msgid "%1$s stabs %2$s with their pointed horns!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91948,12 +91994,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s butts %s with his antlers!"
+msgid "%1$s butts %2$s with his antlers!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s butts %s with her antlers!"
+msgid "%1$s butts %2$s with her antlers!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91963,12 +92009,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s stings %s with his tail!"
+msgid "%1$s stings %2$s with his tail!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s stings %s with her tail!"
+msgid "%1$s stings %2$s with her tail!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91978,12 +92024,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s clubs %s with his tail!"
+msgid "%1$s clubs %2$s with his tail!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s clubs %s with her tail!"
+msgid "%1$s clubs %2$s with her tail!"
 msgstr ""
 
 #: src/melee.cpp
@@ -91993,12 +92039,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s whaps %s with his tail!"
+msgid "%1$s whaps %2$s with his tail!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s whaps %s with her tail!"
+msgid "%1$s whaps %2$s with her tail!"
 msgstr ""
 
 #: src/melee.cpp
@@ -92013,22 +92059,22 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s rakes %s with his tentacle!"
+msgid "%1$s rakes %2$s with his tentacle!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s slaps %s with his tentacle!"
+msgid "%1$s slaps %2$s with his tentacle!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s rakes %s with her tentacle!"
+msgid "%1$s rakes %2$s with her tentacle!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s slaps %s with her tentacle!"
+msgid "%1$s slaps %2$s with her tentacle!"
 msgstr ""
 
 #: src/melee.cpp
@@ -92038,12 +92084,12 @@ msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s lashes %s with his vines!"
+msgid "%1$s lashes %2$s with his vines!"
 msgstr ""
 
 #: src/melee.cpp
 #, c-format
-msgid "%s lashes %s with her vines!"
+msgid "%1$s lashes %2$s with her vines!"
 msgstr ""
 
 #: src/melee.cpp
@@ -95162,7 +95208,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s feeds an %s and it grows!"
+msgid "The %1$s feeds an %2$s and it grows!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -95295,7 +95341,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "A blow from the %s sends %s flying!"
+msgid "A blow from the %1$s sends %2$s flying!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -95325,7 +95371,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s opens its mouth and a beam shoots towards %s!"
+msgid "The %1$s opens its mouth and a beam shoots towards %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -95389,12 +95435,16 @@ msgstr ""
 msgid "The %1$s lashes your %2$s!"
 msgstr ""
 
+#. ~ shooter, 2$s - target, 3$s bodypart in accusative
 #: src/monattack.cpp
-msgid "The %1$s lashes %s's %2$s!"
+#, c-format
+msgid "The %1$s lashes %2$s's %3$s!"
 msgstr ""
 
+#. ~ 1$s monster name, 2$s bodypart in accusative
 #: src/monattack.cpp
-msgid "The %1$s lashes %s!"
+#, c-format
+msgid "The %1$s lashes %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -95481,7 +95531,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s swipes at %s with a barbed tendril!"
+msgid "The %1$s swipes at %2$s with a barbed tendril!"
 msgstr ""
 
 #. ~ 1$s is monster name, 2$s bodypart in accusative
@@ -95739,7 +95789,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s's arms fly out and pull and grab %s!"
+msgid "The %1$s's arms fly out and pull and grab %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -95905,7 +95955,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s shocks the %s!"
+msgid "The %1$s shocks the %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -96097,12 +96147,12 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s stretches its head at you, but bounces off the %s"
+msgid "The %1$s stretches its head at you, but bounces off the %2$s"
 msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s stretches its head at <npcname>, but bounces off the %s"
+msgid "The %1$s stretches its head at <npcname>, but bounces off the %2$s"
 msgstr ""
 
 #: src/monattack.cpp
@@ -96152,7 +96202,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s swings a massive claw at %s!"
+msgid "The %1$s swings a massive claw at %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -96162,12 +96212,12 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s lunges for %s!"
+msgid "The %1$s lunges for %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s lunges straight into %s!"
+msgid "The %1$s lunges straight into %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -96375,12 +96425,12 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s mechanically grabs at %s!"
+msgid "The %1$s mechanically grabs at %2$s!"
 msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "%s slams %s to the ground!"
+msgid "%1$s slams %2$s to the ground!"
 msgstr ""
 
 #. ~ 1$s is bodypart name in accusative, 2$d is damage value.
@@ -96457,7 +96507,7 @@ msgstr ""
 
 #: src/monattack.cpp
 #, c-format
-msgid "The %s thrusts its arm at you but bounces off the %s"
+msgid "The %1$s thrusts its arm at you but bounces off the %2$s"
 msgstr ""
 
 #: src/monattack.cpp
@@ -96642,7 +96692,7 @@ msgstr ""
 
 #: src/mondefense.cpp
 #, c-format
-msgid "Striking the %s shocks %s!"
+msgid "Striking the %1$s shocks %2$s!"
 msgstr ""
 
 #: src/mondefense.cpp
@@ -96658,17 +96708,17 @@ msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s flies over the %s."
+msgid "The %1$s flies over the %2$s."
 msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s climbs over the %s."
+msgid "The %1$s climbs over the %2$s."
 msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "A %s %s from the %s!"
+msgid "A %1$s %2$s from the %3$s!"
 msgstr ""
 
 #: src/monmove.cpp
@@ -96681,7 +96731,7 @@ msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "A %s %s into the %s!"
+msgid "A %1$s %2$s into the %3$s!"
 msgstr ""
 
 #: src/monmove.cpp
@@ -96694,22 +96744,22 @@ msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s tramples %s"
+msgid "The %1$s tramples %2$s"
 msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s bounces off a %s!"
+msgid "The %1$s bounces off a %2$s!"
 msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s bounces off %s!"
+msgid "The %1$s bounces off %2$s!"
 msgstr ""
 
 #: src/monmove.cpp
 #, c-format
-msgid "The %s bounces off a %s."
+msgid "The %1$s bounces off a %2$s."
 msgstr ""
 
 #: src/monster.cpp
@@ -96854,12 +96904,12 @@ msgstr ""
 
 #: src/monster.cpp
 #, c-format
-msgid "The %s hits the %s!"
+msgid "The %1$s hits the %2$s!"
 msgstr ""
 
 #: src/monster.cpp
 #, c-format
-msgid "The %s misses the %s!"
+msgid "The %1$s misses the %2$s!"
 msgstr ""
 
 #: src/monster.cpp
@@ -96936,7 +96986,7 @@ msgstr ""
 
 #: src/monster.cpp
 #, c-format
-msgid "The spores transform %s into a %s!"
+msgid "The spores transform %1$s into a %2$s!"
 msgstr ""
 
 #: src/mutation.cpp
@@ -97166,16 +97216,16 @@ msgstr ""
 msgid "SCENARIO"
 msgstr ""
 
-#: src/newcharacter.cpp src/player.cpp
-msgid "STATS"
+#: src/newcharacter.cpp
+msgid "PROFESSION"
 msgstr ""
 
 #: src/newcharacter.cpp src/player.cpp
 msgid "TRAITS"
 msgstr ""
 
-#: src/newcharacter.cpp
-msgid "PROFESSION"
+#: src/newcharacter.cpp src/player.cpp
+msgid "STATS"
 msgstr ""
 
 #: src/newcharacter.cpp src/player.cpp
@@ -97184,6 +97234,19 @@ msgstr ""
 
 #: src/newcharacter.cpp
 msgid "DESCRIPTION"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "points"
+msgstr ""
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "(Press <color_light_green>%s</color> to change)"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid "Sort by:"
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -97505,6 +97568,10 @@ msgstr ""
 
 #: src/newcharacter.cpp
 msgid "Limited"
+msgstr ""
+
+#: src/newcharacter.cpp
+msgid ", default:\n"
 msgstr ""
 
 #: src/newcharacter.cpp
@@ -98098,7 +98165,7 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s reloads their %s."
+msgid "%1$s reloads their %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98111,12 +98178,13 @@ msgid "Don't move a <swear> muscle..."
 msgstr ""
 
 #: src/npcmove.cpp
-msgid "%s falls tries to climb the %1$s but slips."
+#, c-format
+msgid "%1$s falls tries to climb the %2$s but slips."
 msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s climbs over the %s."
+msgid "%1$s climbs over the %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98131,7 +98199,7 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s picks up a %s."
+msgid "%1$s picks up a %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98141,7 +98209,7 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s picks up a %s and a %s."
+msgid "%1$s picks up a %2$s and a %3$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98166,7 +98234,7 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "Someone picks up a %s and a %s"
+msgid "Someone picks up a %1$s and a %2$s"
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98182,17 +98250,17 @@ msgstr[1] ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s drops a %s."
+msgid "%1$s drops a %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s throws a %s."
+msgid "%1$s throws a %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s heals %s."
+msgid "%1$s heals %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98223,6 +98291,11 @@ msgid "Hold still, I can heal you more."
 msgstr ""
 
 #: src/npcmove.cpp
+#, c-format
+msgid "%s heals %s."
+msgstr ""
+
+#: src/npcmove.cpp
 msgid "herself"
 msgstr ""
 
@@ -98232,12 +98305,12 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s takes some %s."
+msgid "%1$s takes some %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s takes %s's money!"
+msgid "%1$s takes %2$s's money!"
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98261,7 +98334,7 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s takes %s's %s."
+msgid "%1$s takes %2$s's %3$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -98271,12 +98344,12 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "Someone takes %s's %s."
+msgid "Someone takes %1$s's %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
-msgid "%s takes your %s."
+msgid "%1$s takes your %2$s."
 msgstr ""
 
 #: src/npcmove.cpp
@@ -101116,7 +101189,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s gives you a %s"
+msgid "%1$s gives you a %2$s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -101782,7 +101855,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
-msgid "%s waits at %s"
+msgid "%1$s waits at %2$s"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -103237,7 +103310,7 @@ msgstr ""
 
 #: src/pickup.cpp
 #, c-format
-msgid "No space for %s; wield instead? (drops %s)"
+msgid "No space for %1$s; wield instead? (drops %2$s)"
 msgstr ""
 
 #: src/pickup.cpp
@@ -103673,25 +103746,25 @@ msgstr ""
 #. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
 #: src/player.cpp
 #, c-format
-msgid "%s was killed in a %s in the middle of nowhere."
+msgid "%1$s was killed in a %2$s in the middle of nowhere."
 msgstr ""
 
 #. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
 #: src/player.cpp
 #, c-format
-msgid "%s was killed in a %s in the wilderness."
+msgid "%1$s was killed in a %2$s in the wilderness."
 msgstr ""
 
 #. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
 #: src/player.cpp
 #, c-format
-msgid "%s was killed in a %s on the outskirts of %s."
+msgid "%1$s was killed in a %2$s on the outskirts of %3$s."
 msgstr ""
 
 #. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
 #: src/player.cpp
 #, c-format
-msgid "%s was killed in a %s in %s."
+msgid "%1$s was killed in a %2$s in %3$s."
 msgstr ""
 
 #: src/player.cpp
@@ -104422,7 +104495,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You've spotted a %s to the %s!"
+msgid "You've spotted a %1$s to the %2$s!"
 msgstr ""
 
 #: src/player.cpp
@@ -104432,11 +104505,12 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "%s's offensive defense system shocks %s in mid-attack!"
+msgid "%1$s's offensive defense system shocks %2$s in mid-attack!"
 msgstr ""
 
 #: src/player.cpp
-msgid "%1$s's %2$s puncture %s in mid-attack!"
+#, c-format
+msgid "%1$s's %2$s puncture %3$s in mid-attack!"
 msgstr ""
 
 #: src/player.cpp
@@ -104449,11 +104523,12 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your %s puncture %s in mid-attack!"
+msgid "Your %1$s puncture %2$s in mid-attack!"
 msgstr ""
 
 #: src/player.cpp
-msgid "%1$s's %2$s scrape %s in mid-attack!"
+#, c-format
+msgid "%1$s's %2$s scrape %3$s in mid-attack!"
 msgstr ""
 
 #: src/player.cpp
@@ -104466,7 +104541,8 @@ msgid "Your thorns scrape %s in mid-attack!"
 msgstr ""
 
 #: src/player.cpp
-msgid "%1$s gets a load of %2$s's %s stuck in!"
+#, c-format
+msgid "%1$s gets a load of %2$s's %3$s stuck in!"
 msgstr ""
 
 #: src/player.cpp
@@ -104506,7 +104582,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "%s's acidic blood splashes on %s in mid-attack!"
+msgid "%1$s's acidic blood splashes on %2$s in mid-attack!"
 msgstr ""
 
 #: src/player.cpp
@@ -104791,8 +104867,8 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Siphoned %d unit of %s from the %s."
-msgid_plural "Siphoned %d units of %s from the %s."
+msgid "Siphoned %1$d unit of %2$s from the %3$s."
+msgid_plural "Siphoned %1$d units of %2$s from the %3$s."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -105600,6 +105676,11 @@ msgstr ""
 msgid "You're drowning!"
 msgstr ""
 
+#. ~Sound of buzzing Insect Wings
+#: src/player.cpp
+msgid "BZZZZZ"
+msgstr ""
+
 #: src/player.cpp
 msgid "This soil is delicious!"
 msgstr ""
@@ -105729,7 +105810,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your radiation badge changes from %s to %s!"
+msgid "Your radiation badge changes from %1$s to %2$s!"
 msgstr ""
 
 #: src/player.cpp
@@ -106423,7 +106504,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "That %s cannot be used on a %s."
+msgid "That %1$s cannot be used on a %2$s."
 msgstr ""
 
 #: src/player.cpp
@@ -106434,7 +106515,7 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid ""
-"Your %s doesn't have enough room for another %s mod. To remove the mods, "
+"Your %1$s doesn't have enough room for another %2$s mod. To remove the mods, "
 "activate your weapon."
 msgstr ""
 
@@ -106470,7 +106551,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your %s already has a %s."
+msgid "Your %1$s already has a %2$s."
 msgstr ""
 
 #: src/player.cpp
@@ -106480,7 +106561,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You attach the %s to your %s."
+msgid "You attach the %1$s to your %2$s."
 msgstr ""
 
 #: src/player.cpp
@@ -106503,7 +106584,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You remove your %s from your %s."
+msgid "You remove your %1$s from your %2$s."
 msgstr ""
 
 #: src/player.cpp
@@ -106661,7 +106742,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Learned a recipe for %s from the %s."
+msgid "Learned a recipe for %1$s from the %2$s."
 msgstr ""
 
 #: src/player.cpp
@@ -106722,12 +106803,12 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your %s is %s further!"
+msgid "Your %1$s is %2$s further!"
 msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "Your %s is %s!"
+msgid "Your %1$s is %2$s!"
 msgstr ""
 
 #. ~ %s is armor name
@@ -107020,7 +107101,7 @@ msgstr ""
 
 #: src/ranged.cpp
 #, c-format
-msgid "You disarm %s's %s using your whip!"
+msgid "You disarm %1$s's %2$s using your whip!"
 msgstr ""
 
 #: src/ranged.cpp
@@ -107029,7 +107110,7 @@ msgstr ""
 
 #: src/ranged.cpp
 #, c-format
-msgid "Shooting %s from %s"
+msgid "Shooting %1$s from %2$s"
 msgstr ""
 
 #: src/ranged.cpp
@@ -107203,7 +107284,7 @@ msgstr ""
 
 #: src/ranged.cpp
 #, c-format
-msgid "The %s embeds in %s!"
+msgid "The %1$s embeds in %2$s!"
 msgstr ""
 
 #: src/ranged.cpp
@@ -108473,13 +108554,15 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Siphoned %d units of %s from the %s into the %s, draining the tank."
+msgid ""
+"Siphoned %1$d units of %2$s from the %3$s into the %4$s, draining the tank."
 msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
-"Siphoned %d units of %s from the %s into the %s, receiving tank is full."
+"Siphoned %1$d units of %2$s from the %3$s into the %4$s, receiving tank is "
+"full."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -108488,12 +108571,12 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You install a %s into the %s."
+msgid "You install a %1$s into the %2$s."
 msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You repair the %s's %s."
+msgid "You repair the %1$s's %2$s."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -108503,12 +108586,12 @@ msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You remove the broken %s from the %s."
+msgid "You remove the broken %1$s from the %2$s."
 msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "You replace one of the %s's tires with a %s."
+msgid "You replace one of the %1$s's tires with a %2$s."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -108956,7 +109039,7 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "Looks like the %s is out of %s."
+msgid "Looks like the %1$s is out of %2$s."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -109175,13 +109258,12 @@ msgid "Clank!"
 msgstr ""
 
 #: src/vehicle.cpp
-#, c-format
-msgid "The %s's %s runs over %s."
+msgid "The %1$s's %s runs over %2$s."
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s's %s runs over something."
+msgid "The %1$s's %2$s runs over something."
 msgstr ""
 
 #: src/vehicle.cpp
@@ -109196,12 +109278,12 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s's %s is torn off!"
+msgid "The %1$s's %2$s is torn off!"
 msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s's %s is destroyed!"
+msgid "The %1$s's %2$s is destroyed!"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -109321,7 +109403,7 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
-msgid "The %s fires its %s!"
+msgid "The %1$s fires its %2$s!"
 msgstr ""
 
 #: src/vehicle.cpp
