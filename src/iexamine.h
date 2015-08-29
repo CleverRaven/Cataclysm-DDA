@@ -75,7 +75,7 @@ void aggie_plant( player *p, map *m, const tripoint &examp );
 void harvest_tree_shrub( player *p, map *m, const tripoint &examp );
 void tree_pine( player *p, map *m, const tripoint &examp );
 void tree_hickory( player *p, map *m, const tripoint &examp );
-void tree_blackjack( player *p, map *m, const tripoint &examp );
+void tree_bark( player *p, map *m, const tripoint &examp );
 void shrub_marloss( player *p, map *m, const tripoint &examp );
 void tree_marloss( player *p, map *m, const tripoint &examp );
 void shrub_wildveggies( player *p, map *m, const tripoint &examp );

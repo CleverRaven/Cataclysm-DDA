@@ -2031,7 +2031,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
                 drink_index = -1;
             }
         } else { //Only one drink type was in inventory, so it's automatically used
-            if (!query_yn(_("Fill the %s with %s?"), m->name(examp).c_str(), drink_names[0].c_str())) {
+            if (!query_yn(_("Fill the %1$s with %2$s?"), m->name(examp).c_str(), drink_names[0].c_str())) {
                 drink_index = -1;
             }
         }
@@ -2053,10 +2053,10 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
             }
         }
         if( keg_full ) {
-            add_msg(_("You completely fill the %s with %s."),
+            add_msg(_("You completely fill the %1$s with %2$s."),
                     m->name(examp).c_str(), drink.tname().c_str());
         } else {
-            add_msg(_("You fill the %s with %s."), m->name(examp).c_str(),
+            add_msg(_("You fill the %1$s with %2$s."), m->name(examp).c_str(),
                     drink.tname().c_str());
         }
         p->moves -= 250;
@@ -2089,7 +2089,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
             if( g->handle_liquid(*drink, true, false) ) {
-                add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
                         m->name(examp).c_str());
                 m->i_clear( examp );
             }
@@ -2102,7 +2102,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
 
             drink->charges--;
             if (drink->charges == 0) {
-                add_msg(_("You squeeze the last drops of %s from the %s."), drink->tname().c_str(),
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
                         m->name(examp).c_str());
                 m->i_clear( examp );
             }
@@ -2117,7 +2117,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
                 return;
             }
             if (charges_held < 1) {
-                add_msg(m_info, _("You don't have any %s to fill the %s with."),
+                add_msg(m_info, _("You don't have any %1$s to fill the %2$s with."),
                         drink->tname().c_str(), m->name(examp).c_str());
                 return;
             }
@@ -2126,13 +2126,13 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
                 drink->charges++;
                 int d_vol = drink->volume(false, true) / 1000;
                 if (d_vol >= keg_cap) {
-                    add_msg(_("You completely fill the %s with %s."), m->name(examp).c_str(),
+                    add_msg(_("You completely fill the %1$s with %2$s."), m->name(examp).c_str(),
                             drink->tname().c_str());
                     p->moves -= 250;
                     return;
                 }
             }
-            add_msg(_("You fill the %s with %s."), m->name(examp).c_str(),
+            add_msg(_("You fill the %1$s with %2$s."), m->name(examp).c_str(),
                     drink->tname().c_str());
             p->moves -= 250;
             return;
@@ -2196,7 +2196,7 @@ void iexamine::harvest_tree_shrub(player *p, map *m, const tripoint &examp)
     if (calendar::turn.get_season() != m->get_ter_harvest_season(examp)) {
         std::string fruit = item::nname(m->get_ter_harvestable(examp), 10);
         fruit[0] = toupper(fruit[0]);
-        add_msg(m_info, _("%s ripen in %s."), fruit.c_str(), season_name(m->get_ter_harvest_season(examp)).c_str());
+        add_msg(m_info, _("%1$s ripen in %2$s."), fruit.c_str(), season_name(m->get_ter_harvest_season(examp)).c_str());
         return;
     }
     //if the fruit has been recently harvested
@@ -2265,14 +2265,14 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
     }
 }
 
-void iexamine::tree_blackjack(player *p, map *m, const tripoint &examp)
+void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
         none(p, m, examp);
         return;
     }
-    m->spawn_item( p->pos(), "tanbark", rng( 1, 2 ) );
-    m->ter_set(examp, t_tree);
+    m->spawn_item( p->pos(), m->get_ter_harvestable(examp), rng( 1, 2 ) );
+    m->ter_set(examp, m->get_ter_transforms_into(examp));
 }
 
 void iexamine::shrub_marloss(player *p, map *m, const tripoint &examp)
@@ -2586,8 +2586,8 @@ void iexamine::reload_furniture(player *p, map *m, const tripoint &examp)
     }
     const int amount_in_furn = count_charges_in_list( ammo, m->i_at( examp ) );
     if( amount_in_furn > 0 ) {
-        //~ The <piece of furniture> contains <number> <items>.
-        add_msg(_("The %s contains %d %s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
+        //~ %1$s - furniture, %2$d - number, %3$s items.
+        add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
     const int max_amount_in_furn = f.max_volume * ammo->stack_size / ammo->volume;
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
@@ -2597,12 +2597,12 @@ void iexamine::reload_furniture(player *p, map *m, const tripoint &examp)
     const int amount_in_inv = p->charges_of( ammo->id );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg(m_info, _("You need some %s to reload this %s."), ammo->nname(2).c_str(), f.name.c_str());
+        add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name.c_str());
         return;
     }
     const long max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
-    const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
+    const std::string popupmsg = string_format(_("Put how many of the %1$s into the %2$s?"),
                                  ammo->nname(max_amount).c_str(), f.name.c_str());
     long amount = std::atoi( string_input_popup( popupmsg, 20,
                                   to_string(max_amount),
@@ -3321,8 +3321,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("tree_pine" == function_name) {
         return &iexamine::tree_pine;
     }
-    if ("tree_blackjack" == function_name) {
-        return &iexamine::tree_blackjack;
+    if ("tree_bark" == function_name) {
+        return &iexamine::tree_bark;
     }
     if ("shrub_marloss" == function_name) {
         return &iexamine::shrub_marloss;

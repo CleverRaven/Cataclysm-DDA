@@ -1197,7 +1197,7 @@ int recipe::print_time(WINDOW *w, int ypos, int xpos, int width,
             const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
             const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
             //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
-            text = string_format( _( "%s and %s" ), h.c_str(), m.c_str() );
+            text = string_format( _( "%1$s and %2$s" ), h.c_str(), m.c_str() );
         }
     }
     text = string_format( _( "Time to complete: %s" ), text.c_str() );
@@ -2274,7 +2274,8 @@ void player::complete_disassemble()
             const bool dmg_success = component_success_chance > rng_float(0, 1);
             if (!dmg_success) {
                 // Show reason for failure (damaged item, tname contains the damage adjective)
-                add_msg(m_bad, _("You fail to recover %s from the %s."), newit.tname().c_str(),
+                //~ %1s - material, %2$s - disassembled item
+                add_msg(m_bad, _("You fail to recover %1$s from the %2$s."), newit.tname().c_str(),
                         dis_item.tname().c_str());
                 continue;
             }
