@@ -870,6 +870,10 @@ void init_options()
                                      _("If true, show item symbols in inventory and pick up menu."),
                                      false
                                     );
+    OPTIONS["ITEM_SHOW_ALL_RECIPES"] = cOpt("interface", _("Show all items can be crafted"),
+                                     _("If true, all items that can be crafted will be shown in the description of an item."),
+                                     false
+                                    );
 
     mOptionsSort["interface"]++;
 

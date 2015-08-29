@@ -1614,13 +1614,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     known_recipes.push_back(r);
                 }
             }
-            if (known_recipes.size() > 24) {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
-            } else if (known_recipes.size() > 12) {
-                dump->push_back(iteminfo("DESCRIPTION", "--"));
-                dump->push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
-            } else {
+            if (OPTIONS["ITEM_SHOW_ALL_RECIPES"] || known_recipes.size() <= 12) {
                 bool found_recipe = false;
                 for (recipe* r : known_recipes) {
                     if (found_recipe) {
@@ -1641,6 +1635,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     dump->push_back(iteminfo("DESCRIPTION", "--"));
                     dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
                 }
+            } else if (known_recipes.size() > 24) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
+            } else {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
             }
         }
     }
