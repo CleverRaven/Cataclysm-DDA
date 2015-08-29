@@ -9411,17 +9411,20 @@ int game::list_items(const int iLastState)
 {
     int iInfoHeight = std::min(25, TERMY / 2);
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
-                             TERMX - width + 1 - VIEW_OFFSET_X);
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
+                                        VIEW_OFFSET_X;
+
+    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
+                             VIEW_OFFSET_Y + 1, offsetX + 1);
     WINDOW_PTR w_itemsptr( w_items );
-    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
-                                    TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
+                                    VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_items_borderptr( w_items_border );
-    WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                 TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2,
+                                 TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
     WINDOW_PTR w_item_infoptr( w_item_info );
-    WINDOW *w_item_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                        TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_item_info_border = newwin(iInfoHeight, width,
+                                        TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_item_info_borderptr( w_item_info_border );
 
     //Area to search +- of players position.
@@ -9838,17 +9841,20 @@ int game::list_monsters(const int iLastState)
 
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
+                                        VIEW_OFFSET_X;
+
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
-                                VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+                                VIEW_OFFSET_Y + 1, offsetX + 1);
     WINDOW_PTR w_monstersptr( w_monsters );
-    WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
-                                       TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
+                                       VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monsters_borderptr( w_monsters_border );
-    WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                    TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2,
+                                    TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
     WINDOW_PTR w_monster_infoptr( w_monster_info );
-    WINDOW *w_monster_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                           TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_monster_info_border = newwin(iInfoHeight, width,
+                                           TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
     uistate.list_item_mon = 2; // remember we've tabbed here
