@@ -10,6 +10,9 @@ std::vector< trap* > traplist;
 std::unordered_map< trap_str_id, trap_id > trapmap;
 
 template<>
+const trap_str_id string_id<trap>::NULL_ID( "tr_null" );
+
+template<>
 const trap &int_id<trap>::obj() const
 {
     if( static_cast<size_t>( _id ) >= traplist.size() ) {
@@ -265,7 +268,7 @@ void trap::finalize()
     const auto trapfind = []( const char *id ) {
         return trap_str_id( id ).id();
     };
-    tr_null = trapfind("tr_null");
+    tr_null = trap_str_id::NULL_ID.id();
     tr_bubblewrap = trapfind("tr_bubblewrap");
     tr_cot = trapfind("tr_cot");
     tr_brazier = trapfind("tr_brazier");

@@ -22,13 +22,14 @@
 //     default monster will never get picked, and nor will the others past the
 //     monster that makes the point count go over 1000
 
-const mtype_id mon_null( "mon_null" );
-
 std::map<mongroup_id, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
+
+template<>
+const mongroup_id string_id<MonsterGroup>::NULL_ID( "GROUP_NULL" );
 
 template<>
 bool string_id<MonsterGroup>::is_valid() const
@@ -66,10 +67,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
-    //If the default monster is too difficult, replace this with "mon_null"
+    //If the default monster is too difficult, replace this with NULL_ID
     if(turn != -1 &&
        (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS( group.defaultMonster.obj().difficulty))) {
-        spawn_details = MonsterGroupResult(mon_null, 0);
+        spawn_details = MonsterGroupResult(NULL_ID, 0);
     }
 
     bool monster_found = false;
@@ -197,8 +198,7 @@ const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
             return g.second.name;
         }
     }
-    static const mongroup_id null( "GROUP_NULL" );
-    return null;
+    return NULL_ID;
 }
 
 std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
@@ -229,7 +229,7 @@ const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& grou
         // but it prevents further messages about invalid monster type id
         auto &g = monsterGroupMap[group];
         g.name = group;
-        g.defaultMonster = mon_null;
+        g.defaultMonster = NULL_ID;
         return g;
     } else {
         return it->second;
@@ -298,7 +298,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             }
         }
         if(MonsterGroupManager::monster_is_blacklisted( mg.defaultMonster )) {
-            mg.defaultMonster = mon_null;
+            mg.defaultMonster = NULL_ID;
         }
     }
 }
@@ -357,7 +357,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", "GROUP_NULL") );
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", mongroup_id::NULL_ID.str() ) );
     g.monster_group_time = jo.get_int("replacement_time", 0);
     g.is_safe = jo.get_bool( "is_safe", false );
 
