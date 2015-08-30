@@ -5118,7 +5118,7 @@
         "difficulty" : 4,
         "location" : "under",
         "power" : -100,
-        "flags" : ["PLOW"],
+        "flags" : ["PLOW", "EXTRA_DRAG"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
@@ -5137,7 +5137,7 @@
         "location" : "structure",
         "size":50,
         "power":-25,
-        "flags" : ["PLANTER","PROTRUSION","CARGO"],
+        "flags" : ["PLANTER","PROTRUSION","CARGO", "EXTRA_DRAG"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
             {"item": "scrap", "count" : [1,2] }
@@ -5157,7 +5157,7 @@
         "location" : "structure",
         "power":-25,
         "size":70,
-        "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED_PLANTER"],
+        "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
             {"item": "scrap", "count" : [1,2] }
@@ -5177,7 +5177,7 @@
         "item" : "v_reaper_item",
         "difficulty" : 4,
         "location" : "structure",
-        "flags" : ["REAPER","PROTRUSION"],
+        "flags" : ["REAPER","PROTRUSION","EXTRA_DRAG"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [2,4]}
