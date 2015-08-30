@@ -764,13 +764,13 @@ void effect::mod_intensity(int nintensity)
     }
 }
 
-std::string effect::get_resist_trait() const
+const std::vector<std::string> &effect::get_resist_traits() const
 {
-    return eff_type->resist_trait;
+    return eff_type->resist_traits;
 }
-std::string effect::get_resist_effect() const
+const std::vector<std::string> &effect::get_resist_effects() const
 {
-    return eff_type->resist_effect;
+    return eff_type->resist_effects;
 }
 const std::vector<std::string> &effect::get_removes_effects() const
 {
@@ -1159,8 +1159,8 @@ void load_effect_type(JsonObject &jo)
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
-    new_etype.resist_trait = jo.get_string("resist_trait", "");
-    new_etype.resist_effect = jo.get_string("resist_effect", "");
+    new_etype.resist_traits = jo.get_string_array("resist_traits");
+    new_etype.resist_effects = jo.get_string_array("resist_effects");
     new_etype.removes_effects = jo.get_string_array("removes_effects");
     new_etype.blocks_effects = jo.get_string_array("blocks_effects");
 
