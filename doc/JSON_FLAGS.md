@@ -437,7 +437,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```REAPER``` Cuts down mature crops, depositing them on the square
   - The ```bonus``` tag defines how productive the harvest can be.
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
-  - The ```bonus``` tag defines the level of friction added to the vehicle.
+- ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 
 ## Ammo
 
