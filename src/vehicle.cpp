@@ -4451,10 +4451,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // Don't fling if vertical - critter got smashed into the ground
             if( !vert_coll ) {
-                if( abs(vel2_a) > rng( 10, 20 ) ) {
+                if( fabs(vel2_a) > rng( 10, 20 ) ) {
                     const int angle_sum = vel2_a > 0 ?
                         move.dir() + angle : -(move.dir() + angle);
-                    g->fling_creature( critter, angle_sum, abs(vel2_a) );
+                    g->fling_creature( critter, angle_sum, fabs(vel2_a) );
                 } else if( !critter->is_dead_state() ) {
                     smashed = false;
                 }
