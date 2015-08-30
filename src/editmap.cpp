@@ -476,12 +476,11 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                     } else {
                         m->drawsq( w, g->u, p, false, draw_itm, center.x, center.y, false, true );
                     }
-                    monster *m = dynamic_cast<monster *>( critter );
-                    if( m != nullptr ) {
-                        monster &mon = *m;
-                        if( refresh_mplans == true ) {
-                            for( auto &elem : mon.plans ) {
-                                hilights["mplan"].points[elem] = 1;
+                    if( refresh_mplans == true ) {
+                        monster *mon = dynamic_cast<monster *>( critter );
+                        if( mon != nullptr && mon->pos() != mon->move_target() ) {
+                            for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
+                                hilights["mplan"].points[location] = 1;
                             }
                         }
                     }

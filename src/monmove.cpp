@@ -28,7 +28,7 @@
 
 bool monster::wander()
 {
-    return ( plans.empty() );
+    return ( goal == pos() );
 }
 
 bool monster::can_move_to( const tripoint &p ) const
@@ -84,14 +84,14 @@ bool monster::can_move_to( const tripoint &p ) const
     return true;
 }
 
-// Resets plans (list of squares to visit) and builds it as a straight line
-// to the destination p. t is used to choose which eligible line to use.
-// Currently, this assumes we can see p, so shouldn't be used in any other
-// circumstance (or else the monster will "phase" through solid terrain!)
 void monster::set_dest( const tripoint &p )
 {
-    plans.clear();
-    plans = g->m.find_clear_path( pos(), p );
+    goal = p;
+}
+
+void monster::unset_dest( )
+{
+    goal = pos();
 }
 
 // Move towards p for f more turns--generally if we hear a sound there
@@ -275,14 +275,8 @@ void monster::plan( const mfactions &factions )
         if( rl_dist( pos3(), g->u.pos3() ) > 2 ) {
             set_dest( g->u.pos3() );
         } else {
-            plans.clear();
+            unset_dest();
         }
-    }
-    // If we're not adjacent to the start of our plan path, don't act on it.
-    // This is to catch when we had pre-existing invalid plans and
-    // made it through the function without changing them.
-    if( !plans.empty() && square_dist( pos3(), plans.front() ) > 1 ) {
-        plans.clear();
     }
 }
 
@@ -359,22 +353,18 @@ void monster::move()
         moves = 0;
         return;
     }
-    if( friendly != 0 ) {
-        if( friendly > 0 ) {
-            friendly--;
-        }
-        friendly_move();
-        return;
+    if( friendly > 0 ) {
+        --friendly;
     }
 
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
-    if( !plans.empty() ) {
-        if( plans.back() == g->u.pos3() ) {
+    if( !wander() ) {
+        if( goal == g->u.pos3() ) {
             current_attitude = attitude( &( g->u ) );
         } else {
             for( auto &i : g->active_npc ) {
-                if( plans.back() == i->pos3() ) {
+                if( goal == i->pos3() ) {
                     current_attitude = attitude( i );
                 }
             }
@@ -382,83 +372,73 @@ void monster::move()
     }
 
     if( current_attitude == MATT_IGNORE ||
-        ( current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST ) ) {
+        ( current_attitude == MATT_FOLLOW && rl_dist(pos(), goal) <= MONSTER_FOLLOW_DIST ) ) {
         moves -= 100;
         stumble();
         return;
     }
 
-    // Fix possibly invalid plans
-    // Also make sure the monster won't act across z-levels when it shouldn't.
-    // Don't do it in plan(), because the mon can still use ranged special attacks using
-    // the plans that are not valid for travel/melee.
-    const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
-    if( !plans.empty() && !g->m.valid_move( pos(), plans[0], can_bash, can_fly ) ) {
-        plans.clear();
-    }
-
     bool moved = false;
-    tripoint next;
     tripoint destination;
 
     // CONCRETE PLANS - Most likely based on sight
-    if( !plans.empty() ) {
-        destination = plans.back();
-        next = plans.front();
+    if( !wander() ) {
+        destination = goal;
         moved = true;
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
-        plans.clear();
+        unset_dest();
         tripoint tmp = scent_move();
         if( tmp.x != -1 ) {
             destination = tmp;
-            next = tmp;
             moved = true;
         }
     }
     if( wandf > 0 && !moved ) { // No LOS, no scent, so as a fall-back follow sound
-        plans.clear();
+        unset_dest();
         tripoint tmp = wander_next();
         if( tmp != pos() ) {
             destination = tmp;
-            next = tmp;
             moved = true;
         }
     }
 
     if( moved ) {
+        // Implement both avoiding obstacles and staggering.
         moved = false;
-        const Creature *target = g->critter_at( next, is_hallucination() );
-        // When attacking an adjacent enemy, we're direct.
-        if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
-            // No change, stick with the plan.
-        } else {
-            // If the direct path is blocked, go around.
-            int switch_chance = 1;
-            for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
-                // Bail out if we can't move there and we can't bash.
-                if( !can_move_to( candidate ) &&
-                    !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
-                    continue;
-                }
-                const Creature *target = g->critter_at( candidate, is_hallucination() );
-                // Bail out if there's a non-hostile monster in the way and we're not pushy.
-                if( target != nullptr && attitude_to( *target ) == A_HOSTILE &&
-                    !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
-                    continue;
-                }
-                // Randomly pick one of the viable squares to move to.
-                if( one_in(switch_chance) ) {
-                    moved = true;
-                    next = candidate;
-                    switch_chance++;
-                    // If we stumble, pick a random square, otherwise take the first one,
-                    // which is the most direct path.
-                    if( !has_flag( MF_STUMBLES ) ) {
-                        break;
-                    }
+        int switch_chance = 0;
+        const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+        const int distance_to_target = rl_dist( pos(), destination );
+        for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            const Creature *target = g->critter_at( candidate, is_hallucination() );
+            // When attacking an adjacent enemy, we're direct.
+            if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
+                moved = true;
+                destination = candidate;
+                break;
+            }
+            // Bail out if we can't move there and we can't bash.
+            if( !can_move_to( candidate ) &&
+                !(can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
+                continue;
+            }
+            // Bail out if there's a non-hostile monster in the way and we're not pushy.
+            if( target != nullptr && attitude_to( *target ) != A_HOSTILE &&
+                !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                continue;
+            }
+            int progress = distance_to_target - rl_dist( candidate, destination );
+            switch_chance += progress;
+            // Randomly pick one of the viable squares to move to weighted by distance.
+            if( x_in_y( progress, switch_chance ) ) {
+                moved = true;
+                destination = candidate;
+                // If we stumble, pick a random square, otherwise take the first one,
+                // which is the most direct path.
+                if( !has_flag( MF_STUMBLES ) ) {
+                    break;
                 }
             }
         }
@@ -467,18 +447,15 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( next ) ) ||
-            ( !pacified && bash_at( next ) ) ||
-            ( !pacified && push_to( next, 0, 0 ) ) ||
-            move_to( next );
+            ( !pacified && attack_at( destination ) ) ||
+            ( !pacified && bash_at( destination ) ) ||
+            ( !pacified && push_to( destination, 0, 0 ) ) ||
+            move_to( destination );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
     } else {
         moves -= 100;
-    }
-    // Stumble around if we're not moving
-    if( !moved ) {
         stumble();
     }
 }
@@ -518,42 +495,6 @@ void monster::footsteps( const tripoint &p )
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this );
     return;
-}
-
-/*
-Function: friendly_move
-The per-turn movement and action calculation of any friendly monsters.
-*/
-void monster::friendly_move()
-{
-    tripoint p;
-    bool moved = false;
-    //If we successfully calculated a plan in the generic monster movement function, begin executing it.
-    if( !plans.empty() && ( plans[0] != g->u.pos3() ) &&
-        ( can_move_to( plans[0] ) ||
-          ( ( has_flag( MF_BASHES ) || has_flag( MF_BORES ) ) &&
-            g->m.bash_rating( bash_estimate(), plans[0] ) >= 0 ) ) ) {
-        p = plans[0];
-        plans.erase( plans.begin() );
-        moved = true;
-    } else {
-        //Otherwise just stumble around randomly until we formulate a plan.
-        moves -= 100;
-        stumble();
-    }
-    if( moved ) {
-        const bool pacified = has_effect( "pacified" );
-        const bool did_something =
-            ( !pacified && attack_at( p ) ) ||
-            ( !pacified && bash_at( p ) ) ||
-            move_to( p );
-
-        //If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
-        if( !did_something ) {
-            stumble();
-            moves -= 100;
-        }
-    }
 }
 
 tripoint monster::scent_move()
@@ -974,10 +915,6 @@ bool monster::move_to( const tripoint &p, bool force )
         return false;
     }
 
-    if( !plans.empty() ) {
-        plans.erase( plans.begin() );
-    }
-
     if( !force ) {
         const int cost = !climbs ? calc_movecost( pos(), p ) :
                                    calc_climb_cost( pos(), p );
@@ -1273,19 +1210,6 @@ void monster::stumble( )
     }
 
     move_to( random_entry( valid_stumbles ), false );
-
-    // Here we have to fix our plans[] list,
-    // acquiring a new path to the previous target.
-    // target == either end of current plan, or the player.
-    if( !plans.empty() ) {
-        if( g->m.sees( pos3(), plans.back(), -1 ) ) {
-            set_dest( plans.back() );
-        } else if( sees( g->u ) ) {
-            set_dest( g->u.pos() );
-        } else { //durr, i'm suddenly calm. what was i doing?
-            plans.clear();
-        }
-    }
 }
 
 void monster::knock_back_from( const tripoint &p )
