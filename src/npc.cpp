@@ -1047,6 +1047,7 @@ void npc::starting_weapon(npc_class type)
     }
 }
 
+// NOT ACTUALLY USED ANYWHERE
 bool npc::wear_if_wanted(item it)
 {
     if (!it.is_armor()) {

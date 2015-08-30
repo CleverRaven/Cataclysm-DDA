@@ -1477,7 +1477,7 @@ void npc::find_item()
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
     update_path( wanted_item_pos );
-    if( path.size() == 0 && dist_to_item > 1 ) {
+    if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
     }

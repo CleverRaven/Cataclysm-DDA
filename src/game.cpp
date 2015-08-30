@@ -3922,10 +3922,13 @@ void game::debug()
                 nmenu.text = _("Player");
             }
 
-            enum { D_SKILLS, D_STATS, D_ITEMS, D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE };
+            enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+                   D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE };
             nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
             nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
+            nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _("[d]elete (all) items") );
+            nmenu.addentry( D_ITEM_WORN, true, 'd', "%s", _("[w]ear/[w]ield an item from player's inventory") );
             nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
             nmenu.addentry( D_HEALTHY, true, 'a', "%s", _("Set he[a]lth") );
@@ -3981,6 +3984,29 @@ void game::debug()
                 break;
             case D_ITEMS:
                 wishitem(&p);
+                break;
+            case D_DELETE_ITEMS:
+                if( !query_yn( "Delete all items from the target?" ) ) {
+                    break;
+                }
+
+                p.worn.clear();
+                p.inv.clear();
+                p.weapon = p.ret_null;
+                break;
+            case D_ITEM_WORN:
+            {
+                auto filter = [this]( const item &it ) {
+                    return it.is_armor();
+                };
+                int item_pos = inv_for_filter( "Make target equip:", filter );
+                item &to_wear = u.i_at( item_pos );
+                if( to_wear.is_armor() ) {
+                    p.worn.push_back( to_wear );
+                } else if( !to_wear.is_null() ) {
+                    p.weapon = to_wear;
+                }
+            }
                 break;
             case D_HP:
             {
