@@ -1494,6 +1494,13 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
+    if( is_following() && !misc_rules.allow_pick_up ) {
+        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
+        fetching_item = false;
+        moves -= 1;
+        return;
+    }
+
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     update_path( wanted_item_pos );
