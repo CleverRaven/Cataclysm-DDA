@@ -1800,7 +1800,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_following() || !misc_rules.allow_bash ) {
+    if( !is_following() || misc_rules.allow_bash ) {
         return str_cur + weapon.type->melee_dam;
     }
 
