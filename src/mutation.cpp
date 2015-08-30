@@ -1074,7 +1074,6 @@ bool player::mutate_towards( const std::string &mut )
     }
 
     // No crossing The Threshold by simply not having it
-    // Rerolling proved more trouble than it was worth, so deleted
     if (!has_threshreq && !threshreq.empty()) {
         add_msg(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
