@@ -2934,7 +2934,7 @@
         "type" : "ARMOR",
         "id" : "gown",
         "name" : "evening gown",
-        "weight" : 1300,
+        "weight" : 1800,
         "color" : "black",
         "covers" : ["TORSO", "LEGS"],
         "to_hit" : 0,
