@@ -60,6 +60,39 @@ public:
     int avg() { return _sum / _n; }
 };
 
+// Verify that the named monster has the expected effective speed, which is greatly reduced
+// due to wasted motion from shambling.
+// This is an assertion that an average (i.e. no fleet) survivor with no encumbrance
+// will be able to out-walk (not run, walk) the given monster
+// if their speed is higher than @effective_speed.
+void check_shamble_speed( const std::string monster_type, float effective_speed )
+{
+    // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
+    stat horizontal_move;
+    stat vertical_move;
+    stat diagonal_move;
+    for( int i = 0; i < 10; ++i ) {
+        horizontal_move.add( turns_to_destination( monster_type, {0, 0, 0}, {100,0,0} ) );
+        vertical_move.add( turns_to_destination( monster_type, {0, 0, 0}, {0,100,0} ) );
+        diagonal_move.add( turns_to_destination( monster_type, {0, 0, 0}, {100,100,0} ) );
+    }
+    float speed_factor = 100.0 / (float)monster( mtype_id( monster_type ) ).get_speed();
+    float expected_move_points = 10000.0 / effective_speed;
+    CAPTURE( horizontal_move.avg() );
+    CHECK( horizontal_move.min() >= 100 * speed_factor );
+    CHECK( horizontal_move.avg() <= expected_move_points + 4 );
+    CHECK( horizontal_move.avg() >= expected_move_points - 4 );
+    CHECK( horizontal_move.max() <= 200 * speed_factor );
+    CHECK( vertical_move.min() >= 100 * speed_factor );
+    CHECK( vertical_move.avg() <= expected_move_points + 4 );
+    CHECK( vertical_move.avg() >= expected_move_points - 4 );
+    CHECK( vertical_move.max() <= 200 * speed_factor );
+    CHECK( diagonal_move.min() >= 141 * speed_factor );
+    CHECK( diagonal_move.avg() <= (expected_move_points * 1.63) + 4 );
+    CHECK( diagonal_move.avg() >= (expected_move_points * 1.63) - 4 );
+    CHECK( diagonal_move.max() <= 350 * speed_factor );
+}
+
 // Characterization test for monster movement speed.
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE("monster_speed") {
@@ -85,26 +118,9 @@ TEST_CASE("monster_speed") {
     CHECK( diag_move <= 141 + 3 );
     CHECK( diag_move >= 141 - 3 );
 
-    // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
-    stat horizontal_move;
-    stat vertical_move;
-    stat diagonal_move;
-    for( int i = 0; i < 10; ++i ) {
-        horizontal_move.add( turns_to_destination( "mon_zombie", {0, 0, 0}, {100,0,0} ) );
-        vertical_move.add( turns_to_destination( "mon_zombie", {0, 0, 0}, {0,100,0} ) );
-        diagonal_move.add( turns_to_destination( "mon_zombie", {0, 0, 0}, {100,100,0} ) );
-    }
-    CHECK( horizontal_move.min() >= 100 );
-    CHECK( horizontal_move.avg() <= 246 + 1 );
-    CHECK( horizontal_move.avg() >= 246 - 1 );
-    CHECK( horizontal_move.max() <= 350 );
-    CHECK( vertical_move.min() >= 100 );
-    CHECK( vertical_move.avg() <= 246 + 1 );
-    CHECK( vertical_move.avg() >= 246 - 1 );
-    CHECK( vertical_move.max() <= 350 );
-    CHECK( diagonal_move.min() >= 141 );
-    CHECK( diagonal_move.avg() <= 398 + 1 );
-    CHECK( diagonal_move.avg() >= 398 - 1 );
-    CHECK( diagonal_move.max() <= 500 );
+    check_shamble_speed( "mon_zombie", 80 );
+    check_shamble_speed( "mon_zombear", 110 );
+    check_shamble_speed( "mon_zombie_dog", 150 );
+    check_shamble_speed( "mon_jabberwock", 180 );
 }
 
