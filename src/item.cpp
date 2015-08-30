@@ -1499,18 +1499,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
 
         if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
-            player copy_u = g->u;
-            copy_u.weapon = *this;
             damage_instance non_crit;
-            copy_u.roll_all_damage( false, non_crit, true );
+            g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
-            copy_u.roll_all_damage( true, crit, true );
+            g->u.roll_all_damage( true, crit, true, *this );
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", string_format(_("Average damage when used as a melee weapon:") ) ) );
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
-                                         int(copy_u.crit_chance( 0, 100 ) * 100),
-                                         int(copy_u.crit_chance( 100, 0 ) * 100) )));
+                                         int(g->u.crit_chance( 0, 100, *this ) * 100),
+                                         int(g->u.crit_chance( 100, 0, *this ) * 100) )));
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_("%d bashing (%d on a critical hit)"),
                                       int(non_crit.type_damage(DT_BASH)),

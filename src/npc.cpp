@@ -1766,7 +1766,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_following || !misc_rules.allow_bash ) {
+    if( !is_following() || !misc_rules.allow_bash ) {
         return str_cur + weapon.type->melee_dam;
     }
 
@@ -1826,7 +1826,7 @@ int npc::danger_assessment()
 
 int npc::average_damage_dealt()
 {
-    return weapon.melee_value( *this );
+    return melee_value( weapon );
 }
 
 bool npc::bravery_check(int diff)
@@ -1907,24 +1907,15 @@ int npc::follow_distance() const
  return 4; // TODO: Modify based on bravery, weapon wielded, etc.
 }
 
-Creature *npc::get_target() const
-{
-    if( target == TARGET_PLAYER && !is_following() ) {
-        return &g->u;
-    } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
-        return &g->zombie( target );
-    } else {
-        // Should actually return a NPC, but those aren't well supported yet
-        return nullptr;
-    }
-}
-
 int npc::speed_estimate( const Creature *what ) const
 {
     if( what == nullptr ) {
         return 0;
     }
 
+    // TODO: Modify based on abilities
+    // Players run, zombies stumble and leap
+    const auto speed = what->get_speed();
     if( per_cur == 0 ) {
         return rng(0, speed * 2);
     }
@@ -1932,7 +1923,7 @@ int npc::speed_estimate( const Creature *what ) const
     // Up to 10% deviation if per_cur is 8;
     // Up to 4% deviation if per_cur is 20;
     const int deviation = speed / (double)(per_cur * 1.25);
-    const int low = speed - deviation
+    const int low = speed - deviation;
     const int high = speed + deviation;
     return rng(low, high);
 }

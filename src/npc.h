@@ -761,7 +761,7 @@ public:
  npc_action scan_new_items(int target);
 
 // Combat functions and player interaction functions
-    Creature *get_target() const;
+    Creature *get_target( int target ) const;
  void wield_best_melee ();
  void alt_attack (int target);
  void use_escape_item (int position);

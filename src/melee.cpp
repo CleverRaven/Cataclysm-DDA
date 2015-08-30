@@ -263,7 +263,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
 
-    int move_cost = attack_speed(*this);
+    int move_cost = attack_speed( weapon );
 
     const bool critical_hit = scored_crit( t.dodge_roll() );
 
@@ -319,7 +319,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         }
     } else {
         damage_instance d;
-        roll_all_damage( critical_hit, d, false );
+        roll_all_damage( critical_hit, d );
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
@@ -420,7 +420,7 @@ void player::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
 
-    int move_cost = attack_speed( *this );
+    int move_cost = attack_speed( weapon );
     int skill = std::min( 10, (int)get_skill_level("stabbing") );
     int t = 0;
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
@@ -911,7 +911,7 @@ int player::roll_stuck_penalty(bool stabbing, const ma_technique &tec) const
 {
     (void)tec;
     // The cost of the weapon getting stuck, in units of move points.
-    const int weapon_speed = attack_speed(*this);
+    const int weapon_speed = attack_speed( weapon );
     int stuck_cost = weapon_speed;
     int attack_skill = stabbing ? get_skill_level("stabbing") : get_skill_level("cutting");
 
@@ -2335,7 +2335,7 @@ void melee_practice( player &u, bool hit, bool unarmed,
 int player::attack_speed( const item &weap ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
-    const int melee_skill = has_active_bionic("bio_cqb") ? 5 : (int)u.get_skill_level("melee");
+    const int melee_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level("melee");
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
     const int dexbonus = rng( 0, dex_cur );
     const int encumbrance_penalty = encumb( bp_torso ) +
@@ -2365,10 +2365,10 @@ double player::weapon_value( const item &weap ) const
     if( weap.is_gun() ) {
         int gun_value = 14;
         const islot_gun* gun = weap.type->gun.get();
-        gun_value += weap.gun->damage;
-        gun_value += int(weap.gun->burst / 2);
-        gun_value += int(weap.gun->clip / 3);
-        gun_value -= int(weap.gun->dispersion / 75);
+        gun_value += gun->damage;
+        gun_value += int(gun->burst / 2);
+        gun_value += int(gun->clip / 3);
+        gun_value -= int(gun->dispersion / 75);
         gun_value *= (.5 + (.3 * get_skill_level("gun")));
         gun_value *= (.3 + (.7 * get_skill_level(gun->skill_used)));
         my_value += gun_value;
@@ -2387,7 +2387,7 @@ double player::melee_value( const item &weap ) const
     roll_all_damage( false, non_crit, true, weap );
     float avg_dmg = non_crit.total_damage();
 
-    const int accuracy = type->m_to_hit + get_hit_weapon( weap );
+    const int accuracy = weap.type->m_to_hit + get_hit_weapon( weap );
     if( accuracy < 0 ) {
         // Heavy penalty
         my_value += accuracy * 5;
@@ -2400,12 +2400,12 @@ double player::melee_value( const item &weap ) const
     }
 
     const int arbitrary_dodge_target = 5;
-    double crit_chance = crit_chance( accuracy, arbitrary_dodge_target, weap );
-    my_value += crit_chance * 10; // Crits are worth more than just extra damage
-    if( crit_chance > 0.1 ) {
+    double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
+    my_value += crit_ch * 10; // Crits are worth more than just extra damage
+    if( crit_ch > 0.1 ) {
         damage_instance crit;
-        p.roll_all_damage( true, crit, true, weap );
-        avg_dmg = crit.total_damage() * crit_chance;
+        roll_all_damage( true, crit, true, weap );
+        avg_dmg = crit.total_damage() * crit_ch;
     }
 
     int move_cost = attack_speed( weap );

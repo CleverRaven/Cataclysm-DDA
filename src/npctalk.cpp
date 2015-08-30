@@ -1611,18 +1611,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         opinion << "&" << p->opinion_text();
         return opinion.str();
 
-    } else if( topic == "TALK_ALLOW_SLEEP" ) {
-        // TODO: Factor in stats, stimms etc.
-        if( p->fatigue > EXHAUSTED ) {
-            return _("...");
-        } else if( p->fatigue > DEAD_TIRED) {
-            return _("Finally!");
-        } else if( p->fatigue > TIRED ) {
-            return _("Goodnight <name_g>.");
-        } else {
-            return _("I'm not tired yet. I'll go to sleep when I am.");
-        }
-
     } else if( topic == "TALK_WAKE_UP" ) {
         if( p->has_effect( "sleep" ) ) {
             if( p->fatigue > EXHAUSTED ) {
@@ -2815,10 +2803,6 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_SIZE_UP" || topic == "TALK_LOOK_AT" ||
                topic == "TALK_OPINION" || topic == "TALK_SHOUT" ) {
             add_response_none( _("Okay.") );
-
-    } else if( topic == "TALK_ALLOW_SLEEP" ) {
-            add_response( _("Wait, don't to to sleep yet."), "TALK_NONE", &talk_function::wake_up );
-            add_response( _("Goodnight."), "TALK_DONE", &talk_function::allow_sleep );
 
     } else if( topic == "TALK_WAKE_UP" ) {
             add_response( _("Wake up!"), "TALK_NONE", &talk_function::wake_up );
@@ -4252,8 +4236,7 @@ void talk_response::effect_t::load_effect( JsonObject &jo )
             WRAP( insult_combat ),
             WRAP( drop_weapon ),
             WRAP( player_weapon_away ),
-            WRAP( player_weapon_drop ),
-            WRAP( allow_sleep )
+            WRAP( player_weapon_drop )
 #undef WRAP
         } };
         const auto iter = static_functions_map.find( type );
