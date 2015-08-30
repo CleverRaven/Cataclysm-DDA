@@ -4758,6 +4758,34 @@
         "to_hit": 1
     },{
         "type":"GENERIC",
+        "id": "birchbark",
+        "symbol": ",",
+        "color": "brown",
+        "name": "birchbark",
+        "description": "A sheet of tough, water-resistant bark taken from a birch tree.",
+        "price": 0,
+        "material": "wood",
+        "weight": 323,
+        "volume": 1,
+        "bashing": 4,
+        "cutting": 0,
+        "to_hit": 1
+    },{
+        "type":"GENERIC",
+        "id": "willowbark",
+        "symbol": ",",
+        "color": "brown",
+        "name": "willowbark",
+        "description": "A sheet of bark taken from a willow tree.  Used in the production of aspirin.",
+        "price": 0,
+        "material": "wood",
+        "weight": 323,
+        "volume": 1,
+        "bashing": 4,
+        "cutting": 0,
+        "to_hit": 1
+    },{
+        "type":"GENERIC",
         "id": "straw_pile",
         "symbol": ",",
         "color": "light_gray",

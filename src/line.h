@@ -90,6 +90,9 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
 std::vector<point> continue_line(const std::vector<point> &line, int distance);
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, int distance);
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
+// Returns a vector of squares adjacent to @from that are closer to @to than @from is.
+// Currently limited to the same z-level as @from.
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {

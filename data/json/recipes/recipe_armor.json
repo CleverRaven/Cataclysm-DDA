@@ -27,6 +27,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "quiver_birchbark",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required": [ ["survival", 1], ["archery", 1] ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "birchbark", 3 ] ] ]
+},{
+  "type" : "recipe",
   "result": "modularvestsuper",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -169,6 +186,23 @@
       [ "steel_chunk", 1]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "quiver_large_birchbark",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required": [ ["survival", 2], ["archery", 2] ],
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "birchbark", 10 ] ] ]
 },{
   "type" : "recipe",
   "result": "socks",
@@ -341,6 +375,21 @@
       [ "fur", 2 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "shoes_birchbark",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_survival", 1] , ["pocket_survival", 1]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "birchbark", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "boots",
@@ -8412,7 +8461,12 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 5 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 5 ],
+      [ "birchbark", 7 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_sandals",
@@ -8423,7 +8477,12 @@
   "time": 28000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 4 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 4 ],
+      [ "birchbark", 6 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_hat",
@@ -8434,7 +8493,12 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 3 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 3 ],
+      [ "birchbark", 5 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_fedora",
@@ -8446,9 +8510,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
-  "components": [ [ [ "straw_pile", 7 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 7 ],
+      [ "birchbark", 10 ]
+    ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "patchwork_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",

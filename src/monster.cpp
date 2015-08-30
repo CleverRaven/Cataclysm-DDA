@@ -267,7 +267,10 @@ void monster::try_upgrade(bool pin_time) {
             poly( type->upgrade_into );
         } else {
             const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            poly( random_entry( monsters ) );
+            const mtype_id &new_type = random_entry( monsters );
+            if( new_type != mon_null ) {
+                poly( new_type );
+            }
         }
 
         if (!upgrades) {
@@ -1057,11 +1060,11 @@ void monster::hit_monster(monster &other)
     if( hitspread >= 0 ) {
         other.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
         if( g->u.sees(*this) ) {
-            add_msg(_("The %s hits the %s!"), name().c_str(), other.name().c_str());
+            add_msg(_("The %1$s hits the %2$s!"), name().c_str(), other.name().c_str());
         }
     } else {
         if( g->u.sees( *this ) ) {
-            add_msg(_("The %s misses the %s!"), name().c_str(), other.name().c_str());
+            add_msg(_("The %1$s misses the %2$s!"), name().c_str(), other.name().c_str());
         }
 
         if( !is_hallucination() ) {
@@ -1848,7 +1851,7 @@ bool monster::make_fungus()
     }
 
     if( g->u.sees( pos() ) ) {
-        add_msg( m_info, _("The spores transform %s into a %s!"),
+        add_msg( m_info, _("The spores transform %1$s into a %2$s!"),
                          old_name.c_str(), name().c_str() );
     }
 

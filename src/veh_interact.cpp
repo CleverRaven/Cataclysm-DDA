@@ -44,6 +44,9 @@ veh_interact::veh_interact ()
     sel_vpart_info = NULL;
     sel_vehicle_part = NULL;
 
+    // Starting index of where to start printing fuels from
+    fuel_index = 0;
+
     totalDurabilityColor = c_green;
     worstDurabilityColor = c_green;
     durabilityPercent = 100;
@@ -282,6 +285,10 @@ void veh_interact::do_main_loop()
             do_tirechange();
         } else if (action == "RELABEL") {
             do_relabel();
+        } else if (action == "NEXT_TAB") {
+            move_fuel_cursor(1);
+        } else if (action == "PREV_TAB") {
+            move_fuel_cursor(-1);
         }
         if (sel_cmd != ' ') {
             finish = true;
@@ -626,6 +633,26 @@ bool veh_interact::can_install_part(int msg_width){
 }
 
 /**
+ * Moves list of fuels up or down.
+ * @param delta -1 if moving up,
+ *              1 if moving down
+ */
+void veh_interact::move_fuel_cursor(int delta)
+{
+    int max_fuel_indicators = (int)veh->get_printable_fuel_types(true).size();
+    int height = vertical_menu ? 5 : 12;
+    fuel_index += delta;
+
+    if(fuel_index < 0) {
+        fuel_index = 0;
+    } else if(fuel_index > max_fuel_indicators - height) {
+        fuel_index = std::max(max_fuel_indicators - height, 0);
+    }
+
+    display_stats();
+}
+
+/**
  * Handles installing a new part.
  * @param reason INVALID_TARGET if the square can't have anything installed,
  *               LACK_TOOLS if the player is lacking tools,
@@ -809,7 +836,6 @@ void veh_interact::do_install()
     w_details = NULL;
 
     //restore windows that had been covered by w_details
-    werase(w_stats);
     display_stats();
     display_name();
 }
@@ -1480,6 +1506,8 @@ void veh_interact::display_veh ()
  */
 void veh_interact::display_stats()
 {
+    werase(w_stats);
+
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
     int x[18], y[18], w[18]; // 3 columns * 6 rows = 18 slots max
 
@@ -1636,7 +1664,7 @@ void veh_interact::display_stats()
     }
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
-    veh->print_fuel_indicator (w_stats, y[12], x[12], true,
+    veh->print_fuel_indicators (w_stats, y[12], x[12], fuel_index, true,
                                (x[12] + 10 < stats_w),
                                (x[12] + 10 + fuel_name_length < stats_w),
                                !vertical_menu);
@@ -2147,10 +2175,10 @@ void act_vehicle_siphon(vehicle* veh) {
     g->u.moves -= 200;
 
     if(got < want) {
-        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, draining the tank."),
+        add_msg(m_info, _("Siphoned %1$d units of %2$s from the %3$s into the %4$s, draining the tank."),
                 got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
     } else {
-        add_msg(m_info, _("Siphoned %d units of %s from the %s into the %s, receiving tank is full."),
+        add_msg(m_info, _("Siphoned %1$d units of %2$s from the %3$s into the %4$s, receiving tank is full."),
                 got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
     }
 }
@@ -2259,7 +2287,7 @@ void complete_vehicle ()
             veh->parts[partnum].direction = dir;
         }
 
-        add_msg (m_good, _("You install a %s into the %s."),
+        add_msg (m_good, _("You install a %1$s into the %2$s."),
                  vpinfo.name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
@@ -2289,7 +2317,7 @@ void complete_vehicle ()
         tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
         g->u.consume_tools(tools, 1, repair_hotkeys);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
-        add_msg (m_good, _("You repair the %s's %s."),
+        add_msg (m_good, _("You repair the %1$s's %2$s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
         g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
@@ -2344,11 +2372,11 @@ void complete_vehicle ()
             g->m.destroy_vehicle (veh);
         } else {
             if (broken) {
-                add_msg(_("You remove the broken %s from the %s."),
+                add_msg(_("You remove the broken %1$s from the %2$s."),
                         veh->part_info(vehicle_part).name.c_str(),
                         veh->name.c_str());
             } else {
-                add_msg(_("You remove the %s from the %s."),
+                add_msg(_("You remove the %1$s from the %2$s."),
                         veh->part_info(vehicle_part).name.c_str(),
                         veh->name.c_str());
             }
@@ -2372,7 +2400,7 @@ void complete_vehicle ()
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            add_msg( _("You replace one of the %s's tires with a %s."),
+            add_msg( _("You replace one of the %1$s's tires with a %2$s."),
                      veh->name.c_str(), vpinfo.name.c_str() );
             used_item = consume_vpart_item( part_id );
             partnum = veh->install_part( dx, dy, part_id, used_item );

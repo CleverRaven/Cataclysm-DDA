@@ -456,7 +456,7 @@ ter_id t_null,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_blackjack, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -634,6 +634,9 @@ void set_ter_ids() {
     t_tree_plum_harvested=terfind("t_tree_plum_harvested");
     t_tree_pine=terfind("t_tree_pine");
     t_tree_blackjack=terfind("t_tree_blackjack");
+    t_tree_birch=terfind("t_tree_birch");
+    t_tree_willow=terfind("t_tree_willow");
+    t_tree_maple=terfind("t_tree_maple");
     t_tree_deadpine=terfind("t_tree_deadpine");
     t_underbrush=terfind("t_underbrush");
     t_shrub=terfind("t_shrub");

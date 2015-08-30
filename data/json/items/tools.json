@@ -8527,7 +8527,7 @@
     "description": "This massive combat knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.",
     "price": 2000,
     "material": ["steel", "plastic"],
-    "flags" : ["STAB"],
+    "flags" : ["STAB","SHEATH_SWORD"],
     "techniques": ["WBLOCK_1"],
     "weight": 612,
     "volume": 4,
