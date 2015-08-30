@@ -1,7 +1,7 @@
 #include "line.h"
 #include "game.h"
 #include "translations.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
