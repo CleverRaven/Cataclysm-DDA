@@ -3,7 +3,6 @@
 
 #include "player.h"
 #include "output.h"
-#include "npc.h"
 #include "color.h"
 #include <vector>
 #include <string>
@@ -12,6 +11,7 @@
 class martialart;
 class JsonObject;
 class mission;
+class npc;
 
 struct talk_response;
 struct dialogue {
@@ -163,8 +163,11 @@ namespace talk_function {
     void set_engagement_hit   (npc *);
     void set_engagement_all   (npc *);
 
-    void allow_sleep          (npc *);
     void wake_up              (npc *);
+
+    void toggle_pickup        (npc *);
+    void toggle_bashing       (npc *);
+    void toggle_allow_sleep   (npc *);
 
 /*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on

@@ -4240,6 +4240,12 @@ void player::pause()
         drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
     }
 
+    if( is_npc() ) {
+        // The stuff below doesn't apply to NPCs
+        // search_surroundings should eventually do, though
+        return;
+    }
+
     VehicleList vehs = g->m.get_vehicles();
     vehicle* veh = NULL;
     for (auto &v : vehs) {

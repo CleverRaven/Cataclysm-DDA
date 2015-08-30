@@ -604,7 +604,7 @@ void npc::talk_to_u()
     // TODO: Use talk_needs for food and drinks
     if( has_effect( "sleep" ) || has_effect( "lying_down" ) ) {
         d.topic_stack.push_back( "TALK_WAKE_UP" );
-    } else if( has_effect( "allow_sleep" ) ) {
+    } else if( misc_rules.allow_sleep || has_effect( "allow_sleep" ) ) {
         d.topic_stack.push_back( "TALK_ALLOW_SLEEP" );
     }
 
@@ -2645,9 +2645,7 @@ void dialogue::gen_responses( const std::string &topic )
                     SUCCESS ("TALK_FRIEND_UNCOMFORTABLE");
                 }
             }
-            if( p->is_following() && !p->has_effect( "allowed_sleep" ) ) {
-                add_response( _("It's safe here now, you can rest."), "TALK_ALLOW_SLEEP" );
-            }
+            add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );
             add_response_done( _("Let's go.") );
 
@@ -2825,6 +2823,33 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_WAKE_UP" ) {
             add_response( _("Wake up!"), "TALK_NONE", &talk_function::wake_up );
             add_response_done( _("Go back to sleep.") );
+
+    } else if( topic == "TALK_MISC_RULES" ) {
+            if( p->misc_rules.allow_pick_up ) {
+                add_response( _("Don't pick up items."), "TALK_MISC_RULES",
+                              &talk_function::toggle_pickup );
+            } else {
+                add_response( _("You can pick up items now."), "TALK_MISC_RULES",
+                              &talk_function::toggle_pickup );
+            }
+
+            if( p->misc_rules.allow_bash ) {
+                add_response( _("Don't bash obstacles."), "TALK_MISC_RULES",
+                              &talk_function::toggle_bashing );
+            } else {
+                add_response( _("You can pick up items now."), "TALK_MISC_RULES",
+                              &talk_function::toggle_bashing );
+            }
+
+            if( p->misc_rules.allow_sleep ) {
+                add_response( _("Stay awake."), "TALK_MISC_RULES",
+                              &talk_function::toggle_allow_sleep );
+            } else {
+                add_response( _("Sleep when you feel tired."), "TALK_MISC_RULES",
+                              &talk_function::toggle_allow_sleep );
+            }
+
+            add_response_none( _("Never mind.") );
 
     }
 
@@ -3180,18 +3205,28 @@ void talk_function::stop_guard(npc *p)
     p->guard_pos = npc::no_goal_point;
 }
 
-void talk_function::allow_sleep(npc *p)
-{
-    p->add_effect( "allow_sleep", 1, num_bp, true );
-    p->chatbin.first_topic = "TALK_WAKE_UP";
-}
-
 void talk_function::wake_up(npc *p)
 {
+    p->misc_rules.allow_sleep = false;
     p->remove_effect( "allow_sleep" );
     p->remove_effect( "lying_down" );
     p->remove_effect( "sleep" );
     // TODO: Get mad at player for waking us up unless we're in danger
+}
+
+void talk_function::toggle_pickup( npc *p )
+{
+    p->misc_rules.allow_pick_up = !p->misc_rules.allow_pick_up;
+}
+
+void talk_function::toggle_bashing( npc *p )
+{
+    p->misc_rules.allow_bash = !p->misc_rules.allow_bash;
+}
+
+void talk_function::toggle_allow_sleep( npc *p )
+{
+    p->misc_rules.allow_sleep = !p->misc_rules.allow_sleep;
 }
 
 void talk_function::reveal_stats (npc *p)

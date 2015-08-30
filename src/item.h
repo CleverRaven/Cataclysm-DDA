@@ -460,10 +460,6 @@ public:
 
  int brewing_time() const;
  void detonate( const tripoint &p ) const;
-    // Our value as a weapon, given particular skills
-    double weapon_value( const player &p ) const;
-    // As above, but discounts its use as a ranged weapon
-    double melee_value( const player &p ) const;
 
     /**
      * @name Material(s) of the item

@@ -25,6 +25,12 @@
 #include <algorithm>
 #include <string>
 
+#define NPC_LOW_VALUE       5
+#define NPC_HI_VALUE        8
+#define NPC_VERY_HI_VALUE  15
+#define NPC_DANGER_LEVEL   10
+#define NPC_DANGER_VERY_LOW 5
+
 std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
@@ -1088,7 +1094,7 @@ bool npc::wield(item* it)
             i_add( remove_weapon() );
             moves -= 15;
         } else { // No room for weapon, so we drop it
-            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
+            g->m.add_item_or_charges( pos(), remove_weapon() );
         }
     }
     moves -= 15;
@@ -1129,25 +1135,31 @@ void npc::perform_mission()
 
 void npc::form_opinion(player *u)
 {
-// FEAR
- if (u->weapon.is_gun()) {
-  if (weapon.is_gun())
-   op_of_u.fear += 2;
-  else
-   op_of_u.fear += 6;
- } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
-  op_of_u.fear += 2;
- else if (u->unarmed_attack()) // Unarmed
-  op_of_u.fear -= 3;
+    // FEAR
+    if( u->weapon.is_gun() ) {
+        if( weapon.is_gun() ) {
+            op_of_u.fear += 2;
+        } else {
+            op_of_u.fear += 6;
+        }
+    } else if( u->weapon_value( u->weapon ) > 20 ) {
+        // Currently rates martial arts masters as well armed
+        // When it comes to NPCs, better go with too smart than too dumb
+        op_of_u.fear += 2;
+    } else if( u->weapon.type->id == "null" ) {
+        // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
+        op_of_u.fear -= 3;
+    }
 
- if (u->str_max >= 16)
-  op_of_u.fear += 2;
- else if (u->str_max >= 12)
-  op_of_u.fear += 1;
- else if (u->str_max <= 5)
-  op_of_u.fear -= 1;
- else if (u->str_max <= 3)
-  op_of_u.fear -= 3;
+    if( u->str_max >= 16 ) {
+        op_of_u.fear += 2;
+    } else if( u->str_max >= 12 ) {
+        op_of_u.fear += 1;
+    } else if( u->str_max <= 5 ) {
+        op_of_u.fear -= 1;
+    } else if( u->str_max <= 3 ) {
+        op_of_u.fear -= 3;
+    }
 
  for (int i = 0; i < num_hp_parts; i++) {
   if (u->hp_cur[i] <= u->hp_max[i] / 2)
@@ -1278,7 +1290,7 @@ int npc::player_danger(player *u) const
    ret += 4;
   else
    ret += 8;
- } else if (u->weapon.type->melee_dam >= 12 || u->weapon.type->melee_cut >= 12)
+ } else if( u->weapon_value( u->weapon ) > 20 )
   ret++;
  else if (u->weapon.type->id == "null") // Unarmed
   ret -= 3;
@@ -1613,36 +1625,36 @@ void npc::update_worst_item_value()
 
 int npc::value(const item &it)
 {
- int ret = it.price() / 50;
- const Skill* best = best_skill();
-    if( best != nullptr && best->ident() != "unarmed" ) {
-  int weapon_val = it.weapon_value(*this) - weapon.weapon_value(*this);
-  if (weapon_val > 0)
-   ret += weapon_val;
- }
+    int ret = it.price() / 50;
+    int weapon_val = weapon_value( it ) - weapon_value( weapon );
+    if( weapon_val > 0 ) {
+        ret += weapon_val;
+    }
 
- if (it.is_food()) {
-  const auto comest = dynamic_cast<const it_comest*>(it.type);
-  if (comest->nutr > 0 || comest->quench > 0)
-   ret++;
-  if (hunger > 40)
-   ret += (comest->nutr + hunger - 40) / 6;
-  if (thirst > 40)
-   ret += (comest->quench + thirst - 40) / 4;
- }
+    if( it.is_food() ) {
+        const auto comest = dynamic_cast<const it_comest*>(it.type);
+        if (comest->nutr > 0 || comest->quench > 0) {
+            ret++;
+        } if (hunger > 40) {
+            ret += (comest->nutr + hunger - 40) / 6;
+        } if (thirst > 40) {
+            ret += (comest->quench + thirst - 40) / 4;
+        }
+        // TODO: Add a check for poison
+    }
 
- if (it.is_ammo()) {
-  if (weapon.is_gun()) {
-   if( it.ammo_type() == weapon.ammo_type() )
-    ret += 14;
-  }
-  if (has_gun_for_ammo( it.ammo_type() )) {
-   // TODO consider making this cumulative (once was)
-   ret += 14;
-  }
- }
+    if( it.is_ammo() ) {
+        if( weapon.is_gun() && it.ammo_type() == weapon.ammo_type() ) {
+            ret += 14;
+        }
 
- if (it.is_book()) {
+        if( has_gun_for_ammo( it.ammo_type() ) ) {
+            // TODO consider making this cumulative (once was)
+            ret += 14;
+        }
+    }
+
+    if( it.is_book() ) {
         auto &book = *it.type->book;
         if( book.intel <= int_cur ) {
             ret += book.fun;
@@ -1651,28 +1663,35 @@ int npc::value(const item &it)
                 ret += book.level * 3;
             }
         }
- }
+    }
 
-// TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
- if (it.is_tool() && !has_amount(itype_id(it.type->id), 1)) {
-  ret += 8;
- }
+    // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
+    if( it.is_tool() && !has_amount( itype_id(it.type->id), 1) ) {
+        ret += 8;
+    }
 
-// TODO: Artifact hunting from relevant factions
-// ALSO TODO: Bionics hunting from relevant factions
- if (fac_has_job(FACJOB_DRUGS) && it.is_food() &&
-     (dynamic_cast<const it_comest*>(it.type))->addict >= 5)
-  ret += 10;
- if (fac_has_job(FACJOB_DOCTORS) && it.type->id >= "bandages" &&
-     it.type->id <= "prozac")
-  ret += 10;
- if (fac_has_value(FACVAL_BOOKS) && it.is_book())
-  ret += 14;
- if (fac_has_job(FACJOB_SCAVENGE)) { // Computed last for _reasons_.
-  ret += 6;
-  ret *= 1.3;
- }
- return ret;
+    // TODO: Artifact hunting from relevant factions
+    // ALSO TODO: Bionics hunting from relevant factions
+    if( fac_has_job(FACJOB_DRUGS) && it.is_food() &&
+        (dynamic_cast<const it_comest*>(it.type))->addict >= 5 ) {
+        ret += 10;
+    }
+
+    if( fac_has_job(FACJOB_DOCTORS) && it.type->id >= "bandages" &&
+        it.type->id <= "prozac") {
+        ret += 10;
+    }
+
+    if( fac_has_value(FACVAL_BOOKS) && it.is_book()) {
+        ret += 14;
+    }
+
+    if( fac_has_job(FACJOB_SCAVENGE)) { // Computed last for _reasons_.
+        ret += 6;
+        ret *= 1.3;
+    }
+
+    return ret;
 }
 
 bool npc::has_healing_item()
@@ -1745,6 +1764,16 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     return player::attitude_to( other );
 }
 
+int npc::smash_ability() const
+{
+    if( !is_following || !misc_rules.allow_bash ) {
+        return str_cur + weapon.type->melee_dam;
+    }
+
+    // Not allowed to bash
+    return 0;
+}
+
 int npc::danger_assessment()
 {
     int ret = 0;
@@ -1797,11 +1826,7 @@ int npc::danger_assessment()
 
 int npc::average_damage_dealt()
 {
-    int ret = base_damage();
-    ret += ( weapon.damage_cut() + weapon.damage_bash() ) / 2;
-    ret *= ( get_hit_base() + weapon.type->m_to_hit );
-    ret /= 15;
-    return ret;
+    return weapon.melee_value( *this );
 }
 
 bool npc::bravery_check(int diff)
@@ -1882,16 +1907,34 @@ int npc::follow_distance() const
  return 4; // TODO: Modify based on bravery, weapon wielded, etc.
 }
 
-int npc::speed_estimate(int speed) const
+Creature *npc::get_target() const
 {
- if (per_cur == 0)
-  return rng(0, speed * 2);
-// Up to 80% deviation if per_cur is 1;
-// Up to 10% deviation if per_cur is 8;
-// Up to 4% deviation if per_cur is 20;
- int deviation = speed / (double)(per_cur * 1.25);
- int low = speed - deviation, high = speed + deviation;
- return rng(low, high);
+    if( target == TARGET_PLAYER && !is_following() ) {
+        return &g->u;
+    } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
+        return &g->zombie( target );
+    } else {
+        // Should actually return a NPC, but those aren't well supported yet
+        return nullptr;
+    }
+}
+
+int npc::speed_estimate( const Creature *what ) const
+{
+    if( what == nullptr ) {
+        return 0;
+    }
+
+    if( per_cur == 0 ) {
+        return rng(0, speed * 2);
+    }
+    // Up to 80% deviation if per_cur is 1;
+    // Up to 10% deviation if per_cur is 8;
+    // Up to 4% deviation if per_cur is 20;
+    const int deviation = speed / (double)(per_cur * 1.25);
+    const int low = speed - deviation
+    const int high = speed + deviation;
+    return rng(low, high);
 }
 
 nc_color npc::basic_symbol_color() const
