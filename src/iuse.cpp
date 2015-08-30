@@ -1658,6 +1658,9 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+// forward declare for use in mut_iv
+static void test_crossing_threshold(player *p, const mutation_category_trait &m_category);
+
 int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
 {
     if (p->has_trait("MUTAGEN_AVOID")) {
@@ -1735,15 +1738,17 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->fall_asleep((400 - p->int_cur * 5));
         }
     } else {
-        int total = 0;
         mutation_category_trait m_category;
         std::string mutation_thresh;
         for (auto& iter : mutation_category_traits){
-            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
             if (it->has_flag("MUTAGEN_" + iter.second.category)) {
                 m_category = iter.second;
                 mutation_category = "MUTCAT_" + m_category.category;
                 mutation_thresh = "THRESH_" + m_category.category;
+
+                // try to cross the threshold to be able to get post-threshold mutations this iv.
+                test_crossing_threshold(p, m_category);
+
                 if (p->has_trait("MUT_JUNKIE")) {
                     p->add_msg_if_player(m_category.junkie_message.c_str());
                 } else if (!(p->has_trait("MUT_JUNKIE"))) {
@@ -1782,68 +1787,81 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                     p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
                     p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
                 }
-            }
-        }
-
-            // Threshold-check.  You only get to cross once!
-        if (!p->crossed_threshold()) {
-            // Threshold-breaching
-            std::string primary = p->get_highest_category();
-            // Only if you were pushing for more in your primary category.
-            // You wanted to be more like it and less human.
-            // That said, you're required to have hit third-stage dreams first.
-            if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-                // Little help for the categories that have a lot of crossover.
-                // Starting with Ursine as that's... a bear to get.  8-)
-                // Will add others if there's serious/demonstrable need.
-                int booster = 0;
-                if (mutation_category == "MUTCAT_URSINE") {
-                    booster = 50;
-                }
-                int breacher = (p->mutation_category_level[primary]) + booster;
-                if (x_in_y(breacher, total)) {
-                    p->add_msg_if_player(m_good,
-                                     _("Something strains mightily for a moment...and then..you're...FREE!"));
-                    p->set_mutation(mutation_thresh);
-                    p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
-                                        pgettext("memorial_female", m_category.memorial_message.c_str()));
-                    if (mutation_category == "MUTCAT_URSINE") {
-                        // Manually removing Carnivore, since it tends to creep in
-                        if (p->has_trait("CARNIVORE")) {
-                            p->unset_mutation("CARNIVORE");
-                            p->add_msg_if_player(_("Your appetite for blood fades."));
-                        }
-                    }
-                }
-            } else if (p->mutation_category_level[primary] > 100) {
-                //~NOPAIN is a post-Threshold trait, so you shouldn't
-                //~legitimately have it and get here!
-                if (p->has_trait("NOPAIN")) {
-                    p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
-                } else {
-                    p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                    p->pain += 8;
-                    p->add_effect("stunned", rng(3, 5));
-                }
-            } else if (p->mutation_category_level[primary] > 80) {
-                if (p->has_trait("NOPAIN")) {
-                    p->add_msg_if_player(m_bad, _("You feel very Bugged."));
-                } else {
-                    p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                    p->pain += 6;
-                    p->add_effect("stunned", rng(2, 4));
-            }
-            } else if (p->mutation_category_level[primary] > 60) {
-                if (p->has_trait("NOPAIN")) {
-                    p->add_msg_if_player(m_bad, _("You feel Bugged."));
-                } else {
-                    p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                    p->add_effect("stunned", rng(2, 3));
-                }
+                // try crossing again after getting new in-category mutations.
+                test_crossing_threshold(p, m_category);
             }
         }
     }
     return it->type->charges_to_use();
+}
+
+static void test_crossing_threshold(player *p, const mutation_category_trait &m_category) {
+    // Threshold-check.  You only get to cross once!
+    if (!p->crossed_threshold()) {
+        std::string mutation_category = "MUTCAT_" + m_category.category;
+        std::string mutation_thresh = "THRESH_" + m_category.category;
+        int total = 0;
+        for (auto& iter : mutation_category_traits){
+            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+        }
+        // Threshold-breaching
+        std::string primary = p->get_highest_category();
+        // Only if you were pushing for more in your primary category.
+        // You wanted to be more like it and less human.
+        // That said, you're required to have hit third-stage dreams first.
+        if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
+            // Little help for the categories that have a lot of crossover.
+            // Starting with Ursine as that's... a bear to get.  8-)
+            // Alpha is similarly eclipsed by other mutation categories.
+            // Will add others if there's serious/demonstrable need.
+            int booster = 0;
+            if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
+                booster = 50;
+            }
+            int breacher = (p->mutation_category_level[primary]) + booster;
+            if (x_in_y(breacher, total)) {
+                p->add_msg_if_player(m_good,
+                                   _("Something strains mightily for a moment...and then..you're...FREE!"));
+                p->set_mutation(mutation_thresh);
+                p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
+                                    pgettext("memorial_female", m_category.memorial_message.c_str()));
+                if (mutation_category == "MUTCAT_URSINE") {
+                    // Manually removing Carnivore, since it tends to creep in
+                    // This is because carnivore is a prereq for the
+                    // predator-style post-threshold mutations.
+                    if (p->has_trait("CARNIVORE")) {
+                        p->unset_mutation("CARNIVORE");
+                        p->add_msg_if_player(_("Your appetite for blood fades."));
+                    }
+                }
+            }
+        } else if (p->mutation_category_level[primary] > 100) {
+            //~NOPAIN is a post-Threshold trait, so you shouldn't
+            //~legitimately have it and get here!
+            if (p->has_trait("NOPAIN")) {
+                p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
+            } else {
+                p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
+                p->pain += 8;
+                p->add_effect("stunned", rng(3, 5));
+            }
+        } else if (p->mutation_category_level[primary] > 80) {
+            if (p->has_trait("NOPAIN")) {
+                p->add_msg_if_player(m_bad, _("You feel very Bugged."));
+            } else {
+                p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
+                p->pain += 6;
+                p->add_effect("stunned", rng(2, 4));
+            }
+        } else if (p->mutation_category_level[primary] > 60) {
+            if (p->has_trait("NOPAIN")) {
+                p->add_msg_if_player(m_bad, _("You feel Bugged."));
+            } else {
+                p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
+                p->add_effect("stunned", rng(2, 3));
+            }
+        }
+    }
 }
 
 // Helper to handle the logic of removing some random mutations.
