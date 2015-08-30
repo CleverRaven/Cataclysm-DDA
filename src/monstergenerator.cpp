@@ -35,7 +35,7 @@ const mtype_id mon_fungaloid( "mon_fungaloid" );
 
 MonsterGenerator::MonsterGenerator()
 {
-    mon_templates[NULL_ID] = new mtype();
+    mon_templates[mtype_id::NULL_ID] = new mtype();
     mon_species["spec_null"] = new species_type();
     //ctor
     init_phases();
@@ -61,7 +61,7 @@ void MonsterGenerator::reset()
         delete elem.second;
     }
     mon_species.clear();
-    mon_templates[NULL_ID] = new mtype();
+    mon_templates[mtype_id::NULL_ID] = new mtype();
     mon_species["spec_null"] = new species_type();
 }
 
@@ -524,7 +524,7 @@ mtype &MonsterGenerator::get_mtype( const mtype_id& id )
 
     // this is most unlikely and therefor checked last.
     debugmsg( "Could not find monster with type %s", id.c_str() );
-    return *mon_templates[NULL_ID];
+    return *mon_templates[mtype_id::NULL_ID];
 }
 
 bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
