@@ -2532,13 +2532,12 @@ int item::get_encumber() const
     if( item::item_tags.count("furred") ){
         encumber += 5;
     }
-    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
-    // Also prevent 0 encumbrance armored underwear
+    
     if( item::item_tags.count("leather_padded") ) {
-        encumber = std::max( 15, encumber + 7 );
+        encumber += 7;
     }
     if( item::item_tags.count("kevlar_padded") ) {
-        encumber = std::max( 13, encumber + 5 );
+        encumber += 5;
     }
 
     return encumber;
