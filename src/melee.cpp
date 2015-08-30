@@ -39,7 +39,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
  * STATE QUERIES
  * bool is_armed() - True if we are armed with any weapon.
  * bool unarmed_attack() - True if we are NOT armed with any weapon, but still
- *  true if we're wielding a bionic weapon (at this point, just "bio_claws").
+ *  true if we're wielding a "fist" weapon (cestus, bionic claws etc.).
  *
  * HIT DETERMINATION
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
@@ -122,7 +122,7 @@ bool player::handle_melee_wear()
 }
 
 bool player::unarmed_attack() const {
- return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
+    return weapon.has_flag("UNARMED_WEAPON");
 }
 
 int player::get_hit_weapon( const item &weap ) const
@@ -144,7 +144,7 @@ int player::get_hit_weapon( const item &weap ) const
     float best_bonus = 0.0;
 
     // Are we unarmed?
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         best_bonus = unarmed_skill / 2.0f;
     }
 
@@ -496,7 +496,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     }
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         weapon_crit_chance = 0.5 + unarmed_skill * 0.5;
     }
@@ -527,7 +527,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
         best_skill = stabbing_skill;
     }
 
-    if( unarmed_attack() && unarmed_skill > best_skill ) {
+    if( weap.has_flag("UNARMED_WEAPON") && unarmed_skill > best_skill ) {
         best_skill = unarmed_skill;
     }
 
@@ -692,7 +692,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 
     stat += mabuff_bash_bonus();
 
-    const int skill = unarmed_attack() ? unarmed_skill : bashing_skill;
+    const int skill = weap.has_flag("UNARMED_WEAPON") ? unarmed_skill : bashing_skill;
 
     // Kinda ugly
     bash_dam = average ? base_damage( false, stat ) - (stat + 1) / 2 : base_damage( true, stat );
@@ -703,7 +703,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
         int mindrunk = 0;
         int maxdrunk = 0;
         const int drunk_dur = get_effect_dur("drunk");
-        if( unarmed_attack() ) {
+        if( weap.has_flag("UNARMED_WEAPON") ) {
             mindrunk = drunk_dur / 600;
             maxdrunk = drunk_dur / 250;
         } else {
@@ -718,7 +718,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     float bash_cap = 5 + stat + skill;
     float bash_mul = 1.0f;
 
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         const int maxdam = int(stat / 2) + unarmed_skill + weap.damage_bash();
         weap_dam = average ? maxdam * 0.5f : rng( 0, maxdam );
     } else {
@@ -776,7 +776,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         cutting_skill = 5;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !wearing_something_on(bp_hand_l);
         const bool right_empty = !wearing_something_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
@@ -843,7 +843,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
         stabbing_skill = 5;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         const bool left_empty = !wearing_something_on(bp_hand_l);
         const bool right_empty = !wearing_something_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
         if( left_empty || right_empty ) {
@@ -2332,12 +2332,12 @@ void melee_practice( player &u, bool hit, bool unarmed,
     if (!third.empty())  u.practice( third, rng(min, max) );
 }
 
-int player::attack_speed( const item &weap ) const
+int player::attack_speed( const item &weap, const bool average ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
     const int melee_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level("melee");
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
-    const int dexbonus = rng( 0, dex_cur );
+    const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
 
@@ -2405,10 +2405,10 @@ double player::melee_value( const item &weap ) const
     if( crit_ch > 0.1 ) {
         damage_instance crit;
         roll_all_damage( true, crit, true, weap );
-        avg_dmg = crit.total_damage() * crit_ch;
+        avg_dmg = (1.0 - crit_ch) * avg_dmg + crit.total_damage() * crit_ch;
     }
 
-    int move_cost = attack_speed( weap );
+    int move_cost = attack_speed( weap, true );
     static const matec_id rapid_strike( "RAPID" );
     if( weap.has_technique( rapid_strike ) ) {
         move_cost /= 2;
@@ -2416,7 +2416,7 @@ double player::melee_value( const item &weap ) const
     }
 
     my_value += avg_dmg * 100 / move_cost;
-
+add_msg("%s evaluated %s as %.1f", disp_name().c_str(), weap.tname().c_str(), my_value );
     return my_value;
 }
 

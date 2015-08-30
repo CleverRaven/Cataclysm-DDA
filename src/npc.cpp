@@ -831,7 +831,7 @@ std::list<item> starting_clothes( npc_class type, bool male )
     // Also: the above might have added null-items that must be filtered out.
     for( auto it = ret.begin(); it != ret.end(); ) {
         if( !it->is_null() && it->is_armor() ) {
-            if( one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
+            if( !one_in( 3 ) && it->has_flag( "VARSIZE" ) ) {
                 it->item_tags.insert( "FIT" );
             }
             ++it;
@@ -888,7 +888,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
     if( tmpitem.is_null() ) {
         continue;
     }
-    if( one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
+    if( !one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
         tmpitem.item_tags.insert( "FIT" );
     }
     if (total_space >= tmpitem.volume()) {
@@ -1050,15 +1050,29 @@ bool npc::wear_if_wanted(item it)
         return false;
     }
 
-    int max_encumb[num_bp] = {2, 3, 3, 4, 3, 3, 3, 2};
+    int max_encumb[num_bp];
+    max_encumb[bp_torso] = 19; // Higher if ranged?
+    max_encumb[bp_head] = 30;
+    max_encumb[bp_eyes] = 29; // Lower if using ranged?
+    max_encumb[bp_mouth] = 19;
+    max_encumb[bp_arm_l] = 19; // Split ranged/melee?
+    max_encumb[bp_arm_r] = 19;
+    max_encumb[bp_hand_l] = 29; // Lower if throwing?
+    max_encumb[bp_hand_r] = 29;
+    max_encumb[bp_leg_l] = 19; // Higher if ranged?
+    max_encumb[bp_leg_r] = 19;
+    max_encumb[bp_foot_l] = 29;
+    max_encumb[bp_foot_r] = 29;
     bool encumb_ok = true;
     for (int i = 0; i < num_bp && encumb_ok; i++) {
         const auto bp = static_cast<body_part>( i );
-        if (it.covers(bp) && encumb(bp) + it.get_encumber() > max_encumb[i]) {
+        if( it.covers(bp) && encumb(bp) + it.get_encumber() > max_encumb[i] ) {
             encumb_ok = false;
         }
     }
-    if (encumb_ok) {
+    if( encumb_ok ) {
+        // TODO: Layering check
+        // TODO: Multiple identical items check
         worn.push_back(it);
         return true;
     }
@@ -1089,7 +1103,7 @@ bool npc::wield(item* it, bool)
 
 bool npc::wield(item* it)
 {
-    if ( !weapon.is_null() ) {
+    if( !weapon.is_null() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
             i_add( remove_weapon() );
             moves -= 15;
@@ -1097,6 +1111,11 @@ bool npc::wield(item* it)
             g->m.add_item_or_charges( pos(), remove_weapon() );
         }
     }
+    if( it->is_null() ) {
+        weapon = *it;
+        return true;
+    }
+
     moves -= 15;
     weapon = inv.remove_item(it);
     if ( g->u.sees( *this ) ) {

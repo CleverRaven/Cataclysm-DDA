@@ -470,7 +470,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player scores a critical hit */
         bool scored_crit(int target_dodge = 0) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
-        int attack_speed( const item &weap ) const;
+        int attack_speed( const item &weap, bool average = false ) const;
         /** Gets melee accuracy component from weapon+skills */
         int get_hit_weapon( const item &weap ) const;
         /** NPC-related item rating functions */

@@ -1118,11 +1118,11 @@ void npc::update_path( const tripoint &p )
 bool npc::can_move_to( const tripoint &p ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
-    return( rl_dist( pos3(), p ) <= 1 &&
+    return( rl_dist( pos(), p ) <= 1 &&
               (
                 g->m.move_cost( p ) > 0 ||
-                g->m.bash_rating( str_cur + weapon.type->melee_dam, p ) > 0 ||
-                g->m.open_door( p, !g->m.is_outside( pos3() ), true )
+                g->m.bash_rating( smash_ability(), p ) > 0 ||
+                g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
            );
 }
@@ -1403,14 +1403,25 @@ void npc::avoid_friendly_fire(int target)
 
 void npc::move_away_from( const tripoint &pt )
 {
-    for( const tripoint &p : squares_closer_to( pos(), pos() - pt ) ) {
-        if( can_move_to( p ) ) {
-            move_to( p );
-            return;
+    tripoint best_pos = pos();
+    int best = 0;
+    int chance = 2;
+    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        const int cost = g->m.combined_movecost( pos(), p );
+        const int dst = abs( p.x - pt.x ) + abs( p.y - pt.y ) + abs( p.z - pt.z );
+        const int val = dst * 1000 / cost;
+        if( val > best && can_move_to( p ) ) {
+            best_pos = p;
+            best = val;
+            chance = 2;
+        } else if( ( val == best && one_in( chance ) ) && can_move_to( p ) ) {
+            best_pos = p;
+            best = val;
+            chance++;
         }
     }
 
-    move_pause();
+    move_to( best_pos );
 }
 
 void npc::move_pause()
