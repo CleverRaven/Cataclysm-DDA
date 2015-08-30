@@ -3455,23 +3455,23 @@
         "points" : 6,
         "skills": [
             {
-                "level": 5,
+                "level": 4,
                 "name": "survival"
             },
             {
-                "level": 5,
+                "level": 4,
                 "name": "gun"
             },
             {
-                "level": 4,
+                "level": 3,
                 "name": "rifle"
             },
             {
-                "level" : 4,
+                "level" : 3,
                 "name" : "melee"
             },
             {
-                "level": 2,
+                "level": 1,
                 "name": "firstaid"
             }
         ],
@@ -3486,7 +3486,6 @@
                 "gloves_tactical",
                 "chestrig",
                 "tac_helmet",
-                "goggles_nv",
                 "sheath",
                 "canteen",
                 "shoulder_strap",
@@ -3498,8 +3497,7 @@
                 "spare_mag",
                 "mil_mess_kit",
                 "knife_combat",
-                "1st_aid",
-                "mre_hotdog_box"
+                "quikclot"
             ],
             "male": [
                 "boxer_shorts"
