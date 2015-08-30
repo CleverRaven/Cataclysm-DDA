@@ -3923,16 +3923,18 @@ void game::debug()
             }
 
             enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-                   D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE };
+                   D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
+                   D_MUTATE };
             nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
             nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
             nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _("[d]elete (all) items") );
-            nmenu.addentry( D_ITEM_WORN, true, 'd', "%s", _("[w]ear/[w]ield an item from player's inventory") );
+            nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _("[w]ear/[w]ield an item from player's inventory") );
             nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
             nmenu.addentry( D_HEALTHY, true, 'a', "%s", _("Set he[a]lth") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
+            nmenu.addentry( D_MUTATE, true, 'u', "%s", _("M[u]tate") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
             nmenu.addentry( D_TELE, true, 'e', "%s", _("t[e]leport") );
             if( p.is_npc() ) {
@@ -4089,6 +4091,9 @@ void game::debug()
                     *bp_ptr = value;
                 }
             }
+                break;
+            case D_MUTATE:
+                wishmutate( &p );
                 break;
             case D_HEALTHY:
             {

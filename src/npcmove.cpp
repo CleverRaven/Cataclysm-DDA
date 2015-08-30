@@ -1211,7 +1211,7 @@ void npc::move_to( const tripoint &pt )
     // Boarding moving vehicles is fine, unboarding isn't
     const vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr ) {
-        if( veh->velocity > 0 ) {
+        if( abs(veh->velocity) > 0 ) {
             move_pause();
             return;
         }
