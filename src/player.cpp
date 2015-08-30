@@ -63,7 +63,6 @@
 #include <fstream>
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
@@ -437,8 +436,7 @@ void player::reset_stats()
     for( auto maps : effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
-            bool reduced = has_trait(  it.get_resist_trait() ) ||
-                           has_effect( it.get_resist_effect() );
+            bool reduced = resists_effect(it);
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
             mod_per_bonus( it.get_mod( "PER", reduced ) );
@@ -1567,8 +1565,7 @@ void player::recalc_speed_bonus()
 
     for (auto maps : effects) {
         for (auto i : maps.second) {
-            bool reduced = has_trait(i.second.get_resist_trait()) ||
-                            has_effect(i.second.get_resist_effect());
+            bool reduced = resists_effect(i.second);
             mod_speed_bonus(i.second.get_mod("SPEED", reduced));
         }
     }
@@ -2806,7 +2803,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
-            bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
+            bool reduced = resists_effect(it);
             int move_adjust = it.get_mod("SPEED", reduced);
             if (move_adjust != 0) {
                 dis_text = it.get_speed_name();
@@ -6072,7 +6069,7 @@ void player::process_effects() {
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
-            bool reduced = has_trait(it.get_resist_trait()) || has_effect(it.get_resist_effect());
+            bool reduced = resists_effect(it);
             double mod = 1;
             body_part bp = it.get_bp();
             int val = 0;
@@ -6310,7 +6307,7 @@ void player::hardcoded_effects(effect &it)
             add_effect("fungus", 1, num_bp, true);
         }
     } else if (id == "fungus") {
-        int bonus = get_healthy() / 10 + (has_trait(it.get_resist_trait()) ? 100 : 0);
+        int bonus = get_healthy() / 10 + (resists_effect(it) ? 100 : 0);
         switch (intense) {
         case 1: // First hour symptoms
             if (one_in(160 + bonus)) {
@@ -13886,7 +13883,7 @@ void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
     item body;
-    body.make_corpse( mon_null, calendar::turn, name );
+    body.make_corpse( NULL_ID, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
