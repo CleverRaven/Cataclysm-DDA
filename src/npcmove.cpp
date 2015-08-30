@@ -275,7 +275,7 @@ void npc::execute_action(npc_action action, int target)
     {
         // TODO: Allow stims when not too tired
         // Find a nice spot to sleep
-        int best_sleepy = INT_MIN;
+        int best_sleepy = sleep_spot( pos() );
         tripoint best_spot = pos();
         const auto points = closest_tripoints_first( 6, pos() );
         for( const tripoint &p : points )

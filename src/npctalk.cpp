@@ -604,8 +604,6 @@ void npc::talk_to_u()
     // TODO: Use talk_needs for food and drinks
     if( has_effect( "sleep" ) || has_effect( "lying_down" ) ) {
         d.topic_stack.push_back( "TALK_WAKE_UP" );
-    } else if( misc_rules.allow_sleep || has_effect( "allow_sleep" ) ) {
-        d.topic_stack.push_back( "TALK_ALLOW_SLEEP" );
     }
 
     if (d.topic_stack.back() == "TALK_NONE") {
@@ -672,7 +670,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                 beta->name.c_str());
     }
 
-    const auto p = beta; // for compatibility, later replace it in the code below
+    const auto &p = beta; // for compatibility, later replace it in the code below
     // Those topics are handled by the mission system, see there.
     static const std::unordered_set<std::string> mission_topics = { {
         "TALK_MISSION_DESCRIBE", "TALK_MISSION_OFFER", "TALK_MISSION_ACCEPTED",
@@ -1625,6 +1623,29 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         } else {
             return _("Anything to do before I go to sleep?");
         }
+
+    } else if( topic == "TALK_MISC_RULES" ) {
+        std::stringstream status;
+        std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
+        if( p->misc_rules.allow_pick_up ) {
+            status << string_format(_(" %s will pick up items."), npcstr.c_str());
+        } else {
+            status << string_format(_(" %s will not pick up items."), npcstr.c_str());
+        }
+
+        if( p->misc_rules.allow_bash ) {
+            status << string_format(_(" %s will bash down obstacles."), npcstr.c_str());
+        } else {
+            status << string_format(_(" %s will not bash down obstacles."), npcstr.c_str());
+        }
+
+        if( p->misc_rules.allow_sleep ) {
+            status << string_format(_(" %s will sleep when tired."), npcstr.c_str());
+        } else {
+            status << string_format(_(" %s will sleep only when exhausted."), npcstr.c_str());
+        }
+
+        return status.str();
 
     }
 
@@ -2821,7 +2842,7 @@ void dialogue::gen_responses( const std::string &topic )
                 add_response( _("Don't bash obstacles."), "TALK_MISC_RULES",
                               &talk_function::toggle_bashing );
             } else {
-                add_response( _("You can pick up items now."), "TALK_MISC_RULES",
+                add_response( _("You can bash obstacles."), "TALK_MISC_RULES",
                               &talk_function::toggle_bashing );
             }
 
@@ -3025,6 +3046,12 @@ int topic_category( const std::string &topic )
     } };
     if( topic_6.count( topic ) > 0 ) {
         return 6;
+    }
+    static const std::unordered_set<std::string> topic_7 = { {
+        "TALK_MISC_RULES",
+    } };
+    if( topic_7.count( topic ) > 0 ) {
+        return 7;
     }
     static const std::unordered_set<std::string> topic_99 = { {
         "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
