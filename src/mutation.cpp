@@ -941,7 +941,12 @@ void player::mutate()
         return;
     }
 
-    mutate_towards( random_entry( valid ) );
+    if (mutate_towards(random_entry(valid))) {
+        return;
+    } else {
+        // if mutation failed (errors, post-threshold pick), try again once.
+        mutate_towards(random_entry(valid));
+    }
 }
 
 void player::mutate_category( const std::string &cat )
@@ -973,14 +978,19 @@ void player::mutate_category( const std::string &cat )
         return;
     }
 
-    mutate_towards( random_entry( valid ) );
+    if (mutate_towards(random_entry(valid))) {
+        return;
+    } else {
+        // if mutation failed (errors, post-threshold pick), try again once.
+        mutate_towards(random_entry(valid));
+    }
 }
 
-void player::mutate_towards( const std::string &mut )
+bool player::mutate_towards( const std::string &mut )
 {
     if (has_child_flag(mut)) {
         remove_child_flag(mut);
-        return;
+        return true;
     }
     const auto &mdata = mutation_branch::get( mut );
 
@@ -1012,8 +1022,7 @@ void player::mutate_towards( const std::string &mut )
             i--;
             // This checks for cases where one trait knocks out several others
             // Probably a better way, but gets it Fixed Now--KA101
-            mutate_towards(mut);
-            return;
+            return mutate_towards(mut);
         }
     }
 
@@ -1035,11 +1044,9 @@ void player::mutate_towards( const std::string &mut )
 
     if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
         if (!prereq1 && !prereq.empty()) {
-            mutate_towards( random_entry( prereq ) );
-            return;
+            return mutate_towards( random_entry( prereq ) );
         } else if (!prereq2 && !prereqs2.empty()) {
-            mutate_towards( random_entry( prereqs2 ) );
-            return;
+            return mutate_towards( random_entry( prereqs2 ) );
         }
     }
 
@@ -1050,16 +1057,14 @@ void player::mutate_towards( const std::string &mut )
     std::vector<std::string> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized--but if it does, just reroll
+    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
     if (threshold) {
         add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        mutate();
-        return;
+        return false;
     }
     if (profession) {
         // Profession picks fail silently
-        mutate();
-        return;
+        return false;
     }
 
     for (size_t i = 0; !has_threshreq && i < threshreq.size(); i++) {
@@ -1072,7 +1077,7 @@ void player::mutate_towards( const std::string &mut )
     // Rerolling proved more trouble than it was worth, so deleted
     if (!has_threshreq && !threshreq.empty()) {
         add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        return;
+        return false;
     }
 
     // Check if one of the prereqs that we have TURNS INTO this one
@@ -1196,6 +1201,7 @@ void player::mutate_towards( const std::string &mut )
 
     set_highest_cat_level();
     drench_mut_calc();
+    return true;
 }
 
 void player::remove_mutation( const std::string &mut )

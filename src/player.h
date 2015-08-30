@@ -275,7 +275,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        void mutate_towards( const std::string &mut );
+        bool mutate_towards( const std::string &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const std::string &mut );
         /** Returns true if the player has the entered mutation child flag */
