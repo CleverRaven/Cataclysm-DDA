@@ -23,7 +23,6 @@
 #include <sstream>
 
 const mtype_id mon_manhack( "mon_manhack" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_secubot( "mon_secubot" );
 
 std::vector<std::string> computer::lab_notes;
@@ -815,7 +814,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == mon_null ) {
+                        if( mt == nullptr || mt->id == NULL_ID ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( "ZOMBIE" ) ) {
                             if( mt->sym == "Z" ) {

@@ -3744,7 +3744,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     }
 
     // place spawns
-    if(special.spawns.group != mongroup_id( "GROUP_NULL" ) ) {
+    if( special.spawns.group ) {
         const overmap_special_spawns& spawns = special.spawns;
         const int pop = rng(spawns.min_population, spawns.max_population);
         const int rad = rng(spawns.min_radius, spawns.max_radius);

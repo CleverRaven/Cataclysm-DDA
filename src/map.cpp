@@ -35,7 +35,6 @@
 #include <cstring>
 
 const mtype_id mon_spore( "mon_spore" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_zombie( "mon_zombie" );
 
 extern bool is_valid_in_w_terrain(int,int);
@@ -6477,7 +6476,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
     for( int m = 0; m < pop; m++ ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-        if( spawn_details.name == mon_null ) {
+        if( !spawn_details.name ) {
             continue;
         }
 
