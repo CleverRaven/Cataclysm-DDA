@@ -2399,15 +2399,6 @@ double player::melee_value( const item &weap ) const
         my_value += 15 + (accuracy - 5);
     }
 
-    const int arbitrary_dodge_target = 5;
-    double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
-    my_value += crit_ch * 10; // Crits are worth more than just extra damage
-    if( crit_ch > 0.1 ) {
-        damage_instance crit;
-        roll_all_damage( true, crit, true, weap );
-        avg_dmg = (1.0 - crit_ch) * avg_dmg + crit.total_damage() * crit_ch;
-    }
-
     int move_cost = attack_speed( weap, true );
     static const matec_id rapid_strike( "RAPID" );
     if( weap.has_technique( rapid_strike ) ) {
@@ -2415,8 +2406,18 @@ double player::melee_value( const item &weap ) const
         avg_dmg *= 0.66;
     }
 
+    const int arbitrary_dodge_target = 5;
+    double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
+    my_value += crit_ch * 10; // Crits are worth more than just extra damage
+    if( crit_ch > 0.1 ) {
+        damage_instance crit;
+        roll_all_damage( true, crit, true, weap );
+        // Note: intentionally doesn't include rapid attack bonus in crits
+        avg_dmg = (1.0 - crit_ch) * avg_dmg + crit.total_damage() * crit_ch;
+    }
+
     my_value += avg_dmg * 100 / move_cost;
-add_msg("%s evaluated %s as %.1f", disp_name().c_str(), weap.tname().c_str(), my_value );
+
     return my_value;
 }
 

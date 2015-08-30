@@ -36,42 +36,45 @@ std::list<item> starting_inv(npc *me, npc_class type);
 
 npc::npc()
 {
- mapx = 0;
- mapy = 0;
- position.x = -1;
- position.y = -1;
- position.z = 500;
- last_player_seen_pos = no_goal_point;
- last_seen_player_turn = 999;
- wanted_item_pos = no_goal_point;
- guard_pos = no_goal_point;
- goal = no_goal_point;
- fatigue = 0;
- hunger = 0;
- thirst = 0;
- fetching_item = false;
- has_new_items = false;
- worst_item_value = 0;
- str_max = 0;
- dex_max = 0;
- int_max = 0;
- per_max = 0;
- my_fac = NULL;
- fac_id = "";
- miss_id = 0;
- marked_for_death = false;
- dead = false;
- hit_by_player = false;
- moves = 100;
- mission = NPC_MISSION_NULL;
- myclass = NC_NONE;
- patience = 0;
- restock = -1;
- companion_mission = "";
- companion_mission_time = 0;
- for( auto &skill : Skill::skills ) {
-     set_skill_level( skill, 0 );
- }
+    mapx = 0;
+    mapy = 0;
+    position.x = -1;
+    position.y = -1;
+    position.z = 500;
+    last_player_seen_pos = no_goal_point;
+    last_seen_player_turn = 999;
+    wanted_item_pos = no_goal_point;
+    guard_pos = no_goal_point;
+    goal = no_goal_point;
+    fatigue = 0;
+    hunger = 0;
+    thirst = 0;
+    fetching_item = false;
+    has_new_items = false;
+    worst_item_value = 0;
+    str_max = 0;
+    dex_max = 0;
+    int_max = 0;
+    per_max = 0;
+    my_fac = NULL;
+    fac_id = "";
+    miss_id = 0;
+    marked_for_death = false;
+    dead = false;
+    hit_by_player = false;
+    moves = 100;
+    mission = NPC_MISSION_NULL;
+    myclass = NC_NONE;
+    patience = 0;
+    restock = -1;
+    companion_mission = "";
+    companion_mission_time = 0;
+    for( auto &skill : Skill::skills ) {
+        set_skill_level( skill, 0 );
+    }
+
+    // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
+    ret_null = item( "null", 0 );
 }
 
 npc_map npc::_all_npc;
@@ -1103,14 +1106,24 @@ bool npc::wield(item* it, bool)
 
 bool npc::wield(item* it)
 {
+    const bool seen = g->u.sees( *this );
     if( !weapon.is_null() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
+            if( seen ) {
+                add_msg( m_info, _( "%1$s puts away the %2$s." ), name.c_str(), weapon.tname().c_str() );
+            }
+
             i_add( remove_weapon() );
             moves -= 15;
         } else { // No room for weapon, so we drop it
+            if( seen ) {
+                add_msg( m_info, _( "%1$s drops the %2$s." ), name.c_str(), weapon.tname().c_str() );
+            }
+
             g->m.add_item_or_charges( pos(), remove_weapon() );
         }
     }
+
     if( it->is_null() ) {
         weapon = *it;
         return true;
@@ -1118,9 +1131,10 @@ bool npc::wield(item* it)
 
     moves -= 15;
     weapon = inv.remove_item(it);
-    if ( g->u.sees( *this ) ) {
+    if( seen ) {
         add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
+
     return true;
 }
 

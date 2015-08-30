@@ -3296,7 +3296,8 @@ void game::load(std::string worldname, std::string name)
     load_master(worldname);
     u = player();
     u.name = base64_decode(name);
-    u.ret_null = item("null", 0);
+    // This should be initialized more globally (in player/Character constructor)
+    u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
     unserialize(fin);
     fin.close();
