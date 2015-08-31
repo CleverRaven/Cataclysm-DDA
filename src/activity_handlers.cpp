@@ -54,7 +54,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         g->m.ter(pos) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
-        p->hunger += 10;
+        p->mod_hunger(10);
         p->fatigue += 15;
         p->thirst += 10;
         p->mod_pain(3 * rng(1, 3));
@@ -63,7 +63,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->hunger += 5;
+        p->mod_hunger(5);
         p->fatigue += 10;
         p->thirst += 5;
     }
@@ -705,7 +705,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         g->m.ter(pos) != t_tree ) {
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
-        p->hunger += 15;
+        p->mod_hunger(15);
         if( p->has_trait("STOCKY_TROGLO") ) {
             p->fatigue += 20; // Yep, dwarves can dig longer before tiring
         } else {
@@ -718,7 +718,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
-        p->hunger += 5;
+        p->mod_hunger(5);
         p->fatigue += 10;
         p->thirst += 5;
     }

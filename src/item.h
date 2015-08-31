@@ -98,7 +98,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
+ item(const std::string new_type, int turn, bool rand = true, handedness handed = NONE);
 
         /**
          * Make this a corpse of the given monster type.

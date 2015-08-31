@@ -2769,7 +2769,7 @@ bool game::handle_action()
                 as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
                                                     'N' : 'n'), _("No.")));
 
-                if( u.has_alarm_clock() && u.hunger < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
+                if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
                     as_m.text =
                         _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
                 }
@@ -2808,7 +2808,7 @@ bool game::handle_action()
                     as_m.text = data.str();
                 }
                 if( u.has_alarm_clock() &&
-                    !( u.hunger < -60 && u.has_active_mutation( "HIBERNATE" ) ) ) {
+                    !( u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) ) {
                     as_m.entries.push_back(uimenu_entry(3, true, '3',
                                                         _("Set alarm to wake up in 3 hours.")));
                     as_m.entries.push_back(uimenu_entry(4, true, '4',
@@ -4067,32 +4067,44 @@ void game::debug()
             case D_NEEDS:
             {
                 uimenu smenu;
-                smenu.addentry( 0, true, 'h', "%s: %d", _("Hunger"), p.hunger );
+                smenu.addentry( 0, true, 'h', "%s: %d", _("Hunger"), p.get_hunger() );
                 smenu.addentry( 1, true, 't', "%s: %d", _("Thirst"), p.thirst );
                 smenu.addentry( 2, true, 'f', "%s: %d", _("Fatigue"), p.fatigue );
                 smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
                 smenu.selected = 0;
                 smenu.query();
-                int *bp_ptr = nullptr;
+                int cur;
+                bool valid = false;
                 switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.hunger;
+                    cur = p.get_hunger();
+                    valid = true;
                     break;
                 case 1:
-                    bp_ptr = &p.thirst;
+                    cur = p.thirst;
+                    valid = true;
                     break;
                 case 2:
-                    bp_ptr = &p.fatigue;
+                    cur = p.fatigue;
+                    valid = true;
                     break;
                 default:
                     break;
                 }
-
-                if( bp_ptr != nullptr ) {
-                    int value = query_int( "Set the value to? Currently: %d", *bp_ptr );
-                    // No canceling here
-                    *bp_ptr = value;
+                if( valid ) {
+                    int value = query_int( "Set the value to? Currently: %d", cur );
+                    switch (smenu.ret) {
+                    case 0:
+                        p.set_hunger(value);
+                        break;
+                    case 1:
+                        p.thirst = value;
+                        break;
+                    case 2:
+                        p.fatigue = value;
+                    }
                 }
+
             }
                 break;
             case D_MUTATE:
@@ -11168,7 +11180,7 @@ void game::eat(int pos)
     if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
         m.ter(u.pos()) == t_underbrush && query_yn(_("Eat underbrush?"))) {
         u.moves -= 400;
-        u.hunger -= 10;
+        u.mod_hunger(-10);
         m.ter_set(u.pos(), t_grass);
         add_msg(_("You eat the underbrush."));
         return;
@@ -11176,12 +11188,12 @@ void game::eat(int pos)
     if (u.has_active_mutation("GRAZER") && m.ter(u.pos()) == t_grass &&
         query_yn(_("Graze?"))) {
         u.moves -= 400;
-        if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
+        if ((u.get_hunger() < 10) || one_in(20 - u.int_cur)) {
             add_msg(_("You eat some of the taller grass, careful to leave some growing."));
-            u.hunger -= 2;
+            u.mod_hunger(-2);
         } else {
             add_msg(_("You eat the grass."));
-            u.hunger -= 5;
+            u.mod_hunger(-5);
             m.ter_set(u.pos(), t_dirt);
         }
         return;
@@ -13045,7 +13057,7 @@ void game::vertical_move(int movez, bool force)
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
                                 u.apply_damage( nullptr, bp_torso, 5 );
-                                u.hunger += 10;
+                                u.mod_hunger(10);
                                 u.thirst += 10;
                             } else {
                                 add_msg(_("You gingerly descend using your vines."));
@@ -13053,7 +13065,7 @@ void game::vertical_move(int movez, bool force)
                         } else {
                             add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
                             rope_ladder = true;
-                            u.hunger += 10;
+                            u.mod_hunger(10);
                             u.thirst += 10;
                         }
                     } else {
@@ -14263,7 +14275,7 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_HUNGER:
             if (one_in(100)) {
-                p->hunger++;
+                p->mod_hunger(1);
             }
             break;
 

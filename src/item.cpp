@@ -83,7 +83,7 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand, const handedness handed)
+item::item(const std::string new_type, int turn, bool rand, const handedness handed)
 {
     init();
     type = find_type( new_type );

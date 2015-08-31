@@ -106,7 +106,7 @@ void defense_game::per_turn()
         g->u.thirst = 0;
     }
     if (!hunger) {
-        g->u.hunger = 0;
+        g->u.set_hunger(0);
     }
     if (!sleep) {
         g->u.fatigue = 0;
