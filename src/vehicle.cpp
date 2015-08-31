@@ -5850,7 +5850,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     tmp.add_effect( "on_roof", 1 );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
     tmp.skillLevel(gun.gun->skill_used).level(8);
-    tmp.skillLevel("gun").level(4);
+    tmp.skillLevel( skill_id( "gun" ) ).level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.setpos( pos );
     tmp.str_cur = 16;

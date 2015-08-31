@@ -2378,7 +2378,7 @@ double player::weapon_value( const item &weap ) const
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
         gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * get_skill_level("gun")));
+        gun_value *= (.5 + (.3 * get_skill_level( skill_id( "gun" ) )));
         gun_value *= (.3 + (.7 * get_skill_level(gun->skill_used)));
         my_value += gun_value;
     }

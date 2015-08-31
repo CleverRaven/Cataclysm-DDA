@@ -2720,8 +2720,8 @@ void mattack::smg(monster *z, int index)
         }
     }
     npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel("smg").level(8);
-    tmp.skillLevel("gun").level(4);
+    tmp.skillLevel( skill_id( "smg" ) ).level(8);
+    tmp.skillLevel( skill_gun ).level(4);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2784,8 +2784,8 @@ void mattack::laser(monster *z, int index)
         }
     }
     npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel("rifle").level(8);
-    tmp.skillLevel("gun").level(4);
+    tmp.skillLevel( skill_rifle ).level(8);
+    tmp.skillLevel( skill_gun ).level(4);
     z->moves -= 150;   // It takes a while
     if (!sunlight) {
         if (one_in(3)) {

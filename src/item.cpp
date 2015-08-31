@@ -3357,14 +3357,16 @@ int item::spare_mag_size() const
 skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
-        return "null";
+        return skill_id( "null" );
     }
     return type->gun->skill_used;
 }
 
 skill_id item::weap_skill() const
 {
-    if (! is_weap() && ! is_tool()) return "null";
+    if( !is_weap() && !is_tool() ) {
+        return skill_id( "null" );
+    }
 
     if (type->melee_dam >= type->melee_cut) return skill_bashing;
     if (has_flag("STAB")) return skill_stabbing;
@@ -3380,7 +3382,7 @@ skill_id item::skill() const
     } else if( type->book && type->book->skill != nullptr ) {
         return type->book->skill->ident();
     }
-    return "null";
+    return skill_id( "null" );
 }
 
 int item::clip_size() const
@@ -3854,7 +3856,7 @@ bool item::reload(player &u, int pos)
     bool const is_from_quiver = pos < -1 && ammo_container != nullptr && ammo_container->type->can_use( "QUIVER" );
     if( is_from_quiver ) {
         // chance to fail pulling an arrow at lower levels
-        int archery = u.skillLevel( "archery" );
+        int archery = u.skillLevel( skill_id( "archery" ) );
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
             u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),

@@ -290,7 +290,7 @@ void player_activity::do_turn( player *p )
                 p->moves -= moves_left;
                 moves_left = 0;
             }
-            p->practice("mechanics", 1);
+            p->practice( skill_id( "mechanics" ), 1 );
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {

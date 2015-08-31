@@ -4613,7 +4613,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     }
 
     p->add_msg_if_player(message.str().c_str());
-    p->practice("traps", practice);
+    p->practice( skill_id( "traps" ), practice);
     g->m.add_trap( tr_loc, type );
     if( !tr->can_see( tr_loc, *p ) ) {
         p->add_known_trap( tr_loc, *tr );
@@ -6178,7 +6178,7 @@ int iuse::bullet_puller(player *p, item *it, bool, const tripoint& )
         add_msg(m_info, _("You cannot disassemble that."));
         return 0;
     }
-    if (p->skillLevel("gun") < 2) {
+    if (p->skillLevel( skill_id( "gun" ) ) < 2) {
         add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
         return 0;
     }

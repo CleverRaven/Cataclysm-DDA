@@ -7463,7 +7463,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.exec(&veh);
     if (vehint.sel_cmd != ' ') {
         int time = 200;
-        int skill = u.skillLevel("mechanics");
+        int skill = u.skillLevel( skill_id( "mechanics" ) );
         int diff = 1;
         if (vehint.sel_vpart_info != NULL) {
             diff = vehint.sel_vpart_info->difficulty + 3;
@@ -12262,7 +12262,7 @@ bool game::plmove(int dx, int dy)
         u.burn_move_stamina( previous_moves - u.moves );
 
         // Adjust recoil down
-        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
         u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
         u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
@@ -12601,7 +12601,7 @@ void game::plswim(int x, int y)
         u.remove_effect("glowing");
     }
     int movecost = u.swim_speed();
-    u.practice("swimming", u.is_underwater() ? 2 : 1);
+    u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(u.shoe_type_count("swim_fins") == 2 ||
                                     (u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {

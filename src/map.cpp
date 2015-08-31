@@ -2767,7 +2767,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
     } else if( g->u.pos() == sporep ) {
         player &pl = g->u; // TODO: Make this accept NPCs when they understand fungals
         if( pl.has_trait("TAIL_CATTLE") &&
-            one_in( 20 - pl.dex_cur - pl.skillLevel("melee") ) ) {
+            one_in( 20 - pl.dex_cur - pl.skillLevel( skill_id( "melee" ) ) ) ) {
             pl.add_msg_if_player( _("The spores land on you, but you quickly swat them off with your tail!" ) );
             return;
         }
