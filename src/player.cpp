@@ -3914,7 +3914,9 @@ bool player::in_climate_control()
 {
     bool regulated_area=false;
     // Check
-    if(has_active_bionic("bio_climate")) { return true; }
+    if( has_active_bionic("bio_climate") ) {
+        return true;
+    }
     for( auto &w : worn ) {
         if( w.typeId() == "rm13_armor_on" ) {
             return true;
@@ -3923,24 +3925,24 @@ bool player::in_climate_control()
             return true;
         }
     }
-    if(int(calendar::turn) >= next_climate_control_check)
-    {
-        next_climate_control_check=int(calendar::turn)+20;  // save cpu and similate acclimation.
+    if( int(calendar::turn) >= next_climate_control_check ) {
+        // save cpu and simulate acclimation.
+        next_climate_control_check = int(calendar::turn) + 20;
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
-        if(veh)
-        {
-            regulated_area=(
+        if(veh) {
+            regulated_area = (
                 veh->is_inside(vpart) &&    // Already checks for opened doors
                 veh->total_power(true) > 0  // Out of gas? No AC for you!
             );  // TODO: (?) Force player to scrounge together an AC unit
         }
         // TODO: AC check for when building power is implemented
-        last_climate_control_ret=regulated_area;
-        if(!regulated_area) { next_climate_control_check+=40; }  // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
-    }
-    else
-    {
+        last_climate_control_ret = regulated_area;
+        if( !regulated_area ) {
+            // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
+            next_climate_control_check += 40;
+        }
+    } else {
         return ( last_climate_control_ret ? true : false );
     }
     return regulated_area;

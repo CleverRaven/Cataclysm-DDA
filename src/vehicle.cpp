@@ -953,7 +953,7 @@ void vehicle::use_controls()
             }
         } else if( part_flag(p,"PLOW") ) {
             has_plow = true;
-        }else if( part_flag(p,"PLANTER") ){
+        } else if( part_flag(p,"PLANTER") ) {
             has_planter = true;
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
@@ -1132,7 +1132,7 @@ void vehicle::use_controls()
             stereo_on = !stereo_on;
             add_msg( stereo_on ? _("Turned on music") : _("Turned off music") );
         } else {
-                add_msg(_("The stereo won't come on!"));
+            add_msg(_("The stereo won't come on!"));
         }
         break;
     case toggle_chimes:
@@ -1140,7 +1140,7 @@ void vehicle::use_controls()
             chimes_on = !chimes_on;
             add_msg( chimes_on ? _("Turned on chimes") : _("Turned off chimes") );
         } else {
-                add_msg(_("The chimes won't come on!"));
+            add_msg(_("The chimes won't come on!"));
         }
         break;
     case toggle_overhead_lights:
@@ -1303,7 +1303,7 @@ bool vehicle::fold_up() {
         return false;
     }
 
-    if( velocity>0 ) {
+    if( velocity > 0 ) {
         add_msg(m_warning, _("You can't fold the %s while it's in motion."), name.c_str());
         return false;
     }
@@ -3872,7 +3872,7 @@ void vehicle::operate_plow(){
         const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
         if( g->m.has_flag("DIGGABLE", start_plow) ){
             g->m.ter_set( start_plow, t_dirtmound );
-        }else{
+        } else {
             const int speed = velocity;
             const int v_damage = rng( 3, speed );
             damage( plow_id, v_damage, DT_BASH, false );
@@ -3880,8 +3880,9 @@ void vehicle::operate_plow(){
         }
     }
 }
+
 void vehicle::operate_reaper(){
-    const tripoint &veh_start=global_pos3();
+    const tripoint &veh_start = global_pos3();
     for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
         const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
         const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
@@ -3892,36 +3893,38 @@ void vehicle::operate_reaper(){
             continue;
         }
         islot_seed &seed_data = *g->m.i_at(reaper_pos).front().type->seed;
-        const std::string &seedType= g->m.i_at(reaper_pos).front().typeId();
+        const std::string &seedType = g->m.i_at(reaper_pos).front().typeId();
         g->m.furn_set( reaper_pos, f_null );
         g->m.i_clear( reaper_pos );
         if( seed_data.spawn_seeds ){
             tmp = item( seedType, calendar::turn );
-            for(int j=0;j < seed_produced; j++ ){
+            for( int j = 0; j < seed_produced; j++ ) {
                 g->m.add_item_or_charges(reaper_pos, tmp);
             }
         }
         tmp = item( seed_data.fruit_id, calendar::turn );
-        for(int j = 0; j < plant_produced; j++){
+        for( int j = 0; j < plant_produced; j++ ){
             g->m.add_item_or_charges( reaper_pos, tmp );
         }
     }
 }
+
 void vehicle::operate_planter(){
     std::vector<int> planters = all_parts_with_feature("PLANTER");
     for( int planter_id : planters ){
-        const tripoint& loc = global_pos3()
-                                   + parts[planter_id].precalc[0];
+        const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
         vehicle_stack v = get_items(planter_id);
-        for(auto i = v.begin(); i != v.end(); i++ ){
-            if(i->is_seed()){
-                if( g->m.ter(loc) != t_dirtmound
-                   && part_flag(planter_id,  "ADVANCED_PLANTER" ) ) {//If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                    break;//then don't put the item there.
-                }else if(g->m.ter(loc) == t_dirtmound ) {
+        for( auto i = v.begin(); i != v.end(); i++ ){
+            if( i->is_seed() ){
+                // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
+                if( g->m.ter(loc) != t_dirtmound && part_flag(planter_id,  "ADVANCED_PLANTER" ) ) {
+                    //then don't put the item there.
+                    break;
+                } else if( g->m.ter(loc) == t_dirtmound ) {
                     g->m.furn_set(loc, f_plant_seed);
-                }else if( !g->m.has_flag( "DIGGABLE", loc ) ) {//If it isn't diggable terrain, then it will most likely be damaged.
-                    damage(planter_id, rng(1, 10), DT_BASH, false);
+                } else if( !g->m.has_flag( "DIGGABLE", loc ) ) {
+                    //If it isn't diggable terrain, then it will most likely be damaged.
+                    damage( planter_id, rng(1, 10), DT_BASH, false );
                     sounds::sound(global_pos3() + parts[planter_id].precalc[0], rng(10,20), _("Clink"));
                 }
                 i->bday = calendar::turn;
@@ -3938,13 +3941,13 @@ void vehicle::operate_scoop()
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
-        int max_pickup_size = parts[scoop].info().size/10;
+        int max_pickup_size = parts[scoop].info().size / 10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-             g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+                 g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
@@ -3954,7 +3957,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             const map_stack q = g->m.i_at( position );
-            if( g->m.has_flag( "SEALED", position) ){
+            if( g->m.has_flag( "SEALED", position) ) {
                 continue;//ignore it. Street sweepers are not known for their ability to harvest crops.
             }
             size_t itemdex = 0;
@@ -3968,8 +3971,7 @@ void vehicle::operate_scoop()
             if( !that_item_there ) {
                 continue;
             }
-            if( one_in( chance_to_damage_item ) &&
-                that_item_there->damage < 4) {
+            if( one_in( chance_to_damage_item ) && that_item_there->damage < 4 ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->damage++;
                 //The scoop gets a lot louder when breaking an item.
@@ -3988,63 +3990,19 @@ void vehicle::operate_scoop()
     }
 }
 
-void vehicle::operate_plow(){
-    std::vector<int> plows = all_parts_with_feature("PLOW");
-    std::vector<int> cargoes = all_parts_with_feature("CARGO");
-
-    for(int plow_id : plows){
-        auto part_pos = global_pos3() + parts[plow_id].precalc[0];
-        if( g->m.has_flag("DIGGABLE", part_pos) ){
-            g->m.ter_set(part_pos, t_dirtmound);
-            sounds::sound(part_pos, rng(20,30), _("Turtle"));
-            bool found_item = false;
-            for(int cargo_id : cargoes){
-                vehicle_stack items = get_items( cargo_id );
-                for(auto i = items.begin();
-                    i != items.end(); i++){
-                    if( i->is_seed() &&  g->m.i_at(part_pos).empty() ){
-                        g->m.add_item(part_pos, *i);
-                        g->m.set(part_pos, t_dirt,f_plant_seed);
-                        items.erase(i);
-                        found_item = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-void vehicle::operate_planter(){
-    std::vector<int> planters = all_parts_with_feature("PLANTER");
-    for( int planter_id : planters ){
-        for( const tripoint& loc :
-                 g->m.points_in_radius(global_pos3()
-                                       + parts[planter_id].precalc[0], 1) ){
-            vehicle_stack v = get_items(planter_id);
-            for(auto i = v.begin(); i != v.end(); i++ ){
-                if(i->is_seed()){
-                    if(g->m.ter(loc) == t_dirtmound ){
-                        g->m.furn_set(loc, f_plant_seed);
-                        g->m.add_item(loc,*i);
-                    }
-                    i = v.erase(i);
-                }
-            }
-        }
-    }
-}
-
-void vehicle::alarm(){
-    if (one_in(4)) {
+void vehicle::alarm() {
+    if( one_in(4) ) {
         //first check if the alarm is still installed
         bool found_alarm = has_security_working();
 
         //if alarm found, make noise, else set alarm disabled
-        if (found_alarm){
+        if( found_alarm ) {
             const char *sound_msgs[] = { _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")};
-            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)]);
-            if (one_in(1000)) is_alarm_on = false;
-        } else{
+            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
+            if( one_in(1000) ) {
+                is_alarm_on = false;
+            }
+        } else {
             is_alarm_on = false;
         }
     }
