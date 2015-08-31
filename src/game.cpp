@@ -5105,10 +5105,10 @@ void game::draw_HP()
 
     static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
                                         _("R ARM"), _("L LEG"), _("R LEG"),
-                                        _("POWER")
+                                         _("BLOOD"), _("POWER")
                                       };
     static body_part part[] = { bp_head, bp_torso, bp_arm_l,
-                                bp_arm_r, bp_leg_l, bp_leg_r, num_bp
+                                bp_arm_r, bp_leg_l, bp_leg_r, bp_blood, num_bp
                               };
     int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
     for (int i = 0; i < num_parts; i++) {
@@ -6465,7 +6465,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                         bp_arm_l, bp_arm_r,
                         bp_hand_l, bp_hand_r,
                         bp_torso,
-                        bp_leg_l, bp_leg_r
+                        bp_leg_l, bp_leg_r,
+                        bp_blood
                     };
                     for (auto &bp : bps) {
                         if (one_in(2)) {
@@ -6550,7 +6551,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                         bp_arm_l, bp_arm_r,
                         bp_hand_l, bp_hand_r,
                         bp_torso,
-                        bp_leg_l, bp_leg_r
+                        bp_leg_l, bp_leg_r,
+                        bp_blood
                     };
                     for (auto &bp : bps) {
                         if (one_in(2)) {

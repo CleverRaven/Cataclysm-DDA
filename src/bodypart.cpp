@@ -20,6 +20,7 @@ namespace {
             { "LEG_R", bp_leg_r },
             { "FOOT_L", bp_foot_l },
             { "FOOT_R", bp_foot_r },
+            { "BLOOD", bp_blood },
             { "NUM_BP", num_bp },
         };
         return body_parts;
@@ -246,6 +247,8 @@ std::string get_body_part_id(body_part bp)
         return "FOOT_L";
     case bp_foot_r:
         return "FOOT_R";
+    case bp_blood:
+        return "BLOOD";
     default:
         debugmsg( "bad body part: %d", bp );
         return "HEAD";
