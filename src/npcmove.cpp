@@ -1411,6 +1411,10 @@ void npc::move_away_from( const tripoint &pt )
     int best = 0;
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( p == pos() ) {
+            continue;
+        }
+
         const int cost = g->m.combined_movecost( pos(), p );
         if( cost <= 0 ) {
             continue;
