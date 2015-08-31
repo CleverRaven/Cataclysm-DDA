@@ -30,7 +30,8 @@ using ammotype = std::string;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
-using skill_id = std::string;
+class Skill;
+using skill_id = string_id<Skill>;
 
 std::string const& rad_badge_color(int rad);
 

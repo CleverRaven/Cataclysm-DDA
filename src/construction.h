@@ -4,6 +4,7 @@
 #include "requirements.h"
 #include "cursesdef.h" // WINDOW
 #include "enums.h" // point
+#include "string_id.h"
 
 #include <string>
 #include <set>
@@ -11,7 +12,8 @@
 
 class JsonObject;
 typedef int nc_color;
-using skill_id = std::string;
+class Skill;
+using skill_id = string_id<Skill>;
 
 struct construction
 {

@@ -1456,7 +1456,7 @@ void load_construction(JsonObject &jo)
     construction con;
 
     con.description = _(jo.get_string("description").c_str());
-    con.skill = skill_id( jo.get_string( "skill", skill_carpentry ) );
+    con.skill = skill_id( jo.get_string( "skill", skill_carpentry.str() ) );
     con.difficulty = jo.get_int("difficulty");
     con.category = jo.get_string("category", "OTHER");
     con.requirements.load(jo);
@@ -1544,7 +1544,7 @@ void check_constructions()
         const std::string display_name = std::string("construction ") + c->description;
         // Note: print the description as the id is just a generated number,
         // the description can be searched for in the json files.
-        if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
+        if (!c->skill.str().empty() && Skill::skill(c->skill) == NULL) {
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
         c->requirements.check_consistency(display_name);

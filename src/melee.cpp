@@ -2336,9 +2336,9 @@ void melee_practice( player &u, bool hit, bool unarmed,
     }
 
     if (unarmed) u.practice( skill_unarmed, rng(min, max) );
-    if (!first.empty())  u.practice( first, rng(min, max) );
-    if (!second.empty()) u.practice( second, rng(min, max) );
-    if (!third.empty())  u.practice( third, rng(min, max) );
+    if (!first.str().empty())  u.practice( first, rng(min, max) );
+    if (!second.str().empty()) u.practice( second, rng(min, max) );
+    if (!third.str().empty())  u.practice( third, rng(min, max) );
 }
 
 int player::attack_speed( const item &weap, const bool average ) const

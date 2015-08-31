@@ -3,6 +3,7 @@
 
 #include "calendar.h"
 #include "json.h"
+#include "string_id.h"
 
 #include <functional>
 #include <string>
@@ -10,7 +11,8 @@
 #include <set>
 #include <iosfwd>
 
-using skill_id = std::string;
+class Skill;
+using skill_id = string_id<Skill>;
 
 class Skill
 {
@@ -25,6 +27,8 @@ class Skill
         static std::vector<Skill> skills;
         static void load_skill(JsonObject &jsobj);
         static const Skill* skill(const skill_id& ident);
+        // Only temporary for compatibility.
+        static const Skill* skill(const std::string& ident);
         // For loading old saves that still have integer-based ids.
         static const Skill *from_legacy_int( int legacy_id );
 

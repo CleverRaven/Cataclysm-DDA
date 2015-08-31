@@ -3357,7 +3357,7 @@ int item::spare_mag_size() const
 skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
-        return skill_id( "null" );
+        return NULL_ID;
     }
     return type->gun->skill_used;
 }
@@ -3365,7 +3365,7 @@ skill_id item::gun_skill() const
 skill_id item::weap_skill() const
 {
     if( !is_weap() && !is_tool() ) {
-        return skill_id( "null" );
+        return NULL_ID;
     }
 
     if (type->melee_dam >= type->melee_cut) return skill_bashing;
@@ -3382,7 +3382,7 @@ skill_id item::skill() const
     } else if( type->book && type->book->skill != nullptr ) {
         return type->book->skill->ident();
     }
-    return skill_id( "null" );
+    return NULL_ID;
 }
 
 int item::clip_size() const

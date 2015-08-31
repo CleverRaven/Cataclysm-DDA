@@ -464,8 +464,8 @@ void place_monster_iuse::load( JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
-    skill1 = skill_id( obj.get_string( "skill1", skill1 ) );
-    skill2 = skill_id( obj.get_string( "skill2", skill2 ) );
+    skill1 = skill_id( obj.get_string( "skill1", skill1.str() ) );
+    skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
@@ -524,10 +524,10 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     }
     newmon.init_from_item( *it );
     int skill_offset = 0;
-    if( skill1 != "none" ) {
+    if( skill1 ) {
         skill_offset += p->skillLevel( skill1 ) / 2;
     }
-    if( skill2 != "none" ) {
+    if( skill2 ) {
         skill_offset += p->skillLevel( skill2 );
     }
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {

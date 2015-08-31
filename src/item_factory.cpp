@@ -460,7 +460,7 @@ void Item_factory::check_definitions() const
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
-            if( type->gun->skill_used == skill_id( "none" ) ) {
+            if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
             } else {
                 Skill::skill( type->gun->skill_used ); // fires a debugmsg upon invalid skill

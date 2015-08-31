@@ -7,10 +7,39 @@
 #include <algorithm>
 #include <iterator>
 
+// TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
 
+template<>
+const skill_id string_id<Skill>::NULL_ID( "none" );
+
+template<>
+const Skill &string_id<Skill>::obj() const
+{
+    for( const Skill &skill : Skill::skills ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    debugmsg( "unknown skill %s", c_str() );
+    static const Skill dummy{};
+    return dummy;
+}
+
+template<>
+bool string_id<Skill>::is_valid() const
+{
+    for( const Skill &skill : Skill::skills ) {
+        if( skill.ident() == *this ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 Skill::Skill()
-  : Skill(0, skill_id( "null" ), "nothing", "The zen-most skill there is.", std::set<std::string> {})
+  : Skill(0, NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
@@ -59,6 +88,11 @@ void Skill::load_skill(JsonObject &jsobj)
                         std::move(tags));
 }
 
+const Skill* Skill::skill(const std::string& ident)
+{
+    return skill( skill_id( ident ) );
+}
+
 const Skill* Skill::skill(const skill_id& ident)
 {
     for( auto &skill : Skill::skills ) {
@@ -66,7 +100,7 @@ const Skill* Skill::skill(const skill_id& ident)
             return &skill;
         }
     }
-    if(ident != "none") {
+    if( ident != NULL_ID ) {
         debugmsg("unknown skill %s", ident.c_str());
     }
     return nullptr;
@@ -75,7 +109,7 @@ const Skill* Skill::skill(const skill_id& ident)
 const Skill *Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-        skill_id("null"), skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
         skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
         skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
         skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),

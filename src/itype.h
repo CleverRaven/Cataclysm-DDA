@@ -20,7 +20,7 @@ class item_category;
 struct recipe;
 struct itype;
 class Skill;
-using skill_id = std::string;
+using skill_id = string_id<Skill>;
 class player;
 class item;
 class ma_technique;
@@ -250,7 +250,7 @@ struct islot_gun : common_firing_data {
      * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
      * should probably be made explicit.
      */
-    skill_id skill_used = skill_id( "none" );
+    skill_id skill_used = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -299,7 +299,7 @@ struct islot_gunmod : common_firing_data {
     /**
      * TODO: document me
      */
-    skill_id skill_used = skill_id( "none" );
+    skill_id skill_used = NULL_ID;
     /**
      * TODO: document me
      */

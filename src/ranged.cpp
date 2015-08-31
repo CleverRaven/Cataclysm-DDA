@@ -63,7 +63,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj, con
  * As a simple tweak, we're shifting the ranges so they match,
  * so if you acquire the best of a weapon type you can reach max skill with it.
  */
-int ranged_skill_offset( std::string skill )
+int ranged_skill_offset( const skill_id &skill )
 {
     if( skill == skill_pistol ) {
         return 0;

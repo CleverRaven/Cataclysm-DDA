@@ -3614,7 +3614,7 @@ void talk_function::start_training( npc *p )
         const Skill *skill = p->chatbin.skill;
         cost = calc_skill_training_cost( skill );
         time = calc_skill_training_time( skill );
-        name = skill->ident();
+        name = skill->ident().str();
     }
 
     if( p->op_of_u.owed >= cost ) {

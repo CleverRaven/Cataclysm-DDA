@@ -1,6 +1,8 @@
 #ifndef PROFESSION_H
 #define PROFESSION_H
 
+#include "string_id.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -12,7 +14,8 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
-using skill_id = std::string;
+class Skill;
+using skill_id = string_id<Skill>;
 
 typedef std::map<std::string, profession> profmap;
 

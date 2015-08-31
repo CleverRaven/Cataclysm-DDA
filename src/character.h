@@ -8,7 +8,7 @@
 
 #include <map>
 
-using skill_id = std::string;
+using skill_id = string_id<Skill>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
