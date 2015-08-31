@@ -685,18 +685,21 @@ void player::deserialize(JsonIn &jsin)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// npc.h
 
-void npc_combat_rules::serialize(JsonOut &json) const
+void npc_follower_rules::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("engagement", (int)engagement );
     json.member("use_guns", use_guns );
     json.member("use_grenades", use_grenades );
     json.member("use_silent", use_silent );
-    //todo    json.member("guard_pos", guard_pos );
+
+    json.member( "allow_pick_up", allow_pick_up );
+    json.member( "allow_bash", allow_bash );
+    json.member( "allow_sleep", allow_sleep );
     json.end_object();
 }
 
-void npc_combat_rules::deserialize(JsonIn &jsin)
+void npc_follower_rules::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmpeng;
@@ -705,6 +708,10 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
     data.read( "use_guns", use_guns);
     data.read( "use_grenades", use_grenades);
     data.read( "use_silent", use_silent);
+
+    data.read( "allow_pick_up", allow_pick_up );
+    data.read( "allow_bash", allow_bash );
+    data.read( "allow_sleep", allow_sleep );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
@@ -923,7 +930,10 @@ void npc::load(JsonObject &data)
 
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
-    data.read("combat_rules", combat_rules);
+    if( !data.read( "rules", rules ) ) {
+        data.read("misc_rules", rules);
+        data.read("combat_rules", rules);
+    }
 }
 
 /*
@@ -979,12 +989,11 @@ void npc::store(JsonOut &json) const
     json.member( "attitude", (int)attitude );
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
-    json.member("combat_rules", combat_rules);
+    json.member("rules", rules);
 
     json.member("companion_mission", companion_mission);
     json.member("companion_mission_time", companion_mission_time);
     json.member("restock", restock);
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1118,7 +1127,17 @@ void monster::load(JsonObject &data)
     data.read("hallucination", hallucination);
     data.read("stairscount", staircount); // really?
 
+    // Load legacy plans.
+    std::vector<tripoint> plans;
     data.read("plans", plans);
+    if( !plans.empty() ) {
+        goal = plans.back();
+    }
+
+    // This is relative to the monster so it isn't invalidated by map shifting.
+    tripoint destination;
+    data.read("destination", destination);
+    goal = pos() + destination;
 
     upgrades = data.get_bool("upgrades", type->upgrades);
     upgrade_time = data.get_int("upgrade_time", -1);
@@ -1169,7 +1188,8 @@ void monster::store(JsonOut &json) const
     json.member("morale", morale);
     json.member("hallucination", hallucination);
     json.member("stairscount", staircount);
-    json.member("plans", plans);
+    // Store the relative position of the goal so it loads correctly after a map shift.
+    json.member("destination", goal - pos());
     json.member("ammo", ammo);
     json.member( "underwater", underwater );
     json.member("upgrades", upgrades);

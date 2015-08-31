@@ -25,7 +25,7 @@
         "id" : "44_casing",
         "category" : "spare_parts",
         "price" : 10000,
-        "name" : "revovler ammo casing",
+        "name" : "revolver ammo casing",
         "symbol" : "=",
         "color" : "light_gray",
         "description" : "An empty casing from a revolver round.",

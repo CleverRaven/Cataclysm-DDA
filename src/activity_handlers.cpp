@@ -343,7 +343,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Recover hidden items
     for( auto &content : contents  ) {
         if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
-            add_msg( m_good, _( "You discover a %s in the %s!" ), content.tname().c_str(),
+            //~ %1$s - item name, %2$s - monster name
+            add_msg( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
                      corpse->nname().c_str() );
             g->m.add_item_or_charges( p->pos(), content );
         } else if( content.is_bionic()  ) {

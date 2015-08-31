@@ -239,7 +239,7 @@ void player::sort_armor()
         wprintz(w_sort_cat, c_white, _("Sort Armor"));
         wprintz(w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str());
         tmp_str = string_format(_("Press %s for help."), ctxt.get_desc("HELP").c_str());
-        mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmp_str.c_str()) - 4,
+        mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmp_str) - 4,
                   c_white, tmp_str.c_str());
 
         // Create ptr list of items to display

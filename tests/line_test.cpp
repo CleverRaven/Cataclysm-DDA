@@ -228,6 +228,45 @@ TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
   REQUIRE( make_xyz(60, 30, 1) == BELOWSOUTHEAST );
 }
 
+TEST_CASE("squares_closer_to_test") {
+    // TODO: make this ordering agnostic.
+    auto actual = squares_closer_to( {0, 0, 0}, {10, 0, 0} );
+    std::vector<tripoint> expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -10, 0} );
+    expected = {tripoint(-1, -1, 0),tripoint(-1, 0, 0),tripoint(0, -1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 10, 0} );
+    expected = {tripoint(1, 1, 0),tripoint(1, 0, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 9, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 1, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, 9, 0}, {0, 0, 0} );
+    expected = {tripoint(9, 9, 0),tripoint(9, 10, 0),tripoint(9, 8, 0),tripoint(10,8,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -9, 0} );
+    expected = {tripoint(-1, 0, 0),tripoint(-1, 1, 0),tripoint(-1, -1, 0),tripoint(0,-1,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );
+    expected = {tripoint(10, -9, 0),tripoint(11, -9, 0),tripoint(9, -9, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {-10, -5, 0} );
+    expected = {tripoint(9, -10, 0),tripoint(9, -9, 0),tripoint(9, -11, 0),tripoint(10,-9,0)};
+    CHECK( actual == expected );
+}
+
 #define RANDOM_TEST_NUM 1000
 #define COORDINATE_RANGE 99
 

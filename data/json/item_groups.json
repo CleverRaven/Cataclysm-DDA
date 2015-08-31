@@ -938,6 +938,8 @@
       ["flask_hip", 5],
       ["vibrator", 5],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["corset", 15],
@@ -1148,6 +1150,8 @@
       ["boxer_briefs", 45],
       ["panties", 70],
       ["boy_shorts", 25],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["tshirt", 80],
@@ -3229,6 +3233,7 @@
       ["tights", 20],
       ["stockings", 20],
       ["knee_high_boots", 20],
+      ["thigh_high_boots", 20],
       ["boots", 70],
       ["flip_flops", 35],
       ["lowtops", 45],
@@ -3320,7 +3325,9 @@
       ["suit", 100],
       ["waistcoat", 70],
       ["tophat", 30],
-      ["tux", 50]
+      ["tux", 50],
+      ["gown", 50],
+      ["long_glove_white", 30]    
     ]
   },{
     "type" : "item_group",
@@ -3413,6 +3420,7 @@
     "items":[
       ["sneakers", 100],
       ["knee_high_boots", 40],
+      ["thigh_high_boots", 40],
       ["boots", 100],
       ["flip_flops", 50],
       ["lowtops", 100],
@@ -3463,6 +3471,7 @@
     "items":[
       ["dress", 55],
       ["sundress", 43],
+      ["gown", 10],
       ["dress_wedding", 2]
     ]
   },{
@@ -3607,6 +3616,8 @@
       ["winter_gloves_army", 10],
       ["army_top", 20],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["porkpie", 5],
@@ -4115,6 +4126,7 @@
       ["gloves_tactical", 10],
       ["tac_helmet", 15],
       ["tac_fullhelmet", 7],
+      ["helmet_lobster", 7],
       ["glasses_bal", 10],
       ["gloves_medical", 10],
       ["sunglasses", 10],
@@ -4214,6 +4226,7 @@
       ["46mm", 15],
       ["boots_combat", 20],
       ["tac_helmet", 20],
+      ["helmet_lobster", 10],
       ["goggles_nv", 5],
       ["UPS_off", 10]
     ]
@@ -4468,6 +4481,7 @@
     "id" : "swimmer_pants",
     "items":[
       ["trunks", 80],
+      ["bikini_bottom", 35],
       ["hot_pants", 30]
     ]
   },{
@@ -5273,6 +5287,7 @@
       ["chainmail_vest", 3],
       ["chainmail_arms", 3],
       ["chainmail_legs", 3],
+      ["legguard_metal", 1],
       ["textbook_weapwest", 5],
       ["textbook_weapeast", 5],
       ["textbook_armwest", 5],
@@ -5515,6 +5530,7 @@
       ["teleumbrella", 2],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
+      ["helmet_lobster", 2],
       ["textbook_tailor", 12],
       ["swage", 2],
       ["forge", 5],
@@ -7186,6 +7202,7 @@
       ["cloak_wool", 5],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
+      ["helmet_lobster", 2],
       ["apron_leather", 2],
       ["tool_belt", 5],
       ["sheath", 5]
@@ -7716,6 +7733,7 @@
       ["bio_blaster", 10],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
+      ["helmet_lobster", 2],
       ["lsd", 4],
       ["pocketwatch", 5],
       ["child_book", 20],
@@ -8010,7 +8028,7 @@
       ["m235tpa", 3],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
-      ["tac_helmet", 5],
+      ["helmet_lobster", 2],
       ["cowboy_hat", 4],
       ["mask_bal", 1],
       ["sm_extinguisher", 10],
@@ -8210,6 +8228,7 @@
       ["8mm_inc", 2],
       ["tac_helmet", 10],
       ["tac_fullhelmet", 5],
+      ["helmet_lobster", 5],
       ["gum", 90],
       ["caff_gum", 10],
       ["nic_gum", 1],
@@ -9287,6 +9306,7 @@
       ["tac_helmet", 22],
       ["helmet_riot", 18],
       ["tac_fullhelmet", 8],
+      ["helmet_lobster", 8],
       ["pot_helmet", 22],
       ["helmet_larmor", 14],
       ["helmet_bone", 22],
@@ -9800,7 +9820,8 @@
       ["helmet_kabuto", 50],
       ["helmet_larmor", 40],
       ["boots_larmor", 40],
-      ["armor_larmor", 40]
+      ["armor_larmor", 40],
+      ["legguard_metal", 10]
     ]
   },{
 "type" : "item_group",
@@ -10290,6 +10311,7 @@
     "id" : "college_lake",
     "items":[
       ["bikini_top", 100],
+      ["bikini_bottom", 100],
       ["trunks", 100],
       ["towel", 100],
       ["goggles_swim", 30],

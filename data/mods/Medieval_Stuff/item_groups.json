@@ -12,7 +12,6 @@
       ["helmet_nasal", 1],
       ["helmet_galea", 1],
       ["helmet_conical", 1],
-      ["legguard_metal", 1],
       ["gambeson", 3],
       ["armor_lamellar", 2],
       ["tunic", 1],
@@ -130,8 +129,7 @@
       ["armor_lamellar", 20],
       ["armor_cuirass", 25],
       ["armor_lorica", 25],
-      ["legguard_bronze", 20],
-      ["legguard_metal", 20]
+      ["legguard_bronze", 20]
     ]
   }
 ]

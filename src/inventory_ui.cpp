@@ -20,7 +20,7 @@
 
 std::string trim_to(const std::string &text, size_t length)
 {
-    const size_t width = utf8_width(text.c_str());
+    const size_t width = utf8_width(text);
     if(width <= length) {
         return text;
     }
@@ -417,7 +417,7 @@ void inventory_selector::display(bool show_worn) const
         msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
-    mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str.c_str()),
+    mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
               msg_color, msg_str.c_str());
     print_left_column();
     if(show_worn) {

@@ -27,6 +27,7 @@
 #include "field.h"
 #include "weather.h"
 #include "morale.h"
+#include "catacharset.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -35,8 +36,6 @@
 #include <set>
 #include <array>
 #include <tuple>
-
-const mtype_id mon_null( "mon_null" );
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -89,7 +88,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     init();
     type = find_type( new_type );
     bday = turn;
-    corpse = type->id == "corpse" ? &mon_null.obj() : nullptr;
+    corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name(1);
     const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
     if( has_random_charges ) {
@@ -182,7 +181,7 @@ void item::make_corpse( const mtype_id& mt, unsigned int turn, const std::string
 
 void item::make_corpse()
 {
-    make_corpse( mon_null, calendar::turn );
+    make_corpse( NULL_ID, calendar::turn );
 }
 
 item::item(JsonObject &jo)
@@ -1501,18 +1500,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
 
         if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
-            player copy_u = g->u;
-            copy_u.weapon = *this;
             damage_instance non_crit;
-            copy_u.roll_all_damage( false, non_crit, true );
+            g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
-            copy_u.roll_all_damage( true, crit, true );
+            g->u.roll_all_damage( true, crit, true, *this );
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", string_format(_("Average damage when used as a melee weapon:") ) ) );
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
-                                         int(copy_u.crit_chance( 0, 100 ) * 100),
-                                         int(copy_u.crit_chance( 100, 0 ) * 100) )));
+                                         int(g->u.crit_chance( 0, 100, *this ) * 100),
+                                         int(g->u.crit_chance( 100, 0, *this ) * 100) )));
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_("%d bashing (%d on a critical hit)"),
                                       int(non_crit.type_damage(DT_BASH)),
@@ -1886,7 +1883,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                            quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == mon_null)
+        if (corpse == NULL || corpse->id == NULL_ID )
             maintext = rm_prefix(ngettext("<item_name>human blood",
                                           "<item_name>human blood",
                                           quantity));
@@ -2686,40 +2683,6 @@ long item::num_charges()
         return charges;
     }
     return 0;
-}
-
-double item::weapon_value( const player &p ) const
-{
-    double my_value = 0;
-    if( is_gun() ) {
-        int gun_value = 14;
-        const islot_gun* gun = type->gun.get();
-        gun_value += gun->damage;
-        gun_value += int(gun->burst / 2);
-        gun_value += int(gun->clip / 3);
-        gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * p.get_skill_level("gun")));
-        gun_value *= (.3 + (.7 * p.get_skill_level(gun->skill_used)));
-        my_value += gun_value;
-    }
-
-    my_value = std::max( my_value, melee_value( p ) );
-
-    return my_value;
-}
-
-double item::melee_value( const player &p ) const
-{
-    int my_value = 0;
-    my_value += int(type->melee_dam * (1   + .3 * p.get_skill_level("bashing") +
-                                       .1 * p.get_skill_level("melee")    ));
-
-    my_value += int(type->melee_cut * (1   + .4 * p.get_skill_level("cutting") +
-                                       .1 * p.get_skill_level("melee")    ));
-
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p.get_skill_level("melee")));
-
-    return my_value;
 }
 
 int item::bash_resist() const
@@ -3810,10 +3773,10 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     }
 
     amenu.text = std::string( _( "Choose ammo type:" ) );
-    if( ( int )amenu.text.length() < namelen ) {
-        amenu.text += std::string( namelen - amenu.text.length(), ' ' );
+    if( utf8_width(amenu.text) < namelen ) {
+        amenu.text += std::string( namelen - utf8_width(amenu.text), ' ' );
     } else {
-        amenu.text.erase( namelen, amenu.text.length() - namelen );
+        utf8_truncate( amenu.text, utf8_width(amenu.text) - namelen );
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
@@ -3824,10 +3787,10 @@ int item::pick_reload_ammo( const player &u, bool interactive )
         const long charges = std::get<2>( ammo_list[i] );
         const auto &ammo_def = *type.ammo;
         std::string row = type.nname( charges ) + string_format( " (%d)", charges );
-        if( ( int )row.length() < namelen ) {
-            row += std::string( namelen - row.length(), ' ' );
+        if( utf8_width(row) < namelen ) {
+            row += std::string( namelen - utf8_width(row), ' ' );
         } else {
-            row.erase( namelen, row.length() - namelen );
+            utf8_truncate( row, utf8_width(row) - namelen );
         }
         row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                               ammo_def.damage, ammo_def.pierce,
@@ -3888,11 +3851,11 @@ bool item::reload(player &u, int pos)
         int archery = u.skillLevel( "archery" );
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
-            u.add_msg_if_player( _( "You try to pull a %s from your %s, but fail!" ),
+            u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
                                 ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
             return false;
         }
-        u.add_msg_if_player( _( "You pull a %s from your %s and nock it." ),
+        u.add_msg_if_player( _( "You pull a %1$s from your %2$s and nock it." ),
                              ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
     }
 
@@ -4278,7 +4241,7 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
             return false;
         case L_ERR_NOT_CONTAINER:
-            err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
+            err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         case L_ERR_NOT_WATERTIGHT:
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
@@ -4287,7 +4250,7 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "You can't seal that %s!" ), tname().c_str());
             return false;
         case L_ERR_FULL:
-            err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
+            err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         default:
             err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
@@ -5190,7 +5153,7 @@ std::string item::type_name( unsigned int quantity ) const
                                corpse->nname().c_str(), name.c_str() );
         }
     } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == mon_null ) {
+        if( corpse == nullptr || corpse->id == NULL_ID ) {
             return rm_prefix( ngettext( "<item_name>human blood",
                                         "<item_name>human blood", quantity ) );
         } else {

@@ -45,8 +45,7 @@ int Creature_tracker::mon_at( const tripoint &coords ) const
 
 bool Creature_tracker::add( monster &critter )
 {
-    static const mtype_id mon_null( "mon_null" );
-    if( critter.type->id == mon_null ) { // Don't wanna spawn null monsters o.O
+    if( critter.type->id == NULL_ID ) { // Don't wanna spawn null monsters o.O
         return false;
     }
 

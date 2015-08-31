@@ -55,7 +55,6 @@ const mtype_id mon_cat( "mon_cat" );
 const mtype_id mon_dog( "mon_dog" );
 const mtype_id mon_fly( "mon_fly" );
 const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_vortex( "mon_vortex" );
@@ -1659,6 +1658,75 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+static void test_crossing_threshold(player *p, const mutation_category_trait &m_category) {
+    // Threshold-check.  You only get to cross once!
+    if (!p->crossed_threshold()) {
+        std::string mutation_category = "MUTCAT_" + m_category.category;
+        std::string mutation_thresh = "THRESH_" + m_category.category;
+        int total = 0;
+        for (auto& iter : mutation_category_traits){
+            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+        }
+        // Threshold-breaching
+        std::string primary = p->get_highest_category();
+        // Only if you were pushing for more in your primary category.
+        // You wanted to be more like it and less human.
+        // That said, you're required to have hit third-stage dreams first.
+        if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
+            // Little help for the categories that have a lot of crossover.
+            // Starting with Ursine as that's... a bear to get.  8-)
+            // Alpha is similarly eclipsed by other mutation categories.
+            // Will add others if there's serious/demonstrable need.
+            int booster = 0;
+            if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
+                booster = 50;
+            }
+            int breacher = (p->mutation_category_level[primary]) + booster;
+            if (x_in_y(breacher, total)) {
+                p->add_msg_if_player(m_good,
+                                   _("Something strains mightily for a moment...and then..you're...FREE!"));
+                p->set_mutation(mutation_thresh);
+                p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
+                                    pgettext("memorial_female", m_category.memorial_message.c_str()));
+                if (mutation_category == "MUTCAT_URSINE") {
+                    // Manually removing Carnivore, since it tends to creep in
+                    // This is because carnivore is a prereq for the
+                    // predator-style post-threshold mutations.
+                    if (p->has_trait("CARNIVORE")) {
+                        p->unset_mutation("CARNIVORE");
+                        p->add_msg_if_player(_("Your appetite for blood fades."));
+                    }
+                }
+            }
+        } else if (p->mutation_category_level[primary] > 100) {
+            //~NOPAIN is a post-Threshold trait, so you shouldn't
+            //~legitimately have it and get here!
+            if (p->has_trait("NOPAIN")) {
+                p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
+            } else {
+                p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
+                p->pain += 8;
+                p->add_effect("stunned", rng(3, 5));
+            }
+        } else if (p->mutation_category_level[primary] > 80) {
+            if (p->has_trait("NOPAIN")) {
+                p->add_msg_if_player(m_bad, _("You feel very Bugged."));
+            } else {
+                p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
+                p->pain += 6;
+                p->add_effect("stunned", rng(2, 4));
+            }
+        } else if (p->mutation_category_level[primary] > 60) {
+            if (p->has_trait("NOPAIN")) {
+                p->add_msg_if_player(m_bad, _("You feel Bugged."));
+            } else {
+                p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
+                p->add_effect("stunned", rng(2, 3));
+            }
+        }
+    }
+}
+
 int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
 {
     if (p->has_trait("MUTAGEN_AVOID")) {
@@ -1736,15 +1804,17 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->fall_asleep((400 - p->int_cur * 5));
         }
     } else {
-        int total = 0;
         mutation_category_trait m_category;
         std::string mutation_thresh;
         for (auto& iter : mutation_category_traits){
-            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
             if (it->has_flag("MUTAGEN_" + iter.second.category)) {
                 m_category = iter.second;
                 mutation_category = "MUTCAT_" + m_category.category;
                 mutation_thresh = "THRESH_" + m_category.category;
+
+                // try to cross the threshold to be able to get post-threshold mutations this iv.
+                test_crossing_threshold(p, m_category);
+
                 if (p->has_trait("MUT_JUNKIE")) {
                     p->add_msg_if_player(m_category.junkie_message.c_str());
                 } else if (!(p->has_trait("MUT_JUNKIE"))) {
@@ -1783,64 +1853,8 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                     p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
                     p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
                 }
-            }
-        }
-
-            // Threshold-check.  You only get to cross once!
-        if (!p->crossed_threshold()) {
-            // Threshold-breaching
-            std::string primary = p->get_highest_category();
-            // Only if you were pushing for more in your primary category.
-            // You wanted to be more like it and less human.
-            // That said, you're required to have hit third-stage dreams first.
-            if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-                // Little help for the categories that have a lot of crossover.
-                // Starting with Ursine as that's... a bear to get.  8-)
-                // Will add others if there's serious/demonstrable need.
-                int booster = 0;
-                if (mutation_category == "MUTCAT_URSINE") {
-                    booster = 50;
-                }
-                int breacher = (p->mutation_category_level[primary]) + booster;
-                if (x_in_y(breacher, total)) {
-                    p->add_msg_if_player(m_good,
-                                     _("Something strains mightily for a moment...and then..you're...FREE!"));
-                    p->set_mutation(mutation_thresh);
-                    p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
-                                        pgettext("memorial_female", m_category.memorial_message.c_str()));
-                    if (mutation_category == "MUTCAT_URSINE") {
-                        // Manually removing Carnivore, since it tends to creep in
-                        if (p->has_trait("CARNIVORE")) {
-                            p->unset_mutation("CARNIVORE");
-                            p->add_msg_if_player(_("Your appetite for blood fades."));
-                        }
-                    }
-                }
-            } else if (p->mutation_category_level[primary] > 100) {
-                //~NOPAIN is a post-Threshold trait, so you shouldn't
-                //~legitimately have it and get here!
-                if (p->has_trait("NOPAIN")) {
-                    p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
-                } else {
-                    p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                    p->pain += 8;
-                    p->add_effect("stunned", rng(3, 5));
-                }
-            } else if (p->mutation_category_level[primary] > 80) {
-                if (p->has_trait("NOPAIN")) {
-                    p->add_msg_if_player(m_bad, _("You feel very Bugged."));
-                } else {
-                    p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                    p->pain += 6;
-                    p->add_effect("stunned", rng(2, 4));
-            }
-            } else if (p->mutation_category_level[primary] > 60) {
-                if (p->has_trait("NOPAIN")) {
-                    p->add_msg_if_player(m_bad, _("You feel Bugged."));
-                } else {
-                    p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                    p->add_effect("stunned", rng(2, 3));
-                }
+                // try crossing again after getting new in-category mutations.
+                test_crossing_threshold(p, m_category);
             }
         }
     }
@@ -3050,7 +3064,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
     remove_radio_mod( modded, *p );
 
-    p->add_msg_if_player( _( "You modify your %s to listen for %s activation signal on the radio." ),
+    p->add_msg_if_player( _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
     modded.item_tags.insert( "RADIO_MOD" );
@@ -3422,7 +3436,10 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-
+    if (p->fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to solder!"));
+        return 0;
+    }
     int charges_used = dynamic_cast<const it_tool*>( it->type )->charges_to_use();
     if( it->charges <= charges_used ) {
         p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
@@ -3430,7 +3447,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     }
 
     static const std::vector<std::string> materials = {{
-        "kevlar", "plastic", "iron", "steel", "hardsteel"
+        "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum"
     }};
 
     int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
@@ -3460,7 +3477,8 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
             std::make_tuple( "plastic", "plastic_chunk", _("plastic chunks") ),
             std::make_tuple( "iron", "scrap", _("scrap metal") ),
             std::make_tuple( "steel", "scrap", _("scrap metal") ),
-            std::make_tuple( "hardsteel", "scrap", _("scrap metal") )
+            std::make_tuple( "hardsteel", "scrap", _("scrap metal") ),
+            std::make_tuple( "aluminum", "material_aluminium_ingot", _("aluminum ingots") )
     };
 
     if( &fix == it || any_of( repair_list.begin(), repair_list.end(), [&fix]( const repair_tuple &tup ) {
@@ -4379,7 +4397,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
     }
     p->assign_activity(ACT_PICKAXE, turns, -1, p->get_item_position(it));
     p->activity.placement = tripoint(dirx, diry, p->posz()); // TODO: Z
-    p->add_msg_if_player(_("You attack the %s with your %s."),
+    p->add_msg_if_player(_("You attack the %1$s with your %2$s."),
                          g->m.tername(dirx, diry).c_str(), it->tname().c_str());
     return 0; // handled when the activity finishes
 }
@@ -6438,7 +6456,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_BUGS: {
                 int roll = rng(1, 10);
-                mtype_id bug = mon_null;
+                mtype_id bug = NULL_ID;
                 int num = 0;
                 std::vector<tripoint> empty;
                 for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
@@ -6464,7 +6482,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     bug = mon_wasp;
                     num = rng(1, 2);
                 }
-                if (bug != mon_null) {
+                if( bug ) {
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         const tripoint spawnp = random_entry_removed( empty );
                         if (g->summon_mon(bug, spawnp)) {
@@ -6486,7 +6504,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid( mon_null, p->pos3() );
+                monster tmptriffid( NULL_ID, p->pos3() );
                 mattack::growplants(&tmptriffid, -1);
             }
             break;
@@ -6739,7 +6757,7 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         if (choice == 2) {
             item &arrows = it->contents[0];
             int arrowsRemoved = arrows.charges;
-            p->add_msg_if_player(ngettext("You remove the %s from the %s.", "You remove the %s from the %s.",
+            p->add_msg_if_player(ngettext("You remove the %1$s from the %2$s.", "You remove the %1$s from the %2$s.",
                                           arrowsRemoved),
                                  arrows.type_name( arrowsRemoved ).c_str(), it->tname().c_str());
             p->inv.assign_empty_invlet(arrows, false);
@@ -6802,7 +6820,7 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         }
 
         arrowsStored = it->contents[0].charges - arrowsStored;
-        p->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.",
+        p->add_msg_if_player(ngettext("You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.",
                                       arrowsStored),
                              arrowsStored, it->contents[0].type_name( arrowsStored ).c_str(), it->tname().c_str());
         p->moves -= 10 * arrowsStored;
@@ -6883,11 +6901,11 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
             int lvl = p->skillLevel(t_gun->skill_used);
             std::string message;
             if (lvl < 2) {
-                message = _("You clumsily draw your %s from the %s.");
+                message = _("You clumsily draw your %1$s from the %2$s.");
             } else if (lvl >= 7) {
-                message = _("You quickly draw your %s from the %s.");
+                message = _("You quickly draw your %1$s from the %2$s.");
             } else {
-                message = _("You draw your %s from the %s.");
+                message = _("You draw your %1$s from the %2$s.");
             }
 
             p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
@@ -6933,11 +6951,11 @@ int iuse::sheath_knife(player *p, item *it, bool, const tripoint& )
         int lvl = p->skillLevel("cutting");
         std::string message;
         if (lvl < 2) {
-            message = _("You clumsily shove your %s into the %s.");
+            message = _("You clumsily shove your %1$s into the %2$s.");
         } else if (lvl >= 5) {
-            message = _("You deftly insert your %s into the %s.");
+            message = _("You deftly insert your %1$s into the %2$s.");
         } else {
-            message = _("You put your %s into the %s.");
+            message = _("You put your %1$s into the %2$s.");
         }
 
         p->add_msg_if_player(message.c_str(), put->tname().c_str(), it->tname().c_str());
@@ -6954,11 +6972,11 @@ int iuse::sheath_knife(player *p, item *it, bool, const tripoint& )
             int lvl = p->skillLevel("cutting");
             std::string message;
             if (lvl < 2) {
-                message = _("You clumsily draw your %s from the %s.");
+                message = _("You clumsily draw your %1$s from the %2$s.");
             } else if (lvl >= 5) {
-                message = _("You deftly draw your %s from the %s.");
+                message = _("You deftly draw your %1$s from the %2$s.");
             } else {
-                message = _("You draw your %s from the %s.");
+                message = _("You draw your %1$s from the %2$s.");
             }
 
             p->add_msg_if_player(message.c_str(), p->weapon.tname().c_str(), it->tname().c_str());
@@ -7051,7 +7069,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                         }
                     }
                     monster &zed = g->zombie(mon_num);
-                    p->add_msg_if_player(m_good, _("You slash at the %s as you draw your %s."),
+                    p->add_msg_if_player(m_good, _("You slash at the %1$s as you draw your %2$s."),
                                          zed.name().c_str(), p->weapon.tname().c_str());
                     p->melee_attack(zed, true);
                 } else {
@@ -8347,7 +8365,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                             p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
                         } else {
-                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                            p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
                                              z.name().c_str());
                         }
                     } else {
@@ -8402,7 +8420,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
                             p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                         } else {
-                            p->add_msg_if_player(_("You took a %s photo of %s."), quality_name.c_str(),
+                            p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
                                              guy->name.c_str());
                         }
                     } else {
@@ -9443,7 +9461,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
             if( p != nullptr && p->has_item(it) ) {
-                p->add_msg_if_player(m_good, _("You link up the electric systems of the %s and the %s."),
+                p->add_msg_if_player(m_good, _("You link up the electric systems of the %1$s and the %2$s."),
                                      source_veh->name.c_str(), target_veh->name.c_str());
             }
 
@@ -9483,21 +9501,21 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
     }
     if (it->has_flag("THERMOMETER")) {
         if (it->type->id == "thermometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
+            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         }
     }
     if (it->has_flag("HYGROMETER")) {
         if (it->type->id == "hygrometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
+            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         }
     }
     if (it->has_flag("BAROMETER")) {
         if (it->type->id == "barometer") {
-            p->add_msg_if_player(m_neutral, _("The %s reads %s."), it->tname().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
+            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
         } else {
             p->add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         }
@@ -9586,7 +9604,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             }
 
             if( f.get_size() > Creature::size_map.at(iter->second) ) {
-                p->add_msg_if_player( m_info, _("The %s is too big to put in your %s."),
+                p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;
             }
@@ -9630,7 +9648,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 g->remove_zombie( mon_dex );
                 return 0;
             } else {
-                p->add_msg_if_player( m_bad, _("The %s avoids your attempts to put it in the %s."),
+                p->add_msg_if_player( m_bad, _("The %1$s avoids your attempts to put it in the %2$s."),
                                       f.type->nname().c_str(), it->type->nname(1).c_str() );
             }
             p->moves -= 100;

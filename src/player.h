@@ -275,7 +275,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        void mutate_towards( const std::string &mut );
+        bool mutate_towards( const std::string &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const std::string &mut );
         /** Returns true if the player has the entered mutation child flag */
@@ -466,19 +466,28 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         int hit_roll() const override;
         /** Returns the chance to crit given a hit roll and target's dodge roll */
-        double crit_chance( int hit_roll, int target_dodge ) const;
+        double crit_chance( int hit_roll, int target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit(int target_dodge = 0) const;
+        /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
+        int attack_speed( const item &weap, bool average = false ) const;
+        /** Gets melee accuracy component from weapon+skills */
+        int get_hit_weapon( const item &weap ) const;
+        /** NPC-related item rating functions */
+        double weapon_value( const item &weap ) const; // Evaluates item as a weapon
+        double melee_value( const item &weap ) const; // As above, but only as melee
+        double unarmed_value() const; // Evaluate yourself!
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average ) const; 
+        void roll_all_damage( bool crit, damage_instance &di ) const;
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const; 
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average ) const;
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average ) const;
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average ) const;
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Returns the number of moves unsticking a weapon will penalize for */
         int roll_stuck_penalty( bool stabbing, const ma_technique &tec ) const;
         std::vector<matec_id> get_all_techniques() const;

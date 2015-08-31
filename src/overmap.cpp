@@ -1029,7 +1029,7 @@ point overmap::display_notes(int z)
     const unsigned maxitems = FULL_SCREEN_HEIGHT - 4;
     int ch = '.';
     unsigned start = 0;
-    const int back_len = utf8_width(back_msg.c_str());
+    const int back_len = utf8_width( back_msg );
     bool redraw = true;
     point result(-1, -1);
 
@@ -1826,7 +1826,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     if( !corner_text.empty() ) {
         int maxlen = 0;
         for (auto const &line : corner_text) {
-            maxlen = std::max(maxlen, utf8_width(line.c_str()));
+            maxlen = std::max( maxlen, utf8_width(line) );
         }
 
         const std::string spacer(maxlen, ' ');
@@ -1846,7 +1846,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         std::string sTemp = _("Zone:");
         sTemp += " " + sZoneName;
 
-        const int length = utf8_width(sTemp.c_str());
+        const int length = utf8_width( sTemp );
         for (int i = 0; i <= length; i++) {
             mvwputch(w, om_map_height-2, i, c_white, LINE_OXOX);
         }
@@ -3744,7 +3744,7 @@ void overmap::place_special(const overmap_special& special, const tripoint& p, i
     }
 
     // place spawns
-    if(special.spawns.group != mongroup_id( "GROUP_NULL" ) ) {
+    if( special.spawns.group ) {
         const overmap_special_spawns& spawns = special.spawns;
         const int pop = rng(spawns.min_population, spawns.max_population);
         const int rad = rng(spawns.min_radius, spawns.max_radius);

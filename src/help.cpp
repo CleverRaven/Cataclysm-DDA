@@ -66,7 +66,7 @@ Press q or ESC to return to the game.")) + 1;
     int second_column = getmaxx(win) / 2;
     for (size_t i = 0; i < headers.size(); i++) {
         if (i < half_size) {
-            second_column = std::max(second_column, utf8_width(headers[i].c_str()) + 4);
+            second_column = std::max(second_column, utf8_width(headers[i]) + 4);
         }
         mvwprintz(win, y + i % half_size, (i < half_size ? 1 : second_column),
                   c_white, headers[i].c_str());
@@ -797,7 +797,7 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
         // The color index is not translatable, but the name is.
         std::string color_description = string_format("%s:%s, ", color_pair.first.c_str(),
                                                       _(color_pair.second.c_str()));
-        int pair_width = utf8_width( color_description.c_str() );
+        int pair_width = utf8_width( color_description );
 
         if( column + pair_width > getmaxx(win) ) {
             column = 0;

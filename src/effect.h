@@ -81,8 +81,8 @@ class effect_type
 
         bool main_parts_only;
 
-        std::string resist_trait;
-        std::string resist_effect;
+        std::vector<std::string> resist_traits;
+        std::vector<std::string> resist_effects;
         std::vector<std::string> removes_effects;
         std::vector<std::string> blocks_effects;
 
@@ -187,9 +187,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         void mod_intensity(int nintensity);
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
-        std::string get_resist_trait() const;
+        const std::vector<std::string> &get_resist_traits() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
-        std::string get_resist_effect() const;
+        const std::vector<std::string> &get_resist_effects() const;
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
         const std::vector<std::string> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
