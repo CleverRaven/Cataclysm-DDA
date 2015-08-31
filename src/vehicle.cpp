@@ -896,7 +896,7 @@ void vehicle::use_controls()
     bool has_plow = false;
     bool has_planter = false;
     bool has_scoop = false;
-    bool has_harvester = false;
+    bool has_reaper = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
@@ -957,8 +957,8 @@ void vehicle::use_controls()
             has_planter = true;
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
-        }else if( part_flag(p,"REAPER") ){
-            has_harvester = true;
+        } else if( part_flag(p,"REAPER") ) {
+            has_reaper = true;
         }
     }
 
@@ -1071,18 +1071,18 @@ void vehicle::use_controls()
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
-    if( has_scoop ) {
-        menu.addentry( toggle_scoop, true, 'S', scoop_on ?
-                       _("Turn off scoop system") : _("Turn on scoop system") );
-    }
     if( has_plow ){
         menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, _("Toggle Plow"));
     }
     if( has_planter ){
         menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
     }
-    if( has_harvester ){
-        menu.addentry( toggle_reaper, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
+    if( has_scoop ) {
+        menu.addentry( toggle_scoop, true, 'S', scoop_on ?
+                       _("Turn off scoop system") : _("Turn on scoop system") );
+    }
+    if( has_reaper ){
+        menu.addentry( toggle_reaper, true, 'H', reaper_on ?  _("Turn off reaper") : _("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1281,8 +1281,8 @@ void vehicle::use_controls()
     case control_cancel:
         break;
     case toggle_reaper:
-        add_msg(harvester_on?_("Reaper turned off"):_("Reaper turned on"));
-        harvester_on = !harvester_on;
+        add_msg(reaper_on?_("Reaper turned off"):_("Reaper turned on"));
+        reaper_on = !reaper_on;
         break;
     case toggle_scoop:
         scoop_on = !scoop_on;
@@ -3863,7 +3863,7 @@ void vehicle::on_move(){
     if( plow_on ){
         operate_plow();
     }
-    if( harvester_on ){
+    if( reaper_on ){
         operate_reaper();
     }
 }

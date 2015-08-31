@@ -928,7 +928,7 @@ public:
     bool plow_on                    = false; // Is the vehicle running a plow?
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
     bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
-    bool harvester_on               = false; //Is the combine harvester active?
+    bool reaper_on                  = false; //Is the reaper active?
 };
 
 #endif
