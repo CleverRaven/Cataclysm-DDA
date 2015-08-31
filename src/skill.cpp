@@ -39,13 +39,13 @@ bool string_id<Skill>::is_valid() const
 }
 
 Skill::Skill()
-  : Skill(0, NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
+  : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
-Skill::Skill(size_t id, skill_id ident, std::string name, std::string description,
+Skill::Skill(skill_id ident, std::string name, std::string description,
              std::set<std::string> tags)
-  : _id(std::move(id)), _ident(std::move(ident)), _name(std::move(name)),
+  : _ident(std::move(ident)), _name(std::move(name)),
     _description(std::move(description)), _tags(std::move(tags))
 {
 }
@@ -84,7 +84,7 @@ void Skill::load_skill(JsonObject &jsobj)
 
     DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << name;
 
-    skills.emplace_back(skills.size(), std::move(ident), std::move(name), std::move(description),
+    skills.emplace_back(std::move(ident), std::move(name), std::move(description),
                         std::move(tags));
 }
 

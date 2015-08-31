@@ -16,7 +16,6 @@ using skill_id = string_id<Skill>;
 
 class Skill
 {
-        size_t _id;
         skill_id _ident;
 
         std::string _name;
@@ -40,14 +39,8 @@ class Skill
             std::function<bool (Skill const&, Skill const&)> pred);
 
         Skill();
-        Skill(size_t id, skill_id ident, std::string name, std::string description,
+        Skill(skill_id ident, std::string name, std::string description,
               std::set<std::string> tags);
-
-        //DEBUG
-        size_t id() const
-        {
-            return _id;
-        }
 
         skill_id const& ident() const
         {
