@@ -158,9 +158,6 @@ game::game() :
 // Load everything that will not depend on any mods
 void game::load_static_data()
 {
-#ifdef LUA
-    init_lua();                 // Set up lua                       (SEE catalua.cpp)
-#endif
     // UI stuff, not mod-specific per definition
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
@@ -232,18 +229,16 @@ void game::load_core_data()
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
+    init_lua();
     load_data_from_dir(FILENAMES["jsondir"]);
 }
 
 void game::load_data_from_dir(const std::string &path)
 {
-#ifdef LUA
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
     // the items that need them are parsed
-
-    lua_loadmod(lua_state, path, "preload.lua");
-#endif
+    lua_loadmod( path, "preload.lua" );
 
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
@@ -251,12 +246,9 @@ void game::load_data_from_dir(const std::string &path)
         debugmsg("Error loading data from json: %s", err.what());
     }
 
-#ifdef LUA
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
-
-    lua_loadmod(lua_state, path, "main.lua");
-#endif
+    lua_loadmod( path, "main.lua" );
 }
 
 game::~game()
@@ -668,8 +660,10 @@ void game::start_game(std::string worldname)
     load_map( lev );
 
     m.build_map_cache( get_levz() );
-    // Do this after the map cache has been build!
+    // Do this after the map cache has been built!
     start_loc.place_player( u );
+    // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
+    m.build_map_cache( get_levz() );
     // Start the overmap with out immediate neighborhood visible, this needs to be after place_player
     overmap_buffer.reveal( point(u.global_omt_location().x, u.global_omt_location().y), OPTIONS["DISTANCE_INITIAL_VISIBILITY"], 0);
 
@@ -688,16 +682,21 @@ void game::start_game(std::string worldname)
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
-    //spawn the monsters
-    m.spawn_monsters( true ); // Static monsters
+    // Spawn the monsters
+    const bool spawn_near =
+        ACTIVE_WORLD_OPTIONS["BLACK_ROAD"] || g->scen->has_flag("SUR_START");
+    m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
     // This can happen in lab starts
-    for( size_t i = 0; i < num_zombies(); ) {
-        if( m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-            despawn_monster( i );
-        } else {
-            i++;
+    if( !spawn_near ) {
+        for( size_t i = 0; i < num_zombies(); ) {
+            if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
+                m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
+                remove_zombie( i );
+            } else {
+                i++;
+            }
         }
     }
 
@@ -1191,7 +1190,7 @@ bool game::do_turn()
         return cleanup_at_end();
     }
     // Actual stuff
-    if (new_game) {
+    if( new_game ) {
         new_game = false;
     } else {
         gamemode->per_turn();
@@ -1202,12 +1201,11 @@ bool game::do_turn()
     if (calendar::turn.hours() == 0 && calendar::turn.minutes() == 0 &&
         calendar::turn.seconds() == 0) { // Midnight!
         overmap_buffer.process_mongroups();
-#ifdef LUA
-        lua_callback(lua_state, "on_day_passed");
-#endif
+        lua_callback("on_day_passed");
     }
 
-    if( calendar::once_every(MINUTES(5)) ) { //move hordes every 5 min
+    // Move hordes every 5 min
+    if( calendar::once_every(MINUTES(5)) ) {
         overmap_buffer.move_hordes();
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
@@ -1619,17 +1617,17 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         std::vector< std::tuple<std::string,std::string,std::string,double> >
             menuItems {
-                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use(&oThisItem)),
-                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read(&oThisItem)),
-                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat(&oThisItem)),
-                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear(&oThisItem)),
+                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use( oThisItem )),
+                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read( oThisItem )),
+                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat( oThisItem )),
+                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear( oThisItem )),
                 std::make_tuple("MENU", "w", _("<w>ield"), -999),
                 std::make_tuple("MENU", "t", _("<t>hrow"), -999),
-                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff(&oThisItem)),
+                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff( oThisItem )),
                 std::make_tuple("MENU", "d", _("<d>rop"), rate_drop_item),
                 std::make_tuple("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )),
-                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload(&oThisItem)),
-                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble(&oThisItem)),
+                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload( oThisItem )),
+                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble( oThisItem )),
                 std::make_tuple("MENU", "=", _("<=> reassign"),-999)
             };
 
@@ -3833,7 +3831,7 @@ void game::debug()
                     const vehicle_prototype &proto = elem.obj();
                     veh_strings.push_back( elem );
                     //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                    opts.push_back( string_format( _( "%s (%s)" ), proto.name.c_str(),
+                    opts.push_back( string_format( _( "%1$s (%2$s)" ), proto.name.c_str(),
                                                    elem.c_str() ) );
                 }
             }
@@ -4208,12 +4206,8 @@ void game::debug()
     break;
 
     case 24: {
-#ifdef LUA
         std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
         call_lua(luacode);
-#else
-        popup( "This binary was not compiled with Lua support." );
-#endif
     }
     break;
     case 25:
@@ -7142,6 +7136,10 @@ void game::close(int closex, int closey)
     } else if (veh) {
         int openable = veh->next_part_to_close(vpart);
         if (openable >= 0) {
+            if (closex == u.posx() && closey == u.posy()) {
+                add_msg(m_info, _("There's some buffoon in the way!"));
+                return;
+            }
             const char *name = veh->part_info(openable).name.c_str();
             if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.pos());
@@ -7452,7 +7450,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         if (vehint.sel_vpart_info != NULL) {
             u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
         } else {
-            u.activity.str_values.push_back(vpart_info::null.str());
+            u.activity.str_values.push_back(vpart_str_id::NULL_ID.str());
         }
         u.moves = 0;
     }
@@ -7494,7 +7492,7 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
             return false;
         }
         if (npc_or_player->is_npc() && can_see) {
-            add_msg(_("The %s hits the %s."), door_name.c_str(), npc_or_player->name.c_str());
+            add_msg(_("The %1$s hits the %2$s."), door_name.c_str(), npc_or_player->name.c_str());
         } else if (npc_or_player->is_player()) {
             add_msg(m_bad, _("The %s hits you."), door_name.c_str());
         }
@@ -7510,7 +7508,7 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
             return false;
         }
         if (can_see) {
-            add_msg(_("The %s hits the %s."), door_name.c_str(), zombie(cindex).name().c_str());
+            add_msg(_("The %1$s hits the %2$s."), door_name.c_str(), zombie(cindex).name().c_str());
         }
         monster &critter = zombie( cindex );
         if (critter.type->size <= MS_SMALL || critter.has_flag(MF_VERMIN)) {
@@ -7920,7 +7918,7 @@ bool pet_menu(monster *z)
 
         z->add_item(*it);
 
-        add_msg(_("You mount the %s on your %s, ready to store gear."),
+        add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
                 it->display_name().c_str(),  pet_name.c_str());
 
         g->u.i_rem(pos);
@@ -7973,12 +7971,12 @@ bool pet_menu(monster *z)
         }
 
         if (max_weight <= 0) {
-            add_msg(_("%s is overburdened. You can't transfer your %s"),
+            add_msg(_("%1$s is overburdened. You can't transfer your %2$s"),
                     pet_name.c_str(), it->tname(1).c_str());
             return true;
         }
         if (max_cap <= 0) {
-            add_msg(_("There's no room in your %s's %s for that, it's too bulky!"),
+            add_msg(_("There's no room in your %1$s's %2$s for that, it's too bulky!"),
                     pet_name.c_str(), it->tname(1).c_str() );
             return true;
         }
@@ -9219,12 +9217,13 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     mvwprintz(window, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(window, c_white, _("Items"));
 
-    std::string sSort = _("<s>ort: ");
-
+    std::string sSort;
     if ( bRadiusSort ) {
-        sSort += _("dist");
+        //~ Sort type: distance.
+        sSort = _("<s>ort: dist");
     } else {
-        sSort += pgettext("abbr. for word category", "cat");
+        //~ Sort type: category.
+        sSort = _("<s>ort: cat");
     }
 
     int letters = utf8_width(sSort.c_str());
@@ -10130,7 +10129,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         int fuel_cap = veh->fuel_capacity(ftype);
         int fuel_amnt = veh->fuel_left(ftype);
         if (fuel_cap <= 0) {
-            add_msg(m_info, _("The %s doesn't use %s."),
+            //~ %1$s - transport name, %2$s liquid fuel name
+            add_msg(m_info, _("The %1$s doesn't use %2$s."),
                     veh->name.c_str(), liquid.type_name().c_str());
             return false;
         } else if (fuel_amnt >= fuel_cap) {
@@ -10146,10 +10146,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         u.moves -= 100;
         liquid.charges = veh->refill(ftype, amt);
         if (veh->fuel_left(ftype) < fuel_cap) {
-            add_msg(_("You refill the %s with %s."),
+            add_msg(_("You refill the %1$s with %2$s."),
                     veh->name.c_str(), liquid.type_name().c_str());
         } else {
-            add_msg(_("You refill the %s with %s to its maximum."),
+            add_msg(_("You refill the %1$s with %2$s to its maximum."),
                     veh->name.c_str(), liquid.type_name().c_str());
         }
         // infinite: always handled all, to prevent loops
@@ -10216,13 +10216,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         ammotype liquid_type = liquid.ammo_type();
 
         if (ammo != liquid_type) {
-            add_msg(m_info, _("Your %s won't hold %s."), cont->tname().c_str(),
+            add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
             return false;
         }
 
         if (max <= 0 || cont->charges >= max) {
-            add_msg(m_info, _("Your %s can't hold any more %s."), cont->tname().c_str(),
+            add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
             return false;
         }
@@ -10232,7 +10232,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        add_msg(_("You pour %s into the %s."), liquid.tname().c_str(), cont->tname().c_str());
+        add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
         cont->set_curammo( liquid );
         if (infinite) {
             cont->charges = max;
@@ -10256,7 +10256,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
 
         u.inv.unsort();
-        add_msg( _( "You pour %s into the %s." ), liquid.tname().c_str(), cont->tname().c_str() );
+        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
         if( !infinite && liquid.charges > 0 ) {
             add_msg( _( "There's some left over!" ) );
         }
@@ -10301,13 +10301,13 @@ int game::move_liquid(item &liquid)
             ammotype liquid_type = liquid.ammo_type();
 
             if (ammo != liquid_type) {
-                add_msg(m_info, _("Your %s won't hold %s."), cont->tname().c_str(),
+                add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
                         liquid.tname().c_str());
                 return -1;
             }
 
             if (max <= 0 || cont->charges >= max) {
-                add_msg(m_info, _("Your %s can't hold any more %s."), cont->tname().c_str(),
+                add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
                         liquid.tname().c_str());
                 return -1;
             }
@@ -10317,7 +10317,7 @@ int game::move_liquid(item &liquid)
                 return -1;
             }
 
-            add_msg(_("You pour %s into your %s."), liquid.tname().c_str(),
+            add_msg(_("You pour %1$ss into your %2$s."), liquid.tname().c_str(),
                     cont->tname().c_str());
             cont->set_curammo( liquid );
             cont->charges += liquid.charges;
@@ -10338,9 +10338,9 @@ int game::move_liquid(item &liquid)
             }
             u.inv.unsort();
             if( tmp_liquid.charges == 0 ) {
-                add_msg(_("You pour %s into your %s."), liquid.tname().c_str(), cont->type_name().c_str());
+                add_msg(_("You pour %1$s into your %2$s."), liquid.tname().c_str(), cont->type_name().c_str());
             } else {
-                add_msg(_("You fill your %s with some of the %s."), cont->type_name().c_str(), liquid.tname().c_str());
+                add_msg(_("You fill your %1$s with some of the %2$s."), cont->type_name().c_str(), liquid.tname().c_str());
                 add_msg(_("There's some left over!"));
             }
             return tmp_liquid.charges;
@@ -10470,19 +10470,19 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
-            add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %s on the %s.", dropcount),
+            add_msg(ngettext("You drop your %1$s on the %2$s.",
+                             "You drop your %1$s on the %2$s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
                     m.name(dir).c_str());
         } else {
-            add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %s in the %s.", dropcount),
+            add_msg(ngettext("You put your %1$s in the %2$s.",
+                             "You put your %1$s in the %2$s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
                     m.name(dir).c_str());
         }
     } else {
         if (to_veh) {
-            add_msg(_("You put several items in the %s's %s."),
+            add_msg(_("You put several items in the %1$s's %2$s."),
                     veh->name.c_str(), veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(_("You drop several items on the %s."),
@@ -10755,7 +10755,7 @@ void game::plfire( bool burst, const tripoint &default_target )
 
             if (choice > -1) {
                 u.wield_contents(holsters[choice], true,  holsters[choice]->skill(), 13);
-                u.add_msg_if_player(_("You pull your %s from its %s and ready it to fire."),
+                u.add_msg_if_player(_("You pull your %1$s from its %2$s and ready it to fire."),
                                     u.weapon.tname().c_str(), holsters[choice]->type_name(1).c_str());
                 if (u.weapon.charges <= 0) {
                     u.add_msg_if_player(_("... but it's empty!"));
@@ -10778,7 +10778,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                         ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if (veh && veh->player_in_control(u) && u.weapon.is_two_handed(&u)) {
+    if( veh != nullptr && veh->player_in_control(u) && u.weapon.is_two_handed(u) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
@@ -12264,7 +12264,7 @@ bool game::plmove(int dx, int dy)
                         return false; // We moved furniture but stayed still.
                     } else if ( pushing_furniture &&
                                 m.move_cost(x, y) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
-                        add_msg( _("You let go of the %s as it slides past %s"),
+                        add_msg( _("You let go of the %1$s as it slides past %2$s"),
                                  furntype.name.c_str(), m.ter_at(x, y).name.c_str() );
                         u.grab_point = {0, 0, 0};
                         u.grab_type = OBJECT_NONE;
@@ -12562,7 +12562,7 @@ bool game::plmove(int dx, int dy)
             veh1->open_all_at(dpart);
         } else {
             veh1->open(dpart);
-            add_msg(_("You open the %s's %s."), veh1->name.c_str(),
+            add_msg(_("You open the %1$s's %2$s."), veh1->name.c_str(),
                     veh1->part_info(dpart).name.c_str());
         }
         u.moves -= 100;
@@ -13350,10 +13350,10 @@ void game::update_stair_monsters()
                 //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                 if( critter.staircount > 0 ) {
                     dump << (from_below ?
-                             string_format(_("The %s is almost at the top of the %s!"),
+                             string_format(_("The %1$s is almost at the top of the %2$s!"),
                                            critter.name().c_str(),
                                            m.tername(mposx, mposy).c_str()) :
-                             string_format(_("The %s is almost at the bottom of the %s!"),
+                             string_format(_("The %1$s is almost at the bottom of the %2$s!"),
                                            critter.name().c_str(),
                                            m.tername(mposx, mposy).c_str()));
                 }
@@ -13374,11 +13374,11 @@ void game::update_stair_monsters()
             add_zombie(critter);
             if (u.sees(mposx, mposy)) {
                 if (!from_below) {
-                    add_msg(m_warning, _("The %s comes down the %s!"),
+                    add_msg(m_warning, _("The %1$s comes down the %2$s!"),
                             critter.name().c_str(),
                             m.tername(mposx, mposy).c_str());
                 } else {
-                    add_msg(m_warning, _("The %s comes up the %s!"),
+                    add_msg(m_warning, _("The %1$s comes up the %2$s!"),
                             critter.name().c_str(),
                             m.tername(mposx, mposy).c_str());
                 }
@@ -13471,9 +13471,9 @@ void game::update_stair_monsters()
                     std::string msg = "";
                     if (one_in(creature_throw_resist)) {
                         other.add_effect("downed", 2);
-                        msg = _("The %s pushed the %s hard.");
+                        msg = _("The %1$s pushed the %2$s hard.");
                     } else {
-                        msg = _("The %s pushed the %s.");
+                        msg = _("The %1$s pushed the %2$s.");
                     };
                     add_msg(msg.c_str(), critter.name().c_str(), other.name().c_str());
                     return;
@@ -13697,7 +13697,7 @@ void game::teleport(player *p, bool add_teleglow)
                                     pgettext("memorial_female", "Teleported into a %s."),
                                     m.name(newx, newy).c_str());
             } else {
-                add_msg(_("%s teleports into the middle of a %s!"),
+                add_msg(_("%1$s teleports into the middle of a %2$s!"),
                         p->name.c_str(), m.name(newx, newy).c_str());
             }
         }
@@ -13714,7 +13714,7 @@ void game::teleport(player *p, bool add_teleglow)
                                    pgettext("memorial_female", "Telefragged a %s."),
                                    critter.name().c_str());
             } else {
-                add_msg(_("%s teleports into the middle of a %s!"),
+                add_msg(_("%1$s teleports into the middle of a %2$s!"),
                         p->name.c_str(), critter.name().c_str());
             }
             critter.die_in_explosion( p );

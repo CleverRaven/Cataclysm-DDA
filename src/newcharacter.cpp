@@ -67,6 +67,8 @@ const Skill* random_skill();
 
 void save_template(player *u);
 
+bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
+
 void Character::pick_name()
 {
     name = Name::generate(male);
@@ -333,13 +335,13 @@ int player::create(character_type type, std::string tempname)
             tab += set_scenario   (w, this, points);
             break;
         case 1:
-            tab += set_stats      (w, this, points);
+            tab += set_profession (w, this, points);
             break;
         case 2:
             tab += set_traits     (w, this, points, max_trait_points);
             break;
         case 3:
-            tab += set_profession (w, this, points);
+            tab += set_stats      (w, this, points);
             break;
         case 4:
             tab += set_skills     (w, this, points);
@@ -523,9 +525,9 @@ void draw_tabs(WINDOW *w, std::string sTab)
 
     std::vector<std::string> tab_captions;
     tab_captions.push_back(_("SCENARIO"));
-    tab_captions.push_back(_("STATS"));
-    tab_captions.push_back(_("TRAITS"));
     tab_captions.push_back(_("PROFESSION"));
+    tab_captions.push_back(_("TRAITS"));
+    tab_captions.push_back(_("STATS"));
     tab_captions.push_back(_("SKILLS"));
     tab_captions.push_back(_("DESCRIPTION"));
 
@@ -561,6 +563,17 @@ void draw_tabs(WINDOW *w, std::string sTab)
 
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
+}
+
+template <class Compare>
+void draw_sorting_indicator(WINDOW *w_sorting, input_context ctxt, Compare sorter)
+{
+    auto const sort_order = sorter.sort_by_points ? _("points") : _("name");
+    auto const sort_help = string_format( _("(Press <color_light_green>%s</color> to change)"),
+                                           ctxt.get_desc("SORT").c_str() );
+    wprintz(w_sorting, COL_HEADER, _("Sort by:"));
+    wprintz(w_sorting, c_ltgray, " %s", sort_order);
+    fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
 }
 
 int set_stats(WINDOW *w, player *u, int &points)
@@ -1045,29 +1058,10 @@ int set_profession(WINDOW *w, player *u, int &points)
     WINDOW *w_description = newwin(4, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_items =       newwin(iContentHeight - 1, 55,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_genderswap =  newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_sorting =     newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_genderswap =  newwin(1,                  55,  6 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 2, 55,  7 + getbegy(w), 24 + getbegx(w));
 
-    std::vector<const profession *> sorted_profs;
-    for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-        if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
-            g->scen->profquery(&(iter->second)) == true) {
-            sorted_profs.push_back(&(iter->second));
-        }
-    }
-
-    // Sort professions by points.
-    // profession_display_sort() keeps "unemployed" at the top.
-    profession_sorter.male = u->male;
-    std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
-
-    // Select the current profession, if possible.
-    for (size_t i = 0; i < sorted_profs.size(); ++i) {
-        if (sorted_profs[i]->ident() == u->prof->ident()) {
-            cur_id = i;
-            break;
-        }
-    }
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -1076,8 +1070,59 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("FILTER");
+
+    bool recalc_profs = true;
+    int profs_length = 0;
+    std::string filterstring;
+    std::vector<const profession *> sorted_profs;
 
     do {
+        if (recalc_profs) {
+            sorted_profs.clear();
+            for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
+                if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
+                    g->scen->profquery(&(iter->second)) == true) {
+                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+                        continue;
+                    }
+                    sorted_profs.push_back(&(iter->second));
+                }
+            }
+            profs_length = sorted_profs.size();
+            if (profs_length == 0) {
+                popup(_("Nothing found.")); // another case of black box in tiles
+                filterstring.clear();
+                continue;
+            }
+
+            // Sort professions by points.
+            // profession_display_sort() keeps "unemployed" at the top.
+            profession_sorter.male = u->male;
+            std::stable_sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+
+            // Select the current profession, if possible.
+            for (int i = 0; i < profs_length; ++i) {
+                if (sorted_profs[i]->ident() == u->prof->ident()) {
+                    cur_id = i;
+                    break;
+                }
+            }
+            if (cur_id > profs_length - 1) {
+                cur_id = 0;
+            }
+
+            // Draw filter indicator
+            for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
+                mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+            }
+            const auto filter_indicator = filterstring.empty() ? _("no filter")
+                                          : filterstring;
+            mvwprintz(w, getmaxy(w) - 1, 2, c_ltgray, "<%s>", filter_indicator.c_str());
+
+            recalc_profs = false;
+        }
+
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
         bool can_pick = sorted_profs[cur_id]->can_pick(u, points);
         // Magic number. Strongly related to window width (w_width - borders).
@@ -1125,10 +1170,12 @@ int set_profession(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        sorted_profs[cur_id]->description(u->male));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, sorted_profs.size());
         //Draw options
-        for (int i = iStartPos; i < (int)iStartPos + ((iContentHeight > (int)sorted_profs.size()) ?
-                (int)sorted_profs.size() : (int)iContentHeight); i++) {
+        calcStartPos(iStartPos, cur_id, iContentHeight, profs_length);
+        const int end_pos = iStartPos + ((iContentHeight > profs_length) ?
+                            profs_length : iContentHeight);
+        int i;
+        for (i = iStartPos; i < end_pos; i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
             nc_color col;
@@ -1139,6 +1186,11 @@ int set_profession(WINDOW *w, player *u, int &points)
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       sorted_profs[i]->gender_appropriate_name(u->male).c_str());
+        }
+        //Clear rest of space in case stuff got filtered out
+        for (; i < iStartPos + iContentHeight; ++i) {
+            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+                                             "); // Clear the line
         }
 
         std::ostringstream buffer;
@@ -1219,6 +1271,9 @@ int set_profession(WINDOW *w, player *u, int &points)
                                                ctxt.get_desc("RIGHT").c_str() );
         const int iheight = print_scrollable( w_items, desc_offset, buffer.str(), c_ltgray, scroll_msg );
 
+        werase(w_sorting);
+        draw_sorting_indicator(w_sorting, ctxt, profession_sorter);
+
         werase(w_genderswap);
         //~ Gender switch message. 1s - change key name, 2s - profession name.
         std::string g_switch_msg = u->male ? _("Press %1$s to switch to %2$s(female).") :
@@ -1228,24 +1283,25 @@ int set_profession(WINDOW *w, player *u, int &points)
                   sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
-        draw_scrollbar(w, cur_id, iContentHeight, sorted_profs.size(), 5);
+        draw_scrollbar(w, cur_id, iContentHeight, profs_length, 5);
 
         wrefresh(w);
         wrefresh(w_description);
         wrefresh(w_items);
         wrefresh(w_genderswap);
+        wrefresh(w_sorting);
 
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_id++;
-            if (cur_id > (int)sorted_profs.size() - 1) {
+            if (cur_id > (int)profs_length - 1) {
                 cur_id = 0;
             }
             desc_offset = 0;
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
-                cur_id = sorted_profs.size() - 1;
+                cur_id = profs_length - 1;
             }
             desc_offset = 0;
         } else if( action == "LEFT" ) {
@@ -1271,11 +1327,17 @@ int set_profession(WINDOW *w, player *u, int &points)
             retval = 1;
         } else if (action == "SORT") {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
-            std::sort(sorted_profs.begin(), sorted_profs.end(), profession_sorter);
+            recalc_profs = true;
+        } else if (action == "FILTER") {
+            filterstring = string_input_popup(_("Search:"), 60, filterstring,
+                _("Search by profession name."));
+            recalc_profs = true;
         }
+
     } while (retval == 0);
 
     delwin(w_description);
+    delwin(w_sorting);
     delwin(w_items);
     delwin(w_genderswap);
     return retval;
@@ -1442,37 +1504,24 @@ int set_scenario(WINDOW *w, player *u, int &points)
                                    FULL_SCREEN_HEIGHT - 5 + getbegy(w), 1 + getbegx(w));
     WINDOW_PTR w_descriptionptr( w_description );
 
-    WINDOW *w_profession = newwin(iContentHeight - 1, (FULL_SCREEN_WIDTH / 2) - 1,
-                                  6 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW *w_sorting = newwin(2, (FULL_SCREEN_WIDTH / 2) - 1,
+                               5 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW_PTR w_sortingptr( w_sorting );
+
+    WINDOW *w_profession = newwin(4, (FULL_SCREEN_WIDTH / 2) - 1,
+                                  7 + getbegy(w),  (FULL_SCREEN_WIDTH / 2) + getbegx(w));
     WINDOW_PTR w_professionptr( w_profession );
 
-    WINDOW *w_location =   newwin(iContentHeight - 8, (FULL_SCREEN_WIDTH / 2) - 1,
-                                  10 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
+    WINDOW *w_location =   newwin(3, (FULL_SCREEN_WIDTH / 2) - 1,
+                                  11 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     WINDOW_PTR w_locationptr( w_location );
 
-    WINDOW *w_flags = newwin(iContentHeight - 10, (FULL_SCREEN_WIDTH / 2) - 1,
+    // 9 = 2 + 4 + 3, so we use rest of space for flags
+    WINDOW *w_flags = newwin(iContentHeight - 9, (FULL_SCREEN_WIDTH / 2) - 1,
                              14 + getbegy(w), (FULL_SCREEN_WIDTH / 2) + getbegx(w));
 
     WINDOW_PTR w_flagsptr( w_flags );
-
-    std::vector<const scenario *> sorted_scens;
-    for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
-        sorted_scens.push_back(&(iter->second));
-    }
-
-    // Sort scenarios by points.
-    // scenario_display_sort() keeps "Evacuee" at the top.
-    scenario_sorter.male = u->male;
-    std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
-
-    // Select the current scenario, if possible.
-    for (size_t i = 0; i < sorted_scens.size(); ++i) {
-        if (sorted_scens[i]->ident() == g->scen->ident()) {
-            cur_id = i;
-            break;
-        }
-    }
 
     input_context ctxt("NEW_CHAR_SCENARIOS");
     ctxt.register_cardinal();
@@ -1481,8 +1530,56 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("FILTER");
+
+    bool recalc_scens = true;
+    int scens_length = 0;
+    std::string filterstring;
+    std::vector<const scenario *> sorted_scens;
 
     do {
+        if (recalc_scens) {
+            sorted_scens.clear();
+            for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
+                if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+                    continue;
+                }
+                sorted_scens.push_back(&(iter->second));
+            }
+            scens_length = sorted_scens.size();
+            if (scens_length == 0) {
+                popup(_("Nothing found.")); // another case of black box in tiles
+                filterstring.clear();
+                continue;
+            }
+
+            // Sort scenarios by points.
+            // scenario_display_sort() keeps "Evacuee" at the top.
+            scenario_sorter.male = u->male;
+            std::stable_sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+
+            // Select the current scenario, if possible.
+            for (int i = 0; i < scens_length; ++i) {
+                if (sorted_scens[i]->ident() == g->scen->ident()) {
+                    cur_id = i;
+                    break;
+                }
+            }
+            if (cur_id > scens_length - 1) {
+                cur_id = 0;
+            }
+
+            // Draw filter indicator
+            for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
+                mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+            }
+            const auto filter_indicator = filterstring.empty() ? _("no filter")
+                                          : filterstring;
+            mvwprintz(w, getmaxy(w) - 1, 2, c_ltgray, "<%s>", filter_indicator.c_str());
+
+            recalc_scens = false;
+        }
+
         int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
         bool can_pick = sorted_scens[cur_id]->can_pick(points);
         const std::string empty_line(getmaxx(w_description), ' ');
@@ -1530,12 +1627,14 @@ int set_scenario(WINDOW *w, player *u, int &points)
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
                        _(sorted_scens[cur_id]->description(u->male).c_str()));
 
-        calcStartPos(iStartPos, cur_id, iContentHeight, scenario::count());
         //Draw options
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > scenario::count()) ?
-                scenario::count() : iContentHeight); i++) {
+        calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
+        const int end_pos = iStartPos + ((iContentHeight > scens_length) ?
+                            scens_length : iContentHeight);
+        int i;
+        for (i = iStartPos; i < end_pos; i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
-                                             "); // Clear the line
+                                             ");
             nc_color col;
             if (g->scen != sorted_scens[i]) {
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? h_ltgray : c_ltgray);
@@ -1545,6 +1644,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
             mvwprintz(w, 5 + i - iStartPos, 2, col,
                       _(sorted_scens[i]->gender_appropriate_name(u->male).c_str()));
 
+        }
+        //Clear rest of space in case stuff got filtered out
+        for (; i < iStartPos + iContentHeight; ++i) {
+            mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
+                                             "); // Clear the line
         }
 
         std::vector<std::string> scen_items = sorted_scens[cur_id]->items();
@@ -1556,17 +1660,29 @@ int set_scenario(WINDOW *w, player *u, int &points)
             scen_gender_items = sorted_scens[cur_id]->items_female();
         }
         scen_items.insert( scen_items.end(), scen_gender_items.begin(), scen_gender_items.end() );
+        werase(w_sorting);
         werase(w_profession);
         werase(w_location);
         werase(w_flags);
-        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
 
+        draw_sorting_indicator(w_sorting, ctxt, scenario_sorter);
+
+        mvwprintz(w_profession, 0, 0, COL_HEADER, _("Professions:"));
         wprintz(w_profession, c_ltgray, _("\n"));
         if (sorted_scens[cur_id]->profsize() > 0) {
             wprintz(w_profession, c_ltgray, _("Limited"));
         } else {
             wprintz(w_profession, c_ltgray, _("All"));
         }
+        wprintz(w_profession, c_ltgray, _(", default:\n"));
+        auto const scenario_prof = sorted_scens[cur_id]->get_profession();
+        auto const prof_points = scenario_prof->point_cost();
+        auto const prof_color = prof_points > 0 ? c_green : c_ltgray;
+        wprintz(w_profession, prof_color, scenario_prof->gender_appropriate_name(u->male).c_str());
+        if ( prof_points > 0 ) {
+            wprintz(w_profession, c_green, " (+%d)", prof_points);
+        }
+
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
         wprintz(w_location, c_ltgray, ("\n"));
         wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
@@ -1609,9 +1725,10 @@ int set_scenario(WINDOW *w, player *u, int &points)
             wprintz(w_flags, c_ltgray, ("\n"));
         }
 
-        draw_scrollbar(w, cur_id, iContentHeight, scenario::count(), 5);
+        draw_scrollbar(w, cur_id, iContentHeight, scens_length, 5);
         wrefresh(w);
         wrefresh(w_description);
+        wrefresh(w_sorting);
         wrefresh(w_profession);
         wrefresh(w_location);
         wrefresh(w_flags);
@@ -1619,13 +1736,13 @@ int set_scenario(WINDOW *w, player *u, int &points)
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_id++;
-            if (cur_id > scenario::count() - 1) {
+            if (cur_id > scens_length - 1) {
                 cur_id = 0;
             }
         } else if (action == "UP") {
             cur_id--;
             if (cur_id < 0) {
-                cur_id = scenario::count() - 1;
+                cur_id = scens_length - 1;
             }
         } else if (action == "CONFIRM") {
             u->start_location = sorted_scens[cur_id]->start_location();
@@ -1647,7 +1764,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
             retval = 1;
         } else if (action == "SORT") {
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
-            std::sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+            recalc_scens = true;
+        } else if (action == "FILTER") {
+            filterstring = string_input_popup(_("Search:"), 60, filterstring,
+                _("Search by scenario name."));
+            recalc_scens = true;
         }
     } while (retval == 0);
 

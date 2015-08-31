@@ -1558,7 +1558,19 @@
           "rotates": false
         },
         {
+          "id": "armor_lamellar",
+          "fg": 251,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "armor_plate",
+          "fg": 252,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "armor_lightplate",
           "fg": 252,
           "bg": 505,
           "rotates": false
@@ -1707,6 +1719,12 @@
         },
         {
           "id": "boots_bone",
+          "fg": 277,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "boots_plate",
           "fg": 277,
           "bg": 505,
           "rotates": false
@@ -2109,6 +2127,12 @@
         },
         {
           "id": "gloves_fingerless_mod",
+          "fg": 343,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "gloves_plate",
           "fg": 343,
           "bg": 505,
           "rotates": false
@@ -6603,6 +6627,18 @@
           "rotates": false
         },
         {
+          "id": "halberd",
+          "fg": 2182,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "halberd_fake",
+          "fg": 2182,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "makeshift_knife",
           "fg": 2183,
           "bg": 505,
@@ -8329,6 +8365,12 @@
           "rotates": false
         },
         {
+          "id": "glaive",
+          "fg": 2254,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "spear_rebar",
           "fg": 1198,
           "bg": 505,
@@ -9672,7 +9714,7 @@
             },
             {
               "id": "edge",
-              "fg": 2751,
+              "fg": 2757,
               "bg": 506
             }
           ]
@@ -10488,6 +10530,12 @@
           "rotates": false
         },
         {
+          "id": "textbook_armschina",
+          "fg": 595,
+          "bg": 507,
+          "rotates": false
+        },
+        {
           "id": "textbook_weapwest",
           "fg": 595,
           "bg": 507,
@@ -10887,6 +10935,12 @@
           "rotates": false
         },
         {
+          "id": "manual_pankration",
+          "fg": 1133,
+          "bg": 510,
+          "rotates": false
+        },
+        {
           "id": "manual_business",
           "fg": 589,
           "bg": 510,
@@ -11215,6 +11269,11 @@
         },
         {
           "id": "manual_fencing",
+          "fg": 590,
+          "bg": 510
+        },
+        {
+          "id": "manual_swordsmanship",
           "fg": 590,
           "bg": 510
         },
@@ -19037,6 +19096,11 @@
           "rotates": true
         },
         {
+          "id": "vp_mounted_30mm_autocannon",
+          "fg": 2436,
+          "rotates": true
+        },
+        {
           "id": "vp_mounted_rm614",
           "fg": 2437,
           "rotates": true
@@ -19345,12 +19409,12 @@
           "rotates": false
         },
         {
-          "id": "stone_macuahuitl",
+          "id": "glass_macuahuitl",
           "fg": 2492,
           "rotates": false
         },
         {
-          "id": "glass_macuahuitl",
+          "id": "chainmail_legs",
           "fg": 2493,
           "rotates": false
         },
@@ -20102,6 +20166,11 @@
         },
         {
           "id": "spear_survivor",
+          "fg": 2583,
+          "rotates": false
+        },
+        {
+          "id": "naginata",
           "fg": 2583,
           "rotates": false
         },
@@ -20947,6 +21016,16 @@
           "rotates": true
         },
         {
+          "id": "vp_tow_launcher",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
+          "id": "vp_tow_turret",
+          "fg": 2691,
+          "rotates": true
+        },
+        {
           "id": "vp_tread1",
           "fg": 2692,
           "rotates": true
@@ -21303,16 +21382,6 @@
           "rotates": false
         },
         {
-          "id": "dusksword_one",
-          "fg": 2752,
-          "rotates": false
-        },
-        {
-          "id": "dusksword_two",
-          "fg": 2752,
-          "rotates": false
-        },
-        {
           "id": "dusksword",
           "fg": 2752,
           "rotates": false
@@ -21324,22 +21393,315 @@
         },
         {
           "id": "spiral_stone",
-          "fg": 2754,
+          "fg": 2758,
           "rotates": false
         },
         {
           "id": "vortex_stone",
-          "fg": 2754,
+          "fg": 2758,
           "rotates": false
         },
         {
           "id": "makeshift_shovel",
-          "fg": 2755,
+          "fg": 2759,
           "rotates": false
         },
         {
           "id": "makeshift_axe",
-          "fg": 2756,
+          "fg": 2760,
+          "rotates": false
+        },
+        {
+          "id": "estoc",
+          "fg": 2761,
+          "rotates": false
+        },
+        {
+          "id": "estoc_fake",
+          "fg": 2761,
+          "rotates": false
+        },
+        {
+          "id": "scimitar",
+          "fg": 2762,
+          "rotates": false
+        },
+        {
+          "id": "scimitar_fake",
+          "fg": 2762,
+          "rotates": false
+        },
+        {
+          "id": "sword_xiphos",
+          "fg": 2763,
+          "rotates": false
+        },
+        {
+          "id": "khopesh",
+          "fg": 2764,
+          "rotates": false
+        },
+        {
+          "id": "jian",
+          "fg": 2765,
+          "rotates": false
+        },
+        {
+          "id": "jian_fake",
+          "fg": 2765,
+          "rotates": false
+        },
+        {
+          "id": "arming_sword",
+          "fg": 2766,
+          "rotates": false
+        },
+        {
+          "id": "arming_sword_fake",
+          "fg": 2766,
+          "rotates": false
+        },
+        {
+          "id": "longsword",
+          "fg": 2767,
+          "rotates": false
+        },
+        {
+          "id": "longsword_fake",
+          "fg": 2767,
+          "rotates": false
+        },
+        {
+          "id": "dao",
+          "fg": 2768,
+          "rotates": false
+        },
+        {
+          "id": "ji",
+          "fg": 2769,
+          "rotates": false
+        },
+        {
+          "id": "spear_dory",
+          "fg": 2770,
+          "rotates": false
+        },
+        {
+          "id": "qiang",
+          "fg": 2771,
+          "rotates": false
+        },
+        {
+          "id": "fire_lance",
+          "fg": 2772,
+          "rotates": false
+        },
+        {
+          "id": "scrap_bronze",
+          "fg": 2773,
+          "rotates": false
+        },
+        {
+          "id": "lance_charge",
+          "fg": 2774,
+          "rotates": false
+        },
+        {
+          "id": "lance_charge_shot",
+          "fg": 2775,
+          "rotates": false
+        },
+        {
+          "id": "helmet_barbute",
+          "fg": 2776,
+          "rotates": false
+        },
+        {
+          "id": "helmet_corinthian",
+          "fg": 2777,
+          "rotates": false
+        },
+        {
+          "id": "helmet_kabuto",
+          "fg": 2778,
+          "rotates": false
+        },
+        {
+          "id": "helmet_lobster",
+          "fg": 2779,
+          "rotates": false
+        },
+        {
+          "id": "helmet_galea",
+          "fg": 2780,
+          "rotates": false
+        },
+        {
+          "id": "helmet_nasal",
+          "fg": 2781,
+          "rotates": false
+        },
+        {
+          "id": "helmet_conical",
+          "fg": 2782,
+          "rotates": false
+        },
+        {
+          "id": "tunic",
+          "fg": 2783,
+          "rotates": false
+        },
+        {
+          "id": "tunic_rag",
+          "fg": 2784,
+          "rotates": false
+        },
+        {
+          "id": "sleeveless_tunic",
+          "fg": 2784,
+          "rotates": false
+        },
+        {
+          "id": "gambeson",
+          "fg": 2785,
+          "rotates": false
+        },
+        {
+          "id": "chainmail_hauberk",
+          "fg": 2786,
+          "rotates": false
+        },
+        {
+          "id": "shark_suit",
+          "fg": 2787,
+          "rotates": false
+        },
+        {
+          "id": "shark_suit_faraday",
+          "fg": 2787,
+          "rotates": false
+        },
+        {
+          "id": "chainmail_suit",
+          "fg": 2787,
+          "rotates": false
+        },
+        {
+          "id": "chainmail_hood",
+          "fg": 2788,
+          "rotates": false
+        },
+        {
+          "id": "chainmail_vest",
+          "fg": 2789,
+          "rotates": false
+        },
+        {
+          "id": "chainmail_arms",
+          "fg": 2790,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch",
+          "fg": 2791,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple",
+          "fg": 2792,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow",
+          "fg": 2793,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "legguard_bronze",
+          "fg": 2794,
+          "rotates": false
+        },
+        {
+          "id": "armor_cuirass",
+          "fg": 2795,
+          "rotates": false
+        },
+        {
+          "id": "armor_lorica",
+          "fg": 2796,
+          "rotates": false
+        },
+        {
+          "id": "suitcase_l",
+          "fg": 2797,
+          "rotates": false
+        },
+        {
+          "id": "suitcase_m",
+          "fg": 2797,
+          "rotates": false
+        },
+        {
+          "id": "harmonica_holder",
+          "fg": 2798,
+          "rotates": false
+        },
+        {
+          "id": "acoustic_guitar",
+          "fg": 2799,
+          "rotates": false
+        },
+        {
+          "id": "bagpipes",
+          "fg": 2800,
+          "rotates": false
+        },
+        {
+          "id": "tuba",
+          "fg": 2801,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory",
+          "fg": 2802,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory_harvested",
+          "fg": 2803,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_deadhickory",
+          "fg": 2804,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_harvested",
+          "fg": 2805,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_harvested",
+          "fg": 2806,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "birchbark",
+          "fg": 2807,
+          "rotates": false
+        },
+        {
+          "id": "willowbark",
+          "fg": 2809,
           "rotates": false
         }
       ]

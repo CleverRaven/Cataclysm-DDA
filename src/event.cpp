@@ -20,7 +20,6 @@ const mtype_id mon_copbot( "mon_copbot" );
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_dermatik( "mon_dermatik" );
 const mtype_id mon_eyebot( "mon_eyebot" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_riotbot( "mon_riotbot" );
 const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
@@ -125,7 +124,7 @@ void event::actualize()
 
     case EVENT_AMIGARA: {
         g->u.add_memorial_log(pgettext("memorial_male", "Angered a group of amigara horrors!"),
-                                pgettext("memorial_female", "Angered a group of amigara horrors!"));
+                              pgettext("memorial_female", "Angered a group of amigara horrors!"));
         int num_horrors = rng(3, 5);
         int faultx = -1, faulty = -1;
         bool horizontal = false;
@@ -134,11 +133,7 @@ void event::actualize()
                 if (g->m.ter(x, y) == t_fault) {
                     faultx = x;
                     faulty = y;
-                    if (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault) {
-                        horizontal = true;
-                    } else {
-                        horizontal = false;
-                    }
+                    horizontal = (g->m.ter(x - 1, y) == t_fault || g->m.ter(x + 1, y) == t_fault);
                 }
             }
         }

@@ -605,7 +605,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
-- ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
+- ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 
@@ -721,7 +721,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
-- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
+- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 - ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.

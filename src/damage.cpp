@@ -46,7 +46,7 @@ float damage_instance::type_damage( damage_type dt ) const
     float ret = 0;
     for( const auto &elem : damage_units ) {
         if( elem.type == dt ) {
-            ret += elem.amount;
+            ret += elem.amount * elem.damage_multiplier;
         }
     }
     return ret;
@@ -125,7 +125,7 @@ int resistances::type_resist( damage_type dt ) const
 }
 float resistances::get_effective_resist( const damage_unit &du ) const
 {
-    float effective_resist = 0.f;
+    float effective_resist;
     switch( du.type ) {
         case DT_BASH:
             effective_resist = std::max( type_resist( DT_BASH ) - du.res_pen, 0 ) * du.res_mult;

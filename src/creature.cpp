@@ -607,7 +607,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
             }
         } else if( dealt_dam.total_damage() == 0 ) {
-            add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
+            //~ 1$ - monster name, 2$ - monster's bodypart
+            add_msg(_("The shot reflects off %1$s %2$s!"), disp_name(true).c_str(),
                     skin_name().c_str());
         } else if( is_player() ) {
                 //monster hits player ranged
@@ -636,7 +637,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 add_msg(m_good, _("You hit %s for %d damage."),
                         disp_name().c_str(), dealt_dam.total_damage());
             } else if( u_see_this ) {
-                add_msg(_("%s shoots %s."),
+                //~ 1$ - shooter, 2$ - target
+                add_msg(_("%1$s shoots %2$s."),
                         source->disp_name().c_str(), disp_name().c_str());
             }
         }
@@ -863,7 +865,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
         // Perform any effect addition effects.
-        bool reduced = has_effect(e.get_resist_effect()) || has_trait(e.get_resist_trait());
+        bool reduced = resists_effect(e);
         add_eff_effects(e, reduced);
     }
 }
@@ -986,6 +988,21 @@ void Creature::process_effects()
     for (size_t i = 0; i < rem_ids.size(); ++i) {
         remove_effect( rem_ids[i], rem_bps[i] );
     }
+}
+
+bool Creature::resists_effect(effect e)
+{
+    for (auto &i : e.get_resist_effects()) {
+        if (has_effect(i)) {
+            return true;
+        }
+    }
+    for (auto &i : e.get_resist_traits()) {
+        if (has_trait(i)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Creature::has_trait(const std::string &flag) const
@@ -1383,7 +1400,6 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     add_msg( m_debug, "difference = %d", szdif );
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
-    std::map<body_part, double>::iterator iter;
 
     // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
     // Any hit modifiers to locations should go here. (Tags, attack style, etc)

@@ -448,7 +448,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             npc *p = g->active_npc[npcdex];
             if(!p->weapon.is_null()) {
                 item weap = p->remove_weapon();
-                add_msg_if_player(m_good, _("You disarm %s's %s using your whip!"), p->name.c_str(),
+                add_msg_if_player(m_good, _("You disarm %1$s's %2$s using your whip!"), p->name.c_str(),
                                   weap.tname().c_str());
                 // Can probably send a weapon through a wall
                 tripoint random_point( targ_arg.x + rng(-1, 1), targ_arg.y + rng(-1, 1), targ_arg.z );
@@ -826,7 +826,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     } else {
         if( mode == TARGET_MODE_FIRE ) {
             if(relevant->has_flag("RELOAD_AND_SHOOT")) {
-                title = string_format( _("Shooting %s from %s"),
+                title = string_format( _("Shooting %1$s from %2$s"),
                         p.weapon.get_curammo()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
                 title = string_format( _("Firing %s"), p.weapon.tname().c_str());
@@ -1565,7 +1565,7 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( embed ) {
         mon->add_item( dropped_item );
         if( g->u.sees( *mon ) ) {
-            add_msg( _("The %s embeds in %s!"),
+            add_msg( _("The %1$s embeds in %2$s!"),
                      dropped_item.tname().c_str(),
                      mon->disp_name().c_str() );
         }

@@ -130,6 +130,7 @@ class mod_manager
 
         bool set_default_mods(const std::string &ident);
         void remove_mod(const std::string &ident);
+        void remove_invalid_mods( std::vector<std::string> &mods ) const;
 
         dependency_tree tree;
 

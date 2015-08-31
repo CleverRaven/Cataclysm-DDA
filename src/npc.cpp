@@ -141,7 +141,7 @@ void npc::load_npc_template(std::string ident)
 
 npc::~npc() { }
 
-std::string npc::save_info()
+std::string npc::save_info() const
 {
     return serialize(); // also saves contents
 }
@@ -1616,7 +1616,7 @@ int npc::value(const item &it)
  int ret = it.price() / 50;
  const Skill* best = best_skill();
     if( best != nullptr && best->ident() != "unarmed" ) {
-  int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
+  int weapon_val = it.weapon_value(*this) - weapon.weapon_value(*this);
   if (weapon_val > 0)
    ret += weapon_val;
  }

@@ -35,7 +35,6 @@
 #include <cstring>
 
 const mtype_id mon_spore( "mon_spore" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_zombie( "mon_zombie" );
 
 extern bool is_valid_in_w_terrain(int,int);
@@ -5360,7 +5359,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
-                const tripoint sm( gridx, gridy, g->get_levz() );
+                const tripoint sm( gridx, gridy, 0 );
                 const auto abs_sm = map::abs_sub + sm;
                 const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
                 overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
@@ -6418,15 +6417,20 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     // If the submap is uniform, we can skip many checks
     const submap *current_submap = get_submap_at_grid( gp );
     bool ignore_terrain_checks = false;
+    bool ignore_inside_checks = gp.z < 0;
     if( current_submap->is_uniform ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
-        if( move_cost( upper_left ) == 0 || has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) {
+        if( move_cost( upper_left ) == 0 ||
+            ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
+            const tripoint glp = getabs( gp );
             dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-                " at uniform submap " << gp.x << "," << gp.y << "," << gp.z;
+                " at uniform submap " << gp.x << "," << gp.y << "," << gp.z <<
+                " global " << glp.x << "," << glp.y << "," << glp.z;
             return;
         }
 
         ignore_terrain_checks = true;
+        ignore_inside_checks = true;
     }
 
     for( int x = 0; x < SEEX; ++x ) {
@@ -6446,7 +6450,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // monster must spawn outside the viewing range of the player
             }
 
-            if( !ignore_terrain_checks && has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
+            if( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, fp ) ) {
                 continue; // monster must spawn outside.
             }
 
@@ -6457,14 +6461,22 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( locations.empty() ) {
         // TODO: what now? there is now possible place to spawn monsters, most
         // likely because the player can see all the places.
+        const tripoint glp = getabs( gp );
         dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
-            " at " << gp.x << "," << gp.y << "," << gp.z;
+            " at " << gp.x << "," << gp.y << "," << gp.z <<
+            " global " << glp.x << "," << glp.y << "," << glp.z;
+        // Just kill the group. It's not like we're removing existing monsters
+        // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
+        if( !group.horde ) {
+            group.population = 0;
+        }
+
         return;
     }
 
     for( int m = 0; m < pop; m++ ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-        if( spawn_details.name == mon_null ) {
+        if( !spawn_details.name ) {
             continue;
         }
 

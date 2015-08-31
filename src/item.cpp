@@ -26,6 +26,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
+#include "morale.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -34,8 +35,6 @@
 #include <set>
 #include <array>
 #include <tuple>
-
-const mtype_id mon_null( "mon_null" );
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -88,7 +87,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand, const hande
     init();
     type = find_type( new_type );
     bday = turn;
-    corpse = type->id == "corpse" ? &mon_null.obj() : nullptr;
+    corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name(1);
     const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
     if( has_random_charges ) {
@@ -181,7 +180,7 @@ void item::make_corpse( const mtype_id& mt, unsigned int turn, const std::string
 
 void item::make_corpse()
 {
-    make_corpse( mon_null, calendar::turn );
+    make_corpse( NULL_ID, calendar::turn );
 }
 
 item::item(JsonObject &jo)
@@ -1499,6 +1498,37 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
         }
 
+        if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
+            player copy_u = g->u;
+            copy_u.weapon = *this;
+            damage_instance non_crit;
+            copy_u.roll_all_damage( false, non_crit, true );
+            damage_instance crit;
+            copy_u.roll_all_damage( true, crit, true );
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Average damage when used as a melee weapon:") ) ) );
+            dump->push_back(iteminfo("DESCRIPTION",
+                        string_format(_( "Critical hit chance %d%% - %d%%"),
+                                         int(copy_u.crit_chance( 0, 100 ) * 100),
+                                         int(copy_u.crit_chance( 100, 0 ) * 100) )));
+            dump->push_back(iteminfo("DESCRIPTION",
+                        string_format(_("%d bashing (%d on a critical hit)"),
+                                      int(non_crit.type_damage(DT_BASH)),
+                                      int(crit.type_damage(DT_BASH)) )));
+            if( non_crit.type_damage(DT_CUT) > 0.0f || crit.type_damage(DT_CUT) > 0.0f ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                            string_format(_("%d cutting (%d on a critical hit)"),
+                                          int(non_crit.type_damage(DT_CUT)),
+                                          int(crit.type_damage(DT_CUT)) )));
+            }
+            if( non_crit.type_damage(DT_STAB) > 0.0f || crit.type_damage(DT_STAB) > 0.0f ) {
+                dump->push_back(iteminfo("DESCRIPTION",
+                            string_format(_("%d piercing (%d on a critical hit)"),
+                                          int(non_crit.type_damage(DT_STAB)),
+                                          int(crit.type_damage(DT_STAB)) )));
+            }
+        }
+
         for( auto &u : type->use_methods ) {
             const auto tt = dynamic_cast<const delayed_transform_iuse*>( u.get_actor_ptr() );
             if( tt == nullptr ) {
@@ -1583,8 +1613,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 }
             }
             if (known_recipes.size() > 24) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
             } else if (known_recipes.size() > 12) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
                 dump->push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
             } else {
                 bool found_recipe = false;
@@ -1604,6 +1636,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                     }
                 }
                 if (found_recipe) {
+                    dump->push_back(iteminfo("DESCRIPTION", "--"));
                     dump->push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
                 }
             }
@@ -1851,7 +1884,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                                            quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
-        if (corpse == NULL || corpse->id == mon_null)
+        if (corpse == NULL || corpse->id == NULL_ID )
             maintext = rm_prefix(ngettext("<item_name>human blood",
                                           "<item_name>human blood",
                                           quantity));
@@ -2653,50 +2686,36 @@ long item::num_charges()
     return 0;
 }
 
-int item::weapon_value(player *p) const
+double item::weapon_value( const player &p ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
-
-    int my_value = 0;
-    if (is_gun()) {
+    double my_value = 0;
+    if( is_gun() ) {
         int gun_value = 14;
         const islot_gun* gun = type->gun.get();
         gun_value += gun->damage;
         gun_value += int(gun->burst / 2);
         gun_value += int(gun->clip / 3);
         gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * p->skillLevel("gun")));
-        gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
+        gun_value *= (.5 + (.3 * p.get_skill_level("gun")));
+        gun_value *= (.3 + (.7 * p.get_skill_level(gun->skill_used)));
         my_value += gun_value;
     }
 
-    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                       .1 * p->skillLevel("melee")    ));
-
-    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                       .1 * p->skillLevel("melee")    ));
-
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value = std::max( my_value, melee_value( p ) );
 
     return my_value;
 }
 
-int item::melee_value(player *p)
+double item::melee_value( const player &p ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
-
     int my_value = 0;
-    my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_dam * (1   + .3 * p.get_skill_level("bashing") +
+                                       .1 * p.get_skill_level("melee")    ));
 
-    my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
-                                       .1 * p->skillLevel("melee")    ));
+    my_value += int(type->melee_cut * (1   + .4 * p.get_skill_level("cutting") +
+                                       .1 * p.get_skill_level("melee")    ));
 
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
+    my_value += int(type->m_to_hit  * (1.2 + .3 * p.get_skill_level("melee")));
 
     return my_value;
 }
@@ -2808,13 +2827,12 @@ int item::acid_resist() const
     return lround(resist);
 }
 
-bool item::is_two_handed(player *u)
+bool item::is_two_handed( const player &u ) const
 {
-    if (has_flag("ALWAYS_TWOHAND"))
-    {
+    if( has_flag("ALWAYS_TWOHAND") ) {
         return true;
     }
-    return ((weight() / 113) > u->str_cur * 4);
+    return ((weight() / 113) > u.str_cur * 4);
 }
 
 const std::vector<std::string> &item::made_of() const
@@ -3221,7 +3239,7 @@ bool item::operator<(const item& other) const
     }
 }
 
-int item::reload_time(player &u) const
+int item::reload_time( const player &u ) const
 {
     int ret = 0;
 
@@ -3234,7 +3252,7 @@ int item::reload_time(player &u) const
                 ret -= int(double(ret) * 0.9);
             }
         }
-        double skill_bonus = double(u.skillLevel(reloading->skill_used)) * .075;
+        double skill_bonus = double(u.get_skill_level(reloading->skill_used)) * .075;
         if (skill_bonus > .75) {
             skill_bonus = .75;
         }
@@ -3868,11 +3886,11 @@ bool item::reload(player &u, int pos)
         int archery = u.skillLevel( "archery" );
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
-            u.add_msg_if_player( _( "You try to pull a %s from your %s, but fail!" ),
+            u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
                                 ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
             return false;
         }
-        u.add_msg_if_player( _( "You pull a %s from your %s and nock it." ),
+        u.add_msg_if_player( _( "You pull a %1$s from your %2$s and nock it." ),
                              ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
     }
 
@@ -4258,7 +4276,7 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
             return false;
         case L_ERR_NOT_CONTAINER:
-            err = string_format( _( "That %s won't hold %s." ), tname().c_str(), liquid.tname().c_str());
+            err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         case L_ERR_NOT_WATERTIGHT:
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
@@ -4267,7 +4285,7 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "You can't seal that %s!" ), tname().c_str());
             return false;
         case L_ERR_FULL:
-            err = string_format( _( "Your %s can't hold any more %s." ), tname().c_str(), liquid.tname().c_str());
+            err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
             return false;
         default:
             err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
@@ -5170,7 +5188,7 @@ std::string item::type_name( unsigned int quantity ) const
                                corpse->nname().c_str(), name.c_str() );
         }
     } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == mon_null ) {
+        if( corpse == nullptr || corpse->id == NULL_ID ) {
             return rm_prefix( ngettext( "<item_name>human blood",
                                         "<item_name>human blood", quantity ) );
         } else {
