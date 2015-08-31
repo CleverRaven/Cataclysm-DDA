@@ -2347,6 +2347,14 @@ void check_recipe_definitions()
             if (!item::type_is_defined(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
             }
+            if( r.skill_used && !r.skill_used.is_valid() ) {
+                debugmsg("recipe %s uses invalid skill %s", r.ident.c_str(), r.skill_used.c_str());
+            }
+            for( auto &e : r.required_skills ) {
+                if( e.first && !e.first.is_valid() ) {
+                    debugmsg("recipe %s uses invalid required skill %s", r.ident.c_str(), e.first.c_str());
+                }
+            }
         }
     }
 }
