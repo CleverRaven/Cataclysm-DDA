@@ -1118,7 +1118,17 @@ void monster::load(JsonObject &data)
     data.read("hallucination", hallucination);
     data.read("stairscount", staircount); // really?
 
+    // Load legacy plans.
+    std::vector<tripoint> plans;
     data.read("plans", plans);
+    if( !plans.empty() ) {
+        goal = plans.back();
+    }
+
+    // This is relative to the monster so it isn't invalidated by map shifting.
+    tripoint destination;
+    data.read("destination", destination);
+    goal = pos() + destination;
 
     upgrades = data.get_bool("upgrades", type->upgrades);
     upgrade_time = data.get_int("upgrade_time", -1);
@@ -1169,7 +1179,8 @@ void monster::store(JsonOut &json) const
     json.member("morale", morale);
     json.member("hallucination", hallucination);
     json.member("stairscount", staircount);
-    json.member("plans", plans);
+    // Store the relative position of the goal so it loads correctly after a map shift.
+    json.member("destination", goal - pos());
     json.member("ammo", ammo);
     json.member( "underwater", underwater );
     json.member("upgrades", upgrades);

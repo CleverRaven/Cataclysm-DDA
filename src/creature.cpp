@@ -865,7 +865,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
         // Perform any effect addition effects.
-        bool reduced = has_effect(e.get_resist_effect()) || has_trait(e.get_resist_trait());
+        bool reduced = resists_effect(e);
         add_eff_effects(e, reduced);
     }
 }
@@ -988,6 +988,21 @@ void Creature::process_effects()
     for (size_t i = 0; i < rem_ids.size(); ++i) {
         remove_effect( rem_ids[i], rem_bps[i] );
     }
+}
+
+bool Creature::resists_effect(effect e)
+{
+    for (auto &i : e.get_resist_effects()) {
+        if (has_effect(i)) {
+            return true;
+        }
+    }
+    for (auto &i : e.get_resist_traits()) {
+        if (has_trait(i)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Creature::has_trait(const std::string &flag) const

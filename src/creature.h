@@ -300,6 +300,8 @@ class Creature
         int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Returns true if the creature resists an effect */
+        bool resists_effect(effect e);
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );

@@ -687,6 +687,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
+    "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
@@ -703,6 +705,84 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type": "picklock", // picking a lock on a door
     "pick_quality": 3 // "quality" of the tool, higher values mean higher success chance, and using it takes less moves.
+},
+"use_action": {
+    "type": "firestarter", // Start a fire, like with a lighter.
+    "moves_cost": 15 // Number of moves it takes to start the fire.
+},
+"use_action": {
+    "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
+    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
+},
+"use_action": {
+    "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
+    "moves_per_part": 25, // Number of moves it takes (optional).
+    "material_whitelist": [ // List of material ids (not item ids!) that can be salvage from.
+        "cotton",           // The list here is the default list, used when there is no explicit martial list given.
+        "leather",          // If the item (that is to be cut up) has any material not in the list, it can not be cut up.
+        "fur",
+        "nomex",
+        "kevlar",
+        "plastic",
+        "wood",
+        "wool"
+    ]
+},
+"use_action": {
+    "type": "inscribe", // Inscribe a message on an item or on the ground.
+    "on_items": true, // Whether the item can inscribe on an item.
+    "on_terrain": false, // Whether the item can inscribe on the ground.
+    "material_restricted": true, // Whether the item can only inscribe on certain item materials. Not used when inscribing on the ground.
+    "material_whitelist": [ // List of material ids (not item ids!) that can be inscribed on.
+        "wood",             // Only used when inscribing on an item, and only when material_restricted is true.
+        "plastic",          // The list here is the default that is used when no explicit list is given.
+        "glass",
+        "chitin",
+        "iron",
+        "steel",
+        "silver"
+    ]
+},
+"use_action": {
+    "type": "cauterize", // Cauterize the character.
+    "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
+},
+"use_action": {
+    "type": "enzlave" // Make a zlave.
+},
+"use_action": {
+    "type": "fireweapon_off", // Activate a fire based weapon.
+    "target_id": "firemachete_on", // The item type to transform this item into.
+    "success_message": "Your No. 9 glows!", // A message that is shows if the action succeeds.
+    "failure_message": "", // A message that is shown if the action fails, for whatever reason. (Optional, if not given, no message will be printed.)
+    "lacks_fuel_message": "Out of fuel", // Message that is shown if the item has no charges.
+    "noise": 0, // The noise it makes to active the item, Optional, 0 means no sound at all.
+    "moves": 0, // The number of moves it takes the character to even try this action (independent of the result).
+    "success_chance": 0 // How likely it is to succeed the action. Default is to always succeed. Try numbers in the range of 0-10.
+},
+"use_action": {
+    "type": "fireweapon_on", // Function for active (burning) fire based weapons.
+    "noise_chance": 1, // The chance (one in X) that the item will make a noise, rolled on each turn.
+    "noise": 0, // The sound volume it makes, if it makes a noise at all. If 0, no sound is made, but the noise message is still printed.
+    "noise_message": "Your No. 9 hisses.", // The message / sound description (if noise is > 0), that appears when the item makes a sound.
+    "voluntary_extinguish_message": "Your No. 9 goes dark.", // Message that appears when the item is turned of by player.
+    "charges_extinguish_message": "Out of ammo!", // Message that appears when the item runs out of charges.
+    "water_extinguish_message": "Your No. 9 hisses in the water and goes out.", // Message that appears if the character walks into water and the fire of the item is extinguished.
+    "auto_extinguish_chance": 0, // If > 0, this is the (one in X) chance that the item goes out on its own.
+    "auto_extinguish_message": "Your No. 9 cuts out!" // Message that appears if the item goes out on its own (only required if auto_extinguish_chance is > 0).
+},
+"use_action": {
+    "type": "musical_instrument", // The character plays an instrument (this item) while walking around.
+    "speed_penalty": 10, // This is subtracted from the characters speed.
+    "volume": 12, // Volume of the sound of the instrument.
+    "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
+    "fun_bonus": 2,
+    "description_frequency": 20, // Once every Nth turn, a randomly chosen description (from the that array) is displayed.
+    "descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your flute that sounds harmonious with nature."
+    ]
 },
 "use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap

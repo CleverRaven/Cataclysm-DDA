@@ -450,6 +450,18 @@ use_action_msgs = {
     "need_charges_msg",
     "non_interactive_msg",
     "unfold_msg",
+    "sound_msg",
+    "no_deactivate_msg",
+    "not_ready_msg",
+    "success_message",
+    "lacks_fuel_message",
+    "failure_message",
+    "descriptions",
+    "noise_message",
+    "voluntary_extinguish_message",
+    "charges_extinguish_message",
+    "water_extinguish_message",
+    "auto_extinguish_message",
     "activation_message"
 }
 

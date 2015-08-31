@@ -605,7 +605,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
-- ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
+- ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 

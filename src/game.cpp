@@ -7136,6 +7136,10 @@ void game::close(int closex, int closey)
     } else if (veh) {
         int openable = veh->next_part_to_close(vpart);
         if (openable >= 0) {
+            if (closex == u.posx() && closey == u.posy()) {
+                add_msg(m_info, _("There's some buffoon in the way!"));
+                return;
+            }
             const char *name = veh->part_info(openable).name.c_str();
             if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.pos());
@@ -7446,7 +7450,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         if (vehint.sel_vpart_info != NULL) {
             u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
         } else {
-            u.activity.str_values.push_back(vpart_info::null.str());
+            u.activity.str_values.push_back(vpart_str_id::NULL_ID.str());
         }
         u.moves = 0;
     }

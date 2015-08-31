@@ -55,7 +55,6 @@ const mtype_id mon_cat( "mon_cat" );
 const mtype_id mon_dog( "mon_dog" );
 const mtype_id mon_fly( "mon_fly" );
 const mtype_id mon_hallu_multicooker( "mon_hallu_multicooker" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_vortex( "mon_vortex" );
@@ -3422,7 +3421,10 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
-
+    if (p->fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to solder!"));
+        return 0;
+    }
     int charges_used = dynamic_cast<const it_tool*>( it->type )->charges_to_use();
     if( it->charges <= charges_used ) {
         p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
@@ -6438,7 +6440,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_BUGS: {
                 int roll = rng(1, 10);
-                mtype_id bug = mon_null;
+                mtype_id bug = NULL_ID;
                 int num = 0;
                 std::vector<tripoint> empty;
                 for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
@@ -6464,7 +6466,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     bug = mon_wasp;
                     num = rng(1, 2);
                 }
-                if (bug != mon_null) {
+                if( bug ) {
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         const tripoint spawnp = random_entry_removed( empty );
                         if (g->summon_mon(bug, spawnp)) {
@@ -6486,7 +6488,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid( mon_null, p->pos3() );
+                monster tmptriffid( NULL_ID, p->pos3() );
                 mattack::growplants(&tmptriffid, -1);
             }
             break;
