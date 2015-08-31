@@ -504,7 +504,7 @@
         "cutting" : 0,
         "to_hit" : -3,
         "contains" : 45,
-        "material" : ["aluminum", "null"],
+        "material" : ["steel", "null"],
         "rigid": true,
         "watertight": true,
         "seals": true
@@ -524,7 +524,7 @@
         "cutting" : 0,
         "to_hit" : -2,
         "contains" : 5,
-        "material" : ["aluminum", "null"],
+        "material" : ["steel", "null"],
         "rigid": true,
         "watertight": true,
         "seals": true
