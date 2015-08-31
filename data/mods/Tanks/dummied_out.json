@@ -1,5 +1,66 @@
 [
-{
+    {
+        "type" : "vehicle_part", "comment": "All of this is dummied out, should still exist to avoid load errors.",
+        "id" : "forklift_fork",
+        "name" : "vehicle anomaly",
+        "symbol" : "|",
+        "color" : "light_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 200,
+        "durability" : 300,
+        "size" : 50,
+        "item" : "frame",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["CARGO", "PROTRUSION", "NOINSTALL", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "forklift",
+        "name" : "Forklift (dummied out)",
+        "blueprint" : [
+            ["o#o-"],
+            ["o|o-"]
+        ],
+        "parts" : [
+            {"x": -1, "y": 0, "part": "frame_sw"},
+            {"x": -1, "y": 0, "part": "halfboard_sw"},
+            {"x": -1, "y": 0, "part": "wheel_small"},
+            {"x": -1, "y": 1, "part": "frame_se"},
+            {"x": -1, "y": 1, "part": "halfboard_se"},
+            {"x": -1, "y": 1, "part": "wheel_small"},
+
+            {"x": 0, "y": 0, "part": "frame_horizontal"},
+            {"x": 0, "y": 0, "part": "seat"},
+            {"x": 0, "y": 0, "part": "roof"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 1, "part": "frame_horizontal"},
+            {"x": 0, "y": 1, "part": "engine_electric"},
+            {"x": 0, "y": 1, "part": "roof"},
+            {"x": 0, "y": 1, "part": "halfboard_vertical"},
+            {"x": 0, "y": 1, "part": "storage_battery"},
+
+            {"x": 1, "y": 0, "part": "frame_nw"},
+            {"x": 1, "y": 0, "part": "halfboard_nw"},
+            {"x": 1, "y": 0, "part": "wheel_small"},
+            {"x": 1, "y": 1, "part": "frame_ne"},
+            {"x": 1, "y": 1, "part": "halfboard_ne"},
+            {"x": 1, "y": 1, "part": "wheel_small"},
+
+            {"x": 2, "y": 0, "part": "forklift_fork"},
+            {"x": 2, "y": 1, "part": "forklift_fork"}
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 5, "items": ["hat_hard"]},
+            {"x": 2, "y": 0, "chance": 10, "items": ["2x4"]},
+            {"x": 2, "y": 1, "chance": 10, "items": ["2x4"]}
+        ]
+    },{
   "type" : "mapgen",
   "om_terrain" : ["ranch_camp_67_mod"],
   "method": "json",
@@ -931,5 +992,80 @@
                 { "monster": "GROUP_ZOMBIE",  "chance": 2,  "x": [ 2,21 ],  "y": [ 2,21 ] }
             ]
         }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_cabin_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_1_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_2_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_3_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_4_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_3_mod",
+        "name" : "mall - loading bay",
+        "rotate" : true,
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_backroom_mod",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ranch_camp_67_mod",
+        "name" : "garage",
+        "sym" : 79,
+        "color" : "white",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "warehouse_mod",
+        "name" : "small warehouse",
+        "rotate" : true,
+        "sym" : 119,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]
