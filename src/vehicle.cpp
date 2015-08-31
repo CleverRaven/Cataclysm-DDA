@@ -48,6 +48,8 @@ static const itype_id fuel_type_water("water_clean");
 static const itype_id fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
+const skill_id skill_mechanics( "mechanics" );
+
 const std::array<fuel_type, 7> &get_fuel_types()
 {
 
@@ -780,13 +782,13 @@ bool vehicle::interact_vehicle_locked()
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
 
-                int mechanics_skill = g->u.skillLevel("mechanics");
+                int mechanics_skill = g->u.skillLevel( skill_mechanics );
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
                 g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
                 g->u.activity.values.push_back(global_x());//[0]
                 g->u.activity.values.push_back(global_y());//[1]
-                g->u.activity.values.push_back(g->u.skillLevel("mechanics"));//[2]
+                g->u.activity.values.push_back(g->u.skillLevel( skill_mechanics ));//[2]
             } else {
                 if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
                     is_alarm_on = true;
@@ -817,7 +819,7 @@ void vehicle::smash_security_system(){
     }
     //controls and security must both be valid
     if (c >= 0 && s >= 0){
-        int skill = g->u.skillLevel("mechanics");
+        int skill = g->u.skillLevel( skill_mechanics );
         int percent_controls = 70 / (1 + skill);
         int percent_alarm = (skill+3) * 10;
         int rand = rng(1,100);

@@ -66,6 +66,12 @@ const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
+const skill_id skill_melee( "melee" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_rifle( "rifle" );
+const skill_id skill_launcher( "launcher" );
+
 // shared utility functions
 int within_visual_range(monster *z, int max_range) {
     int dist;
@@ -451,7 +457,7 @@ void mattack::pull_metal_weapon(monster *z, int index)
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
         if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
-            int wp_skill = foe->skillLevel("melee");
+            int wp_skill = foe->skillLevel( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             z->reset_special(index); // Reset timer
             int success = 100;
@@ -1891,11 +1897,11 @@ void mattack::dermatik(monster *z, int index)
 
     // Can we swat the bug away?
     int dodge_roll = z->dodge_roll();
-    int swat_skill = ( foe->skillLevel("melee") + foe->skillLevel("unarmed") * 2) / 3;
+    int swat_skill = ( foe->skillLevel( skill_melee ) + foe->skillLevel( skill_unarmed ) * 2) / 3;
     int player_swat = dice(swat_skill, 10);
     if( foe->has_trait("TAIL_CATTLE") ) {
         target->add_msg_if_player(_("You swat at the %s with your tail!"), z->name().c_str());
-        player_swat += ( ( foe->dex_cur + foe->skillLevel("unarmed") ) / 2 );
+        player_swat += ( ( foe->dex_cur + foe->skillLevel( skill_unarmed ) ) / 2 );
     }
     if( player_swat > dodge_roll ) {
         target->add_msg_if_player(_("The %s lands on you, but you swat it off."), z->name().c_str());
@@ -2849,8 +2855,8 @@ void mattack::rifle( monster *z, Creature *target )
     }
 
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel("rifle").level(8);
-    tmp.skillLevel("gun").level(6);
+    tmp.skillLevel( skill_rifle ).level(8);
+    tmp.skillLevel( skill_gun ).level(6);
 
     if( target == &g->u ) {
         if (!z->has_effect("targeted")) {
@@ -2907,8 +2913,8 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
         }
     }
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel("launcher").level(8);
-    tmp.skillLevel("gun").level(6);
+    tmp.skillLevel( skill_launcher ).level(8);
+    tmp.skillLevel( skill_gun ).level(6);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2982,8 +2988,8 @@ void mattack::bmg_tur(monster *z, int index)
         }
     }
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel("rifle").level(8);
-    tmp.skillLevel("gun").level(6);
+    tmp.skillLevel( skill_rifle ).level(8);
+    tmp.skillLevel( skill_gun ).level(6);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -3048,8 +3054,8 @@ void mattack::tankgun( monster *z, Creature *target )
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-    tmp.skillLevel("launcher").level(1);
-    tmp.skillLevel("gun").level(1);
+    tmp.skillLevel( skill_launcher ).level(1);
+    tmp.skillLevel( skill_gun ).level(1);
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -4166,7 +4172,7 @@ bool mattack::thrown_by_judo(monster *z, int index)
     // "Wimpy" Judo is about to pay off... :D
     if( foe->is_throw_immune() ) {
         // DX + Unarmed
-        if ( ((foe->dex_cur + foe->skillLevel("unarmed")) > (z->type->melee_skill + rng(0, 3))) ) {
+        if ( ((foe->dex_cur + foe->skillLevel( skill_unarmed )) > (z->type->melee_skill + rng(0, 3))) ) {
             target->add_msg_if_player( m_good, _("but you grab its arm and flip it to the ground!") );
 
             // most of the time, when not isolated

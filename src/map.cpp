@@ -37,6 +37,9 @@
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_zombie( "mon_zombie" );
 
+const skill_id skill_driving( "driving" );
+const skill_id skill_traps( "traps" );
+
 extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
@@ -475,7 +478,7 @@ const vehicle *map::vehproceed()
         if( one_in( 4 ) ) { // might turn uncontrollably while skidding
             veh.turn( one_in( 2 ) ? -15 : 15 );
         }
-    } else if( pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20) ) {
+    } else if( pl_ctrl && rng(0, 4) > g->u.skillLevel( skill_driving ) && one_in(20) ) {
         add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
         veh.turn( one_in( 2 ) ? -15 : 15 );
     }
@@ -675,7 +678,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
 
         if( veh.player_in_control( *psg ) ) {
             const int lose_ctrl_roll = rng( 0, d_vel );
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3 ) {
+            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                     _("You lose control of the %s."),
                     _("<npcname> loses control of the %s."),
@@ -5036,7 +5039,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
 
 void map::disarm_trap( const tripoint &p )
 {
-    int skillLevel = g->u.skillLevel("traps");
+    int skillLevel = g->u.skillLevel( skill_traps ); // TODO: same as below?
 
     const trap &tr = tr_at( p );
     if( tr.is_null() ) {
@@ -5044,7 +5047,7 @@ void map::disarm_trap( const tripoint &p )
         return;
     }
 
-    const int tSkillLevel = g->u.skillLevel("traps");
+    const int tSkillLevel = g->u.skillLevel( skill_traps );
     const int diff = tr.get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
@@ -5062,12 +5065,12 @@ void map::disarm_trap( const tripoint &p )
         add_msg(_("You disarm the trap!"));
         tr.on_disarmed( p );
         if(diff > 1.25 * skillLevel) { // failure might have set off trap
-            g->u.practice( "traps", 1.5*(diff - skillLevel) );
+            g->u.practice( skill_traps, 1.5*(diff - skillLevel) );
         }
     } else if (roll >= diff * .8) {
         add_msg(_("You fail to disarm the trap."));
         if(diff > 1.25 * skillLevel) {
-            g->u.practice( "traps", 1.5*(diff - skillLevel) );
+            g->u.practice( skill_traps, 1.5*(diff - skillLevel) );
         }
     } else {
         add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
@@ -5075,7 +5078,7 @@ void map::disarm_trap( const tripoint &p )
         if(diff - roll <= 6) {
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
-            g->u.practice( "traps", 2*diff );
+            g->u.practice( skill_traps, 2*diff );
         }
     }
 }

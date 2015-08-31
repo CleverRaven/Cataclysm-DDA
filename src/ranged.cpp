@@ -21,6 +21,17 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include "skill.h"
+
+const skill_id skill_pistol( "pistol" );
+const skill_id skill_rifle( "rifle" );
+const skill_id skill_smg( "smg" );
+const skill_id skill_shotgun( "shotgun" );
+const skill_id skill_launcher( "launcher" );
+const skill_id skill_archery( "archery" );
+const skill_id skill_throw( "throw" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_melee( "melee" );
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
@@ -54,19 +65,19 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj, con
  */
 int ranged_skill_offset( std::string skill )
 {
-    if( skill == "pistol" ) {
+    if( skill == skill_pistol ) {
         return 0;
-    } else if( skill == "rifle" ) {
+    } else if( skill == skill_rifle ) {
         return 0;
-    } else if( skill == "smg" ) {
+    } else if( skill == skill_smg ) {
         return 0;
-    } else if( skill == "shotgun" ) {
+    } else if( skill == skill_shotgun ) {
         return 0;
-    } else if( skill == "launcher" ) {
+    } else if( skill == skill_launcher ) {
         return 0;
-    } else if( skill == "archery" ) {
+    } else if( skill == skill_archery ) {
         return 135;
-    } else if( skill == "throw" ) {
+    } else if( skill == skill_throw ) {
         return 195;
     }
     return 0;
@@ -442,7 +453,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
 
     // chance to disarm an NPC with a whip if skill is high enough
-    if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
+    if(proj.proj_effects.count("WHIP") && (this->skillLevel( skill_melee ) > 5) && one_in(3)) {
         int npcdex = g->npc_at(targ_arg);
         if(npcdex != -1) {
             npc *p = g->active_npc[npcdex];
@@ -463,7 +474,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( targ, true );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
-            const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
+            const int near_range = std::min( 2 + skillLevel( skill_gun ), weaponrange );
             auto new_targets = get_targetable_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
@@ -490,7 +501,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                 /* 1 victim list unless wildly spraying */
                 targ = random_entry( new_targets )->pos();
             } else if( ( !trigger_happy || one_in(3) ) &&
-                       ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
+                       ( skillLevel( skill_gun ) >= 7 || one_in(7 - skillLevel( skill_gun )) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
                 // Otherwise it's dominated by how much practice you've had.
                 return;
@@ -625,9 +636,9 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
 
     if( train_skill ) {
-        practice( "gun", 15 );
+        practice( skill_gun, 15 );
     } else {
-        practice( "gun", 0 );
+        practice( skill_gun, 0 );
     }
 }
 
@@ -639,7 +650,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
-    int skill_cost = (int)(move_cost / (std::pow(skillLevel("throw"), 3.0f) / 400.0 + 1.0));
+    int skill_cost = (int)(move_cost / (std::pow(skillLevel( skill_throw ), 3.0f) / 400.0 + 1.0));
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
@@ -665,9 +676,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     tripoint targ = target;
     int deviation = 0;
 
-    const auto skill_used = Skill::skill("throw");
+    const skill_id &skill_used = skill_throw;
     // Throwing attempts below "Basic Competency" level are extra-bad
-    int skill_level = skillLevel("throw");
+    int skill_level = skillLevel( skill_throw );
 
     if( skill_level < 3 ) {
         deviation += rng(0, 8 - skill_level);
@@ -1409,8 +1420,8 @@ int player::skill_dispersion( item *weapon, bool random ) const
         dispersion += rand_or_max( random, 45 * (10 - weapon_skill_level) );
     }
     // Up to 0.25 deg per each skill point < 10.
-    if( get_skill_level("gun") < 10) {
-        dispersion += rand_or_max( random, 15 * (10 - get_skill_level("gun")) );
+    if( get_skill_level( skill_gun ) < 10) {
+        dispersion += rand_or_max( random, 15 * (10 - get_skill_level( skill_gun )) );
     }
     return dispersion;
 }

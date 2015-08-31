@@ -64,6 +64,8 @@ int_id<trap>::int_id( const string_id<trap> &id )
 #include "debug.h"
 #include "translations.h"
 
+const skill_id skill_traps( "traps" );
+
 static std::vector<const trap*> funnel_traps;
 const std::vector<const trap*> trap::get_funnels()
 {
@@ -133,7 +135,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...small bonus from stimulants...
            (p.stim > 10 ? rng(1, 2) : 0) +
            // ...bonus from trap skill...
-           (p.get_skill_level("traps") * 2) +
+           (p.get_skill_level( skill_traps ) * 2) +
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
            // ...malus if we are tired...

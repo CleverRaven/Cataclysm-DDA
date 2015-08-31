@@ -41,6 +41,12 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
+const skill_id skill_survival( "survival" );
+const skill_id skill_melee( "melee" );
+const skill_id skill_bashing( "bashing" );
+const skill_id skill_cutting( "cutting" );
+const skill_id skill_stabbing( "stabbing" );
+
 enum item::LIQUID_FILL_ERROR : int {
     L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL
@@ -1469,12 +1475,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                      _("This object is surrounded by a sickly green glow.")));
         }
 
-        if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
+        if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel( skill_survival ).level() >= 3) {
             dump->push_back(iteminfo("DESCRIPTION",
                                      _("On closer inspection, this appears to be poisonous.")));
         }
 
-        if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
+        if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel( skill_survival ).level() >= 5) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("On closer inspection, this appears to be hallucinogenic.")));
         }
@@ -1499,7 +1505,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
         }
 
-        if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
+        if( debug_mode || g->u.get_skill_level( skill_melee ) > 2 ) {
             damage_instance non_crit;
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
@@ -3360,9 +3366,9 @@ skill_id item::weap_skill() const
 {
     if (! is_weap() && ! is_tool()) return "null";
 
-    if (type->melee_dam >= type->melee_cut) return "bashing";
-    if (has_flag("STAB")) return "stabbing";
-    return "cutting";
+    if (type->melee_dam >= type->melee_cut) return skill_bashing;
+    if (has_flag("STAB")) return skill_stabbing;
+    return skill_cutting;
 }
 
 skill_id item::skill() const

@@ -66,6 +66,12 @@ const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+const skill_id skill_dodge( "dodge" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_swimming( "swimming" );
+const skill_id skill_throw( "throw" );
+const skill_id skill_unarmed( "unarmed" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
@@ -506,7 +512,7 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
-    if( get_skill_level( "unarmed" ) >= 2 ) {
+    if( get_skill_level( skill_unarmed ) >= 2 ) {
         const matype_id brawling( "style_brawling" );
         if( !has_martialart( brawling ) ) {
             add_martialart( brawling );
@@ -1752,7 +1758,7 @@ int player::run_cost(int base_cost, bool diag) const
 
 int player::swim_speed() const
 {
-    int ret = 440 + weight_carried() / 60 - 50 * get_skill_level("swimming");
+    int ret = 440 + weight_carried() / 60 - 50 * get_skill_level( skill_swimming );
     if (has_trait("PAWS")) {
         ret -= 20 + str_cur * 3;
     }
@@ -1777,11 +1783,11 @@ int player::swim_speed() const
     if (has_trait("FAT")) {
         ret -= 30;
     }
-    ret += (50 - get_skill_level("swimming") * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
-    ret += (80 - get_skill_level("swimming") * 3) * (encumb(bp_torso) / 10);
-    if (get_skill_level("swimming") < 10) {
+    ret += (50 - get_skill_level( skill_swimming ) * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
+    ret += (80 - get_skill_level( skill_swimming ) * 3) * (encumb(bp_torso) / 10);
+    if (get_skill_level( skill_swimming ) < 10) {
         for (auto &i : worn) {
-            ret += (i.volume() * (10 - get_skill_level("swimming"))) / 2;
+            ret += (i.volume() * (10 - get_skill_level( skill_swimming ))) / 2;
         }
     }
     ret -= str_cur * 6 + dex_cur * 4;
@@ -2980,7 +2986,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 const int melee_roll_pen = std::max( -( encumb( bp_torso ) / 10 ) * 10, -80 );
                 s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
-                s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - get_skill_level( "swimming" ) * 3 ) );
+                s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - get_skill_level( skill_swimming ) * 3 ) );
                 s += melee_cost_text( encumb( bp_torso ) );
             } else if (line == 1) { //Torso
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
@@ -3005,11 +3011,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
                 s += run_cost_text( encumb( bp_leg_l ) * 0.15 );
-                s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - get_skill_level( "swimming" ) * 2 ) / 2 );
+                s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
                 s += run_cost_text( encumb( bp_leg_r ) * 0.15 );
-                s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - get_skill_level( "swimming" ) * 2 ) / 2 );
+                s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
             } else if (line == 10) { //Left Foot
                 s += run_cost_text( encumb( bp_foot_l ) * 0.25 );
@@ -4154,7 +4160,7 @@ bool player::has_two_arms() const
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
-    int myroll = dice( 3, int(dex_cur + get_skill_level( "dodge" ) * 1.5) );
+    int myroll = dice( 3, int(dex_cur + get_skill_level( skill_dodge ) * 1.5) );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
         traproll = dice( 3, tr.get_avoidance() );
@@ -4216,18 +4222,18 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
-    recoil -= str_cur + 2 * get_skill_level("gun");
+    recoil -= str_cur + 2 * get_skill_level( skill_gun );
     recoil = std::max(MIN_RECOIL * 2, recoil);
     recoil = int(recoil / 2);
 
     // Train swimming if underwater
     if( underwater ) {
-        practice( "swimming", 1 );
+        practice( skill_swimming, 1 );
         drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
                     mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
                     mfb(bp_hand_l)|mfb(bp_hand_r), true );
     } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
-        practice( "swimming", 1 );
+        practice( skill_swimming, 1 );
         // Same as above, except no head/eyes/mouth
         drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
                     mfb(bp_foot_l)|mfb(bp_foot_r)| mfb(bp_hand_l)|mfb(bp_hand_r), true );
@@ -4252,7 +4258,7 @@ void player::pause()
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
-                practice( "driving", experience );
+                practice( skill_id( "driving" ), experience );
             }
             break;
         }
@@ -4396,8 +4402,8 @@ int player::throw_range(int pos) const
         return 1;
     }
     // Cap at double our strength + skill
-    if( ret > str_cur * 1.5 + get_skill_level("throw") ) {
-        return str_cur * 1.5 + get_skill_level("throw");
+    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
+        return str_cur * 1.5 + get_skill_level( skill_throw );
     }
 
     return ret;
@@ -4512,7 +4518,7 @@ int player::rust_rate(bool return_stat_effect) const
 
 int player::talk_skill() const
 {
-    int ret = get_int() + get_per() + get_skill_level("speech") * 3;
+    int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
     if (has_trait("SAPIOVORE")) {
         ret -= 20; // Friendly convo with your prey? unlikely
     } else if (has_trait("UGLY")) {
@@ -4577,7 +4583,7 @@ void player::on_dodge( Creature *source, int difficulty )
     }
 
     if( difficulty > 0 ) {
-        practice( "dodge", difficulty );
+        practice( skill_dodge, difficulty );
     }
 
     ma_ondodge_effects();
@@ -4596,7 +4602,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     if( difficulty > 0 ) {
-        practice( "dodge", difficulty );
+        practice( skill_dodge, difficulty );
     }
 
     if (has_active_bionic("bio_ods")) {
@@ -5053,7 +5059,7 @@ float player::fall_damage_mod() const
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
-    float dex_dodge = dex_cur / 2 + get_skill_level( "dodge" );
+    float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     dex_dodge -= ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 20 ) + ( encumb(bp_torso) / 10 );
     // But prevent it from increasing damage
@@ -11000,7 +11006,7 @@ hint_rating player::rate_action_use( const item &it ) const
             return HINT_GOOD;
         }
     } else if (it.is_gunmod()) {
-        if (get_skill_level("gun") == 0) {
+        if (get_skill_level( skill_gun ) == 0) {
             return HINT_IFFY;
         } else {
             return HINT_GOOD;
@@ -11107,7 +11113,7 @@ void player::use(int inventory_position)
         invoke_item( used );
     } else if (used->is_gunmod()) {
         const auto mod = used->type->gunmod.get();
-        if (!(get_skill_level("gun") >= mod->req_skill)) {
+        if (!(get_skill_level( skill_gun ) >= mod->req_skill)) {
             add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
 can install this mod."), mod->req_skill);
             return;
@@ -13241,7 +13247,7 @@ void player::boost_skill_level(const skill_id &ident, int level)
 
 int player::get_melee() const
 {
-    return get_skill_level("melee");
+    return get_skill_level( skill_id( "melee" ) );
 }
 
 void player::setID (int i)
