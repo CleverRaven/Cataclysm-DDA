@@ -285,9 +285,10 @@ ifdef LUA
     LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
         $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
+    LUA_PKG += $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
     # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_FOUND))
-    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_FOUND))
+    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
+    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
   endif
 
   CXXFLAGS += -DLUA
