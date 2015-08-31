@@ -264,6 +264,25 @@ struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
     void deserialize(JsonIn &jsin) override;
 };
 
+struct npc_misc_rules : public JsonSerializer, public JsonDeserializer
+{
+    bool allow_pick_up;
+    bool allow_bash;
+    bool allow_sleep;
+
+    npc_misc_rules()
+    {
+        allow_pick_up = true;
+        allow_bash = true;
+        allow_sleep = false;
+    };
+
+    using JsonSerializer::serialize;
+    void serialize(JsonOut &jsout) const override;
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) override;
+};
+
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
 // TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
 // the new string values (used to load old saves).
@@ -649,7 +668,7 @@ public:
  void told_to_wait();
  void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
- int  speed_estimate(int speed) const; // Estimate of a target's speed, usually player
+ int  speed_estimate( const Creature* ) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
@@ -683,15 +702,16 @@ public:
  void activate_item(int position);
 
 // Interaction and assessment of the world around us
- int  danger_assessment();
- int  average_damage_dealt(); // Our guess at how much damage we can deal
- bool bravery_check(int diff);
- bool emergency(int danger);
- bool is_active() const;
- void say(std::string line, ...) const;
- void decide_needs();
- void die(Creature* killer) override;
- bool is_dead() const;
+    int  danger_assessment();
+    int  average_damage_dealt(); // Our guess at how much damage we can deal
+    bool bravery_check(int diff);
+    bool emergency(int danger);
+    bool is_active() const;
+    void say(std::string line, ...) const;
+    void decide_needs();
+    void die(Creature* killer) override;
+    bool is_dead() const;
+    int smash_ability() const; // How well we smash terrain (not corpses!)
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -741,8 +761,7 @@ public:
  npc_action scan_new_items(int target);
 
 // Combat functions and player interaction functions
- void melee_monster (int target);
- void melee_player (player &foe);
+    Creature *get_target( int target ) const;
  void wield_best_melee ();
  void alt_attack (int target);
  void use_escape_item (int position);
@@ -843,6 +862,7 @@ public:
  npc_chatbin chatbin;
  int patience; // Used when we expect the player to leave the area
  npc_combat_rules combat_rules;
+    npc_misc_rules misc_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
  bool hit_by_player;
  std::vector<npc_need> needs;

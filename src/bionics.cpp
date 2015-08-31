@@ -65,12 +65,12 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     werase(window);
 
     std::string caption = _("BIONICS -");
-    int cap_offset = utf8_width(caption.c_str()) + 1;
+    int cap_offset = utf8_width(caption) + 1;
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
     pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
-    int pwr_length = utf8_width(pwr.str().c_str()) + 1;
+    int pwr_length = utf8_width(pwr.str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
     std::string desc;
@@ -398,7 +398,7 @@ void player::power_bionics()
         }
         int tab_x = tabs_start;
         draw_tab(w_tabs, tab_x, active_tab_name, tab_mode == "TAB_ACTIVE");
-        tab_x += tab_step + utf8_width(active_tab_name.c_str());
+        tab_x += tab_step + utf8_width(active_tab_name);
         draw_tab(w_tabs, tab_x, passive_tab_name, tab_mode != "TAB_ACTIVE");
         wrefresh(w_tabs);
 

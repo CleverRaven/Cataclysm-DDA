@@ -707,6 +707,23 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
     data.read( "use_silent", use_silent);
 }
 
+void npc_misc_rules::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member( "allow_pick_up", allow_pick_up );
+    json.member( "allow_bash", allow_bash );
+    json.member( "allow_sleep", allow_sleep );
+    json.end_object();
+}
+
+void npc_misc_rules::deserialize(JsonIn &jsin)
+{
+    JsonObject data = jsin.get_object();
+    data.read( "allow_pick_up", allow_pick_up );
+    data.read( "allow_bash", allow_bash );
+    data.read( "allow_sleep", allow_sleep );
+}
+
 extern std::string convert_talk_topic( talk_topic_enum );
 
 void npc_chatbin::serialize(JsonOut &json) const
@@ -924,6 +941,8 @@ void npc::load(JsonObject &data)
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
     data.read("combat_rules", combat_rules);
+
+    data.read("misc_rules", misc_rules);
 }
 
 /*
@@ -985,6 +1004,7 @@ void npc::store(JsonOut &json) const
     json.member("companion_mission_time", companion_mission_time);
     json.member("restock", restock);
 
+    json.member("misc_rules", misc_rules);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

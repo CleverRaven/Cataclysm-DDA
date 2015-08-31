@@ -815,7 +815,6 @@ classes = {
             { name = "mark_as_used_by_player", rval = nil, args = { "player" } },
             { name = "mark_chapter_as_read", rval = nil, args = { "player" } },
             { name = "max_charges_from_flag", rval = "int", args = { "string" } },
-            { name = "melee_value", rval = "int", args = { "player" } },
             { name = "merge_charges", rval = "bool", args = { "item" } },
             { name = "needs_processing", rval = "bool", args = { } },
             { name = "next_mode", rval = nil, args = { } },
@@ -863,7 +862,6 @@ classes = {
             { name = "volume", rval = "int", args = { "bool", "bool" } },
             { name = "volume", rval = "int", args = { } },
             { name = "weap_skill", rval = "string", args = { } },
-            { name = "weapon_value", rval = "int", args = { "player" } },
             { name = "weight", rval = "int", args = { } },
         }
     },

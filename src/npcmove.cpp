@@ -275,12 +275,12 @@ void npc::execute_action(npc_action action, int target)
     {
         // TODO: Allow stims when not too tired
         // Find a nice spot to sleep
-        int best_sleepy = INT_MIN;
-        tripoint best_spot = pos3();
-        const auto points = closest_tripoints_first( 6, pos3() );
+        int best_sleepy = sleep_spot( pos() );
+        tripoint best_spot = pos();
+        const auto points = closest_tripoints_first( 6, pos() );
         for( const tripoint &p : points )
         {
-            if( !could_move_onto( p ) ) {
+            if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                 continue;
             }
 
@@ -294,7 +294,7 @@ void npc::execute_action(npc_action action, int target)
 
         update_path( best_spot );
         // TODO: Handle empty path better
-        if( best_spot == pos3() || path.empty() ) {
+        if( best_spot == pos() || path.empty() ) {
             move_pause();
             if( !has_effect( "lying_down" ) ) {
                 add_effect( "lying_down", 300, num_bp, false, 1 );
@@ -380,13 +380,12 @@ void npc::execute_action(npc_action action, int target)
 
     case npc_melee:
         update_path( tar );
-        if (path.size() > 1) {
+        if( path.size() > 1 ) {
             move_to_next();
-        } else if (path.size() == 1) {
-            if (target >= 0) {
-                melee_monster(target);
-            } else if (target == TARGET_PLAYER) {
-                melee_player(g->u);
+        } else if( path.size() == 1 ) {
+            Creature *critter = get_target( target );
+            if( critter != nullptr ) {
+                melee_attack( *critter, true );
             }
         } else {
             look_for_player(g->u);
@@ -621,16 +620,15 @@ npc_action npc::method_of_attack(int target, int danger)
     bool can_use_gun = (!is_following() || combat_rules.use_guns);
     bool use_silent = (is_following() && combat_rules.use_silent);
 
-    if( target == TARGET_PLAYER && !is_following() ) {
-        tar = g->u.pos();
-    } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
-        tar = g->zombie(target).pos();
+    Creature *critter = get_target( target );
+    if( critter != nullptr ) {
+        tar = critter->pos();
     } else { // This function shouldn't be called...
         debugmsg("Ran npc::method_of_attack without a target!");
         return npc_pause;
     }
 
-    int dist = rl_dist( pos3(), tar );
+    int dist = rl_dist( pos(), tar );
     int target_HP;
     if (target == TARGET_PLAYER) {
         target_HP = g->u.hp_percentage() * g->u.hp_max[hp_torso];
@@ -693,7 +691,7 @@ npc_action npc::method_of_attack(int target, int danger)
         } else if (allowed && enough_time_to_reload(target, it)) {
             has_empty_gun = true;
             empty_guns.push_back(&it);
-        } else if (it.melee_value(*this) > weapon.melee_value(*this) * 1.1) {
+        } else if( melee_value( it ) > melee_value( weapon ) * 1.1 ) {
             has_better_melee = true;
         }
     }
@@ -711,7 +709,9 @@ npc_action npc::method_of_attack(int target, int danger)
 
     if (has_empty_gun && has_ammo_for_empty_gun) {
         return npc_wield_empty_gun;
-    } else if (has_better_melee) {
+    } else if( has_better_melee ) {
+        return npc_wield_melee;
+    } else if( unarmed_value() > melee_value( weapon ) * 1.1 ) {
         return npc_wield_melee;
     }
 
@@ -756,7 +756,7 @@ npc_action npc::address_needs(int danger)
             return npc_undecided;
         }
 
-        if( has_effect( "allow_sleep" ) || fatigue > MASSIVE_FATIGUE ) {
+        if( misc_rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
@@ -1079,14 +1079,16 @@ bool npc::enough_time_to_reload(int target, item &gun)
     int dist, speed;
 
     if (target == TARGET_PLAYER) {
-        if (sees( g->u ) && g->u.weapon.is_gun() && rltime > 200) {
+        if( sees( g->u ) && g->u.weapon.is_gun() && rltime > 200 ) {
             return false;    // Don't take longer than 2 turns if player has a gun
         }
+
         dist = rl_dist(pos(), g->u.pos());
-        speed = speed_estimate(g->u.get_speed());
+        speed = speed_estimate( &g->u );
     } else if (target >= 0) {
-        dist = rl_dist(pos(), g->zombie(target).pos());
-        speed = speed_estimate(g->zombie(target).get_speed());
+        const monster &mon = g->zombie( target );
+        dist = rl_dist(pos(), mon.pos());
+        speed = speed_estimate( &mon );
     } else {
         return true;    // No target, plenty of time to reload
     }
@@ -1099,7 +1101,7 @@ bool npc::enough_time_to_reload(int target, item &gun)
 void npc::update_path( const tripoint &p )
 {
     if( path.empty() ) {
-        path = g->m.route( pos(), p, str_cur + weapon.type->melee_dam, 1000 );
+        path = g->m.route( pos(), p, smash_ability(), 1000 );
         return;
     }
     const tripoint &last = path[path.size() - 1];
@@ -1107,7 +1109,7 @@ void npc::update_path( const tripoint &p )
         return;    // Our path already leads to that point, no need to recalculate
     }
 
-    path = g->m.route( pos(), p, str_cur + weapon.type->melee_dam, 1000 );
+    path = g->m.route( pos(), p, smash_ability(), 1000 );
     if( !path.empty() && path[0] == pos() ) {
         path.erase( path.begin() );
     }
@@ -1116,11 +1118,11 @@ void npc::update_path( const tripoint &p )
 bool npc::can_move_to( const tripoint &p ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
-    return( rl_dist( pos3(), p ) <= 1 &&
+    return( rl_dist( pos(), p ) <= 1 &&
               (
                 g->m.move_cost( p ) > 0 ||
-                g->m.bash_rating( str_cur + weapon.type->melee_dam, p ) > 0 ||
-                g->m.open_door( p, !g->m.is_outside( pos3() ), true )
+                g->m.bash_rating( smash_ability(), p ) > 0 ||
+                g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
            );
 }
@@ -1177,81 +1179,97 @@ void npc::move_to( const tripoint &pt )
         return;
     }
 
-    if( p == pos3() ) { // We're just pausing!
-        moves -= 100;
-    } else if( g->mon_at( p ) != -1 ) { // Shouldn't happen, but it might.
-        melee_monster(g->mon_at( p ));
-    } else if( g->u.pos3() == p ) {
-        say("<let_me_pass>");
-        moves -= 100;
-    } else if( g->npc_at( p ) != -1 ) {
-        // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
-        moves -= 100;
-    } else if( p.z != posz() ) {
+    Creature *critter = g->critter_at( p );
+    if( critter != nullptr ) {
+        if( critter == this ) { // We're just pausing!
+            move_pause();
+            return;
+        }
+        const auto att = attitude_to( *critter );
+        if( att == A_HOSTILE ) {
+            melee_attack( *critter, true );
+            return;
+        }
+
+        if( critter == &g->u ) {
+            say("<let_me_pass>");
+        }
+
+        move_pause();
+        return;
+    }
+
+    if( p.z != posz() ) {
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
         moves -= 100;
         setpos( p );
-    } else {
-        if( in_vehicle ) {
-            // TODO: handle this nicely - npcs should not jump from moving vehicles
-            g->m.unboard_vehicle( pos3() );
-        } else {
-            vehicle *tmp = g->m.veh_at( p );
-            if(tmp != NULL) {
-                if(tmp->velocity > 0) {
-                    moves -= 100;
-                    return;
-                }
-            }
-        }
-        if( g->m.move_cost( p ) > 0 ) {
-            bool diag = trigdist && posx() != p.x && posy() != p.y;
-            moves -= run_cost( g->m.combined_movecost( pos3(), p ), diag );
-            setpos( p );
-            int part;
-            vehicle *veh = g->m.veh_at( pos3(), part );
-            if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
-                g->m.board_vehicle( pos3(), this );
-            }
-            g->m.creature_on_trap( *this );
-            g->m.creature_in_field( *this );
-        } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
-            moves -= 100;
-        } else {
-            bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
-            if (ter_or_furn) {
-                bool u_see_me = g->u.sees( *this );
-                int climb = dex_cur;
-                if (one_in( climb )) {
-                    if( u_see_me ) {
-                        add_msg( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ), name.c_str(),
-                                 ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
-                    }
-                    moves -= 400;
-                } else {
-                    if( u_see_me ) {
-                        add_msg( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
-                             ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
-                    }
-                    moves -= (500 - (rng(0,climb) * 20));
-                    setx( p.x);
-                    sety( p.y);
-                }
-            } else if (g->m.is_bashable(p) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
-                moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
-                int smashskill = str_cur + weapon.type->melee_dam;
-                g->m.bash( p, smashskill );
-            } else {
-                if( attitude == NPCATT_MUG ||
-                    attitude == NPCATT_KILL ||
-                    attitude == NPCATT_WAIT_FOR_LEAVE ) {
-                    attitude = NPCATT_FLEE;
-                }
+        return;
+    }
 
-                moves -= 100;
+    // Boarding moving vehicles is fine, unboarding isn't
+    const vehicle *veh = g->m.veh_at( pos() );
+    if( veh != nullptr ) {
+        int other_part = -1;
+        const vehicle *oveh = g->m.veh_at( p, other_part );
+        if( abs(veh->velocity) > 0 &&
+            ( oveh != veh ||
+              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) >= 0 ) ) {
+            move_pause();
+            return;
+        }
+
+        if( in_vehicle ) {        
+            g->m.unboard_vehicle( pos() );
+        }
+    }
+
+    if( g->m.move_cost( p ) > 0 ) {
+        bool diag = trigdist && posx() != p.x && posy() != p.y;
+        moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        setpos( p );
+        int part;
+        vehicle *veh = g->m.veh_at( pos(), part );
+        if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+            g->m.board_vehicle( pos(), this );
+        }
+        g->m.creature_on_trap( *this );
+        g->m.creature_in_field( *this );
+    } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
+        moves -= 100;
+    } else {
+        bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
+        if (ter_or_furn) {
+            bool u_see_me = g->u.sees( *this );
+            int climb = dex_cur;
+            if (one_in( climb )) {
+                if( u_see_me ) {
+                    add_msg( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ), name.c_str(),
+                             ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
+                }
+                moves -= 400;
+            } else {
+                if( u_see_me ) {
+                    add_msg( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
+                         ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
+                }
+                moves -= (500 - (rng(0,climb) * 20));
+                setx( p.x);
+                sety( p.y);
             }
+        } else if (g->m.is_bashable(p) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
+            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
+            int smashskill = str_cur + weapon.type->melee_dam;
+            g->m.bash( p, smashskill );
+        } else {
+            if( attitude == NPCATT_MUG ||
+                attitude == NPCATT_KILL ||
+                attitude == NPCATT_WAIT_FOR_LEAVE ) {
+                attitude = NPCATT_FLEE;
+            }
+
+            moves -= 100;
         }
     }
 }
@@ -1276,14 +1294,13 @@ void npc::move_to_next()
 void npc::avoid_friendly_fire(int target)
 {
     tripoint tar;
-    if (target == TARGET_PLAYER) {
-        tar = g->u.pos3();
-    } else if( target >= 0 ) {
-        tar = g->zombie(target).pos3();
-        if( !one_in( 3 ) ) {
+    Creature *critter = get_target( target );
+    if( critter != nullptr ) {
+        tar = critter->pos();
+        if( critter != &g->u && !one_in( 3 ) ) {
             say(_("<move> so I can shoot that %s!"), g->zombie(target).name().c_str());
         }
-    } else {
+    } else { // This function shouldn't be called...
         debugmsg("npc::avoid_friendly_fire() called with no target!");
         move_pause();
         return;
@@ -1388,61 +1405,45 @@ void npc::avoid_friendly_fire(int target)
     execute_action(action, target);
 }
 
-void npc::move_away_from( const tripoint &p )
+void npc::move_away_from( const tripoint &pt )
 {
-    std::vector<point> options;
-    int dx = 0, dy = 0;
-    if( p.x < posx() ) {
-        dx = 1;
-    } else if( p.x > posx() ) {
-        dx = -1;
-    }
-    if( p.y < posy() ) {
-        dy = 1;
-    } else if( p.y > posy() ) {
-        dy = -1;
-    }
-
-    options.push_back( point(posx() + dx, posy() + dy) );
-    if( abs( p.x - posx() ) > abs( p.y - posy() ) ) {
-        options.push_back( point(posx() + dx, posy()) );
-        options.push_back( point(posx(), posy() + dy) );
-        options.push_back( point(posx() + dx, posy() - dy) );
-    } else {
-        options.push_back( point(posx(), posy() + dy) );
-        options.push_back( point(posx() + dx, posy()) );
-        options.push_back( point(posx() - dx, posy() + dy) );
-    }
-
-    for( auto &i : options ) {
-        const tripoint option( i, posz() );
-        if( can_move_to( option ) ) {
-            move_to( option );
+    tripoint best_pos = pos();
+    int best = 0;
+    int chance = 2;
+    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        const int cost = g->m.combined_movecost( pos(), p );
+        const int dst = abs( p.x - pt.x ) + abs( p.y - pt.y ) + abs( p.z - pt.z );
+        const int val = dst * 1000 / cost;
+        if( val > best && can_move_to( p ) ) {
+            best_pos = p;
+            best = val;
+            chance = 2;
+        } else if( ( val == best && one_in( chance ) ) && can_move_to( p ) ) {
+            best_pos = p;
+            best = val;
+            chance++;
         }
     }
 
-    move_pause();
+    move_to( best_pos );
 }
 
 void npc::move_pause()
 {
-    moves = 0;
-    if (recoil > 0) {
-        if (str_cur + 2 * skillLevel("gun") >= (int)recoil) {
-            recoil = MIN_RECOIL;
-        } else {
-            recoil -= str_cur + 2 * skillLevel("gun");
-            recoil = int(recoil / 2);
-        }
-    }
+    pause();
 }
 
 void npc::find_item()
 {
+    if( is_following() && !misc_rules.allow_pick_up ) {
+        // Grabbing stuff not allowed by our "owner"
+        return;
+    }
+
     fetching_item = false;
     int best_value = minimum_item_value();
     int range = sight_range( g->light_level() );
-    if (range > 12) {
+    if( range > 12 ) {
         range = 12;
     }
 
@@ -1480,7 +1481,7 @@ void npc::find_item()
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
     update_path( wanted_item_pos );
-    if( path.size() == 0 && dist_to_item > 1 ) {
+    if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
     }
@@ -1493,6 +1494,13 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
+    if( is_following() && !misc_rules.allow_pick_up ) {
+        add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
+        fetching_item = false;
+        moves -= 1;
+        return;
+    }
+
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name.c_str(),
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     update_path( wanted_item_pos );
@@ -1705,15 +1713,15 @@ npc_action npc::scan_new_items(int target)
     // Check if there's something better to wield
     bool has_empty_gun = false, has_better_melee = false;
     std::vector<item *> empty_guns;
-    for (auto &i : slice) {
+    for( auto &i : slice ) {
         item &it = i->front();
         bool allowed = can_use_gun && it.is_gun() && (!use_silent || it.is_silent());
-        if (allowed && it.charges > 0) {
+        if( allowed && it.charges > 0 ) {
             return npc_wield_loaded_gun;
-        } else if (allowed && enough_time_to_reload(target, it)) {
+        } else if( allowed && enough_time_to_reload( target, it ) ) {
             has_empty_gun = true;
             empty_guns.push_back(&it);
-        } else if (it.melee_value(*this) > weapon.melee_value(*this) * 1.1) {
+        } else if( !has_better_melee && melee_value( it ) > melee_value( weapon ) * 1.1 ) {
             has_better_melee = true;
         }
     }
@@ -1733,47 +1741,39 @@ npc_action npc::scan_new_items(int target)
         return npc_wield_empty_gun;
     } else if (has_better_melee) {
         return npc_wield_melee;
+    } if( unarmed_value() > melee_value( weapon ) * 1.1 ) {
+        return npc_wield_melee;
     }
 
     return npc_pause;
 }
 
-void npc::melee_monster(int target)
-{
-    monster *monhit = &(g->zombie(target));
-    melee_attack(*monhit, true);
-}
-
-void npc::melee_player(player &foe)
-{
-    melee_attack(foe, true);
-}
-
 void npc::wield_best_melee()
 {
-    item *it = inv.best_for_melee(this);
-    if (it->is_null()) {
-        debugmsg("npc::wield_best_melee failed to find a melee weapon.");
-        move_pause();
-        return;
+    double best_value = 0.0;
+    item *it = inv.best_for_melee( *this, best_value );
+    if( unarmed_value() >= best_value ) {
+        // "I cast fist!"
+        it = &ret_null;
     }
-    wield(it);
+
+    wield( it );
 }
 
 void npc::alt_attack(int target)
 {
     itype_id which = "null";
     tripoint tar;
-    if (target == TARGET_PLAYER) {
-        tar = g->u.pos3();
-    } else if (target >= 0) {
-        tar = g->zombie(target).pos3();
-    } else {
+    Creature *critter = get_target( target );
+    if( critter != nullptr ) {
+        tar = critter->pos();
+    } else { // This function shouldn't be called...
         debugmsg("npc::alt_attack() called with target = %d", target);
         move_pause();
         return;
     }
-    int dist = rl_dist( pos3(), tar );
+
+    int dist = rl_dist( pos(), tar );
     /* ALT_ATTACK_ITEMS is an array which stores the itype_id of all alternate
      * items, from least to most important.
      * See npc.h for definition of ALT_ATTACK_ITEMS
@@ -1790,11 +1790,7 @@ void npc::alt_attack(int target)
         // Not sure if this should ever occur.  For now, let's warn with a debug msg
         debugmsg("npc::alt_attack() couldn't find an alt attack item!");
         if (dist == 1) {
-            if (target == TARGET_PLAYER) {
-                melee_player(g->u);
-            } else {
-                melee_monster(target);
-            }
+            melee_attack( *critter, true );
         } else {
             move_to( tar );
         }
@@ -2410,10 +2406,10 @@ void npc::go_to_destination()
                 for( dy = y - i; dy <= y + i; dy++ ) {
                     if( ( g->m.move_cost( dest ) > 0 ||
                          //Needs 20% chance of bashing success to be considered for pathing
-                         g->m.bash_rating( str_cur + weapon.type->melee_dam, dest ) >= 2 ||
+                         g->m.bash_rating( smash_ability(), dest ) >= 2 ||
                          g->m.open_door( dest, true, true ) ) &&
                         sees( dest ) ) {
-                        path = g->m.route( pos3(), dest, str_cur + weapon.type->melee_dam, 1000 );
+                        path = g->m.route( pos3(), dest, smash_ability(), 1000 );
                         if( !path.empty() && can_move_to( path[0] ) ) {
                             move_to_next();
                             return;
@@ -2487,4 +2483,16 @@ std::string npc_action_name(npc_action action)
     default:
         return "Unnamed action";
     }
+}
+
+Creature *npc::get_target( int target ) const
+{
+    if( target == TARGET_PLAYER && !is_following() ) {
+        return &g->u;
+    } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
+        return &g->zombie( target );
+    }
+
+    // Should actually return a NPC, but those aren't well supported yet
+    return nullptr;
 }

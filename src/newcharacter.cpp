@@ -536,7 +536,7 @@ void draw_tabs(WINDOW *w, std::string sTab)
     std::vector<int> tab_len;
     for (auto tab_name : tab_captions) {
         // String length + borders
-        temp_len = utf8_width(tab_name.c_str()) + 2;
+        temp_len = utf8_width(tab_name) + 2;
         tabs_length += temp_len;
         tab_len.push_back(temp_len);
     }
@@ -1860,8 +1860,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             vStatNames.push_back(_("Perception:"));
             int pos = 0;
             for (size_t i = 0; i < vStatNames.size(); i++) {
-                pos = (utf8_width(vStatNames[i].c_str()) > pos ?
-                       utf8_width(vStatNames[i].c_str()) : pos);
+                pos = (utf8_width(vStatNames[i]) > pos ?
+                       utf8_width(vStatNames[i]) : pos);
                 mvwprintz(w_stats, i + 1, 0, c_ltgray, vStatNames[i].c_str());
             }
             mvwprintz(w_stats, 1, pos + 1, c_ltgray, "%2d", u->str_max);
@@ -1960,7 +1960,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         const std::string location_prompt = string_format(_("Press %s to select location."),
                                             ctxt.get_desc("CHOOSE_LOCATION").c_str() );
-        const int prompt_offset = utf8_width( location_prompt.c_str() );
+        const int prompt_offset = utf8_width( location_prompt );
         werase(w_location);
         mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
@@ -2135,7 +2135,7 @@ const Skill* random_skill()
 void save_template(player *u)
 {
     std::string title = _("Name of template:");
-    std::string name = string_input_popup(title, FULL_SCREEN_WIDTH - utf8_width(title.c_str()) - 8);
+    std::string name = string_input_popup( title, FULL_SCREEN_WIDTH - utf8_width(title) - 8 );
     if (name.length() == 0) {
         return;
     }

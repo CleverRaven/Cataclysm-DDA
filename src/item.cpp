@@ -27,6 +27,7 @@
 #include "field.h"
 #include "weather.h"
 #include "morale.h"
+#include "catacharset.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -1499,18 +1500,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
 
         if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
-            player copy_u = g->u;
-            copy_u.weapon = *this;
             damage_instance non_crit;
-            copy_u.roll_all_damage( false, non_crit, true );
+            g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
-            copy_u.roll_all_damage( true, crit, true );
+            g->u.roll_all_damage( true, crit, true, *this );
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", string_format(_("Average damage when used as a melee weapon:") ) ) );
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
-                                         int(copy_u.crit_chance( 0, 100 ) * 100),
-                                         int(copy_u.crit_chance( 100, 0 ) * 100) )));
+                                         int(g->u.crit_chance( 0, 100, *this ) * 100),
+                                         int(g->u.crit_chance( 100, 0, *this ) * 100) )));
             dump->push_back(iteminfo("DESCRIPTION",
                         string_format(_("%d bashing (%d on a critical hit)"),
                                       int(non_crit.type_damage(DT_BASH)),
@@ -2686,40 +2685,6 @@ long item::num_charges()
     return 0;
 }
 
-double item::weapon_value( const player &p ) const
-{
-    double my_value = 0;
-    if( is_gun() ) {
-        int gun_value = 14;
-        const islot_gun* gun = type->gun.get();
-        gun_value += gun->damage;
-        gun_value += int(gun->burst / 2);
-        gun_value += int(gun->clip / 3);
-        gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * p.get_skill_level("gun")));
-        gun_value *= (.3 + (.7 * p.get_skill_level(gun->skill_used)));
-        my_value += gun_value;
-    }
-
-    my_value = std::max( my_value, melee_value( p ) );
-
-    return my_value;
-}
-
-double item::melee_value( const player &p ) const
-{
-    int my_value = 0;
-    my_value += int(type->melee_dam * (1   + .3 * p.get_skill_level("bashing") +
-                                       .1 * p.get_skill_level("melee")    ));
-
-    my_value += int(type->melee_cut * (1   + .4 * p.get_skill_level("cutting") +
-                                       .1 * p.get_skill_level("melee")    ));
-
-    my_value += int(type->m_to_hit  * (1.2 + .3 * p.get_skill_level("melee")));
-
-    return my_value;
-}
-
 int item::bash_resist() const
 {
     float resist = 0;
@@ -3808,10 +3773,10 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     }
 
     amenu.text = std::string( _( "Choose ammo type:" ) );
-    if( ( int )amenu.text.length() < namelen ) {
-        amenu.text += std::string( namelen - amenu.text.length(), ' ' );
+    if( utf8_width(amenu.text) < namelen ) {
+        amenu.text += std::string( namelen - utf8_width(amenu.text), ' ' );
     } else {
-        amenu.text.erase( namelen, amenu.text.length() - namelen );
+        utf8_truncate( amenu.text, utf8_width(amenu.text) - namelen );
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
@@ -3822,10 +3787,10 @@ int item::pick_reload_ammo( const player &u, bool interactive )
         const long charges = std::get<2>( ammo_list[i] );
         const auto &ammo_def = *type.ammo;
         std::string row = type.nname( charges ) + string_format( " (%d)", charges );
-        if( ( int )row.length() < namelen ) {
-            row += std::string( namelen - row.length(), ' ' );
+        if( utf8_width(row) < namelen ) {
+            row += std::string( namelen - utf8_width(row), ' ' );
         } else {
-            row.erase( namelen, row.length() - namelen );
+            utf8_truncate( row, utf8_width(row) - namelen );
         }
         row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                               ammo_def.damage, ammo_def.pierce,

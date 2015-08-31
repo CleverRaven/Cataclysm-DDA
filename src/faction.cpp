@@ -436,11 +436,11 @@ void faction::randomize()
     if (one_in(4)) {
         do {
             name = string_format(_("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     } else if (one_in(2)) {
         do {
             name = string_format(_("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     } else {
         do {
             std::string adj;
@@ -455,7 +455,7 @@ void faction::randomize()
             if (one_in(4)) {
                 name = string_format(_("%1$s of %2$s"), name.c_str(), invent_name().c_str());
             }
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     }
 }
 

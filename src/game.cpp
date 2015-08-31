@@ -1633,7 +1633,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         for (auto &i: menuItems){
             vMenu.push_back(iteminfo(std::get<0>(i), std::get<1>(i), std::get<2>(i), std::get<3>(i)));
-            max_text_length = std::max(max_text_length, utf8_width(std::get<2>(i).c_str()));
+            max_text_length = std::max( max_text_length, utf8_width(std::get<2>(i)) );
         }
 
         max_text_length = std::max(max_text_length, utf8_width(_("<-> Autopickup")));
@@ -3296,7 +3296,8 @@ void game::load(std::string worldname, std::string name)
     load_master(worldname);
     u = player();
     u.name = base64_decode(name);
-    u.ret_null = item("null", 0);
+    // This should be initialized more globally (in player/Character constructor)
+    u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
     unserialize(fin);
     fin.close();
@@ -3921,14 +3922,19 @@ void game::debug()
                 nmenu.text = _("Player");
             }
 
-            enum { D_SKILLS, D_STATS, D_ITEMS, D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE };
+            enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+                   D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
+                   D_MUTATE };
             nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
             nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
+            nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _("[d]elete (all) items") );
+            nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _("[w]ear/[w]ield an item from player's inventory") );
             nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
             nmenu.addentry( D_HEALTHY, true, 'a', "%s", _("Set he[a]lth") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
+            nmenu.addentry( D_MUTATE, true, 'u', "%s", _("M[u]tate") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
             nmenu.addentry( D_TELE, true, 'e', "%s", _("t[e]leport") );
             if( p.is_npc() ) {
@@ -3980,6 +3986,29 @@ void game::debug()
                 break;
             case D_ITEMS:
                 wishitem(&p);
+                break;
+            case D_DELETE_ITEMS:
+                if( !query_yn( "Delete all items from the target?" ) ) {
+                    break;
+                }
+
+                p.worn.clear();
+                p.inv.clear();
+                p.weapon = p.ret_null;
+                break;
+            case D_ITEM_WORN:
+            {
+                auto filter = [this]( const item &it ) {
+                    return it.is_armor();
+                };
+                int item_pos = inv_for_filter( "Make target equip:", filter );
+                item &to_wear = u.i_at( item_pos );
+                if( to_wear.is_armor() ) {
+                    p.worn.push_back( to_wear );
+                } else if( !to_wear.is_null() ) {
+                    p.weapon = to_wear;
+                }
+            }
                 break;
             case D_HP:
             {
@@ -4062,6 +4091,9 @@ void game::debug()
                     *bp_ptr = value;
                 }
             }
+                break;
+            case D_MUTATE:
+                wishmutate( &p );
                 break;
             case D_HEALTHY:
             {
@@ -4269,7 +4301,7 @@ void game::disp_kills()
         buffer << "<color_" << string_from_color(m.color) << ">";
         buffer << m.sym << " " << m.nname();
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m.nname().c_str());
+        const int w = colum_width - utf8_width(m.nname());
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << elem.second;
@@ -5692,8 +5724,8 @@ int game::mon_info(WINDOW *w)
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    xcoords[2] -= utf8_width(_("East:")) - utf8_width(
-                      _("NE:"));//for the alignment of the 1,2,3 rows on the right edge
+    //for the alignment of the 1,2,3 rows on the right edge
+    xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                      : (dangerous[i] ? c_ltred : c_ltgray);
@@ -5773,7 +5805,7 @@ int game::mon_info(WINDOW *w)
             const std::string name = mt.nname();
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
-            if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
+            if (pr.x + 2 + utf8_width(name) >= width) {
                 pr.y++;
                 pr.x = 0;
             }
@@ -5793,7 +5825,7 @@ int game::mon_info(WINDOW *w)
                     danger = c_ltgray;
                 }
                 mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
-                pr.x += utf8_width(name.c_str()) + namesep;
+                pr.x += utf8_width(name) + namesep;
             }
         }
     }
@@ -9226,7 +9258,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
         sSort = _("<s>ort: cat");
     }
 
-    int letters = utf8_width(sSort.c_str());
+    int letters = utf8_width(sSort);
 
     shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort.c_str());
 
@@ -9244,7 +9276,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     letters = 0;
     int n = tokens.size();
     for (int i = 0; i < n; i++) {
-        letters += utf8_width(tokens[i].c_str()) - 2; //length ignores < >
+        letters += utf8_width(tokens[i]) - 2; //length ignores < >
     }
 
     int usedwidth = letters;
