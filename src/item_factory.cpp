@@ -452,6 +452,11 @@ void Item_factory::check_definitions() const
                 }
             }
         }
+        if( type->book ) {
+            if( type->book->skill && !type->book->skill.is_valid() ) {
+                msg << string_format("uses invalid book skill.") << "\n";
+            }
+        }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
@@ -481,6 +486,9 @@ void Item_factory::check_definitions() const
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
+            if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
+                msg << string_format("uses invalid gunmod skill.") << "\n";
+            }
         }
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
