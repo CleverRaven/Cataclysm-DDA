@@ -430,6 +430,9 @@ int player::create(character_type type, std::string tempname)
         } else {
             inv.push_back(tmp);
         }
+        if( tmp.is_book() ) {
+            items_identified.insert( tmp.typeId() );
+        }
     }
 
     std::vector<addiction> prof_addictions = g->u.prof->addictions();
