@@ -3990,7 +3990,6 @@ void game::debug()
                 smenu.addentry( 3, true, 's', "%s: %d", _("Right arm"), p.hp_cur[hp_arm_r] );
                 smenu.addentry( 4, true, 'z', "%s: %d", _("Left leg"), p.hp_cur[hp_leg_l] );
                 smenu.addentry( 5, true, 'x', "%s: %d", _("Right leg"), p.hp_cur[hp_leg_r] );
-                smenu.addentry( 6, true, 'x', "%s: %d", _("Blood"), p.hp_cur[hp_blood] );
                 smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
                 smenu.selected = 0;
                 smenu.query();
@@ -4013,9 +4012,6 @@ void game::debug()
                     break;
                 case 5:
                     bp_ptr = &p.hp_cur[hp_leg_r];
-                    break;
-                case 6:
-                    bp_ptr = &p.hp_cur[hp_blood];
                     break;
                 default:
                     break;
