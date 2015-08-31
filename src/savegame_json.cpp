@@ -685,18 +685,21 @@ void player::deserialize(JsonIn &jsin)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// npc.h
 
-void npc_combat_rules::serialize(JsonOut &json) const
+void npc_follower_rules::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("engagement", (int)engagement );
     json.member("use_guns", use_guns );
     json.member("use_grenades", use_grenades );
     json.member("use_silent", use_silent );
-    //todo    json.member("guard_pos", guard_pos );
+
+    json.member( "allow_pick_up", allow_pick_up );
+    json.member( "allow_bash", allow_bash );
+    json.member( "allow_sleep", allow_sleep );
     json.end_object();
 }
 
-void npc_combat_rules::deserialize(JsonIn &jsin)
+void npc_follower_rules::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmpeng;
@@ -705,20 +708,7 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
     data.read( "use_guns", use_guns);
     data.read( "use_grenades", use_grenades);
     data.read( "use_silent", use_silent);
-}
 
-void npc_misc_rules::serialize(JsonOut &json) const
-{
-    json.start_object();
-    json.member( "allow_pick_up", allow_pick_up );
-    json.member( "allow_bash", allow_bash );
-    json.member( "allow_sleep", allow_sleep );
-    json.end_object();
-}
-
-void npc_misc_rules::deserialize(JsonIn &jsin)
-{
-    JsonObject data = jsin.get_object();
     data.read( "allow_pick_up", allow_pick_up );
     data.read( "allow_bash", allow_bash );
     data.read( "allow_sleep", allow_sleep );
@@ -940,9 +930,10 @@ void npc::load(JsonObject &data)
 
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
-    data.read("combat_rules", combat_rules);
-
-    data.read("misc_rules", misc_rules);
+    if( !data.read( "rules", rules ) ) {
+        data.read("combat_rules", combat_rules);
+        data.read("misc_rules", misc_rules);
+    }
 }
 
 /*

@@ -547,7 +547,7 @@ void npc::choose_monster_target(int &enemy, int &danger,
 
         bool okay_by_rules = true;
         if (is_following()) {
-            switch (combat_rules.engagement) {
+            switch (rules.engagement) {
             case ENGAGE_NONE:
                 okay_by_rules = false;
                 break;
@@ -617,8 +617,8 @@ npc_action npc::method_of_fleeing(int enemy)
 npc_action npc::method_of_attack(int target, int danger)
 {
     tripoint tar;
-    bool can_use_gun = (!is_following() || combat_rules.use_guns);
-    bool use_silent = (is_following() && combat_rules.use_silent);
+    bool can_use_gun = (!is_following() || rules.use_guns);
+    bool use_silent = (is_following() && rules.use_silent);
 
     Creature *critter = get_target( target );
     if( critter != nullptr ) {
@@ -756,7 +756,7 @@ npc_action npc::address_needs(int danger)
             return npc_undecided;
         }
 
-        if( misc_rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
+        if( rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
@@ -862,7 +862,7 @@ npc_action npc::long_term_goal_action()
 bool npc::alt_attack_available()
 {
     for( auto &elem : ALT_ATTACK_ITEMS ) {
-        if( ( !is_following() || combat_rules.use_grenades ||
+        if( ( !is_following() || rules.use_grenades ||
               !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
             has_amount( elem, 1 ) ) {
             return true;
@@ -1435,7 +1435,7 @@ void npc::move_pause()
 
 void npc::find_item()
 {
-    if( is_following() && !misc_rules.allow_pick_up ) {
+    if( is_following() && !rules.allow_pick_up ) {
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -1494,7 +1494,7 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
-    if( is_following() && !misc_rules.allow_pick_up ) {
+    if( is_following() && !rules.allow_pick_up ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name.c_str() );
         fetching_item = false;
         moves -= 1;
@@ -1706,8 +1706,8 @@ void npc::drop_items(int weight, int volume)
 
 npc_action npc::scan_new_items(int target)
 {
-    bool can_use_gun = (!is_following() || combat_rules.use_guns);
-    bool use_silent = (is_following() && combat_rules.use_silent);
+    bool can_use_gun = (!is_following() || rules.use_guns);
+    bool use_silent = (is_following() && rules.use_silent);
     invslice slice = inv.slice();
 
     // Check if there's something better to wield
@@ -1779,7 +1779,7 @@ void npc::alt_attack(int target)
      * See npc.h for definition of ALT_ATTACK_ITEMS
      */
     for( auto &elem : ALT_ATTACK_ITEMS ) {
-        if( ( !is_following() || combat_rules.use_grenades ||
+        if( ( !is_following() || rules.use_grenades ||
               !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
             has_amount( elem, 1 ) ) {
             which = elem;

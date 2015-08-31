@@ -1418,7 +1418,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
         std::stringstream status;
         // Prepending * makes this an action, not a phrase
-        switch (p->combat_rules.engagement) {
+        switch (p->rules.engagement) {
             case ENGAGE_NONE:  status << _("*is not engaging enemies.");         break;
             case ENGAGE_CLOSE: status << _("*is engaging nearby enemies.");      break;
             case ENGAGE_WEAK:  status << _("*is engaging weak enemies.");        break;
@@ -1426,8 +1426,8 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             case ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
         }
         std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
-        if (p->combat_rules.use_guns) {
-            if (p->combat_rules.use_silent) {
+        if (p->rules.use_guns) {
+            if (p->rules.use_silent) {
                 status << string_format(_(" %s will use silenced firearms."), npcstr.c_str());
             } else {
                 status << string_format(_(" %s will use firearms."), npcstr.c_str());
@@ -1435,7 +1435,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         } else {
             status << string_format(_(" %s will not use firearms."), npcstr.c_str());
         }
-        if (p->combat_rules.use_grenades) {
+        if (p->rules.use_grenades) {
             status << string_format(_(" %s will use grenades."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will not use grenades."), npcstr.c_str());
@@ -1627,19 +1627,19 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     } else if( topic == "TALK_MISC_RULES" ) {
         std::stringstream status;
         std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
-        if( p->misc_rules.allow_pick_up ) {
+        if( p->rules.allow_pick_up ) {
             status << string_format(_(" %s will pick up items."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will not pick up items."), npcstr.c_str());
         }
 
-        if( p->misc_rules.allow_bash ) {
+        if( p->rules.allow_bash ) {
             status << string_format(_(" %s will bash down obstacles."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will not bash down obstacles."), npcstr.c_str());
         }
 
-        if( p->misc_rules.allow_sleep ) {
+        if( p->rules.allow_sleep ) {
             status << string_format(_(" %s will sleep when tired."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will sleep only when exhausted."), npcstr.c_str());
@@ -2669,21 +2669,21 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
             add_response( _("Change your engagement rules..."), "TALK_COMBAT_ENGAGEMENT" );
-            if (p->combat_rules.use_guns) {
+            if (p->rules.use_guns) {
                 add_response( _("Don't use guns anymore."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_guns );
             } else {
                 add_response( _("You can use guns."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_guns );
             }
-            if (p->combat_rules.use_silent) {
+            if (p->rules.use_silent) {
                 add_response( _("Don't worry about noise."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_silent );
             } else {
                 add_response( _("Use only silent weapons."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_silent );
             }
-            if (p->combat_rules.use_grenades) {
+            if (p->rules.use_grenades) {
                 add_response( _("Don't use grenades anymore."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_grenades );
             } else {
@@ -2693,23 +2693,23 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-            if (p->combat_rules.engagement != ENGAGE_NONE) {
+            if (p->rules.engagement != ENGAGE_NONE) {
                 add_response( _("Don't fight unless your life depends on it."), "TALK_NONE",
                               &talk_function::set_engagement_none );
             }
-            if (p->combat_rules.engagement != ENGAGE_CLOSE) {
+            if (p->rules.engagement != ENGAGE_CLOSE) {
                 add_response( _("Attack enemies that get too close."), "TALK_NONE",
                               &talk_function::set_engagement_close);
             }
-            if (p->combat_rules.engagement != ENGAGE_WEAK) {
+            if (p->rules.engagement != ENGAGE_WEAK) {
                 add_response( _("Attack enemies that you can kill easily."), "TALK_NONE",
                               &talk_function::set_engagement_weak );
             }
-            if (p->combat_rules.engagement != ENGAGE_HIT) {
+            if (p->rules.engagement != ENGAGE_HIT) {
                 add_response( _("Attack only enemies that I attack first."), "TALK_NONE",
                               &talk_function::set_engagement_hit );
             }
-            if (p->combat_rules.engagement != ENGAGE_ALL) {
+            if (p->rules.engagement != ENGAGE_ALL) {
                 add_response( _("Attack anything you want."), "TALK_NONE",
                               &talk_function::set_engagement_all );
             }
@@ -2830,7 +2830,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_done( _("Go back to sleep.") );
 
     } else if( topic == "TALK_MISC_RULES" ) {
-            if( p->misc_rules.allow_pick_up ) {
+            if( p->rules.allow_pick_up ) {
                 add_response( _("Don't pick up items."), "TALK_MISC_RULES",
                               &talk_function::toggle_pickup );
             } else {
@@ -2838,7 +2838,7 @@ void dialogue::gen_responses( const std::string &topic )
                               &talk_function::toggle_pickup );
             }
 
-            if( p->misc_rules.allow_bash ) {
+            if( p->rules.allow_bash ) {
                 add_response( _("Don't bash obstacles."), "TALK_MISC_RULES",
                               &talk_function::toggle_bashing );
             } else {
@@ -2846,7 +2846,7 @@ void dialogue::gen_responses( const std::string &topic )
                               &talk_function::toggle_bashing );
             }
 
-            if( p->misc_rules.allow_sleep ) {
+            if( p->rules.allow_sleep ) {
                 add_response( _("Stay awake."), "TALK_MISC_RULES",
                               &talk_function::toggle_allow_sleep );
             } else {
@@ -3218,7 +3218,7 @@ void talk_function::stop_guard(npc *p)
 
 void talk_function::wake_up(npc *p)
 {
-    p->misc_rules.allow_sleep = false;
+    p->rules.allow_sleep = false;
     p->remove_effect( "allow_sleep" );
     p->remove_effect( "lying_down" );
     p->remove_effect( "sleep" );
@@ -3227,17 +3227,17 @@ void talk_function::wake_up(npc *p)
 
 void talk_function::toggle_pickup( npc *p )
 {
-    p->misc_rules.allow_pick_up = !p->misc_rules.allow_pick_up;
+    p->rules.allow_pick_up = !p->rules.allow_pick_up;
 }
 
 void talk_function::toggle_bashing( npc *p )
 {
-    p->misc_rules.allow_bash = !p->misc_rules.allow_bash;
+    p->rules.allow_bash = !p->rules.allow_bash;
 }
 
 void talk_function::toggle_allow_sleep( npc *p )
 {
-    p->misc_rules.allow_sleep = !p->misc_rules.allow_sleep;
+    p->rules.allow_sleep = !p->rules.allow_sleep;
 }
 
 void talk_function::reveal_stats (npc *p)
@@ -3559,42 +3559,42 @@ void talk_function::lead_to_safety(npc *p)
 
 void talk_function::toggle_use_guns(npc *p)
 {
- p->combat_rules.use_guns = !p->combat_rules.use_guns;
+    p->rules.use_guns = !p->rules.use_guns;
 }
 
 void talk_function::toggle_use_silent(npc *p)
 {
- p->combat_rules.use_silent = !p->combat_rules.use_silent;
+    p->rules.use_silent = !p->rules.use_silent;
 }
 
 void talk_function::toggle_use_grenades(npc *p)
 {
- p->combat_rules.use_grenades = !p->combat_rules.use_grenades;
+    p->rules.use_grenades = !p->rules.use_grenades;
 }
 
 void talk_function::set_engagement_none(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_NONE;
+    p->rules.engagement = ENGAGE_NONE;
 }
 
 void talk_function::set_engagement_close(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_CLOSE;
+    p->rules.engagement = ENGAGE_CLOSE;
 }
 
 void talk_function::set_engagement_weak(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_WEAK;
+    p->rules.engagement = ENGAGE_WEAK;
 }
 
 void talk_function::set_engagement_hit(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_HIT;
+    p->rules.engagement = ENGAGE_HIT;
 }
 
 void talk_function::set_engagement_all(npc *p)
 {
- p->combat_rules.engagement = ENGAGE_ALL;
+    p->rules.engagement = ENGAGE_ALL;
 }
 
 void talk_function::start_training( npc *p )

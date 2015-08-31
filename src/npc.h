@@ -243,35 +243,24 @@ enum combat_engagement {
  ENGAGE_ALL
 };
 
-struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
+struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
- combat_engagement engagement;
- bool use_guns;
- bool use_grenades;
- bool use_silent;
+    combat_engagement engagement;
+    bool use_guns;
+    bool use_grenades;
+    bool use_silent;
 
- npc_combat_rules()
- {
-  engagement = ENGAGE_ALL;
-  use_guns = true;
-  use_grenades = true;
-  use_silent = false;
- };
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
-};
-
-struct npc_misc_rules : public JsonSerializer, public JsonDeserializer
-{
     bool allow_pick_up;
     bool allow_bash;
     bool allow_sleep;
 
-    npc_misc_rules()
+    npc_follower_rules()
     {
+        engagement = ENGAGE_ALL;
+        use_guns = true;
+        use_grenades = true;
+        use_silent = false;
+
         allow_pick_up = true;
         allow_bash = true;
         allow_sleep = false;
@@ -861,8 +850,7 @@ public:
  npc_opinion op_of_u;
  npc_chatbin chatbin;
  int patience; // Used when we expect the player to leave the area
- npc_combat_rules combat_rules;
-    npc_misc_rules misc_rules;
+    npc_follower_rules rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
  bool hit_by_player;
  std::vector<npc_need> needs;
