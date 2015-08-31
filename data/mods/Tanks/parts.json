@@ -95,6 +95,63 @@
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_launcher",
+        "name" : "mounted ATGM launcher",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 50,
+        "item" : "atgm_launcher",
+        "difficulty" : 8,
+        "size" : 35,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "atgm_launcher", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_turret",
+        "name" : "ATGM turret",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 50,
+        "item" : "atgm_turret",
+        "difficulty" : 8,
+        "size" : 35,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "atgm_turret", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_30mm_autocannon",
+        "name" : "30mm chaingun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "30mm_autocannon",
+        "difficulty" : 8,
+        "size" : 50,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "30mm_autocannon", "prob": 50}
+        ]
     }
 ]
 

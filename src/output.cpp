@@ -1491,10 +1491,110 @@ std::string vstring_format(char const *const format, va_list args)
     return buffer;
 }
 #else
-std::string vstring_format(char const *const format, va_list args)
+
+// Cygwin has limitations which prevents
+// from using more than 9 positional arguments.
+// This functions works around it in two ways:
+//
+// First if all positional arguments are in "natural" order
+// (i.e. like %1$d %2$d %3$d),
+// then their positions is stripped away and string
+// formatted without positions.
+//
+// Otherwise only 9 arguments are passed to vsnprintf
+//
+std::string rewrite_vsnprintf(const char* msg)
+{
+    const char* orig_msg = msg;
+    const char* formats = "diouxXeEfFgGaAcsCSpnm";
+
+    std::ostringstream rewritten_msg;
+    std::ostringstream rewritten_msg_optimised;
+    const char* ptr = nullptr;
+    int next_positional_arg=1;
+    while (true) {
+
+        // First find next position where argument might be used
+        ptr = strchr(msg, '%');
+        if (! ptr){
+            rewritten_msg << msg;
+            rewritten_msg_optimised << msg;
+            break;
+        }
+
+
+        // Write porition of the string that was before %
+        rewritten_msg << std::string(msg, ptr);
+        rewritten_msg_optimised << std::string(msg, ptr);
+
+        const char* arg_start = ptr;
+
+        ptr++;
+
+        // If it simply '%%', then no processing needed
+        if (*ptr == '%') {
+            rewritten_msg << "%%";
+            rewritten_msg_optimised << "%%";
+            msg = ptr + 1;
+            continue;
+        }
+
+        // Parse possible number of positional argument
+        int positional_arg = 0;
+        while(isdigit(*ptr)){
+            positional_arg = positional_arg * 10 + *ptr - '0';
+            ptr++;
+        }
+
+        // Check if it's expected argument
+        if (*ptr == '$' && positional_arg == next_positional_arg) {
+            next_positional_arg++;
+        } else {
+            next_positional_arg = -1;
+        }
+
+        // Now find where it ends
+        const char* end = strpbrk(ptr, formats);
+        if (! end) {
+            // Format string error. Just bail.
+            return orig_msg;
+        }
+
+        // write entire argument to rewritten_msg
+        if (positional_arg < 10) {
+            std::string argument(arg_start, end+1);
+            rewritten_msg << argument;
+        } else {
+            rewritten_msg << "<formatting error>";
+        }
+
+        // write argument without position to rewritten_msg_optimised
+        if (next_positional_arg > 0){
+            std::string argument(ptr + 1, end+1);
+            rewritten_msg_optimised << '%' << argument;
+        }
+
+        msg = end + 1;
+    }
+
+    if (next_positional_arg > 0){
+        // If all positioned arguments were in order (%1$d %2$d) then we simply
+        // strip arguments
+        return rewritten_msg_optimised.str();
+    }
+
+    return rewritten_msg.str();
+}
+
+std::string vstring_format(char const *format, va_list args)
 {
     errno = 0; // Clear errno before trying
     std::vector<char> buffer(1024, '\0');
+
+    #if (defined __CYGWIN__)
+    std::string rewritten_format = rewrite_vsnprintf(format);
+    format = rewritten_format.c_str();
+    #endif
 
     for (;;) {
         size_t const buffer_size = buffer.size();
