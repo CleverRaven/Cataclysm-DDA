@@ -5003,7 +5003,13 @@ void vehicle::refresh()
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
         }
-        if( vpi.has_flag( "EXTRA_DRAG" ) ){
+        if( plow_on && vpi.has_flag( "PLOW" ) ){
+            extra_drag += vpi.power;
+        }
+        if( planter_on && vpi.has_flag( "PLANTER" ) ){
+            extra_drag += vpi.power;
+        }
+        if( reaper_on && vpi.has_flag( "REAPER" ) ){
             extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
