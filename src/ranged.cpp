@@ -1281,13 +1281,10 @@ int time_to_fire(player &p, const itype &firingt)
 
     const skill_id &skill_used = firingt.gun.get()->skill_used;
     auto const it = map.find( skill_used );
-    if (it == std::end(map)) {
-        debugmsg("Why is shooting %s using %s skill?",
-            firingt.nname(1).c_str(), skill_used.obj().name().c_str());
-        return 0;
-    }
+    // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
+    static const time_info_t default_info{ 50, 220, 25 };
 
-    time_info_t const &info = it->second;
+    time_info_t const &info = (it == map.end()) ? default_info : it->second;
     return std::max(info.min_time, info.base - info.reduction * p.skillLevel(it->first));
 }
 
