@@ -4566,7 +4566,7 @@ int player::intimidation() const
 
 bool player::is_dead_state() const
 {
-    return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
+    return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0 || hp_cur[hp_blood] <= 0;
 }
 
 void player::on_dodge( Creature *source, int difficulty )
@@ -5284,6 +5284,8 @@ hp_part player::bp_to_hp( const body_part bp )
         case bp_leg_r:
         case bp_foot_r:
             return hp_leg_r;
+        case bp_blood:
+            return hp_blood;
         default:
             return num_hp_parts;
     }
@@ -5304,6 +5306,8 @@ body_part player::hp_to_bp( const hp_part hpart )
             return bp_leg_l;
         case hp_leg_r:
             return bp_leg_r;
+        case hp_blood:
+            return bp_blood;
         default:
             return num_bp;
     }
@@ -6407,7 +6411,7 @@ void player::hardcoded_effects(effect &it)
             add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                            _("<npcname> loses some blood.") );
             mod_pain(1);
-            apply_damage( nullptr, bp, 1 );
+            apply_damage( nullptr, bp_blood, 1 );
             g->m.add_field( pos(), playerBloodType(), 1, 0 );
         }
     } else if (id == "hallu") {

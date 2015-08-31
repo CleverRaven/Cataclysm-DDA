@@ -18,6 +18,7 @@ enum body_part : int {
     bp_leg_r,
     bp_foot_l,
     bp_foot_r,
+    bp_blood,
     num_bp
 };
 
