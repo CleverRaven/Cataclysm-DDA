@@ -1289,6 +1289,7 @@ void vehicle::use_controls()
         scoop_on = !scoop_on;
         break;
     }
+    refresh();
 }
 
 bool vehicle::fold_up() {
