@@ -931,8 +931,8 @@ void npc::load(JsonObject &data)
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
     if( !data.read( "rules", rules ) ) {
-        data.read("combat_rules", combat_rules);
-        data.read("misc_rules", misc_rules);
+        data.read("misc_rules", rules);
+        data.read("combat_rules", rules);
     }
 }
 
@@ -989,13 +989,11 @@ void npc::store(JsonOut &json) const
     json.member( "attitude", (int)attitude );
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
-    json.member("combat_rules", combat_rules);
+    json.member("rules", rules);
 
     json.member("companion_mission", companion_mission);
     json.member("companion_mission_time", companion_mission_time);
     json.member("restock", restock);
-
-    json.member("misc_rules", misc_rules);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

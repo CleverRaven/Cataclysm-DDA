@@ -1107,20 +1107,13 @@ bool npc::wield(item* it, bool)
 
 bool npc::wield(item* it)
 {
-    const bool seen = g->u.sees( *this );
     if( !weapon.is_null() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
-            if( seen ) {
-                add_msg( m_info, _( "%1$s puts away the %2$s." ), name.c_str(), weapon.tname().c_str() );
-            }
-
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %2$s." ), name.c_str(), weapon.tname().c_str() );
             i_add( remove_weapon() );
             moves -= 15;
         } else { // No room for weapon, so we drop it
-            if( seen ) {
-                add_msg( m_info, _( "%1$s drops the %2$s." ), name.c_str(), weapon.tname().c_str() );
-            }
-
+            add_msg_if_npc( m_info, _( "<npcname> drops the %2$s." ), name.c_str(), weapon.tname().c_str() );
             g->m.add_item_or_charges( pos(), remove_weapon() );
         }
     }
@@ -1132,10 +1125,7 @@ bool npc::wield(item* it)
 
     moves -= 15;
     weapon = inv.remove_item(it);
-    if( seen ) {
-        add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
-    }
-
+    add_msg_if_npc( m_info, _( "<npcname> wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     return true;
 }
 
@@ -1711,8 +1701,8 @@ int npc::value(const item &it)
         ret += 10;
     }
 
-    if( fac_has_job(FACJOB_DOCTORS) && it.type->id >= "bandages" &&
-        it.type->id <= "prozac") {
+    if( fac_has_job(FACJOB_DOCTORS) && it.is_food() &&
+        dynamic_cast<const it_comest*>( it.type )->comesttype == "MED" ) {
         ret += 10;
     }
 
@@ -1941,15 +1931,11 @@ int npc::follow_distance() const
  return 4; // TODO: Modify based on bravery, weapon wielded, etc.
 }
 
-int npc::speed_estimate( const Creature *what ) const
+int npc::speed_estimate( const Creature &what ) const
 {
-    if( what == nullptr ) {
-        return 0;
-    }
-
     // TODO: Modify based on abilities
     // Players run, zombies stumble and leap
-    const auto speed = what->get_speed();
+    const auto speed = what.get_speed();
     if( per_cur == 0 ) {
         return rng(0, speed * 2);
     }

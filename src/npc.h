@@ -657,7 +657,7 @@ public:
  void told_to_wait();
  void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
- int  speed_estimate( const Creature* ) const; // Estimate of a target's speed, usually player
+ int  speed_estimate( const Creature& ) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp

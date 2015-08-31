@@ -1084,11 +1084,11 @@ bool npc::enough_time_to_reload(int target, item &gun)
         }
 
         dist = rl_dist(pos(), g->u.pos());
-        speed = speed_estimate( &g->u );
+        speed = speed_estimate( g->u );
     } else if (target >= 0) {
         const monster &mon = g->zombie( target );
         dist = rl_dist(pos(), mon.pos());
-        speed = speed_estimate( &mon );
+        speed = speed_estimate( mon );
     } else {
         return true;    // No target, plenty of time to reload
     }
