@@ -4045,7 +4045,7 @@ int player::sight_range(int light_level) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos3()) ) / (float)light_level ) *
+    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos()) ) / (float)light_level ) *
         (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
@@ -11402,7 +11402,7 @@ hint_rating player::rate_action_read( const item &it ) const
        }
     }
 
-    if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(posx(), posy())) {
+    if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(pos())) {
         return HINT_IFFY;
     } else if (morale_level() < MIN_MORALE_READ && it.type->book->fun <= 0) {
         return HINT_IFFY; //won't read non-fun books when sad

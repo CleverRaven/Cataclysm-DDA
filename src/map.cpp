@@ -5739,7 +5739,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
                        if( new_point.x == T.x && new_point.y == T.y ) {
                            return false;
                        }
-                       if( !this->trans(new_point.x, new_point.y) ) {
+                       if( !this->trans( tripoint( new_point, T.z ) ) ) {
                            visible = false;
                            return false;
                        }
@@ -6801,7 +6801,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         }
     }
 
-    build_seen_cache( tripoint( g->u.posx(), g->u.posy(), zlev ) );
+    build_seen_cache( g->u.pos(), zlev );
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
     }
