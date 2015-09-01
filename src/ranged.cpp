@@ -581,9 +581,9 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             if (recoil_add(*this, *used_weapon) % 2 == 1) {
                 recoil++;
             }
-            recoil += recoil_add(*this, *used_weapon) / 2;
+            recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 90 : 2);
         } else {
-            recoil += recoil_add(*this, *used_weapon);
+            recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 30 : 1);
         }
 
         int adjusted_damage = used_weapon->gun_damage();
