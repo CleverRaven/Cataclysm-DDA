@@ -7648,118 +7648,31 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
 // the wall and gate.
 void game::open_gate( const tripoint &p, const ter_id handle_type )
 {
-    int examx = p.x;
-    int examy = p.y;
-    ter_id wall_type;
-    ter_id door_type;
-    ter_id floor_type;
+    int moves = 900;
     const char *pull_message;
-    const char *open_message;
-    const char *close_message;
-    int bash_dmg;
 
     if (handle_type == t_gates_mech_control) {
-        wall_type = t_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
         pull_message = _("You turn the handle...");
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_gates_control_concrete) {
-        wall_type = t_concrete_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
         pull_message = _("You turn the handle...");
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_barndoor) {
-        wall_type = t_wall_wood;
-        door_type = t_door_metal_locked;
-        floor_type = t_dirtfloor;
         pull_message = _("You pull the rope...");
-        open_message = _("The barn doors opened!");
-        close_message = _("The barn doors closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_palisade_pulley) {
-        wall_type = t_palisade;
-        door_type = t_palisade_gate;
-        floor_type = t_palisade_gate_o;
         pull_message = _("You pull the rope...");
-        open_message = _("The palisade gate swings open!");
-        close_message = _("The palisade gate swings closed with a crash!");
-        bash_dmg = 30;
     } else if ( handle_type == t_gates_control_metal) {
-        wall_type = t_wall_metal;
-        door_type = t_door_metal_locked;
-        floor_type = t_metal_floor;
         pull_message = _("You throw the lever...");
-        open_message = _("The door rises!");
-        close_message = _("The door slams shut!");
-        bash_dmg = 60;
     } else {
         return;
     }
-
+    
     add_msg(pull_message);
-    u.moves -= 900;
     if (handle_type == t_gates_control_metal){
-        g->u.moves -= 300;
+        moves += 300;
     }else{
-        g->u.moves -= 900;
+        moves += 900;
     }
-
-    bool open = false;
-    bool close = false;
-
-    for (int wall_x = -1; wall_x <= 1; wall_x++) {
-        for (int wall_y = -1; wall_y <= 1; wall_y++) {
-            for (int gate_x = -1; gate_x <= 1; gate_x++) {
-                for (int gate_y = -1; gate_y <= 1; gate_y++) {
-                    if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&
-                        // make sure wall not diagonally opposite to handle
-                        (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
-                        ((wall_y != 0 && (m.ter(examx + wall_x, examy + wall_y) == wall_type)) ||
-                         //horizontal orientation of the gate
-                         (wall_x != 0 &&
-                          (m.ter(examx + wall_x, examy + wall_y) == wall_type)))) { //vertical orientation of the gate
-
-                        int cur_x = examx + wall_x + gate_x;
-                        int cur_y = examy + wall_y + gate_y;
-
-                        if (!close &&
-                            (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == door_type)) {  //opening the gate...
-                            open = true;
-                            while (m.ter(cur_x, cur_y) == door_type) {
-                                m.ter_set(cur_x, cur_y, floor_type);
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
-                            }
-                        }
-
-                        if (!open &&
-                            (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
-                            close = true;
-                            while (m.ter(cur_x, cur_y) == floor_type) {
-                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg );
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (open) {
-        add_msg(open_message);
-    } else if (close) {
-        add_msg(close_message);
-    } else {
-        add_msg(_("Nothing happens."));
-    }
+    u.assign_activity( ACT_OPEN_GATE, moves) ;
+    u.activity.placement = p;
 }
 
 void game::moving_vehicle_dismount(int tox, int toy)
