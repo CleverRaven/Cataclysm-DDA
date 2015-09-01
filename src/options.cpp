@@ -24,6 +24,7 @@
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
+bool fov_3d;
 
 bool used_tiles_changed;
 #ifdef TILES
@@ -998,6 +999,13 @@ void init_options()
                                  "vanilla,capped,int,intcap,off", "int"
                                 );
 
+    mOptionsSort["debug"]++;
+
+    OPTIONS["FOV_3D"] = cOpt("debug", _("3D Field of Vision in z-level worlds"),
+                                 _("If false, vision is limited to current z-level. If true and the world is in z-level mode, the vision will extend beyond current z-level. Warning: can be very slow!"),
+                                 false
+                                );
+
     ////////////////////////////WORLD DEFAULT////////////////////
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
@@ -1525,6 +1533,8 @@ void load_options()
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    fov_3d = OPTIONS["FOV_3D"];
+    
 }
 
 std::string options_header()
@@ -1580,6 +1590,7 @@ void save_options(bool ingame)
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    fov_3d = OPTIONS["FOV_3D"];
 
 }
 

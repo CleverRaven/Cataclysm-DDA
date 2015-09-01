@@ -361,12 +361,6 @@ public:
                      const bool bash = false, const bool flying = false ) const;
 
 
-// 2D Sees:
-    /**
-    * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
-    */
-    bool sees( const int Fx, const int Fy, const int Tx, const int Ty, const int range ) const;
-    bool sees( point F, point T, int range ) const;
 // 3D Sees:
     /**
     * Returns whether `F` sees `T` with a view range of `range`.
@@ -383,16 +377,14 @@ public:
     bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
  public:
     /**
-     * Check whether there's a direct line of sight between `(Fx, Fy)` and
-     * `(Tx, Ty)` with the additional movecost restraints.
+     * Check whether there's a direct line of sight between `F` and
+     * `T` with the additional movecost restraints.
      *
      * Checks two things:
-     * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)`
+     * 1. The `sees()` algorithm between `F` and `T`
      * 2. That moving over the line of sight would have a move_cost between
      *    `cost_min` and `cost_max`.
      */
-    bool clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
-                     const int range, const int cost_min, const int cost_max ) const;
     bool clear_path( const tripoint &f, const tripoint &t, const int range,
                      const int cost_min, const int cost_max ) const;
 
