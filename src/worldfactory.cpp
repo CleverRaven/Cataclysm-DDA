@@ -1118,8 +1118,8 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
                     }
                 } else if(ch == KEY_F(2)) {
                     std::string tmp = get_input_string_from_file();
-                    int tmplen = utf8_width(tmp.c_str());
-                    if(tmplen > 0 && tmplen + utf8_width(worldname.c_str()) < 30) {
+                    int tmplen = utf8_width( tmp );
+                    if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
                         worldname.append(tmp);
                     }
                 } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
@@ -1208,7 +1208,7 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
         draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
-        x += utf8_width(tab_strings[i].c_str()) + 7;
+        x += utf8_width( tab_strings[i] ) + 7;
     }
 
     mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^

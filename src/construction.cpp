@@ -973,14 +973,14 @@ void construct::done_dig_stair(point p)
   if (tmpmap.move_cost( local_tmp.x, local_tmp.y ) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth."));
-          g->u.hunger += 15;
+          g->u.mod_hunger(15);
           g->u.fatigue += 20;
           g->u.thirst += 15;
           g->u.mod_pain(8);
       }
       else {
           add_msg(_("You dig a stairway, adding sturdy timbers and a rope for safety."));
-          g->u.hunger += 25;
+          g->u.mod_hunger(25);
           g->u.fatigue += 30;
           g->u.thirst += 25;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -996,14 +996,14 @@ void construct::done_dig_stair(point p)
    else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You strike deeply--above a magma flow!"));
-          g->u.hunger += 15;
+          g->u.mod_hunger(15);
           g->u.fatigue += 20;
           g->u.thirst += 15;
           g->u.mod_pain(4);
       }
       else {
           add_msg(m_warning, _("You just tunneled into lava!"));
-          g->u.hunger += 25;
+          g->u.mod_hunger(25);
           g->u.fatigue += 30;
           g->u.thirst += 25;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -1112,14 +1112,14 @@ void construct::done_dig_stair(point p)
    else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You strike deeply into the earth, and break into open space."));
-          g->u.hunger += 10; // Less heavy work, but making the ladder's still fatiguing
+          g->u.mod_hunger(10); // Less heavy work, but making the ladder's still fatiguing
           g->u.fatigue += 20;
           g->u.thirst += 10;
           g->u.mod_pain(4);
       }
       else {
           add_msg(_("You dig into a preexisting space, and improvise a ladder."));
-          g->u.hunger += 20;
+          g->u.mod_hunger(20);
           g->u.fatigue += 30;
           g->u.thirst += 20;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -1176,14 +1176,14 @@ void construct::done_mine_downstair(point p)
   if (tmpmap.move_cost(local_tmp.x, local_tmp.y) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth."));
-          g->u.hunger += 25;
+          g->u.mod_hunger(25);
           g->u.fatigue += 30;
           g->u.thirst += 25;
           g->u.mod_pain(10); // NOPAIN is a Prototype trait so shouldn't be present here
       }
       else {
           add_msg(_("You drill out a passage, heading deeper underground."));
-          g->u.hunger += 35;
+          g->u.mod_hunger(35);
           g->u.fatigue += 40;
           g->u.thirst += 35;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -1199,14 +1199,14 @@ void construct::done_mine_downstair(point p)
    else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(m_warning, _("You delve down directly above a magma flow!"));
-          g->u.hunger += 25;
+          g->u.mod_hunger(25);
           g->u.fatigue += 30;
           g->u.thirst += 25;
           g->u.mod_pain(4);
       }
       else {
           add_msg(m_warning, _("You just mined into lava!"));
-          g->u.hunger += 35;
+          g->u.mod_hunger(35);
           g->u.fatigue += 40;
           g->u.thirst += 35;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -1315,14 +1315,14 @@ void construct::done_mine_downstair(point p)
    else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You delve ever deeper into the earth, and break into open space."));
-          g->u.hunger += 20; // Less heavy work, but making the ladder's still fatiguing
+          g->u.mod_hunger(20); // Less heavy work, but making the ladder's still fatiguing
           g->u.fatigue += 30;
           g->u.thirst += 20;
           g->u.mod_pain(4);
       }
       else {
           add_msg(_("You mine into a preexisting space, and improvise a ladder."));
-          g->u.hunger += 30;
+          g->u.mod_hunger(30);
           g->u.fatigue += 40;
           g->u.thirst += 30;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -1390,14 +1390,14 @@ void construct::done_mine_upstair(point p)
   if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You carve upward and breach open a space."));
-          g->u.hunger += 35;
+          g->u.mod_hunger(35);
           g->u.fatigue += 40;
           g->u.thirst += 35;
           g->u.mod_pain(15); // NOPAIN is a THRESH_MEDICAL trait so shouldn't be present here
       }
       else {
           add_msg(_("You drill out a passage, heading for the surface."));
-          g->u.hunger += 45;
+          g->u.mod_hunger(45);
           g->u.fatigue += 50;
           g->u.thirst += 45;
           if (!(g->u.has_trait("NOPAIN"))) {
@@ -1413,14 +1413,14 @@ void construct::done_mine_upstair(point p)
    else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You carve upward, and break into open space."));
-          g->u.hunger += 30; // Tougher to go up than down.
+          g->u.mod_hunger(30); // Tougher to go up than down.
           g->u.fatigue += 40;
           g->u.thirst += 30;
           g->u.mod_pain(5);
       }
       else {
           add_msg(_("You drill up into a preexisting space."));
-          g->u.hunger += 40;
+          g->u.mod_hunger(40);
           g->u.fatigue += 50;
           g->u.thirst += 40;
           if (!(g->u.has_trait("NOPAIN"))) {

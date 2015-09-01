@@ -526,6 +526,7 @@ class game
 
         const int dangerous_proximity;
         bool narrow_sidebar;
+        bool right_sidebar;
         bool fullscreen;
         bool was_fullscreen;
         void exam_vehicle(vehicle &veh, const tripoint &p, int cx = 0,
@@ -542,6 +543,25 @@ class game
                   int freed_volume_capacity, int dirx, int diry,
                   bool to_vehicle = true); // emulate old behaviour normally
         bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
+
+        // Forcefully close a door at p.
+        // The function checks for creatures/items/vehicles at that point and
+        // might kill/harm/destroy them.
+        // If there still remains something that prevents the door from closing
+        // (e.g. a very big creatures, a vehicle) the door will not be closed and
+        // the function returns false.
+        // If the door gets closed the terrain at p is set to door_type and
+        // true is returned.
+        // bash_dmg controls how much damage the door does to the
+        // creatures/items/vehicle.
+        // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
+        // at all and they will prevent the door from closing.
+        // If bash_dmg is smaller than 0, _every_ item on the door tile will
+        // prevent the door from closing. If bash_dmg is 0, only very small items
+        // will do so, if bash_dmg is greater than 0, items won't stop the door
+        // from closing at all.
+        // If the door gets closed the items on the door tile get moved away or destroyed.
+        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -592,25 +612,6 @@ class game
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
         void smash(); // Smash terrain
-
-        // Forcefully close a door at p.
-        // The function checks for creatures/items/vehicles at that point and
-        // might kill/harm/destroy them.
-        // If there still remains something that prevents the door from closing
-        // (e.g. a very big creatures, a vehicle) the door will not be closed and
-        // the function returns false.
-        // If the door gets closed the terrain at p is set to door_type and
-        // true is returned.
-        // bash_dmg controls how much damage the door does to the
-        // creatures/items/vehicle.
-        // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
-        // at all and they will prevent the door from closing.
-        // If bash_dmg is smaller than 0, _every_ item on the door tile will
-        // prevent the door from closing. If bash_dmg is 0, only very small items
-        // will do so, if bash_dmg is greater than 0, items won't stop the door
-        // from closing at all.
-        // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'

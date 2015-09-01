@@ -2602,7 +2602,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
 
         mvwprintz(win, y, 1, (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", left_sym.c_str());
         mvwprintz(win, y, 2, (int)i == hl? hilite(col_cond) : col_cond, "%s", partname.c_str());
-        mvwprintz(win, y, 2 + utf8_width(partname.c_str()), (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", right_sym.c_str());
+        mvwprintz(win, y, 2 + utf8_width(partname), (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", right_sym.c_str());
 //         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0 && is_inside(pl[i])) {
@@ -3487,7 +3487,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         int mod = 1 + 4 * st;
         if (one_in(10)) {
             g->u.fatigue += mod;
-            g->u.hunger += mod;
+            g->u.mod_hunger(mod);
             g->u.thirst += mod;
         }
         g->u.mod_stat( "stamina", -mod * 20);

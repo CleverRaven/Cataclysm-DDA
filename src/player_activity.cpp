@@ -46,13 +46,12 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop smashing?"), _(" Stop de-stressing?"),
         _(" Stop cutting tissues?"), _(" Stop dropping?"),
         _(" Stop stashing?"), _(" Stop picking up?"),
-        _(" Stop moving items?"),
-        _(" Stop interacting with inventory?"),
-        _(" Stop fiddling with your clothes?"),
-        _(" Stop lighting the fire?"), _(" Stop filling the container?"),
-        _(" Stop hotwiring the vehicle?"),
-        _(" Stop aiming?"), _(" Stop using the ATM?"),
-        _(" Stop trying to start the vehicle?"), _(" Stop welding?")
+        _(" Stop moving items?"), _(" Stop interacting with inventory?"),
+        _(" Stop fiddling with your clothes?"), _(" Stop lighting the fire?"),
+        _(" Stop working the winch?"), _(" Stop filling the container?"),
+        _(" Stop hotwiring the vehicle?"), _(" Stop aiming?"),
+        _(" Stop using the ATM?"), _(" Stop trying to start the vehicle?"),
+        _(" Stop welding?")
     };
     return stop_phrase[type];
 }
@@ -80,6 +79,7 @@ bool player_activity::is_abortable() const
         case ACT_ADV_INVENTORY:
         case ACT_ARMOR_LAYERS:
         case ACT_START_FIRE:
+        case ACT_OPEN_GATE:
         case ACT_FILL_LIQUID:
         case ACT_START_ENGINES:
         case ACT_OXYTORCH:
@@ -234,6 +234,16 @@ void player_activity::do_turn( player *p )
             }
             p->rooted();
             p->pause();
+            break;
+        case ACT_OPEN_GATE:
+            // Based on speed, not time
+            if (p->moves <= moves_left) {
+                moves_left -= p->moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left;
+                moves_left = 0;
+            }
             break;
         case ACT_FILL_LIQUID:
             activity_handlers::fill_liquid_do_turn( this, p );
@@ -390,6 +400,10 @@ void player_activity::finish( player *p )
             break;
         case ACT_START_FIRE:
             activity_handlers::start_fire_finish( this, p );
+            break;
+        case ACT_OPEN_GATE:
+            activity_handlers::open_gate_finish( this, p );
+            type = ACT_NULL;
             break;
         case ACT_HOTWIRE_CAR:
             activity_handlers::hotwire_finish( this, p );

@@ -98,7 +98,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
+ item(const std::string new_type, int turn, bool rand = true, handedness handed = NONE);
 
         /**
          * Make this a corpse of the given monster type.
@@ -460,10 +460,6 @@ public:
 
  int brewing_time() const;
  void detonate( const tripoint &p ) const;
-    // Our value as a weapon, given particular skills
-    double weapon_value( const player &p ) const;
-    // As above, but discounts its use as a ranged weapon
-    double melee_value( const player &p ) const;
 
     /**
      * @name Material(s) of the item

@@ -321,7 +321,7 @@ void player::activate_mutation( const std::string &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && hunger >= 700) || (mdata.thirst && thirst >= 260) ||
+    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && thirst >= 260) ||
       (mdata.fatigue && fatigue >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
@@ -336,7 +336,7 @@ void player::activate_mutation( const std::string &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if (mdata.hunger){
-            hunger += cost;
+            mod_hunger(cost);
         }
         if (mdata.thirst){
             thirst += cost;
@@ -475,12 +475,12 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     werase(window);
 
     std::string caption = _("MUTATIONS -");
-    int cap_offset = utf8_width(caption.c_str()) + 1;
+    int cap_offset = utf8_width(caption) + 1;
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
     pwr << string_format(_("Power: %d/%d"), int(p->power_level), int(p->max_power_level));
-    int pwr_length = utf8_width(pwr.str().c_str()) + 1;
+    int pwr_length = utf8_width(pwr.str()) + 1;
 
     std::string desc;
     int desc_length = getmaxx(window) - cap_offset - pwr_length;
@@ -733,7 +733,7 @@ void player::power_mutations()
                         delwin(wBio);
                         // Action done, leave screen
                         break;
-                    } else if( (!mut_data.hunger || hunger <= 400) &&
+                    } else if( (!mut_data.hunger || get_hunger() <= 400) &&
                                (!mut_data.thirst || thirst <= 400) &&
                                (!mut_data.fatigue || fatigue <= 400) ) {
 
@@ -941,7 +941,12 @@ void player::mutate()
         return;
     }
 
-    mutate_towards( random_entry( valid ) );
+    if (mutate_towards(random_entry(valid))) {
+        return;
+    } else {
+        // if mutation failed (errors, post-threshold pick), try again once.
+        mutate_towards(random_entry(valid));
+    }
 }
 
 void player::mutate_category( const std::string &cat )
@@ -973,14 +978,19 @@ void player::mutate_category( const std::string &cat )
         return;
     }
 
-    mutate_towards( random_entry( valid ) );
+    if (mutate_towards(random_entry(valid))) {
+        return;
+    } else {
+        // if mutation failed (errors, post-threshold pick), try again once.
+        mutate_towards(random_entry(valid));
+    }
 }
 
-void player::mutate_towards( const std::string &mut )
+bool player::mutate_towards( const std::string &mut )
 {
     if (has_child_flag(mut)) {
         remove_child_flag(mut);
-        return;
+        return true;
     }
     const auto &mdata = mutation_branch::get( mut );
 
@@ -1012,8 +1022,7 @@ void player::mutate_towards( const std::string &mut )
             i--;
             // This checks for cases where one trait knocks out several others
             // Probably a better way, but gets it Fixed Now--KA101
-            mutate_towards(mut);
-            return;
+            return mutate_towards(mut);
         }
     }
 
@@ -1035,11 +1044,9 @@ void player::mutate_towards( const std::string &mut )
 
     if (!has_prereqs && (!prereq.empty() || !prereqs2.empty())) {
         if (!prereq1 && !prereq.empty()) {
-            mutate_towards( random_entry( prereq ) );
-            return;
+            return mutate_towards( random_entry( prereq ) );
         } else if (!prereq2 && !prereqs2.empty()) {
-            mutate_towards( random_entry( prereqs2 ) );
-            return;
+            return mutate_towards( random_entry( prereqs2 ) );
         }
     }
 
@@ -1050,16 +1057,14 @@ void player::mutate_towards( const std::string &mut )
     std::vector<std::string> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
-    // and aren't categorized--but if it does, just reroll
+    // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
     if (threshold) {
         add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        mutate();
-        return;
+        return false;
     }
     if (profession) {
         // Profession picks fail silently
-        mutate();
-        return;
+        return false;
     }
 
     for (size_t i = 0; !has_threshreq && i < threshreq.size(); i++) {
@@ -1069,10 +1074,9 @@ void player::mutate_towards( const std::string &mut )
     }
 
     // No crossing The Threshold by simply not having it
-    // Rerolling proved more trouble than it was worth, so deleted
     if (!has_threshreq && !threshreq.empty()) {
         add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        return;
+        return false;
     }
 
     // Check if one of the prereqs that we have TURNS INTO this one
@@ -1196,6 +1200,7 @@ void player::mutate_towards( const std::string &mut )
 
     set_highest_cat_level();
     drench_mut_calc();
+    return true;
 }
 
 void player::remove_mutation( const std::string &mut )

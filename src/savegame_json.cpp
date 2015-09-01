@@ -149,6 +149,7 @@ void Character::load(JsonObject &data)
 {
     Creature::load( data );
 
+    // stats
     data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
     data.read( "dex_cur", dex_cur );
@@ -163,6 +164,12 @@ void Character::load(JsonObject &data)
     data.read( "per_bonus", per_bonus );
     data.read( "int_bonus", int_bonus );
 
+    // needs
+    data.read("hunger", hunger);
+    data.read( "stomach_food", stomach_food);
+    data.read( "stomach_water", stomach_water);
+
+    // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
 
@@ -250,6 +257,7 @@ void Character::store(JsonOut &json) const
 {
     Creature::store( json );
 
+    // stat
     json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
     json.member( "dex_cur", dex_cur );
@@ -264,8 +272,14 @@ void Character::store(JsonOut &json) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
+    // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
+
+    // needs
+    json.member( "hunger", hunger );
+    json.member( "stomach_food", stomach_food );
+    json.member( "stomach_water", stomach_water );
 
     // breathing
     json.member( "underwater", underwater );
@@ -306,7 +320,6 @@ void player::load(JsonObject &data)
     if( !data.read("posz", position.z) && g != nullptr ) {
       position.z = g->get_levz();
     }
-    data.read("hunger", hunger);
     data.read("thirst", thirst);
     data.read("fatigue", fatigue);
     data.read("stim", stim);
@@ -371,7 +384,6 @@ void player::store(JsonOut &json) const
     json.member( "posz", position.z );
 
     // om-noms or lack thereof
-    json.member( "hunger", hunger );
     json.member( "thirst", thirst );
     // energy
     json.member( "fatigue", fatigue );
@@ -472,9 +484,6 @@ void player::serialize(JsonOut &json) const
     json.member( "focus_pool", focus_pool );
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
-
-    json.member( "stomach_food", stomach_food );
-    json.member( "stomach_water", stomach_water );
 
     json.member( "stamina", stamina);
     json.member( "move_mode", move_mode );
@@ -580,9 +589,6 @@ void player::deserialize(JsonIn &jsin)
         grab_type = (object_type)obj_type_id[grab_typestr];
     }
 
-    data.read( "stomach_food", stomach_food);
-    data.read( "stomach_water", stomach_water);
-
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
@@ -685,18 +691,21 @@ void player::deserialize(JsonIn &jsin)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// npc.h
 
-void npc_combat_rules::serialize(JsonOut &json) const
+void npc_follower_rules::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("engagement", (int)engagement );
     json.member("use_guns", use_guns );
     json.member("use_grenades", use_grenades );
     json.member("use_silent", use_silent );
-    //todo    json.member("guard_pos", guard_pos );
+
+    json.member( "allow_pick_up", allow_pick_up );
+    json.member( "allow_bash", allow_bash );
+    json.member( "allow_sleep", allow_sleep );
     json.end_object();
 }
 
-void npc_combat_rules::deserialize(JsonIn &jsin)
+void npc_follower_rules::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     int tmpeng;
@@ -705,6 +714,10 @@ void npc_combat_rules::deserialize(JsonIn &jsin)
     data.read( "use_guns", use_guns);
     data.read( "use_grenades", use_grenades);
     data.read( "use_silent", use_silent);
+
+    data.read( "allow_pick_up", allow_pick_up );
+    data.read( "allow_bash", allow_bash );
+    data.read( "allow_sleep", allow_sleep );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
@@ -923,7 +936,10 @@ void npc::load(JsonObject &data)
 
     data.read("op_of_u", op_of_u);
     data.read("chatbin", chatbin);
-    data.read("combat_rules", combat_rules);
+    if( !data.read( "rules", rules ) ) {
+        data.read("misc_rules", rules);
+        data.read("combat_rules", rules);
+    }
 }
 
 /*
@@ -979,12 +995,11 @@ void npc::store(JsonOut &json) const
     json.member( "attitude", (int)attitude );
     json.member("op_of_u", op_of_u);
     json.member("chatbin", chatbin);
-    json.member("combat_rules", combat_rules);
+    json.member("rules", rules);
 
     json.member("companion_mission", companion_mission);
     json.member("companion_mission_time", companion_mission_time);
     json.member("restock", restock);
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -32,7 +32,7 @@ void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
     draw_border(w_snake);
     if (show_shortcut) {
         std::string shortcut = _("<q>uit");
-        shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - utf8_width(shortcut.c_str()) - 2,
+        shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - utf8_width(shortcut) - 2,
                        c_white, c_ltgreen, shortcut);
     }
     center_print(w_snake, 0, c_white, _("S N A K E"));

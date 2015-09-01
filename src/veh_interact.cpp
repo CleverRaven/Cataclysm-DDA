@@ -770,7 +770,7 @@ void veh_interact::do_install()
             std::string tab_name = (tab == i) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
             tab_x += (tab == i); // add a space before selected tab
             draw_subtab(w_list, tab_x, tab_name, tab == i, false);
-            tab_x += ( 1 + utf8_width(tab_name.c_str()) + (tab == i) ); // one space padding and add a space after selected tab
+            tab_x += ( 1 + utf8_width(tab_name) + (tab == i) ); // one space padding and add a space after selected tab
         }
         wrefresh(w_list);
 
@@ -1641,7 +1641,7 @@ void veh_interact::display_stats()
     for( auto & ft : get_fuel_types() ) {
         int fuel_usage = veh->basic_consumption( ft.id );
         if (fuel_usage > 0) {
-            fuel_name_length = std::max(fuel_name_length, utf8_width(item::nname( ft.id ).c_str()));
+            fuel_name_length = std::max( fuel_name_length, utf8_width(item::nname(ft.id)) );
             fuel_usage = fuel_usage / 100;
             if (fuel_usage < 1) {
                 fuel_usage = 1;
@@ -1724,7 +1724,7 @@ void veh_interact::display_mode(char mode)
         int pos[10];
         pos[0] = 1;
         for (size_t i = 0; i < actions.size(); i++) {
-            pos[i + 1] = pos[i] + utf8_width(actions[i].c_str()) - 2;
+            pos[i + 1] = pos[i] + utf8_width(actions[i]) - 2;
         }
         int spacing = int((esc_pos - 1 - pos[actions.size()]) / actions.size());
         int shift = int((esc_pos - pos[actions.size()] - spacing * (actions.size() - 1)) / 2) - 1;
@@ -1740,7 +1740,7 @@ void veh_interact::display_mode(char mode)
 size_t veh_interact::display_esc(WINDOW *win)
 {
     std::string backstr = _("<ESC>-back");
-    size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) + 2;    // right text align
+    size_t pos = getmaxx(win) - utf8_width(backstr) + 2;    // right text align
     shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr);
     wrefresh(win);
     return pos;

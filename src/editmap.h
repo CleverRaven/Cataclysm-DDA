@@ -70,6 +70,7 @@ class editmap
         WINDOW *w_help;
         int width;
         int height;
+        int offsetX;
         int infoHeight;
 
         int ter_frn_mode;

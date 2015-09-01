@@ -26,7 +26,7 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 {
     int ret = 0;
     for (auto &i : foldedstring) {
-        int width = utf8_width(i.c_str());
+        int width = utf8_width(i);
         if ( width > ret ) {
             ret = width;
         }
@@ -337,7 +337,7 @@ void uimenu::setup()
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard
     for ( size_t i = 0; i < entries.size(); i++ ) {
-        int txtwidth = utf8_width(remove_color_tags( entries[ i ].txt ).c_str());
+        int txtwidth = utf8_width( remove_color_tags(entries[i].txt) );
         if ( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
         }
@@ -360,7 +360,7 @@ void uimenu::setup()
         }
         if ( desc_enabled ) {
             // subtract one from desc_lines for the reminder of the text
-            int descwidth = utf8_width(entries[i].desc.c_str()) / (desc_lines - 1);
+            int descwidth = utf8_width(entries[i].desc) / (desc_lines - 1);
             descwidth += 4; // 2x border + 2x ' ' pad
             if ( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -399,7 +399,7 @@ void uimenu::setup()
     }
 
     if(!text.empty() ) {
-        int twidth = utf8_width(remove_color_tags( text ).c_str());
+        int twidth = utf8_width( remove_color_tags(text) );
         bool formattxt = true;
         int realtextwidth = 0;
         if ( textwidth == -1 ) {
@@ -415,8 +415,8 @@ void uimenu::setup()
                     formattxt = false;
                     realtextwidth = 10;
                     for (auto &l : textformatted) {
-                        if ( utf8_width(l.c_str()) > realtextwidth ) {
-                            realtextwidth = utf8_width(l.c_str());
+                        if ( utf8_width(l) > realtextwidth ) {
+                            realtextwidth = utf8_width(l);
                         }
                     }
                     if ( realtextwidth + 4 > w_width ) {
