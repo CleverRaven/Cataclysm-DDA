@@ -4316,8 +4316,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.type = veh_coll_bashable;
         e = 0.30;
         // Just a rough rescale for now to obtain approximately equal numbers
-        mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
-        part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
+        mass2 = 10 + std::max(0, g->m.bash_strength( p, bash_floor ) - 30);
+        part_dens = 10 + int(float(g->m.bash_strength( p, bash_floor ) ) / 300 * 70);
         ret.target_name = g->m.disp_name( p );
     } else if( g->m.move_cost_ter_furn( p ) == 0 ||
                ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
@@ -4399,15 +4399,17 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             // Something bashable -- use map::bash to determine outcome
             // NOTE: Floor bashing disabled for balance reasons
             //       Floor values are still used to set damage dealt to vehicle
-            smashed = g->m.bash( p, obj_dmg, false, false, false, this ).success;
+            smashed = g->m.is_bashable_ter_furn( p, false ) &&
+                      g->m.bash_resistance( p, bash_floor ) <= obj_dmg &&
+                      g->m.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
                 if( g->m.is_bashable_ter_furn( p, bash_floor ) ) {
                     // There's new terrain there to smash
                     smashed = false;
                     e = 0.30;
                     //Just a rough rescale for now to obtain approximately equal numbers
-                    mass2 = 10 + std::max(0, g->m.bash_strength(p) - 30);
-                    part_dens = 10 + int(float(g->m.bash_strength(p)) / 300 * 70);
+                    mass2 = 10 + std::max(0, g->m.bash_strength( p, bash_floor ) - 30);
+                    part_dens = 10 + int(float(g->m.bash_strength( p, bash_floor ) ) / 300 * 70);
                     ret.target_name = g->m.disp_name( p );
                 } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
                     // There's new terrain there, but we can't smash it!
