@@ -348,11 +348,8 @@ void map::vehmove()
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
     // But 15 is too low for V12 deathbikes, let's put 100 here
     for( int count = 0; count < 100; count++ ) {
-        const vehicle *veh = vehproceed();
-        if( veh == nullptr ) {
+        if( !vehproceed() ) {
             break;
-        } else {
-            on_vehicle_moved( veh->smz );
         }
     }
     // Process item removal on the vehicles that were modified this turn.
@@ -362,7 +359,7 @@ void map::vehmove()
     dirty_vehicle_list.clear();
 }
 
-const vehicle *map::vehproceed()
+bool map::vehproceed()
 {
     VehicleList vehs = get_vehicles();
     vehicle* cur_veh = nullptr;
@@ -390,7 +387,7 @@ const vehicle *map::vehproceed()
     }
 
     if( cur_veh == nullptr ) {
-        return nullptr;
+        return false;
     }
 
     vehicle &veh = *cur_veh;
@@ -399,7 +396,7 @@ const vehicle *map::vehproceed()
         veh.stop();
         veh.of_turn = 0;
         veh.falling = false;
-        return &veh;
+        return true;
     }
 
     // It needs to fall when it has no support OR was falling before
@@ -451,7 +448,7 @@ const vehicle *map::vehproceed()
 
     if( !should_fall && abs( veh.velocity ) < 20 ) {
         veh.of_turn -= .321f;
-        return &veh;
+        return true;
     }
 
     const float traction = vehicle_traction( veh );
@@ -464,10 +461,11 @@ const vehicle *map::vehproceed()
         if( g->remoteveh() == &veh ) {
             g->setremoteveh( nullptr );
         }
-        // destroy vehicle (sank to nowhere)
+
+        on_vehicle_moved( veh.smz );
+        // Destroy vehicle (sank to nowhere)
         destroy_vehicle( &veh );
-        // The returned pointer is always a dangling one!
-        return &veh;
+        return true;
     } else if( traction < 0.001f ) {
         veh.of_turn = 0;
         if( !should_fall ) {
@@ -495,7 +493,7 @@ const vehicle *map::vehproceed()
         if( !should_fall ) {
             veh.of_turn_carry = veh.of_turn;
             veh.of_turn = 0;
-            return &veh;
+            return true;
         }
 
         falling_only = true;
@@ -539,13 +537,13 @@ const vehicle *map::vehproceed()
         mdir = veh.face;
     }
 
+    tripoint dp;
     if( abs( veh.velocity ) >= 20 && !falling_only ) {
         mdir.advance( veh.velocity < 0 ? -1 : 1 );
+        dp.x = mdir.dx();
+        dp.y = mdir.dy();
     }
 
-    tripoint dp;
-    dp.x = mdir.dx();
-    dp.y = mdir.dy();
     if( should_fall ) {
         dp.z = -1;
     }
@@ -559,7 +557,7 @@ const vehicle *map::vehproceed()
         move_vehicle( veh, tripoint( 0, 0, dp.z ), mdir );
     }
 
-    return &veh;
+    return true;
 }
 
 bool map::vehicle_falling( vehicle &veh )
@@ -704,7 +702,8 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     // Split into vertical and horizontal movement
     const int velocity_before = vertical ? veh.vertical_velocity : veh.velocity;
     if( velocity_before == 0 ) {
-        debugmsg( "%s tried to move with no velocity", veh.name.c_str() );
+        debugmsg( "%s tried to move %s with no velocity",
+                  veh.name.c_str(), vertical ? "vertically" : "horizontally" );
         return;
     }
 
@@ -1383,6 +1382,8 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     if( !veh->falling ) {
         veh->falling = vehicle_falling( *veh );
     }
+
+    on_vehicle_moved( veh->smz );
 }
 
 bool map::displace_water( const tripoint &p )

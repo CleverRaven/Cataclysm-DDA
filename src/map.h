@@ -449,7 +449,7 @@ public:
 
     void destroy_vehicle (vehicle *veh);
     void vehmove();          // Vehicle movement
-    const vehicle *vehproceed(); // Returns the vehicle that moved
+    bool vehproceed(); // Returns true if a vehicle moved, false otherwise
 
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
