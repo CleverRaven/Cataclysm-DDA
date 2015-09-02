@@ -30,6 +30,8 @@ using ammotype = std::string;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+class Skill;
+using skill_id = string_id<Skill>;
 
 std::string const& rad_badge_color(int rad);
 
@@ -207,7 +209,7 @@ public:
      */
     int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
- std::string skill() const;
+    skill_id skill() const;
 
     template<typename Archive>
     void io( Archive& );
@@ -286,7 +288,7 @@ public:
      * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
      * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
      */
-    std::string weap_skill() const;
+    skill_id weap_skill() const;
     /*@}*/
 
  /**
@@ -1094,7 +1096,7 @@ public:
          * Note that this function is not like @ref skill, it returns "null" for any non-gun (books)
          * for which skill() would return a skill.
          */
-        std::string gun_skill() const;
+        skill_id gun_skill() const;
         /**
          * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
          * it returns 0.

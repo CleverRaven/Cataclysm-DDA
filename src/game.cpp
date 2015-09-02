@@ -104,6 +104,10 @@
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
+const skill_id skill_melee( "melee" );
+const skill_id skill_dodge( "dodge" );
+const skill_id skill_driving( "driving" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -7322,8 +7326,8 @@ void game::smash()
         const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
         u.mod_stat("stamina", mod_sta);
 
-        if (u.skillLevel("melee") == 0) {
-            u.practice("melee", rng(0, 1) * rng(0, 1));
+        if (u.skillLevel( skill_melee ) == 0) {
+            u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
@@ -7459,7 +7463,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.exec(&veh);
     if (vehint.sel_cmd != ' ') {
         int time = 200;
-        int skill = u.skillLevel("mechanics");
+        int skill = u.skillLevel( skill_id( "mechanics" ) );
         int diff = 1;
         if (vehint.sel_vpart_info != NULL) {
             diff = vehint.sel_vpart_info->difficulty + 3;
@@ -11582,9 +11586,9 @@ void game::pldrive(int x, int y)
     }
     veh->turn(15 * x);
     if (veh->skidding && veh->valid_wheel_config()) {
-        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
+        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
-            u.practice("driving", veh->velocity / 5);
+            u.practice( skill_driving, veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
@@ -11596,7 +11600,7 @@ void game::pldrive(int x, int y)
     }
 
     if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice("driving", 1);
+        u.practice( skill_driving, 1 );
     }
 }
 
@@ -12258,7 +12262,7 @@ bool game::plmove(int dx, int dy)
         u.burn_move_stamina( previous_moves - u.moves );
 
         // Adjust recoil down
-        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
         u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
         u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
@@ -12597,7 +12601,7 @@ void game::plswim(int x, int y)
         u.remove_effect("glowing");
     }
     int movecost = u.swim_speed();
-    u.practice("swimming", u.is_underwater() ? 2 : 1);
+    u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(u.shoe_type_count("swim_fins") == 2 ||
                                     (u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
@@ -12774,8 +12778,8 @@ void game::vertical_move(int movez, bool force)
         add_msg(m_warning, _("You try to use the stairs. Suddenly you are blocked by a %s!"),
                 coming_to_stairs[0].name().c_str());
         // Roll.
-        int dexroll = dice(6, u.dex_cur + u.skillLevel("dodge") * 2);
-        int strroll = dice(3, u.str_cur + u.skillLevel("melee") * 1.5);
+        int dexroll = dice(6, u.dex_cur + u.skillLevel( skill_dodge ) * 2);
+        int strroll = dice(3, u.str_cur + u.skillLevel( skill_melee ) * 1.5);
         if (coming_to_stairs.size() > 4) {
             add_msg(_("The are a lot of them on the %s!"), m.tername(u.pos()).c_str());
             dexroll /= 4;
@@ -12954,7 +12958,7 @@ void game::vertical_move(int movez, bool force)
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
-                        if ((rng(4, 8)) < (u.skillLevel("dodge"))) {
+                        if ((rng(4, 8)) < u.skillLevel( skill_dodge )) {
                             add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
                         } else {
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));

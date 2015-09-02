@@ -25,6 +25,9 @@
 #include <sstream>
 #include <fstream>
 
+const skill_id skill_speech( "speech" );
+const skill_id skill_barter( "barter" );
+
 std::string talk_needs[num_needs][5];
 std::string talk_okay[10];
 std::string talk_no[10];
@@ -2467,15 +2470,15 @@ void dialogue::gen_responses( const std::string &topic )
                 player_activity &backlog = g->u.backlog.front();
                 std::stringstream resume;
                 resume << _("Yes, let's resume training ");
-                // TODO: add a Skill::exists or is_defined or similar function
-                const Skill* skillt = Skill::skill(backlog.name);
-                if(skillt == NULL) {
+                const skill_id skillt( backlog.name );
+                // TODO: This is potentially dangerous. A skill and a martial art could have the same ident!
+                if( !skillt.is_valid() ) {
                     auto &style = matype_id( backlog.name ).obj();
                     resume << style.name;
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 } else {
-                    resume << skillt->name();
-                    add_response( resume.str(), "TALK_TRAIN_START", skillt );
+                    resume << skillt.obj().name();
+                    add_response( resume.str(), "TALK_TRAIN_START", &skillt.obj() ); // TODO: should be a const reference not a pointer
                 }
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
@@ -2997,9 +3000,9 @@ bool talk_trial::roll( dialogue &d ) const
     int const chance = calc_chance( d );
     bool const success = rng( 0, 99 ) < chance;
     if( success ) {
-        d.alpha->practice( "speech", ( 100 - chance ) / 10 );
+        d.alpha->practice( skill_speech, ( 100 - chance ) / 10 );
     } else {
-        d.alpha->practice( "speech", ( 100 - chance ) / 7 );
+        d.alpha->practice( skill_speech, ( 100 - chance ) / 7 );
     }
     return success;
 }
@@ -3340,7 +3343,7 @@ void talk_function::give_all_aid(npc *p)
 void talk_function::construction_tips(npc *p)
 {
     g->u.cash -= 2000;
-    g->u.practice("carpentry", 30);
+    g->u.practice( skill_id( "carpentry" ), 30 );
     g->u.assign_activity(ACT_WAIT_NPC, 600);
     g->u.activity.str_values.push_back(p->name);
     p->add_effect("currently_busy", 600);
@@ -3611,7 +3614,7 @@ void talk_function::start_training( npc *p )
         const Skill *skill = p->chatbin.skill;
         cost = calc_skill_training_cost( skill );
         time = calc_skill_training_time( skill );
-        name = skill->ident();
+        name = skill->ident().str();
     }
 
     if( p->op_of_u.owed >= cost ) {
@@ -3965,12 +3968,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     std::vector<item_pricing> yours = p->init_buying( g->u.inv );
 
     // Adjust the prices based on your barter skill.
-    const auto their_adjust = (price_adjustment(p->skillLevel("barter") - g->u.skillLevel("barter")) +
+    const auto their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
                               (p->int_cur - g->u.int_cur) / 20.0);
     for( item_pricing &p : theirs ) {
         p.price *= their_adjust;
     }
-    const auto your_adjust = (price_adjustment(g->u.skillLevel("barter") - p->skillLevel("barter")) +
+    const auto your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
                              (g->u.int_cur - p->int_cur) / 20.0);
     for( item_pricing &p : yours ) {
         p.price *= your_adjust;
@@ -4175,7 +4178,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 newinv.push_back(tmp);
             }
         }
-        g->u.practice( "barter", practice / 2 );
+        g->u.practice( skill_barter, practice / 2 );
         p->inv = newinv;
         if(ch == 'T' && cash > 0) { //Trade was forced, give the NPC's cash to the player.
             p->op_of_u.owed += (cash - p->cash);

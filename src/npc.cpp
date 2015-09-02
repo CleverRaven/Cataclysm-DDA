@@ -31,6 +31,29 @@
 #define NPC_DANGER_LEVEL   10
 #define NPC_DANGER_VERY_LOW 5
 
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_speech( "speech" );
+const skill_id skill_barter( "barter" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_pistol( "pistol" );
+const skill_id skill_throw( "throw" );
+const skill_id skill_rifle( "rifle" );
+const skill_id skill_dodge( "dodge" );
+const skill_id skill_melee( "melee" );
+const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_computer( "computer" );
+const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_bashing( "bashing" );
+const skill_id skill_stabbing( "stabbing" );
+const skill_id skill_archery( "archery" );
+const skill_id skill_cooking( "cooking" );
+const skill_id skill_tailor( "tailor" );
+const skill_id skill_shotgun( "shotgun" );
+const skill_id skill_smg( "smg" );
+const skill_id skill_launcher( "launcher" );
+const skill_id skill_cutting( "cutting" );
+
 std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
@@ -225,10 +248,11 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("mechanics", rng(0, 1));
-  boost_skill_level("electronics", rng(1, 2));
-  boost_skill_level("speech", rng(1, 3));
-  boost_skill_level("barter", rng(3, 5));
+
+  boost_skill_level( skill_mechanics, rng(0, 1));
+  boost_skill_level( skill_electronics, rng(1, 2));
+  boost_skill_level( skill_speech, rng(1, 3));
+  boost_skill_level( skill_barter, rng(3, 5));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
@@ -245,8 +269,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("speech", rng(1, 5));
-  boost_skill_level("barter", rng(2, 4));
+  boost_skill_level( skill_speech, rng(1, 5));
+  boost_skill_level( skill_barter, rng(2, 4));
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash = 10000 * rng(1, 10)+ rng(1, 10000);
@@ -262,8 +286,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("speech", rng(1, 5));
-  boost_skill_level("barter", rng(2, 4));
+  boost_skill_level( skill_speech, rng(1, 5));
+  boost_skill_level( skill_barter, rng(2, 4));
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash = 25000 * rng(1, 10)+ rng(1, 100000);
@@ -279,10 +303,10 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("gun", rng(1, 3));
-  boost_skill_level("pistol", rng(1, 3));
-  boost_skill_level("throw", rng(0, 2));
-  boost_skill_level("barter", rng(2, 4));
+  boost_skill_level( skill_gun, rng(1, 3));
+  boost_skill_level( skill_pistol, rng(1, 3));
+  boost_skill_level( skill_throw, rng(0, 2));
+  boost_skill_level( skill_barter, rng(2, 4));
   int_max -= rng(0, 2);
   dex_max -= rng(0, 2);
   per_max += rng(0, 2);
@@ -301,12 +325,12 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("barter", rng(2, 5));
-  boost_skill_level("gun", rng(2, 4));
+  boost_skill_level( skill_barter, rng(2, 5));
+  boost_skill_level( skill_gun, rng(2, 4));
   if (one_in(3)){
-    boost_skill_level("rifle", rng(2, 4));
+    boost_skill_level( skill_rifle, rng(2, 4));
   } else {
-    boost_skill_level("archery", rng(2, 4));
+    boost_skill_level( skill_archery, rng(2, 4));
   }
   str_max -= rng(0, 2);
   dex_max -= rng(1, 3);
@@ -327,11 +351,11 @@ void npc::randomize(npc_class type)
   int_max -= rng(0, 2);
   str_max += rng(0, 2);
   dex_max += rng(0, 1);
-  boost_skill_level("dodge", rng(1, 2));
-  boost_skill_level("melee", rng(1, 2));
-  boost_skill_level("unarmed", rng(1, 2));
-  boost_skill_level("rifle", rng(3, 5));
-  boost_skill_level("gun", rng(2, 4));
+  boost_skill_level( skill_dodge, rng(1, 2));
+  boost_skill_level( skill_melee, rng(1, 2));
+  boost_skill_level( skill_unarmed, rng(1, 2));
+  boost_skill_level( skill_rifle, rng(3, 5));
+  boost_skill_level( skill_gun, rng(2, 4));
   personality.aggression += rng(1, 3);
   personality.bravery += rng(0, 5);
   break;
@@ -345,8 +369,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("electronics", rng(1, 4));
-  boost_skill_level("computer", rng(3, 6));
+  boost_skill_level( skill_electronics, rng(1, 4));
+  boost_skill_level( skill_computer, rng(3, 6));
   str_max -= rng(0, 4);
   dex_max -= rng(0, 2);
   int_max += rng(1, 5);
@@ -364,7 +388,7 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("firstaid", rng(2, 6));
+  boost_skill_level( skill_firstaid, rng(2, 6));
   str_max -= rng(0, 2);
   int_max += rng(0, 2);
   per_max += rng(0, 1) * rng(0, 1);
@@ -383,10 +407,10 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("mechanics", rng(0, 2));
-  boost_skill_level("electronics", rng(0, 2));
-  boost_skill_level("speech", rng(0, 3));
-  boost_skill_level("barter", rng(2, 5));
+  boost_skill_level( skill_mechanics, rng(0, 2));
+  boost_skill_level( skill_electronics, rng(0, 2));
+  boost_skill_level( skill_speech, rng(0, 3));
+  boost_skill_level( skill_barter, rng(2, 5));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
@@ -402,10 +426,10 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("dodge", rng(2, 4));
-  boost_skill_level("melee", rng(1, 4));
-  boost_skill_level("unarmed", rng(4, 6));
-  boost_skill_level("throw", rng(0, 2));
+  boost_skill_level( skill_dodge, rng(2, 4));
+  boost_skill_level( skill_melee, rng(1, 4));
+  boost_skill_level( skill_unarmed, rng(4, 6));
+  boost_skill_level( skill_throw, rng(0, 2));
   str_max -= rng(0, 1);
   dex_max += rng(0, 2);
   per_max += rng(0, 2);
@@ -423,9 +447,9 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("gun", rng(1, 3));
-  boost_skill_level("pistol", rng(1, 3));
-  boost_skill_level("rifle", rng(0, 2));
+  boost_skill_level( skill_gun, rng(1, 3));
+  boost_skill_level( skill_pistol, rng(1, 3));
+  boost_skill_level( skill_rifle, rng(0, 2));
   int_max -= rng(0, 2);
   str_max += rng(0, 1);
   per_max += rng(0, 2);
@@ -442,13 +466,13 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("computer", rng(0, 3));
-  boost_skill_level("electronics", rng(0, 3));
-  boost_skill_level("firstaid", rng(0, 1));
+  boost_skill_level( skill_computer, rng(0, 3));
+  boost_skill_level( skill_electronics, rng(0, 3));
+  boost_skill_level( skill_firstaid, rng(0, 1));
   switch (rng(1, 3)) { // pick a speciality
-   case 1: boost_skill_level("computer", rng(2, 6)); break;
-   case 2: boost_skill_level("electronics", rng(2, 6)); break;
-   case 3: boost_skill_level("firstaid", rng(2, 6)); break;
+   case 1: boost_skill_level( skill_computer, rng(2, 6)); break;
+   case 2: boost_skill_level( skill_electronics, rng(2, 6)); break;
+   case 3: boost_skill_level( skill_firstaid, rng(2, 6)); break;
   }
   if (one_in(4))
    flags |= mfb(NF_TECHNOPHILE);
@@ -471,7 +495,7 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("gun", rng(2, 4));
+  boost_skill_level( skill_gun, rng(2, 4));
   boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
@@ -488,12 +512,12 @@ void npc::randomize(npc_class type)
   }
   str_max += rng(2, 4);
   dex_max += rng(0, 2);
-  boost_skill_level("dodge", rng(1, 3));
-  boost_skill_level("melee", rng(2, 4));
-  boost_skill_level("unarmed", rng(1, 3));
-  boost_skill_level("bashing", rng(1, 5));
-  boost_skill_level("stabbing", rng(1, 5));
-  boost_skill_level("unarmed", rng(1, 3));
+  boost_skill_level( skill_dodge, rng(1, 3));
+  boost_skill_level( skill_melee, rng(2, 4));
+  boost_skill_level( skill_unarmed, rng(1, 3));
+  boost_skill_level( skill_bashing, rng(1, 5));
+  boost_skill_level( skill_stabbing, rng(1, 5));
+  boost_skill_level( skill_unarmed, rng(1, 3));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
@@ -507,10 +531,10 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill, level );
   }
-  boost_skill_level("gun", rng(2, 4));
-  boost_skill_level("pistol", rng(2, 5));
-  boost_skill_level("rifle", rng(0, 3));
-  boost_skill_level("archery", rng(0, 3));
+  boost_skill_level( skill_gun, rng(2, 4));
+  boost_skill_level( skill_pistol, rng(2, 5));
+  boost_skill_level( skill_rifle, rng(0, 3));
+  boost_skill_level( skill_archery, rng(0, 3));
   personality.aggression += rng(1, 3);
   personality.bravery += rng(1, 4);
   break;
@@ -523,7 +547,7 @@ void npc::randomize(npc_class type)
   //A universal barter boost to keep NPCs competitive with players
  //The int boost from trade wasn't active... now that it is, most
  //players will vastly outclass npcs in trade without a little help.
- boost_skill_level("barter", rng(2, 4));
+ boost_skill_level( skill_barter, rng(2, 4));
 
  for (int i = 0; i < num_hp_parts; i++) {
   hp_max[i] = 60 + str_max * 3;
@@ -669,7 +693,7 @@ void npc::randomize_from_faction(faction *fac)
   personality.altruism += rng(0, 4);
   int_max += rng(2, 4);
   per_max += rng(0, 2);
-  boost_skill_level("firstaid", rng(1, 5));
+  boost_skill_level( skill_firstaid, rng(1, 5));
  }
  if (fac->has_job(FACJOB_FARMERS)) {
   personality.aggression -= rng(2, 4);
@@ -685,10 +709,10 @@ void npc::randomize_from_faction(faction *fac)
   personality.aggression -= rng(0, 2);
   personality.bravery -= rng(0, 2);
   switch (rng(1, 4)) {
-   case 1: boost_skill_level("mechanics", dice(2, 4));   break;
-   case 2: boost_skill_level("electronics", dice(2, 4)); break;
-   case 3: boost_skill_level("cooking", dice(2, 4));     break;
-   case 4: boost_skill_level("tailor", dice(2,  4));     break;
+   case 1: boost_skill_level( skill_mechanics, dice(2, 4));   break;
+   case 2: boost_skill_level( skill_electronics, dice(2, 4)); break;
+   case 3: boost_skill_level( skill_cooking, dice(2, 4));     break;
+   case 4: boost_skill_level( skill_tailor, dice(2,  4));     break;
   }
  }
 
@@ -715,9 +739,9 @@ void npc::randomize_from_faction(faction *fac)
   per_max += rng(0, 2);
   int_max += rng(0, 4);
   if (one_in(3)) {
-   boost_skill_level("mechanics", dice(2, 3));
-   boost_skill_level("electronics", dice(2, 3));
-   boost_skill_level("firstaid", dice(2, 3));
+   boost_skill_level( skill_mechanics, dice(2, 3));
+   boost_skill_level( skill_electronics, dice(2, 3));
+   boost_skill_level( skill_firstaid, dice(2, 3));
   }
  }
  if (fac->has_value(FACVAL_BOOKS)) {
@@ -1009,25 +1033,25 @@ void npc::starting_weapon(npc_class type)
     item sel_weapon;
     if( best == nullptr ) {
         // Fall through to random weapon
-    } else if (best->ident() == "bashing"){
+    } else if (best->ident() == skill_bashing ) {
         sel_weapon = random_item_from( type, "bashing" );
-    } else if (best->ident() == "cutting"){
+    } else if (best->ident() == skill_cutting ) {
         sel_weapon = random_item_from( type, "cutting" );
-    } else if (best->ident() == "stabbing"){
+    } else if (best->ident() == skill_stabbing ) {
         sel_weapon = random_item_from( type, "stabbing" );
-    } else if (best->ident() == "throw"){
+    } else if (best->ident() == skill_throw ) {
         sel_weapon = random_item_from( type, "throw" );
-    } else if (best->ident() == "archery"){
+    } else if (best->ident() == skill_archery ) {
         sel_weapon = random_item_from( type, "archery" );
-    }else if (best->ident() == "pistol"){
+    }else if (best->ident() == skill_pistol ) {
         sel_weapon = random_item_from( type, "pistols", "pistols" );
-    }else if (best->ident() == "shotgun"){
+    }else if (best->ident() == skill_shotgun ) {
         sel_weapon = random_item_from( type, "shotgun", "shotguns" );
-    }else if (best->ident() == "smg"){
+    }else if (best->ident() == skill_smg ) {
         sel_weapon = random_item_from( type, "smg", "smg" );
-    }else if (best->ident() == "rifle"){
+    }else if (best->ident() == skill_rifle ) {
         sel_weapon = random_item_from( type, "rifle", "rifles" );
-    }else if (best->ident() == "launcher"){
+    }else if (best->ident() == skill_launcher ) {
         sel_weapon = random_item_from( type, "launcher" );
     }
 
@@ -1485,16 +1509,16 @@ void npc::decide_needs()
     if (weapon.is_gun()) {
         needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
-    if (weapon.type->id == "null" && skillLevel("unarmed") < 4) {
+    if (weapon.type->id == "null" && skillLevel( skill_unarmed ) < 4) {
         needrank[need_weapon] = 1;
     } else {
         needrank[need_weapon] = weapon.type->melee_dam + weapon.type->melee_cut +
                                 weapon.type->m_to_hit;
     }
     if (!weapon.is_gun()) {
-        needrank[need_gun] = skillLevel("unarmed") + skillLevel("melee") +
-                            skillLevel("bashing") + skillLevel("cutting") -
-                            skillLevel("gun") * 2 + 5;
+        needrank[need_gun] = skillLevel( skill_unarmed ) + skillLevel( skill_melee ) +
+                            skillLevel( skill_bashing ) + skillLevel( skill_cutting ) -
+                            skillLevel( skill_gun ) * 2 + 5;
     }
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - thirst;
@@ -1681,7 +1705,7 @@ int npc::value(const item &it)
         auto &book = *it.type->book;
         if( book.intel <= int_cur ) {
             ret += book.fun;
-            if( book.skill != nullptr && skillLevel( book.skill ) < book.level &&
+            if( book.skill && skillLevel( book.skill ) < book.level &&
                 skillLevel( book.skill ) >= book.req ) {
                 ret += book.level * 3;
             }

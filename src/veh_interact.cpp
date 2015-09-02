@@ -30,6 +30,8 @@
 
 static const std::string repair_hotkeys("r1234567890");
 
+const skill_id skill_mechanics( "mechanics" );
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -533,9 +535,9 @@ bool veh_interact::can_install_part(int msg_width){
     bool drive_conflict = is_drive_conflict(msg_width);
 
     bool has_comps = crafting_inv.has_components(itm, 1);
-    bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
+    bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
-    bool has_skill2 = !is_engine || (g->u.skillLevel("mechanics") >= dif_eng);
+    bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
@@ -925,7 +927,7 @@ void veh_interact::do_repair()
         werase (w_msg);
         bool has_comps = true;
         int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
-        bool has_skill = g->u.skillLevel("mechanics") >= dif;
+        bool has_skill = g->u.skillLevel( skill_mechanics ) >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
                        has_skill ? "ltgreen" : "red",
@@ -1153,7 +1155,7 @@ void veh_interact::do_remove()
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        bool can_remove = can_remove_part(parts_here[pos], g->u.skillLevel("mechanics"), msg_width);
+        bool can_remove = can_remove_part(parts_here[pos], g->u.skillLevel( skill_mechanics ), msg_width);
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
@@ -1333,7 +1335,7 @@ bool veh_interact::can_currently_install(const vpart_info &vpart)
         return true;
     }
     bool has_comps = crafting_inv.has_components(vpart.item, 1);
-    bool has_skill = g->u.skillLevel("mechanics") >= vpart.difficulty;
+    bool has_skill = g->u.skillLevel( skill_mechanics ) >= vpart.difficulty;
     bool is_wheel = vpart.has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));
 }
@@ -2291,7 +2293,7 @@ void complete_vehicle ()
                  vpinfo.name.c_str(), veh->name.c_str());
         // easy parts don't train
         if (!is_wrenchable && !is_hand_remove) {
-            g->u.practice( "mechanics", vpinfo.difficulty * 5 + (is_wood ? 10 : 20) );
+            g->u.practice( skill_mechanics, vpinfo.difficulty * 5 + (is_wood ? 10 : 20) );
         }
         break;
     case 'r':
@@ -2319,7 +2321,7 @@ void complete_vehicle ()
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %1$s's %2$s."),
                  veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
+        g->u.practice( skill_mechanics, int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
@@ -2361,7 +2363,7 @@ void complete_vehicle ()
             g->m.add_item_or_charges(g->u.posx(), g->u.posy(), used_item);
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
-                g->u.practice ("mechanics", is_wood ? 15 : 30);
+                g->u.practice( skill_mechanics, is_wood ? 15 : 30);
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());

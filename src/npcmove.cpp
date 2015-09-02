@@ -21,6 +21,10 @@
 #define TARGET_NONE INT_MIN
 #define TARGET_PLAYER -2
 
+const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_throw( "throw" );
+
 // A list of items used for escape, in order from least to most valuable
 #ifndef NUM_ESCAPE_ITEMS
 #define NUM_ESCAPE_ITEMS 11
@@ -945,10 +949,10 @@ int npc::confident_range(int position)
         item *thrown = &i_at(position);
         max = throw_range(position); // The max distance we can throw
         deviation = 0;
-        if (skillLevel("throw") < 8) {
-            deviation += 8 - skillLevel("throw");
+        if (skillLevel( skill_throw ) < 8) {
+            deviation += 8 - skillLevel( skill_throw );
         } else {
-            deviation -= skillLevel("throw") - 6;
+            deviation -= skillLevel( skill_throw ) - 6;
         }
 
         deviation += throw_dex_mod();
@@ -1149,10 +1153,10 @@ void npc::move_to( const tripoint &pt )
     }
 
     if (recoil > 0) { // Start by dropping recoil a little
-        if (int(str_cur / 2) + skillLevel("gun") >= (int)recoil) {
+        if (int(str_cur / 2) + skillLevel( skill_gun ) >= (int)recoil) {
             recoil = MIN_RECOIL;
         } else {
-            recoil -= int(str_cur / 2) + skillLevel("gun");
+            recoil -= int(str_cur / 2) + skillLevel( skill_gun );
             recoil = int(recoil / 2);
         }
     }
@@ -1989,25 +1993,25 @@ void npc::heal_player(player &patient)
         if (has_amount("1st_aid", 1)) {
             switch (worst) {
             case hp_head:
-                amount_healed = 10 + 1.6 * skillLevel("firstaid");
+                amount_healed = 10 + 1.6 * skillLevel( skill_firstaid );
                 break;
             case hp_torso:
-                amount_healed = 20 + 3   * skillLevel("firstaid");
+                amount_healed = 20 + 3   * skillLevel( skill_firstaid );
                 break;
             default:
-                amount_healed = 15 + 2   * skillLevel("firstaid");
+                amount_healed = 15 + 2   * skillLevel( skill_firstaid );
             }
             use_charges("1st_aid", 1);
         } else if (has_amount("bandages", 1)) {
             switch (worst) {
             case hp_head:
-                amount_healed =  1 + 1.6 * skillLevel("firstaid");
+                amount_healed =  1 + 1.6 * skillLevel( skill_firstaid );
                 break;
             case hp_torso:
-                amount_healed =  4 + 3   * skillLevel("firstaid");
+                amount_healed =  4 + 3   * skillLevel( skill_firstaid );
                 break;
             default:
-                amount_healed =  3 + 2   * skillLevel("firstaid");
+                amount_healed =  3 + 2   * skillLevel( skill_firstaid );
             }
             use_charges("bandages", 1);
         }
@@ -2051,25 +2055,25 @@ void npc::heal_self()
     if (has_amount("1st_aid", 1)) {
         switch (worst) {
         case hp_head:
-            amount_healed = 10 + 1.6 * skillLevel("firstaid");
+            amount_healed = 10 + 1.6 * skillLevel( skill_firstaid );
             break;
         case hp_torso:
-            amount_healed = 20 + 3   * skillLevel("firstaid");
+            amount_healed = 20 + 3   * skillLevel( skill_firstaid );
             break;
         default:
-            amount_healed = 15 + 2   * skillLevel("firstaid");
+            amount_healed = 15 + 2   * skillLevel( skill_firstaid );
         }
         use_charges("1st_aid", 1);
     } else if (has_amount("bandages", 1)) {
         switch (worst) {
         case hp_head:
-            amount_healed =  1 + 1.6 * skillLevel("firstaid");
+            amount_healed =  1 + 1.6 * skillLevel( skill_firstaid );
             break;
         case hp_torso:
-            amount_healed =  4 + 3   * skillLevel("firstaid");
+            amount_healed =  4 + 3   * skillLevel( skill_firstaid );
             break;
         default:
-            amount_healed =  3 + 2   * skillLevel("firstaid");
+            amount_healed =  3 + 2   * skillLevel( skill_firstaid );
         }
         use_charges("bandages", 1);
     } else {

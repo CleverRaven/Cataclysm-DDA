@@ -174,23 +174,23 @@ void check_test_overmap_data( const overmap &test_map )
             REQUIRE(test_npc->get_dex() == 8);
             REQUIRE(test_npc->get_int() == 7);
             REQUIRE(test_npc->get_per() == 10);
-            REQUIRE(test_npc->get_skill_level("barter") == 4);
-            REQUIRE(test_npc->get_skill_level("driving") == 2);
-            REQUIRE(test_npc->get_skill_level("firstaid") == 7);
-            REQUIRE(test_npc->get_skill_level("mechanics") == 5);
-            REQUIRE(test_npc->get_skill_level("dodge") == 3);
-            REQUIRE(test_npc->get_skill_level("launcher") == 3);
+            REQUIRE(test_npc->get_skill_level(skill_id("barter")) == 4);
+            REQUIRE(test_npc->get_skill_level(skill_id("driving")) == 2);
+            REQUIRE(test_npc->get_skill_level(skill_id("firstaid")) == 7);
+            REQUIRE(test_npc->get_skill_level(skill_id("mechanics")) == 5);
+            REQUIRE(test_npc->get_skill_level(skill_id("dodge")) == 3);
+            REQUIRE(test_npc->get_skill_level(skill_id("launcher")) == 3);
             REQUIRE(test_npc->pos() == tripoint(168, 66, 0));
         } else if( test_npc->disp_name() == "Mariann Araujo" ) {
             REQUIRE(test_npc->get_str() == 11);
             REQUIRE(test_npc->get_dex() == 9);
             REQUIRE(test_npc->get_int() == 10);
             REQUIRE(test_npc->get_per() == 10);
-            REQUIRE(test_npc->get_skill_level("barter") == 4);
-            REQUIRE(test_npc->get_skill_level("driving") == 0);
-            REQUIRE(test_npc->get_skill_level("firstaid") == 5);
-            REQUIRE(test_npc->get_skill_level("bashing") == 5);
-            REQUIRE(test_npc->get_skill_level("dodge") == 4);
+            REQUIRE(test_npc->get_skill_level(skill_id("barter")) == 4);
+            REQUIRE(test_npc->get_skill_level(skill_id("driving")) == 0);
+            REQUIRE(test_npc->get_skill_level(skill_id("firstaid")) == 5);
+            REQUIRE(test_npc->get_skill_level(skill_id("bashing")) == 5);
+            REQUIRE(test_npc->get_skill_level(skill_id("dodge")) == 4);
             REQUIRE(test_npc->pos() == tripoint(72, 54, 0));
         } else {
             // Unrecognized NPC, fail.

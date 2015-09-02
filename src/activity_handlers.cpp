@@ -26,6 +26,10 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const skill_id skill_carpentry( "carpentry" );
+const skill_id skill_survival( "survival" );
+const skill_id skill_firstaid( "firstaid" );
+
 void activity_handlers::burrow_do_turn(player_activity *act, player *p)
 {
     if( calendar::once_every(MINUTES(1)) ) {
@@ -59,7 +63,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         p->thirst += 10;
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
-        p->practice("carpentry", 5);
+        p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
@@ -180,7 +184,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         break;
     }
 
-    const int skill_level = p->skillLevel("survival");
+    const int skill_level = p->skillLevel( skill_survival );
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
@@ -199,7 +203,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     int practice = std::max( 0, 4 + pieces + roll_butchery());
 
-    p->practice("survival", practice);
+    p->practice( skill_survival, practice );
 
     // Lose some meat, skins, etc if the rolls are low
     pieces +=   std::min( 0, roll_butchery() );
@@ -444,15 +448,15 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     int sSkillLevel = 0;
     int fishChance = 20;
     if( it.has_flag("FISH_POOR") ) {
-        sSkillLevel = p->skillLevel("survival") + dice(1, 6);
+        sSkillLevel = p->skillLevel( skill_survival ) + dice(1, 6);
         fishChance = dice(1, 20);
     } else if( it.has_flag("FISH_GOOD") ) {
         // Much better chances with a good fishing implement.
-        sSkillLevel = p->skillLevel("survival") * 1.5 + dice(1, 6) + 3;
+        sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
     rod_fish( p, sSkillLevel, fishChance );
-    p->practice("survival", rng(5, 15));
+    p->practice( skill_survival, rng(5, 15) );
     act->type = ACT_NULL;
 }
 
@@ -486,7 +490,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Peception is leveled a bit.
     // Both survival and perception affect time to forage
-    if( veggy_chance < p->skillLevel("survival") * 3 + p->per_cur - 2 ) {
+    if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
@@ -508,9 +512,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Intelligence limits the forage exp gain
     const int max_forage_skill = p->int_cur / 3 + 1;
-    const int max_exp = 2 * ( max_forage_skill - p->skillLevel("survival") );
+    const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
     // Award experience for foraging attempt regardless of success
-    p->practice("survival", rng(1, max_exp), max_forage_skill);
+    p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
 }
 
 
@@ -622,8 +626,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
     if( success > 0 ) {
 
-        p->practice("firstaid", rng(2, 5));
-        p->practice("survival", rng(2, 5));
+        p->practice( skill_firstaid, rng(2, 5) );
+        p->practice( skill_survival, rng(2, 5) );
 
         p->add_msg_if_player(m_good,
                              _("You slice muscles and tendons, and remove body parts until you're confident the zombie won't be able to attack you when it reainmates."));
@@ -638,8 +642,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
         if( success > -20 ) {
 
-            p->practice("firstaid", rng(3, 6));
-            p->practice("survival", rng(3, 6));
+            p->practice( skill_firstaid, rng(3, 6) );
+            p->practice( skill_survival, rng(3, 6) );
 
             p->add_msg_if_player(m_warning,
                                  _("You hack into the corpse and chop off some body parts.  You think the zombie won't be able to attack when it reanimates."));
@@ -654,8 +658,8 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 
         } else {
 
-            p->practice("firstaid", rng(1, 8));
-            p->practice("survival", rng(1, 8));
+            p->practice( skill_firstaid, rng(1, 8) );
+            p->practice( skill_survival, rng(1, 8) );
 
             int pulp = rng(1, full_pulp_threshold);
 
@@ -714,7 +718,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         p->thirst += 15;
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
-        p->practice("carpentry", 5);
+        p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
@@ -924,8 +928,8 @@ void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p
 
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
-    const Skill *skill = Skill::skill(act->name);
-    if( skill == NULL ) {
+    const skill_id sk( act->name );
+    if( !sk.is_valid() ) {
         auto &mastyle = matype_id( act->name ).obj();
         // Trained martial arts,
         add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
@@ -935,6 +939,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                             mastyle.name.c_str());
         p->add_martialart( mastyle.id );
     } else {
+        const Skill *skill = &sk.obj();
         int new_skill_level = p->skillLevel(skill) + 1;
         p->skillLevel(skill).level(new_skill_level);
         add_msg(m_good, _("You finish training %s to level %d."),

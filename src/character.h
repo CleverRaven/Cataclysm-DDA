@@ -4,8 +4,11 @@
 #include "creature.h"
 #include "inventory.h"
 #include "bionics.h"
+#include "skill.h"
 
 #include <map>
+
+using skill_id = string_id<Skill>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -389,12 +392,12 @@ class Character : public Creature
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
         SkillLevel &skillLevel(Skill const &_skill);
-        SkillLevel &skillLevel(std::string ident);
+        SkillLevel &skillLevel(const skill_id &ident);
 
         /** for serialization */
         SkillLevel const& get_skill_level(const Skill* _skill) const;
         SkillLevel const& get_skill_level(const Skill &_skill) const;
-        SkillLevel const& get_skill_level(const std::string &ident) const;
+        SkillLevel const& get_skill_level(const skill_id &ident) const;
 
         // --------------- Other Stuff ---------------
 

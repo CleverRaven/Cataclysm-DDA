@@ -41,6 +41,12 @@ static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
 static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
+const skill_id skill_survival( "survival" );
+const skill_id skill_melee( "melee" );
+const skill_id skill_bashing( "bashing" );
+const skill_id skill_cutting( "cutting" );
+const skill_id skill_stabbing( "stabbing" );
+
 enum item::LIQUID_FILL_ERROR : int {
     L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL
@@ -695,7 +701,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             ammo_pierce = curammo->pierce;
             ammo_dispersion = curammo->dispersion;
         }
-        const auto skill = Skill::skill( mod->gun_skill() );
+        const auto skill = &mod->gun_skill().obj();
 
         dump->push_back(iteminfo("GUN", _("Skill used: "), skill->name()));
         dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
@@ -769,7 +775,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                  gun->reload_time, true, "", true, true));
 
         if (mod->burst_size() == 0) {
-            if (skill == Skill::skill("pistol") && has_flag("RELOAD_ONE")) {
+            if (skill->ident() == skill_id( "pistol" ) && has_flag("RELOAD_ONE")) {
                 dump->push_back(iteminfo("GUN", _("Revolver.")));
             } else {
                 dump->push_back(iteminfo("GUN", _("Semi-automatic.")));
@@ -989,12 +995,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             if( book->skill ) {
                 dump->push_back(iteminfo("BOOK", "",
                                          string_format(_("Can bring your %s skill to <num>"),
-                                                       book->skill->name().c_str()), book->level));
+                                                       book->skill.obj().name().c_str()), book->level));
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
                                              string_format(_("Requires %s level <num> to understand."),
-                                                           book->skill->name().c_str()),
+                                                           book->skill.obj().name().c_str()),
                                              book->req, true, "", true, true));
                 }
             }
@@ -1469,12 +1475,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                      _("This object is surrounded by a sickly green glow.")));
         }
 
-        if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel("survival").level() >= 3) {
+        if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel( skill_survival ).level() >= 3) {
             dump->push_back(iteminfo("DESCRIPTION",
                                      _("On closer inspection, this appears to be poisonous.")));
         }
 
-        if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
+        if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel( skill_survival ).level() >= 5) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("On closer inspection, this appears to be hallucinogenic.")));
         }
@@ -1499,7 +1505,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
         }
 
-        if( debug_mode || g->u.get_skill_level( "melee" ) > 2 ) {
+        if( debug_mode || g->u.get_skill_level( skill_melee ) > 2 ) {
             damage_instance non_crit;
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
@@ -3348,33 +3354,35 @@ int item::spare_mag_size() const
     }
 }
 
-std::string item::gun_skill() const
+skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
-        return "null";
+        return NULL_ID;
     }
-    return type->gun->skill_used->ident();
+    return type->gun->skill_used;
 }
 
-std::string item::weap_skill() const
+skill_id item::weap_skill() const
 {
-    if (! is_weap() && ! is_tool()) return "null";
+    if( !is_weap() && !is_tool() ) {
+        return NULL_ID;
+    }
 
-    if (type->melee_dam >= type->melee_cut) return "bashing";
-    if (has_flag("STAB")) return "stabbing";
-    return "cutting";
+    if (type->melee_dam >= type->melee_cut) return skill_bashing;
+    if (has_flag("STAB")) return skill_stabbing;
+    return skill_cutting;
 }
 
-std::string item::skill() const
+skill_id item::skill() const
 {
     if( is_gunmod() ) {
-        return type->gunmod->skill_used->ident();
+        return type->gunmod->skill_used;
     } else if ( is_gun() ) {
-        return type->gun->skill_used->ident();
-    } else if( type->book && type->book->skill != nullptr ) {
-        return type->book->skill->ident();
+        return type->gun->skill_used;
+    } else if( type->book && type->book->skill ) {
+        return type->book->skill;
     }
-    return "null";
+    return NULL_ID;
 }
 
 int item::clip_size() const
@@ -3848,7 +3856,7 @@ bool item::reload(player &u, int pos)
     bool const is_from_quiver = pos < -1 && ammo_container != nullptr && ammo_container->type->can_use( "QUIVER" );
     if( is_from_quiver ) {
         // chance to fail pulling an arrow at lower levels
-        int archery = u.skillLevel( "archery" );
+        int archery = u.skillLevel( skill_id( "archery" ) );
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
             u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),

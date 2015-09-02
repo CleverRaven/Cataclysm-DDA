@@ -242,8 +242,8 @@ void Character::load(JsonObject &data)
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( skill.ident() ) ) {
-                pmap.read( skill.ident(), skillLevel( &skill ) );
+            if( pmap.has_object( skill.ident().str() ) ) {
+                pmap.read( skill.ident().str(), skillLevel( &skill ) );
             } else {
                 debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }
@@ -295,7 +295,7 @@ void Character::store(JsonOut &json) const
     json.member( "skills" );
     json.start_object();
     for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident(), get_skill_level(skill) );
+        json.member( skill.ident().str(), get_skill_level(skill) );
     }
     json.end_object();
 }
@@ -751,7 +751,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     }
 
     if ( data.read("skill", skill_ident) ) {
-        skill = Skill::skill(skill_ident);
+        skill = &skill_id( skill_ident ).obj();
     }
 
     std::vector<int> tmpmissions;
@@ -827,9 +827,9 @@ void npc_favor::deserialize(JsonIn &jsin)
     jo.read("itype_id", item_id);
     skill = NULL;
     if (jo.has_int("skill_id")) {
-        skill = Skill::skill(jo.get_int("skill_id"));
+        skill = Skill::from_legacy_int( jo.get_int("skill_id") );
     } else if (jo.has_string("skill_id")) {
-        skill = Skill::skill(jo.get_string("skill_id"));
+        skill = &skill_id( jo.get_string("skill_id") ).obj();
     }
 }
 

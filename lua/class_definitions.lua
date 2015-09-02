@@ -388,7 +388,7 @@ classes = {
             { name = "blossoms", rval = nil, args = { } },
             { name = "bodytemp_color", rval = "int", args = { "int" } },
             { name = "bonus_warmth", rval = "int", args = { "body_part" } },
-            { name = "boost_skill_level", rval = nil, args = { "string", "int" } },
+            { name = "boost_skill_level", rval = nil, args = { "skill_id", "int" } },
             { name = "burn_move_stamina", rval = nil, args = { "int" } },
             { name = "butcher_factor", rval = "int", args = { } },
             { name = "calc_focus_equilibrium", rval = "int", args = { } },
@@ -411,7 +411,6 @@ classes = {
             { name = "consume_charges", rval = "bool", args = { "item", "int" } },
             { name = "consume_item", rval = "bool", args = { "item" } },
             { name = "convert_weight", rval = "float", args = { "int" } },
-            { name = "copy_skill_levels", rval = nil, args = { "player" } },
             { name = "cough", rval = nil, args = { "bool" } },
             { name = "cough", rval = nil, args = { "bool", "int" } },
             { name = "cough", rval = nil, args = { } },
@@ -574,8 +573,8 @@ classes = {
             { name = "power_bionics", rval = nil, args = { } },
             { name = "power_mutations", rval = nil, args = { } },
             { name = "power_rating", rval = "float", args = { } },
-            { name = "practice", rval = nil, args = { "string", "int" } },
-            { name = "practice", rval = nil, args = { "string", "int", "int" } },
+            { name = "practice", rval = nil, args = { "skill_id", "int" } },
+            { name = "practice", rval = nil, args = { "skill_id", "int", "int" } },
             { name = "process_active_items", rval = nil, args = { } },
             { name = "process_bionic", rval = nil, args = { "int" } },
             { name = "process_effects", rval = nil, args = { } },
@@ -612,8 +611,8 @@ classes = {
             { name = "setID", rval = nil, args = { "int" } },
             { name = "set_cat_level_rec", rval = nil, args = { "string" } },
             { name = "set_highest_cat_level", rval = nil, args = { } },
-            { name = "get_skill_level", rval = "int", args = { "string" } },
-            { name = "set_skill_level", rval = nil, args = { "string", "int" } },
+            { name = "get_skill_level", rval = "int", args = { "skill_id" } },
+            { name = "set_skill_level", rval = nil, args = { "skill_id", "int" } },
             { name = "set_underwater", rval = nil, args = { "bool" } },
             { name = "setpos", rval = nil, args = { "tripoint" } },
             { name = "setx", rval = nil, args = { "int" } },
@@ -628,7 +627,7 @@ classes = {
             { name = "sort_armor", rval = nil, args = { } },
             { name = "spores", rval = nil, args = { } },
             { name = "stability_roll", rval = "int", args = { } },
-            { name = "store", rval = nil, args = { "item", "item", "string", "int" } },
+            { name = "store", rval = nil, args = { "item", "item", "skill_id", "int" } },
             { name = "studied_all_recipes", rval = "bool", args = { "itype" } },
             { name = "suffer", rval = nil, args = { } },
             { name = "swim_speed", rval = "int", args = { } },
@@ -673,7 +672,7 @@ classes = {
             { name = "wearing_something_on", rval = "bool", args = { "body_part" } },
             { name = "wield", rval = "bool", args = { "item" } },
             { name = "wield", rval = "bool", args = { "item", "bool" } },
-            { name = "wield_contents", rval = nil, args = { "item", "bool", "string", "int" } },
+            { name = "wield_contents", rval = nil, args = { "item", "bool", "skill_id", "int" } },
         }
     },
     item = {
@@ -763,7 +762,7 @@ classes = {
             { name = "gun_range", rval = "int", args = { } },
             { name = "gun_recoil", rval = "int", args = { "bool" } },
             { name = "gun_recoil", rval = "int", args = { } },
-            { name = "gun_skill", rval = "string", args = { } },
+            { name = "gun_skill", rval = "skill_id", args = { } },
             { name = "has_curammo", rval = "bool", args = { } },
             { name = "has_flag", rval = "bool", args = { "string" } },
             { name = "has_quality", rval = "bool", args = { "string" } },
@@ -853,7 +852,7 @@ classes = {
             { name = "set_var", rval = nil, args = { "string", "int" } },
             { name = "set_var", rval = nil, args = { "string", "string" } },
             { name = "sight_dispersion", rval = "int", args = { "int" } },
-            { name = "skill", rval = "string", args = { } },
+            { name = "skill", rval = "skill_id", args = { } },
             { name = "spare_mag_size", rval = "int", args = { } },
             { name = "stacks_with", rval = "bool", args = { "item" } },
             { name = "symbol", rval = "int", args = { } },
@@ -867,7 +866,7 @@ classes = {
             { name = "volume", rval = "int", args = { "bool" } },
             { name = "volume", rval = "int", args = { "bool", "bool" } },
             { name = "volume", rval = "int", args = { } },
-            { name = "weap_skill", rval = "string", args = { } },
+            { name = "weap_skill", rval = "skill_id", args = { } },
             { name = "weight", rval = "int", args = { } },
         }
     },
@@ -1469,6 +1468,13 @@ classes = {
             { name = "wander_next", rval = "tripoint", args = { } },
             { name = "wander_to", rval = nil, args = { "tripoint", "int" } },
             { name = "will_reach", rval = "bool", args = { "int", "int" } },
+        }
+    },
+    Skill = {
+        string_id = "skill_id",
+        attributes = {
+        },
+        functions = {
         }
     },
     mtype = {

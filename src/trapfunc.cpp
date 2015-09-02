@@ -16,6 +16,8 @@ const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+const skill_id skill_throw( "throw" );
+
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
@@ -874,8 +876,8 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     const auto safety_roll = [&]( const std::string &itemname,
                                   const int diff ) {
-        const int roll = rng( pl->skillLevel( "throw" ),
-                              pl->skillLevel( "throw" ) + pl->str_cur + pl->dex_cur );
+        const int roll = rng( pl->skillLevel( skill_throw ),
+                              pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
         if( roll < diff ) {
             pl->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
             pl->use_amount( itemname, 1 );

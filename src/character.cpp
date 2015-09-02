@@ -735,9 +735,9 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
-SkillLevel& Character::skillLevel(std::string ident)
+SkillLevel& Character::skillLevel(const skill_id &ident)
 {
-    return _skills[Skill::skill(ident)];
+    return skillLevel( &ident.obj() );
 }
 
 SkillLevel& Character::skillLevel(const Skill* _skill)
@@ -752,10 +752,9 @@ SkillLevel& Character::skillLevel(Skill const &_skill)
 
 SkillLevel const& Character::get_skill_level(const Skill* _skill) const
 {
-    for( const auto &elem : _skills ) {
-        if( elem.first == _skill ) {
-            return elem.second;
-        }
+    const auto iter = _skills.find( _skill );
+    if( iter != _skills.end() ) {
+        return iter->second;
     }
 
     static SkillLevel const dummy_result;
@@ -767,10 +766,9 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
     return get_skill_level(&_skill);
 }
 
-SkillLevel const& Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
-    const Skill* sk = Skill::skill(ident);
-    return get_skill_level(sk);
+    return get_skill_level( &ident.obj() );
 }
 
 void Character::normalize()
