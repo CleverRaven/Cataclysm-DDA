@@ -415,7 +415,7 @@ void uimenu::setup()
                     formattxt = false;
                     realtextwidth = 10;
                     for (auto &l : textformatted) {
-                        const int w = utf8_width( l );
+                        const int w = utf8_width( remove_color_tags( l ) );
                         if ( w > realtextwidth ) {
                             realtextwidth = w;
                         }
