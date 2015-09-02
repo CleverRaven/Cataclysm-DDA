@@ -9358,12 +9358,7 @@ int player::amount_of(const itype_id &it) const
         return 1;
     }
     if (it == "apparatus") {
-        if (has_amount("crackpipe", 1) ||
-            has_amount("can_drink", 1) ||
-            has_amount("pipe_glass", 1) ||
-            has_amount("pipe_tobacco", 1)) {
-            return 1;
-        }
+        return ( has_items_with_quality("SMOKE_PIPE", 1, 1) ? 1 : 0 );
     }
     int quantity = weapon.amount_of(it, true);
     for( const auto &elem : worn ) {
