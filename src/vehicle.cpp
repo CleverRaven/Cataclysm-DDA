@@ -5954,13 +5954,13 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
     tripoint shooter_pos = shooter.pos3();
     auto trajectory = g->pl_target_ui( shooter_pos, range, &shooter.weapon, tmode );
+    shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {
         // Need to redraw before shooting
         g->draw_ter();
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( "on_roof", 1 );
-        // TODO (maybe): Less recoil? We're using a mounted, stabilized turret
         shooter.fire_gun( targ, (long)abs( parts[p].mode ) );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( "on_roof" );
