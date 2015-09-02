@@ -12317,8 +12317,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         }
         std::pair<int, int> &this_layer = layer[w.get_layer()];
         int encumber_val = w.get_encumber();
-        // For the purposes of layering penalty, set a min of 1 and a max of 10 per item.
-        int layering_encumbrance = std::min( 10, std::max( 1, encumber_val ) );
+        // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
+        int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
         this_layer.first += layering_encumbrance;
         this_layer.second = std::max(this_layer.second, layering_encumbrance);
