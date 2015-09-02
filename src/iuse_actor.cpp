@@ -361,6 +361,7 @@ void consume_drug_iuse::load( JsonObject &obj )
     }
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
+    obj.read( "moves", moves);
 }
 
 long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
@@ -418,6 +419,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
             p->use_charges( consumable->first, consumable->second );
         }
     }
+    p->moves -= moves;
     return it->type->charges_to_use();
 }
 

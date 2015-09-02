@@ -678,7 +678,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
-    "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+    "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
+    "moves": 50 // Number of moves required in the process.
 },
 "use_action": {
     "type": "place_monster", // place a turret / manhack / whatever monster on the map
